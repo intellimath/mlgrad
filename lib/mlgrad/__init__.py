@@ -1,0 +1,167 @@
+#
+#
+#
+
+from mlgrad.avragg import PenaltyAverage, Average_Iterative, Average_FG, ArithMean, ParametrizedAverage
+from mlgrad.gd import FG, FG_RUD, SGD
+from mlgrad.risk import ED, ER, AER, ER2, SimpleFunctional
+from mlgrad.irgd import IRGD
+from mlgrad.averager import ArrayMOM, ArrayRMSProp, ArrayAMOM, ArrayAdaM1, ArrayAdaM2, ScalarAdaM1, ScalarAdaM2
+
+__all__ = ['averager_it', 'average_it', 'ws_average_it', 'averager_fg', 'average_fg', 
+           'fg', 'erm_fg', 'erm_fg_rud', 'sg', 'erm_sg',
+           'irgd', 'erm_irgd', 'erisk', 'erisk2']
+
+
+__averager_dict = {
+    'AMom':ArrayAMOM,
+    'Mom':ArrayMOM,
+    'RMS':ArrayRMSProp,
+    'AdaM1':ArrayAdaM1,
+    'AdaM2':ArrayAdaM2,
+}
+
+__averager_scalar_dict = {
+    'AdaM1':ScalarAdaM1,
+    'AdaM2':ScalarAdaM2,
+}
+
+def drisk(X, distfunc, regular=None, weights=None, tau=0.001):
+    er = ED(X, distfunc)
+    if weights is not None:
+        er.use_weights(weights)
+    return er
+
+def sfunc(func):
+    f = SimpleFunctional(func)
+    return f
+
+def erisk(X, Y, mod, loss_func, regular=None, weights=None, tau=0.001, batch=None):
+    er = ER(X, Y, mod, loss_func, regular=regular, tau=tau, batch=batch)
+    if weights is not None:
+        er.use_weights(weights)
+    return er
+
+def aerisk(X, Y, mod, loss_func, avr=None, regular=None, tau=0.001, batch=None):
+    er = AER(X, Y, mod, loss_func, avr, regular=regular, tau=tau, batch=batch)
+    return er
+
+def erisk2(X, Y, mod, loss_func, regular=None, weights=None, tau=0.001, batch=None):
+    er = ER2(X, Y, mod, loss_func, regular=regular, tau=tau, batch=batch)
+    if weights is not None:
+        er.use_weights(weights)
+    return er
+
+def averager_it(func, tol=1.0e-6, n_iter=1000):
+    penalty = PenaltyAverage(func)
+    alg = Average_Iterative(penalty, tol=tol, n_iter=n_iter)
+    return alg
+
+def averager_fg(func, h=0.01, tol=1.0e-6, n_iter=1000, averager='AdaM2'):
+    penalty = PenaltyAverage(func)
+    alg = Average_FG(penalty, h=h, tol=tol, n_iter=n_iter)
+    _averager = __averager_scalar_dict.get(averager, None)
+    if _averager is not None:
+        alg.use_gradient_averager(_averager())
+    return alg
+
+def average_it(Y, func, tol=1.0e-6, n_iter=1000, verbose=0):
+    alg = averager_it(func, tol=tol, n_iter=n_iter)
+    alg.fit(Y)
+    if verbose:
+        print("K={} u={}".format(alg.K, alg.u, alg.s))
+    return alg
+
+def ws_average_it(ws_func, func, tol=1.0e-6, n_iter=1000, verbose=0):
+    avr = averager_it(func, tol=tol, n_iter=n_iter)
+    alg = ParametrizedAverage(ws_func, avr)
+    return alg
+
+def average_fg(Y, penalty_func, h=0.01, tol=1.0e-5, n_iter=1000, verbose=0, averager=None):
+    alg = averager_fg(penalty_func, h=h, tol=tol, n_iter=n_iter, averager=averager)
+    alg.fit(Y)
+    if verbose:
+        print("K={} u={}".format(alg.K, alg.u))
+    return alg
+
+def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, stop_condition='diffL1'):
+    alg = FG(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition)
+    _averager = __averager_dict.get(averager, None)
+    if _averager is not None:
+        alg.use_gradient_averager(_averager())
+    return alg
+
+def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None, stop_condition='diffL1'):
+    alg = FG_RUD(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition, gamma=gamma)
+    _averager = __averager_dict.get(averager, ArrayMOM)
+    if _averager is not None:
+        alg.use_gradient_averager(_averager())
+    return alg
+
+def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, stop_condition='diffL1', n_restart=1, verbose=0):
+    K = 0
+    for i in range(n_restart):
+        alg = fg(er, h=h, tol=tol, n_iter=n_iter,
+                 averager=averager, callback=callback, stop_condition=stop_condition)
+        alg.fit()
+        K += alg.K
+        if alg.completed:
+            break
+#         if i > 0:
+#             alg.h_rate.h *= 0.5
+    alg.K = K
+    if verbose:
+        print("K={} param={}".format(alg.K, er.param.base))
+    return alg
+
+def erm_fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None, stop_condition='diffL1', n_restart=1, verbose=0):
+    K = 0
+    for i in range(n_restart):
+        alg = fg_rud(er, h=h, tol=tol, n_iter=n_iter,
+                 averager=averager, callback=callback, 
+                 stop_condition=stop_condition, gamma=gamma)
+        alg.fit()
+        K += alg.K
+        if alg.completed:
+            break
+#         if i > 0:
+#             alg.learn_rate.h *= 0.5
+    alg.K = K
+    if verbose:
+        print("K={} param={}".format(alg.K, er.param.base))
+    return alg
+
+def sg(er, h=0.001, tol=1.0e-6, n_iter=1000, 
+       averager='adaM1', callback=None, stop_condition='diffL1'):
+    alg = SGD(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition)
+    _averager = __averager_dict.get(averager, None)
+    if _averager is not None:
+        alg.use_gradient_averager(_averager())
+    return alg
+
+def erm_sg(er, h=0.001, tol=1.0e-6, n_iter=1000, 
+           averager='adaM1', callback=None, stop_condition='diffL1', n_restart=1, verbose=1):
+    for i in range(n_restart):
+        alg = sg(er, h=h, tol=tol, n_iter=n_iter, 
+                 averager=averager, callback=callback, stop_condition=stop_condition)
+        alg.fit()
+    if verbose:
+        print(alg.K, er.param.base)
+    return alg
+
+def irgd(fg, weights, tol=1.0e-4, n_iter=100, param_averager=None, callback=None, h_anneal=0.99):
+    alg = IRGD(fg, weights, tol=tol, n_iter=n_iter, callback=callback, h_anneal=h_anneal)
+    if param_averager is not None:
+        alg.use_param_averager(param_averager)
+    return alg
+
+def erm_irgd(fg, weights, tol=1.0e-4, n_iter=100, 
+             param_averager=None, callback=None, verbose=0, h_anneal=0.99, n_restart=1):
+    for i in range(n_restart):
+        alg = irgd(fg, weights, tol=tol, n_iter=n_iter, 
+                   param_averager=param_averager, callback=callback, h_anneal=h_anneal)
+        alg.fit()
+    if verbose:
+        print("K={} param={}".format(alg.K, fg.risk.param.base))
+    return alg
+    
