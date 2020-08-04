@@ -63,6 +63,7 @@ cdef class Functional:
     #
     cdef void gradient(self):
         pass
+    #
 
 #     def __call__(self, param):
 #         return self.func.evaluate(as_array_1d(param))
@@ -197,7 +198,6 @@ cdef class ER(Risk):
         self.regular = regular
         self.weights = None
         self.grad = None
-#         self.grads = None
         self.grad_r = None
         self.grad_average = None
         self.X = X
@@ -208,7 +208,6 @@ cdef class ER(Risk):
             self.batch = WholeBatch(self.n_sample)
         else:
             self.batch = batch
-#         self.models = None
     #
     def use_weights(self, weights not None):
         self.weights = weights
@@ -230,9 +229,6 @@ cdef class ER(Risk):
         if self.grad is None:
             self.grad = np.zeros(n_param, dtype='d')
 
-#         if self.grads is None:
-#             self.grads = np.zeros((num_procs, n_param), dtype='d')
-
         if self.grad_average is None:
             self.grad_average = np.zeros(n_param, dtype='d')
 
@@ -245,11 +241,6 @@ cdef class ER(Risk):
             self.weights = np.full(size, 1./size, 'd')
 
         self.lval = 0
-
-#         if self.models is None:
-#             self.models = []
-#             for j in range(num_procs):
-#                 self.models.append(self.model.copy())
     #
     cdef void eval_losses(self, double[::1] lval_all):
         cdef Py_ssize_t j, k, N = self.n_sample
@@ -261,17 +252,10 @@ cdef class ER(Risk):
         cdef double[::1] Y = self.Y
         cdef int size = self.batch.size 
         cdef int[::1] indices = self.batch.indices
-
-#         cdef int num_thread
         
-####         models = [_model.copy() for j in range(num_procs)]
-#         models = self.models
         
-#         for j in prange(size, nogil=True, schedule='static', num_threads=num_procs):
         for j in range(size):
             k = indices[j]
-#             num_thread = omp_get_thread_num()
-#             y = (<Model>PyList_GET_ITEM(<PyObject*>models, num_thread)).evaluate(X[k])
             y = _model.evaluate(X[k])
             lval_all[j] = _loss.evaluate(y, Y[k])
     #
@@ -294,17 +278,9 @@ cdef class ER(Risk):
         cdef int size = self.batch.size 
         cdef int[::1] indices = self.batch.indices
         
-#         cdef int num_thread
-        
-#         models = [_model.copy() for j in range(num_procs)]
-#         models = self.models
-
         S = 0
-#         for j in prange(size, nogil=True, schedule='static',  num_threads=num_procs):
         for j in range(size):
             k = indices[j]
-#             num_thread = omp_get_thread_num()
-#             y = (<Model>PyList_GET_ITEM(<PyObject*>models, num_thread)).evaluate(X[k])
             y = _model.evaluate(X[k])
             lval = _loss.evaluate(y, Y[k])   
             S += weights[j] * lval
@@ -352,28 +328,16 @@ cdef class ER(Risk):
 
         cdef int size = self.batch.size 
         cdef int[::1] indices = self.batch.indices
-
-#         cdef int num_thread
-        
-#         models = [_model.copy() for j in range(num_procs)]
-#         models = self.models
-#         grad = np.zeros((num_procs, n_param), 'd')
         
         fill_memoryview(grad_average, 0.)
-#         fill_memoryview2(grads, 0.)
-        
-#         for j in prange(size, nogil=True, schedule='static',  num_threads=num_procs):
+
         for j in range(size):
             k = indices[j]
             yk = Y[k]
 
-#             num_thread = omp_get_thread_num()
-
-#             y = (<Model>PyList_GET_ITEM(<PyObject*>models, num_thread)).evaluate(X[k])
             y = _model.evaluate(X[k])
             lval_dy = _loss.derivative(y, yk)
 
-#             (<Model>PyList_GET_ITEM(<PyObject*>models, num_thread)).gradient(X[k], grads[num_thread])
             _model.gradient(X[k], grad)
             
             wk = weights[j]

@@ -123,35 +123,42 @@ cdef class RWeights(Weights):
 
 cdef class MWeights(Weights):
     #
-    def __init__(self, Average average, Functional risk, normalize=0, u_only=1):
+    def __init__(self, Average average, Functional risk, normalize=1, use_best_u=0):
         self.average = average
         self.risk = risk
         self.weights = None
         self.lval_all = None
-        self.normalize = normalize
         self.first_time = 1
         self.normalize = normalize
-        self.u_only = u_only
+        self.best_u = PyFloat_GetMax()
+        self.use_best_u = use_best_u
     #
     cdef eval_weights(self):
         cdef Risk risk = <Risk>self.risk
         cdef int N = risk.batch.size
 
         if self.lval_all is None or self.lval_all.shape[0] != N:
-            self.lval_all = np.empty(N, 'd')
+            self.lval_all = np.zeros(N, 'd')
 
         risk.eval_losses(self.lval_all)
         
         if self.weights is None or self.weights.shape[0] != N:
-            self.weights = np.zeros((N,), 'd')
+            self.weights = np.zeros(N, 'd')
 
         if self.first_time:
-            self.average.u = array_min(self.lval_all)
-            self.first_time = 0
+            u0 = None
+            self.first_time = 0 
+        else:
+            u0 = self.average.u
         
-        self.average.fit(self.lval_all, self.average.u)
+        self.average.fit(self.lval_all, u0)
+        if self.use_best_u and self.average.u < self.best_u:
+            self.best_u = self.average.u
         
-        self.average.gradient(self.lval_all, self.weights)
+        if self.use_best_u:
+            self.average.penalty.gradient(self.lval_all, self.best_u, self.weights)
+        else:
+            self.average.gradient(self.lval_all, self.weights)
 
         if self.normalize:
             normalize_memoryview(self.weights)
@@ -280,7 +287,7 @@ cdef class WMWeights(Weights):
         Nv2 = Nv * m
         for k in range(N):
             if lval_all[k] <= u:
-                weights[k] = Nv #+ weights[k] * Nv2
+                weights[k] = Nv + weights[k] * Nv2
             else:
                 weights[k] = weights[k] * Nv2
                 

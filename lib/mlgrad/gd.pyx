@@ -56,9 +56,11 @@ cdef class GD:
     cpdef init(self):
         init_rand()
         self.risk.init()
+        if self.normalizer is not None:
+            self.normalizer.normalize(self.risk.param)
         
         n_param = len(self.risk.param)
-
+        
 #         if self.param_prev is None:
 #             self.param_prev = np.zeros((n_param,), dtype='d')
         if self.param_min is None:
@@ -97,6 +99,8 @@ cdef class GD:
 
             self.risk.batch.generate()
             self.fit_epoch()
+            if self.normalizer is not None:
+                self.normalizer.normalize(param)
 
             self.lval = risk.lval = risk.evaluate()
             if self.lval < self.lval_min:

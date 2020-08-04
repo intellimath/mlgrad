@@ -70,7 +70,6 @@ cdef class Average:
     cdef public int n_iter, m_iter, K, L
     cdef public double h
     cdef public bint success    
-    cdef ScalarAverager deriv_averager
     cdef public double u_best
     cdef public double pmin
     cdef public double u
@@ -98,25 +97,34 @@ cdef class Average_Iterative(Average):
     pass
 
 @cython.final
+cdef class MAverage_Iterative(Average):
+    cdef Func func
+
+@cython.final
 cdef class Average_FG(Average):
     #
-    pass
+    cdef ScalarAverager deriv_averager
     
 cdef class ParametrizedAverage(Average):
     cdef ParametrizedFunc func
     cdef Average avr
 
 @cython.final
-cdef class MWAverage(Average):
+cdef class WMAverage(Average):
     cdef Average avr
     cdef double beta
 
 @cython.final
-cdef class MWAverage2(Average):
+cdef class WMAverageMixed(Average):
+    cdef Average avr
+    cdef double beta
+    
+@cython.final
+cdef class WMAverage2(Average):
     cdef Average avr
 
 @cython.final
-cdef class MHAverage(Average):
+cdef class HMAverage(Average):
     cdef Average avr
     cdef double[::1] Z
     

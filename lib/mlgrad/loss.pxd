@@ -29,6 +29,11 @@ cdef class ErrorLoss(Loss):
     #
 
 @cython.final
+cdef class RelativeErrorLoss(Loss):
+    cdef public Func func
+    #
+    
+@cython.final
 cdef class WinsorizedErrorLoss(WinsorizedLoss):
     cdef public Func func
     #

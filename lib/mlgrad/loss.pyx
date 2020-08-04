@@ -60,29 +60,46 @@ cdef class ErrorLoss(Loss):
     def _repr_latex_(self):
         return r"$\ell(y - \tilde y)$" 
 
+cdef class RelativeErrorLoss(Loss):
+    #
+    def __init__(self, Func func):
+        self.func = func
+    #
+    cdef double evaluate(self, double y, double yk) nogil:
+        return self.func.evaluate(y/yk - 1)
+    #
+    cdef double derivative(self, double y, double yk) nogil:
+        return self.func.derivative(y/yk - 1) / yk
+    #
+    cdef double difference(self, double y, double yk) nogil:
+        return fabs(y/yk-1)
+    #
+    def _repr_latex_(self):
+        return r"$\ell(y - \tilde y)$" 
+    
 cdef class WinsorizedLoss(Loss):
     pass
 
-cdef class WinsorizedErrorLoss(WinsorizedLoss):
-    #
-    def __init__(self, Func func, Func wins_func):
-        self.func = func
-        self.wins_func = wins_func
-    #
-    cdef double evaluate(self, double y, double yk) nogil:
-        return self.func.evaluate(self.wins_func.evaluate(y - yk))
-    #
-    cdef double derivative(self, double y, double yk) nogil:
-        cdef double v = y - yk  
-        return self.func.derivative(self.wins_func.evaluate(v)) * self.wins_func.derivative(v)
-    #
-    #cdef double derivative_u(self, double y, double yk):
-    #    cdef double v = y - yk  
-    #    cdef Func wins_func = self.wins_func
-    #    return self.func.derivative(wins_func.evaluate(v)) * wins_func.derivative_u(v)
-    #
-    def _repr_latex_(self):
-        return r"$\ell(\min(y - \tilde y, \theta))$" 
+# cdef class WinsorizedErrorLoss(WinsorizedLoss):
+#     #
+#     def __init__(self, Func func, Func wins_func):
+#         self.func = func
+#         self.wins_func = wins_func
+#     #
+#     cdef double evaluate(self, double y, double yk) nogil:
+#         return self.func.evaluate(self.wins_func.evaluate(y - yk))
+#     #
+#     cdef double derivative(self, double y, double yk) nogil:
+#         cdef double v = y - yk  
+#         return self.func.derivative(self.wins_func.evaluate(v)) * self.wins_func.derivative(v)
+#     #
+#     #cdef double derivative_u(self, double y, double yk):
+#     #    cdef double v = y - yk  
+#     #    cdef Func wins_func = self.wins_func
+#     #    return self.func.derivative(wins_func.evaluate(v)) * wins_func.derivative_u(v)
+#     #
+#     def _repr_latex_(self):
+#         return r"$\ell(\min(y - \tilde y, \theta))$" 
 
 cdef class MarginLoss(Loss):
     #

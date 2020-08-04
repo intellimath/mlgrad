@@ -29,7 +29,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#from cython.parallel cimport parallel, prange
+from cython.parallel cimport parallel, prange
+#
+
+from openmp cimport omp_get_num_procs
+
+cdef int num_procs = omp_get_num_procs()
+if num_procs >= 4:
+    num_procs /= 2
+else:
+    num_procs = 2
 
 cdef class ArrayAverager:
     #
@@ -60,7 +69,7 @@ cdef class ArraySave(ArrayAverager):
         cdef int i, m = x.shape[0]
         cdef double[::1] array_average = self.array_average 
         
-        for i in range(m):
+        for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
             array_average[i] = h * x[i]
     
 cdef class ArrayMOM(ArrayAverager):
@@ -274,7 +283,7 @@ cdef class ArrayAdaM2(ArrayAverager):
     
         self.beta1_k *= beta1
         self.beta2_k *= beta2
-        for i in range(m):
+        for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
             v = x[i]
             mgrad[i] = beta1 * mgrad[i] + (1.0 - beta1) * v 
             mv = mgrad[i] / (1.0 - self.beta1_k)
@@ -328,7 +337,7 @@ cdef class ArrayAdaM1(ArrayAverager):
     
         self.beta1_k *= beta1
         self.beta2_k *= beta2
-        for i in range(m):
+        for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
             v = x[i]
             mgrad[i] = beta1 * mgrad[i] + (1.0 - beta1) * v 
             mv = mgrad[i] / (1.0 - self.beta1_k)

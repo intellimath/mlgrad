@@ -109,11 +109,24 @@ cdef class Quantile_AlphaLog(Func):
     cdef public double alpha
     cdef double alpha2, q
     #
+    
+@cython.final
+cdef class SoftAbs(Func):
+    #
+    cdef double eps
+    
 @cython.final
 cdef class Sqrt(Func):
     #
     cdef double alpha
     cdef double alpha2
+    #
+@cython.final
+cdef class Quantile_Sqrt(Func):
+    #
+    cdef double eps
+    cdef double eps2
+    cdef double alpha
     #
 
 @cython.final
@@ -168,6 +181,12 @@ cdef class  Exp(Func):
 cdef class  Log(Func):
     #
     cdef public double alpha
+    
+@cython.final
+cdef class KMinSquare(Func):
+    #
+    cdef double[::1] c
+    cdef int n_dim, j_min
     
 cdef class ParametrizedFunc(Func):
     cdef public double u

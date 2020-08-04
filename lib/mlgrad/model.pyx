@@ -295,6 +295,18 @@ cdef class LinearModel(Model):
     def __getnewargs__(self):
         return (self.n_input,)
     #
+#     cdef normalize(self):
+#         cdef int i, n_param = self.n_param
+#         cdef double v, u
+
+#         v = 0
+#         for i in range(1, n_param):
+#             u = self.param[i]
+#             v += u * u
+#         v = sqrt(v)
+#         for i in range(1, n_param):
+#             self.param[i] /= v        
+    #
     cdef double evaluate(self, double[::1] X):
         cdef int i, n_param = self.n_param
         cdef double v        

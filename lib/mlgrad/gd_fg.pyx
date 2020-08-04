@@ -3,7 +3,7 @@
 cdef class FG(GD):
     #
     def __init__(self, Functional risk, tol=1.0e-8, h=0.001, n_iter=1000, M = 12,
-                 callback=None, stop_condition=None, h_rate=None, gamma=0):
+                 callback=None, stop_condition=None, h_rate=None, gamma=0, normalizer=None):
         """
         """
         self.risk = risk
@@ -15,6 +15,7 @@ cdef class FG(GD):
         self.h = h
 #         self.param_prev = None
         self.gamma = gamma
+        self.normalizer = normalizer
         
         if h_rate is None:
             self.h_rate = ConstantParamRate(h)

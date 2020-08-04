@@ -10,6 +10,9 @@ from mlgrad.averager cimport ArrayAverager, ArraySave
 from mlgrad.avragg cimport Average, ArithMean
 from mlgrad.weights cimport Weights
 from mlgrad.risk cimport Functional, Risk
+from mlgrad.normalizer cimport Normalizer
+
+from mlgrad.normalizer cimport LinearModelNormalizer
 
 from mlgrad.miscfuncs cimport init_rand, rand, fill
 
@@ -50,6 +53,7 @@ cdef class GD:
     cdef public Functional risk
     cdef public StopCondition stop_condition
     cdef public ParamRate h_rate
+    cdef Normalizer normalizer
 
     cdef public double tol
     cdef public int n_iter, K, M, m

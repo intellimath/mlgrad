@@ -6,6 +6,7 @@ python/doc/_build
 .ipynb_checkpoints
 build/
 dist/
+examples/fig/
 *.pyc
 *.pyo
 __pycache__

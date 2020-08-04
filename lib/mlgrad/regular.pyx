@@ -10,7 +10,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2019> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -51,7 +51,7 @@ cdef class Power(FuncMulti):
     
     def __init__(self, p=2.0):
         self.p = p
-        self.all = all
+#         self.all = all
 
     cdef double evaluate(self, double[::1] param):
         cdef int i, m
@@ -89,6 +89,8 @@ cdef class Power(FuncMulti):
         return r"$||\mathbf{w}||_{%s}^{%s}=\sum_{i=0}^n w_i^{%s}$" % (self.p, self.p, self.p)
 
 cdef class Square(FuncMulti):
+    def __init__(self, c=0):
+        self.c = c
 
     cdef double evaluate(self, double[::1] param):
         cdef int i, m
@@ -102,7 +104,7 @@ cdef class Square(FuncMulti):
             s += v * v
 
         s /= 2.
-        return s
+        return s - self.c
 
     cdef void gradient(self, double[::1] param, double[::1] grad):
         cdef int i, m

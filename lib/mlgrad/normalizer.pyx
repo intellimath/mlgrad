@@ -7,7 +7,6 @@
 # cython: embedsignature=True
 # cython: initializedcheck=False
 
-
 # The MIT License (MIT)
 #
 # Copyright (c) <2015-2019> <Shibzukhov Zaur, szport at gmail dot com>
@@ -32,12 +31,21 @@
 
 from libc.math cimport fabs, pow, sqrt, fmax
 
-import numpy as np
-
-DEF Beta = 0.9
-DEF Beta1 = 0.99
-DEF Beta2 = 0.9999
-
-include "averager_scalar.pyx"
-include "averager_array.pyx"
-
+cdef class Normalizer:
+    cdef normalize(self, double[::1] param):
+        pass
+    
+cdef class LinearModelNormalizer(Normalizer):
+    
+    cdef normalize(self, double[::1] param):
+        cdef Py_ssize_t i, n = param.shape[0]
+        cdef double u, s
+        
+        s = 0
+        for i in range(1,n):
+            v = param[i]
+            s += v*v
+        s = sqrt(s)
+        
+        for i in range(n):
+            param[i] /= s

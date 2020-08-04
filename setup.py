@@ -13,8 +13,10 @@ WIN32 = platform.system() == 'Windows'
 
 extra_link_args = []
 extra_compile_args = [] 
-extra_compile_args_openmp = [("-fopenmp" if not WIN32 else "/openmp")]
-extra_link_args_openmp = []
+#extra_compile_args_openmp = ["-O3", "-ffast-math", "-march=native", ("-fopenmp" if not WIN32 else "/openmp")]
+extra_compile_args_openmp = ["-O3", "-march=native", ("-fopenmp" if not WIN32 else "/openmp")]
+extra_link_args_openmp = ["-fopenmp"]
+
 # cython_compile_time_env = {"USE_OPENMP":1}
 
 ext_modules = [
@@ -50,6 +52,13 @@ ext_modules = [
 #         cython_compile_time_env = cython_compile_time_env,
     ),
     Extension(
+        "mlgrad.kaverage",
+        ["lib/mlgrad/kaverage.pyx"],
+        extra_compile_args = extra_compile_args, 
+        extra_link_args = extra_link_args,
+#         cython_compile_time_env = cython_compile_time_env,
+    ),
+    Extension(
         "mlgrad.loss",
         ["lib/mlgrad/loss.pyx"],
         extra_compile_args = extra_compile_args,
@@ -74,6 +83,12 @@ ext_modules = [
         extra_link_args = extra_link_args,
     ),
     Extension(
+        "mlgrad.normalizer",
+        ["lib/mlgrad/normalizer.pyx"],
+        extra_compile_args = extra_compile_args,
+        extra_link_args = extra_link_args,
+    ),
+    Extension(
         "mlgrad.risk",
         ["lib/mlgrad/risk.pyx"],
         extra_compile_args = extra_compile_args,
@@ -83,8 +98,8 @@ ext_modules = [
     Extension(
         "mlgrad.averager",
         ["lib/mlgrad/averager.pyx"],
-        extra_compile_args = extra_compile_args,
-        extra_link_args = extra_link_args,
+        extra_compile_args = extra_compile_args_openmp,
+        extra_link_args = extra_link_args_openmp,
     ),
     Extension(
         "mlgrad.weights",
@@ -136,8 +151,8 @@ ext_modules = [
     Extension(
         "mlgrad.mlocation_scatter2",
         ["lib/mlgrad/mlocation_scatter2.pyx"],
-        extra_compile_args = extra_compile_args_openmp,
-        extra_link_args = extra_link_args_openmp,
+        extra_compile_args = extra_compile_args,
+        extra_link_args = extra_link_args,
     ),
     Extension(
         "mlgrad.cytest",

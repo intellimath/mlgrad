@@ -138,7 +138,7 @@ cdef class IRGD(object):
             return 0        
 
         lval_min = min3(self.lval, self.lval1, self.lval2)
-        if 0.5 * fabs(self.lval - 2*self.lval1 + self.lval2) / (1.0 + fabs(lval_min)) < self.tol:
+        if 0.5 * fabs(self.lval - 2*self.lval1 + self.lval2) / (1.0e-8 + fabs(lval_min)) < self.tol:
             return 1
 
         self.lval1, self.lval2 = self.lval, self.lval1

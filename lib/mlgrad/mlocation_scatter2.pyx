@@ -36,16 +36,16 @@ import numpy.linalg as linalg
 import mlgrad.avragg as avragg
 # import mlgrad.distance as distance
 
-from mlgrad.kmeans import init_centers2
+from mlgrad.kmeans import init_centers2 
 
-from cython.parallel cimport parallel, prange
-from openmp cimport omp_get_num_procs
+# from cython.parallel cimport parallel, prange
+# from openmp cimport omp_get_num_procs
 
-cdef int num_procs = omp_get_num_procs()
-if num_procs > 4:
-    num_procs /= 2
-else:
-    num_procs = 2
+# cdef int num_procs = omp_get_num_procs()
+# if num_procs > 4:
+#     num_procs /= 2
+# else:
+#     num_procs = 2
 
 cdef double max_float = PyFloat_GetMax()
     
@@ -173,7 +173,6 @@ cdef class MLSE2:
         cdef int j, j_min, k, N = self.X.shape[0], n = self.X.shape[1]
         cdef int[::1] Y = self.Y
         cdef double[::1] D = self.D
-        
 
         for k in range(N):    
             d_min = max_float
@@ -471,12 +470,14 @@ cdef class MLocationsScattersEstimator(MLSE2):
         cdef double[:,:,::1] scatters = self.scatters
         cdef double[:,::1] S
         cdef double[:,::1] locs = self.locs
-        cdef double[::1] loc, Xk
+        cdef double *loc, *Xk, *Si
         cdef double[::1] weights = self.weights
         cdef double[::1] W = self.W
         cdef int[::1] Y = self.Y
 
         cdef double h = self.h, h1 = 1-self.h
+        
+        cdef double *ss
 
         self.calc_distances()
         self.avg.fit(self.D)
@@ -487,20 +488,25 @@ cdef class MLocationsScattersEstimator(MLSE2):
             l = Y[k]
             W[l] += weights[k] 
 
-        for l in range(self.n_locs):
-            for i in range(n):
-                for j in range(n):
-                    scatters[l,i,j] *= h1
+        ss = &scatters[0,0,0]
+        for i in range(self.n_locs*n*n):
+            ss[i] *= h1
+#         for l in range(self.n_locs):
+#             for i in range(n):
+#                 for j in range(n):
+#                     scatters[l,i,j] *= h1
             
         for k in range(N):
             l = Y[k]
             wk = h * weights[k] / W[l]
             S = scatters[l]
-            loc = locs[l]
+            loc = &locs[l,0]
+            Xk = &X[k,0]
             for i in range(n):
-                xx = wk * (X[k,i] - loc[i])
+                xx = wk * (Xk[i] - loc[i])
+                Si = &S[i,0]
                 for j in range(n):
-                    S[i,j] += xx * (X[k,j] - loc[j])
+                    Si[j] += xx * (Xk[j] - loc[j])
         
         if self.normalize:
             for l in range(self.n_locs):
@@ -541,7 +547,7 @@ cdef class MLocationsScattersEstimator(MLSE2):
                     copy_memoryview2(self.locs_min, self.locs)
                     copy_memoryview3(self.scatters_min, self.scatters)
 
-                if self.stop_condition():
+                if self.stop_condition2():
                     break
 
                 self.Ks += 1
@@ -549,13 +555,18 @@ cdef class MLocationsScattersEstimator(MLSE2):
         copy_memoryview2(self.locs, self.locs_min)
         copy_memoryview3(self.scatters, self.scatters_min)
                 
-#     def stop_condition(self):        
-#         if fabs(self.dval - self.dval_prev) / (1 + fabs(self.dval)) >= self.tol:
-#             return 0
-#         return 1
-
     def stop_condition(self):        
-        if fabs(self.dval - self.dval_prev) >= self.tol:
+        if fabs(self.dval - self.dval_prev) / (1 + fabs(self.dval)) >= self.tol:
             return 0
         return 1
+
+    def stop_condition2(self):        
+        if fabs(self.dval2 - self.dval2_prev) / (1 + fabs(self.dval2)) >= self.tol:
+            return 0
+        return 1
+    
+#     def stop_condition(self):        
+#         if fabs(self.dval - self.dval_prev) >= self.tol:
+#             return 0
+#         return 1
     

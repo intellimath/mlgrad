@@ -6,6 +6,10 @@ from mlgrad.func cimport Func
 from mlgrad.risk cimport Risk, Functional
 from mlgrad.avragg cimport Average
 
+cdef extern from "Python.h":
+    double PyFloat_GetMax()
+    double PyFloat_GetMin()
+
 cdef inline double array_min(double[::1] arr):
     cdef int i, N = arr.shape[0]
     cdef double v, min_val = arr[0]
@@ -39,7 +43,7 @@ cdef inline void normalize_memoryview(double[::1] X):
     S = 0
     for i in range(m):
         S += X[i]
-    c = 1.0/S
+    c = 1/S
     
     for i in range(m):
         X[i] *= c        
@@ -71,9 +75,10 @@ cdef class RWeights(Weights):
 @cython.final
 cdef class MWeights(Weights):
     cdef double[::1] lval_all
+    cdef double best_u
     cdef public Average average
     cdef public Functional risk
-    cdef bint first_time, normalize, u_only
+    cdef bint first_time, normalize, u_only, use_best_u
 
 @cython.final
 cdef class SWMWeights(Weights):

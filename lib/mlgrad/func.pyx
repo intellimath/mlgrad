@@ -9,7 +9,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright © «2015–2019» <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright © «2015–2020» <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,8 @@
 from libc.math cimport fabs, pow, sqrt, fmax, exp, log, atan
 from libc.math cimport isnan, isinf
 from libc.stdlib cimport strtod
+
+import numpy as np
 
 cdef double c_nan = strtod("NaN", NULL)
 cdef double c_inf = strtod("Inf", NULL)
@@ -463,13 +465,17 @@ cdef class Power(Func):
         return pow(fabs(x) + self.alpha, self.p) / self.p
     #
     cdef double derivative(self, double x) nogil:
-        return pow(fabs(x) + self.alpha, self.p-1)
+        cdef double val
+        val = pow(fabs(x) + self.alpha, self.p-1) 
+        if x < 0:
+            val = -val
+        return val
     #
     cdef double derivative2(self, double x) nogil:
         return (self.p-1) * pow(fabs(x) + self.alpha, self.p-2)
     #
     cdef double derivative_div_x(self, double x) nogil:
-        cdef double u = pow(fabs(x) + self.alpha, self.p-2)
+        return pow(fabs(x) + self.alpha, self.p-2)
     #
     def _repr_latex_(self):
         return r"$ρ(x)=\frac{1}{p}(|x|+\alpha)^p$"
@@ -486,8 +492,11 @@ cdef class Square(Func):
     cdef double derivative(self, double x) nogil:
         return x
     #
+    cdef double derivative_div_x(self, double x) nogil:
+        return 1
+    #
     cdef double derivative2(self, double x) nogil:
-        return 1.0
+        return 1
     #
     def _repr_latex_(self):
         return r"$ρ(x)=0.5x^2$"
@@ -839,6 +848,35 @@ cdef class Tukey(Func):
         return { 'name':'tukey', 
                  'args': (self.C,) }
 
+cdef class SoftAbs(Func):
+    #
+    def __init__(self, eps=1.0):
+        self.eps = eps
+    #
+    cdef double evaluate(self, double x) nogil:
+        return x * x / (self.eps + fabs(x))
+    #
+    cdef double derivative(self, double x) nogil:
+        cdef double v = self.eps + fabs(x)
+        return x * (self.eps + v) / (v * v)
+    #
+    cdef double derivative2(self, double x) nogil:
+        cdef double eps = self.eps
+        cdef double v = eps + fabs(x)
+        return 2 * eps * eps / (v * v * v)
+    #
+    cdef double derivative_div_x(self, double x) nogil:
+        cdef double v = self.eps + fabs(x)
+        return (self.eps + v) / (v * v)
+    #
+    def _repr_latex_(self):
+        return r"$p(x)=\frac{x^2}{\varepsilon+|x|}$"
+    
+    def to_dict(self):
+        return { 'name':'softabs', 
+                 'args': (self.eps,) }
+
+    
 cdef class Sqrt(Func):
     #
     def __init__(self, alpha=1.0):
@@ -846,7 +884,7 @@ cdef class Sqrt(Func):
         self.alpha2 = alpha*alpha
     #
     cdef double evaluate(self, double x) nogil:
-        return sqrt(self.alpha2 + x*x) # - self.alpha
+        return sqrt(self.alpha2 + x*x) - self.alpha
     #
     cdef double derivative(self, double x) nogil:
         cdef double v = self.alpha2 + x*x
@@ -866,6 +904,47 @@ cdef class Sqrt(Func):
     def to_dict(self):
         return { 'name':'sqrt', 
                  'args': (self.alpha,) }
+
+cdef class Quantile_Sqrt(Func):
+    #
+    def __init__(self, alpha=0.5, eps=1.0):
+        self.alpha = alpha
+        self.eps = eps
+        self.eps2 = eps*eps
+    #
+    cdef double evaluate(self, double x) nogil:
+        if x >= 0:
+            return (sqrt(self.eps2 + x*x) - self.eps) * self.alpha
+        else:
+            return (sqrt(self.eps2 + x*x) - self.eps) * (1-self.alpha)
+    #
+    cdef double derivative(self, double x) nogil:
+        cdef double v = self.eps2 + x*x
+        if x >= 0:
+            return self.alpha * x / sqrt(v)
+        else:
+            return (1-self.alpha) * x / sqrt(v)
+    #
+    cdef double derivative2(self, double x) nogil:
+        cdef double v = self.eps2 + x*x
+        if x >= 0:
+            return self.alpha * self.eps2 / (v * sqrt(v))
+        else:
+            return (1-self.alpha) * self.eps2 / (v * sqrt(v))
+    #
+    cdef double derivative_div_x(self, double x) nogil:
+        cdef double v = self.eps2 + x*x
+        if x >= 0:
+            return self.alpha / sqrt(v)
+        else:
+            return (1-self.alpha) / sqrt(v)
+    #
+    def _repr_latex_(self):
+        return r"$p(x)=(\sqrt{\varepsilon^2+x^2}-\varepsilon)_\alpha$"
+    
+    def to_dict(self):
+        return { 'name':'quantile_sqrt', 
+                 'args': (self.alpha, self.eps) }
     
     
 cdef class Exp(Func):
@@ -895,16 +974,17 @@ cdef class Log(Func):
         self.alpha = alpha
     #
     cdef double evaluate(self, double x) nogil:
-        return self.alpha*log(x)
+        return log(self.alpha+x)
     #
     cdef double derivative(self, double x) nogil:
-        return self.alpha / x
+        return 1 / (self.alpha+x)
     #
     cdef double derivative2(self, double x) nogil:
-        return -self.alpha / (x*x)
+        cdef double x2 = self.alpha+x
+        return -1 / (x2*x2)
     #
     def _repr_latex_(self):
-        return r"$\rho(x)=\alpha\ln{x}$"
+        return r"$\rho(x)=\ln{\alpha+x}$"
 
     def to_dict(self):
         return { 'name':'log', 
@@ -954,3 +1034,39 @@ cdef class  SWinsorizedFunc(ParametrizedFunc):
     #
     cdef double derivative_u(self, double x) nogil:
         return 0.5 * (1 + self.f.derivative(x - self.u))
+
+cdef class KMinSquare(Func):
+    #
+    def __init__(self, c):
+        self.c = np.asarray(c, 'd')
+        self.n_dim = c.shape[0]
+        self.j_min = 0
+    #
+    cdef double evaluate(self, double x) nogil:
+        cdef int j, j_min, n_dim = self.n_dim
+        cdef double d, d_min
+        
+        d_min = self.c[0]
+        j_min = 0
+        j = 1
+        while j < n_dim:
+            d = self.c[j]
+            if fabs(x - d) < d_min:
+                j_min = j
+                d_min = d
+            j += 1
+        self.j_min = j_min
+        return 0.5 * (x - d_min) * (x - d_min)
+    #
+    cdef double derivative(self, double x) nogil:
+        return x - self.c[self.j_min]
+    #
+    cdef double derivative2(self, double x) nogil:
+        return 1
+    #
+    def _repr_latex_(self):
+        return r"$\rho(x)=\min_{j=1,\dots,q} (x-c_j)^2/2$"
+
+    def to_dict(self):
+        return { 'name':'', 
+                 'c': (self.alpha,) }

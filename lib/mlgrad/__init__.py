@@ -7,6 +7,7 @@ from mlgrad.gd import FG, FG_RUD, SGD
 from mlgrad.risk import ED, ER, AER, ER2, SimpleFunctional
 from mlgrad.irgd import IRGD
 from mlgrad.averager import ArrayMOM, ArrayRMSProp, ArrayAMOM, ArrayAdaM1, ArrayAdaM2, ScalarAdaM1, ScalarAdaM2
+from mlgrad.normalizer import LinearModelNormalizer
 
 __all__ = ['averager_it', 'average_it', 'ws_average_it', 'averager_fg', 'average_fg', 
            'fg', 'erm_fg', 'erm_fg_rud', 'sg', 'erm_sg',
@@ -84,25 +85,26 @@ def average_fg(Y, penalty_func, h=0.01, tol=1.0e-5, n_iter=1000, verbose=0, aver
         print("K={} u={}".format(alg.K, alg.u))
     return alg
 
-def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, stop_condition='diffL1'):
-    alg = FG(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition)
+def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, stop_condition='diffL1', normalizer=None):
+    alg = FG(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition, normalizer=normalizer)
     _averager = __averager_dict.get(averager, None)
     if _averager is not None:
         alg.use_gradient_averager(_averager())
     return alg
 
-def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None, stop_condition='diffL1'):
-    alg = FG_RUD(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition, gamma=gamma)
+def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None, stop_condition='diffL1', normalizer=None):
+    alg = FG_RUD(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition, gamma=gamma, normalizer=normalizer)
     _averager = __averager_dict.get(averager, ArrayMOM)
     if _averager is not None:
         alg.use_gradient_averager(_averager())
     return alg
 
-def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, stop_condition='diffL1', n_restart=1, verbose=0):
+def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, 
+           stop_condition='diffL1', n_restart=1, verbose=0, normalizer=None):
     K = 0
     for i in range(n_restart):
         alg = fg(er, h=h, tol=tol, n_iter=n_iter,
-                 averager=averager, callback=callback, stop_condition=stop_condition)
+                 averager=averager, callback=callback, stop_condition=stop_condition, normalizer=normalizer)
         alg.fit()
         K += alg.K
         if alg.completed:
@@ -114,12 +116,13 @@ def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None
         print("K={} param={}".format(alg.K, er.param.base))
     return alg
 
-def erm_fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None, stop_condition='diffL1', n_restart=1, verbose=0):
+def erm_fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None, 
+               stop_condition='diffL1', n_restart=1, verbose=0, normalizer=None):
     K = 0
     for i in range(n_restart):
         alg = fg_rud(er, h=h, tol=tol, n_iter=n_iter,
                  averager=averager, callback=callback, 
-                 stop_condition=stop_condition, gamma=gamma)
+                 stop_condition=stop_condition, gamma=gamma, normalizer=normalizer)
         alg.fit()
         K += alg.K
         if alg.completed:

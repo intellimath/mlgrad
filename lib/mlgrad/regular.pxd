@@ -42,7 +42,7 @@ cdef class Power(FuncMulti):
 
 @cython.final
 cdef class Square(FuncMulti):
-    pass
+    cdef double c
 
 @cython.final
 cdef class Absolute(FuncMulti):
