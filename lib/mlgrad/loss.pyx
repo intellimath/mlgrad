@@ -11,7 +11,7 @@
 # The MIT License (MIT)
 #
 # Copyright (c) <2015-2019> <Shibzukhov Zaur, szport at gmail dot com>
-#
+# 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -77,30 +77,6 @@ cdef class RelativeErrorLoss(Loss):
     def _repr_latex_(self):
         return r"$\ell(y - \tilde y)$" 
     
-cdef class WinsorizedLoss(Loss):
-    pass
-
-# cdef class WinsorizedErrorLoss(WinsorizedLoss):
-#     #
-#     def __init__(self, Func func, Func wins_func):
-#         self.func = func
-#         self.wins_func = wins_func
-#     #
-#     cdef double evaluate(self, double y, double yk) nogil:
-#         return self.func.evaluate(self.wins_func.evaluate(y - yk))
-#     #
-#     cdef double derivative(self, double y, double yk) nogil:
-#         cdef double v = y - yk  
-#         return self.func.derivative(self.wins_func.evaluate(v)) * self.wins_func.derivative(v)
-#     #
-#     #cdef double derivative_u(self, double y, double yk):
-#     #    cdef double v = y - yk  
-#     #    cdef Func wins_func = self.wins_func
-#     #    return self.func.derivative(wins_func.evaluate(v)) * wins_func.derivative_u(v)
-#     #
-#     def _repr_latex_(self):
-#         return r"$\ell(\min(y - \tilde y, \theta))$" 
-
 cdef class MarginLoss(Loss):
     #
     def __init__(self, Func func):
@@ -172,7 +148,7 @@ cdef class ErrorMultLoss(MultLoss):
         self.func = func
     
     cdef double evaluate(self, double[::1] y, double[::1] yk) nogil:
-        cdef int i, n = len(y)
+        cdef Py_ssize_t i, n = y.shape[0]
         cdef double s = 0
         
         for i in range(n):
@@ -180,7 +156,7 @@ cdef class ErrorMultLoss(MultLoss):
         return s
         
     cdef void gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:
-        cdef int i, n = len(y)
+        cdef Py_ssize_t i, n = y.shape[0]
         for i in range(n):
             grad[i] = self.func.derivative(y[i]-yk[i])
         
@@ -193,7 +169,7 @@ cdef class MarginMultLoss(MultLoss):
         self.func = func
 
     cdef double evaluate(self, double[::1] u, double[::1] yk) nogil:
-        cdef int i, n = u.shape[0]
+        cdef Py_ssize_t i, n = u.shape[0]
         cdef double s = 0
 
         for i in range(n):
@@ -201,7 +177,7 @@ cdef class MarginMultLoss(MultLoss):
         return s
         
     cdef void gradient(self, double[::1] u, double[::1] yk, double[::1] grad) nogil:
-        cdef int i, n = u.shape[0]
+        cdef Py_ssize_t i, n = u.shape[0]
         for i in range(n):
             grad[i] = yk[i] * self.func.derivative(u[i]*yk[i])
 

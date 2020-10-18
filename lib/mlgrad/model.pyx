@@ -8,7 +8,7 @@
 # cython: initializedcheck=False
 
 # The MIT License (MIT)
-#
+# 
 # Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -57,7 +57,26 @@ display_precision = 0.005
 #         ret = o
 #
 #     return ret
-        
+
+cdef inline void fill_memoryview(double[::1] X, double c) nogil:
+    cdef int m = X.shape[0]
+    memset(&X[0], 0, m*cython.sizeof(double))    
+
+cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:
+    cdef int m = X.shape[0], n = Y.shape[0]
+
+    if n < m:
+        m = n
+    memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+    
+cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
+    cdef int i, j
+    cdef int m = X.shape[0], n = X.shape[1]
+    memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))    
+    
+cdef inline double ident(x):
+    return x
+
 def as_array_2d(ob):
     arr = np.asarray(ob, 'd')
 
@@ -271,7 +290,7 @@ cdef class LinearModel(Model):
             self.grad = None
             self.grad_x = None
         else:
-            self.param = o
+            self.param = np.asarray(o, "d")
             self.n_param = len(self.param)
             self.n_input = self.n_param - 1
             self.grad = np.zeros(self.n_param, 'd')
@@ -308,27 +327,29 @@ cdef class LinearModel(Model):
 #             self.param[i] /= v        
     #
     cdef double evaluate(self, double[::1] X):
-        cdef int i, n_param = self.n_param
-        cdef double v        
+        cdef Py_ssize_t i, n_param = self.n_param
+        cdef double v
+        cdef double *param = &self.param[0]
 
         #print("LM: %s %s %s" % (self.n_param, tuple(self.param), X))
-        v = self.param[0]
+        v = param[0]
         for i in range(1, n_param):
-            v += self.param[i] * X[i-1]
+            v += param[i] * X[i-1]
         return v
     #
     cdef void gradient(self, double[::1] X, double[::1] grad):
         cdef int i, n_param = self.n_param
         
-        grad[0] = 1.0
+        grad[0] = 1
         for i in range(1, n_param):
             grad[i] = X[i-1]
     #
     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
         cdef int i, n_input = self.n_input
+        cdef double *param = &self.param[0]
 
         for i in range(n_input):
-            grad_x[i] = self.param[i+1]
+            grad_x[i] = param[i+1]
     #
     cpdef Model copy(self, bint share=1):
         cdef LinearModel mod = LinearModel(self.n_input)
@@ -601,8 +622,8 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
     #
     def _allocate(self, allocator):
         """Allocate matrix"""
-        cdef int n_input = self.n_input
-        cdef int n_output = self.n_output
+        cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t n_output = self.n_output
 
         self.matrix = allocator.allocate2(n_output, n_input+1)
         self.param = allocator.get_allocated()
@@ -625,52 +646,63 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         return <ModelLayer>layer
     #
     cdef void forward(self, double[::1] X):
-        cdef int n_input = self.n_input
-        cdef int n_output = self.n_output
-        cdef int i, j
+        cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t n_output = self.n_output
+        cdef Py_ssize_t i, j
         cdef double s
         cdef double[:,::1] matrix = self.matrix
-        cdef double[::1] output = self.output
-        cdef double[::1] ss = self.ss
+        cdef double *output = &self.output[0]
+        cdef double *ss = &self.ss[0]
+        cdef double *matrix_j
+        cdef Func func = self.func
 
         for j in range(n_output):
-            s = self.matrix[j,0]
+            s = matrix[j,0]
+            matrix_j = &matrix[j,1]
             for i in range(n_input):
-                s += self.matrix[j,i+1] * X[i]
-            if self.func is None:
-                self.output[j] = s
+                s += matrix_j[i] * X[i]
+            if func is None:
+                output[j] = s
             else:
-                self.output[j] = self.func.evaluate(s)
-            self.ss[j] = s
+                output[j] = func.evaluate(s)
+            ss[j] = s
     #
     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
-        cdef int i, j, offset
-        cdef int n_input = self.n_input
-        cdef int n_input1 = n_input + 1
-        cdef int n_output = self.n_output
+        cdef Py_ssize_t i, j, jj, offset
+        cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t n_input1 = n_input + 1
+        cdef Py_ssize_t n_output = self.n_output
         cdef double val_j, s, sx
-        cdef double[::1] grad_in = self.grad_input
+        cdef double* grad_in = &self.grad_input[0]
 
-        fill_memoryview(grad_in, 0)
+        cdef double[:,::1] matrix = self.matrix
+        cdef double *output = &self.output[0]
+        cdef double *ss = &self.ss[0]
+        cdef double *matrix_j
+        cdef Func func = self.func
+        
+#         fill_memoryview(grad_in, 0)
+        memset(grad_in, 0, n_input*cython.sizeof(double))        
         for j in range(n_output):
             
-            s = self.matrix[j,0]
+            s = matrix[j,0]
+            matrix_j = &matrix[j,1]
             for i in range(n_input):
-                s += self.matrix[j,i+1] * X[i]
+                s += matrix_j[i] * X[i]
             
-            val_j = grad_out[j]
-            if self.func is None:
-                sx = 1.
+#             val_j = grad_out[j]
+            if func is None:
+                sx = grad_out[j]
             else:
-                sx = self.func.derivative(s)
-            sx *= val_j
+                sx = grad_out[j] * func.derivative(s)
 
             for i in range(n_input):
-                grad_in[i] += sx * self.matrix[j,i+1]
+                grad_in[i] += sx * matrix_j[i]
 
-            grad[j*n_input1] = sx
+            jj = j*n_input1
+            grad[jj] = sx
             for i in range(n_input):
-                grad[j*n_input1+i+1] = sx * X[i]
+                grad[jj+i+1] = sx * X[i]
     #
     def as_dict(self):
         return { 'name': 'sigma_neuron_layer',

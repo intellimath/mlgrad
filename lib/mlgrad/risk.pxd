@@ -50,7 +50,7 @@ cdef class Functional:
     cdef public double[::1] grad_average
     cdef public double lval
     cdef public Batch batch
-    cdef public int n_sample
+    cdef public Py_ssize_t n_sample
 
     cpdef init(self)
     cdef double evaluate(self)
@@ -82,8 +82,7 @@ cdef class ER(Risk):
     cdef public Loss loss
     cdef public double[:, ::1] X
     cdef public double[::1] Y
-#     cdef list models
-#     cdef double[:,::1] grads
+    cdef public double[::1] Yp
 
 cdef class AER(ER):
     cdef Average loss_averager

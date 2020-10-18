@@ -15,6 +15,10 @@ from mlgrad.func cimport Func
 from cpython.object cimport PyObject
 
 cdef extern from *:
+    """
+    #define D_PTR(p) (*(p))
+    """
+    inline double D_PTR(double* p) nogil
     PyObject* PyList_GET_ITEM(PyObject* list, Py_ssize_t i) nogil
     int PyList_GET_SIZE(PyObject* list) nogil
  
@@ -24,24 +28,6 @@ cdef extern from "Python.h":
 
 ctypedef double[::1] double_array
 
-cdef inline void fill_memoryview(double[::1] X, double c) nogil:
-    cdef int m = X.shape[0]
-    memset(&X[0], 0, m*cython.sizeof(double))    
-
-cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:
-    cdef int m = X.shape[0], n = Y.shape[0]
-
-    if n < m:
-        m = n
-    memcpy(&Y[0], &X[0], m*cython.sizeof(double))
-    
-cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
-    cdef int i, j
-    cdef int m = X.shape[0], n = X.shape[1]
-    memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))    
-    
-cdef inline double ident(x):
-    return x
 
 cdef class Allocator:
     #
@@ -80,7 +66,7 @@ cdef inline void matrix_dot_t(double[:,::1] A, double[::1]x, double[::1] y):
         y[i] = v
 
 cdef class Model(object):
-    cdef public int n_param, n_input
+    cdef public Py_ssize_t n_param, n_input
     cdef public double[::1] param
     cdef public double[::1] grad
     cdef public double[::1] grad_x
@@ -113,7 +99,7 @@ cdef class PolynomialModel(Model):
     pass
 
 cdef class ModelLayer:
-    cdef public int n_param, n_input, n_output
+    cdef public Py_ssize_t n_param, n_input, n_output
     cdef public double[::1] param
     cdef public double[::1] output
     cdef public double[::1] grad_input
@@ -131,8 +117,8 @@ cdef class GeneralModelLayer(ModelLayer):
     cdef public list models
 
 cdef class ComplexModel(object):
-    cdef public int n_param
-    cdef public int n_input, n_output
+    cdef public Py_ssize_t n_param
+    cdef public Py_ssize_t n_input, n_output
     cdef public double[::1] param
     cdef public double[::1] output
     

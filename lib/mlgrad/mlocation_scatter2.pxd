@@ -38,6 +38,11 @@ cdef inline void fill_memoryview2(double[:,::1] X, double c):
     cdef int m = X.shape[0], n = X.shape[1]
     memset(&X[0,0], 0, m*n*cython.sizeof(double))     
 
+cdef inline void fill_memoryview3(double[:,:,::1] X, double c):
+    cdef int i, j
+    cdef int m = X.shape[0], n = X.shape[1], l = X.shape[2]
+    memset(&X[0,0,0], 0, m*n*l*cython.sizeof(double))     
+    
 cdef inline void multiply_memoryview(double[::1] X, double c):
     cdef Py_ssize_t i
     cdef Py_ssize_t n = X.shape[0]
@@ -58,14 +63,13 @@ cdef class MLSE2:
     cdef public DistanceWithScale[::1] distfuncs
     cdef public double[:,::1] X
     cdef public double[:,::1] locs, locs_min
-    cdef public int n_locs
+    cdef public Py_ssize_t n_locs
     cdef public double[:,:,::1] scatters, scatters_min
     cdef double[::1] D
-    cdef double[::1] logdet
     cdef Average avg
     cdef public double[::1] weights
     cdef double[::1] W
-    cdef int[::1] Y, Ns
+    cdef Py_ssize_t[::1] Y, Ns
 
     cdef double dval, dval_prev, dval_min
     cdef double dval2, dval2_prev, dval2_min
@@ -74,8 +78,6 @@ cdef class MLSE2:
     cdef public double tol
     cdef public list dvals, dvals2
 
-    cdef bint normalize, pinv
-    
     cpdef calc_distances(self)
     cpdef double Q(self)
 #     cpdef get_weights(self)

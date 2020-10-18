@@ -1,5 +1,5 @@
 # coding: utf-8
-
+ 
 # cython: language_level=3
 # cython: boundscheck=False
 # cython: wraparound=False
@@ -879,31 +879,31 @@ cdef class SoftAbs(Func):
     
 cdef class Sqrt(Func):
     #
-    def __init__(self, alpha=1.0):
-        self.alpha = alpha
-        self.alpha2 = alpha*alpha
+    def __init__(self, eps=1.0):
+        self.eps = eps
+        self.eps2 = eps*eps
     #
     cdef double evaluate(self, double x) nogil:
-        return sqrt(self.alpha2 + x*x) - self.alpha
+        return sqrt(self.eps2 + x*x) - self.eps
     #
     cdef double derivative(self, double x) nogil:
-        cdef double v = self.alpha2 + x*x
+        cdef double v = self.eps2 + x*x
         return x / sqrt(v)
     #
     cdef double derivative2(self, double x) nogil:
-        cdef double v = self.alpha2 + x*x
-        return self.alpha2 / (v * sqrt(v))
+        cdef double v = self.eps2 + x*x
+        return self.eps2 / (v * sqrt(v))
     #
     cdef double derivative_div_x(self, double x) nogil:
-        cdef double v = self.alpha2 + x*x
+        cdef double v = self.eps2 + x*x
         return 1 / sqrt(v)
     #
     def _repr_latex_(self):
-        return r"$p(x)=\sqrt{\alpha^2+x^2}-\alpha$"
+        return r"$p(x)=\sqrt{\varepsilon^2+x^2}-\alpha$"
     
     def to_dict(self):
         return { 'name':'sqrt', 
-                 'args': (self.alpha,) }
+                 'args': (self.eps,) }
 
 cdef class Quantile_Sqrt(Func):
     #
@@ -990,50 +990,72 @@ cdef class Log(Func):
         return { 'name':'log', 
                  'args': (self.alpha,) }
     
-cdef class ParametrizedFunc(Func):
+cdef class ParameterizedFunc:
     #
-    cdef double derivative_u(self, double x) nogil:
+    def __call__(self, x, u):
+        return self.evaluate(x, u)
+    #
+    cdef double evaluate(self, double x, double u) nogil:
+        return 0
+    #
+    cdef double derivative(self, double x, double u) nogil:
+        return 0
+    #
+    cdef double derivative_u(self, double x, double u) nogil:
         return 0
 
-cdef class WinsorizedFunc(ParametrizedFunc):
-    #
-    def __init__(self, u=0):
-        self.u = u
-    #
-    cdef double evaluate(self, double x) nogil:
-        if x > self.u:
-            return self.u
-        elif x < -self.u:
-            return -self.u
+cdef class WinsorizedFunc(ParameterizedFunc):
+    # 
+    cdef double evaluate(self, double x, double u) nogil:
+        if x > u:
+            return u
+        elif x < -u:
+            return -u
         else:
             return x
     #
-    cdef double derivative(self, double x) nogil:
-        if x > self.u or x < -self.u:
+    cdef double derivative(self, double x, double u) nogil:
+        if x > u or x < -u:
             return 0
         else:
             return 1
     #
-    cdef double derivative_u(self, double x) nogil:
-        if x > self.u or x < -self.u:
+    cdef double derivative_u(self, double x, double u) nogil:
+        if x > u or x < -u:
             return 1
         else:
             return 0
 
-cdef class  SWinsorizedFunc(ParametrizedFunc):
+cdef class SoftMinFunc(ParameterizedFunc):
     #
-    def __init__(self, Func f, u=0):
+    def __init__(self, a = 1):
+        self.a = a
+    #
+    cdef double evaluate(self, double x, double u) nogil:
+        if u < x:
+            return u - log(1 + exp(-self.a*(x-u))) / self.a
+        else:
+            return x - log(1 + exp(-self.a*(u-x))) / self.a
+    #
+    cdef double derivative(self, double x, double u) nogil:
+        return 1 / (1+exp(-self.a*(u-x)))
+    #
+    cdef double derivative_u(self, double x, double u) nogil:
+        return 1 / (1+exp(-self.a*(x-u)))
+        
+cdef class  WinsorizedSmoothFunc(ParameterizedFunc):
+    # 
+    def __init__(self, Func f):
         self.f = f
-        self.u = u
     #
-    cdef double evaluate(self, double x) nogil:
-        return 0.5 * (x + self.u - self.f.evaluate(x - self.u))
+    cdef double evaluate(self, double x, double u) nogil:
+        return 0.5 * (x + u - self.f.evaluate(x - u))
     #
-    cdef double derivative(self, double x) nogil:
-        return 0.5 * (1 - self.f.derivative(x - self.u))
+    cdef double derivative(self, double x, double u) nogil:
+        return 0.5 * (1 - self.f.derivative(x - u))
     #
-    cdef double derivative_u(self, double x) nogil:
-        return 0.5 * (1 + self.f.derivative(x - self.u))
+    cdef double derivative_u(self, double x, double u) nogil:
+        return 0.5 * (1 + self.f.derivative(x - u))
 
 cdef class KMinSquare(Func):
     #

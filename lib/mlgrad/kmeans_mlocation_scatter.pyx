@@ -47,30 +47,35 @@ cdef void arithmetic_mean(double[:, ::1] X, double[::1] loc):
             v += X[k,i]
         loc[i] = v / N
 
-# cdef multiply_matrix(double[:,::1] A, double[:,::1] B, double[:,::1] C):
-#     cdef int n = A.shape[0]
-#     cdef int i, j, k
-#     cdef double s
+cdef multiply_matrix(double[:,::1] A, double[:,::1] B, double[:,::1] C):
+    cdef Py_ssize_t n = A.shape[0]
+    cdef Py_ssize_t i, j, k
+    cdef double s
+    cdef double *Ai, *Bk
     
-#     for i in range(n):
-#         for j in range(n):
-#             s = 0
-#             for k in range(n):
-#                 s += A[i, k] * B[k, j]
-#             C[i,j] = s
+    for i in range(n):
+        Ai = &A[i,0]
+        for j in range(n):
+            s = 0
+            Bk = &B[k,0]
+            for k in range(n):
+                s += Ai[k] * Bk[j]
+            C[i,j] = s
         
 cdef void covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S):
-    cdef int i, j
-    cdef int n = X.shape[1], N = X.shape[0]
+    cdef Py_ssize_t i, j
+    cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
     cdef double s, loc_i, loc_j
+    cdef double *Xk
 
     for i in range(n):
         loc_i = loc[i]
         for j in range(n):
             loc_j = loc[j]
             s = 0
+            Xk = &X[k,0]
             for k in range(N):
-                s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
+                s += (Xk[i] - loc_i) * (Xk[j] - loc_j)
             S[i,j] = s / N
             
 cdef double max_val = PyFloat_GetMax()
@@ -105,8 +110,8 @@ def scale_matrix(S, to=1.0):
 cdef class KMeans_MLSE:
     
     cpdef calc_distances(self):
-        cdef int j, k, j_min
-        cdef int n = self.X.shape[0], N = self.X.shape[0]
+        cdef Py_ssize_t j, k, j_min
+        cdef Py_ssize_t n = self.X.shape[0], N = self.X.shape[0]
         cdef int n_cluster = self.n_cluster
         cdef double d_min, d
         cdef double[:,::1] X = self.X
@@ -238,8 +243,8 @@ cdef class KMeans_MLocationEstimator(KMeans_MLSE):
         copy_memoryview2(self.loc, self.loc_min)
 
     def fit_step(self):
-        cdef int n = self.X.shape[1], N = self.X.shape[0]
-        cdef int i, j, k, t
+        cdef Py_ssize_t n = self.X.shape[1], N = self.X.shape[0]
+        cdef Py_ssize_t i, j, k, t
         cdef double v
         cdef double[:,::1] X = self.X
         cdef double[::1] weights
@@ -344,7 +349,7 @@ cdef class KMeans_MScatterEstimator(KMeans_MLSE):
 #         self.update_distfunc(self.S)
 
     def fit_step(self):
-        cdef int i, j, k, n = self.X.shape[1], N = self.X.shape[0]
+        cdef Py_ssize_t i, j, k, n = self.X.shape[1], N = self.X.shape[0]
         cdef double v, s
         cdef double loc_i, loc_j
         cdef double vol
@@ -352,6 +357,7 @@ cdef class KMeans_MScatterEstimator(KMeans_MLSE):
         cdef double[:,::1] S = self.S
         cdef double[::1] weights = self.weights
         cdef double W
+        cdef double *Xk
 
         self.avg.gradient(self.D, self.weights)
 
@@ -365,9 +371,10 @@ cdef class KMeans_MScatterEstimator(KMeans_MLSE):
             for j in range(n):
                 loc_j = self.loc[j]
                 s = 0
+                Xk = &X[k,0]
 #                 for k in prange(N, nogil=True, schedule='static'):
                 for k in range(N):
-                    s += weights[k] * (X[k,i] - loc_i) * (X[k,j] - loc_j)
+                    s += weights[k] * (Xk[i] - loc_i) * (Xk[j] - loc_j)
                 S[i,j] =  S[i,j] * (1 - self.h) + self.h * (s / W)
         
 #         scale_matrix(S)

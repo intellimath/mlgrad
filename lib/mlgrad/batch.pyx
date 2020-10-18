@@ -10,7 +10,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2019> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -49,9 +49,9 @@ cdef class RandomBatch(Batch):
         init_rand()
     #
     cdef void generate(self):
-        cdef int i, k, size = self.size
-        cdef int n_samples = self.n_samples
-        cdef int[::1] indices = self.indices
+        cdef Py_ssize_t i, k, size = self.size
+        cdef Py_ssize_t n_samples = self.n_samples
+        cdef Py_ssize_t[::1] indices = self.indices
         
         for i in range(size):
             k = rand(self.n_samples)
@@ -70,7 +70,7 @@ cdef class WholeBatch(Batch):
     def __init__(self, n_samples):
         self.size = int(n_samples)
         self.n_samples = self.size
-        self.indices = np.arange(n_samples, dtype='i')
+        self.indices = np.arange(n_samples, dtype='l')
     #
 
 def make_batch(n_samples, size=None):

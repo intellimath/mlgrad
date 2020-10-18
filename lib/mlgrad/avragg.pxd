@@ -2,12 +2,18 @@
 
 cimport cython
 
-from mlgrad.func cimport Func, ParametrizedFunc
+from mlgrad.func cimport Func, ParameterizedFunc
 from mlgrad.averager cimport ScalarAverager
 
 from mlgrad.miscfuncs cimport init_rand, rand, fill
 
 from libc.math cimport fabs, pow, sqrt, fmax, log, exp
+
+ctypedef fused number:
+    float
+    double
+#     float complex
+#     double complex
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()
@@ -105,19 +111,20 @@ cdef class Average_FG(Average):
     #
     cdef ScalarAverager deriv_averager
     
-cdef class ParametrizedAverage(Average):
-    cdef ParametrizedFunc func
+@cython.final
+cdef class ParameterizedAverage(Average):
+    cdef ParameterizedFunc func
     cdef Average avr
 
 @cython.final
 cdef class WMAverage(Average):
     cdef Average avr
-    cdef double beta
+    cdef double gamma
 
 @cython.final
 cdef class WMAverageMixed(Average):
     cdef Average avr
-    cdef double beta
+    cdef double gamma
     
 @cython.final
 cdef class WMAverage2(Average):

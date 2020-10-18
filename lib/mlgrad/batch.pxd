@@ -4,8 +4,8 @@ from mlgrad.miscfuncs cimport init_rand, rand, fill
 
 cdef class Batch:
     #
-    cdef public int n_samples, size
-    cdef public int[::1] indices
+    cdef public Py_ssize_t n_samples, size
+    cdef public Py_ssize_t[::1] indices
     #
     cdef void generate(self)
 

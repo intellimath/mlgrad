@@ -10,7 +10,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2019> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -50,7 +50,7 @@ from mlgrad.kmeans import init_centers2
 cdef double max_float = PyFloat_GetMax()
     
 cdef void arithmetic_mean(double[:, ::1] X, double[::1] loc):
-    cdef int i, n = X.shape[1], N = X.shape[0]
+    cdef Py_ssize_t i, n = X.shape[1], N = X.shape[0]
     cdef double v
 
     for i in range(n):
@@ -60,8 +60,8 @@ cdef void arithmetic_mean(double[:, ::1] X, double[::1] loc):
         loc[i] = v / N
 
 cdef void covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S):
-    cdef int i, j
-    cdef int n = X.shape[1], N = X.shape[0]
+    cdef Py_ssize_t i, j
+    cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
     cdef double s, loc_i, loc_j
     #
     for i in range(n):
@@ -72,6 +72,22 @@ cdef void covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S):
             for k in range(N):
                 s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
             S[i,j] = s / N
+
+# cdef multiply_matrix(double[:,::1] A, double[:,::1] B, double[:,::1] C):
+#     cdef Py_ssize_t n = A.shape[0]
+#     cdef Py_ssize_t i, j, k
+#     cdef double s
+# #     cdef double *Ai
+# #     cdef double *Bk
+    
+#     for i in range(n):
+# #         Ai = &A[i,0]
+#         for j in range(n):
+#             s = 0
+# #             Bk = &B[k,0]
+#             for k in range(n):
+#                 s += A[i,k] * B[k,j]
+#             C[i,j] = s
 
 def standard_location(X):
     n = X.shape[1]
@@ -88,12 +104,15 @@ def standard_covariance(X, loc, normalize=False):
     return S
 
 cdef void _scale_matrix(double[:,::1] S, double to=1.0):
-    cdef int n = S.shape[0], n2 = n*n
+    cdef Py_ssize_t n = S.shape[0], n2 = n*n
     cdef double vol
     cdef Py_ssize_t i
     cdef double *ptr
 
-    vol = linalg.det(np.asarray(S)) / to
+    SS = np.asarray(S)
+    vol = linalg.det(SS) / to
+    if vol <= 0:
+        print(SS)
     vol = pow(vol, 1.0/n)
     vol = 1/vol
     ptr = &S[0,0]
@@ -103,44 +122,6 @@ cdef void _scale_matrix(double[:,::1] S, double to=1.0):
 def scale_matrix(S, to=1.0):
     _scale_matrix(S, to=1.0)
 
-# cdef void _calc_distances(double[::1] D, Distance distfunc, double[:,::1] X, double[::1] loc, double logdet):
-#         cdef Py_ssize_t k, N = X.shape[0]
-#         cdef Py_ssize_t n = loc.shape[0]
-
-# #         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
-#         for k in range(N):
-#             D[k] = distfunc._evaluate(&X[k,0], &loc[0], n) + logdet
-    
-# cdef void _update_loc(double[:,::1] X, double[::1] weights, double[::1] loc, double h):
-#     cdef Py_ssize_t i, k, n=loc.shape[0], N=X.shape[0]
-#     cdef double v
-
-#     for i in range(n):
-#         v = 0
-#         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
-#             v += weights[k] * X[k,i]
-#         loc[i] = loc[i] * (1-h) + h * v
-    
-# cdef double sum_array(double[::1] weights):    
-#     cdef Py_ssize_t k, N = weights.shape[0]
-#     cdef double W
-
-#     W = 0
-# #     for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
-#     for k in range(N):
-#         W += weights[k]
-#     return W
-
-# cdef void meanify_array(double[::1] weights):    
-#     cdef Py_ssize_t k, N = weights.shape[0]
-#     cdef double W
-
-#     W = 0
-# #     for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
-#     for k in range(N):
-#         W += weights[k]
-#     for k in range(N):
-#         weights[k] /= W
 
 def init_locations(X, locs):
     
@@ -156,7 +137,7 @@ def init_locations(X, locs):
         copy_memoryview(locs[j], X[m])
 
 def  init_scatters(double[:,:,::1] scatters):
-    cdef int i, n, n_locs
+    cdef Py_ssize_t i, n, n_locs
     cdef double[:,::1] S
 
     n_locs = scatters.shape[0]
@@ -170,8 +151,8 @@ cdef class MLSE2:
     
     cpdef calc_distances(self):
         cdef double d, d_min
-        cdef int j, j_min, k, N = self.X.shape[0], n = self.X.shape[1]
-        cdef int[::1] Y = self.Y
+        cdef Py_ssize_t j, j_min, k, N = self.X.shape[0], n = self.X.shape[1]
+        cdef Py_ssize_t[::1] Y = self.Y
         cdef double[::1] D = self.D
 
         for k in range(N):    
@@ -179,8 +160,6 @@ cdef class MLSE2:
             j_min = 0
             for j in range(self.n_locs):
                 d = (<Distance>self.distfuncs[j])._evaluate(&self.X[k,0], &self.locs[j,0], n)
-                if not self.normalize:
-                    d += self.logdet[j]
                 if d < d_min:
                     d_min = d
                     j_min = j
@@ -191,9 +170,6 @@ cdef class MLSE2:
         
     cpdef double Q(self):
         cdef double dval
-        cdef int k, j, N=self.Y.shape[0]
-        cdef double[:,:,::1] scatters
-#         cdef int[::1] Ns
 
         self.calc_distances()    
         self.avg.fit(self.D)
@@ -202,16 +178,12 @@ cdef class MLSE2:
         return dval 
     
     def update_distfuncs(self, double[:,:,::1] scatters):
-        cdef int i
+        cdef Py_ssize_t i
         cdef DistanceWithScale distfunc
         cdef double[:,::1] S1
 
-#         for i in prange(self.n_locs, nogil=True, schedule='static', num_threads=num_procs):
         for i in range(self.n_locs):
-            if self.pinv:
-                S1 = np.linalg.pinv(scatters[i])
-            else:
-                S1 = np.linalg.inv(scatters[i])
+            S1 = scatters[i]
             distfunc = self.distfuncs[i]
             if distfunc is None:
                 distfunc = MahalanobisDistance(S1)
@@ -221,7 +193,7 @@ cdef class MLSE2:
 
 cdef class MLocationsScattersEstimator(MLSE2):
 
-    def __init__(self, Average avg, n_locs=2, tol=1.0e-6, h=0.1, n_iter=1000, n_step=20, normalize=1, pinv=0):
+    def __init__(self, Average avg, n_locs=2, tol=1.0e-6, h=0.1, n_iter=1000, n_step=20):
         self.avg = avg
         self.X = None
         self.scatters = None
@@ -233,23 +205,25 @@ cdef class MLocationsScattersEstimator(MLSE2):
         self.scatters = None
         self.scatters_min = None
         
+#         self.XX = None
+        
         self.Y = None
-        self.logdet = None
+#         self.logdet = None
 
         self.distfuncs = None
         self.tol = tol
         self.n_iter = n_iter
         self.n_step = n_step
         self.h = h
-        self.normalize = normalize
-        self.pinv = pinv
 
     def init(self, double[:,::1] X, warm=False):
         n = X.shape[1]
         N = X.shape[0]
         self.X = X
         self.distfuncs = np.full(self.n_locs, None, object)
+
         self.D  = np.zeros(N, 'd')
+        
         self.weights = np.full(N, 1./N, 'd')
         self.W = np.zeros(self.n_locs, 'd')        
         self.dval_prev = self.dval_min = self.dval = PyFloat_GetMax()
@@ -258,11 +232,11 @@ cdef class MLocationsScattersEstimator(MLSE2):
         self.dvals2 = []
         
         if self.Y is None:
-            self.Y = np.zeros(N, 'i')
+            self.Y = np.zeros(N, 'l')
         if warm:
             self.init_locations(X, self.locs)
             self.init_scatters(X, self.scatters)
-        else:
+        else: 
             self.init_locations(X)
             self.init_scatters(X)
         
@@ -286,12 +260,6 @@ cdef class MLocationsScattersEstimator(MLSE2):
             self.scatters = np.zeros((n_locs, n, n), 'd')
             init_scatters(self.scatters)
         
-        if not self.normalize:
-            if self.logdet is None:
-                self.logdet = np.zeros(self.n_locs, 'd')
-            for j in range(self.n_locs):
-                self.logdet[j] = log(np.linalg.det(self.scatters[j]))
-
         self.update_distfuncs(self.scatters)
         
         self.calc_distances()
@@ -312,34 +280,22 @@ cdef class MLocationsScattersEstimator(MLSE2):
             
         if scatters is None:
             if self.scatters is None:
-                self.scatters = np.zeros((self.n_locs, n, n), 'd')
+                self.scatters = np.zeros((self.n_locs,n,n), 'd')
                 init_scatters(self.scatters)
         else:
             self.scatters = scatters
-        
-        if not self.normalize:
-            if self.logdet is None:
-                self.logdet = np.zeros(self.n_locs, 'd')
-            for j in range(self.n_locs):
-                self.logdet[j] = log(np.linalg.det(self.scatters[j]))
-
+            
         if self.scatters_min is None:
-            self.scatters_min = np.zeros((self.n_locs,n, n), 'd')
+            self.scatters_min = np.zeros((self.n_locs,n,n), 'd')
         copy_memoryview3(self.scatters_min, self.scatters)
 
         self.update_distfuncs(self.scatters)
         
-#         self.dval = self.dval_min = self.Q()
-#         self.dval_prev = max_float
-#         if self.dvals2 is None:
-#             self.dvals2 = []
-        
-        
     def evaluate(self, double[:,::1] X):
         cdef double d, d_min, float_max = PyFloat_GetMax()
-        cdef int j, j_min
-        cdef int k, N = X.shape[0], n = X.shape[1]
-        cdef int[::1] Y = np.zeros(N, 'i')
+        cdef Py_ssize_t j, j_min
+        cdef Py_ssize_t k, N = X.shape[0], n = X.shape[1]
+        cdef Py_ssize_t[::1] Y = np.zeros(N, 'l')
         cdef DistanceWithScale distfunc
         cdef DistanceWithScale[::1] distfuncs = self.distfuncs
         cdef double[:,::1] locs = self.locs
@@ -350,8 +306,6 @@ cdef class MLocationsScattersEstimator(MLSE2):
             for j in range(self.n_locs):
                 distfunc = distfuncs[j]
                 d = distfunc._evaluate(&X[k,0], &locs[j,0], n)
-                if not self.normalize:
-                    d += self.logdet[j]
                 if d < d_min:
                     j_min = j
                     d_min = d
@@ -361,8 +315,8 @@ cdef class MLocationsScattersEstimator(MLSE2):
 
     def evaluate_dist(self, double[:,::1] X):
         cdef double d, d_min, float_max = PyFloat_GetMax()
-        cdef int j
-        cdef int k, N = X.shape[0], n = X.shape[1]
+        cdef Py_ssize_t j
+        cdef Py_ssize_t k, N = X.shape[0], n = X.shape[1]
         cdef DistanceWithScale distfunc
         cdef DistanceWithScale[::1] distfuncs = self.distfuncs
         cdef double[:,::1] locs = self.locs
@@ -373,8 +327,6 @@ cdef class MLocationsScattersEstimator(MLSE2):
             for j in range(self.n_locs):
                 distfunc = distfuncs[j]
                 d = distfunc._evaluate(&X[k,0], &locs[j,0], n)
-                if not self.normalize:
-                    d += self.logdet[j]
                 if d < d_min:
                     d_min = d
             D[k] = d_min
@@ -414,9 +366,10 @@ cdef class MLocationsScattersEstimator(MLSE2):
         cdef double[::1] weights = self.weights
         cdef double[:,::1] locs = self.locs
         cdef double[:,:,::1] scatters = self.scatters
-        cdef int[::1] Y = self.Y
+        cdef Py_ssize_t[::1] Y = self.Y
         cdef double[::1] W = self.W
-        cdef double h = self.h, h1 = 1-self.h
+        cdef double *locs_l
+        cdef double *Xk
 
         self.calc_distances()        
         self.avg.fit(self.D)
@@ -426,16 +379,17 @@ cdef class MLocationsScattersEstimator(MLSE2):
         for k in range(N):
             l = Y[k]
             W[l] += weights[k]         
-
-        for j in range(self.n_locs):
-            for i in range(n):
-                locs[j,i] *= h1
             
+        fill_memoryview2(locs, 0)
         for k in range(N):
             l = Y[k]
-            v = h * weights[k] / W[l]
+            v = weights[k] / W[l]
+            if v == 0:
+                print("wk:", k)
+            locs_l = &locs[l,0]
+            Xk = &X[k,0]
             for i in range(n):
-                locs[l,i] += v * X[k,i]
+                locs_l[i] += v * Xk[i]
 
     def fit_scatters(self, double[:,::1] X, double[:,:,::1] scatters):
         self.init_scatters(X, scatters)
@@ -464,20 +418,21 @@ cdef class MLocationsScattersEstimator(MLSE2):
 
     def fit_step_scatters(self):
         cdef Py_ssize_t i, j, k, l
-        cdef int N = self.X.shape[0], n = self.X.shape[1]
-        cdef double wk, xx
+        cdef Py_ssize_t N = self.X.shape[0], n = self.X.shape[1]
+        cdef double wk, vv
         cdef double[:,::1] X = self.X
+        cdef Py_ssize_t[::1] Y = self.Y
         cdef double[:,:,::1] scatters = self.scatters
-        cdef double[:,::1] S
+        cdef double[:,::1] S, S1
         cdef double[:,::1] locs = self.locs
-        cdef double *loc, *Xk, *Si
         cdef double[::1] weights = self.weights
         cdef double[::1] W = self.W
-        cdef int[::1] Y = self.Y
 
-        cdef double h = self.h, h1 = 1-self.h
+        cdef double *loc
+        cdef double *Xk
+        cdef double *Si
         
-        cdef double *ss
+#         cdef double *ss
 
         self.calc_distances()
         self.avg.fit(self.D)
@@ -488,34 +443,32 @@ cdef class MLocationsScattersEstimator(MLSE2):
             l = Y[k]
             W[l] += weights[k] 
 
-        ss = &scatters[0,0,0]
-        for i in range(self.n_locs*n*n):
-            ss[i] *= h1
-#         for l in range(self.n_locs):
-#             for i in range(n):
-#                 for j in range(n):
-#                     scatters[l,i,j] *= h1
+#         ss = &scatters[0,0,0]
+#         for i in range(self.n_locs*n*n):
+#             ss[i] = 0
+        fill_memoryview3(scatters, 0)
             
         for k in range(N):
             l = Y[k]
-            wk = h * weights[k] / W[l]
+            wk = weights[k] / W[l]
             S = scatters[l]
             loc = &locs[l,0]
             Xk = &X[k,0]
             for i in range(n):
-                xx = wk * (Xk[i] - loc[i])
+                vv = wk * (Xk[i] - loc[i])
                 Si = &S[i,0]
-                for j in range(n):
-                    Si[j] += xx * (Xk[j] - loc[j])
-        
-        if self.normalize:
-            for l in range(self.n_locs):
-                S = scatters[l]
-                _scale_matrix(S)
-
-        if not self.normalize:
-            for j in range(self.n_locs):
-                self.logdet[j] = log(np.linalg.det(scatters[j]))
+                for j in range(i,n):
+                    Si[j] += vv * (Xk[j] - loc[j])
+                    if i != j:
+                        S[j,i] = Si[j]
+            
+#         print(scatters.base)
+                    
+        for l in range(self.n_locs):
+            S = scatters[l]
+            _scale_matrix(S)
+            S1 = linalg.pinv(np.asarray(S))
+            copy_memoryview2(S, S1)
 
         self.update_distfuncs(scatters)
 

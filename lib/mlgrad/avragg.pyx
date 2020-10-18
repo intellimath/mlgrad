@@ -1,4 +1,4 @@
-# coding: utf-8
+ # coding: utf-8
 
 # cython: language_level=3
 # cython: boundscheck=False
@@ -6,7 +6,7 @@
 # cython: nonecheck=False
 # cython: embedsignature=True
 # cython: initializedcheck=False
-
+ 
 # The MIT License (MIT)
 #
 # Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
@@ -69,46 +69,46 @@ cdef class PenaltyAverage(Penalty):
     #
     cdef double evaluate(self, double[::1] Y, double u):
         cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double psum
+        cdef double S
     
-        psum = 0
+        S = 0
         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
 #         for k in range(N):
-            psum += self.func.evaluate(Y[k] - u)    
+            S += self.func.evaluate(Y[k] - u)    
         
-        return psum / N
+        return S / N
     #
     cdef double derivative(self, double[::1] Y, double u):
         cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double gsum
+        cdef double S
         
-        gsum = 0
+        S = 0
         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
 #         for k in range(N):
-            gsum += self.func.derivative(Y[k] - u)                        
+            S += self.func.derivative(Y[k] - u)                        
             
-        return -gsum / N
+        return -S / N
     #
     cdef double iterative_next(self, double[::1] Y, double u):
         cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double S, G, v, y
-        
+        cdef double S, V, v, y
+    
         S = 0
-        G = 0
+        V = 0
         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
 #         for k in range(N):
             y = Y[k]
             v = self.func.derivative_div_x(y - u)
-            G += v
+            V += v
             S += v * y
         
-        return S / G
+        return S / V
     #
     cdef void gradient(self, double[::1] Y, double u, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double v, S
         
-        S = 0
+        S =0 
         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
 #         for k in range(N):
             v = self.func.derivative2(Y[k] - u)
@@ -117,8 +117,7 @@ cdef class PenaltyAverage(Penalty):
                 
         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
 #         for k in range(N):
-            grad[k] /= S
-    
+            grad[k] /= S    
 
 cdef class PenaltyScale(Penalty):
     #
@@ -129,7 +128,7 @@ cdef class PenaltyScale(Penalty):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef Func func = self.func
         cdef double S
-    
+
         S = 0
         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
 #         for k in range(N):
@@ -260,40 +259,44 @@ cdef class Average(object):
         return 0
 
     
-cdef class ParametrizedAverage(Average):
+cdef class ParameterizedAverage(Average):
     #
-    def __init__(self, ParametrizedFunc func, Average avr):
+    def __init__(self, ParameterizedFunc func, Average avr):
         self.func = func
         self.avr = avr
     #
     cpdef fit(self, double[::1] Y, u0=None):
-        cdef double u
-        cdef Py_ssize_t k, N = Y.shape[0]
+        cdef Py_ssize_t k
+        cdef Py_ssize_t N = Y.shape[0]
+        cdef double c
+        cdef double u = 0
         
         self.avr.fit(Y)
-        self.func.u = self.avr.u
-        u = 0
-#         for k in prange(N, nogil=True, schedule='static'):
-        for k in range(N):
-            u += self.func.evaluate(Y[k])
-        u /= N
-        self.u = u
+        c = self.avr.u 
+
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
+#         for k in range(N):
+            u += self.func.evaluate(Y[k], c)
+        self.u = u / N
     #
     cdef gradient(self, double[::1] Y, double[::1] grad):
-        cdef int k, M, N = Y.shape[0]
-        cdef double N1, H
+        cdef Py_ssize_t k, M
+        cdef Py_ssize_t N = Y.shape[0]
+        cdef double c
+        cdef double N1 = 1/N
+        cdef double H = 0
         
         self.avr.gradient(Y, grad)
- 
-        H = 0
-#         for k in prange(N, nogil=True, schedule='static'):
-        for k in range(N):
-            H += self.func.derivative_u(Y[k]) * grad[k]
+        c = self.avr.u
         
-        N1 = 1./N
-#         for k in prange(N, nogil=True, schedule='static'):
-        for k in range(N):
-            grad[k] = (self.func.derivative(Y[k]) + H) * N1
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
+#         for k in range(N):
+            H += self.func.derivative_u(Y[k], c)
+        H *= N1
+        
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
+#         for k in range(N):
+            grad[k] = N1 * self.func.derivative(Y[k], c) +  H * grad[k]
     #
 
 include "avragg_it.pyx"
@@ -301,61 +304,66 @@ include "avragg_fg.pyx"
 
 cdef class WMAverage(Average):
     #
-    def __init__(self, Average avr, double beta=1):
+    def __init__(self, Average avr, double gamma=1):
         self.avr = avr
-        self.beta = beta
+        self.gamma = gamma
         self.u = 0
     #
     cpdef fit(self, double[::1] Y, u0=None):
         cdef double u=0, v, yk, avr_u
         cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double beta = self.beta
+        cdef double gamma = self.gamma
+        cdef double s, S
         
         self.avr.fit(Y)
         avr_u = self.avr.u
 
         u = 0
+        S = 0
         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
 #         for k in range(N):
             yk = Y[k]
             if yk <= avr_u:
                 v = yk
+                s = 1
             else:
-                v = beta*avr_u
+                v = avr_u * gamma
+                s = gamma
             u += v
-        self.u = u / N
+            S += s
+        self.u = u / S
         self.u_best = self.u
     #
     cdef gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, m, N = Y.shape[0]
-        cdef double u, v, N1, yk
-        cdef double beta = self.beta
+        cdef double u, v, yk
+        cdef double gamma = self.gamma
+        cdef double S
 
         self.avr.gradient(Y, grad)
         u = self.avr.u
 
         m = 0
         for k in range(N):
-            yk = Y[k]
-            if yk > u:
+            if Y[k] > u:
                 m += 1
 
-        N1 = 1./N
+        S = (N - m) + m * gamma
         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
 #         for k in range(N):
             yk = Y[k]
             if yk <= u:
-                v = 1 + beta * m * grad[k]
+                v = 1 + gamma * m * grad[k]
             else:
-                v = beta * m * grad[k]
-            grad[k] = v * N1
+                v = gamma * m * grad[k]
+            grad[k] = v / S
     #
 
 cdef class WMAverageMixed(Average):
     #
-    def __init__(self, Average avr, double beta=1):
+    def __init__(self, Average avr, double gamma=1):
         self.avr = avr
-        self.beta = beta
+        self.gamma = gamma
         self.u = 0
     #
     cpdef fit(self, double[::1] Y, u0=None):
@@ -380,7 +388,7 @@ cdef class WMAverageMixed(Average):
             else:
                 v += yk
 
-        self.u = (1-self.beta) * u / (N-m) + self.beta * v / m
+        self.u = (1-self.gamma) * u / (N-m) + self.gamma * v / m
 
         self.u_best = self.u
     #
@@ -396,8 +404,8 @@ cdef class WMAverageMixed(Average):
             if Y[k] > avr_u:
                 m += 1
 
-        N1 = (1-self.beta) / (N-m)
-        N2 = self.beta / m
+        N1 = (1-self.gamma) / (N-m)
+        N2 = self.gamma / m
         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
 #         for k in range(N):
             yk = Y[k]

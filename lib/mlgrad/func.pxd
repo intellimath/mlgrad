@@ -118,8 +118,8 @@ cdef class SoftAbs(Func):
 @cython.final
 cdef class Sqrt(Func):
     #
-    cdef double alpha
-    cdef double alpha2
+    cdef double eps
+    cdef double eps2
     #
 @cython.final
 cdef class Quantile_Sqrt(Func):
@@ -188,13 +188,23 @@ cdef class KMinSquare(Func):
     cdef double[::1] c
     cdef int n_dim, j_min
     
-cdef class ParametrizedFunc(Func):
-    cdef public double u
+cdef class ParameterizedFunc:
+    #
+    cdef double evaluate(self, double x, double u) nogil
+    #
+    cdef double derivative(self, double x, double u) nogil
+    #
+    cdef double derivative_u(self, double x, double u) nogil
 
-    cdef double derivative_u(self, double x) nogil
-
-cdef class WinsorizedFunc(ParametrizedFunc):
+@cython.final
+cdef class WinsorizedFunc(ParameterizedFunc):
     pass
 
-cdef class SWinsorizedFunc(ParametrizedFunc):
+@cython.final
+cdef class WinsorizedSmoothFunc(ParameterizedFunc):
     cdef Func f
+
+cdef class SoftMinFunc(ParameterizedFunc):
+    cdef double a
+
+    

@@ -2,7 +2,7 @@
 #
 #
 
-from mlgrad.avragg import PenaltyAverage, Average_Iterative, Average_FG, ArithMean, ParametrizedAverage
+from mlgrad.avragg import PenaltyAverage, Average_Iterative, Average_FG, ArithMean, ParameterizedAverage
 from mlgrad.gd import FG, FG_RUD, SGD
 from mlgrad.risk import ED, ER, AER, ER2, SimpleFunctional
 from mlgrad.irgd import IRGD

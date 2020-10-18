@@ -4,7 +4,7 @@ cimport cython
 
 #from libc.math cimport fabs, pow, sqrt, fmax
 
-from mlgrad.func cimport Func, ParametrizedFunc
+from mlgrad.func cimport Func, ParameterizedFunc
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()
@@ -20,8 +20,8 @@ cdef class Loss(object):
     #
     cdef double difference(self, double x, double y) nogil
 
-cdef class WinsorizedLoss(Loss):
-    cdef public ParametrizedFunc wins_func
+# cdef class WinsorizedLoss(Loss):
+#     cdef public ParameterizedFunc wins_func
 
 @cython.final
 cdef class ErrorLoss(Loss):
@@ -30,11 +30,6 @@ cdef class ErrorLoss(Loss):
 
 @cython.final
 cdef class RelativeErrorLoss(Loss):
-    cdef public Func func
-    #
-    
-@cython.final
-cdef class WinsorizedErrorLoss(WinsorizedLoss):
     cdef public Func func
     #
 

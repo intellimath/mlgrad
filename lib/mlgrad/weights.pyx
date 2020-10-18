@@ -79,9 +79,9 @@ cdef class RWeights(Weights):
     #
     cdef eval_weights(self):
         cdef Risk risk = self.risk
-        cdef int N = risk.batch.size
-        cdef int j, k
-        cdef int[::1] indices = risk.batch.indices
+        cdef Py_ssize_t N = risk.batch.size
+        cdef Py_ssize_t j, k
+        cdef Py_ssize_t[::1] indices = risk.batch.indices
         cdef double[::1] weights
         cdef double[::1] lval_all
 
@@ -104,9 +104,9 @@ cdef class RWeights(Weights):
     #
     cdef double get_qvalue(self):
         cdef double qval
-        cdef int j, k
-        cdef int N = self.risk.batch.size
-        cdef int[::1] indices = self.risk.batch.indices
+        cdef Py_ssize_t j, k
+        cdef Py_ssize_t N = self.risk.batch.size
+        cdef Py_ssize_t[::1] indices = self.risk.batch.indices
         cdef double[::1] lval_all = self.lval_all
         
         self.risk.eval_losses(lval_all)
@@ -135,7 +135,7 @@ cdef class MWeights(Weights):
     #
     cdef eval_weights(self):
         cdef Risk risk = <Risk>self.risk
-        cdef int N = risk.batch.size
+        cdef Py_ssize_t N = risk.batch.size
 
         if self.lval_all is None or self.lval_all.shape[0] != N:
             self.lval_all = np.zeros(N, 'd')
@@ -182,9 +182,9 @@ cdef class SWMWeights(Weights):
     #
     cdef eval_weights(self):
         cdef Risk risk = self.risk
-        cdef int N = risk.batch.size
+        cdef Py_ssize_t N = risk.batch.size
 #         cdef int[::1] indices = risk.batch.indices
-        cdef int j, k
+        cdef Py_ssize_t j, k
         cdef double v, Nv, u
         cdef Func func = self.average.penalty.func
         cdef double[::1] weights
@@ -251,8 +251,8 @@ cdef class WMWeights(Weights):
     #
     cdef eval_weights(self):
         cdef Risk risk = self.risk
-        cdef int N = risk.batch.size
-        cdef int k, m
+        cdef Py_ssize_t N = risk.batch.size
+        cdef Py_ssize_t k, m
         cdef double v, Nv, Nv2, u
         cdef double[::1] weights
         cdef double[::1] lval_all
@@ -295,8 +295,8 @@ cdef class WMWeights(Weights):
             normalize_memoryview(self.weights)
     #
     cdef double get_qvalue(self):
-        cdef int N = self.risk.batch.size
-        cdef int k
+        cdef Py_ssize_t N = self.risk.batch.size
+        cdef Py_ssize_t k
         cdef double u
         cdef double qval
         cdef double[::1] weights

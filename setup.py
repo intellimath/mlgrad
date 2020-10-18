@@ -9,13 +9,14 @@ from Cython.Build import cythonize
 Options.fast_fail = True
 
 import platform
-WIN32 = platform.system() == 'Windows'
+WIN32 = (platform.system() == 'Windows')
 
-extra_link_args = []
-extra_compile_args = [] 
-#extra_compile_args_openmp = ["-O3", "-ffast-math", "-march=native", ("-fopenmp" if not WIN32 else "/openmp")]
+#extra_compile_args = ["-O3", "-march=native", "-ffast-math"] 
+extra_compile_args = ["-O3", "-march=native"] 
+extra_link_args = [] #["-lm"]
+#extra_compile_args_openmp = ["-O3", "-march=native", "-ffast-math", ("-fopenmp" if not WIN32 else "/openmp")]
 extra_compile_args_openmp = ["-O3", "-march=native", ("-fopenmp" if not WIN32 else "/openmp")]
-extra_link_args_openmp = ["-fopenmp"]
+extra_link_args_openmp = [("-fopenmp" if not WIN32 else "/openmp")] #, "-lm"]
 
 # cython_compile_time_env = {"USE_OPENMP":1}
 
@@ -29,8 +30,8 @@ ext_modules = [
     Extension(
         "mlgrad.model",
         ["lib/mlgrad/model.pyx"],
-        extra_compile_args = extra_compile_args,
-        extra_link_args = extra_link_args,
+        extra_compile_args = extra_compile_args_openmp,
+        extra_link_args = extra_link_args_openmp,
     ),
     Extension(
         "mlgrad.miscfuncs",
@@ -91,8 +92,8 @@ ext_modules = [
     Extension(
         "mlgrad.risk",
         ["lib/mlgrad/risk.pyx"],
-        extra_compile_args = extra_compile_args,
-        extra_link_args = extra_link_args,
+        extra_compile_args = extra_compile_args_openmp,
+        extra_link_args = extra_link_args_openmp,
 #         cython_compile_time_env = cython_compile_time_env,
     ),
     Extension(
