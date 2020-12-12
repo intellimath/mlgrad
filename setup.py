@@ -92,8 +92,8 @@ ext_modules = [
     Extension(
         "mlgrad.risk",
         ["lib/mlgrad/risk.pyx"],
-        extra_compile_args = extra_compile_args_openmp,
-        extra_link_args = extra_link_args_openmp,
+        extra_compile_args = extra_compile_args,
+        extra_link_args = extra_link_args,
 #         cython_compile_time_env = cython_compile_time_env,
     ),
     Extension(

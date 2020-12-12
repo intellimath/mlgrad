@@ -4,7 +4,7 @@
 # cython: boundscheck=False
 # cython: wraparound=False
 # cython: nonecheck=False
-# cython: embedsignature=True
+# cython: embedsignature=False
 # cython: initializedcheck=False
 
 # The MIT License (MIT)
@@ -34,15 +34,15 @@ import numpy as np
 
 from mlgrad.func import func_from_dict
 
-# from cython.parallel cimport parallel, prange
+from cython.parallel cimport parallel, prange
 
-# from openmp cimport omp_get_num_procs, omp_get_thread_num
+from openmp cimport omp_get_num_procs, omp_get_thread_num
 
-# cdef int num_procs = omp_get_num_procs()
-# if num_procs > 4:
-#     num_procs /= 2
-# else:
-#     num_procs = 2
+cdef int num_procs = omp_get_num_procs()
+if num_procs > 4:
+    num_procs /= 2
+else:
+    num_procs = 2
 
 format_double = r"%.2f"
 display_precision = 0.005
@@ -102,6 +102,85 @@ def matdot(A, x, y):
 def matdot_t(A, x, y):
     matrix_dot_t(A, x, y)
     
+cdef double inner_dot(double *a, double *b, Py_ssize_t m) nogil:
+    cdef double s
+    cdef double a1, a2, a3, a4
+    cdef double b1, b2, b3, b4
+    
+    s = 0
+    while m >= 4:
+        a1 = a[0]
+        a2 = a[1]
+        a3 = a[2]
+        a4 = a[3]
+
+        b1 = b[0]
+        b2 = b[1]
+        b3 = b[2]
+        b4 = b[3]
+
+        s += a1*b1 + a2*b2 + a3*b3 + a4*b4
+
+        m -= 4
+        a += 4
+        b += 4
+
+    while m > 0:
+        s += a[0]*b[0]
+        a += 1
+        b += 1
+        m -= 1
+
+    return s
+
+cdef void inner_add(double *b, double *a, double c, Py_ssize_t m) nogil:
+    cdef double a1, a2, a3, a4
+    
+    while m >= 4:
+        a1 = a[0]
+        a2 = a[1]
+        a3 = a[2]
+        a4 = a[3]
+
+        b[0] += a1 * c
+        b[1] += a2 * c
+        b[2] += a3 * c
+        b[3] += a3 * c
+
+        m -= 4
+        a += 4
+        b += 4
+
+    while m > 0:
+        b[0] += a[0]*c
+        a += 1
+        b += 1
+        m -= 1
+
+cdef void inner_assign(double *b, double *a, double c, Py_ssize_t m) nogil:
+    cdef double a1, a2, a3, a4
+    
+    while m >= 4:
+        a1 = a[0]
+        a2 = a[1]
+        a3 = a[2]
+        a4 = a[3]
+
+        b[0] = a1 * c
+        b[1] = a2 * c
+        b[2] = a3 * c
+        b[3] = a3 * c
+
+        m -= 4
+        a += 4
+        b += 4
+
+    while m > 0:
+        b[0] = a[0]*c
+        a += 1
+        b += 1
+        m -= 1
+
 cdef class Allocator(object):
     #
     cpdef double[::1] allocate(self, int n):
@@ -235,7 +314,7 @@ cdef class Model(object):
                 self.param[:] = param
     #
     cdef double evaluate(self, double[::1] X):
-        return 0.0
+        return 0
     #
     def evaluate_all(self, X):
         return [self.evaluate(Xk) for Xk in X]           
@@ -649,60 +728,52 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         cdef Py_ssize_t n_input = self.n_input
         cdef Py_ssize_t n_output = self.n_output
         cdef Py_ssize_t i, j
-        cdef double s
+        cdef double s1, s2, s
         cdef double[:,::1] matrix = self.matrix
         cdef double *output = &self.output[0]
-        cdef double *ss = &self.ss[0]
-        cdef double *matrix_j
         cdef Func func = self.func
 
+#         for j in prange(n_output, nogil=True, num_threads=num_procs):
         for j in range(n_output):
-            s = matrix[j,0]
-            matrix_j = &matrix[j,1]
-            for i in range(n_input):
-                s += matrix_j[i] * X[i]
+            s1 = matrix[j,0]
+            s2 = inner_dot(&matrix[j,1], &X[0], n_input)
+            s = s1 + s2
             if func is None:
                 output[j] = s
             else:
                 output[j] = func.evaluate(s)
-            ss[j] = s
     #
     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Py_ssize_t i, j, jj, offset
         cdef Py_ssize_t n_input = self.n_input
         cdef Py_ssize_t n_input1 = n_input + 1
         cdef Py_ssize_t n_output = self.n_output
-        cdef double val_j, s, sx
+        cdef double val_j, s, s1, s2, sx
         cdef double* grad_in = &self.grad_input[0]
 
         cdef double[:,::1] matrix = self.matrix
         cdef double *output = &self.output[0]
-        cdef double *ss = &self.ss[0]
-        cdef double *matrix_j
         cdef Func func = self.func
         
-#         fill_memoryview(grad_in, 0)
+#         fill_memoryview(grad_in, 0) 
         memset(grad_in, 0, n_input*cython.sizeof(double))        
+#         for j in prange(n_output, nogil=True, num_threads=num_procs):
         for j in range(n_output):
             
-            s = matrix[j,0]
-            matrix_j = &matrix[j,1]
-            for i in range(n_input):
-                s += matrix_j[i] * X[i]
+            s1 = matrix[j,0]
+            s2 = inner_dot(&matrix[j,1], &X[0], n_input)
+            s = s1 + s2
             
-#             val_j = grad_out[j]
             if func is None:
                 sx = grad_out[j]
             else:
                 sx = grad_out[j] * func.derivative(s)
 
-            for i in range(n_input):
-                grad_in[i] += sx * matrix_j[i]
+            inner_add(grad_in, &matrix[j,1], sx, n_input)
 
             jj = j*n_input1
             grad[jj] = sx
-            for i in range(n_input):
-                grad[jj+i+1] = sx * X[i]
+            inner_assign(&grad[jj+1], &X[0], sx, n_input)
     #
     def as_dict(self):
         return { 'name': 'sigma_neuron_layer',

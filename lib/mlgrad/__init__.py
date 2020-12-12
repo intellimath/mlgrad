@@ -8,6 +8,7 @@ from mlgrad.risk import ED, ER, AER, ER2, SimpleFunctional
 from mlgrad.irgd import IRGD
 from mlgrad.averager import ArrayMOM, ArrayRMSProp, ArrayAMOM, ArrayAdaM1, ArrayAdaM2, ScalarAdaM1, ScalarAdaM2
 from mlgrad.normalizer import LinearModelNormalizer
+import numpy as np
 
 __all__ = ['averager_it', 'average_it', 'ws_average_it', 'averager_fg', 'average_fg', 
            'fg', 'erm_fg', 'erm_fg_rud', 'sg', 'erm_sg',
@@ -68,7 +69,7 @@ def averager_fg(func, h=0.01, tol=1.0e-6, n_iter=1000, averager='AdaM2'):
 
 def average_it(Y, func, tol=1.0e-6, n_iter=1000, verbose=0):
     alg = averager_it(func, tol=tol, n_iter=n_iter)
-    alg.fit(Y)
+    alg.fit(np.asarray(Y, 'd'))
     if verbose:
         print("K={} u={}".format(alg.K, alg.u, alg.s))
     return alg

@@ -879,31 +879,33 @@ cdef class SoftAbs(Func):
     
 cdef class Sqrt(Func):
     #
-    def __init__(self, eps=1.0):
+    def __init__(self, eps=1.0, alpha=0):
         self.eps = eps
         self.eps2 = eps*eps
+        self.alpha = alpha
     #
     cdef double evaluate(self, double x) nogil:
-        return sqrt(self.eps2 + x*x) - self.eps
+        cdef double xx = x*x
+        return sqrt(self.eps2 + xx) - self.eps + 0.5 * self.alpha * xx
     #
     cdef double derivative(self, double x) nogil:
         cdef double v = self.eps2 + x*x
-        return x / sqrt(v)
+        return x / sqrt(v) + self.alpha * x
     #
     cdef double derivative2(self, double x) nogil:
         cdef double v = self.eps2 + x*x
-        return self.eps2 / (v * sqrt(v))
+        return self.eps2 / (v * sqrt(v)) + self.alpha
     #
     cdef double derivative_div_x(self, double x) nogil:
         cdef double v = self.eps2 + x*x
-        return 1 / sqrt(v)
+        return 1 / sqrt(v) + self.alpha
     #
     def _repr_latex_(self):
         return r"$p(x)=\sqrt{\varepsilon^2+x^2}-\alpha$"
     
     def to_dict(self):
         return { 'name':'sqrt', 
-                 'args': (self.eps,) }
+                 'args': (self.eps, self.alpha) }
 
 cdef class Quantile_Sqrt(Func):
     #

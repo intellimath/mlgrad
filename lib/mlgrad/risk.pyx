@@ -40,15 +40,15 @@ from mlgrad.batch import make_batch
 
 import numpy as np
 
-from cython.parallel cimport parallel, prange
+# from cython.parallel cimport parallel, prange
 
-from openmp cimport omp_get_num_procs, omp_get_thread_num
+# from openmp cimport omp_get_num_procs, omp_get_thread_num
 
-cdef int num_procs = omp_get_num_procs()
-if num_procs > 4:
-    num_procs /= 2
-else:
-    num_procs = 2
+# cdef int num_procs = omp_get_num_procs()
+# if num_procs > 4:
+#     num_procs /= 2
+# else:
+#     num_procs = 2
 
 cdef class Functional:
     #
@@ -191,7 +191,7 @@ cdef class ED(Risk):
 cdef class ER(Risk):
     #
     def __init__(self, double[:,::1] X, double[::1] Y, Model model, Loss loss,
-                       FuncMulti regular=None, Batch batch=None, tau=1.0e-3):
+                       FuncMulti regular=None, Batch batch=None, Average avg=None, tau=1.0e-3):
         self.model = model
         self.param = model.param
         self.loss = loss
@@ -209,6 +209,7 @@ cdef class ER(Risk):
             self.batch = WholeBatch(self.n_sample)
         else:
             self.batch = batch
+        self.avg = avg
     #
     def use_weights(self, weights not None):
         self.weights = weights
@@ -245,6 +246,9 @@ cdef class ER(Risk):
             self.Yp = np.zeros(size, 'd')
 
         self.lval = 0
+        
+#         if self.avg is not None:
+#             self.avg_grad = np.zeros(zise, 'd')
     #
     cdef void eval_losses(self, double[::1] lval_all):
         cdef Py_ssize_t j, k, N = self.n_sample
@@ -257,11 +261,35 @@ cdef class ER(Risk):
         cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
         
+        cdef Py_ssize_t k1, k2, k3, k4
+        cdef double y1, y2, y3, y4
         
-        for j in range(size):
+        j = 0
+        while size >= 4:
+            k1 = indices[j]
+            k2 = indices[j+1]
+            k3 = indices[j+2]
+            k4 = indices[j+3]
+
+            y1 = _model.evaluate(X[k1])
+            y2 = _model.evaluate(X[k2])
+            y3 = _model.evaluate(X[k3])
+            y4 = _model.evaluate(X[k4])
+
+            lval_all[j] = _loss.evaluate(y1, Y[k1])
+            lval_all[j+1] = _loss.evaluate(y2, Y[k2])
+            lval_all[j+2] = _loss.evaluate(y3, Y[k3])
+            lval_all[j+3] = _loss.evaluate(y4, Y[k4])
+            
+            j += 4
+            size -= 4
+            
+        while size > 0:
             k = indices[j]
             y = _model.evaluate(X[k])
             lval_all[j] = _loss.evaluate(y, Y[k])
+            j += 1
+            size -= 1
     #
     cdef double eval_loss(self, int k):
         cdef double y
@@ -271,7 +299,7 @@ cdef class ER(Risk):
     #
     cdef double evaluate(self):
         cdef Py_ssize_t j, k, N = self.n_sample
-        cdef double S
+        cdef double S, yk
 
         cdef Model _model = self.model
         cdef Loss _loss = self.loss
@@ -282,15 +310,43 @@ cdef class ER(Risk):
         cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
         cdef double[::1] Yp = self.Yp
-        
-        for j in range(size):
-            k = indices[j]
-            Yp[j] = _model.evaluate(X[k])
 
+        cdef Py_ssize_t k1, k2, k3, k4
+        cdef double y1, y2, y3, y4
+        cdef double s1, s2, s3, s4
+        
         S = 0
-        for j in prange(size, nogil=True, schedule='static', num_threads=num_procs):
+        j = 0
+        while size >= 4:
+            k1 = indices[j]
+            k2 = indices[j+1]
+            k3 = indices[j+2]
+            k4 = indices[j+3]
+
+            y1 = _model.evaluate(X[k1])
+            y2 = _model.evaluate(X[k2])
+            y3 = _model.evaluate(X[k3])
+            y4 = _model.evaluate(X[k4])
+
+            s1 = weights[j] * _loss.evaluate(y1, Y[k1])
+            s2 = weights[j+1] * _loss.evaluate(y2, Y[k2])
+            s3 = weights[j+2] * _loss.evaluate(y3, Y[k3])
+            s4 = weights[j+3] * _loss.evaluate(y4, Y[k4])
+            
+            S += s1 + s2 + s3 + s4
+
+            j += 4
+            size -= 4
+        
+        
+        while size > 0:
             k = indices[j]
-            S += weights[j] * _loss.evaluate(Yp[j], Y[k])
+            yk = _model.evaluate(X[k])
+
+            S += weights[j] * _loss.evaluate(yk, Y[k])
+            
+            j += 1
+            size -= 1
                     
         if self.regular is not None:
             S += self.tau * self.regular.evaluate(_model.param)                
@@ -329,7 +385,6 @@ cdef class ER(Risk):
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
         cdef double[::1] weights = self.weights
-#         cdef double[:,::1] grads = self.grads
         cdef double[::1] grad = self.grad
         cdef double[::1] grad_average = self.grad_average
 
@@ -344,14 +399,14 @@ cdef class ER(Risk):
 
             y = _model.evaluate(X[k])
             _model.gradient(X[k], grad)
-            
+
             lval_dy = _loss.derivative(y, yk)
             wk = weights[j]
-            
+
             vv = lval_dy * wk
             for i in range(n_param):
                 grad_average[i] += vv * grad[i]
-                
+
         if self.regular is not None:
             self.regular.gradient(self.model.param, self.grad_r)
             for i in range(n_param):

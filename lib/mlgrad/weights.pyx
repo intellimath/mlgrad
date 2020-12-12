@@ -123,7 +123,7 @@ cdef class RWeights(Weights):
 
 cdef class MWeights(Weights):
     #
-    def __init__(self, Average average, Functional risk, normalize=1, use_best_u=0):
+    def __init__(self, Average average, Functional risk, normalize=0, use_best_u=0):
         self.average = average
         self.risk = risk
         self.weights = None
@@ -137,12 +137,12 @@ cdef class MWeights(Weights):
         cdef Risk risk = <Risk>self.risk
         cdef Py_ssize_t N = risk.batch.size
 
-        if self.lval_all is None or self.lval_all.shape[0] != N:
+        if self.lval_all is None: # or self.lval_all.shape[0] != N:
             self.lval_all = np.zeros(N, 'd')
 
         risk.eval_losses(self.lval_all)
         
-        if self.weights is None or self.weights.shape[0] != N:
+        if self.weights is None: # or self.weights.shape[0] != N:
             self.weights = np.zeros(N, 'd')
 
         if self.first_time:

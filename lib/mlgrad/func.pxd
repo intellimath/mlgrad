@@ -120,6 +120,7 @@ cdef class Sqrt(Func):
     #
     cdef double eps
     cdef double eps2
+    cdef double alpha
     #
 @cython.final
 cdef class Quantile_Sqrt(Func):

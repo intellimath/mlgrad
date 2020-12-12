@@ -103,16 +103,31 @@ def standard_covariance(X, loc, normalize=False):
         scale_matrix(S)
     return S
 
+cdef det_matrix_2(double[:,::1] S):
+    return S[0,0]*S[1,1] - S[1,0]*S[0,1]
+
+cdef double[:,::1] inv_matrix_2(double[:,::1] S):
+    cdef double s00 = S[0,0], s01 = S[0,1], s10 = S[1,0], s11 = S[1,1]
+    cdef double d = s00*s11 - s10*s01
+    
+    S[0,0] = s11 / d
+    S[1,1] = s00 / d
+    S[1,0] = -s10 / d
+    S[0,1] = -s01 / d
+    return S
+
 cdef void _scale_matrix(double[:,::1] S, double to=1.0):
     cdef Py_ssize_t n = S.shape[0], n2 = n*n
     cdef double vol
     cdef Py_ssize_t i
     cdef double *ptr
 
-    SS = np.asarray(S)
-    vol = linalg.det(SS) / to
+    if n == 2:
+        vol = det_matrix_2(S) / to
+    else:
+        vol = linalg.det(np.asarray(S)) / to
     if vol <= 0:
-        print(SS)
+        print(S)
     vol = pow(vol, 1.0/n)
     vol = 1/vol
     ptr = &S[0,0]
@@ -196,18 +211,15 @@ cdef class MLocationsScattersEstimator(MLSE2):
     def __init__(self, Average avg, n_locs=2, tol=1.0e-6, h=0.1, n_iter=1000, n_step=20):
         self.avg = avg
         self.X = None
-        self.scatters = None
+        self.Y = None
         self.n_locs = n_locs
 
         self.locs = None
         self.locs_min = None
-        self.locs_min = None
         self.scatters = None
         self.scatters_min = None
+        self.dvals = None
         
-#         self.XX = None
-        
-        self.Y = None
 #         self.logdet = None
 
         self.distfuncs = None
@@ -391,7 +403,7 @@ cdef class MLocationsScattersEstimator(MLSE2):
             for i in range(n):
                 locs_l[i] += v * Xk[i]
 
-    def fit_scatters(self, double[:,::1] X, double[:,:,::1] scatters):
+    def fit_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):
         self.init_scatters(X, scatters)
 
         self.K = 1
@@ -432,8 +444,6 @@ cdef class MLocationsScattersEstimator(MLSE2):
         cdef double *Xk
         cdef double *Si
         
-#         cdef double *ss
-
         self.calc_distances()
         self.avg.fit(self.D)
         self.avg.gradient(self.D, self.weights)
@@ -443,9 +453,6 @@ cdef class MLocationsScattersEstimator(MLSE2):
             l = Y[k]
             W[l] += weights[k] 
 
-#         ss = &scatters[0,0,0]
-#         for i in range(self.n_locs*n*n):
-#             ss[i] = 0
         fill_memoryview3(scatters, 0)
             
         for k in range(N):
@@ -467,8 +474,11 @@ cdef class MLocationsScattersEstimator(MLSE2):
         for l in range(self.n_locs):
             S = scatters[l]
             _scale_matrix(S)
-            S1 = linalg.pinv(np.asarray(S))
-            copy_memoryview2(S, S1)
+            if n == 2:
+                S = inv_matrix_2(S)
+            else:
+                S1 = linalg.pinv(np.asarray(S))
+                copy_memoryview2(S, S1)
 
         self.update_distfuncs(scatters)
 
@@ -479,18 +489,14 @@ cdef class MLocationsScattersEstimator(MLSE2):
         self.dval2_prev = max_float
         copy_memoryview2(self.locs_min, self.locs)
         copy_memoryview3(self.scatters_min, self.scatters)
-        
-        
-        if only == 'scatters':
-            self.fit_scatters(X)
-        elif only == 'locations':
-            self.fit_locations(X)
-        else:
-            self.Ks = 1
+        scatters_only = (only == 'scatters')
+        locations_only = (only == 'locations')
 
-            while self.Ks <= self.n_step:
+        self.Ks = 1
+
+        while self.Ks <= self.n_step:
+            if not scatters_only:
                 self.fit_locations(self.X, self.locs)
-                self.fit_scatters(self.X, self.scatters)
 
                 self.dval2_prev = self.dval2
                 self.dval2 = self.Q()
@@ -498,23 +504,35 @@ cdef class MLocationsScattersEstimator(MLSE2):
                 if self.dval2 < self.dval2_min:
                     self.dval2_min = self.dval2
                     copy_memoryview2(self.locs_min, self.locs)
+
+            if not locations_only:
+                self.fit_scatters(self.X, self.scatters)
+
+                self.dval2_prev = self.dval2
+                self.dval2 = self.Q()
+                self.dvals2.append(self.dval2)
+                if self.dval2 < self.dval2_min:
+                    self.dval2_min = self.dval2
                     copy_memoryview3(self.scatters_min, self.scatters)
+                    
+            if locations_only or scatters_only:
+                break
 
-                if self.stop_condition2():
-                    break
+            if self.stop_condition2():
+                break
 
-                self.Ks += 1
+            self.Ks += 1
 
         copy_memoryview2(self.locs, self.locs_min)
         copy_memoryview3(self.scatters, self.scatters_min)
                 
     def stop_condition(self):        
-        if fabs(self.dval - self.dval_prev) / (1 + fabs(self.dval)) >= self.tol:
+        if fabs(self.dval - self.dval_prev) / (1 + fabs(self.dval_min)) >= self.tol:
             return 0
         return 1
 
     def stop_condition2(self):        
-        if fabs(self.dval2 - self.dval2_prev) / (1 + fabs(self.dval2)) >= self.tol:
+        if fabs(self.dval2 - self.dval2_prev) / (1 + fabs(self.dval2_min)) >= self.tol:
             return 0
         return 1
     

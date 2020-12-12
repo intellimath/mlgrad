@@ -63,6 +63,7 @@ cdef class Risk(Functional):
     #
     cdef double[::1] grad
     cdef double[::1] grad_r
+    cdef Average avg
     cdef public double[::1] weights    
     cdef public double tau
     #

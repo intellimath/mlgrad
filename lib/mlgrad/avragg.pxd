@@ -127,7 +127,7 @@ cdef class WMAverageMixed(Average):
     cdef double gamma
     
 @cython.final
-cdef class WMAverage2(Average):
+cdef class TMAverage(Average):
     cdef Average avr
 
 @cython.final
