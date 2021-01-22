@@ -608,6 +608,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <math.h>
 #include <string.h>
 #include "pymath.h"
+#include <omp.h>
 #include "pythread.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -1047,7 +1048,7 @@ struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit {
 };
 struct __pyx_opt_args_6mlgrad_18mlocation_scatter2__scale_matrix;
 
-/* "mlgrad/mlocation_scatter2.pyx":119
+/* "mlgrad/mlocation_scatter2.pyx":103
  *     return S
  * 
  * cdef void _scale_matrix(double[:,::1] S, double to=1.0):             # <<<<<<<<<<<<<<
@@ -2046,15 +2047,16 @@ struct __pyx_obj_6mlgrad_8distance_Distance {
  * 
  * cdef class DistanceWithScale(Distance):             # <<<<<<<<<<<<<<
  *     cdef public double[:,::1] S
- * 
+ *     cdef public double sigma
  */
 struct __pyx_obj_6mlgrad_8distance_DistanceWithScale {
   struct __pyx_obj_6mlgrad_8distance_Distance __pyx_base;
   __Pyx_memviewslice S;
+  double sigma;
 };
 
 
-/* "mlgrad/distance.pxd":15
+/* "mlgrad/distance.pxd":16
  * 
  * @cython.final
  * cdef class AbsoluteDistance(Distance):             # <<<<<<<<<<<<<<
@@ -2066,7 +2068,7 @@ struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance {
 };
 
 
-/* "mlgrad/distance.pxd":19
+/* "mlgrad/distance.pxd":20
  * 
  * @cython.final
  * cdef class EuclidDistance(Distance):             # <<<<<<<<<<<<<<
@@ -2078,7 +2080,7 @@ struct __pyx_obj_6mlgrad_8distance_EuclidDistance {
 };
 
 
-/* "mlgrad/distance.pxd":23
+/* "mlgrad/distance.pxd":24
  * 
  * @cython.final
  * cdef class MahalanobisDistance(DistanceWithScale):             # <<<<<<<<<<<<<<
@@ -2090,7 +2092,7 @@ struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance {
 };
 
 
-/* "mlgrad/distance.pxd":27
+/* "mlgrad/distance.pxd":28
  * 
  * @cython.final
  * cdef class PowerDistance(Distance):             # <<<<<<<<<<<<<<
@@ -2103,7 +2105,7 @@ struct __pyx_obj_6mlgrad_8distance_PowerDistance {
 };
 
 
-/* "mlgrad/mlocation_scatter2.pxd":62
+/* "mlgrad/mlocation_scatter2.pxd":68
  *         ptr[i] *= c
  * 
  * cdef class MLSE2:             # <<<<<<<<<<<<<<
@@ -2120,11 +2122,14 @@ struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 {
   Py_ssize_t n_locs;
   __Pyx_memviewslice scatters;
   __Pyx_memviewslice scatters_min;
+  __Pyx_memviewslice DD;
   __Pyx_memviewslice D;
+  __Pyx_memviewslice GG;
   struct __pyx_obj_6mlgrad_6avragg_Average *avg;
+  struct __pyx_obj_6mlgrad_6avragg_Average *avg_min;
   __Pyx_memviewslice weights;
   __Pyx_memviewslice W;
-  __Pyx_memviewslice Y;
+  __Pyx_memviewslice xy;
   __Pyx_memviewslice Ns;
   double dval;
   double dval_prev;
@@ -2136,18 +2141,21 @@ struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 {
   int K;
   int Ks;
   int n_iter;
+  int n_iter_s;
   int n_step;
   double tol;
   PyObject *dvals;
   PyObject *dvals2;
+  double alpha;
 };
 
 
-/* "mlgrad/mlocation_scatter2.pxd":85
- * #     cpdef get_weights(self)
+/* "mlgrad/mlocation_scatter2.pxd":100
+ * 
  * 
  * cdef class MLocationsScattersEstimator(MLSE2):             # <<<<<<<<<<<<<<
- *     pass
+ *     cdef bint stop_condition(self)
+ *     cdef bint stop_condition2(self)
  */
 struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator {
   struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 __pyx_base;
@@ -3236,7 +3244,7 @@ static struct __pyx_vtabstruct_6mlgrad_8distance_Distance *__pyx_vtabptr_6mlgrad
  * 
  * cdef class DistanceWithScale(Distance):             # <<<<<<<<<<<<<<
  *     cdef public double[:,::1] S
- * 
+ *     cdef public double sigma
  */
 
 struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale {
@@ -3245,7 +3253,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale {
 static struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale *__pyx_vtabptr_6mlgrad_8distance_DistanceWithScale;
 
 
-/* "mlgrad/distance.pxd":15
+/* "mlgrad/distance.pxd":16
  * 
  * @cython.final
  * cdef class AbsoluteDistance(Distance):             # <<<<<<<<<<<<<<
@@ -3259,7 +3267,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance *__pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance;
 
 
-/* "mlgrad/distance.pxd":19
+/* "mlgrad/distance.pxd":20
  * 
  * @cython.final
  * cdef class EuclidDistance(Distance):             # <<<<<<<<<<<<<<
@@ -3273,7 +3281,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance *__pyx_vtabptr_6mlgrad_8distance_EuclidDistance;
 
 
-/* "mlgrad/distance.pxd":23
+/* "mlgrad/distance.pxd":24
  * 
  * @cython.final
  * cdef class MahalanobisDistance(DistanceWithScale):             # <<<<<<<<<<<<<<
@@ -3287,7 +3295,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance *__pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance;
 
 
-/* "mlgrad/distance.pxd":27
+/* "mlgrad/distance.pxd":28
  * 
  * @cython.final
  * cdef class PowerDistance(Distance):             # <<<<<<<<<<<<<<
@@ -3301,7 +3309,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance *__pyx_vtabptr_6mlgrad_8distance_PowerDistance;
 
 
-/* "mlgrad/mlocation_scatter2.pyx":165
+/* "mlgrad/mlocation_scatter2.pyx":148
  *         copy_memoryview2(scatters[i], S)
  * 
  * cdef class MLSE2:             # <<<<<<<<<<<<<<
@@ -3311,21 +3319,26 @@ static struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance *__pyx_vtabptr_6m
 
 struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLSE2 {
   PyObject *(*calc_distances)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *, int __pyx_skip_dispatch);
+  PyObject *(*calc_weights)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *, int __pyx_skip_dispatch);
+  PyObject *(*calc_update_GG)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *, int __pyx_skip_dispatch);
   double (*Q)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *, int __pyx_skip_dispatch);
+  double (*local_Q)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_vtabptr_6mlgrad_18mlocation_scatter2_MLSE2;
 
 
-/* "mlgrad/mlocation_scatter2.pyx":209
- *                 copy_memoryview2(distfunc.S, S1)
+/* "mlgrad/mlocation_scatter2.pyx":244
+ *                 copy_memoryview2(distfunc.S, S)
  * 
  * cdef class MLocationsScattersEstimator(MLSE2):             # <<<<<<<<<<<<<<
  * 
- *     def __init__(self, Average avg, n_locs=2, tol=1.0e-6, h=0.1, n_iter=1000, n_step=20):
+ *     def __init__(self, Average avg, Average avg_min, n_locs, tol=1.0e-6, n_iter=100, n_iter_s=0, n_step=100, alpha=0.1):
  */
 
 struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator {
   struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLSE2 __pyx_base;
+  int (*stop_condition)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *);
+  int (*stop_condition2)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *);
 };
 static struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_vtabptr_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator;
 
@@ -3992,6 +4005,9 @@ static int __Pyx_ValidateAndInit_memviewslice(
 /* ObjectToMemviewSlice.proto */
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *, int writable_flag);
 
+/* ObjectToMemviewSlice.proto */
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *, int writable_flag);
+
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
@@ -4001,9 +4017,6 @@ static CYTHON_INLINE int __pyx_memview_set_Py_ssize_t(const char *itemp, PyObjec
 
 /* ObjectToMemviewSlice.proto */
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(PyObject *, int writable_flag);
-
-/* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *, int writable_flag);
 
 /* MemviewObjectToObject.proto */
 static PyObject *__pyx_memview_get_object(const char *itemp);
@@ -4044,7 +4057,12 @@ static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_weights(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_update_GG(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static double __pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_Q(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static double __pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_local_Q(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static int __pyx_f_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_stop_condition(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self); /* proto*/
+static int __pyx_f_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_stop_condition2(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self); /* proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj); /* proto*/
@@ -4152,6 +4170,8 @@ static PyTypeObject *__pyx_ptype_6mlgrad_8distance_EuclidDistance = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_8distance_MahalanobisDistance = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_8distance_PowerDistance = 0;
 
+/* Module declarations from 'openmp' */
+
 /* Module declarations from 'mlgrad.mlocation_scatter2' */
 static PyTypeObject *__pyx_ptype_6mlgrad_18mlocation_scatter2_MLSE2 = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator = 0;
@@ -4159,6 +4179,7 @@ static PyTypeObject *__pyx_array_type = 0;
 static PyTypeObject *__pyx_MemviewEnum_type = 0;
 static PyTypeObject *__pyx_memoryview_type = 0;
 static PyTypeObject *__pyx_memoryviewslice_type = 0;
+static int __pyx_v_6mlgrad_18mlocation_scatter2_num_procs;
 static double __pyx_v_6mlgrad_18mlocation_scatter2_max_float;
 static PyObject *generic = 0;
 static PyObject *strided = 0;
@@ -4231,6 +4252,7 @@ static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_Ellipsis;
 static PyObject *__pyx_builtin_id;
 static PyObject *__pyx_builtin_IndexError;
+static const char __pyx_k_[] = "-";
 static const char __pyx_k_N[] = "N";
 static const char __pyx_k_O[] = "O";
 static const char __pyx_k_Q[] = "Q";
@@ -4238,7 +4260,6 @@ static const char __pyx_k_S[] = "S";
 static const char __pyx_k_X[] = "X";
 static const char __pyx_k_c[] = "c";
 static const char __pyx_k_d[] = "d";
-static const char __pyx_k_h[] = "h";
 static const char __pyx_k_i[] = "i";
 static const char __pyx_k_j[] = "j";
 static const char __pyx_k_l[] = "l";
@@ -4248,8 +4269,7 @@ static const char __pyx_k_id[] = "id";
 static const char __pyx_k_k0[] = "k0";
 static const char __pyx_k_np[] = "np";
 static const char __pyx_k_to[] = "to";
-static const char __pyx_k_wk[] = "wk:";
-static const char __pyx_k__23[] = "*";
+static const char __pyx_k__24[] = "*";
 static const char __pyx_k_avg[] = "avg";
 static const char __pyx_k_det[] = "det";
 static const char __pyx_k_loc[] = "loc";
@@ -4275,6 +4295,7 @@ static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_warm[] = "warm";
 static const char __pyx_k_ASCII[] = "ASCII";
 static const char __pyx_k_MLSE2[] = "MLSE2";
+static const char __pyx_k_alpha[] = "alpha";
 static const char __pyx_k_class[] = "__class__";
 static const char __pyx_k_error[] = "error";
 static const char __pyx_k_flags[] = "flags";
@@ -4301,19 +4322,23 @@ static const char __pyx_k_struct[] = "struct";
 static const char __pyx_k_unpack[] = "unpack";
 static const char __pyx_k_update[] = "update";
 static const char __pyx_k_asarray[] = "asarray";
+static const char __pyx_k_avg_min[] = "avg_min";
 static const char __pyx_k_fortran[] = "fortran";
 static const char __pyx_k_indices[] = "indices";
+static const char __pyx_k_local_Q[] = "local_Q";
 static const char __pyx_k_memview[] = "memview";
 static const char __pyx_k_randint[] = "randint";
 static const char __pyx_k_Ellipsis[] = "Ellipsis";
 static const char __pyx_k_getstate[] = "__getstate__";
 static const char __pyx_k_identity[] = "identity";
 static const char __pyx_k_itemsize[] = "itemsize";
+static const char __pyx_k_n_iter_s[] = "n_iter_s";
 static const char __pyx_k_pyx_type[] = "__pyx_type";
 static const char __pyx_k_scatters[] = "scatters";
 static const char __pyx_k_setstate[] = "__setstate__";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_enumerate[] = "enumerate";
+static const char __pyx_k_hermitian[] = "hermitian";
 static const char __pyx_k_locations[] = "locations";
 static const char __pyx_k_normalize[] = "normalize";
 static const char __pyx_k_pyx_state[] = "__pyx_state";
@@ -4324,6 +4349,7 @@ static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_PickleError[] = "PickleError";
+static const char __pyx_k_calc_weights[] = "calc_weights";
 static const char __pyx_k_fit_scatters[] = "fit_scatters";
 static const char __pyx_k_numpy_linalg[] = "numpy.linalg";
 static const char __pyx_k_pyx_checksum[] = "__pyx_checksum";
@@ -4337,14 +4363,13 @@ static const char __pyx_k_mlgrad_kmeans[] = "mlgrad.kmeans";
 static const char __pyx_k_pyx_getbuffer[] = "__pyx_getbuffer";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
 static const char __pyx_k_calc_distances[] = "calc_distances";
+static const char __pyx_k_calc_update_GG[] = "calc_update_GG";
 static const char __pyx_k_init_locations[] = "init_locations";
-static const char __pyx_k_stop_condition[] = "stop_condition";
 static const char __pyx_k_View_MemoryView[] = "View.MemoryView";
 static const char __pyx_k_allocate_buffer[] = "allocate_buffer";
 static const char __pyx_k_dtype_is_object[] = "dtype_is_object";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
-static const char __pyx_k_stop_condition2[] = "stop_condition2";
 static const char __pyx_k_update_distfuncs[] = "update_distfuncs";
 static const char __pyx_k_fit_step_scatters[] = "fit_step_scatters";
 static const char __pyx_k_pyx_unpickle_Enum[] = "__pyx_unpickle_Enum";
@@ -4372,7 +4397,7 @@ static const char __pyx_k_Can_only_create_a_buffer_that_is[] = "Can only create 
 static const char __pyx_k_Cannot_assign_to_read_only_memor[] = "Cannot assign to read-only memoryview";
 static const char __pyx_k_Cannot_create_writable_memory_vi[] = "Cannot create writable memory view from read-only memoryview";
 static const char __pyx_k_Empty_shape_tuple_for_cython_arr[] = "Empty shape tuple for cython.array";
-static const char __pyx_k_Incompatible_checksums_s_vs_0x36[] = "Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))";
+static const char __pyx_k_Incompatible_checksums_s_vs_0x99[] = "Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xb0[] = "Incompatible checksums (%s vs 0xb068931 = (name))";
 static const char __pyx_k_Indirect_dimensions_not_supporte[] = "Indirect dimensions not supported";
 static const char __pyx_k_Invalid_mode_expected_c_or_fortr[] = "Invalid mode, expected 'c' or 'fortran', got %s";
@@ -4382,6 +4407,7 @@ static const char __pyx_k_got_differing_extents_in_dimensi[] = "got differing ex
 static const char __pyx_k_lib_mlgrad_mlocation_scatter2_py[] = "lib/mlgrad/mlocation_scatter2.pyx";
 static const char __pyx_k_no_default___reduce___due_to_non[] = "no default __reduce__ due to non-trivial __cinit__";
 static const char __pyx_k_unable_to_allocate_shape_and_str[] = "unable to allocate shape and strides.";
+static PyObject *__pyx_kp_u_;
 static PyObject *__pyx_n_s_ASCII;
 static PyObject *__pyx_kp_s_Buffer_view_does_not_expose_stri;
 static PyObject *__pyx_kp_s_Can_only_create_a_buffer_that_is;
@@ -4390,7 +4416,7 @@ static PyObject *__pyx_kp_s_Cannot_create_writable_memory_vi;
 static PyObject *__pyx_kp_s_Cannot_index_with_type_s;
 static PyObject *__pyx_n_s_Ellipsis;
 static PyObject *__pyx_kp_s_Empty_shape_tuple_for_cython_arr;
-static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x36;
+static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x99;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xb0;
 static PyObject *__pyx_n_s_IndexError;
 static PyObject *__pyx_kp_s_Indirect_dimensions_not_supporte;
@@ -4412,15 +4438,19 @@ static PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_View_MemoryView;
 static PyObject *__pyx_n_s_X;
-static PyObject *__pyx_n_s__23;
+static PyObject *__pyx_n_s__24;
 static PyObject *__pyx_n_s_allocate_buffer;
+static PyObject *__pyx_n_s_alpha;
 static PyObject *__pyx_n_s_asarray;
 static PyObject *__pyx_n_s_avg;
+static PyObject *__pyx_n_s_avg_min;
 static PyObject *__pyx_n_s_avragg;
 static PyObject *__pyx_n_s_base;
 static PyObject *__pyx_n_s_c;
 static PyObject *__pyx_n_u_c;
 static PyObject *__pyx_n_s_calc_distances;
+static PyObject *__pyx_n_s_calc_update_GG;
+static PyObject *__pyx_n_s_calc_weights;
 static PyObject *__pyx_n_s_class;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_kp_s_contiguous_and_direct;
@@ -4443,7 +4473,7 @@ static PyObject *__pyx_n_u_fortran;
 static PyObject *__pyx_n_s_full;
 static PyObject *__pyx_n_s_getstate;
 static PyObject *__pyx_kp_s_got_differing_extents_in_dimensi;
-static PyObject *__pyx_n_s_h;
+static PyObject *__pyx_n_s_hermitian;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_u_i;
 static PyObject *__pyx_n_s_id;
@@ -4462,6 +4492,7 @@ static PyObject *__pyx_n_u_l;
 static PyObject *__pyx_kp_s_lib_mlgrad_mlocation_scatter2_py;
 static PyObject *__pyx_n_s_linalg;
 static PyObject *__pyx_n_s_loc;
+static PyObject *__pyx_n_s_local_Q;
 static PyObject *__pyx_n_u_locations;
 static PyObject *__pyx_n_s_locs;
 static PyObject *__pyx_n_s_m;
@@ -4473,6 +4504,7 @@ static PyObject *__pyx_n_s_mlgrad_mlocation_scatter2;
 static PyObject *__pyx_n_s_mode;
 static PyObject *__pyx_n_s_n;
 static PyObject *__pyx_n_s_n_iter;
+static PyObject *__pyx_n_s_n_iter_s;
 static PyObject *__pyx_n_s_n_locs;
 static PyObject *__pyx_n_s_n_step;
 static PyObject *__pyx_n_s_name;
@@ -4519,8 +4551,6 @@ static PyObject *__pyx_n_s_standard_location;
 static PyObject *__pyx_n_s_start;
 static PyObject *__pyx_n_s_step;
 static PyObject *__pyx_n_s_stop;
-static PyObject *__pyx_n_s_stop_condition;
-static PyObject *__pyx_n_s_stop_condition2;
 static PyObject *__pyx_kp_s_strided_and_direct;
 static PyObject *__pyx_kp_s_strided_and_direct_or_indirect;
 static PyObject *__pyx_kp_s_strided_and_indirect;
@@ -4535,7 +4565,6 @@ static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_update_distfuncs;
 static PyObject *__pyx_n_s_warm;
-static PyObject *__pyx_kp_u_wk;
 static PyObject *__pyx_n_s_zeros;
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_standard_location(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_X); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_2standard_covariance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_X, PyObject *__pyx_v_loc, PyObject *__pyx_v_normalize); /* proto */
@@ -4543,8 +4572,11 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_4scale_matrix(CYTHON_UNUS
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_6init_locations(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_X, PyObject *__pyx_v_locs); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_8init_scatters(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_scatters); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_2Q(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_4update_distfuncs(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, __Pyx_memviewslice __pyx_v_scatters); /* proto */
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_2calc_weights(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_4calc_update_GG(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6Q(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8local_Q(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_10update_distfuncs(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, __Pyx_memviewslice __pyx_v_scatters); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_9distfuncs___get__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
 static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_9distfuncs_2__set__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_1X___get__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
@@ -4567,6 +4599,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_2Ks___get__(struct
 static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_2Ks_2__set__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_iter___get__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
 static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_iter_2__set__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8n_iter_s___get__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
+static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8n_iter_s_2__set__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_step___get__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
 static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_step_2__set__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_3tol___get__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
@@ -4577,23 +4611,21 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_5dvals_4__del__(struct _
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6dvals2___get__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
 static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6dvals2_2__set__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6dvals2_4__del__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6__reduce_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8__setstate_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator___init__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avg, PyObject *__pyx_v_n_locs, PyObject *__pyx_v_tol, PyObject *__pyx_v_h, PyObject *__pyx_v_n_iter, PyObject *__pyx_v_n_step); /* proto */
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_12__reduce_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_14__setstate_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static int __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator___init__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avg, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avg_min, PyObject *__pyx_v_n_locs, PyObject *__pyx_v_tol, PyObject *__pyx_v_n_iter, PyObject *__pyx_v_n_iter_s, PyObject *__pyx_v_n_step, PyObject *__pyx_v_alpha); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_2init(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, __Pyx_memviewslice __pyx_v_X, PyObject *__pyx_v_warm); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_4init_locations(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_locs); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_6init_scatters(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_scatters); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_8evaluate(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, __Pyx_memviewslice __pyx_v_X); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_10evaluate_dist(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, __Pyx_memviewslice __pyx_v_X); /* proto */
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_12fit_locations(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_locs); /* proto */
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_12fit_locations(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_locs); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_14fit_step_locations(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_16fit_scatters(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_scatters); /* proto */
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_16fit_scatters(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_scatters); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_18fit_step_scatters(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_20fit(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, __Pyx_memviewslice __pyx_v_X, PyObject *__pyx_v_only, PyObject *__pyx_v_warm); /* proto */
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_22stop_condition(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_24stop_condition2(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_26__reduce_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_28__setstate_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_22__reduce_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_24__setstate_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_10__pyx_unpickle_MLSE2(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_12__pyx_unpickle_MLocationsScattersEstimator(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
@@ -4650,22 +4682,19 @@ static PyObject *__pyx_float_1_0;
 static PyObject *__pyx_float_1_0eneg_6;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
-static PyObject *__pyx_int_2;
-static PyObject *__pyx_int_20;
-static PyObject *__pyx_int_1000;
-static PyObject *__pyx_int_57273707;
+static PyObject *__pyx_int_100;
+static PyObject *__pyx_int_160632494;
 static PyObject *__pyx_int_184977713;
 static PyObject *__pyx_int_neg_1;
-static __Pyx_memviewslice __pyx_k_;
 static __Pyx_memviewslice __pyx_k__2;
 static __Pyx_memviewslice __pyx_k__3;
 static __Pyx_memviewslice __pyx_k__4;
-static PyObject *__pyx_tuple__5;
+static __Pyx_memviewslice __pyx_k__5;
 static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
-static PyObject *__pyx_slice__19;
+static PyObject *__pyx_slice__20;
 static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
@@ -4675,30 +4704,31 @@ static PyObject *__pyx_tuple__15;
 static PyObject *__pyx_tuple__16;
 static PyObject *__pyx_tuple__17;
 static PyObject *__pyx_tuple__18;
-static PyObject *__pyx_tuple__20;
+static PyObject *__pyx_tuple__19;
 static PyObject *__pyx_tuple__21;
 static PyObject *__pyx_tuple__22;
-static PyObject *__pyx_tuple__24;
-static PyObject *__pyx_tuple__26;
-static PyObject *__pyx_tuple__28;
-static PyObject *__pyx_tuple__30;
-static PyObject *__pyx_tuple__32;
-static PyObject *__pyx_tuple__34;
-static PyObject *__pyx_tuple__36;
-static PyObject *__pyx_tuple__38;
+static PyObject *__pyx_tuple__23;
+static PyObject *__pyx_tuple__25;
+static PyObject *__pyx_tuple__27;
+static PyObject *__pyx_tuple__29;
+static PyObject *__pyx_tuple__31;
+static PyObject *__pyx_tuple__33;
+static PyObject *__pyx_tuple__35;
+static PyObject *__pyx_tuple__37;
 static PyObject *__pyx_tuple__39;
 static PyObject *__pyx_tuple__40;
 static PyObject *__pyx_tuple__41;
 static PyObject *__pyx_tuple__42;
 static PyObject *__pyx_tuple__43;
-static PyObject *__pyx_codeobj__25;
-static PyObject *__pyx_codeobj__27;
-static PyObject *__pyx_codeobj__29;
-static PyObject *__pyx_codeobj__31;
-static PyObject *__pyx_codeobj__33;
-static PyObject *__pyx_codeobj__35;
-static PyObject *__pyx_codeobj__37;
-static PyObject *__pyx_codeobj__44;
+static PyObject *__pyx_tuple__44;
+static PyObject *__pyx_codeobj__26;
+static PyObject *__pyx_codeobj__28;
+static PyObject *__pyx_codeobj__30;
+static PyObject *__pyx_codeobj__32;
+static PyObject *__pyx_codeobj__34;
+static PyObject *__pyx_codeobj__36;
+static PyObject *__pyx_codeobj__38;
+static PyObject *__pyx_codeobj__45;
 /* Late includes */
 
 /* "mlgrad/mlocation_scatter2.pyx":52
@@ -4945,7 +4975,7 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2_covariance_matrix(__Pyx_memview
  *                 s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
  *             S[i,j] = s / N             # <<<<<<<<<<<<<<
  * 
- * # cdef multiply_matrix(double[:,::1] A, double[:,::1] B, double[:,::1] C):
+ * def standard_location(X):
  */
       if (unlikely(__pyx_v_N == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "float division");
@@ -4973,8 +5003,8 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2_covariance_matrix(__Pyx_memview
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":92
- * #             C[i,j] = s
+/* "mlgrad/mlocation_scatter2.pyx":76
+ *             S[i,j] = s / N
  * 
  * def standard_location(X):             # <<<<<<<<<<<<<<
  *     n = X.shape[1]
@@ -5013,31 +5043,31 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_standard_location(CYTHON_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("standard_location", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":93
+  /* "mlgrad/mlocation_scatter2.pyx":77
  * 
  * def standard_location(X):
  *     n = X.shape[1]             # <<<<<<<<<<<<<<
  *     loc = np.zeros(n, 'd')
  *     arithmetic_mean(X, loc)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 93, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 93, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_n = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":94
+  /* "mlgrad/mlocation_scatter2.pyx":78
  * def standard_location(X):
  *     n = X.shape[1]
  *     loc = np.zeros(n, 'd')             # <<<<<<<<<<<<<<
  *     arithmetic_mean(X, loc)
  *     return loc
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 94, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 94, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -5055,7 +5085,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_standard_location(CYTHON_
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_n, __pyx_n_u_d};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 94, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 78, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else
@@ -5063,13 +5093,13 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_standard_location(CYTHON_
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_n, __pyx_n_u_d};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 94, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 78, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else
   #endif
   {
-    __pyx_t_5 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 94, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 78, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     if (__pyx_t_1) {
       __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1); __pyx_t_1 = NULL;
@@ -5080,7 +5110,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_standard_location(CYTHON_
     __Pyx_INCREF(__pyx_n_u_d);
     __Pyx_GIVEREF(__pyx_n_u_d);
     PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_4, __pyx_n_u_d);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 94, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 78, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
@@ -5088,15 +5118,15 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_standard_location(CYTHON_
   __pyx_v_loc = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":95
+  /* "mlgrad/mlocation_scatter2.pyx":79
  *     n = X.shape[1]
  *     loc = np.zeros(n, 'd')
  *     arithmetic_mean(X, loc)             # <<<<<<<<<<<<<<
  *     return loc
  * 
  */
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_X, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 95, __pyx_L1_error)
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_loc, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 95, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_X, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 79, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_loc, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 79, __pyx_L1_error)
   __pyx_f_6mlgrad_18mlocation_scatter2_arithmetic_mean(__pyx_t_6, __pyx_t_7);
   __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
   __pyx_t_6.memview = NULL;
@@ -5105,7 +5135,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_standard_location(CYTHON_
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":96
+  /* "mlgrad/mlocation_scatter2.pyx":80
  *     loc = np.zeros(n, 'd')
  *     arithmetic_mean(X, loc)
  *     return loc             # <<<<<<<<<<<<<<
@@ -5117,8 +5147,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_standard_location(CYTHON_
   __pyx_r = __pyx_v_loc;
   goto __pyx_L0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":92
- * #             C[i,j] = s
+  /* "mlgrad/mlocation_scatter2.pyx":76
+ *             S[i,j] = s / N
  * 
  * def standard_location(X):             # <<<<<<<<<<<<<<
  *     n = X.shape[1]
@@ -5143,7 +5173,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_standard_location(CYTHON_
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":98
+/* "mlgrad/mlocation_scatter2.pyx":82
  *     return loc
  * 
  * def standard_covariance(X, loc, normalize=False):             # <<<<<<<<<<<<<<
@@ -5191,7 +5221,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_3standard_covariance(PyOb
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_loc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("standard_covariance", 0, 2, 3, 1); __PYX_ERR(1, 98, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("standard_covariance", 0, 2, 3, 1); __PYX_ERR(1, 82, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -5201,7 +5231,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_3standard_covariance(PyOb
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "standard_covariance") < 0)) __PYX_ERR(1, 98, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "standard_covariance") < 0)) __PYX_ERR(1, 82, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5219,7 +5249,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_3standard_covariance(PyOb
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("standard_covariance", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 98, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("standard_covariance", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 82, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.standard_covariance", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5252,34 +5282,34 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_2standard_covariance(CYTH
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("standard_covariance", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":99
+  /* "mlgrad/mlocation_scatter2.pyx":83
  * 
  * def standard_covariance(X, loc, normalize=False):
  *     n = X.shape[1]             # <<<<<<<<<<<<<<
  *     S = np.zeros((n,n), 'd')
  *     covariance_matrix(X, loc, S)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 99, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 99, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_n = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":100
+  /* "mlgrad/mlocation_scatter2.pyx":84
  * def standard_covariance(X, loc, normalize=False):
  *     n = X.shape[1]
  *     S = np.zeros((n,n), 'd')             # <<<<<<<<<<<<<<
  *     covariance_matrix(X, loc, S)
  *     if normalize:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 100, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 100, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 100, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_n);
   __Pyx_GIVEREF(__pyx_v_n);
@@ -5302,7 +5332,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_2standard_covariance(CYTH
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_1, __pyx_n_u_d};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 100, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 84, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5311,14 +5341,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_2standard_covariance(CYTH
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_1, __pyx_n_u_d};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 100, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 84, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 100, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 84, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -5329,7 +5359,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_2standard_covariance(CYTH
     __Pyx_GIVEREF(__pyx_n_u_d);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_u_d);
     __pyx_t_1 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 100, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 84, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
@@ -5337,16 +5367,16 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_2standard_covariance(CYTH
   __pyx_v_S = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":101
+  /* "mlgrad/mlocation_scatter2.pyx":85
  *     n = X.shape[1]
  *     S = np.zeros((n,n), 'd')
  *     covariance_matrix(X, loc, S)             # <<<<<<<<<<<<<<
  *     if normalize:
  *         scale_matrix(S)
  */
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_X, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 101, __pyx_L1_error)
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_loc, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 101, __pyx_L1_error)
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_S, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 101, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_X, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 85, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_loc, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 85, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_S, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 85, __pyx_L1_error)
   __pyx_f_6mlgrad_18mlocation_scatter2_covariance_matrix(__pyx_t_7, __pyx_t_8, __pyx_t_9);
   __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
   __pyx_t_7.memview = NULL;
@@ -5358,24 +5388,24 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_2standard_covariance(CYTH
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":102
+  /* "mlgrad/mlocation_scatter2.pyx":86
  *     S = np.zeros((n,n), 'd')
  *     covariance_matrix(X, loc, S)
  *     if normalize:             # <<<<<<<<<<<<<<
  *         scale_matrix(S)
  *     return S
  */
-  __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_v_normalize); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(1, 102, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_v_normalize); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(1, 86, __pyx_L1_error)
   if (__pyx_t_10) {
 
-    /* "mlgrad/mlocation_scatter2.pyx":103
+    /* "mlgrad/mlocation_scatter2.pyx":87
  *     covariance_matrix(X, loc, S)
  *     if normalize:
  *         scale_matrix(S)             # <<<<<<<<<<<<<<
  *     return S
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_scale_matrix); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 103, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_scale_matrix); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 87, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -5389,12 +5419,12 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_2standard_covariance(CYTH
     }
     __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_6, __pyx_v_S) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_S);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 103, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 87, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":102
+    /* "mlgrad/mlocation_scatter2.pyx":86
  *     S = np.zeros((n,n), 'd')
  *     covariance_matrix(X, loc, S)
  *     if normalize:             # <<<<<<<<<<<<<<
@@ -5403,7 +5433,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_2standard_covariance(CYTH
  */
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":104
+  /* "mlgrad/mlocation_scatter2.pyx":88
  *     if normalize:
  *         scale_matrix(S)
  *     return S             # <<<<<<<<<<<<<<
@@ -5415,7 +5445,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_2standard_covariance(CYTH
   __pyx_r = __pyx_v_S;
   goto __pyx_L0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":98
+  /* "mlgrad/mlocation_scatter2.pyx":82
  *     return loc
  * 
  * def standard_covariance(X, loc, normalize=False):             # <<<<<<<<<<<<<<
@@ -5443,7 +5473,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_2standard_covariance(CYTH
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":106
+/* "mlgrad/mlocation_scatter2.pyx":90
  *     return S
  * 
  * cdef det_matrix_2(double[:,::1] S):             # <<<<<<<<<<<<<<
@@ -5468,7 +5498,7 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_det_matrix_2(__Pyx_memview
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("det_matrix_2", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":107
+  /* "mlgrad/mlocation_scatter2.pyx":91
  * 
  * cdef det_matrix_2(double[:,::1] S):
  *     return S[0,0]*S[1,1] - S[1,0]*S[0,1]             # <<<<<<<<<<<<<<
@@ -5484,13 +5514,13 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_det_matrix_2(__Pyx_memview
   __pyx_t_6 = 0;
   __pyx_t_7 = 0;
   __pyx_t_8 = 1;
-  __pyx_t_9 = PyFloat_FromDouble((((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_1 * __pyx_v_S.strides[0]) )) + __pyx_t_2)) ))) * (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_3 * __pyx_v_S.strides[0]) )) + __pyx_t_4)) )))) - ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_6)) ))) * (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_7 * __pyx_v_S.strides[0]) )) + __pyx_t_8)) )))))); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 107, __pyx_L1_error)
+  __pyx_t_9 = PyFloat_FromDouble((((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_1 * __pyx_v_S.strides[0]) )) + __pyx_t_2)) ))) * (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_3 * __pyx_v_S.strides[0]) )) + __pyx_t_4)) )))) - ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_6)) ))) * (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_7 * __pyx_v_S.strides[0]) )) + __pyx_t_8)) )))))); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_r = __pyx_t_9;
   __pyx_t_9 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":106
+  /* "mlgrad/mlocation_scatter2.pyx":90
  *     return S
  * 
  * cdef det_matrix_2(double[:,::1] S):             # <<<<<<<<<<<<<<
@@ -5509,7 +5539,7 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_det_matrix_2(__Pyx_memview
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":109
+/* "mlgrad/mlocation_scatter2.pyx":93
  *     return S[0,0]*S[1,1] - S[1,0]*S[0,1]
  * 
  * cdef double[:,::1] inv_matrix_2(double[:,::1] S):             # <<<<<<<<<<<<<<
@@ -5533,7 +5563,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_18mlocation_scatter2_inv_matrix_2(__Py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("inv_matrix_2", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":110
+  /* "mlgrad/mlocation_scatter2.pyx":94
  * 
  * cdef double[:,::1] inv_matrix_2(double[:,::1] S):
  *     cdef double s00 = S[0,0], s01 = S[0,1], s10 = S[1,0], s11 = S[1,1]             # <<<<<<<<<<<<<<
@@ -5553,7 +5583,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_18mlocation_scatter2_inv_matrix_2(__Py
   __pyx_t_1 = 1;
   __pyx_v_s11 = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_2 * __pyx_v_S.strides[0]) )) + __pyx_t_1)) )));
 
-  /* "mlgrad/mlocation_scatter2.pyx":111
+  /* "mlgrad/mlocation_scatter2.pyx":95
  * cdef double[:,::1] inv_matrix_2(double[:,::1] S):
  *     cdef double s00 = S[0,0], s01 = S[0,1], s10 = S[1,0], s11 = S[1,1]
  *     cdef double d = s00*s11 - s10*s01             # <<<<<<<<<<<<<<
@@ -5562,7 +5592,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_18mlocation_scatter2_inv_matrix_2(__Py
  */
   __pyx_v_d = ((__pyx_v_s00 * __pyx_v_s11) - (__pyx_v_s10 * __pyx_v_s01));
 
-  /* "mlgrad/mlocation_scatter2.pyx":113
+  /* "mlgrad/mlocation_scatter2.pyx":97
  *     cdef double d = s00*s11 - s10*s01
  * 
  *     S[0,0] = s11 / d             # <<<<<<<<<<<<<<
@@ -5571,13 +5601,13 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_18mlocation_scatter2_inv_matrix_2(__Py
  */
   if (unlikely(__pyx_v_d == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 113, __pyx_L1_error)
+    __PYX_ERR(1, 97, __pyx_L1_error)
   }
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_1 * __pyx_v_S.strides[0]) )) + __pyx_t_2)) )) = (__pyx_v_s11 / __pyx_v_d);
 
-  /* "mlgrad/mlocation_scatter2.pyx":114
+  /* "mlgrad/mlocation_scatter2.pyx":98
  * 
  *     S[0,0] = s11 / d
  *     S[1,1] = s00 / d             # <<<<<<<<<<<<<<
@@ -5586,13 +5616,13 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_18mlocation_scatter2_inv_matrix_2(__Py
  */
   if (unlikely(__pyx_v_d == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 114, __pyx_L1_error)
+    __PYX_ERR(1, 98, __pyx_L1_error)
   }
   __pyx_t_2 = 1;
   __pyx_t_1 = 1;
   *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_2 * __pyx_v_S.strides[0]) )) + __pyx_t_1)) )) = (__pyx_v_s00 / __pyx_v_d);
 
-  /* "mlgrad/mlocation_scatter2.pyx":115
+  /* "mlgrad/mlocation_scatter2.pyx":99
  *     S[0,0] = s11 / d
  *     S[1,1] = s00 / d
  *     S[1,0] = -s10 / d             # <<<<<<<<<<<<<<
@@ -5602,13 +5632,13 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_18mlocation_scatter2_inv_matrix_2(__Py
   __pyx_t_3 = (-__pyx_v_s10);
   if (unlikely(__pyx_v_d == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 115, __pyx_L1_error)
+    __PYX_ERR(1, 99, __pyx_L1_error)
   }
   __pyx_t_1 = 1;
   __pyx_t_2 = 0;
   *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_1 * __pyx_v_S.strides[0]) )) + __pyx_t_2)) )) = (__pyx_t_3 / __pyx_v_d);
 
-  /* "mlgrad/mlocation_scatter2.pyx":116
+  /* "mlgrad/mlocation_scatter2.pyx":100
  *     S[1,1] = s00 / d
  *     S[1,0] = -s10 / d
  *     S[0,1] = -s01 / d             # <<<<<<<<<<<<<<
@@ -5618,13 +5648,13 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_18mlocation_scatter2_inv_matrix_2(__Py
   __pyx_t_3 = (-__pyx_v_s01);
   if (unlikely(__pyx_v_d == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 116, __pyx_L1_error)
+    __PYX_ERR(1, 100, __pyx_L1_error)
   }
   __pyx_t_2 = 0;
   __pyx_t_1 = 1;
   *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_2 * __pyx_v_S.strides[0]) )) + __pyx_t_1)) )) = (__pyx_t_3 / __pyx_v_d);
 
-  /* "mlgrad/mlocation_scatter2.pyx":117
+  /* "mlgrad/mlocation_scatter2.pyx":101
  *     S[1,0] = -s10 / d
  *     S[0,1] = -s01 / d
  *     return S             # <<<<<<<<<<<<<<
@@ -5635,7 +5665,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_18mlocation_scatter2_inv_matrix_2(__Py
   __pyx_r = __pyx_v_S;
   goto __pyx_L0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":109
+  /* "mlgrad/mlocation_scatter2.pyx":93
  *     return S[0,0]*S[1,1] - S[1,0]*S[0,1]
  * 
  * cdef double[:,::1] inv_matrix_2(double[:,::1] S):             # <<<<<<<<<<<<<<
@@ -5658,7 +5688,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_18mlocation_scatter2_inv_matrix_2(__Py
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":119
+/* "mlgrad/mlocation_scatter2.pyx":103
  *     return S
  * 
  * cdef void _scale_matrix(double[:,::1] S, double to=1.0):             # <<<<<<<<<<<<<<
@@ -5698,7 +5728,7 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__Pyx_memviewslic
     }
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":120
+  /* "mlgrad/mlocation_scatter2.pyx":104
  * 
  * cdef void _scale_matrix(double[:,::1] S, double to=1.0):
  *     cdef Py_ssize_t n = S.shape[0], n2 = n*n             # <<<<<<<<<<<<<<
@@ -5708,7 +5738,7 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__Pyx_memviewslic
   __pyx_v_n = (__pyx_v_S.shape[0]);
   __pyx_v_n2 = (__pyx_v_n * __pyx_v_n);
 
-  /* "mlgrad/mlocation_scatter2.pyx":125
+  /* "mlgrad/mlocation_scatter2.pyx":109
  *     cdef double *ptr
  * 
  *     if n == 2:             # <<<<<<<<<<<<<<
@@ -5718,26 +5748,26 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__Pyx_memviewslic
   __pyx_t_1 = ((__pyx_v_n == 2) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/mlocation_scatter2.pyx":126
+    /* "mlgrad/mlocation_scatter2.pyx":110
  * 
  *     if n == 2:
  *         vol = det_matrix_2(S) / to             # <<<<<<<<<<<<<<
  *     else:
  *         vol = linalg.det(np.asarray(S)) / to
  */
-    __pyx_t_2 = __pyx_f_6mlgrad_18mlocation_scatter2_det_matrix_2(__pyx_v_S); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 126, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_6mlgrad_18mlocation_scatter2_det_matrix_2(__pyx_v_S); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 110, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_to); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 126, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_to); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 110, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 126, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 110, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 126, __pyx_L1_error)
+    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 110, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_vol = __pyx_t_5;
 
-    /* "mlgrad/mlocation_scatter2.pyx":125
+    /* "mlgrad/mlocation_scatter2.pyx":109
  *     cdef double *ptr
  * 
  *     if n == 2:             # <<<<<<<<<<<<<<
@@ -5747,25 +5777,25 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__Pyx_memviewslic
     goto __pyx_L3;
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":128
+  /* "mlgrad/mlocation_scatter2.pyx":112
  *         vol = det_matrix_2(S) / to
  *     else:
  *         vol = linalg.det(np.asarray(S)) / to             # <<<<<<<<<<<<<<
  *     if vol <= 0:
- *         print(S)
+ *         print('-', S)
  */
   /*else*/ {
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_linalg); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 128, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_linalg); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_det); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 128, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_det); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 128, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_asarray); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 128, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_asarray); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 128, __pyx_L1_error)
+    __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
@@ -5780,7 +5810,7 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__Pyx_memviewslic
     __pyx_t_3 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 128, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_t_7 = NULL;
@@ -5796,69 +5826,77 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__Pyx_memviewslic
     __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_7, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 128, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_to); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 128, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_to); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 128, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 128, __pyx_L1_error)
+    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 112, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_vol = __pyx_t_5;
   }
   __pyx_L3:;
 
-  /* "mlgrad/mlocation_scatter2.pyx":129
+  /* "mlgrad/mlocation_scatter2.pyx":113
  *     else:
  *         vol = linalg.det(np.asarray(S)) / to
  *     if vol <= 0:             # <<<<<<<<<<<<<<
- *         print(S)
+ *         print('-', S)
  *     vol = pow(vol, 1.0/n)
  */
   __pyx_t_1 = ((__pyx_v_vol <= 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/mlocation_scatter2.pyx":130
+    /* "mlgrad/mlocation_scatter2.pyx":114
  *         vol = linalg.det(np.asarray(S)) / to
  *     if vol <= 0:
- *         print(S)             # <<<<<<<<<<<<<<
+ *         print('-', S)             # <<<<<<<<<<<<<<
  *     vol = pow(vol, 1.0/n)
  *     vol = 1/vol
  */
-    __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 130, __pyx_L1_error)
+    __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_print, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 130, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_INCREF(__pyx_kp_u_);
+    __Pyx_GIVEREF(__pyx_kp_u_);
+    PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_3);
+    __pyx_t_3 = 0;
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 114, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":129
+    /* "mlgrad/mlocation_scatter2.pyx":113
  *     else:
  *         vol = linalg.det(np.asarray(S)) / to
  *     if vol <= 0:             # <<<<<<<<<<<<<<
- *         print(S)
+ *         print('-', S)
  *     vol = pow(vol, 1.0/n)
  */
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":131
+  /* "mlgrad/mlocation_scatter2.pyx":115
  *     if vol <= 0:
- *         print(S)
+ *         print('-', S)
  *     vol = pow(vol, 1.0/n)             # <<<<<<<<<<<<<<
  *     vol = 1/vol
  *     ptr = &S[0,0]
  */
   if (unlikely(__pyx_v_n == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 131, __pyx_L1_error)
+    __PYX_ERR(1, 115, __pyx_L1_error)
   }
   __pyx_v_vol = pow(__pyx_v_vol, (1.0 / ((double)__pyx_v_n)));
 
-  /* "mlgrad/mlocation_scatter2.pyx":132
- *         print(S)
+  /* "mlgrad/mlocation_scatter2.pyx":116
+ *         print('-', S)
  *     vol = pow(vol, 1.0/n)
  *     vol = 1/vol             # <<<<<<<<<<<<<<
  *     ptr = &S[0,0]
@@ -5866,11 +5904,11 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__Pyx_memviewslic
  */
   if (unlikely(__pyx_v_vol == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 132, __pyx_L1_error)
+    __PYX_ERR(1, 116, __pyx_L1_error)
   }
   __pyx_v_vol = (1.0 / __pyx_v_vol);
 
-  /* "mlgrad/mlocation_scatter2.pyx":133
+  /* "mlgrad/mlocation_scatter2.pyx":117
  *     vol = pow(vol, 1.0/n)
  *     vol = 1/vol
  *     ptr = &S[0,0]             # <<<<<<<<<<<<<<
@@ -5881,7 +5919,7 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__Pyx_memviewslic
   __pyx_t_10 = 0;
   __pyx_v_ptr = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_9 * __pyx_v_S.strides[0]) )) + __pyx_t_10)) ))));
 
-  /* "mlgrad/mlocation_scatter2.pyx":134
+  /* "mlgrad/mlocation_scatter2.pyx":118
  *     vol = 1/vol
  *     ptr = &S[0,0]
  *     for i in range(n2):             # <<<<<<<<<<<<<<
@@ -5893,7 +5931,7 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__Pyx_memviewslic
   for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
     __pyx_v_i = __pyx_t_13;
 
-    /* "mlgrad/mlocation_scatter2.pyx":135
+    /* "mlgrad/mlocation_scatter2.pyx":119
  *     ptr = &S[0,0]
  *     for i in range(n2):
  *         ptr[i] *= vol             # <<<<<<<<<<<<<<
@@ -5904,7 +5942,7 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__Pyx_memviewslic
     (__pyx_v_ptr[__pyx_t_14]) = ((__pyx_v_ptr[__pyx_t_14]) * __pyx_v_vol);
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":119
+  /* "mlgrad/mlocation_scatter2.pyx":103
  *     return S
  * 
  * cdef void _scale_matrix(double[:,::1] S, double to=1.0):             # <<<<<<<<<<<<<<
@@ -5926,7 +5964,7 @@ static void __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__Pyx_memviewslic
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":137
+/* "mlgrad/mlocation_scatter2.pyx":121
  *         ptr[i] *= vol
  * 
  * def scale_matrix(S, to=1.0):             # <<<<<<<<<<<<<<
@@ -5975,7 +6013,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5scale_matrix(PyObject *_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "scale_matrix") < 0)) __PYX_ERR(1, 137, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "scale_matrix") < 0)) __PYX_ERR(1, 121, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5991,7 +6029,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5scale_matrix(PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("scale_matrix", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 137, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("scale_matrix", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 121, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.scale_matrix", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6014,14 +6052,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_4scale_matrix(CYTHON_UNUS
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("scale_matrix", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":138
+  /* "mlgrad/mlocation_scatter2.pyx":122
  * 
  * def scale_matrix(S, to=1.0):
  *     _scale_matrix(S, to=1.0)             # <<<<<<<<<<<<<<
  * 
- * 
+ * def init_locations(X, locs):
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_S, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 138, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_S, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 122, __pyx_L1_error)
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.to = 1.0;
   __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__pyx_t_1, &__pyx_t_2); 
@@ -6029,7 +6067,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_4scale_matrix(CYTHON_UNUS
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":137
+  /* "mlgrad/mlocation_scatter2.pyx":121
  *         ptr[i] *= vol
  * 
  * def scale_matrix(S, to=1.0):             # <<<<<<<<<<<<<<
@@ -6050,8 +6088,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_4scale_matrix(CYTHON_UNUS
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":141
- * 
+/* "mlgrad/mlocation_scatter2.pyx":124
+ *     _scale_matrix(S, to=1.0)
  * 
  * def init_locations(X, locs):             # <<<<<<<<<<<<<<
  * 
@@ -6094,11 +6132,11 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_7init_locations(PyObject 
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_locs)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("init_locations", 1, 2, 2, 1); __PYX_ERR(1, 141, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("init_locations", 1, 2, 2, 1); __PYX_ERR(1, 124, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "init_locations") < 0)) __PYX_ERR(1, 141, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "init_locations") < 0)) __PYX_ERR(1, 124, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6111,7 +6149,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_7init_locations(PyObject 
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("init_locations", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 141, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("init_locations", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 124, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.init_locations", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6151,72 +6189,72 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_6init_locations(CYTHON_UN
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init_locations", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":143
+  /* "mlgrad/mlocation_scatter2.pyx":126
  * def init_locations(X, locs):
  * 
  *     N = X.shape[0]             # <<<<<<<<<<<<<<
  *     n = X.shape[1]
  *     n_locs = len(locs)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 143, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 143, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_N = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":144
+  /* "mlgrad/mlocation_scatter2.pyx":127
  * 
  *     N = X.shape[0]
  *     n = X.shape[1]             # <<<<<<<<<<<<<<
  *     n_locs = len(locs)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 144, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 144, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_n = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":145
+  /* "mlgrad/mlocation_scatter2.pyx":128
  *     N = X.shape[0]
  *     n = X.shape[1]
  *     n_locs = len(locs)             # <<<<<<<<<<<<<<
  * 
  *     k0 = rand(N)
  */
-  __pyx_t_3 = PyObject_Length(__pyx_v_locs); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 145, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(__pyx_v_locs); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 128, __pyx_L1_error)
   __pyx_v_n_locs = __pyx_t_3;
 
-  /* "mlgrad/mlocation_scatter2.pyx":147
+  /* "mlgrad/mlocation_scatter2.pyx":130
  *     n_locs = len(locs)
  * 
  *     k0 = rand(N)             # <<<<<<<<<<<<<<
  *     indices = np.random.randint(0, N, n_locs, 'i')
  * 
  */
-  __pyx_t_4 = __Pyx_PyInt_As_long(__pyx_v_N); if (unlikely((__pyx_t_4 == (long)-1) && PyErr_Occurred())) __PYX_ERR(1, 147, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_long(__pyx_v_N); if (unlikely((__pyx_t_4 == (long)-1) && PyErr_Occurred())) __PYX_ERR(1, 130, __pyx_L1_error)
   __pyx_v_k0 = __pyx_f_6mlgrad_9miscfuncs_rand(__pyx_t_4);
 
-  /* "mlgrad/mlocation_scatter2.pyx":148
+  /* "mlgrad/mlocation_scatter2.pyx":131
  * 
  *     k0 = rand(N)
  *     indices = np.random.randint(0, N, n_locs, 'i')             # <<<<<<<<<<<<<<
  * 
  *     for j in range(n_locs):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 148, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_random); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 148, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_random); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_randint); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 148, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_randint); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_n_locs); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 148, __pyx_L1_error)
+  __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_n_locs); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   __pyx_t_7 = 0;
@@ -6233,7 +6271,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_6init_locations(CYTHON_UN
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[5] = {__pyx_t_6, __pyx_int_0, __pyx_v_N, __pyx_t_5, __pyx_n_u_i};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 4+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 4+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 131, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6242,14 +6280,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_6init_locations(CYTHON_UN
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[5] = {__pyx_t_6, __pyx_int_0, __pyx_v_N, __pyx_t_5, __pyx_n_u_i};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 4+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 4+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 131, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   } else
   #endif
   {
-    __pyx_t_8 = PyTuple_New(4+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(4+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 131, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_6) {
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -6266,7 +6304,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_6init_locations(CYTHON_UN
     __Pyx_GIVEREF(__pyx_n_u_i);
     PyTuple_SET_ITEM(__pyx_t_8, 3+__pyx_t_7, __pyx_n_u_i);
     __pyx_t_5 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 148, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 131, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
@@ -6274,7 +6312,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_6init_locations(CYTHON_UN
   __pyx_v_indices = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":150
+  /* "mlgrad/mlocation_scatter2.pyx":133
  *     indices = np.random.randint(0, N, n_locs, 'i')
  * 
  *     for j in range(n_locs):             # <<<<<<<<<<<<<<
@@ -6286,32 +6324,32 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_6init_locations(CYTHON_UN
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_j = __pyx_t_10;
 
-    /* "mlgrad/mlocation_scatter2.pyx":151
+    /* "mlgrad/mlocation_scatter2.pyx":134
  * 
  *     for j in range(n_locs):
  *         m = indices[j]             # <<<<<<<<<<<<<<
  *         copy_memoryview(locs[j], X[m])
  * 
  */
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_indices, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 151, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_indices, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 134, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_m, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":152
+    /* "mlgrad/mlocation_scatter2.pyx":135
  *     for j in range(n_locs):
  *         m = indices[j]
  *         copy_memoryview(locs[j], X[m])             # <<<<<<<<<<<<<<
  * 
  * def  init_scatters(double[:,:,::1] scatters):
  */
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_locs, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 152, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_locs, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 135, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(1, 152, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(1, 135, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_X, __pyx_v_m); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 152, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_X, __pyx_v_m); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 135, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(1, 152, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(1, 135, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview(__pyx_t_11, __pyx_t_12);
     __PYX_XDEC_MEMVIEW(&__pyx_t_11, 1);
@@ -6322,8 +6360,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_6init_locations(CYTHON_UN
     __pyx_t_12.data = NULL;
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":141
- * 
+  /* "mlgrad/mlocation_scatter2.pyx":124
+ *     _scale_matrix(S, to=1.0)
  * 
  * def init_locations(X, locs):             # <<<<<<<<<<<<<<
  * 
@@ -6353,7 +6391,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_6init_locations(CYTHON_UN
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":154
+/* "mlgrad/mlocation_scatter2.pyx":137
  *         copy_memoryview(locs[j], X[m])
  * 
  * def  init_scatters(double[:,:,::1] scatters):             # <<<<<<<<<<<<<<
@@ -6374,7 +6412,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_9init_scatters(PyObject *
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("init_scatters (wrapper)", 0);
   assert(__pyx_arg_scatters); {
-    __pyx_v_scatters = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_arg_scatters, PyBUF_WRITABLE); if (unlikely(!__pyx_v_scatters.memview)) __PYX_ERR(1, 154, __pyx_L3_error)
+    __pyx_v_scatters = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_arg_scatters, PyBUF_WRITABLE); if (unlikely(!__pyx_v_scatters.memview)) __PYX_ERR(1, 137, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -6411,7 +6449,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_8init_scatters(CYTHON_UNU
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init_scatters", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":158
+  /* "mlgrad/mlocation_scatter2.pyx":141
  *     cdef double[:,::1] S
  * 
  *     n_locs = scatters.shape[0]             # <<<<<<<<<<<<<<
@@ -6420,7 +6458,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_8init_scatters(CYTHON_UNU
  */
   __pyx_v_n_locs = (__pyx_v_scatters.shape[0]);
 
-  /* "mlgrad/mlocation_scatter2.pyx":159
+  /* "mlgrad/mlocation_scatter2.pyx":142
  * 
  *     n_locs = scatters.shape[0]
  *     n = scatters.shape[1]             # <<<<<<<<<<<<<<
@@ -6429,7 +6467,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_8init_scatters(CYTHON_UNU
  */
   __pyx_v_n = (__pyx_v_scatters.shape[1]);
 
-  /* "mlgrad/mlocation_scatter2.pyx":161
+  /* "mlgrad/mlocation_scatter2.pyx":144
  *     n = scatters.shape[1]
  * 
  *     for i in range(n_locs):             # <<<<<<<<<<<<<<
@@ -6441,19 +6479,19 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_8init_scatters(CYTHON_UNU
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/mlocation_scatter2.pyx":162
+    /* "mlgrad/mlocation_scatter2.pyx":145
  * 
  *     for i in range(n_locs):
  *         S = np.identity(n, 'd')             # <<<<<<<<<<<<<<
  *         copy_memoryview2(scatters[i], S)
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 162, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_identity); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 162, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_identity); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 162, __pyx_L1_error)
+    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
@@ -6470,7 +6508,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_8init_scatters(CYTHON_UNU
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_5, __pyx_n_u_d};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 162, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 145, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6479,14 +6517,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_8init_scatters(CYTHON_UNU
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_5, __pyx_n_u_d};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 162, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 145, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else
     #endif
     {
-      __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 162, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 145, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       if (__pyx_t_7) {
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -6497,19 +6535,19 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_8init_scatters(CYTHON_UNU
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_n_u_d);
       __pyx_t_5 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 162, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 145, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 162, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 145, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_S, 1);
     __pyx_v_S = __pyx_t_10;
     __pyx_t_10.memview = NULL;
     __pyx_t_10.data = NULL;
 
-    /* "mlgrad/mlocation_scatter2.pyx":163
+    /* "mlgrad/mlocation_scatter2.pyx":146
  *     for i in range(n_locs):
  *         S = np.identity(n, 'd')
  *         copy_memoryview2(scatters[i], S)             # <<<<<<<<<<<<<<
@@ -6539,7 +6577,7 @@ __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__pyx_t_10, __pyx_v_S);
     __pyx_t_10.data = NULL;
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":154
+  /* "mlgrad/mlocation_scatter2.pyx":137
  *         copy_memoryview(locs[j], X[m])
  * 
  * def  init_scatters(double[:,:,::1] scatters):             # <<<<<<<<<<<<<<
@@ -6567,25 +6605,27 @@ __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__pyx_t_10, __pyx_v_S);
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":167
+/* "mlgrad/mlocation_scatter2.pyx":150
  * cdef class MLSE2:
  * 
  *     cpdef calc_distances(self):             # <<<<<<<<<<<<<<
- *         cdef double d, d_min
- *         cdef Py_ssize_t j, j_min, k, N = self.X.shape[0], n = self.X.shape[1]
+ *         cdef Py_ssize_t j, k, N = self.X.shape[0], n = self.X.shape[1]
+ *         cdef double[:,::1] DD = self.DD
  */
 
 static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_1calc_distances(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, int __pyx_skip_dispatch) {
-  double __pyx_v_d;
-  double __pyx_v_d_min;
   Py_ssize_t __pyx_v_j;
-  Py_ssize_t __pyx_v_j_min;
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_N;
   Py_ssize_t __pyx_v_n;
-  __Pyx_memviewslice __pyx_v_Y = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_DD = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_DD_k = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_D = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_GG = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_locs = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_distfuncs = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6594,7 +6634,7 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(stru
   PyObject *__pyx_t_4 = NULL;
   __Pyx_memviewslice __pyx_t_5 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  Py_ssize_t __pyx_t_7;
+  __Pyx_memviewslice __pyx_t_7 = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_t_8;
   Py_ssize_t __pyx_t_9;
   Py_ssize_t __pyx_t_10;
@@ -6604,7 +6644,9 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(stru
   Py_ssize_t __pyx_t_14;
   Py_ssize_t __pyx_t_15;
   Py_ssize_t __pyx_t_16;
-  int __pyx_t_17;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  double __pyx_t_19;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -6618,7 +6660,7 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(stru
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc_distances); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 167, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc_distances); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 150, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_1calc_distances)) {
         __Pyx_XDECREF(__pyx_r);
@@ -6635,7 +6677,7 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(stru
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 167, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 150, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -6656,35 +6698,35 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(stru
     #endif
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":169
+  /* "mlgrad/mlocation_scatter2.pyx":151
+ * 
  *     cpdef calc_distances(self):
- *         cdef double d, d_min
- *         cdef Py_ssize_t j, j_min, k, N = self.X.shape[0], n = self.X.shape[1]             # <<<<<<<<<<<<<<
- *         cdef Py_ssize_t[::1] Y = self.Y
- *         cdef double[::1] D = self.D
+ *         cdef Py_ssize_t j, k, N = self.X.shape[0], n = self.X.shape[1]             # <<<<<<<<<<<<<<
+ *         cdef double[:,::1] DD = self.DD
+ *         cdef double[::1] DD_k
  */
   __pyx_v_N = (__pyx_v_self->X.shape[0]);
   __pyx_v_n = (__pyx_v_self->X.shape[1]);
 
-  /* "mlgrad/mlocation_scatter2.pyx":170
- *         cdef double d, d_min
- *         cdef Py_ssize_t j, j_min, k, N = self.X.shape[0], n = self.X.shape[1]
- *         cdef Py_ssize_t[::1] Y = self.Y             # <<<<<<<<<<<<<<
+  /* "mlgrad/mlocation_scatter2.pyx":152
+ *     cpdef calc_distances(self):
+ *         cdef Py_ssize_t j, k, N = self.X.shape[0], n = self.X.shape[1]
+ *         cdef double[:,::1] DD = self.DD             # <<<<<<<<<<<<<<
+ *         cdef double[::1] DD_k
  *         cdef double[::1] D = self.D
- * 
  */
-  __pyx_t_5 = __pyx_v_self->Y;
+  __pyx_t_5 = __pyx_v_self->DD;
   __PYX_INC_MEMVIEW(&__pyx_t_5, 1);
-  __pyx_v_Y = __pyx_t_5;
+  __pyx_v_DD = __pyx_t_5;
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":171
- *         cdef Py_ssize_t j, j_min, k, N = self.X.shape[0], n = self.X.shape[1]
- *         cdef Py_ssize_t[::1] Y = self.Y
+  /* "mlgrad/mlocation_scatter2.pyx":154
+ *         cdef double[:,::1] DD = self.DD
+ *         cdef double[::1] DD_k
  *         cdef double[::1] D = self.D             # <<<<<<<<<<<<<<
- * 
- *         for k in range(N):
+ *         cdef double[:,::1] GG = self.GG
+ *         cdef double[:,::1] locs = self.locs
  */
   __pyx_t_6 = __pyx_v_self->D;
   __PYX_INC_MEMVIEW(&__pyx_t_6, 1);
@@ -6692,144 +6734,196 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(stru
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":173
+  /* "mlgrad/mlocation_scatter2.pyx":155
+ *         cdef double[::1] DD_k
  *         cdef double[::1] D = self.D
+ *         cdef double[:,::1] GG = self.GG             # <<<<<<<<<<<<<<
+ *         cdef double[:,::1] locs = self.locs
+ *         cdef double[:,::1] X = self.X
+ */
+  __pyx_t_5 = __pyx_v_self->GG;
+  __PYX_INC_MEMVIEW(&__pyx_t_5, 1);
+  __pyx_v_GG = __pyx_t_5;
+  __pyx_t_5.memview = NULL;
+  __pyx_t_5.data = NULL;
+
+  /* "mlgrad/mlocation_scatter2.pyx":156
+ *         cdef double[::1] D = self.D
+ *         cdef double[:,::1] GG = self.GG
+ *         cdef double[:,::1] locs = self.locs             # <<<<<<<<<<<<<<
+ *         cdef double[:,::1] X = self.X
+ *         cdef DistanceWithScale[::1] distfuncs = self.distfuncs
+ */
+  __pyx_t_5 = __pyx_v_self->locs;
+  __PYX_INC_MEMVIEW(&__pyx_t_5, 1);
+  __pyx_v_locs = __pyx_t_5;
+  __pyx_t_5.memview = NULL;
+  __pyx_t_5.data = NULL;
+
+  /* "mlgrad/mlocation_scatter2.pyx":157
+ *         cdef double[:,::1] GG = self.GG
+ *         cdef double[:,::1] locs = self.locs
+ *         cdef double[:,::1] X = self.X             # <<<<<<<<<<<<<<
+ *         cdef DistanceWithScale[::1] distfuncs = self.distfuncs
+ *         cdef int num
+ */
+  __pyx_t_5 = __pyx_v_self->X;
+  __PYX_INC_MEMVIEW(&__pyx_t_5, 1);
+  __pyx_v_X = __pyx_t_5;
+  __pyx_t_5.memview = NULL;
+  __pyx_t_5.data = NULL;
+
+  /* "mlgrad/mlocation_scatter2.pyx":158
+ *         cdef double[:,::1] locs = self.locs
+ *         cdef double[:,::1] X = self.X
+ *         cdef DistanceWithScale[::1] distfuncs = self.distfuncs             # <<<<<<<<<<<<<<
+ *         cdef int num
+ * 
+ */
+  __pyx_t_7 = __pyx_v_self->distfuncs;
+  __PYX_INC_MEMVIEW(&__pyx_t_7, 1);
+  __pyx_v_distfuncs = __pyx_t_7;
+  __pyx_t_7.memview = NULL;
+  __pyx_t_7.data = NULL;
+
+  /* "mlgrad/mlocation_scatter2.pyx":161
+ *         cdef int num
  * 
  *         for k in range(N):             # <<<<<<<<<<<<<<
- *             d_min = max_float
- *             j_min = 0
+ *             DD_k = DD[k]
+ *             for j in range(self.n_locs):
  */
-  __pyx_t_7 = __pyx_v_N;
-  __pyx_t_8 = __pyx_t_7;
-  for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
-    __pyx_v_k = __pyx_t_9;
+  __pyx_t_8 = __pyx_v_N;
+  __pyx_t_9 = __pyx_t_8;
+  for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
+    __pyx_v_k = __pyx_t_10;
 
-    /* "mlgrad/mlocation_scatter2.pyx":174
+    /* "mlgrad/mlocation_scatter2.pyx":162
  * 
  *         for k in range(N):
- *             d_min = max_float             # <<<<<<<<<<<<<<
- *             j_min = 0
+ *             DD_k = DD[k]             # <<<<<<<<<<<<<<
  *             for j in range(self.n_locs):
+ *                 DD_k[j] = (<DistanceWithScale>distfuncs[j])._evaluate(&X[k,0], &locs[j,0], n)
  */
-    __pyx_v_d_min = __pyx_v_6mlgrad_18mlocation_scatter2_max_float;
+    __pyx_t_6.data = __pyx_v_DD.data;
+    __pyx_t_6.memview = __pyx_v_DD.memview;
+    __PYX_INC_MEMVIEW(&__pyx_t_6, 0);
+    {
+    Py_ssize_t __pyx_tmp_idx = __pyx_v_k;
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_DD.strides[0];
+        __pyx_t_6.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
 
-    /* "mlgrad/mlocation_scatter2.pyx":175
+__pyx_t_6.shape[0] = __pyx_v_DD.shape[1];
+__pyx_t_6.strides[0] = __pyx_v_DD.strides[1];
+    __pyx_t_6.suboffsets[0] = -1;
+
+__PYX_XDEC_MEMVIEW(&__pyx_v_DD_k, 1);
+    __pyx_v_DD_k = __pyx_t_6;
+    __pyx_t_6.memview = NULL;
+    __pyx_t_6.data = NULL;
+
+    /* "mlgrad/mlocation_scatter2.pyx":163
  *         for k in range(N):
- *             d_min = max_float
- *             j_min = 0             # <<<<<<<<<<<<<<
- *             for j in range(self.n_locs):
- *                 d = (<Distance>self.distfuncs[j])._evaluate(&self.X[k,0], &self.locs[j,0], n)
- */
-    __pyx_v_j_min = 0;
-
-    /* "mlgrad/mlocation_scatter2.pyx":176
- *             d_min = max_float
- *             j_min = 0
+ *             DD_k = DD[k]
  *             for j in range(self.n_locs):             # <<<<<<<<<<<<<<
- *                 d = (<Distance>self.distfuncs[j])._evaluate(&self.X[k,0], &self.locs[j,0], n)
- *                 if d < d_min:
+ *                 DD_k[j] = (<DistanceWithScale>distfuncs[j])._evaluate(&X[k,0], &locs[j,0], n)
+ * 
  */
-    __pyx_t_10 = __pyx_v_self->n_locs;
-    __pyx_t_11 = __pyx_t_10;
-    for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
-      __pyx_v_j = __pyx_t_12;
+    __pyx_t_11 = __pyx_v_self->n_locs;
+    __pyx_t_12 = __pyx_t_11;
+    for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
+      __pyx_v_j = __pyx_t_13;
 
-      /* "mlgrad/mlocation_scatter2.pyx":177
- *             j_min = 0
+      /* "mlgrad/mlocation_scatter2.pyx":164
+ *             DD_k = DD[k]
  *             for j in range(self.n_locs):
- *                 d = (<Distance>self.distfuncs[j])._evaluate(&self.X[k,0], &self.locs[j,0], n)             # <<<<<<<<<<<<<<
- *                 if d < d_min:
- *                     d_min = d
+ *                 DD_k[j] = (<DistanceWithScale>distfuncs[j])._evaluate(&X[k,0], &locs[j,0], n)             # <<<<<<<<<<<<<<
+ * 
+ *             self.avg_min.fit(DD_k)
  */
-      __pyx_t_13 = __pyx_v_j;
-      __pyx_t_1 = (PyObject *) *((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale * *) ( /* dim=0 */ ((char *) (((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale * *) __pyx_v_self->distfuncs.data) + __pyx_t_13)) ));
+      __pyx_t_14 = __pyx_v_j;
+      __pyx_t_1 = (PyObject *) *((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale * *) ( /* dim=0 */ ((char *) (((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale * *) __pyx_v_distfuncs.data) + __pyx_t_14)) ));
       __Pyx_INCREF((PyObject*)__pyx_t_1);
-      __pyx_t_13 = __pyx_v_k;
-      __pyx_t_14 = 0;
-      __pyx_t_15 = __pyx_v_j;
-      __pyx_t_16 = 0;
-      __pyx_v_d = ((struct __pyx_vtabstruct_6mlgrad_8distance_Distance *)((struct __pyx_obj_6mlgrad_8distance_Distance *)__pyx_t_1)->__pyx_vtab)->_evaluate(((struct __pyx_obj_6mlgrad_8distance_Distance *)__pyx_t_1), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->X.data + __pyx_t_13 * __pyx_v_self->X.strides[0]) )) + __pyx_t_14)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->locs.data + __pyx_t_15 * __pyx_v_self->locs.strides[0]) )) + __pyx_t_16)) )))), __pyx_v_n);
+      __pyx_t_14 = __pyx_v_k;
+      __pyx_t_15 = 0;
+      __pyx_t_16 = __pyx_v_j;
+      __pyx_t_17 = 0;
+      __pyx_t_18 = __pyx_v_j;
+      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_DD_k.data) + __pyx_t_18)) )) = ((struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale *)((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale *)__pyx_t_1)->__pyx_base.__pyx_vtab)->__pyx_base._evaluate(((struct __pyx_obj_6mlgrad_8distance_Distance *)((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale *)__pyx_t_1)), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_14 * __pyx_v_X.strides[0]) )) + __pyx_t_15)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_locs.data + __pyx_t_16 * __pyx_v_locs.strides[0]) )) + __pyx_t_17)) )))), __pyx_v_n);
       __Pyx_DECREF(((PyObject *)__pyx_t_1)); __pyx_t_1 = 0;
-
-      /* "mlgrad/mlocation_scatter2.pyx":178
- *             for j in range(self.n_locs):
- *                 d = (<Distance>self.distfuncs[j])._evaluate(&self.X[k,0], &self.locs[j,0], n)
- *                 if d < d_min:             # <<<<<<<<<<<<<<
- *                     d_min = d
- *                     j_min = j
- */
-      __pyx_t_17 = ((__pyx_v_d < __pyx_v_d_min) != 0);
-      if (__pyx_t_17) {
-
-        /* "mlgrad/mlocation_scatter2.pyx":179
- *                 d = (<Distance>self.distfuncs[j])._evaluate(&self.X[k,0], &self.locs[j,0], n)
- *                 if d < d_min:
- *                     d_min = d             # <<<<<<<<<<<<<<
- *                     j_min = j
- *             D[k] = d_min
- */
-        __pyx_v_d_min = __pyx_v_d;
-
-        /* "mlgrad/mlocation_scatter2.pyx":180
- *                 if d < d_min:
- *                     d_min = d
- *                     j_min = j             # <<<<<<<<<<<<<<
- *             D[k] = d_min
- *             Y[k] = j_min
- */
-        __pyx_v_j_min = __pyx_v_j;
-
-        /* "mlgrad/mlocation_scatter2.pyx":178
- *             for j in range(self.n_locs):
- *                 d = (<Distance>self.distfuncs[j])._evaluate(&self.X[k,0], &self.locs[j,0], n)
- *                 if d < d_min:             # <<<<<<<<<<<<<<
- *                     d_min = d
- *                     j_min = j
- */
-      }
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":181
- *                     d_min = d
- *                     j_min = j
- *             D[k] = d_min             # <<<<<<<<<<<<<<
- *             Y[k] = j_min
+    /* "mlgrad/mlocation_scatter2.pyx":166
+ *                 DD_k[j] = (<DistanceWithScale>distfuncs[j])._evaluate(&X[k,0], &locs[j,0], n)
  * 
+ *             self.avg_min.fit(DD_k)             # <<<<<<<<<<<<<<
+ *             D[k] = self.avg_min.u
+ *             self.avg_min.gradient(DD_k, GG[k])
  */
-    __pyx_t_16 = __pyx_v_k;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_D.data) + __pyx_t_16)) )) = __pyx_v_d_min;
+    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avg_min->__pyx_vtab)->fit(__pyx_v_self->avg_min, __pyx_v_DD_k, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 166, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":182
- *                     j_min = j
- *             D[k] = d_min
- *             Y[k] = j_min             # <<<<<<<<<<<<<<
+    /* "mlgrad/mlocation_scatter2.pyx":167
  * 
- *         return self.D
+ *             self.avg_min.fit(DD_k)
+ *             D[k] = self.avg_min.u             # <<<<<<<<<<<<<<
+ *             self.avg_min.gradient(DD_k, GG[k])
+ * 
  */
-    __pyx_t_16 = __pyx_v_k;
-    *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_Y.data) + __pyx_t_16)) )) = __pyx_v_j_min;
+    __pyx_t_19 = __pyx_v_self->avg_min->u;
+    __pyx_t_17 = __pyx_v_k;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_D.data) + __pyx_t_17)) )) = __pyx_t_19;
+
+    /* "mlgrad/mlocation_scatter2.pyx":168
+ *             self.avg_min.fit(DD_k)
+ *             D[k] = self.avg_min.u
+ *             self.avg_min.gradient(DD_k, GG[k])             # <<<<<<<<<<<<<<
+ * 
+ *         return D
+ */
+    __pyx_t_6.data = __pyx_v_GG.data;
+    __pyx_t_6.memview = __pyx_v_GG.memview;
+    __PYX_INC_MEMVIEW(&__pyx_t_6, 0);
+    {
+    Py_ssize_t __pyx_tmp_idx = __pyx_v_k;
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_GG.strides[0];
+        __pyx_t_6.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+__pyx_t_6.shape[0] = __pyx_v_GG.shape[1];
+__pyx_t_6.strides[0] = __pyx_v_GG.strides[1];
+    __pyx_t_6.suboffsets[0] = -1;
+
+__pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avg_min->__pyx_vtab)->gradient(__pyx_v_self->avg_min, __pyx_v_DD_k, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 168, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
+    __pyx_t_6.memview = NULL;
+    __pyx_t_6.data = NULL;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":184
- *             Y[k] = j_min
+  /* "mlgrad/mlocation_scatter2.pyx":170
+ *             self.avg_min.gradient(DD_k, GG[k])
  * 
- *         return self.D             # <<<<<<<<<<<<<<
+ *         return D             # <<<<<<<<<<<<<<
  * 
- *     cpdef double Q(self):
+ *     cpdef calc_weights(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->D, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 184, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_D, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 170, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":167
+  /* "mlgrad/mlocation_scatter2.pyx":150
  * cdef class MLSE2:
  * 
  *     cpdef calc_distances(self):             # <<<<<<<<<<<<<<
- *         cdef double d, d_min
- *         cdef Py_ssize_t j, j_min, k, N = self.X.shape[0], n = self.X.shape[1]
+ *         cdef Py_ssize_t j, k, N = self.X.shape[0], n = self.X.shape[1]
+ *         cdef double[:,::1] DD = self.DD
  */
 
   /* function exit code */
@@ -6840,11 +6934,17 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(stru
   __Pyx_XDECREF(__pyx_t_4);
   __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLSE2.calc_distances", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_Y, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_DD, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_DD_k, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_D, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_GG, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_locs, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_X, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_distfuncs, 1);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -6873,7 +6973,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(str
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("calc_distances", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 167, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 150, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6890,17 +6990,527 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances(str
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":186
- *         return self.D
+/* "mlgrad/mlocation_scatter2.pyx":172
+ *         return D
  * 
- *     cpdef double Q(self):             # <<<<<<<<<<<<<<
- *         cdef double dval
+ *     cpdef calc_weights(self):             # <<<<<<<<<<<<<<
  * 
+ *         self.avg.fit(self.D)
  */
 
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_3Q(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_3calc_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_weights(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, int __pyx_skip_dispatch) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("calc_weights", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc_weights); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 172, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_3calc_weights)) {
+        __Pyx_XDECREF(__pyx_r);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 172, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_r = __pyx_t_2;
+        __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "mlgrad/mlocation_scatter2.pyx":174
+ *     cpdef calc_weights(self):
+ * 
+ *         self.avg.fit(self.D)             # <<<<<<<<<<<<<<
+ *         self.avg.gradient(self.D, self.weights)
+ * 
+ */
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avg->__pyx_vtab)->fit(__pyx_v_self->avg, __pyx_v_self->D, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 174, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "mlgrad/mlocation_scatter2.pyx":175
+ * 
+ *         self.avg.fit(self.D)
+ *         self.avg.gradient(self.D, self.weights)             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef calc_update_GG(self):
+ */
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avg->__pyx_vtab)->gradient(__pyx_v_self->avg, __pyx_v_self->D, __pyx_v_self->weights); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 175, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "mlgrad/mlocation_scatter2.pyx":172
+ *         return D
+ * 
+ *     cpdef calc_weights(self):             # <<<<<<<<<<<<<<
+ * 
+ *         self.avg.fit(self.D)
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLSE2.calc_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_3calc_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_2calc_weights[] = "MLSE2.calc_weights(self)";
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_3calc_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("calc_weights (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_2calc_weights(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_2calc_weights(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("calc_weights", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_weights(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 172, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLSE2.calc_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "mlgrad/mlocation_scatter2.pyx":177
+ *         self.avg.gradient(self.D, self.weights)
+ * 
+ *     cpdef calc_update_GG(self):             # <<<<<<<<<<<<<<
+ *         cdef Py_ssize_t j, k, N = self.X.shape[0], n = self.X.shape[1]
+ *         cdef double wk
+ */
+
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_5calc_update_GG(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_update_GG(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, int __pyx_skip_dispatch) {
+  Py_ssize_t __pyx_v_j;
+  Py_ssize_t __pyx_v_k;
+  Py_ssize_t __pyx_v_N;
+  CYTHON_UNUSED Py_ssize_t __pyx_v_n;
+  double __pyx_v_wk;
+  __Pyx_memviewslice __pyx_v_GG = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double *__pyx_v_GG_k;
+  double *__pyx_v_W;
+  double *__pyx_v_weights;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_memviewslice __pyx_t_5 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("calc_update_GG", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_calc_update_GG); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 177, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_5calc_update_GG)) {
+        __Pyx_XDECREF(__pyx_r);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 177, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_r = __pyx_t_2;
+        __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "mlgrad/mlocation_scatter2.pyx":178
+ * 
+ *     cpdef calc_update_GG(self):
+ *         cdef Py_ssize_t j, k, N = self.X.shape[0], n = self.X.shape[1]             # <<<<<<<<<<<<<<
+ *         cdef double wk
+ *         cdef double[:,::1] GG = self.GG
+ */
+  __pyx_v_N = (__pyx_v_self->X.shape[0]);
+  __pyx_v_n = (__pyx_v_self->X.shape[1]);
+
+  /* "mlgrad/mlocation_scatter2.pyx":180
+ *         cdef Py_ssize_t j, k, N = self.X.shape[0], n = self.X.shape[1]
+ *         cdef double wk
+ *         cdef double[:,::1] GG = self.GG             # <<<<<<<<<<<<<<
+ *         cdef double *GG_k
+ *         cdef double *W = &self.W[0]
+ */
+  __pyx_t_5 = __pyx_v_self->GG;
+  __PYX_INC_MEMVIEW(&__pyx_t_5, 1);
+  __pyx_v_GG = __pyx_t_5;
+  __pyx_t_5.memview = NULL;
+  __pyx_t_5.data = NULL;
+
+  /* "mlgrad/mlocation_scatter2.pyx":182
+ *         cdef double[:,::1] GG = self.GG
+ *         cdef double *GG_k
+ *         cdef double *W = &self.W[0]             # <<<<<<<<<<<<<<
+ *         cdef double *weights = &self.weights[0]
+ * 
+ */
+  __pyx_t_6 = 0;
+  __pyx_v_W = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->W.data) + __pyx_t_6)) ))));
+
+  /* "mlgrad/mlocation_scatter2.pyx":183
+ *         cdef double *GG_k
+ *         cdef double *W = &self.W[0]
+ *         cdef double *weights = &self.weights[0]             # <<<<<<<<<<<<<<
+ * 
+ * #         for k in prange(N, nogil=True, num_threads=num_procs):
+ */
+  __pyx_t_6 = 0;
+  __pyx_v_weights = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->weights.data) + __pyx_t_6)) ))));
+
+  /* "mlgrad/mlocation_scatter2.pyx":186
+ * 
+ * #         for k in prange(N, nogil=True, num_threads=num_procs):
+ *         for k in range(N):             # <<<<<<<<<<<<<<
+ *             wk = weights[k]
+ *             GG_k = &GG[k, 0]
+ */
+  __pyx_t_7 = __pyx_v_N;
+  __pyx_t_8 = __pyx_t_7;
+  for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+    __pyx_v_k = __pyx_t_9;
+
+    /* "mlgrad/mlocation_scatter2.pyx":187
+ * #         for k in prange(N, nogil=True, num_threads=num_procs):
+ *         for k in range(N):
+ *             wk = weights[k]             # <<<<<<<<<<<<<<
+ *             GG_k = &GG[k, 0]
+ *             for j in range(self.n_locs):
+ */
+    __pyx_v_wk = (__pyx_v_weights[__pyx_v_k]);
+
+    /* "mlgrad/mlocation_scatter2.pyx":188
+ *         for k in range(N):
+ *             wk = weights[k]
+ *             GG_k = &GG[k, 0]             # <<<<<<<<<<<<<<
+ *             for j in range(self.n_locs):
+ *                 GG_k[j] *= wk
+ */
+    __pyx_t_6 = __pyx_v_k;
+    __pyx_t_10 = 0;
+    __pyx_v_GG_k = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_GG.data + __pyx_t_6 * __pyx_v_GG.strides[0]) )) + __pyx_t_10)) ))));
+
+    /* "mlgrad/mlocation_scatter2.pyx":189
+ *             wk = weights[k]
+ *             GG_k = &GG[k, 0]
+ *             for j in range(self.n_locs):             # <<<<<<<<<<<<<<
+ *                 GG_k[j] *= wk
+ * 
+ */
+    __pyx_t_11 = __pyx_v_self->n_locs;
+    __pyx_t_12 = __pyx_t_11;
+    for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
+      __pyx_v_j = __pyx_t_13;
+
+      /* "mlgrad/mlocation_scatter2.pyx":190
+ *             GG_k = &GG[k, 0]
+ *             for j in range(self.n_locs):
+ *                 GG_k[j] *= wk             # <<<<<<<<<<<<<<
+ * 
+ *         fill_memoryview(self.W, 0)
+ */
+      __pyx_t_14 = __pyx_v_j;
+      (__pyx_v_GG_k[__pyx_t_14]) = ((__pyx_v_GG_k[__pyx_t_14]) * __pyx_v_wk);
+    }
+  }
+
+  /* "mlgrad/mlocation_scatter2.pyx":192
+ *                 GG_k[j] *= wk
+ * 
+ *         fill_memoryview(self.W, 0)             # <<<<<<<<<<<<<<
+ * #         num = int_min(num_procs, self.n_locs)
+ * #         for j in prange(self.n_locs, nogil=True, num_threads=num):
+ */
+  __pyx_f_6mlgrad_18mlocation_scatter2_fill_memoryview(__pyx_v_self->W, 0.0);
+
+  /* "mlgrad/mlocation_scatter2.pyx":195
+ * #         num = int_min(num_procs, self.n_locs)
+ * #         for j in prange(self.n_locs, nogil=True, num_threads=num):
+ *         for j in range(self.n_locs):             # <<<<<<<<<<<<<<
+ *             for k in range(N):
+ *                 W[j] += GG[k,j]
+ */
+  __pyx_t_7 = __pyx_v_self->n_locs;
+  __pyx_t_8 = __pyx_t_7;
+  for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+    __pyx_v_j = __pyx_t_9;
+
+    /* "mlgrad/mlocation_scatter2.pyx":196
+ * #         for j in prange(self.n_locs, nogil=True, num_threads=num):
+ *         for j in range(self.n_locs):
+ *             for k in range(N):             # <<<<<<<<<<<<<<
+ *                 W[j] += GG[k,j]
+ * 
+ */
+    __pyx_t_11 = __pyx_v_N;
+    __pyx_t_12 = __pyx_t_11;
+    for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
+      __pyx_v_k = __pyx_t_13;
+
+      /* "mlgrad/mlocation_scatter2.pyx":197
+ *         for j in range(self.n_locs):
+ *             for k in range(N):
+ *                 W[j] += GG[k,j]             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+      __pyx_t_14 = __pyx_v_j;
+      __pyx_t_10 = __pyx_v_k;
+      __pyx_t_6 = __pyx_v_j;
+      (__pyx_v_W[__pyx_t_14]) = ((__pyx_v_W[__pyx_t_14]) + (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_GG.data + __pyx_t_10 * __pyx_v_GG.strides[0]) )) + __pyx_t_6)) ))));
+    }
+  }
+
+  /* "mlgrad/mlocation_scatter2.pyx":201
+ * 
+ * #         for k in prange(N, nogil=True, num_threads=num_procs):
+ *         for k in range(N):             # <<<<<<<<<<<<<<
+ *             wk = weights[k]
+ *             GG_k = &GG[k, 0]
+ */
+  __pyx_t_7 = __pyx_v_N;
+  __pyx_t_8 = __pyx_t_7;
+  for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+    __pyx_v_k = __pyx_t_9;
+
+    /* "mlgrad/mlocation_scatter2.pyx":202
+ * #         for k in prange(N, nogil=True, num_threads=num_procs):
+ *         for k in range(N):
+ *             wk = weights[k]             # <<<<<<<<<<<<<<
+ *             GG_k = &GG[k, 0]
+ *             for j in range(self.n_locs):
+ */
+    __pyx_v_wk = (__pyx_v_weights[__pyx_v_k]);
+
+    /* "mlgrad/mlocation_scatter2.pyx":203
+ *         for k in range(N):
+ *             wk = weights[k]
+ *             GG_k = &GG[k, 0]             # <<<<<<<<<<<<<<
+ *             for j in range(self.n_locs):
+ *                 GG_k[j] /= W[j]
+ */
+    __pyx_t_6 = __pyx_v_k;
+    __pyx_t_10 = 0;
+    __pyx_v_GG_k = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_GG.data + __pyx_t_6 * __pyx_v_GG.strides[0]) )) + __pyx_t_10)) ))));
+
+    /* "mlgrad/mlocation_scatter2.pyx":204
+ *             wk = weights[k]
+ *             GG_k = &GG[k, 0]
+ *             for j in range(self.n_locs):             # <<<<<<<<<<<<<<
+ *                 GG_k[j] /= W[j]
+ * 
+ */
+    __pyx_t_11 = __pyx_v_self->n_locs;
+    __pyx_t_12 = __pyx_t_11;
+    for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
+      __pyx_v_j = __pyx_t_13;
+
+      /* "mlgrad/mlocation_scatter2.pyx":205
+ *             GG_k = &GG[k, 0]
+ *             for j in range(self.n_locs):
+ *                 GG_k[j] /= W[j]             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef double Q(self):
+ */
+      __pyx_t_14 = __pyx_v_j;
+      if (unlikely((__pyx_v_W[__pyx_v_j]) == 0)) {
+        PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+        __PYX_ERR(1, 205, __pyx_L1_error)
+      }
+      (__pyx_v_GG_k[__pyx_t_14]) = ((__pyx_v_GG_k[__pyx_t_14]) / (__pyx_v_W[__pyx_v_j]));
+    }
+  }
+
+  /* "mlgrad/mlocation_scatter2.pyx":177
+ *         self.avg.gradient(self.D, self.weights)
+ * 
+ *     cpdef calc_update_GG(self):             # <<<<<<<<<<<<<<
+ *         cdef Py_ssize_t j, k, N = self.X.shape[0], n = self.X.shape[1]
+ *         cdef double wk
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
+  __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLSE2.calc_update_GG", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_GG, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_5calc_update_GG(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_4calc_update_GG[] = "MLSE2.calc_update_GG(self)";
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_5calc_update_GG(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("calc_update_GG (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_4calc_update_GG(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_4calc_update_GG(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("calc_update_GG", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_update_GG(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 177, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLSE2.calc_update_GG", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "mlgrad/mlocation_scatter2.pyx":207
+ *                 GG_k[j] /= W[j]
+ * 
+ *     cpdef double Q(self):             # <<<<<<<<<<<<<<
+ *         self.calc_distances()
+ *         self.avg.fit(self.D)
+ */
+
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_7Q(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static double __pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_Q(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, int __pyx_skip_dispatch) {
-  double __pyx_v_dval;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6921,9 +7531,9 @@ static double __pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_Q(struct __pyx_obj_6ml
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_Q); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 186, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_Q); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 207, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_3Q)) {
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_7Q)) {
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
         if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -6937,10 +7547,10 @@ static double __pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_Q(struct __pyx_obj_6ml
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 186, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 207, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 186, __pyx_L1_error)
+        __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 207, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_r = __pyx_t_5;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6959,54 +7569,44 @@ static double __pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_Q(struct __pyx_obj_6ml
     #endif
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":189
- *         cdef double dval
+  /* "mlgrad/mlocation_scatter2.pyx":208
  * 
+ *     cpdef double Q(self):
  *         self.calc_distances()             # <<<<<<<<<<<<<<
  *         self.avg.fit(self.D)
- *         dval = self.avg.u
+ *         return self.avg.u
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self->__pyx_vtab)->calc_distances(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 189, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self->__pyx_vtab)->calc_distances(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 208, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":190
- * 
+  /* "mlgrad/mlocation_scatter2.pyx":209
+ *     cpdef double Q(self):
  *         self.calc_distances()
  *         self.avg.fit(self.D)             # <<<<<<<<<<<<<<
- *         dval = self.avg.u
+ *         return self.avg.u
  * 
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avg->__pyx_vtab)->fit(__pyx_v_self->avg, __pyx_v_self->D, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 190, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avg->__pyx_vtab)->fit(__pyx_v_self->avg, __pyx_v_self->D, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":191
+  /* "mlgrad/mlocation_scatter2.pyx":210
  *         self.calc_distances()
  *         self.avg.fit(self.D)
- *         dval = self.avg.u             # <<<<<<<<<<<<<<
+ *         return self.avg.u             # <<<<<<<<<<<<<<
  * 
- *         return dval
+ * 
  */
-  __pyx_t_5 = __pyx_v_self->avg->u;
-  __pyx_v_dval = __pyx_t_5;
-
-  /* "mlgrad/mlocation_scatter2.pyx":193
- *         dval = self.avg.u
- * 
- *         return dval             # <<<<<<<<<<<<<<
- * 
- *     def update_distfuncs(self, double[:,:,::1] scatters):
- */
-  __pyx_r = __pyx_v_dval;
+  __pyx_r = __pyx_v_self->avg->u;
   goto __pyx_L0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":186
- *         return self.D
+  /* "mlgrad/mlocation_scatter2.pyx":207
+ *                 GG_k[j] /= W[j]
  * 
  *     cpdef double Q(self):             # <<<<<<<<<<<<<<
- *         cdef double dval
- * 
+ *         self.calc_distances()
+ *         self.avg.fit(self.D)
  */
 
   /* function exit code */
@@ -7023,20 +7623,20 @@ static double __pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_Q(struct __pyx_obj_6ml
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_3Q(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_2Q[] = "MLSE2.Q(self) -> double";
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_3Q(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_7Q(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_6Q[] = "MLSE2.Q(self) -> double";
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_7Q(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("Q (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_2Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_2Q(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6Q(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7045,7 +7645,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_2Q(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("Q", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_Q(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 186, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_Q(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7062,18 +7662,228 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_2Q(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":195
- *         return dval
+/* "mlgrad/mlocation_scatter2.pyx":213
+ * 
+ * 
+ *     cpdef double local_Q(self):             # <<<<<<<<<<<<<<
+ *         cdef Py_ssize_t k, N = self.X.shape[0], n = self.X.shape[1]
+ *         cdef double *weights = &self.weights[0]
+ */
+
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_9local_Q(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static double __pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_local_Q(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, int __pyx_skip_dispatch) {
+  Py_ssize_t __pyx_v_k;
+  Py_ssize_t __pyx_v_N;
+  CYTHON_UNUSED Py_ssize_t __pyx_v_n;
+  double *__pyx_v_weights;
+  double *__pyx_v_D;
+  double __pyx_v_s;
+  double __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  double __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("local_Q", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_local_Q); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 213, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_9local_Q)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 213, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 213, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_5;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "mlgrad/mlocation_scatter2.pyx":214
+ * 
+ *     cpdef double local_Q(self):
+ *         cdef Py_ssize_t k, N = self.X.shape[0], n = self.X.shape[1]             # <<<<<<<<<<<<<<
+ *         cdef double *weights = &self.weights[0]
+ *         cdef double *D = &self.D[0]
+ */
+  __pyx_v_N = (__pyx_v_self->X.shape[0]);
+  __pyx_v_n = (__pyx_v_self->X.shape[1]);
+
+  /* "mlgrad/mlocation_scatter2.pyx":215
+ *     cpdef double local_Q(self):
+ *         cdef Py_ssize_t k, N = self.X.shape[0], n = self.X.shape[1]
+ *         cdef double *weights = &self.weights[0]             # <<<<<<<<<<<<<<
+ *         cdef double *D = &self.D[0]
+ *         cdef double s, W
+ */
+  __pyx_t_6 = 0;
+  __pyx_v_weights = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->weights.data) + __pyx_t_6)) ))));
+
+  /* "mlgrad/mlocation_scatter2.pyx":216
+ *         cdef Py_ssize_t k, N = self.X.shape[0], n = self.X.shape[1]
+ *         cdef double *weights = &self.weights[0]
+ *         cdef double *D = &self.D[0]             # <<<<<<<<<<<<<<
+ *         cdef double s, W
+ * 
+ */
+  __pyx_t_6 = 0;
+  __pyx_v_D = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->D.data) + __pyx_t_6)) ))));
+
+  /* "mlgrad/mlocation_scatter2.pyx":223
+ * #             W += weights[k]
+ * 
+ *         s = 0             # <<<<<<<<<<<<<<
+ *         for k in range(N):
+ *             s += weights[k] * D[k]
+ */
+  __pyx_v_s = 0.0;
+
+  /* "mlgrad/mlocation_scatter2.pyx":224
+ * 
+ *         s = 0
+ *         for k in range(N):             # <<<<<<<<<<<<<<
+ *             s += weights[k] * D[k]
+ * 
+ */
+  __pyx_t_7 = __pyx_v_N;
+  __pyx_t_8 = __pyx_t_7;
+  for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+    __pyx_v_k = __pyx_t_9;
+
+    /* "mlgrad/mlocation_scatter2.pyx":225
+ *         s = 0
+ *         for k in range(N):
+ *             s += weights[k] * D[k]             # <<<<<<<<<<<<<<
+ * 
+ * #         return s / W
+ */
+    __pyx_v_s = (__pyx_v_s + ((__pyx_v_weights[__pyx_v_k]) * (__pyx_v_D[__pyx_v_k])));
+  }
+
+  /* "mlgrad/mlocation_scatter2.pyx":228
+ * 
+ * #         return s / W
+ *         return s             # <<<<<<<<<<<<<<
+ * 
+ *     def update_distfuncs(self, double[:,:,::1] scatters):
+ */
+  __pyx_r = __pyx_v_s;
+  goto __pyx_L0;
+
+  /* "mlgrad/mlocation_scatter2.pyx":213
+ * 
+ * 
+ *     cpdef double local_Q(self):             # <<<<<<<<<<<<<<
+ *         cdef Py_ssize_t k, N = self.X.shape[0], n = self.X.shape[1]
+ *         cdef double *weights = &self.weights[0]
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_WriteUnraisable("mlgrad.mlocation_scatter2.MLSE2.local_Q", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_9local_Q(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_8local_Q[] = "MLSE2.local_Q(self) -> double";
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_9local_Q(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("local_Q (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8local_Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8local_Q(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("local_Q", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_local_Q(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 213, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLSE2.local_Q", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "mlgrad/mlocation_scatter2.pyx":230
+ *         return s
  * 
  *     def update_distfuncs(self, double[:,:,::1] scatters):             # <<<<<<<<<<<<<<
- *         cdef Py_ssize_t i
+ *         cdef Py_ssize_t i, j, n
  *         cdef DistanceWithScale distfunc
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_5update_distfuncs(PyObject *__pyx_v_self, PyObject *__pyx_arg_scatters); /*proto*/
-static char __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_4update_distfuncs[] = "MLSE2.update_distfuncs(self, double[:, :, ::1] scatters)";
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_5update_distfuncs(PyObject *__pyx_v_self, PyObject *__pyx_arg_scatters) {
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_11update_distfuncs(PyObject *__pyx_v_self, PyObject *__pyx_arg_scatters); /*proto*/
+static char __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_10update_distfuncs[] = "MLSE2.update_distfuncs(self, double[:, :, ::1] scatters)";
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_11update_distfuncs(PyObject *__pyx_v_self, PyObject *__pyx_arg_scatters) {
   __Pyx_memviewslice __pyx_v_scatters = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -7082,7 +7892,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_5update_distfuncs(
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("update_distfuncs (wrapper)", 0);
   assert(__pyx_arg_scatters); {
-    __pyx_v_scatters = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_arg_scatters, PyBUF_WRITABLE); if (unlikely(!__pyx_v_scatters.memview)) __PYX_ERR(1, 195, __pyx_L3_error)
+    __pyx_v_scatters = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_arg_scatters, PyBUF_WRITABLE); if (unlikely(!__pyx_v_scatters.memview)) __PYX_ERR(1, 230, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -7090,17 +7900,17 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_5update_distfuncs(
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_4update_distfuncs(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), __pyx_v_scatters);
+  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_10update_distfuncs(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), __pyx_v_scatters);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_4update_distfuncs(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, __Pyx_memviewslice __pyx_v_scatters) {
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_10update_distfuncs(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, __Pyx_memviewslice __pyx_v_scatters) {
   Py_ssize_t __pyx_v_i;
   struct __pyx_obj_6mlgrad_8distance_DistanceWithScale *__pyx_v_distfunc = 0;
-  __Pyx_memviewslice __pyx_v_S1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_S = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
@@ -7118,11 +7928,11 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_4update_distfuncs(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("update_distfuncs", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":200
- *         cdef double[:,::1] S1
+  /* "mlgrad/mlocation_scatter2.pyx":235
+ *         cdef double[:,::1] S
  * 
  *         for i in range(self.n_locs):             # <<<<<<<<<<<<<<
- *             S1 = scatters[i]
+ *             S = scatters[i]
  *             distfunc = self.distfuncs[i]
  */
   __pyx_t_1 = __pyx_v_self->n_locs;
@@ -7130,10 +7940,10 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_4update_distfuncs(
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/mlocation_scatter2.pyx":201
+    /* "mlgrad/mlocation_scatter2.pyx":236
  * 
  *         for i in range(self.n_locs):
- *             S1 = scatters[i]             # <<<<<<<<<<<<<<
+ *             S = scatters[i]             # <<<<<<<<<<<<<<
  *             distfunc = self.distfuncs[i]
  *             if distfunc is None:
  */
@@ -7154,17 +7964,17 @@ __pyx_t_4.shape[1] = __pyx_v_scatters.shape[2];
 __pyx_t_4.strides[1] = __pyx_v_scatters.strides[2];
     __pyx_t_4.suboffsets[1] = -1;
 
-__PYX_XDEC_MEMVIEW(&__pyx_v_S1, 1);
-    __pyx_v_S1 = __pyx_t_4;
+__PYX_XDEC_MEMVIEW(&__pyx_v_S, 1);
+    __pyx_v_S = __pyx_t_4;
     __pyx_t_4.memview = NULL;
     __pyx_t_4.data = NULL;
 
-    /* "mlgrad/mlocation_scatter2.pyx":202
+    /* "mlgrad/mlocation_scatter2.pyx":237
  *         for i in range(self.n_locs):
- *             S1 = scatters[i]
+ *             S = scatters[i]
  *             distfunc = self.distfuncs[i]             # <<<<<<<<<<<<<<
  *             if distfunc is None:
- *                 distfunc = MahalanobisDistance(S1)
+ *                 distfunc = MahalanobisDistance(S)
  */
     __pyx_t_6 = __pyx_v_i;
     __pyx_t_5 = (PyObject *) *((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale * *) ( /* dim=0 */ ((char *) (((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale * *) __pyx_v_self->distfuncs.data) + __pyx_t_6)) ));
@@ -7172,38 +7982,38 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_S1, 1);
     __Pyx_XDECREF_SET(__pyx_v_distfunc, ((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale *)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":203
- *             S1 = scatters[i]
+    /* "mlgrad/mlocation_scatter2.pyx":238
+ *             S = scatters[i]
  *             distfunc = self.distfuncs[i]
  *             if distfunc is None:             # <<<<<<<<<<<<<<
- *                 distfunc = MahalanobisDistance(S1)
+ *                 distfunc = MahalanobisDistance(S)
  *                 self.distfuncs[i] = distfunc
  */
     __pyx_t_7 = (((PyObject *)__pyx_v_distfunc) == Py_None);
     __pyx_t_8 = (__pyx_t_7 != 0);
     if (__pyx_t_8) {
 
-      /* "mlgrad/mlocation_scatter2.pyx":204
+      /* "mlgrad/mlocation_scatter2.pyx":239
  *             distfunc = self.distfuncs[i]
  *             if distfunc is None:
- *                 distfunc = MahalanobisDistance(S1)             # <<<<<<<<<<<<<<
+ *                 distfunc = MahalanobisDistance(S)             # <<<<<<<<<<<<<<
  *                 self.distfuncs[i] = distfunc
  *             else:
  */
-      __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_S1, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 204, __pyx_L1_error)
+      __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_9 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6mlgrad_8distance_MahalanobisDistance), __pyx_t_5); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 204, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6mlgrad_8distance_MahalanobisDistance), __pyx_t_5); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF_SET(__pyx_v_distfunc, ((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale *)__pyx_t_9));
       __pyx_t_9 = 0;
 
-      /* "mlgrad/mlocation_scatter2.pyx":205
+      /* "mlgrad/mlocation_scatter2.pyx":240
  *             if distfunc is None:
- *                 distfunc = MahalanobisDistance(S1)
+ *                 distfunc = MahalanobisDistance(S)
  *                 self.distfuncs[i] = distfunc             # <<<<<<<<<<<<<<
  *             else:
- *                 copy_memoryview2(distfunc.S, S1)
+ *                 copy_memoryview2(distfunc.S, S)
  */
       __pyx_t_6 = __pyx_v_i;
       __pyx_t_10 = ((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale * *) ( /* dim=0 */ ((char *) (((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale * *) __pyx_v_self->distfuncs.data) + __pyx_t_6)) ));
@@ -7212,34 +8022,34 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_S1, 1);
       *__pyx_t_10 = __pyx_v_distfunc;
       __Pyx_GIVEREF(*__pyx_t_10);
 
-      /* "mlgrad/mlocation_scatter2.pyx":203
- *             S1 = scatters[i]
+      /* "mlgrad/mlocation_scatter2.pyx":238
+ *             S = scatters[i]
  *             distfunc = self.distfuncs[i]
  *             if distfunc is None:             # <<<<<<<<<<<<<<
- *                 distfunc = MahalanobisDistance(S1)
+ *                 distfunc = MahalanobisDistance(S)
  *                 self.distfuncs[i] = distfunc
  */
       goto __pyx_L5;
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":207
+    /* "mlgrad/mlocation_scatter2.pyx":242
  *                 self.distfuncs[i] = distfunc
  *             else:
- *                 copy_memoryview2(distfunc.S, S1)             # <<<<<<<<<<<<<<
+ *                 copy_memoryview2(distfunc.S, S)             # <<<<<<<<<<<<<<
  * 
  * cdef class MLocationsScattersEstimator(MLSE2):
  */
     /*else*/ {
-      __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__pyx_v_distfunc->S, __pyx_v_S1);
+      __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__pyx_v_distfunc->S, __pyx_v_S);
     }
     __pyx_L5:;
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":195
- *         return dval
+  /* "mlgrad/mlocation_scatter2.pyx":230
+ *         return s
  * 
  *     def update_distfuncs(self, double[:,:,::1] scatters):             # <<<<<<<<<<<<<<
- *         cdef Py_ssize_t i
+ *         cdef Py_ssize_t i, j, n
  *         cdef DistanceWithScale distfunc
  */
 
@@ -7255,13 +8065,13 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_S1, 1);
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_scatters, 1);
   __Pyx_XDECREF((PyObject *)__pyx_v_distfunc);
-  __PYX_XDEC_MEMVIEW(&__pyx_v_S1, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_S, 1);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":63
+/* "mlgrad/mlocation_scatter2.pxd":69
  * 
  * cdef class MLSE2:
  *     cdef public DistanceWithScale[::1] distfuncs             # <<<<<<<<<<<<<<
@@ -7291,7 +8101,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_9distfuncs___get__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->distfuncs, 1, (PyObject *(*)(char *)) __pyx_memview_get_object, (int (*)(char *, PyObject *)) __pyx_memview_set_object, 1);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->distfuncs, 1, (PyObject *(*)(char *)) __pyx_memview_get_object, (int (*)(char *, PyObject *)) __pyx_memview_set_object, 1);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7329,7 +8139,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_9distfuncs_2__set__(stru
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_object(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_object(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 69, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->distfuncs, 0);
   __pyx_v_self->distfuncs = __pyx_t_1;
   __pyx_t_1.memview = NULL;
@@ -7347,7 +8157,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_9distfuncs_2__set__(stru
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":64
+/* "mlgrad/mlocation_scatter2.pxd":70
  * cdef class MLSE2:
  *     cdef public DistanceWithScale[::1] distfuncs
  *     cdef public double[:,::1] X             # <<<<<<<<<<<<<<
@@ -7377,7 +8187,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_1X___get__(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7415,7 +8225,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_1X_2__set__(struct __pyx
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 70, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->X, 0);
   __pyx_v_self->X = __pyx_t_1;
   __pyx_t_1.memview = NULL;
@@ -7433,7 +8243,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_1X_2__set__(struct __pyx
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":65
+/* "mlgrad/mlocation_scatter2.pxd":71
  *     cdef public DistanceWithScale[::1] distfuncs
  *     cdef public double[:,::1] X
  *     cdef public double[:,::1] locs, locs_min             # <<<<<<<<<<<<<<
@@ -7463,7 +8273,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_4locs___get__(stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7501,7 +8311,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_4locs_2__set__(struct __
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 71, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->locs, 0);
   __pyx_v_self->locs = __pyx_t_1;
   __pyx_t_1.memview = NULL;
@@ -7541,7 +8351,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8locs_min___get__(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->locs_min, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->locs_min, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7579,7 +8389,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8locs_min_2__set__(struc
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 71, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->locs_min, 0);
   __pyx_v_self->locs_min = __pyx_t_1;
   __pyx_t_1.memview = NULL;
@@ -7597,12 +8407,12 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8locs_min_2__set__(struc
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":66
+/* "mlgrad/mlocation_scatter2.pxd":72
  *     cdef public double[:,::1] X
  *     cdef public double[:,::1] locs, locs_min
  *     cdef public Py_ssize_t n_locs             # <<<<<<<<<<<<<<
  *     cdef public double[:,:,::1] scatters, scatters_min
- *     cdef double[::1] D
+ *     cdef double[:,::1] DD
  */
 
 /* Python wrapper */
@@ -7627,7 +8437,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_locs___get__(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->n_locs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->n_locs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7665,7 +8475,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_locs_2__set__(struct 
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_value); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_value); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 72, __pyx_L1_error)
   __pyx_v_self->n_locs = __pyx_t_1;
 
   /* function exit code */
@@ -7679,12 +8489,12 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_locs_2__set__(struct 
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":67
+/* "mlgrad/mlocation_scatter2.pxd":73
  *     cdef public double[:,::1] locs, locs_min
  *     cdef public Py_ssize_t n_locs
  *     cdef public double[:,:,::1] scatters, scatters_min             # <<<<<<<<<<<<<<
+ *     cdef double[:,::1] DD
  *     cdef double[::1] D
- *     cdef Average avg
  */
 
 /* Python wrapper */
@@ -7709,7 +8519,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8scatters___get__(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7747,7 +8557,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8scatters_2__set__(struc
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 73, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->scatters, 0);
   __pyx_v_self->scatters = __pyx_t_1;
   __pyx_t_1.memview = NULL;
@@ -7787,7 +8597,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_12scatters_min___g
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->scatters_min, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->scatters_min, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7825,7 +8635,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_12scatters_min_2__set__(
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 73, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->scatters_min, 0);
   __pyx_v_self->scatters_min = __pyx_t_1;
   __pyx_t_1.memview = NULL;
@@ -7843,12 +8653,12 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_12scatters_min_2__set__(
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":70
- *     cdef double[::1] D
+/* "mlgrad/mlocation_scatter2.pxd":79
  *     cdef Average avg
+ *     cdef Average avg_min
  *     cdef public double[::1] weights             # <<<<<<<<<<<<<<
  *     cdef double[::1] W
- *     cdef Py_ssize_t[::1] Y, Ns
+ *     cdef double[::1] xy
  */
 
 /* Python wrapper */
@@ -7873,7 +8683,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_7weights___get__(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7911,7 +8721,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_7weights_2__set__(struct
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 79, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->weights, 0);
   __pyx_v_self->weights = __pyx_t_1;
   __pyx_t_1.memview = NULL;
@@ -7929,10 +8739,10 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_7weights_2__set__(struct
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":77
+/* "mlgrad/mlocation_scatter2.pxd":87
  *     cdef double dval2, dval2_prev, dval2_min
  *     cdef double h
- *     cdef public int K, Ks, n_iter, n_step             # <<<<<<<<<<<<<<
+ *     cdef public int K, Ks, n_iter, n_iter_s, n_step             # <<<<<<<<<<<<<<
  *     cdef public double tol
  *     cdef public list dvals, dvals2
  */
@@ -7959,7 +8769,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_1K___get__(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->K); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->K); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7997,7 +8807,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_1K_2__set__(struct __pyx
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
   __pyx_v_self->K = __pyx_t_1;
 
   /* function exit code */
@@ -8033,7 +8843,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_2Ks___get__(struct
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->Ks); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->Ks); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8071,7 +8881,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_2Ks_2__set__(struct __py
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
   __pyx_v_self->Ks = __pyx_t_1;
 
   /* function exit code */
@@ -8107,7 +8917,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_iter___get__(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n_iter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n_iter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8145,7 +8955,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_iter_2__set__(struct 
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
   __pyx_v_self->n_iter = __pyx_t_1;
 
   /* function exit code */
@@ -8153,6 +8963,80 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_iter_2__set__(struct 
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLSE2.n_iter.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_8n_iter_s_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_8n_iter_s_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8n_iter_s___get__(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8n_iter_s___get__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n_iter_s); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLSE2.n_iter_s.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_8n_iter_s_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_8n_iter_s_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8n_iter_s_2__set__(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8n_iter_s_2__set__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_v_self->n_iter_s = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLSE2.n_iter_s.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -8181,7 +9065,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_step___get__(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n_step); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n_step); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8219,7 +9103,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_step_2__set__(struct 
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
   __pyx_v_self->n_step = __pyx_t_1;
 
   /* function exit code */
@@ -8233,12 +9117,12 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6n_step_2__set__(struct 
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":78
+/* "mlgrad/mlocation_scatter2.pxd":88
  *     cdef double h
- *     cdef public int K, Ks, n_iter, n_step
+ *     cdef public int K, Ks, n_iter, n_iter_s, n_step
  *     cdef public double tol             # <<<<<<<<<<<<<<
  *     cdef public list dvals, dvals2
- * 
+ *     cdef double alpha
  */
 
 /* Python wrapper */
@@ -8263,7 +9147,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_3tol___get__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->tol); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->tol); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8301,7 +9185,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_3tol_2__set__(struct __p
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
   __pyx_v_self->tol = __pyx_t_1;
 
   /* function exit code */
@@ -8315,12 +9199,12 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_3tol_2__set__(struct __p
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":79
- *     cdef public int K, Ks, n_iter, n_step
+/* "mlgrad/mlocation_scatter2.pxd":89
+ *     cdef public int K, Ks, n_iter, n_iter_s, n_step
  *     cdef public double tol
  *     cdef public list dvals, dvals2             # <<<<<<<<<<<<<<
+ *     cdef double alpha
  * 
- *     cpdef calc_distances(self)
  */
 
 /* Python wrapper */
@@ -8373,7 +9257,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_5dvals_2__set__(struct _
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(PyList_CheckExact(__pyx_v_value))||((__pyx_v_value) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_value)->tp_name), 0))) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (!(likely(PyList_CheckExact(__pyx_v_value))||((__pyx_v_value) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_value)->tp_name), 0))) __PYX_ERR(0, 89, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -8473,7 +9357,7 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6dvals2_2__set__(struct 
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(PyList_CheckExact(__pyx_v_value))||((__pyx_v_value) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_value)->tp_name), 0))) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (!(likely(PyList_CheckExact(__pyx_v_value))||((__pyx_v_value) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_value)->tp_name), 0))) __PYX_ERR(0, 89, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -8530,20 +9414,20 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6dvals2_4__del__(struct 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_6__reduce_cython__[] = "MLSE2.__reduce_cython__(self)";
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_13__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_12__reduce_cython__[] = "MLSE2.__reduce_cython__(self)";
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_13__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6__reduce_cython__(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_12__reduce_cython__(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6__reduce_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_12__reduce_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -8574,9 +9458,13 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6__reduce_cython__
   PyObject *__pyx_t_23 = NULL;
   PyObject *__pyx_t_24 = NULL;
   PyObject *__pyx_t_25 = NULL;
-  int __pyx_t_26;
-  int __pyx_t_27;
-  int __pyx_t_28;
+  PyObject *__pyx_t_26 = NULL;
+  PyObject *__pyx_t_27 = NULL;
+  PyObject *__pyx_t_28 = NULL;
+  PyObject *__pyx_t_29 = NULL;
+  int __pyx_t_30;
+  int __pyx_t_31;
+  int __pyx_t_32;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -8585,117 +9473,136 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6__reduce_cython__
   /* "(tree fragment)":5
  *     cdef object _dict
  *     cdef bint use_setstate
- *     state = (self.D, self.K, self.Ks, self.Ns, self.W, self.X, self.Y, self.avg, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights)             # <<<<<<<<<<<<<<
+ *     state = (self.D, self.DD, self.GG, self.K, self.Ks, self.Ns, self.W, self.X, self.alpha, self.avg, self.avg_min, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_iter_s, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights, self.xy)             # <<<<<<<<<<<<<<
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->D, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->K); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->DD, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->Ks); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->GG, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->Ns, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_self->K); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->W, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_self->Ks); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->Ns, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->Y, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->W, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_v_self->distfuncs, 1, (PyObject *(*)(char *)) __pyx_memview_get_object, (int (*)(char *, PyObject *)) __pyx_memview_set_object, 1);; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = PyFloat_FromDouble(__pyx_v_self->dval); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_9 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_10 = PyFloat_FromDouble(__pyx_v_self->dval2); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_v_self->distfuncs, 1, (PyObject *(*)(char *)) __pyx_memview_get_object, (int (*)(char *, PyObject *)) __pyx_memview_set_object, 1);; if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_11 = PyFloat_FromDouble(__pyx_v_self->dval2_min); if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_11 = PyFloat_FromDouble(__pyx_v_self->dval); if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_12 = PyFloat_FromDouble(__pyx_v_self->dval2_prev); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_12 = PyFloat_FromDouble(__pyx_v_self->dval2); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_13 = PyFloat_FromDouble(__pyx_v_self->dval_min); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_13 = PyFloat_FromDouble(__pyx_v_self->dval2_min); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
-  __pyx_t_14 = PyFloat_FromDouble(__pyx_v_self->dval_prev); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_14 = PyFloat_FromDouble(__pyx_v_self->dval2_prev); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_15 = PyFloat_FromDouble(__pyx_v_self->h); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_15 = PyFloat_FromDouble(__pyx_v_self->dval_min); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
-  __pyx_t_16 = __pyx_memoryview_fromslice(__pyx_v_self->locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_16)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_16 = PyFloat_FromDouble(__pyx_v_self->dval_prev); if (unlikely(!__pyx_t_16)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
-  __pyx_t_17 = __pyx_memoryview_fromslice(__pyx_v_self->locs_min, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_17)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_17 = PyFloat_FromDouble(__pyx_v_self->h); if (unlikely(!__pyx_t_17)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_17);
-  __pyx_t_18 = __Pyx_PyInt_From_int(__pyx_v_self->n_iter); if (unlikely(!__pyx_t_18)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_18 = __pyx_memoryview_fromslice(__pyx_v_self->locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_18)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
-  __pyx_t_19 = PyInt_FromSsize_t(__pyx_v_self->n_locs); if (unlikely(!__pyx_t_19)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_19 = __pyx_memoryview_fromslice(__pyx_v_self->locs_min, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_19)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_19);
-  __pyx_t_20 = __Pyx_PyInt_From_int(__pyx_v_self->n_step); if (unlikely(!__pyx_t_20)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_20 = __Pyx_PyInt_From_int(__pyx_v_self->n_iter); if (unlikely(!__pyx_t_20)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_20);
-  __pyx_t_21 = __pyx_memoryview_fromslice(__pyx_v_self->scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_21)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_21 = __Pyx_PyInt_From_int(__pyx_v_self->n_iter_s); if (unlikely(!__pyx_t_21)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_21);
-  __pyx_t_22 = __pyx_memoryview_fromslice(__pyx_v_self->scatters_min, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_22)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_22 = PyInt_FromSsize_t(__pyx_v_self->n_locs); if (unlikely(!__pyx_t_22)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
-  __pyx_t_23 = PyFloat_FromDouble(__pyx_v_self->tol); if (unlikely(!__pyx_t_23)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_23 = __Pyx_PyInt_From_int(__pyx_v_self->n_step); if (unlikely(!__pyx_t_23)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_23);
-  __pyx_t_24 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_24)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_24 = __pyx_memoryview_fromslice(__pyx_v_self->scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_24)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_24);
-  __pyx_t_25 = PyTuple_New(27); if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_25 = __pyx_memoryview_fromslice(__pyx_v_self->scatters_min, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_25);
+  __pyx_t_26 = PyFloat_FromDouble(__pyx_v_self->tol); if (unlikely(!__pyx_t_26)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_26);
+  __pyx_t_27 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_27)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_27);
+  __pyx_t_28 = __pyx_memoryview_fromslice(__pyx_v_self->xy, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_28)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_28);
+  __pyx_t_29 = PyTuple_New(32); if (unlikely(!__pyx_t_29)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_29);
   __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_25, 0, __pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_29, 0, __pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_25, 1, __pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_29, 1, __pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_25, 2, __pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_29, 2, __pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_25, 3, __pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_29, 3, __pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_25, 4, __pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_29, 4, __pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_6);
-  PyTuple_SET_ITEM(__pyx_t_25, 5, __pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_29, 5, __pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_7);
-  PyTuple_SET_ITEM(__pyx_t_25, 6, __pyx_t_7);
+  PyTuple_SET_ITEM(__pyx_t_29, 6, __pyx_t_7);
+  __Pyx_GIVEREF(__pyx_t_8);
+  PyTuple_SET_ITEM(__pyx_t_29, 7, __pyx_t_8);
+  __Pyx_GIVEREF(__pyx_t_9);
+  PyTuple_SET_ITEM(__pyx_t_29, 8, __pyx_t_9);
   __Pyx_INCREF(((PyObject *)__pyx_v_self->avg));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->avg));
-  PyTuple_SET_ITEM(__pyx_t_25, 7, ((PyObject *)__pyx_v_self->avg));
-  __Pyx_GIVEREF(__pyx_t_8);
-  PyTuple_SET_ITEM(__pyx_t_25, 8, __pyx_t_8);
-  __Pyx_GIVEREF(__pyx_t_9);
-  PyTuple_SET_ITEM(__pyx_t_25, 9, __pyx_t_9);
+  PyTuple_SET_ITEM(__pyx_t_29, 9, ((PyObject *)__pyx_v_self->avg));
+  __Pyx_INCREF(((PyObject *)__pyx_v_self->avg_min));
+  __Pyx_GIVEREF(((PyObject *)__pyx_v_self->avg_min));
+  PyTuple_SET_ITEM(__pyx_t_29, 10, ((PyObject *)__pyx_v_self->avg_min));
   __Pyx_GIVEREF(__pyx_t_10);
-  PyTuple_SET_ITEM(__pyx_t_25, 10, __pyx_t_10);
+  PyTuple_SET_ITEM(__pyx_t_29, 11, __pyx_t_10);
   __Pyx_GIVEREF(__pyx_t_11);
-  PyTuple_SET_ITEM(__pyx_t_25, 11, __pyx_t_11);
+  PyTuple_SET_ITEM(__pyx_t_29, 12, __pyx_t_11);
   __Pyx_GIVEREF(__pyx_t_12);
-  PyTuple_SET_ITEM(__pyx_t_25, 12, __pyx_t_12);
+  PyTuple_SET_ITEM(__pyx_t_29, 13, __pyx_t_12);
   __Pyx_GIVEREF(__pyx_t_13);
-  PyTuple_SET_ITEM(__pyx_t_25, 13, __pyx_t_13);
+  PyTuple_SET_ITEM(__pyx_t_29, 14, __pyx_t_13);
   __Pyx_GIVEREF(__pyx_t_14);
-  PyTuple_SET_ITEM(__pyx_t_25, 14, __pyx_t_14);
+  PyTuple_SET_ITEM(__pyx_t_29, 15, __pyx_t_14);
+  __Pyx_GIVEREF(__pyx_t_15);
+  PyTuple_SET_ITEM(__pyx_t_29, 16, __pyx_t_15);
+  __Pyx_GIVEREF(__pyx_t_16);
+  PyTuple_SET_ITEM(__pyx_t_29, 17, __pyx_t_16);
   __Pyx_INCREF(__pyx_v_self->dvals);
   __Pyx_GIVEREF(__pyx_v_self->dvals);
-  PyTuple_SET_ITEM(__pyx_t_25, 15, __pyx_v_self->dvals);
+  PyTuple_SET_ITEM(__pyx_t_29, 18, __pyx_v_self->dvals);
   __Pyx_INCREF(__pyx_v_self->dvals2);
   __Pyx_GIVEREF(__pyx_v_self->dvals2);
-  PyTuple_SET_ITEM(__pyx_t_25, 16, __pyx_v_self->dvals2);
-  __Pyx_GIVEREF(__pyx_t_15);
-  PyTuple_SET_ITEM(__pyx_t_25, 17, __pyx_t_15);
-  __Pyx_GIVEREF(__pyx_t_16);
-  PyTuple_SET_ITEM(__pyx_t_25, 18, __pyx_t_16);
+  PyTuple_SET_ITEM(__pyx_t_29, 19, __pyx_v_self->dvals2);
   __Pyx_GIVEREF(__pyx_t_17);
-  PyTuple_SET_ITEM(__pyx_t_25, 19, __pyx_t_17);
+  PyTuple_SET_ITEM(__pyx_t_29, 20, __pyx_t_17);
   __Pyx_GIVEREF(__pyx_t_18);
-  PyTuple_SET_ITEM(__pyx_t_25, 20, __pyx_t_18);
+  PyTuple_SET_ITEM(__pyx_t_29, 21, __pyx_t_18);
   __Pyx_GIVEREF(__pyx_t_19);
-  PyTuple_SET_ITEM(__pyx_t_25, 21, __pyx_t_19);
+  PyTuple_SET_ITEM(__pyx_t_29, 22, __pyx_t_19);
   __Pyx_GIVEREF(__pyx_t_20);
-  PyTuple_SET_ITEM(__pyx_t_25, 22, __pyx_t_20);
+  PyTuple_SET_ITEM(__pyx_t_29, 23, __pyx_t_20);
   __Pyx_GIVEREF(__pyx_t_21);
-  PyTuple_SET_ITEM(__pyx_t_25, 23, __pyx_t_21);
+  PyTuple_SET_ITEM(__pyx_t_29, 24, __pyx_t_21);
   __Pyx_GIVEREF(__pyx_t_22);
-  PyTuple_SET_ITEM(__pyx_t_25, 24, __pyx_t_22);
+  PyTuple_SET_ITEM(__pyx_t_29, 25, __pyx_t_22);
   __Pyx_GIVEREF(__pyx_t_23);
-  PyTuple_SET_ITEM(__pyx_t_25, 25, __pyx_t_23);
+  PyTuple_SET_ITEM(__pyx_t_29, 26, __pyx_t_23);
   __Pyx_GIVEREF(__pyx_t_24);
-  PyTuple_SET_ITEM(__pyx_t_25, 26, __pyx_t_24);
+  PyTuple_SET_ITEM(__pyx_t_29, 27, __pyx_t_24);
+  __Pyx_GIVEREF(__pyx_t_25);
+  PyTuple_SET_ITEM(__pyx_t_29, 28, __pyx_t_25);
+  __Pyx_GIVEREF(__pyx_t_26);
+  PyTuple_SET_ITEM(__pyx_t_29, 29, __pyx_t_26);
+  __Pyx_GIVEREF(__pyx_t_27);
+  PyTuple_SET_ITEM(__pyx_t_29, 30, __pyx_t_27);
+  __Pyx_GIVEREF(__pyx_t_28);
+  PyTuple_SET_ITEM(__pyx_t_29, 31, __pyx_t_28);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
@@ -8720,31 +9627,35 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6__reduce_cython__
   __pyx_t_22 = 0;
   __pyx_t_23 = 0;
   __pyx_t_24 = 0;
-  __pyx_v_state = ((PyObject*)__pyx_t_25);
   __pyx_t_25 = 0;
+  __pyx_t_26 = 0;
+  __pyx_t_27 = 0;
+  __pyx_t_28 = 0;
+  __pyx_v_state = ((PyObject*)__pyx_t_29);
+  __pyx_t_29 = 0;
 
   /* "(tree fragment)":6
  *     cdef bint use_setstate
- *     state = (self.D, self.K, self.Ks, self.Ns, self.W, self.X, self.Y, self.avg, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights)
+ *     state = (self.D, self.DD, self.GG, self.K, self.Ks, self.Ns, self.W, self.X, self.alpha, self.avg, self.avg_min, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_iter_s, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights, self.xy)
  *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
  *     if _dict is not None:
  *         state += (_dict,)
  */
-  __pyx_t_25 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 6, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_25);
-  __pyx_v__dict = __pyx_t_25;
-  __pyx_t_25 = 0;
+  __pyx_t_29 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_29)) __PYX_ERR(2, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_29);
+  __pyx_v__dict = __pyx_t_29;
+  __pyx_t_29 = 0;
 
   /* "(tree fragment)":7
- *     state = (self.D, self.K, self.Ks, self.Ns, self.W, self.X, self.Y, self.avg, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights)
+ *     state = (self.D, self.DD, self.GG, self.K, self.Ks, self.Ns, self.W, self.X, self.alpha, self.avg, self.avg_min, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_iter_s, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights, self.xy)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
  *         use_setstate = True
  */
-  __pyx_t_26 = (__pyx_v__dict != Py_None);
-  __pyx_t_27 = (__pyx_t_26 != 0);
-  if (__pyx_t_27) {
+  __pyx_t_30 = (__pyx_v__dict != Py_None);
+  __pyx_t_31 = (__pyx_t_30 != 0);
+  if (__pyx_t_31) {
 
     /* "(tree fragment)":8
  *     _dict = getattr(self, '__dict__', None)
@@ -8753,28 +9664,28 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6__reduce_cython__
  *         use_setstate = True
  *     else:
  */
-    __pyx_t_25 = PyTuple_New(1); if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_25);
+    __pyx_t_29 = PyTuple_New(1); if (unlikely(!__pyx_t_29)) __PYX_ERR(2, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_29);
     __Pyx_INCREF(__pyx_v__dict);
     __Pyx_GIVEREF(__pyx_v__dict);
-    PyTuple_SET_ITEM(__pyx_t_25, 0, __pyx_v__dict);
-    __pyx_t_24 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_25); if (unlikely(!__pyx_t_24)) __PYX_ERR(2, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_24);
-    __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
-    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_24));
-    __pyx_t_24 = 0;
+    PyTuple_SET_ITEM(__pyx_t_29, 0, __pyx_v__dict);
+    __pyx_t_28 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_29); if (unlikely(!__pyx_t_28)) __PYX_ERR(2, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_28);
+    __Pyx_DECREF(__pyx_t_29); __pyx_t_29 = 0;
+    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_28));
+    __pyx_t_28 = 0;
 
     /* "(tree fragment)":9
  *     if _dict is not None:
  *         state += (_dict,)
  *         use_setstate = True             # <<<<<<<<<<<<<<
  *     else:
- *         use_setstate = self.avg is not None or self.dvals is not None or self.dvals2 is not None
+ *         use_setstate = self.avg is not None or self.avg_min is not None or self.dvals is not None or self.dvals2 is not None
  */
     __pyx_v_use_setstate = 1;
 
     /* "(tree fragment)":7
- *     state = (self.D, self.K, self.Ks, self.Ns, self.W, self.X, self.Y, self.avg, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights)
+ *     state = (self.D, self.DD, self.GG, self.K, self.Ks, self.Ns, self.W, self.X, self.alpha, self.avg, self.avg_min, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_iter_s, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights, self.xy)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -8786,120 +9697,127 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6__reduce_cython__
   /* "(tree fragment)":11
  *         use_setstate = True
  *     else:
- *         use_setstate = self.avg is not None or self.dvals is not None or self.dvals2 is not None             # <<<<<<<<<<<<<<
+ *         use_setstate = self.avg is not None or self.avg_min is not None or self.dvals is not None or self.dvals2 is not None             # <<<<<<<<<<<<<<
  *     if use_setstate:
- *         return __pyx_unpickle_MLSE2, (type(self), 0x369ed6b, None), state
+ *         return __pyx_unpickle_MLSE2, (type(self), 0x9930eae, None), state
  */
   /*else*/ {
-    __pyx_t_26 = (((PyObject *)__pyx_v_self->avg) != Py_None);
-    __pyx_t_28 = (__pyx_t_26 != 0);
-    if (!__pyx_t_28) {
+    __pyx_t_30 = (((PyObject *)__pyx_v_self->avg) != Py_None);
+    __pyx_t_32 = (__pyx_t_30 != 0);
+    if (!__pyx_t_32) {
     } else {
-      __pyx_t_27 = __pyx_t_28;
+      __pyx_t_31 = __pyx_t_32;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_28 = (__pyx_v_self->dvals != ((PyObject*)Py_None));
-    __pyx_t_26 = (__pyx_t_28 != 0);
-    if (!__pyx_t_26) {
+    __pyx_t_32 = (((PyObject *)__pyx_v_self->avg_min) != Py_None);
+    __pyx_t_30 = (__pyx_t_32 != 0);
+    if (!__pyx_t_30) {
     } else {
-      __pyx_t_27 = __pyx_t_26;
+      __pyx_t_31 = __pyx_t_30;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_26 = (__pyx_v_self->dvals2 != ((PyObject*)Py_None));
-    __pyx_t_28 = (__pyx_t_26 != 0);
-    __pyx_t_27 = __pyx_t_28;
+    __pyx_t_30 = (__pyx_v_self->dvals != ((PyObject*)Py_None));
+    __pyx_t_32 = (__pyx_t_30 != 0);
+    if (!__pyx_t_32) {
+    } else {
+      __pyx_t_31 = __pyx_t_32;
+      goto __pyx_L4_bool_binop_done;
+    }
+    __pyx_t_32 = (__pyx_v_self->dvals2 != ((PyObject*)Py_None));
+    __pyx_t_30 = (__pyx_t_32 != 0);
+    __pyx_t_31 = __pyx_t_30;
     __pyx_L4_bool_binop_done:;
-    __pyx_v_use_setstate = __pyx_t_27;
+    __pyx_v_use_setstate = __pyx_t_31;
   }
   __pyx_L3:;
 
   /* "(tree fragment)":12
  *     else:
- *         use_setstate = self.avg is not None or self.dvals is not None or self.dvals2 is not None
+ *         use_setstate = self.avg is not None or self.avg_min is not None or self.dvals is not None or self.dvals2 is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_MLSE2, (type(self), 0x369ed6b, None), state
+ *         return __pyx_unpickle_MLSE2, (type(self), 0x9930eae, None), state
  *     else:
  */
-  __pyx_t_27 = (__pyx_v_use_setstate != 0);
-  if (__pyx_t_27) {
+  __pyx_t_31 = (__pyx_v_use_setstate != 0);
+  if (__pyx_t_31) {
 
     /* "(tree fragment)":13
- *         use_setstate = self.avg is not None or self.dvals is not None or self.dvals2 is not None
+ *         use_setstate = self.avg is not None or self.avg_min is not None or self.dvals is not None or self.dvals2 is not None
  *     if use_setstate:
- *         return __pyx_unpickle_MLSE2, (type(self), 0x369ed6b, None), state             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_MLSE2, (type(self), 0x9930eae, None), state             # <<<<<<<<<<<<<<
  *     else:
- *         return __pyx_unpickle_MLSE2, (type(self), 0x369ed6b, state)
+ *         return __pyx_unpickle_MLSE2, (type(self), 0x9930eae, state)
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_24, __pyx_n_s_pyx_unpickle_MLSE2); if (unlikely(!__pyx_t_24)) __PYX_ERR(2, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_24);
-    __pyx_t_25 = PyTuple_New(3); if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_25);
+    __Pyx_GetModuleGlobalName(__pyx_t_28, __pyx_n_s_pyx_unpickle_MLSE2); if (unlikely(!__pyx_t_28)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_28);
+    __pyx_t_29 = PyTuple_New(3); if (unlikely(!__pyx_t_29)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_29);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_25, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_57273707);
-    __Pyx_GIVEREF(__pyx_int_57273707);
-    PyTuple_SET_ITEM(__pyx_t_25, 1, __pyx_int_57273707);
+    PyTuple_SET_ITEM(__pyx_t_29, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_160632494);
+    __Pyx_GIVEREF(__pyx_int_160632494);
+    PyTuple_SET_ITEM(__pyx_t_29, 1, __pyx_int_160632494);
     __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_25, 2, Py_None);
-    __pyx_t_23 = PyTuple_New(3); if (unlikely(!__pyx_t_23)) __PYX_ERR(2, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_23);
-    __Pyx_GIVEREF(__pyx_t_24);
-    PyTuple_SET_ITEM(__pyx_t_23, 0, __pyx_t_24);
-    __Pyx_GIVEREF(__pyx_t_25);
-    PyTuple_SET_ITEM(__pyx_t_23, 1, __pyx_t_25);
+    PyTuple_SET_ITEM(__pyx_t_29, 2, Py_None);
+    __pyx_t_27 = PyTuple_New(3); if (unlikely(!__pyx_t_27)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_27);
+    __Pyx_GIVEREF(__pyx_t_28);
+    PyTuple_SET_ITEM(__pyx_t_27, 0, __pyx_t_28);
+    __Pyx_GIVEREF(__pyx_t_29);
+    PyTuple_SET_ITEM(__pyx_t_27, 1, __pyx_t_29);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_23, 2, __pyx_v_state);
-    __pyx_t_24 = 0;
-    __pyx_t_25 = 0;
-    __pyx_r = __pyx_t_23;
-    __pyx_t_23 = 0;
+    PyTuple_SET_ITEM(__pyx_t_27, 2, __pyx_v_state);
+    __pyx_t_28 = 0;
+    __pyx_t_29 = 0;
+    __pyx_r = __pyx_t_27;
+    __pyx_t_27 = 0;
     goto __pyx_L0;
 
     /* "(tree fragment)":12
  *     else:
- *         use_setstate = self.avg is not None or self.dvals is not None or self.dvals2 is not None
+ *         use_setstate = self.avg is not None or self.avg_min is not None or self.dvals is not None or self.dvals2 is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_MLSE2, (type(self), 0x369ed6b, None), state
+ *         return __pyx_unpickle_MLSE2, (type(self), 0x9930eae, None), state
  *     else:
  */
   }
 
   /* "(tree fragment)":15
- *         return __pyx_unpickle_MLSE2, (type(self), 0x369ed6b, None), state
+ *         return __pyx_unpickle_MLSE2, (type(self), 0x9930eae, None), state
  *     else:
- *         return __pyx_unpickle_MLSE2, (type(self), 0x369ed6b, state)             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_MLSE2, (type(self), 0x9930eae, state)             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_MLSE2__set_state(self, __pyx_state)
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_23, __pyx_n_s_pyx_unpickle_MLSE2); if (unlikely(!__pyx_t_23)) __PYX_ERR(2, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_23);
-    __pyx_t_25 = PyTuple_New(3); if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_25);
+    __Pyx_GetModuleGlobalName(__pyx_t_27, __pyx_n_s_pyx_unpickle_MLSE2); if (unlikely(!__pyx_t_27)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_27);
+    __pyx_t_29 = PyTuple_New(3); if (unlikely(!__pyx_t_29)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_29);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_25, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_57273707);
-    __Pyx_GIVEREF(__pyx_int_57273707);
-    PyTuple_SET_ITEM(__pyx_t_25, 1, __pyx_int_57273707);
+    PyTuple_SET_ITEM(__pyx_t_29, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_160632494);
+    __Pyx_GIVEREF(__pyx_int_160632494);
+    PyTuple_SET_ITEM(__pyx_t_29, 1, __pyx_int_160632494);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_25, 2, __pyx_v_state);
-    __pyx_t_24 = PyTuple_New(2); if (unlikely(!__pyx_t_24)) __PYX_ERR(2, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_24);
-    __Pyx_GIVEREF(__pyx_t_23);
-    PyTuple_SET_ITEM(__pyx_t_24, 0, __pyx_t_23);
-    __Pyx_GIVEREF(__pyx_t_25);
-    PyTuple_SET_ITEM(__pyx_t_24, 1, __pyx_t_25);
-    __pyx_t_23 = 0;
-    __pyx_t_25 = 0;
-    __pyx_r = __pyx_t_24;
-    __pyx_t_24 = 0;
+    PyTuple_SET_ITEM(__pyx_t_29, 2, __pyx_v_state);
+    __pyx_t_28 = PyTuple_New(2); if (unlikely(!__pyx_t_28)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_28);
+    __Pyx_GIVEREF(__pyx_t_27);
+    PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_27);
+    __Pyx_GIVEREF(__pyx_t_29);
+    PyTuple_SET_ITEM(__pyx_t_28, 1, __pyx_t_29);
+    __pyx_t_27 = 0;
+    __pyx_t_29 = 0;
+    __pyx_r = __pyx_t_28;
+    __pyx_t_28 = 0;
     goto __pyx_L0;
   }
 
@@ -8936,6 +9854,10 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6__reduce_cython__
   __Pyx_XDECREF(__pyx_t_23);
   __Pyx_XDECREF(__pyx_t_24);
   __Pyx_XDECREF(__pyx_t_25);
+  __Pyx_XDECREF(__pyx_t_26);
+  __Pyx_XDECREF(__pyx_t_27);
+  __Pyx_XDECREF(__pyx_t_28);
+  __Pyx_XDECREF(__pyx_t_29);
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLSE2.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -8948,26 +9870,26 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_6__reduce_cython__
 
 /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_MLSE2, (type(self), 0x369ed6b, state)
+ *         return __pyx_unpickle_MLSE2, (type(self), 0x9930eae, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_MLSE2__set_state(self, __pyx_state)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static char __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_8__setstate_cython__[] = "MLSE2.__setstate_cython__(self, __pyx_state)";
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_15__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static char __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_14__setstate_cython__[] = "MLSE2.__setstate_cython__(self, __pyx_state)";
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_15__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8__setstate_cython__(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_14__setstate_cython__(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8__setstate_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_14__setstate_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8977,7 +9899,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8__setstate_cython
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
 
   /* "(tree fragment)":17
- *         return __pyx_unpickle_MLSE2, (type(self), 0x369ed6b, state)
+ *         return __pyx_unpickle_MLSE2, (type(self), 0x9930eae, state)
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_MLSE2__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
@@ -8988,7 +9910,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8__setstate_cython
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_MLSE2, (type(self), 0x369ed6b, state)
+ *         return __pyx_unpickle_MLSE2, (type(self), 0x9930eae, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_MLSE2__set_state(self, __pyx_state)
  */
@@ -9006,23 +9928,25 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_5MLSE2_8__setstate_cython
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":211
+/* "mlgrad/mlocation_scatter2.pyx":246
  * cdef class MLocationsScattersEstimator(MLSE2):
  * 
- *     def __init__(self, Average avg, n_locs=2, tol=1.0e-6, h=0.1, n_iter=1000, n_step=20):             # <<<<<<<<<<<<<<
+ *     def __init__(self, Average avg, Average avg_min, n_locs, tol=1.0e-6, n_iter=100, n_iter_s=0, n_step=100, alpha=0.1):             # <<<<<<<<<<<<<<
  *         self.avg = avg
- *         self.X = None
+ *         self.avg_min = avg_min
  */
 
 /* Python wrapper */
 static int __pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avg = 0;
+  struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avg_min = 0;
   PyObject *__pyx_v_n_locs = 0;
   PyObject *__pyx_v_tol = 0;
-  PyObject *__pyx_v_h = 0;
   PyObject *__pyx_v_n_iter = 0;
+  PyObject *__pyx_v_n_iter_s = 0;
   PyObject *__pyx_v_n_step = 0;
+  PyObject *__pyx_v_alpha = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -9030,17 +9954,21 @@ static int __pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_1
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_avg,&__pyx_n_s_n_locs,&__pyx_n_s_tol,&__pyx_n_s_h,&__pyx_n_s_n_iter,&__pyx_n_s_n_step,0};
-    PyObject* values[6] = {0,0,0,0,0,0};
-    values[1] = ((PyObject *)__pyx_int_2);
-    values[2] = ((PyObject *)__pyx_float_1_0eneg_6);
-    values[3] = ((PyObject *)__pyx_float_0_1);
-    values[4] = ((PyObject *)__pyx_int_1000);
-    values[5] = ((PyObject *)__pyx_int_20);
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_avg,&__pyx_n_s_avg_min,&__pyx_n_s_n_locs,&__pyx_n_s_tol,&__pyx_n_s_n_iter,&__pyx_n_s_n_iter_s,&__pyx_n_s_n_step,&__pyx_n_s_alpha,0};
+    PyObject* values[8] = {0,0,0,0,0,0,0,0};
+    values[3] = ((PyObject *)__pyx_float_1_0eneg_6);
+    values[4] = ((PyObject *)__pyx_int_100);
+    values[5] = ((PyObject *)__pyx_int_0);
+    values[6] = ((PyObject *)__pyx_int_100);
+    values[7] = ((PyObject *)__pyx_float_0_1);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        CYTHON_FALLTHROUGH;
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
         case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
         CYTHON_FALLTHROUGH;
         case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
@@ -9063,20 +9991,20 @@ static int __pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_1
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
-        if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_n_locs);
-          if (value) { values[1] = value; kw_args--; }
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_avg_min)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 3, 8, 1); __PYX_ERR(1, 246, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
-        if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tol);
-          if (value) { values[2] = value; kw_args--; }
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_n_locs)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 3, 8, 2); __PYX_ERR(1, 246, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_h);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_tol);
           if (value) { values[3] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
@@ -9088,15 +10016,31 @@ static int __pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_1
         CYTHON_FALLTHROUGH;
         case  5:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_n_step);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_n_iter_s);
           if (value) { values[5] = value; kw_args--; }
+        }
+        CYTHON_FALLTHROUGH;
+        case  6:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_n_step);
+          if (value) { values[6] = value; kw_args--; }
+        }
+        CYTHON_FALLTHROUGH;
+        case  7:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_alpha);
+          if (value) { values[7] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 211, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 246, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        CYTHON_FALLTHROUGH;
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
         case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
         CYTHON_FALLTHROUGH;
         case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
@@ -9104,31 +10048,32 @@ static int __pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_1
         case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
         CYTHON_FALLTHROUGH;
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
         break;
         default: goto __pyx_L5_argtuple_error;
       }
     }
     __pyx_v_avg = ((struct __pyx_obj_6mlgrad_6avragg_Average *)values[0]);
-    __pyx_v_n_locs = values[1];
-    __pyx_v_tol = values[2];
-    __pyx_v_h = values[3];
+    __pyx_v_avg_min = ((struct __pyx_obj_6mlgrad_6avragg_Average *)values[1]);
+    __pyx_v_n_locs = values[2];
+    __pyx_v_tol = values[3];
     __pyx_v_n_iter = values[4];
-    __pyx_v_n_step = values[5];
+    __pyx_v_n_iter_s = values[5];
+    __pyx_v_n_step = values[6];
+    __pyx_v_alpha = values[7];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 211, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 3, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 246, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avg), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avg", 0))) __PYX_ERR(1, 211, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator___init__(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self), __pyx_v_avg, __pyx_v_n_locs, __pyx_v_tol, __pyx_v_h, __pyx_v_n_iter, __pyx_v_n_step);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avg), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avg", 0))) __PYX_ERR(1, 246, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avg_min), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avg_min", 0))) __PYX_ERR(1, 246, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator___init__(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self), __pyx_v_avg, __pyx_v_avg_min, __pyx_v_n_locs, __pyx_v_tol, __pyx_v_n_iter, __pyx_v_n_iter_s, __pyx_v_n_step, __pyx_v_alpha);
 
   /* function exit code */
   goto __pyx_L0;
@@ -9139,27 +10084,28 @@ static int __pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_1
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator___init__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avg, PyObject *__pyx_v_n_locs, PyObject *__pyx_v_tol, PyObject *__pyx_v_h, PyObject *__pyx_v_n_iter, PyObject *__pyx_v_n_step) {
+static int __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator___init__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avg, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avg_min, PyObject *__pyx_v_n_locs, PyObject *__pyx_v_tol, PyObject *__pyx_v_n_iter, PyObject *__pyx_v_n_iter_s, PyObject *__pyx_v_n_step, PyObject *__pyx_v_alpha) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_2;
+  __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_t_5 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_t_6;
-  int __pyx_t_7;
+  double __pyx_t_5;
+  int __pyx_t_6;
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":212
+  /* "mlgrad/mlocation_scatter2.pyx":247
  * 
- *     def __init__(self, Average avg, n_locs=2, tol=1.0e-6, h=0.1, n_iter=1000, n_step=20):
+ *     def __init__(self, Average avg, Average avg_min, n_locs, tol=1.0e-6, n_iter=100, n_iter_s=0, n_step=100, alpha=0.1):
  *         self.avg = avg             # <<<<<<<<<<<<<<
+ *         self.avg_min = avg_min
  *         self.X = None
- *         self.Y = None
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_avg));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_avg));
@@ -9167,100 +10113,100 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator__
   __Pyx_DECREF(((PyObject *)__pyx_v_self->__pyx_base.avg));
   __pyx_v_self->__pyx_base.avg = __pyx_v_avg;
 
-  /* "mlgrad/mlocation_scatter2.pyx":213
- *     def __init__(self, Average avg, n_locs=2, tol=1.0e-6, h=0.1, n_iter=1000, n_step=20):
+  /* "mlgrad/mlocation_scatter2.pyx":248
+ *     def __init__(self, Average avg, Average avg_min, n_locs, tol=1.0e-6, n_iter=100, n_iter_s=0, n_step=100, alpha=0.1):
  *         self.avg = avg
- *         self.X = None             # <<<<<<<<<<<<<<
- *         self.Y = None
+ *         self.avg_min = avg_min             # <<<<<<<<<<<<<<
+ *         self.X = None
  *         self.n_locs = n_locs
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 213, __pyx_L1_error)
+  __Pyx_INCREF(((PyObject *)__pyx_v_avg_min));
+  __Pyx_GIVEREF(((PyObject *)__pyx_v_avg_min));
+  __Pyx_GOTREF(__pyx_v_self->__pyx_base.avg_min);
+  __Pyx_DECREF(((PyObject *)__pyx_v_self->__pyx_base.avg_min));
+  __pyx_v_self->__pyx_base.avg_min = __pyx_v_avg_min;
+
+  /* "mlgrad/mlocation_scatter2.pyx":249
+ *         self.avg = avg
+ *         self.avg_min = avg_min
+ *         self.X = None             # <<<<<<<<<<<<<<
+ *         self.n_locs = n_locs
+ * 
+ */
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 249, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.X, 0);
   __pyx_v_self->__pyx_base.X = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":214
- *         self.avg = avg
+  /* "mlgrad/mlocation_scatter2.pyx":250
+ *         self.avg_min = avg_min
  *         self.X = None
- *         self.Y = None             # <<<<<<<<<<<<<<
- *         self.n_locs = n_locs
- * 
- */
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(1, 214, __pyx_L1_error)
-  __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.Y, 0);
-  __pyx_v_self->__pyx_base.Y = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
-
-  /* "mlgrad/mlocation_scatter2.pyx":215
- *         self.X = None
- *         self.Y = None
  *         self.n_locs = n_locs             # <<<<<<<<<<<<<<
  * 
  *         self.locs = None
  */
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_v_n_locs); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 215, __pyx_L1_error)
-  __pyx_v_self->__pyx_base.n_locs = __pyx_t_3;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_v_n_locs); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 250, __pyx_L1_error)
+  __pyx_v_self->__pyx_base.n_locs = __pyx_t_2;
 
-  /* "mlgrad/mlocation_scatter2.pyx":217
+  /* "mlgrad/mlocation_scatter2.pyx":252
  *         self.n_locs = n_locs
  * 
  *         self.locs = None             # <<<<<<<<<<<<<<
  *         self.locs_min = None
  *         self.scatters = None
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 217, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 252, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.locs, 0);
   __pyx_v_self->__pyx_base.locs = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":218
+  /* "mlgrad/mlocation_scatter2.pyx":253
  * 
  *         self.locs = None
  *         self.locs_min = None             # <<<<<<<<<<<<<<
  *         self.scatters = None
  *         self.scatters_min = None
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 218, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 253, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.locs_min, 0);
   __pyx_v_self->__pyx_base.locs_min = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":219
+  /* "mlgrad/mlocation_scatter2.pyx":254
  *         self.locs = None
  *         self.locs_min = None
  *         self.scatters = None             # <<<<<<<<<<<<<<
  *         self.scatters_min = None
  *         self.dvals = None
  */
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 219, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(1, 254, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.scatters, 0);
-  __pyx_v_self->__pyx_base.scatters = __pyx_t_4;
-  __pyx_t_4.memview = NULL;
-  __pyx_t_4.data = NULL;
+  __pyx_v_self->__pyx_base.scatters = __pyx_t_3;
+  __pyx_t_3.memview = NULL;
+  __pyx_t_3.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":220
+  /* "mlgrad/mlocation_scatter2.pyx":255
  *         self.locs_min = None
  *         self.scatters = None
  *         self.scatters_min = None             # <<<<<<<<<<<<<<
  *         self.dvals = None
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 220, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(1, 255, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.scatters_min, 0);
-  __pyx_v_self->__pyx_base.scatters_min = __pyx_t_4;
-  __pyx_t_4.memview = NULL;
-  __pyx_t_4.data = NULL;
+  __pyx_v_self->__pyx_base.scatters_min = __pyx_t_3;
+  __pyx_t_3.memview = NULL;
+  __pyx_t_3.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":221
+  /* "mlgrad/mlocation_scatter2.pyx":256
  *         self.scatters = None
  *         self.scatters_min = None
  *         self.dvals = None             # <<<<<<<<<<<<<<
  * 
- * #         self.logdet = None
+ *         self.distfuncs = None
  */
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
@@ -9268,65 +10214,110 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator__
   __Pyx_DECREF(__pyx_v_self->__pyx_base.dvals);
   __pyx_v_self->__pyx_base.dvals = ((PyObject*)Py_None);
 
-  /* "mlgrad/mlocation_scatter2.pyx":225
- * #         self.logdet = None
+  /* "mlgrad/mlocation_scatter2.pyx":258
+ *         self.dvals = None
  * 
  *         self.distfuncs = None             # <<<<<<<<<<<<<<
  *         self.tol = tol
  *         self.n_iter = n_iter
  */
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_object(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 225, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_object(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 258, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.distfuncs, 0);
-  __pyx_v_self->__pyx_base.distfuncs = __pyx_t_5;
-  __pyx_t_5.memview = NULL;
-  __pyx_t_5.data = NULL;
+  __pyx_v_self->__pyx_base.distfuncs = __pyx_t_4;
+  __pyx_t_4.memview = NULL;
+  __pyx_t_4.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":226
+  /* "mlgrad/mlocation_scatter2.pyx":259
  * 
  *         self.distfuncs = None
  *         self.tol = tol             # <<<<<<<<<<<<<<
  *         self.n_iter = n_iter
- *         self.n_step = n_step
+ *         if n_iter_s <= 0:
  */
-  __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_v_tol); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 226, __pyx_L1_error)
-  __pyx_v_self->__pyx_base.tol = __pyx_t_6;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_tol); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 259, __pyx_L1_error)
+  __pyx_v_self->__pyx_base.tol = __pyx_t_5;
 
-  /* "mlgrad/mlocation_scatter2.pyx":227
+  /* "mlgrad/mlocation_scatter2.pyx":260
  *         self.distfuncs = None
  *         self.tol = tol
  *         self.n_iter = n_iter             # <<<<<<<<<<<<<<
- *         self.n_step = n_step
- *         self.h = h
+ *         if n_iter_s <= 0:
+ *             self.n_iter_s = n_iter
  */
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_n_iter); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 227, __pyx_L1_error)
-  __pyx_v_self->__pyx_base.n_iter = __pyx_t_7;
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_n_iter); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 260, __pyx_L1_error)
+  __pyx_v_self->__pyx_base.n_iter = __pyx_t_6;
 
-  /* "mlgrad/mlocation_scatter2.pyx":228
+  /* "mlgrad/mlocation_scatter2.pyx":261
  *         self.tol = tol
  *         self.n_iter = n_iter
+ *         if n_iter_s <= 0:             # <<<<<<<<<<<<<<
+ *             self.n_iter_s = n_iter
+ *         else:
+ */
+  __pyx_t_7 = PyObject_RichCompare(__pyx_v_n_iter_s, __pyx_int_0, Py_LE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 261, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 261, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (__pyx_t_8) {
+
+    /* "mlgrad/mlocation_scatter2.pyx":262
+ *         self.n_iter = n_iter
+ *         if n_iter_s <= 0:
+ *             self.n_iter_s = n_iter             # <<<<<<<<<<<<<<
+ *         else:
+ *             self.n_iter_s = n_iter_s
+ */
+    __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_n_iter); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 262, __pyx_L1_error)
+    __pyx_v_self->__pyx_base.n_iter_s = __pyx_t_6;
+
+    /* "mlgrad/mlocation_scatter2.pyx":261
+ *         self.tol = tol
+ *         self.n_iter = n_iter
+ *         if n_iter_s <= 0:             # <<<<<<<<<<<<<<
+ *             self.n_iter_s = n_iter
+ *         else:
+ */
+    goto __pyx_L3;
+  }
+
+  /* "mlgrad/mlocation_scatter2.pyx":264
+ *             self.n_iter_s = n_iter
+ *         else:
+ *             self.n_iter_s = n_iter_s             # <<<<<<<<<<<<<<
+ *         self.n_step = n_step
+ *         self.alpha = alpha
+ */
+  /*else*/ {
+    __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_n_iter_s); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 264, __pyx_L1_error)
+    __pyx_v_self->__pyx_base.n_iter_s = __pyx_t_6;
+  }
+  __pyx_L3:;
+
+  /* "mlgrad/mlocation_scatter2.pyx":265
+ *         else:
+ *             self.n_iter_s = n_iter_s
  *         self.n_step = n_step             # <<<<<<<<<<<<<<
- *         self.h = h
+ *         self.alpha = alpha
  * 
  */
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_n_step); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 228, __pyx_L1_error)
-  __pyx_v_self->__pyx_base.n_step = __pyx_t_7;
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_n_step); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 265, __pyx_L1_error)
+  __pyx_v_self->__pyx_base.n_step = __pyx_t_6;
 
-  /* "mlgrad/mlocation_scatter2.pyx":229
- *         self.n_iter = n_iter
+  /* "mlgrad/mlocation_scatter2.pyx":266
+ *             self.n_iter_s = n_iter_s
  *         self.n_step = n_step
- *         self.h = h             # <<<<<<<<<<<<<<
+ *         self.alpha = alpha             # <<<<<<<<<<<<<<
  * 
  *     def init(self, double[:,::1] X, warm=False):
  */
-  __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_v_h); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 229, __pyx_L1_error)
-  __pyx_v_self->__pyx_base.h = __pyx_t_6;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 266, __pyx_L1_error)
+  __pyx_v_self->__pyx_base.alpha = __pyx_t_5;
 
-  /* "mlgrad/mlocation_scatter2.pyx":211
+  /* "mlgrad/mlocation_scatter2.pyx":246
  * cdef class MLocationsScattersEstimator(MLSE2):
  * 
- *     def __init__(self, Average avg, n_locs=2, tol=1.0e-6, h=0.1, n_iter=1000, n_step=20):             # <<<<<<<<<<<<<<
+ *     def __init__(self, Average avg, Average avg_min, n_locs, tol=1.0e-6, n_iter=100, n_iter_s=0, n_step=100, alpha=0.1):             # <<<<<<<<<<<<<<
  *         self.avg = avg
- *         self.X = None
+ *         self.avg_min = avg_min
  */
 
   /* function exit code */
@@ -9334,9 +10325,9 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator__
   goto __pyx_L0;
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_4, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
+  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
@@ -9344,8 +10335,8 @@ static int __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator__
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":231
- *         self.h = h
+/* "mlgrad/mlocation_scatter2.pyx":268
+ *         self.alpha = alpha
  * 
  *     def init(self, double[:,::1] X, warm=False):             # <<<<<<<<<<<<<<
  *         n = X.shape[1]
@@ -9392,7 +10383,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "init") < 0)) __PYX_ERR(1, 231, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "init") < 0)) __PYX_ERR(1, 268, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -9403,12 +10394,12 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 231, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 268, __pyx_L3_error)
     __pyx_v_warm = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("init", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 231, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("init", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 268, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.init", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -9422,8 +10413,9 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
 }
 
 static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_2init(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, __Pyx_memviewslice __pyx_v_X, PyObject *__pyx_v_warm) {
-  CYTHON_UNUSED Py_ssize_t __pyx_v_n;
+  Py_ssize_t __pyx_v_n;
   PyObject *__pyx_v_N = NULL;
+  Py_ssize_t __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -9433,17 +10425,23 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   int __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
   __Pyx_memviewslice __pyx_t_7 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_t_8 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_t_9;
-  int __pyx_t_10;
-  __Pyx_memviewslice __pyx_t_11 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  PyObject *__pyx_t_12 = NULL;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  struct __pyx_obj_6mlgrad_8distance_DistanceWithScale **__pyx_t_12;
+  __Pyx_memviewslice __pyx_t_13 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_14 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_t_15;
+  int __pyx_t_16;
+  PyObject *__pyx_t_17 = NULL;
+  int __pyx_t_18;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":232
+  /* "mlgrad/mlocation_scatter2.pyx":269
  * 
  *     def init(self, double[:,::1] X, warm=False):
  *         n = X.shape[1]             # <<<<<<<<<<<<<<
@@ -9452,42 +10450,42 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   __pyx_v_n = (__pyx_v_X.shape[1]);
 
-  /* "mlgrad/mlocation_scatter2.pyx":233
+  /* "mlgrad/mlocation_scatter2.pyx":270
  *     def init(self, double[:,::1] X, warm=False):
  *         n = X.shape[1]
  *         N = X.shape[0]             # <<<<<<<<<<<<<<
  *         self.X = X
  *         self.distfuncs = np.full(self.n_locs, None, object)
  */
-  __pyx_t_1 = PyInt_FromSsize_t((__pyx_v_X.shape[0])); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 233, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t((__pyx_v_X.shape[0])); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 270, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_N = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":234
+  /* "mlgrad/mlocation_scatter2.pyx":271
  *         n = X.shape[1]
  *         N = X.shape[0]
  *         self.X = X             # <<<<<<<<<<<<<<
  *         self.distfuncs = np.full(self.n_locs, None, object)
- * 
+ *         for i in range(self.n_locs):
  */
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.X, 0);
   __PYX_INC_MEMVIEW(&__pyx_v_X, 0);
   __pyx_v_self->__pyx_base.X = __pyx_v_X;
 
-  /* "mlgrad/mlocation_scatter2.pyx":235
+  /* "mlgrad/mlocation_scatter2.pyx":272
  *         N = X.shape[0]
  *         self.X = X
  *         self.distfuncs = np.full(self.n_locs, None, object)             # <<<<<<<<<<<<<<
- * 
- *         self.D  = np.zeros(N, 'd')
+ *         for i in range(self.n_locs):
+ *             self.distfuncs[i] = <DistanceWithScale>MahalanobisDistance(np.identity(n, 'd'))
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 272, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_full); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_full); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 272, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 272, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -9504,7 +10502,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_t_2, Py_None, __pyx_builtin_object};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 235, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 272, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -9513,14 +10511,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[4] = {__pyx_t_4, __pyx_t_2, Py_None, __pyx_builtin_object};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 235, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 272, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 235, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 272, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -9534,96 +10532,268 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     __Pyx_GIVEREF(__pyx_builtin_object);
     PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_5, __pyx_builtin_object);
     __pyx_t_2 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 235, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 272, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_object(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 235, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_object(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 272, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.distfuncs, 0);
   __pyx_v_self->__pyx_base.distfuncs = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":237
+  /* "mlgrad/mlocation_scatter2.pyx":273
+ *         self.X = X
  *         self.distfuncs = np.full(self.n_locs, None, object)
+ *         for i in range(self.n_locs):             # <<<<<<<<<<<<<<
+ *             self.distfuncs[i] = <DistanceWithScale>MahalanobisDistance(np.identity(n, 'd'))
+ * 
+ */
+  __pyx_t_8 = __pyx_v_self->__pyx_base.n_locs;
+  __pyx_t_9 = __pyx_t_8;
+  for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
+    __pyx_v_i = __pyx_t_10;
+
+    /* "mlgrad/mlocation_scatter2.pyx":274
+ *         self.distfuncs = np.full(self.n_locs, None, object)
+ *         for i in range(self.n_locs):
+ *             self.distfuncs[i] = <DistanceWithScale>MahalanobisDistance(np.identity(n, 'd'))             # <<<<<<<<<<<<<<
+ * 
+ *         self.D  = np.zeros(N, 'd')
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 274, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_identity); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 274, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 274, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_2 = NULL;
+    __pyx_t_5 = 0;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_2)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_2);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __pyx_t_5 = 1;
+      }
+    }
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_3, __pyx_n_u_d};
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 274, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_3, __pyx_n_u_d};
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 274, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_4 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 274, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      if (__pyx_t_2) {
+        __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
+      }
+      __Pyx_GIVEREF(__pyx_t_3);
+      PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_5, __pyx_t_3);
+      __Pyx_INCREF(__pyx_n_u_d);
+      __Pyx_GIVEREF(__pyx_n_u_d);
+      PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_5, __pyx_n_u_d);
+      __pyx_t_3 = 0;
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 274, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6mlgrad_8distance_MahalanobisDistance), __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 274, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = __pyx_t_6;
+    __Pyx_INCREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_11 = __pyx_v_i;
+    __pyx_t_12 = ((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale * *) ( /* dim=0 */ ((char *) (((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale * *) __pyx_v_self->__pyx_base.distfuncs.data) + __pyx_t_11)) ));
+    __Pyx_GOTREF(*__pyx_t_12);
+    __Pyx_INCREF(__pyx_t_1); __Pyx_DECREF(*__pyx_t_12);
+    *__pyx_t_12 = __pyx_t_1;
+    __Pyx_GIVEREF(*__pyx_t_12);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  }
+
+  /* "mlgrad/mlocation_scatter2.pyx":276
+ *             self.distfuncs[i] = <DistanceWithScale>MahalanobisDistance(np.identity(n, 'd'))
  * 
  *         self.D  = np.zeros(N, 'd')             # <<<<<<<<<<<<<<
- * 
- *         self.weights = np.full(N, 1./N, 'd')
+ *         self.DD  = np.zeros((N, self.n_locs), 'd')
+ *         self.GG  = np.zeros((N, self.n_locs), 'd')
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 237, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 237, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 276, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = NULL;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 276, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = NULL;
   __pyx_t_5 = 0;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_6);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_3);
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_6);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_6, function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
       __pyx_t_5 = 1;
     }
   }
   #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_6)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_v_N, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 237, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (PyFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_N, __pyx_n_u_d};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 276, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_v_N, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 237, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_N, __pyx_n_u_d};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 276, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
   #endif
   {
-    __pyx_t_2 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 237, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    if (__pyx_t_3) {
-      __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3); __pyx_t_3 = NULL;
+    __pyx_t_3 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 276, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    if (__pyx_t_6) {
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_6); __pyx_t_6 = NULL;
     }
     __Pyx_INCREF(__pyx_v_N);
     __Pyx_GIVEREF(__pyx_v_N);
-    PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_5, __pyx_v_N);
+    PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_5, __pyx_v_N);
+    __Pyx_INCREF(__pyx_n_u_d);
+    __Pyx_GIVEREF(__pyx_n_u_d);
+    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_5, __pyx_n_u_d);
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 276, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_13 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_13.memview)) __PYX_ERR(1, 276, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.D, 0);
+  __pyx_v_self->__pyx_base.D = __pyx_t_13;
+  __pyx_t_13.memview = NULL;
+  __pyx_t_13.data = NULL;
+
+  /* "mlgrad/mlocation_scatter2.pyx":277
+ * 
+ *         self.D  = np.zeros(N, 'd')
+ *         self.DD  = np.zeros((N, self.n_locs), 'd')             # <<<<<<<<<<<<<<
+ *         self.GG  = np.zeros((N, self.n_locs), 'd')
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 277, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 277, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 277, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 277, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_INCREF(__pyx_v_N);
+  __Pyx_GIVEREF(__pyx_v_N);
+  PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_v_N);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_4);
+  __pyx_t_4 = 0;
+  __pyx_t_4 = NULL;
+  __pyx_t_5 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_5 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_6, __pyx_n_u_d};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 277, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_6, __pyx_n_u_d};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 277, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_2 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 277, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    if (__pyx_t_4) {
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    }
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_5, __pyx_t_6);
     __Pyx_INCREF(__pyx_n_u_d);
     __Pyx_GIVEREF(__pyx_n_u_d);
     PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_5, __pyx_n_u_d);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 237, __pyx_L1_error)
+    __pyx_t_6 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 277, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 237, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(1, 277, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.D, 0);
-  __pyx_v_self->__pyx_base.D = __pyx_t_8;
-  __pyx_t_8.memview = NULL;
-  __pyx_t_8.data = NULL;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.DD, 0);
+  __pyx_v_self->__pyx_base.DD = __pyx_t_14;
+  __pyx_t_14.memview = NULL;
+  __pyx_t_14.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":239
+  /* "mlgrad/mlocation_scatter2.pyx":278
  *         self.D  = np.zeros(N, 'd')
+ *         self.DD  = np.zeros((N, self.n_locs), 'd')
+ *         self.GG  = np.zeros((N, self.n_locs), 'd')             # <<<<<<<<<<<<<<
  * 
- *         self.weights = np.full(N, 1./N, 'd')             # <<<<<<<<<<<<<<
- *         self.W = np.zeros(self.n_locs, 'd')
- *         self.dval_prev = self.dval_min = self.dval = PyFloat_GetMax()
+ *         self.weights = np.full(N, 1./N, 'd')
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 239, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_full); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 239, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 278, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyFloat_TrueDivideCObj(__pyx_float_1_, __pyx_v_N, 1., 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 239, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 278, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_INCREF(__pyx_v_N);
+  __Pyx_GIVEREF(__pyx_v_N);
+  PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_v_N);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_3);
+  __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
   __pyx_t_5 = 0;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -9638,8 +10808,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[4] = {__pyx_t_3, __pyx_v_N, __pyx_t_6, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 239, __pyx_L1_error)
+    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_6, __pyx_n_u_d};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 278, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -9647,53 +10817,50 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[4] = {__pyx_t_3, __pyx_v_N, __pyx_t_6, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 239, __pyx_L1_error)
+    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_6, __pyx_n_u_d};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 278, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   } else
   #endif
   {
-    __pyx_t_4 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 239, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 278, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
     }
-    __Pyx_INCREF(__pyx_v_N);
-    __Pyx_GIVEREF(__pyx_v_N);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_5, __pyx_v_N);
     __Pyx_GIVEREF(__pyx_t_6);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_5, __pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_5, __pyx_t_6);
     __Pyx_INCREF(__pyx_n_u_d);
     __Pyx_GIVEREF(__pyx_n_u_d);
-    PyTuple_SET_ITEM(__pyx_t_4, 2+__pyx_t_5, __pyx_n_u_d);
+    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_5, __pyx_n_u_d);
     __pyx_t_6 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 239, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 278, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 239, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(1, 278, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
-  __pyx_v_self->__pyx_base.weights = __pyx_t_8;
-  __pyx_t_8.memview = NULL;
-  __pyx_t_8.data = NULL;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.GG, 0);
+  __pyx_v_self->__pyx_base.GG = __pyx_t_14;
+  __pyx_t_14.memview = NULL;
+  __pyx_t_14.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":240
+  /* "mlgrad/mlocation_scatter2.pyx":280
+ *         self.GG  = np.zeros((N, self.n_locs), 'd')
  * 
- *         self.weights = np.full(N, 1./N, 'd')
- *         self.W = np.zeros(self.n_locs, 'd')             # <<<<<<<<<<<<<<
+ *         self.weights = np.full(N, 1./N, 'd')             # <<<<<<<<<<<<<<
+ *         self.W = np.zeros(self.n_locs, 'd')
  *         self.dval_prev = self.dval_min = self.dval = PyFloat_GetMax()
- *         self.dval2_prev = self.dval2_min = self.dval2 = PyFloat_GetMax()
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 240, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 240, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_full); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 240, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyFloat_TrueDivideCObj(__pyx_float_1_, __pyx_v_N, 1., 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_6 = NULL;
   __pyx_t_5 = 0;
@@ -9709,8 +10876,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_4)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_2, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 240, __pyx_L1_error)
+    PyObject *__pyx_temp[4] = {__pyx_t_6, __pyx_v_N, __pyx_t_2, __pyx_n_u_d};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 280, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -9718,69 +10885,140 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_2, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 240, __pyx_L1_error)
+    PyObject *__pyx_temp[4] = {__pyx_t_6, __pyx_v_N, __pyx_t_2, __pyx_n_u_d};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_5, 3+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 280, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else
   #endif
   {
-    __pyx_t_3 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 240, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(3+__pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 280, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (__pyx_t_6) {
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_6); __pyx_t_6 = NULL;
     }
+    __Pyx_INCREF(__pyx_v_N);
+    __Pyx_GIVEREF(__pyx_v_N);
+    PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_5, __pyx_v_N);
     __Pyx_GIVEREF(__pyx_t_2);
-    PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_5, __pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_5, __pyx_t_2);
     __Pyx_INCREF(__pyx_n_u_d);
     __Pyx_GIVEREF(__pyx_n_u_d);
-    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_5, __pyx_n_u_d);
+    PyTuple_SET_ITEM(__pyx_t_3, 2+__pyx_t_5, __pyx_n_u_d);
     __pyx_t_2 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 240, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 280, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 240, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_13.memview)) __PYX_ERR(1, 280, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
+  __pyx_v_self->__pyx_base.weights = __pyx_t_13;
+  __pyx_t_13.memview = NULL;
+  __pyx_t_13.data = NULL;
+
+  /* "mlgrad/mlocation_scatter2.pyx":281
+ * 
+ *         self.weights = np.full(N, 1./N, 'd')
+ *         self.W = np.zeros(self.n_locs, 'd')             # <<<<<<<<<<<<<<
+ *         self.dval_prev = self.dval_min = self.dval = PyFloat_GetMax()
+ *         self.dval2_prev = self.dval2_min = self.dval2 = PyFloat_GetMax()
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 281, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 281, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 281, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = NULL;
+  __pyx_t_5 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_5 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_4, __pyx_n_u_d};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 281, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_4, __pyx_n_u_d};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 281, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 281, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_2) {
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2); __pyx_t_2 = NULL;
+    }
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_t_4);
+    __Pyx_INCREF(__pyx_n_u_d);
+    __Pyx_GIVEREF(__pyx_n_u_d);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_u_d);
+    __pyx_t_4 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 281, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_13 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_13.memview)) __PYX_ERR(1, 281, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.W, 0);
-  __pyx_v_self->__pyx_base.W = __pyx_t_8;
-  __pyx_t_8.memview = NULL;
-  __pyx_t_8.data = NULL;
+  __pyx_v_self->__pyx_base.W = __pyx_t_13;
+  __pyx_t_13.memview = NULL;
+  __pyx_t_13.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":241
+  /* "mlgrad/mlocation_scatter2.pyx":282
  *         self.weights = np.full(N, 1./N, 'd')
  *         self.W = np.zeros(self.n_locs, 'd')
  *         self.dval_prev = self.dval_min = self.dval = PyFloat_GetMax()             # <<<<<<<<<<<<<<
  *         self.dval2_prev = self.dval2_min = self.dval2 = PyFloat_GetMax()
  *         self.dvals = []
  */
-  __pyx_t_9 = PyFloat_GetMax();
-  __pyx_v_self->__pyx_base.dval_prev = __pyx_t_9;
-  __pyx_v_self->__pyx_base.dval_min = __pyx_t_9;
-  __pyx_v_self->__pyx_base.dval = __pyx_t_9;
+  __pyx_t_15 = PyFloat_GetMax();
+  __pyx_v_self->__pyx_base.dval_prev = __pyx_t_15;
+  __pyx_v_self->__pyx_base.dval_min = __pyx_t_15;
+  __pyx_v_self->__pyx_base.dval = __pyx_t_15;
 
-  /* "mlgrad/mlocation_scatter2.pyx":242
+  /* "mlgrad/mlocation_scatter2.pyx":283
  *         self.W = np.zeros(self.n_locs, 'd')
  *         self.dval_prev = self.dval_min = self.dval = PyFloat_GetMax()
  *         self.dval2_prev = self.dval2_min = self.dval2 = PyFloat_GetMax()             # <<<<<<<<<<<<<<
  *         self.dvals = []
  *         self.dvals2 = []
  */
-  __pyx_t_9 = PyFloat_GetMax();
-  __pyx_v_self->__pyx_base.dval2_prev = __pyx_t_9;
-  __pyx_v_self->__pyx_base.dval2_min = __pyx_t_9;
-  __pyx_v_self->__pyx_base.dval2 = __pyx_t_9;
+  __pyx_t_15 = PyFloat_GetMax();
+  __pyx_v_self->__pyx_base.dval2_prev = __pyx_t_15;
+  __pyx_v_self->__pyx_base.dval2_min = __pyx_t_15;
+  __pyx_v_self->__pyx_base.dval2 = __pyx_t_15;
 
-  /* "mlgrad/mlocation_scatter2.pyx":243
+  /* "mlgrad/mlocation_scatter2.pyx":284
  *         self.dval_prev = self.dval_min = self.dval = PyFloat_GetMax()
  *         self.dval2_prev = self.dval2_min = self.dval2 = PyFloat_GetMax()
  *         self.dvals = []             # <<<<<<<<<<<<<<
  *         self.dvals2 = []
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 243, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 284, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->__pyx_base.dvals);
@@ -9788,14 +11026,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_v_self->__pyx_base.dvals = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":244
+  /* "mlgrad/mlocation_scatter2.pyx":285
  *         self.dval2_prev = self.dval2_min = self.dval2 = PyFloat_GetMax()
  *         self.dvals = []
  *         self.dvals2 = []             # <<<<<<<<<<<<<<
  * 
- *         if self.Y is None:
+ *         if warm:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 244, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 285, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->__pyx_base.dvals2);
@@ -9803,175 +11041,28 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_v_self->__pyx_base.dvals2 = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":246
+  /* "mlgrad/mlocation_scatter2.pyx":287
  *         self.dvals2 = []
  * 
- *         if self.Y is None:             # <<<<<<<<<<<<<<
- *             self.Y = np.zeros(N, 'l')
- *         if warm:
- */
-  __pyx_t_10 = ((((PyObject *) __pyx_v_self->__pyx_base.Y.memview) == Py_None) != 0);
-  if (__pyx_t_10) {
-
-    /* "mlgrad/mlocation_scatter2.pyx":247
- * 
- *         if self.Y is None:
- *             self.Y = np.zeros(N, 'l')             # <<<<<<<<<<<<<<
- *         if warm:
- *             self.init_locations(X, self.locs)
- */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 247, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 247, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = NULL;
-    __pyx_t_5 = 0;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_4);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-        __pyx_t_5 = 1;
-      }
-    }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_N, __pyx_n_u_l};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 247, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_N, __pyx_n_u_l};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 247, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-    } else
-    #endif
-    {
-      __pyx_t_2 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 247, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      if (__pyx_t_4) {
-        __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4); __pyx_t_4 = NULL;
-      }
-      __Pyx_INCREF(__pyx_v_N);
-      __Pyx_GIVEREF(__pyx_v_N);
-      PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_5, __pyx_v_N);
-      __Pyx_INCREF(__pyx_n_u_l);
-      __Pyx_GIVEREF(__pyx_n_u_l);
-      PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_5, __pyx_n_u_l);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 247, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(1, 247, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.Y, 0);
-    __pyx_v_self->__pyx_base.Y = __pyx_t_11;
-    __pyx_t_11.memview = NULL;
-    __pyx_t_11.data = NULL;
-
-    /* "mlgrad/mlocation_scatter2.pyx":246
- *         self.dvals2 = []
- * 
- *         if self.Y is None:             # <<<<<<<<<<<<<<
- *             self.Y = np.zeros(N, 'l')
- *         if warm:
- */
-  }
-
-  /* "mlgrad/mlocation_scatter2.pyx":248
- *         if self.Y is None:
- *             self.Y = np.zeros(N, 'l')
  *         if warm:             # <<<<<<<<<<<<<<
  *             self.init_locations(X, self.locs)
  *             self.init_scatters(X, self.scatters)
  */
-  __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_v_warm); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(1, 248, __pyx_L1_error)
-  if (__pyx_t_10) {
+  __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_v_warm); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(1, 287, __pyx_L1_error)
+  if (__pyx_t_16) {
 
-    /* "mlgrad/mlocation_scatter2.pyx":249
- *             self.Y = np.zeros(N, 'l')
+    /* "mlgrad/mlocation_scatter2.pyx":288
+ * 
  *         if warm:
  *             self.init_locations(X, self.locs)             # <<<<<<<<<<<<<<
  *             self.init_scatters(X, self.scatters)
  *         else:
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init_locations); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 249, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init_locations); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 288, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 249, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 249, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = NULL;
-    __pyx_t_5 = 0;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_6)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_6);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-        __pyx_t_5 = 1;
-      }
-    }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_2, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 249, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_2, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 249, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_12 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 249, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_12);
-      if (__pyx_t_6) {
-        __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_6); __pyx_t_6 = NULL;
-      }
-      __Pyx_GIVEREF(__pyx_t_2);
-      PyTuple_SET_ITEM(__pyx_t_12, 0+__pyx_t_5, __pyx_t_2);
-      __Pyx_GIVEREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_5, __pyx_t_4);
-      __pyx_t_2 = 0;
-      __pyx_t_4 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 249, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "mlgrad/mlocation_scatter2.pyx":250
- *         if warm:
- *             self.init_locations(X, self.locs)
- *             self.init_scatters(X, self.scatters)             # <<<<<<<<<<<<<<
- *         else:
- *             self.init_locations(X)
- */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init_scatters); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 250, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_12 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 250, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 250, __pyx_L1_error)
+    __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 288, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 288, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_2 = NULL;
     __pyx_t_5 = 0;
@@ -9987,54 +11078,118 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     }
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_12, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 250, __pyx_L1_error)
+      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_6, __pyx_t_4};
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 288, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_12, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 250, __pyx_L1_error)
+      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_6, __pyx_t_4};
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 288, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 250, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_17 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_17)) __PYX_ERR(1, 288, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_17);
       if (__pyx_t_2) {
-        __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2); __pyx_t_2 = NULL;
+        __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_17, 0, __pyx_t_2); __pyx_t_2 = NULL;
       }
-      __Pyx_GIVEREF(__pyx_t_12);
-      PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_t_12);
+      __Pyx_GIVEREF(__pyx_t_6);
+      PyTuple_SET_ITEM(__pyx_t_17, 0+__pyx_t_5, __pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_4);
-      __pyx_t_12 = 0;
+      PyTuple_SET_ITEM(__pyx_t_17, 1+__pyx_t_5, __pyx_t_4);
+      __pyx_t_6 = 0;
       __pyx_t_4 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 288, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":248
- *         if self.Y is None:
- *             self.Y = np.zeros(N, 'l')
+    /* "mlgrad/mlocation_scatter2.pyx":289
+ *         if warm:
+ *             self.init_locations(X, self.locs)
+ *             self.init_scatters(X, self.scatters)             # <<<<<<<<<<<<<<
+ *         else:
+ *             self.init_locations(X)
+ */
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init_scatters); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 289, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_17 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_17)) __PYX_ERR(1, 289, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_17);
+    __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 289, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = NULL;
+    __pyx_t_5 = 0;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_6);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+        __pyx_t_5 = 1;
+      }
+    }
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_3)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_17, __pyx_t_4};
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 289, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_17, __pyx_t_4};
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 289, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_2 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 289, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      if (__pyx_t_6) {
+        __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_6); __pyx_t_6 = NULL;
+      }
+      __Pyx_GIVEREF(__pyx_t_17);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_5, __pyx_t_17);
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_5, __pyx_t_4);
+      __pyx_t_17 = 0;
+      __pyx_t_4 = 0;
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 289, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "mlgrad/mlocation_scatter2.pyx":287
+ *         self.dvals2 = []
+ * 
  *         if warm:             # <<<<<<<<<<<<<<
  *             self.init_locations(X, self.locs)
  *             self.init_scatters(X, self.scatters)
  */
-    goto __pyx_L4;
+    goto __pyx_L5;
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":252
+  /* "mlgrad/mlocation_scatter2.pyx":291
  *             self.init_scatters(X, self.scatters)
  *         else:
  *             self.init_locations(X)             # <<<<<<<<<<<<<<
@@ -10042,10 +11197,10 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  * 
  */
   /*else*/ {
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init_locations); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 252, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init_locations); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 291, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 252, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 291, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
       __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
@@ -10056,25 +11211,25 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         __Pyx_DECREF_SET(__pyx_t_3, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6);
+    __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 252, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 291, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":253
+    /* "mlgrad/mlocation_scatter2.pyx":292
  *         else:
  *             self.init_locations(X)
  *             self.init_scatters(X)             # <<<<<<<<<<<<<<
  * 
- *     def init_locations(self, double[:,::1] X, double[:,::1] locs=None):
+ *         self.calc_distances()
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init_scatters); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 253, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init_scatters); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 292, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 253, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 292, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
       __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
@@ -10085,18 +11240,123 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         __Pyx_DECREF_SET(__pyx_t_3, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6);
+    __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 253, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 292, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
-  __pyx_L4:;
+  __pyx_L5:;
 
-  /* "mlgrad/mlocation_scatter2.pyx":231
- *         self.h = h
+  /* "mlgrad/mlocation_scatter2.pyx":294
+ *             self.init_scatters(X)
+ * 
+ *         self.calc_distances()             # <<<<<<<<<<<<<<
+ *         self.calc_weights()
+ *         self.calc_update_GG()
+ */
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_distances(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 294, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "mlgrad/mlocation_scatter2.pyx":295
+ * 
+ *         self.calc_distances()
+ *         self.calc_weights()             # <<<<<<<<<<<<<<
+ *         self.calc_update_GG()
+ * 
+ */
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_weights(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 295, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "mlgrad/mlocation_scatter2.pyx":296
+ *         self.calc_distances()
+ *         self.calc_weights()
+ *         self.calc_update_GG()             # <<<<<<<<<<<<<<
+ * 
+ *         self.dval = self.dval_min = self.local_Q()
+ */
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_update_GG(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 296, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "mlgrad/mlocation_scatter2.pyx":298
+ *         self.calc_update_GG()
+ * 
+ *         self.dval = self.dval_min = self.local_Q()             # <<<<<<<<<<<<<<
+ *         self.dvals.append(self.dval)
+ *         self.dval_prev = max_float
+ */
+  __pyx_t_15 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.local_Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0);
+  __pyx_v_self->__pyx_base.dval = __pyx_t_15;
+  __pyx_v_self->__pyx_base.dval_min = __pyx_t_15;
+
+  /* "mlgrad/mlocation_scatter2.pyx":299
+ * 
+ *         self.dval = self.dval_min = self.local_Q()
+ *         self.dvals.append(self.dval)             # <<<<<<<<<<<<<<
+ *         self.dval_prev = max_float
+ * 
+ */
+  if (unlikely(__pyx_v_self->__pyx_base.dvals == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
+    __PYX_ERR(1, 299, __pyx_L1_error)
+  }
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 299, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_18 = __Pyx_PyList_Append(__pyx_v_self->__pyx_base.dvals, __pyx_t_1); if (unlikely(__pyx_t_18 == ((int)-1))) __PYX_ERR(1, 299, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "mlgrad/mlocation_scatter2.pyx":300
+ *         self.dval = self.dval_min = self.local_Q()
+ *         self.dvals.append(self.dval)
+ *         self.dval_prev = max_float             # <<<<<<<<<<<<<<
+ * 
+ *         self.dval2 = self.dval2_min = self.Q()
+ */
+  __pyx_v_self->__pyx_base.dval_prev = __pyx_v_6mlgrad_18mlocation_scatter2_max_float;
+
+  /* "mlgrad/mlocation_scatter2.pyx":302
+ *         self.dval_prev = max_float
+ * 
+ *         self.dval2 = self.dval2_min = self.Q()             # <<<<<<<<<<<<<<
+ *         self.dval2_prev = max_float
+ *         self.dvals2.append(self.dval2)
+ */
+  __pyx_t_15 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0);
+  __pyx_v_self->__pyx_base.dval2 = __pyx_t_15;
+  __pyx_v_self->__pyx_base.dval2_min = __pyx_t_15;
+
+  /* "mlgrad/mlocation_scatter2.pyx":303
+ * 
+ *         self.dval2 = self.dval2_min = self.Q()
+ *         self.dval2_prev = max_float             # <<<<<<<<<<<<<<
+ *         self.dvals2.append(self.dval2)
+ * 
+ */
+  __pyx_v_self->__pyx_base.dval2_prev = __pyx_v_6mlgrad_18mlocation_scatter2_max_float;
+
+  /* "mlgrad/mlocation_scatter2.pyx":304
+ *         self.dval2 = self.dval2_min = self.Q()
+ *         self.dval2_prev = max_float
+ *         self.dvals2.append(self.dval2)             # <<<<<<<<<<<<<<
+ * 
+ *     def init_locations(self, double[:,::1] X, double[:,::1] locs=None):
+ */
+  if (unlikely(__pyx_v_self->__pyx_base.dvals2 == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
+    __PYX_ERR(1, 304, __pyx_L1_error)
+  }
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 304, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_18 = __Pyx_PyList_Append(__pyx_v_self->__pyx_base.dvals2, __pyx_t_1); if (unlikely(__pyx_t_18 == ((int)-1))) __PYX_ERR(1, 304, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "mlgrad/mlocation_scatter2.pyx":268
+ *         self.alpha = alpha
  * 
  *     def init(self, double[:,::1] X, warm=False):             # <<<<<<<<<<<<<<
  *         n = X.shape[1]
@@ -10113,9 +11373,9 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
   __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_11, 1);
-  __Pyx_XDECREF(__pyx_t_12);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_13, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_14, 1);
+  __Pyx_XDECREF(__pyx_t_17);
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.init", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -10126,8 +11386,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":255
- *             self.init_scatters(X)
+/* "mlgrad/mlocation_scatter2.pyx":306
+ *         self.dvals2.append(self.dval2)
  * 
  *     def init_locations(self, double[:,::1] X, double[:,::1] locs=None):             # <<<<<<<<<<<<<<
  *         n = X.shape[1]
@@ -10173,7 +11433,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "init_locations") < 0)) __PYX_ERR(1, 255, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "init_locations") < 0)) __PYX_ERR(1, 306, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -10184,17 +11444,17 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 255, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 306, __pyx_L3_error)
     if (values[1]) {
-      __pyx_v_locs = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_locs.memview)) __PYX_ERR(1, 255, __pyx_L3_error)
+      __pyx_v_locs = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_locs.memview)) __PYX_ERR(1, 306, __pyx_L3_error)
     } else {
-      __pyx_v_locs = __pyx_k_;
+      __pyx_v_locs = __pyx_k__2;
       __PYX_INC_MEMVIEW(&__pyx_v_locs, 1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("init_locations", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 255, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("init_locations", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 306, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.init_locations", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -10224,14 +11484,12 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __Pyx_memviewslice __pyx_t_9 = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_t_10 = NULL;
   __Pyx_memviewslice __pyx_t_11 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_t_12;
-  int __pyx_t_13;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init_locations", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":256
+  /* "mlgrad/mlocation_scatter2.pyx":307
  * 
  *     def init_locations(self, double[:,::1] X, double[:,::1] locs=None):
  *         n = X.shape[1]             # <<<<<<<<<<<<<<
@@ -10240,7 +11498,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   __pyx_v_n = (__pyx_v_X.shape[1]);
 
-  /* "mlgrad/mlocation_scatter2.pyx":257
+  /* "mlgrad/mlocation_scatter2.pyx":308
  *     def init_locations(self, double[:,::1] X, double[:,::1] locs=None):
  *         n = X.shape[1]
  *         N = X.shape[0]             # <<<<<<<<<<<<<<
@@ -10249,7 +11507,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   __pyx_v_N = (__pyx_v_X.shape[0]);
 
-  /* "mlgrad/mlocation_scatter2.pyx":258
+  /* "mlgrad/mlocation_scatter2.pyx":309
  *         n = X.shape[1]
  *         N = X.shape[0]
  *         n_locs = self.n_locs             # <<<<<<<<<<<<<<
@@ -10259,7 +11517,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_1 = __pyx_v_self->__pyx_base.n_locs;
   __pyx_v_n_locs = __pyx_t_1;
 
-  /* "mlgrad/mlocation_scatter2.pyx":260
+  /* "mlgrad/mlocation_scatter2.pyx":311
  *         n_locs = self.n_locs
  * 
  *         if locs is None:             # <<<<<<<<<<<<<<
@@ -10269,7 +11527,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_2 = ((((PyObject *) __pyx_v_locs.memview) == Py_None) != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/mlocation_scatter2.pyx":261
+    /* "mlgrad/mlocation_scatter2.pyx":312
  * 
  *         if locs is None:
  *             if self.locs is None:             # <<<<<<<<<<<<<<
@@ -10279,23 +11537,23 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     __pyx_t_2 = ((((PyObject *) __pyx_v_self->__pyx_base.locs.memview) == Py_None) != 0);
     if (__pyx_t_2) {
 
-      /* "mlgrad/mlocation_scatter2.pyx":262
+      /* "mlgrad/mlocation_scatter2.pyx":313
  *         if locs is None:
  *             if self.locs is None:
  *                 self.locs = np.zeros((n_locs, n), 'd')             # <<<<<<<<<<<<<<
  *                 init_locations(X, self.locs)
  *         else:
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 262, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 313, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 262, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 313, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_n_locs); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 262, __pyx_L1_error)
+      __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_n_locs); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 313, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 262, __pyx_L1_error)
+      __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 313, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 262, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 313, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4);
@@ -10318,7 +11576,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_7, __pyx_n_u_d};
-        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 262, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 313, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -10327,14 +11585,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_7, __pyx_n_u_d};
-        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 262, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 313, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       } else
       #endif
       {
-        __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 262, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 313, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         if (__pyx_t_6) {
           __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -10345,30 +11603,30 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         __Pyx_GIVEREF(__pyx_n_u_d);
         PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_n_u_d);
         __pyx_t_7 = 0;
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 262, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 313, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 262, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 313, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.locs, 0);
       __pyx_v_self->__pyx_base.locs = __pyx_t_9;
       __pyx_t_9.memview = NULL;
       __pyx_t_9.data = NULL;
 
-      /* "mlgrad/mlocation_scatter2.pyx":263
+      /* "mlgrad/mlocation_scatter2.pyx":314
  *             if self.locs is None:
  *                 self.locs = np.zeros((n_locs, n), 'd')
  *                 init_locations(X, self.locs)             # <<<<<<<<<<<<<<
  *         else:
  *             self.locs = locs
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_init_locations); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 263, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_init_locations); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 314, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 263, __pyx_L1_error)
+      __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 314, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 263, __pyx_L1_error)
+      __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 314, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_6 = NULL;
       __pyx_t_8 = 0;
@@ -10385,7 +11643,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_4, __pyx_t_7};
-        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 314, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -10395,7 +11653,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_4, __pyx_t_7};
-        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 314, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -10403,7 +11661,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       } else
       #endif
       {
-        __pyx_t_10 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_10 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 314, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         if (__pyx_t_6) {
           __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -10414,14 +11672,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_8, __pyx_t_7);
         __pyx_t_4 = 0;
         __pyx_t_7 = 0;
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 314, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "mlgrad/mlocation_scatter2.pyx":261
+      /* "mlgrad/mlocation_scatter2.pyx":312
  * 
  *         if locs is None:
  *             if self.locs is None:             # <<<<<<<<<<<<<<
@@ -10430,7 +11688,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":260
+    /* "mlgrad/mlocation_scatter2.pyx":311
  *         n_locs = self.n_locs
  * 
  *         if locs is None:             # <<<<<<<<<<<<<<
@@ -10440,7 +11698,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     goto __pyx_L3;
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":265
+  /* "mlgrad/mlocation_scatter2.pyx":316
  *                 init_locations(X, self.locs)
  *         else:
  *             self.locs = locs             # <<<<<<<<<<<<<<
@@ -10454,7 +11712,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   }
   __pyx_L3:;
 
-  /* "mlgrad/mlocation_scatter2.pyx":267
+  /* "mlgrad/mlocation_scatter2.pyx":318
  *             self.locs = locs
  * 
  *         if self.locs_min is None:             # <<<<<<<<<<<<<<
@@ -10464,23 +11722,23 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_2 = ((((PyObject *) __pyx_v_self->__pyx_base.locs_min.memview) == Py_None) != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/mlocation_scatter2.pyx":268
+    /* "mlgrad/mlocation_scatter2.pyx":319
  * 
  *         if self.locs_min is None:
  *             self.locs_min = np.zeros((self.n_locs, n), 'd')             # <<<<<<<<<<<<<<
  *         copy_memoryview2(self.locs_min, self.locs)
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 268, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 319, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 268, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 319, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 268, __pyx_L1_error)
+    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 319, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 268, __pyx_L1_error)
+    __pyx_t_7 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 319, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 268, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 319, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
@@ -10503,7 +11761,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_10)) {
       PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_4, __pyx_n_u_d};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 268, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 319, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -10512,14 +11770,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_10)) {
       PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_4, __pyx_n_u_d};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 268, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 319, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 268, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 319, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       if (__pyx_t_7) {
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -10530,19 +11788,19 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_8, __pyx_n_u_d);
       __pyx_t_4 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 268, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 319, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 268, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 319, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.locs_min, 0);
     __pyx_v_self->__pyx_base.locs_min = __pyx_t_9;
     __pyx_t_9.memview = NULL;
     __pyx_t_9.data = NULL;
 
-    /* "mlgrad/mlocation_scatter2.pyx":267
+    /* "mlgrad/mlocation_scatter2.pyx":318
  *             self.locs = locs
  * 
  *         if self.locs_min is None:             # <<<<<<<<<<<<<<
@@ -10551,7 +11809,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":269
+  /* "mlgrad/mlocation_scatter2.pyx":320
  *         if self.locs_min is None:
  *             self.locs_min = np.zeros((self.n_locs, n), 'd')
  *         copy_memoryview2(self.locs_min, self.locs)             # <<<<<<<<<<<<<<
@@ -10560,7 +11818,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__pyx_v_self->__pyx_base.locs_min, __pyx_v_self->__pyx_base.locs);
 
-  /* "mlgrad/mlocation_scatter2.pyx":271
+  /* "mlgrad/mlocation_scatter2.pyx":322
  *         copy_memoryview2(self.locs_min, self.locs)
  * 
  *         if self.scatters is None:             # <<<<<<<<<<<<<<
@@ -10570,25 +11828,25 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_2 = ((((PyObject *) __pyx_v_self->__pyx_base.scatters.memview) == Py_None) != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/mlocation_scatter2.pyx":272
+    /* "mlgrad/mlocation_scatter2.pyx":323
  * 
  *         if self.scatters is None:
  *             self.scatters = np.zeros((n_locs, n, n), 'd')             # <<<<<<<<<<<<<<
  *             init_scatters(self.scatters)
- * 
+ *             self.update_distfuncs(self.scatters)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 272, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 323, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 272, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 323, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = PyInt_FromSsize_t(__pyx_v_n_locs); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 272, __pyx_L1_error)
+    __pyx_t_10 = PyInt_FromSsize_t(__pyx_v_n_locs); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 323, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 272, __pyx_L1_error)
+    __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 323, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 272, __pyx_L1_error)
+    __pyx_t_7 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 323, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 272, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 323, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_10);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_10);
@@ -10614,7 +11872,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_6, __pyx_n_u_d};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 272, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 323, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -10623,14 +11881,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_6, __pyx_n_u_d};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 272, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 323, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 272, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 323, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       if (__pyx_t_7) {
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -10641,28 +11899,28 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_n_u_d);
       __pyx_t_6 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 272, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 323, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(1, 272, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(1, 323, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.scatters, 0);
     __pyx_v_self->__pyx_base.scatters = __pyx_t_11;
     __pyx_t_11.memview = NULL;
     __pyx_t_11.data = NULL;
 
-    /* "mlgrad/mlocation_scatter2.pyx":273
+    /* "mlgrad/mlocation_scatter2.pyx":324
  *         if self.scatters is None:
  *             self.scatters = np.zeros((n_locs, n, n), 'd')
  *             init_scatters(self.scatters)             # <<<<<<<<<<<<<<
+ *             self.update_distfuncs(self.scatters)
  * 
- *         self.update_distfuncs(self.scatters)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_init_scatters); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 273, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_init_scatters); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 324, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 273, __pyx_L1_error)
+    __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 324, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -10677,12 +11935,41 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 273, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 324, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":271
+    /* "mlgrad/mlocation_scatter2.pyx":325
+ *             self.scatters = np.zeros((n_locs, n, n), 'd')
+ *             init_scatters(self.scatters)
+ *             self.update_distfuncs(self.scatters)             # <<<<<<<<<<<<<<
+ * 
+ *     def init_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):
+ */
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update_distfuncs); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 325, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 325, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_6);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_5, function);
+      }
+    }
+    __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4);
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 325, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+    /* "mlgrad/mlocation_scatter2.pyx":322
  *         copy_memoryview2(self.locs_min, self.locs)
  * 
  *         if self.scatters is None:             # <<<<<<<<<<<<<<
@@ -10691,125 +11978,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":275
- *             init_scatters(self.scatters)
- * 
- *         self.update_distfuncs(self.scatters)             # <<<<<<<<<<<<<<
- * 
- *         self.calc_distances()
- */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update_distfuncs); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 275, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 275, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
-    }
-  }
-  __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 275, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "mlgrad/mlocation_scatter2.pyx":277
- *         self.update_distfuncs(self.scatters)
- * 
- *         self.calc_distances()             # <<<<<<<<<<<<<<
- *         self.avg.fit(self.D)
- *         self.avg.gradient(self.D, self.weights)
- */
-  __pyx_t_3 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_distances(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 277, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "mlgrad/mlocation_scatter2.pyx":278
- * 
- *         self.calc_distances()
- *         self.avg.fit(self.D)             # <<<<<<<<<<<<<<
- *         self.avg.gradient(self.D, self.weights)
- * 
- */
-  __pyx_t_3 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_base.avg->__pyx_vtab)->fit(__pyx_v_self->__pyx_base.avg, __pyx_v_self->__pyx_base.D, 0, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "mlgrad/mlocation_scatter2.pyx":279
- *         self.calc_distances()
- *         self.avg.fit(self.D)
- *         self.avg.gradient(self.D, self.weights)             # <<<<<<<<<<<<<<
- * 
- *         self.dval = self.dval_min = self.Q()
- */
-  __pyx_t_3 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_base.avg->__pyx_vtab)->gradient(__pyx_v_self->__pyx_base.avg, __pyx_v_self->__pyx_base.D, __pyx_v_self->__pyx_base.weights); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 279, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "mlgrad/mlocation_scatter2.pyx":281
- *         self.avg.gradient(self.D, self.weights)
- * 
- *         self.dval = self.dval_min = self.Q()             # <<<<<<<<<<<<<<
- *         self.dval_prev = max_float
- *         if self.dvals is None:
- */
-  __pyx_t_12 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0);
-  __pyx_v_self->__pyx_base.dval = __pyx_t_12;
-  __pyx_v_self->__pyx_base.dval_min = __pyx_t_12;
-
-  /* "mlgrad/mlocation_scatter2.pyx":282
- * 
- *         self.dval = self.dval_min = self.Q()
- *         self.dval_prev = max_float             # <<<<<<<<<<<<<<
- *         if self.dvals is None:
- *             self.dvals = []
- */
-  __pyx_v_self->__pyx_base.dval_prev = __pyx_v_6mlgrad_18mlocation_scatter2_max_float;
-
-  /* "mlgrad/mlocation_scatter2.pyx":283
- *         self.dval = self.dval_min = self.Q()
- *         self.dval_prev = max_float
- *         if self.dvals is None:             # <<<<<<<<<<<<<<
- *             self.dvals = []
- * 
- */
-  __pyx_t_2 = (__pyx_v_self->__pyx_base.dvals == ((PyObject*)Py_None));
-  __pyx_t_13 = (__pyx_t_2 != 0);
-  if (__pyx_t_13) {
-
-    /* "mlgrad/mlocation_scatter2.pyx":284
- *         self.dval_prev = max_float
- *         if self.dvals is None:
- *             self.dvals = []             # <<<<<<<<<<<<<<
- * 
- * 
- */
-    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 284, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_GIVEREF(__pyx_t_3);
-    __Pyx_GOTREF(__pyx_v_self->__pyx_base.dvals);
-    __Pyx_DECREF(__pyx_v_self->__pyx_base.dvals);
-    __pyx_v_self->__pyx_base.dvals = ((PyObject*)__pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "mlgrad/mlocation_scatter2.pyx":283
- *         self.dval = self.dval_min = self.Q()
- *         self.dval_prev = max_float
- *         if self.dvals is None:             # <<<<<<<<<<<<<<
- *             self.dvals = []
- * 
- */
-  }
-
-  /* "mlgrad/mlocation_scatter2.pyx":255
- *             self.init_scatters(X)
+  /* "mlgrad/mlocation_scatter2.pyx":306
+ *         self.dvals2.append(self.dval2)
  * 
  *     def init_locations(self, double[:,::1] X, double[:,::1] locs=None):             # <<<<<<<<<<<<<<
  *         n = X.shape[1]
@@ -10838,8 +12008,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":287
- * 
+/* "mlgrad/mlocation_scatter2.pyx":327
+ *             self.update_distfuncs(self.scatters)
  * 
  *     def init_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):             # <<<<<<<<<<<<<<
  *         n = X.shape[1]
@@ -10885,7 +12055,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "init_scatters") < 0)) __PYX_ERR(1, 287, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "init_scatters") < 0)) __PYX_ERR(1, 327, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -10896,17 +12066,17 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 287, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 327, __pyx_L3_error)
     if (values[1]) {
-      __pyx_v_scatters = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_scatters.memview)) __PYX_ERR(1, 287, __pyx_L3_error)
+      __pyx_v_scatters = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_scatters.memview)) __PYX_ERR(1, 327, __pyx_L3_error)
     } else {
-      __pyx_v_scatters = __pyx_k__2;
+      __pyx_v_scatters = __pyx_k__3;
       __PYX_INC_MEMVIEW(&__pyx_v_scatters, 1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("init_scatters", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 287, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("init_scatters", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 327, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.init_scatters", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -10938,7 +12108,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init_scatters", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":288
+  /* "mlgrad/mlocation_scatter2.pyx":328
  * 
  *     def init_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):
  *         n = X.shape[1]             # <<<<<<<<<<<<<<
@@ -10947,7 +12117,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   __pyx_v_n = (__pyx_v_X.shape[1]);
 
-  /* "mlgrad/mlocation_scatter2.pyx":289
+  /* "mlgrad/mlocation_scatter2.pyx":329
  *     def init_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):
  *         n = X.shape[1]
  *         if self.locs is None:             # <<<<<<<<<<<<<<
@@ -10957,23 +12127,23 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_1 = ((((PyObject *) __pyx_v_self->__pyx_base.locs.memview) == Py_None) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/mlocation_scatter2.pyx":290
+    /* "mlgrad/mlocation_scatter2.pyx":330
  *         n = X.shape[1]
  *         if self.locs is None:
  *             self.locs = np.zeros((self.n_locs, n), 'd')             # <<<<<<<<<<<<<<
  *             init_locations(X, self.locs)
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 290, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 330, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 290, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 330, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 290, __pyx_L1_error)
+    __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 330, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 290, __pyx_L1_error)
+    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 330, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 290, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 330, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3);
@@ -10996,7 +12166,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_6, __pyx_n_u_d};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 290, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 330, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -11005,14 +12175,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_6, __pyx_n_u_d};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 290, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 330, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_3 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 290, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 330, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       if (__pyx_t_5) {
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -11023,30 +12193,30 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_7, __pyx_n_u_d);
       __pyx_t_6 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 290, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 330, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 290, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 330, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.locs, 0);
     __pyx_v_self->__pyx_base.locs = __pyx_t_8;
     __pyx_t_8.memview = NULL;
     __pyx_t_8.data = NULL;
 
-    /* "mlgrad/mlocation_scatter2.pyx":291
+    /* "mlgrad/mlocation_scatter2.pyx":331
  *         if self.locs is None:
  *             self.locs = np.zeros((self.n_locs, n), 'd')
  *             init_locations(X, self.locs)             # <<<<<<<<<<<<<<
  * 
  *         if scatters is None:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_init_locations); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 291, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_init_locations); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 331, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 291, __pyx_L1_error)
+    __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 331, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 291, __pyx_L1_error)
+    __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 331, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_5 = NULL;
     __pyx_t_7 = 0;
@@ -11063,7 +12233,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_t_6};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 291, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 331, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -11073,7 +12243,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_t_6};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 291, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 331, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -11081,7 +12251,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     } else
     #endif
     {
-      __pyx_t_9 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 291, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 331, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       if (__pyx_t_5) {
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -11092,14 +12262,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_7, __pyx_t_6);
       __pyx_t_3 = 0;
       __pyx_t_6 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 291, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 331, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":289
+    /* "mlgrad/mlocation_scatter2.pyx":329
  *     def init_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):
  *         n = X.shape[1]
  *         if self.locs is None:             # <<<<<<<<<<<<<<
@@ -11108,7 +12278,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":293
+  /* "mlgrad/mlocation_scatter2.pyx":333
  *             init_locations(X, self.locs)
  * 
  *         if scatters is None:             # <<<<<<<<<<<<<<
@@ -11118,7 +12288,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_1 = ((((PyObject *) __pyx_v_scatters.memview) == Py_None) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/mlocation_scatter2.pyx":294
+    /* "mlgrad/mlocation_scatter2.pyx":334
  * 
  *         if scatters is None:
  *             if self.scatters is None:             # <<<<<<<<<<<<<<
@@ -11128,25 +12298,25 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     __pyx_t_1 = ((((PyObject *) __pyx_v_self->__pyx_base.scatters.memview) == Py_None) != 0);
     if (__pyx_t_1) {
 
-      /* "mlgrad/mlocation_scatter2.pyx":295
+      /* "mlgrad/mlocation_scatter2.pyx":335
  *         if scatters is None:
  *             if self.scatters is None:
  *                 self.scatters = np.zeros((self.n_locs,n,n), 'd')             # <<<<<<<<<<<<<<
  *                 init_scatters(self.scatters)
  *         else:
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 295, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 335, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 295, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 335, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 295, __pyx_L1_error)
+      __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 335, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 295, __pyx_L1_error)
+      __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 335, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 295, __pyx_L1_error)
+      __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 335, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 295, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 335, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
@@ -11172,7 +12342,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_9)) {
         PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_5, __pyx_n_u_d};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 295, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 335, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -11181,14 +12351,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_9)) {
         PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_5, __pyx_n_u_d};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 295, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 335, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       } else
       #endif
       {
-        __pyx_t_6 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 295, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 335, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         if (__pyx_t_3) {
           __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -11199,28 +12369,28 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         __Pyx_GIVEREF(__pyx_n_u_d);
         PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_7, __pyx_n_u_d);
         __pyx_t_5 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 295, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 335, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 295, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 335, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.scatters, 0);
       __pyx_v_self->__pyx_base.scatters = __pyx_t_10;
       __pyx_t_10.memview = NULL;
       __pyx_t_10.data = NULL;
 
-      /* "mlgrad/mlocation_scatter2.pyx":296
+      /* "mlgrad/mlocation_scatter2.pyx":336
  *             if self.scatters is None:
  *                 self.scatters = np.zeros((self.n_locs,n,n), 'd')
  *                 init_scatters(self.scatters)             # <<<<<<<<<<<<<<
  *         else:
  *             self.scatters = scatters
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_init_scatters); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 296, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_init_scatters); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 336, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 296, __pyx_L1_error)
+      __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 336, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_5 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_9))) {
@@ -11235,12 +12405,12 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_6);
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 296, __pyx_L1_error)
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 336, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "mlgrad/mlocation_scatter2.pyx":294
+      /* "mlgrad/mlocation_scatter2.pyx":334
  * 
  *         if scatters is None:
  *             if self.scatters is None:             # <<<<<<<<<<<<<<
@@ -11249,7 +12419,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":293
+    /* "mlgrad/mlocation_scatter2.pyx":333
  *             init_locations(X, self.locs)
  * 
  *         if scatters is None:             # <<<<<<<<<<<<<<
@@ -11259,7 +12429,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     goto __pyx_L4;
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":298
+  /* "mlgrad/mlocation_scatter2.pyx":338
  *                 init_scatters(self.scatters)
  *         else:
  *             self.scatters = scatters             # <<<<<<<<<<<<<<
@@ -11273,7 +12443,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   }
   __pyx_L4:;
 
-  /* "mlgrad/mlocation_scatter2.pyx":300
+  /* "mlgrad/mlocation_scatter2.pyx":340
  *             self.scatters = scatters
  * 
  *         if self.scatters_min is None:             # <<<<<<<<<<<<<<
@@ -11283,25 +12453,25 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_1 = ((((PyObject *) __pyx_v_self->__pyx_base.scatters_min.memview) == Py_None) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/mlocation_scatter2.pyx":301
+    /* "mlgrad/mlocation_scatter2.pyx":341
  * 
  *         if self.scatters_min is None:
  *             self.scatters_min = np.zeros((self.n_locs,n,n), 'd')             # <<<<<<<<<<<<<<
  *         copy_memoryview3(self.scatters_min, self.scatters)
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 301, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 341, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 301, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 341, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 301, __pyx_L1_error)
+    __pyx_t_9 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 341, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 301, __pyx_L1_error)
+    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 341, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 301, __pyx_L1_error)
+    __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 341, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 301, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 341, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_9);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_9);
@@ -11327,7 +12497,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_4, __pyx_n_u_d};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 301, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 341, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -11336,14 +12506,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_4, __pyx_n_u_d};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 301, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 341, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 301, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 341, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       if (__pyx_t_3) {
         __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -11354,19 +12524,19 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_7, __pyx_n_u_d);
       __pyx_t_4 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 301, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 341, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 301, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 341, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.scatters_min, 0);
     __pyx_v_self->__pyx_base.scatters_min = __pyx_t_10;
     __pyx_t_10.memview = NULL;
     __pyx_t_10.data = NULL;
 
-    /* "mlgrad/mlocation_scatter2.pyx":300
+    /* "mlgrad/mlocation_scatter2.pyx":340
  *             self.scatters = scatters
  * 
  *         if self.scatters_min is None:             # <<<<<<<<<<<<<<
@@ -11375,7 +12545,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":302
+  /* "mlgrad/mlocation_scatter2.pyx":342
  *         if self.scatters_min is None:
  *             self.scatters_min = np.zeros((self.n_locs,n,n), 'd')
  *         copy_memoryview3(self.scatters_min, self.scatters)             # <<<<<<<<<<<<<<
@@ -11384,16 +12554,16 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview3(__pyx_v_self->__pyx_base.scatters_min, __pyx_v_self->__pyx_base.scatters);
 
-  /* "mlgrad/mlocation_scatter2.pyx":304
+  /* "mlgrad/mlocation_scatter2.pyx":344
  *         copy_memoryview3(self.scatters_min, self.scatters)
  * 
  *         self.update_distfuncs(self.scatters)             # <<<<<<<<<<<<<<
  * 
  *     def evaluate(self, double[:,::1] X):
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update_distfuncs); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 304, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update_distfuncs); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 304, __pyx_L1_error)
+  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -11408,13 +12578,13 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 304, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":287
- * 
+  /* "mlgrad/mlocation_scatter2.pyx":327
+ *             self.update_distfuncs(self.scatters)
  * 
  *     def init_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):             # <<<<<<<<<<<<<<
  *         n = X.shape[1]
@@ -11443,7 +12613,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":306
+/* "mlgrad/mlocation_scatter2.pyx":346
  *         self.update_distfuncs(self.scatters)
  * 
  *     def evaluate(self, double[:,::1] X):             # <<<<<<<<<<<<<<
@@ -11463,7 +12633,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("evaluate (wrapper)", 0);
   assert(__pyx_arg_X); {
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_arg_X, PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 306, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_arg_X, PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 346, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -11518,7 +12688,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("evaluate", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":307
+  /* "mlgrad/mlocation_scatter2.pyx":347
  * 
  *     def evaluate(self, double[:,::1] X):
  *         cdef double d, d_min, float_max = PyFloat_GetMax()             # <<<<<<<<<<<<<<
@@ -11527,7 +12697,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   __pyx_v_float_max = PyFloat_GetMax();
 
-  /* "mlgrad/mlocation_scatter2.pyx":309
+  /* "mlgrad/mlocation_scatter2.pyx":349
  *         cdef double d, d_min, float_max = PyFloat_GetMax()
  *         cdef Py_ssize_t j, j_min
  *         cdef Py_ssize_t k, N = X.shape[0], n = X.shape[1]             # <<<<<<<<<<<<<<
@@ -11537,19 +12707,19 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_v_N = (__pyx_v_X.shape[0]);
   __pyx_v_n = (__pyx_v_X.shape[1]);
 
-  /* "mlgrad/mlocation_scatter2.pyx":310
+  /* "mlgrad/mlocation_scatter2.pyx":350
  *         cdef Py_ssize_t j, j_min
  *         cdef Py_ssize_t k, N = X.shape[0], n = X.shape[1]
  *         cdef Py_ssize_t[::1] Y = np.zeros(N, 'l')             # <<<<<<<<<<<<<<
  *         cdef DistanceWithScale distfunc
  *         cdef DistanceWithScale[::1] distfuncs = self.distfuncs
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 310, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 350, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 310, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 350, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 310, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 350, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -11566,7 +12736,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_l};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 310, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 350, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -11575,14 +12745,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_l};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 310, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 350, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 310, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 350, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -11593,18 +12763,18 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     __Pyx_GIVEREF(__pyx_n_u_l);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_u_l);
     __pyx_t_2 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 310, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 350, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 310, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(1, 350, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_Y = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":312
+  /* "mlgrad/mlocation_scatter2.pyx":352
  *         cdef Py_ssize_t[::1] Y = np.zeros(N, 'l')
  *         cdef DistanceWithScale distfunc
  *         cdef DistanceWithScale[::1] distfuncs = self.distfuncs             # <<<<<<<<<<<<<<
@@ -11617,7 +12787,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":313
+  /* "mlgrad/mlocation_scatter2.pyx":353
  *         cdef DistanceWithScale distfunc
  *         cdef DistanceWithScale[::1] distfuncs = self.distfuncs
  *         cdef double[:,::1] locs = self.locs             # <<<<<<<<<<<<<<
@@ -11630,7 +12800,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":315
+  /* "mlgrad/mlocation_scatter2.pyx":355
  *         cdef double[:,::1] locs = self.locs
  * 
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -11642,7 +12812,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_k = __pyx_t_12;
 
-    /* "mlgrad/mlocation_scatter2.pyx":316
+    /* "mlgrad/mlocation_scatter2.pyx":356
  * 
  *         for k in range(N):
  *             d_min = float_max             # <<<<<<<<<<<<<<
@@ -11651,7 +12821,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
     __pyx_v_d_min = __pyx_v_float_max;
 
-    /* "mlgrad/mlocation_scatter2.pyx":317
+    /* "mlgrad/mlocation_scatter2.pyx":357
  *         for k in range(N):
  *             d_min = float_max
  *             j_min = 0             # <<<<<<<<<<<<<<
@@ -11660,7 +12830,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
     __pyx_v_j_min = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":318
+    /* "mlgrad/mlocation_scatter2.pyx":358
  *             d_min = float_max
  *             j_min = 0
  *             for j in range(self.n_locs):             # <<<<<<<<<<<<<<
@@ -11672,7 +12842,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
       __pyx_v_j = __pyx_t_15;
 
-      /* "mlgrad/mlocation_scatter2.pyx":319
+      /* "mlgrad/mlocation_scatter2.pyx":359
  *             j_min = 0
  *             for j in range(self.n_locs):
  *                 distfunc = distfuncs[j]             # <<<<<<<<<<<<<<
@@ -11685,7 +12855,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       __Pyx_XDECREF_SET(__pyx_v_distfunc, ((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale *)__pyx_t_1));
       __pyx_t_1 = 0;
 
-      /* "mlgrad/mlocation_scatter2.pyx":320
+      /* "mlgrad/mlocation_scatter2.pyx":360
  *             for j in range(self.n_locs):
  *                 distfunc = distfuncs[j]
  *                 d = distfunc._evaluate(&X[k,0], &locs[j,0], n)             # <<<<<<<<<<<<<<
@@ -11698,7 +12868,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       __pyx_t_19 = 0;
       __pyx_v_d = ((struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale *)__pyx_v_distfunc->__pyx_base.__pyx_vtab)->__pyx_base._evaluate(((struct __pyx_obj_6mlgrad_8distance_Distance *)__pyx_v_distfunc), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_16 * __pyx_v_X.strides[0]) )) + __pyx_t_17)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_locs.data + __pyx_t_18 * __pyx_v_locs.strides[0]) )) + __pyx_t_19)) )))), __pyx_v_n);
 
-      /* "mlgrad/mlocation_scatter2.pyx":321
+      /* "mlgrad/mlocation_scatter2.pyx":361
  *                 distfunc = distfuncs[j]
  *                 d = distfunc._evaluate(&X[k,0], &locs[j,0], n)
  *                 if d < d_min:             # <<<<<<<<<<<<<<
@@ -11708,7 +12878,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       __pyx_t_20 = ((__pyx_v_d < __pyx_v_d_min) != 0);
       if (__pyx_t_20) {
 
-        /* "mlgrad/mlocation_scatter2.pyx":322
+        /* "mlgrad/mlocation_scatter2.pyx":362
  *                 d = distfunc._evaluate(&X[k,0], &locs[j,0], n)
  *                 if d < d_min:
  *                     j_min = j             # <<<<<<<<<<<<<<
@@ -11717,7 +12887,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
         __pyx_v_j_min = __pyx_v_j;
 
-        /* "mlgrad/mlocation_scatter2.pyx":323
+        /* "mlgrad/mlocation_scatter2.pyx":363
  *                 if d < d_min:
  *                     j_min = j
  *                     d_min = d             # <<<<<<<<<<<<<<
@@ -11726,7 +12896,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
         __pyx_v_d_min = __pyx_v_d;
 
-        /* "mlgrad/mlocation_scatter2.pyx":321
+        /* "mlgrad/mlocation_scatter2.pyx":361
  *                 distfunc = distfuncs[j]
  *                 d = distfunc._evaluate(&X[k,0], &locs[j,0], n)
  *                 if d < d_min:             # <<<<<<<<<<<<<<
@@ -11736,7 +12906,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       }
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":324
+    /* "mlgrad/mlocation_scatter2.pyx":364
  *                     j_min = j
  *                     d_min = d
  *             Y[k] = j_min             # <<<<<<<<<<<<<<
@@ -11747,7 +12917,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_Y.data) + __pyx_t_19)) )) = __pyx_v_j_min;
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":326
+  /* "mlgrad/mlocation_scatter2.pyx":366
  *             Y[k] = j_min
  * 
  *         return Y             # <<<<<<<<<<<<<<
@@ -11755,13 +12925,13 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  *     def evaluate_dist(self, double[:,::1] X):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_Y, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 326, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_Y, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 366, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":306
+  /* "mlgrad/mlocation_scatter2.pyx":346
  *         self.update_distfuncs(self.scatters)
  * 
  *     def evaluate(self, double[:,::1] X):             # <<<<<<<<<<<<<<
@@ -11792,7 +12962,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":328
+/* "mlgrad/mlocation_scatter2.pyx":368
  *         return Y
  * 
  *     def evaluate_dist(self, double[:,::1] X):             # <<<<<<<<<<<<<<
@@ -11812,7 +12982,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("evaluate_dist (wrapper)", 0);
   assert(__pyx_arg_X); {
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_arg_X, PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 328, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_arg_X, PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 368, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -11866,7 +13036,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("evaluate_dist", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":329
+  /* "mlgrad/mlocation_scatter2.pyx":369
  * 
  *     def evaluate_dist(self, double[:,::1] X):
  *         cdef double d, d_min, float_max = PyFloat_GetMax()             # <<<<<<<<<<<<<<
@@ -11875,7 +13045,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   __pyx_v_float_max = PyFloat_GetMax();
 
-  /* "mlgrad/mlocation_scatter2.pyx":331
+  /* "mlgrad/mlocation_scatter2.pyx":371
  *         cdef double d, d_min, float_max = PyFloat_GetMax()
  *         cdef Py_ssize_t j
  *         cdef Py_ssize_t k, N = X.shape[0], n = X.shape[1]             # <<<<<<<<<<<<<<
@@ -11885,7 +13055,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_v_N = (__pyx_v_X.shape[0]);
   __pyx_v_n = (__pyx_v_X.shape[1]);
 
-  /* "mlgrad/mlocation_scatter2.pyx":333
+  /* "mlgrad/mlocation_scatter2.pyx":373
  *         cdef Py_ssize_t k, N = X.shape[0], n = X.shape[1]
  *         cdef DistanceWithScale distfunc
  *         cdef DistanceWithScale[::1] distfuncs = self.distfuncs             # <<<<<<<<<<<<<<
@@ -11898,7 +13068,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":334
+  /* "mlgrad/mlocation_scatter2.pyx":374
  *         cdef DistanceWithScale distfunc
  *         cdef DistanceWithScale[::1] distfuncs = self.distfuncs
  *         cdef double[:,::1] locs = self.locs             # <<<<<<<<<<<<<<
@@ -11911,19 +13081,19 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":335
+  /* "mlgrad/mlocation_scatter2.pyx":375
  *         cdef DistanceWithScale[::1] distfuncs = self.distfuncs
  *         cdef double[:,::1] locs = self.locs
  *         cdef double[::1] D = np.zeros(N, 'd')             # <<<<<<<<<<<<<<
  * 
  *         for k in range(N):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 335, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 375, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 335, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 375, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 335, __pyx_L1_error)
+  __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 375, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_6 = NULL;
   __pyx_t_7 = 0;
@@ -11940,7 +13110,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_5)) {
     PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_4, __pyx_n_u_d};
-    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 335, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 375, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -11949,14 +13119,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
     PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_4, __pyx_n_u_d};
-    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 335, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 375, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else
   #endif
   {
-    __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 335, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 375, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_6) {
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -11967,18 +13137,18 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     __Pyx_GIVEREF(__pyx_n_u_d);
     PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_n_u_d);
     __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 335, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 375, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 335, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 375, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_D = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":337
+  /* "mlgrad/mlocation_scatter2.pyx":377
  *         cdef double[::1] D = np.zeros(N, 'd')
  * 
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -11990,7 +13160,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_k = __pyx_t_12;
 
-    /* "mlgrad/mlocation_scatter2.pyx":338
+    /* "mlgrad/mlocation_scatter2.pyx":378
  * 
  *         for k in range(N):
  *             d_min = float_max             # <<<<<<<<<<<<<<
@@ -11999,7 +13169,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
     __pyx_v_d_min = __pyx_v_float_max;
 
-    /* "mlgrad/mlocation_scatter2.pyx":339
+    /* "mlgrad/mlocation_scatter2.pyx":379
  *         for k in range(N):
  *             d_min = float_max
  *             for j in range(self.n_locs):             # <<<<<<<<<<<<<<
@@ -12011,7 +13181,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
       __pyx_v_j = __pyx_t_15;
 
-      /* "mlgrad/mlocation_scatter2.pyx":340
+      /* "mlgrad/mlocation_scatter2.pyx":380
  *             d_min = float_max
  *             for j in range(self.n_locs):
  *                 distfunc = distfuncs[j]             # <<<<<<<<<<<<<<
@@ -12024,7 +13194,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       __Pyx_XDECREF_SET(__pyx_v_distfunc, ((struct __pyx_obj_6mlgrad_8distance_DistanceWithScale *)__pyx_t_3));
       __pyx_t_3 = 0;
 
-      /* "mlgrad/mlocation_scatter2.pyx":341
+      /* "mlgrad/mlocation_scatter2.pyx":381
  *             for j in range(self.n_locs):
  *                 distfunc = distfuncs[j]
  *                 d = distfunc._evaluate(&X[k,0], &locs[j,0], n)             # <<<<<<<<<<<<<<
@@ -12037,7 +13207,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       __pyx_t_19 = 0;
       __pyx_v_d = ((struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale *)__pyx_v_distfunc->__pyx_base.__pyx_vtab)->__pyx_base._evaluate(((struct __pyx_obj_6mlgrad_8distance_Distance *)__pyx_v_distfunc), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_16 * __pyx_v_X.strides[0]) )) + __pyx_t_17)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_locs.data + __pyx_t_18 * __pyx_v_locs.strides[0]) )) + __pyx_t_19)) )))), __pyx_v_n);
 
-      /* "mlgrad/mlocation_scatter2.pyx":342
+      /* "mlgrad/mlocation_scatter2.pyx":382
  *                 distfunc = distfuncs[j]
  *                 d = distfunc._evaluate(&X[k,0], &locs[j,0], n)
  *                 if d < d_min:             # <<<<<<<<<<<<<<
@@ -12047,7 +13217,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       __pyx_t_20 = ((__pyx_v_d < __pyx_v_d_min) != 0);
       if (__pyx_t_20) {
 
-        /* "mlgrad/mlocation_scatter2.pyx":343
+        /* "mlgrad/mlocation_scatter2.pyx":383
  *                 d = distfunc._evaluate(&X[k,0], &locs[j,0], n)
  *                 if d < d_min:
  *                     d_min = d             # <<<<<<<<<<<<<<
@@ -12056,7 +13226,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
         __pyx_v_d_min = __pyx_v_d;
 
-        /* "mlgrad/mlocation_scatter2.pyx":342
+        /* "mlgrad/mlocation_scatter2.pyx":382
  *                 distfunc = distfuncs[j]
  *                 d = distfunc._evaluate(&X[k,0], &locs[j,0], n)
  *                 if d < d_min:             # <<<<<<<<<<<<<<
@@ -12066,7 +13236,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       }
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":344
+    /* "mlgrad/mlocation_scatter2.pyx":384
  *                 if d < d_min:
  *                     d_min = d
  *             D[k] = d_min             # <<<<<<<<<<<<<<
@@ -12077,7 +13247,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_D.data) + __pyx_t_19)) )) = __pyx_v_d_min;
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":346
+  /* "mlgrad/mlocation_scatter2.pyx":386
  *             D[k] = d_min
  * 
  *         return D.base             # <<<<<<<<<<<<<<
@@ -12085,16 +13255,16 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  *     def fit_locations(self, double[:,::1] X, double[:,::1] locs=None):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_D, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 346, __pyx_L1_error)
+  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_D, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 386, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_base); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 346, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_base); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 386, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_5;
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":328
+  /* "mlgrad/mlocation_scatter2.pyx":368
  *         return Y
  * 
  *     def evaluate_dist(self, double[:,::1] X):             # <<<<<<<<<<<<<<
@@ -12125,20 +13295,20 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":348
+/* "mlgrad/mlocation_scatter2.pyx":388
  *         return D.base
  * 
  *     def fit_locations(self, double[:,::1] X, double[:,::1] locs=None):             # <<<<<<<<<<<<<<
- *         self.init_locations(X, locs)
  *         self.K = 1
+ * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_13fit_locations(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static char __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_12fit_locations[] = "MLocationsScattersEstimator.fit_locations(self, double[:, ::1] X, double[:, ::1] locs=None)";
 static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_13fit_locations(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_locs = { 0, 0, { 0 }, { 0 }, { 0 } };
+  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
+  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_locs = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -12172,7 +13342,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit_locations") < 0)) __PYX_ERR(1, 348, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit_locations") < 0)) __PYX_ERR(1, 388, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -12183,17 +13353,17 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 348, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 388, __pyx_L3_error)
     if (values[1]) {
-      __pyx_v_locs = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_locs.memview)) __PYX_ERR(1, 348, __pyx_L3_error)
+      __pyx_v_locs = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_locs.memview)) __PYX_ERR(1, 388, __pyx_L3_error)
     } else {
-      __pyx_v_locs = __pyx_k__3;
+      __pyx_v_locs = __pyx_k__4;
       __PYX_INC_MEMVIEW(&__pyx_v_locs, 1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit_locations", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 348, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit_locations", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 388, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.fit_locations", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -12206,265 +13376,250 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_12fit_locations(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_locs) {
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_12fit_locations(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_locs) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
+  double __pyx_t_5;
   int __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
-  double __pyx_t_8;
-  int __pyx_t_9;
-  int __pyx_t_10;
+  double __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fit_locations", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":349
+  /* "mlgrad/mlocation_scatter2.pyx":389
  * 
  *     def fit_locations(self, double[:,::1] X, double[:,::1] locs=None):
- *         self.init_locations(X, locs)             # <<<<<<<<<<<<<<
- *         self.K = 1
- * 
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init_locations); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 349, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 349, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 349, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = NULL;
-  __pyx_t_6 = 0;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-      __pyx_t_6 = 1;
-    }
-  }
-  #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 349, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  } else
-  #endif
-  #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 349, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  } else
-  #endif
-  {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 349, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (__pyx_t_5) {
-      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
-    }
-    __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_6, __pyx_t_3);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_t_4);
-    __pyx_t_3 = 0;
-    __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 349, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "mlgrad/mlocation_scatter2.pyx":350
- *     def fit_locations(self, double[:,::1] X, double[:,::1] locs=None):
- *         self.init_locations(X, locs)
  *         self.K = 1             # <<<<<<<<<<<<<<
  * 
- *         self.dval = self.dval_min = self.Q()
+ *         self.calc_distances()
  */
   __pyx_v_self->__pyx_base.K = 1;
 
-  /* "mlgrad/mlocation_scatter2.pyx":352
+  /* "mlgrad/mlocation_scatter2.pyx":391
  *         self.K = 1
  * 
- *         self.dval = self.dval_min = self.Q()             # <<<<<<<<<<<<<<
- *         self.dval_prev = max_float
- *         copy_memoryview2(self.locs_min, self.locs)
+ *         self.calc_distances()             # <<<<<<<<<<<<<<
+ *         self.calc_weights()
+ *         self.calc_update_GG()
  */
-  __pyx_t_8 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0);
-  __pyx_v_self->__pyx_base.dval = __pyx_t_8;
-  __pyx_v_self->__pyx_base.dval_min = __pyx_t_8;
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_distances(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 391, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":353
+  /* "mlgrad/mlocation_scatter2.pyx":392
  * 
- *         self.dval = self.dval_min = self.Q()
- *         self.dval_prev = max_float             # <<<<<<<<<<<<<<
- *         copy_memoryview2(self.locs_min, self.locs)
+ *         self.calc_distances()
+ *         self.calc_weights()             # <<<<<<<<<<<<<<
+ *         self.calc_update_GG()
  * 
  */
-  __pyx_v_self->__pyx_base.dval_prev = __pyx_v_6mlgrad_18mlocation_scatter2_max_float;
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_weights(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 392, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":354
- *         self.dval = self.dval_min = self.Q()
- *         self.dval_prev = max_float
- *         copy_memoryview2(self.locs_min, self.locs)             # <<<<<<<<<<<<<<
+  /* "mlgrad/mlocation_scatter2.pyx":393
+ *         self.calc_distances()
+ *         self.calc_weights()
+ *         self.calc_update_GG()             # <<<<<<<<<<<<<<
  * 
  *         while self.K <= self.n_iter:
  */
-  __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__pyx_v_self->__pyx_base.locs_min, __pyx_v_self->__pyx_base.locs);
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_update_GG(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 393, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":356
- *         copy_memoryview2(self.locs_min, self.locs)
+  /* "mlgrad/mlocation_scatter2.pyx":395
+ *         self.calc_update_GG()
  * 
  *         while self.K <= self.n_iter:             # <<<<<<<<<<<<<<
- *             self.fit_step_locations()
  * 
+ *             self.fit_step_locations()
  */
   while (1) {
-    __pyx_t_9 = ((__pyx_v_self->__pyx_base.K <= __pyx_v_self->__pyx_base.n_iter) != 0);
-    if (!__pyx_t_9) break;
+    __pyx_t_2 = ((__pyx_v_self->__pyx_base.K <= __pyx_v_self->__pyx_base.n_iter) != 0);
+    if (!__pyx_t_2) break;
 
-    /* "mlgrad/mlocation_scatter2.pyx":357
- * 
+    /* "mlgrad/mlocation_scatter2.pyx":397
  *         while self.K <= self.n_iter:
+ * 
  *             self.fit_step_locations()             # <<<<<<<<<<<<<<
  * 
- *             self.dval_prev = self.dval
+ *             self.calc_distances()
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fit_step_locations); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 357, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_7);
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fit_step_locations); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 397, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_4);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 357, __pyx_L1_error)
+    __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 397, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":359
+    /* "mlgrad/mlocation_scatter2.pyx":399
  *             self.fit_step_locations()
  * 
- *             self.dval_prev = self.dval             # <<<<<<<<<<<<<<
- *             self.dval = self.Q()
- *             self.dvals.append(self.dval)
+ *             self.calc_distances()             # <<<<<<<<<<<<<<
+ *             self.calc_update_GG()
+ * 
  */
-    __pyx_t_8 = __pyx_v_self->__pyx_base.dval;
-    __pyx_v_self->__pyx_base.dval_prev = __pyx_t_8;
+    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_distances(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 399, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":360
+    /* "mlgrad/mlocation_scatter2.pyx":400
+ * 
+ *             self.calc_distances()
+ *             self.calc_update_GG()             # <<<<<<<<<<<<<<
  * 
  *             self.dval_prev = self.dval
- *             self.dval = self.Q()             # <<<<<<<<<<<<<<
- *             self.dvals.append(self.dval)
- *             if self.dval < self.dval_min:
  */
-    __pyx_v_self->__pyx_base.dval = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0);
+    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_update_GG(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 400, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":361
+    /* "mlgrad/mlocation_scatter2.pyx":402
+ *             self.calc_update_GG()
+ * 
+ *             self.dval_prev = self.dval             # <<<<<<<<<<<<<<
+ *             self.dval = self.local_Q()
+ *             self.dvals.append(self.dval)
+ */
+    __pyx_t_5 = __pyx_v_self->__pyx_base.dval;
+    __pyx_v_self->__pyx_base.dval_prev = __pyx_t_5;
+
+    /* "mlgrad/mlocation_scatter2.pyx":403
+ * 
  *             self.dval_prev = self.dval
- *             self.dval = self.Q()
+ *             self.dval = self.local_Q()             # <<<<<<<<<<<<<<
+ *             self.dvals.append(self.dval)
+ * 
+ */
+    __pyx_v_self->__pyx_base.dval = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.local_Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0);
+
+    /* "mlgrad/mlocation_scatter2.pyx":404
+ *             self.dval_prev = self.dval
+ *             self.dval = self.local_Q()
  *             self.dvals.append(self.dval)             # <<<<<<<<<<<<<<
+ * 
  *             if self.dval < self.dval_min:
- *                 self.dval_min = self.dval
  */
     if (unlikely(__pyx_v_self->__pyx_base.dvals == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-      __PYX_ERR(1, 361, __pyx_L1_error)
+      __PYX_ERR(1, 404, __pyx_L1_error)
     }
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 361, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 404, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_self->__pyx_base.dvals, __pyx_t_1); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(1, 361, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_self->__pyx_base.dvals, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(1, 404, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":362
- *             self.dval = self.Q()
+    /* "mlgrad/mlocation_scatter2.pyx":406
  *             self.dvals.append(self.dval)
+ * 
  *             if self.dval < self.dval_min:             # <<<<<<<<<<<<<<
- *                 self.dval_min = self.dval
  *                 copy_memoryview2(self.locs_min, self.locs)
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:
  */
-    __pyx_t_9 = ((__pyx_v_self->__pyx_base.dval < __pyx_v_self->__pyx_base.dval_min) != 0);
-    if (__pyx_t_9) {
+    __pyx_t_2 = ((__pyx_v_self->__pyx_base.dval < __pyx_v_self->__pyx_base.dval_min) != 0);
+    if (__pyx_t_2) {
 
-      /* "mlgrad/mlocation_scatter2.pyx":363
- *             self.dvals.append(self.dval)
- *             if self.dval < self.dval_min:
- *                 self.dval_min = self.dval             # <<<<<<<<<<<<<<
- *                 copy_memoryview2(self.locs_min, self.locs)
+      /* "mlgrad/mlocation_scatter2.pyx":407
  * 
- */
-      __pyx_t_8 = __pyx_v_self->__pyx_base.dval;
-      __pyx_v_self->__pyx_base.dval_min = __pyx_t_8;
-
-      /* "mlgrad/mlocation_scatter2.pyx":364
  *             if self.dval < self.dval_min:
- *                 self.dval_min = self.dval
  *                 copy_memoryview2(self.locs_min, self.locs)             # <<<<<<<<<<<<<<
- * 
- *             if self.stop_condition():
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:
+ *                     self.dval_min = self.dval
  */
       __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__pyx_v_self->__pyx_base.locs_min, __pyx_v_self->__pyx_base.locs);
 
-      /* "mlgrad/mlocation_scatter2.pyx":362
- *             self.dval = self.Q()
- *             self.dvals.append(self.dval)
- *             if self.dval < self.dval_min:             # <<<<<<<<<<<<<<
- *                 self.dval_min = self.dval
+      /* "mlgrad/mlocation_scatter2.pyx":408
+ *             if self.dval < self.dval_min:
  *                 copy_memoryview2(self.locs_min, self.locs)
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:             # <<<<<<<<<<<<<<
+ *                     self.dval_min = self.dval
+ *                     break
+ */
+      __pyx_t_5 = (__pyx_v_self->__pyx_base.dval_min - __pyx_v_self->__pyx_base.dval);
+      __pyx_t_7 = (1.0 + fabs(__pyx_v_self->__pyx_base.dval_min));
+      if (unlikely(__pyx_t_7 == 0)) {
+        PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+        __PYX_ERR(1, 408, __pyx_L1_error)
+      }
+      __pyx_t_2 = (((__pyx_t_5 / __pyx_t_7) < __pyx_v_self->__pyx_base.tol) != 0);
+      if (__pyx_t_2) {
+
+        /* "mlgrad/mlocation_scatter2.pyx":409
+ *                 copy_memoryview2(self.locs_min, self.locs)
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:
+ *                     self.dval_min = self.dval             # <<<<<<<<<<<<<<
+ *                     break
+ *                 self.dval_min = self.dval
+ */
+        __pyx_t_7 = __pyx_v_self->__pyx_base.dval;
+        __pyx_v_self->__pyx_base.dval_min = __pyx_t_7;
+
+        /* "mlgrad/mlocation_scatter2.pyx":410
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:
+ *                     self.dval_min = self.dval
+ *                     break             # <<<<<<<<<<<<<<
+ *                 self.dval_min = self.dval
+ * 
+ */
+        goto __pyx_L4_break;
+
+        /* "mlgrad/mlocation_scatter2.pyx":408
+ *             if self.dval < self.dval_min:
+ *                 copy_memoryview2(self.locs_min, self.locs)
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:             # <<<<<<<<<<<<<<
+ *                     self.dval_min = self.dval
+ *                     break
+ */
+      }
+
+      /* "mlgrad/mlocation_scatter2.pyx":411
+ *                     self.dval_min = self.dval
+ *                     break
+ *                 self.dval_min = self.dval             # <<<<<<<<<<<<<<
+ * 
+ *             if self.stop_condition():
+ */
+      __pyx_t_7 = __pyx_v_self->__pyx_base.dval;
+      __pyx_v_self->__pyx_base.dval_min = __pyx_t_7;
+
+      /* "mlgrad/mlocation_scatter2.pyx":406
+ *             self.dvals.append(self.dval)
+ * 
+ *             if self.dval < self.dval_min:             # <<<<<<<<<<<<<<
+ *                 copy_memoryview2(self.locs_min, self.locs)
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:
  */
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":366
- *                 copy_memoryview2(self.locs_min, self.locs)
+    /* "mlgrad/mlocation_scatter2.pyx":413
+ *                 self.dval_min = self.dval
  * 
  *             if self.stop_condition():             # <<<<<<<<<<<<<<
  *                 break
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_stop_condition); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 366, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_7);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
-      }
-    }
-    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 366, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 366, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__pyx_t_9) {
+    __pyx_t_2 = (((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->stop_condition(__pyx_v_self) != 0);
+    if (__pyx_t_2) {
 
-      /* "mlgrad/mlocation_scatter2.pyx":367
+      /* "mlgrad/mlocation_scatter2.pyx":414
  * 
  *             if self.stop_condition():
  *                 break             # <<<<<<<<<<<<<<
@@ -12473,8 +13628,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
       goto __pyx_L4_break;
 
-      /* "mlgrad/mlocation_scatter2.pyx":366
- *                 copy_memoryview2(self.locs_min, self.locs)
+      /* "mlgrad/mlocation_scatter2.pyx":413
+ *                 self.dval_min = self.dval
  * 
  *             if self.stop_condition():             # <<<<<<<<<<<<<<
  *                 break
@@ -12482,32 +13637,23 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":369
+    /* "mlgrad/mlocation_scatter2.pyx":416
  *                 break
  * 
  *             self.K += 1             # <<<<<<<<<<<<<<
  * 
- *         copy_memoryview2(self.locs, self.locs_min)
+ *     def fit_step_locations(self):
  */
     __pyx_v_self->__pyx_base.K = (__pyx_v_self->__pyx_base.K + 1);
   }
   __pyx_L4_break:;
 
-  /* "mlgrad/mlocation_scatter2.pyx":371
- *             self.K += 1
- * 
- *         copy_memoryview2(self.locs, self.locs_min)             # <<<<<<<<<<<<<<
- * 
- *     def fit_step_locations(self):
- */
-  __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__pyx_v_self->__pyx_base.locs, __pyx_v_self->__pyx_base.locs_min);
-
-  /* "mlgrad/mlocation_scatter2.pyx":348
+  /* "mlgrad/mlocation_scatter2.pyx":388
  *         return D.base
  * 
  *     def fit_locations(self, double[:,::1] X, double[:,::1] locs=None):             # <<<<<<<<<<<<<<
- *         self.init_locations(X, locs)
  *         self.K = 1
+ * 
  */
 
   /* function exit code */
@@ -12515,11 +13661,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.fit_locations", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -12530,8 +13673,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":373
- *         copy_memoryview2(self.locs, self.locs_min)
+/* "mlgrad/mlocation_scatter2.pyx":418
+ *             self.K += 1
  * 
  *     def fit_step_locations(self):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t n = self.X.shape[1], N = self.X.shape[0]
@@ -12556,58 +13699,49 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   Py_ssize_t __pyx_v_n;
   Py_ssize_t __pyx_v_N;
   Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_j;
   Py_ssize_t __pyx_v_k;
-  Py_ssize_t __pyx_v_l;
-  double __pyx_v_v;
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_weights = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_locs = { 0, 0, { 0 }, { 0 }, { 0 } };
-  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_scatters = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_Y = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_W = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double *__pyx_v_locs_l;
+  CYTHON_UNUSED double *__pyx_v_W;
+  double *__pyx_v_locs_j;
   double *__pyx_v_Xk;
+  __Pyx_memviewslice __pyx_v_GG = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double *__pyx_v_GG_k;
+  double __pyx_v_gkj;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  PyObject *__pyx_t_5 = NULL;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
   Py_ssize_t __pyx_t_9;
   Py_ssize_t __pyx_t_10;
-  double __pyx_t_11;
-  double __pyx_t_12;
-  int __pyx_t_13;
-  PyObject *__pyx_t_14 = NULL;
-  Py_ssize_t __pyx_t_15;
-  Py_ssize_t __pyx_t_16;
-  Py_ssize_t __pyx_t_17;
-  Py_ssize_t __pyx_t_18;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
   __Pyx_RefNannySetupContext("fit_step_locations", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":374
+  /* "mlgrad/mlocation_scatter2.pyx":419
  * 
  *     def fit_step_locations(self):
  *         cdef Py_ssize_t n = self.X.shape[1], N = self.X.shape[0]             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, j, k, l
- *         cdef double v
+ *         cdef double v, wk, wkj, Wj
  */
   __pyx_v_n = (__pyx_v_self->__pyx_base.X.shape[1]);
   __pyx_v_N = (__pyx_v_self->__pyx_base.X.shape[0]);
 
-  /* "mlgrad/mlocation_scatter2.pyx":377
+  /* "mlgrad/mlocation_scatter2.pyx":422
  *         cdef Py_ssize_t i, j, k, l
- *         cdef double v
+ *         cdef double v, wk, wkj, Wj
  *         cdef double[:,::1] X = self.X             # <<<<<<<<<<<<<<
- *         cdef double[::1] weights = self.weights
  *         cdef double[:,::1] locs = self.locs
+ *         cdef double *W = &self.W[0]
  */
   __pyx_t_1 = __pyx_v_self->__pyx_base.X;
   __PYX_INC_MEMVIEW(&__pyx_t_1, 1);
@@ -12615,25 +13749,12 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":378
- *         cdef double v
+  /* "mlgrad/mlocation_scatter2.pyx":423
+ *         cdef double v, wk, wkj, Wj
  *         cdef double[:,::1] X = self.X
- *         cdef double[::1] weights = self.weights             # <<<<<<<<<<<<<<
- *         cdef double[:,::1] locs = self.locs
- *         cdef double[:,:,::1] scatters = self.scatters
- */
-  __pyx_t_2 = __pyx_v_self->__pyx_base.weights;
-  __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
-  __pyx_v_weights = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
-
-  /* "mlgrad/mlocation_scatter2.pyx":379
- *         cdef double[:,::1] X = self.X
- *         cdef double[::1] weights = self.weights
  *         cdef double[:,::1] locs = self.locs             # <<<<<<<<<<<<<<
- *         cdef double[:,:,::1] scatters = self.scatters
- *         cdef Py_ssize_t[::1] Y = self.Y
+ *         cdef double *W = &self.W[0]
+ *         cdef double *locs_j
  */
   __pyx_t_1 = __pyx_v_self->__pyx_base.locs;
   __PYX_INC_MEMVIEW(&__pyx_t_1, 1);
@@ -12641,258 +13762,131 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":380
- *         cdef double[::1] weights = self.weights
+  /* "mlgrad/mlocation_scatter2.pyx":424
+ *         cdef double[:,::1] X = self.X
  *         cdef double[:,::1] locs = self.locs
- *         cdef double[:,:,::1] scatters = self.scatters             # <<<<<<<<<<<<<<
- *         cdef Py_ssize_t[::1] Y = self.Y
- *         cdef double[::1] W = self.W
- */
-  __pyx_t_3 = __pyx_v_self->__pyx_base.scatters;
-  __PYX_INC_MEMVIEW(&__pyx_t_3, 1);
-  __pyx_v_scatters = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
-
-  /* "mlgrad/mlocation_scatter2.pyx":381
- *         cdef double[:,::1] locs = self.locs
- *         cdef double[:,:,::1] scatters = self.scatters
- *         cdef Py_ssize_t[::1] Y = self.Y             # <<<<<<<<<<<<<<
- *         cdef double[::1] W = self.W
- *         cdef double *locs_l
- */
-  __pyx_t_4 = __pyx_v_self->__pyx_base.Y;
-  __PYX_INC_MEMVIEW(&__pyx_t_4, 1);
-  __pyx_v_Y = __pyx_t_4;
-  __pyx_t_4.memview = NULL;
-  __pyx_t_4.data = NULL;
-
-  /* "mlgrad/mlocation_scatter2.pyx":382
- *         cdef double[:,:,::1] scatters = self.scatters
- *         cdef Py_ssize_t[::1] Y = self.Y
- *         cdef double[::1] W = self.W             # <<<<<<<<<<<<<<
- *         cdef double *locs_l
+ *         cdef double *W = &self.W[0]             # <<<<<<<<<<<<<<
+ *         cdef double *locs_j
  *         cdef double *Xk
  */
-  __pyx_t_2 = __pyx_v_self->__pyx_base.W;
-  __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
-  __pyx_v_W = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_t_2 = 0;
+  __pyx_v_W = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.W.data) + __pyx_t_2)) ))));
 
-  /* "mlgrad/mlocation_scatter2.pyx":386
+  /* "mlgrad/mlocation_scatter2.pyx":427
+ *         cdef double *locs_j
  *         cdef double *Xk
- * 
- *         self.calc_distances()             # <<<<<<<<<<<<<<
- *         self.avg.fit(self.D)
- *         self.avg.gradient(self.D, self.weights)
- */
-  __pyx_t_5 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_distances(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 386, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-  /* "mlgrad/mlocation_scatter2.pyx":387
- * 
- *         self.calc_distances()
- *         self.avg.fit(self.D)             # <<<<<<<<<<<<<<
- *         self.avg.gradient(self.D, self.weights)
+ *         cdef double[:, ::1] GG = self.GG             # <<<<<<<<<<<<<<
+ *         cdef double *GG_k
  * 
  */
-  __pyx_t_5 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_base.avg->__pyx_vtab)->fit(__pyx_v_self->__pyx_base.avg, __pyx_v_self->__pyx_base.D, 0, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 387, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_1 = __pyx_v_self->__pyx_base.GG;
+  __PYX_INC_MEMVIEW(&__pyx_t_1, 1);
+  __pyx_v_GG = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":388
- *         self.calc_distances()
- *         self.avg.fit(self.D)
- *         self.avg.gradient(self.D, self.weights)             # <<<<<<<<<<<<<<
- * 
- *         fill_memoryview(W, 0)
- */
-  __pyx_t_5 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_base.avg->__pyx_vtab)->gradient(__pyx_v_self->__pyx_base.avg, __pyx_v_self->__pyx_base.D, __pyx_v_self->__pyx_base.weights); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 388, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-  /* "mlgrad/mlocation_scatter2.pyx":390
- *         self.avg.gradient(self.D, self.weights)
- * 
- *         fill_memoryview(W, 0)             # <<<<<<<<<<<<<<
- *         for k in range(N):
- *             l = Y[k]
- */
-  __pyx_f_6mlgrad_18mlocation_scatter2_fill_memoryview(__pyx_v_W, 0.0);
-
-  /* "mlgrad/mlocation_scatter2.pyx":391
- * 
- *         fill_memoryview(W, 0)
- *         for k in range(N):             # <<<<<<<<<<<<<<
- *             l = Y[k]
- *             W[l] += weights[k]
- */
-  __pyx_t_6 = __pyx_v_N;
-  __pyx_t_7 = __pyx_t_6;
-  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-    __pyx_v_k = __pyx_t_8;
-
-    /* "mlgrad/mlocation_scatter2.pyx":392
- *         fill_memoryview(W, 0)
- *         for k in range(N):
- *             l = Y[k]             # <<<<<<<<<<<<<<
- *             W[l] += weights[k]
- * 
- */
-    __pyx_t_9 = __pyx_v_k;
-    __pyx_v_l = (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_Y.data) + __pyx_t_9)) )));
-
-    /* "mlgrad/mlocation_scatter2.pyx":393
- *         for k in range(N):
- *             l = Y[k]
- *             W[l] += weights[k]             # <<<<<<<<<<<<<<
- * 
- *         fill_memoryview2(locs, 0)
- */
-    __pyx_t_9 = __pyx_v_k;
-    __pyx_t_10 = __pyx_v_l;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_10)) )) += (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_9)) )));
-  }
-
-  /* "mlgrad/mlocation_scatter2.pyx":395
- *             W[l] += weights[k]
+  /* "mlgrad/mlocation_scatter2.pyx":430
+ *         cdef double *GG_k
  * 
  *         fill_memoryview2(locs, 0)             # <<<<<<<<<<<<<<
  *         for k in range(N):
- *             l = Y[k]
+ *             GG_k = &GG[k, 0]
  */
   __pyx_f_6mlgrad_18mlocation_scatter2_fill_memoryview2(__pyx_v_locs, 0.0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":396
+  /* "mlgrad/mlocation_scatter2.pyx":431
  * 
  *         fill_memoryview2(locs, 0)
  *         for k in range(N):             # <<<<<<<<<<<<<<
- *             l = Y[k]
- *             v = weights[k] / W[l]
+ *             GG_k = &GG[k, 0]
+ *             Xk = &X[k, 0]
  */
-  __pyx_t_6 = __pyx_v_N;
-  __pyx_t_7 = __pyx_t_6;
-  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-    __pyx_v_k = __pyx_t_8;
+  __pyx_t_3 = __pyx_v_N;
+  __pyx_t_4 = __pyx_t_3;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/mlocation_scatter2.pyx":397
+    /* "mlgrad/mlocation_scatter2.pyx":432
  *         fill_memoryview2(locs, 0)
  *         for k in range(N):
- *             l = Y[k]             # <<<<<<<<<<<<<<
- *             v = weights[k] / W[l]
- *             if v == 0:
+ *             GG_k = &GG[k, 0]             # <<<<<<<<<<<<<<
+ *             Xk = &X[k, 0]
+ *             for j in range(self.n_locs):
  */
-    __pyx_t_9 = __pyx_v_k;
-    __pyx_v_l = (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_Y.data) + __pyx_t_9)) )));
+    __pyx_t_2 = __pyx_v_k;
+    __pyx_t_6 = 0;
+    __pyx_v_GG_k = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_GG.data + __pyx_t_2 * __pyx_v_GG.strides[0]) )) + __pyx_t_6)) ))));
 
-    /* "mlgrad/mlocation_scatter2.pyx":398
+    /* "mlgrad/mlocation_scatter2.pyx":433
  *         for k in range(N):
- *             l = Y[k]
- *             v = weights[k] / W[l]             # <<<<<<<<<<<<<<
- *             if v == 0:
- *                 print("wk:", k)
+ *             GG_k = &GG[k, 0]
+ *             Xk = &X[k, 0]             # <<<<<<<<<<<<<<
+ *             for j in range(self.n_locs):
+ *                 locs_j = &locs[j, 0]
  */
-    __pyx_t_9 = __pyx_v_k;
-    __pyx_t_11 = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_9)) )));
-    __pyx_t_9 = __pyx_v_l;
-    __pyx_t_12 = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_9)) )));
-    if (unlikely(__pyx_t_12 == 0)) {
-      PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(1, 398, __pyx_L1_error)
-    }
-    __pyx_v_v = (__pyx_t_11 / __pyx_t_12);
+    __pyx_t_6 = __pyx_v_k;
+    __pyx_t_2 = 0;
+    __pyx_v_Xk = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_6 * __pyx_v_X.strides[0]) )) + __pyx_t_2)) ))));
 
-    /* "mlgrad/mlocation_scatter2.pyx":399
- *             l = Y[k]
- *             v = weights[k] / W[l]
- *             if v == 0:             # <<<<<<<<<<<<<<
- *                 print("wk:", k)
- *             locs_l = &locs[l,0]
+    /* "mlgrad/mlocation_scatter2.pyx":434
+ *             GG_k = &GG[k, 0]
+ *             Xk = &X[k, 0]
+ *             for j in range(self.n_locs):             # <<<<<<<<<<<<<<
+ *                 locs_j = &locs[j, 0]
+ *                 gkj = GG_k[j]
  */
-    __pyx_t_13 = ((__pyx_v_v == 0.0) != 0);
-    if (__pyx_t_13) {
+    __pyx_t_7 = __pyx_v_self->__pyx_base.n_locs;
+    __pyx_t_8 = __pyx_t_7;
+    for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+      __pyx_v_j = __pyx_t_9;
 
-      /* "mlgrad/mlocation_scatter2.pyx":400
- *             v = weights[k] / W[l]
- *             if v == 0:
- *                 print("wk:", k)             # <<<<<<<<<<<<<<
- *             locs_l = &locs[l,0]
- *             Xk = &X[k,0]
+      /* "mlgrad/mlocation_scatter2.pyx":435
+ *             Xk = &X[k, 0]
+ *             for j in range(self.n_locs):
+ *                 locs_j = &locs[j, 0]             # <<<<<<<<<<<<<<
+ *                 gkj = GG_k[j]
+ *                 for i in range(n):
  */
-      __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_k); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 400, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_14 = PyTuple_New(2); if (unlikely(!__pyx_t_14)) __PYX_ERR(1, 400, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_INCREF(__pyx_kp_u_wk);
-      __Pyx_GIVEREF(__pyx_kp_u_wk);
-      PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_kp_u_wk);
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_t_5);
-      __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_print, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 400, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_2 = __pyx_v_j;
+      __pyx_t_6 = 0;
+      __pyx_v_locs_j = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_locs.data + __pyx_t_2 * __pyx_v_locs.strides[0]) )) + __pyx_t_6)) ))));
 
-      /* "mlgrad/mlocation_scatter2.pyx":399
- *             l = Y[k]
- *             v = weights[k] / W[l]
- *             if v == 0:             # <<<<<<<<<<<<<<
- *                 print("wk:", k)
- *             locs_l = &locs[l,0]
+      /* "mlgrad/mlocation_scatter2.pyx":436
+ *             for j in range(self.n_locs):
+ *                 locs_j = &locs[j, 0]
+ *                 gkj = GG_k[j]             # <<<<<<<<<<<<<<
+ *                 for i in range(n):
+ *                     locs_j[i] += gkj * Xk[i]
  */
-    }
+      __pyx_v_gkj = (__pyx_v_GG_k[__pyx_v_j]);
 
-    /* "mlgrad/mlocation_scatter2.pyx":401
- *             if v == 0:
- *                 print("wk:", k)
- *             locs_l = &locs[l,0]             # <<<<<<<<<<<<<<
- *             Xk = &X[k,0]
- *             for i in range(n):
- */
-    __pyx_t_9 = __pyx_v_l;
-    __pyx_t_10 = 0;
-    __pyx_v_locs_l = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_locs.data + __pyx_t_9 * __pyx_v_locs.strides[0]) )) + __pyx_t_10)) ))));
-
-    /* "mlgrad/mlocation_scatter2.pyx":402
- *                 print("wk:", k)
- *             locs_l = &locs[l,0]
- *             Xk = &X[k,0]             # <<<<<<<<<<<<<<
- *             for i in range(n):
- *                 locs_l[i] += v * Xk[i]
- */
-    __pyx_t_10 = __pyx_v_k;
-    __pyx_t_9 = 0;
-    __pyx_v_Xk = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_10 * __pyx_v_X.strides[0]) )) + __pyx_t_9)) ))));
-
-    /* "mlgrad/mlocation_scatter2.pyx":403
- *             locs_l = &locs[l,0]
- *             Xk = &X[k,0]
- *             for i in range(n):             # <<<<<<<<<<<<<<
- *                 locs_l[i] += v * Xk[i]
+      /* "mlgrad/mlocation_scatter2.pyx":437
+ *                 locs_j = &locs[j, 0]
+ *                 gkj = GG_k[j]
+ *                 for i in range(n):             # <<<<<<<<<<<<<<
+ *                     locs_j[i] += gkj * Xk[i]
  * 
  */
-    __pyx_t_15 = __pyx_v_n;
-    __pyx_t_16 = __pyx_t_15;
-    for (__pyx_t_17 = 0; __pyx_t_17 < __pyx_t_16; __pyx_t_17+=1) {
-      __pyx_v_i = __pyx_t_17;
+      __pyx_t_10 = __pyx_v_n;
+      __pyx_t_11 = __pyx_t_10;
+      for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
+        __pyx_v_i = __pyx_t_12;
 
-      /* "mlgrad/mlocation_scatter2.pyx":404
- *             Xk = &X[k,0]
- *             for i in range(n):
- *                 locs_l[i] += v * Xk[i]             # <<<<<<<<<<<<<<
+        /* "mlgrad/mlocation_scatter2.pyx":438
+ *                 gkj = GG_k[j]
+ *                 for i in range(n):
+ *                     locs_j[i] += gkj * Xk[i]             # <<<<<<<<<<<<<<
  * 
- *     def fit_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):
+ * #         for j in range(self.n_locs):
  */
-      __pyx_t_18 = __pyx_v_i;
-      (__pyx_v_locs_l[__pyx_t_18]) = ((__pyx_v_locs_l[__pyx_t_18]) + (__pyx_v_v * (__pyx_v_Xk[__pyx_v_i])));
+        __pyx_t_13 = __pyx_v_i;
+        (__pyx_v_locs_j[__pyx_t_13]) = ((__pyx_v_locs_j[__pyx_t_13]) + (__pyx_v_gkj * (__pyx_v_Xk[__pyx_v_i])));
+      }
     }
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":373
- *         copy_memoryview2(self.locs, self.locs_min)
+  /* "mlgrad/mlocation_scatter2.pyx":418
+ *             self.K += 1
  * 
  *     def fit_step_locations(self):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t n = self.X.shape[1], N = self.X.shape[0]
@@ -12901,33 +13895,19 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_4, 1);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_14);
-  __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.fit_step_locations", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_X, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_v_weights, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_locs, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_v_scatters, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_v_Y, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_v_W, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_GG, 1);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":406
- *                 locs_l[i] += v * Xk[i]
+/* "mlgrad/mlocation_scatter2.pyx":447
+ * #                 locs_j[i] /= Wj
  * 
  *     def fit_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):             # <<<<<<<<<<<<<<
- *         self.init_scatters(X, scatters)
+ *         self.K = 1
  * 
  */
 
@@ -12935,8 +13915,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
 static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_17fit_scatters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static char __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_16fit_scatters[] = "MLocationsScattersEstimator.fit_scatters(self, double[:, ::1] X, double[:, :, ::1] scatters=None)";
 static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_17fit_scatters(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_scatters = { 0, 0, { 0 }, { 0 }, { 0 } };
+  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
+  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_scatters = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -12970,7 +13950,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit_scatters") < 0)) __PYX_ERR(1, 406, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit_scatters") < 0)) __PYX_ERR(1, 447, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -12981,17 +13961,17 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 406, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 447, __pyx_L3_error)
     if (values[1]) {
-      __pyx_v_scatters = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_scatters.memview)) __PYX_ERR(1, 406, __pyx_L3_error)
+      __pyx_v_scatters = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_scatters.memview)) __PYX_ERR(1, 447, __pyx_L3_error)
     } else {
-      __pyx_v_scatters = __pyx_k__4;
+      __pyx_v_scatters = __pyx_k__5;
       __PYX_INC_MEMVIEW(&__pyx_v_scatters, 1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit_scatters", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 406, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit_scatters", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 447, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.fit_scatters", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -13004,265 +13984,250 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_16fit_scatters(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_scatters) {
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_16fit_scatters(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_scatters) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
+  double __pyx_t_5;
   int __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
-  double __pyx_t_8;
-  int __pyx_t_9;
-  int __pyx_t_10;
+  double __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fit_scatters", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":407
+  /* "mlgrad/mlocation_scatter2.pyx":448
  * 
  *     def fit_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):
- *         self.init_scatters(X, scatters)             # <<<<<<<<<<<<<<
- * 
- *         self.K = 1
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init_scatters); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 407, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 407, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 407, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = NULL;
-  __pyx_t_6 = 0;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-      __pyx_t_6 = 1;
-    }
-  }
-  #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 407, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  } else
-  #endif
-  #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_t_4};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 407, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  } else
-  #endif
-  {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 407, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (__pyx_t_5) {
-      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
-    }
-    __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_6, __pyx_t_3);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_t_4);
-    __pyx_t_3 = 0;
-    __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 407, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "mlgrad/mlocation_scatter2.pyx":409
- *         self.init_scatters(X, scatters)
- * 
  *         self.K = 1             # <<<<<<<<<<<<<<
- *         self.dval = self.dval_min = self.Q()
- *         self.dval_prev = max_float
+ * 
+ *         self.calc_distances()
  */
   __pyx_v_self->__pyx_base.K = 1;
 
-  /* "mlgrad/mlocation_scatter2.pyx":410
- * 
+  /* "mlgrad/mlocation_scatter2.pyx":450
  *         self.K = 1
- *         self.dval = self.dval_min = self.Q()             # <<<<<<<<<<<<<<
- *         self.dval_prev = max_float
- *         copy_memoryview3(self.scatters_min, self.scatters)
+ * 
+ *         self.calc_distances()             # <<<<<<<<<<<<<<
+ *         self.calc_weights()
+ *         self.calc_update_GG()
  */
-  __pyx_t_8 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0);
-  __pyx_v_self->__pyx_base.dval = __pyx_t_8;
-  __pyx_v_self->__pyx_base.dval_min = __pyx_t_8;
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_distances(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 450, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":411
- *         self.K = 1
- *         self.dval = self.dval_min = self.Q()
- *         self.dval_prev = max_float             # <<<<<<<<<<<<<<
- *         copy_memoryview3(self.scatters_min, self.scatters)
+  /* "mlgrad/mlocation_scatter2.pyx":451
+ * 
+ *         self.calc_distances()
+ *         self.calc_weights()             # <<<<<<<<<<<<<<
+ *         self.calc_update_GG()
  * 
  */
-  __pyx_v_self->__pyx_base.dval_prev = __pyx_v_6mlgrad_18mlocation_scatter2_max_float;
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_weights(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 451, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":412
- *         self.dval = self.dval_min = self.Q()
- *         self.dval_prev = max_float
- *         copy_memoryview3(self.scatters_min, self.scatters)             # <<<<<<<<<<<<<<
+  /* "mlgrad/mlocation_scatter2.pyx":452
+ *         self.calc_distances()
+ *         self.calc_weights()
+ *         self.calc_update_GG()             # <<<<<<<<<<<<<<
  * 
- *         while self.K <= self.n_iter:
+ *         while self.K <= self.n_iter_s:
  */
-  __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview3(__pyx_v_self->__pyx_base.scatters_min, __pyx_v_self->__pyx_base.scatters);
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_update_GG(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 452, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":414
- *         copy_memoryview3(self.scatters_min, self.scatters)
+  /* "mlgrad/mlocation_scatter2.pyx":454
+ *         self.calc_update_GG()
  * 
- *         while self.K <= self.n_iter:             # <<<<<<<<<<<<<<
+ *         while self.K <= self.n_iter_s:             # <<<<<<<<<<<<<<
+ * 
  *             self.fit_step_scatters()
- * 
  */
   while (1) {
-    __pyx_t_9 = ((__pyx_v_self->__pyx_base.K <= __pyx_v_self->__pyx_base.n_iter) != 0);
-    if (!__pyx_t_9) break;
+    __pyx_t_2 = ((__pyx_v_self->__pyx_base.K <= __pyx_v_self->__pyx_base.n_iter_s) != 0);
+    if (!__pyx_t_2) break;
 
-    /* "mlgrad/mlocation_scatter2.pyx":415
+    /* "mlgrad/mlocation_scatter2.pyx":456
+ *         while self.K <= self.n_iter_s:
  * 
- *         while self.K <= self.n_iter:
  *             self.fit_step_scatters()             # <<<<<<<<<<<<<<
  * 
- *             self.dval_prev = self.dval
+ *             self.calc_distances()
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fit_step_scatters); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 415, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_7);
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fit_step_scatters); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 456, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_4);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 415, __pyx_L1_error)
+    __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 456, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":417
+    /* "mlgrad/mlocation_scatter2.pyx":458
  *             self.fit_step_scatters()
  * 
- *             self.dval_prev = self.dval             # <<<<<<<<<<<<<<
- *             self.dval = self.Q()
- *             self.dvals.append(self.dval)
+ *             self.calc_distances()             # <<<<<<<<<<<<<<
+ *             self.calc_update_GG()
+ * 
  */
-    __pyx_t_8 = __pyx_v_self->__pyx_base.dval;
-    __pyx_v_self->__pyx_base.dval_prev = __pyx_t_8;
+    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_distances(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 458, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":418
+    /* "mlgrad/mlocation_scatter2.pyx":459
+ * 
+ *             self.calc_distances()
+ *             self.calc_update_GG()             # <<<<<<<<<<<<<<
  * 
  *             self.dval_prev = self.dval
- *             self.dval = self.Q()             # <<<<<<<<<<<<<<
- *             self.dvals.append(self.dval)
- *             if self.dval < self.dval_min:
  */
-    __pyx_v_self->__pyx_base.dval = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0);
+    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_update_GG(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 459, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":419
+    /* "mlgrad/mlocation_scatter2.pyx":461
+ *             self.calc_update_GG()
+ * 
+ *             self.dval_prev = self.dval             # <<<<<<<<<<<<<<
+ *             self.dval = self.local_Q()
+ *             self.dvals.append(self.dval)
+ */
+    __pyx_t_5 = __pyx_v_self->__pyx_base.dval;
+    __pyx_v_self->__pyx_base.dval_prev = __pyx_t_5;
+
+    /* "mlgrad/mlocation_scatter2.pyx":462
+ * 
  *             self.dval_prev = self.dval
- *             self.dval = self.Q()
+ *             self.dval = self.local_Q()             # <<<<<<<<<<<<<<
+ *             self.dvals.append(self.dval)
+ * 
+ */
+    __pyx_v_self->__pyx_base.dval = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.local_Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0);
+
+    /* "mlgrad/mlocation_scatter2.pyx":463
+ *             self.dval_prev = self.dval
+ *             self.dval = self.local_Q()
  *             self.dvals.append(self.dval)             # <<<<<<<<<<<<<<
+ * 
  *             if self.dval < self.dval_min:
- *                 self.dval_min = self.dval
  */
     if (unlikely(__pyx_v_self->__pyx_base.dvals == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-      __PYX_ERR(1, 419, __pyx_L1_error)
+      __PYX_ERR(1, 463, __pyx_L1_error)
     }
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 419, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 463, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_self->__pyx_base.dvals, __pyx_t_1); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(1, 419, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_self->__pyx_base.dvals, __pyx_t_1); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(1, 463, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":420
- *             self.dval = self.Q()
+    /* "mlgrad/mlocation_scatter2.pyx":465
  *             self.dvals.append(self.dval)
+ * 
  *             if self.dval < self.dval_min:             # <<<<<<<<<<<<<<
- *                 self.dval_min = self.dval
  *                 copy_memoryview3(self.scatters_min, self.scatters)
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:
  */
-    __pyx_t_9 = ((__pyx_v_self->__pyx_base.dval < __pyx_v_self->__pyx_base.dval_min) != 0);
-    if (__pyx_t_9) {
+    __pyx_t_2 = ((__pyx_v_self->__pyx_base.dval < __pyx_v_self->__pyx_base.dval_min) != 0);
+    if (__pyx_t_2) {
 
-      /* "mlgrad/mlocation_scatter2.pyx":421
- *             self.dvals.append(self.dval)
- *             if self.dval < self.dval_min:
- *                 self.dval_min = self.dval             # <<<<<<<<<<<<<<
- *                 copy_memoryview3(self.scatters_min, self.scatters)
+      /* "mlgrad/mlocation_scatter2.pyx":466
  * 
- */
-      __pyx_t_8 = __pyx_v_self->__pyx_base.dval;
-      __pyx_v_self->__pyx_base.dval_min = __pyx_t_8;
-
-      /* "mlgrad/mlocation_scatter2.pyx":422
  *             if self.dval < self.dval_min:
- *                 self.dval_min = self.dval
  *                 copy_memoryview3(self.scatters_min, self.scatters)             # <<<<<<<<<<<<<<
- * 
- *             if self.stop_condition():
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:
+ *                     self.dval_min = self.dval
  */
       __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview3(__pyx_v_self->__pyx_base.scatters_min, __pyx_v_self->__pyx_base.scatters);
 
-      /* "mlgrad/mlocation_scatter2.pyx":420
- *             self.dval = self.Q()
- *             self.dvals.append(self.dval)
- *             if self.dval < self.dval_min:             # <<<<<<<<<<<<<<
- *                 self.dval_min = self.dval
+      /* "mlgrad/mlocation_scatter2.pyx":467
+ *             if self.dval < self.dval_min:
  *                 copy_memoryview3(self.scatters_min, self.scatters)
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:             # <<<<<<<<<<<<<<
+ *                     self.dval_min = self.dval
+ *                     break
+ */
+      __pyx_t_5 = (__pyx_v_self->__pyx_base.dval_min - __pyx_v_self->__pyx_base.dval);
+      __pyx_t_7 = (1.0 + fabs(__pyx_v_self->__pyx_base.dval_min));
+      if (unlikely(__pyx_t_7 == 0)) {
+        PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+        __PYX_ERR(1, 467, __pyx_L1_error)
+      }
+      __pyx_t_2 = (((__pyx_t_5 / __pyx_t_7) < __pyx_v_self->__pyx_base.tol) != 0);
+      if (__pyx_t_2) {
+
+        /* "mlgrad/mlocation_scatter2.pyx":468
+ *                 copy_memoryview3(self.scatters_min, self.scatters)
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:
+ *                     self.dval_min = self.dval             # <<<<<<<<<<<<<<
+ *                     break
+ *                 self.dval_min = self.dval
+ */
+        __pyx_t_7 = __pyx_v_self->__pyx_base.dval;
+        __pyx_v_self->__pyx_base.dval_min = __pyx_t_7;
+
+        /* "mlgrad/mlocation_scatter2.pyx":469
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:
+ *                     self.dval_min = self.dval
+ *                     break             # <<<<<<<<<<<<<<
+ *                 self.dval_min = self.dval
+ * 
+ */
+        goto __pyx_L4_break;
+
+        /* "mlgrad/mlocation_scatter2.pyx":467
+ *             if self.dval < self.dval_min:
+ *                 copy_memoryview3(self.scatters_min, self.scatters)
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:             # <<<<<<<<<<<<<<
+ *                     self.dval_min = self.dval
+ *                     break
+ */
+      }
+
+      /* "mlgrad/mlocation_scatter2.pyx":470
+ *                     self.dval_min = self.dval
+ *                     break
+ *                 self.dval_min = self.dval             # <<<<<<<<<<<<<<
+ * 
+ *             if self.stop_condition():
+ */
+      __pyx_t_7 = __pyx_v_self->__pyx_base.dval;
+      __pyx_v_self->__pyx_base.dval_min = __pyx_t_7;
+
+      /* "mlgrad/mlocation_scatter2.pyx":465
+ *             self.dvals.append(self.dval)
+ * 
+ *             if self.dval < self.dval_min:             # <<<<<<<<<<<<<<
+ *                 copy_memoryview3(self.scatters_min, self.scatters)
+ *                 if (self.dval_min - self.dval) / (1 + fabs(self.dval_min)) < self.tol:
  */
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":424
- *                 copy_memoryview3(self.scatters_min, self.scatters)
+    /* "mlgrad/mlocation_scatter2.pyx":472
+ *                 self.dval_min = self.dval
  * 
  *             if self.stop_condition():             # <<<<<<<<<<<<<<
  *                 break
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_stop_condition); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 424, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_7);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
-      }
-    }
-    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 424, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 424, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__pyx_t_9) {
+    __pyx_t_2 = (((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->stop_condition(__pyx_v_self) != 0);
+    if (__pyx_t_2) {
 
-      /* "mlgrad/mlocation_scatter2.pyx":425
+      /* "mlgrad/mlocation_scatter2.pyx":473
  * 
  *             if self.stop_condition():
  *                 break             # <<<<<<<<<<<<<<
@@ -13271,8 +14236,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
       goto __pyx_L4_break;
 
-      /* "mlgrad/mlocation_scatter2.pyx":424
- *                 copy_memoryview3(self.scatters_min, self.scatters)
+      /* "mlgrad/mlocation_scatter2.pyx":472
+ *                 self.dval_min = self.dval
  * 
  *             if self.stop_condition():             # <<<<<<<<<<<<<<
  *                 break
@@ -13280,31 +14245,22 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":427
+    /* "mlgrad/mlocation_scatter2.pyx":475
  *                 break
  * 
  *             self.K += 1             # <<<<<<<<<<<<<<
  * 
- *         copy_memoryview3(self.scatters, self.scatters_min)
+ *     def fit_step_scatters(self):
  */
     __pyx_v_self->__pyx_base.K = (__pyx_v_self->__pyx_base.K + 1);
   }
   __pyx_L4_break:;
 
-  /* "mlgrad/mlocation_scatter2.pyx":429
- *             self.K += 1
- * 
- *         copy_memoryview3(self.scatters, self.scatters_min)             # <<<<<<<<<<<<<<
- * 
- *     def fit_step_scatters(self):
- */
-  __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview3(__pyx_v_self->__pyx_base.scatters, __pyx_v_self->__pyx_base.scatters_min);
-
-  /* "mlgrad/mlocation_scatter2.pyx":406
- *                 locs_l[i] += v * Xk[i]
+  /* "mlgrad/mlocation_scatter2.pyx":447
+ * #                 locs_j[i] /= Wj
  * 
  *     def fit_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):             # <<<<<<<<<<<<<<
- *         self.init_scatters(X, scatters)
+ *         self.K = 1
  * 
  */
 
@@ -13313,11 +14269,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.fit_scatters", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -13328,8 +14281,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":431
- *         copy_memoryview3(self.scatters, self.scatters_min)
+/* "mlgrad/mlocation_scatter2.pyx":477
+ *             self.K += 1
  * 
  *     def fit_step_scatters(self):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, j, k, l
@@ -13360,13 +14313,13 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   double __pyx_v_wk;
   double __pyx_v_vv;
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_Y = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_scatters = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_S = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_S1 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_locs = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_weights = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_W = { 0, 0, { 0 }, { 0 }, { 0 } };
+  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_weights = { 0, 0, { 0 }, { 0 }, { 0 } };
+  CYTHON_UNUSED __Pyx_memviewslice __pyx_v_W = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_GG = { 0, 0, { 0 }, { 0 }, { 0 } };
   double *__pyx_v_loc;
   double *__pyx_v_Xk;
   double *__pyx_v_Si;
@@ -13375,48 +14328,47 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  PyObject *__pyx_t_5 = NULL;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
   Py_ssize_t __pyx_t_9;
   Py_ssize_t __pyx_t_10;
-  double __pyx_t_11;
-  double __pyx_t_12;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
   Py_ssize_t __pyx_t_13;
   Py_ssize_t __pyx_t_14;
   Py_ssize_t __pyx_t_15;
   Py_ssize_t __pyx_t_16;
   Py_ssize_t __pyx_t_17;
   Py_ssize_t __pyx_t_18;
-  Py_ssize_t __pyx_t_19;
-  int __pyx_t_20;
+  int __pyx_t_19;
+  PyObject *__pyx_t_20 = NULL;
   PyObject *__pyx_t_21 = NULL;
   PyObject *__pyx_t_22 = NULL;
   PyObject *__pyx_t_23 = NULL;
   PyObject *__pyx_t_24 = NULL;
-  PyObject *__pyx_t_25 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fit_step_scatters", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":433
+  /* "mlgrad/mlocation_scatter2.pyx":479
  *     def fit_step_scatters(self):
  *         cdef Py_ssize_t i, j, k, l
  *         cdef Py_ssize_t N = self.X.shape[0], n = self.X.shape[1]             # <<<<<<<<<<<<<<
- *         cdef double wk, vv
+ *         cdef double wk, vv, Wl
  *         cdef double[:,::1] X = self.X
  */
   __pyx_v_N = (__pyx_v_self->__pyx_base.X.shape[0]);
   __pyx_v_n = (__pyx_v_self->__pyx_base.X.shape[1]);
 
-  /* "mlgrad/mlocation_scatter2.pyx":435
+  /* "mlgrad/mlocation_scatter2.pyx":481
  *         cdef Py_ssize_t N = self.X.shape[0], n = self.X.shape[1]
- *         cdef double wk, vv
+ *         cdef double wk, vv, Wl
  *         cdef double[:,::1] X = self.X             # <<<<<<<<<<<<<<
- *         cdef Py_ssize_t[::1] Y = self.Y
+ * #         cdef DistanceWithScale[::1] distfuncs = self.distfuncs
  *         cdef double[:,:,::1] scatters = self.scatters
  */
   __pyx_t_1 = __pyx_v_self->__pyx_base.X;
@@ -13425,33 +14377,20 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":436
- *         cdef double wk, vv
+  /* "mlgrad/mlocation_scatter2.pyx":483
  *         cdef double[:,::1] X = self.X
- *         cdef Py_ssize_t[::1] Y = self.Y             # <<<<<<<<<<<<<<
- *         cdef double[:,:,::1] scatters = self.scatters
- *         cdef double[:,::1] S, S1
- */
-  __pyx_t_2 = __pyx_v_self->__pyx_base.Y;
-  __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
-  __pyx_v_Y = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
-
-  /* "mlgrad/mlocation_scatter2.pyx":437
- *         cdef double[:,::1] X = self.X
- *         cdef Py_ssize_t[::1] Y = self.Y
+ * #         cdef DistanceWithScale[::1] distfuncs = self.distfuncs
  *         cdef double[:,:,::1] scatters = self.scatters             # <<<<<<<<<<<<<<
  *         cdef double[:,::1] S, S1
  *         cdef double[:,::1] locs = self.locs
  */
-  __pyx_t_3 = __pyx_v_self->__pyx_base.scatters;
-  __PYX_INC_MEMVIEW(&__pyx_t_3, 1);
-  __pyx_v_scatters = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
+  __pyx_t_2 = __pyx_v_self->__pyx_base.scatters;
+  __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
+  __pyx_v_scatters = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":439
+  /* "mlgrad/mlocation_scatter2.pyx":485
  *         cdef double[:,:,::1] scatters = self.scatters
  *         cdef double[:,::1] S, S1
  *         cdef double[:,::1] locs = self.locs             # <<<<<<<<<<<<<<
@@ -13464,162 +14403,72 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":440
+  /* "mlgrad/mlocation_scatter2.pyx":486
  *         cdef double[:,::1] S, S1
  *         cdef double[:,::1] locs = self.locs
  *         cdef double[::1] weights = self.weights             # <<<<<<<<<<<<<<
  *         cdef double[::1] W = self.W
- * 
+ *         cdef double[:, ::1] GG = self.GG
  */
-  __pyx_t_4 = __pyx_v_self->__pyx_base.weights;
-  __PYX_INC_MEMVIEW(&__pyx_t_4, 1);
-  __pyx_v_weights = __pyx_t_4;
-  __pyx_t_4.memview = NULL;
-  __pyx_t_4.data = NULL;
+  __pyx_t_3 = __pyx_v_self->__pyx_base.weights;
+  __PYX_INC_MEMVIEW(&__pyx_t_3, 1);
+  __pyx_v_weights = __pyx_t_3;
+  __pyx_t_3.memview = NULL;
+  __pyx_t_3.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":441
+  /* "mlgrad/mlocation_scatter2.pyx":487
  *         cdef double[:,::1] locs = self.locs
  *         cdef double[::1] weights = self.weights
  *         cdef double[::1] W = self.W             # <<<<<<<<<<<<<<
+ *         cdef double[:, ::1] GG = self.GG
+ * 
+ */
+  __pyx_t_3 = __pyx_v_self->__pyx_base.W;
+  __PYX_INC_MEMVIEW(&__pyx_t_3, 1);
+  __pyx_v_W = __pyx_t_3;
+  __pyx_t_3.memview = NULL;
+  __pyx_t_3.data = NULL;
+
+  /* "mlgrad/mlocation_scatter2.pyx":488
+ *         cdef double[::1] weights = self.weights
+ *         cdef double[::1] W = self.W
+ *         cdef double[:, ::1] GG = self.GG             # <<<<<<<<<<<<<<
  * 
  *         cdef double *loc
  */
-  __pyx_t_4 = __pyx_v_self->__pyx_base.W;
-  __PYX_INC_MEMVIEW(&__pyx_t_4, 1);
-  __pyx_v_W = __pyx_t_4;
-  __pyx_t_4.memview = NULL;
-  __pyx_t_4.data = NULL;
+  __pyx_t_1 = __pyx_v_self->__pyx_base.GG;
+  __PYX_INC_MEMVIEW(&__pyx_t_1, 1);
+  __pyx_v_GG = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":447
+  /* "mlgrad/mlocation_scatter2.pyx":494
  *         cdef double *Si
  * 
- *         self.calc_distances()             # <<<<<<<<<<<<<<
- *         self.avg.fit(self.D)
- *         self.avg.gradient(self.D, self.weights)
- */
-  __pyx_t_5 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.calc_distances(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 447, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-  /* "mlgrad/mlocation_scatter2.pyx":448
- * 
- *         self.calc_distances()
- *         self.avg.fit(self.D)             # <<<<<<<<<<<<<<
- *         self.avg.gradient(self.D, self.weights)
- * 
- */
-  __pyx_t_5 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_base.avg->__pyx_vtab)->fit(__pyx_v_self->__pyx_base.avg, __pyx_v_self->__pyx_base.D, 0, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 448, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-  /* "mlgrad/mlocation_scatter2.pyx":449
- *         self.calc_distances()
- *         self.avg.fit(self.D)
- *         self.avg.gradient(self.D, self.weights)             # <<<<<<<<<<<<<<
- * 
- *         fill_memoryview(W, 0)
- */
-  __pyx_t_5 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_base.avg->__pyx_vtab)->gradient(__pyx_v_self->__pyx_base.avg, __pyx_v_self->__pyx_base.D, __pyx_v_self->__pyx_base.weights); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 449, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-  /* "mlgrad/mlocation_scatter2.pyx":451
- *         self.avg.gradient(self.D, self.weights)
- * 
- *         fill_memoryview(W, 0)             # <<<<<<<<<<<<<<
- *         for k in range(N):
- *             l = Y[k]
- */
-  __pyx_f_6mlgrad_18mlocation_scatter2_fill_memoryview(__pyx_v_W, 0.0);
-
-  /* "mlgrad/mlocation_scatter2.pyx":452
- * 
- *         fill_memoryview(W, 0)
- *         for k in range(N):             # <<<<<<<<<<<<<<
- *             l = Y[k]
- *             W[l] += weights[k]
- */
-  __pyx_t_6 = __pyx_v_N;
-  __pyx_t_7 = __pyx_t_6;
-  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-    __pyx_v_k = __pyx_t_8;
-
-    /* "mlgrad/mlocation_scatter2.pyx":453
- *         fill_memoryview(W, 0)
- *         for k in range(N):
- *             l = Y[k]             # <<<<<<<<<<<<<<
- *             W[l] += weights[k]
- * 
- */
-    __pyx_t_9 = __pyx_v_k;
-    __pyx_v_l = (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_Y.data) + __pyx_t_9)) )));
-
-    /* "mlgrad/mlocation_scatter2.pyx":454
- *         for k in range(N):
- *             l = Y[k]
- *             W[l] += weights[k]             # <<<<<<<<<<<<<<
- * 
- *         fill_memoryview3(scatters, 0)
- */
-    __pyx_t_9 = __pyx_v_k;
-    __pyx_t_10 = __pyx_v_l;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_10)) )) += (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_9)) )));
-  }
-
-  /* "mlgrad/mlocation_scatter2.pyx":456
- *             W[l] += weights[k]
- * 
  *         fill_memoryview3(scatters, 0)             # <<<<<<<<<<<<<<
- * 
- *         for k in range(N):
+ *         for l in range(self.n_locs):
+ *             S = scatters[l]
  */
   __pyx_f_6mlgrad_18mlocation_scatter2_fill_memoryview3(__pyx_v_scatters, 0.0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":458
+  /* "mlgrad/mlocation_scatter2.pyx":495
+ * 
  *         fill_memoryview3(scatters, 0)
- * 
- *         for k in range(N):             # <<<<<<<<<<<<<<
- *             l = Y[k]
- *             wk = weights[k] / W[l]
- */
-  __pyx_t_6 = __pyx_v_N;
-  __pyx_t_7 = __pyx_t_6;
-  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-    __pyx_v_k = __pyx_t_8;
-
-    /* "mlgrad/mlocation_scatter2.pyx":459
- * 
- *         for k in range(N):
- *             l = Y[k]             # <<<<<<<<<<<<<<
- *             wk = weights[k] / W[l]
+ *         for l in range(self.n_locs):             # <<<<<<<<<<<<<<
  *             S = scatters[l]
+ *             loc = &locs[l, 0]
  */
-    __pyx_t_9 = __pyx_v_k;
-    __pyx_v_l = (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_Y.data) + __pyx_t_9)) )));
+  __pyx_t_4 = __pyx_v_self->__pyx_base.n_locs;
+  __pyx_t_5 = __pyx_t_4;
+  for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
+    __pyx_v_l = __pyx_t_6;
 
-    /* "mlgrad/mlocation_scatter2.pyx":460
- *         for k in range(N):
- *             l = Y[k]
- *             wk = weights[k] / W[l]             # <<<<<<<<<<<<<<
- *             S = scatters[l]
- *             loc = &locs[l,0]
- */
-    __pyx_t_9 = __pyx_v_k;
-    __pyx_t_11 = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_9)) )));
-    __pyx_t_9 = __pyx_v_l;
-    __pyx_t_12 = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_9)) )));
-    if (unlikely(__pyx_t_12 == 0)) {
-      PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(1, 460, __pyx_L1_error)
-    }
-    __pyx_v_wk = (__pyx_t_11 / __pyx_t_12);
-
-    /* "mlgrad/mlocation_scatter2.pyx":461
- *             l = Y[k]
- *             wk = weights[k] / W[l]
+    /* "mlgrad/mlocation_scatter2.pyx":496
+ *         fill_memoryview3(scatters, 0)
+ *         for l in range(self.n_locs):
  *             S = scatters[l]             # <<<<<<<<<<<<<<
- *             loc = &locs[l,0]
- *             Xk = &X[k,0]
+ *             loc = &locs[l, 0]
+ *             for k in range(N):
  */
     __pyx_t_1.data = __pyx_v_scatters.data;
     __pyx_t_1.memview = __pyx_v_scatters.memview;
@@ -13643,133 +14492,157 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_S, 1);
     __pyx_t_1.memview = NULL;
     __pyx_t_1.data = NULL;
 
-    /* "mlgrad/mlocation_scatter2.pyx":462
- *             wk = weights[k] / W[l]
+    /* "mlgrad/mlocation_scatter2.pyx":497
+ *         for l in range(self.n_locs):
  *             S = scatters[l]
- *             loc = &locs[l,0]             # <<<<<<<<<<<<<<
- *             Xk = &X[k,0]
- *             for i in range(n):
+ *             loc = &locs[l, 0]             # <<<<<<<<<<<<<<
+ *             for k in range(N):
+ *                 Xk = &X[k, 0]
  */
-    __pyx_t_9 = __pyx_v_l;
-    __pyx_t_10 = 0;
-    __pyx_v_loc = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_locs.data + __pyx_t_9 * __pyx_v_locs.strides[0]) )) + __pyx_t_10)) ))));
+    __pyx_t_7 = __pyx_v_l;
+    __pyx_t_8 = 0;
+    __pyx_v_loc = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_locs.data + __pyx_t_7 * __pyx_v_locs.strides[0]) )) + __pyx_t_8)) ))));
 
-    /* "mlgrad/mlocation_scatter2.pyx":463
+    /* "mlgrad/mlocation_scatter2.pyx":498
  *             S = scatters[l]
- *             loc = &locs[l,0]
- *             Xk = &X[k,0]             # <<<<<<<<<<<<<<
- *             for i in range(n):
- *                 vv = wk * (Xk[i] - loc[i])
+ *             loc = &locs[l, 0]
+ *             for k in range(N):             # <<<<<<<<<<<<<<
+ *                 Xk = &X[k, 0]
+ *                 wk = GG[k,l]
  */
-    __pyx_t_10 = __pyx_v_k;
-    __pyx_t_9 = 0;
-    __pyx_v_Xk = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_10 * __pyx_v_X.strides[0]) )) + __pyx_t_9)) ))));
+    __pyx_t_9 = __pyx_v_N;
+    __pyx_t_10 = __pyx_t_9;
+    for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
+      __pyx_v_k = __pyx_t_11;
 
-    /* "mlgrad/mlocation_scatter2.pyx":464
- *             loc = &locs[l,0]
- *             Xk = &X[k,0]
- *             for i in range(n):             # <<<<<<<<<<<<<<
- *                 vv = wk * (Xk[i] - loc[i])
- *                 Si = &S[i,0]
+      /* "mlgrad/mlocation_scatter2.pyx":499
+ *             loc = &locs[l, 0]
+ *             for k in range(N):
+ *                 Xk = &X[k, 0]             # <<<<<<<<<<<<<<
+ *                 wk = GG[k,l]
+ *                 for i in range(n):
  */
-    __pyx_t_13 = __pyx_v_n;
-    __pyx_t_14 = __pyx_t_13;
-    for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
-      __pyx_v_i = __pyx_t_15;
+      __pyx_t_8 = __pyx_v_k;
+      __pyx_t_7 = 0;
+      __pyx_v_Xk = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_8 * __pyx_v_X.strides[0]) )) + __pyx_t_7)) ))));
 
-      /* "mlgrad/mlocation_scatter2.pyx":465
- *             Xk = &X[k,0]
- *             for i in range(n):
- *                 vv = wk * (Xk[i] - loc[i])             # <<<<<<<<<<<<<<
- *                 Si = &S[i,0]
- *                 for j in range(i,n):
+      /* "mlgrad/mlocation_scatter2.pyx":500
+ *             for k in range(N):
+ *                 Xk = &X[k, 0]
+ *                 wk = GG[k,l]             # <<<<<<<<<<<<<<
+ *                 for i in range(n):
+ *                     vv = wk * (Xk[i] - loc[i])
  */
-      __pyx_v_vv = (__pyx_v_wk * ((__pyx_v_Xk[__pyx_v_i]) - (__pyx_v_loc[__pyx_v_i])));
+      __pyx_t_7 = __pyx_v_k;
+      __pyx_t_8 = __pyx_v_l;
+      __pyx_v_wk = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_GG.data + __pyx_t_7 * __pyx_v_GG.strides[0]) )) + __pyx_t_8)) )));
 
-      /* "mlgrad/mlocation_scatter2.pyx":466
- *             for i in range(n):
- *                 vv = wk * (Xk[i] - loc[i])
- *                 Si = &S[i,0]             # <<<<<<<<<<<<<<
- *                 for j in range(i,n):
- *                     Si[j] += vv * (Xk[j] - loc[j])
+      /* "mlgrad/mlocation_scatter2.pyx":501
+ *                 Xk = &X[k, 0]
+ *                 wk = GG[k,l]
+ *                 for i in range(n):             # <<<<<<<<<<<<<<
+ *                     vv = wk * (Xk[i] - loc[i])
+ *                     Si = &S[i, 0]
  */
-      __pyx_t_9 = __pyx_v_i;
-      __pyx_t_10 = 0;
-      __pyx_v_Si = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_9 * __pyx_v_S.strides[0]) )) + __pyx_t_10)) ))));
+      __pyx_t_12 = __pyx_v_n;
+      __pyx_t_13 = __pyx_t_12;
+      for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_13; __pyx_t_14+=1) {
+        __pyx_v_i = __pyx_t_14;
 
-      /* "mlgrad/mlocation_scatter2.pyx":467
- *                 vv = wk * (Xk[i] - loc[i])
- *                 Si = &S[i,0]
- *                 for j in range(i,n):             # <<<<<<<<<<<<<<
- *                     Si[j] += vv * (Xk[j] - loc[j])
- *                     if i != j:
+        /* "mlgrad/mlocation_scatter2.pyx":502
+ *                 wk = GG[k,l]
+ *                 for i in range(n):
+ *                     vv = wk * (Xk[i] - loc[i])             # <<<<<<<<<<<<<<
+ *                     Si = &S[i, 0]
+ *                     for j in range(i,n):
  */
-      __pyx_t_16 = __pyx_v_n;
-      __pyx_t_17 = __pyx_t_16;
-      for (__pyx_t_18 = __pyx_v_i; __pyx_t_18 < __pyx_t_17; __pyx_t_18+=1) {
-        __pyx_v_j = __pyx_t_18;
+        __pyx_v_vv = (__pyx_v_wk * ((__pyx_v_Xk[__pyx_v_i]) - (__pyx_v_loc[__pyx_v_i])));
 
-        /* "mlgrad/mlocation_scatter2.pyx":468
- *                 Si = &S[i,0]
- *                 for j in range(i,n):
- *                     Si[j] += vv * (Xk[j] - loc[j])             # <<<<<<<<<<<<<<
- *                     if i != j:
- *                         S[j,i] = Si[j]
+        /* "mlgrad/mlocation_scatter2.pyx":503
+ *                 for i in range(n):
+ *                     vv = wk * (Xk[i] - loc[i])
+ *                     Si = &S[i, 0]             # <<<<<<<<<<<<<<
+ *                     for j in range(i,n):
+ *                         Si[j] += vv * (Xk[j] - loc[j])
  */
-        __pyx_t_19 = __pyx_v_j;
-        (__pyx_v_Si[__pyx_t_19]) = ((__pyx_v_Si[__pyx_t_19]) + (__pyx_v_vv * ((__pyx_v_Xk[__pyx_v_j]) - (__pyx_v_loc[__pyx_v_j]))));
+        __pyx_t_8 = __pyx_v_i;
+        __pyx_t_7 = 0;
+        __pyx_v_Si = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_8 * __pyx_v_S.strides[0]) )) + __pyx_t_7)) ))));
 
-        /* "mlgrad/mlocation_scatter2.pyx":469
- *                 for j in range(i,n):
- *                     Si[j] += vv * (Xk[j] - loc[j])
- *                     if i != j:             # <<<<<<<<<<<<<<
- *                         S[j,i] = Si[j]
+        /* "mlgrad/mlocation_scatter2.pyx":504
+ *                     vv = wk * (Xk[i] - loc[i])
+ *                     Si = &S[i, 0]
+ *                     for j in range(i,n):             # <<<<<<<<<<<<<<
+ *                         Si[j] += vv * (Xk[j] - loc[j])
+ *                         if j > i:
+ */
+        __pyx_t_15 = __pyx_v_n;
+        __pyx_t_16 = __pyx_t_15;
+        for (__pyx_t_17 = __pyx_v_i; __pyx_t_17 < __pyx_t_16; __pyx_t_17+=1) {
+          __pyx_v_j = __pyx_t_17;
+
+          /* "mlgrad/mlocation_scatter2.pyx":505
+ *                     Si = &S[i, 0]
+ *                     for j in range(i,n):
+ *                         Si[j] += vv * (Xk[j] - loc[j])             # <<<<<<<<<<<<<<
+ *                         if j > i:
+ *                             S[j,i] = Si[j]
+ */
+          __pyx_t_18 = __pyx_v_j;
+          (__pyx_v_Si[__pyx_t_18]) = ((__pyx_v_Si[__pyx_t_18]) + (__pyx_v_vv * ((__pyx_v_Xk[__pyx_v_j]) - (__pyx_v_loc[__pyx_v_j]))));
+
+          /* "mlgrad/mlocation_scatter2.pyx":506
+ *                     for j in range(i,n):
+ *                         Si[j] += vv * (Xk[j] - loc[j])
+ *                         if j > i:             # <<<<<<<<<<<<<<
+ *                             S[j,i] = Si[j]
  * 
  */
-        __pyx_t_20 = ((__pyx_v_i != __pyx_v_j) != 0);
-        if (__pyx_t_20) {
+          __pyx_t_19 = ((__pyx_v_j > __pyx_v_i) != 0);
+          if (__pyx_t_19) {
 
-          /* "mlgrad/mlocation_scatter2.pyx":470
- *                     Si[j] += vv * (Xk[j] - loc[j])
- *                     if i != j:
- *                         S[j,i] = Si[j]             # <<<<<<<<<<<<<<
+            /* "mlgrad/mlocation_scatter2.pyx":507
+ *                         Si[j] += vv * (Xk[j] - loc[j])
+ *                         if j > i:
+ *                             S[j,i] = Si[j]             # <<<<<<<<<<<<<<
  * 
- * #         print(scatters.base)
+ * #             i = 0
  */
-          __pyx_t_10 = __pyx_v_j;
-          __pyx_t_9 = __pyx_v_i;
-          *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_10 * __pyx_v_S.strides[0]) )) + __pyx_t_9)) )) = (__pyx_v_Si[__pyx_v_j]);
+            __pyx_t_7 = __pyx_v_j;
+            __pyx_t_8 = __pyx_v_i;
+            *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_7 * __pyx_v_S.strides[0]) )) + __pyx_t_8)) )) = (__pyx_v_Si[__pyx_v_j]);
 
-          /* "mlgrad/mlocation_scatter2.pyx":469
- *                 for j in range(i,n):
- *                     Si[j] += vv * (Xk[j] - loc[j])
- *                     if i != j:             # <<<<<<<<<<<<<<
- *                         S[j,i] = Si[j]
+            /* "mlgrad/mlocation_scatter2.pyx":506
+ *                     for j in range(i,n):
+ *                         Si[j] += vv * (Xk[j] - loc[j])
+ *                         if j > i:             # <<<<<<<<<<<<<<
+ *                             S[j,i] = Si[j]
  * 
  */
+          }
         }
       }
     }
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":474
- * #         print(scatters.base)
+  /* "mlgrad/mlocation_scatter2.pyx":521
+ * #                 i += 1
  * 
  *         for l in range(self.n_locs):             # <<<<<<<<<<<<<<
  *             S = scatters[l]
- *             _scale_matrix(S)
+ *             if n == 2:
  */
-  __pyx_t_6 = __pyx_v_self->__pyx_base.n_locs;
-  __pyx_t_7 = __pyx_t_6;
-  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-    __pyx_v_l = __pyx_t_8;
+  __pyx_t_4 = __pyx_v_self->__pyx_base.n_locs;
+  __pyx_t_5 = __pyx_t_4;
+  for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
+    __pyx_v_l = __pyx_t_6;
 
-    /* "mlgrad/mlocation_scatter2.pyx":475
+    /* "mlgrad/mlocation_scatter2.pyx":522
  * 
  *         for l in range(self.n_locs):
  *             S = scatters[l]             # <<<<<<<<<<<<<<
- *             _scale_matrix(S)
  *             if n == 2:
+ *                 S = inv_matrix_2(S)
  */
     __pyx_t_1.data = __pyx_v_scatters.data;
     __pyx_t_1.memview = __pyx_v_scatters.memview;
@@ -13793,41 +14666,32 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_S, 1);
     __pyx_t_1.memview = NULL;
     __pyx_t_1.data = NULL;
 
-    /* "mlgrad/mlocation_scatter2.pyx":476
+    /* "mlgrad/mlocation_scatter2.pyx":523
  *         for l in range(self.n_locs):
  *             S = scatters[l]
- *             _scale_matrix(S)             # <<<<<<<<<<<<<<
- *             if n == 2:
- *                 S = inv_matrix_2(S)
- */
-    __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__pyx_v_S, NULL);
-
-    /* "mlgrad/mlocation_scatter2.pyx":477
- *             S = scatters[l]
- *             _scale_matrix(S)
  *             if n == 2:             # <<<<<<<<<<<<<<
  *                 S = inv_matrix_2(S)
  *             else:
  */
-    __pyx_t_20 = ((__pyx_v_n == 2) != 0);
-    if (__pyx_t_20) {
+    __pyx_t_19 = ((__pyx_v_n == 2) != 0);
+    if (__pyx_t_19) {
 
-      /* "mlgrad/mlocation_scatter2.pyx":478
- *             _scale_matrix(S)
+      /* "mlgrad/mlocation_scatter2.pyx":524
+ *             S = scatters[l]
  *             if n == 2:
  *                 S = inv_matrix_2(S)             # <<<<<<<<<<<<<<
  *             else:
- *                 S1 = linalg.pinv(np.asarray(S))
+ *                 S1 = linalg.pinv(np.asarray(S), hermitian=True)
  */
-      __pyx_t_1 = __pyx_f_6mlgrad_18mlocation_scatter2_inv_matrix_2(__pyx_v_S); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 478, __pyx_L1_error)
+      __pyx_t_1 = __pyx_f_6mlgrad_18mlocation_scatter2_inv_matrix_2(__pyx_v_S); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 524, __pyx_L1_error)
       __PYX_XDEC_MEMVIEW(&__pyx_v_S, 1);
       __pyx_v_S = __pyx_t_1;
       __pyx_t_1.memview = NULL;
       __pyx_t_1.data = NULL;
 
-      /* "mlgrad/mlocation_scatter2.pyx":477
+      /* "mlgrad/mlocation_scatter2.pyx":523
+ *         for l in range(self.n_locs):
  *             S = scatters[l]
- *             _scale_matrix(S)
  *             if n == 2:             # <<<<<<<<<<<<<<
  *                 S = inv_matrix_2(S)
  *             else:
@@ -13835,108 +14699,114 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_S, 1);
       goto __pyx_L14;
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":480
+    /* "mlgrad/mlocation_scatter2.pyx":526
  *                 S = inv_matrix_2(S)
  *             else:
- *                 S1 = linalg.pinv(np.asarray(S))             # <<<<<<<<<<<<<<
+ *                 S1 = linalg.pinv(np.asarray(S), hermitian=True)             # <<<<<<<<<<<<<<
  *                 copy_memoryview2(S, S1)
- * 
+ *             _scale_matrix(S)
  */
     /*else*/ {
-      __Pyx_GetModuleGlobalName(__pyx_t_21, __pyx_n_s_linalg); if (unlikely(!__pyx_t_21)) __PYX_ERR(1, 480, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_20, __pyx_n_s_linalg); if (unlikely(!__pyx_t_20)) __PYX_ERR(1, 526, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
+      __pyx_t_21 = __Pyx_PyObject_GetAttrStr(__pyx_t_20, __pyx_n_s_pinv); if (unlikely(!__pyx_t_21)) __PYX_ERR(1, 526, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_21);
-      __pyx_t_22 = __Pyx_PyObject_GetAttrStr(__pyx_t_21, __pyx_n_s_pinv); if (unlikely(!__pyx_t_22)) __PYX_ERR(1, 480, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+      __Pyx_GetModuleGlobalName(__pyx_t_22, __pyx_n_s_np); if (unlikely(!__pyx_t_22)) __PYX_ERR(1, 526, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_22);
-      __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-      __Pyx_GetModuleGlobalName(__pyx_t_23, __pyx_n_s_np); if (unlikely(!__pyx_t_23)) __PYX_ERR(1, 480, __pyx_L1_error)
+      __pyx_t_23 = __Pyx_PyObject_GetAttrStr(__pyx_t_22, __pyx_n_s_asarray); if (unlikely(!__pyx_t_23)) __PYX_ERR(1, 526, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_23);
-      __pyx_t_24 = __Pyx_PyObject_GetAttrStr(__pyx_t_23, __pyx_n_s_asarray); if (unlikely(!__pyx_t_24)) __PYX_ERR(1, 480, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_24);
-      __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
-      __pyx_t_23 = __pyx_memoryview_fromslice(__pyx_v_S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_23)) __PYX_ERR(1, 480, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_23);
-      __pyx_t_25 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_24))) {
-        __pyx_t_25 = PyMethod_GET_SELF(__pyx_t_24);
-        if (likely(__pyx_t_25)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_24);
-          __Pyx_INCREF(__pyx_t_25);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_24, function);
-        }
-      }
-      __pyx_t_21 = (__pyx_t_25) ? __Pyx_PyObject_Call2Args(__pyx_t_24, __pyx_t_25, __pyx_t_23) : __Pyx_PyObject_CallOneArg(__pyx_t_24, __pyx_t_23);
-      __Pyx_XDECREF(__pyx_t_25); __pyx_t_25 = 0;
-      __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
-      if (unlikely(!__pyx_t_21)) __PYX_ERR(1, 480, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_21);
-      __Pyx_DECREF(__pyx_t_24); __pyx_t_24 = 0;
+      __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
+      __pyx_t_22 = __pyx_memoryview_fromslice(__pyx_v_S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_22)) __PYX_ERR(1, 526, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_22);
       __pyx_t_24 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_22))) {
-        __pyx_t_24 = PyMethod_GET_SELF(__pyx_t_22);
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_23))) {
+        __pyx_t_24 = PyMethod_GET_SELF(__pyx_t_23);
         if (likely(__pyx_t_24)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_22);
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_23);
           __Pyx_INCREF(__pyx_t_24);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_22, function);
+          __Pyx_DECREF_SET(__pyx_t_23, function);
         }
       }
-      __pyx_t_5 = (__pyx_t_24) ? __Pyx_PyObject_Call2Args(__pyx_t_22, __pyx_t_24, __pyx_t_21) : __Pyx_PyObject_CallOneArg(__pyx_t_22, __pyx_t_21);
+      __pyx_t_20 = (__pyx_t_24) ? __Pyx_PyObject_Call2Args(__pyx_t_23, __pyx_t_24, __pyx_t_22) : __Pyx_PyObject_CallOneArg(__pyx_t_23, __pyx_t_22);
       __Pyx_XDECREF(__pyx_t_24); __pyx_t_24 = 0;
-      __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-      if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 480, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
-      __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 480, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      if (unlikely(!__pyx_t_20)) __PYX_ERR(1, 526, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
+      __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
+      __pyx_t_23 = PyTuple_New(1); if (unlikely(!__pyx_t_23)) __PYX_ERR(1, 526, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_23);
+      __Pyx_GIVEREF(__pyx_t_20);
+      PyTuple_SET_ITEM(__pyx_t_23, 0, __pyx_t_20);
+      __pyx_t_20 = 0;
+      __pyx_t_20 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_20)) __PYX_ERR(1, 526, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_20);
+      if (PyDict_SetItem(__pyx_t_20, __pyx_n_s_hermitian, Py_True) < 0) __PYX_ERR(1, 526, __pyx_L1_error)
+      __pyx_t_22 = __Pyx_PyObject_Call(__pyx_t_21, __pyx_t_23, __pyx_t_20); if (unlikely(!__pyx_t_22)) __PYX_ERR(1, 526, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_22);
+      __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
+      __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
+      __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
+      __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_22, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 526, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
       __PYX_XDEC_MEMVIEW(&__pyx_v_S1, 1);
       __pyx_v_S1 = __pyx_t_1;
       __pyx_t_1.memview = NULL;
       __pyx_t_1.data = NULL;
 
-      /* "mlgrad/mlocation_scatter2.pyx":481
+      /* "mlgrad/mlocation_scatter2.pyx":527
  *             else:
- *                 S1 = linalg.pinv(np.asarray(S))
+ *                 S1 = linalg.pinv(np.asarray(S), hermitian=True)
  *                 copy_memoryview2(S, S1)             # <<<<<<<<<<<<<<
+ *             _scale_matrix(S)
  * 
- *         self.update_distfuncs(scatters)
  */
       __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__pyx_v_S, __pyx_v_S1);
     }
     __pyx_L14:;
+
+    /* "mlgrad/mlocation_scatter2.pyx":528
+ *                 S1 = linalg.pinv(np.asarray(S), hermitian=True)
+ *                 copy_memoryview2(S, S1)
+ *             _scale_matrix(S)             # <<<<<<<<<<<<<<
+ * 
+ *         self.update_distfuncs(scatters)
+ */
+    __pyx_f_6mlgrad_18mlocation_scatter2__scale_matrix(__pyx_v_S, NULL);
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":483
- *                 copy_memoryview2(S, S1)
+  /* "mlgrad/mlocation_scatter2.pyx":530
+ *             _scale_matrix(S)
  * 
  *         self.update_distfuncs(scatters)             # <<<<<<<<<<<<<<
  * 
  *     def fit(self, double[:,::1] X, only=None, warm=False):
  */
-  __pyx_t_22 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update_distfuncs); if (unlikely(!__pyx_t_22)) __PYX_ERR(1, 483, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_22);
-  __pyx_t_21 = __pyx_memoryview_fromslice(__pyx_v_scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_21)) __PYX_ERR(1, 483, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_21);
-  __pyx_t_24 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_22))) {
-    __pyx_t_24 = PyMethod_GET_SELF(__pyx_t_22);
-    if (likely(__pyx_t_24)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_22);
-      __Pyx_INCREF(__pyx_t_24);
+  __pyx_t_20 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update_distfuncs); if (unlikely(!__pyx_t_20)) __PYX_ERR(1, 530, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_20);
+  __pyx_t_23 = __pyx_memoryview_fromslice(__pyx_v_scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_23)) __PYX_ERR(1, 530, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_23);
+  __pyx_t_21 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_20))) {
+    __pyx_t_21 = PyMethod_GET_SELF(__pyx_t_20);
+    if (likely(__pyx_t_21)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_20);
+      __Pyx_INCREF(__pyx_t_21);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_22, function);
+      __Pyx_DECREF_SET(__pyx_t_20, function);
     }
   }
-  __pyx_t_5 = (__pyx_t_24) ? __Pyx_PyObject_Call2Args(__pyx_t_22, __pyx_t_24, __pyx_t_21) : __Pyx_PyObject_CallOneArg(__pyx_t_22, __pyx_t_21);
-  __Pyx_XDECREF(__pyx_t_24); __pyx_t_24 = 0;
-  __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 483, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_22 = (__pyx_t_21) ? __Pyx_PyObject_Call2Args(__pyx_t_20, __pyx_t_21, __pyx_t_23) : __Pyx_PyObject_CallOneArg(__pyx_t_20, __pyx_t_23);
+  __Pyx_XDECREF(__pyx_t_21); __pyx_t_21 = 0;
+  __Pyx_DECREF(__pyx_t_23); __pyx_t_23 = 0;
+  if (unlikely(!__pyx_t_22)) __PYX_ERR(1, 530, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_22);
+  __Pyx_DECREF(__pyx_t_20); __pyx_t_20 = 0;
   __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":431
- *         copy_memoryview3(self.scatters, self.scatters_min)
+  /* "mlgrad/mlocation_scatter2.pyx":477
+ *             self.K += 1
  * 
  *     def fit_step_scatters(self):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, j, k, l
@@ -13950,30 +14820,28 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_S, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_4, 1);
-  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_20);
   __Pyx_XDECREF(__pyx_t_21);
   __Pyx_XDECREF(__pyx_t_22);
   __Pyx_XDECREF(__pyx_t_23);
   __Pyx_XDECREF(__pyx_t_24);
-  __Pyx_XDECREF(__pyx_t_25);
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.fit_step_scatters", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_X, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_v_Y, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_scatters, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_S, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_S1, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_locs, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_weights, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_W, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_GG, 1);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":485
+/* "mlgrad/mlocation_scatter2.pyx":532
  *         self.update_distfuncs(scatters)
  * 
  *     def fit(self, double[:,::1] X, only=None, warm=False):             # <<<<<<<<<<<<<<
@@ -14031,7 +14899,7 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(1, 485, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(1, 532, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -14044,13 +14912,13 @@ static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 485, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(1, 532, __pyx_L3_error)
     __pyx_v_only = values[1];
     __pyx_v_warm = values[2];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 485, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 532, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -14074,26 +14942,26 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   PyObject *__pyx_t_4 = NULL;
   int __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
-  double __pyx_t_7;
+  int __pyx_t_7;
   int __pyx_t_8;
-  int __pyx_t_9;
-  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  double __pyx_t_10;
   int __pyx_t_11;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fit", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":486
+  /* "mlgrad/mlocation_scatter2.pyx":533
  * 
  *     def fit(self, double[:,::1] X, only=None, warm=False):
  *         self.init(X, warm)             # <<<<<<<<<<<<<<
  * 
- *         self.dval2 = self.dval2_min = self.Q()
+ *         scatters_only = (only == 'scatters')
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 486, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 533, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 486, __pyx_L1_error)
+  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 533, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -14110,7 +14978,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_warm};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 486, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 533, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -14119,14 +14987,14 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_warm};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 486, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 533, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 486, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 533, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -14137,74 +15005,36 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
     __Pyx_GIVEREF(__pyx_v_warm);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_warm);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 486, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 533, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":488
+  /* "mlgrad/mlocation_scatter2.pyx":535
  *         self.init(X, warm)
  * 
- *         self.dval2 = self.dval2_min = self.Q()             # <<<<<<<<<<<<<<
- *         self.dval2_prev = max_float
- *         copy_memoryview2(self.locs_min, self.locs)
- */
-  __pyx_t_7 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0);
-  __pyx_v_self->__pyx_base.dval2 = __pyx_t_7;
-  __pyx_v_self->__pyx_base.dval2_min = __pyx_t_7;
-
-  /* "mlgrad/mlocation_scatter2.pyx":489
- * 
- *         self.dval2 = self.dval2_min = self.Q()
- *         self.dval2_prev = max_float             # <<<<<<<<<<<<<<
- *         copy_memoryview2(self.locs_min, self.locs)
- *         copy_memoryview3(self.scatters_min, self.scatters)
- */
-  __pyx_v_self->__pyx_base.dval2_prev = __pyx_v_6mlgrad_18mlocation_scatter2_max_float;
-
-  /* "mlgrad/mlocation_scatter2.pyx":490
- *         self.dval2 = self.dval2_min = self.Q()
- *         self.dval2_prev = max_float
- *         copy_memoryview2(self.locs_min, self.locs)             # <<<<<<<<<<<<<<
- *         copy_memoryview3(self.scatters_min, self.scatters)
- *         scatters_only = (only == 'scatters')
- */
-  __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__pyx_v_self->__pyx_base.locs_min, __pyx_v_self->__pyx_base.locs);
-
-  /* "mlgrad/mlocation_scatter2.pyx":491
- *         self.dval2_prev = max_float
- *         copy_memoryview2(self.locs_min, self.locs)
- *         copy_memoryview3(self.scatters_min, self.scatters)             # <<<<<<<<<<<<<<
- *         scatters_only = (only == 'scatters')
- *         locations_only = (only == 'locations')
- */
-  __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview3(__pyx_v_self->__pyx_base.scatters_min, __pyx_v_self->__pyx_base.scatters);
-
-  /* "mlgrad/mlocation_scatter2.pyx":492
- *         copy_memoryview2(self.locs_min, self.locs)
- *         copy_memoryview3(self.scatters_min, self.scatters)
  *         scatters_only = (only == 'scatters')             # <<<<<<<<<<<<<<
  *         locations_only = (only == 'locations')
  * 
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_only, __pyx_n_u_scatters, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 492, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_only, __pyx_n_u_scatters, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 535, __pyx_L1_error)
   __pyx_v_scatters_only = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":493
- *         copy_memoryview3(self.scatters_min, self.scatters)
+  /* "mlgrad/mlocation_scatter2.pyx":536
+ * 
  *         scatters_only = (only == 'scatters')
  *         locations_only = (only == 'locations')             # <<<<<<<<<<<<<<
  * 
  *         self.Ks = 1
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_only, __pyx_n_u_locations, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 493, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_only, __pyx_n_u_locations, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 536, __pyx_L1_error)
   __pyx_v_locations_only = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":495
+  /* "mlgrad/mlocation_scatter2.pyx":538
  *         locations_only = (only == 'locations')
  * 
  *         self.Ks = 1             # <<<<<<<<<<<<<<
@@ -14213,7 +15043,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
   __pyx_v_self->__pyx_base.Ks = 1;
 
-  /* "mlgrad/mlocation_scatter2.pyx":497
+  /* "mlgrad/mlocation_scatter2.pyx":540
  *         self.Ks = 1
  * 
  *         while self.Ks <= self.n_step:             # <<<<<<<<<<<<<<
@@ -14221,32 +15051,32 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  *                 self.fit_locations(self.X, self.locs)
  */
   while (1) {
-    __pyx_t_8 = ((__pyx_v_self->__pyx_base.Ks <= __pyx_v_self->__pyx_base.n_step) != 0);
-    if (!__pyx_t_8) break;
+    __pyx_t_7 = ((__pyx_v_self->__pyx_base.Ks <= __pyx_v_self->__pyx_base.n_step) != 0);
+    if (!__pyx_t_7) break;
 
-    /* "mlgrad/mlocation_scatter2.pyx":498
+    /* "mlgrad/mlocation_scatter2.pyx":541
  * 
  *         while self.Ks <= self.n_step:
  *             if not scatters_only:             # <<<<<<<<<<<<<<
  *                 self.fit_locations(self.X, self.locs)
  * 
  */
-    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_scatters_only); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 498, __pyx_L1_error)
-    __pyx_t_9 = ((!__pyx_t_8) != 0);
-    if (__pyx_t_9) {
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_scatters_only); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(1, 541, __pyx_L1_error)
+    __pyx_t_8 = ((!__pyx_t_7) != 0);
+    if (__pyx_t_8) {
 
-      /* "mlgrad/mlocation_scatter2.pyx":499
+      /* "mlgrad/mlocation_scatter2.pyx":542
  *         while self.Ks <= self.n_step:
  *             if not scatters_only:
  *                 self.fit_locations(self.X, self.locs)             # <<<<<<<<<<<<<<
  * 
  *                 self.dval2_prev = self.dval2
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fit_locations); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 499, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fit_locations); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 542, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 499, __pyx_L1_error)
+      __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 542, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 499, __pyx_L1_error)
+      __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 542, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_4 = NULL;
       __pyx_t_5 = 0;
@@ -14263,7 +15093,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_2)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_6, __pyx_t_3};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 499, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 542, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -14273,7 +15103,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_6, __pyx_t_3};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 499, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 542, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -14281,35 +15111,35 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       } else
       #endif
       {
-        __pyx_t_10 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 499, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
+        __pyx_t_9 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 542, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
         if (__pyx_t_4) {
-          __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_4); __pyx_t_4 = NULL;
+          __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_4); __pyx_t_4 = NULL;
         }
         __Pyx_GIVEREF(__pyx_t_6);
-        PyTuple_SET_ITEM(__pyx_t_10, 0+__pyx_t_5, __pyx_t_6);
+        PyTuple_SET_ITEM(__pyx_t_9, 0+__pyx_t_5, __pyx_t_6);
         __Pyx_GIVEREF(__pyx_t_3);
-        PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_5, __pyx_t_3);
+        PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_5, __pyx_t_3);
         __pyx_t_6 = 0;
         __pyx_t_3 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 499, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 542, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "mlgrad/mlocation_scatter2.pyx":501
+      /* "mlgrad/mlocation_scatter2.pyx":544
  *                 self.fit_locations(self.X, self.locs)
  * 
  *                 self.dval2_prev = self.dval2             # <<<<<<<<<<<<<<
  *                 self.dval2 = self.Q()
  *                 self.dvals2.append(self.dval2)
  */
-      __pyx_t_7 = __pyx_v_self->__pyx_base.dval2;
-      __pyx_v_self->__pyx_base.dval2_prev = __pyx_t_7;
+      __pyx_t_10 = __pyx_v_self->__pyx_base.dval2;
+      __pyx_v_self->__pyx_base.dval2_prev = __pyx_t_10;
 
-      /* "mlgrad/mlocation_scatter2.pyx":502
+      /* "mlgrad/mlocation_scatter2.pyx":545
  * 
  *                 self.dval2_prev = self.dval2
  *                 self.dval2 = self.Q()             # <<<<<<<<<<<<<<
@@ -14318,7 +15148,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
       __pyx_v_self->__pyx_base.dval2 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0);
 
-      /* "mlgrad/mlocation_scatter2.pyx":503
+      /* "mlgrad/mlocation_scatter2.pyx":546
  *                 self.dval2_prev = self.dval2
  *                 self.dval2 = self.Q()
  *                 self.dvals2.append(self.dval2)             # <<<<<<<<<<<<<<
@@ -14327,34 +15157,34 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
       if (unlikely(__pyx_v_self->__pyx_base.dvals2 == Py_None)) {
         PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-        __PYX_ERR(1, 503, __pyx_L1_error)
+        __PYX_ERR(1, 546, __pyx_L1_error)
       }
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 503, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 546, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_self->__pyx_base.dvals2, __pyx_t_1); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(1, 503, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_self->__pyx_base.dvals2, __pyx_t_1); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(1, 546, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "mlgrad/mlocation_scatter2.pyx":504
+      /* "mlgrad/mlocation_scatter2.pyx":547
  *                 self.dval2 = self.Q()
  *                 self.dvals2.append(self.dval2)
  *                 if self.dval2 < self.dval2_min:             # <<<<<<<<<<<<<<
  *                     self.dval2_min = self.dval2
  *                     copy_memoryview2(self.locs_min, self.locs)
  */
-      __pyx_t_9 = ((__pyx_v_self->__pyx_base.dval2 < __pyx_v_self->__pyx_base.dval2_min) != 0);
-      if (__pyx_t_9) {
+      __pyx_t_8 = ((__pyx_v_self->__pyx_base.dval2 < __pyx_v_self->__pyx_base.dval2_min) != 0);
+      if (__pyx_t_8) {
 
-        /* "mlgrad/mlocation_scatter2.pyx":505
+        /* "mlgrad/mlocation_scatter2.pyx":548
  *                 self.dvals2.append(self.dval2)
  *                 if self.dval2 < self.dval2_min:
  *                     self.dval2_min = self.dval2             # <<<<<<<<<<<<<<
  *                     copy_memoryview2(self.locs_min, self.locs)
  * 
  */
-        __pyx_t_7 = __pyx_v_self->__pyx_base.dval2;
-        __pyx_v_self->__pyx_base.dval2_min = __pyx_t_7;
+        __pyx_t_10 = __pyx_v_self->__pyx_base.dval2;
+        __pyx_v_self->__pyx_base.dval2_min = __pyx_t_10;
 
-        /* "mlgrad/mlocation_scatter2.pyx":506
+        /* "mlgrad/mlocation_scatter2.pyx":549
  *                 if self.dval2 < self.dval2_min:
  *                     self.dval2_min = self.dval2
  *                     copy_memoryview2(self.locs_min, self.locs)             # <<<<<<<<<<<<<<
@@ -14363,7 +15193,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
         __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__pyx_v_self->__pyx_base.locs_min, __pyx_v_self->__pyx_base.locs);
 
-        /* "mlgrad/mlocation_scatter2.pyx":504
+        /* "mlgrad/mlocation_scatter2.pyx":547
  *                 self.dval2 = self.Q()
  *                 self.dvals2.append(self.dval2)
  *                 if self.dval2 < self.dval2_min:             # <<<<<<<<<<<<<<
@@ -14372,7 +15202,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
       }
 
-      /* "mlgrad/mlocation_scatter2.pyx":498
+      /* "mlgrad/mlocation_scatter2.pyx":541
  * 
  *         while self.Ks <= self.n_step:
  *             if not scatters_only:             # <<<<<<<<<<<<<<
@@ -14381,29 +15211,29 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":508
+    /* "mlgrad/mlocation_scatter2.pyx":551
  *                     copy_memoryview2(self.locs_min, self.locs)
  * 
  *             if not locations_only:             # <<<<<<<<<<<<<<
  *                 self.fit_scatters(self.X, self.scatters)
  * 
  */
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_locations_only); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 508, __pyx_L1_error)
-    __pyx_t_8 = ((!__pyx_t_9) != 0);
-    if (__pyx_t_8) {
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_locations_only); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 551, __pyx_L1_error)
+    __pyx_t_7 = ((!__pyx_t_8) != 0);
+    if (__pyx_t_7) {
 
-      /* "mlgrad/mlocation_scatter2.pyx":509
+      /* "mlgrad/mlocation_scatter2.pyx":552
  * 
  *             if not locations_only:
  *                 self.fit_scatters(self.X, self.scatters)             # <<<<<<<<<<<<<<
  * 
  *                 self.dval2_prev = self.dval2
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fit_scatters); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 509, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fit_scatters); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 552, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 509, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 509, __pyx_L1_error)
+      __pyx_t_9 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 552, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 552, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_6 = NULL;
       __pyx_t_5 = 0;
@@ -14419,54 +15249,54 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
       }
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_2)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_10, __pyx_t_3};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 509, __pyx_L1_error)
+        PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_9, __pyx_t_3};
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 552, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_10, __pyx_t_3};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 509, __pyx_L1_error)
+        PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_9, __pyx_t_3};
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 552, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else
       #endif
       {
-        __pyx_t_4 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 509, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 552, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         if (__pyx_t_6) {
           __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_6); __pyx_t_6 = NULL;
         }
-        __Pyx_GIVEREF(__pyx_t_10);
-        PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_5, __pyx_t_10);
+        __Pyx_GIVEREF(__pyx_t_9);
+        PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_5, __pyx_t_9);
         __Pyx_GIVEREF(__pyx_t_3);
         PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_5, __pyx_t_3);
-        __pyx_t_10 = 0;
+        __pyx_t_9 = 0;
         __pyx_t_3 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 509, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 552, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "mlgrad/mlocation_scatter2.pyx":511
+      /* "mlgrad/mlocation_scatter2.pyx":554
  *                 self.fit_scatters(self.X, self.scatters)
  * 
  *                 self.dval2_prev = self.dval2             # <<<<<<<<<<<<<<
  *                 self.dval2 = self.Q()
  *                 self.dvals2.append(self.dval2)
  */
-      __pyx_t_7 = __pyx_v_self->__pyx_base.dval2;
-      __pyx_v_self->__pyx_base.dval2_prev = __pyx_t_7;
+      __pyx_t_10 = __pyx_v_self->__pyx_base.dval2;
+      __pyx_v_self->__pyx_base.dval2_prev = __pyx_t_10;
 
-      /* "mlgrad/mlocation_scatter2.pyx":512
+      /* "mlgrad/mlocation_scatter2.pyx":555
  * 
  *                 self.dval2_prev = self.dval2
  *                 self.dval2 = self.Q()             # <<<<<<<<<<<<<<
@@ -14475,7 +15305,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
       __pyx_v_self->__pyx_base.dval2 = ((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.Q(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)__pyx_v_self), 0);
 
-      /* "mlgrad/mlocation_scatter2.pyx":513
+      /* "mlgrad/mlocation_scatter2.pyx":556
  *                 self.dval2_prev = self.dval2
  *                 self.dval2 = self.Q()
  *                 self.dvals2.append(self.dval2)             # <<<<<<<<<<<<<<
@@ -14484,43 +15314,43 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
       if (unlikely(__pyx_v_self->__pyx_base.dvals2 == Py_None)) {
         PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-        __PYX_ERR(1, 513, __pyx_L1_error)
+        __PYX_ERR(1, 556, __pyx_L1_error)
       }
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 513, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 556, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_self->__pyx_base.dvals2, __pyx_t_1); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(1, 513, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_self->__pyx_base.dvals2, __pyx_t_1); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(1, 556, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "mlgrad/mlocation_scatter2.pyx":514
+      /* "mlgrad/mlocation_scatter2.pyx":557
  *                 self.dval2 = self.Q()
  *                 self.dvals2.append(self.dval2)
  *                 if self.dval2 < self.dval2_min:             # <<<<<<<<<<<<<<
  *                     self.dval2_min = self.dval2
  *                     copy_memoryview3(self.scatters_min, self.scatters)
  */
-      __pyx_t_8 = ((__pyx_v_self->__pyx_base.dval2 < __pyx_v_self->__pyx_base.dval2_min) != 0);
-      if (__pyx_t_8) {
+      __pyx_t_7 = ((__pyx_v_self->__pyx_base.dval2 < __pyx_v_self->__pyx_base.dval2_min) != 0);
+      if (__pyx_t_7) {
 
-        /* "mlgrad/mlocation_scatter2.pyx":515
+        /* "mlgrad/mlocation_scatter2.pyx":558
  *                 self.dvals2.append(self.dval2)
  *                 if self.dval2 < self.dval2_min:
  *                     self.dval2_min = self.dval2             # <<<<<<<<<<<<<<
  *                     copy_memoryview3(self.scatters_min, self.scatters)
  * 
  */
-        __pyx_t_7 = __pyx_v_self->__pyx_base.dval2;
-        __pyx_v_self->__pyx_base.dval2_min = __pyx_t_7;
+        __pyx_t_10 = __pyx_v_self->__pyx_base.dval2;
+        __pyx_v_self->__pyx_base.dval2_min = __pyx_t_10;
 
-        /* "mlgrad/mlocation_scatter2.pyx":516
+        /* "mlgrad/mlocation_scatter2.pyx":559
  *                 if self.dval2 < self.dval2_min:
  *                     self.dval2_min = self.dval2
  *                     copy_memoryview3(self.scatters_min, self.scatters)             # <<<<<<<<<<<<<<
  * 
- *             if locations_only or scatters_only:
+ * #             if locations_only or scatters_only:
  */
         __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview3(__pyx_v_self->__pyx_base.scatters_min, __pyx_v_self->__pyx_base.scatters);
 
-        /* "mlgrad/mlocation_scatter2.pyx":514
+        /* "mlgrad/mlocation_scatter2.pyx":557
  *                 self.dval2 = self.Q()
  *                 self.dvals2.append(self.dval2)
  *                 if self.dval2 < self.dval2_min:             # <<<<<<<<<<<<<<
@@ -14529,7 +15359,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
       }
 
-      /* "mlgrad/mlocation_scatter2.pyx":508
+      /* "mlgrad/mlocation_scatter2.pyx":551
  *                     copy_memoryview2(self.locs_min, self.locs)
  * 
  *             if not locations_only:             # <<<<<<<<<<<<<<
@@ -14538,71 +15368,17 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":518
- *                     copy_memoryview3(self.scatters_min, self.scatters)
- * 
- *             if locations_only or scatters_only:             # <<<<<<<<<<<<<<
- *                 break
- * 
- */
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_locations_only); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 518, __pyx_L1_error)
-    if (!__pyx_t_9) {
-    } else {
-      __pyx_t_8 = __pyx_t_9;
-      goto __pyx_L10_bool_binop_done;
-    }
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_scatters_only); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 518, __pyx_L1_error)
-    __pyx_t_8 = __pyx_t_9;
-    __pyx_L10_bool_binop_done:;
-    if (__pyx_t_8) {
-
-      /* "mlgrad/mlocation_scatter2.pyx":519
- * 
- *             if locations_only or scatters_only:
- *                 break             # <<<<<<<<<<<<<<
- * 
- *             if self.stop_condition2():
- */
-      goto __pyx_L4_break;
-
-      /* "mlgrad/mlocation_scatter2.pyx":518
- *                     copy_memoryview3(self.scatters_min, self.scatters)
- * 
- *             if locations_only or scatters_only:             # <<<<<<<<<<<<<<
- *                 break
- * 
- */
-    }
-
-    /* "mlgrad/mlocation_scatter2.pyx":521
- *                 break
+    /* "mlgrad/mlocation_scatter2.pyx":564
+ * #                 break
  * 
  *             if self.stop_condition2():             # <<<<<<<<<<<<<<
  *                 break
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_stop_condition2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 521, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_4);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
-      }
-    }
-    __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 521, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 521, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__pyx_t_8) {
+    __pyx_t_7 = (((struct __pyx_vtabstruct_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self->__pyx_base.__pyx_vtab)->stop_condition2(__pyx_v_self) != 0);
+    if (__pyx_t_7) {
 
-      /* "mlgrad/mlocation_scatter2.pyx":522
+      /* "mlgrad/mlocation_scatter2.pyx":565
  * 
  *             if self.stop_condition2():
  *                 break             # <<<<<<<<<<<<<<
@@ -14611,8 +15387,8 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
       goto __pyx_L4_break;
 
-      /* "mlgrad/mlocation_scatter2.pyx":521
- *                 break
+      /* "mlgrad/mlocation_scatter2.pyx":564
+ * #                 break
  * 
  *             if self.stop_condition2():             # <<<<<<<<<<<<<<
  *                 break
@@ -14620,7 +15396,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
     }
 
-    /* "mlgrad/mlocation_scatter2.pyx":524
+    /* "mlgrad/mlocation_scatter2.pyx":567
  *                 break
  * 
  *             self.Ks += 1             # <<<<<<<<<<<<<<
@@ -14631,25 +15407,54 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   }
   __pyx_L4_break:;
 
-  /* "mlgrad/mlocation_scatter2.pyx":526
+  /* "mlgrad/mlocation_scatter2.pyx":569
  *             self.Ks += 1
  * 
  *         copy_memoryview2(self.locs, self.locs_min)             # <<<<<<<<<<<<<<
  *         copy_memoryview3(self.scatters, self.scatters_min)
- * 
+ *         self.update_distfuncs(self.scatters)
  */
   __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__pyx_v_self->__pyx_base.locs, __pyx_v_self->__pyx_base.locs_min);
 
-  /* "mlgrad/mlocation_scatter2.pyx":527
+  /* "mlgrad/mlocation_scatter2.pyx":570
  * 
  *         copy_memoryview2(self.locs, self.locs_min)
  *         copy_memoryview3(self.scatters, self.scatters_min)             # <<<<<<<<<<<<<<
+ *         self.update_distfuncs(self.scatters)
  * 
- *     def stop_condition(self):
  */
   __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview3(__pyx_v_self->__pyx_base.scatters, __pyx_v_self->__pyx_base.scatters_min);
 
-  /* "mlgrad/mlocation_scatter2.pyx":485
+  /* "mlgrad/mlocation_scatter2.pyx":571
+ *         copy_memoryview2(self.locs, self.locs_min)
+ *         copy_memoryview3(self.scatters, self.scatters_min)
+ *         self.update_distfuncs(self.scatters)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update_distfuncs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 571, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 571, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 571, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "mlgrad/mlocation_scatter2.pyx":532
  *         self.update_distfuncs(scatters)
  * 
  *     def fit(self, double[:,::1] X, only=None, warm=False):             # <<<<<<<<<<<<<<
@@ -14666,7 +15471,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -14678,30 +15483,16 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":529
- *         copy_memoryview3(self.scatters, self.scatters_min)
+/* "mlgrad/mlocation_scatter2.pyx":574
  * 
- *     def stop_condition(self):             # <<<<<<<<<<<<<<
+ * 
+ *     cdef bint stop_condition(self):             # <<<<<<<<<<<<<<
  *         if fabs(self.dval - self.dval_prev) / (1 + fabs(self.dval_min)) >= self.tol:
  *             return 0
  */
 
-/* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_23stop_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_22stop_condition[] = "MLocationsScattersEstimator.stop_condition(self)";
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_23stop_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("stop_condition (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_22stop_condition(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_22stop_condition(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
+static int __pyx_f_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_stop_condition(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self) {
+  int __pyx_r;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   double __pyx_t_2;
@@ -14711,9 +15502,9 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("stop_condition", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":530
+  /* "mlgrad/mlocation_scatter2.pyx":575
  * 
- *     def stop_condition(self):
+ *     cdef bint stop_condition(self):
  *         if fabs(self.dval - self.dval_prev) / (1 + fabs(self.dval_min)) >= self.tol:             # <<<<<<<<<<<<<<
  *             return 0
  *         return 1
@@ -14722,86 +15513,67 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_2 = (1.0 + fabs(__pyx_v_self->__pyx_base.dval_min));
   if (unlikely(__pyx_t_2 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 530, __pyx_L1_error)
+    __PYX_ERR(1, 575, __pyx_L1_error)
   }
   __pyx_t_3 = (((__pyx_t_1 / __pyx_t_2) >= __pyx_v_self->__pyx_base.tol) != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/mlocation_scatter2.pyx":531
- *     def stop_condition(self):
+    /* "mlgrad/mlocation_scatter2.pyx":576
+ *     cdef bint stop_condition(self):
  *         if fabs(self.dval - self.dval_prev) / (1 + fabs(self.dval_min)) >= self.tol:
  *             return 0             # <<<<<<<<<<<<<<
  *         return 1
  * 
  */
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_INCREF(__pyx_int_0);
-    __pyx_r = __pyx_int_0;
+    __pyx_r = 0;
     goto __pyx_L0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":530
+    /* "mlgrad/mlocation_scatter2.pyx":575
  * 
- *     def stop_condition(self):
+ *     cdef bint stop_condition(self):
  *         if fabs(self.dval - self.dval_prev) / (1 + fabs(self.dval_min)) >= self.tol:             # <<<<<<<<<<<<<<
  *             return 0
  *         return 1
  */
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":532
+  /* "mlgrad/mlocation_scatter2.pyx":577
  *         if fabs(self.dval - self.dval_prev) / (1 + fabs(self.dval_min)) >= self.tol:
  *             return 0
  *         return 1             # <<<<<<<<<<<<<<
  * 
- *     def stop_condition2(self):
+ *     cdef bint stop_condition2(self):
  */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_int_1);
-  __pyx_r = __pyx_int_1;
+  __pyx_r = 1;
   goto __pyx_L0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":529
- *         copy_memoryview3(self.scatters, self.scatters_min)
+  /* "mlgrad/mlocation_scatter2.pyx":574
  * 
- *     def stop_condition(self):             # <<<<<<<<<<<<<<
+ * 
+ *     cdef bint stop_condition(self):             # <<<<<<<<<<<<<<
  *         if fabs(self.dval - self.dval_prev) / (1 + fabs(self.dval_min)) >= self.tol:
  *             return 0
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.stop_condition", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
+  __Pyx_WriteUnraisable("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.stop_condition", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "mlgrad/mlocation_scatter2.pyx":534
+/* "mlgrad/mlocation_scatter2.pyx":579
  *         return 1
  * 
- *     def stop_condition2(self):             # <<<<<<<<<<<<<<
+ *     cdef bint stop_condition2(self):             # <<<<<<<<<<<<<<
  *         if fabs(self.dval2 - self.dval2_prev) / (1 + fabs(self.dval2_min)) >= self.tol:
  *             return 0
  */
 
-/* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_25stop_condition2(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_24stop_condition2[] = "MLocationsScattersEstimator.stop_condition2(self)";
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_25stop_condition2(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("stop_condition2 (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_24stop_condition2(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_24stop_condition2(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
+static int __pyx_f_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_stop_condition2(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self) {
+  int __pyx_r;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   double __pyx_t_2;
@@ -14811,9 +15583,9 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("stop_condition2", 0);
 
-  /* "mlgrad/mlocation_scatter2.pyx":535
+  /* "mlgrad/mlocation_scatter2.pyx":580
  * 
- *     def stop_condition2(self):
+ *     cdef bint stop_condition2(self):
  *         if fabs(self.dval2 - self.dval2_prev) / (1 + fabs(self.dval2_min)) >= self.tol:             # <<<<<<<<<<<<<<
  *             return 0
  *         return 1
@@ -14822,58 +15594,53 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_2 = (1.0 + fabs(__pyx_v_self->__pyx_base.dval2_min));
   if (unlikely(__pyx_t_2 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 535, __pyx_L1_error)
+    __PYX_ERR(1, 580, __pyx_L1_error)
   }
   __pyx_t_3 = (((__pyx_t_1 / __pyx_t_2) >= __pyx_v_self->__pyx_base.tol) != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/mlocation_scatter2.pyx":536
- *     def stop_condition2(self):
+    /* "mlgrad/mlocation_scatter2.pyx":581
+ *     cdef bint stop_condition2(self):
  *         if fabs(self.dval2 - self.dval2_prev) / (1 + fabs(self.dval2_min)) >= self.tol:
  *             return 0             # <<<<<<<<<<<<<<
  *         return 1
  * 
  */
-    __Pyx_XDECREF(__pyx_r);
-    __Pyx_INCREF(__pyx_int_0);
-    __pyx_r = __pyx_int_0;
+    __pyx_r = 0;
     goto __pyx_L0;
 
-    /* "mlgrad/mlocation_scatter2.pyx":535
+    /* "mlgrad/mlocation_scatter2.pyx":580
  * 
- *     def stop_condition2(self):
+ *     cdef bint stop_condition2(self):
  *         if fabs(self.dval2 - self.dval2_prev) / (1 + fabs(self.dval2_min)) >= self.tol:             # <<<<<<<<<<<<<<
  *             return 0
  *         return 1
  */
   }
 
-  /* "mlgrad/mlocation_scatter2.pyx":537
+  /* "mlgrad/mlocation_scatter2.pyx":582
  *         if fabs(self.dval2 - self.dval2_prev) / (1 + fabs(self.dval2_min)) >= self.tol:
  *             return 0
  *         return 1             # <<<<<<<<<<<<<<
  * 
  * #     def stop_condition(self):
  */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_int_1);
-  __pyx_r = __pyx_int_1;
+  __pyx_r = 1;
   goto __pyx_L0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":534
+  /* "mlgrad/mlocation_scatter2.pyx":579
  *         return 1
  * 
- *     def stop_condition2(self):             # <<<<<<<<<<<<<<
+ *     cdef bint stop_condition2(self):             # <<<<<<<<<<<<<<
  *         if fabs(self.dval2 - self.dval2_prev) / (1 + fabs(self.dval2_min)) >= self.tol:
  *             return 0
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.stop_condition2", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
+  __Pyx_WriteUnraisable("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.stop_condition2", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14885,20 +15652,20 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_27__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_26__reduce_cython__[] = "MLocationsScattersEstimator.__reduce_cython__(self)";
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_27__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_23__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_22__reduce_cython__[] = "MLocationsScattersEstimator.__reduce_cython__(self)";
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_23__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_26__reduce_cython__(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_22__reduce_cython__(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_26__reduce_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_22__reduce_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -14929,9 +15696,13 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   PyObject *__pyx_t_23 = NULL;
   PyObject *__pyx_t_24 = NULL;
   PyObject *__pyx_t_25 = NULL;
-  int __pyx_t_26;
-  int __pyx_t_27;
-  int __pyx_t_28;
+  PyObject *__pyx_t_26 = NULL;
+  PyObject *__pyx_t_27 = NULL;
+  PyObject *__pyx_t_28 = NULL;
+  PyObject *__pyx_t_29 = NULL;
+  int __pyx_t_30;
+  int __pyx_t_31;
+  int __pyx_t_32;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -14940,117 +15711,136 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   /* "(tree fragment)":5
  *     cdef object _dict
  *     cdef bint use_setstate
- *     state = (self.D, self.K, self.Ks, self.Ns, self.W, self.X, self.Y, self.avg, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights)             # <<<<<<<<<<<<<<
+ *     state = (self.D, self.DD, self.GG, self.K, self.Ks, self.Ns, self.W, self.X, self.alpha, self.avg, self.avg_min, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_iter_s, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights, self.xy)             # <<<<<<<<<<<<<<
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.D, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->__pyx_base.K); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.DD, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->__pyx_base.Ks); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.GG, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.Ns, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_self->__pyx_base.K); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.W, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_self->__pyx_base.Ks); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.Ns, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.Y, 1, (PyObject *(*)(char *)) __pyx_memview_get_Py_ssize_t, (int (*)(char *, PyObject *)) __pyx_memview_set_Py_ssize_t, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.W, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.distfuncs, 1, (PyObject *(*)(char *)) __pyx_memview_get_object, (int (*)(char *, PyObject *)) __pyx_memview_set_object, 1);; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_9 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.alpha); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_10 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval2); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.distfuncs, 1, (PyObject *(*)(char *)) __pyx_memview_get_object, (int (*)(char *, PyObject *)) __pyx_memview_set_object, 1);; if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_11 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval2_min); if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_11 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval); if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_12 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval2_prev); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_12 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval2); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_13 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval_min); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_13 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval2_min); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
-  __pyx_t_14 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval_prev); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_14 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval2_prev); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_15 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.h); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_15 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval_min); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
-  __pyx_t_16 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_16)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_16 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.dval_prev); if (unlikely(!__pyx_t_16)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_16);
-  __pyx_t_17 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.locs_min, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_17)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_17 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.h); if (unlikely(!__pyx_t_17)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_17);
-  __pyx_t_18 = __Pyx_PyInt_From_int(__pyx_v_self->__pyx_base.n_iter); if (unlikely(!__pyx_t_18)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_18 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.locs, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_18)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_18);
-  __pyx_t_19 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_19)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_19 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.locs_min, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_19)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_19);
-  __pyx_t_20 = __Pyx_PyInt_From_int(__pyx_v_self->__pyx_base.n_step); if (unlikely(!__pyx_t_20)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_20 = __Pyx_PyInt_From_int(__pyx_v_self->__pyx_base.n_iter); if (unlikely(!__pyx_t_20)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_20);
-  __pyx_t_21 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_21)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_21 = __Pyx_PyInt_From_int(__pyx_v_self->__pyx_base.n_iter_s); if (unlikely(!__pyx_t_21)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_21);
-  __pyx_t_22 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters_min, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_22)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_22 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_locs); if (unlikely(!__pyx_t_22)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_22);
-  __pyx_t_23 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.tol); if (unlikely(!__pyx_t_23)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_23 = __Pyx_PyInt_From_int(__pyx_v_self->__pyx_base.n_step); if (unlikely(!__pyx_t_23)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_23);
-  __pyx_t_24 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_24)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_24 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_24)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_24);
-  __pyx_t_25 = PyTuple_New(27); if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_25 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.scatters_min, 3, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_25);
+  __pyx_t_26 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.tol); if (unlikely(!__pyx_t_26)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_26);
+  __pyx_t_27 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_27)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_27);
+  __pyx_t_28 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.xy, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_28)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_28);
+  __pyx_t_29 = PyTuple_New(32); if (unlikely(!__pyx_t_29)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_29);
   __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_25, 0, __pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_29, 0, __pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_25, 1, __pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_29, 1, __pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_25, 2, __pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_29, 2, __pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_25, 3, __pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_29, 3, __pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_25, 4, __pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_29, 4, __pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_6);
-  PyTuple_SET_ITEM(__pyx_t_25, 5, __pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_29, 5, __pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_7);
-  PyTuple_SET_ITEM(__pyx_t_25, 6, __pyx_t_7);
+  PyTuple_SET_ITEM(__pyx_t_29, 6, __pyx_t_7);
+  __Pyx_GIVEREF(__pyx_t_8);
+  PyTuple_SET_ITEM(__pyx_t_29, 7, __pyx_t_8);
+  __Pyx_GIVEREF(__pyx_t_9);
+  PyTuple_SET_ITEM(__pyx_t_29, 8, __pyx_t_9);
   __Pyx_INCREF(((PyObject *)__pyx_v_self->__pyx_base.avg));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->__pyx_base.avg));
-  PyTuple_SET_ITEM(__pyx_t_25, 7, ((PyObject *)__pyx_v_self->__pyx_base.avg));
-  __Pyx_GIVEREF(__pyx_t_8);
-  PyTuple_SET_ITEM(__pyx_t_25, 8, __pyx_t_8);
-  __Pyx_GIVEREF(__pyx_t_9);
-  PyTuple_SET_ITEM(__pyx_t_25, 9, __pyx_t_9);
+  PyTuple_SET_ITEM(__pyx_t_29, 9, ((PyObject *)__pyx_v_self->__pyx_base.avg));
+  __Pyx_INCREF(((PyObject *)__pyx_v_self->__pyx_base.avg_min));
+  __Pyx_GIVEREF(((PyObject *)__pyx_v_self->__pyx_base.avg_min));
+  PyTuple_SET_ITEM(__pyx_t_29, 10, ((PyObject *)__pyx_v_self->__pyx_base.avg_min));
   __Pyx_GIVEREF(__pyx_t_10);
-  PyTuple_SET_ITEM(__pyx_t_25, 10, __pyx_t_10);
+  PyTuple_SET_ITEM(__pyx_t_29, 11, __pyx_t_10);
   __Pyx_GIVEREF(__pyx_t_11);
-  PyTuple_SET_ITEM(__pyx_t_25, 11, __pyx_t_11);
+  PyTuple_SET_ITEM(__pyx_t_29, 12, __pyx_t_11);
   __Pyx_GIVEREF(__pyx_t_12);
-  PyTuple_SET_ITEM(__pyx_t_25, 12, __pyx_t_12);
+  PyTuple_SET_ITEM(__pyx_t_29, 13, __pyx_t_12);
   __Pyx_GIVEREF(__pyx_t_13);
-  PyTuple_SET_ITEM(__pyx_t_25, 13, __pyx_t_13);
+  PyTuple_SET_ITEM(__pyx_t_29, 14, __pyx_t_13);
   __Pyx_GIVEREF(__pyx_t_14);
-  PyTuple_SET_ITEM(__pyx_t_25, 14, __pyx_t_14);
+  PyTuple_SET_ITEM(__pyx_t_29, 15, __pyx_t_14);
+  __Pyx_GIVEREF(__pyx_t_15);
+  PyTuple_SET_ITEM(__pyx_t_29, 16, __pyx_t_15);
+  __Pyx_GIVEREF(__pyx_t_16);
+  PyTuple_SET_ITEM(__pyx_t_29, 17, __pyx_t_16);
   __Pyx_INCREF(__pyx_v_self->__pyx_base.dvals);
   __Pyx_GIVEREF(__pyx_v_self->__pyx_base.dvals);
-  PyTuple_SET_ITEM(__pyx_t_25, 15, __pyx_v_self->__pyx_base.dvals);
+  PyTuple_SET_ITEM(__pyx_t_29, 18, __pyx_v_self->__pyx_base.dvals);
   __Pyx_INCREF(__pyx_v_self->__pyx_base.dvals2);
   __Pyx_GIVEREF(__pyx_v_self->__pyx_base.dvals2);
-  PyTuple_SET_ITEM(__pyx_t_25, 16, __pyx_v_self->__pyx_base.dvals2);
-  __Pyx_GIVEREF(__pyx_t_15);
-  PyTuple_SET_ITEM(__pyx_t_25, 17, __pyx_t_15);
-  __Pyx_GIVEREF(__pyx_t_16);
-  PyTuple_SET_ITEM(__pyx_t_25, 18, __pyx_t_16);
+  PyTuple_SET_ITEM(__pyx_t_29, 19, __pyx_v_self->__pyx_base.dvals2);
   __Pyx_GIVEREF(__pyx_t_17);
-  PyTuple_SET_ITEM(__pyx_t_25, 19, __pyx_t_17);
+  PyTuple_SET_ITEM(__pyx_t_29, 20, __pyx_t_17);
   __Pyx_GIVEREF(__pyx_t_18);
-  PyTuple_SET_ITEM(__pyx_t_25, 20, __pyx_t_18);
+  PyTuple_SET_ITEM(__pyx_t_29, 21, __pyx_t_18);
   __Pyx_GIVEREF(__pyx_t_19);
-  PyTuple_SET_ITEM(__pyx_t_25, 21, __pyx_t_19);
+  PyTuple_SET_ITEM(__pyx_t_29, 22, __pyx_t_19);
   __Pyx_GIVEREF(__pyx_t_20);
-  PyTuple_SET_ITEM(__pyx_t_25, 22, __pyx_t_20);
+  PyTuple_SET_ITEM(__pyx_t_29, 23, __pyx_t_20);
   __Pyx_GIVEREF(__pyx_t_21);
-  PyTuple_SET_ITEM(__pyx_t_25, 23, __pyx_t_21);
+  PyTuple_SET_ITEM(__pyx_t_29, 24, __pyx_t_21);
   __Pyx_GIVEREF(__pyx_t_22);
-  PyTuple_SET_ITEM(__pyx_t_25, 24, __pyx_t_22);
+  PyTuple_SET_ITEM(__pyx_t_29, 25, __pyx_t_22);
   __Pyx_GIVEREF(__pyx_t_23);
-  PyTuple_SET_ITEM(__pyx_t_25, 25, __pyx_t_23);
+  PyTuple_SET_ITEM(__pyx_t_29, 26, __pyx_t_23);
   __Pyx_GIVEREF(__pyx_t_24);
-  PyTuple_SET_ITEM(__pyx_t_25, 26, __pyx_t_24);
+  PyTuple_SET_ITEM(__pyx_t_29, 27, __pyx_t_24);
+  __Pyx_GIVEREF(__pyx_t_25);
+  PyTuple_SET_ITEM(__pyx_t_29, 28, __pyx_t_25);
+  __Pyx_GIVEREF(__pyx_t_26);
+  PyTuple_SET_ITEM(__pyx_t_29, 29, __pyx_t_26);
+  __Pyx_GIVEREF(__pyx_t_27);
+  PyTuple_SET_ITEM(__pyx_t_29, 30, __pyx_t_27);
+  __Pyx_GIVEREF(__pyx_t_28);
+  PyTuple_SET_ITEM(__pyx_t_29, 31, __pyx_t_28);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
@@ -15075,31 +15865,35 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __pyx_t_22 = 0;
   __pyx_t_23 = 0;
   __pyx_t_24 = 0;
-  __pyx_v_state = ((PyObject*)__pyx_t_25);
   __pyx_t_25 = 0;
+  __pyx_t_26 = 0;
+  __pyx_t_27 = 0;
+  __pyx_t_28 = 0;
+  __pyx_v_state = ((PyObject*)__pyx_t_29);
+  __pyx_t_29 = 0;
 
   /* "(tree fragment)":6
  *     cdef bint use_setstate
- *     state = (self.D, self.K, self.Ks, self.Ns, self.W, self.X, self.Y, self.avg, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights)
+ *     state = (self.D, self.DD, self.GG, self.K, self.Ks, self.Ns, self.W, self.X, self.alpha, self.avg, self.avg_min, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_iter_s, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights, self.xy)
  *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
  *     if _dict is not None:
  *         state += (_dict,)
  */
-  __pyx_t_25 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 6, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_25);
-  __pyx_v__dict = __pyx_t_25;
-  __pyx_t_25 = 0;
+  __pyx_t_29 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_29)) __PYX_ERR(2, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_29);
+  __pyx_v__dict = __pyx_t_29;
+  __pyx_t_29 = 0;
 
   /* "(tree fragment)":7
- *     state = (self.D, self.K, self.Ks, self.Ns, self.W, self.X, self.Y, self.avg, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights)
+ *     state = (self.D, self.DD, self.GG, self.K, self.Ks, self.Ns, self.W, self.X, self.alpha, self.avg, self.avg_min, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_iter_s, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights, self.xy)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
  *         use_setstate = True
  */
-  __pyx_t_26 = (__pyx_v__dict != Py_None);
-  __pyx_t_27 = (__pyx_t_26 != 0);
-  if (__pyx_t_27) {
+  __pyx_t_30 = (__pyx_v__dict != Py_None);
+  __pyx_t_31 = (__pyx_t_30 != 0);
+  if (__pyx_t_31) {
 
     /* "(tree fragment)":8
  *     _dict = getattr(self, '__dict__', None)
@@ -15108,28 +15902,28 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
  *         use_setstate = True
  *     else:
  */
-    __pyx_t_25 = PyTuple_New(1); if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_25);
+    __pyx_t_29 = PyTuple_New(1); if (unlikely(!__pyx_t_29)) __PYX_ERR(2, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_29);
     __Pyx_INCREF(__pyx_v__dict);
     __Pyx_GIVEREF(__pyx_v__dict);
-    PyTuple_SET_ITEM(__pyx_t_25, 0, __pyx_v__dict);
-    __pyx_t_24 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_25); if (unlikely(!__pyx_t_24)) __PYX_ERR(2, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_24);
-    __Pyx_DECREF(__pyx_t_25); __pyx_t_25 = 0;
-    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_24));
-    __pyx_t_24 = 0;
+    PyTuple_SET_ITEM(__pyx_t_29, 0, __pyx_v__dict);
+    __pyx_t_28 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_29); if (unlikely(!__pyx_t_28)) __PYX_ERR(2, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_28);
+    __Pyx_DECREF(__pyx_t_29); __pyx_t_29 = 0;
+    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_28));
+    __pyx_t_28 = 0;
 
     /* "(tree fragment)":9
  *     if _dict is not None:
  *         state += (_dict,)
  *         use_setstate = True             # <<<<<<<<<<<<<<
  *     else:
- *         use_setstate = self.avg is not None or self.dvals is not None or self.dvals2 is not None
+ *         use_setstate = self.avg is not None or self.avg_min is not None or self.dvals is not None or self.dvals2 is not None
  */
     __pyx_v_use_setstate = 1;
 
     /* "(tree fragment)":7
- *     state = (self.D, self.K, self.Ks, self.Ns, self.W, self.X, self.Y, self.avg, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights)
+ *     state = (self.D, self.DD, self.GG, self.K, self.Ks, self.Ns, self.W, self.X, self.alpha, self.avg, self.avg_min, self.distfuncs, self.dval, self.dval2, self.dval2_min, self.dval2_prev, self.dval_min, self.dval_prev, self.dvals, self.dvals2, self.h, self.locs, self.locs_min, self.n_iter, self.n_iter_s, self.n_locs, self.n_step, self.scatters, self.scatters_min, self.tol, self.weights, self.xy)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -15141,120 +15935,127 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   /* "(tree fragment)":11
  *         use_setstate = True
  *     else:
- *         use_setstate = self.avg is not None or self.dvals is not None or self.dvals2 is not None             # <<<<<<<<<<<<<<
+ *         use_setstate = self.avg is not None or self.avg_min is not None or self.dvals is not None or self.dvals2 is not None             # <<<<<<<<<<<<<<
  *     if use_setstate:
- *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x369ed6b, None), state
+ *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x9930eae, None), state
  */
   /*else*/ {
-    __pyx_t_26 = (((PyObject *)__pyx_v_self->__pyx_base.avg) != Py_None);
-    __pyx_t_28 = (__pyx_t_26 != 0);
-    if (!__pyx_t_28) {
+    __pyx_t_30 = (((PyObject *)__pyx_v_self->__pyx_base.avg) != Py_None);
+    __pyx_t_32 = (__pyx_t_30 != 0);
+    if (!__pyx_t_32) {
     } else {
-      __pyx_t_27 = __pyx_t_28;
+      __pyx_t_31 = __pyx_t_32;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_28 = (__pyx_v_self->__pyx_base.dvals != ((PyObject*)Py_None));
-    __pyx_t_26 = (__pyx_t_28 != 0);
-    if (!__pyx_t_26) {
+    __pyx_t_32 = (((PyObject *)__pyx_v_self->__pyx_base.avg_min) != Py_None);
+    __pyx_t_30 = (__pyx_t_32 != 0);
+    if (!__pyx_t_30) {
     } else {
-      __pyx_t_27 = __pyx_t_26;
+      __pyx_t_31 = __pyx_t_30;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_26 = (__pyx_v_self->__pyx_base.dvals2 != ((PyObject*)Py_None));
-    __pyx_t_28 = (__pyx_t_26 != 0);
-    __pyx_t_27 = __pyx_t_28;
+    __pyx_t_30 = (__pyx_v_self->__pyx_base.dvals != ((PyObject*)Py_None));
+    __pyx_t_32 = (__pyx_t_30 != 0);
+    if (!__pyx_t_32) {
+    } else {
+      __pyx_t_31 = __pyx_t_32;
+      goto __pyx_L4_bool_binop_done;
+    }
+    __pyx_t_32 = (__pyx_v_self->__pyx_base.dvals2 != ((PyObject*)Py_None));
+    __pyx_t_30 = (__pyx_t_32 != 0);
+    __pyx_t_31 = __pyx_t_30;
     __pyx_L4_bool_binop_done:;
-    __pyx_v_use_setstate = __pyx_t_27;
+    __pyx_v_use_setstate = __pyx_t_31;
   }
   __pyx_L3:;
 
   /* "(tree fragment)":12
  *     else:
- *         use_setstate = self.avg is not None or self.dvals is not None or self.dvals2 is not None
+ *         use_setstate = self.avg is not None or self.avg_min is not None or self.dvals is not None or self.dvals2 is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x369ed6b, None), state
+ *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x9930eae, None), state
  *     else:
  */
-  __pyx_t_27 = (__pyx_v_use_setstate != 0);
-  if (__pyx_t_27) {
+  __pyx_t_31 = (__pyx_v_use_setstate != 0);
+  if (__pyx_t_31) {
 
     /* "(tree fragment)":13
- *         use_setstate = self.avg is not None or self.dvals is not None or self.dvals2 is not None
+ *         use_setstate = self.avg is not None or self.avg_min is not None or self.dvals is not None or self.dvals2 is not None
  *     if use_setstate:
- *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x369ed6b, None), state             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x9930eae, None), state             # <<<<<<<<<<<<<<
  *     else:
- *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x369ed6b, state)
+ *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x9930eae, state)
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_24, __pyx_n_s_pyx_unpickle_MLocationsScatter); if (unlikely(!__pyx_t_24)) __PYX_ERR(2, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_24);
-    __pyx_t_25 = PyTuple_New(3); if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_25);
+    __Pyx_GetModuleGlobalName(__pyx_t_28, __pyx_n_s_pyx_unpickle_MLocationsScatter); if (unlikely(!__pyx_t_28)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_28);
+    __pyx_t_29 = PyTuple_New(3); if (unlikely(!__pyx_t_29)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_29);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_25, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_57273707);
-    __Pyx_GIVEREF(__pyx_int_57273707);
-    PyTuple_SET_ITEM(__pyx_t_25, 1, __pyx_int_57273707);
+    PyTuple_SET_ITEM(__pyx_t_29, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_160632494);
+    __Pyx_GIVEREF(__pyx_int_160632494);
+    PyTuple_SET_ITEM(__pyx_t_29, 1, __pyx_int_160632494);
     __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_25, 2, Py_None);
-    __pyx_t_23 = PyTuple_New(3); if (unlikely(!__pyx_t_23)) __PYX_ERR(2, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_23);
-    __Pyx_GIVEREF(__pyx_t_24);
-    PyTuple_SET_ITEM(__pyx_t_23, 0, __pyx_t_24);
-    __Pyx_GIVEREF(__pyx_t_25);
-    PyTuple_SET_ITEM(__pyx_t_23, 1, __pyx_t_25);
+    PyTuple_SET_ITEM(__pyx_t_29, 2, Py_None);
+    __pyx_t_27 = PyTuple_New(3); if (unlikely(!__pyx_t_27)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_27);
+    __Pyx_GIVEREF(__pyx_t_28);
+    PyTuple_SET_ITEM(__pyx_t_27, 0, __pyx_t_28);
+    __Pyx_GIVEREF(__pyx_t_29);
+    PyTuple_SET_ITEM(__pyx_t_27, 1, __pyx_t_29);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_23, 2, __pyx_v_state);
-    __pyx_t_24 = 0;
-    __pyx_t_25 = 0;
-    __pyx_r = __pyx_t_23;
-    __pyx_t_23 = 0;
+    PyTuple_SET_ITEM(__pyx_t_27, 2, __pyx_v_state);
+    __pyx_t_28 = 0;
+    __pyx_t_29 = 0;
+    __pyx_r = __pyx_t_27;
+    __pyx_t_27 = 0;
     goto __pyx_L0;
 
     /* "(tree fragment)":12
  *     else:
- *         use_setstate = self.avg is not None or self.dvals is not None or self.dvals2 is not None
+ *         use_setstate = self.avg is not None or self.avg_min is not None or self.dvals is not None or self.dvals2 is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x369ed6b, None), state
+ *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x9930eae, None), state
  *     else:
  */
   }
 
   /* "(tree fragment)":15
- *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x369ed6b, None), state
+ *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x9930eae, None), state
  *     else:
- *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x369ed6b, state)             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x9930eae, state)             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_MLocationsScattersEstimator__set_state(self, __pyx_state)
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_23, __pyx_n_s_pyx_unpickle_MLocationsScatter); if (unlikely(!__pyx_t_23)) __PYX_ERR(2, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_23);
-    __pyx_t_25 = PyTuple_New(3); if (unlikely(!__pyx_t_25)) __PYX_ERR(2, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_25);
+    __Pyx_GetModuleGlobalName(__pyx_t_27, __pyx_n_s_pyx_unpickle_MLocationsScatter); if (unlikely(!__pyx_t_27)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_27);
+    __pyx_t_29 = PyTuple_New(3); if (unlikely(!__pyx_t_29)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_29);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_25, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_57273707);
-    __Pyx_GIVEREF(__pyx_int_57273707);
-    PyTuple_SET_ITEM(__pyx_t_25, 1, __pyx_int_57273707);
+    PyTuple_SET_ITEM(__pyx_t_29, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_160632494);
+    __Pyx_GIVEREF(__pyx_int_160632494);
+    PyTuple_SET_ITEM(__pyx_t_29, 1, __pyx_int_160632494);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_25, 2, __pyx_v_state);
-    __pyx_t_24 = PyTuple_New(2); if (unlikely(!__pyx_t_24)) __PYX_ERR(2, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_24);
-    __Pyx_GIVEREF(__pyx_t_23);
-    PyTuple_SET_ITEM(__pyx_t_24, 0, __pyx_t_23);
-    __Pyx_GIVEREF(__pyx_t_25);
-    PyTuple_SET_ITEM(__pyx_t_24, 1, __pyx_t_25);
-    __pyx_t_23 = 0;
-    __pyx_t_25 = 0;
-    __pyx_r = __pyx_t_24;
-    __pyx_t_24 = 0;
+    PyTuple_SET_ITEM(__pyx_t_29, 2, __pyx_v_state);
+    __pyx_t_28 = PyTuple_New(2); if (unlikely(!__pyx_t_28)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_28);
+    __Pyx_GIVEREF(__pyx_t_27);
+    PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_27);
+    __Pyx_GIVEREF(__pyx_t_29);
+    PyTuple_SET_ITEM(__pyx_t_28, 1, __pyx_t_29);
+    __pyx_t_27 = 0;
+    __pyx_t_29 = 0;
+    __pyx_r = __pyx_t_28;
+    __pyx_t_28 = 0;
     goto __pyx_L0;
   }
 
@@ -15291,6 +16092,10 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __Pyx_XDECREF(__pyx_t_23);
   __Pyx_XDECREF(__pyx_t_24);
   __Pyx_XDECREF(__pyx_t_25);
+  __Pyx_XDECREF(__pyx_t_26);
+  __Pyx_XDECREF(__pyx_t_27);
+  __Pyx_XDECREF(__pyx_t_28);
+  __Pyx_XDECREF(__pyx_t_29);
   __Pyx_AddTraceback("mlgrad.mlocation_scatter2.MLocationsScattersEstimator.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -15303,26 +16108,26 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
 
 /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x369ed6b, state)
+ *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x9930eae, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_MLocationsScattersEstimator__set_state(self, __pyx_state)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_29__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static char __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_28__setstate_cython__[] = "MLocationsScattersEstimator.__setstate_cython__(self, __pyx_state)";
-static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_29__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_25__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static char __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_24__setstate_cython__[] = "MLocationsScattersEstimator.__setstate_cython__(self, __pyx_state)";
+static PyObject *__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_25__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_28__setstate_cython__(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_24__setstate_cython__(((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_28__setstate_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_24__setstate_cython__(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -15332,7 +16137,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
 
   /* "(tree fragment)":17
- *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x369ed6b, state)
+ *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x9930eae, state)
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_MLocationsScattersEstimator__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
@@ -15343,7 +16148,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstim
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x369ed6b, state)
+ *         return __pyx_unpickle_MLocationsScattersEstimator, (type(self), 0x9930eae, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_MLocationsScattersEstimator__set_state(self, __pyx_state)
  */
@@ -15463,18 +16268,18 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_10__pyx_unpickle_MLSE2(CY
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x369ed6b:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x9930eae:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)
  */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x369ed6b) != 0);
+  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x9930eae) != 0);
   if (__pyx_t_1) {
 
     /* "(tree fragment)":5
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x369ed6b:
+ *     if __pyx_checksum != 0x9930eae:
  *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)
  *     __pyx_result = MLSE2.__new__(__pyx_type)
  */
     __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -15493,15 +16298,15 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_10__pyx_unpickle_MLSE2(CY
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":6
- *     if __pyx_checksum != 0x369ed6b:
+ *     if __pyx_checksum != 0x9930eae:
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)             # <<<<<<<<<<<<<<
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)             # <<<<<<<<<<<<<<
  *     __pyx_result = MLSE2.__new__(__pyx_type)
  *     if __pyx_state is not None:
  */
     __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x36, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 6, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x99, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_INCREF(__pyx_v___pyx_PickleError);
@@ -15528,15 +16333,15 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_10__pyx_unpickle_MLSE2(CY
     /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x369ed6b:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x9930eae:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)
  */
   }
 
   /* "(tree fragment)":7
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)
  *     __pyx_result = MLSE2.__new__(__pyx_type)             # <<<<<<<<<<<<<<
  *     if __pyx_state is not None:
  *         __pyx_unpickle_MLSE2__set_state(<MLSE2> __pyx_result, __pyx_state)
@@ -15562,7 +16367,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_10__pyx_unpickle_MLSE2(CY
   __pyx_t_3 = 0;
 
   /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)
  *     __pyx_result = MLSE2.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_MLSE2__set_state(<MLSE2> __pyx_result, __pyx_state)
@@ -15585,7 +16390,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_10__pyx_unpickle_MLSE2(CY
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)
  *     __pyx_result = MLSE2.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_MLSE2__set_state(<MLSE2> __pyx_result, __pyx_state)
@@ -15598,7 +16403,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_10__pyx_unpickle_MLSE2(CY
  *         __pyx_unpickle_MLSE2__set_state(<MLSE2> __pyx_result, __pyx_state)
  *     return __pyx_result             # <<<<<<<<<<<<<<
  * cdef __pyx_unpickle_MLSE2__set_state(MLSE2 __pyx_result, tuple __pyx_state):
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v___pyx_result);
@@ -15631,20 +16436,20 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_10__pyx_unpickle_MLSE2(CY
  *         __pyx_unpickle_MLSE2__set_state(<MLSE2> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_MLSE2__set_state(MLSE2 __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):
  */
 
 static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLSE2__set_state(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_t_2;
-  __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_3;
   __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  PyObject *__pyx_t_5 = NULL;
-  __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_t_7;
+  double __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  __Pyx_memviewslice __pyx_t_7 = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_t_8;
   __Pyx_memviewslice __pyx_t_9 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_t_10;
@@ -15660,9 +16465,9 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLSE2__set_
   /* "(tree fragment)":12
  *     return __pyx_result
  * cdef __pyx_unpickle_MLSE2__set_state(MLSE2 __pyx_result, tuple __pyx_state):
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[27])
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]             # <<<<<<<<<<<<<<
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[32])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -15677,28 +16482,46 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLSE2__set_
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->K = __pyx_t_2;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->DD, 0);
+  __pyx_v___pyx_result->DD = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->Ks = __pyx_t_2;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->GG, 0);
+  __pyx_v___pyx_result->GG = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->K = __pyx_t_3;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_3 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->Ks = __pyx_t_3;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5), PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->Ns, 0);
-  __pyx_v___pyx_result->Ns = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
+  __pyx_v___pyx_result->Ns = __pyx_t_4;
+  __pyx_t_4.memview = NULL;
+  __pyx_t_4.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 6), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->W, 0);
   __pyx_v___pyx_result->W = __pyx_t_1;
   __pyx_t_1.memview = NULL;
@@ -15707,148 +16530,163 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLSE2__set_
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5), PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 7), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->X, 0);
-  __pyx_v___pyx_result->X = __pyx_t_4;
-  __pyx_t_4.memview = NULL;
-  __pyx_t_4.data = NULL;
+  __pyx_v___pyx_result->X = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 6), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->Y, 0);
-  __pyx_v___pyx_result->Y = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 8)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->alpha = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 7)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 7), __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_t_5 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 7);
-  __Pyx_INCREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_5);
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 9)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 9), __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 9);
+  __Pyx_INCREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_6);
   __Pyx_GOTREF(__pyx_v___pyx_result->avg);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->avg));
-  __pyx_v___pyx_result->avg = ((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_t_5);
-  __pyx_t_5 = 0;
+  __pyx_v___pyx_result->avg = ((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_t_6);
+  __pyx_t_6 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_object(PyTuple_GET_ITEM(__pyx_v___pyx_state, 8), PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 10)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 10), __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 10);
+  __Pyx_INCREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_6);
+  __Pyx_GOTREF(__pyx_v___pyx_result->avg_min);
+  __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->avg_min));
+  __pyx_v___pyx_result->avg_min = ((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_t_6);
+  __pyx_t_6 = 0;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_object(PyTuple_GET_ITEM(__pyx_v___pyx_state, 11), PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->distfuncs, 0);
-  __pyx_v___pyx_result->distfuncs = __pyx_t_6;
-  __pyx_t_6.memview = NULL;
-  __pyx_t_6.data = NULL;
+  __pyx_v___pyx_result->distfuncs = __pyx_t_7;
+  __pyx_t_7.memview = NULL;
+  __pyx_t_7.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 9)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->dval = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 12)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->dval = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 10)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->dval2 = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 13)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->dval2 = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 11)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->dval2_min = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 14)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->dval2_min = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 12)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->dval2_prev = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 15)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->dval2_prev = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 13)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->dval_min = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 16)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->dval_min = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 14)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->dval_prev = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 17)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->dval_prev = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 15)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 15)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 15))->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_t_5 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 15);
-  __Pyx_INCREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_5);
+  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 18)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 18)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 18))->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 18);
+  __Pyx_INCREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_6);
   __Pyx_GOTREF(__pyx_v___pyx_result->dvals);
   __Pyx_DECREF(__pyx_v___pyx_result->dvals);
-  __pyx_v___pyx_result->dvals = ((PyObject*)__pyx_t_5);
-  __pyx_t_5 = 0;
+  __pyx_v___pyx_result->dvals = ((PyObject*)__pyx_t_6);
+  __pyx_t_6 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 16)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 16)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 16))->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_t_5 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 16);
-  __Pyx_INCREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_5);
+  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 19)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 19)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 19))->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 19);
+  __Pyx_INCREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_6);
   __Pyx_GOTREF(__pyx_v___pyx_result->dvals2);
   __Pyx_DECREF(__pyx_v___pyx_result->dvals2);
-  __pyx_v___pyx_result->dvals2 = ((PyObject*)__pyx_t_5);
-  __pyx_t_5 = 0;
+  __pyx_v___pyx_result->dvals2 = ((PyObject*)__pyx_t_6);
+  __pyx_t_6 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 17)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->h = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 20)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->h = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 18), PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 21), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->locs, 0);
-  __pyx_v___pyx_result->locs = __pyx_t_4;
-  __pyx_t_4.memview = NULL;
-  __pyx_t_4.data = NULL;
+  __pyx_v___pyx_result->locs = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 19), PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 22), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->locs_min, 0);
-  __pyx_v___pyx_result->locs_min = __pyx_t_4;
-  __pyx_t_4.memview = NULL;
-  __pyx_t_4.data = NULL;
+  __pyx_v___pyx_result->locs_min = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 20)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->n_iter = __pyx_t_2;
+  __pyx_t_3 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 23)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->n_iter = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_8 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 21)); if (unlikely((__pyx_t_8 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 24)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->n_iter_s = __pyx_t_3;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_8 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 25)); if (unlikely((__pyx_t_8 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->n_locs = __pyx_t_8;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 22)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->n_step = __pyx_t_2;
+  __pyx_t_3 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 26)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->n_step = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 23), PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 27), PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->scatters, 0);
   __pyx_v___pyx_result->scatters = __pyx_t_9;
   __pyx_t_9.memview = NULL;
@@ -15857,7 +16695,7 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLSE2__set_
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 24), PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 28), PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->scatters_min, 0);
   __pyx_v___pyx_result->scatters_min = __pyx_t_9;
   __pyx_t_9.memview = NULL;
@@ -15866,30 +16704,39 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLSE2__set_
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 25)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->tol = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 29)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->tol = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 26), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 30), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->weights, 0);
   __pyx_v___pyx_result->weights = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 31), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->xy, 0);
+  __pyx_v___pyx_result->xy = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_MLSE2__set_state(MLSE2 __pyx_result, tuple __pyx_state):
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[27])
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[32])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
   __pyx_t_8 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_11 = ((__pyx_t_8 > 27) != 0);
+  __pyx_t_11 = ((__pyx_t_8 > 32) != 0);
   if (__pyx_t_11) {
   } else {
     __pyx_t_10 = __pyx_t_11;
@@ -15902,9 +16749,9 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLSE2__set_
   if (__pyx_t_10) {
 
     /* "(tree fragment)":14
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[27])             # <<<<<<<<<<<<<<
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[32])             # <<<<<<<<<<<<<<
  */
     __pyx_t_13 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
@@ -15925,18 +16772,18 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLSE2__set_
         __Pyx_DECREF_SET(__pyx_t_14, function);
       }
     }
-    __pyx_t_5 = (__pyx_t_13) ? __Pyx_PyObject_Call2Args(__pyx_t_14, __pyx_t_13, PyTuple_GET_ITEM(__pyx_v___pyx_state, 27)) : __Pyx_PyObject_CallOneArg(__pyx_t_14, PyTuple_GET_ITEM(__pyx_v___pyx_state, 27));
+    __pyx_t_6 = (__pyx_t_13) ? __Pyx_PyObject_Call2Args(__pyx_t_14, __pyx_t_13, PyTuple_GET_ITEM(__pyx_v___pyx_state, 32)) : __Pyx_PyObject_CallOneArg(__pyx_t_14, PyTuple_GET_ITEM(__pyx_v___pyx_state, 32));
     __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_MLSE2__set_state(MLSE2 __pyx_result, tuple __pyx_state):
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[27])
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[32])
  */
   }
 
@@ -15944,8 +16791,8 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLSE2__set_
  *         __pyx_unpickle_MLSE2__set_state(<MLSE2> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_MLSE2__set_state(MLSE2 __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):
  */
 
   /* function exit code */
@@ -15953,10 +16800,10 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLSE2__set_
   goto __pyx_L0;
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_4, 1);
-  __Pyx_XDECREF(__pyx_t_5);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
+  __Pyx_XDECREF(__pyx_t_6);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_9, 1);
   __Pyx_XDECREF(__pyx_t_13);
   __Pyx_XDECREF(__pyx_t_14);
@@ -16070,18 +16917,18 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_12__pyx_unpickle_MLocatio
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x369ed6b:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x9930eae:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)
  */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x369ed6b) != 0);
+  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x9930eae) != 0);
   if (__pyx_t_1) {
 
     /* "(tree fragment)":5
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x369ed6b:
+ *     if __pyx_checksum != 0x9930eae:
  *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)
  *     __pyx_result = MLocationsScattersEstimator.__new__(__pyx_type)
  */
     __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -16100,15 +16947,15 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_12__pyx_unpickle_MLocatio
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":6
- *     if __pyx_checksum != 0x369ed6b:
+ *     if __pyx_checksum != 0x9930eae:
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)             # <<<<<<<<<<<<<<
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)             # <<<<<<<<<<<<<<
  *     __pyx_result = MLocationsScattersEstimator.__new__(__pyx_type)
  *     if __pyx_state is not None:
  */
     __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x36, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 6, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x99, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_INCREF(__pyx_v___pyx_PickleError);
@@ -16135,15 +16982,15 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_12__pyx_unpickle_MLocatio
     /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x369ed6b:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x9930eae:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)
  */
   }
 
   /* "(tree fragment)":7
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)
  *     __pyx_result = MLocationsScattersEstimator.__new__(__pyx_type)             # <<<<<<<<<<<<<<
  *     if __pyx_state is not None:
  *         __pyx_unpickle_MLocationsScattersEstimator__set_state(<MLocationsScattersEstimator> __pyx_result, __pyx_state)
@@ -16169,7 +17016,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_12__pyx_unpickle_MLocatio
   __pyx_t_3 = 0;
 
   /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)
  *     __pyx_result = MLocationsScattersEstimator.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_MLocationsScattersEstimator__set_state(<MLocationsScattersEstimator> __pyx_result, __pyx_state)
@@ -16192,7 +17039,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_12__pyx_unpickle_MLocatio
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x369ed6b = (D, K, Ks, Ns, W, X, Y, avg, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_locs, n_step, scatters, scatters_min, tol, weights))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x9930eae = (D, DD, GG, K, Ks, Ns, W, X, alpha, avg, avg_min, distfuncs, dval, dval2, dval2_min, dval2_prev, dval_min, dval_prev, dvals, dvals2, h, locs, locs_min, n_iter, n_iter_s, n_locs, n_step, scatters, scatters_min, tol, weights, xy))" % __pyx_checksum)
  *     __pyx_result = MLocationsScattersEstimator.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_MLocationsScattersEstimator__set_state(<MLocationsScattersEstimator> __pyx_result, __pyx_state)
@@ -16205,7 +17052,7 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_12__pyx_unpickle_MLocatio
  *         __pyx_unpickle_MLocationsScattersEstimator__set_state(<MLocationsScattersEstimator> __pyx_result, __pyx_state)
  *     return __pyx_result             # <<<<<<<<<<<<<<
  * cdef __pyx_unpickle_MLocationsScattersEstimator__set_state(MLocationsScattersEstimator __pyx_result, tuple __pyx_state):
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v___pyx_result);
@@ -16238,20 +17085,20 @@ static PyObject *__pyx_pf_6mlgrad_18mlocation_scatter2_12__pyx_unpickle_MLocatio
  *         __pyx_unpickle_MLocationsScattersEstimator__set_state(<MLocationsScattersEstimator> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_MLocationsScattersEstimator__set_state(MLocationsScattersEstimator __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):
  */
 
 static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLocationsScattersEstimator__set_state(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_t_2;
-  __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_3;
   __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  PyObject *__pyx_t_5 = NULL;
-  __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_t_7;
+  double __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  __Pyx_memviewslice __pyx_t_7 = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_t_8;
   __Pyx_memviewslice __pyx_t_9 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_t_10;
@@ -16267,9 +17114,9 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLocationsS
   /* "(tree fragment)":12
  *     return __pyx_result
  * cdef __pyx_unpickle_MLocationsScattersEstimator__set_state(MLocationsScattersEstimator __pyx_result, tuple __pyx_state):
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[27])
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]             # <<<<<<<<<<<<<<
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[32])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -16284,28 +17131,46 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLocationsS
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.K = __pyx_t_2;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.DD, 0);
+  __pyx_v___pyx_result->__pyx_base.DD = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.Ks = __pyx_t_2;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.GG, 0);
+  __pyx_v___pyx_result->__pyx_base.GG = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.K = __pyx_t_3;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_3 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.Ks = __pyx_t_3;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5), PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.Ns, 0);
-  __pyx_v___pyx_result->__pyx_base.Ns = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.Ns = __pyx_t_4;
+  __pyx_t_4.memview = NULL;
+  __pyx_t_4.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 6), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.W, 0);
   __pyx_v___pyx_result->__pyx_base.W = __pyx_t_1;
   __pyx_t_1.memview = NULL;
@@ -16314,148 +17179,163 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLocationsS
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5), PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 7), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.X, 0);
-  __pyx_v___pyx_result->__pyx_base.X = __pyx_t_4;
-  __pyx_t_4.memview = NULL;
-  __pyx_t_4.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.X = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 6), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.Y, 0);
-  __pyx_v___pyx_result->__pyx_base.Y = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 8)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.alpha = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 7)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 7), __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_t_5 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 7);
-  __Pyx_INCREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_5);
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 9)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 9), __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 9);
+  __Pyx_INCREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_6);
   __Pyx_GOTREF(__pyx_v___pyx_result->__pyx_base.avg);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->__pyx_base.avg));
-  __pyx_v___pyx_result->__pyx_base.avg = ((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_t_5);
-  __pyx_t_5 = 0;
+  __pyx_v___pyx_result->__pyx_base.avg = ((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_t_6);
+  __pyx_t_6 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_object(PyTuple_GET_ITEM(__pyx_v___pyx_state, 8), PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 10)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 10), __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 10);
+  __Pyx_INCREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_6);
+  __Pyx_GOTREF(__pyx_v___pyx_result->__pyx_base.avg_min);
+  __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->__pyx_base.avg_min));
+  __pyx_v___pyx_result->__pyx_base.avg_min = ((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_t_6);
+  __pyx_t_6 = 0;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_object(PyTuple_GET_ITEM(__pyx_v___pyx_state, 11), PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.distfuncs, 0);
-  __pyx_v___pyx_result->__pyx_base.distfuncs = __pyx_t_6;
-  __pyx_t_6.memview = NULL;
-  __pyx_t_6.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.distfuncs = __pyx_t_7;
+  __pyx_t_7.memview = NULL;
+  __pyx_t_7.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 9)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.dval = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 12)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.dval = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 10)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.dval2 = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 13)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.dval2 = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 11)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.dval2_min = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 14)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.dval2_min = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 12)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.dval2_prev = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 15)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.dval2_prev = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 13)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.dval_min = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 16)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.dval_min = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 14)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.dval_prev = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 17)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.dval_prev = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 15)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 15)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 15))->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_t_5 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 15);
-  __Pyx_INCREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_5);
+  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 18)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 18)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 18))->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 18);
+  __Pyx_INCREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_6);
   __Pyx_GOTREF(__pyx_v___pyx_result->__pyx_base.dvals);
   __Pyx_DECREF(__pyx_v___pyx_result->__pyx_base.dvals);
-  __pyx_v___pyx_result->__pyx_base.dvals = ((PyObject*)__pyx_t_5);
-  __pyx_t_5 = 0;
+  __pyx_v___pyx_result->__pyx_base.dvals = ((PyObject*)__pyx_t_6);
+  __pyx_t_6 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 16)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 16)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 16))->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_t_5 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 16);
-  __Pyx_INCREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_5);
+  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 19)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 19)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 19))->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 19);
+  __Pyx_INCREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_6);
   __Pyx_GOTREF(__pyx_v___pyx_result->__pyx_base.dvals2);
   __Pyx_DECREF(__pyx_v___pyx_result->__pyx_base.dvals2);
-  __pyx_v___pyx_result->__pyx_base.dvals2 = ((PyObject*)__pyx_t_5);
-  __pyx_t_5 = 0;
+  __pyx_v___pyx_result->__pyx_base.dvals2 = ((PyObject*)__pyx_t_6);
+  __pyx_t_6 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 17)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.h = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 20)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.h = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 18), PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 21), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.locs, 0);
-  __pyx_v___pyx_result->__pyx_base.locs = __pyx_t_4;
-  __pyx_t_4.memview = NULL;
-  __pyx_t_4.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.locs = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 19), PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 22), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.locs_min, 0);
-  __pyx_v___pyx_result->__pyx_base.locs_min = __pyx_t_4;
-  __pyx_t_4.memview = NULL;
-  __pyx_t_4.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.locs_min = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 20)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.n_iter = __pyx_t_2;
+  __pyx_t_3 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 23)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.n_iter = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_8 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 21)); if (unlikely((__pyx_t_8 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 24)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.n_iter_s = __pyx_t_3;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_8 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 25)); if (unlikely((__pyx_t_8 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.n_locs = __pyx_t_8;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 22)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.n_step = __pyx_t_2;
+  __pyx_t_3 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 26)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.n_step = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 23), PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 27), PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.scatters, 0);
   __pyx_v___pyx_result->__pyx_base.scatters = __pyx_t_9;
   __pyx_t_9.memview = NULL;
@@ -16464,7 +17344,7 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLocationsS
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 24), PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 28), PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.scatters_min, 0);
   __pyx_v___pyx_result->__pyx_base.scatters_min = __pyx_t_9;
   __pyx_t_9.memview = NULL;
@@ -16473,30 +17353,39 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLocationsS
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_7 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 25)); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.tol = __pyx_t_7;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 29)); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.tol = __pyx_t_5;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 26), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 30), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.weights, 0);
   __pyx_v___pyx_result->__pyx_base.weights = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 31), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.xy, 0);
+  __pyx_v___pyx_result->__pyx_base.xy = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_MLocationsScattersEstimator__set_state(MLocationsScattersEstimator __pyx_result, tuple __pyx_state):
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[27])
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[32])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
   __pyx_t_8 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_11 = ((__pyx_t_8 > 27) != 0);
+  __pyx_t_11 = ((__pyx_t_8 > 32) != 0);
   if (__pyx_t_11) {
   } else {
     __pyx_t_10 = __pyx_t_11;
@@ -16509,9 +17398,9 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLocationsS
   if (__pyx_t_10) {
 
     /* "(tree fragment)":14
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[27])             # <<<<<<<<<<<<<<
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[32])             # <<<<<<<<<<<<<<
  */
     __pyx_t_13 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
@@ -16532,18 +17421,18 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLocationsS
         __Pyx_DECREF_SET(__pyx_t_14, function);
       }
     }
-    __pyx_t_5 = (__pyx_t_13) ? __Pyx_PyObject_Call2Args(__pyx_t_14, __pyx_t_13, PyTuple_GET_ITEM(__pyx_v___pyx_state, 27)) : __Pyx_PyObject_CallOneArg(__pyx_t_14, PyTuple_GET_ITEM(__pyx_v___pyx_state, 27));
+    __pyx_t_6 = (__pyx_t_13) ? __Pyx_PyObject_Call2Args(__pyx_t_14, __pyx_t_13, PyTuple_GET_ITEM(__pyx_v___pyx_state, 32)) : __Pyx_PyObject_CallOneArg(__pyx_t_14, PyTuple_GET_ITEM(__pyx_v___pyx_state, 32));
     __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_MLocationsScattersEstimator__set_state(MLocationsScattersEstimator __pyx_result, tuple __pyx_state):
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[27])
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[32])
  */
   }
 
@@ -16551,8 +17440,8 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLocationsS
  *         __pyx_unpickle_MLocationsScattersEstimator__set_state(<MLocationsScattersEstimator> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_MLocationsScattersEstimator__set_state(MLocationsScattersEstimator __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):
  */
 
   /* function exit code */
@@ -16560,10 +17449,10 @@ static PyObject *__pyx_f_6mlgrad_18mlocation_scatter2___pyx_unpickle_MLocationsS
   goto __pyx_L0;
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_4, 1);
-  __Pyx_XDECREF(__pyx_t_5);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
+  __Pyx_XDECREF(__pyx_t_6);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_9, 1);
   __Pyx_XDECREF(__pyx_t_13);
   __Pyx_XDECREF(__pyx_t_14);
@@ -17074,7 +17963,73 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
 /* "mlgrad/mlocation_scatter2.pxd":18
  *     double PyFloat_GetMin()
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline int int_min(int a, int b) nogil:             # <<<<<<<<<<<<<<
+ *     if a < b:
+ *         return a
+ */
+
+static CYTHON_INLINE int __pyx_f_6mlgrad_18mlocation_scatter2_int_min(int __pyx_v_a, int __pyx_v_b) {
+  int __pyx_r;
+  int __pyx_t_1;
+
+  /* "mlgrad/mlocation_scatter2.pxd":19
+ * 
+ * cdef inline int int_min(int a, int b) nogil:
+ *     if a < b:             # <<<<<<<<<<<<<<
+ *         return a
+ *     else:
+ */
+  __pyx_t_1 = ((__pyx_v_a < __pyx_v_b) != 0);
+  if (__pyx_t_1) {
+
+    /* "mlgrad/mlocation_scatter2.pxd":20
+ * cdef inline int int_min(int a, int b) nogil:
+ *     if a < b:
+ *         return a             # <<<<<<<<<<<<<<
+ *     else:
+ *         return b
+ */
+    __pyx_r = __pyx_v_a;
+    goto __pyx_L0;
+
+    /* "mlgrad/mlocation_scatter2.pxd":19
+ * 
+ * cdef inline int int_min(int a, int b) nogil:
+ *     if a < b:             # <<<<<<<<<<<<<<
+ *         return a
+ *     else:
+ */
+  }
+
+  /* "mlgrad/mlocation_scatter2.pxd":22
+ *         return a
+ *     else:
+ *         return b             # <<<<<<<<<<<<<<
+ * 
+ * cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:
+ */
+  /*else*/ {
+    __pyx_r = __pyx_v_b;
+    goto __pyx_L0;
+  }
+
+  /* "mlgrad/mlocation_scatter2.pxd":18
+ *     double PyFloat_GetMin()
+ * 
+ * cdef inline int int_min(int a, int b) nogil:             # <<<<<<<<<<<<<<
+ *     if a < b:
+ *         return a
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "mlgrad/mlocation_scatter2.pxd":24
+ *         return b
+ * 
+ * cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = Y.shape[0]
  *     if n < m:
  */
@@ -17082,15 +18037,13 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
 static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview(__Pyx_memviewslice __pyx_v_Y, __Pyx_memviewslice __pyx_v_X) {
   int __pyx_v_m;
   int __pyx_v_n;
-  __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
-  __Pyx_RefNannySetupContext("copy_memoryview", 0);
 
-  /* "mlgrad/mlocation_scatter2.pxd":19
+  /* "mlgrad/mlocation_scatter2.pxd":25
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
+ * cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:
  *     cdef int m = X.shape[0], n = Y.shape[0]             # <<<<<<<<<<<<<<
  *     if n < m:
  *         m = n
@@ -17098,8 +18051,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview(_
   __pyx_v_m = (__pyx_v_X.shape[0]);
   __pyx_v_n = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/mlocation_scatter2.pxd":20
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
+  /* "mlgrad/mlocation_scatter2.pxd":26
+ * cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:
  *     cdef int m = X.shape[0], n = Y.shape[0]
  *     if n < m:             # <<<<<<<<<<<<<<
  *         m = n
@@ -17108,7 +18061,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview(_
   __pyx_t_1 = ((__pyx_v_n < __pyx_v_m) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/mlocation_scatter2.pxd":21
+    /* "mlgrad/mlocation_scatter2.pxd":27
  *     cdef int m = X.shape[0], n = Y.shape[0]
  *     if n < m:
  *         m = n             # <<<<<<<<<<<<<<
@@ -17117,8 +18070,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview(_
  */
     __pyx_v_m = __pyx_v_n;
 
-    /* "mlgrad/mlocation_scatter2.pxd":20
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
+    /* "mlgrad/mlocation_scatter2.pxd":26
+ * cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:
  *     cdef int m = X.shape[0], n = Y.shape[0]
  *     if n < m:             # <<<<<<<<<<<<<<
  *         m = n
@@ -17126,33 +18079,32 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview(_
  */
   }
 
-  /* "mlgrad/mlocation_scatter2.pxd":22
+  /* "mlgrad/mlocation_scatter2.pxd":28
  *     if n < m:
  *         m = n
  *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
+ * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X) nogil:
  */
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
   (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_3)) )))), (__pyx_v_m * (sizeof(double)))));
 
-  /* "mlgrad/mlocation_scatter2.pxd":18
- *     double PyFloat_GetMin()
+  /* "mlgrad/mlocation_scatter2.pxd":24
+ *         return b
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = Y.shape[0]
  *     if n < m:
  */
 
   /* function exit code */
-  __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":24
+/* "mlgrad/mlocation_scatter2.pxd":30
  *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
  * 
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X) nogil:             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = X.shape[1]
  *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))
  */
@@ -17160,16 +18112,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview(_
 static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(__Pyx_memviewslice __pyx_v_Y, __Pyx_memviewslice __pyx_v_X) {
   int __pyx_v_m;
   int __pyx_v_n;
-  __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  __Pyx_RefNannySetupContext("copy_memoryview2", 0);
 
-  /* "mlgrad/mlocation_scatter2.pxd":25
+  /* "mlgrad/mlocation_scatter2.pxd":31
  * 
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
+ * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X) nogil:
  *     cdef int m = X.shape[0], n = X.shape[1]             # <<<<<<<<<<<<<<
  *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))
  * 
@@ -17177,12 +18127,12 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(
   __pyx_v_m = (__pyx_v_X.shape[0]);
   __pyx_v_n = (__pyx_v_X.shape[1]);
 
-  /* "mlgrad/mlocation_scatter2.pxd":26
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
+  /* "mlgrad/mlocation_scatter2.pxd":32
+ * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X) nogil:
  *     cdef int m = X.shape[0], n = X.shape[1]
  *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X):
+ * cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X) nogil:
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
@@ -17190,22 +18140,21 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview2(
   __pyx_t_4 = 0;
   (void)(memcpy((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Y.data + __pyx_t_1 * __pyx_v_Y.strides[0]) )) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_3 * __pyx_v_X.strides[0]) )) + __pyx_t_4)) )))), ((__pyx_v_n * __pyx_v_m) * (sizeof(double)))));
 
-  /* "mlgrad/mlocation_scatter2.pxd":24
+  /* "mlgrad/mlocation_scatter2.pxd":30
  *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
  * 
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X) nogil:             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = X.shape[1]
  *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))
  */
 
   /* function exit code */
-  __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":28
+/* "mlgrad/mlocation_scatter2.pxd":34
  *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))
  * 
- * cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X) nogil:             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = X.shape[1], l = X.shape[2]
  *     memcpy(&Y[0,0,0], &X[0,0,0], n*m*l*cython.sizeof(double))
  */
@@ -17214,18 +18163,16 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview3(
   int __pyx_v_m;
   int __pyx_v_n;
   int __pyx_v_l;
-  __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
-  __Pyx_RefNannySetupContext("copy_memoryview3", 0);
 
-  /* "mlgrad/mlocation_scatter2.pxd":29
+  /* "mlgrad/mlocation_scatter2.pxd":35
  * 
- * cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X):
+ * cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X) nogil:
  *     cdef int m = X.shape[0], n = X.shape[1], l = X.shape[2]             # <<<<<<<<<<<<<<
  *     memcpy(&Y[0,0,0], &X[0,0,0], n*m*l*cython.sizeof(double))
  * 
@@ -17234,12 +18181,12 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview3(
   __pyx_v_n = (__pyx_v_X.shape[1]);
   __pyx_v_l = (__pyx_v_X.shape[2]);
 
-  /* "mlgrad/mlocation_scatter2.pxd":30
- * cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X):
+  /* "mlgrad/mlocation_scatter2.pxd":36
+ * cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X) nogil:
  *     cdef int m = X.shape[0], n = X.shape[1], l = X.shape[2]
  *     memcpy(&Y[0,0,0], &X[0,0,0], n*m*l*cython.sizeof(double))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):
+ * cdef inline void fill_memoryview(double[::1] X, double c) nogil:
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
@@ -17249,67 +18196,63 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_copy_memoryview3(
   __pyx_t_6 = 0;
   (void)(memcpy((&(*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_Y.data + __pyx_t_1 * __pyx_v_Y.strides[0]) ) + __pyx_t_2 * __pyx_v_Y.strides[1]) )) + __pyx_t_3)) )))), (&(*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_X.data + __pyx_t_4 * __pyx_v_X.strides[0]) ) + __pyx_t_5 * __pyx_v_X.strides[1]) )) + __pyx_t_6)) )))), (((__pyx_v_n * __pyx_v_m) * __pyx_v_l) * (sizeof(double)))));
 
-  /* "mlgrad/mlocation_scatter2.pxd":28
+  /* "mlgrad/mlocation_scatter2.pxd":34
  *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))
  * 
- * cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X) nogil:             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = X.shape[1], l = X.shape[2]
  *     memcpy(&Y[0,0,0], &X[0,0,0], n*m*l*cython.sizeof(double))
  */
 
   /* function exit code */
-  __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":32
+/* "mlgrad/mlocation_scatter2.pxd":38
  *     memcpy(&Y[0,0,0], &X[0,0,0], n*m*l*cython.sizeof(double))
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview(double[::1] X, double c) nogil:             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0]
  *     memset(&X[0], 0, m*cython.sizeof(double))
  */
 
 static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_fill_memoryview(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED double __pyx_v_c) {
   int __pyx_v_m;
-  __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
-  __Pyx_RefNannySetupContext("fill_memoryview", 0);
 
-  /* "mlgrad/mlocation_scatter2.pxd":33
+  /* "mlgrad/mlocation_scatter2.pxd":39
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):
+ * cdef inline void fill_memoryview(double[::1] X, double c) nogil:
  *     cdef int m = X.shape[0]             # <<<<<<<<<<<<<<
  *     memset(&X[0], 0, m*cython.sizeof(double))
  * 
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
 
-  /* "mlgrad/mlocation_scatter2.pxd":34
- * cdef inline void fill_memoryview(double[::1] X, double c):
+  /* "mlgrad/mlocation_scatter2.pxd":40
+ * cdef inline void fill_memoryview(double[::1] X, double c) nogil:
  *     cdef int m = X.shape[0]
  *     memset(&X[0], 0, m*cython.sizeof(double))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):
+ * cdef inline void fill_memoryview2(double[:,::1] X, double c) nogil:
  */
   __pyx_t_1 = 0;
   (void)(memset((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(double)))));
 
-  /* "mlgrad/mlocation_scatter2.pxd":32
+  /* "mlgrad/mlocation_scatter2.pxd":38
  *     memcpy(&Y[0,0,0], &X[0,0,0], n*m*l*cython.sizeof(double))
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview(double[::1] X, double c) nogil:             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0]
  *     memset(&X[0], 0, m*cython.sizeof(double))
  */
 
   /* function exit code */
-  __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":36
+/* "mlgrad/mlocation_scatter2.pxd":42
  *     memset(&X[0], 0, m*cython.sizeof(double))
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview2(double[:,::1] X, double c) nogil:             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  */
@@ -17317,13 +18260,11 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_fill_memoryview(_
 static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_fill_memoryview2(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED double __pyx_v_c) {
   int __pyx_v_m;
   int __pyx_v_n;
-  __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
-  __Pyx_RefNannySetupContext("fill_memoryview2", 0);
 
-  /* "mlgrad/mlocation_scatter2.pxd":38
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):
+  /* "mlgrad/mlocation_scatter2.pxd":44
+ * cdef inline void fill_memoryview2(double[:,::1] X, double c) nogil:
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]             # <<<<<<<<<<<<<<
  *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
@@ -17332,33 +18273,32 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_fill_memoryview2(
   __pyx_v_m = (__pyx_v_X.shape[0]);
   __pyx_v_n = (__pyx_v_X.shape[1]);
 
-  /* "mlgrad/mlocation_scatter2.pxd":39
+  /* "mlgrad/mlocation_scatter2.pxd":45
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  *     memset(&X[0,0], 0, m*n*cython.sizeof(double))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void fill_memoryview3(double[:,:,::1] X, double c):
+ * cdef inline void fill_memoryview3(double[:,:,::1] X, double c) nogil:
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   (void)(memset((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_1 * __pyx_v_X.strides[0]) )) + __pyx_t_2)) )))), 0, ((__pyx_v_m * __pyx_v_n) * (sizeof(double)))));
 
-  /* "mlgrad/mlocation_scatter2.pxd":36
+  /* "mlgrad/mlocation_scatter2.pxd":42
  *     memset(&X[0], 0, m*cython.sizeof(double))
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview2(double[:,::1] X, double c) nogil:             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  */
 
   /* function exit code */
-  __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":41
+/* "mlgrad/mlocation_scatter2.pxd":47
  *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
  * 
- * cdef inline void fill_memoryview3(double[:,:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview3(double[:,:,::1] X, double c) nogil:             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1], l = X.shape[2]
  */
@@ -17367,14 +18307,12 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_fill_memoryview3(
   int __pyx_v_m;
   int __pyx_v_n;
   int __pyx_v_l;
-  __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
-  __Pyx_RefNannySetupContext("fill_memoryview3", 0);
 
-  /* "mlgrad/mlocation_scatter2.pxd":43
- * cdef inline void fill_memoryview3(double[:,:,::1] X, double c):
+  /* "mlgrad/mlocation_scatter2.pxd":49
+ * cdef inline void fill_memoryview3(double[:,:,::1] X, double c) nogil:
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1], l = X.shape[2]             # <<<<<<<<<<<<<<
  *     memset(&X[0,0,0], 0, m*n*l*cython.sizeof(double))
@@ -17384,34 +18322,33 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_fill_memoryview3(
   __pyx_v_n = (__pyx_v_X.shape[1]);
   __pyx_v_l = (__pyx_v_X.shape[2]);
 
-  /* "mlgrad/mlocation_scatter2.pxd":44
+  /* "mlgrad/mlocation_scatter2.pxd":50
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1], l = X.shape[2]
  *     memset(&X[0,0,0], 0, m*n*l*cython.sizeof(double))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void multiply_memoryview(double[::1] X, double c):
+ * cdef inline void multiply_memoryview(double[::1] X, double c) nogil:
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
   (void)(memset((&(*((double *) ( /* dim=2 */ ((char *) (((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_X.data + __pyx_t_1 * __pyx_v_X.strides[0]) ) + __pyx_t_2 * __pyx_v_X.strides[1]) )) + __pyx_t_3)) )))), 0, (((__pyx_v_m * __pyx_v_n) * __pyx_v_l) * (sizeof(double)))));
 
-  /* "mlgrad/mlocation_scatter2.pxd":41
+  /* "mlgrad/mlocation_scatter2.pxd":47
  *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
  * 
- * cdef inline void fill_memoryview3(double[:,:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview3(double[:,:,::1] X, double c) nogil:             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1], l = X.shape[2]
  */
 
   /* function exit code */
-  __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":46
+/* "mlgrad/mlocation_scatter2.pxd":52
  *     memset(&X[0,0,0], 0, m*n*l*cython.sizeof(double))
  * 
- * cdef inline void multiply_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void multiply_memoryview(double[::1] X, double c) nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
  *     cdef Py_ssize_t n = X.shape[0]
  */
@@ -17420,16 +18357,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_multiply_memoryvi
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_n;
   double *__pyx_v_ptr;
-  __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
-  __Pyx_RefNannySetupContext("multiply_memoryview", 0);
 
-  /* "mlgrad/mlocation_scatter2.pxd":48
- * cdef inline void multiply_memoryview(double[::1] X, double c):
+  /* "mlgrad/mlocation_scatter2.pxd":54
+ * cdef inline void multiply_memoryview(double[::1] X, double c) nogil:
  *     cdef Py_ssize_t i
  *     cdef Py_ssize_t n = X.shape[0]             # <<<<<<<<<<<<<<
  *     cdef double *ptr = &X[0]
@@ -17437,7 +18372,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_multiply_memoryvi
  */
   __pyx_v_n = (__pyx_v_X.shape[0]);
 
-  /* "mlgrad/mlocation_scatter2.pxd":49
+  /* "mlgrad/mlocation_scatter2.pxd":55
  *     cdef Py_ssize_t i
  *     cdef Py_ssize_t n = X.shape[0]
  *     cdef double *ptr = &X[0]             # <<<<<<<<<<<<<<
@@ -17447,7 +18382,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_multiply_memoryvi
   __pyx_t_1 = 0;
   __pyx_v_ptr = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/mlocation_scatter2.pxd":51
+  /* "mlgrad/mlocation_scatter2.pxd":57
  *     cdef double *ptr = &X[0]
  * 
  *     for i in range(n):             # <<<<<<<<<<<<<<
@@ -17459,33 +18394,32 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_multiply_memoryvi
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "mlgrad/mlocation_scatter2.pxd":52
+    /* "mlgrad/mlocation_scatter2.pxd":58
  * 
  *     for i in range(n):
  *         ptr[i] *= c             # <<<<<<<<<<<<<<
  * 
- * cdef inline void multiply_memoryview2(double[:,::1] X, double c):
+ * cdef inline void multiply_memoryview2(double[:,::1] X, double c) nogil:
  */
     __pyx_t_5 = __pyx_v_i;
     (__pyx_v_ptr[__pyx_t_5]) = ((__pyx_v_ptr[__pyx_t_5]) * __pyx_v_c);
   }
 
-  /* "mlgrad/mlocation_scatter2.pxd":46
+  /* "mlgrad/mlocation_scatter2.pxd":52
  *     memset(&X[0,0,0], 0, m*n*l*cython.sizeof(double))
  * 
- * cdef inline void multiply_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void multiply_memoryview(double[::1] X, double c) nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
  *     cdef Py_ssize_t n = X.shape[0]
  */
 
   /* function exit code */
-  __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/mlocation_scatter2.pxd":54
+/* "mlgrad/mlocation_scatter2.pxd":60
  *         ptr[i] *= c
  * 
- * cdef inline void multiply_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void multiply_memoryview2(double[:,::1] X, double c) nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
  *     cdef Py_ssize_t mn = X.shape[0] * X.shape[1]
  */
@@ -17494,17 +18428,15 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_multiply_memoryvi
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_mn;
   double *__pyx_v_ptr;
-  __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
-  __Pyx_RefNannySetupContext("multiply_memoryview2", 0);
 
-  /* "mlgrad/mlocation_scatter2.pxd":56
- * cdef inline void multiply_memoryview2(double[:,::1] X, double c):
+  /* "mlgrad/mlocation_scatter2.pxd":62
+ * cdef inline void multiply_memoryview2(double[:,::1] X, double c) nogil:
  *     cdef Py_ssize_t i
  *     cdef Py_ssize_t mn = X.shape[0] * X.shape[1]             # <<<<<<<<<<<<<<
  *     cdef double *ptr = &X[0,0]
@@ -17512,7 +18444,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_multiply_memoryvi
  */
   __pyx_v_mn = ((__pyx_v_X.shape[0]) * (__pyx_v_X.shape[1]));
 
-  /* "mlgrad/mlocation_scatter2.pxd":57
+  /* "mlgrad/mlocation_scatter2.pxd":63
  *     cdef Py_ssize_t i
  *     cdef Py_ssize_t mn = X.shape[0] * X.shape[1]
  *     cdef double *ptr = &X[0,0]             # <<<<<<<<<<<<<<
@@ -17523,7 +18455,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_multiply_memoryvi
   __pyx_t_2 = 0;
   __pyx_v_ptr = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_1 * __pyx_v_X.strides[0]) )) + __pyx_t_2)) ))));
 
-  /* "mlgrad/mlocation_scatter2.pxd":59
+  /* "mlgrad/mlocation_scatter2.pxd":65
  *     cdef double *ptr = &X[0,0]
  * 
  *     for i in range(mn):             # <<<<<<<<<<<<<<
@@ -17535,7 +18467,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_multiply_memoryvi
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "mlgrad/mlocation_scatter2.pxd":60
+    /* "mlgrad/mlocation_scatter2.pxd":66
  * 
  *     for i in range(mn):
  *         ptr[i] *= c             # <<<<<<<<<<<<<<
@@ -17546,16 +18478,15 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_18mlocation_scatter2_multiply_memoryvi
     (__pyx_v_ptr[__pyx_t_6]) = ((__pyx_v_ptr[__pyx_t_6]) * __pyx_v_c);
   }
 
-  /* "mlgrad/mlocation_scatter2.pxd":54
+  /* "mlgrad/mlocation_scatter2.pxd":60
  *         ptr[i] *= c
  * 
- * cdef inline void multiply_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void multiply_memoryview2(double[:,::1] X, double c) nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
  *     cdef Py_ssize_t mn = X.shape[0] * X.shape[1]
  */
 
   /* function exit code */
-  __Pyx_RefNannyFinishContext();
 }
 
 /* "View.MemoryView":122
@@ -17761,7 +18692,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if itemsize <= 0:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 133, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -17793,7 +18724,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if not isinstance(format, bytes):
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 136, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 136, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -17920,7 +18851,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 148, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -18194,7 +19125,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *             if self.dtype_is_object:
  */
-      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 176, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 176, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_Raise(__pyx_t_10, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -18438,7 +19369,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(stru
  *         info.buf = self.data
  *         info.len = self.len
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 192, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 192, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -19172,7 +20103,7 @@ static PyObject *__pyx_pf___pyx_array___reduce_cython__(CYTHON_UNUSED struct __p
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -19228,7 +20159,7 @@ static PyObject *__pyx_pf___pyx_array_2__setstate_cython__(CYTHON_UNUSED struct 
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -20938,7 +21869,7 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_6__setit
  * 
  *         have_slices, index = _unellipsify(index, self.view.ndim)
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 418, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 418, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -21986,7 +22917,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  *         else:
  *             if len(self.view.format) == 1:
  */
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 495, __pyx_L5_except_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 495, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_Raise(__pyx_t_6, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -22348,7 +23279,7 @@ static int __pyx_memoryview___pyx_pf_15View_dot_MemoryView_10memoryview_8__getbu
  * 
  *         if flags & PyBUF_ND:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 520, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 520, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -22897,7 +23828,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(st
  * 
  *         return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 570, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 570, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -23014,7 +23945,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get_
     __Pyx_XDECREF(__pyx_r);
     __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->view.ndim); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 577, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__16, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 577, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__17, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 577, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_r = __pyx_t_3;
@@ -24052,7 +24983,7 @@ static PyObject *__pyx_pf___pyx_memoryview___reduce_cython__(CYTHON_UNUSED struc
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -24108,7 +25039,7 @@ static PyObject *__pyx_pf___pyx_memoryview_2__setstate_cython__(CYTHON_UNUSED st
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -24465,9 +25396,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
         __Pyx_GOTREF(__pyx_t_7);
         { Py_ssize_t __pyx_temp;
           for (__pyx_temp=0; __pyx_temp < ((__pyx_v_ndim - __pyx_t_8) + 1); __pyx_temp++) {
-            __Pyx_INCREF(__pyx_slice__19);
-            __Pyx_GIVEREF(__pyx_slice__19);
-            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__19);
+            __Pyx_INCREF(__pyx_slice__20);
+            __Pyx_GIVEREF(__pyx_slice__20);
+            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__20);
           }
         }
         __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_7); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(2, 682, __pyx_L1_error)
@@ -24500,7 +25431,7 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
  *         else:
  */
       /*else*/ {
-        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__19); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(2, 685, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__20); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(2, 685, __pyx_L1_error)
       }
       __pyx_L7:;
 
@@ -24640,9 +25571,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
     __Pyx_GOTREF(__pyx_t_3);
     { Py_ssize_t __pyx_temp;
       for (__pyx_temp=0; __pyx_temp < __pyx_v_nslices; __pyx_temp++) {
-        __Pyx_INCREF(__pyx_slice__19);
-        __Pyx_GIVEREF(__pyx_slice__19);
-        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__19);
+        __Pyx_INCREF(__pyx_slice__20);
+        __Pyx_GIVEREF(__pyx_slice__20);
+        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__20);
       }
     }
     __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_3); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(2, 696, __pyx_L1_error)
@@ -24769,7 +25700,7 @@ static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __
  * 
  * 
  */
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 703, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 703, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -26953,7 +27884,7 @@ static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED 
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -27009,7 +27940,7 @@ static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUS
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -30589,6 +31520,7 @@ static PyObject *__pyx_tp_new_6mlgrad_18mlocation_scatter2_MLSE2(PyTypeObject *t
   p = ((struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)o);
   p->__pyx_vtab = __pyx_vtabptr_6mlgrad_18mlocation_scatter2_MLSE2;
   p->avg = ((struct __pyx_obj_6mlgrad_6avragg_Average *)Py_None); Py_INCREF(Py_None);
+  p->avg_min = ((struct __pyx_obj_6mlgrad_6avragg_Average *)Py_None); Py_INCREF(Py_None);
   p->dvals = ((PyObject*)Py_None); Py_INCREF(Py_None);
   p->dvals2 = ((PyObject*)Py_None); Py_INCREF(Py_None);
   p->distfuncs.data = NULL;
@@ -30603,14 +31535,18 @@ static PyObject *__pyx_tp_new_6mlgrad_18mlocation_scatter2_MLSE2(PyTypeObject *t
   p->scatters.memview = NULL;
   p->scatters_min.data = NULL;
   p->scatters_min.memview = NULL;
+  p->DD.data = NULL;
+  p->DD.memview = NULL;
   p->D.data = NULL;
   p->D.memview = NULL;
+  p->GG.data = NULL;
+  p->GG.memview = NULL;
   p->weights.data = NULL;
   p->weights.memview = NULL;
   p->W.data = NULL;
   p->W.memview = NULL;
-  p->Y.data = NULL;
-  p->Y.memview = NULL;
+  p->xy.data = NULL;
+  p->xy.memview = NULL;
   p->Ns.data = NULL;
   p->Ns.memview = NULL;
   return o;
@@ -30625,6 +31561,7 @@ static void __pyx_tp_dealloc_6mlgrad_18mlocation_scatter2_MLSE2(PyObject *o) {
   #endif
   PyObject_GC_UnTrack(o);
   Py_CLEAR(p->avg);
+  Py_CLEAR(p->avg_min);
   Py_CLEAR(p->dvals);
   Py_CLEAR(p->dvals2);
   __PYX_XDEC_MEMVIEW(&p->distfuncs, 1);
@@ -30633,10 +31570,12 @@ static void __pyx_tp_dealloc_6mlgrad_18mlocation_scatter2_MLSE2(PyObject *o) {
   __PYX_XDEC_MEMVIEW(&p->locs_min, 1);
   __PYX_XDEC_MEMVIEW(&p->scatters, 1);
   __PYX_XDEC_MEMVIEW(&p->scatters_min, 1);
+  __PYX_XDEC_MEMVIEW(&p->DD, 1);
   __PYX_XDEC_MEMVIEW(&p->D, 1);
+  __PYX_XDEC_MEMVIEW(&p->GG, 1);
   __PYX_XDEC_MEMVIEW(&p->weights, 1);
   __PYX_XDEC_MEMVIEW(&p->W, 1);
-  __PYX_XDEC_MEMVIEW(&p->Y, 1);
+  __PYX_XDEC_MEMVIEW(&p->xy, 1);
   __PYX_XDEC_MEMVIEW(&p->Ns, 1);
   (*Py_TYPE(o)->tp_free)(o);
 }
@@ -30646,6 +31585,9 @@ static int __pyx_tp_traverse_6mlgrad_18mlocation_scatter2_MLSE2(PyObject *o, vis
   struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *p = (struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)o;
   if (p->avg) {
     e = (*v)(((PyObject *)p->avg), a); if (e) return e;
+  }
+  if (p->avg_min) {
+    e = (*v)(((PyObject *)p->avg_min), a); if (e) return e;
   }
   if (p->dvals) {
     e = (*v)(p->dvals, a); if (e) return e;
@@ -30661,6 +31603,9 @@ static int __pyx_tp_clear_6mlgrad_18mlocation_scatter2_MLSE2(PyObject *o) {
   struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *p = (struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *)o;
   tmp = ((PyObject*)p->avg);
   p->avg = ((struct __pyx_obj_6mlgrad_6avragg_Average *)Py_None); Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->avg_min);
+  p->avg_min = ((struct __pyx_obj_6mlgrad_6avragg_Average *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->dvals);
   p->dvals = ((PyObject*)Py_None); Py_INCREF(Py_None);
@@ -30825,6 +31770,20 @@ static int __pyx_setprop_6mlgrad_18mlocation_scatter2_5MLSE2_n_iter(PyObject *o,
   }
 }
 
+static PyObject *__pyx_getprop_6mlgrad_18mlocation_scatter2_5MLSE2_n_iter_s(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_8n_iter_s_1__get__(o);
+}
+
+static int __pyx_setprop_6mlgrad_18mlocation_scatter2_5MLSE2_n_iter_s(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_8n_iter_s_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
 static PyObject *__pyx_getprop_6mlgrad_18mlocation_scatter2_5MLSE2_n_step(PyObject *o, CYTHON_UNUSED void *x) {
   return __pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_6n_step_1__get__(o);
 }
@@ -30881,10 +31840,13 @@ static int __pyx_setprop_6mlgrad_18mlocation_scatter2_5MLSE2_dvals2(PyObject *o,
 
 static PyMethodDef __pyx_methods_6mlgrad_18mlocation_scatter2_MLSE2[] = {
   {"calc_distances", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_1calc_distances, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances},
-  {"Q", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_3Q, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_2Q},
-  {"update_distfuncs", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_5update_distfuncs, METH_O, __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_4update_distfuncs},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_7__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_6__reduce_cython__},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_9__setstate_cython__, METH_O, __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_8__setstate_cython__},
+  {"calc_weights", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_3calc_weights, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_2calc_weights},
+  {"calc_update_GG", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_5calc_update_GG, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_4calc_update_GG},
+  {"Q", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_7Q, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_6Q},
+  {"local_Q", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_9local_Q, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_8local_Q},
+  {"update_distfuncs", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_11update_distfuncs, METH_O, __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_10update_distfuncs},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_13__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_12__reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_5MLSE2_15__setstate_cython__, METH_O, __pyx_doc_6mlgrad_18mlocation_scatter2_5MLSE2_14__setstate_cython__},
   {0, 0, 0, 0}
 };
 
@@ -30900,6 +31862,7 @@ static struct PyGetSetDef __pyx_getsets_6mlgrad_18mlocation_scatter2_MLSE2[] = {
   {(char *)"K", __pyx_getprop_6mlgrad_18mlocation_scatter2_5MLSE2_K, __pyx_setprop_6mlgrad_18mlocation_scatter2_5MLSE2_K, (char *)"K: 'int'", 0},
   {(char *)"Ks", __pyx_getprop_6mlgrad_18mlocation_scatter2_5MLSE2_Ks, __pyx_setprop_6mlgrad_18mlocation_scatter2_5MLSE2_Ks, (char *)"Ks: 'int'", 0},
   {(char *)"n_iter", __pyx_getprop_6mlgrad_18mlocation_scatter2_5MLSE2_n_iter, __pyx_setprop_6mlgrad_18mlocation_scatter2_5MLSE2_n_iter, (char *)"n_iter: 'int'", 0},
+  {(char *)"n_iter_s", __pyx_getprop_6mlgrad_18mlocation_scatter2_5MLSE2_n_iter_s, __pyx_setprop_6mlgrad_18mlocation_scatter2_5MLSE2_n_iter_s, (char *)"n_iter_s: 'int'", 0},
   {(char *)"n_step", __pyx_getprop_6mlgrad_18mlocation_scatter2_5MLSE2_n_step, __pyx_setprop_6mlgrad_18mlocation_scatter2_5MLSE2_n_step, (char *)"n_step: 'int'", 0},
   {(char *)"tol", __pyx_getprop_6mlgrad_18mlocation_scatter2_5MLSE2_tol, __pyx_setprop_6mlgrad_18mlocation_scatter2_5MLSE2_tol, (char *)"tol: 'double'", 0},
   {(char *)"dvals", __pyx_getprop_6mlgrad_18mlocation_scatter2_5MLSE2_dvals, __pyx_setprop_6mlgrad_18mlocation_scatter2_5MLSE2_dvals, (char *)"dvals: list", 0},
@@ -30997,10 +31960,8 @@ static PyMethodDef __pyx_methods_6mlgrad_18mlocation_scatter2_MLocationsScatters
   {"fit_scatters", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_17fit_scatters, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_16fit_scatters},
   {"fit_step_scatters", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_19fit_step_scatters, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_18fit_step_scatters},
   {"fit", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_21fit, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_20fit},
-  {"stop_condition", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_23stop_condition, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_22stop_condition},
-  {"stop_condition2", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_25stop_condition2, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_24stop_condition2},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_27__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_26__reduce_cython__},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_29__setstate_cython__, METH_O, __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_28__setstate_cython__},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_23__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_22__reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_25__setstate_cython__, METH_O, __pyx_doc_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_24__setstate_cython__},
   {0, 0, 0, 0}
 };
 
@@ -31035,7 +31996,7 @@ static PyTypeObject __pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEs
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  "MLocationsScattersEstimator(Average avg, n_locs=2, tol=1.0e-6, h=0.1, n_iter=1000, n_step=20)", /*tp_doc*/
+  "MLocationsScattersEstimator(Average avg, Average avg_min, n_locs, tol=1.0e-6, n_iter=100, n_iter_s=0, n_step=100, alpha=0.1)", /*tp_doc*/
   __pyx_tp_traverse_6mlgrad_18mlocation_scatter2_MLSE2, /*tp_traverse*/
   __pyx_tp_clear_6mlgrad_18mlocation_scatter2_MLSE2, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -31834,6 +32795,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_kp_u_, __pyx_k_, sizeof(__pyx_k_), 0, 1, 0, 0},
   {&__pyx_n_s_ASCII, __pyx_k_ASCII, sizeof(__pyx_k_ASCII), 0, 0, 1, 1},
   {&__pyx_kp_s_Buffer_view_does_not_expose_stri, __pyx_k_Buffer_view_does_not_expose_stri, sizeof(__pyx_k_Buffer_view_does_not_expose_stri), 0, 0, 1, 0},
   {&__pyx_kp_s_Can_only_create_a_buffer_that_is, __pyx_k_Can_only_create_a_buffer_that_is, sizeof(__pyx_k_Can_only_create_a_buffer_that_is), 0, 0, 1, 0},
@@ -31842,7 +32804,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Cannot_index_with_type_s, __pyx_k_Cannot_index_with_type_s, sizeof(__pyx_k_Cannot_index_with_type_s), 0, 0, 1, 0},
   {&__pyx_n_s_Ellipsis, __pyx_k_Ellipsis, sizeof(__pyx_k_Ellipsis), 0, 0, 1, 1},
   {&__pyx_kp_s_Empty_shape_tuple_for_cython_arr, __pyx_k_Empty_shape_tuple_for_cython_arr, sizeof(__pyx_k_Empty_shape_tuple_for_cython_arr), 0, 0, 1, 0},
-  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x36, __pyx_k_Incompatible_checksums_s_vs_0x36, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x36), 0, 0, 1, 0},
+  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x99, __pyx_k_Incompatible_checksums_s_vs_0x99, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x99), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0xb0, __pyx_k_Incompatible_checksums_s_vs_0xb0, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xb0), 0, 0, 1, 0},
   {&__pyx_n_s_IndexError, __pyx_k_IndexError, sizeof(__pyx_k_IndexError), 0, 0, 1, 1},
   {&__pyx_kp_s_Indirect_dimensions_not_supporte, __pyx_k_Indirect_dimensions_not_supporte, sizeof(__pyx_k_Indirect_dimensions_not_supporte), 0, 0, 1, 0},
@@ -31864,15 +32826,19 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_View_MemoryView, __pyx_k_View_MemoryView, sizeof(__pyx_k_View_MemoryView), 0, 0, 1, 1},
   {&__pyx_n_s_X, __pyx_k_X, sizeof(__pyx_k_X), 0, 0, 1, 1},
-  {&__pyx_n_s__23, __pyx_k__23, sizeof(__pyx_k__23), 0, 0, 1, 1},
+  {&__pyx_n_s__24, __pyx_k__24, sizeof(__pyx_k__24), 0, 0, 1, 1},
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
+  {&__pyx_n_s_alpha, __pyx_k_alpha, sizeof(__pyx_k_alpha), 0, 0, 1, 1},
   {&__pyx_n_s_asarray, __pyx_k_asarray, sizeof(__pyx_k_asarray), 0, 0, 1, 1},
   {&__pyx_n_s_avg, __pyx_k_avg, sizeof(__pyx_k_avg), 0, 0, 1, 1},
+  {&__pyx_n_s_avg_min, __pyx_k_avg_min, sizeof(__pyx_k_avg_min), 0, 0, 1, 1},
   {&__pyx_n_s_avragg, __pyx_k_avragg, sizeof(__pyx_k_avragg), 0, 0, 1, 1},
   {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
   {&__pyx_n_u_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 1, 0, 1},
   {&__pyx_n_s_calc_distances, __pyx_k_calc_distances, sizeof(__pyx_k_calc_distances), 0, 0, 1, 1},
+  {&__pyx_n_s_calc_update_GG, __pyx_k_calc_update_GG, sizeof(__pyx_k_calc_update_GG), 0, 0, 1, 1},
+  {&__pyx_n_s_calc_weights, __pyx_k_calc_weights, sizeof(__pyx_k_calc_weights), 0, 0, 1, 1},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_kp_s_contiguous_and_direct, __pyx_k_contiguous_and_direct, sizeof(__pyx_k_contiguous_and_direct), 0, 0, 1, 0},
@@ -31895,7 +32861,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_full, __pyx_k_full, sizeof(__pyx_k_full), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
   {&__pyx_kp_s_got_differing_extents_in_dimensi, __pyx_k_got_differing_extents_in_dimensi, sizeof(__pyx_k_got_differing_extents_in_dimensi), 0, 0, 1, 0},
-  {&__pyx_n_s_h, __pyx_k_h, sizeof(__pyx_k_h), 0, 0, 1, 1},
+  {&__pyx_n_s_hermitian, __pyx_k_hermitian, sizeof(__pyx_k_hermitian), 0, 0, 1, 1},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_u_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 1, 0, 1},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
@@ -31914,6 +32880,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_lib_mlgrad_mlocation_scatter2_py, __pyx_k_lib_mlgrad_mlocation_scatter2_py, sizeof(__pyx_k_lib_mlgrad_mlocation_scatter2_py), 0, 0, 1, 0},
   {&__pyx_n_s_linalg, __pyx_k_linalg, sizeof(__pyx_k_linalg), 0, 0, 1, 1},
   {&__pyx_n_s_loc, __pyx_k_loc, sizeof(__pyx_k_loc), 0, 0, 1, 1},
+  {&__pyx_n_s_local_Q, __pyx_k_local_Q, sizeof(__pyx_k_local_Q), 0, 0, 1, 1},
   {&__pyx_n_u_locations, __pyx_k_locations, sizeof(__pyx_k_locations), 0, 1, 0, 1},
   {&__pyx_n_s_locs, __pyx_k_locs, sizeof(__pyx_k_locs), 0, 0, 1, 1},
   {&__pyx_n_s_m, __pyx_k_m, sizeof(__pyx_k_m), 0, 0, 1, 1},
@@ -31925,6 +32892,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
   {&__pyx_n_s_n, __pyx_k_n, sizeof(__pyx_k_n), 0, 0, 1, 1},
   {&__pyx_n_s_n_iter, __pyx_k_n_iter, sizeof(__pyx_k_n_iter), 0, 0, 1, 1},
+  {&__pyx_n_s_n_iter_s, __pyx_k_n_iter_s, sizeof(__pyx_k_n_iter_s), 0, 0, 1, 1},
   {&__pyx_n_s_n_locs, __pyx_k_n_locs, sizeof(__pyx_k_n_locs), 0, 0, 1, 1},
   {&__pyx_n_s_n_step, __pyx_k_n_step, sizeof(__pyx_k_n_step), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
@@ -31971,8 +32939,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
   {&__pyx_n_s_step, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
   {&__pyx_n_s_stop, __pyx_k_stop, sizeof(__pyx_k_stop), 0, 0, 1, 1},
-  {&__pyx_n_s_stop_condition, __pyx_k_stop_condition, sizeof(__pyx_k_stop_condition), 0, 0, 1, 1},
-  {&__pyx_n_s_stop_condition2, __pyx_k_stop_condition2, sizeof(__pyx_k_stop_condition2), 0, 0, 1, 1},
   {&__pyx_kp_s_strided_and_direct, __pyx_k_strided_and_direct, sizeof(__pyx_k_strided_and_direct), 0, 0, 1, 0},
   {&__pyx_kp_s_strided_and_direct_or_indirect, __pyx_k_strided_and_direct_or_indirect, sizeof(__pyx_k_strided_and_direct_or_indirect), 0, 0, 1, 0},
   {&__pyx_kp_s_strided_and_indirect, __pyx_k_strided_and_indirect, sizeof(__pyx_k_strided_and_indirect), 0, 0, 1, 0},
@@ -31987,14 +32953,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {&__pyx_n_s_update_distfuncs, __pyx_k_update_distfuncs, sizeof(__pyx_k_update_distfuncs), 0, 0, 1, 1},
   {&__pyx_n_s_warm, __pyx_k_warm, sizeof(__pyx_k_warm), 0, 0, 1, 1},
-  {&__pyx_kp_u_wk, __pyx_k_wk, sizeof(__pyx_k_wk), 0, 1, 0, 0},
   {&__pyx_n_s_zeros, __pyx_k_zeros, sizeof(__pyx_k_zeros), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 51, __pyx_L1_error)
-  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(1, 130, __pyx_L1_error)
-  __pyx_builtin_object = __Pyx_GetBuiltinName(__pyx_n_s_object); if (!__pyx_builtin_object) __PYX_ERR(1, 235, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_builtin_print = __Pyx_GetBuiltinName(__pyx_n_s_print); if (!__pyx_builtin_print) __PYX_ERR(1, 114, __pyx_L1_error)
+  __pyx_builtin_object = __Pyx_GetBuiltinName(__pyx_n_s_object); if (!__pyx_builtin_object) __PYX_ERR(1, 272, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(2, 148, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(2, 151, __pyx_L1_error)
@@ -32018,9 +32983,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if itemsize <= 0:
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(2, 133, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(2, 133, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
 
   /* "View.MemoryView":136
  * 
@@ -32029,9 +32994,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if not isinstance(format, bytes):
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(2, 136, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(2, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "View.MemoryView":148
  * 
@@ -32040,9 +33005,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(2, 148, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(2, 148, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
   /* "View.MemoryView":176
  *             self.data = <char *>malloc(self.len)
@@ -32051,9 +33016,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *             if self.dtype_is_object:
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(2, 176, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(2, 176, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
   /* "View.MemoryView":192
  *             bufmode = PyBUF_F_CONTIGUOUS | PyBUF_ANY_CONTIGUOUS
@@ -32062,9 +33027,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         info.buf = self.data
  *         info.len = self.len
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(2, 192, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(2, 192, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -32072,18 +33037,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(2, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(2, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
   /* "View.MemoryView":418
  *     def __setitem__(memoryview self, object index, object value):
@@ -32092,9 +33057,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         have_slices, index = _unellipsify(index, self.view.ndim)
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_Cannot_assign_to_read_only_memor); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(2, 418, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_Cannot_assign_to_read_only_memor); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(2, 418, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
   /* "View.MemoryView":495
  *             result = struct.unpack(self.view.format, bytesitem)
@@ -32103,9 +33068,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         else:
  *             if len(self.view.format) == 1:
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(2, 495, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(2, 495, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
 
   /* "View.MemoryView":520
  *     def __getbuffer__(self, Py_buffer *info, int flags):
@@ -32114,9 +33079,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if flags & PyBUF_ND:
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_Cannot_create_writable_memory_vi); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(2, 520, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s_Cannot_create_writable_memory_vi); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(2, 520, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
 
   /* "View.MemoryView":570
  *         if self.view.strides == NULL:
@@ -32125,9 +33090,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(2, 570, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(2, 570, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
 
   /* "View.MemoryView":577
  *     def suboffsets(self):
@@ -32136,12 +33101,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([suboffset for suboffset in self.view.suboffsets[:self.view.ndim]])
  */
-  __pyx_tuple__16 = PyTuple_New(1); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(2, 577, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__16);
+  __pyx_tuple__17 = PyTuple_New(1); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(2, 577, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_INCREF(__pyx_int_neg_1);
   __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyTuple_SET_ITEM(__pyx_tuple__16, 0, __pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_tuple__16);
+  PyTuple_SET_ITEM(__pyx_tuple__17, 0, __pyx_int_neg_1);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -32149,18 +33114,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(2, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(2, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__18);
-  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
 
   /* "View.MemoryView":682
  *         if item is Ellipsis:
@@ -32169,9 +33134,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *                 seen_ellipsis = True
  *             else:
  */
-  __pyx_slice__19 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__19)) __PYX_ERR(2, 682, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__19);
-  __Pyx_GIVEREF(__pyx_slice__19);
+  __pyx_slice__20 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__20)) __PYX_ERR(2, 682, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__20);
+  __Pyx_GIVEREF(__pyx_slice__20);
 
   /* "View.MemoryView":703
  *     for suboffset in suboffsets[:ndim]:
@@ -32180,9 +33145,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(2, 703, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(2, 703, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -32190,92 +33155,92 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(2, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(2, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
 
-  /* "mlgrad/mlocation_scatter2.pyx":92
- * #             C[i,j] = s
+  /* "mlgrad/mlocation_scatter2.pyx":76
+ *             S[i,j] = s / N
  * 
  * def standard_location(X):             # <<<<<<<<<<<<<<
  *     n = X.shape[1]
  *     loc = np.zeros(n, 'd')
  */
-  __pyx_tuple__24 = PyTuple_Pack(3, __pyx_n_s_X, __pyx_n_s_n, __pyx_n_s_loc); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 92, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__24);
-  __Pyx_GIVEREF(__pyx_tuple__24);
-  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_mlocation_scatter2_py, __pyx_n_s_standard_location, 92, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(1, 92, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(3, __pyx_n_s_X, __pyx_n_s_n, __pyx_n_s_loc); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(1, 76, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_mlocation_scatter2_py, __pyx_n_s_standard_location, 76, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(1, 76, __pyx_L1_error)
 
-  /* "mlgrad/mlocation_scatter2.pyx":98
+  /* "mlgrad/mlocation_scatter2.pyx":82
  *     return loc
  * 
  * def standard_covariance(X, loc, normalize=False):             # <<<<<<<<<<<<<<
  *     n = X.shape[1]
  *     S = np.zeros((n,n), 'd')
  */
-  __pyx_tuple__26 = PyTuple_Pack(5, __pyx_n_s_X, __pyx_n_s_loc, __pyx_n_s_normalize, __pyx_n_s_n, __pyx_n_s_S); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(1, 98, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
-  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_mlocation_scatter2_py, __pyx_n_s_standard_covariance, 98, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(1, 98, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(5, __pyx_n_s_X, __pyx_n_s_loc, __pyx_n_s_normalize, __pyx_n_s_n, __pyx_n_s_S); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(1, 82, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_mlocation_scatter2_py, __pyx_n_s_standard_covariance, 82, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(1, 82, __pyx_L1_error)
 
-  /* "mlgrad/mlocation_scatter2.pyx":137
+  /* "mlgrad/mlocation_scatter2.pyx":121
  *         ptr[i] *= vol
  * 
  * def scale_matrix(S, to=1.0):             # <<<<<<<<<<<<<<
  *     _scale_matrix(S, to=1.0)
  * 
  */
-  __pyx_tuple__28 = PyTuple_Pack(2, __pyx_n_s_S, __pyx_n_s_to); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(1, 137, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__28);
-  __Pyx_GIVEREF(__pyx_tuple__28);
-  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_mlocation_scatter2_py, __pyx_n_s_scale_matrix, 137, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(1, 137, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(2, __pyx_n_s_S, __pyx_n_s_to); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(1, 121, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_mlocation_scatter2_py, __pyx_n_s_scale_matrix, 121, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(1, 121, __pyx_L1_error)
 
-  /* "mlgrad/mlocation_scatter2.pyx":141
- * 
+  /* "mlgrad/mlocation_scatter2.pyx":124
+ *     _scale_matrix(S, to=1.0)
  * 
  * def init_locations(X, locs):             # <<<<<<<<<<<<<<
  * 
  *     N = X.shape[0]
  */
-  __pyx_tuple__30 = PyTuple_Pack(9, __pyx_n_s_X, __pyx_n_s_locs, __pyx_n_s_N, __pyx_n_s_n, __pyx_n_s_n_locs, __pyx_n_s_k0, __pyx_n_s_indices, __pyx_n_s_j, __pyx_n_s_m); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(1, 141, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__30);
-  __Pyx_GIVEREF(__pyx_tuple__30);
-  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(2, 0, 9, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_mlocation_scatter2_py, __pyx_n_s_init_locations, 141, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(1, 141, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(9, __pyx_n_s_X, __pyx_n_s_locs, __pyx_n_s_N, __pyx_n_s_n, __pyx_n_s_n_locs, __pyx_n_s_k0, __pyx_n_s_indices, __pyx_n_s_j, __pyx_n_s_m); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(1, 124, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(2, 0, 9, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_mlocation_scatter2_py, __pyx_n_s_init_locations, 124, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(1, 124, __pyx_L1_error)
 
-  /* "mlgrad/mlocation_scatter2.pyx":154
+  /* "mlgrad/mlocation_scatter2.pyx":137
  *         copy_memoryview(locs[j], X[m])
  * 
  * def  init_scatters(double[:,:,::1] scatters):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, n, n_locs
  *     cdef double[:,::1] S
  */
-  __pyx_tuple__32 = PyTuple_Pack(6, __pyx_n_s_scatters, __pyx_n_s_scatters, __pyx_n_s_i, __pyx_n_s_n, __pyx_n_s_n_locs, __pyx_n_s_S); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(1, 154, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__32);
-  __Pyx_GIVEREF(__pyx_tuple__32);
-  __pyx_codeobj__33 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__32, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_mlocation_scatter2_py, __pyx_n_s_init_scatters, 154, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__33)) __PYX_ERR(1, 154, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(6, __pyx_n_s_scatters, __pyx_n_s_scatters, __pyx_n_s_i, __pyx_n_s_n, __pyx_n_s_n_locs, __pyx_n_s_S); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(1, 137, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_mlocation_scatter2_py, __pyx_n_s_init_scatters, 137, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(1, 137, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_MLSE2(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__34 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__34);
-  __Pyx_GIVEREF(__pyx_tuple__34);
-  __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_MLSE2, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) __PYX_ERR(2, 1, __pyx_L1_error)
-  __pyx_tuple__36 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__36);
-  __Pyx_GIVEREF(__pyx_tuple__36);
-  __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_MLocationsScatter, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_tuple__35 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_MLSE2, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_tuple__37 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__37);
+  __Pyx_GIVEREF(__pyx_tuple__37);
+  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_MLocationsScatter, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(2, 1, __pyx_L1_error)
 
   /* "View.MemoryView":286
  *         return self.name
@@ -32284,9 +33249,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(2, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__38);
-  __Pyx_GIVEREF(__pyx_tuple__38);
+  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(2, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
 
   /* "View.MemoryView":287
  * 
@@ -32295,9 +33260,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(2, 287, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__39);
-  __Pyx_GIVEREF(__pyx_tuple__39);
+  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(2, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__40);
+  __Pyx_GIVEREF(__pyx_tuple__40);
 
   /* "View.MemoryView":288
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -32306,9 +33271,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(2, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__40);
-  __Pyx_GIVEREF(__pyx_tuple__40);
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(2, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__41);
+  __Pyx_GIVEREF(__pyx_tuple__41);
 
   /* "View.MemoryView":291
  * 
@@ -32317,9 +33282,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(2, 291, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__41);
-  __Pyx_GIVEREF(__pyx_tuple__41);
+  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(2, 291, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__42);
+  __Pyx_GIVEREF(__pyx_tuple__42);
 
   /* "View.MemoryView":292
  * 
@@ -32328,19 +33293,19 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(2, 292, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__42);
-  __Pyx_GIVEREF(__pyx_tuple__42);
+  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(2, 292, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__43);
+  __Pyx_GIVEREF(__pyx_tuple__43);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Enum(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__43 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__43);
-  __Pyx_GIVEREF(__pyx_tuple__43);
-  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_tuple__44 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__44);
+  __Pyx_GIVEREF(__pyx_tuple__44);
+  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -32349,6 +33314,13 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
+  /* InitThreads.init */
+  #ifdef WITH_THREAD
+PyEval_InitThreads();
+#endif
+
+if (unlikely(PyErr_Occurred())) __PYX_ERR(1, 1, __pyx_L1_error)
+
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(1, 1, __pyx_L1_error);
   __pyx_float_1_ = PyFloat_FromDouble(1.); if (unlikely(!__pyx_float_1_)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_float_0_1 = PyFloat_FromDouble(0.1); if (unlikely(!__pyx_float_0_1)) __PYX_ERR(1, 1, __pyx_L1_error)
@@ -32356,10 +33328,8 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   __pyx_float_1_0eneg_6 = PyFloat_FromDouble(1.0e-6); if (unlikely(!__pyx_float_1_0eneg_6)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_int_20 = PyInt_FromLong(20); if (unlikely(!__pyx_int_20)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_int_1000 = PyInt_FromLong(1000); if (unlikely(!__pyx_int_1000)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_int_57273707 = PyInt_FromLong(57273707L); if (unlikely(!__pyx_int_57273707)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_int_100 = PyInt_FromLong(100); if (unlikely(!__pyx_int_100)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_int_160632494 = PyInt_FromLong(160632494L); if (unlikely(!__pyx_int_160632494)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_int_184977713 = PyInt_FromLong(184977713L); if (unlikely(!__pyx_int_184977713)) __PYX_ERR(1, 1, __pyx_L1_error)
   __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   return 0;
@@ -32413,31 +33383,36 @@ static int __Pyx_modinit_type_init_code(void) {
   /*--- Type init code ---*/
   __pyx_vtabptr_6mlgrad_18mlocation_scatter2_MLSE2 = &__pyx_vtable_6mlgrad_18mlocation_scatter2_MLSE2;
   __pyx_vtable_6mlgrad_18mlocation_scatter2_MLSE2.calc_distances = (PyObject *(*)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_distances;
+  __pyx_vtable_6mlgrad_18mlocation_scatter2_MLSE2.calc_weights = (PyObject *(*)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_weights;
+  __pyx_vtable_6mlgrad_18mlocation_scatter2_MLSE2.calc_update_GG = (PyObject *(*)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_calc_update_GG;
   __pyx_vtable_6mlgrad_18mlocation_scatter2_MLSE2.Q = (double (*)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_Q;
-  if (PyType_Ready(&__pyx_type_6mlgrad_18mlocation_scatter2_MLSE2) < 0) __PYX_ERR(1, 165, __pyx_L1_error)
+  __pyx_vtable_6mlgrad_18mlocation_scatter2_MLSE2.local_Q = (double (*)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLSE2 *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_18mlocation_scatter2_5MLSE2_local_Q;
+  if (PyType_Ready(&__pyx_type_6mlgrad_18mlocation_scatter2_MLSE2) < 0) __PYX_ERR(1, 148, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_18mlocation_scatter2_MLSE2.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_18mlocation_scatter2_MLSE2.tp_dictoffset && __pyx_type_6mlgrad_18mlocation_scatter2_MLSE2.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_18mlocation_scatter2_MLSE2.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_18mlocation_scatter2_MLSE2.tp_dict, __pyx_vtabptr_6mlgrad_18mlocation_scatter2_MLSE2) < 0) __PYX_ERR(1, 165, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MLSE2, (PyObject *)&__pyx_type_6mlgrad_18mlocation_scatter2_MLSE2) < 0) __PYX_ERR(1, 165, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_18mlocation_scatter2_MLSE2) < 0) __PYX_ERR(1, 165, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_18mlocation_scatter2_MLSE2.tp_dict, __pyx_vtabptr_6mlgrad_18mlocation_scatter2_MLSE2) < 0) __PYX_ERR(1, 148, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MLSE2, (PyObject *)&__pyx_type_6mlgrad_18mlocation_scatter2_MLSE2) < 0) __PYX_ERR(1, 148, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_18mlocation_scatter2_MLSE2) < 0) __PYX_ERR(1, 148, __pyx_L1_error)
   __pyx_ptype_6mlgrad_18mlocation_scatter2_MLSE2 = &__pyx_type_6mlgrad_18mlocation_scatter2_MLSE2;
   __pyx_vtabptr_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator = &__pyx_vtable_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator;
   __pyx_vtable_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator.__pyx_base = *__pyx_vtabptr_6mlgrad_18mlocation_scatter2_MLSE2;
+  __pyx_vtable_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator.stop_condition = (int (*)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *))__pyx_f_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_stop_condition;
+  __pyx_vtable_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator.stop_condition2 = (int (*)(struct __pyx_obj_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator *))__pyx_f_6mlgrad_18mlocation_scatter2_27MLocationsScattersEstimator_stop_condition2;
   __pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator.tp_base = __pyx_ptype_6mlgrad_18mlocation_scatter2_MLSE2;
-  if (PyType_Ready(&__pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator) < 0) __PYX_ERR(1, 209, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator) < 0) __PYX_ERR(1, 244, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator.tp_dictoffset && __pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator.tp_dict, __pyx_vtabptr_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator) < 0) __PYX_ERR(1, 209, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MLocationsScattersEstimator, (PyObject *)&__pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator) < 0) __PYX_ERR(1, 209, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator) < 0) __PYX_ERR(1, 209, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator.tp_dict, __pyx_vtabptr_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator) < 0) __PYX_ERR(1, 244, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MLocationsScattersEstimator, (PyObject *)&__pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator) < 0) __PYX_ERR(1, 244, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator) < 0) __PYX_ERR(1, 244, __pyx_L1_error)
   __pyx_ptype_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator = &__pyx_type_6mlgrad_18mlocation_scatter2_MLocationsScattersEstimator;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -32730,17 +33705,17 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_6mlgrad_8distance_DistanceWithScale) __PYX_ERR(6, 11, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_8distance_DistanceWithScale = (struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_DistanceWithScale->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_DistanceWithScale)) __PYX_ERR(6, 11, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_AbsoluteDistance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "AbsoluteDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_AbsoluteDistance) __PYX_ERR(6, 15, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_AbsoluteDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance)) __PYX_ERR(6, 15, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_AbsoluteDistance) __PYX_ERR(6, 16, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_AbsoluteDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance)) __PYX_ERR(6, 16, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_EuclidDistance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "EuclidDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_EuclidDistance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_EuclidDistance) __PYX_ERR(6, 19, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_EuclidDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_EuclidDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_EuclidDistance)) __PYX_ERR(6, 19, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_EuclidDistance) __PYX_ERR(6, 20, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_EuclidDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_EuclidDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_EuclidDistance)) __PYX_ERR(6, 20, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_MahalanobisDistance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "MahalanobisDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_MahalanobisDistance) __PYX_ERR(6, 23, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_MahalanobisDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance)) __PYX_ERR(6, 23, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_MahalanobisDistance) __PYX_ERR(6, 24, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_MahalanobisDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance)) __PYX_ERR(6, 24, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_PowerDistance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "PowerDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_PowerDistance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_PowerDistance) __PYX_ERR(6, 27, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_PowerDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_PowerDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_PowerDistance)) __PYX_ERR(6, 27, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_PowerDistance) __PYX_ERR(6, 28, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_PowerDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_PowerDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_PowerDistance)) __PYX_ERR(6, 28, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -32876,9 +33851,10 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_mlocation_scatter2(PyObject *__pyx
 {
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
-  __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_3;
   __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  static PyThread_type_lock __pyx_t_5[8];
+  __Pyx_memviewslice __pyx_t_5 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  static PyThread_type_lock __pyx_t_6[8];
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -33007,9 +33983,9 @@ if (!__Pyx_RefNanny) {
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s__23);
-  __Pyx_GIVEREF(__pyx_n_s__23);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__23);
+  __Pyx_INCREF(__pyx_n_s__24);
+  __Pyx_GIVEREF(__pyx_n_s__24);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__24);
   __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy_linalg, __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -33025,9 +34001,9 @@ if (!__Pyx_RefNanny) {
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s__23);
-  __Pyx_GIVEREF(__pyx_n_s__23);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s__23);
+  __Pyx_INCREF(__pyx_n_s__24);
+  __Pyx_GIVEREF(__pyx_n_s__24);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s__24);
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_mlgrad_avragg, __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -33039,7 +34015,7 @@ if (!__Pyx_RefNanny) {
  * 
  * from mlgrad.kmeans import init_centers2             # <<<<<<<<<<<<<<
  * 
- * # from cython.parallel cimport parallel, prange
+ * from cython.parallel cimport parallel, prange
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -33055,8 +34031,58 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
+  /* "mlgrad/mlocation_scatter2.pyx":44
+ * from openmp cimport omp_get_num_procs
+ * 
+ * cdef int num_procs = omp_get_num_procs()             # <<<<<<<<<<<<<<
+ * if num_procs > 4:
+ *     num_procs /= 2
+ */
+  __pyx_v_6mlgrad_18mlocation_scatter2_num_procs = omp_get_num_procs();
+
+  /* "mlgrad/mlocation_scatter2.pyx":45
+ * 
+ * cdef int num_procs = omp_get_num_procs()
+ * if num_procs > 4:             # <<<<<<<<<<<<<<
+ *     num_procs /= 2
+ * else:
+ */
+  __pyx_t_3 = ((__pyx_v_6mlgrad_18mlocation_scatter2_num_procs > 4) != 0);
+  if (__pyx_t_3) {
+
+    /* "mlgrad/mlocation_scatter2.pyx":46
+ * cdef int num_procs = omp_get_num_procs()
+ * if num_procs > 4:
+ *     num_procs /= 2             # <<<<<<<<<<<<<<
+ * else:
+ *     num_procs = 2
+ */
+    __pyx_v_6mlgrad_18mlocation_scatter2_num_procs = __Pyx_div_long(__pyx_v_6mlgrad_18mlocation_scatter2_num_procs, 2);
+
+    /* "mlgrad/mlocation_scatter2.pyx":45
+ * 
+ * cdef int num_procs = omp_get_num_procs()
+ * if num_procs > 4:             # <<<<<<<<<<<<<<
+ *     num_procs /= 2
+ * else:
+ */
+    goto __pyx_L2;
+  }
+
+  /* "mlgrad/mlocation_scatter2.pyx":48
+ *     num_procs /= 2
+ * else:
+ *     num_procs = 2             # <<<<<<<<<<<<<<
+ * 
+ * cdef double max_float = PyFloat_GetMax()
+ */
+  /*else*/ {
+    __pyx_v_6mlgrad_18mlocation_scatter2_num_procs = 2;
+  }
+  __pyx_L2:;
+
   /* "mlgrad/mlocation_scatter2.pyx":50
- * #     num_procs = 2
+ *     num_procs = 2
  * 
  * cdef double max_float = PyFloat_GetMax()             # <<<<<<<<<<<<<<
  * 
@@ -33064,113 +34090,113 @@ if (!__Pyx_RefNanny) {
  */
   __pyx_v_6mlgrad_18mlocation_scatter2_max_float = PyFloat_GetMax();
 
-  /* "mlgrad/mlocation_scatter2.pyx":92
- * #             C[i,j] = s
+  /* "mlgrad/mlocation_scatter2.pyx":76
+ *             S[i,j] = s / N
  * 
  * def standard_location(X):             # <<<<<<<<<<<<<<
  *     n = X.shape[1]
  *     loc = np.zeros(n, 'd')
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_18mlocation_scatter2_1standard_location, NULL, __pyx_n_s_mlgrad_mlocation_scatter2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 92, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_18mlocation_scatter2_1standard_location, NULL, __pyx_n_s_mlgrad_mlocation_scatter2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_standard_location, __pyx_t_2) < 0) __PYX_ERR(1, 92, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_standard_location, __pyx_t_2) < 0) __PYX_ERR(1, 76, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":98
+  /* "mlgrad/mlocation_scatter2.pyx":82
  *     return loc
  * 
  * def standard_covariance(X, loc, normalize=False):             # <<<<<<<<<<<<<<
  *     n = X.shape[1]
  *     S = np.zeros((n,n), 'd')
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_18mlocation_scatter2_3standard_covariance, NULL, __pyx_n_s_mlgrad_mlocation_scatter2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 98, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_18mlocation_scatter2_3standard_covariance, NULL, __pyx_n_s_mlgrad_mlocation_scatter2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_standard_covariance, __pyx_t_2) < 0) __PYX_ERR(1, 98, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_standard_covariance, __pyx_t_2) < 0) __PYX_ERR(1, 82, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":137
+  /* "mlgrad/mlocation_scatter2.pyx":121
  *         ptr[i] *= vol
  * 
  * def scale_matrix(S, to=1.0):             # <<<<<<<<<<<<<<
  *     _scale_matrix(S, to=1.0)
  * 
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_18mlocation_scatter2_5scale_matrix, NULL, __pyx_n_s_mlgrad_mlocation_scatter2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 137, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_18mlocation_scatter2_5scale_matrix, NULL, __pyx_n_s_mlgrad_mlocation_scatter2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_scale_matrix, __pyx_t_2) < 0) __PYX_ERR(1, 137, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_scale_matrix, __pyx_t_2) < 0) __PYX_ERR(1, 121, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":141
- * 
+  /* "mlgrad/mlocation_scatter2.pyx":124
+ *     _scale_matrix(S, to=1.0)
  * 
  * def init_locations(X, locs):             # <<<<<<<<<<<<<<
  * 
  *     N = X.shape[0]
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_18mlocation_scatter2_7init_locations, NULL, __pyx_n_s_mlgrad_mlocation_scatter2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 141, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_18mlocation_scatter2_7init_locations, NULL, __pyx_n_s_mlgrad_mlocation_scatter2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_init_locations, __pyx_t_2) < 0) __PYX_ERR(1, 141, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_init_locations, __pyx_t_2) < 0) __PYX_ERR(1, 124, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":154
+  /* "mlgrad/mlocation_scatter2.pyx":137
  *         copy_memoryview(locs[j], X[m])
  * 
  * def  init_scatters(double[:,:,::1] scatters):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, n, n_locs
  *     cdef double[:,::1] S
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_18mlocation_scatter2_9init_scatters, NULL, __pyx_n_s_mlgrad_mlocation_scatter2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 154, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_18mlocation_scatter2_9init_scatters, NULL, __pyx_n_s_mlgrad_mlocation_scatter2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_init_scatters, __pyx_t_2) < 0) __PYX_ERR(1, 154, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_init_scatters, __pyx_t_2) < 0) __PYX_ERR(1, 137, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/mlocation_scatter2.pyx":255
- *             self.init_scatters(X)
+  /* "mlgrad/mlocation_scatter2.pyx":306
+ *         self.dvals2.append(self.dval2)
  * 
  *     def init_locations(self, double[:,::1] X, double[:,::1] locs=None):             # <<<<<<<<<<<<<<
  *         n = X.shape[1]
  *         N = X.shape[0]
  */
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(1, 255, __pyx_L1_error)
-  __pyx_k_ = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 306, __pyx_L1_error)
+  __pyx_k__2 = __pyx_t_4;
+  __pyx_t_4.memview = NULL;
+  __pyx_t_4.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":287
- * 
+  /* "mlgrad/mlocation_scatter2.pyx":327
+ *             self.update_distfuncs(self.scatters)
  * 
  *     def init_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):             # <<<<<<<<<<<<<<
  *         n = X.shape[1]
  *         if self.locs is None:
  */
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 287, __pyx_L1_error)
-  __pyx_k__2 = __pyx_t_4;
-  __pyx_t_4.memview = NULL;
-  __pyx_t_4.data = NULL;
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 327, __pyx_L1_error)
+  __pyx_k__3 = __pyx_t_5;
+  __pyx_t_5.memview = NULL;
+  __pyx_t_5.data = NULL;
 
-  /* "mlgrad/mlocation_scatter2.pyx":348
+  /* "mlgrad/mlocation_scatter2.pyx":388
  *         return D.base
  * 
  *     def fit_locations(self, double[:,::1] X, double[:,::1] locs=None):             # <<<<<<<<<<<<<<
- *         self.init_locations(X, locs)
  *         self.K = 1
- */
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(1, 348, __pyx_L1_error)
-  __pyx_k__3 = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
-
-  /* "mlgrad/mlocation_scatter2.pyx":406
- *                 locs_l[i] += v * Xk[i]
- * 
- *     def fit_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):             # <<<<<<<<<<<<<<
- *         self.init_scatters(X, scatters)
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 406, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 388, __pyx_L1_error)
   __pyx_k__4 = __pyx_t_4;
   __pyx_t_4.memview = NULL;
   __pyx_t_4.data = NULL;
+
+  /* "mlgrad/mlocation_scatter2.pyx":447
+ * #                 locs_j[i] /= Wj
+ * 
+ *     def fit_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):             # <<<<<<<<<<<<<<
+ *         self.K = 1
+ * 
+ */
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 447, __pyx_L1_error)
+  __pyx_k__5 = __pyx_t_5;
+  __pyx_t_5.memview = NULL;
+  __pyx_t_5.data = NULL;
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_MLSE2(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
@@ -33186,8 +34212,8 @@ if (!__Pyx_RefNanny) {
  *         __pyx_unpickle_MLSE2__set_state(<MLSE2> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_MLSE2__set_state(MLSE2 __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.D = __pyx_state[0]; __pyx_result.K = __pyx_state[1]; __pyx_result.Ks = __pyx_state[2]; __pyx_result.Ns = __pyx_state[3]; __pyx_result.W = __pyx_state[4]; __pyx_result.X = __pyx_state[5]; __pyx_result.Y = __pyx_state[6]; __pyx_result.avg = __pyx_state[7]; __pyx_result.distfuncs = __pyx_state[8]; __pyx_result.dval = __pyx_state[9]; __pyx_result.dval2 = __pyx_state[10]; __pyx_result.dval2_min = __pyx_state[11]; __pyx_result.dval2_prev = __pyx_state[12]; __pyx_result.dval_min = __pyx_state[13]; __pyx_result.dval_prev = __pyx_state[14]; __pyx_result.dvals = __pyx_state[15]; __pyx_result.dvals2 = __pyx_state[16]; __pyx_result.h = __pyx_state[17]; __pyx_result.locs = __pyx_state[18]; __pyx_result.locs_min = __pyx_state[19]; __pyx_result.n_iter = __pyx_state[20]; __pyx_result.n_locs = __pyx_state[21]; __pyx_result.n_step = __pyx_state[22]; __pyx_result.scatters = __pyx_state[23]; __pyx_result.scatters_min = __pyx_state[24]; __pyx_result.tol = __pyx_state[25]; __pyx_result.weights = __pyx_state[26]
- *     if len(__pyx_state) > 27 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.D = __pyx_state[0]; __pyx_result.DD = __pyx_state[1]; __pyx_result.GG = __pyx_state[2]; __pyx_result.K = __pyx_state[3]; __pyx_result.Ks = __pyx_state[4]; __pyx_result.Ns = __pyx_state[5]; __pyx_result.W = __pyx_state[6]; __pyx_result.X = __pyx_state[7]; __pyx_result.alpha = __pyx_state[8]; __pyx_result.avg = __pyx_state[9]; __pyx_result.avg_min = __pyx_state[10]; __pyx_result.distfuncs = __pyx_state[11]; __pyx_result.dval = __pyx_state[12]; __pyx_result.dval2 = __pyx_state[13]; __pyx_result.dval2_min = __pyx_state[14]; __pyx_result.dval2_prev = __pyx_state[15]; __pyx_result.dval_min = __pyx_state[16]; __pyx_result.dval_prev = __pyx_state[17]; __pyx_result.dvals = __pyx_state[18]; __pyx_result.dvals2 = __pyx_state[19]; __pyx_result.h = __pyx_state[20]; __pyx_result.locs = __pyx_state[21]; __pyx_result.locs_min = __pyx_state[22]; __pyx_result.n_iter = __pyx_state[23]; __pyx_result.n_iter_s = __pyx_state[24]; __pyx_result.n_locs = __pyx_state[25]; __pyx_result.n_step = __pyx_state[26]; __pyx_result.scatters = __pyx_state[27]; __pyx_result.scatters_min = __pyx_state[28]; __pyx_result.tol = __pyx_state[29]; __pyx_result.weights = __pyx_state[30]; __pyx_result.xy = __pyx_state[31]
+ *     if len(__pyx_state) > 32 and hasattr(__pyx_result, '__dict__'):
  */
   __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_18mlocation_scatter2_13__pyx_unpickle_MLocationsScattersEstimator, NULL, __pyx_n_s_mlgrad_mlocation_scatter2); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -33224,7 +34250,7 @@ if (!__Pyx_RefNanny) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 286, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_2);
@@ -33238,7 +34264,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 287, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_2);
@@ -33252,7 +34278,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 288, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_2);
@@ -33266,7 +34292,7 @@ if (!__Pyx_RefNanny) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 291, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_2);
@@ -33280,7 +34306,7 @@ if (!__Pyx_RefNanny) {
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 292, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_2);
@@ -33303,15 +34329,15 @@ if (!__Pyx_RefNanny) {
  *     PyThread_allocate_lock(),
  *     PyThread_allocate_lock(),
  */
-  __pyx_t_5[0] = PyThread_allocate_lock();
-  __pyx_t_5[1] = PyThread_allocate_lock();
-  __pyx_t_5[2] = PyThread_allocate_lock();
-  __pyx_t_5[3] = PyThread_allocate_lock();
-  __pyx_t_5[4] = PyThread_allocate_lock();
-  __pyx_t_5[5] = PyThread_allocate_lock();
-  __pyx_t_5[6] = PyThread_allocate_lock();
-  __pyx_t_5[7] = PyThread_allocate_lock();
-  memcpy(&(__pyx_memoryview_thread_locks[0]), __pyx_t_5, sizeof(__pyx_memoryview_thread_locks[0]) * (8));
+  __pyx_t_6[0] = PyThread_allocate_lock();
+  __pyx_t_6[1] = PyThread_allocate_lock();
+  __pyx_t_6[2] = PyThread_allocate_lock();
+  __pyx_t_6[3] = PyThread_allocate_lock();
+  __pyx_t_6[4] = PyThread_allocate_lock();
+  __pyx_t_6[5] = PyThread_allocate_lock();
+  __pyx_t_6[6] = PyThread_allocate_lock();
+  __pyx_t_6[7] = PyThread_allocate_lock();
+  memcpy(&(__pyx_memoryview_thread_locks[0]), __pyx_t_6, sizeof(__pyx_memoryview_thread_locks[0]) * (8));
 
   /* "View.MemoryView":549
  *         info.obj = self
@@ -33363,8 +34389,8 @@ if (!__Pyx_RefNanny) {
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_4, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
   if (__pyx_m) {
     if (__pyx_d) {
       __Pyx_AddTraceback("init mlgrad.mlocation_scatter2", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -36579,6 +37605,29 @@ __pyx_fail:
     return result;
 }
 
+/* ObjectToMemviewSlice */
+    static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *obj, int writable_flag) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_FOLLOW), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
+                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 2,
+                                                 &__Pyx_TypeInfo_double, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
 /* CIntToPy */
     static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
     const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
@@ -36657,29 +37706,6 @@ static CYTHON_INLINE int __pyx_memview_set_Py_ssize_t(const char *itemp, PyObjec
     retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
                                                  (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 1,
                                                  &__Pyx_TypeInfo_Py_ssize_t, stack,
-                                                 &result, obj);
-    if (unlikely(retcode == -1))
-        goto __pyx_fail;
-    return result;
-__pyx_fail:
-    result.memview = NULL;
-    result.data = NULL;
-    return result;
-}
-
-/* ObjectToMemviewSlice */
-    static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *obj, int writable_flag) {
-    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
-    __Pyx_BufFmt_StackElem stack[1];
-    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_FOLLOW), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
-    int retcode;
-    if (obj == Py_None) {
-        result.memview = (struct __pyx_memoryview_obj *) Py_None;
-        return result;
-    }
-    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
-                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 2,
-                                                 &__Pyx_TypeInfo_double, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))
         goto __pyx_fail;

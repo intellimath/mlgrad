@@ -1,11 +1,12 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=True
-# cython: wraparound=True
-# cython: nonecheck=True
+# cython: boundscheck=False
+# cython: wraparound=False
+# cython: nonecheck=False
 # cython: embedsignature=True
-# cython: initializedcheck=True
+# cython: initializedcheck=False
+# cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
 #

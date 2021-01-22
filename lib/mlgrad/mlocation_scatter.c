@@ -2049,15 +2049,16 @@ struct __pyx_obj_6mlgrad_8distance_Distance {
  * 
  * cdef class DistanceWithScale(Distance):             # <<<<<<<<<<<<<<
  *     cdef public double[:,::1] S
- * 
+ *     cdef public double sigma
  */
 struct __pyx_obj_6mlgrad_8distance_DistanceWithScale {
   struct __pyx_obj_6mlgrad_8distance_Distance __pyx_base;
   __Pyx_memviewslice S;
+  double sigma;
 };
 
 
-/* "mlgrad/distance.pxd":15
+/* "mlgrad/distance.pxd":16
  * 
  * @cython.final
  * cdef class AbsoluteDistance(Distance):             # <<<<<<<<<<<<<<
@@ -2069,7 +2070,7 @@ struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance {
 };
 
 
-/* "mlgrad/distance.pxd":19
+/* "mlgrad/distance.pxd":20
  * 
  * @cython.final
  * cdef class EuclidDistance(Distance):             # <<<<<<<<<<<<<<
@@ -2081,7 +2082,7 @@ struct __pyx_obj_6mlgrad_8distance_EuclidDistance {
 };
 
 
-/* "mlgrad/distance.pxd":23
+/* "mlgrad/distance.pxd":24
  * 
  * @cython.final
  * cdef class MahalanobisDistance(DistanceWithScale):             # <<<<<<<<<<<<<<
@@ -2093,7 +2094,7 @@ struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance {
 };
 
 
-/* "mlgrad/distance.pxd":27
+/* "mlgrad/distance.pxd":28
  * 
  * @cython.final
  * cdef class PowerDistance(Distance):             # <<<<<<<<<<<<<<
@@ -3266,7 +3267,7 @@ static struct __pyx_vtabstruct_6mlgrad_8distance_Distance *__pyx_vtabptr_6mlgrad
  * 
  * cdef class DistanceWithScale(Distance):             # <<<<<<<<<<<<<<
  *     cdef public double[:,::1] S
- * 
+ *     cdef public double sigma
  */
 
 struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale {
@@ -3275,7 +3276,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale {
 static struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale *__pyx_vtabptr_6mlgrad_8distance_DistanceWithScale;
 
 
-/* "mlgrad/distance.pxd":15
+/* "mlgrad/distance.pxd":16
  * 
  * @cython.final
  * cdef class AbsoluteDistance(Distance):             # <<<<<<<<<<<<<<
@@ -3289,7 +3290,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance *__pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance;
 
 
-/* "mlgrad/distance.pxd":19
+/* "mlgrad/distance.pxd":20
  * 
  * @cython.final
  * cdef class EuclidDistance(Distance):             # <<<<<<<<<<<<<<
@@ -3303,7 +3304,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance *__pyx_vtabptr_6mlgrad_8distance_EuclidDistance;
 
 
-/* "mlgrad/distance.pxd":23
+/* "mlgrad/distance.pxd":24
  * 
  * @cython.final
  * cdef class MahalanobisDistance(DistanceWithScale):             # <<<<<<<<<<<<<<
@@ -3317,7 +3318,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance *__pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance;
 
 
-/* "mlgrad/distance.pxd":27
+/* "mlgrad/distance.pxd":28
  * 
  * @cython.final
  * cdef class PowerDistance(Distance):             # <<<<<<<<<<<<<<
@@ -37600,17 +37601,17 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_6mlgrad_8distance_DistanceWithScale) __PYX_ERR(6, 11, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_8distance_DistanceWithScale = (struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_DistanceWithScale->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_DistanceWithScale)) __PYX_ERR(6, 11, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_AbsoluteDistance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "AbsoluteDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_AbsoluteDistance) __PYX_ERR(6, 15, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_AbsoluteDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance)) __PYX_ERR(6, 15, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_AbsoluteDistance) __PYX_ERR(6, 16, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_AbsoluteDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance)) __PYX_ERR(6, 16, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_EuclidDistance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "EuclidDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_EuclidDistance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_EuclidDistance) __PYX_ERR(6, 19, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_EuclidDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_EuclidDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_EuclidDistance)) __PYX_ERR(6, 19, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_EuclidDistance) __PYX_ERR(6, 20, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_EuclidDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_EuclidDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_EuclidDistance)) __PYX_ERR(6, 20, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_MahalanobisDistance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "MahalanobisDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_MahalanobisDistance) __PYX_ERR(6, 23, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_MahalanobisDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance)) __PYX_ERR(6, 23, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_MahalanobisDistance) __PYX_ERR(6, 24, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_MahalanobisDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance)) __PYX_ERR(6, 24, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_PowerDistance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "PowerDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_PowerDistance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_PowerDistance) __PYX_ERR(6, 27, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_PowerDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_PowerDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_PowerDistance)) __PYX_ERR(6, 27, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_PowerDistance) __PYX_ERR(6, 28, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_PowerDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_PowerDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_PowerDistance)) __PYX_ERR(6, 28, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;

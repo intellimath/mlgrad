@@ -6,6 +6,7 @@
 # cython: nonecheck=False
 # cython: embedsignature=False
 # cython: initializedcheck=False
+# cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
 # 
@@ -102,7 +103,7 @@ def matdot(A, x, y):
 def matdot_t(A, x, y):
     matrix_dot_t(A, x, y)
     
-cdef double inner_dot(double *a, double *b, Py_ssize_t m) nogil:
+cdef inline double inner_dot(double *a, double *b, Py_ssize_t m) nogil:
     cdef double s
     cdef double a1, a2, a3, a4
     cdef double b1, b2, b3, b4
@@ -133,7 +134,7 @@ cdef double inner_dot(double *a, double *b, Py_ssize_t m) nogil:
 
     return s
 
-cdef void inner_add(double *b, double *a, double c, Py_ssize_t m) nogil:
+cdef inline void inner_add(double *b, double *a, double c, Py_ssize_t m) nogil:
     cdef double a1, a2, a3, a4
     
     while m >= 4:
@@ -157,7 +158,7 @@ cdef void inner_add(double *b, double *a, double c, Py_ssize_t m) nogil:
         b += 1
         m -= 1
 
-cdef void inner_assign(double *b, double *a, double c, Py_ssize_t m) nogil:
+cdef inline void inner_assign(double *b, double *a, double c, Py_ssize_t m) nogil:
     cdef double a1, a2, a3, a4
     
     while m >= 4:
@@ -408,7 +409,7 @@ cdef class LinearModel(Model):
     cdef double evaluate(self, double[::1] X):
         cdef Py_ssize_t i, n_param = self.n_param
         cdef double v
-        cdef double *param = &self.param[0]
+        cdef double[::1] param = self.param
 
         #print("LM: %s %s %s" % (self.n_param, tuple(self.param), X))
         v = param[0]
@@ -425,7 +426,7 @@ cdef class LinearModel(Model):
     #
     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
         cdef int i, n_input = self.n_input
-        cdef double *param = &self.param[0]
+        cdef double[::1] param = self.param
 
         for i in range(n_input):
             grad_x[i] = param[i+1]
@@ -708,8 +709,9 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         self.param = allocator.get_allocated()
 
         self.output = np.zeros(self.n_output, 'd')
-        self.ss = np.zeros(self.n_output, 'd')
+#         self.ss = np.zeros(self.n_output, 'd')
         self.grad_input = np.zeros(self.n_input, 'd')
+#         self.X = np.zeros((num_procs, self.n_input), 'd')
     #
     cpdef ModelLayer copy(self, bint share=1):
         cdef SigmaNeuronModelLayer layer = SigmaNeuronModelLayer(self.func, self.n_input, self.n_output)
@@ -722,19 +724,24 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         layer.output = np.zeros(self.n_output, 'd')
         layer.ss = np.zeros(self.n_output, 'd')
         layer.grad_input = np.zeros(self.n_input, 'd')
+        self.X = np.zeros((num_procs, self.n_input), 'd')
         return <ModelLayer>layer
     #
     cdef void forward(self, double[::1] X):
         cdef Py_ssize_t n_input = self.n_input
         cdef Py_ssize_t n_output = self.n_output
-        cdef Py_ssize_t i, j
+        cdef Py_ssize_t i, j, size
         cdef double s1, s2, s
         cdef double[:,::1] matrix = self.matrix
         cdef double *output = &self.output[0]
         cdef Func func = self.func
+        
+#         size = cython.sizeof(double)*n_input
+#         for i in range(num_procs):
+#             memcpy(&self.X[i,0], &X[0], size);
 
 #         for j in prange(n_output, nogil=True, num_threads=num_procs):
-        for j in range(n_output):
+        for j in range(n_output): 
             s1 = matrix[j,0]
             s2 = inner_dot(&matrix[j,1], &X[0], n_input)
             s = s1 + s2
@@ -754,12 +761,13 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         cdef double[:,::1] matrix = self.matrix
         cdef double *output = &self.output[0]
         cdef Func func = self.func
+#         cdef double[::1] ss = self.ss
         
 #         fill_memoryview(grad_in, 0) 
         memset(grad_in, 0, n_input*cython.sizeof(double))        
 #         for j in prange(n_output, nogil=True, num_threads=num_procs):
         for j in range(n_output):
-            
+
             s1 = matrix[j,0]
             s2 = inner_dot(&matrix[j,1], &X[0], n_input)
             s = s1 + s2
@@ -769,10 +777,15 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
             else:
                 sx = grad_out[j] * func.derivative(s)
 
+#         for j in range(n_output):
             inner_add(grad_in, &matrix[j,1], sx, n_input)
 
+#         for j in range(n_output):
+#         for j in prange(n_output, nogil=True, num_threads=num_procs):
             jj = j*n_input1
+#             sx = ss[j]
             grad[jj] = sx
+            
             inner_assign(&grad[jj+1], &X[0], sx, n_input)
     #
     def as_dict(self):

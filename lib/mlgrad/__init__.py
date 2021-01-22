@@ -4,7 +4,7 @@
 
 from mlgrad.avragg import PenaltyAverage, Average_Iterative, Average_FG, ArithMean, ParameterizedAverage
 from mlgrad.gd import FG, FG_RUD, SGD
-from mlgrad.risk import ED, ER, AER, ER2, SimpleFunctional
+from mlgrad.risk import ED, MRisk, ERisk, AER, ER2, SimpleFunctional
 from mlgrad.irgd import IRGD
 from mlgrad.averager import ArrayMOM, ArrayRMSProp, ArrayAMOM, ArrayAdaM1, ArrayAdaM2, ScalarAdaM1, ScalarAdaM2
 from mlgrad.normalizer import LinearModelNormalizer
@@ -39,10 +39,16 @@ def sfunc(func):
     return f
 
 def erisk(X, Y, mod, loss_func, regular=None, weights=None, tau=0.001, batch=None):
-    er = ER(X, Y, mod, loss_func, regular=regular, tau=tau, batch=batch)
+    er = ERisk(X, Y, mod, loss_func, regular=regular, tau=tau, batch=batch)
     if weights is not None:
         er.use_weights(weights)
     return er
+
+def mrisk(X, Y, mod, loss_func, avg, regular=None, weights=None, tau=0.001, batch=None):
+    mr = MRisk(X, Y, mod, loss_func, avg, regular=regular, tau=tau, batch=batch)
+    if weights is not None:
+        mr.use_weights(weights)
+    return mr
 
 def aerisk(X, Y, mod, loss_func, avr=None, regular=None, tau=0.001, batch=None):
     er = AER(X, Y, mod, loss_func, avr, regular=regular, tau=tau, batch=batch)
@@ -86,26 +92,26 @@ def average_fg(Y, penalty_func, h=0.01, tol=1.0e-5, n_iter=1000, verbose=0, aver
         print("K={} u={}".format(alg.K, alg.u))
     return alg
 
-def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, stop_condition='diffL1', normalizer=None):
-    alg = FG(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition, normalizer=normalizer)
+def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, stop_condition='diffL1'):
+    alg = FG(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition)
     _averager = __averager_dict.get(averager, None)
     if _averager is not None:
         alg.use_gradient_averager(_averager())
     return alg
 
-def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None, stop_condition='diffL1', normalizer=None):
-    alg = FG_RUD(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition, gamma=gamma, normalizer=normalizer)
+def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None, stop_condition='diffL1'):
+    alg = FG_RUD(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition, gamma=gamma)
     _averager = __averager_dict.get(averager, ArrayMOM)
     if _averager is not None:
         alg.use_gradient_averager(_averager())
     return alg
 
 def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, 
-           stop_condition='diffL1', n_restart=1, verbose=0, normalizer=None):
+           stop_condition='diffL1', n_restart=1, verbose=0):
     K = 0
     for i in range(n_restart):
         alg = fg(er, h=h, tol=tol, n_iter=n_iter,
-                 averager=averager, callback=callback, stop_condition=stop_condition, normalizer=normalizer)
+                 averager=averager, callback=callback, stop_condition=stop_condition)
         alg.fit()
         K += alg.K
         if alg.completed:

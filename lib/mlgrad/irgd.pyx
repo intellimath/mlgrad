@@ -6,6 +6,7 @@
 # cython: nonecheck=False
 # cython: embedsignature=True
 # cython: initializedcheck=False
+# cython: unraisable_tracebacks=True  
 
 
 # The MIT License (MIT)
@@ -79,6 +80,7 @@ cdef class IRGD(object):
         cdef Functional risk = self.gd.risk
         cdef int m = len(risk.param)
     
+        self.param_best = np.zeros((m,), dtype='d')
 #         self.param_prev = np.zeros((m,), dtype='d')
                        
         self.K = 0
@@ -93,7 +95,8 @@ cdef class IRGD(object):
         risk.use_weights(self.weights.weights)
 
         self.lval_best = self.weights.get_qvalue()
-        self.param_best = risk.param.copy()
+        copy_memoryview(self.param_best, risk.param)
+#         self.param_best = risk.param.copy()
         
         if self.callback is not None:
             self.callback(self)
@@ -114,7 +117,8 @@ cdef class IRGD(object):
             self.lvals.append(self.lval)
 
             if self.lval < self.lval_best:
-                self.param_best = risk.param.copy()
+                copy_memoryview(self.param_best, risk.param)
+#                 self.param_best = risk.param.copy()
                 self.lval_best = self.lval            
                 
             if self.stop_condition():

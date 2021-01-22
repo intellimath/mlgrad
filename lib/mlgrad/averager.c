@@ -10489,7 +10489,7 @@ static void __pyx_f_6mlgrad_8averager_10ArrayAdaM2_update(struct __pyx_obj_6mlgr
                             goto __pyx_L10;
                             __pyx_L10:;
                             #ifdef _OPENMP
-                            #pragma omp critical(__pyx_parallel_lastprivates5)
+                            #pragma omp critical(__pyx_parallel_lastprivates6)
                             #endif /* _OPENMP */
                             {
                                 __pyx_parallel_temp0 = __pyx_v_i;
@@ -11744,7 +11744,7 @@ static void __pyx_f_6mlgrad_8averager_10ArrayAdaM1_update(struct __pyx_obj_6mlgr
                             goto __pyx_L10;
                             __pyx_L10:;
                             #ifdef _OPENMP
-                            #pragma omp critical(__pyx_parallel_lastprivates6)
+                            #pragma omp critical(__pyx_parallel_lastprivates7)
                             #endif /* _OPENMP */
                             {
                                 __pyx_parallel_temp0 = __pyx_v_i;

@@ -826,16 +826,16 @@ static const char *__pyx_f[] = {
   "lib/mlgrad/weights.pxd",
   "lib/mlgrad/weights.pyx",
   "stringsource",
-  "lib/mlgrad/model.pxd",
-  "lib/mlgrad/regular.pxd",
-  "lib/mlgrad/averager.pxd",
   "lib/mlgrad/avragg.pxd",
-  "lib/mlgrad/risk.pxd",
   "lib/mlgrad/func.pxd",
   "type.pxd",
+  "lib/mlgrad/model.pxd",
   "lib/mlgrad/distance.pxd",
   "lib/mlgrad/loss.pxd",
+  "lib/mlgrad/regular.pxd",
   "lib/mlgrad/batch.pxd",
+  "lib/mlgrad/averager.pxd",
+  "lib/mlgrad/risk.pxd",
 };
 /* MemviewSliceStruct.proto */
 struct __pyx_memoryview_obj;
@@ -1062,8 +1062,10 @@ struct __pyx_obj_6mlgrad_6avragg_Maximal;
 struct __pyx_obj_6mlgrad_4risk_Functional;
 struct __pyx_obj_6mlgrad_4risk_SimpleFunctional;
 struct __pyx_obj_6mlgrad_4risk_Risk;
+struct __pyx_obj_6mlgrad_4risk_SRisk;
+struct __pyx_obj_6mlgrad_4risk_MRisk;
 struct __pyx_obj_6mlgrad_4risk_ED;
-struct __pyx_obj_6mlgrad_4risk_ER;
+struct __pyx_obj_6mlgrad_4risk_ERisk;
 struct __pyx_obj_6mlgrad_4risk_AER;
 struct __pyx_obj_6mlgrad_4risk_ER2;
 struct __pyx_obj_6mlgrad_7weights_Weights;
@@ -1114,7 +1116,7 @@ struct __pyx_opt_args_6mlgrad_5model_10ModelLayer_copy {
   int share;
 };
 
-/* "mlgrad/model.pxd":133
+/* "mlgrad/model.pxd":134
  * #     cdef void forward(self, double[::1] X)
  * #     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
  *     cpdef MLModel copy(self, bint share=*)             # <<<<<<<<<<<<<<
@@ -1784,12 +1786,11 @@ struct __pyx_obj_6mlgrad_5model_SigmaNeuronModelLayer {
   struct __pyx_obj_6mlgrad_5model_ModelLayer __pyx_base;
   struct __pyx_obj_6mlgrad_4func_Func *func;
   __Pyx_memviewslice matrix;
-  __Pyx_memviewslice ss;
 };
 
 
-/* "mlgrad/model.pxd":116
- *     cdef double[::1] ss
+/* "mlgrad/model.pxd":117
+ * #     cdef double[:,::1] X
  * 
  * cdef class GeneralModelLayer(ModelLayer):             # <<<<<<<<<<<<<<
  *     cdef public list models
@@ -1801,7 +1802,7 @@ struct __pyx_obj_6mlgrad_5model_GeneralModelLayer {
 };
 
 
-/* "mlgrad/model.pxd":119
+/* "mlgrad/model.pxd":120
  *     cdef public list models
  * 
  * cdef class ComplexModel(object):             # <<<<<<<<<<<<<<
@@ -1819,7 +1820,7 @@ struct __pyx_obj_6mlgrad_5model_ComplexModel {
 };
 
 
-/* "mlgrad/model.pxd":128
+/* "mlgrad/model.pxd":129
  *     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
  * 
  * cdef class MLModel(ComplexModel):             # <<<<<<<<<<<<<<
@@ -1832,7 +1833,7 @@ struct __pyx_obj_6mlgrad_5model_MLModel {
 };
 
 
-/* "mlgrad/model.pxd":136
+/* "mlgrad/model.pxd":137
  * 
  * @cython.final
  * cdef class FFNetworkModel(MLModel):             # <<<<<<<<<<<<<<
@@ -1844,7 +1845,7 @@ struct __pyx_obj_6mlgrad_5model_FFNetworkModel {
 };
 
 
-/* "mlgrad/model.pxd":140
+/* "mlgrad/model.pxd":141
  * 
  * @cython.final
  * cdef class FFNetworkFuncModel(Model):             # <<<<<<<<<<<<<<
@@ -1858,7 +1859,7 @@ struct __pyx_obj_6mlgrad_5model_FFNetworkFuncModel {
 };
 
 
-/* "mlgrad/model.pxd":146
+/* "mlgrad/model.pxd":147
  * 
  * @cython.final
  * cdef class SquaredModel(Model):             # <<<<<<<<<<<<<<
@@ -1872,7 +1873,7 @@ struct __pyx_obj_6mlgrad_5model_SquaredModel {
 };
 
 
-/* "mlgrad/model.pxd":151
+/* "mlgrad/model.pxd":152
  * 
  * 
  * cdef class MultiModel:             # <<<<<<<<<<<<<<
@@ -1905,15 +1906,16 @@ struct __pyx_obj_6mlgrad_8distance_Distance {
  * 
  * cdef class DistanceWithScale(Distance):             # <<<<<<<<<<<<<<
  *     cdef public double[:,::1] S
- * 
+ *     cdef public double sigma
  */
 struct __pyx_obj_6mlgrad_8distance_DistanceWithScale {
   struct __pyx_obj_6mlgrad_8distance_Distance __pyx_base;
   __Pyx_memviewslice S;
+  double sigma;
 };
 
 
-/* "mlgrad/distance.pxd":15
+/* "mlgrad/distance.pxd":16
  * 
  * @cython.final
  * cdef class AbsoluteDistance(Distance):             # <<<<<<<<<<<<<<
@@ -1925,7 +1927,7 @@ struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance {
 };
 
 
-/* "mlgrad/distance.pxd":19
+/* "mlgrad/distance.pxd":20
  * 
  * @cython.final
  * cdef class EuclidDistance(Distance):             # <<<<<<<<<<<<<<
@@ -1937,7 +1939,7 @@ struct __pyx_obj_6mlgrad_8distance_EuclidDistance {
 };
 
 
-/* "mlgrad/distance.pxd":23
+/* "mlgrad/distance.pxd":24
  * 
  * @cython.final
  * cdef class MahalanobisDistance(DistanceWithScale):             # <<<<<<<<<<<<<<
@@ -1949,7 +1951,7 @@ struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance {
 };
 
 
-/* "mlgrad/distance.pxd":27
+/* "mlgrad/distance.pxd":28
  * 
  * @cython.final
  * cdef class PowerDistance(Distance):             # <<<<<<<<<<<<<<
@@ -2739,14 +2741,43 @@ struct __pyx_obj_6mlgrad_4risk_Risk {
   struct __pyx_obj_6mlgrad_4risk_Functional __pyx_base;
   __Pyx_memviewslice grad;
   __Pyx_memviewslice grad_r;
-  struct __pyx_obj_6mlgrad_6avragg_Average *avg;
   __Pyx_memviewslice weights;
   double tau;
 };
 
 
+/* "mlgrad/risk.pxd":71
+ *     cdef void eval_losses(self, double[::1] lval_all)
+ * 
+ * cdef class SRisk(Risk):             # <<<<<<<<<<<<<<
+ *     cdef double eval_loss(self, int k)
+ *     cdef void gradient_loss(self, int k)
+ */
+struct __pyx_obj_6mlgrad_4risk_SRisk {
+  struct __pyx_obj_6mlgrad_4risk_Risk __pyx_base;
+};
+
+
 /* "mlgrad/risk.pxd":75
- *     #cdef object get_loss(self)
+ *     cdef void gradient_loss(self, int k)
+ * 
+ * cdef class MRisk(Risk):             # <<<<<<<<<<<<<<
+ *     cdef public Model model
+ *     cdef public Loss loss
+ */
+struct __pyx_obj_6mlgrad_4risk_MRisk {
+  struct __pyx_obj_6mlgrad_4risk_Risk __pyx_base;
+  struct __pyx_obj_6mlgrad_5model_Model *model;
+  struct __pyx_obj_6mlgrad_4loss_Loss *loss;
+  __Pyx_memviewslice X;
+  __Pyx_memviewslice Y;
+  __Pyx_memviewslice Yp;
+  struct __pyx_obj_6mlgrad_6avragg_Average *avg;
+};
+
+
+/* "mlgrad/risk.pxd":83
+ *     cdef Average avg
  * 
  * cdef class ED(Risk):             # <<<<<<<<<<<<<<
  *     cdef double[:, ::1] X
@@ -2760,15 +2791,15 @@ struct __pyx_obj_6mlgrad_4risk_ED {
 };
 
 
-/* "mlgrad/risk.pxd":81
+/* "mlgrad/risk.pxd":89
  *     #
  * 
- * cdef class ER(Risk):             # <<<<<<<<<<<<<<
+ * cdef class ERisk(SRisk):             # <<<<<<<<<<<<<<
  *     cdef public Model model
  *     cdef public Loss loss
  */
-struct __pyx_obj_6mlgrad_4risk_ER {
-  struct __pyx_obj_6mlgrad_4risk_Risk __pyx_base;
+struct __pyx_obj_6mlgrad_4risk_ERisk {
+  struct __pyx_obj_6mlgrad_4risk_SRisk __pyx_base;
   struct __pyx_obj_6mlgrad_5model_Model *model;
   struct __pyx_obj_6mlgrad_4loss_Loss *loss;
   __Pyx_memviewslice X;
@@ -2777,30 +2808,30 @@ struct __pyx_obj_6mlgrad_4risk_ER {
 };
 
 
-/* "mlgrad/risk.pxd":88
+/* "mlgrad/risk.pxd":96
  *     cdef public double[::1] Yp
  * 
- * cdef class AER(ER):             # <<<<<<<<<<<<<<
+ * cdef class AER(ERisk):             # <<<<<<<<<<<<<<
  *     cdef Average loss_averager
  *     cdef double[::1] lval_all
  */
 struct __pyx_obj_6mlgrad_4risk_AER {
-  struct __pyx_obj_6mlgrad_4risk_ER __pyx_base;
+  struct __pyx_obj_6mlgrad_4risk_ERisk __pyx_base;
   struct __pyx_obj_6mlgrad_6avragg_Average *loss_averager;
   __Pyx_memviewslice lval_all;
   __Pyx_memviewslice mval_all;
 };
 
 
-/* "mlgrad/risk.pxd":96
+/* "mlgrad/risk.pxd":104
  * 
  * 
- * cdef class ER2(Risk):             # <<<<<<<<<<<<<<
+ * cdef class ER2(SRisk):             # <<<<<<<<<<<<<<
  *     cdef public MLModel model
  *     cdef public MultLoss loss
  */
 struct __pyx_obj_6mlgrad_4risk_ER2 {
-  struct __pyx_obj_6mlgrad_4risk_Risk __pyx_base;
+  struct __pyx_obj_6mlgrad_4risk_SRisk __pyx_base;
   struct __pyx_obj_6mlgrad_5model_MLModel *model;
   struct __pyx_obj_6mlgrad_4loss_MultLoss *loss;
   __Pyx_memviewslice X;
@@ -3668,8 +3699,8 @@ struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModelLayer {
 static struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModelLayer *__pyx_vtabptr_6mlgrad_5model_SigmaNeuronModelLayer;
 
 
-/* "mlgrad/model.pxd":116
- *     cdef double[::1] ss
+/* "mlgrad/model.pxd":117
+ * #     cdef double[:,::1] X
  * 
  * cdef class GeneralModelLayer(ModelLayer):             # <<<<<<<<<<<<<<
  *     cdef public list models
@@ -3682,7 +3713,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_GeneralModelLayer {
 static struct __pyx_vtabstruct_6mlgrad_5model_GeneralModelLayer *__pyx_vtabptr_6mlgrad_5model_GeneralModelLayer;
 
 
-/* "mlgrad/model.pxd":119
+/* "mlgrad/model.pxd":120
  *     cdef public list models
  * 
  * cdef class ComplexModel(object):             # <<<<<<<<<<<<<<
@@ -3697,7 +3728,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_ComplexModel {
 static struct __pyx_vtabstruct_6mlgrad_5model_ComplexModel *__pyx_vtabptr_6mlgrad_5model_ComplexModel;
 
 
-/* "mlgrad/model.pxd":128
+/* "mlgrad/model.pxd":129
  *     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
  * 
  * cdef class MLModel(ComplexModel):             # <<<<<<<<<<<<<<
@@ -3712,7 +3743,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_MLModel {
 static struct __pyx_vtabstruct_6mlgrad_5model_MLModel *__pyx_vtabptr_6mlgrad_5model_MLModel;
 
 
-/* "mlgrad/model.pxd":136
+/* "mlgrad/model.pxd":137
  * 
  * @cython.final
  * cdef class FFNetworkModel(MLModel):             # <<<<<<<<<<<<<<
@@ -3726,7 +3757,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkModel {
 static struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkModel *__pyx_vtabptr_6mlgrad_5model_FFNetworkModel;
 
 
-/* "mlgrad/model.pxd":140
+/* "mlgrad/model.pxd":141
  * 
  * @cython.final
  * cdef class FFNetworkFuncModel(Model):             # <<<<<<<<<<<<<<
@@ -3740,7 +3771,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkFuncModel {
 static struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkFuncModel *__pyx_vtabptr_6mlgrad_5model_FFNetworkFuncModel;
 
 
-/* "mlgrad/model.pxd":146
+/* "mlgrad/model.pxd":147
  * 
  * @cython.final
  * cdef class SquaredModel(Model):             # <<<<<<<<<<<<<<
@@ -3776,7 +3807,7 @@ static struct __pyx_vtabstruct_6mlgrad_8distance_Distance *__pyx_vtabptr_6mlgrad
  * 
  * cdef class DistanceWithScale(Distance):             # <<<<<<<<<<<<<<
  *     cdef public double[:,::1] S
- * 
+ *     cdef public double sigma
  */
 
 struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale {
@@ -3785,7 +3816,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale {
 static struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale *__pyx_vtabptr_6mlgrad_8distance_DistanceWithScale;
 
 
-/* "mlgrad/distance.pxd":15
+/* "mlgrad/distance.pxd":16
  * 
  * @cython.final
  * cdef class AbsoluteDistance(Distance):             # <<<<<<<<<<<<<<
@@ -3799,7 +3830,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance *__pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance;
 
 
-/* "mlgrad/distance.pxd":19
+/* "mlgrad/distance.pxd":20
  * 
  * @cython.final
  * cdef class EuclidDistance(Distance):             # <<<<<<<<<<<<<<
@@ -3813,7 +3844,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance *__pyx_vtabptr_6mlgrad_8distance_EuclidDistance;
 
 
-/* "mlgrad/distance.pxd":23
+/* "mlgrad/distance.pxd":24
  * 
  * @cython.final
  * cdef class MahalanobisDistance(DistanceWithScale):             # <<<<<<<<<<<<<<
@@ -3827,7 +3858,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance *__pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance;
 
 
-/* "mlgrad/distance.pxd":27
+/* "mlgrad/distance.pxd":28
  * 
  * @cython.final
  * cdef class PowerDistance(Distance):             # <<<<<<<<<<<<<<
@@ -4623,15 +4654,43 @@ static struct __pyx_vtabstruct_6mlgrad_4risk_SimpleFunctional *__pyx_vtabptr_6ml
 
 struct __pyx_vtabstruct_6mlgrad_4risk_Risk {
   struct __pyx_vtabstruct_6mlgrad_4risk_Functional __pyx_base;
-  double (*eval_loss)(struct __pyx_obj_6mlgrad_4risk_Risk *, int);
-  void (*gradient_loss)(struct __pyx_obj_6mlgrad_4risk_Risk *, int);
   void (*eval_losses)(struct __pyx_obj_6mlgrad_4risk_Risk *, __Pyx_memviewslice);
 };
 static struct __pyx_vtabstruct_6mlgrad_4risk_Risk *__pyx_vtabptr_6mlgrad_4risk_Risk;
 
 
+/* "mlgrad/risk.pxd":71
+ *     cdef void eval_losses(self, double[::1] lval_all)
+ * 
+ * cdef class SRisk(Risk):             # <<<<<<<<<<<<<<
+ *     cdef double eval_loss(self, int k)
+ *     cdef void gradient_loss(self, int k)
+ */
+
+struct __pyx_vtabstruct_6mlgrad_4risk_SRisk {
+  struct __pyx_vtabstruct_6mlgrad_4risk_Risk __pyx_base;
+  double (*eval_loss)(struct __pyx_obj_6mlgrad_4risk_SRisk *, int);
+  void (*gradient_loss)(struct __pyx_obj_6mlgrad_4risk_SRisk *, int);
+};
+static struct __pyx_vtabstruct_6mlgrad_4risk_SRisk *__pyx_vtabptr_6mlgrad_4risk_SRisk;
+
+
 /* "mlgrad/risk.pxd":75
- *     #cdef object get_loss(self)
+ *     cdef void gradient_loss(self, int k)
+ * 
+ * cdef class MRisk(Risk):             # <<<<<<<<<<<<<<
+ *     cdef public Model model
+ *     cdef public Loss loss
+ */
+
+struct __pyx_vtabstruct_6mlgrad_4risk_MRisk {
+  struct __pyx_vtabstruct_6mlgrad_4risk_Risk __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_4risk_MRisk *__pyx_vtabptr_6mlgrad_4risk_MRisk;
+
+
+/* "mlgrad/risk.pxd":83
+ *     cdef Average avg
  * 
  * cdef class ED(Risk):             # <<<<<<<<<<<<<<
  *     cdef double[:, ::1] X
@@ -4644,50 +4703,50 @@ struct __pyx_vtabstruct_6mlgrad_4risk_ED {
 static struct __pyx_vtabstruct_6mlgrad_4risk_ED *__pyx_vtabptr_6mlgrad_4risk_ED;
 
 
-/* "mlgrad/risk.pxd":81
+/* "mlgrad/risk.pxd":89
  *     #
  * 
- * cdef class ER(Risk):             # <<<<<<<<<<<<<<
+ * cdef class ERisk(SRisk):             # <<<<<<<<<<<<<<
  *     cdef public Model model
  *     cdef public Loss loss
  */
 
-struct __pyx_vtabstruct_6mlgrad_4risk_ER {
-  struct __pyx_vtabstruct_6mlgrad_4risk_Risk __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_4risk_ERisk {
+  struct __pyx_vtabstruct_6mlgrad_4risk_SRisk __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4risk_ER *__pyx_vtabptr_6mlgrad_4risk_ER;
+static struct __pyx_vtabstruct_6mlgrad_4risk_ERisk *__pyx_vtabptr_6mlgrad_4risk_ERisk;
 
 
-/* "mlgrad/risk.pxd":88
+/* "mlgrad/risk.pxd":96
  *     cdef public double[::1] Yp
  * 
- * cdef class AER(ER):             # <<<<<<<<<<<<<<
+ * cdef class AER(ERisk):             # <<<<<<<<<<<<<<
  *     cdef Average loss_averager
  *     cdef double[::1] lval_all
  */
 
 struct __pyx_vtabstruct_6mlgrad_4risk_AER {
-  struct __pyx_vtabstruct_6mlgrad_4risk_ER __pyx_base;
+  struct __pyx_vtabstruct_6mlgrad_4risk_ERisk __pyx_base;
   PyObject *(*eval_all)(struct __pyx_obj_6mlgrad_4risk_AER *);
 };
 static struct __pyx_vtabstruct_6mlgrad_4risk_AER *__pyx_vtabptr_6mlgrad_4risk_AER;
 
 
-/* "mlgrad/risk.pxd":96
+/* "mlgrad/risk.pxd":104
  * 
  * 
- * cdef class ER2(Risk):             # <<<<<<<<<<<<<<
+ * cdef class ER2(SRisk):             # <<<<<<<<<<<<<<
  *     cdef public MLModel model
  *     cdef public MultLoss loss
  */
 
 struct __pyx_vtabstruct_6mlgrad_4risk_ER2 {
-  struct __pyx_vtabstruct_6mlgrad_4risk_Risk __pyx_base;
+  struct __pyx_vtabstruct_6mlgrad_4risk_SRisk __pyx_base;
 };
 static struct __pyx_vtabstruct_6mlgrad_4risk_ER2 *__pyx_vtabptr_6mlgrad_4risk_ER2;
 
 
-/* "mlgrad/weights.pyx":34
+/* "mlgrad/weights.pyx":35
  * import numpy as np
  * 
  * cdef class Weights(object):             # <<<<<<<<<<<<<<
@@ -4704,7 +4763,7 @@ struct __pyx_vtabstruct_6mlgrad_7weights_Weights {
 static struct __pyx_vtabstruct_6mlgrad_7weights_Weights *__pyx_vtabptr_6mlgrad_7weights_Weights;
 
 
-/* "mlgrad/weights.pyx":52
+/* "mlgrad/weights.pyx":53
  *         pass
  * 
  * cdef class ArrayWeights(Weights):             # <<<<<<<<<<<<<<
@@ -4718,7 +4777,7 @@ struct __pyx_vtabstruct_6mlgrad_7weights_ArrayWeights {
 static struct __pyx_vtabstruct_6mlgrad_7weights_ArrayWeights *__pyx_vtabptr_6mlgrad_7weights_ArrayWeights;
 
 
-/* "mlgrad/weights.pyx":60
+/* "mlgrad/weights.pyx":61
  *         return self.weights
  * 
  * cdef class ConstantWeights(Weights):             # <<<<<<<<<<<<<<
@@ -4732,7 +4791,7 @@ struct __pyx_vtabstruct_6mlgrad_7weights_ConstantWeights {
 static struct __pyx_vtabstruct_6mlgrad_7weights_ConstantWeights *__pyx_vtabptr_6mlgrad_7weights_ConstantWeights;
 
 
-/* "mlgrad/weights.pyx":71
+/* "mlgrad/weights.pyx":72
  *         return self.weights
  * 
  * cdef class RWeights(Weights):             # <<<<<<<<<<<<<<
@@ -4746,7 +4805,7 @@ struct __pyx_vtabstruct_6mlgrad_7weights_RWeights {
 static struct __pyx_vtabstruct_6mlgrad_7weights_RWeights *__pyx_vtabptr_6mlgrad_7weights_RWeights;
 
 
-/* "mlgrad/weights.pyx":124
+/* "mlgrad/weights.pyx":125
  *         return self.weights
  * 
  * cdef class MWeights(Weights):             # <<<<<<<<<<<<<<
@@ -4760,7 +4819,7 @@ struct __pyx_vtabstruct_6mlgrad_7weights_MWeights {
 static struct __pyx_vtabstruct_6mlgrad_7weights_MWeights *__pyx_vtabptr_6mlgrad_7weights_MWeights;
 
 
-/* "mlgrad/weights.pyx":172
+/* "mlgrad/weights.pyx":173
  *         return self.weights
  * 
  * cdef class SWMWeights(Weights):             # <<<<<<<<<<<<<<
@@ -4774,7 +4833,7 @@ struct __pyx_vtabstruct_6mlgrad_7weights_SWMWeights {
 static struct __pyx_vtabstruct_6mlgrad_7weights_SWMWeights *__pyx_vtabptr_6mlgrad_7weights_SWMWeights;
 
 
-/* "mlgrad/weights.pyx":242
+/* "mlgrad/weights.pyx":243
  * 
  * 
  * cdef class WMWeights(Weights):             # <<<<<<<<<<<<<<
@@ -5109,9 +5168,6 @@ static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *nam
 /* ExtTypeTest.proto */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
-/* BufferIndexError.proto */
-static void __Pyx_RaiseBufferIndexError(int axis);
-
 /* WriteUnraisableException.proto */
 static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
@@ -5125,28 +5181,6 @@ static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
-
-/* GetItemInt.proto */
-#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
-    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
-               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
-#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck);
 
 /* HasAttr.proto */
 static CYTHON_INLINE int __Pyx_HasAttr(PyObject *, PyObject *);
@@ -5176,6 +5210,28 @@ static CYTHON_INLINE Py_ssize_t __Pyx_div_Py_ssize_t(Py_ssize_t, Py_ssize_t);
 
 static CYTHON_UNUSED int __pyx_array_getbuffer(PyObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /*proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *); /*proto*/
+/* GetItemInt.proto */
+#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
+    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
+               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
+#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
+                                                     int is_list, int wraparound, int boundscheck);
+
 /* ObjectGetItem.proto */
 #if CYTHON_USE_TYPE_SLOTS
 static CYTHON_INLINE PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key);
@@ -5674,8 +5730,10 @@ static PyTypeObject *__pyx_ptype_6mlgrad_6avragg_Maximal = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4risk_Functional = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4risk_SimpleFunctional = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4risk_Risk = 0;
+static PyTypeObject *__pyx_ptype_6mlgrad_4risk_SRisk = 0;
+static PyTypeObject *__pyx_ptype_6mlgrad_4risk_MRisk = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4risk_ED = 0;
-static PyTypeObject *__pyx_ptype_6mlgrad_4risk_ER = 0;
+static PyTypeObject *__pyx_ptype_6mlgrad_4risk_ERisk = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4risk_AER = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4risk_ER2 = 0;
 
@@ -6152,7 +6210,7 @@ static PyObject *__pyx_codeobj__32;
 static PyObject *__pyx_codeobj__39;
 /* Late includes */
 
-/* "mlgrad/weights.pyx":37
+/* "mlgrad/weights.pyx":38
  *     #
  *     @property
  *     def qval(self):             # <<<<<<<<<<<<<<
@@ -6182,7 +6240,7 @@ static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_4qval___get__(struct __pyx_o
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "mlgrad/weights.pyx":38
+  /* "mlgrad/weights.pyx":39
  *     @property
  *     def qval(self):
  *         return self.get_qvalue()             # <<<<<<<<<<<<<<
@@ -6190,17 +6248,13 @@ static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_4qval___get__(struct __pyx_o
  *     cdef eval_weights(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "get_qvalue");
-    __PYX_ERR(1, 38, __pyx_L1_error)
-  }
-  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_7weights_Weights *)__pyx_v_self->__pyx_vtab)->get_qvalue(__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 38, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_7weights_Weights *)__pyx_v_self->__pyx_vtab)->get_qvalue(__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":37
+  /* "mlgrad/weights.pyx":38
  *     #
  *     @property
  *     def qval(self):             # <<<<<<<<<<<<<<
@@ -6219,7 +6273,7 @@ static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_4qval___get__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":40
+/* "mlgrad/weights.pyx":41
  *         return self.get_qvalue()
  *     #
  *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
@@ -6239,7 +6293,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_7Weights_eval_weights(CYTHON_UNUSED st
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":43
+/* "mlgrad/weights.pyx":44
  *         pass
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -6256,20 +6310,20 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_7Weights_get_weights(CYTHON_U
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_weights", 0);
 
-  /* "mlgrad/weights.pyx":44
+  /* "mlgrad/weights.pyx":45
  *     #
  *     cdef double[::1] get_weights(self):
  *         return None             # <<<<<<<<<<<<<<
  * 
  *     cdef double get_qvalue(self):
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 44, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 45, __pyx_L1_error)
   __pyx_r = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":43
+  /* "mlgrad/weights.pyx":44
  *         pass
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -6293,7 +6347,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_7Weights_get_weights(CYTHON_U
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":46
+/* "mlgrad/weights.pyx":47
  *         return None
  * 
  *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
@@ -6306,7 +6360,7 @@ static double __pyx_f_6mlgrad_7weights_7Weights_get_qvalue(CYTHON_UNUSED struct 
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_qvalue", 0);
 
-  /* "mlgrad/weights.pyx":47
+  /* "mlgrad/weights.pyx":48
  * 
  *     cdef double get_qvalue(self):
  *         return 0             # <<<<<<<<<<<<<<
@@ -6316,7 +6370,7 @@ static double __pyx_f_6mlgrad_7weights_7Weights_get_qvalue(CYTHON_UNUSED struct 
   __pyx_r = 0.0;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":46
+  /* "mlgrad/weights.pyx":47
  *         return None
  * 
  *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
@@ -6330,7 +6384,7 @@ static double __pyx_f_6mlgrad_7weights_7Weights_get_qvalue(CYTHON_UNUSED struct 
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":49
+/* "mlgrad/weights.pyx":50
  *         return 0
  * 
  *     cdef set_param(self, name, val):             # <<<<<<<<<<<<<<
@@ -6380,11 +6434,6 @@ static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_7weights___get__(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(0, 53, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 53, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -6424,10 +6473,6 @@ static int __pyx_pf_6mlgrad_7weights_7Weights_7weights_2__set__(struct __pyx_obj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
   __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 53, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(0, 53, __pyx_L1_error)
-  }
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->weights, 0);
   __pyx_v_self->weights = __pyx_t_1;
   __pyx_t_1.memview = NULL;
@@ -6488,11 +6533,6 @@ static PyObject *__pyx_pf_6mlgrad_7weights_7Weights___reduce_cython__(struct __p
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -6746,7 +6786,7 @@ static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_2__setstate_cython__(struct 
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":54
+/* "mlgrad/weights.pyx":55
  * cdef class ArrayWeights(Weights):
  *     #
  *     def __init__(self, weights):             # <<<<<<<<<<<<<<
@@ -6783,7 +6823,7 @@ static int __pyx_pw_6mlgrad_7weights_12ArrayWeights_1__init__(PyObject *__pyx_v_
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 54, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 55, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -6794,7 +6834,7 @@ static int __pyx_pw_6mlgrad_7weights_12ArrayWeights_1__init__(PyObject *__pyx_v_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 54, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 55, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.weights.ArrayWeights.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6819,16 +6859,16 @@ static int __pyx_pf_6mlgrad_7weights_12ArrayWeights___init__(struct __pyx_obj_6m
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/weights.pyx":55
+  /* "mlgrad/weights.pyx":56
  *     #
  *     def __init__(self, weights):
  *         self.weights = np.asarray(weights)             # <<<<<<<<<<<<<<
  *     #
  *     cdef double[::1] get_weights(self):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 55, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 55, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -6843,21 +6883,17 @@ static int __pyx_pf_6mlgrad_7weights_12ArrayWeights___init__(struct __pyx_obj_6m
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_2, __pyx_v_weights) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_weights);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 55, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 55, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 56, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 55, __pyx_L1_error)
-  }
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_v_self->__pyx_base.weights = __pyx_t_4;
   __pyx_t_4.memview = NULL;
   __pyx_t_4.data = NULL;
 
-  /* "mlgrad/weights.pyx":54
+  /* "mlgrad/weights.pyx":55
  * cdef class ArrayWeights(Weights):
  *     #
  *     def __init__(self, weights):             # <<<<<<<<<<<<<<
@@ -6880,7 +6916,7 @@ static int __pyx_pf_6mlgrad_7weights_12ArrayWeights___init__(struct __pyx_obj_6m
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":57
+/* "mlgrad/weights.pyx":58
  *         self.weights = np.asarray(weights)
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -6891,28 +6927,20 @@ static int __pyx_pf_6mlgrad_7weights_12ArrayWeights___init__(struct __pyx_obj_6m
 static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_weights", 0);
 
-  /* "mlgrad/weights.pyx":58
+  /* "mlgrad/weights.pyx":59
  *     #
  *     cdef double[::1] get_weights(self):
  *         return self.weights             # <<<<<<<<<<<<<<
  * 
  * cdef class ConstantWeights(Weights):
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 58, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 58, __pyx_L1_error)}
   __PYX_INC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_r = __pyx_v_self->__pyx_base.weights;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":57
+  /* "mlgrad/weights.pyx":58
  *         self.weights = np.asarray(weights)
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -6921,16 +6949,10 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights(st
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __pyx_r.data = NULL;
-  __pyx_r.memview = NULL;
-  __Pyx_AddTraceback("mlgrad.weights.ArrayWeights.get_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  goto __pyx_L2;
   __pyx_L0:;
   if (unlikely(!__pyx_r.memview)) {
     PyErr_SetString(PyExc_TypeError, "Memoryview return value is not initialized");
   }
-  __pyx_L2:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6978,11 +7000,6 @@ static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_2__reduce_cython__(str
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -7236,7 +7253,7 @@ static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_4__setstate_cython__(s
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":62
+/* "mlgrad/weights.pyx":63
  * cdef class ConstantWeights(Weights):
  *     #
  *     def __init__(self, N):             # <<<<<<<<<<<<<<
@@ -7273,7 +7290,7 @@ static int __pyx_pw_6mlgrad_7weights_15ConstantWeights_1__init__(PyObject *__pyx
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 62, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 63, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -7284,7 +7301,7 @@ static int __pyx_pw_6mlgrad_7weights_15ConstantWeights_1__init__(PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 62, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 63, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.weights.ConstantWeights.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7313,24 +7330,24 @@ static int __pyx_pf_6mlgrad_7weights_15ConstantWeights___init__(struct __pyx_obj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/weights.pyx":63
+  /* "mlgrad/weights.pyx":64
  *     #
  *     def __init__(self, N):
  *         self.weights = np.full((N,), 1.0/N, 'd')             # <<<<<<<<<<<<<<
  *     #
  *     cdef eval_weights(self):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_full); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_full); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_N);
   __Pyx_GIVEREF(__pyx_v_N);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_N);
-  __pyx_t_4 = __Pyx_PyFloat_TrueDivideCObj(__pyx_float_1_0, __pyx_v_N, 1.0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyFloat_TrueDivideCObj(__pyx_float_1_0, __pyx_v_N, 1.0, 0, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -7347,7 +7364,7 @@ static int __pyx_pf_6mlgrad_7weights_15ConstantWeights___init__(struct __pyx_obj
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[4] = {__pyx_t_5, __pyx_t_2, __pyx_t_4, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 63, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 64, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -7357,7 +7374,7 @@ static int __pyx_pf_6mlgrad_7weights_15ConstantWeights___init__(struct __pyx_obj
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[4] = {__pyx_t_5, __pyx_t_2, __pyx_t_4, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 63, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 3+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 64, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -7365,7 +7382,7 @@ static int __pyx_pf_6mlgrad_7weights_15ConstantWeights___init__(struct __pyx_obj
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 63, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -7379,23 +7396,19 @@ static int __pyx_pf_6mlgrad_7weights_15ConstantWeights___init__(struct __pyx_obj
     PyTuple_SET_ITEM(__pyx_t_7, 2+__pyx_t_6, __pyx_n_u_d);
     __pyx_t_2 = 0;
     __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 63, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 64, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 63, __pyx_L1_error)
-  }
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_v_self->__pyx_base.weights = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "mlgrad/weights.pyx":62
+  /* "mlgrad/weights.pyx":63
  * cdef class ConstantWeights(Weights):
  *     #
  *     def __init__(self, N):             # <<<<<<<<<<<<<<
@@ -7421,7 +7434,7 @@ static int __pyx_pf_6mlgrad_7weights_15ConstantWeights___init__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":65
+/* "mlgrad/weights.pyx":66
  *         self.weights = np.full((N,), 1.0/N, 'd')
  *     #
  *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
@@ -7441,7 +7454,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_15ConstantWeights_eval_weights(CYTHON_
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":68
+/* "mlgrad/weights.pyx":69
  *         pass
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -7452,28 +7465,20 @@ static PyObject *__pyx_f_6mlgrad_7weights_15ConstantWeights_eval_weights(CYTHON_
 static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_weights", 0);
 
-  /* "mlgrad/weights.pyx":69
+  /* "mlgrad/weights.pyx":70
  *     #
  *     cdef double[::1] get_weights(self):
  *         return self.weights             # <<<<<<<<<<<<<<
  * 
  * cdef class RWeights(Weights):
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 69, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 69, __pyx_L1_error)}
   __PYX_INC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_r = __pyx_v_self->__pyx_base.weights;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":68
+  /* "mlgrad/weights.pyx":69
  *         pass
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -7482,16 +7487,10 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __pyx_r.data = NULL;
-  __pyx_r.memview = NULL;
-  __Pyx_AddTraceback("mlgrad.weights.ConstantWeights.get_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  goto __pyx_L2;
   __pyx_L0:;
   if (unlikely(!__pyx_r.memview)) {
     PyErr_SetString(PyExc_TypeError, "Memoryview return value is not initialized");
   }
-  __pyx_L2:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7539,11 +7538,6 @@ static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_2__reduce_cython__(
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -7797,7 +7791,7 @@ static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_4__setstate_cython_
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":73
+/* "mlgrad/weights.pyx":74
  * cdef class RWeights(Weights):
  *     #
  *     def __init__(self, Func func, Functional risk, normalize=1):             # <<<<<<<<<<<<<<
@@ -7843,7 +7837,7 @@ static int __pyx_pw_6mlgrad_7weights_8RWeights_1__init__(PyObject *__pyx_v_self,
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_risk)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, 1); __PYX_ERR(1, 73, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, 1); __PYX_ERR(1, 74, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -7853,7 +7847,7 @@ static int __pyx_pw_6mlgrad_7weights_8RWeights_1__init__(PyObject *__pyx_v_self,
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 73, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 74, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -7871,14 +7865,14 @@ static int __pyx_pw_6mlgrad_7weights_8RWeights_1__init__(PyObject *__pyx_v_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 73, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 74, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.weights.RWeights.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(1, 73, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_risk), __pyx_ptype_6mlgrad_4risk_Functional, 1, "risk", 0))) __PYX_ERR(1, 73, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(1, 74, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_risk), __pyx_ptype_6mlgrad_4risk_Functional, 1, "risk", 0))) __PYX_ERR(1, 74, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_7weights_8RWeights___init__(((struct __pyx_obj_6mlgrad_7weights_RWeights *)__pyx_v_self), __pyx_v_func, __pyx_v_risk, __pyx_v_normalize);
 
   /* function exit code */
@@ -7900,89 +7894,69 @@ static int __pyx_pf_6mlgrad_7weights_8RWeights___init__(struct __pyx_obj_6mlgrad
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/weights.pyx":74
+  /* "mlgrad/weights.pyx":75
  *     #
  *     def __init__(self, Func func, Functional risk, normalize=1):
  *         self.func = func             # <<<<<<<<<<<<<<
  *         self.risk = risk
  *         self.weights = None
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "func");
-    __PYX_ERR(1, 74, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_func));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_func));
   __Pyx_GOTREF(__pyx_v_self->func);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->func));
   __pyx_v_self->func = __pyx_v_func;
 
-  /* "mlgrad/weights.pyx":75
+  /* "mlgrad/weights.pyx":76
  *     def __init__(self, Func func, Functional risk, normalize=1):
  *         self.func = func
  *         self.risk = risk             # <<<<<<<<<<<<<<
  *         self.weights = None
  *         self.lval_all = None
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 75, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_risk));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_risk));
   __Pyx_GOTREF(__pyx_v_self->risk);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->risk));
   __pyx_v_self->risk = __pyx_v_risk;
 
-  /* "mlgrad/weights.pyx":76
+  /* "mlgrad/weights.pyx":77
  *         self.func = func
  *         self.risk = risk
  *         self.weights = None             # <<<<<<<<<<<<<<
  *         self.lval_all = None
  *         self.normalize = normalize
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 76, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 76, __pyx_L1_error)
-  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 77, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_v_self->__pyx_base.weights = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/weights.pyx":77
+  /* "mlgrad/weights.pyx":78
  *         self.risk = risk
  *         self.weights = None
  *         self.lval_all = None             # <<<<<<<<<<<<<<
  *         self.normalize = normalize
  *     #
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 77, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 77, __pyx_L1_error)
-  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 78, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->lval_all, 0);
   __pyx_v_self->lval_all = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/weights.pyx":78
+  /* "mlgrad/weights.pyx":79
  *         self.weights = None
  *         self.lval_all = None
  *         self.normalize = normalize             # <<<<<<<<<<<<<<
  *     #
  *     cdef eval_weights(self):
  */
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_normalize); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 78, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(1, 78, __pyx_L1_error)
-  }
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_normalize); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 79, __pyx_L1_error)
   __pyx_v_self->normalize = __pyx_t_2;
 
-  /* "mlgrad/weights.pyx":73
+  /* "mlgrad/weights.pyx":74
  * cdef class RWeights(Weights):
  *     #
  *     def __init__(self, Func func, Functional risk, normalize=1):             # <<<<<<<<<<<<<<
@@ -8002,7 +7976,7 @@ static int __pyx_pf_6mlgrad_7weights_8RWeights___init__(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":80
+/* "mlgrad/weights.pyx":81
  *         self.normalize = normalize
  *     #
  *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
@@ -8039,93 +8013,67 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("eval_weights", 0);
 
-  /* "mlgrad/weights.pyx":81
+  /* "mlgrad/weights.pyx":82
  *     #
  *     cdef eval_weights(self):
  *         cdef Risk risk = self.risk             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t N = risk.batch.size
  *         cdef Py_ssize_t j, k
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 81, __pyx_L1_error)
-  }
-  if (!(likely(((((PyObject *)__pyx_v_self->risk)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_self->risk), __pyx_ptype_6mlgrad_4risk_Risk))))) __PYX_ERR(1, 81, __pyx_L1_error)
+  if (!(likely(((((PyObject *)__pyx_v_self->risk)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_self->risk), __pyx_ptype_6mlgrad_4risk_Risk))))) __PYX_ERR(1, 82, __pyx_L1_error)
   __pyx_t_1 = ((PyObject *)__pyx_v_self->risk);
   __Pyx_INCREF(__pyx_t_1);
   __pyx_v_risk = ((struct __pyx_obj_6mlgrad_4risk_Risk *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/weights.pyx":82
+  /* "mlgrad/weights.pyx":83
  *     cdef eval_weights(self):
  *         cdef Risk risk = self.risk
  *         cdef Py_ssize_t N = risk.batch.size             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t j, k
  *         cdef Py_ssize_t[::1] indices = risk.batch.indices
  */
-  if (unlikely(((PyObject *)__pyx_v_risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "batch");
-    __PYX_ERR(1, 82, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_risk->__pyx_base.batch) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "size");
-    __PYX_ERR(1, 82, __pyx_L1_error)
-  }
   __pyx_t_2 = __pyx_v_risk->__pyx_base.batch->size;
   __pyx_v_N = __pyx_t_2;
 
-  /* "mlgrad/weights.pyx":84
+  /* "mlgrad/weights.pyx":85
  *         cdef Py_ssize_t N = risk.batch.size
  *         cdef Py_ssize_t j, k
  *         cdef Py_ssize_t[::1] indices = risk.batch.indices             # <<<<<<<<<<<<<<
  *         cdef double[::1] weights
  *         cdef double[::1] lval_all
  */
-  if (unlikely(((PyObject *)__pyx_v_risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "batch");
-    __PYX_ERR(1, 84, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_risk->__pyx_base.batch) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "indices");
-    __PYX_ERR(1, 84, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_risk->__pyx_base.batch->indices.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 84, __pyx_L1_error)}
   __pyx_t_3 = __pyx_v_risk->__pyx_base.batch->indices;
   __PYX_INC_MEMVIEW(&__pyx_t_3, 1);
   __pyx_v_indices = __pyx_t_3;
   __pyx_t_3.memview = NULL;
   __pyx_t_3.data = NULL;
 
-  /* "mlgrad/weights.pyx":88
+  /* "mlgrad/weights.pyx":89
  *         cdef double[::1] lval_all
  * 
  *         if self.lval_all is None:             # <<<<<<<<<<<<<<
  *             self.lval_all = np.empty((N,), 'd')
  *         if self.weights is None:
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 88, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 88, __pyx_L1_error)}
   __pyx_t_4 = ((((PyObject *) __pyx_v_self->lval_all.memview) == Py_None) != 0);
   if (__pyx_t_4) {
 
-    /* "mlgrad/weights.pyx":89
+    /* "mlgrad/weights.pyx":90
  * 
  *         if self.lval_all is None:
  *             self.lval_all = np.empty((N,), 'd')             # <<<<<<<<<<<<<<
  *         if self.weights is None:
  *             self.weights = np.empty((N,), 'd')
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 89, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 90, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_empty); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 89, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_empty); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 90, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 89, __pyx_L1_error)
+    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 90, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 89, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 90, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5);
@@ -8145,7 +8093,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_7, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 89, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 90, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -8154,14 +8102,14 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_7, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 89, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 90, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 89, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 90, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       if (__pyx_t_5) {
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -8172,23 +8120,19 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_n_u_d);
       __pyx_t_7 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 89, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 90, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 89, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 90, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-      __PYX_ERR(1, 89, __pyx_L1_error)
-    }
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->lval_all, 0);
     __pyx_v_self->lval_all = __pyx_t_10;
     __pyx_t_10.memview = NULL;
     __pyx_t_10.data = NULL;
 
-    /* "mlgrad/weights.pyx":88
+    /* "mlgrad/weights.pyx":89
  *         cdef double[::1] lval_all
  * 
  *         if self.lval_all is None:             # <<<<<<<<<<<<<<
@@ -8197,36 +8141,31 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
  */
   }
 
-  /* "mlgrad/weights.pyx":90
+  /* "mlgrad/weights.pyx":91
  *         if self.lval_all is None:
  *             self.lval_all = np.empty((N,), 'd')
  *         if self.weights is None:             # <<<<<<<<<<<<<<
  *             self.weights = np.empty((N,), 'd')
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 90, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 90, __pyx_L1_error)}
   __pyx_t_4 = ((((PyObject *) __pyx_v_self->__pyx_base.weights.memview) == Py_None) != 0);
   if (__pyx_t_4) {
 
-    /* "mlgrad/weights.pyx":91
+    /* "mlgrad/weights.pyx":92
  *             self.lval_all = np.empty((N,), 'd')
  *         if self.weights is None:
  *             self.weights = np.empty((N,), 'd')             # <<<<<<<<<<<<<<
  * 
  *         risk.eval_losses(self.lval_all)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 91, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 92, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_empty); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 91, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_empty); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 92, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 91, __pyx_L1_error)
+    __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 92, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 91, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 92, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6);
@@ -8246,7 +8185,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_9)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_7, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 91, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 92, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -8255,14 +8194,14 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_9)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_7, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 91, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 92, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 91, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 92, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       if (__pyx_t_6) {
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -8273,23 +8212,19 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_8, __pyx_n_u_d);
       __pyx_t_7 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 91, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 92, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 91, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(1, 92, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-      __PYX_ERR(1, 91, __pyx_L1_error)
-    }
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
     __pyx_v_self->__pyx_base.weights = __pyx_t_10;
     __pyx_t_10.memview = NULL;
     __pyx_t_10.data = NULL;
 
-    /* "mlgrad/weights.pyx":90
+    /* "mlgrad/weights.pyx":91
  *         if self.lval_all is None:
  *             self.lval_all = np.empty((N,), 'd')
  *         if self.weights is None:             # <<<<<<<<<<<<<<
@@ -8298,61 +8233,42 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
  */
   }
 
-  /* "mlgrad/weights.pyx":93
+  /* "mlgrad/weights.pyx":94
  *             self.weights = np.empty((N,), 'd')
  * 
  *         risk.eval_losses(self.lval_all)             # <<<<<<<<<<<<<<
  * 
  *         weights = self.weights
  */
-  if (unlikely(((PyObject *)__pyx_v_risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "eval_losses");
-    __PYX_ERR(1, 93, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 93, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 93, __pyx_L1_error)}
   ((struct __pyx_vtabstruct_6mlgrad_4risk_Risk *)__pyx_v_risk->__pyx_base.__pyx_vtab)->eval_losses(__pyx_v_risk, __pyx_v_self->lval_all);
 
-  /* "mlgrad/weights.pyx":95
+  /* "mlgrad/weights.pyx":96
  *         risk.eval_losses(self.lval_all)
  * 
  *         weights = self.weights             # <<<<<<<<<<<<<<
  *         lval_all = self.lval_all
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 95, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 95, __pyx_L1_error)}
   __pyx_t_10 = __pyx_v_self->__pyx_base.weights;
   __PYX_INC_MEMVIEW(&__pyx_t_10, 1);
   __pyx_v_weights = __pyx_t_10;
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "mlgrad/weights.pyx":96
+  /* "mlgrad/weights.pyx":97
  * 
  *         weights = self.weights
  *         lval_all = self.lval_all             # <<<<<<<<<<<<<<
  * 
  *         for j in range(N):
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 96, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 96, __pyx_L1_error)}
   __pyx_t_10 = __pyx_v_self->lval_all;
   __PYX_INC_MEMVIEW(&__pyx_t_10, 1);
   __pyx_v_lval_all = __pyx_t_10;
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "mlgrad/weights.pyx":98
+  /* "mlgrad/weights.pyx":99
  *         lval_all = self.lval_all
  * 
  *         for j in range(N):             # <<<<<<<<<<<<<<
@@ -8364,90 +8280,39 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_j = __pyx_t_12;
 
-    /* "mlgrad/weights.pyx":99
+    /* "mlgrad/weights.pyx":100
  * 
  *         for j in range(N):
  *             k = indices[j]             # <<<<<<<<<<<<<<
  *             weights[j] = self.func.derivative_div_x(lval_all[k])
  * 
  */
-    if (unlikely(((PyObject *) __pyx_v_indices.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(1, 99, __pyx_L1_error)
-    }
     __pyx_t_13 = __pyx_v_j;
-    __pyx_t_8 = -1;
-    if (__pyx_t_13 < 0) {
-      __pyx_t_13 += __pyx_v_indices.shape[0];
-      if (unlikely(__pyx_t_13 < 0)) __pyx_t_8 = 0;
-    } else if (unlikely(__pyx_t_13 >= __pyx_v_indices.shape[0])) __pyx_t_8 = 0;
-    if (unlikely(__pyx_t_8 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_8);
-      __PYX_ERR(1, 99, __pyx_L1_error)
-    }
     __pyx_v_k = (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_indices.data) + __pyx_t_13)) )));
 
-    /* "mlgrad/weights.pyx":100
+    /* "mlgrad/weights.pyx":101
  *         for j in range(N):
  *             k = indices[j]
  *             weights[j] = self.func.derivative_div_x(lval_all[k])             # <<<<<<<<<<<<<<
  * 
  *         if self.normalize:
  */
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "func");
-      __PYX_ERR(1, 100, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *)__pyx_v_self->func) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "derivative_div_x");
-      __PYX_ERR(1, 100, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *) __pyx_v_lval_all.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(1, 100, __pyx_L1_error)
-    }
     __pyx_t_13 = __pyx_v_k;
-    __pyx_t_8 = -1;
-    if (__pyx_t_13 < 0) {
-      __pyx_t_13 += __pyx_v_lval_all.shape[0];
-      if (unlikely(__pyx_t_13 < 0)) __pyx_t_8 = 0;
-    } else if (unlikely(__pyx_t_13 >= __pyx_v_lval_all.shape[0])) __pyx_t_8 = 0;
-    if (unlikely(__pyx_t_8 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_8);
-      __PYX_ERR(1, 100, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *) __pyx_v_weights.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(1, 100, __pyx_L1_error)
-    }
     __pyx_t_14 = __pyx_v_j;
-    __pyx_t_8 = -1;
-    if (__pyx_t_14 < 0) {
-      __pyx_t_14 += __pyx_v_weights.shape[0];
-      if (unlikely(__pyx_t_14 < 0)) __pyx_t_8 = 0;
-    } else if (unlikely(__pyx_t_14 >= __pyx_v_weights.shape[0])) __pyx_t_8 = 0;
-    if (unlikely(__pyx_t_8 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_8);
-      __PYX_ERR(1, 100, __pyx_L1_error)
-    }
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_14)) )) = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->derivative_div_x(__pyx_v_self->func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_lval_all.data) + __pyx_t_13)) ))));
   }
 
-  /* "mlgrad/weights.pyx":102
+  /* "mlgrad/weights.pyx":103
  *             weights[j] = self.func.derivative_div_x(lval_all[k])
  * 
  *         if self.normalize:             # <<<<<<<<<<<<<<
  *             normalize_memoryview(weights)
  *     #
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(1, 102, __pyx_L1_error)
-  }
   __pyx_t_4 = (__pyx_v_self->normalize != 0);
   if (__pyx_t_4) {
 
-    /* "mlgrad/weights.pyx":103
+    /* "mlgrad/weights.pyx":104
  * 
  *         if self.normalize:
  *             normalize_memoryview(weights)             # <<<<<<<<<<<<<<
@@ -8456,7 +8321,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
  */
     __pyx_f_6mlgrad_7weights_normalize_memoryview(__pyx_v_weights);
 
-    /* "mlgrad/weights.pyx":102
+    /* "mlgrad/weights.pyx":103
  *             weights[j] = self.func.derivative_div_x(lval_all[k])
  * 
  *         if self.normalize:             # <<<<<<<<<<<<<<
@@ -8465,7 +8330,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
  */
   }
 
-  /* "mlgrad/weights.pyx":80
+  /* "mlgrad/weights.pyx":81
  *         self.normalize = normalize
  *     #
  *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
@@ -8496,7 +8361,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":105
+/* "mlgrad/weights.pyx":106
  *             normalize_memoryview(weights)
  *     #
  *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
@@ -8523,92 +8388,57 @@ static double __pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(struct __pyx_obj_6ml
   Py_ssize_t __pyx_t_8;
   Py_ssize_t __pyx_t_9;
   Py_ssize_t __pyx_t_10;
-  int __pyx_t_11;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_qvalue", 0);
 
-  /* "mlgrad/weights.pyx":108
+  /* "mlgrad/weights.pyx":109
  *         cdef double qval
  *         cdef Py_ssize_t j, k
  *         cdef Py_ssize_t N = self.risk.batch.size             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t[::1] indices = self.risk.batch.indices
  *         cdef double[::1] lval_all = self.lval_all
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 108, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "batch");
-    __PYX_ERR(1, 108, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->risk->batch) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "size");
-    __PYX_ERR(1, 108, __pyx_L1_error)
-  }
   __pyx_t_1 = __pyx_v_self->risk->batch->size;
   __pyx_v_N = __pyx_t_1;
 
-  /* "mlgrad/weights.pyx":109
+  /* "mlgrad/weights.pyx":110
  *         cdef Py_ssize_t j, k
  *         cdef Py_ssize_t N = self.risk.batch.size
  *         cdef Py_ssize_t[::1] indices = self.risk.batch.indices             # <<<<<<<<<<<<<<
  *         cdef double[::1] lval_all = self.lval_all
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 109, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "batch");
-    __PYX_ERR(1, 109, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->risk->batch) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "indices");
-    __PYX_ERR(1, 109, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->risk->batch->indices.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 109, __pyx_L1_error)}
   __pyx_t_2 = __pyx_v_self->risk->batch->indices;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
   __pyx_v_indices = __pyx_t_2;
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "mlgrad/weights.pyx":110
+  /* "mlgrad/weights.pyx":111
  *         cdef Py_ssize_t N = self.risk.batch.size
  *         cdef Py_ssize_t[::1] indices = self.risk.batch.indices
  *         cdef double[::1] lval_all = self.lval_all             # <<<<<<<<<<<<<<
  * 
  *         self.risk.eval_losses(lval_all)
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 110, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 110, __pyx_L1_error)}
   __pyx_t_3 = __pyx_v_self->lval_all;
   __PYX_INC_MEMVIEW(&__pyx_t_3, 1);
   __pyx_v_lval_all = __pyx_t_3;
   __pyx_t_3.memview = NULL;
   __pyx_t_3.data = NULL;
 
-  /* "mlgrad/weights.pyx":112
+  /* "mlgrad/weights.pyx":113
  *         cdef double[::1] lval_all = self.lval_all
  * 
  *         self.risk.eval_losses(lval_all)             # <<<<<<<<<<<<<<
  * 
  *         qval = 0
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 112, __pyx_L1_error)
-  }
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->risk), __pyx_n_s_eval_losses); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 112, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->risk), __pyx_n_s_eval_losses); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_lval_all, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 112, __pyx_L1_error)
+  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_lval_all, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -8623,12 +8453,12 @@ static double __pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(struct __pyx_obj_6ml
   __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_7, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 112, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "mlgrad/weights.pyx":114
+  /* "mlgrad/weights.pyx":115
  *         self.risk.eval_losses(lval_all)
  * 
  *         qval = 0             # <<<<<<<<<<<<<<
@@ -8637,7 +8467,7 @@ static double __pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(struct __pyx_obj_6ml
  */
   __pyx_v_qval = 0.0;
 
-  /* "mlgrad/weights.pyx":115
+  /* "mlgrad/weights.pyx":116
  * 
  *         qval = 0
  *         for j in range(N):             # <<<<<<<<<<<<<<
@@ -8649,62 +8479,28 @@ static double __pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(struct __pyx_obj_6ml
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
     __pyx_v_j = __pyx_t_9;
 
-    /* "mlgrad/weights.pyx":116
+    /* "mlgrad/weights.pyx":117
  *         qval = 0
  *         for j in range(N):
  *             k = indices[j]             # <<<<<<<<<<<<<<
  *             qval += self.func.evaluate(lval_all[k])
  *         qval /= N
  */
-    if (unlikely(((PyObject *) __pyx_v_indices.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(1, 116, __pyx_L1_error)
-    }
     __pyx_t_10 = __pyx_v_j;
-    __pyx_t_11 = -1;
-    if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_v_indices.shape[0];
-      if (unlikely(__pyx_t_10 < 0)) __pyx_t_11 = 0;
-    } else if (unlikely(__pyx_t_10 >= __pyx_v_indices.shape[0])) __pyx_t_11 = 0;
-    if (unlikely(__pyx_t_11 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_11);
-      __PYX_ERR(1, 116, __pyx_L1_error)
-    }
     __pyx_v_k = (*((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_indices.data) + __pyx_t_10)) )));
 
-    /* "mlgrad/weights.pyx":117
+    /* "mlgrad/weights.pyx":118
  *         for j in range(N):
  *             k = indices[j]
  *             qval += self.func.evaluate(lval_all[k])             # <<<<<<<<<<<<<<
  *         qval /= N
  *         return qval
  */
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "func");
-      __PYX_ERR(1, 117, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *)__pyx_v_self->func) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "evaluate");
-      __PYX_ERR(1, 117, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *) __pyx_v_lval_all.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(1, 117, __pyx_L1_error)
-    }
     __pyx_t_10 = __pyx_v_k;
-    __pyx_t_11 = -1;
-    if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_v_lval_all.shape[0];
-      if (unlikely(__pyx_t_10 < 0)) __pyx_t_11 = 0;
-    } else if (unlikely(__pyx_t_10 >= __pyx_v_lval_all.shape[0])) __pyx_t_11 = 0;
-    if (unlikely(__pyx_t_11 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_11);
-      __PYX_ERR(1, 117, __pyx_L1_error)
-    }
     __pyx_v_qval = (__pyx_v_qval + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->evaluate(__pyx_v_self->func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_lval_all.data) + __pyx_t_10)) )))));
   }
 
-  /* "mlgrad/weights.pyx":118
+  /* "mlgrad/weights.pyx":119
  *             k = indices[j]
  *             qval += self.func.evaluate(lval_all[k])
  *         qval /= N             # <<<<<<<<<<<<<<
@@ -8713,11 +8509,11 @@ static double __pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(struct __pyx_obj_6ml
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 118, __pyx_L1_error)
+    __PYX_ERR(1, 119, __pyx_L1_error)
   }
   __pyx_v_qval = (__pyx_v_qval / __pyx_v_N);
 
-  /* "mlgrad/weights.pyx":119
+  /* "mlgrad/weights.pyx":120
  *             qval += self.func.evaluate(lval_all[k])
  *         qval /= N
  *         return qval             # <<<<<<<<<<<<<<
@@ -8727,7 +8523,7 @@ static double __pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(struct __pyx_obj_6ml
   __pyx_r = __pyx_v_qval;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":105
+  /* "mlgrad/weights.pyx":106
  *             normalize_memoryview(weights)
  *     #
  *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
@@ -8752,7 +8548,7 @@ static double __pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(struct __pyx_obj_6ml
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":121
+/* "mlgrad/weights.pyx":122
  *         return qval
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -8763,28 +8559,20 @@ static double __pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(struct __pyx_obj_6ml
 static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8RWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_weights", 0);
 
-  /* "mlgrad/weights.pyx":122
+  /* "mlgrad/weights.pyx":123
  *     #
  *     cdef double[::1] get_weights(self):
  *         return self.weights             # <<<<<<<<<<<<<<
  * 
  * cdef class MWeights(Weights):
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 122, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 122, __pyx_L1_error)}
   __PYX_INC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_r = __pyx_v_self->__pyx_base.weights;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":121
+  /* "mlgrad/weights.pyx":122
  *         return qval
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -8793,16 +8581,10 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8RWeights_get_weights(struct 
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __pyx_r.data = NULL;
-  __pyx_r.memview = NULL;
-  __Pyx_AddTraceback("mlgrad.weights.RWeights.get_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  goto __pyx_L2;
   __pyx_L0:;
   if (unlikely(!__pyx_r.memview)) {
     PyErr_SetString(PyExc_TypeError, "Memoryview return value is not initialized");
   }
-  __pyx_L2:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8831,23 +8613,13 @@ static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_4func_1__get__(PyObject *__
 static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_4func___get__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "func");
-    __PYX_ERR(0, 71, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_self->func));
   __pyx_r = ((PyObject *)__pyx_v_self->func);
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.RWeights.func.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -8878,10 +8650,6 @@ static int __pyx_pf_6mlgrad_7weights_8RWeights_4func_2__set__(struct __pyx_obj_6
   if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(0, 71, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "func");
-    __PYX_ERR(0, 71, __pyx_L1_error)
-  }
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->func);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->func));
@@ -8916,14 +8684,7 @@ static int __pyx_pw_6mlgrad_7weights_8RWeights_4func_5__del__(PyObject *__pyx_v_
 static int __pyx_pf_6mlgrad_7weights_8RWeights_4func_4__del__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "func");
-    __PYX_ERR(0, 71, __pyx_L1_error)
-  }
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->func);
@@ -8932,11 +8693,6 @@ static int __pyx_pf_6mlgrad_7weights_8RWeights_4func_4__del__(struct __pyx_obj_6
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.RWeights.func.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -8965,23 +8721,13 @@ static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_4risk_1__get__(PyObject *__
 static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_4risk___get__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(0, 72, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_self->risk));
   __pyx_r = ((PyObject *)__pyx_v_self->risk);
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.RWeights.risk.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -9012,10 +8758,6 @@ static int __pyx_pf_6mlgrad_7weights_8RWeights_4risk_2__set__(struct __pyx_obj_6
   if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4risk_Functional))))) __PYX_ERR(0, 72, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(0, 72, __pyx_L1_error)
-  }
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->risk);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->risk));
@@ -9050,14 +8792,7 @@ static int __pyx_pw_6mlgrad_7weights_8RWeights_4risk_5__del__(PyObject *__pyx_v_
 static int __pyx_pf_6mlgrad_7weights_8RWeights_4risk_4__del__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(0, 72, __pyx_L1_error)
-  }
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->risk);
@@ -9066,11 +8801,6 @@ static int __pyx_pf_6mlgrad_7weights_8RWeights_4risk_4__del__(struct __pyx_obj_6
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.RWeights.risk.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9120,32 +8850,10 @@ static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_2__reduce_cython__(struct _
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "func");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->lval_all, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
   __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_v_self->normalize); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = PyTuple_New(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -9236,20 +8944,12 @@ static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_2__reduce_cython__(struct _
  *         return __pyx_unpickle_RWeights, (type(self), 0xe733b1e, None), state
  */
   /*else*/ {
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "func");
-      __PYX_ERR(2, 11, __pyx_L1_error)
-    }
     __pyx_t_5 = (((PyObject *)__pyx_v_self->func) != Py_None);
     __pyx_t_7 = (__pyx_t_5 != 0);
     if (!__pyx_t_7) {
     } else {
       __pyx_t_6 = __pyx_t_7;
       goto __pyx_L4_bool_binop_done;
-    }
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-      __PYX_ERR(2, 11, __pyx_L1_error)
     }
     __pyx_t_7 = (((PyObject *)__pyx_v_self->risk) != Py_None);
     __pyx_t_5 = (__pyx_t_7 != 0);
@@ -9431,7 +9131,7 @@ static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_4__setstate_cython__(struct
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":126
+/* "mlgrad/weights.pyx":127
  * cdef class MWeights(Weights):
  *     #
  *     def __init__(self, Average average, Functional risk, normalize=0, use_best_u=0):             # <<<<<<<<<<<<<<
@@ -9481,7 +9181,7 @@ static int __pyx_pw_6mlgrad_7weights_8MWeights_1__init__(PyObject *__pyx_v_self,
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_risk)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, 1); __PYX_ERR(1, 126, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, 1); __PYX_ERR(1, 127, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -9497,7 +9197,7 @@ static int __pyx_pw_6mlgrad_7weights_8MWeights_1__init__(PyObject *__pyx_v_self,
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 126, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 127, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -9518,14 +9218,14 @@ static int __pyx_pw_6mlgrad_7weights_8MWeights_1__init__(PyObject *__pyx_v_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 126, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 127, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.weights.MWeights.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_average), __pyx_ptype_6mlgrad_6avragg_Average, 1, "average", 0))) __PYX_ERR(1, 126, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_risk), __pyx_ptype_6mlgrad_4risk_Functional, 1, "risk", 0))) __PYX_ERR(1, 126, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_average), __pyx_ptype_6mlgrad_6avragg_Average, 1, "average", 0))) __PYX_ERR(1, 127, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_risk), __pyx_ptype_6mlgrad_4risk_Functional, 1, "risk", 0))) __PYX_ERR(1, 127, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_7weights_8MWeights___init__(((struct __pyx_obj_6mlgrad_7weights_MWeights *)__pyx_v_self), __pyx_v_average, __pyx_v_risk, __pyx_v_normalize, __pyx_v_use_best_u);
 
   /* function exit code */
@@ -9547,129 +9247,97 @@ static int __pyx_pf_6mlgrad_7weights_8MWeights___init__(struct __pyx_obj_6mlgrad
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/weights.pyx":127
+  /* "mlgrad/weights.pyx":128
  *     #
  *     def __init__(self, Average average, Functional risk, normalize=0, use_best_u=0):
  *         self.average = average             # <<<<<<<<<<<<<<
  *         self.risk = risk
  *         self.weights = None
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 127, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_average));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_average));
   __Pyx_GOTREF(__pyx_v_self->average);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->average));
   __pyx_v_self->average = __pyx_v_average;
 
-  /* "mlgrad/weights.pyx":128
+  /* "mlgrad/weights.pyx":129
  *     def __init__(self, Average average, Functional risk, normalize=0, use_best_u=0):
  *         self.average = average
  *         self.risk = risk             # <<<<<<<<<<<<<<
  *         self.weights = None
  *         self.lval_all = None
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 128, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_risk));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_risk));
   __Pyx_GOTREF(__pyx_v_self->risk);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->risk));
   __pyx_v_self->risk = __pyx_v_risk;
 
-  /* "mlgrad/weights.pyx":129
+  /* "mlgrad/weights.pyx":130
  *         self.average = average
  *         self.risk = risk
  *         self.weights = None             # <<<<<<<<<<<<<<
  *         self.lval_all = None
  *         self.first_time = 1
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 129, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 129, __pyx_L1_error)
-  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 130, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_v_self->__pyx_base.weights = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/weights.pyx":130
+  /* "mlgrad/weights.pyx":131
  *         self.risk = risk
  *         self.weights = None
  *         self.lval_all = None             # <<<<<<<<<<<<<<
  *         self.first_time = 1
  *         self.normalize = normalize
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 130, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 130, __pyx_L1_error)
-  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 131, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->lval_all, 0);
   __pyx_v_self->lval_all = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/weights.pyx":131
+  /* "mlgrad/weights.pyx":132
  *         self.weights = None
  *         self.lval_all = None
  *         self.first_time = 1             # <<<<<<<<<<<<<<
  *         self.normalize = normalize
  *         self.best_u = PyFloat_GetMax()
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-    __PYX_ERR(1, 131, __pyx_L1_error)
-  }
   __pyx_v_self->first_time = 1;
 
-  /* "mlgrad/weights.pyx":132
+  /* "mlgrad/weights.pyx":133
  *         self.lval_all = None
  *         self.first_time = 1
  *         self.normalize = normalize             # <<<<<<<<<<<<<<
  *         self.best_u = PyFloat_GetMax()
  *         self.use_best_u = use_best_u
  */
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_normalize); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 132, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(1, 132, __pyx_L1_error)
-  }
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_normalize); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 133, __pyx_L1_error)
   __pyx_v_self->normalize = __pyx_t_2;
 
-  /* "mlgrad/weights.pyx":133
+  /* "mlgrad/weights.pyx":134
  *         self.first_time = 1
  *         self.normalize = normalize
  *         self.best_u = PyFloat_GetMax()             # <<<<<<<<<<<<<<
  *         self.use_best_u = use_best_u
  *     #
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "best_u");
-    __PYX_ERR(1, 133, __pyx_L1_error)
-  }
   __pyx_v_self->best_u = PyFloat_GetMax();
 
-  /* "mlgrad/weights.pyx":134
+  /* "mlgrad/weights.pyx":135
  *         self.normalize = normalize
  *         self.best_u = PyFloat_GetMax()
  *         self.use_best_u = use_best_u             # <<<<<<<<<<<<<<
  *     #
  *     cdef eval_weights(self):
  */
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_use_best_u); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 134, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "use_best_u");
-    __PYX_ERR(1, 134, __pyx_L1_error)
-  }
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_use_best_u); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 135, __pyx_L1_error)
   __pyx_v_self->use_best_u = __pyx_t_2;
 
-  /* "mlgrad/weights.pyx":126
+  /* "mlgrad/weights.pyx":127
  * cdef class MWeights(Weights):
  *     #
  *     def __init__(self, Average average, Functional risk, normalize=0, use_best_u=0):             # <<<<<<<<<<<<<<
@@ -9689,7 +9357,7 @@ static int __pyx_pf_6mlgrad_7weights_8MWeights___init__(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":136
+/* "mlgrad/weights.pyx":137
  *         self.use_best_u = use_best_u
  *     #
  *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
@@ -9720,68 +9388,51 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("eval_weights", 0);
 
-  /* "mlgrad/weights.pyx":137
+  /* "mlgrad/weights.pyx":138
  *     #
  *     cdef eval_weights(self):
  *         cdef Risk risk = <Risk>self.risk             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t N = risk.batch.size
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 137, __pyx_L1_error)
-  }
   __pyx_t_1 = ((PyObject *)__pyx_v_self->risk);
   __Pyx_INCREF(__pyx_t_1);
   __pyx_v_risk = ((struct __pyx_obj_6mlgrad_4risk_Risk *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/weights.pyx":138
+  /* "mlgrad/weights.pyx":139
  *     cdef eval_weights(self):
  *         cdef Risk risk = <Risk>self.risk
  *         cdef Py_ssize_t N = risk.batch.size             # <<<<<<<<<<<<<<
  * 
  *         if self.lval_all is None: # or self.lval_all.shape[0] != N:
  */
-  if (unlikely(((PyObject *)__pyx_v_risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "batch");
-    __PYX_ERR(1, 138, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_risk->__pyx_base.batch) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "size");
-    __PYX_ERR(1, 138, __pyx_L1_error)
-  }
   __pyx_t_2 = __pyx_v_risk->__pyx_base.batch->size;
   __pyx_v_N = __pyx_t_2;
 
-  /* "mlgrad/weights.pyx":140
+  /* "mlgrad/weights.pyx":141
  *         cdef Py_ssize_t N = risk.batch.size
  * 
  *         if self.lval_all is None: # or self.lval_all.shape[0] != N:             # <<<<<<<<<<<<<<
  *             self.lval_all = np.zeros(N, 'd')
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 140, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 140, __pyx_L1_error)}
   __pyx_t_3 = ((((PyObject *) __pyx_v_self->lval_all.memview) == Py_None) != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":141
+    /* "mlgrad/weights.pyx":142
  * 
  *         if self.lval_all is None: # or self.lval_all.shape[0] != N:
  *             self.lval_all = np.zeros(N, 'd')             # <<<<<<<<<<<<<<
  * 
  *         risk.eval_losses(self.lval_all)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 141, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 142, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 141, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 142, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 141, __pyx_L1_error)
+    __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 142, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_6 = NULL;
     __pyx_t_7 = 0;
@@ -9798,7 +9449,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_4, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 141, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 142, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -9807,14 +9458,14 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_4, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 141, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 142, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 141, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 142, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       if (__pyx_t_6) {
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -9825,23 +9476,19 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_n_u_d);
       __pyx_t_4 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 141, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 142, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 141, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 142, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-      __PYX_ERR(1, 141, __pyx_L1_error)
-    }
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->lval_all, 0);
     __pyx_v_self->lval_all = __pyx_t_9;
     __pyx_t_9.memview = NULL;
     __pyx_t_9.data = NULL;
 
-    /* "mlgrad/weights.pyx":140
+    /* "mlgrad/weights.pyx":141
  *         cdef Py_ssize_t N = risk.batch.size
  * 
  *         if self.lval_all is None: # or self.lval_all.shape[0] != N:             # <<<<<<<<<<<<<<
@@ -9850,52 +9497,38 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
  */
   }
 
-  /* "mlgrad/weights.pyx":143
+  /* "mlgrad/weights.pyx":144
  *             self.lval_all = np.zeros(N, 'd')
  * 
  *         risk.eval_losses(self.lval_all)             # <<<<<<<<<<<<<<
  * 
  *         if self.weights is None: # or self.weights.shape[0] != N:
  */
-  if (unlikely(((PyObject *)__pyx_v_risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "eval_losses");
-    __PYX_ERR(1, 143, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 143, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 143, __pyx_L1_error)}
   ((struct __pyx_vtabstruct_6mlgrad_4risk_Risk *)__pyx_v_risk->__pyx_base.__pyx_vtab)->eval_losses(__pyx_v_risk, __pyx_v_self->lval_all);
 
-  /* "mlgrad/weights.pyx":145
+  /* "mlgrad/weights.pyx":146
  *         risk.eval_losses(self.lval_all)
  * 
  *         if self.weights is None: # or self.weights.shape[0] != N:             # <<<<<<<<<<<<<<
  *             self.weights = np.zeros(N, 'd')
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 145, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 145, __pyx_L1_error)}
   __pyx_t_3 = ((((PyObject *) __pyx_v_self->__pyx_base.weights.memview) == Py_None) != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":146
+    /* "mlgrad/weights.pyx":147
  * 
  *         if self.weights is None: # or self.weights.shape[0] != N:
  *             self.weights = np.zeros(N, 'd')             # <<<<<<<<<<<<<<
  * 
  *         if self.first_time:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 146, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 146, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 146, __pyx_L1_error)
+    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_4 = NULL;
     __pyx_t_7 = 0;
@@ -9912,7 +9545,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_8)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 146, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 147, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -9921,14 +9554,14 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 146, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 147, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 146, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 147, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -9939,23 +9572,19 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_7, __pyx_n_u_d);
       __pyx_t_5 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 146, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 147, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 146, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 147, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-      __PYX_ERR(1, 146, __pyx_L1_error)
-    }
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
     __pyx_v_self->__pyx_base.weights = __pyx_t_9;
     __pyx_t_9.memview = NULL;
     __pyx_t_9.data = NULL;
 
-    /* "mlgrad/weights.pyx":145
+    /* "mlgrad/weights.pyx":146
  *         risk.eval_losses(self.lval_all)
  * 
  *         if self.weights is None: # or self.weights.shape[0] != N:             # <<<<<<<<<<<<<<
@@ -9964,21 +9593,17 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
  */
   }
 
-  /* "mlgrad/weights.pyx":148
+  /* "mlgrad/weights.pyx":149
  *             self.weights = np.zeros(N, 'd')
  * 
  *         if self.first_time:             # <<<<<<<<<<<<<<
  *             u0 = None
  *             self.first_time = 0
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-    __PYX_ERR(1, 148, __pyx_L1_error)
-  }
   __pyx_t_3 = (__pyx_v_self->first_time != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":149
+    /* "mlgrad/weights.pyx":150
  * 
  *         if self.first_time:
  *             u0 = None             # <<<<<<<<<<<<<<
@@ -9988,20 +9613,16 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
     __Pyx_INCREF(Py_None);
     __pyx_v_u0 = Py_None;
 
-    /* "mlgrad/weights.pyx":150
+    /* "mlgrad/weights.pyx":151
  *         if self.first_time:
  *             u0 = None
  *             self.first_time = 0             # <<<<<<<<<<<<<<
  *         else:
  *             u0 = self.average.u
  */
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-      __PYX_ERR(1, 150, __pyx_L1_error)
-    }
     __pyx_v_self->first_time = 0;
 
-    /* "mlgrad/weights.pyx":148
+    /* "mlgrad/weights.pyx":149
  *             self.weights = np.zeros(N, 'd')
  * 
  *         if self.first_time:             # <<<<<<<<<<<<<<
@@ -10011,7 +9632,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
     goto __pyx_L5;
   }
 
-  /* "mlgrad/weights.pyx":152
+  /* "mlgrad/weights.pyx":153
  *             self.first_time = 0
  *         else:
  *             u0 = self.average.u             # <<<<<<<<<<<<<<
@@ -10019,104 +9640,55 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
  *         self.average.fit(self.lval_all, u0)
  */
   /*else*/ {
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-      __PYX_ERR(1, 152, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u");
-      __PYX_ERR(1, 152, __pyx_L1_error)
-    }
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->average->u); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 152, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->average->u); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_v_u0 = __pyx_t_1;
     __pyx_t_1 = 0;
   }
   __pyx_L5:;
 
-  /* "mlgrad/weights.pyx":154
+  /* "mlgrad/weights.pyx":155
  *             u0 = self.average.u
  * 
  *         self.average.fit(self.lval_all, u0)             # <<<<<<<<<<<<<<
  *         if self.use_best_u and self.average.u < self.best_u:
  *             self.best_u = self.average.u
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 154, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "fit");
-    __PYX_ERR(1, 154, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 154, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 154, __pyx_L1_error)}
   __pyx_t_10.__pyx_n = 1;
   __pyx_t_10.u0 = __pyx_v_u0;
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->average->__pyx_vtab)->fit(__pyx_v_self->average, __pyx_v_self->lval_all, 0, &__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 154, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->average->__pyx_vtab)->fit(__pyx_v_self->average, __pyx_v_self->lval_all, 0, &__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/weights.pyx":155
+  /* "mlgrad/weights.pyx":156
  * 
  *         self.average.fit(self.lval_all, u0)
  *         if self.use_best_u and self.average.u < self.best_u:             # <<<<<<<<<<<<<<
  *             self.best_u = self.average.u
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "use_best_u");
-    __PYX_ERR(1, 155, __pyx_L1_error)
-  }
   __pyx_t_11 = (__pyx_v_self->use_best_u != 0);
   if (__pyx_t_11) {
   } else {
     __pyx_t_3 = __pyx_t_11;
     goto __pyx_L7_bool_binop_done;
   }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 155, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u");
-    __PYX_ERR(1, 155, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "best_u");
-    __PYX_ERR(1, 155, __pyx_L1_error)
-  }
   __pyx_t_11 = ((__pyx_v_self->average->u < __pyx_v_self->best_u) != 0);
   __pyx_t_3 = __pyx_t_11;
   __pyx_L7_bool_binop_done:;
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":156
+    /* "mlgrad/weights.pyx":157
  *         self.average.fit(self.lval_all, u0)
  *         if self.use_best_u and self.average.u < self.best_u:
  *             self.best_u = self.average.u             # <<<<<<<<<<<<<<
  * 
  *         if self.use_best_u:
  */
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-      __PYX_ERR(1, 156, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u");
-      __PYX_ERR(1, 156, __pyx_L1_error)
-    }
     __pyx_t_12 = __pyx_v_self->average->u;
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "best_u");
-      __PYX_ERR(1, 156, __pyx_L1_error)
-    }
     __pyx_v_self->best_u = __pyx_t_12;
 
-    /* "mlgrad/weights.pyx":155
+    /* "mlgrad/weights.pyx":156
  * 
  *         self.average.fit(self.lval_all, u0)
  *         if self.use_best_u and self.average.u < self.best_u:             # <<<<<<<<<<<<<<
@@ -10125,56 +9697,26 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
  */
   }
 
-  /* "mlgrad/weights.pyx":158
+  /* "mlgrad/weights.pyx":159
  *             self.best_u = self.average.u
  * 
  *         if self.use_best_u:             # <<<<<<<<<<<<<<
  *             self.average.penalty.gradient(self.lval_all, self.best_u, self.weights)
  *         else:
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "use_best_u");
-    __PYX_ERR(1, 158, __pyx_L1_error)
-  }
   __pyx_t_3 = (__pyx_v_self->use_best_u != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":159
+    /* "mlgrad/weights.pyx":160
  * 
  *         if self.use_best_u:
  *             self.average.penalty.gradient(self.lval_all, self.best_u, self.weights)             # <<<<<<<<<<<<<<
  *         else:
  *             self.average.gradient(self.lval_all, self.weights)
  */
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-      __PYX_ERR(1, 159, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "penalty");
-      __PYX_ERR(1, 159, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *)__pyx_v_self->average->penalty) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "gradient");
-      __PYX_ERR(1, 159, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-      __PYX_ERR(1, 159, __pyx_L1_error)
-    }
-    if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 159, __pyx_L1_error)}
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "best_u");
-      __PYX_ERR(1, 159, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-      __PYX_ERR(1, 159, __pyx_L1_error)
-    }
-    if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 159, __pyx_L1_error)}
     ((struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty *)__pyx_v_self->average->penalty->__pyx_vtab)->gradient(__pyx_v_self->average->penalty, __pyx_v_self->lval_all, __pyx_v_self->best_u, __pyx_v_self->__pyx_base.weights);
 
-    /* "mlgrad/weights.pyx":158
+    /* "mlgrad/weights.pyx":159
  *             self.best_u = self.average.u
  * 
  *         if self.use_best_u:             # <<<<<<<<<<<<<<
@@ -10184,7 +9726,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
     goto __pyx_L9;
   }
 
-  /* "mlgrad/weights.pyx":161
+  /* "mlgrad/weights.pyx":162
  *             self.average.penalty.gradient(self.lval_all, self.best_u, self.weights)
  *         else:
  *             self.average.gradient(self.lval_all, self.weights)             # <<<<<<<<<<<<<<
@@ -10192,59 +9734,32 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
  *         if self.normalize:
  */
   /*else*/ {
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-      __PYX_ERR(1, 161, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "gradient");
-      __PYX_ERR(1, 161, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-      __PYX_ERR(1, 161, __pyx_L1_error)
-    }
-    if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 161, __pyx_L1_error)}
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-      __PYX_ERR(1, 161, __pyx_L1_error)
-    }
-    if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 161, __pyx_L1_error)}
-    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->average->__pyx_vtab)->gradient(__pyx_v_self->average, __pyx_v_self->lval_all, __pyx_v_self->__pyx_base.weights); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 161, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->average->__pyx_vtab)->gradient(__pyx_v_self->average, __pyx_v_self->lval_all, __pyx_v_self->__pyx_base.weights); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 162, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __pyx_L9:;
 
-  /* "mlgrad/weights.pyx":163
+  /* "mlgrad/weights.pyx":164
  *             self.average.gradient(self.lval_all, self.weights)
  * 
  *         if self.normalize:             # <<<<<<<<<<<<<<
  *             normalize_memoryview(self.weights)
  *     #
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(1, 163, __pyx_L1_error)
-  }
   __pyx_t_3 = (__pyx_v_self->normalize != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":164
+    /* "mlgrad/weights.pyx":165
  * 
  *         if self.normalize:
  *             normalize_memoryview(self.weights)             # <<<<<<<<<<<<<<
  *     #
  *     cdef double get_qvalue(self):
  */
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-      __PYX_ERR(1, 164, __pyx_L1_error)
-    }
-    if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 164, __pyx_L1_error)}
     __pyx_f_6mlgrad_7weights_normalize_memoryview(__pyx_v_self->__pyx_base.weights);
 
-    /* "mlgrad/weights.pyx":163
+    /* "mlgrad/weights.pyx":164
  *             self.average.gradient(self.lval_all, self.weights)
  * 
  *         if self.normalize:             # <<<<<<<<<<<<<<
@@ -10253,7 +9768,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
  */
   }
 
-  /* "mlgrad/weights.pyx":136
+  /* "mlgrad/weights.pyx":137
  *         self.use_best_u = use_best_u
  *     #
  *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
@@ -10281,7 +9796,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":166
+/* "mlgrad/weights.pyx":167
  *             normalize_memoryview(self.weights)
  *     #
  *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
@@ -10292,30 +9807,19 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
 static double __pyx_f_6mlgrad_7weights_8MWeights_get_qvalue(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_qvalue", 0);
 
-  /* "mlgrad/weights.pyx":167
+  /* "mlgrad/weights.pyx":168
  *     #
  *     cdef double get_qvalue(self):
  *         return self.average.u             # <<<<<<<<<<<<<<
  *     #
  *     cdef double[::1] get_weights(self):
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 167, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u");
-    __PYX_ERR(1, 167, __pyx_L1_error)
-  }
   __pyx_r = __pyx_v_self->average->u;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":166
+  /* "mlgrad/weights.pyx":167
  *             normalize_memoryview(self.weights)
  *     #
  *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
@@ -10324,15 +9828,12 @@ static double __pyx_f_6mlgrad_7weights_8MWeights_get_qvalue(struct __pyx_obj_6ml
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.weights.MWeights.get_qvalue", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":169
+/* "mlgrad/weights.pyx":170
  *         return self.average.u
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -10343,28 +9844,20 @@ static double __pyx_f_6mlgrad_7weights_8MWeights_get_qvalue(struct __pyx_obj_6ml
 static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8MWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_weights", 0);
 
-  /* "mlgrad/weights.pyx":170
+  /* "mlgrad/weights.pyx":171
  *     #
  *     cdef double[::1] get_weights(self):
  *         return self.weights             # <<<<<<<<<<<<<<
  * 
  * cdef class SWMWeights(Weights):
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 170, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 170, __pyx_L1_error)}
   __PYX_INC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_r = __pyx_v_self->__pyx_base.weights;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":169
+  /* "mlgrad/weights.pyx":170
  *         return self.average.u
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -10373,16 +9866,10 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8MWeights_get_weights(struct 
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __pyx_r.data = NULL;
-  __pyx_r.memview = NULL;
-  __Pyx_AddTraceback("mlgrad.weights.MWeights.get_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  goto __pyx_L2;
   __pyx_L0:;
   if (unlikely(!__pyx_r.memview)) {
     PyErr_SetString(PyExc_TypeError, "Memoryview return value is not initialized");
   }
-  __pyx_L2:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10411,23 +9898,13 @@ static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_7average_1__get__(PyObject 
 static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_7average___get__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(0, 79, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_self->average));
   __pyx_r = ((PyObject *)__pyx_v_self->average);
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.MWeights.average.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -10458,10 +9935,6 @@ static int __pyx_pf_6mlgrad_7weights_8MWeights_7average_2__set__(struct __pyx_ob
   if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(0, 79, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(0, 79, __pyx_L1_error)
-  }
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->average);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->average));
@@ -10496,14 +9969,7 @@ static int __pyx_pw_6mlgrad_7weights_8MWeights_7average_5__del__(PyObject *__pyx
 static int __pyx_pf_6mlgrad_7weights_8MWeights_7average_4__del__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(0, 79, __pyx_L1_error)
-  }
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->average);
@@ -10512,11 +9978,6 @@ static int __pyx_pf_6mlgrad_7weights_8MWeights_7average_4__del__(struct __pyx_ob
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.MWeights.average.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10545,23 +10006,13 @@ static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_4risk_1__get__(PyObject *__
 static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_4risk___get__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(0, 80, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_self->risk));
   __pyx_r = ((PyObject *)__pyx_v_self->risk);
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.MWeights.risk.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -10592,10 +10043,6 @@ static int __pyx_pf_6mlgrad_7weights_8MWeights_4risk_2__set__(struct __pyx_obj_6
   if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4risk_Functional))))) __PYX_ERR(0, 80, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(0, 80, __pyx_L1_error)
-  }
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->risk);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->risk));
@@ -10630,14 +10077,7 @@ static int __pyx_pw_6mlgrad_7weights_8MWeights_4risk_5__del__(PyObject *__pyx_v_
 static int __pyx_pf_6mlgrad_7weights_8MWeights_4risk_4__del__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(0, 80, __pyx_L1_error)
-  }
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->risk);
@@ -10646,11 +10086,6 @@ static int __pyx_pf_6mlgrad_7weights_8MWeights_4risk_4__del__(struct __pyx_obj_6
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.MWeights.risk.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -10704,56 +10139,18 @@ static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_2__reduce_cython__(struct _
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "best_u");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->best_u); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
   __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_v_self->first_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->lval_all, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
   __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_v_self->normalize); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u_only");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
   __pyx_t_5 = __Pyx_PyBool_FromLong(__pyx_v_self->u_only); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "use_best_u");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
   __pyx_t_6 = __Pyx_PyBool_FromLong(__pyx_v_self->use_best_u); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_8 = PyTuple_New(9); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -10856,20 +10253,12 @@ static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_2__reduce_cython__(struct _
  *         return __pyx_unpickle_MWeights, (type(self), 0x7fc3af8, None), state
  */
   /*else*/ {
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-      __PYX_ERR(2, 11, __pyx_L1_error)
-    }
     __pyx_t_9 = (((PyObject *)__pyx_v_self->average) != Py_None);
     __pyx_t_11 = (__pyx_t_9 != 0);
     if (!__pyx_t_11) {
     } else {
       __pyx_t_10 = __pyx_t_11;
       goto __pyx_L4_bool_binop_done;
-    }
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-      __PYX_ERR(2, 11, __pyx_L1_error)
     }
     __pyx_t_11 = (((PyObject *)__pyx_v_self->risk) != Py_None);
     __pyx_t_9 = (__pyx_t_11 != 0);
@@ -11055,7 +10444,7 @@ static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_4__setstate_cython__(struct
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":174
+/* "mlgrad/weights.pyx":175
  * cdef class SWMWeights(Weights):
  *     #
  *     def __init__(self, Average average, Functional risk, normalize=0, u_only=1):             # <<<<<<<<<<<<<<
@@ -11105,7 +10494,7 @@ static int __pyx_pw_6mlgrad_7weights_10SWMWeights_1__init__(PyObject *__pyx_v_se
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_risk)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, 1); __PYX_ERR(1, 174, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, 1); __PYX_ERR(1, 175, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -11121,7 +10510,7 @@ static int __pyx_pw_6mlgrad_7weights_10SWMWeights_1__init__(PyObject *__pyx_v_se
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 174, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 175, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -11142,14 +10531,14 @@ static int __pyx_pw_6mlgrad_7weights_10SWMWeights_1__init__(PyObject *__pyx_v_se
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 174, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 175, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.weights.SWMWeights.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_average), __pyx_ptype_6mlgrad_6avragg_Average, 1, "average", 0))) __PYX_ERR(1, 174, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_risk), __pyx_ptype_6mlgrad_4risk_Functional, 1, "risk", 0))) __PYX_ERR(1, 174, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_average), __pyx_ptype_6mlgrad_6avragg_Average, 1, "average", 0))) __PYX_ERR(1, 175, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_risk), __pyx_ptype_6mlgrad_4risk_Functional, 1, "risk", 0))) __PYX_ERR(1, 175, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_7weights_10SWMWeights___init__(((struct __pyx_obj_6mlgrad_7weights_SWMWeights *)__pyx_v_self), __pyx_v_average, __pyx_v_risk, __pyx_v_normalize, __pyx_v_u_only);
 
   /* function exit code */
@@ -11171,115 +10560,87 @@ static int __pyx_pf_6mlgrad_7weights_10SWMWeights___init__(struct __pyx_obj_6mlg
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/weights.pyx":175
+  /* "mlgrad/weights.pyx":176
  *     #
  *     def __init__(self, Average average, Functional risk, normalize=0, u_only=1):
  *         self.average = average             # <<<<<<<<<<<<<<
  *         self.risk = risk
  *         self.weights = None
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 175, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_average));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_average));
   __Pyx_GOTREF(__pyx_v_self->average);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->average));
   __pyx_v_self->average = __pyx_v_average;
 
-  /* "mlgrad/weights.pyx":176
+  /* "mlgrad/weights.pyx":177
  *     def __init__(self, Average average, Functional risk, normalize=0, u_only=1):
  *         self.average = average
  *         self.risk = risk             # <<<<<<<<<<<<<<
  *         self.weights = None
  *         self.lval_all = None
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 176, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_risk));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_risk));
   __Pyx_GOTREF(__pyx_v_self->risk);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->risk));
   __pyx_v_self->risk = __pyx_v_risk;
 
-  /* "mlgrad/weights.pyx":177
+  /* "mlgrad/weights.pyx":178
  *         self.average = average
  *         self.risk = risk
  *         self.weights = None             # <<<<<<<<<<<<<<
  *         self.lval_all = None
  *         self.first_time = 1
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 177, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 177, __pyx_L1_error)
-  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 178, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_v_self->__pyx_base.weights = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/weights.pyx":178
+  /* "mlgrad/weights.pyx":179
  *         self.risk = risk
  *         self.weights = None
  *         self.lval_all = None             # <<<<<<<<<<<<<<
  *         self.first_time = 1
  *         self.normalize = normalize
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 178, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 178, __pyx_L1_error)
-  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 179, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->lval_all, 0);
   __pyx_v_self->lval_all = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/weights.pyx":179
+  /* "mlgrad/weights.pyx":180
  *         self.weights = None
  *         self.lval_all = None
  *         self.first_time = 1             # <<<<<<<<<<<<<<
  *         self.normalize = normalize
  *         self.u_only = 1
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-    __PYX_ERR(1, 179, __pyx_L1_error)
-  }
   __pyx_v_self->first_time = 1;
 
-  /* "mlgrad/weights.pyx":180
+  /* "mlgrad/weights.pyx":181
  *         self.lval_all = None
  *         self.first_time = 1
  *         self.normalize = normalize             # <<<<<<<<<<<<<<
  *         self.u_only = 1
  *     #
  */
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_normalize); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 180, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(1, 180, __pyx_L1_error)
-  }
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_normalize); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 181, __pyx_L1_error)
   __pyx_v_self->normalize = __pyx_t_2;
 
-  /* "mlgrad/weights.pyx":181
+  /* "mlgrad/weights.pyx":182
  *         self.first_time = 1
  *         self.normalize = normalize
  *         self.u_only = 1             # <<<<<<<<<<<<<<
  *     #
  *     cdef eval_weights(self):
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u_only");
-    __PYX_ERR(1, 181, __pyx_L1_error)
-  }
   __pyx_v_self->u_only = 1;
 
-  /* "mlgrad/weights.pyx":174
+  /* "mlgrad/weights.pyx":175
  * cdef class SWMWeights(Weights):
  *     #
  *     def __init__(self, Average average, Functional risk, normalize=0, u_only=1):             # <<<<<<<<<<<<<<
@@ -11299,7 +10660,7 @@ static int __pyx_pf_6mlgrad_7weights_10SWMWeights___init__(struct __pyx_obj_6mlg
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":183
+/* "mlgrad/weights.pyx":184
  *         self.u_only = 1
  *     #
  *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
@@ -11338,95 +10699,66 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("eval_weights", 0);
 
-  /* "mlgrad/weights.pyx":184
+  /* "mlgrad/weights.pyx":185
  *     #
  *     cdef eval_weights(self):
  *         cdef Risk risk = self.risk             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t N = risk.batch.size
  * #         cdef int[::1] indices = risk.batch.indices
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 184, __pyx_L1_error)
-  }
-  if (!(likely(((((PyObject *)__pyx_v_self->risk)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_self->risk), __pyx_ptype_6mlgrad_4risk_Risk))))) __PYX_ERR(1, 184, __pyx_L1_error)
+  if (!(likely(((((PyObject *)__pyx_v_self->risk)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_self->risk), __pyx_ptype_6mlgrad_4risk_Risk))))) __PYX_ERR(1, 185, __pyx_L1_error)
   __pyx_t_1 = ((PyObject *)__pyx_v_self->risk);
   __Pyx_INCREF(__pyx_t_1);
   __pyx_v_risk = ((struct __pyx_obj_6mlgrad_4risk_Risk *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/weights.pyx":185
+  /* "mlgrad/weights.pyx":186
  *     cdef eval_weights(self):
  *         cdef Risk risk = self.risk
  *         cdef Py_ssize_t N = risk.batch.size             # <<<<<<<<<<<<<<
  * #         cdef int[::1] indices = risk.batch.indices
  *         cdef Py_ssize_t j, k
  */
-  if (unlikely(((PyObject *)__pyx_v_risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "batch");
-    __PYX_ERR(1, 185, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_risk->__pyx_base.batch) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "size");
-    __PYX_ERR(1, 185, __pyx_L1_error)
-  }
   __pyx_t_2 = __pyx_v_risk->__pyx_base.batch->size;
   __pyx_v_N = __pyx_t_2;
 
-  /* "mlgrad/weights.pyx":189
+  /* "mlgrad/weights.pyx":190
  *         cdef Py_ssize_t j, k
  *         cdef double v, Nv, u
  *         cdef Func func = self.average.penalty.func             # <<<<<<<<<<<<<<
  *         cdef double[::1] weights
  *         cdef double[::1] lval_all
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 189, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "penalty");
-    __PYX_ERR(1, 189, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average->penalty) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "func");
-    __PYX_ERR(1, 189, __pyx_L1_error)
-  }
   __pyx_t_1 = ((PyObject *)__pyx_v_self->average->penalty->func);
   __Pyx_INCREF(__pyx_t_1);
   __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/weights.pyx":193
+  /* "mlgrad/weights.pyx":194
  *         cdef double[::1] lval_all
  * 
  *         if self.lval_all is None:             # <<<<<<<<<<<<<<
  *             self.lval_all = np.empty((N,), 'd')
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 193, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 193, __pyx_L1_error)}
   __pyx_t_3 = ((((PyObject *) __pyx_v_self->lval_all.memview) == Py_None) != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":194
+    /* "mlgrad/weights.pyx":195
  * 
  *         if self.lval_all is None:
  *             self.lval_all = np.empty((N,), 'd')             # <<<<<<<<<<<<<<
  * 
  *         risk.eval_losses(self.lval_all)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 194, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 195, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_empty); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 194, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_empty); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 195, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 194, __pyx_L1_error)
+    __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 195, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 194, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 195, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4);
@@ -11446,7 +10778,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_6, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 194, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 195, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -11455,14 +10787,14 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_6, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 194, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 195, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 194, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 195, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -11473,23 +10805,19 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_n_u_d);
       __pyx_t_6 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 194, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 195, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 194, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 195, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-      __PYX_ERR(1, 194, __pyx_L1_error)
-    }
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->lval_all, 0);
     __pyx_v_self->lval_all = __pyx_t_9;
     __pyx_t_9.memview = NULL;
     __pyx_t_9.data = NULL;
 
-    /* "mlgrad/weights.pyx":193
+    /* "mlgrad/weights.pyx":194
  *         cdef double[::1] lval_all
  * 
  *         if self.lval_all is None:             # <<<<<<<<<<<<<<
@@ -11498,54 +10826,40 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
  */
   }
 
-  /* "mlgrad/weights.pyx":196
+  /* "mlgrad/weights.pyx":197
  *             self.lval_all = np.empty((N,), 'd')
  * 
  *         risk.eval_losses(self.lval_all)             # <<<<<<<<<<<<<<
  * 
  *         if self.weights is None:
  */
-  if (unlikely(((PyObject *)__pyx_v_risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "eval_losses");
-    __PYX_ERR(1, 196, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 196, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 196, __pyx_L1_error)}
   ((struct __pyx_vtabstruct_6mlgrad_4risk_Risk *)__pyx_v_risk->__pyx_base.__pyx_vtab)->eval_losses(__pyx_v_risk, __pyx_v_self->lval_all);
 
-  /* "mlgrad/weights.pyx":198
+  /* "mlgrad/weights.pyx":199
  *         risk.eval_losses(self.lval_all)
  * 
  *         if self.weights is None:             # <<<<<<<<<<<<<<
  *             self.weights = np.empty((N,), 'd')
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 198, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 198, __pyx_L1_error)}
   __pyx_t_3 = ((((PyObject *) __pyx_v_self->__pyx_base.weights.memview) == Py_None) != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":199
+    /* "mlgrad/weights.pyx":200
  * 
  *         if self.weights is None:
  *             self.weights = np.empty((N,), 'd')             # <<<<<<<<<<<<<<
  * 
  *         if self.first_time:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 199, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_empty); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 199, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_empty); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 199, __pyx_L1_error)
+    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 199, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5);
@@ -11565,7 +10879,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_8)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_6, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 199, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 200, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -11574,14 +10888,14 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_6, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 199, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 200, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 199, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 200, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       if (__pyx_t_5) {
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -11592,23 +10906,19 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_7, __pyx_n_u_d);
       __pyx_t_6 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 199, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 200, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 199, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 200, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-      __PYX_ERR(1, 199, __pyx_L1_error)
-    }
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
     __pyx_v_self->__pyx_base.weights = __pyx_t_9;
     __pyx_t_9.memview = NULL;
     __pyx_t_9.data = NULL;
 
-    /* "mlgrad/weights.pyx":198
+    /* "mlgrad/weights.pyx":199
  *         risk.eval_losses(self.lval_all)
  * 
  *         if self.weights is None:             # <<<<<<<<<<<<<<
@@ -11617,56 +10927,35 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
  */
   }
 
-  /* "mlgrad/weights.pyx":201
+  /* "mlgrad/weights.pyx":202
  *             self.weights = np.empty((N,), 'd')
  * 
  *         if self.first_time:             # <<<<<<<<<<<<<<
  *             self.average.u = array_min(self.lval_all)
  *             self.first_time = 0
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-    __PYX_ERR(1, 201, __pyx_L1_error)
-  }
   __pyx_t_3 = (__pyx_v_self->first_time != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":202
+    /* "mlgrad/weights.pyx":203
  * 
  *         if self.first_time:
  *             self.average.u = array_min(self.lval_all)             # <<<<<<<<<<<<<<
  *             self.first_time = 0
  * 
  */
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-      __PYX_ERR(1, 202, __pyx_L1_error)
-    }
-    if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 202, __pyx_L1_error)}
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-      __PYX_ERR(1, 202, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u");
-      __PYX_ERR(1, 202, __pyx_L1_error)
-    }
     __pyx_v_self->average->u = __pyx_f_6mlgrad_7weights_array_min(__pyx_v_self->lval_all);
 
-    /* "mlgrad/weights.pyx":203
+    /* "mlgrad/weights.pyx":204
  *         if self.first_time:
  *             self.average.u = array_min(self.lval_all)
  *             self.first_time = 0             # <<<<<<<<<<<<<<
  * 
  *         self.average.fit(self.lval_all)
  */
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-      __PYX_ERR(1, 203, __pyx_L1_error)
-    }
     __pyx_v_self->first_time = 0;
 
-    /* "mlgrad/weights.pyx":201
+    /* "mlgrad/weights.pyx":202
  *             self.weights = np.empty((N,), 'd')
  * 
  *         if self.first_time:             # <<<<<<<<<<<<<<
@@ -11675,114 +10964,65 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
  */
   }
 
-  /* "mlgrad/weights.pyx":205
+  /* "mlgrad/weights.pyx":206
  *             self.first_time = 0
  * 
  *         self.average.fit(self.lval_all)             # <<<<<<<<<<<<<<
  * 
  *         self.average.gradient(self.lval_all, self.weights)
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 205, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "fit");
-    __PYX_ERR(1, 205, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 205, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 205, __pyx_L1_error)}
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->average->__pyx_vtab)->fit(__pyx_v_self->average, __pyx_v_self->lval_all, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 205, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->average->__pyx_vtab)->fit(__pyx_v_self->average, __pyx_v_self->lval_all, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 206, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/weights.pyx":207
+  /* "mlgrad/weights.pyx":208
  *         self.average.fit(self.lval_all)
  * 
  *         self.average.gradient(self.lval_all, self.weights)             # <<<<<<<<<<<<<<
  * 
  *         u = self.average.u
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 207, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "gradient");
-    __PYX_ERR(1, 207, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 207, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 207, __pyx_L1_error)}
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 207, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 207, __pyx_L1_error)}
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->average->__pyx_vtab)->gradient(__pyx_v_self->average, __pyx_v_self->lval_all, __pyx_v_self->__pyx_base.weights); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 207, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->average->__pyx_vtab)->gradient(__pyx_v_self->average, __pyx_v_self->lval_all, __pyx_v_self->__pyx_base.weights); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 208, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/weights.pyx":209
+  /* "mlgrad/weights.pyx":210
  *         self.average.gradient(self.lval_all, self.weights)
  * 
  *         u = self.average.u             # <<<<<<<<<<<<<<
  * 
  *         weights = self.weights
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 209, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u");
-    __PYX_ERR(1, 209, __pyx_L1_error)
-  }
   __pyx_t_10 = __pyx_v_self->average->u;
   __pyx_v_u = __pyx_t_10;
 
-  /* "mlgrad/weights.pyx":211
+  /* "mlgrad/weights.pyx":212
  *         u = self.average.u
  * 
  *         weights = self.weights             # <<<<<<<<<<<<<<
  *         lval_all = self.lval_all
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 211, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 211, __pyx_L1_error)}
   __pyx_t_9 = __pyx_v_self->__pyx_base.weights;
   __PYX_INC_MEMVIEW(&__pyx_t_9, 1);
   __pyx_v_weights = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "mlgrad/weights.pyx":212
+  /* "mlgrad/weights.pyx":213
  * 
  *         weights = self.weights
  *         lval_all = self.lval_all             # <<<<<<<<<<<<<<
  * 
  *         Nv = 1. / N
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 212, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 212, __pyx_L1_error)}
   __pyx_t_9 = __pyx_v_self->lval_all;
   __PYX_INC_MEMVIEW(&__pyx_t_9, 1);
   __pyx_v_lval_all = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "mlgrad/weights.pyx":214
+  /* "mlgrad/weights.pyx":215
  *         lval_all = self.lval_all
  * 
  *         Nv = 1. / N             # <<<<<<<<<<<<<<
@@ -11791,11 +11031,11 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 214, __pyx_L1_error)
+    __PYX_ERR(1, 215, __pyx_L1_error)
   }
   __pyx_v_Nv = (1. / ((double)__pyx_v_N));
 
-  /* "mlgrad/weights.pyx":215
+  /* "mlgrad/weights.pyx":216
  * 
  *         Nv = 1. / N
  *         for j in range(N):             # <<<<<<<<<<<<<<
@@ -11807,100 +11047,48 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_j = __pyx_t_12;
 
-    /* "mlgrad/weights.pyx":216
+    /* "mlgrad/weights.pyx":217
  *         Nv = 1. / N
  *         for j in range(N):
  *             v = Nv * (1 - func.derivative(lval_all[j] - u))             # <<<<<<<<<<<<<<
  *             weights[j] = 0.5 * (v + weights[j])
  * 
  */
-    if (unlikely(((PyObject *)__pyx_v_func) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "derivative");
-      __PYX_ERR(1, 216, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *) __pyx_v_lval_all.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(1, 216, __pyx_L1_error)
-    }
     __pyx_t_13 = __pyx_v_j;
-    __pyx_t_7 = -1;
-    if (__pyx_t_13 < 0) {
-      __pyx_t_13 += __pyx_v_lval_all.shape[0];
-      if (unlikely(__pyx_t_13 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_13 >= __pyx_v_lval_all.shape[0])) __pyx_t_7 = 0;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 216, __pyx_L1_error)
-    }
     __pyx_v_v = (__pyx_v_Nv * (1.0 - ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative(__pyx_v_func, ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_lval_all.data) + __pyx_t_13)) ))) - __pyx_v_u))));
 
-    /* "mlgrad/weights.pyx":217
+    /* "mlgrad/weights.pyx":218
  *         for j in range(N):
  *             v = Nv * (1 - func.derivative(lval_all[j] - u))
  *             weights[j] = 0.5 * (v + weights[j])             # <<<<<<<<<<<<<<
  * 
  *         if self.normalize:
  */
-    if (unlikely(((PyObject *) __pyx_v_weights.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(1, 217, __pyx_L1_error)
-    }
     __pyx_t_13 = __pyx_v_j;
-    __pyx_t_7 = -1;
-    if (__pyx_t_13 < 0) {
-      __pyx_t_13 += __pyx_v_weights.shape[0];
-      if (unlikely(__pyx_t_13 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_13 >= __pyx_v_weights.shape[0])) __pyx_t_7 = 0;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 217, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *) __pyx_v_weights.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(1, 217, __pyx_L1_error)
-    }
     __pyx_t_14 = __pyx_v_j;
-    __pyx_t_7 = -1;
-    if (__pyx_t_14 < 0) {
-      __pyx_t_14 += __pyx_v_weights.shape[0];
-      if (unlikely(__pyx_t_14 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_14 >= __pyx_v_weights.shape[0])) __pyx_t_7 = 0;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 217, __pyx_L1_error)
-    }
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_14)) )) = (0.5 * (__pyx_v_v + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_13)) )))));
   }
 
-  /* "mlgrad/weights.pyx":219
+  /* "mlgrad/weights.pyx":220
  *             weights[j] = 0.5 * (v + weights[j])
  * 
  *         if self.normalize:             # <<<<<<<<<<<<<<
  *             normalize_memoryview(self.weights)
  *     #
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(1, 219, __pyx_L1_error)
-  }
   __pyx_t_3 = (__pyx_v_self->normalize != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":220
+    /* "mlgrad/weights.pyx":221
  * 
  *         if self.normalize:
  *             normalize_memoryview(self.weights)             # <<<<<<<<<<<<<<
  *     #
  *     cdef double get_qvalue(self):
  */
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-      __PYX_ERR(1, 220, __pyx_L1_error)
-    }
-    if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 220, __pyx_L1_error)}
     __pyx_f_6mlgrad_7weights_normalize_memoryview(__pyx_v_self->__pyx_base.weights);
 
-    /* "mlgrad/weights.pyx":219
+    /* "mlgrad/weights.pyx":220
  *             weights[j] = 0.5 * (v + weights[j])
  * 
  *         if self.normalize:             # <<<<<<<<<<<<<<
@@ -11909,7 +11097,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
  */
   }
 
-  /* "mlgrad/weights.pyx":183
+  /* "mlgrad/weights.pyx":184
  *         self.u_only = 1
  *     #
  *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
@@ -11939,7 +11127,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_10SWMWeights_eval_weights(struct __pyx
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":222
+/* "mlgrad/weights.pyx":223
  *             normalize_memoryview(self.weights)
  *     #
  *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
@@ -11965,98 +11153,60 @@ static double __pyx_f_6mlgrad_7weights_10SWMWeights_get_qvalue(struct __pyx_obj_
   int __pyx_t_6;
   int __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  int __pyx_t_9;
+  PyObject *__pyx_t_9 = NULL;
   PyObject *__pyx_t_10 = NULL;
   PyObject *__pyx_t_11 = NULL;
-  PyObject *__pyx_t_12 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_qvalue", 0);
 
-  /* "mlgrad/weights.pyx":223
+  /* "mlgrad/weights.pyx":224
  *     #
  *     cdef double get_qvalue(self):
  *         cdef int N = self.risk.batch.size             # <<<<<<<<<<<<<<
  *         cdef int j, k
  *         cdef double[::1] lval_all = self.lval_all
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 223, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "batch");
-    __PYX_ERR(1, 223, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->risk->batch) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "size");
-    __PYX_ERR(1, 223, __pyx_L1_error)
-  }
   __pyx_t_1 = __pyx_v_self->risk->batch->size;
   __pyx_v_N = __pyx_t_1;
 
-  /* "mlgrad/weights.pyx":225
+  /* "mlgrad/weights.pyx":226
  *         cdef int N = self.risk.batch.size
  *         cdef int j, k
  *         cdef double[::1] lval_all = self.lval_all             # <<<<<<<<<<<<<<
  * 
  *         cdef Func func = self.average.penalty.func
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 225, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 225, __pyx_L1_error)}
   __pyx_t_2 = __pyx_v_self->lval_all;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
   __pyx_v_lval_all = __pyx_t_2;
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "mlgrad/weights.pyx":227
+  /* "mlgrad/weights.pyx":228
  *         cdef double[::1] lval_all = self.lval_all
  * 
  *         cdef Func func = self.average.penalty.func             # <<<<<<<<<<<<<<
  *         cdef double u = self.average.u
  *         cdef double qval = 0
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 227, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "penalty");
-    __PYX_ERR(1, 227, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average->penalty) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "func");
-    __PYX_ERR(1, 227, __pyx_L1_error)
-  }
   __pyx_t_3 = ((PyObject *)__pyx_v_self->average->penalty->func);
   __Pyx_INCREF(__pyx_t_3);
   __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "mlgrad/weights.pyx":228
+  /* "mlgrad/weights.pyx":229
  * 
  *         cdef Func func = self.average.penalty.func
  *         cdef double u = self.average.u             # <<<<<<<<<<<<<<
  *         cdef double qval = 0
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 228, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u");
-    __PYX_ERR(1, 228, __pyx_L1_error)
-  }
   __pyx_t_4 = __pyx_v_self->average->u;
   __pyx_v_u = __pyx_t_4;
 
-  /* "mlgrad/weights.pyx":229
+  /* "mlgrad/weights.pyx":230
  *         cdef Func func = self.average.penalty.func
  *         cdef double u = self.average.u
  *         cdef double qval = 0             # <<<<<<<<<<<<<<
@@ -12065,7 +11215,7 @@ static double __pyx_f_6mlgrad_7weights_10SWMWeights_get_qvalue(struct __pyx_obj_
  */
   __pyx_v_qval = 0.0;
 
-  /* "mlgrad/weights.pyx":232
+  /* "mlgrad/weights.pyx":233
  * 
  * 
  *         for j in range(N):             # <<<<<<<<<<<<<<
@@ -12077,76 +11227,59 @@ static double __pyx_f_6mlgrad_7weights_10SWMWeights_get_qvalue(struct __pyx_obj_
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_j = __pyx_t_7;
 
-    /* "mlgrad/weights.pyx":233
+    /* "mlgrad/weights.pyx":234
  * 
  *         for j in range(N):
  *             lval = lval_all[j]             # <<<<<<<<<<<<<<
  *             qval += 0.5*(lval + u - func.evaluate(lval - u))
  *         qval /= N
  */
-    if (unlikely(((PyObject *) __pyx_v_lval_all.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(1, 233, __pyx_L1_error)
-    }
     __pyx_t_8 = __pyx_v_j;
-    __pyx_t_9 = -1;
-    if (__pyx_t_8 < 0) {
-      __pyx_t_8 += __pyx_v_lval_all.shape[0];
-      if (unlikely(__pyx_t_8 < 0)) __pyx_t_9 = 0;
-    } else if (unlikely(__pyx_t_8 >= __pyx_v_lval_all.shape[0])) __pyx_t_9 = 0;
-    if (unlikely(__pyx_t_9 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_9);
-      __PYX_ERR(1, 233, __pyx_L1_error)
-    }
-    __pyx_t_3 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_lval_all.data) + __pyx_t_8)) )))); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 233, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_lval_all.data) + __pyx_t_8)) )))); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 234, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_XDECREF_SET(__pyx_v_lval, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "mlgrad/weights.pyx":234
+    /* "mlgrad/weights.pyx":235
  *         for j in range(N):
  *             lval = lval_all[j]
  *             qval += 0.5*(lval + u - func.evaluate(lval - u))             # <<<<<<<<<<<<<<
  *         qval /= N
  *         return qval
  */
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_qval); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 234, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_qval); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_10 = PyFloat_FromDouble(__pyx_v_u); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 234, __pyx_L1_error)
+    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_u); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_10 = PyNumber_Add(__pyx_v_lval, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_11 = PyNumber_Add(__pyx_v_lval, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 234, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_u); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_11 = PyNumber_Subtract(__pyx_v_lval, __pyx_t_9); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    if (unlikely(((PyObject *)__pyx_v_func) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "evaluate");
-      __PYX_ERR(1, 234, __pyx_L1_error)
-    }
-    __pyx_t_10 = PyFloat_FromDouble(__pyx_v_u); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 234, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_12 = PyNumber_Subtract(__pyx_v_lval, __pyx_t_10); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 234, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_12);
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_12); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 234, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    __pyx_t_12 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, __pyx_t_4)); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 234, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_10 = PyNumber_Subtract(__pyx_t_11, __pyx_t_12); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 234, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_11); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 235, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    __pyx_t_12 = PyNumber_Multiply(__pyx_float_0_5, __pyx_t_10); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 234, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_12);
+    __pyx_t_11 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, __pyx_t_4)); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
+    __pyx_t_9 = PyNumber_Subtract(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = PyNumber_InPlaceAdd(__pyx_t_3, __pyx_t_12); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 234, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __pyx_t_11 = PyNumber_Multiply(__pyx_float_0_5, __pyx_t_9); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_t_9 = PyNumber_InPlaceAdd(__pyx_t_3, __pyx_t_11); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 234, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 235, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_v_qval = __pyx_t_4;
   }
 
-  /* "mlgrad/weights.pyx":235
+  /* "mlgrad/weights.pyx":236
  *             lval = lval_all[j]
  *             qval += 0.5*(lval + u - func.evaluate(lval - u))
  *         qval /= N             # <<<<<<<<<<<<<<
@@ -12155,11 +11288,11 @@ static double __pyx_f_6mlgrad_7weights_10SWMWeights_get_qvalue(struct __pyx_obj_
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 235, __pyx_L1_error)
+    __PYX_ERR(1, 236, __pyx_L1_error)
   }
   __pyx_v_qval = (__pyx_v_qval / __pyx_v_N);
 
-  /* "mlgrad/weights.pyx":236
+  /* "mlgrad/weights.pyx":237
  *             qval += 0.5*(lval + u - func.evaluate(lval - u))
  *         qval /= N
  *         return qval             # <<<<<<<<<<<<<<
@@ -12169,7 +11302,7 @@ static double __pyx_f_6mlgrad_7weights_10SWMWeights_get_qvalue(struct __pyx_obj_
   __pyx_r = __pyx_v_qval;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":222
+  /* "mlgrad/weights.pyx":223
  *             normalize_memoryview(self.weights)
  *     #
  *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
@@ -12181,9 +11314,9 @@ static double __pyx_f_6mlgrad_7weights_10SWMWeights_get_qvalue(struct __pyx_obj_
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
   __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_XDECREF(__pyx_t_12);
   __Pyx_WriteUnraisable("mlgrad.weights.SWMWeights.get_qvalue", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
@@ -12194,7 +11327,7 @@ static double __pyx_f_6mlgrad_7weights_10SWMWeights_get_qvalue(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":238
+/* "mlgrad/weights.pyx":239
  *         return qval
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -12205,28 +11338,20 @@ static double __pyx_f_6mlgrad_7weights_10SWMWeights_get_qvalue(struct __pyx_obj_
 static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_10SWMWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_SWMWeights *__pyx_v_self) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_weights", 0);
 
-  /* "mlgrad/weights.pyx":239
+  /* "mlgrad/weights.pyx":240
  *     #
  *     cdef double[::1] get_weights(self):
  *         return self.weights             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 239, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 239, __pyx_L1_error)}
   __PYX_INC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_r = __pyx_v_self->__pyx_base.weights;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":238
+  /* "mlgrad/weights.pyx":239
  *         return qval
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -12235,16 +11360,10 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_10SWMWeights_get_weights(stru
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __pyx_r.data = NULL;
-  __pyx_r.memview = NULL;
-  __Pyx_AddTraceback("mlgrad.weights.SWMWeights.get_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  goto __pyx_L2;
   __pyx_L0:;
   if (unlikely(!__pyx_r.memview)) {
     PyErr_SetString(PyExc_TypeError, "Memoryview return value is not initialized");
   }
-  __pyx_L2:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12273,23 +11392,13 @@ static PyObject *__pyx_pw_6mlgrad_7weights_10SWMWeights_7average_1__get__(PyObje
 static PyObject *__pyx_pf_6mlgrad_7weights_10SWMWeights_7average___get__(struct __pyx_obj_6mlgrad_7weights_SWMWeights *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(0, 86, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_self->average));
   __pyx_r = ((PyObject *)__pyx_v_self->average);
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.SWMWeights.average.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -12320,10 +11429,6 @@ static int __pyx_pf_6mlgrad_7weights_10SWMWeights_7average_2__set__(struct __pyx
   if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(0, 86, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(0, 86, __pyx_L1_error)
-  }
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->average);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->average));
@@ -12358,14 +11463,7 @@ static int __pyx_pw_6mlgrad_7weights_10SWMWeights_7average_5__del__(PyObject *__
 static int __pyx_pf_6mlgrad_7weights_10SWMWeights_7average_4__del__(struct __pyx_obj_6mlgrad_7weights_SWMWeights *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(0, 86, __pyx_L1_error)
-  }
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->average);
@@ -12374,11 +11472,6 @@ static int __pyx_pf_6mlgrad_7weights_10SWMWeights_7average_4__del__(struct __pyx
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.SWMWeights.average.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12407,23 +11500,13 @@ static PyObject *__pyx_pw_6mlgrad_7weights_10SWMWeights_4risk_1__get__(PyObject 
 static PyObject *__pyx_pf_6mlgrad_7weights_10SWMWeights_4risk___get__(struct __pyx_obj_6mlgrad_7weights_SWMWeights *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(0, 87, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_self->risk));
   __pyx_r = ((PyObject *)__pyx_v_self->risk);
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.SWMWeights.risk.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -12454,10 +11537,6 @@ static int __pyx_pf_6mlgrad_7weights_10SWMWeights_4risk_2__set__(struct __pyx_ob
   if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4risk_Functional))))) __PYX_ERR(0, 87, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(0, 87, __pyx_L1_error)
-  }
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->risk);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->risk));
@@ -12492,14 +11571,7 @@ static int __pyx_pw_6mlgrad_7weights_10SWMWeights_4risk_5__del__(PyObject *__pyx
 static int __pyx_pf_6mlgrad_7weights_10SWMWeights_4risk_4__del__(struct __pyx_obj_6mlgrad_7weights_SWMWeights *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(0, 87, __pyx_L1_error)
-  }
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->risk);
@@ -12508,11 +11580,6 @@ static int __pyx_pf_6mlgrad_7weights_10SWMWeights_4risk_4__del__(struct __pyx_ob
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.SWMWeights.risk.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -12564,44 +11631,14 @@ static PyObject *__pyx_pf_6mlgrad_7weights_10SWMWeights_2__reduce_cython__(struc
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
   __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->first_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->lval_all, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
   __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_v_self->normalize); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u_only");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
   __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_v_self->u_only); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = PyTuple_New(7); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -12698,20 +11735,12 @@ static PyObject *__pyx_pf_6mlgrad_7weights_10SWMWeights_2__reduce_cython__(struc
  *         return __pyx_unpickle_SWMWeights, (type(self), 0x8ae3baf, None), state
  */
   /*else*/ {
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-      __PYX_ERR(2, 11, __pyx_L1_error)
-    }
     __pyx_t_7 = (((PyObject *)__pyx_v_self->average) != Py_None);
     __pyx_t_9 = (__pyx_t_7 != 0);
     if (!__pyx_t_9) {
     } else {
       __pyx_t_8 = __pyx_t_9;
       goto __pyx_L4_bool_binop_done;
-    }
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-      __PYX_ERR(2, 11, __pyx_L1_error)
     }
     __pyx_t_9 = (((PyObject *)__pyx_v_self->risk) != Py_None);
     __pyx_t_7 = (__pyx_t_9 != 0);
@@ -12895,7 +11924,7 @@ static PyObject *__pyx_pf_6mlgrad_7weights_10SWMWeights_4__setstate_cython__(str
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":244
+/* "mlgrad/weights.pyx":245
  * cdef class WMWeights(Weights):
  *     #
  *     def __init__(self, Average average, Functional risk, normalize=0, u_only=1):             # <<<<<<<<<<<<<<
@@ -12945,7 +11974,7 @@ static int __pyx_pw_6mlgrad_7weights_9WMWeights_1__init__(PyObject *__pyx_v_self
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_risk)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, 1); __PYX_ERR(1, 244, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, 1); __PYX_ERR(1, 245, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -12961,7 +11990,7 @@ static int __pyx_pw_6mlgrad_7weights_9WMWeights_1__init__(PyObject *__pyx_v_self
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 244, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 245, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -12982,14 +12011,14 @@ static int __pyx_pw_6mlgrad_7weights_9WMWeights_1__init__(PyObject *__pyx_v_self
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 244, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 245, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.weights.WMWeights.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_average), __pyx_ptype_6mlgrad_6avragg_Average, 1, "average", 0))) __PYX_ERR(1, 244, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_risk), __pyx_ptype_6mlgrad_4risk_Functional, 1, "risk", 0))) __PYX_ERR(1, 244, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_average), __pyx_ptype_6mlgrad_6avragg_Average, 1, "average", 0))) __PYX_ERR(1, 245, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_risk), __pyx_ptype_6mlgrad_4risk_Functional, 1, "risk", 0))) __PYX_ERR(1, 245, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_7weights_9WMWeights___init__(((struct __pyx_obj_6mlgrad_7weights_WMWeights *)__pyx_v_self), __pyx_v_average, __pyx_v_risk, __pyx_v_normalize, __pyx_v_u_only);
 
   /* function exit code */
@@ -13010,101 +12039,77 @@ static int __pyx_pf_6mlgrad_7weights_9WMWeights___init__(struct __pyx_obj_6mlgra
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/weights.pyx":245
+  /* "mlgrad/weights.pyx":246
  *     #
  *     def __init__(self, Average average, Functional risk, normalize=0, u_only=1):
  *         self.average = average             # <<<<<<<<<<<<<<
  *         self.risk = risk
  *         self.weights = None
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 245, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_average));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_average));
   __Pyx_GOTREF(__pyx_v_self->average);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->average));
   __pyx_v_self->average = __pyx_v_average;
 
-  /* "mlgrad/weights.pyx":246
+  /* "mlgrad/weights.pyx":247
  *     def __init__(self, Average average, Functional risk, normalize=0, u_only=1):
  *         self.average = average
  *         self.risk = risk             # <<<<<<<<<<<<<<
  *         self.weights = None
  *         self.lval_all = None
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 246, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_risk));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_risk));
   __Pyx_GOTREF(__pyx_v_self->risk);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->risk));
   __pyx_v_self->risk = __pyx_v_risk;
 
-  /* "mlgrad/weights.pyx":247
+  /* "mlgrad/weights.pyx":248
  *         self.average = average
  *         self.risk = risk
  *         self.weights = None             # <<<<<<<<<<<<<<
  *         self.lval_all = None
  *         self.first_time = 1
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 247, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 247, __pyx_L1_error)
-  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 248, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_v_self->__pyx_base.weights = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/weights.pyx":248
+  /* "mlgrad/weights.pyx":249
  *         self.risk = risk
  *         self.weights = None
  *         self.lval_all = None             # <<<<<<<<<<<<<<
  *         self.first_time = 1
  *         self.u_only = 1
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 248, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 248, __pyx_L1_error)
-  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 249, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->lval_all, 0);
   __pyx_v_self->lval_all = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/weights.pyx":249
+  /* "mlgrad/weights.pyx":250
  *         self.weights = None
  *         self.lval_all = None
  *         self.first_time = 1             # <<<<<<<<<<<<<<
  *         self.u_only = 1
  *     #
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-    __PYX_ERR(1, 249, __pyx_L1_error)
-  }
   __pyx_v_self->first_time = 1;
 
-  /* "mlgrad/weights.pyx":250
+  /* "mlgrad/weights.pyx":251
  *         self.lval_all = None
  *         self.first_time = 1
  *         self.u_only = 1             # <<<<<<<<<<<<<<
  *     #
  *     cdef eval_weights(self):
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u_only");
-    __PYX_ERR(1, 250, __pyx_L1_error)
-  }
   __pyx_v_self->u_only = 1;
 
-  /* "mlgrad/weights.pyx":244
+  /* "mlgrad/weights.pyx":245
  * cdef class WMWeights(Weights):
  *     #
  *     def __init__(self, Average average, Functional risk, normalize=0, u_only=1):             # <<<<<<<<<<<<<<
@@ -13124,7 +12129,7 @@ static int __pyx_pf_6mlgrad_7weights_9WMWeights___init__(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":252
+/* "mlgrad/weights.pyx":253
  *         self.u_only = 1
  *     #
  *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
@@ -13163,71 +12168,54 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("eval_weights", 0);
 
-  /* "mlgrad/weights.pyx":253
+  /* "mlgrad/weights.pyx":254
  *     #
  *     cdef eval_weights(self):
  *         cdef Risk risk = self.risk             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t N = risk.batch.size
  *         cdef Py_ssize_t k, m
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 253, __pyx_L1_error)
-  }
-  if (!(likely(((((PyObject *)__pyx_v_self->risk)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_self->risk), __pyx_ptype_6mlgrad_4risk_Risk))))) __PYX_ERR(1, 253, __pyx_L1_error)
+  if (!(likely(((((PyObject *)__pyx_v_self->risk)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_self->risk), __pyx_ptype_6mlgrad_4risk_Risk))))) __PYX_ERR(1, 254, __pyx_L1_error)
   __pyx_t_1 = ((PyObject *)__pyx_v_self->risk);
   __Pyx_INCREF(__pyx_t_1);
   __pyx_v_risk = ((struct __pyx_obj_6mlgrad_4risk_Risk *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/weights.pyx":254
+  /* "mlgrad/weights.pyx":255
  *     cdef eval_weights(self):
  *         cdef Risk risk = self.risk
  *         cdef Py_ssize_t N = risk.batch.size             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, m
  *         cdef double v, Nv, Nv2, u
  */
-  if (unlikely(((PyObject *)__pyx_v_risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "batch");
-    __PYX_ERR(1, 254, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_risk->__pyx_base.batch) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "size");
-    __PYX_ERR(1, 254, __pyx_L1_error)
-  }
   __pyx_t_2 = __pyx_v_risk->__pyx_base.batch->size;
   __pyx_v_N = __pyx_t_2;
 
-  /* "mlgrad/weights.pyx":260
+  /* "mlgrad/weights.pyx":261
  *         cdef double[::1] lval_all
  * 
  *         if self.lval_all is None:             # <<<<<<<<<<<<<<
  *             self.lval_all = np.empty((N,), 'd')
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 260, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 260, __pyx_L1_error)}
   __pyx_t_3 = ((((PyObject *) __pyx_v_self->lval_all.memview) == Py_None) != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":261
+    /* "mlgrad/weights.pyx":262
  * 
  *         if self.lval_all is None:
  *             self.lval_all = np.empty((N,), 'd')             # <<<<<<<<<<<<<<
  * 
  *         risk.eval_losses(self.lval_all)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 261, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 262, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_empty); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 261, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_empty); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 262, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 261, __pyx_L1_error)
+    __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 262, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 261, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 262, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4);
@@ -13247,7 +12235,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_6, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 261, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 262, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -13256,14 +12244,14 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_6, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 261, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 262, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 261, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 262, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -13274,23 +12262,19 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_n_u_d);
       __pyx_t_6 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 261, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 262, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 261, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 262, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-      __PYX_ERR(1, 261, __pyx_L1_error)
-    }
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->lval_all, 0);
     __pyx_v_self->lval_all = __pyx_t_9;
     __pyx_t_9.memview = NULL;
     __pyx_t_9.data = NULL;
 
-    /* "mlgrad/weights.pyx":260
+    /* "mlgrad/weights.pyx":261
  *         cdef double[::1] lval_all
  * 
  *         if self.lval_all is None:             # <<<<<<<<<<<<<<
@@ -13299,54 +12283,40 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
  */
   }
 
-  /* "mlgrad/weights.pyx":263
+  /* "mlgrad/weights.pyx":264
  *             self.lval_all = np.empty((N,), 'd')
  * 
  *         risk.eval_losses(self.lval_all)             # <<<<<<<<<<<<<<
  * 
  *         if self.weights is None:
  */
-  if (unlikely(((PyObject *)__pyx_v_risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "eval_losses");
-    __PYX_ERR(1, 263, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 263, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 263, __pyx_L1_error)}
   ((struct __pyx_vtabstruct_6mlgrad_4risk_Risk *)__pyx_v_risk->__pyx_base.__pyx_vtab)->eval_losses(__pyx_v_risk, __pyx_v_self->lval_all);
 
-  /* "mlgrad/weights.pyx":265
+  /* "mlgrad/weights.pyx":266
  *         risk.eval_losses(self.lval_all)
  * 
  *         if self.weights is None:             # <<<<<<<<<<<<<<
  *             self.weights = np.empty((N,), 'd')
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 265, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 265, __pyx_L1_error)}
   __pyx_t_3 = ((((PyObject *) __pyx_v_self->__pyx_base.weights.memview) == Py_None) != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":266
+    /* "mlgrad/weights.pyx":267
  * 
  *         if self.weights is None:
  *             self.weights = np.empty((N,), 'd')             # <<<<<<<<<<<<<<
  * 
  *         if self.first_time:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 266, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_empty); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 266, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_empty); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 266, __pyx_L1_error)
+    __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 266, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5);
@@ -13366,7 +12336,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_8)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_6, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 266, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 267, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -13375,14 +12345,14 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_6, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 266, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 267, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 266, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 267, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       if (__pyx_t_5) {
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -13393,23 +12363,19 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_7, __pyx_n_u_d);
       __pyx_t_6 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 266, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 267, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 266, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(1, 267, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-      __PYX_ERR(1, 266, __pyx_L1_error)
-    }
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
     __pyx_v_self->__pyx_base.weights = __pyx_t_9;
     __pyx_t_9.memview = NULL;
     __pyx_t_9.data = NULL;
 
-    /* "mlgrad/weights.pyx":265
+    /* "mlgrad/weights.pyx":266
  *         risk.eval_losses(self.lval_all)
  * 
  *         if self.weights is None:             # <<<<<<<<<<<<<<
@@ -13418,56 +12384,35 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
  */
   }
 
-  /* "mlgrad/weights.pyx":268
+  /* "mlgrad/weights.pyx":269
  *             self.weights = np.empty((N,), 'd')
  * 
  *         if self.first_time:             # <<<<<<<<<<<<<<
  *             self.average.u = array_min(self.lval_all)
  *             self.first_time = 0
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-    __PYX_ERR(1, 268, __pyx_L1_error)
-  }
   __pyx_t_3 = (__pyx_v_self->first_time != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":269
+    /* "mlgrad/weights.pyx":270
  * 
  *         if self.first_time:
  *             self.average.u = array_min(self.lval_all)             # <<<<<<<<<<<<<<
  *             self.first_time = 0
  * 
  */
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-      __PYX_ERR(1, 269, __pyx_L1_error)
-    }
-    if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 269, __pyx_L1_error)}
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-      __PYX_ERR(1, 269, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u");
-      __PYX_ERR(1, 269, __pyx_L1_error)
-    }
     __pyx_v_self->average->u = __pyx_f_6mlgrad_7weights_array_min(__pyx_v_self->lval_all);
 
-    /* "mlgrad/weights.pyx":270
+    /* "mlgrad/weights.pyx":271
  *         if self.first_time:
  *             self.average.u = array_min(self.lval_all)
  *             self.first_time = 0             # <<<<<<<<<<<<<<
  * 
  *         self.average.fit(self.lval_all)
  */
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-      __PYX_ERR(1, 270, __pyx_L1_error)
-    }
     __pyx_v_self->first_time = 0;
 
-    /* "mlgrad/weights.pyx":268
+    /* "mlgrad/weights.pyx":269
  *             self.weights = np.empty((N,), 'd')
  * 
  *         if self.first_time:             # <<<<<<<<<<<<<<
@@ -13476,114 +12421,65 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
  */
   }
 
-  /* "mlgrad/weights.pyx":272
+  /* "mlgrad/weights.pyx":273
  *             self.first_time = 0
  * 
  *         self.average.fit(self.lval_all)             # <<<<<<<<<<<<<<
  * 
  *         self.average.gradient(self.lval_all, self.weights)
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 272, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "fit");
-    __PYX_ERR(1, 272, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 272, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 272, __pyx_L1_error)}
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->average->__pyx_vtab)->fit(__pyx_v_self->average, __pyx_v_self->lval_all, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 272, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->average->__pyx_vtab)->fit(__pyx_v_self->average, __pyx_v_self->lval_all, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 273, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/weights.pyx":274
+  /* "mlgrad/weights.pyx":275
  *         self.average.fit(self.lval_all)
  * 
  *         self.average.gradient(self.lval_all, self.weights)             # <<<<<<<<<<<<<<
  * 
  *         u = self.average.u
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 274, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "gradient");
-    __PYX_ERR(1, 274, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 274, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 274, __pyx_L1_error)}
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 274, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 274, __pyx_L1_error)}
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->average->__pyx_vtab)->gradient(__pyx_v_self->average, __pyx_v_self->lval_all, __pyx_v_self->__pyx_base.weights); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 274, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->average->__pyx_vtab)->gradient(__pyx_v_self->average, __pyx_v_self->lval_all, __pyx_v_self->__pyx_base.weights); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 275, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/weights.pyx":276
+  /* "mlgrad/weights.pyx":277
  *         self.average.gradient(self.lval_all, self.weights)
  * 
  *         u = self.average.u             # <<<<<<<<<<<<<<
  * 
  *         weights = self.weights
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 276, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u");
-    __PYX_ERR(1, 276, __pyx_L1_error)
-  }
   __pyx_t_10 = __pyx_v_self->average->u;
   __pyx_v_u = __pyx_t_10;
 
-  /* "mlgrad/weights.pyx":278
+  /* "mlgrad/weights.pyx":279
  *         u = self.average.u
  * 
  *         weights = self.weights             # <<<<<<<<<<<<<<
  *         lval_all = self.lval_all
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 278, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 278, __pyx_L1_error)}
   __pyx_t_9 = __pyx_v_self->__pyx_base.weights;
   __PYX_INC_MEMVIEW(&__pyx_t_9, 1);
   __pyx_v_weights = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "mlgrad/weights.pyx":279
+  /* "mlgrad/weights.pyx":280
  * 
  *         weights = self.weights
  *         lval_all = self.lval_all             # <<<<<<<<<<<<<<
  * 
  *         m = 0
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 279, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 279, __pyx_L1_error)}
   __pyx_t_9 = __pyx_v_self->lval_all;
   __PYX_INC_MEMVIEW(&__pyx_t_9, 1);
   __pyx_v_lval_all = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "mlgrad/weights.pyx":281
+  /* "mlgrad/weights.pyx":282
  *         lval_all = self.lval_all
  * 
  *         m = 0             # <<<<<<<<<<<<<<
@@ -13592,7 +12488,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
  */
   __pyx_v_m = 0;
 
-  /* "mlgrad/weights.pyx":282
+  /* "mlgrad/weights.pyx":283
  * 
  *         m = 0
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -13604,31 +12500,18 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_k = __pyx_t_12;
 
-    /* "mlgrad/weights.pyx":283
+    /* "mlgrad/weights.pyx":284
  *         m = 0
  *         for k in range(N):
  *             if lval_all[k] > u:             # <<<<<<<<<<<<<<
  *                 m += 1
  * 
  */
-    if (unlikely(((PyObject *) __pyx_v_lval_all.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(1, 283, __pyx_L1_error)
-    }
     __pyx_t_13 = __pyx_v_k;
-    __pyx_t_7 = -1;
-    if (__pyx_t_13 < 0) {
-      __pyx_t_13 += __pyx_v_lval_all.shape[0];
-      if (unlikely(__pyx_t_13 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_13 >= __pyx_v_lval_all.shape[0])) __pyx_t_7 = 0;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 283, __pyx_L1_error)
-    }
     __pyx_t_3 = (((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_lval_all.data) + __pyx_t_13)) ))) > __pyx_v_u) != 0);
     if (__pyx_t_3) {
 
-      /* "mlgrad/weights.pyx":284
+      /* "mlgrad/weights.pyx":285
  *         for k in range(N):
  *             if lval_all[k] > u:
  *                 m += 1             # <<<<<<<<<<<<<<
@@ -13637,7 +12520,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
  */
       __pyx_v_m = (__pyx_v_m + 1);
 
-      /* "mlgrad/weights.pyx":283
+      /* "mlgrad/weights.pyx":284
  *         m = 0
  *         for k in range(N):
  *             if lval_all[k] > u:             # <<<<<<<<<<<<<<
@@ -13647,7 +12530,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
     }
   }
 
-  /* "mlgrad/weights.pyx":286
+  /* "mlgrad/weights.pyx":287
  *                 m += 1
  * 
  *         Nv = 1. / N             # <<<<<<<<<<<<<<
@@ -13656,11 +12539,11 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 286, __pyx_L1_error)
+    __PYX_ERR(1, 287, __pyx_L1_error)
   }
   __pyx_v_Nv = (1. / ((double)__pyx_v_N));
 
-  /* "mlgrad/weights.pyx":287
+  /* "mlgrad/weights.pyx":288
  * 
  *         Nv = 1. / N
  *         Nv2 = Nv * m             # <<<<<<<<<<<<<<
@@ -13669,7 +12552,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
  */
   __pyx_v_Nv2 = (__pyx_v_Nv * __pyx_v_m);
 
-  /* "mlgrad/weights.pyx":288
+  /* "mlgrad/weights.pyx":289
  *         Nv = 1. / N
  *         Nv2 = Nv * m
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -13681,68 +12564,29 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
   for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
     __pyx_v_k = __pyx_t_12;
 
-    /* "mlgrad/weights.pyx":289
+    /* "mlgrad/weights.pyx":290
  *         Nv2 = Nv * m
  *         for k in range(N):
  *             if lval_all[k] <= u:             # <<<<<<<<<<<<<<
  *                 weights[k] = Nv + weights[k] * Nv2
  *             else:
  */
-    if (unlikely(((PyObject *) __pyx_v_lval_all.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(1, 289, __pyx_L1_error)
-    }
     __pyx_t_13 = __pyx_v_k;
-    __pyx_t_7 = -1;
-    if (__pyx_t_13 < 0) {
-      __pyx_t_13 += __pyx_v_lval_all.shape[0];
-      if (unlikely(__pyx_t_13 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_13 >= __pyx_v_lval_all.shape[0])) __pyx_t_7 = 0;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 289, __pyx_L1_error)
-    }
     __pyx_t_3 = (((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_lval_all.data) + __pyx_t_13)) ))) <= __pyx_v_u) != 0);
     if (__pyx_t_3) {
 
-      /* "mlgrad/weights.pyx":290
+      /* "mlgrad/weights.pyx":291
  *         for k in range(N):
  *             if lval_all[k] <= u:
  *                 weights[k] = Nv + weights[k] * Nv2             # <<<<<<<<<<<<<<
  *             else:
  *                 weights[k] = weights[k] * Nv2
  */
-      if (unlikely(((PyObject *) __pyx_v_weights.memview) == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-        __PYX_ERR(1, 290, __pyx_L1_error)
-      }
       __pyx_t_13 = __pyx_v_k;
-      __pyx_t_7 = -1;
-      if (__pyx_t_13 < 0) {
-        __pyx_t_13 += __pyx_v_weights.shape[0];
-        if (unlikely(__pyx_t_13 < 0)) __pyx_t_7 = 0;
-      } else if (unlikely(__pyx_t_13 >= __pyx_v_weights.shape[0])) __pyx_t_7 = 0;
-      if (unlikely(__pyx_t_7 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 290, __pyx_L1_error)
-      }
-      if (unlikely(((PyObject *) __pyx_v_weights.memview) == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-        __PYX_ERR(1, 290, __pyx_L1_error)
-      }
       __pyx_t_14 = __pyx_v_k;
-      __pyx_t_7 = -1;
-      if (__pyx_t_14 < 0) {
-        __pyx_t_14 += __pyx_v_weights.shape[0];
-        if (unlikely(__pyx_t_14 < 0)) __pyx_t_7 = 0;
-      } else if (unlikely(__pyx_t_14 >= __pyx_v_weights.shape[0])) __pyx_t_7 = 0;
-      if (unlikely(__pyx_t_7 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 290, __pyx_L1_error)
-      }
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_14)) )) = (__pyx_v_Nv + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_13)) ))) * __pyx_v_Nv2));
 
-      /* "mlgrad/weights.pyx":289
+      /* "mlgrad/weights.pyx":290
  *         Nv2 = Nv * m
  *         for k in range(N):
  *             if lval_all[k] <= u:             # <<<<<<<<<<<<<<
@@ -13752,7 +12596,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
       goto __pyx_L11;
     }
 
-    /* "mlgrad/weights.pyx":292
+    /* "mlgrad/weights.pyx":293
  *                 weights[k] = Nv + weights[k] * Nv2
  *             else:
  *                 weights[k] = weights[k] * Nv2             # <<<<<<<<<<<<<<
@@ -13760,68 +12604,33 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
  *         if self.normalize:
  */
     /*else*/ {
-      if (unlikely(((PyObject *) __pyx_v_weights.memview) == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-        __PYX_ERR(1, 292, __pyx_L1_error)
-      }
       __pyx_t_13 = __pyx_v_k;
-      __pyx_t_7 = -1;
-      if (__pyx_t_13 < 0) {
-        __pyx_t_13 += __pyx_v_weights.shape[0];
-        if (unlikely(__pyx_t_13 < 0)) __pyx_t_7 = 0;
-      } else if (unlikely(__pyx_t_13 >= __pyx_v_weights.shape[0])) __pyx_t_7 = 0;
-      if (unlikely(__pyx_t_7 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 292, __pyx_L1_error)
-      }
-      if (unlikely(((PyObject *) __pyx_v_weights.memview) == Py_None)) {
-        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-        __PYX_ERR(1, 292, __pyx_L1_error)
-      }
       __pyx_t_14 = __pyx_v_k;
-      __pyx_t_7 = -1;
-      if (__pyx_t_14 < 0) {
-        __pyx_t_14 += __pyx_v_weights.shape[0];
-        if (unlikely(__pyx_t_14 < 0)) __pyx_t_7 = 0;
-      } else if (unlikely(__pyx_t_14 >= __pyx_v_weights.shape[0])) __pyx_t_7 = 0;
-      if (unlikely(__pyx_t_7 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 292, __pyx_L1_error)
-      }
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_14)) )) = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_13)) ))) * __pyx_v_Nv2);
     }
     __pyx_L11:;
   }
 
-  /* "mlgrad/weights.pyx":294
+  /* "mlgrad/weights.pyx":295
  *                 weights[k] = weights[k] * Nv2
  * 
  *         if self.normalize:             # <<<<<<<<<<<<<<
  *             normalize_memoryview(self.weights)
  *     #
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(1, 294, __pyx_L1_error)
-  }
   __pyx_t_3 = (__pyx_v_self->normalize != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/weights.pyx":295
+    /* "mlgrad/weights.pyx":296
  * 
  *         if self.normalize:
  *             normalize_memoryview(self.weights)             # <<<<<<<<<<<<<<
  *     #
  *     cdef double get_qvalue(self):
  */
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-      __PYX_ERR(1, 295, __pyx_L1_error)
-    }
-    if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 295, __pyx_L1_error)}
     __pyx_f_6mlgrad_7weights_normalize_memoryview(__pyx_v_self->__pyx_base.weights);
 
-    /* "mlgrad/weights.pyx":294
+    /* "mlgrad/weights.pyx":295
  *                 weights[k] = weights[k] * Nv2
  * 
  *         if self.normalize:             # <<<<<<<<<<<<<<
@@ -13830,7 +12639,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
  */
   }
 
-  /* "mlgrad/weights.pyx":252
+  /* "mlgrad/weights.pyx":253
  *         self.u_only = 1
  *     #
  *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
@@ -13859,7 +12668,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WMWeights_eval_weights(struct __pyx_o
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":297
+/* "mlgrad/weights.pyx":298
  *             normalize_memoryview(self.weights)
  *     #
  *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
@@ -13882,74 +12691,48 @@ static double __pyx_f_6mlgrad_7weights_9WMWeights_get_qvalue(struct __pyx_obj_6m
   Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
-  int __pyx_t_7;
+  PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
-  int __pyx_t_10;
+  int __pyx_t_9;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_qvalue", 0);
 
-  /* "mlgrad/weights.pyx":298
+  /* "mlgrad/weights.pyx":299
  *     #
  *     cdef double get_qvalue(self):
  *         cdef Py_ssize_t N = self.risk.batch.size             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k
  *         cdef double u
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(1, 298, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->risk) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "batch");
-    __PYX_ERR(1, 298, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->risk->batch) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "size");
-    __PYX_ERR(1, 298, __pyx_L1_error)
-  }
   __pyx_t_1 = __pyx_v_self->risk->batch->size;
   __pyx_v_N = __pyx_t_1;
 
-  /* "mlgrad/weights.pyx":303
+  /* "mlgrad/weights.pyx":304
  *         cdef double qval
  *         cdef double[::1] weights
  *         cdef double[::1] lval_all = self.lval_all             # <<<<<<<<<<<<<<
  * 
  *         u = self.average.u
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(1, 303, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 303, __pyx_L1_error)}
   __pyx_t_2 = __pyx_v_self->lval_all;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
   __pyx_v_lval_all = __pyx_t_2;
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "mlgrad/weights.pyx":305
+  /* "mlgrad/weights.pyx":306
  *         cdef double[::1] lval_all = self.lval_all
  * 
  *         u = self.average.u             # <<<<<<<<<<<<<<
  *         qval = 0
  *         for k in range(N):
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(1, 305, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self->average) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u");
-    __PYX_ERR(1, 305, __pyx_L1_error)
-  }
   __pyx_t_3 = __pyx_v_self->average->u;
   __pyx_v_u = __pyx_t_3;
 
-  /* "mlgrad/weights.pyx":306
+  /* "mlgrad/weights.pyx":307
  * 
  *         u = self.average.u
  *         qval = 0             # <<<<<<<<<<<<<<
@@ -13958,7 +12741,7 @@ static double __pyx_f_6mlgrad_7weights_9WMWeights_get_qvalue(struct __pyx_obj_6m
  */
   __pyx_v_qval = 0.0;
 
-  /* "mlgrad/weights.pyx":307
+  /* "mlgrad/weights.pyx":308
  *         u = self.average.u
  *         qval = 0
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -13970,64 +12753,51 @@ static double __pyx_f_6mlgrad_7weights_9WMWeights_get_qvalue(struct __pyx_obj_6m
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/weights.pyx":308
+    /* "mlgrad/weights.pyx":309
  *         qval = 0
  *         for k in range(N):
  *             lval = lval_all[k]             # <<<<<<<<<<<<<<
  *             if lval <= u:
  *                 qval += lval
  */
-    if (unlikely(((PyObject *) __pyx_v_lval_all.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(1, 308, __pyx_L1_error)
-    }
     __pyx_t_6 = __pyx_v_k;
-    __pyx_t_7 = -1;
-    if (__pyx_t_6 < 0) {
-      __pyx_t_6 += __pyx_v_lval_all.shape[0];
-      if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_6 >= __pyx_v_lval_all.shape[0])) __pyx_t_7 = 0;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 308, __pyx_L1_error)
-    }
-    __pyx_t_8 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_lval_all.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 308, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_XDECREF_SET(__pyx_v_lval, __pyx_t_8);
-    __pyx_t_8 = 0;
+    __pyx_t_7 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_lval_all.data) + __pyx_t_6)) )))); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 309, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_XDECREF_SET(__pyx_v_lval, __pyx_t_7);
+    __pyx_t_7 = 0;
 
-    /* "mlgrad/weights.pyx":309
+    /* "mlgrad/weights.pyx":310
  *         for k in range(N):
  *             lval = lval_all[k]
  *             if lval <= u:             # <<<<<<<<<<<<<<
  *                 qval += lval
  *             else:
  */
-    __pyx_t_8 = PyFloat_FromDouble(__pyx_v_u); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 309, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = PyObject_RichCompare(__pyx_v_lval, __pyx_t_8, Py_LE); __Pyx_XGOTREF(__pyx_t_9); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 309, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_u); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 310, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_8 = PyObject_RichCompare(__pyx_v_lval, __pyx_t_7, Py_LE); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 310, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 310, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(1, 309, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    if (__pyx_t_10) {
+    if (__pyx_t_9) {
 
-      /* "mlgrad/weights.pyx":310
+      /* "mlgrad/weights.pyx":311
  *             lval = lval_all[k]
  *             if lval <= u:
  *                 qval += lval             # <<<<<<<<<<<<<<
  *             else:
  *                 qval += u
  */
-      __pyx_t_9 = PyFloat_FromDouble(__pyx_v_qval); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 310, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_t_9, __pyx_v_lval); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 310, __pyx_L1_error)
+      __pyx_t_8 = PyFloat_FromDouble(__pyx_v_qval); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 311, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_8); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 310, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_t_8, __pyx_v_lval); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 311, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 311, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_v_qval = __pyx_t_3;
 
-      /* "mlgrad/weights.pyx":309
+      /* "mlgrad/weights.pyx":310
  *         for k in range(N):
  *             lval = lval_all[k]
  *             if lval <= u:             # <<<<<<<<<<<<<<
@@ -14037,7 +12807,7 @@ static double __pyx_f_6mlgrad_7weights_9WMWeights_get_qvalue(struct __pyx_obj_6m
       goto __pyx_L5;
     }
 
-    /* "mlgrad/weights.pyx":312
+    /* "mlgrad/weights.pyx":313
  *                 qval += lval
  *             else:
  *                 qval += u             # <<<<<<<<<<<<<<
@@ -14050,7 +12820,7 @@ static double __pyx_f_6mlgrad_7weights_9WMWeights_get_qvalue(struct __pyx_obj_6m
     __pyx_L5:;
   }
 
-  /* "mlgrad/weights.pyx":313
+  /* "mlgrad/weights.pyx":314
  *             else:
  *                 qval += u
  *         qval /= N             # <<<<<<<<<<<<<<
@@ -14059,11 +12829,11 @@ static double __pyx_f_6mlgrad_7weights_9WMWeights_get_qvalue(struct __pyx_obj_6m
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 313, __pyx_L1_error)
+    __PYX_ERR(1, 314, __pyx_L1_error)
   }
   __pyx_v_qval = (__pyx_v_qval / __pyx_v_N);
 
-  /* "mlgrad/weights.pyx":314
+  /* "mlgrad/weights.pyx":315
  *                 qval += u
  *         qval /= N
  *         return qval             # <<<<<<<<<<<<<<
@@ -14073,7 +12843,7 @@ static double __pyx_f_6mlgrad_7weights_9WMWeights_get_qvalue(struct __pyx_obj_6m
   __pyx_r = __pyx_v_qval;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":297
+  /* "mlgrad/weights.pyx":298
  *             normalize_memoryview(self.weights)
  *     #
  *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
@@ -14084,8 +12854,8 @@ static double __pyx_f_6mlgrad_7weights_9WMWeights_get_qvalue(struct __pyx_obj_6m
   /* function exit code */
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_WriteUnraisable("mlgrad.weights.WMWeights.get_qvalue", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
@@ -14095,7 +12865,7 @@ static double __pyx_f_6mlgrad_7weights_9WMWeights_get_qvalue(struct __pyx_obj_6m
   return __pyx_r;
 }
 
-/* "mlgrad/weights.pyx":316
+/* "mlgrad/weights.pyx":317
  *         return qval
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -14106,27 +12876,19 @@ static double __pyx_f_6mlgrad_7weights_9WMWeights_get_qvalue(struct __pyx_obj_6m
 static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_9WMWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_WMWeights *__pyx_v_self) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_weights", 0);
 
-  /* "mlgrad/weights.pyx":317
+  /* "mlgrad/weights.pyx":318
  *     #
  *     cdef double[::1] get_weights(self):
  *         return self.weights             # <<<<<<<<<<<<<<
  * 
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(1, 317, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 317, __pyx_L1_error)}
   __PYX_INC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_r = __pyx_v_self->__pyx_base.weights;
   goto __pyx_L0;
 
-  /* "mlgrad/weights.pyx":316
+  /* "mlgrad/weights.pyx":317
  *         return qval
  *     #
  *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
@@ -14135,16 +12897,10 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_9WMWeights_get_weights(struct
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __pyx_r.data = NULL;
-  __pyx_r.memview = NULL;
-  __Pyx_AddTraceback("mlgrad.weights.WMWeights.get_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  goto __pyx_L2;
   __pyx_L0:;
   if (unlikely(!__pyx_r.memview)) {
     PyErr_SetString(PyExc_TypeError, "Memoryview return value is not initialized");
   }
-  __pyx_L2:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14173,23 +12929,13 @@ static PyObject *__pyx_pw_6mlgrad_7weights_9WMWeights_7average_1__get__(PyObject
 static PyObject *__pyx_pf_6mlgrad_7weights_9WMWeights_7average___get__(struct __pyx_obj_6mlgrad_7weights_WMWeights *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(0, 93, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_self->average));
   __pyx_r = ((PyObject *)__pyx_v_self->average);
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.WMWeights.average.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -14220,10 +12966,6 @@ static int __pyx_pf_6mlgrad_7weights_9WMWeights_7average_2__set__(struct __pyx_o
   if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(0, 93, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(0, 93, __pyx_L1_error)
-  }
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->average);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->average));
@@ -14258,14 +13000,7 @@ static int __pyx_pw_6mlgrad_7weights_9WMWeights_7average_5__del__(PyObject *__py
 static int __pyx_pf_6mlgrad_7weights_9WMWeights_7average_4__del__(struct __pyx_obj_6mlgrad_7weights_WMWeights *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(0, 93, __pyx_L1_error)
-  }
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->average);
@@ -14274,11 +13009,6 @@ static int __pyx_pf_6mlgrad_7weights_9WMWeights_7average_4__del__(struct __pyx_o
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.WMWeights.average.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14306,23 +13036,13 @@ static PyObject *__pyx_pw_6mlgrad_7weights_9WMWeights_4risk_1__get__(PyObject *_
 static PyObject *__pyx_pf_6mlgrad_7weights_9WMWeights_4risk___get__(struct __pyx_obj_6mlgrad_7weights_WMWeights *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(0, 94, __pyx_L1_error)
-  }
   __Pyx_INCREF(((PyObject *)__pyx_v_self->risk));
   __pyx_r = ((PyObject *)__pyx_v_self->risk);
   goto __pyx_L0;
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.WMWeights.risk.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -14353,10 +13073,6 @@ static int __pyx_pf_6mlgrad_7weights_9WMWeights_4risk_2__set__(struct __pyx_obj_
   if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4risk_Functional))))) __PYX_ERR(0, 94, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(0, 94, __pyx_L1_error)
-  }
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->risk);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->risk));
@@ -14391,14 +13107,7 @@ static int __pyx_pw_6mlgrad_7weights_9WMWeights_4risk_5__del__(PyObject *__pyx_v
 static int __pyx_pf_6mlgrad_7weights_9WMWeights_4risk_4__del__(struct __pyx_obj_6mlgrad_7weights_WMWeights *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(0, 94, __pyx_L1_error)
-  }
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->risk);
@@ -14407,11 +13116,6 @@ static int __pyx_pf_6mlgrad_7weights_9WMWeights_4risk_4__del__(struct __pyx_obj_
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.weights.WMWeights.risk.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14463,44 +13167,14 @@ static PyObject *__pyx_pf_6mlgrad_7weights_9WMWeights_2__reduce_cython__(struct 
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
   __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->first_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->lval_all.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->lval_all, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
   __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_v_self->normalize); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u_only");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
   __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_v_self->u_only); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 5, __pyx_L1_error)
-  }
-  if (unlikely(!__pyx_v_self->__pyx_base.weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = PyTuple_New(7); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -14597,20 +13271,12 @@ static PyObject *__pyx_pf_6mlgrad_7weights_9WMWeights_2__reduce_cython__(struct 
  *         return __pyx_unpickle_WMWeights, (type(self), 0x8ae3baf, None), state
  */
   /*else*/ {
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-      __PYX_ERR(2, 11, __pyx_L1_error)
-    }
     __pyx_t_7 = (((PyObject *)__pyx_v_self->average) != Py_None);
     __pyx_t_9 = (__pyx_t_7 != 0);
     if (!__pyx_t_9) {
     } else {
       __pyx_t_8 = __pyx_t_9;
       goto __pyx_L4_bool_binop_done;
-    }
-    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
-      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-      __PYX_ERR(2, 11, __pyx_L1_error)
     }
     __pyx_t_9 = (((PyObject *)__pyx_v_self->risk) != Py_None);
     __pyx_t_7 = (__pyx_t_9 != 0);
@@ -15071,15 +13737,14 @@ static PyObject *__pyx_pf_6mlgrad_7weights___pyx_unpickle_Weights(CYTHON_UNUSED 
 static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_Weights__set_state(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_t_6;
+  PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -15096,18 +13761,11 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_Weights__set_state(stru
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->weights, 0);
-  __pyx_v___pyx_result->weights = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->weights = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_Weights__set_state(Weights __pyx_result, tuple __pyx_state):
@@ -15119,18 +13777,18 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_Weights__set_state(stru
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
-  __pyx_t_4 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_5 = ((__pyx_t_4 > 1) != 0);
-  if (__pyx_t_5) {
+  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_4 = ((__pyx_t_3 > 1) != 0);
+  if (__pyx_t_4) {
   } else {
-    __pyx_t_3 = __pyx_t_5;
+    __pyx_t_2 = __pyx_t_4;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_6 = (__pyx_t_5 != 0);
-  __pyx_t_3 = __pyx_t_6;
+  __pyx_t_4 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_5 = (__pyx_t_4 != 0);
+  __pyx_t_2 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_3) {
+  if (__pyx_t_2) {
 
     /* "(tree fragment)":14
  *     __pyx_result.weights = __pyx_state[0]
@@ -15146,25 +13804,22 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_Weights__set_state(stru
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_Weights__set_state(Weights __pyx_result, tuple __pyx_state):
@@ -15186,11 +13841,10 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_Weights__set_state(stru
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.weights.__pyx_unpickle_Weights__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -15476,15 +14130,14 @@ static PyObject *__pyx_pf_6mlgrad_7weights_2__pyx_unpickle_ArrayWeights(CYTHON_U
 static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_ArrayWeights__set_state(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_t_6;
+  PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -15501,18 +14154,11 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_ArrayWeights__set_state
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.weights, 0);
-  __pyx_v___pyx_result->__pyx_base.weights = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.weights = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_ArrayWeights__set_state(ArrayWeights __pyx_result, tuple __pyx_state):
@@ -15524,18 +14170,18 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_ArrayWeights__set_state
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
-  __pyx_t_4 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_5 = ((__pyx_t_4 > 1) != 0);
-  if (__pyx_t_5) {
+  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_4 = ((__pyx_t_3 > 1) != 0);
+  if (__pyx_t_4) {
   } else {
-    __pyx_t_3 = __pyx_t_5;
+    __pyx_t_2 = __pyx_t_4;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_6 = (__pyx_t_5 != 0);
-  __pyx_t_3 = __pyx_t_6;
+  __pyx_t_4 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_5 = (__pyx_t_4 != 0);
+  __pyx_t_2 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_3) {
+  if (__pyx_t_2) {
 
     /* "(tree fragment)":14
  *     __pyx_result.weights = __pyx_state[0]
@@ -15551,25 +14197,22 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_ArrayWeights__set_state
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_ArrayWeights__set_state(ArrayWeights __pyx_result, tuple __pyx_state):
@@ -15591,11 +14234,10 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_ArrayWeights__set_state
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.weights.__pyx_unpickle_ArrayWeights__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -15881,15 +14523,14 @@ static PyObject *__pyx_pf_6mlgrad_7weights_4__pyx_unpickle_ConstantWeights(CYTHO
 static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_ConstantWeights__set_state(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_t_6;
+  PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -15906,18 +14547,11 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_ConstantWeights__set_st
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.weights, 0);
-  __pyx_v___pyx_result->__pyx_base.weights = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.weights = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_ConstantWeights__set_state(ConstantWeights __pyx_result, tuple __pyx_state):
@@ -15929,18 +14563,18 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_ConstantWeights__set_st
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
-  __pyx_t_4 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_5 = ((__pyx_t_4 > 1) != 0);
-  if (__pyx_t_5) {
+  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_4 = ((__pyx_t_3 > 1) != 0);
+  if (__pyx_t_4) {
   } else {
-    __pyx_t_3 = __pyx_t_5;
+    __pyx_t_2 = __pyx_t_4;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_6 = (__pyx_t_5 != 0);
-  __pyx_t_3 = __pyx_t_6;
+  __pyx_t_4 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_5 = (__pyx_t_4 != 0);
+  __pyx_t_2 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_3) {
+  if (__pyx_t_2) {
 
     /* "(tree fragment)":14
  *     __pyx_result.weights = __pyx_state[0]
@@ -15956,25 +14590,22 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_ConstantWeights__set_st
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_ConstantWeights__set_state(ConstantWeights __pyx_result, tuple __pyx_state):
@@ -15996,11 +14627,10 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_ConstantWeights__set_st
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.weights.__pyx_unpickle_ConstantWeights__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -16294,7 +14924,6 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_RWeights__set_state(str
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -16311,13 +14940,9 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_RWeights__set_state(str
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 12, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "func");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->func);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->func));
@@ -16327,14 +14952,7 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_RWeights__set_state(str
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->lval_all, 0);
   __pyx_v___pyx_result->lval_all = __pyx_t_2;
   __pyx_t_2.memview = NULL;
@@ -16343,26 +14961,15 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_RWeights__set_state(str
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->normalize = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_4risk_Functional))))) __PYX_ERR(2, 12, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3), __pyx_ptype_6mlgrad_4risk_Functional))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 3);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->risk);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->risk));
@@ -16372,14 +14979,7 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_RWeights__set_state(str
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.weights, 0);
   __pyx_v___pyx_result->__pyx_base.weights = __pyx_t_2;
   __pyx_t_2.memview = NULL;
@@ -16422,21 +15022,18 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_RWeights__set_state(str
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -16466,7 +15063,6 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_RWeights__set_state(str
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.weights.__pyx_unpickle_RWeights__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -16761,7 +15357,6 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_MWeights__set_state(str
   int __pyx_t_7;
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -16778,13 +15373,9 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_MWeights__set_state(str
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(2, 12, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->average);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->average));
@@ -16794,40 +15385,19 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_MWeights__set_state(str
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "best_u");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->best_u = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->first_time = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3), PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->lval_all, 0);
   __pyx_v___pyx_result->lval_all = __pyx_t_4;
   __pyx_t_4.memview = NULL;
@@ -16836,26 +15406,15 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_MWeights__set_state(str
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->normalize = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_4risk_Functional))))) __PYX_ERR(2, 12, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5), __pyx_ptype_6mlgrad_4risk_Functional))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 5);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->risk);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->risk));
@@ -16865,40 +15424,19 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_MWeights__set_state(str
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u_only");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(PyTuple_GET_ITEM(__pyx_v___pyx_state, 6)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->u_only = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "use_best_u");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(PyTuple_GET_ITEM(__pyx_v___pyx_state, 7)); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->use_best_u = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 8), PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.weights, 0);
   __pyx_v___pyx_result->__pyx_base.weights = __pyx_t_4;
   __pyx_t_4.memview = NULL;
@@ -16941,21 +15479,18 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_MWeights__set_state(str
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 9, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_10 = NULL;
+    __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
-      __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_9);
-      if (likely(__pyx_t_10)) {
+      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_9);
+      if (likely(__pyx_t_8)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
-        __Pyx_INCREF(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_8);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_9, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_10, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_8);
-    __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __pyx_t_1 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 9)) : __Pyx_PyObject_CallOneArg(__pyx_t_9, PyTuple_GET_ITEM(__pyx_v___pyx_state, 9));
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -16985,7 +15520,6 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_MWeights__set_state(str
   __PYX_XDEC_MEMVIEW(&__pyx_t_4, 1);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
   __Pyx_AddTraceback("mlgrad.weights.__pyx_unpickle_MWeights__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -17279,7 +15813,6 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_SWMWeights__set_state(s
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -17296,13 +15829,9 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_SWMWeights__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(2, 12, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->average);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->average));
@@ -17312,27 +15841,13 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_SWMWeights__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->first_time = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->lval_all, 0);
   __pyx_v___pyx_result->lval_all = __pyx_t_3;
   __pyx_t_3.memview = NULL;
@@ -17341,26 +15856,15 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_SWMWeights__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->normalize = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_4risk_Functional))))) __PYX_ERR(2, 12, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), __pyx_ptype_6mlgrad_4risk_Functional))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 4);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->risk);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->risk));
@@ -17370,27 +15874,13 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_SWMWeights__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u_only");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->u_only = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 6), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.weights, 0);
   __pyx_v___pyx_result->__pyx_base.weights = __pyx_t_3;
   __pyx_t_3.memview = NULL;
@@ -17433,21 +15923,18 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_SWMWeights__set_state(s
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 7)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 7));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -17477,7 +15964,6 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_SWMWeights__set_state(s
   __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.weights.__pyx_unpickle_SWMWeights__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -17771,7 +16257,6 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_WMWeights__set_state(st
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -17788,13 +16273,9 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_WMWeights__set_state(st
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(2, 12, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "average");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_6avragg_Average))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->average);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->average));
@@ -17804,27 +16285,13 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_WMWeights__set_state(st
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "first_time");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->first_time = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "lval_all");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->lval_all, 0);
   __pyx_v___pyx_result->lval_all = __pyx_t_3;
   __pyx_t_3.memview = NULL;
@@ -17833,26 +16300,15 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_WMWeights__set_state(st
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "normalize");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->normalize = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_4risk_Functional))))) __PYX_ERR(2, 12, __pyx_L1_error)
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "risk");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), __pyx_ptype_6mlgrad_4risk_Functional))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 4);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->risk);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->risk));
@@ -17862,27 +16318,13 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_WMWeights__set_state(st
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "u_only");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->u_only = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
-    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 6), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.weights, 0);
   __pyx_v___pyx_result->__pyx_base.weights = __pyx_t_3;
   __pyx_t_3.memview = NULL;
@@ -17925,21 +16367,18 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_WMWeights__set_state(st
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 7)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 7));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -17969,7 +16408,6 @@ static PyObject *__pyx_f_6mlgrad_7weights___pyx_unpickle_WMWeights__set_state(st
   __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.weights.__pyx_unpickle_WMWeights__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -18041,11 +16479,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
   int __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  int __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_9;
   __Pyx_RefNannySetupContext("matrix_dot", 0);
 
   /* "mlgrad/model.pxd":49
@@ -18100,30 +16534,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
  */
       __pyx_t_7 = __pyx_v_j;
       __pyx_t_8 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_7 < 0) {
-        __pyx_t_7 += __pyx_v_A.shape[0];
-        if (unlikely(__pyx_t_7 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_7 >= __pyx_v_A.shape[0])) __pyx_t_9 = 0;
-      if (__pyx_t_8 < 0) {
-        __pyx_t_8 += __pyx_v_A.shape[1];
-        if (unlikely(__pyx_t_8 < 0)) __pyx_t_9 = 1;
-      } else if (unlikely(__pyx_t_8 >= __pyx_v_A.shape[1])) __pyx_t_9 = 1;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(3, 55, __pyx_L1_error)
-      }
-      __pyx_t_10 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_10 < 0) {
-        __pyx_t_10 += __pyx_v_x.shape[0];
-        if (unlikely(__pyx_t_10 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_10 >= __pyx_v_x.shape[0])) __pyx_t_9 = 0;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(3, 55, __pyx_L1_error)
-      }
-      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_10)) )))));
+      __pyx_t_9 = __pyx_v_i;
+      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) )))));
     }
 
     /* "mlgrad/model.pxd":56
@@ -18133,17 +16545,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
  * 
  * cdef inline void matrix_dot_t(double[:,::1] A, double[::1]x, double[::1] y):
  */
-    __pyx_t_10 = __pyx_v_j;
-    __pyx_t_4 = -1;
-    if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_v_y.shape[0];
-      if (unlikely(__pyx_t_10 < 0)) __pyx_t_4 = 0;
-    } else if (unlikely(__pyx_t_10 >= __pyx_v_y.shape[0])) __pyx_t_4 = 0;
-    if (unlikely(__pyx_t_4 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_4);
-      __PYX_ERR(3, 56, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_10)) )) = __pyx_v_v;
+    __pyx_t_9 = __pyx_v_j;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_9)) )) = __pyx_v_v;
   }
 
   /* "mlgrad/model.pxd":48
@@ -18155,10 +16558,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.matrix_dot", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -18185,11 +16584,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot_t(__Pyx_memviewslice
   int __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  int __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_9;
   __Pyx_RefNannySetupContext("matrix_dot_t", 0);
 
   /* "mlgrad/model.pxd":59
@@ -18244,30 +16639,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot_t(__Pyx_memviewslice
  */
       __pyx_t_7 = __pyx_v_j;
       __pyx_t_8 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_7 < 0) {
-        __pyx_t_7 += __pyx_v_A.shape[0];
-        if (unlikely(__pyx_t_7 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_7 >= __pyx_v_A.shape[0])) __pyx_t_9 = 0;
-      if (__pyx_t_8 < 0) {
-        __pyx_t_8 += __pyx_v_A.shape[1];
-        if (unlikely(__pyx_t_8 < 0)) __pyx_t_9 = 1;
-      } else if (unlikely(__pyx_t_8 >= __pyx_v_A.shape[1])) __pyx_t_9 = 1;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(3, 65, __pyx_L1_error)
-      }
-      __pyx_t_10 = __pyx_v_j;
-      __pyx_t_9 = -1;
-      if (__pyx_t_10 < 0) {
-        __pyx_t_10 += __pyx_v_x.shape[0];
-        if (unlikely(__pyx_t_10 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_10 >= __pyx_v_x.shape[0])) __pyx_t_9 = 0;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(3, 65, __pyx_L1_error)
-      }
-      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_10)) )))));
+      __pyx_t_9 = __pyx_v_j;
+      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) )))));
     }
 
     /* "mlgrad/model.pxd":66
@@ -18277,17 +16650,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot_t(__Pyx_memviewslice
  * 
  * cdef class Model(object):
  */
-    __pyx_t_10 = __pyx_v_i;
-    __pyx_t_4 = -1;
-    if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_v_y.shape[0];
-      if (unlikely(__pyx_t_10 < 0)) __pyx_t_4 = 0;
-    } else if (unlikely(__pyx_t_10 >= __pyx_v_y.shape[0])) __pyx_t_4 = 0;
-    if (unlikely(__pyx_t_4 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_4);
-      __PYX_ERR(3, 66, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_10)) )) = __pyx_v_v;
+    __pyx_t_9 = __pyx_v_i;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_9)) )) = __pyx_v_v;
   }
 
   /* "mlgrad/model.pxd":58
@@ -18299,10 +16663,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot_t(__Pyx_memviewslice
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.matrix_dot_t", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -18318,10 +16678,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regular_fill_memoryview(__Pyx_memview
   int __pyx_v_m;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fill_memoryview", 0);
 
   /* "mlgrad/regular.pxd":9
@@ -18341,15 +16697,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regular_fill_memoryview(__Pyx_memview
  * cdef inline void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):
  */
   __pyx_t_1 = 0;
-  __pyx_t_2 = -1;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_X.shape[0];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_X.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(4, 10, __pyx_L1_error)
-  }
   (void)(memset((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(double)))));
 
   /* "mlgrad/regular.pxd":8
@@ -18361,10 +16708,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regular_fill_memoryview(__Pyx_memview
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.regular.fill_memoryview", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -18391,11 +16734,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regular_matrix_dot(__Pyx_memviewslice
   int __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  int __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_9;
   __Pyx_RefNannySetupContext("matrix_dot", 0);
 
   /* "mlgrad/regular.pxd":13
@@ -18450,30 +16789,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regular_matrix_dot(__Pyx_memviewslice
  */
       __pyx_t_7 = __pyx_v_j;
       __pyx_t_8 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_7 < 0) {
-        __pyx_t_7 += __pyx_v_A.shape[0];
-        if (unlikely(__pyx_t_7 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_7 >= __pyx_v_A.shape[0])) __pyx_t_9 = 0;
-      if (__pyx_t_8 < 0) {
-        __pyx_t_8 += __pyx_v_A.shape[1];
-        if (unlikely(__pyx_t_8 < 0)) __pyx_t_9 = 1;
-      } else if (unlikely(__pyx_t_8 >= __pyx_v_A.shape[1])) __pyx_t_9 = 1;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(4, 19, __pyx_L1_error)
-      }
-      __pyx_t_10 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_10 < 0) {
-        __pyx_t_10 += __pyx_v_x.shape[0];
-        if (unlikely(__pyx_t_10 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_10 >= __pyx_v_x.shape[0])) __pyx_t_9 = 0;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(4, 19, __pyx_L1_error)
-      }
-      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_10)) )))));
+      __pyx_t_9 = __pyx_v_i;
+      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) )))));
     }
 
     /* "mlgrad/regular.pxd":20
@@ -18483,17 +16800,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regular_matrix_dot(__Pyx_memviewslice
  * 
  * cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
  */
-    __pyx_t_10 = __pyx_v_j;
-    __pyx_t_4 = -1;
-    if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_v_y.shape[0];
-      if (unlikely(__pyx_t_10 < 0)) __pyx_t_4 = 0;
-    } else if (unlikely(__pyx_t_10 >= __pyx_v_y.shape[0])) __pyx_t_4 = 0;
-    if (unlikely(__pyx_t_4 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_4);
-      __PYX_ERR(4, 20, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_10)) )) = __pyx_v_v;
+    __pyx_t_9 = __pyx_v_j;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_9)) )) = __pyx_v_v;
   }
 
   /* "mlgrad/regular.pxd":12
@@ -18505,10 +16813,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regular_matrix_dot(__Pyx_memviewslice
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.regular.matrix_dot", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -18535,11 +16839,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regular_matrix_dot_t(__Pyx_memviewsli
   int __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  int __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_9;
   __Pyx_RefNannySetupContext("matrix_dot_t", 0);
 
   /* "mlgrad/regular.pxd":23
@@ -18594,30 +16894,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regular_matrix_dot_t(__Pyx_memviewsli
  */
       __pyx_t_7 = __pyx_v_j;
       __pyx_t_8 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_7 < 0) {
-        __pyx_t_7 += __pyx_v_A.shape[0];
-        if (unlikely(__pyx_t_7 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_7 >= __pyx_v_A.shape[0])) __pyx_t_9 = 0;
-      if (__pyx_t_8 < 0) {
-        __pyx_t_8 += __pyx_v_A.shape[1];
-        if (unlikely(__pyx_t_8 < 0)) __pyx_t_9 = 1;
-      } else if (unlikely(__pyx_t_8 >= __pyx_v_A.shape[1])) __pyx_t_9 = 1;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(4, 29, __pyx_L1_error)
-      }
-      __pyx_t_10 = __pyx_v_j;
-      __pyx_t_9 = -1;
-      if (__pyx_t_10 < 0) {
-        __pyx_t_10 += __pyx_v_x.shape[0];
-        if (unlikely(__pyx_t_10 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_10 >= __pyx_v_x.shape[0])) __pyx_t_9 = 0;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(4, 29, __pyx_L1_error)
-      }
-      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_10)) )))));
+      __pyx_t_9 = __pyx_v_j;
+      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) )))));
     }
 
     /* "mlgrad/regular.pxd":30
@@ -18627,17 +16905,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regular_matrix_dot_t(__Pyx_memviewsli
  * 
  * cdef class FuncMulti:
  */
-    __pyx_t_10 = __pyx_v_i;
-    __pyx_t_4 = -1;
-    if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_v_y.shape[0];
-      if (unlikely(__pyx_t_10 < 0)) __pyx_t_4 = 0;
-    } else if (unlikely(__pyx_t_10 >= __pyx_v_y.shape[0])) __pyx_t_4 = 0;
-    if (unlikely(__pyx_t_4 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_4);
-      __PYX_ERR(4, 30, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_10)) )) = __pyx_v_v;
+    __pyx_t_9 = __pyx_v_i;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_9)) )) = __pyx_v_v;
   }
 
   /* "mlgrad/regular.pxd":22
@@ -18649,10 +16918,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regular_matrix_dot_t(__Pyx_memviewsli
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.regular.matrix_dot_t", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -18672,10 +16937,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview(__Pyx_memvie
   int __pyx_t_2;
   int __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  int __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fill_memoryview", 0);
 
   /* "mlgrad/averager.pxd":7
@@ -18707,15 +16968,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview(__Pyx_memvie
  * cdef inline void fill_memoryview2(double[:,::1] X, double c):
  */
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = -1;
-    if (__pyx_t_4 < 0) {
-      __pyx_t_4 += __pyx_v_X.shape[0];
-      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
-    } else if (unlikely(__pyx_t_4 >= __pyx_v_X.shape[0])) __pyx_t_5 = 0;
-    if (unlikely(__pyx_t_5 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(5, 9, __pyx_L1_error)
-    }
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )) = __pyx_v_c;
   }
 
@@ -18728,10 +16980,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview(__Pyx_memvie
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.averager.fill_memoryview", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -18757,10 +17005,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview2(__Pyx_memvi
   int __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  int __pyx_t_9;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fill_memoryview2", 0);
 
   /* "mlgrad/averager.pxd":13
@@ -18806,19 +17050,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview2(__Pyx_memvi
  */
       __pyx_t_7 = __pyx_v_i;
       __pyx_t_8 = __pyx_v_j;
-      __pyx_t_9 = -1;
-      if (__pyx_t_7 < 0) {
-        __pyx_t_7 += __pyx_v_X.shape[0];
-        if (unlikely(__pyx_t_7 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_7 >= __pyx_v_X.shape[0])) __pyx_t_9 = 0;
-      if (__pyx_t_8 < 0) {
-        __pyx_t_8 += __pyx_v_X.shape[1];
-        if (unlikely(__pyx_t_8 < 0)) __pyx_t_9 = 1;
-      } else if (unlikely(__pyx_t_8 >= __pyx_v_X.shape[1])) __pyx_t_9 = 1;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(5, 16, __pyx_L1_error)
-      }
       *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_7 * __pyx_v_X.strides[0]) )) + __pyx_t_8)) )) = __pyx_v_c;
     }
   }
@@ -18832,10 +17063,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview2(__Pyx_memvi
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.averager.fill_memoryview2", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -18853,11 +17080,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_copy_memoryview(__Pyx_memvie
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   Py_ssize_t __pyx_t_2;
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_3;
   __Pyx_RefNannySetupContext("copy_memoryview", 0);
 
   /* "mlgrad/averager.pxd":19
@@ -18906,26 +17129,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_copy_memoryview(__Pyx_memvie
  *     #    Y_ptr[i] = X_ptr[i]
  */
   __pyx_t_2 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_2 < 0) {
-    __pyx_t_2 += __pyx_v_Y.shape[0];
-    if (unlikely(__pyx_t_2 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_2 >= __pyx_v_Y.shape[0])) __pyx_t_3 = 0;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(5, 25, __pyx_L1_error)
-  }
-  __pyx_t_4 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_4 < 0) {
-    __pyx_t_4 += __pyx_v_X.shape[0];
-    if (unlikely(__pyx_t_4 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_4 >= __pyx_v_X.shape[0])) __pyx_t_3 = 0;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(5, 25, __pyx_L1_error)
-  }
-  (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )))), (__pyx_v_m * (sizeof(double)))));
+  __pyx_t_3 = 0;
+  (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_3)) )))), (__pyx_v_m * (sizeof(double)))));
 
   /* "mlgrad/averager.pxd":18
  *             X[i,j] = c
@@ -18936,10 +17141,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_copy_memoryview(__Pyx_memvie
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.averager.copy_memoryview", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -18959,14 +17160,10 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
-  int __pyx_t_2;
+  Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  int __pyx_t_5;
   __Pyx_RefNannySetupContext("array_min", 0);
 
   /* "mlgrad/avragg.pxd":28
@@ -18986,15 +17183,6 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
  *     for i in range(N):
  */
   __pyx_t_1 = 0;
-  __pyx_t_2 = -1;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_arr.shape[0];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_arr.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(6, 29, __pyx_L1_error)
-  }
   __pyx_v_min_val = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) )));
 
   /* "mlgrad/avragg.pxd":31
@@ -19004,10 +17192,10 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
  *         v = arr[i]
  *         if v < min_val:
  */
-  __pyx_t_3 = __pyx_v_N;
-  __pyx_t_4 = __pyx_t_3;
-  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
-    __pyx_v_i = __pyx_t_5;
+  __pyx_t_2 = __pyx_v_N;
+  __pyx_t_3 = __pyx_t_2;
+  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
+    __pyx_v_i = __pyx_t_4;
 
     /* "mlgrad/avragg.pxd":32
  * 
@@ -19017,15 +17205,6 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
  *             min_val = v
  */
     __pyx_t_1 = __pyx_v_i;
-    __pyx_t_2 = -1;
-    if (__pyx_t_1 < 0) {
-      __pyx_t_1 += __pyx_v_arr.shape[0];
-      if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_1 >= __pyx_v_arr.shape[0])) __pyx_t_2 = 0;
-    if (unlikely(__pyx_t_2 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_2);
-      __PYX_ERR(6, 32, __pyx_L1_error)
-    }
     __pyx_v_v = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) )));
 
     /* "mlgrad/avragg.pxd":33
@@ -19035,8 +17214,8 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
  *             min_val = v
  * 
  */
-    __pyx_t_6 = ((__pyx_v_v < __pyx_v_min_val) != 0);
-    if (__pyx_t_6) {
+    __pyx_t_5 = ((__pyx_v_v < __pyx_v_min_val) != 0);
+    if (__pyx_t_5) {
 
       /* "mlgrad/avragg.pxd":34
  *         v = arr[i]
@@ -19076,9 +17255,6 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.avragg.array_min", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -19102,7 +17278,6 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  int __pyx_t_5;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -19146,15 +17321,6 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
  *     return v / N
  */
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = -1;
-    if (__pyx_t_4 < 0) {
-      __pyx_t_4 += __pyx_v_arr.shape[0];
-      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
-    } else if (unlikely(__pyx_t_4 >= __pyx_v_arr.shape[0])) __pyx_t_5 = 0;
-    if (unlikely(__pyx_t_5 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(6, 44, __pyx_L1_error)
-    }
     __pyx_v_v = (__pyx_v_v + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_4)) ))));
   }
 
@@ -19167,7 +17333,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(6, 46, __pyx_L1_error)
+    __PYX_ERR(3, 46, __pyx_L1_error)
   }
   __pyx_r = (__pyx_v_v / ((double)__pyx_v_N));
   goto __pyx_L0;
@@ -19205,10 +17371,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  int __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("array_add_scalar", 0);
 
   /* "mlgrad/avragg.pxd":49
@@ -19240,15 +17402,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
  * cdef class Penalty:
  */
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = -1;
-    if (__pyx_t_4 < 0) {
-      __pyx_t_4 += __pyx_v_arr.shape[0];
-      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
-    } else if (unlikely(__pyx_t_4 >= __pyx_v_arr.shape[0])) __pyx_t_5 = 0;
-    if (unlikely(__pyx_t_5 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(6, 52, __pyx_L1_error)
-    }
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_4)) )) += __pyx_v_v;
   }
 
@@ -19261,10 +17414,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.avragg.array_add_scalar", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -19280,10 +17429,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview(__Pyx_memviewsli
   int __pyx_v_m;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fill_memoryview", 0);
 
   /* "mlgrad/risk.pxd":30
@@ -19303,15 +17448,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview(__Pyx_memviewsli
  * cdef inline void fill_memoryview2(double[:,::1] X, double c):
  */
   __pyx_t_1 = 0;
-  __pyx_t_2 = -1;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_X.shape[0];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_X.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(7, 31, __pyx_L1_error)
-  }
   (void)(memset((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(double)))));
 
   /* "mlgrad/risk.pxd":29
@@ -19323,10 +17459,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview(__Pyx_memviewsli
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.risk.fill_memoryview", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -19352,10 +17484,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview2(__Pyx_memviewsl
   int __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  int __pyx_t_9;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fill_memoryview2", 0);
 
   /* "mlgrad/risk.pxd":35
@@ -19401,19 +17529,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview2(__Pyx_memviewsl
  */
       __pyx_t_7 = __pyx_v_i;
       __pyx_t_8 = __pyx_v_j;
-      __pyx_t_9 = -1;
-      if (__pyx_t_7 < 0) {
-        __pyx_t_7 += __pyx_v_X.shape[0];
-        if (unlikely(__pyx_t_7 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_7 >= __pyx_v_X.shape[0])) __pyx_t_9 = 0;
-      if (__pyx_t_8 < 0) {
-        __pyx_t_8 += __pyx_v_X.shape[1];
-        if (unlikely(__pyx_t_8 < 0)) __pyx_t_9 = 1;
-      } else if (unlikely(__pyx_t_8 >= __pyx_v_X.shape[1])) __pyx_t_9 = 1;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(7, 38, __pyx_L1_error)
-      }
       *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_7 * __pyx_v_X.strides[0]) )) + __pyx_t_8)) )) = __pyx_v_c;
     }
   }
@@ -19427,10 +17542,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview2(__Pyx_memviewsl
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.risk.fill_memoryview2", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -19448,11 +17559,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_copy_memoryview(__Pyx_memviewsli
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   Py_ssize_t __pyx_t_2;
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_3;
   __Pyx_RefNannySetupContext("copy_memoryview", 0);
 
   /* "mlgrad/risk.pxd":41
@@ -19501,26 +17608,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_copy_memoryview(__Pyx_memviewsli
  * cdef class Functional:
  */
   __pyx_t_2 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_2 < 0) {
-    __pyx_t_2 += __pyx_v_Y.shape[0];
-    if (unlikely(__pyx_t_2 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_2 >= __pyx_v_Y.shape[0])) __pyx_t_3 = 0;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(7, 45, __pyx_L1_error)
-  }
-  __pyx_t_4 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_4 < 0) {
-    __pyx_t_4 += __pyx_v_X.shape[0];
-    if (unlikely(__pyx_t_4 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_4 >= __pyx_v_X.shape[0])) __pyx_t_3 = 0;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(7, 45, __pyx_L1_error)
-  }
-  (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )))), (__pyx_v_m * (sizeof(double)))));
+  __pyx_t_3 = 0;
+  (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_3)) )))), (__pyx_v_m * (sizeof(double)))));
 
   /* "mlgrad/risk.pxd":40
  *             X[i,j] = c
@@ -19531,10 +17620,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_copy_memoryview(__Pyx_memviewsli
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.risk.copy_memoryview", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -19558,10 +17643,6 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_array_min(__Pyx_memviewslic
   int __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_t_6;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("array_min", 0);
 
   /* "mlgrad/weights.pxd":14
@@ -19581,15 +17662,6 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_array_min(__Pyx_memviewslic
  *     for i in range(N):
  */
   __pyx_t_1 = 0;
-  __pyx_t_2 = -1;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_arr.shape[0];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_arr.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(0, 15, __pyx_L1_error)
-  }
   __pyx_v_min_val = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) )));
 
   /* "mlgrad/weights.pxd":17
@@ -19612,15 +17684,6 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_array_min(__Pyx_memviewslic
  *             min_val = v
  */
     __pyx_t_1 = __pyx_v_i;
-    __pyx_t_5 = -1;
-    if (__pyx_t_1 < 0) {
-      __pyx_t_1 += __pyx_v_arr.shape[0];
-      if (unlikely(__pyx_t_1 < 0)) __pyx_t_5 = 0;
-    } else if (unlikely(__pyx_t_1 >= __pyx_v_arr.shape[0])) __pyx_t_5 = 0;
-    if (unlikely(__pyx_t_5 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(0, 18, __pyx_L1_error)
-    }
     __pyx_v_v = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) )));
 
     /* "mlgrad/weights.pxd":19
@@ -19630,8 +17693,8 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_array_min(__Pyx_memviewslic
  *             min_val = v
  * 
  */
-    __pyx_t_6 = ((__pyx_v_v < __pyx_v_min_val) != 0);
-    if (__pyx_t_6) {
+    __pyx_t_5 = ((__pyx_v_v < __pyx_v_min_val) != 0);
+    if (__pyx_t_5) {
 
       /* "mlgrad/weights.pxd":20
  *         v = arr[i]
@@ -19671,9 +17734,6 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_array_min(__Pyx_memviewslic
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.weights.array_min", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -19697,10 +17757,6 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_sum_memoryview(__Pyx_memvie
   int __pyx_t_2;
   int __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  int __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sum_memoryview", 0);
 
   /* "mlgrad/weights.pxd":26
@@ -19741,15 +17797,6 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_sum_memoryview(__Pyx_memvie
  * 
  */
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = -1;
-    if (__pyx_t_4 < 0) {
-      __pyx_t_4 += __pyx_v_X.shape[0];
-      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
-    } else if (unlikely(__pyx_t_4 >= __pyx_v_X.shape[0])) __pyx_t_5 = 0;
-    if (unlikely(__pyx_t_5 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(0, 30, __pyx_L1_error)
-    }
     __pyx_v_S = (__pyx_v_S + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) ))));
   }
 
@@ -19772,9 +17819,6 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_sum_memoryview(__Pyx_memvie
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.weights.sum_memoryview", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -19796,10 +17840,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_mult_scalar_memoryview(__Pyx_
   int __pyx_t_2;
   int __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  int __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("mult_scalar_memoryview", 0);
 
   /* "mlgrad/weights.pxd":34
@@ -19831,15 +17871,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_mult_scalar_memoryview(__Pyx_
  * cdef inline void normalize_memoryview(double[::1] X):
  */
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = -1;
-    if (__pyx_t_4 < 0) {
-      __pyx_t_4 += __pyx_v_X.shape[0];
-      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
-    } else if (unlikely(__pyx_t_4 >= __pyx_v_X.shape[0])) __pyx_t_5 = 0;
-    if (unlikely(__pyx_t_5 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(0, 37, __pyx_L1_error)
-    }
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )) *= __pyx_v_c;
   }
 
@@ -19852,10 +17883,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_mult_scalar_memoryview(__Pyx_
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.weights.mult_scalar_memoryview", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -19877,7 +17904,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_normalize_memoryview(__Pyx_me
   int __pyx_t_2;
   int __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  int __pyx_t_5;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -19921,15 +17947,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_normalize_memoryview(__Pyx_me
  * 
  */
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = -1;
-    if (__pyx_t_4 < 0) {
-      __pyx_t_4 += __pyx_v_X.shape[0];
-      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
-    } else if (unlikely(__pyx_t_4 >= __pyx_v_X.shape[0])) __pyx_t_5 = 0;
-    if (unlikely(__pyx_t_5 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(0, 45, __pyx_L1_error)
-    }
     __pyx_v_S = (__pyx_v_S + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) ))));
   }
 
@@ -19966,15 +17983,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_normalize_memoryview(__Pyx_me
  * cdef class Weights(object):
  */
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = -1;
-    if (__pyx_t_4 < 0) {
-      __pyx_t_4 += __pyx_v_X.shape[0];
-      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
-    } else if (unlikely(__pyx_t_4 >= __pyx_v_X.shape[0])) __pyx_t_5 = 0;
-    if (unlikely(__pyx_t_5 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(0, 49, __pyx_L1_error)
-    }
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )) *= __pyx_v_c;
   }
 
@@ -24360,7 +22368,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  * 
  */
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_result, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 498, __pyx_L5_except_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_result, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 498, __pyx_L5_except_error)
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_r = __pyx_t_1;
         __pyx_t_1 = 0;
@@ -32915,7 +30923,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->name);
@@ -32960,7 +30968,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
@@ -35214,47 +33222,47 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_7weights_Weights.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_7Weights_get_weights;
   __pyx_vtable_6mlgrad_7weights_Weights.get_qvalue = (double (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_7Weights_get_qvalue;
   __pyx_vtable_6mlgrad_7weights_Weights.set_param = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *, PyObject *, PyObject *))__pyx_f_6mlgrad_7weights_7Weights_set_param;
-  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_Weights) < 0) __PYX_ERR(1, 34, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_Weights) < 0) __PYX_ERR(1, 35, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_7weights_Weights.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_7weights_Weights.tp_dictoffset && __pyx_type_6mlgrad_7weights_Weights.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_7weights_Weights.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_Weights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_Weights) < 0) __PYX_ERR(1, 34, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Weights, (PyObject *)&__pyx_type_6mlgrad_7weights_Weights) < 0) __PYX_ERR(1, 34, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_Weights) < 0) __PYX_ERR(1, 34, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_Weights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_Weights) < 0) __PYX_ERR(1, 35, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Weights, (PyObject *)&__pyx_type_6mlgrad_7weights_Weights) < 0) __PYX_ERR(1, 35, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_Weights) < 0) __PYX_ERR(1, 35, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7weights_Weights = &__pyx_type_6mlgrad_7weights_Weights;
   __pyx_vtabptr_6mlgrad_7weights_ArrayWeights = &__pyx_vtable_6mlgrad_7weights_ArrayWeights;
   __pyx_vtable_6mlgrad_7weights_ArrayWeights.__pyx_base = *__pyx_vtabptr_6mlgrad_7weights_Weights;
   __pyx_vtable_6mlgrad_7weights_ArrayWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights;
   __pyx_type_6mlgrad_7weights_ArrayWeights.tp_base = __pyx_ptype_6mlgrad_7weights_Weights;
-  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_ArrayWeights) < 0) __PYX_ERR(1, 52, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_ArrayWeights) < 0) __PYX_ERR(1, 53, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_7weights_ArrayWeights.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_7weights_ArrayWeights.tp_dictoffset && __pyx_type_6mlgrad_7weights_ArrayWeights.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_7weights_ArrayWeights.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_ArrayWeights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_ArrayWeights) < 0) __PYX_ERR(1, 52, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArrayWeights, (PyObject *)&__pyx_type_6mlgrad_7weights_ArrayWeights) < 0) __PYX_ERR(1, 52, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_ArrayWeights) < 0) __PYX_ERR(1, 52, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_ArrayWeights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_ArrayWeights) < 0) __PYX_ERR(1, 53, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArrayWeights, (PyObject *)&__pyx_type_6mlgrad_7weights_ArrayWeights) < 0) __PYX_ERR(1, 53, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_ArrayWeights) < 0) __PYX_ERR(1, 53, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7weights_ArrayWeights = &__pyx_type_6mlgrad_7weights_ArrayWeights;
   __pyx_vtabptr_6mlgrad_7weights_ConstantWeights = &__pyx_vtable_6mlgrad_7weights_ConstantWeights;
   __pyx_vtable_6mlgrad_7weights_ConstantWeights.__pyx_base = *__pyx_vtabptr_6mlgrad_7weights_Weights;
   __pyx_vtable_6mlgrad_7weights_ConstantWeights.__pyx_base.eval_weights = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_15ConstantWeights_eval_weights;
   __pyx_vtable_6mlgrad_7weights_ConstantWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights;
   __pyx_type_6mlgrad_7weights_ConstantWeights.tp_base = __pyx_ptype_6mlgrad_7weights_Weights;
-  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_ConstantWeights) < 0) __PYX_ERR(1, 60, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_ConstantWeights) < 0) __PYX_ERR(1, 61, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_7weights_ConstantWeights.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_7weights_ConstantWeights.tp_dictoffset && __pyx_type_6mlgrad_7weights_ConstantWeights.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_7weights_ConstantWeights.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_ConstantWeights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_ConstantWeights) < 0) __PYX_ERR(1, 60, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ConstantWeights, (PyObject *)&__pyx_type_6mlgrad_7weights_ConstantWeights) < 0) __PYX_ERR(1, 60, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_ConstantWeights) < 0) __PYX_ERR(1, 60, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_ConstantWeights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_ConstantWeights) < 0) __PYX_ERR(1, 61, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ConstantWeights, (PyObject *)&__pyx_type_6mlgrad_7weights_ConstantWeights) < 0) __PYX_ERR(1, 61, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_ConstantWeights) < 0) __PYX_ERR(1, 61, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7weights_ConstantWeights = &__pyx_type_6mlgrad_7weights_ConstantWeights;
   __pyx_vtabptr_6mlgrad_7weights_RWeights = &__pyx_vtable_6mlgrad_7weights_RWeights;
   __pyx_vtable_6mlgrad_7weights_RWeights.__pyx_base = *__pyx_vtabptr_6mlgrad_7weights_Weights;
@@ -35262,16 +33270,16 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_7weights_RWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_8RWeights_get_weights;
   __pyx_vtable_6mlgrad_7weights_RWeights.__pyx_base.get_qvalue = (double (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_8RWeights_get_qvalue;
   __pyx_type_6mlgrad_7weights_RWeights.tp_base = __pyx_ptype_6mlgrad_7weights_Weights;
-  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_RWeights) < 0) __PYX_ERR(1, 71, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_RWeights) < 0) __PYX_ERR(1, 72, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_7weights_RWeights.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_7weights_RWeights.tp_dictoffset && __pyx_type_6mlgrad_7weights_RWeights.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_7weights_RWeights.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_RWeights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_RWeights) < 0) __PYX_ERR(1, 71, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_RWeights, (PyObject *)&__pyx_type_6mlgrad_7weights_RWeights) < 0) __PYX_ERR(1, 71, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_RWeights) < 0) __PYX_ERR(1, 71, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_RWeights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_RWeights) < 0) __PYX_ERR(1, 72, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_RWeights, (PyObject *)&__pyx_type_6mlgrad_7weights_RWeights) < 0) __PYX_ERR(1, 72, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_RWeights) < 0) __PYX_ERR(1, 72, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7weights_RWeights = &__pyx_type_6mlgrad_7weights_RWeights;
   __pyx_vtabptr_6mlgrad_7weights_MWeights = &__pyx_vtable_6mlgrad_7weights_MWeights;
   __pyx_vtable_6mlgrad_7weights_MWeights.__pyx_base = *__pyx_vtabptr_6mlgrad_7weights_Weights;
@@ -35279,16 +33287,16 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_7weights_MWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_8MWeights_get_weights;
   __pyx_vtable_6mlgrad_7weights_MWeights.__pyx_base.get_qvalue = (double (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_8MWeights_get_qvalue;
   __pyx_type_6mlgrad_7weights_MWeights.tp_base = __pyx_ptype_6mlgrad_7weights_Weights;
-  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_MWeights) < 0) __PYX_ERR(1, 124, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_MWeights) < 0) __PYX_ERR(1, 125, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_7weights_MWeights.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_7weights_MWeights.tp_dictoffset && __pyx_type_6mlgrad_7weights_MWeights.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_7weights_MWeights.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_MWeights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_MWeights) < 0) __PYX_ERR(1, 124, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MWeights, (PyObject *)&__pyx_type_6mlgrad_7weights_MWeights) < 0) __PYX_ERR(1, 124, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_MWeights) < 0) __PYX_ERR(1, 124, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_MWeights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_MWeights) < 0) __PYX_ERR(1, 125, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MWeights, (PyObject *)&__pyx_type_6mlgrad_7weights_MWeights) < 0) __PYX_ERR(1, 125, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_MWeights) < 0) __PYX_ERR(1, 125, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7weights_MWeights = &__pyx_type_6mlgrad_7weights_MWeights;
   __pyx_vtabptr_6mlgrad_7weights_SWMWeights = &__pyx_vtable_6mlgrad_7weights_SWMWeights;
   __pyx_vtable_6mlgrad_7weights_SWMWeights.__pyx_base = *__pyx_vtabptr_6mlgrad_7weights_Weights;
@@ -35296,16 +33304,16 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_7weights_SWMWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_10SWMWeights_get_weights;
   __pyx_vtable_6mlgrad_7weights_SWMWeights.__pyx_base.get_qvalue = (double (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_10SWMWeights_get_qvalue;
   __pyx_type_6mlgrad_7weights_SWMWeights.tp_base = __pyx_ptype_6mlgrad_7weights_Weights;
-  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_SWMWeights) < 0) __PYX_ERR(1, 172, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_SWMWeights) < 0) __PYX_ERR(1, 173, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_7weights_SWMWeights.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_7weights_SWMWeights.tp_dictoffset && __pyx_type_6mlgrad_7weights_SWMWeights.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_7weights_SWMWeights.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_SWMWeights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_SWMWeights) < 0) __PYX_ERR(1, 172, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SWMWeights, (PyObject *)&__pyx_type_6mlgrad_7weights_SWMWeights) < 0) __PYX_ERR(1, 172, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_SWMWeights) < 0) __PYX_ERR(1, 172, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_SWMWeights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_SWMWeights) < 0) __PYX_ERR(1, 173, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SWMWeights, (PyObject *)&__pyx_type_6mlgrad_7weights_SWMWeights) < 0) __PYX_ERR(1, 173, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_SWMWeights) < 0) __PYX_ERR(1, 173, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7weights_SWMWeights = &__pyx_type_6mlgrad_7weights_SWMWeights;
   __pyx_vtabptr_6mlgrad_7weights_WMWeights = &__pyx_vtable_6mlgrad_7weights_WMWeights;
   __pyx_vtable_6mlgrad_7weights_WMWeights.__pyx_base = *__pyx_vtabptr_6mlgrad_7weights_Weights;
@@ -35313,16 +33321,16 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_7weights_WMWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_9WMWeights_get_weights;
   __pyx_vtable_6mlgrad_7weights_WMWeights.__pyx_base.get_qvalue = (double (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_9WMWeights_get_qvalue;
   __pyx_type_6mlgrad_7weights_WMWeights.tp_base = __pyx_ptype_6mlgrad_7weights_Weights;
-  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_WMWeights) < 0) __PYX_ERR(1, 242, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_7weights_WMWeights) < 0) __PYX_ERR(1, 243, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_7weights_WMWeights.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_7weights_WMWeights.tp_dictoffset && __pyx_type_6mlgrad_7weights_WMWeights.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_7weights_WMWeights.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_WMWeights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_WMWeights) < 0) __PYX_ERR(1, 242, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WMWeights, (PyObject *)&__pyx_type_6mlgrad_7weights_WMWeights) < 0) __PYX_ERR(1, 242, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_WMWeights) < 0) __PYX_ERR(1, 242, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_7weights_WMWeights.tp_dict, __pyx_vtabptr_6mlgrad_7weights_WMWeights) < 0) __PYX_ERR(1, 243, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WMWeights, (PyObject *)&__pyx_type_6mlgrad_7weights_WMWeights) < 0) __PYX_ERR(1, 243, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_7weights_WMWeights) < 0) __PYX_ERR(1, 243, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7weights_WMWeights = &__pyx_type_6mlgrad_7weights_WMWeights;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -35390,121 +33398,121 @@ static int __Pyx_modinit_type_import_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_import_code", 0);
   /*--- Type import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.func"); if (unlikely(!__pyx_t_1)) __PYX_ERR(8, 6, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.func"); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_4func_Func = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Func", sizeof(struct __pyx_obj_6mlgrad_4func_Func), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Func) __PYX_ERR(8, 6, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Func = (struct __pyx_vtabstruct_6mlgrad_4func_Func*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Func->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Func)) __PYX_ERR(8, 6, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Func) __PYX_ERR(4, 6, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Func = (struct __pyx_vtabstruct_6mlgrad_4func_Func*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Func->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Func)) __PYX_ERR(4, 6, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Comp = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Comp", sizeof(struct __pyx_obj_6mlgrad_4func_Comp), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Comp) __PYX_ERR(8, 19, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Comp = (struct __pyx_vtabstruct_6mlgrad_4func_Comp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Comp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Comp)) __PYX_ERR(8, 19, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Comp) __PYX_ERR(4, 19, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Comp = (struct __pyx_vtabstruct_6mlgrad_4func_Comp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Comp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Comp)) __PYX_ERR(4, 19, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_ZeroOnPositive = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "ZeroOnPositive", sizeof(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_ZeroOnPositive) __PYX_ERR(8, 25, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_ZeroOnPositive = (struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ZeroOnPositive->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ZeroOnPositive)) __PYX_ERR(8, 25, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_ZeroOnPositive) __PYX_ERR(4, 25, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_ZeroOnPositive = (struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ZeroOnPositive->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ZeroOnPositive)) __PYX_ERR(4, 25, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_FuncExp = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "FuncExp", sizeof(struct __pyx_obj_6mlgrad_4func_FuncExp), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_FuncExp) __PYX_ERR(8, 30, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_FuncExp = (struct __pyx_vtabstruct_6mlgrad_4func_FuncExp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_FuncExp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_FuncExp)) __PYX_ERR(8, 30, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_FuncExp) __PYX_ERR(4, 30, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_FuncExp = (struct __pyx_vtabstruct_6mlgrad_4func_FuncExp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_FuncExp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_FuncExp)) __PYX_ERR(4, 30, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Id = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Id", sizeof(struct __pyx_obj_6mlgrad_4func_Id), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Id) __PYX_ERR(8, 34, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Id = (struct __pyx_vtabstruct_6mlgrad_4func_Id*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Id->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Id)) __PYX_ERR(8, 34, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Id) __PYX_ERR(4, 34, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Id = (struct __pyx_vtabstruct_6mlgrad_4func_Id*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Id->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Id)) __PYX_ERR(4, 34, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Neg = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Neg", sizeof(struct __pyx_obj_6mlgrad_4func_Neg), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Neg) __PYX_ERR(8, 39, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Neg = (struct __pyx_vtabstruct_6mlgrad_4func_Neg*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Neg->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Neg)) __PYX_ERR(8, 39, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Neg) __PYX_ERR(4, 39, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Neg = (struct __pyx_vtabstruct_6mlgrad_4func_Neg*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Neg->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Neg)) __PYX_ERR(4, 39, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Arctang = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Arctang", sizeof(struct __pyx_obj_6mlgrad_4func_Arctang), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Arctang) __PYX_ERR(8, 44, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Arctang = (struct __pyx_vtabstruct_6mlgrad_4func_Arctang*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Arctang->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Arctang)) __PYX_ERR(8, 44, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Arctang) __PYX_ERR(4, 44, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Arctang = (struct __pyx_vtabstruct_6mlgrad_4func_Arctang*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Arctang->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Arctang)) __PYX_ERR(4, 44, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Sigmoidal = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Sigmoidal", sizeof(struct __pyx_obj_6mlgrad_4func_Sigmoidal), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Sigmoidal) __PYX_ERR(8, 48, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Sigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sigmoidal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sigmoidal)) __PYX_ERR(8, 48, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Sigmoidal) __PYX_ERR(4, 48, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Sigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sigmoidal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sigmoidal)) __PYX_ERR(4, 48, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_ModSigmoidal = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "ModSigmoidal", sizeof(struct __pyx_obj_6mlgrad_4func_ModSigmoidal), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_ModSigmoidal) __PYX_ERR(8, 52, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_ModSigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ModSigmoidal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ModSigmoidal)) __PYX_ERR(8, 52, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_ModSigmoidal) __PYX_ERR(4, 52, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_ModSigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ModSigmoidal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ModSigmoidal)) __PYX_ERR(4, 52, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Softplus = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Softplus", sizeof(struct __pyx_obj_6mlgrad_4func_Softplus), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Softplus) __PYX_ERR(8, 56, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Softplus = (struct __pyx_vtabstruct_6mlgrad_4func_Softplus*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Softplus->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Softplus)) __PYX_ERR(8, 56, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Softplus) __PYX_ERR(4, 56, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Softplus = (struct __pyx_vtabstruct_6mlgrad_4func_Softplus*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Softplus->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Softplus)) __PYX_ERR(4, 56, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Threshold = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Threshold", sizeof(struct __pyx_obj_6mlgrad_4func_Threshold), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Threshold) __PYX_ERR(8, 61, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Threshold = (struct __pyx_vtabstruct_6mlgrad_4func_Threshold*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Threshold->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Threshold)) __PYX_ERR(8, 61, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Threshold) __PYX_ERR(4, 61, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Threshold = (struct __pyx_vtabstruct_6mlgrad_4func_Threshold*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Threshold->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Threshold)) __PYX_ERR(4, 61, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Sign = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Sign", sizeof(struct __pyx_obj_6mlgrad_4func_Sign), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Sign) __PYX_ERR(8, 65, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Sign = (struct __pyx_vtabstruct_6mlgrad_4func_Sign*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sign->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sign)) __PYX_ERR(8, 65, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Sign) __PYX_ERR(4, 65, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Sign = (struct __pyx_vtabstruct_6mlgrad_4func_Sign*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sign->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sign)) __PYX_ERR(4, 65, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Quantile = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Quantile", sizeof(struct __pyx_obj_6mlgrad_4func_Quantile), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Quantile) __PYX_ERR(8, 69, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Quantile = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile)) __PYX_ERR(8, 69, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Quantile) __PYX_ERR(4, 69, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Quantile = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile)) __PYX_ERR(4, 69, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_QuantileFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "QuantileFunc", sizeof(struct __pyx_obj_6mlgrad_4func_QuantileFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_QuantileFunc) __PYX_ERR(8, 75, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_QuantileFunc = (struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_QuantileFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_QuantileFunc)) __PYX_ERR(8, 75, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_QuantileFunc) __PYX_ERR(4, 75, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_QuantileFunc = (struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_QuantileFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_QuantileFunc)) __PYX_ERR(4, 75, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Expectile = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Expectile", sizeof(struct __pyx_obj_6mlgrad_4func_Expectile), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Expectile) __PYX_ERR(8, 80, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Expectile = (struct __pyx_vtabstruct_6mlgrad_4func_Expectile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Expectile->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Expectile)) __PYX_ERR(8, 80, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Expectile) __PYX_ERR(4, 80, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Expectile = (struct __pyx_vtabstruct_6mlgrad_4func_Expectile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Expectile->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Expectile)) __PYX_ERR(4, 80, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Power = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Power", sizeof(struct __pyx_obj_6mlgrad_4func_Power), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Power) __PYX_ERR(8, 86, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Power = (struct __pyx_vtabstruct_6mlgrad_4func_Power*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Power->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Power)) __PYX_ERR(8, 86, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Power) __PYX_ERR(4, 86, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Power = (struct __pyx_vtabstruct_6mlgrad_4func_Power*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Power->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Power)) __PYX_ERR(4, 86, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Square = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Square", sizeof(struct __pyx_obj_6mlgrad_4func_Square), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Square) __PYX_ERR(8, 92, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Square = (struct __pyx_vtabstruct_6mlgrad_4func_Square*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Square->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Square)) __PYX_ERR(8, 92, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Square) __PYX_ERR(4, 92, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Square = (struct __pyx_vtabstruct_6mlgrad_4func_Square*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Square->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Square)) __PYX_ERR(4, 92, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_SquareSigned = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "SquareSigned", sizeof(struct __pyx_obj_6mlgrad_4func_SquareSigned), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_SquareSigned) __PYX_ERR(8, 97, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SquareSigned = (struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SquareSigned->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SquareSigned)) __PYX_ERR(8, 97, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_SquareSigned) __PYX_ERR(4, 97, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_SquareSigned = (struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SquareSigned->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SquareSigned)) __PYX_ERR(4, 97, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Absolute = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Absolute", sizeof(struct __pyx_obj_6mlgrad_4func_Absolute), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Absolute) __PYX_ERR(8, 102, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Absolute = (struct __pyx_vtabstruct_6mlgrad_4func_Absolute*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Absolute->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Absolute)) __PYX_ERR(8, 102, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Absolute) __PYX_ERR(4, 102, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Absolute = (struct __pyx_vtabstruct_6mlgrad_4func_Absolute*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Absolute->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Absolute)) __PYX_ERR(4, 102, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Quantile_AlphaLog = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Quantile_AlphaLog", sizeof(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog) __PYX_ERR(8, 107, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog)) __PYX_ERR(8, 107, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog) __PYX_ERR(4, 107, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog)) __PYX_ERR(4, 107, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_SoftAbs = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "SoftAbs", sizeof(struct __pyx_obj_6mlgrad_4func_SoftAbs), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_SoftAbs) __PYX_ERR(8, 114, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SoftAbs = (struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftAbs->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftAbs)) __PYX_ERR(8, 114, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_SoftAbs) __PYX_ERR(4, 114, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_SoftAbs = (struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftAbs->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftAbs)) __PYX_ERR(4, 114, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Sqrt = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Sqrt", sizeof(struct __pyx_obj_6mlgrad_4func_Sqrt), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Sqrt) __PYX_ERR(8, 119, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sqrt)) __PYX_ERR(8, 119, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Sqrt) __PYX_ERR(4, 119, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sqrt)) __PYX_ERR(4, 119, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Quantile_Sqrt = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Quantile_Sqrt", sizeof(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Quantile_Sqrt) __PYX_ERR(8, 126, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_Sqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt)) __PYX_ERR(8, 126, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Quantile_Sqrt) __PYX_ERR(4, 126, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_Sqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt)) __PYX_ERR(4, 126, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Logistic = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Logistic", sizeof(struct __pyx_obj_6mlgrad_4func_Logistic), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Logistic) __PYX_ERR(8, 134, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Logistic = (struct __pyx_vtabstruct_6mlgrad_4func_Logistic*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Logistic->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Logistic)) __PYX_ERR(8, 134, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Logistic) __PYX_ERR(4, 134, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Logistic = (struct __pyx_vtabstruct_6mlgrad_4func_Logistic*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Logistic->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Logistic)) __PYX_ERR(4, 134, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Huber = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Huber", sizeof(struct __pyx_obj_6mlgrad_4func_Huber), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Huber) __PYX_ERR(8, 140, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Huber = (struct __pyx_vtabstruct_6mlgrad_4func_Huber*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Huber->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Huber)) __PYX_ERR(8, 140, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Huber) __PYX_ERR(4, 140, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Huber = (struct __pyx_vtabstruct_6mlgrad_4func_Huber*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Huber->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Huber)) __PYX_ERR(4, 140, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_TM = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "TM", sizeof(struct __pyx_obj_6mlgrad_4func_TM), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_TM) __PYX_ERR(8, 146, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_TM = (struct __pyx_vtabstruct_6mlgrad_4func_TM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_TM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_TM)) __PYX_ERR(8, 146, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_TM) __PYX_ERR(4, 146, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_TM = (struct __pyx_vtabstruct_6mlgrad_4func_TM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_TM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_TM)) __PYX_ERR(4, 146, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_LogSquare = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "LogSquare", sizeof(struct __pyx_obj_6mlgrad_4func_LogSquare), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_LogSquare) __PYX_ERR(8, 151, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_LogSquare = (struct __pyx_vtabstruct_6mlgrad_4func_LogSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_LogSquare->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_LogSquare)) __PYX_ERR(8, 151, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_LogSquare) __PYX_ERR(4, 151, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_LogSquare = (struct __pyx_vtabstruct_6mlgrad_4func_LogSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_LogSquare->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_LogSquare)) __PYX_ERR(4, 151, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Tukey = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Tukey", sizeof(struct __pyx_obj_6mlgrad_4func_Tukey), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Tukey) __PYX_ERR(8, 157, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Tukey = (struct __pyx_vtabstruct_6mlgrad_4func_Tukey*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Tukey->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Tukey)) __PYX_ERR(8, 157, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Tukey) __PYX_ERR(4, 157, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Tukey = (struct __pyx_vtabstruct_6mlgrad_4func_Tukey*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Tukey->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Tukey)) __PYX_ERR(4, 157, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Hinge = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Hinge", sizeof(struct __pyx_obj_6mlgrad_4func_Hinge), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Hinge) __PYX_ERR(8, 164, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Hinge = (struct __pyx_vtabstruct_6mlgrad_4func_Hinge*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Hinge->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Hinge)) __PYX_ERR(8, 164, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Hinge) __PYX_ERR(4, 164, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Hinge = (struct __pyx_vtabstruct_6mlgrad_4func_Hinge*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Hinge->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Hinge)) __PYX_ERR(4, 164, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_HingeSqrt = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "HingeSqrt", sizeof(struct __pyx_obj_6mlgrad_4func_HingeSqrt), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_HingeSqrt) __PYX_ERR(8, 170, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_HingeSqrt = (struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_HingeSqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_HingeSqrt)) __PYX_ERR(8, 170, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_HingeSqrt) __PYX_ERR(4, 170, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_HingeSqrt = (struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_HingeSqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_HingeSqrt)) __PYX_ERR(4, 170, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Exp = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Exp", sizeof(struct __pyx_obj_6mlgrad_4func_Exp), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Exp) __PYX_ERR(8, 177, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Exp = (struct __pyx_vtabstruct_6mlgrad_4func_Exp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Exp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Exp)) __PYX_ERR(8, 177, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Exp) __PYX_ERR(4, 177, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Exp = (struct __pyx_vtabstruct_6mlgrad_4func_Exp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Exp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Exp)) __PYX_ERR(4, 177, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Log = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Log", sizeof(struct __pyx_obj_6mlgrad_4func_Log), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Log) __PYX_ERR(8, 182, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Log = (struct __pyx_vtabstruct_6mlgrad_4func_Log*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Log->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Log)) __PYX_ERR(8, 182, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Log) __PYX_ERR(4, 182, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Log = (struct __pyx_vtabstruct_6mlgrad_4func_Log*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Log->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Log)) __PYX_ERR(4, 182, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_KMinSquare = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "KMinSquare", sizeof(struct __pyx_obj_6mlgrad_4func_KMinSquare), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_KMinSquare) __PYX_ERR(8, 187, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_KMinSquare = (struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_KMinSquare->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_KMinSquare)) __PYX_ERR(8, 187, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_KMinSquare) __PYX_ERR(4, 187, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_KMinSquare = (struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_KMinSquare->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_KMinSquare)) __PYX_ERR(4, 187, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_ParameterizedFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "ParameterizedFunc", sizeof(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_ParameterizedFunc) __PYX_ERR(8, 192, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_ParameterizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ParameterizedFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc)) __PYX_ERR(8, 192, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_ParameterizedFunc) __PYX_ERR(4, 192, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_ParameterizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ParameterizedFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc)) __PYX_ERR(4, 192, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_WinsorizedFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "WinsorizedFunc", sizeof(struct __pyx_obj_6mlgrad_4func_WinsorizedFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_WinsorizedFunc) __PYX_ERR(8, 201, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_WinsorizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedFunc)) __PYX_ERR(8, 201, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_WinsorizedFunc) __PYX_ERR(4, 201, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_WinsorizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedFunc)) __PYX_ERR(4, 201, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "WinsorizedSmoothFunc", sizeof(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc) __PYX_ERR(8, 205, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc)) __PYX_ERR(8, 205, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc) __PYX_ERR(4, 205, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc)) __PYX_ERR(4, 205, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_SoftMinFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "SoftMinFunc", sizeof(struct __pyx_obj_6mlgrad_4func_SoftMinFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_SoftMinFunc) __PYX_ERR(8, 208, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SoftMinFunc = (struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftMinFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftMinFunc)) __PYX_ERR(8, 208, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_SoftMinFunc) __PYX_ERR(4, 208, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_SoftMinFunc = (struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftMinFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftMinFunc)) __PYX_ERR(4, 208, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 9, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__pyx_t_1, __Pyx_BUILTIN_MODULE_NAME, "type", 
   #if defined(PYPY_VERSION_NUM) && PYPY_VERSION_NUM < 0x050B0000
@@ -35513,276 +33521,282 @@ static int __Pyx_modinit_type_import_code(void) {
   sizeof(PyHeapTypeObject),
   #endif
   __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_7cpython_4type_type) __PYX_ERR(9, 9, __pyx_L1_error)
+   if (!__pyx_ptype_7cpython_4type_type) __PYX_ERR(5, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.model"); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 32, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.model"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_5model_Allocator = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "Allocator", sizeof(struct __pyx_obj_6mlgrad_5model_Allocator), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_Allocator) __PYX_ERR(3, 32, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_Allocator = (struct __pyx_vtabstruct_6mlgrad_5model_Allocator*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_Allocator->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_Allocator)) __PYX_ERR(3, 32, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_Allocator) __PYX_ERR(6, 32, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_Allocator = (struct __pyx_vtabstruct_6mlgrad_5model_Allocator*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_Allocator->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_Allocator)) __PYX_ERR(6, 32, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_ArrayAllocator = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "ArrayAllocator", sizeof(struct __pyx_obj_6mlgrad_5model_ArrayAllocator), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_ArrayAllocator) __PYX_ERR(3, 40, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_ArrayAllocator = (struct __pyx_vtabstruct_6mlgrad_5model_ArrayAllocator*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ArrayAllocator->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ArrayAllocator)) __PYX_ERR(3, 40, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_ArrayAllocator) __PYX_ERR(6, 40, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_ArrayAllocator = (struct __pyx_vtabstruct_6mlgrad_5model_ArrayAllocator*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ArrayAllocator->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ArrayAllocator)) __PYX_ERR(6, 40, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_Model = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "Model", sizeof(struct __pyx_obj_6mlgrad_5model_Model), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_Model) __PYX_ERR(3, 68, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_Model = (struct __pyx_vtabstruct_6mlgrad_5model_Model*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_Model->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_Model)) __PYX_ERR(3, 68, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_Model) __PYX_ERR(6, 68, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_Model = (struct __pyx_vtabstruct_6mlgrad_5model_Model*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_Model->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_Model)) __PYX_ERR(6, 68, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_ConstModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "ConstModel", sizeof(struct __pyx_obj_6mlgrad_5model_ConstModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_ConstModel) __PYX_ERR(3, 82, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_ConstModel = (struct __pyx_vtabstruct_6mlgrad_5model_ConstModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ConstModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ConstModel)) __PYX_ERR(3, 82, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_ConstModel) __PYX_ERR(6, 82, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_ConstModel = (struct __pyx_vtabstruct_6mlgrad_5model_ConstModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ConstModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ConstModel)) __PYX_ERR(6, 82, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_LinearModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "LinearModel", sizeof(struct __pyx_obj_6mlgrad_5model_LinearModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_LinearModel) __PYX_ERR(3, 86, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_LinearModel = (struct __pyx_vtabstruct_6mlgrad_5model_LinearModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_LinearModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_LinearModel)) __PYX_ERR(3, 86, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_LinearModel) __PYX_ERR(6, 86, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_LinearModel = (struct __pyx_vtabstruct_6mlgrad_5model_LinearModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_LinearModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_LinearModel)) __PYX_ERR(6, 86, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_SigmaNeuronModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "SigmaNeuronModel", sizeof(struct __pyx_obj_6mlgrad_5model_SigmaNeuronModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_SigmaNeuronModel) __PYX_ERR(3, 90, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_SigmaNeuronModel = (struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SigmaNeuronModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SigmaNeuronModel)) __PYX_ERR(3, 90, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_SigmaNeuronModel) __PYX_ERR(6, 90, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_SigmaNeuronModel = (struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SigmaNeuronModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SigmaNeuronModel)) __PYX_ERR(6, 90, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_WinnerModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "WinnerModel", sizeof(struct __pyx_obj_6mlgrad_5model_WinnerModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_WinnerModel) __PYX_ERR(3, 94, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_WinnerModel = (struct __pyx_vtabstruct_6mlgrad_5model_WinnerModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_WinnerModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_WinnerModel)) __PYX_ERR(3, 94, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_WinnerModel) __PYX_ERR(6, 94, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_WinnerModel = (struct __pyx_vtabstruct_6mlgrad_5model_WinnerModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_WinnerModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_WinnerModel)) __PYX_ERR(6, 94, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_PolynomialModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "PolynomialModel", sizeof(struct __pyx_obj_6mlgrad_5model_PolynomialModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_PolynomialModel) __PYX_ERR(3, 98, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_PolynomialModel = (struct __pyx_vtabstruct_6mlgrad_5model_PolynomialModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_PolynomialModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_PolynomialModel)) __PYX_ERR(3, 98, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_PolynomialModel) __PYX_ERR(6, 98, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_PolynomialModel = (struct __pyx_vtabstruct_6mlgrad_5model_PolynomialModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_PolynomialModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_PolynomialModel)) __PYX_ERR(6, 98, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_ModelLayer = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "ModelLayer", sizeof(struct __pyx_obj_6mlgrad_5model_ModelLayer), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_ModelLayer) __PYX_ERR(3, 101, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_ModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ModelLayer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ModelLayer)) __PYX_ERR(3, 101, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_ModelLayer) __PYX_ERR(6, 101, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_ModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ModelLayer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ModelLayer)) __PYX_ERR(6, 101, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "SigmaNeuronModelLayer", sizeof(struct __pyx_obj_6mlgrad_5model_SigmaNeuronModelLayer), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer) __PYX_ERR(3, 111, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_SigmaNeuronModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SigmaNeuronModelLayer)) __PYX_ERR(3, 111, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer) __PYX_ERR(6, 111, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_SigmaNeuronModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SigmaNeuronModelLayer)) __PYX_ERR(6, 111, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_GeneralModelLayer = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "GeneralModelLayer", sizeof(struct __pyx_obj_6mlgrad_5model_GeneralModelLayer), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_GeneralModelLayer) __PYX_ERR(3, 116, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_GeneralModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_GeneralModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_GeneralModelLayer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_GeneralModelLayer)) __PYX_ERR(3, 116, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_GeneralModelLayer) __PYX_ERR(6, 117, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_GeneralModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_GeneralModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_GeneralModelLayer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_GeneralModelLayer)) __PYX_ERR(6, 117, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_ComplexModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "ComplexModel", sizeof(struct __pyx_obj_6mlgrad_5model_ComplexModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_ComplexModel) __PYX_ERR(3, 119, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_ComplexModel = (struct __pyx_vtabstruct_6mlgrad_5model_ComplexModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ComplexModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ComplexModel)) __PYX_ERR(3, 119, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_ComplexModel) __PYX_ERR(6, 120, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_ComplexModel = (struct __pyx_vtabstruct_6mlgrad_5model_ComplexModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ComplexModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ComplexModel)) __PYX_ERR(6, 120, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_MLModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "MLModel", sizeof(struct __pyx_obj_6mlgrad_5model_MLModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_MLModel) __PYX_ERR(3, 128, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_MLModel = (struct __pyx_vtabstruct_6mlgrad_5model_MLModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_MLModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_MLModel)) __PYX_ERR(3, 128, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_MLModel) __PYX_ERR(6, 129, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_MLModel = (struct __pyx_vtabstruct_6mlgrad_5model_MLModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_MLModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_MLModel)) __PYX_ERR(6, 129, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_FFNetworkModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "FFNetworkModel", sizeof(struct __pyx_obj_6mlgrad_5model_FFNetworkModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_FFNetworkModel) __PYX_ERR(3, 136, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_FFNetworkModel = (struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_FFNetworkModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_FFNetworkModel)) __PYX_ERR(3, 136, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_FFNetworkModel) __PYX_ERR(6, 137, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_FFNetworkModel = (struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_FFNetworkModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_FFNetworkModel)) __PYX_ERR(6, 137, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_FFNetworkFuncModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "FFNetworkFuncModel", sizeof(struct __pyx_obj_6mlgrad_5model_FFNetworkFuncModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_FFNetworkFuncModel) __PYX_ERR(3, 140, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_FFNetworkFuncModel = (struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkFuncModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_FFNetworkFuncModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_FFNetworkFuncModel)) __PYX_ERR(3, 140, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_FFNetworkFuncModel) __PYX_ERR(6, 141, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_FFNetworkFuncModel = (struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkFuncModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_FFNetworkFuncModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_FFNetworkFuncModel)) __PYX_ERR(6, 141, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_SquaredModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "SquaredModel", sizeof(struct __pyx_obj_6mlgrad_5model_SquaredModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_SquaredModel) __PYX_ERR(3, 146, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_SquaredModel = (struct __pyx_vtabstruct_6mlgrad_5model_SquaredModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SquaredModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SquaredModel)) __PYX_ERR(3, 146, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_SquaredModel) __PYX_ERR(6, 147, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_SquaredModel = (struct __pyx_vtabstruct_6mlgrad_5model_SquaredModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SquaredModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SquaredModel)) __PYX_ERR(6, 147, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_MultiModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "MultiModel", sizeof(struct __pyx_obj_6mlgrad_5model_MultiModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_MultiModel) __PYX_ERR(3, 151, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_MultiModel) __PYX_ERR(6, 152, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.distance"); if (unlikely(!__pyx_t_1)) __PYX_ERR(10, 5, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.distance"); if (unlikely(!__pyx_t_1)) __PYX_ERR(7, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_8distance_Distance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "Distance", sizeof(struct __pyx_obj_6mlgrad_8distance_Distance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_Distance) __PYX_ERR(10, 5, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_Distance = (struct __pyx_vtabstruct_6mlgrad_8distance_Distance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_Distance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_Distance)) __PYX_ERR(10, 5, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_Distance) __PYX_ERR(7, 5, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_Distance = (struct __pyx_vtabstruct_6mlgrad_8distance_Distance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_Distance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_Distance)) __PYX_ERR(7, 5, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_DistanceWithScale = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "DistanceWithScale", sizeof(struct __pyx_obj_6mlgrad_8distance_DistanceWithScale), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_DistanceWithScale) __PYX_ERR(10, 11, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_DistanceWithScale = (struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_DistanceWithScale->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_DistanceWithScale)) __PYX_ERR(10, 11, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_DistanceWithScale) __PYX_ERR(7, 11, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_DistanceWithScale = (struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_DistanceWithScale->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_DistanceWithScale)) __PYX_ERR(7, 11, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_AbsoluteDistance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "AbsoluteDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_AbsoluteDistance) __PYX_ERR(10, 15, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_AbsoluteDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance)) __PYX_ERR(10, 15, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_AbsoluteDistance) __PYX_ERR(7, 16, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_AbsoluteDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance)) __PYX_ERR(7, 16, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_EuclidDistance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "EuclidDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_EuclidDistance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_EuclidDistance) __PYX_ERR(10, 19, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_EuclidDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_EuclidDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_EuclidDistance)) __PYX_ERR(10, 19, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_EuclidDistance) __PYX_ERR(7, 20, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_EuclidDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_EuclidDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_EuclidDistance)) __PYX_ERR(7, 20, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_MahalanobisDistance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "MahalanobisDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_MahalanobisDistance) __PYX_ERR(10, 23, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_MahalanobisDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance)) __PYX_ERR(10, 23, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_MahalanobisDistance) __PYX_ERR(7, 24, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_MahalanobisDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance)) __PYX_ERR(7, 24, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_PowerDistance = __Pyx_ImportType(__pyx_t_1, "mlgrad.distance", "PowerDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_PowerDistance), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8distance_PowerDistance) __PYX_ERR(10, 27, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_PowerDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_PowerDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_PowerDistance)) __PYX_ERR(10, 27, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8distance_PowerDistance) __PYX_ERR(7, 28, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_PowerDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_PowerDistance->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_PowerDistance)) __PYX_ERR(7, 28, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.loss"); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 15, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.loss"); if (unlikely(!__pyx_t_1)) __PYX_ERR(8, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_4loss_Loss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "Loss", sizeof(struct __pyx_obj_6mlgrad_4loss_Loss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_Loss) __PYX_ERR(11, 15, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_Loss = (struct __pyx_vtabstruct_6mlgrad_4loss_Loss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_Loss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_Loss)) __PYX_ERR(11, 15, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_Loss) __PYX_ERR(8, 15, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_Loss = (struct __pyx_vtabstruct_6mlgrad_4loss_Loss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_Loss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_Loss)) __PYX_ERR(8, 15, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_ErrorLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "ErrorLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_ErrorLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_ErrorLoss) __PYX_ERR(11, 27, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_ErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_ErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_ErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_ErrorLoss)) __PYX_ERR(11, 27, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_ErrorLoss) __PYX_ERR(8, 27, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_ErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_ErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_ErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_ErrorLoss)) __PYX_ERR(8, 27, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_RelativeErrorLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "RelativeErrorLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_RelativeErrorLoss) __PYX_ERR(11, 32, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_RelativeErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_RelativeErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss)) __PYX_ERR(11, 32, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_RelativeErrorLoss) __PYX_ERR(8, 32, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_RelativeErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_RelativeErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss)) __PYX_ERR(8, 32, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MarginLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MarginLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MarginLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MarginLoss) __PYX_ERR(11, 37, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MarginLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MarginLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MarginLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MarginLoss)) __PYX_ERR(11, 37, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MarginLoss) __PYX_ERR(8, 37, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MarginLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MarginLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MarginLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MarginLoss)) __PYX_ERR(8, 37, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MLoss) __PYX_ERR(11, 42, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MLoss)) __PYX_ERR(11, 42, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MLoss) __PYX_ERR(8, 42, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MLoss)) __PYX_ERR(8, 42, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MultLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MultLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MultLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MultLoss) __PYX_ERR(11, 47, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MultLoss)) __PYX_ERR(11, 47, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MultLoss) __PYX_ERR(8, 47, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MultLoss)) __PYX_ERR(8, 47, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_ErrorMultLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "ErrorMultLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_ErrorMultLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_ErrorMultLoss) __PYX_ERR(11, 52, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_ErrorMultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_ErrorMultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss)) __PYX_ERR(11, 52, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_ErrorMultLoss) __PYX_ERR(8, 52, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_ErrorMultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_ErrorMultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss)) __PYX_ERR(8, 52, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MarginMultLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MarginMultLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MarginMultLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MarginMultLoss) __PYX_ERR(11, 56, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MarginMultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MarginMultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MarginMultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MarginMultLoss)) __PYX_ERR(11, 56, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MarginMultLoss) __PYX_ERR(8, 56, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MarginMultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MarginMultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MarginMultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MarginMultLoss)) __PYX_ERR(8, 56, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MinLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MinLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MinLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MinLoss) __PYX_ERR(11, 59, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MinLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MinLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MinLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MinLoss)) __PYX_ERR(11, 59, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MinLoss) __PYX_ERR(8, 59, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MinLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MinLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MinLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MinLoss)) __PYX_ERR(8, 59, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.regular"); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 32, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.regular"); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_7regular_FuncMulti = __Pyx_ImportType(__pyx_t_1, "mlgrad.regular", "FuncMulti", sizeof(struct __pyx_obj_6mlgrad_7regular_FuncMulti), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_7regular_FuncMulti) __PYX_ERR(4, 32, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_7regular_FuncMulti = (struct __pyx_vtabstruct_6mlgrad_7regular_FuncMulti*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_FuncMulti->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_FuncMulti)) __PYX_ERR(4, 32, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_7regular_FuncMulti) __PYX_ERR(9, 32, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_7regular_FuncMulti = (struct __pyx_vtabstruct_6mlgrad_7regular_FuncMulti*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_FuncMulti->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_FuncMulti)) __PYX_ERR(9, 32, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7regular_Power = __Pyx_ImportType(__pyx_t_1, "mlgrad.regular", "Power", sizeof(struct __pyx_obj_6mlgrad_7regular_Power), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_7regular_Power) __PYX_ERR(4, 38, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_7regular_Power = (struct __pyx_vtabstruct_6mlgrad_7regular_Power*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_Power->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_Power)) __PYX_ERR(4, 38, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_7regular_Power) __PYX_ERR(9, 38, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_7regular_Power = (struct __pyx_vtabstruct_6mlgrad_7regular_Power*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_Power->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_Power)) __PYX_ERR(9, 38, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7regular_Square = __Pyx_ImportType(__pyx_t_1, "mlgrad.regular", "Square", sizeof(struct __pyx_obj_6mlgrad_7regular_Square), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_7regular_Square) __PYX_ERR(4, 44, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_7regular_Square = (struct __pyx_vtabstruct_6mlgrad_7regular_Square*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_Square->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_Square)) __PYX_ERR(4, 44, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_7regular_Square) __PYX_ERR(9, 44, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_7regular_Square = (struct __pyx_vtabstruct_6mlgrad_7regular_Square*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_Square->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_Square)) __PYX_ERR(9, 44, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7regular_Absolute = __Pyx_ImportType(__pyx_t_1, "mlgrad.regular", "Absolute", sizeof(struct __pyx_obj_6mlgrad_7regular_Absolute), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_7regular_Absolute) __PYX_ERR(4, 48, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_7regular_Absolute = (struct __pyx_vtabstruct_6mlgrad_7regular_Absolute*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_Absolute->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_Absolute)) __PYX_ERR(4, 48, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_7regular_Absolute) __PYX_ERR(9, 48, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_7regular_Absolute = (struct __pyx_vtabstruct_6mlgrad_7regular_Absolute*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_Absolute->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_Absolute)) __PYX_ERR(9, 48, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7regular_SquareForm = __Pyx_ImportType(__pyx_t_1, "mlgrad.regular", "SquareForm", sizeof(struct __pyx_obj_6mlgrad_7regular_SquareForm), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_7regular_SquareForm) __PYX_ERR(4, 52, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_7regular_SquareForm = (struct __pyx_vtabstruct_6mlgrad_7regular_SquareForm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_SquareForm->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_SquareForm)) __PYX_ERR(4, 52, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_7regular_SquareForm) __PYX_ERR(9, 52, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_7regular_SquareForm = (struct __pyx_vtabstruct_6mlgrad_7regular_SquareForm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_SquareForm->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_SquareForm)) __PYX_ERR(9, 52, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7regular_Rosenbrok = __Pyx_ImportType(__pyx_t_1, "mlgrad.regular", "Rosenbrok", sizeof(struct __pyx_obj_6mlgrad_7regular_Rosenbrok), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_7regular_Rosenbrok) __PYX_ERR(4, 56, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_7regular_Rosenbrok = (struct __pyx_vtabstruct_6mlgrad_7regular_Rosenbrok*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_Rosenbrok->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_Rosenbrok)) __PYX_ERR(4, 56, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_7regular_Rosenbrok) __PYX_ERR(9, 56, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_7regular_Rosenbrok = (struct __pyx_vtabstruct_6mlgrad_7regular_Rosenbrok*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_Rosenbrok->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_Rosenbrok)) __PYX_ERR(9, 56, __pyx_L1_error)
   __pyx_ptype_6mlgrad_7regular_Himmelblau = __Pyx_ImportType(__pyx_t_1, "mlgrad.regular", "Himmelblau", sizeof(struct __pyx_obj_6mlgrad_7regular_Himmelblau), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_7regular_Himmelblau) __PYX_ERR(4, 60, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_7regular_Himmelblau = (struct __pyx_vtabstruct_6mlgrad_7regular_Himmelblau*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_Himmelblau->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_Himmelblau)) __PYX_ERR(4, 60, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_7regular_Himmelblau) __PYX_ERR(9, 60, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_7regular_Himmelblau = (struct __pyx_vtabstruct_6mlgrad_7regular_Himmelblau*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regular_Himmelblau->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regular_Himmelblau)) __PYX_ERR(9, 60, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.batch"); if (unlikely(!__pyx_t_1)) __PYX_ERR(12, 5, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.batch"); if (unlikely(!__pyx_t_1)) __PYX_ERR(10, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_5batch_Batch = __Pyx_ImportType(__pyx_t_1, "mlgrad.batch", "Batch", sizeof(struct __pyx_obj_6mlgrad_5batch_Batch), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5batch_Batch) __PYX_ERR(12, 5, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5batch_Batch = (struct __pyx_vtabstruct_6mlgrad_5batch_Batch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_Batch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_Batch)) __PYX_ERR(12, 5, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5batch_Batch) __PYX_ERR(10, 5, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5batch_Batch = (struct __pyx_vtabstruct_6mlgrad_5batch_Batch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_Batch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_Batch)) __PYX_ERR(10, 5, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5batch_RandomBatch = __Pyx_ImportType(__pyx_t_1, "mlgrad.batch", "RandomBatch", sizeof(struct __pyx_obj_6mlgrad_5batch_RandomBatch), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5batch_RandomBatch) __PYX_ERR(12, 12, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5batch_RandomBatch = (struct __pyx_vtabstruct_6mlgrad_5batch_RandomBatch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_RandomBatch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_RandomBatch)) __PYX_ERR(12, 12, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5batch_RandomBatch) __PYX_ERR(10, 12, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5batch_RandomBatch = (struct __pyx_vtabstruct_6mlgrad_5batch_RandomBatch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_RandomBatch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_RandomBatch)) __PYX_ERR(10, 12, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5batch_FixedBatch = __Pyx_ImportType(__pyx_t_1, "mlgrad.batch", "FixedBatch", sizeof(struct __pyx_obj_6mlgrad_5batch_FixedBatch), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5batch_FixedBatch) __PYX_ERR(12, 15, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5batch_FixedBatch = (struct __pyx_vtabstruct_6mlgrad_5batch_FixedBatch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_FixedBatch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_FixedBatch)) __PYX_ERR(12, 15, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5batch_FixedBatch) __PYX_ERR(10, 15, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5batch_FixedBatch = (struct __pyx_vtabstruct_6mlgrad_5batch_FixedBatch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_FixedBatch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_FixedBatch)) __PYX_ERR(10, 15, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5batch_WholeBatch = __Pyx_ImportType(__pyx_t_1, "mlgrad.batch", "WholeBatch", sizeof(struct __pyx_obj_6mlgrad_5batch_WholeBatch), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5batch_WholeBatch) __PYX_ERR(12, 18, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5batch_WholeBatch = (struct __pyx_vtabstruct_6mlgrad_5batch_WholeBatch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_WholeBatch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_WholeBatch)) __PYX_ERR(12, 18, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5batch_WholeBatch) __PYX_ERR(10, 18, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5batch_WholeBatch = (struct __pyx_vtabstruct_6mlgrad_5batch_WholeBatch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_WholeBatch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_WholeBatch)) __PYX_ERR(10, 18, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.averager"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 29, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.averager"); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_8averager_ScalarAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ScalarAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ScalarAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ScalarAverager) __PYX_ERR(5, 29, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ScalarAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarAverager)) __PYX_ERR(5, 29, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ScalarAverager) __PYX_ERR(11, 29, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ScalarAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarAverager)) __PYX_ERR(11, 29, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ScalarAdaM2 = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ScalarAdaM2", sizeof(struct __pyx_obj_6mlgrad_8averager_ScalarAdaM2), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ScalarAdaM2) __PYX_ERR(5, 36, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ScalarAdaM2 = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarAdaM2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarAdaM2)) __PYX_ERR(5, 36, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ScalarAdaM2) __PYX_ERR(11, 36, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ScalarAdaM2 = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarAdaM2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarAdaM2)) __PYX_ERR(11, 36, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ScalarAdaM1 = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ScalarAdaM1", sizeof(struct __pyx_obj_6mlgrad_8averager_ScalarAdaM1), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ScalarAdaM1) __PYX_ERR(5, 42, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ScalarAdaM1 = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM1*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarAdaM1->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarAdaM1)) __PYX_ERR(5, 42, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ScalarAdaM1) __PYX_ERR(11, 42, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ScalarAdaM1 = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM1*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarAdaM1->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarAdaM1)) __PYX_ERR(11, 42, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ScalarExponentialAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ScalarExponentialAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ScalarExponentialAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ScalarExponentialAverager) __PYX_ERR(5, 48, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ScalarExponentialAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarExponentialAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarExponentialAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarExponentialAverager)) __PYX_ERR(5, 48, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ScalarExponentialAverager) __PYX_ERR(11, 48, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ScalarExponentialAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarExponentialAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarExponentialAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarExponentialAverager)) __PYX_ERR(11, 48, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ScalarWindowAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ScalarWindowAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ScalarWindowAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ScalarWindowAverager) __PYX_ERR(5, 54, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ScalarWindowAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarWindowAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarWindowAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarWindowAverager)) __PYX_ERR(5, 54, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ScalarWindowAverager) __PYX_ERR(11, 54, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ScalarWindowAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarWindowAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarWindowAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarWindowAverager)) __PYX_ERR(11, 54, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayAverager) __PYX_ERR(5, 63, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAverager)) __PYX_ERR(5, 63, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayAverager) __PYX_ERR(11, 63, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAverager)) __PYX_ERR(11, 63, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArraySave = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArraySave", sizeof(struct __pyx_obj_6mlgrad_8averager_ArraySave), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArraySave) __PYX_ERR(5, 75, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArraySave = (struct __pyx_vtabstruct_6mlgrad_8averager_ArraySave*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArraySave->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArraySave)) __PYX_ERR(5, 75, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArraySave) __PYX_ERR(11, 75, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArraySave = (struct __pyx_vtabstruct_6mlgrad_8averager_ArraySave*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArraySave->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArraySave)) __PYX_ERR(11, 75, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayMOM = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayMOM", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayMOM), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayMOM) __PYX_ERR(5, 79, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayMOM = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayMOM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayMOM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayMOM)) __PYX_ERR(5, 79, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayMOM) __PYX_ERR(11, 79, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayMOM = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayMOM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayMOM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayMOM)) __PYX_ERR(11, 79, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayAMOM = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayAMOM", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayAMOM), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayAMOM) __PYX_ERR(5, 95, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayAMOM = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAMOM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAMOM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAMOM)) __PYX_ERR(5, 95, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayAMOM) __PYX_ERR(11, 95, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayAMOM = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAMOM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAMOM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAMOM)) __PYX_ERR(11, 95, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayRMSProp = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayRMSProp", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayRMSProp) __PYX_ERR(5, 111, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayRMSProp = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayRMSProp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayRMSProp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayRMSProp)) __PYX_ERR(5, 111, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayRMSProp) __PYX_ERR(11, 111, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayRMSProp = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayRMSProp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayRMSProp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayRMSProp)) __PYX_ERR(11, 111, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayAdaM2 = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayAdaM2", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayAdaM2) __PYX_ERR(5, 118, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2 = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAdaM2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2)) __PYX_ERR(5, 118, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayAdaM2) __PYX_ERR(11, 118, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2 = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAdaM2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2)) __PYX_ERR(11, 118, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayAdaM1 = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayAdaM1", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayAdaM1) __PYX_ERR(5, 125, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1 = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAdaM1->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1)) __PYX_ERR(5, 125, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayAdaM1) __PYX_ERR(11, 125, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1 = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAdaM1->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1)) __PYX_ERR(11, 125, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArraySimpleAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArraySimpleAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager) __PYX_ERR(5, 139, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArraySimpleAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager)) __PYX_ERR(5, 139, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager) __PYX_ERR(11, 139, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArraySimpleAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager)) __PYX_ERR(11, 139, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayCyclicAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager) __PYX_ERR(5, 146, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayCyclicAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager)) __PYX_ERR(5, 146, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager) __PYX_ERR(11, 146, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayCyclicAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager)) __PYX_ERR(11, 146, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayTAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayTAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayTAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayTAverager) __PYX_ERR(5, 153, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayTAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayTAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayTAverager)) __PYX_ERR(5, 153, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayTAverager) __PYX_ERR(11, 153, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayTAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayTAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayTAverager)) __PYX_ERR(11, 153, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.avragg"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 54, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.avragg"); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_6avragg_Penalty = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "Penalty", sizeof(struct __pyx_obj_6mlgrad_6avragg_Penalty), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_Penalty) __PYX_ERR(6, 54, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Penalty = (struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Penalty->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Penalty)) __PYX_ERR(6, 54, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_Penalty) __PYX_ERR(3, 54, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Penalty = (struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Penalty->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Penalty)) __PYX_ERR(3, 54, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_PenaltyAverage = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "PenaltyAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_PenaltyAverage) __PYX_ERR(6, 64, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage)) __PYX_ERR(6, 64, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_PenaltyAverage) __PYX_ERR(3, 64, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage)) __PYX_ERR(3, 64, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_PenaltyScale = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "PenaltyScale", sizeof(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_PenaltyScale) __PYX_ERR(6, 68, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_PenaltyScale = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyScale*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyScale->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyScale)) __PYX_ERR(6, 68, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_PenaltyScale) __PYX_ERR(3, 68, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_PenaltyScale = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyScale*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyScale->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyScale)) __PYX_ERR(3, 68, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Average = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "Average", sizeof(struct __pyx_obj_6mlgrad_6avragg_Average), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_Average) __PYX_ERR(6, 73, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Average = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average)) __PYX_ERR(6, 73, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_Average) __PYX_ERR(3, 73, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Average = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average)) __PYX_ERR(3, 73, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Average_Iterative = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "Average_Iterative", sizeof(struct __pyx_obj_6mlgrad_6avragg_Average_Iterative), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_Average_Iterative) __PYX_ERR(6, 102, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Average_Iterative = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average_Iterative*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average_Iterative->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average_Iterative)) __PYX_ERR(6, 102, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_Average_Iterative) __PYX_ERR(3, 102, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Average_Iterative = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average_Iterative*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average_Iterative->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average_Iterative)) __PYX_ERR(3, 102, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_MAverage_Iterative = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "MAverage_Iterative", sizeof(struct __pyx_obj_6mlgrad_6avragg_MAverage_Iterative), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_MAverage_Iterative) __PYX_ERR(6, 106, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_MAverage_Iterative = (struct __pyx_vtabstruct_6mlgrad_6avragg_MAverage_Iterative*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_MAverage_Iterative->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_MAverage_Iterative)) __PYX_ERR(6, 106, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_MAverage_Iterative) __PYX_ERR(3, 106, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_MAverage_Iterative = (struct __pyx_vtabstruct_6mlgrad_6avragg_MAverage_Iterative*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_MAverage_Iterative->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_MAverage_Iterative)) __PYX_ERR(3, 106, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Average_FG = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "Average_FG", sizeof(struct __pyx_obj_6mlgrad_6avragg_Average_FG), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_Average_FG) __PYX_ERR(6, 110, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Average_FG = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average_FG*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average_FG->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average_FG)) __PYX_ERR(6, 110, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_Average_FG) __PYX_ERR(3, 110, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Average_FG = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average_FG*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average_FG->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average_FG)) __PYX_ERR(3, 110, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_ParameterizedAverage = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "ParameterizedAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_ParameterizedAverage) __PYX_ERR(6, 115, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_ParameterizedAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_ParameterizedAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage)) __PYX_ERR(6, 115, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_ParameterizedAverage) __PYX_ERR(3, 115, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_ParameterizedAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_ParameterizedAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage)) __PYX_ERR(3, 115, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_WMAverage = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "WMAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_WMAverage), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_WMAverage) __PYX_ERR(6, 120, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_WMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WMAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WMAverage)) __PYX_ERR(6, 120, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_WMAverage) __PYX_ERR(3, 120, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_WMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WMAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WMAverage)) __PYX_ERR(3, 120, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_WMAverageMixed = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "WMAverageMixed", sizeof(struct __pyx_obj_6mlgrad_6avragg_WMAverageMixed), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_WMAverageMixed) __PYX_ERR(6, 125, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed = (struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverageMixed*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WMAverageMixed->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed)) __PYX_ERR(6, 125, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_WMAverageMixed) __PYX_ERR(3, 125, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed = (struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverageMixed*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WMAverageMixed->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed)) __PYX_ERR(3, 125, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_TMAverage = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "TMAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_TMAverage), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_TMAverage) __PYX_ERR(6, 130, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_TMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_TMAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_TMAverage)) __PYX_ERR(6, 130, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_TMAverage) __PYX_ERR(3, 130, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_TMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_TMAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_TMAverage)) __PYX_ERR(3, 130, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_HMAverage = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "HMAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_HMAverage), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_HMAverage) __PYX_ERR(6, 134, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_HMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_HMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_HMAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_HMAverage)) __PYX_ERR(6, 134, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_HMAverage) __PYX_ERR(3, 134, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_HMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_HMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_HMAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_HMAverage)) __PYX_ERR(3, 134, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_ArithMean = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "ArithMean", sizeof(struct __pyx_obj_6mlgrad_6avragg_ArithMean), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_ArithMean) __PYX_ERR(6, 139, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_ArithMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_ArithMean->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_ArithMean)) __PYX_ERR(6, 139, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_ArithMean) __PYX_ERR(3, 139, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_ArithMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_ArithMean->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_ArithMean)) __PYX_ERR(3, 139, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_KolmogorovMean = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "KolmogorovMean", sizeof(struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_KolmogorovMean) __PYX_ERR(6, 143, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_KolmogorovMean->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean)) __PYX_ERR(6, 143, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_KolmogorovMean) __PYX_ERR(3, 143, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_KolmogorovMean->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean)) __PYX_ERR(3, 143, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_SoftMinimal = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "SoftMinimal", sizeof(struct __pyx_obj_6mlgrad_6avragg_SoftMinimal), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_SoftMinimal) __PYX_ERR(6, 148, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_SoftMinimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_SoftMinimal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_SoftMinimal)) __PYX_ERR(6, 148, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_SoftMinimal) __PYX_ERR(3, 148, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_SoftMinimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_SoftMinimal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_SoftMinimal)) __PYX_ERR(3, 148, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Minimal = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "Minimal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Minimal), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_Minimal) __PYX_ERR(6, 152, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Minimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Minimal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Minimal)) __PYX_ERR(6, 152, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_Minimal) __PYX_ERR(3, 152, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Minimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Minimal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Minimal)) __PYX_ERR(3, 152, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Maximal = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "Maximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Maximal), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_Maximal) __PYX_ERR(6, 156, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Maximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Maximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Maximal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Maximal)) __PYX_ERR(6, 156, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_Maximal) __PYX_ERR(3, 156, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Maximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Maximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Maximal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Maximal)) __PYX_ERR(3, 156, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.risk"); if (unlikely(!__pyx_t_1)) __PYX_ERR(7, 47, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.risk"); if (unlikely(!__pyx_t_1)) __PYX_ERR(12, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_4risk_Functional = __Pyx_ImportType(__pyx_t_1, "mlgrad.risk", "Functional", sizeof(struct __pyx_obj_6mlgrad_4risk_Functional), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4risk_Functional) __PYX_ERR(7, 47, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4risk_Functional = (struct __pyx_vtabstruct_6mlgrad_4risk_Functional*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_Functional->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_Functional)) __PYX_ERR(7, 47, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4risk_Functional) __PYX_ERR(12, 47, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4risk_Functional = (struct __pyx_vtabstruct_6mlgrad_4risk_Functional*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_Functional->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_Functional)) __PYX_ERR(12, 47, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4risk_SimpleFunctional = __Pyx_ImportType(__pyx_t_1, "mlgrad.risk", "SimpleFunctional", sizeof(struct __pyx_obj_6mlgrad_4risk_SimpleFunctional), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4risk_SimpleFunctional) __PYX_ERR(7, 59, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4risk_SimpleFunctional = (struct __pyx_vtabstruct_6mlgrad_4risk_SimpleFunctional*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_SimpleFunctional->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_SimpleFunctional)) __PYX_ERR(7, 59, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4risk_SimpleFunctional) __PYX_ERR(12, 59, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4risk_SimpleFunctional = (struct __pyx_vtabstruct_6mlgrad_4risk_SimpleFunctional*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_SimpleFunctional->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_SimpleFunctional)) __PYX_ERR(12, 59, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4risk_Risk = __Pyx_ImportType(__pyx_t_1, "mlgrad.risk", "Risk", sizeof(struct __pyx_obj_6mlgrad_4risk_Risk), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4risk_Risk) __PYX_ERR(7, 62, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4risk_Risk = (struct __pyx_vtabstruct_6mlgrad_4risk_Risk*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_Risk->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_Risk)) __PYX_ERR(7, 62, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4risk_Risk) __PYX_ERR(12, 62, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4risk_Risk = (struct __pyx_vtabstruct_6mlgrad_4risk_Risk*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_Risk->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_Risk)) __PYX_ERR(12, 62, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_4risk_SRisk = __Pyx_ImportType(__pyx_t_1, "mlgrad.risk", "SRisk", sizeof(struct __pyx_obj_6mlgrad_4risk_SRisk), __Pyx_ImportType_CheckSize_Warn);
+   if (!__pyx_ptype_6mlgrad_4risk_SRisk) __PYX_ERR(12, 71, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4risk_SRisk = (struct __pyx_vtabstruct_6mlgrad_4risk_SRisk*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_SRisk->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_SRisk)) __PYX_ERR(12, 71, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_4risk_MRisk = __Pyx_ImportType(__pyx_t_1, "mlgrad.risk", "MRisk", sizeof(struct __pyx_obj_6mlgrad_4risk_MRisk), __Pyx_ImportType_CheckSize_Warn);
+   if (!__pyx_ptype_6mlgrad_4risk_MRisk) __PYX_ERR(12, 75, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4risk_MRisk = (struct __pyx_vtabstruct_6mlgrad_4risk_MRisk*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_MRisk->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_MRisk)) __PYX_ERR(12, 75, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4risk_ED = __Pyx_ImportType(__pyx_t_1, "mlgrad.risk", "ED", sizeof(struct __pyx_obj_6mlgrad_4risk_ED), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4risk_ED) __PYX_ERR(7, 75, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4risk_ED = (struct __pyx_vtabstruct_6mlgrad_4risk_ED*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_ED->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_ED)) __PYX_ERR(7, 75, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4risk_ER = __Pyx_ImportType(__pyx_t_1, "mlgrad.risk", "ER", sizeof(struct __pyx_obj_6mlgrad_4risk_ER), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4risk_ER) __PYX_ERR(7, 81, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4risk_ER = (struct __pyx_vtabstruct_6mlgrad_4risk_ER*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_ER->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_ER)) __PYX_ERR(7, 81, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4risk_ED) __PYX_ERR(12, 83, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4risk_ED = (struct __pyx_vtabstruct_6mlgrad_4risk_ED*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_ED->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_ED)) __PYX_ERR(12, 83, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_4risk_ERisk = __Pyx_ImportType(__pyx_t_1, "mlgrad.risk", "ERisk", sizeof(struct __pyx_obj_6mlgrad_4risk_ERisk), __Pyx_ImportType_CheckSize_Warn);
+   if (!__pyx_ptype_6mlgrad_4risk_ERisk) __PYX_ERR(12, 89, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4risk_ERisk = (struct __pyx_vtabstruct_6mlgrad_4risk_ERisk*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_ERisk->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_ERisk)) __PYX_ERR(12, 89, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4risk_AER = __Pyx_ImportType(__pyx_t_1, "mlgrad.risk", "AER", sizeof(struct __pyx_obj_6mlgrad_4risk_AER), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4risk_AER) __PYX_ERR(7, 88, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4risk_AER = (struct __pyx_vtabstruct_6mlgrad_4risk_AER*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_AER->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_AER)) __PYX_ERR(7, 88, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4risk_AER) __PYX_ERR(12, 96, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4risk_AER = (struct __pyx_vtabstruct_6mlgrad_4risk_AER*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_AER->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_AER)) __PYX_ERR(12, 96, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4risk_ER2 = __Pyx_ImportType(__pyx_t_1, "mlgrad.risk", "ER2", sizeof(struct __pyx_obj_6mlgrad_4risk_ER2), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4risk_ER2) __PYX_ERR(7, 96, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4risk_ER2 = (struct __pyx_vtabstruct_6mlgrad_4risk_ER2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_ER2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_ER2)) __PYX_ERR(7, 96, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4risk_ER2) __PYX_ERR(12, 104, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4risk_ER2 = (struct __pyx_vtabstruct_6mlgrad_4risk_ER2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4risk_ER2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4risk_ER2)) __PYX_ERR(12, 104, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -36037,16 +34051,16 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   #endif
 
-  /* "mlgrad/weights.pyx":32
+  /* "mlgrad/weights.pyx":33
  * # THE SOFTWARE.
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
  * 
  * cdef class Weights(object):
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 32, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(1, 32, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(1, 33, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "(tree fragment)":1
@@ -37136,12 +35150,6 @@ static PyObject* __Pyx_PyFloat_TrueDivideCObj(PyObject *op1, PyObject *op2, doub
     return 0;
 }
 
-/* BufferIndexError */
-  static void __Pyx_RaiseBufferIndexError(int axis) {
-  PyErr_Format(PyExc_IndexError,
-     "Out of bounds on buffer access (axis %d)", axis);
-}
-
 /* WriteUnraisableException */
   static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
                                   CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
@@ -37422,93 +35430,6 @@ bad:
 }
 #endif
 
-/* GetItemInt */
-  static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
-    PyObject *r;
-    if (!j) return NULL;
-    r = PyObject_GetItem(o, j);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyList_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
-        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyTuple_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
-        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
-                                                     CYTHON_NCP_UNUSED int wraparound,
-                                                     CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
-        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
-            PyObject *r = PyList_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    }
-    else if (PyTuple_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
-        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
-            PyObject *r = PyTuple_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
-                        return NULL;
-                    PyErr_Clear();
-                }
-            }
-            return m->sq_item(o, i);
-        }
-    }
-#else
-    if (is_list || PySequence_Check(o)) {
-        return PySequence_GetItem(o, i);
-    }
-#endif
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-}
-
 /* HasAttr */
   static CYTHON_INLINE int __Pyx_HasAttr(PyObject *o, PyObject *n) {
     PyObject *r;
@@ -37682,6 +35603,93 @@ return_ne:
     Py_ssize_t r = a - q*b;
     q -= ((r != 0) & ((r ^ b) < 0));
     return q;
+}
+
+/* GetItemInt */
+  static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
+    PyObject *r;
+    if (!j) return NULL;
+    r = PyObject_GetItem(o, j);
+    Py_DECREF(j);
+    return r;
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyList_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
+        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyTuple_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
+        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
+                                                     CYTHON_NCP_UNUSED int wraparound,
+                                                     CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
+    if (is_list || PyList_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
+        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
+            PyObject *r = PyList_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    }
+    else if (PyTuple_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
+        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
+            PyObject *r = PyTuple_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    } else {
+        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
+        if (likely(m && m->sq_item)) {
+            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
+                Py_ssize_t l = m->sq_length(o);
+                if (likely(l >= 0)) {
+                    i += l;
+                } else {
+                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
+                        return NULL;
+                    PyErr_Clear();
+                }
+            }
+            return m->sq_item(o, i);
+        }
+    }
+#else
+    if (is_list || PySequence_Check(o)) {
+        return PySequence_GetItem(o, i);
+    }
+#endif
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
 }
 
 /* ObjectGetItem */

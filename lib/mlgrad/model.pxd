@@ -18,7 +18,7 @@ cdef extern from *:
     """
     #define D_PTR(p) (*(p))
     """
-    inline double D_PTR(double* p) nogil
+    double D_PTR(double* p) nogil
     PyObject* PyList_GET_ITEM(PyObject* list, Py_ssize_t i) nogil
     int PyList_GET_SIZE(PyObject* list) nogil
  
@@ -111,7 +111,8 @@ cdef class ModelLayer:
 cdef class SigmaNeuronModelLayer(ModelLayer):
     cdef public Func func
     cdef public double[:,::1] matrix
-    cdef double[::1] ss
+#     cdef double[::1] ss
+#     cdef double[:,::1] X
     
 cdef class GeneralModelLayer(ModelLayer):
     cdef public list models

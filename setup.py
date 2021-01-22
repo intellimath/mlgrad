@@ -12,10 +12,10 @@ import platform
 WIN32 = (platform.system() == 'Windows')
 
 #extra_compile_args = ["-O3", "-march=native", "-ffast-math"] 
-extra_compile_args = ["-O3", "-march=native"] 
+extra_compile_args = ["-O3", "-march=native", "-msse2", "-mfpmath=sse", "-ftree-vectorizer-verbose=5"] 
 extra_link_args = [] #["-lm"]
 #extra_compile_args_openmp = ["-O3", "-march=native", "-ffast-math", ("-fopenmp" if not WIN32 else "/openmp")]
-extra_compile_args_openmp = ["-O3", "-march=native", ("-fopenmp" if not WIN32 else "/openmp")]
+extra_compile_args_openmp = ["-O3", "-march=native", "-msse2", "-mfpmath=sse", "-ftree-vectorizer-verbose=5", ("-fopenmp" if not WIN32 else "/openmp")]
 extra_link_args_openmp = [("-fopenmp" if not WIN32 else "/openmp")] #, "-lm"]
 
 # cython_compile_time_env = {"USE_OPENMP":1}
@@ -152,8 +152,8 @@ ext_modules = [
     Extension(
         "mlgrad.mlocation_scatter2",
         ["lib/mlgrad/mlocation_scatter2.pyx"],
-        extra_compile_args = extra_compile_args,
-        extra_link_args = extra_link_args,
+        extra_compile_args = extra_compile_args_openmp,
+        extra_link_args = extra_link_args_openmp,
     ),
     Extension(
         "mlgrad.cytest",

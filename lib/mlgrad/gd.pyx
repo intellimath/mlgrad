@@ -1,11 +1,12 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
+# cython: boundscheck=True
+# cython: wraparound=True
+# cython: nonecheck=True
 # cython: embedsignature=True
-# cython: initializedcheck=False
+# cython: initializedcheck=True
+# cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
 #
@@ -51,20 +52,20 @@ import numpy as np
 
 from mlgrad.abc import Fittable
 
-cdef class GD:
+cdef class GD: 
 
     cpdef init(self):
         init_rand()
         self.risk.init()
-        if self.normalizer is not None:
-            self.normalizer.normalize(self.risk.param)
+#         if self.normalizer is not None:
+#             self.normalizer.normalize(self.risk.param)
         
         n_param = len(self.risk.param)
         
 #         if self.param_prev is None:
 #             self.param_prev = np.zeros((n_param,), dtype='d')
-        if self.param_min is None:
-            self.param_min = np.zeros(n_param, dtype='d')
+        self.param_min = np.array(self.risk.param, dtype='d', copy=True)
+#         print(self.param_min.base)
         
         if self.stop_condition is None:
             self.stop_condition = DiffL1StopCondition(self)
@@ -80,13 +81,13 @@ cdef class GD:
         self.h_rate.init()
             
         self.m = 0
-        self.lvals = []
-        self.lval = self.lval_prev = PyFloat_GetMax()
+        self.lval = self.lval_min = self.risk.evaluate()
+        self.lvals = [self.lval]
     #
     def fit(self):
         cdef Risk risk = self.risk
-        cdef double[::1] param = risk.param
-        cdef double[::1] param_min = self.param_min
+#         cdef double[::1] param = risk.param
+#         cdef double[::1] param_min = self.param_min
 #         cdef int i, j, n = param.shape[0]
 
         self.init()
@@ -97,15 +98,16 @@ cdef class GD:
 
             self.lval_prev = self.lval
 
-            self.risk.batch.generate()
+            risk.batch.generate()
             self.fit_epoch()
-            if self.normalizer is not None:
-                self.normalizer.normalize(param)
+#             if self.normalizer is not None:
+#                 self.normalizer.normalize(param)
 
             self.lval = risk.lval = risk.evaluate()
             if self.lval < self.lval_min:
                 self.lval_min = self.lval
-                copy_memoryview(param_min, param)
+                copy_memoryview(self.param_min, risk.param)
+#                 print(self.param_min.base)
 
 #             j = 1
 #             while self.lval > self.lval_prev:
@@ -146,7 +148,7 @@ cdef class GD:
         self.grad_averager.update(risk.grad_average, h)
         grad_average = self.grad_averager.array_average
         for i in range(n_param):
-            param[i] -= grad_average[i]
+            risk.param[i] -= grad_average[i]
             
 #         if self.param_averager is not None:
 #             self.param_averager.update(risk.param)
@@ -154,10 +156,10 @@ cdef class GD:
     #
     def use_gradient_averager(self, averager):
         self.grad_averager = averager
-    #
+#
 #     def use_param_averager(self, averager):
 #         self.param_averager = averager
-    #
+#
     cpdef finalize(self):
         cdef Functional risk = self.risk
         

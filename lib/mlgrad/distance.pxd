@@ -10,6 +10,7 @@ cdef class Distance:
 
 cdef class DistanceWithScale(Distance):
     cdef public double[:,::1] S
+    cdef public double sigma
     
 @cython.final
 cdef class AbsoluteDistance(Distance):

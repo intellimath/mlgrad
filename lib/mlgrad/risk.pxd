@@ -63,29 +63,38 @@ cdef class Risk(Functional):
     #
     cdef double[::1] grad
     cdef double[::1] grad_r
-    cdef Average avg
     cdef public double[::1] weights    
     cdef public double tau
     #
-    cdef double eval_loss(self, int k)
-    cdef void gradient_loss(self, int k)
     cdef void eval_losses(self, double[::1] lval_all)
-    #cdef object get_loss(self)
+    
+cdef class SRisk(Risk):
+    cdef double eval_loss(self, int k)
+    cdef void gradient_loss(self, int k)    
 
+cdef class MRisk(Risk):
+    cdef public Model model
+    cdef public Loss loss
+    cdef public double[:, ::1] X
+    cdef public double[::1] Y
+    cdef public double[::1] Yp
+    cdef double[::1] lval_all
+    cdef Average avg
+    
 cdef class ED(Risk):
     cdef double[:, ::1] X
     cdef Distance distfunc
     cdef int n_param
     #
 
-cdef class ER(Risk):
+cdef class ERisk(SRisk):
     cdef public Model model
     cdef public Loss loss
     cdef public double[:, ::1] X
     cdef public double[::1] Y
     cdef public double[::1] Yp
-
-cdef class AER(ER):
+    
+cdef class AER(ERisk):
     cdef Average loss_averager
     cdef double[::1] lval_all
     cdef double[::1] mval_all
@@ -93,7 +102,7 @@ cdef class AER(ER):
     cdef eval_all(self)
     
 
-cdef class ER2(Risk):
+cdef class ER2(SRisk):
     cdef public MLModel model
     cdef public MultLoss loss
     cdef double[:, ::1] X
