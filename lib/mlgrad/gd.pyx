@@ -1,11 +1,11 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=True
-# cython: wraparound=True
-# cython: nonecheck=True
+# cython: boundscheck=False
+# cython: wraparound=False
+# cython: nonecheck=False
 # cython: embedsignature=True
-# cython: initializedcheck=True
+# cython: initializedcheck=False
 # cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
@@ -148,7 +148,7 @@ cdef class GD:
         self.grad_averager.update(risk.grad_average, h)
         grad_average = self.grad_averager.array_average
         for i in range(n_param):
-            risk.param[i] -= grad_average[i]
+            param[i] -= grad_average[i]
             
 #         if self.param_averager is not None:
 #             self.param_averager.update(risk.param)

@@ -1026,7 +1026,43 @@ struct __pyx_opt_args_6mlgrad_6avragg_7Maximal_fit;
 struct __pyx_opt_args_6mlgrad_6avragg_14KolmogorovMean_fit;
 struct __pyx_opt_args_6mlgrad_6avragg_11SoftMinimal_fit;
 
-/* "mlgrad/avragg.pxd":91
+/* "mlgrad/avragg.pxd":12
+ * from libc.math cimport fabs, pow, sqrt, fmax, log, exp
+ * 
+ * ctypedef double (*FuncEvaluate)(Func, double) nogil             # <<<<<<<<<<<<<<
+ * ctypedef double (*FuncDerivative)(Func, double) nogil
+ * ctypedef double (*FuncDerivative2)(Func, double) nogil
+ */
+typedef double (*__pyx_t_6mlgrad_6avragg_FuncEvaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+
+/* "mlgrad/avragg.pxd":13
+ * 
+ * ctypedef double (*FuncEvaluate)(Func, double) nogil
+ * ctypedef double (*FuncDerivative)(Func, double) nogil             # <<<<<<<<<<<<<<
+ * ctypedef double (*FuncDerivative2)(Func, double) nogil
+ * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
+ */
+typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+
+/* "mlgrad/avragg.pxd":14
+ * ctypedef double (*FuncEvaluate)(Func, double) nogil
+ * ctypedef double (*FuncDerivative)(Func, double) nogil
+ * ctypedef double (*FuncDerivative2)(Func, double) nogil             # <<<<<<<<<<<<<<
+ * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
+ * 
+ */
+typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+
+/* "mlgrad/avragg.pxd":15
+ * ctypedef double (*FuncDerivative)(Func, double) nogil
+ * ctypedef double (*FuncDerivative2)(Func, double) nogil
+ * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil             # <<<<<<<<<<<<<<
+ * 
+ * ctypedef fused number:
+ */
+typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivativeDivX)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+
+/* "mlgrad/avragg.pxd":98
  *     cdef gradient(self, double[::1] Y, double[::1] grad)
  *     #
  *     cdef init(self, double[::1] Y, u0=*)             # <<<<<<<<<<<<<<
@@ -1038,7 +1074,7 @@ struct __pyx_opt_args_6mlgrad_6avragg_7Average_init {
   PyObject *u0;
 };
 
-/* "mlgrad/avragg.pxd":93
+/* "mlgrad/avragg.pxd":100
  *     cdef init(self, double[::1] Y, u0=*)
  *     #
  *     cpdef fit(self, double[::1] Y, u0=*)             # <<<<<<<<<<<<<<
@@ -1050,7 +1086,7 @@ struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit {
   PyObject *u0;
 };
 
-/* "mlgrad/avragg.pyx":400
+/* "mlgrad/avragg.pyx":405
  *     #
  *     @cython.final
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -1074,7 +1110,7 @@ struct __pyx_opt_args_6mlgrad_6avragg_10Average_FG_init {
   PyObject *u0;
 };
 
-/* "mlgrad/avragg.pyx":521
+/* "mlgrad/avragg.pyx":526
  *     #
  *     @cython.final
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -1086,7 +1122,7 @@ struct __pyx_opt_args_6mlgrad_6avragg_9WMAverage_fit {
   PyObject *u0;
 };
 
-/* "mlgrad/avragg.pyx":622
+/* "mlgrad/avragg.pyx":627
  *         self.u = 0
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -1098,7 +1134,7 @@ struct __pyx_opt_args_6mlgrad_6avragg_14WMAverageMixed_fit {
   PyObject *u0;
 };
 
-/* "mlgrad/avragg.pyx":678
+/* "mlgrad/avragg.pyx":683
  *         self.u = 0
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -1110,7 +1146,7 @@ struct __pyx_opt_args_6mlgrad_6avragg_9TMAverage_fit {
   PyObject *u0;
 };
 
-/* "mlgrad/avragg.pyx":729
+/* "mlgrad/avragg.pyx":734
  *         self.tol = tol
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -1122,7 +1158,7 @@ struct __pyx_opt_args_6mlgrad_6avragg_9HMAverage_fit {
   PyObject *u0;
 };
 
-/* "mlgrad/avragg.pyx":820
+/* "mlgrad/avragg.pyx":825
  * cdef class ArithMean(Average):
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -1134,7 +1170,7 @@ struct __pyx_opt_args_6mlgrad_6avragg_9ArithMean_fit {
   PyObject *u0;
 };
 
-/* "mlgrad/avragg.pyx":845
+/* "mlgrad/avragg.pyx":850
  * cdef class Minimal(Average):
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -1146,7 +1182,7 @@ struct __pyx_opt_args_6mlgrad_6avragg_7Minimal_fit {
   PyObject *u0;
 };
 
-/* "mlgrad/avragg.pyx":878
+/* "mlgrad/avragg.pyx":883
  * cdef class Maximal(Average):
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -1158,7 +1194,7 @@ struct __pyx_opt_args_6mlgrad_6avragg_7Maximal_fit {
   PyObject *u0;
 };
 
-/* "mlgrad/avragg.pyx":910
+/* "mlgrad/avragg.pyx":915
  *         self.invfunc = invfunc
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -1170,7 +1206,7 @@ struct __pyx_opt_args_6mlgrad_6avragg_14KolmogorovMean_fit {
   PyObject *u0;
 };
 
-/* "mlgrad/avragg.pyx":938
+/* "mlgrad/avragg.pyx":943
  *         self.a = a
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -1912,11 +1948,11 @@ struct __pyx_obj_6mlgrad_8averager_ArrayTAverager {
 };
 
 
-/* "mlgrad/avragg.pxd":54
+/* "mlgrad/avragg.pxd":59
  *         arr[i] += v
  * 
  * cdef class Penalty:             # <<<<<<<<<<<<<<
- *     cdef public Func func
+ *     cdef readonly Func func
  * 
  */
 struct __pyx_obj_6mlgrad_6avragg_Penalty {
@@ -1926,7 +1962,7 @@ struct __pyx_obj_6mlgrad_6avragg_Penalty {
 };
 
 
-/* "mlgrad/avragg.pxd":64
+/* "mlgrad/avragg.pxd":69
  * 
  * @cython.final
  * cdef class PenaltyAverage(Penalty):             # <<<<<<<<<<<<<<
@@ -1938,7 +1974,7 @@ struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":68
+/* "mlgrad/avragg.pxd":73
  * 
  * @cython.final
  * cdef class PenaltyScale(Penalty):             # <<<<<<<<<<<<<<
@@ -1950,12 +1986,12 @@ struct __pyx_obj_6mlgrad_6avragg_PenaltyScale {
 };
 
 
-/* "mlgrad/avragg.pxd":73
+/* "mlgrad/avragg.pxd":78
  * #############################################################
  * 
  * cdef class Average:             # <<<<<<<<<<<<<<
- *     cdef public Penalty penalty
- *     cdef public double tol
+ *     cdef readonly Penalty penalty
+ *     cdef readonly double tol
  */
 struct __pyx_obj_6mlgrad_6avragg_Average {
   PyObject_HEAD
@@ -1963,8 +1999,8 @@ struct __pyx_obj_6mlgrad_6avragg_Average {
   struct __pyx_obj_6mlgrad_6avragg_Penalty *penalty;
   double tol;
   int n_iter;
-  int m_iter;
   int K;
+  int m_iter;
   int L;
   double h;
   int success;
@@ -1980,7 +2016,7 @@ struct __pyx_obj_6mlgrad_6avragg_Average {
 };
 
 
-/* "mlgrad/avragg.pxd":102
+/* "mlgrad/avragg.pxd":109
  * 
  * @cython.final
  * cdef class Average_Iterative(Average):             # <<<<<<<<<<<<<<
@@ -1992,7 +2028,7 @@ struct __pyx_obj_6mlgrad_6avragg_Average_Iterative {
 };
 
 
-/* "mlgrad/avragg.pxd":106
+/* "mlgrad/avragg.pxd":113
  * 
  * @cython.final
  * cdef class MAverage_Iterative(Average):             # <<<<<<<<<<<<<<
@@ -2005,7 +2041,7 @@ struct __pyx_obj_6mlgrad_6avragg_MAverage_Iterative {
 };
 
 
-/* "mlgrad/avragg.pxd":110
+/* "mlgrad/avragg.pxd":117
  * 
  * @cython.final
  * cdef class Average_FG(Average):             # <<<<<<<<<<<<<<
@@ -2018,7 +2054,7 @@ struct __pyx_obj_6mlgrad_6avragg_Average_FG {
 };
 
 
-/* "mlgrad/avragg.pxd":115
+/* "mlgrad/avragg.pxd":122
  * 
  * @cython.final
  * cdef class ParameterizedAverage(Average):             # <<<<<<<<<<<<<<
@@ -2032,7 +2068,7 @@ struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":120
+/* "mlgrad/avragg.pxd":127
  * 
  * @cython.final
  * cdef class WMAverage(Average):             # <<<<<<<<<<<<<<
@@ -2046,7 +2082,7 @@ struct __pyx_obj_6mlgrad_6avragg_WMAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":125
+/* "mlgrad/avragg.pxd":132
  * 
  * @cython.final
  * cdef class WMAverageMixed(Average):             # <<<<<<<<<<<<<<
@@ -2060,7 +2096,7 @@ struct __pyx_obj_6mlgrad_6avragg_WMAverageMixed {
 };
 
 
-/* "mlgrad/avragg.pxd":130
+/* "mlgrad/avragg.pxd":137
  * 
  * @cython.final
  * cdef class TMAverage(Average):             # <<<<<<<<<<<<<<
@@ -2073,7 +2109,7 @@ struct __pyx_obj_6mlgrad_6avragg_TMAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":134
+/* "mlgrad/avragg.pxd":141
  * 
  * @cython.final
  * cdef class HMAverage(Average):             # <<<<<<<<<<<<<<
@@ -2087,7 +2123,7 @@ struct __pyx_obj_6mlgrad_6avragg_HMAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":139
+/* "mlgrad/avragg.pxd":146
  * 
  * @cython.final
  * cdef class ArithMean(Average):             # <<<<<<<<<<<<<<
@@ -2099,7 +2135,7 @@ struct __pyx_obj_6mlgrad_6avragg_ArithMean {
 };
 
 
-/* "mlgrad/avragg.pxd":143
+/* "mlgrad/avragg.pxd":150
  * 
  * @cython.final
  * cdef class KolmogorovMean(Average):             # <<<<<<<<<<<<<<
@@ -2114,7 +2150,7 @@ struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean {
 };
 
 
-/* "mlgrad/avragg.pxd":148
+/* "mlgrad/avragg.pxd":155
  * 
  * @cython.final
  * cdef class SoftMinimal(Average):             # <<<<<<<<<<<<<<
@@ -2127,7 +2163,7 @@ struct __pyx_obj_6mlgrad_6avragg_SoftMinimal {
 };
 
 
-/* "mlgrad/avragg.pxd":152
+/* "mlgrad/avragg.pxd":159
  * 
  * @cython.final
  * cdef class Minimal(Average):             # <<<<<<<<<<<<<<
@@ -2139,7 +2175,7 @@ struct __pyx_obj_6mlgrad_6avragg_Minimal {
 };
 
 
-/* "mlgrad/avragg.pxd":156
+/* "mlgrad/avragg.pxd":163
  * 
  * @cython.final
  * cdef class Maximal(Average):             # <<<<<<<<<<<<<<
@@ -2997,7 +3033,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage *__pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage;
 
 
-/* "mlgrad/avragg.pyx":241
+/* "mlgrad/avragg.pyx":245
  *             k += 1
  * 
  * cdef class PenaltyScale(Penalty):             # <<<<<<<<<<<<<<
@@ -3011,7 +3047,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyScale {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyScale *__pyx_vtabptr_6mlgrad_6avragg_PenaltyScale;
 
 
-/* "mlgrad/avragg.pyx":300
+/* "mlgrad/avragg.pyx":304
  * 
  * 
  * cdef class Average(object):             # <<<<<<<<<<<<<<
@@ -3071,7 +3107,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_Average_FG {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_Average_FG *__pyx_vtabptr_6mlgrad_6avragg_Average_FG;
 
 
-/* "mlgrad/avragg.pyx":393
+/* "mlgrad/avragg.pyx":398
  * 
  * @cython.final
  * cdef class ParameterizedAverage(Average):             # <<<<<<<<<<<<<<
@@ -3085,7 +3121,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_ParameterizedAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_ParameterizedAverage *__pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage;
 
 
-/* "mlgrad/avragg.pyx":513
+/* "mlgrad/avragg.pyx":518
  * 
  * @cython.final
  * cdef class WMAverage(Average):             # <<<<<<<<<<<<<<
@@ -3099,7 +3135,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverage *__pyx_vtabptr_6mlgrad_6avragg_WMAverage;
 
 
-/* "mlgrad/avragg.pyx":615
+/* "mlgrad/avragg.pyx":620
  *     #
  * 
  * cdef class WMAverageMixed(Average):             # <<<<<<<<<<<<<<
@@ -3113,7 +3149,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverageMixed {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverageMixed *__pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed;
 
 
-/* "mlgrad/avragg.pyx":672
+/* "mlgrad/avragg.pyx":677
  *     #
  * 
  * cdef class TMAverage(Average):             # <<<<<<<<<<<<<<
@@ -3127,7 +3163,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage *__pyx_vtabptr_6mlgrad_6avragg_TMAverage;
 
 
-/* "mlgrad/avragg.pyx":720
+/* "mlgrad/avragg.pyx":725
  *     #
  * 
  * cdef class HMAverage(Average):             # <<<<<<<<<<<<<<
@@ -3141,7 +3177,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_HMAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_HMAverage *__pyx_vtabptr_6mlgrad_6avragg_HMAverage;
 
 
-/* "mlgrad/avragg.pyx":818
+/* "mlgrad/avragg.pyx":823
  *     #
  * 
  * cdef class ArithMean(Average):             # <<<<<<<<<<<<<<
@@ -3155,7 +3191,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean *__pyx_vtabptr_6mlgrad_6avragg_ArithMean;
 
 
-/* "mlgrad/avragg.pyx":904
+/* "mlgrad/avragg.pyx":909
  *                     grad[k] /= m
  * 
  * cdef class KolmogorovMean(Average):             # <<<<<<<<<<<<<<
@@ -3169,7 +3205,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean *__pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean;
 
 
-/* "mlgrad/avragg.pyx":933
+/* "mlgrad/avragg.pyx":938
  *             grad[k] = self.func.derivative(Y[k]) * V
  * 
  * cdef class SoftMinimal(Average):             # <<<<<<<<<<<<<<
@@ -3183,7 +3219,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal *__pyx_vtabptr_6mlgrad_6avragg_SoftMinimal;
 
 
-/* "mlgrad/avragg.pyx":843
+/* "mlgrad/avragg.pyx":848
  * 
  * 
  * cdef class Minimal(Average):             # <<<<<<<<<<<<<<
@@ -3197,7 +3233,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal *__pyx_vtabptr_6mlgrad_6avragg_Minimal;
 
 
-/* "mlgrad/avragg.pyx":876
+/* "mlgrad/avragg.pyx":881
  *                     g[k] /= m
  * 
  * cdef class Maximal(Average):             # <<<<<<<<<<<<<<
@@ -3331,9 +3367,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
-
-/* ExtTypeTest.proto */
-static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
 /* PyErrExceptionMatches.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -3528,6 +3561,9 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
 
 /* PyObjectCallOneArg.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
+/* ExtTypeTest.proto */
+static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
 /* PyIntBinop.proto */
 #if !CYTHON_COMPILING_IN_PYPY
@@ -3901,7 +3937,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
 static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_s); /* proto*/
 static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_s); /* proto*/
 static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_s, __Pyx_memviewslice __pyx_v_grad); /* proto*/
-static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, struct __pyx_opt_args_6mlgrad_6avragg_7Average_init *__pyx_optional_args); /* proto*/
+static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, struct __pyx_opt_args_6mlgrad_6avragg_7Average_init *__pyx_optional_args); /* proto*/
 static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args); /* proto*/
 static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit_epoch(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y); /* proto*/
 static PyObject *__pyx_f_6mlgrad_6avragg_7Average_gradient(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, __Pyx_memviewslice __pyx_v_grad); /* proto*/
@@ -4043,6 +4079,7 @@ static PyObject *contiguous = 0;
 static PyObject *indirect_contiguous = 0;
 static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
+static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslice); /*proto*/
 static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_Penalty__set_state(struct __pyx_obj_6mlgrad_6avragg_Penalty *, PyObject *); /*proto*/
 static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_PenaltyAverage__set_state(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *, PyObject *); /*proto*/
 static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_PenaltyScale__set_state(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *, PyObject *); /*proto*/
@@ -4402,8 +4439,6 @@ static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_zeros;
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Penalty_4func___get__(struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_7Penalty_4func_2__set__(struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_7Penalty_4func_4__del__(struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Penalty___reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Penalty_2__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_6mlgrad_6avragg_14PenaltyAverage___init__(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func); /* proto */
@@ -4416,16 +4451,11 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average___call__(struct __pyx_obj_6ml
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_2nabla(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_4fit(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, PyObject *__pyx_v_u0); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_7penalty___get__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_7Average_7penalty_2__set__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_7Average_7penalty_4__del__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_3tol___get__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_7Average_3tol_2__set__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_6n_iter___get__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_7Average_6n_iter_2__set__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_1K___get__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_6m_iter___get__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self); /* proto */
 static int __pyx_pf_6mlgrad_6avragg_7Average_6m_iter_2__set__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_1K___get__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_7Average_1K_2__set__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_1L___get__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self); /* proto */
 static int __pyx_pf_6mlgrad_6avragg_7Average_1L_2__set__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_1h___get__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self); /* proto */
@@ -4777,10 +4807,10 @@ static double __pyx_f_6mlgrad_6avragg_7Penalty_iterative_next(CYTHON_UNUSED stru
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":55
+/* "mlgrad/avragg.pxd":60
  * 
  * cdef class Penalty:
- *     cdef public Func func             # <<<<<<<<<<<<<<
+ *     cdef readonly Func func             # <<<<<<<<<<<<<<
  * 
  *     cdef double evaluate(self, double[::1] Y, double u)
  */
@@ -4810,77 +4840,6 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Penalty_4func___get__(struct __pyx_ob
   /* function exit code */
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_6mlgrad_6avragg_7Penalty_4func_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_6mlgrad_6avragg_7Penalty_4func_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_6avragg_7Penalty_4func_2__set__(((struct __pyx_obj_6mlgrad_6avragg_Penalty *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_6mlgrad_6avragg_7Penalty_4func_2__set__(struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(0, 55, __pyx_L1_error)
-  __pyx_t_1 = __pyx_v_value;
-  __Pyx_INCREF(__pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_1);
-  __Pyx_GOTREF(__pyx_v_self->func);
-  __Pyx_DECREF(((PyObject *)__pyx_v_self->func));
-  __pyx_v_self->func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("mlgrad.avragg.Penalty.func.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_6mlgrad_6avragg_7Penalty_4func_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_6mlgrad_6avragg_7Penalty_4func_5__del__(PyObject *__pyx_v_self) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_6avragg_7Penalty_4func_4__del__(((struct __pyx_obj_6mlgrad_6avragg_Penalty *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_6mlgrad_6avragg_7Penalty_4func_4__del__(struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__del__", 0);
-  __Pyx_INCREF(Py_None);
-  __Pyx_GIVEREF(Py_None);
-  __Pyx_GOTREF(__pyx_v_self->func);
-  __Pyx_DECREF(((PyObject *)__pyx_v_self->func));
-  __pyx_v_self->func = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None);
-
-  /* function exit code */
-  __pyx_r = 0;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5301,14 +5260,16 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
   double __pyx_v_v4;
   double *__pyx_v_YY;
   struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  __pyx_t_6mlgrad_6avragg_FuncEvaluate __pyx_v_func_evaluate;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
+  double (*__pyx_t_3)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -5329,7 +5290,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
  *         cdef double v1, v2, v3, v4
  *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
  *         cdef Func func = self.func
- * 
+ *         cdef FuncEvaluate func_evaluate = func.evaluate
  */
   __pyx_t_1 = 0;
   __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
@@ -5338,16 +5299,26 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
  *         cdef double v1, v2, v3, v4
  *         cdef double *YY = &Y[0]
  *         cdef Func func = self.func             # <<<<<<<<<<<<<<
+ *         cdef FuncEvaluate func_evaluate = func.evaluate
  * 
- *         S = 0
  */
   __pyx_t_2 = ((PyObject *)__pyx_v_self->__pyx_base.func);
   __Pyx_INCREF(__pyx_t_2);
   __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "mlgrad/avragg.pyx":80
+  /* "mlgrad/avragg.pyx":79
+ *         cdef double *YY = &Y[0]
  *         cdef Func func = self.func
+ *         cdef FuncEvaluate func_evaluate = func.evaluate             # <<<<<<<<<<<<<<
+ * 
+ *         S = 0
+ */
+  __pyx_t_3 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->evaluate;
+  __pyx_v_func_evaluate = __pyx_t_3;
+
+  /* "mlgrad/avragg.pyx":81
+ *         cdef FuncEvaluate func_evaluate = func.evaluate
  * 
  *         S = 0             # <<<<<<<<<<<<<<
  * 
@@ -5355,7 +5326,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
  */
   __pyx_v_S = 0.0;
 
-  /* "mlgrad/avragg.pyx":82
+  /* "mlgrad/avragg.pyx":83
  *         S = 0
  * 
  *         M = 4 * (N // 4)             # <<<<<<<<<<<<<<
@@ -5364,17 +5335,17 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
  */
   __pyx_v_M = (4 * __Pyx_div_Py_ssize_t(__pyx_v_N, 4));
 
-  /* "mlgrad/avragg.pyx":83
+  /* "mlgrad/avragg.pyx":84
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  *     #         for k in range(0, M, 4):
  */
-  __pyx_t_3 = ((__pyx_v_M > 0) != 0);
-  if (__pyx_t_3) {
+  __pyx_t_4 = ((__pyx_v_M > 0) != 0);
+  if (__pyx_t_4) {
 
-    /* "mlgrad/avragg.pyx":84
+    /* "mlgrad/avragg.pyx":85
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -5388,7 +5359,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
         __Pyx_FastGIL_Remember();
         #endif
         /*try:*/ {
-          __pyx_t_4 = __pyx_v_M;
+          __pyx_t_5 = __pyx_v_M;
           if ((4 == 0)) abort();
           {
               #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
@@ -5397,8 +5368,8 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
                   #define likely(x)   (x)
                   #define unlikely(x) (x)
               #endif
-              __pyx_t_6 = (__pyx_t_4 - 0 + 4 - 4/abs(4)) / 4;
-              if (__pyx_t_6 > 0)
+              __pyx_t_7 = (__pyx_t_5 - 0 + 4 - 4/abs(4)) / 4;
+              if (__pyx_t_7 > 0)
               {
                   #ifdef _OPENMP
                   #pragma omp parallel reduction(+:__pyx_v_S) num_threads(__pyx_v_6mlgrad_6avragg_num_procs)
@@ -5407,9 +5378,9 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
                       #ifdef _OPENMP
                       #pragma omp for firstprivate(__pyx_v_k) lastprivate(__pyx_v_k) lastprivate(__pyx_v_v1) lastprivate(__pyx_v_v2) lastprivate(__pyx_v_v3) lastprivate(__pyx_v_v4) lastprivate(__pyx_v_y1) lastprivate(__pyx_v_y2) lastprivate(__pyx_v_y3) lastprivate(__pyx_v_y4)
                       #endif /* _OPENMP */
-                      for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_6; __pyx_t_5++){
+                      for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_7; __pyx_t_6++){
                           {
-                              __pyx_v_k = (Py_ssize_t)(0 + 4 * __pyx_t_5);
+                              __pyx_v_k = (Py_ssize_t)(0 + 4 * __pyx_t_6);
                               /* Initialize private variables to invalid values */
                               __pyx_v_v1 = ((double)__PYX_NAN());
                               __pyx_v_v2 = ((double)__PYX_NAN());
@@ -5420,7 +5391,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
                               __pyx_v_y3 = ((double)__PYX_NAN());
                               __pyx_v_y4 = ((double)__PYX_NAN());
 
-                              /* "mlgrad/avragg.pyx":86
+                              /* "mlgrad/avragg.pyx":87
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  *     #         for k in range(0, M, 4):
  *                 y1 = YY[k]             # <<<<<<<<<<<<<<
@@ -5429,7 +5400,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
  */
                               __pyx_v_y1 = (__pyx_v_YY[__pyx_v_k]);
 
-                              /* "mlgrad/avragg.pyx":87
+                              /* "mlgrad/avragg.pyx":88
  *     #         for k in range(0, M, 4):
  *                 y1 = YY[k]
  *                 y2 = YY[k+1]             # <<<<<<<<<<<<<<
@@ -5438,7 +5409,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
  */
                               __pyx_v_y2 = (__pyx_v_YY[(__pyx_v_k + 1)]);
 
-                              /* "mlgrad/avragg.pyx":88
+                              /* "mlgrad/avragg.pyx":89
  *                 y1 = YY[k]
  *                 y2 = YY[k+1]
  *                 y3 = YY[k+2]             # <<<<<<<<<<<<<<
@@ -5447,53 +5418,53 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
  */
                               __pyx_v_y3 = (__pyx_v_YY[(__pyx_v_k + 2)]);
 
-                              /* "mlgrad/avragg.pyx":89
+                              /* "mlgrad/avragg.pyx":90
  *                 y2 = YY[k+1]
  *                 y3 = YY[k+2]
  *                 y4 = YY[k+3]             # <<<<<<<<<<<<<<
  * 
- *                 v1 = func.evaluate(y1-u)
+ *                 v1 = func_evaluate(func, y1-u)
  */
                               __pyx_v_y4 = (__pyx_v_YY[(__pyx_v_k + 3)]);
 
-                              /* "mlgrad/avragg.pyx":91
+                              /* "mlgrad/avragg.pyx":92
  *                 y4 = YY[k+3]
  * 
- *                 v1 = func.evaluate(y1-u)             # <<<<<<<<<<<<<<
- *                 v2 = func.evaluate(y2-u)
- *                 v3 = func.evaluate(y3-u)
+ *                 v1 = func_evaluate(func, y1-u)             # <<<<<<<<<<<<<<
+ *                 v2 = func_evaluate(func, y2-u)
+ *                 v3 = func_evaluate(func, y3-u)
  */
-                              __pyx_v_v1 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, (__pyx_v_y1 - __pyx_v_u));
-
-                              /* "mlgrad/avragg.pyx":92
- * 
- *                 v1 = func.evaluate(y1-u)
- *                 v2 = func.evaluate(y2-u)             # <<<<<<<<<<<<<<
- *                 v3 = func.evaluate(y3-u)
- *                 v4 = func.evaluate(y4-u)
- */
-                              __pyx_v_v2 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, (__pyx_v_y2 - __pyx_v_u));
+                              __pyx_v_v1 = __pyx_v_func_evaluate(__pyx_v_func, (__pyx_v_y1 - __pyx_v_u));
 
                               /* "mlgrad/avragg.pyx":93
- *                 v1 = func.evaluate(y1-u)
- *                 v2 = func.evaluate(y2-u)
- *                 v3 = func.evaluate(y3-u)             # <<<<<<<<<<<<<<
- *                 v4 = func.evaluate(y4-u)
  * 
+ *                 v1 = func_evaluate(func, y1-u)
+ *                 v2 = func_evaluate(func, y2-u)             # <<<<<<<<<<<<<<
+ *                 v3 = func_evaluate(func, y3-u)
+ *                 v4 = func_evaluate(func, y4-u)
  */
-                              __pyx_v_v3 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, (__pyx_v_y3 - __pyx_v_u));
+                              __pyx_v_v2 = __pyx_v_func_evaluate(__pyx_v_func, (__pyx_v_y2 - __pyx_v_u));
 
                               /* "mlgrad/avragg.pyx":94
- *                 v2 = func.evaluate(y2-u)
- *                 v3 = func.evaluate(y3-u)
- *                 v4 = func.evaluate(y4-u)             # <<<<<<<<<<<<<<
+ *                 v1 = func_evaluate(func, y1-u)
+ *                 v2 = func_evaluate(func, y2-u)
+ *                 v3 = func_evaluate(func, y3-u)             # <<<<<<<<<<<<<<
+ *                 v4 = func_evaluate(func, y4-u)
+ * 
+ */
+                              __pyx_v_v3 = __pyx_v_func_evaluate(__pyx_v_func, (__pyx_v_y3 - __pyx_v_u));
+
+                              /* "mlgrad/avragg.pyx":95
+ *                 v2 = func_evaluate(func, y2-u)
+ *                 v3 = func_evaluate(func, y3-u)
+ *                 v4 = func_evaluate(func, y4-u)             # <<<<<<<<<<<<<<
  * 
  *                 S += v1 + v2 + v3 + v4
  */
-                              __pyx_v_v4 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, (__pyx_v_y4 - __pyx_v_u));
+                              __pyx_v_v4 = __pyx_v_func_evaluate(__pyx_v_func, (__pyx_v_y4 - __pyx_v_u));
 
-                              /* "mlgrad/avragg.pyx":96
- *                 v4 = func.evaluate(y4-u)
+                              /* "mlgrad/avragg.pyx":97
+ *                 v4 = func_evaluate(func, y4-u)
  * 
  *                 S += v1 + v2 + v3 + v4             # <<<<<<<<<<<<<<
  * 
@@ -5513,7 +5484,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
           #endif
         }
 
-        /* "mlgrad/avragg.pyx":84
+        /* "mlgrad/avragg.pyx":85
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -5532,7 +5503,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
         }
     }
 
-    /* "mlgrad/avragg.pyx":98
+    /* "mlgrad/avragg.pyx":99
  *                 S += v1 + v2 + v3 + v4
  * 
  *             k += 4             # <<<<<<<<<<<<<<
@@ -5541,7 +5512,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
  */
     __pyx_v_k = (__pyx_v_k + 4);
 
-    /* "mlgrad/avragg.pyx":83
+    /* "mlgrad/avragg.pyx":84
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -5551,41 +5522,41 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
     goto __pyx_L3;
   }
 
-  /* "mlgrad/avragg.pyx":100
+  /* "mlgrad/avragg.pyx":101
  *             k += 4
  *         else:
  *             k = 0             # <<<<<<<<<<<<<<
  *         while k < N:
- *             S += func.evaluate(YY[k] - u)
+ *             S += func_evaluate(func, YY[k] - u)
  */
   /*else*/ {
     __pyx_v_k = 0;
   }
   __pyx_L3:;
 
-  /* "mlgrad/avragg.pyx":101
+  /* "mlgrad/avragg.pyx":102
  *         else:
  *             k = 0
  *         while k < N:             # <<<<<<<<<<<<<<
- *             S += func.evaluate(YY[k] - u)
+ *             S += func_evaluate(func, YY[k] - u)
  *             k += 1
  */
   while (1) {
-    __pyx_t_3 = ((__pyx_v_k < __pyx_v_N) != 0);
-    if (!__pyx_t_3) break;
+    __pyx_t_4 = ((__pyx_v_k < __pyx_v_N) != 0);
+    if (!__pyx_t_4) break;
 
-    /* "mlgrad/avragg.pyx":102
+    /* "mlgrad/avragg.pyx":103
  *             k = 0
  *         while k < N:
- *             S += func.evaluate(YY[k] - u)             # <<<<<<<<<<<<<<
+ *             S += func_evaluate(func, YY[k] - u)             # <<<<<<<<<<<<<<
  *             k += 1
  * 
  */
-    __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, ((__pyx_v_YY[__pyx_v_k]) - __pyx_v_u)));
+    __pyx_v_S = (__pyx_v_S + __pyx_v_func_evaluate(__pyx_v_func, ((__pyx_v_YY[__pyx_v_k]) - __pyx_v_u)));
 
-    /* "mlgrad/avragg.pyx":103
+    /* "mlgrad/avragg.pyx":104
  *         while k < N:
- *             S += func.evaluate(YY[k] - u)
+ *             S += func_evaluate(func, YY[k] - u)
  *             k += 1             # <<<<<<<<<<<<<<
  * 
  *         return S / N
@@ -5593,7 +5564,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
     __pyx_v_k = (__pyx_v_k + 1);
   }
 
-  /* "mlgrad/avragg.pyx":105
+  /* "mlgrad/avragg.pyx":106
  *             k += 1
  * 
  *         return S / N             # <<<<<<<<<<<<<<
@@ -5602,7 +5573,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 105, __pyx_L1_error)
+    __PYX_ERR(2, 106, __pyx_L1_error)
   }
   __pyx_r = (__pyx_v_S / ((double)__pyx_v_N));
   goto __pyx_L0;
@@ -5626,7 +5597,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":108
+/* "mlgrad/avragg.pyx":109
  *     #
  *     @cython.final
  *     cdef double derivative(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
@@ -5649,21 +5620,23 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
   double __pyx_v_v4;
   double *__pyx_v_YY;
   struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  __pyx_t_6mlgrad_6avragg_FuncDerivative __pyx_v_func_derivative;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
+  double (*__pyx_t_3)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
-  double __pyx_t_7;
+  Py_ssize_t __pyx_t_7;
+  double __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("derivative", 0);
 
-  /* "mlgrad/avragg.pyx":109
+  /* "mlgrad/avragg.pyx":110
  *     @cython.final
  *     cdef double derivative(self, double[::1] Y, double u):
  *         cdef Py_ssize_t k, M, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -5672,22 +5645,22 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":113
+  /* "mlgrad/avragg.pyx":114
  *         cdef double y1, y2, y3, y4
  *         cdef double v1, v2, v3, v4
  *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
  *         cdef Func func = self.func
- * 
+ *         cdef FuncDerivative func_derivative = func.derivative
  */
   __pyx_t_1 = 0;
   __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":114
+  /* "mlgrad/avragg.pyx":115
  *         cdef double v1, v2, v3, v4
  *         cdef double *YY = &Y[0]
  *         cdef Func func = self.func             # <<<<<<<<<<<<<<
+ *         cdef FuncDerivative func_derivative = func.derivative
  * 
- *         S = 0
  */
   __pyx_t_2 = ((PyObject *)__pyx_v_self->__pyx_base.func);
   __Pyx_INCREF(__pyx_t_2);
@@ -5695,7 +5668,17 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
   __pyx_t_2 = 0;
 
   /* "mlgrad/avragg.pyx":116
+ *         cdef double *YY = &Y[0]
  *         cdef Func func = self.func
+ *         cdef FuncDerivative func_derivative = func.derivative             # <<<<<<<<<<<<<<
+ * 
+ *         S = 0
+ */
+  __pyx_t_3 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative;
+  __pyx_v_func_derivative = __pyx_t_3;
+
+  /* "mlgrad/avragg.pyx":118
+ *         cdef FuncDerivative func_derivative = func.derivative
  * 
  *         S = 0             # <<<<<<<<<<<<<<
  * 
@@ -5703,7 +5686,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
  */
   __pyx_v_S = 0.0;
 
-  /* "mlgrad/avragg.pyx":118
+  /* "mlgrad/avragg.pyx":120
  *         S = 0
  * 
  *         M = 4 * (N // 4)             # <<<<<<<<<<<<<<
@@ -5712,17 +5695,17 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
  */
   __pyx_v_M = (4 * __Pyx_div_Py_ssize_t(__pyx_v_N, 4));
 
-  /* "mlgrad/avragg.pyx":119
+  /* "mlgrad/avragg.pyx":121
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  * #             for k in range(0, M, 4):
  */
-  __pyx_t_3 = ((__pyx_v_M > 0) != 0);
-  if (__pyx_t_3) {
+  __pyx_t_4 = ((__pyx_v_M > 0) != 0);
+  if (__pyx_t_4) {
 
-    /* "mlgrad/avragg.pyx":120
+    /* "mlgrad/avragg.pyx":122
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -5736,7 +5719,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
         __Pyx_FastGIL_Remember();
         #endif
         /*try:*/ {
-          __pyx_t_4 = __pyx_v_M;
+          __pyx_t_5 = __pyx_v_M;
           if ((4 == 0)) abort();
           {
               #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
@@ -5745,8 +5728,8 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
                   #define likely(x)   (x)
                   #define unlikely(x) (x)
               #endif
-              __pyx_t_6 = (__pyx_t_4 - 0 + 4 - 4/abs(4)) / 4;
-              if (__pyx_t_6 > 0)
+              __pyx_t_7 = (__pyx_t_5 - 0 + 4 - 4/abs(4)) / 4;
+              if (__pyx_t_7 > 0)
               {
                   #ifdef _OPENMP
                   #pragma omp parallel reduction(+:__pyx_v_S) num_threads(__pyx_v_6mlgrad_6avragg_num_procs)
@@ -5755,9 +5738,9 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
                       #ifdef _OPENMP
                       #pragma omp for firstprivate(__pyx_v_k) lastprivate(__pyx_v_k) lastprivate(__pyx_v_v1) lastprivate(__pyx_v_v2) lastprivate(__pyx_v_v3) lastprivate(__pyx_v_v4) lastprivate(__pyx_v_y1) lastprivate(__pyx_v_y2) lastprivate(__pyx_v_y3) lastprivate(__pyx_v_y4)
                       #endif /* _OPENMP */
-                      for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_6; __pyx_t_5++){
+                      for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_7; __pyx_t_6++){
                           {
-                              __pyx_v_k = (Py_ssize_t)(0 + 4 * __pyx_t_5);
+                              __pyx_v_k = (Py_ssize_t)(0 + 4 * __pyx_t_6);
                               /* Initialize private variables to invalid values */
                               __pyx_v_v1 = ((double)__PYX_NAN());
                               __pyx_v_v2 = ((double)__PYX_NAN());
@@ -5768,7 +5751,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
                               __pyx_v_y3 = ((double)__PYX_NAN());
                               __pyx_v_y4 = ((double)__PYX_NAN());
 
-                              /* "mlgrad/avragg.pyx":122
+                              /* "mlgrad/avragg.pyx":124
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  * #             for k in range(0, M, 4):
  *                 y1 = YY[k]             # <<<<<<<<<<<<<<
@@ -5777,7 +5760,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
  */
                               __pyx_v_y1 = (__pyx_v_YY[__pyx_v_k]);
 
-                              /* "mlgrad/avragg.pyx":123
+                              /* "mlgrad/avragg.pyx":125
  * #             for k in range(0, M, 4):
  *                 y1 = YY[k]
  *                 y2 = YY[k+1]             # <<<<<<<<<<<<<<
@@ -5786,7 +5769,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
  */
                               __pyx_v_y2 = (__pyx_v_YY[(__pyx_v_k + 1)]);
 
-                              /* "mlgrad/avragg.pyx":124
+                              /* "mlgrad/avragg.pyx":126
  *                 y1 = YY[k]
  *                 y2 = YY[k+1]
  *                 y3 = YY[k+2]             # <<<<<<<<<<<<<<
@@ -5795,53 +5778,53 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
  */
                               __pyx_v_y3 = (__pyx_v_YY[(__pyx_v_k + 2)]);
 
-                              /* "mlgrad/avragg.pyx":125
+                              /* "mlgrad/avragg.pyx":127
  *                 y2 = YY[k+1]
  *                 y3 = YY[k+2]
  *                 y4 = YY[k+3]             # <<<<<<<<<<<<<<
  * 
- *                 v1 = func.derivative(y1 - u)
+ *                 v1 = func_derivative(func, y1 - u)
  */
                               __pyx_v_y4 = (__pyx_v_YY[(__pyx_v_k + 3)]);
 
-                              /* "mlgrad/avragg.pyx":127
+                              /* "mlgrad/avragg.pyx":129
  *                 y4 = YY[k+3]
  * 
- *                 v1 = func.derivative(y1 - u)             # <<<<<<<<<<<<<<
- *                 v2 = func.derivative(y2 - u)
- *                 v3 = func.derivative(y3 - u)
+ *                 v1 = func_derivative(func, y1 - u)             # <<<<<<<<<<<<<<
+ *                 v2 = func_derivative(func, y2 - u)
+ *                 v3 = func_derivative(func, y3 - u)
  */
-                              __pyx_v_v1 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative(__pyx_v_func, (__pyx_v_y1 - __pyx_v_u));
-
-                              /* "mlgrad/avragg.pyx":128
- * 
- *                 v1 = func.derivative(y1 - u)
- *                 v2 = func.derivative(y2 - u)             # <<<<<<<<<<<<<<
- *                 v3 = func.derivative(y3 - u)
- *                 v4 = func.derivative(y4 - u)
- */
-                              __pyx_v_v2 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative(__pyx_v_func, (__pyx_v_y2 - __pyx_v_u));
-
-                              /* "mlgrad/avragg.pyx":129
- *                 v1 = func.derivative(y1 - u)
- *                 v2 = func.derivative(y2 - u)
- *                 v3 = func.derivative(y3 - u)             # <<<<<<<<<<<<<<
- *                 v4 = func.derivative(y4 - u)
- * 
- */
-                              __pyx_v_v3 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative(__pyx_v_func, (__pyx_v_y3 - __pyx_v_u));
+                              __pyx_v_v1 = __pyx_v_func_derivative(__pyx_v_func, (__pyx_v_y1 - __pyx_v_u));
 
                               /* "mlgrad/avragg.pyx":130
- *                 v2 = func.derivative(y2 - u)
- *                 v3 = func.derivative(y3 - u)
- *                 v4 = func.derivative(y4 - u)             # <<<<<<<<<<<<<<
+ * 
+ *                 v1 = func_derivative(func, y1 - u)
+ *                 v2 = func_derivative(func, y2 - u)             # <<<<<<<<<<<<<<
+ *                 v3 = func_derivative(func, y3 - u)
+ *                 v4 = func_derivative(func, y4 - u)
+ */
+                              __pyx_v_v2 = __pyx_v_func_derivative(__pyx_v_func, (__pyx_v_y2 - __pyx_v_u));
+
+                              /* "mlgrad/avragg.pyx":131
+ *                 v1 = func_derivative(func, y1 - u)
+ *                 v2 = func_derivative(func, y2 - u)
+ *                 v3 = func_derivative(func, y3 - u)             # <<<<<<<<<<<<<<
+ *                 v4 = func_derivative(func, y4 - u)
+ * 
+ */
+                              __pyx_v_v3 = __pyx_v_func_derivative(__pyx_v_func, (__pyx_v_y3 - __pyx_v_u));
+
+                              /* "mlgrad/avragg.pyx":132
+ *                 v2 = func_derivative(func, y2 - u)
+ *                 v3 = func_derivative(func, y3 - u)
+ *                 v4 = func_derivative(func, y4 - u)             # <<<<<<<<<<<<<<
  * 
  *                 S += v1 + v2 + v3 + v4
  */
-                              __pyx_v_v4 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative(__pyx_v_func, (__pyx_v_y4 - __pyx_v_u));
+                              __pyx_v_v4 = __pyx_v_func_derivative(__pyx_v_func, (__pyx_v_y4 - __pyx_v_u));
 
-                              /* "mlgrad/avragg.pyx":132
- *                 v4 = func.derivative(y4 - u)
+                              /* "mlgrad/avragg.pyx":134
+ *                 v4 = func_derivative(func, y4 - u)
  * 
  *                 S += v1 + v2 + v3 + v4             # <<<<<<<<<<<<<<
  * 
@@ -5861,7 +5844,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
           #endif
         }
 
-        /* "mlgrad/avragg.pyx":120
+        /* "mlgrad/avragg.pyx":122
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -5880,7 +5863,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
         }
     }
 
-    /* "mlgrad/avragg.pyx":134
+    /* "mlgrad/avragg.pyx":136
  *                 S += v1 + v2 + v3 + v4
  * 
  *             k += 4             # <<<<<<<<<<<<<<
@@ -5889,7 +5872,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
  */
     __pyx_v_k = (__pyx_v_k + 4);
 
-    /* "mlgrad/avragg.pyx":119
+    /* "mlgrad/avragg.pyx":121
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -5899,41 +5882,41 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
     goto __pyx_L3;
   }
 
-  /* "mlgrad/avragg.pyx":136
+  /* "mlgrad/avragg.pyx":138
  *             k += 4
  *         else:
  *             k = 0             # <<<<<<<<<<<<<<
  *         while k < N:
- *             S += func.derivative(YY[k] - u)
+ *             S += func_derivative(func, YY[k] - u)
  */
   /*else*/ {
     __pyx_v_k = 0;
   }
   __pyx_L3:;
 
-  /* "mlgrad/avragg.pyx":137
+  /* "mlgrad/avragg.pyx":139
  *         else:
  *             k = 0
  *         while k < N:             # <<<<<<<<<<<<<<
- *             S += func.derivative(YY[k] - u)
+ *             S += func_derivative(func, YY[k] - u)
  *             k += 1
  */
   while (1) {
-    __pyx_t_3 = ((__pyx_v_k < __pyx_v_N) != 0);
-    if (!__pyx_t_3) break;
+    __pyx_t_4 = ((__pyx_v_k < __pyx_v_N) != 0);
+    if (!__pyx_t_4) break;
 
-    /* "mlgrad/avragg.pyx":138
+    /* "mlgrad/avragg.pyx":140
  *             k = 0
  *         while k < N:
- *             S += func.derivative(YY[k] - u)             # <<<<<<<<<<<<<<
+ *             S += func_derivative(func, YY[k] - u)             # <<<<<<<<<<<<<<
  *             k += 1
  * 
  */
-    __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative(__pyx_v_func, ((__pyx_v_YY[__pyx_v_k]) - __pyx_v_u)));
+    __pyx_v_S = (__pyx_v_S + __pyx_v_func_derivative(__pyx_v_func, ((__pyx_v_YY[__pyx_v_k]) - __pyx_v_u)));
 
-    /* "mlgrad/avragg.pyx":139
+    /* "mlgrad/avragg.pyx":141
  *         while k < N:
- *             S += func.derivative(YY[k] - u)
+ *             S += func_derivative(func, YY[k] - u)
  *             k += 1             # <<<<<<<<<<<<<<
  * 
  *         return -S / N
@@ -5941,22 +5924,22 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
     __pyx_v_k = (__pyx_v_k + 1);
   }
 
-  /* "mlgrad/avragg.pyx":141
+  /* "mlgrad/avragg.pyx":143
  *             k += 1
  * 
  *         return -S / N             # <<<<<<<<<<<<<<
  *     #
  *     @cython.final
  */
-  __pyx_t_7 = (-__pyx_v_S);
+  __pyx_t_8 = (-__pyx_v_S);
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 141, __pyx_L1_error)
+    __PYX_ERR(2, 143, __pyx_L1_error)
   }
-  __pyx_r = (__pyx_t_7 / ((double)__pyx_v_N));
+  __pyx_r = (__pyx_t_8 / ((double)__pyx_v_N));
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pyx":108
+  /* "mlgrad/avragg.pyx":109
  *     #
  *     @cython.final
  *     cdef double derivative(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
@@ -5975,7 +5958,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":144
+/* "mlgrad/avragg.pyx":146
  *     #
  *     @cython.final
  *     cdef double iterative_next(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
@@ -6001,20 +5984,22 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
   double __pyx_v_v4;
   double *__pyx_v_YY;
   struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  __pyx_t_6mlgrad_6avragg_FuncDerivativeDivX __pyx_v_func_derivative_div_x;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
+  double (*__pyx_t_3)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("iterative_next", 0);
 
-  /* "mlgrad/avragg.pyx":145
+  /* "mlgrad/avragg.pyx":147
  *     @cython.final
  *     cdef double iterative_next(self, double[::1] Y, double u):
  *         cdef Py_ssize_t k, M, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -6023,30 +6008,40 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":149
+  /* "mlgrad/avragg.pyx":151
  *         cdef double y1, y2, y3, y4
  *         cdef double v1, v2, v3, v4
  *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
  *         cdef Func func = self.func
- * 
+ *         cdef FuncDerivativeDivX func_derivative_div_x = func.derivative_div_x
  */
   __pyx_t_1 = 0;
   __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":150
+  /* "mlgrad/avragg.pyx":152
  *         cdef double v1, v2, v3, v4
  *         cdef double *YY = &Y[0]
  *         cdef Func func = self.func             # <<<<<<<<<<<<<<
+ *         cdef FuncDerivativeDivX func_derivative_div_x = func.derivative_div_x
  * 
- *         S = 0
  */
   __pyx_t_2 = ((PyObject *)__pyx_v_self->__pyx_base.func);
   __Pyx_INCREF(__pyx_t_2);
   __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "mlgrad/avragg.pyx":152
+  /* "mlgrad/avragg.pyx":153
+ *         cdef double *YY = &Y[0]
  *         cdef Func func = self.func
+ *         cdef FuncDerivativeDivX func_derivative_div_x = func.derivative_div_x             # <<<<<<<<<<<<<<
+ * 
+ *         S = 0
+ */
+  __pyx_t_3 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative_div_x;
+  __pyx_v_func_derivative_div_x = __pyx_t_3;
+
+  /* "mlgrad/avragg.pyx":155
+ *         cdef FuncDerivativeDivX func_derivative_div_x = func.derivative_div_x
  * 
  *         S = 0             # <<<<<<<<<<<<<<
  *         V = 0
@@ -6054,7 +6049,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  */
   __pyx_v_S = 0.0;
 
-  /* "mlgrad/avragg.pyx":153
+  /* "mlgrad/avragg.pyx":156
  * 
  *         S = 0
  *         V = 0             # <<<<<<<<<<<<<<
@@ -6063,7 +6058,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  */
   __pyx_v_V = 0.0;
 
-  /* "mlgrad/avragg.pyx":155
+  /* "mlgrad/avragg.pyx":158
  *         V = 0
  * 
  *         M = 4 * (N // 4)             # <<<<<<<<<<<<<<
@@ -6072,17 +6067,17 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  */
   __pyx_v_M = (4 * __Pyx_div_Py_ssize_t(__pyx_v_N, 4));
 
-  /* "mlgrad/avragg.pyx":156
+  /* "mlgrad/avragg.pyx":159
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  * #             for k in range(0, M, 4):
  */
-  __pyx_t_3 = ((__pyx_v_M > 0) != 0);
-  if (__pyx_t_3) {
+  __pyx_t_4 = ((__pyx_v_M > 0) != 0);
+  if (__pyx_t_4) {
 
-    /* "mlgrad/avragg.pyx":157
+    /* "mlgrad/avragg.pyx":160
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -6096,7 +6091,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
         __Pyx_FastGIL_Remember();
         #endif
         /*try:*/ {
-          __pyx_t_4 = __pyx_v_M;
+          __pyx_t_5 = __pyx_v_M;
           if ((4 == 0)) abort();
           {
               #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
@@ -6105,8 +6100,8 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
                   #define likely(x)   (x)
                   #define unlikely(x) (x)
               #endif
-              __pyx_t_6 = (__pyx_t_4 - 0 + 4 - 4/abs(4)) / 4;
-              if (__pyx_t_6 > 0)
+              __pyx_t_7 = (__pyx_t_5 - 0 + 4 - 4/abs(4)) / 4;
+              if (__pyx_t_7 > 0)
               {
                   #ifdef _OPENMP
                   #pragma omp parallel reduction(+:__pyx_v_S) reduction(+:__pyx_v_V) num_threads(__pyx_v_6mlgrad_6avragg_num_procs)
@@ -6115,9 +6110,9 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
                       #ifdef _OPENMP
                       #pragma omp for firstprivate(__pyx_v_k) lastprivate(__pyx_v_k) lastprivate(__pyx_v_v1) lastprivate(__pyx_v_v2) lastprivate(__pyx_v_v3) lastprivate(__pyx_v_v4) lastprivate(__pyx_v_y1) lastprivate(__pyx_v_y2) lastprivate(__pyx_v_y3) lastprivate(__pyx_v_y4)
                       #endif /* _OPENMP */
-                      for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_6; __pyx_t_5++){
+                      for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_7; __pyx_t_6++){
                           {
-                              __pyx_v_k = (Py_ssize_t)(0 + 4 * __pyx_t_5);
+                              __pyx_v_k = (Py_ssize_t)(0 + 4 * __pyx_t_6);
                               /* Initialize private variables to invalid values */
                               __pyx_v_v1 = ((double)__PYX_NAN());
                               __pyx_v_v2 = ((double)__PYX_NAN());
@@ -6128,7 +6123,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
                               __pyx_v_y3 = ((double)__PYX_NAN());
                               __pyx_v_y4 = ((double)__PYX_NAN());
 
-                              /* "mlgrad/avragg.pyx":159
+                              /* "mlgrad/avragg.pyx":162
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  * #             for k in range(0, M, 4):
  *                 y1 = YY[k]             # <<<<<<<<<<<<<<
@@ -6137,7 +6132,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  */
                               __pyx_v_y1 = (__pyx_v_YY[__pyx_v_k]);
 
-                              /* "mlgrad/avragg.pyx":160
+                              /* "mlgrad/avragg.pyx":163
  * #             for k in range(0, M, 4):
  *                 y1 = YY[k]
  *                 y2 = YY[k+1]             # <<<<<<<<<<<<<<
@@ -6146,7 +6141,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  */
                               __pyx_v_y2 = (__pyx_v_YY[(__pyx_v_k + 1)]);
 
-                              /* "mlgrad/avragg.pyx":161
+                              /* "mlgrad/avragg.pyx":164
  *                 y1 = YY[k]
  *                 y2 = YY[k+1]
  *                 y3 = YY[k+2]             # <<<<<<<<<<<<<<
@@ -6155,53 +6150,53 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  */
                               __pyx_v_y3 = (__pyx_v_YY[(__pyx_v_k + 2)]);
 
-                              /* "mlgrad/avragg.pyx":162
+                              /* "mlgrad/avragg.pyx":165
  *                 y2 = YY[k+1]
  *                 y3 = YY[k+2]
  *                 y4 = YY[k+3]             # <<<<<<<<<<<<<<
  * 
- *                 v1 = func.derivative_div_x(y1 - u)
+ *                 v1 = func_derivative_div_x(func, y1 - u)
  */
                               __pyx_v_y4 = (__pyx_v_YY[(__pyx_v_k + 3)]);
 
-                              /* "mlgrad/avragg.pyx":164
+                              /* "mlgrad/avragg.pyx":167
  *                 y4 = YY[k+3]
  * 
- *                 v1 = func.derivative_div_x(y1 - u)             # <<<<<<<<<<<<<<
- *                 v2 = func.derivative_div_x(y2 - u)
- *                 v3 = func.derivative_div_x(y3 - u)
+ *                 v1 = func_derivative_div_x(func, y1 - u)             # <<<<<<<<<<<<<<
+ *                 v2 = func_derivative_div_x(func, y2 - u)
+ *                 v3 = func_derivative_div_x(func, y3 - u)
  */
-                              __pyx_v_v1 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative_div_x(__pyx_v_func, (__pyx_v_y1 - __pyx_v_u));
+                              __pyx_v_v1 = __pyx_v_func_derivative_div_x(__pyx_v_func, (__pyx_v_y1 - __pyx_v_u));
 
-                              /* "mlgrad/avragg.pyx":165
+                              /* "mlgrad/avragg.pyx":168
  * 
- *                 v1 = func.derivative_div_x(y1 - u)
- *                 v2 = func.derivative_div_x(y2 - u)             # <<<<<<<<<<<<<<
- *                 v3 = func.derivative_div_x(y3 - u)
- *                 v4 = func.derivative_div_x(y4 - u)
+ *                 v1 = func_derivative_div_x(func, y1 - u)
+ *                 v2 = func_derivative_div_x(func, y2 - u)             # <<<<<<<<<<<<<<
+ *                 v3 = func_derivative_div_x(func, y3 - u)
+ *                 v4 = func_derivative_div_x(func, y4 - u)
  */
-                              __pyx_v_v2 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative_div_x(__pyx_v_func, (__pyx_v_y2 - __pyx_v_u));
+                              __pyx_v_v2 = __pyx_v_func_derivative_div_x(__pyx_v_func, (__pyx_v_y2 - __pyx_v_u));
 
-                              /* "mlgrad/avragg.pyx":166
- *                 v1 = func.derivative_div_x(y1 - u)
- *                 v2 = func.derivative_div_x(y2 - u)
- *                 v3 = func.derivative_div_x(y3 - u)             # <<<<<<<<<<<<<<
- *                 v4 = func.derivative_div_x(y4 - u)
+                              /* "mlgrad/avragg.pyx":169
+ *                 v1 = func_derivative_div_x(func, y1 - u)
+ *                 v2 = func_derivative_div_x(func, y2 - u)
+ *                 v3 = func_derivative_div_x(func, y3 - u)             # <<<<<<<<<<<<<<
+ *                 v4 = func_derivative_div_x(func, y4 - u)
  * 
  */
-                              __pyx_v_v3 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative_div_x(__pyx_v_func, (__pyx_v_y3 - __pyx_v_u));
+                              __pyx_v_v3 = __pyx_v_func_derivative_div_x(__pyx_v_func, (__pyx_v_y3 - __pyx_v_u));
 
-                              /* "mlgrad/avragg.pyx":167
- *                 v2 = func.derivative_div_x(y2 - u)
- *                 v3 = func.derivative_div_x(y3 - u)
- *                 v4 = func.derivative_div_x(y4 - u)             # <<<<<<<<<<<<<<
+                              /* "mlgrad/avragg.pyx":170
+ *                 v2 = func_derivative_div_x(func, y2 - u)
+ *                 v3 = func_derivative_div_x(func, y3 - u)
+ *                 v4 = func_derivative_div_x(func, y4 - u)             # <<<<<<<<<<<<<<
  * 
  *                 V += v1 + v2 + v3 + v4
  */
-                              __pyx_v_v4 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative_div_x(__pyx_v_func, (__pyx_v_y4 - __pyx_v_u));
+                              __pyx_v_v4 = __pyx_v_func_derivative_div_x(__pyx_v_func, (__pyx_v_y4 - __pyx_v_u));
 
-                              /* "mlgrad/avragg.pyx":169
- *                 v4 = func.derivative_div_x(y4 - u)
+                              /* "mlgrad/avragg.pyx":172
+ *                 v4 = func_derivative_div_x(func, y4 - u)
  * 
  *                 V += v1 + v2 + v3 + v4             # <<<<<<<<<<<<<<
  *                 S += v1*y1 + v2*y2 + v3*y3 + v4*y4
@@ -6209,7 +6204,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  */
                               __pyx_v_V = (__pyx_v_V + (((__pyx_v_v1 + __pyx_v_v2) + __pyx_v_v3) + __pyx_v_v4));
 
-                              /* "mlgrad/avragg.pyx":170
+                              /* "mlgrad/avragg.pyx":173
  * 
  *                 V += v1 + v2 + v3 + v4
  *                 S += v1*y1 + v2*y2 + v3*y3 + v4*y4             # <<<<<<<<<<<<<<
@@ -6230,7 +6225,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
           #endif
         }
 
-        /* "mlgrad/avragg.pyx":157
+        /* "mlgrad/avragg.pyx":160
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -6249,7 +6244,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
         }
     }
 
-    /* "mlgrad/avragg.pyx":172
+    /* "mlgrad/avragg.pyx":175
  *                 S += v1*y1 + v2*y2 + v3*y3 + v4*y4
  * 
  *             k += 4             # <<<<<<<<<<<<<<
@@ -6258,7 +6253,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  */
     __pyx_v_k = (__pyx_v_k + 4);
 
-    /* "mlgrad/avragg.pyx":156
+    /* "mlgrad/avragg.pyx":159
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -6268,7 +6263,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
     goto __pyx_L3;
   }
 
-  /* "mlgrad/avragg.pyx":174
+  /* "mlgrad/avragg.pyx":177
  *             k += 4
  *         else:
  *             k = 0             # <<<<<<<<<<<<<<
@@ -6280,46 +6275,46 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
   }
   __pyx_L3:;
 
-  /* "mlgrad/avragg.pyx":175
+  /* "mlgrad/avragg.pyx":178
  *         else:
  *             k = 0
  *         while k < N:             # <<<<<<<<<<<<<<
  *             yk = YY[k]
- *             v = func.derivative_div_x(yk - u)
+ *             v = func_derivative_div_x(func, yk - u)
  */
   while (1) {
-    __pyx_t_3 = ((__pyx_v_k < __pyx_v_N) != 0);
-    if (!__pyx_t_3) break;
+    __pyx_t_4 = ((__pyx_v_k < __pyx_v_N) != 0);
+    if (!__pyx_t_4) break;
 
-    /* "mlgrad/avragg.pyx":176
+    /* "mlgrad/avragg.pyx":179
  *             k = 0
  *         while k < N:
  *             yk = YY[k]             # <<<<<<<<<<<<<<
- *             v = func.derivative_div_x(yk - u)
+ *             v = func_derivative_div_x(func, yk - u)
  *             V += v
  */
     __pyx_v_yk = (__pyx_v_YY[__pyx_v_k]);
 
-    /* "mlgrad/avragg.pyx":177
+    /* "mlgrad/avragg.pyx":180
  *         while k < N:
  *             yk = YY[k]
- *             v = func.derivative_div_x(yk - u)             # <<<<<<<<<<<<<<
+ *             v = func_derivative_div_x(func, yk - u)             # <<<<<<<<<<<<<<
  *             V += v
  *             S += v * yk
  */
-    __pyx_v_v = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative_div_x(__pyx_v_func, (__pyx_v_yk - __pyx_v_u));
+    __pyx_v_v = __pyx_v_func_derivative_div_x(__pyx_v_func, (__pyx_v_yk - __pyx_v_u));
 
-    /* "mlgrad/avragg.pyx":178
+    /* "mlgrad/avragg.pyx":181
  *             yk = YY[k]
- *             v = func.derivative_div_x(yk - u)
+ *             v = func_derivative_div_x(func, yk - u)
  *             V += v             # <<<<<<<<<<<<<<
  *             S += v * yk
  *             k += 1
  */
     __pyx_v_V = (__pyx_v_V + __pyx_v_v);
 
-    /* "mlgrad/avragg.pyx":179
- *             v = func.derivative_div_x(yk - u)
+    /* "mlgrad/avragg.pyx":182
+ *             v = func_derivative_div_x(func, yk - u)
  *             V += v
  *             S += v * yk             # <<<<<<<<<<<<<<
  *             k += 1
@@ -6327,7 +6322,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  */
     __pyx_v_S = (__pyx_v_S + (__pyx_v_v * __pyx_v_yk));
 
-    /* "mlgrad/avragg.pyx":180
+    /* "mlgrad/avragg.pyx":183
  *             V += v
  *             S += v * yk
  *             k += 1             # <<<<<<<<<<<<<<
@@ -6337,7 +6332,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
     __pyx_v_k = (__pyx_v_k + 1);
   }
 
-  /* "mlgrad/avragg.pyx":182
+  /* "mlgrad/avragg.pyx":185
  *             k += 1
  * 
  *         return S / V             # <<<<<<<<<<<<<<
@@ -6346,12 +6341,12 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  */
   if (unlikely(__pyx_v_V == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 182, __pyx_L1_error)
+    __PYX_ERR(2, 185, __pyx_L1_error)
   }
   __pyx_r = (__pyx_v_S / __pyx_v_V);
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pyx":144
+  /* "mlgrad/avragg.pyx":146
  *     #
  *     @cython.final
  *     cdef double iterative_next(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
@@ -6370,7 +6365,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":185
+/* "mlgrad/avragg.pyx":188
  *     #
  *     @cython.final
  *     cdef void gradient(self, double[::1] Y, double u, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -6395,20 +6390,22 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
   double *__pyx_v_YY;
   double *__pyx_v_GG;
   struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  __pyx_t_6mlgrad_6avragg_FuncDerivative2 __pyx_v_func_derivative2;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
+  double (*__pyx_t_3)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":186
+  /* "mlgrad/avragg.pyx":189
  *     @cython.final
  *     cdef void gradient(self, double[::1] Y, double u, double[::1] grad):
  *         cdef Py_ssize_t k, M, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -6417,7 +6414,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":190
+  /* "mlgrad/avragg.pyx":193
  *         cdef double y1, y2, y3, y4
  *         cdef double v1, v2, v3, v4
  *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
@@ -6427,30 +6424,40 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
   __pyx_t_1 = 0;
   __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":191
+  /* "mlgrad/avragg.pyx":194
  *         cdef double v1, v2, v3, v4
  *         cdef double *YY = &Y[0]
  *         cdef double *GG = &grad[0]             # <<<<<<<<<<<<<<
  *         cdef Func func = self.func
- * 
+ *         cdef FuncDerivative2 func_derivative2 = func.derivative2
  */
   __pyx_t_1 = 0;
   __pyx_v_GG = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":192
+  /* "mlgrad/avragg.pyx":195
  *         cdef double *YY = &Y[0]
  *         cdef double *GG = &grad[0]
  *         cdef Func func = self.func             # <<<<<<<<<<<<<<
+ *         cdef FuncDerivative2 func_derivative2 = func.derivative2
  * 
- *         S = 0
  */
   __pyx_t_2 = ((PyObject *)__pyx_v_self->__pyx_base.func);
   __Pyx_INCREF(__pyx_t_2);
   __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "mlgrad/avragg.pyx":194
+  /* "mlgrad/avragg.pyx":196
+ *         cdef double *GG = &grad[0]
  *         cdef Func func = self.func
+ *         cdef FuncDerivative2 func_derivative2 = func.derivative2             # <<<<<<<<<<<<<<
+ * 
+ *         S = 0
+ */
+  __pyx_t_3 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative2;
+  __pyx_v_func_derivative2 = __pyx_t_3;
+
+  /* "mlgrad/avragg.pyx":198
+ *         cdef FuncDerivative2 func_derivative2 = func.derivative2
  * 
  *         S = 0             # <<<<<<<<<<<<<<
  * 
@@ -6458,7 +6465,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
   __pyx_v_S = 0.0;
 
-  /* "mlgrad/avragg.pyx":196
+  /* "mlgrad/avragg.pyx":200
  *         S = 0
  * 
  *         M = 4 * (N // 4)             # <<<<<<<<<<<<<<
@@ -6467,17 +6474,17 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
   __pyx_v_M = (4 * __Pyx_div_Py_ssize_t(__pyx_v_N, 4));
 
-  /* "mlgrad/avragg.pyx":197
+  /* "mlgrad/avragg.pyx":201
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  * #             for k in range(0, M, 4):
  */
-  __pyx_t_3 = ((__pyx_v_M > 0) != 0);
-  if (__pyx_t_3) {
+  __pyx_t_4 = ((__pyx_v_M > 0) != 0);
+  if (__pyx_t_4) {
 
-    /* "mlgrad/avragg.pyx":198
+    /* "mlgrad/avragg.pyx":202
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -6491,7 +6498,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
         __Pyx_FastGIL_Remember();
         #endif
         /*try:*/ {
-          __pyx_t_4 = __pyx_v_M;
+          __pyx_t_5 = __pyx_v_M;
           if ((4 == 0)) abort();
           {
               #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
@@ -6500,8 +6507,8 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
                   #define likely(x)   (x)
                   #define unlikely(x) (x)
               #endif
-              __pyx_t_6 = (__pyx_t_4 - 0 + 4 - 4/abs(4)) / 4;
-              if (__pyx_t_6 > 0)
+              __pyx_t_7 = (__pyx_t_5 - 0 + 4 - 4/abs(4)) / 4;
+              if (__pyx_t_7 > 0)
               {
                   #ifdef _OPENMP
                   #pragma omp parallel reduction(+:__pyx_v_S) num_threads(__pyx_v_6mlgrad_6avragg_num_procs)
@@ -6510,9 +6517,9 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
                       #ifdef _OPENMP
                       #pragma omp for firstprivate(__pyx_v_k) lastprivate(__pyx_v_k) lastprivate(__pyx_v_v1) lastprivate(__pyx_v_v2) lastprivate(__pyx_v_v3) lastprivate(__pyx_v_v4) lastprivate(__pyx_v_y1) lastprivate(__pyx_v_y2) lastprivate(__pyx_v_y3) lastprivate(__pyx_v_y4)
                       #endif /* _OPENMP */
-                      for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_6; __pyx_t_5++){
+                      for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_7; __pyx_t_6++){
                           {
-                              __pyx_v_k = (Py_ssize_t)(0 + 4 * __pyx_t_5);
+                              __pyx_v_k = (Py_ssize_t)(0 + 4 * __pyx_t_6);
                               /* Initialize private variables to invalid values */
                               __pyx_v_v1 = ((double)__PYX_NAN());
                               __pyx_v_v2 = ((double)__PYX_NAN());
@@ -6523,7 +6530,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
                               __pyx_v_y3 = ((double)__PYX_NAN());
                               __pyx_v_y4 = ((double)__PYX_NAN());
 
-                              /* "mlgrad/avragg.pyx":200
+                              /* "mlgrad/avragg.pyx":204
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  * #             for k in range(0, M, 4):
  *                 y1 = YY[k]             # <<<<<<<<<<<<<<
@@ -6532,7 +6539,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
                               __pyx_v_y1 = (__pyx_v_YY[__pyx_v_k]);
 
-                              /* "mlgrad/avragg.pyx":201
+                              /* "mlgrad/avragg.pyx":205
  * #             for k in range(0, M, 4):
  *                 y1 = YY[k]
  *                 y2 = YY[k+1]             # <<<<<<<<<<<<<<
@@ -6541,7 +6548,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
                               __pyx_v_y2 = (__pyx_v_YY[(__pyx_v_k + 1)]);
 
-                              /* "mlgrad/avragg.pyx":202
+                              /* "mlgrad/avragg.pyx":206
  *                 y1 = YY[k]
  *                 y2 = YY[k+1]
  *                 y3 = YY[k+2]             # <<<<<<<<<<<<<<
@@ -6550,53 +6557,53 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
                               __pyx_v_y3 = (__pyx_v_YY[(__pyx_v_k + 2)]);
 
-                              /* "mlgrad/avragg.pyx":203
+                              /* "mlgrad/avragg.pyx":207
  *                 y2 = YY[k+1]
  *                 y3 = YY[k+2]
  *                 y4 = YY[k+3]             # <<<<<<<<<<<<<<
  * 
- *                 v1 = func.derivative2(y1 - u)
+ *                 v1 = func_derivative2(func, y1 - u)
  */
                               __pyx_v_y4 = (__pyx_v_YY[(__pyx_v_k + 3)]);
 
-                              /* "mlgrad/avragg.pyx":205
+                              /* "mlgrad/avragg.pyx":209
  *                 y4 = YY[k+3]
  * 
- *                 v1 = func.derivative2(y1 - u)             # <<<<<<<<<<<<<<
- *                 v2 = func.derivative2(y2 - u)
- *                 v3 = func.derivative2(y3 - u)
+ *                 v1 = func_derivative2(func, y1 - u)             # <<<<<<<<<<<<<<
+ *                 v2 = func_derivative2(func, y2 - u)
+ *                 v3 = func_derivative2(func, y3 - u)
  */
-                              __pyx_v_v1 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative2(__pyx_v_func, (__pyx_v_y1 - __pyx_v_u));
+                              __pyx_v_v1 = __pyx_v_func_derivative2(__pyx_v_func, (__pyx_v_y1 - __pyx_v_u));
 
-                              /* "mlgrad/avragg.pyx":206
+                              /* "mlgrad/avragg.pyx":210
  * 
- *                 v1 = func.derivative2(y1 - u)
- *                 v2 = func.derivative2(y2 - u)             # <<<<<<<<<<<<<<
- *                 v3 = func.derivative2(y3 - u)
- *                 v4 = func.derivative2(y4 - u)
+ *                 v1 = func_derivative2(func, y1 - u)
+ *                 v2 = func_derivative2(func, y2 - u)             # <<<<<<<<<<<<<<
+ *                 v3 = func_derivative2(func, y3 - u)
+ *                 v4 = func_derivative2(func, y4 - u)
  */
-                              __pyx_v_v2 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative2(__pyx_v_func, (__pyx_v_y2 - __pyx_v_u));
+                              __pyx_v_v2 = __pyx_v_func_derivative2(__pyx_v_func, (__pyx_v_y2 - __pyx_v_u));
 
-                              /* "mlgrad/avragg.pyx":207
- *                 v1 = func.derivative2(y1 - u)
- *                 v2 = func.derivative2(y2 - u)
- *                 v3 = func.derivative2(y3 - u)             # <<<<<<<<<<<<<<
- *                 v4 = func.derivative2(y4 - u)
+                              /* "mlgrad/avragg.pyx":211
+ *                 v1 = func_derivative2(func, y1 - u)
+ *                 v2 = func_derivative2(func, y2 - u)
+ *                 v3 = func_derivative2(func, y3 - u)             # <<<<<<<<<<<<<<
+ *                 v4 = func_derivative2(func, y4 - u)
  * 
  */
-                              __pyx_v_v3 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative2(__pyx_v_func, (__pyx_v_y3 - __pyx_v_u));
+                              __pyx_v_v3 = __pyx_v_func_derivative2(__pyx_v_func, (__pyx_v_y3 - __pyx_v_u));
 
-                              /* "mlgrad/avragg.pyx":208
- *                 v2 = func.derivative2(y2 - u)
- *                 v3 = func.derivative2(y3 - u)
- *                 v4 = func.derivative2(y4 - u)             # <<<<<<<<<<<<<<
+                              /* "mlgrad/avragg.pyx":212
+ *                 v2 = func_derivative2(func, y2 - u)
+ *                 v3 = func_derivative2(func, y3 - u)
+ *                 v4 = func_derivative2(func, y4 - u)             # <<<<<<<<<<<<<<
  * 
  *                 GG[k]   = v1
  */
-                              __pyx_v_v4 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative2(__pyx_v_func, (__pyx_v_y4 - __pyx_v_u));
+                              __pyx_v_v4 = __pyx_v_func_derivative2(__pyx_v_func, (__pyx_v_y4 - __pyx_v_u));
 
-                              /* "mlgrad/avragg.pyx":210
- *                 v4 = func.derivative2(y4 - u)
+                              /* "mlgrad/avragg.pyx":214
+ *                 v4 = func_derivative2(func, y4 - u)
  * 
  *                 GG[k]   = v1             # <<<<<<<<<<<<<<
  *                 GG[k+1] = v2
@@ -6604,7 +6611,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
                               (__pyx_v_GG[__pyx_v_k]) = __pyx_v_v1;
 
-                              /* "mlgrad/avragg.pyx":211
+                              /* "mlgrad/avragg.pyx":215
  * 
  *                 GG[k]   = v1
  *                 GG[k+1] = v2             # <<<<<<<<<<<<<<
@@ -6613,7 +6620,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
                               (__pyx_v_GG[(__pyx_v_k + 1)]) = __pyx_v_v2;
 
-                              /* "mlgrad/avragg.pyx":212
+                              /* "mlgrad/avragg.pyx":216
  *                 GG[k]   = v1
  *                 GG[k+1] = v2
  *                 GG[k+2] = v3             # <<<<<<<<<<<<<<
@@ -6622,7 +6629,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
                               (__pyx_v_GG[(__pyx_v_k + 2)]) = __pyx_v_v3;
 
-                              /* "mlgrad/avragg.pyx":213
+                              /* "mlgrad/avragg.pyx":217
  *                 GG[k+1] = v2
  *                 GG[k+2] = v3
  *                 GG[k+3] = v4             # <<<<<<<<<<<<<<
@@ -6631,7 +6638,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
                               (__pyx_v_GG[(__pyx_v_k + 3)]) = __pyx_v_v4;
 
-                              /* "mlgrad/avragg.pyx":215
+                              /* "mlgrad/avragg.pyx":219
  *                 GG[k+3] = v4
  * 
  *                 S += v1 + v2 + v3 + v4             # <<<<<<<<<<<<<<
@@ -6652,7 +6659,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
           #endif
         }
 
-        /* "mlgrad/avragg.pyx":198
+        /* "mlgrad/avragg.pyx":202
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -6671,7 +6678,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
         }
     }
 
-    /* "mlgrad/avragg.pyx":217
+    /* "mlgrad/avragg.pyx":221
  *                 S += v1 + v2 + v3 + v4
  * 
  *             k += 4             # <<<<<<<<<<<<<<
@@ -6680,7 +6687,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
     __pyx_v_k = (__pyx_v_k + 4);
 
-    /* "mlgrad/avragg.pyx":197
+    /* "mlgrad/avragg.pyx":201
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -6690,49 +6697,49 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
     goto __pyx_L3;
   }
 
-  /* "mlgrad/avragg.pyx":219
+  /* "mlgrad/avragg.pyx":223
  *             k += 4
  *         else:
  *             k = 0             # <<<<<<<<<<<<<<
  *         while k < N:
- *             v = func.derivative2(YY[k] - u)
+ *             v = func_derivative2(func, YY[k] - u)
  */
   /*else*/ {
     __pyx_v_k = 0;
   }
   __pyx_L3:;
 
-  /* "mlgrad/avragg.pyx":220
+  /* "mlgrad/avragg.pyx":224
  *         else:
  *             k = 0
  *         while k < N:             # <<<<<<<<<<<<<<
- *             v = func.derivative2(YY[k] - u)
+ *             v = func_derivative2(func, YY[k] - u)
  *             S += v
  */
   while (1) {
-    __pyx_t_3 = ((__pyx_v_k < __pyx_v_N) != 0);
-    if (!__pyx_t_3) break;
+    __pyx_t_4 = ((__pyx_v_k < __pyx_v_N) != 0);
+    if (!__pyx_t_4) break;
 
-    /* "mlgrad/avragg.pyx":221
+    /* "mlgrad/avragg.pyx":225
  *             k = 0
  *         while k < N:
- *             v = func.derivative2(YY[k] - u)             # <<<<<<<<<<<<<<
+ *             v = func_derivative2(func, YY[k] - u)             # <<<<<<<<<<<<<<
  *             S += v
  *             GG[k] = v
  */
-    __pyx_v_v = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->derivative2(__pyx_v_func, ((__pyx_v_YY[__pyx_v_k]) - __pyx_v_u));
+    __pyx_v_v = __pyx_v_func_derivative2(__pyx_v_func, ((__pyx_v_YY[__pyx_v_k]) - __pyx_v_u));
 
-    /* "mlgrad/avragg.pyx":222
+    /* "mlgrad/avragg.pyx":226
  *         while k < N:
- *             v = func.derivative2(YY[k] - u)
+ *             v = func_derivative2(func, YY[k] - u)
  *             S += v             # <<<<<<<<<<<<<<
  *             GG[k] = v
  *             k += 1
  */
     __pyx_v_S = (__pyx_v_S + __pyx_v_v);
 
-    /* "mlgrad/avragg.pyx":223
- *             v = func.derivative2(YY[k] - u)
+    /* "mlgrad/avragg.pyx":227
+ *             v = func_derivative2(func, YY[k] - u)
  *             S += v
  *             GG[k] = v             # <<<<<<<<<<<<<<
  *             k += 1
@@ -6740,7 +6747,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
     (__pyx_v_GG[__pyx_v_k]) = __pyx_v_v;
 
-    /* "mlgrad/avragg.pyx":224
+    /* "mlgrad/avragg.pyx":228
  *             S += v
  *             GG[k] = v
  *             k += 1             # <<<<<<<<<<<<<<
@@ -6750,17 +6757,17 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
     __pyx_v_k = (__pyx_v_k + 1);
   }
 
-  /* "mlgrad/avragg.pyx":226
+  /* "mlgrad/avragg.pyx":230
  *             k += 1
  * 
  *         if M > 0:             # <<<<<<<<<<<<<<
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  * #             for k in range(0, M, 4):
  */
-  __pyx_t_3 = ((__pyx_v_M > 0) != 0);
-  if (__pyx_t_3) {
+  __pyx_t_4 = ((__pyx_v_M > 0) != 0);
+  if (__pyx_t_4) {
 
-    /* "mlgrad/avragg.pyx":227
+    /* "mlgrad/avragg.pyx":231
  * 
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -6774,7 +6781,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
         __Pyx_FastGIL_Remember();
         #endif
         /*try:*/ {
-          __pyx_t_6 = __pyx_v_M;
+          __pyx_t_7 = __pyx_v_M;
           if ((4 == 0)) abort();
           {
               Py_ssize_t __pyx_parallel_temp0 = ((Py_ssize_t)0xbad0bad0);
@@ -6788,11 +6795,11 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
                   #define likely(x)   (x)
                   #define unlikely(x) (x)
               #endif
-              __pyx_t_4 = (__pyx_t_6 - 0 + 4 - 4/abs(4)) / 4;
-              if (__pyx_t_4 > 0)
+              __pyx_t_5 = (__pyx_t_7 - 0 + 4 - 4/abs(4)) / 4;
+              if (__pyx_t_5 > 0)
               {
                   #ifdef _OPENMP
-                  #pragma omp parallel num_threads(__pyx_v_6mlgrad_6avragg_num_procs) private(__pyx_t_7) private(__pyx_filename, __pyx_lineno, __pyx_clineno) shared(__pyx_parallel_why, __pyx_parallel_exc_type, __pyx_parallel_exc_value, __pyx_parallel_exc_tb)
+                  #pragma omp parallel num_threads(__pyx_v_6mlgrad_6avragg_num_procs) private(__pyx_t_8) private(__pyx_filename, __pyx_lineno, __pyx_clineno) shared(__pyx_parallel_why, __pyx_parallel_exc_type, __pyx_parallel_exc_value, __pyx_parallel_exc_tb)
                   #endif /* _OPENMP */
                   {
                       #ifdef _OPENMP
@@ -6804,19 +6811,19 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
                       #ifdef _OPENMP
                       #pragma omp for firstprivate(__pyx_v_k) lastprivate(__pyx_v_k)
                       #endif /* _OPENMP */
-                      for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5++){
+                      for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6++){
                           if (__pyx_parallel_why < 2)
                           {
-                              __pyx_v_k = (Py_ssize_t)(0 + 4 * __pyx_t_5);
+                              __pyx_v_k = (Py_ssize_t)(0 + 4 * __pyx_t_6);
 
-                              /* "mlgrad/avragg.pyx":229
+                              /* "mlgrad/avragg.pyx":233
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  * #             for k in range(0, M, 4):
  *                 GG[k] /= S             # <<<<<<<<<<<<<<
  *                 GG[k+1] /= S
  *                 GG[k+2] /= S
  */
-                              __pyx_t_7 = __pyx_v_k;
+                              __pyx_t_8 = __pyx_v_k;
                               if (unlikely(__pyx_v_S == 0)) {
                                 #ifdef WITH_THREAD
                                 PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -6825,18 +6832,18 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
                                 #ifdef WITH_THREAD
                                 __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                 #endif
-                                __PYX_ERR(2, 229, __pyx_L21_error)
+                                __PYX_ERR(2, 233, __pyx_L21_error)
                               }
-                              (__pyx_v_GG[__pyx_t_7]) = ((__pyx_v_GG[__pyx_t_7]) / __pyx_v_S);
+                              (__pyx_v_GG[__pyx_t_8]) = ((__pyx_v_GG[__pyx_t_8]) / __pyx_v_S);
 
-                              /* "mlgrad/avragg.pyx":230
+                              /* "mlgrad/avragg.pyx":234
  * #             for k in range(0, M, 4):
  *                 GG[k] /= S
  *                 GG[k+1] /= S             # <<<<<<<<<<<<<<
  *                 GG[k+2] /= S
  *                 GG[k+3] /= S
  */
-                              __pyx_t_7 = (__pyx_v_k + 1);
+                              __pyx_t_8 = (__pyx_v_k + 1);
                               if (unlikely(__pyx_v_S == 0)) {
                                 #ifdef WITH_THREAD
                                 PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -6845,18 +6852,18 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
                                 #ifdef WITH_THREAD
                                 __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                 #endif
-                                __PYX_ERR(2, 230, __pyx_L21_error)
+                                __PYX_ERR(2, 234, __pyx_L21_error)
                               }
-                              (__pyx_v_GG[__pyx_t_7]) = ((__pyx_v_GG[__pyx_t_7]) / __pyx_v_S);
+                              (__pyx_v_GG[__pyx_t_8]) = ((__pyx_v_GG[__pyx_t_8]) / __pyx_v_S);
 
-                              /* "mlgrad/avragg.pyx":231
+                              /* "mlgrad/avragg.pyx":235
  *                 GG[k] /= S
  *                 GG[k+1] /= S
  *                 GG[k+2] /= S             # <<<<<<<<<<<<<<
  *                 GG[k+3] /= S
  * 
  */
-                              __pyx_t_7 = (__pyx_v_k + 2);
+                              __pyx_t_8 = (__pyx_v_k + 2);
                               if (unlikely(__pyx_v_S == 0)) {
                                 #ifdef WITH_THREAD
                                 PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -6865,18 +6872,18 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
                                 #ifdef WITH_THREAD
                                 __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                 #endif
-                                __PYX_ERR(2, 231, __pyx_L21_error)
+                                __PYX_ERR(2, 235, __pyx_L21_error)
                               }
-                              (__pyx_v_GG[__pyx_t_7]) = ((__pyx_v_GG[__pyx_t_7]) / __pyx_v_S);
+                              (__pyx_v_GG[__pyx_t_8]) = ((__pyx_v_GG[__pyx_t_8]) / __pyx_v_S);
 
-                              /* "mlgrad/avragg.pyx":232
+                              /* "mlgrad/avragg.pyx":236
  *                 GG[k+1] /= S
  *                 GG[k+2] /= S
  *                 GG[k+3] /= S             # <<<<<<<<<<<<<<
  * 
  *             k += 4
  */
-                              __pyx_t_7 = (__pyx_v_k + 3);
+                              __pyx_t_8 = (__pyx_v_k + 3);
                               if (unlikely(__pyx_v_S == 0)) {
                                 #ifdef WITH_THREAD
                                 PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -6885,9 +6892,9 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
                                 #ifdef WITH_THREAD
                                 __Pyx_PyGILState_Release(__pyx_gilstate_save);
                                 #endif
-                                __PYX_ERR(2, 232, __pyx_L21_error)
+                                __PYX_ERR(2, 236, __pyx_L21_error)
                               }
-                              (__pyx_v_GG[__pyx_t_7]) = ((__pyx_v_GG[__pyx_t_7]) / __pyx_v_S);
+                              (__pyx_v_GG[__pyx_t_8]) = ((__pyx_v_GG[__pyx_t_8]) / __pyx_v_S);
                               goto __pyx_L24;
                               __pyx_L21_error:;
                               {
@@ -6969,7 +6976,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
           #endif
         }
 
-        /* "mlgrad/avragg.pyx":227
+        /* "mlgrad/avragg.pyx":231
  * 
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -6995,7 +7002,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
         }
     }
 
-    /* "mlgrad/avragg.pyx":234
+    /* "mlgrad/avragg.pyx":238
  *                 GG[k+3] /= S
  * 
  *             k += 4             # <<<<<<<<<<<<<<
@@ -7004,7 +7011,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
     __pyx_v_k = (__pyx_v_k + 4);
 
-    /* "mlgrad/avragg.pyx":226
+    /* "mlgrad/avragg.pyx":230
  *             k += 1
  * 
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -7014,7 +7021,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
     goto __pyx_L15;
   }
 
-  /* "mlgrad/avragg.pyx":236
+  /* "mlgrad/avragg.pyx":240
  *             k += 4
  *         else:
  *             k = 0             # <<<<<<<<<<<<<<
@@ -7026,7 +7033,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
   }
   __pyx_L15:;
 
-  /* "mlgrad/avragg.pyx":237
+  /* "mlgrad/avragg.pyx":241
  *         else:
  *             k = 0
  *         while k < N:             # <<<<<<<<<<<<<<
@@ -7034,24 +7041,24 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  *             k += 1
  */
   while (1) {
-    __pyx_t_3 = ((__pyx_v_k < __pyx_v_N) != 0);
-    if (!__pyx_t_3) break;
+    __pyx_t_4 = ((__pyx_v_k < __pyx_v_N) != 0);
+    if (!__pyx_t_4) break;
 
-    /* "mlgrad/avragg.pyx":238
+    /* "mlgrad/avragg.pyx":242
  *             k = 0
  *         while k < N:
  *             GG[k] /= S             # <<<<<<<<<<<<<<
  *             k += 1
  * 
  */
-    __pyx_t_4 = __pyx_v_k;
+    __pyx_t_5 = __pyx_v_k;
     if (unlikely(__pyx_v_S == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(2, 238, __pyx_L1_error)
+      __PYX_ERR(2, 242, __pyx_L1_error)
     }
-    (__pyx_v_GG[__pyx_t_4]) = ((__pyx_v_GG[__pyx_t_4]) / __pyx_v_S);
+    (__pyx_v_GG[__pyx_t_5]) = ((__pyx_v_GG[__pyx_t_5]) / __pyx_v_S);
 
-    /* "mlgrad/avragg.pyx":239
+    /* "mlgrad/avragg.pyx":243
  *         while k < N:
  *             GG[k] /= S
  *             k += 1             # <<<<<<<<<<<<<<
@@ -7061,7 +7068,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
     __pyx_v_k = (__pyx_v_k + 1);
   }
 
-  /* "mlgrad/avragg.pyx":185
+  /* "mlgrad/avragg.pyx":188
  *     #
  *     @cython.final
  *     cdef void gradient(self, double[::1] Y, double u, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -7374,7 +7381,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_14PenaltyAverage_4__setstate_cython__(
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":243
+/* "mlgrad/avragg.pyx":247
  * cdef class PenaltyScale(Penalty):
  *     #
  *     def __init__(self, Func func):             # <<<<<<<<<<<<<<
@@ -7411,7 +7418,7 @@ static int __pyx_pw_6mlgrad_6avragg_12PenaltyScale_1__init__(PyObject *__pyx_v_s
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 243, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 247, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -7422,13 +7429,13 @@ static int __pyx_pw_6mlgrad_6avragg_12PenaltyScale_1__init__(PyObject *__pyx_v_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 243, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 247, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.PenaltyScale.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(2, 243, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(2, 247, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_12PenaltyScale___init__(((struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *)__pyx_v_self), __pyx_v_func);
 
   /* function exit code */
@@ -7445,7 +7452,7 @@ static int __pyx_pf_6mlgrad_6avragg_12PenaltyScale___init__(struct __pyx_obj_6ml
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/avragg.pyx":244
+  /* "mlgrad/avragg.pyx":248
  *     #
  *     def __init__(self, Func func):
  *         self.func = func             # <<<<<<<<<<<<<<
@@ -7458,7 +7465,7 @@ static int __pyx_pf_6mlgrad_6avragg_12PenaltyScale___init__(struct __pyx_obj_6ml
   __Pyx_DECREF(((PyObject *)__pyx_v_self->__pyx_base.func));
   __pyx_v_self->__pyx_base.func = __pyx_v_func;
 
-  /* "mlgrad/avragg.pyx":243
+  /* "mlgrad/avragg.pyx":247
  * cdef class PenaltyScale(Penalty):
  *     #
  *     def __init__(self, Func func):             # <<<<<<<<<<<<<<
@@ -7472,7 +7479,7 @@ static int __pyx_pf_6mlgrad_6avragg_12PenaltyScale___init__(struct __pyx_obj_6ml
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":246
+/* "mlgrad/avragg.pyx":250
  *         self.func = func
  *     #
  *     cdef double evaluate(self, double[::1] Y, double s):             # <<<<<<<<<<<<<<
@@ -7498,7 +7505,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("evaluate", 0);
 
-  /* "mlgrad/avragg.pyx":247
+  /* "mlgrad/avragg.pyx":251
  *     #
  *     cdef double evaluate(self, double[::1] Y, double s):
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -7507,7 +7514,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":248
+  /* "mlgrad/avragg.pyx":252
  *     cdef double evaluate(self, double[::1] Y, double s):
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef Func func = self.func             # <<<<<<<<<<<<<<
@@ -7519,7 +7526,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
   __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/avragg.pyx":252
+  /* "mlgrad/avragg.pyx":256
  *         cdef double v
  * 
  *         S = 0             # <<<<<<<<<<<<<<
@@ -7528,7 +7535,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
  */
   __pyx_v_S = 0.0;
 
-  /* "mlgrad/avragg.pyx":253
+  /* "mlgrad/avragg.pyx":257
  * 
  *         S = 0
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -7581,7 +7588,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
                             /* Initialize private variables to invalid values */
                             __pyx_v_v = ((double)__PYX_NAN());
 
-                            /* "mlgrad/avragg.pyx":255
+                            /* "mlgrad/avragg.pyx":259
  *         for k in prange(N, nogil=True, num_threads=num_procs):
  * #         for k in range(N):
  *             v = Y[k]             # <<<<<<<<<<<<<<
@@ -7591,7 +7598,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
                             __pyx_t_5 = __pyx_v_k;
                             __pyx_v_v = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) )));
 
-                            /* "mlgrad/avragg.pyx":256
+                            /* "mlgrad/avragg.pyx":260
  * #         for k in range(N):
  *             v = Y[k]
  *             S += func.evaluate(v / s)             # <<<<<<<<<<<<<<
@@ -7606,7 +7613,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
                               #ifdef WITH_THREAD
                               __Pyx_PyGILState_Release(__pyx_gilstate_save);
                               #endif
-                              __PYX_ERR(2, 256, __pyx_L8_error)
+                              __PYX_ERR(2, 260, __pyx_L8_error)
                             }
                             __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, (__pyx_v_v / __pyx_v_s)));
                             goto __pyx_L11;
@@ -7694,7 +7701,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
         #endif
       }
 
-      /* "mlgrad/avragg.pyx":253
+      /* "mlgrad/avragg.pyx":257
  * 
  *         S = 0
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -7720,7 +7727,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
       }
   }
 
-  /* "mlgrad/avragg.pyx":258
+  /* "mlgrad/avragg.pyx":262
  *             S += func.evaluate(v / s)
  * 
  *         return S / N + log(s)             # <<<<<<<<<<<<<<
@@ -7729,12 +7736,12 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 258, __pyx_L1_error)
+    __PYX_ERR(2, 262, __pyx_L1_error)
   }
   __pyx_r = ((__pyx_v_S / ((double)__pyx_v_N)) + log(__pyx_v_s));
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pyx":246
+  /* "mlgrad/avragg.pyx":250
  *         self.func = func
  *     #
  *     cdef double evaluate(self, double[::1] Y, double s):             # <<<<<<<<<<<<<<
@@ -7753,7 +7760,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":260
+/* "mlgrad/avragg.pyx":264
  *         return S / N + log(s)
  *     #
  *     cdef double derivative(self, double[::1] Y, double s):             # <<<<<<<<<<<<<<
@@ -7778,7 +7785,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("derivative", 0);
 
-  /* "mlgrad/avragg.pyx":261
+  /* "mlgrad/avragg.pyx":265
  *     #
  *     cdef double derivative(self, double[::1] Y, double s):
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -7787,7 +7794,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":264
+  /* "mlgrad/avragg.pyx":268
  *         cdef double S, y_k, v
  * 
  *         S = 0             # <<<<<<<<<<<<<<
@@ -7796,7 +7803,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
  */
   __pyx_v_S = 0.0;
 
-  /* "mlgrad/avragg.pyx":265
+  /* "mlgrad/avragg.pyx":269
  * 
  *         S = 0
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -7849,7 +7856,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
                             /* Initialize private variables to invalid values */
                             __pyx_v_v = ((double)__PYX_NAN());
 
-                            /* "mlgrad/avragg.pyx":267
+                            /* "mlgrad/avragg.pyx":271
  *         for k in prange(N, nogil=True, num_threads=num_procs):
  * #         for k in range(N):
  *             v = Y[k] / s             # <<<<<<<<<<<<<<
@@ -7866,11 +7873,11 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
                               #ifdef WITH_THREAD
                               __Pyx_PyGILState_Release(__pyx_gilstate_save);
                               #endif
-                              __PYX_ERR(2, 267, __pyx_L8_error)
+                              __PYX_ERR(2, 271, __pyx_L8_error)
                             }
                             __pyx_v_v = (__pyx_t_5 / __pyx_v_s);
 
-                            /* "mlgrad/avragg.pyx":268
+                            /* "mlgrad/avragg.pyx":272
  * #         for k in range(N):
  *             v = Y[k] / s
  *             S += self.func.derivative(v) * v             # <<<<<<<<<<<<<<
@@ -7963,7 +7970,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
         #endif
       }
 
-      /* "mlgrad/avragg.pyx":265
+      /* "mlgrad/avragg.pyx":269
  * 
  *         S = 0
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -7989,7 +7996,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
       }
   }
 
-  /* "mlgrad/avragg.pyx":270
+  /* "mlgrad/avragg.pyx":274
  *             S += self.func.derivative(v) * v
  * 
  *         return (1 - (S / N)) / s             # <<<<<<<<<<<<<<
@@ -7998,17 +8005,17 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 270, __pyx_L1_error)
+    __PYX_ERR(2, 274, __pyx_L1_error)
   }
   __pyx_t_5 = (1.0 - (__pyx_v_S / ((double)__pyx_v_N)));
   if (unlikely(__pyx_v_s == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 270, __pyx_L1_error)
+    __PYX_ERR(2, 274, __pyx_L1_error)
   }
   __pyx_r = (__pyx_t_5 / __pyx_v_s);
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pyx":260
+  /* "mlgrad/avragg.pyx":264
  *         return S / N + log(s)
  *     #
  *     cdef double derivative(self, double[::1] Y, double s):             # <<<<<<<<<<<<<<
@@ -8025,7 +8032,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":272
+/* "mlgrad/avragg.pyx":276
  *         return (1 - (S / N)) / s
  * 
  *     cdef double iterative_next(self, double[::1] Y, double s):             # <<<<<<<<<<<<<<
@@ -8049,7 +8056,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("iterative_next", 0);
 
-  /* "mlgrad/avragg.pyx":273
+  /* "mlgrad/avragg.pyx":277
  * 
  *     cdef double iterative_next(self, double[::1] Y, double s):
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -8058,7 +8065,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":276
+  /* "mlgrad/avragg.pyx":280
  *         cdef double S, v, y_k
  * 
  *         S = 0             # <<<<<<<<<<<<<<
@@ -8067,7 +8074,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
  */
   __pyx_v_S = 0.0;
 
-  /* "mlgrad/avragg.pyx":277
+  /* "mlgrad/avragg.pyx":281
  * 
  *         S = 0
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -8120,7 +8127,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
                             /* Initialize private variables to invalid values */
                             __pyx_v_y_k = ((double)__PYX_NAN());
 
-                            /* "mlgrad/avragg.pyx":279
+                            /* "mlgrad/avragg.pyx":283
  *         for k in prange(N, nogil=True, num_threads=num_procs):
  * #         for k in range(N):
  *             y_k = Y[k]             # <<<<<<<<<<<<<<
@@ -8130,7 +8137,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
                             __pyx_t_4 = __pyx_v_k;
                             __pyx_v_y_k = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_4)) )));
 
-                            /* "mlgrad/avragg.pyx":280
+                            /* "mlgrad/avragg.pyx":284
  * #         for k in range(N):
  *             y_k = Y[k]
  *             S += self.func.derivative_div_x(y_k / s) * y_k * y_k             # <<<<<<<<<<<<<<
@@ -8145,7 +8152,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
                               #ifdef WITH_THREAD
                               __Pyx_PyGILState_Release(__pyx_gilstate_save);
                               #endif
-                              __PYX_ERR(2, 280, __pyx_L8_error)
+                              __PYX_ERR(2, 284, __pyx_L8_error)
                             }
                             __pyx_v_S = (__pyx_v_S + ((((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_base.func->__pyx_vtab)->derivative_div_x(__pyx_v_self->__pyx_base.func, (__pyx_v_y_k / __pyx_v_s)) * __pyx_v_y_k) * __pyx_v_y_k));
                             goto __pyx_L11;
@@ -8233,7 +8240,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
         #endif
       }
 
-      /* "mlgrad/avragg.pyx":277
+      /* "mlgrad/avragg.pyx":281
  * 
  *         S = 0
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -8259,7 +8266,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
       }
   }
 
-  /* "mlgrad/avragg.pyx":282
+  /* "mlgrad/avragg.pyx":286
  *             S += self.func.derivative_div_x(y_k / s) * y_k * y_k
  * 
  *         return sqrt(S / N)             # <<<<<<<<<<<<<<
@@ -8268,12 +8275,12 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 282, __pyx_L1_error)
+    __PYX_ERR(2, 286, __pyx_L1_error)
   }
   __pyx_r = sqrt((__pyx_v_S / ((double)__pyx_v_N)));
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pyx":272
+  /* "mlgrad/avragg.pyx":276
  *         return (1 - (S / N)) / s
  * 
  *     cdef double iterative_next(self, double[::1] Y, double s):             # <<<<<<<<<<<<<<
@@ -8290,7 +8297,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":284
+/* "mlgrad/avragg.pyx":288
  *         return sqrt(S / N)
  *     #
  *     cdef void gradient(self, double[::1] Y, double s, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -8314,7 +8321,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":285
+  /* "mlgrad/avragg.pyx":289
  *     #
  *     cdef void gradient(self, double[::1] Y, double s, double[::1] grad):
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -8323,7 +8330,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":288
+  /* "mlgrad/avragg.pyx":292
  *         cdef double S, v
  * 
  *         S = 0             # <<<<<<<<<<<<<<
@@ -8332,7 +8339,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
  */
   __pyx_v_S = 0.0;
 
-  /* "mlgrad/avragg.pyx":289
+  /* "mlgrad/avragg.pyx":293
  * 
  *         S = 0
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -8385,7 +8392,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
                             /* Initialize private variables to invalid values */
                             __pyx_v_v = ((double)__PYX_NAN());
 
-                            /* "mlgrad/avragg.pyx":291
+                            /* "mlgrad/avragg.pyx":295
  *         for k in prange(N, nogil=True, num_threads=num_procs):
  * #         for k in range(N):
  *             v = Y[k] / s             # <<<<<<<<<<<<<<
@@ -8402,11 +8409,11 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
                               #ifdef WITH_THREAD
                               __Pyx_PyGILState_Release(__pyx_gilstate_save);
                               #endif
-                              __PYX_ERR(2, 291, __pyx_L8_error)
+                              __PYX_ERR(2, 295, __pyx_L8_error)
                             }
                             __pyx_v_v = (__pyx_t_5 / __pyx_v_s);
 
-                            /* "mlgrad/avragg.pyx":292
+                            /* "mlgrad/avragg.pyx":296
  * #         for k in range(N):
  *             v = Y[k] / s
  *             S += self.func.derivative2(v) * v * v             # <<<<<<<<<<<<<<
@@ -8499,7 +8506,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
         #endif
       }
 
-      /* "mlgrad/avragg.pyx":289
+      /* "mlgrad/avragg.pyx":293
  * 
  *         S = 0
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -8525,7 +8532,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
       }
   }
 
-  /* "mlgrad/avragg.pyx":293
+  /* "mlgrad/avragg.pyx":297
  *             v = Y[k] / s
  *             S += self.func.derivative2(v) * v * v
  *         S += N             # <<<<<<<<<<<<<<
@@ -8534,7 +8541,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
  */
   __pyx_v_S = (__pyx_v_S + __pyx_v_N);
 
-  /* "mlgrad/avragg.pyx":295
+  /* "mlgrad/avragg.pyx":299
  *         S += N
  * 
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -8586,7 +8593,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
                             /* Initialize private variables to invalid values */
                             __pyx_v_v = ((double)__PYX_NAN());
 
-                            /* "mlgrad/avragg.pyx":296
+                            /* "mlgrad/avragg.pyx":300
  * 
  *         for k in prange(N, nogil=True, num_threads=num_procs):
  *             v = Y[k] / s             # <<<<<<<<<<<<<<
@@ -8603,11 +8610,11 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
                               #ifdef WITH_THREAD
                               __Pyx_PyGILState_Release(__pyx_gilstate_save);
                               #endif
-                              __PYX_ERR(2, 296, __pyx_L17_error)
+                              __PYX_ERR(2, 300, __pyx_L17_error)
                             }
                             __pyx_v_v = (__pyx_t_5 / __pyx_v_s);
 
-                            /* "mlgrad/avragg.pyx":297
+                            /* "mlgrad/avragg.pyx":301
  *         for k in prange(N, nogil=True, num_threads=num_procs):
  *             v = Y[k] / s
  *             grad[k] = self.func.derivative(v) / S             # <<<<<<<<<<<<<<
@@ -8623,7 +8630,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
                               #ifdef WITH_THREAD
                               __Pyx_PyGILState_Release(__pyx_gilstate_save);
                               #endif
-                              __PYX_ERR(2, 297, __pyx_L17_error)
+                              __PYX_ERR(2, 301, __pyx_L17_error)
                             }
                             __pyx_t_4 = __pyx_v_k;
                             *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_4)) )) = (__pyx_t_5 / __pyx_v_S);
@@ -8710,7 +8717,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
         #endif
       }
 
-      /* "mlgrad/avragg.pyx":295
+      /* "mlgrad/avragg.pyx":299
  *         S += N
  * 
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -8736,7 +8743,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
       }
   }
 
-  /* "mlgrad/avragg.pyx":284
+  /* "mlgrad/avragg.pyx":288
  *         return sqrt(S / N)
  *     #
  *     cdef void gradient(self, double[::1] Y, double s, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -9047,7 +9054,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_12PenaltyScale_4__setstate_cython__(st
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":302
+/* "mlgrad/avragg.pyx":306
  * cdef class Average(object):
  *     #
  *     cdef init(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -9055,7 +9062,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_12PenaltyScale_4__setstate_cython__(st
  *         self.pmin = max_float
  */
 
-static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, struct __pyx_opt_args_6mlgrad_6avragg_7Average_init *__pyx_optional_args) {
+static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, struct __pyx_opt_args_6mlgrad_6avragg_7Average_init *__pyx_optional_args) {
   PyObject *__pyx_v_u0 = ((PyObject *)Py_None);
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -9072,7 +9079,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_
     }
   }
 
-  /* "mlgrad/avragg.pyx":304
+  /* "mlgrad/avragg.pyx":308
  *     cdef init(self, double[::1] Y, u0=None):
  * 
  *         self.pmin = max_float             # <<<<<<<<<<<<<<
@@ -9081,7 +9088,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_
  */
   __pyx_v_self->pmin = __pyx_v_6mlgrad_6avragg_max_float;
 
-  /* "mlgrad/avragg.pyx":306
+  /* "mlgrad/avragg.pyx":310
  *         self.pmin = max_float
  * 
  *         if u0 is not None:             # <<<<<<<<<<<<<<
@@ -9092,17 +9099,17 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/avragg.pyx":307
+    /* "mlgrad/avragg.pyx":311
  * 
  *         if u0 is not None:
  *             self.u = u0             # <<<<<<<<<<<<<<
  *         elif self.first:
- *             self.u = 0
+ *             self.u = array_mean(Y)
  */
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_u0); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 307, __pyx_L1_error)
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_u0); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 311, __pyx_L1_error)
     __pyx_v_self->u = __pyx_t_3;
 
-    /* "mlgrad/avragg.pyx":306
+    /* "mlgrad/avragg.pyx":310
  *         self.pmin = max_float
  * 
  *         if u0 is not None:             # <<<<<<<<<<<<<<
@@ -9112,37 +9119,37 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_
     goto __pyx_L3;
   }
 
-  /* "mlgrad/avragg.pyx":308
+  /* "mlgrad/avragg.pyx":312
  *         if u0 is not None:
  *             self.u = u0
  *         elif self.first:             # <<<<<<<<<<<<<<
- *             self.u = 0
+ *             self.u = array_mean(Y)
  * 
  */
   __pyx_t_2 = (__pyx_v_self->first != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/avragg.pyx":309
+    /* "mlgrad/avragg.pyx":313
  *             self.u = u0
  *         elif self.first:
- *             self.u = 0             # <<<<<<<<<<<<<<
+ *             self.u = array_mean(Y)             # <<<<<<<<<<<<<<
  * 
  *         self.first = 0
  */
-    __pyx_v_self->u = 0.0;
+    __pyx_v_self->u = __pyx_f_6mlgrad_6avragg_array_mean(__pyx_v_Y);
 
-    /* "mlgrad/avragg.pyx":308
+    /* "mlgrad/avragg.pyx":312
  *         if u0 is not None:
  *             self.u = u0
  *         elif self.first:             # <<<<<<<<<<<<<<
- *             self.u = 0
+ *             self.u = array_mean(Y)
  * 
  */
   }
   __pyx_L3:;
 
-  /* "mlgrad/avragg.pyx":311
- *             self.u = 0
+  /* "mlgrad/avragg.pyx":315
+ *             self.u = array_mean(Y)
  * 
  *         self.first = 0             # <<<<<<<<<<<<<<
  * 
@@ -9150,7 +9157,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_
  */
   __pyx_v_self->first = 0;
 
-  /* "mlgrad/avragg.pyx":313
+  /* "mlgrad/avragg.pyx":317
  *         self.first = 0
  * 
  *         self.u_best = self.u             # <<<<<<<<<<<<<<
@@ -9160,7 +9167,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_
   __pyx_t_3 = __pyx_v_self->u;
   __pyx_v_self->u_best = __pyx_t_3;
 
-  /* "mlgrad/avragg.pyx":315
+  /* "mlgrad/avragg.pyx":319
  *         self.u_best = self.u
  * 
  *         self.m = 0             # <<<<<<<<<<<<<<
@@ -9169,7 +9176,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_
  */
   __pyx_v_self->m = 0;
 
-  /* "mlgrad/avragg.pyx":302
+  /* "mlgrad/avragg.pyx":306
  * cdef class Average(object):
  *     #
  *     cdef init(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -9189,7 +9196,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":317
+/* "mlgrad/avragg.pyx":321
  *         self.m = 0
  *     #
  *     def __call__(self, double[::1] Y):             # <<<<<<<<<<<<<<
@@ -9226,18 +9233,18 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_7Average_1__call__(PyObject *__pyx_v_s
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__call__") < 0)) __PYX_ERR(2, 317, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__call__") < 0)) __PYX_ERR(2, 321, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 317, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 321, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__call__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 317, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__call__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 321, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.Average.__call__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -9259,18 +9266,18 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average___call__(struct __pyx_obj_6ml
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__call__", 0);
 
-  /* "mlgrad/avragg.pyx":318
+  /* "mlgrad/avragg.pyx":322
  *     #
  *     def __call__(self, double[::1] Y):
  *         self.fit(Y)             # <<<<<<<<<<<<<<
  *         return self.u
  *     #
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_vtab)->fit(__pyx_v_self, __pyx_v_Y, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 318, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_vtab)->fit(__pyx_v_self, __pyx_v_Y, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/avragg.pyx":319
+  /* "mlgrad/avragg.pyx":323
  *     def __call__(self, double[::1] Y):
  *         self.fit(Y)
  *         return self.u             # <<<<<<<<<<<<<<
@@ -9278,13 +9285,13 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average___call__(struct __pyx_obj_6ml
  *     def nabla(self, double[::1] Y):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->u); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 319, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->u); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pyx":317
+  /* "mlgrad/avragg.pyx":321
  *         self.m = 0
  *     #
  *     def __call__(self, double[::1] Y):             # <<<<<<<<<<<<<<
@@ -9304,7 +9311,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average___call__(struct __pyx_obj_6ml
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":321
+/* "mlgrad/avragg.pyx":325
  *         return self.u
  *     #
  *     def nabla(self, double[::1] Y):             # <<<<<<<<<<<<<<
@@ -9324,7 +9331,7 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_7Average_3nabla(PyObject *__pyx_v_self
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("nabla (wrapper)", 0);
   assert(__pyx_arg_Y); {
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_arg_Y, PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 321, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_arg_Y, PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 325, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -9356,20 +9363,20 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_2nabla(struct __pyx_obj_6mlgr
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("nabla", 0);
 
-  /* "mlgrad/avragg.pyx":322
+  /* "mlgrad/avragg.pyx":326
  *     #
  *     def nabla(self, double[::1] Y):
  *         grad = np.zeros(len(Y), 'd')             # <<<<<<<<<<<<<<
  *         self.gradient(Y, grad)
  *         return grad
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 322, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 322, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_4 = __Pyx_MemoryView_Len(__pyx_v_Y); 
-  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 322, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -9386,7 +9393,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_2nabla(struct __pyx_obj_6mlgr
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_2, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 322, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 326, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -9395,14 +9402,14 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_2nabla(struct __pyx_obj_6mlgr
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_2, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 322, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 326, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 322, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 326, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -9413,7 +9420,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_2nabla(struct __pyx_obj_6mlgr
     __Pyx_GIVEREF(__pyx_n_u_d);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_d);
     __pyx_t_2 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 322, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 326, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -9421,22 +9428,22 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_2nabla(struct __pyx_obj_6mlgr
   __pyx_v_grad = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "mlgrad/avragg.pyx":323
+  /* "mlgrad/avragg.pyx":327
  *     def nabla(self, double[::1] Y):
  *         grad = np.zeros(len(Y), 'd')
  *         self.gradient(Y, grad)             # <<<<<<<<<<<<<<
  *         return grad
  *     #
  */
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_grad, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(2, 323, __pyx_L1_error)
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_vtab)->gradient(__pyx_v_self, __pyx_v_Y, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 323, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_grad, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(2, 327, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_vtab)->gradient(__pyx_v_self, __pyx_v_Y, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 327, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/avragg.pyx":324
+  /* "mlgrad/avragg.pyx":328
  *         grad = np.zeros(len(Y), 'd')
  *         self.gradient(Y, grad)
  *         return grad             # <<<<<<<<<<<<<<
@@ -9448,7 +9455,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_2nabla(struct __pyx_obj_6mlgr
   __pyx_r = __pyx_v_grad;
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pyx":321
+  /* "mlgrad/avragg.pyx":325
  *         return self.u
  *     #
  *     def nabla(self, double[::1] Y):             # <<<<<<<<<<<<<<
@@ -9474,7 +9481,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_2nabla(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":326
+/* "mlgrad/avragg.pyx":330
  *         return grad
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -9519,11 +9526,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fit); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 326, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fit); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 330, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_6avragg_7Average_5fit)) {
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_Y, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 326, __pyx_L1_error)
+        __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_Y, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 330, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_4 = __pyx_t_1; __pyx_t_5 = NULL;
@@ -9541,7 +9548,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_v_u0};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 326, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 330, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -9550,14 +9557,14 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_v_u0};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 326, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 330, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         } else
         #endif
         {
-          __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 326, __pyx_L1_error)
+          __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 330, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           if (__pyx_t_5) {
             __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -9568,7 +9575,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
           __Pyx_GIVEREF(__pyx_v_u0);
           PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_v_u0);
           __pyx_t_3 = 0;
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 326, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 330, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         }
@@ -9591,7 +9598,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
     #endif
   }
 
-  /* "mlgrad/avragg.pyx":327
+  /* "mlgrad/avragg.pyx":331
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef int j, K, n_iter = self.n_iter             # <<<<<<<<<<<<<<
@@ -9601,7 +9608,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
   __pyx_t_6 = __pyx_v_self->n_iter;
   __pyx_v_n_iter = __pyx_t_6;
 
-  /* "mlgrad/avragg.pyx":328
+  /* "mlgrad/avragg.pyx":332
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef int j, K, n_iter = self.n_iter
  *         cdef Penalty penalty = self.penalty             # <<<<<<<<<<<<<<
@@ -9613,30 +9620,39 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
   __pyx_v_penalty = ((struct __pyx_obj_6mlgrad_6avragg_Penalty *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/avragg.pyx":330
+  /* "mlgrad/avragg.pyx":334
  *         cdef Penalty penalty = self.penalty
  * 
  *         self.init(Y, u0)             # <<<<<<<<<<<<<<
+ *         self.first = 0
  *         self.pval = penalty.evaluate(Y, self.u)
- *         if self.pval < self.pmin:
  */
   __pyx_t_8.__pyx_n = 1;
   __pyx_t_8.u0 = __pyx_v_u0;
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_vtab)->init(__pyx_v_self, __pyx_v_Y, &__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 330, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_vtab)->init(__pyx_v_self, __pyx_v_Y, &__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 334, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/avragg.pyx":331
+  /* "mlgrad/avragg.pyx":335
  * 
  *         self.init(Y, u0)
+ *         self.first = 0             # <<<<<<<<<<<<<<
+ *         self.pval = penalty.evaluate(Y, self.u)
+ *         if self.pval < self.pmin:
+ */
+  __pyx_v_self->first = 0;
+
+  /* "mlgrad/avragg.pyx":336
+ *         self.init(Y, u0)
+ *         self.first = 0
  *         self.pval = penalty.evaluate(Y, self.u)             # <<<<<<<<<<<<<<
  *         if self.pval < self.pmin:
  *             self.pmin = self.pval
  */
   __pyx_v_self->pval = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty *)__pyx_v_penalty->__pyx_vtab)->evaluate(__pyx_v_penalty, __pyx_v_Y, __pyx_v_self->u);
 
-  /* "mlgrad/avragg.pyx":332
- *         self.init(Y, u0)
+  /* "mlgrad/avragg.pyx":337
+ *         self.first = 0
  *         self.pval = penalty.evaluate(Y, self.u)
  *         if self.pval < self.pmin:             # <<<<<<<<<<<<<<
  *             self.pmin = self.pval
@@ -9645,7 +9661,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
   __pyx_t_9 = ((__pyx_v_self->pval < __pyx_v_self->pmin) != 0);
   if (__pyx_t_9) {
 
-    /* "mlgrad/avragg.pyx":333
+    /* "mlgrad/avragg.pyx":338
  *         self.pval = penalty.evaluate(Y, self.u)
  *         if self.pval < self.pmin:
  *             self.pmin = self.pval             # <<<<<<<<<<<<<<
@@ -9655,7 +9671,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
     __pyx_t_10 = __pyx_v_self->pval;
     __pyx_v_self->pmin = __pyx_t_10;
 
-    /* "mlgrad/avragg.pyx":334
+    /* "mlgrad/avragg.pyx":339
  *         if self.pval < self.pmin:
  *             self.pmin = self.pval
  *             self.u_best = self.u             # <<<<<<<<<<<<<<
@@ -9665,8 +9681,8 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
     __pyx_t_10 = __pyx_v_self->u;
     __pyx_v_self->u_best = __pyx_t_10;
 
-    /* "mlgrad/avragg.pyx":332
- *         self.init(Y, u0)
+    /* "mlgrad/avragg.pyx":337
+ *         self.first = 0
  *         self.pval = penalty.evaluate(Y, self.u)
  *         if self.pval < self.pmin:             # <<<<<<<<<<<<<<
  *             self.pmin = self.pval
@@ -9674,7 +9690,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
  */
   }
 
-  /* "mlgrad/avragg.pyx":336
+  /* "mlgrad/avragg.pyx":341
  *             self.u_best = self.u
  * 
  *         K = 1             # <<<<<<<<<<<<<<
@@ -9683,7 +9699,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
  */
   __pyx_v_K = 1;
 
-  /* "mlgrad/avragg.pyx":338
+  /* "mlgrad/avragg.pyx":343
  *         K = 1
  *         #
  *         while K < n_iter:             # <<<<<<<<<<<<<<
@@ -9694,7 +9710,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
     __pyx_t_9 = ((__pyx_v_K < __pyx_v_n_iter) != 0);
     if (!__pyx_t_9) break;
 
-    /* "mlgrad/avragg.pyx":340
+    /* "mlgrad/avragg.pyx":345
  *         while K < n_iter:
  *             #
  *             self.u_prev = self.u             # <<<<<<<<<<<<<<
@@ -9704,7 +9720,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
     __pyx_t_10 = __pyx_v_self->u;
     __pyx_v_self->u_prev = __pyx_t_10;
 
-    /* "mlgrad/avragg.pyx":341
+    /* "mlgrad/avragg.pyx":346
  *             #
  *             self.u_prev = self.u
  *             self.pval_prev = self.pval             # <<<<<<<<<<<<<<
@@ -9714,18 +9730,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
     __pyx_t_10 = __pyx_v_self->pval;
     __pyx_v_self->pval_prev = __pyx_t_10;
 
-    /* "mlgrad/avragg.pyx":342
+    /* "mlgrad/avragg.pyx":347
  *             self.u_prev = self.u
  *             self.pval_prev = self.pval
  *             self.fit_epoch(Y)             # <<<<<<<<<<<<<<
  * 
  *             self.pval = penalty.evaluate(Y, self.u)
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_vtab)->fit_epoch(__pyx_v_self, __pyx_v_Y); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 342, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_vtab)->fit_epoch(__pyx_v_self, __pyx_v_Y); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 347, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/avragg.pyx":344
+    /* "mlgrad/avragg.pyx":349
  *             self.fit_epoch(Y)
  * 
  *             self.pval = penalty.evaluate(Y, self.u)             # <<<<<<<<<<<<<<
@@ -9734,7 +9750,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
  */
     __pyx_v_self->pval = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty *)__pyx_v_penalty->__pyx_vtab)->evaluate(__pyx_v_penalty, __pyx_v_Y, __pyx_v_self->u);
 
-    /* "mlgrad/avragg.pyx":345
+    /* "mlgrad/avragg.pyx":350
  * 
  *             self.pval = penalty.evaluate(Y, self.u)
  *             if self.pval > self.pval_prev:             # <<<<<<<<<<<<<<
@@ -9744,7 +9760,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
     __pyx_t_9 = ((__pyx_v_self->pval > __pyx_v_self->pval_prev) != 0);
     if (__pyx_t_9) {
 
-      /* "mlgrad/avragg.pyx":346
+      /* "mlgrad/avragg.pyx":351
  *             self.pval = penalty.evaluate(Y, self.u)
  *             if self.pval > self.pval_prev:
  *                 for j in range(10):             # <<<<<<<<<<<<<<
@@ -9754,7 +9770,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
       for (__pyx_t_6 = 0; __pyx_t_6 < 10; __pyx_t_6+=1) {
         __pyx_v_j = __pyx_t_6;
 
-        /* "mlgrad/avragg.pyx":347
+        /* "mlgrad/avragg.pyx":352
  *             if self.pval > self.pval_prev:
  *                 for j in range(10):
  *                     if self.pval <= self.pval_prev:             # <<<<<<<<<<<<<<
@@ -9764,7 +9780,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
         __pyx_t_9 = ((__pyx_v_self->pval <= __pyx_v_self->pval_prev) != 0);
         if (__pyx_t_9) {
 
-          /* "mlgrad/avragg.pyx":348
+          /* "mlgrad/avragg.pyx":353
  *                 for j in range(10):
  *                     if self.pval <= self.pval_prev:
  *                         break             # <<<<<<<<<<<<<<
@@ -9773,7 +9789,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
  */
           goto __pyx_L8_break;
 
-          /* "mlgrad/avragg.pyx":347
+          /* "mlgrad/avragg.pyx":352
  *             if self.pval > self.pval_prev:
  *                 for j in range(10):
  *                     if self.pval <= self.pval_prev:             # <<<<<<<<<<<<<<
@@ -9782,7 +9798,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
  */
         }
 
-        /* "mlgrad/avragg.pyx":349
+        /* "mlgrad/avragg.pyx":354
  *                     if self.pval <= self.pval_prev:
  *                         break
  *                     self.u = 0.5 * (self.u + self.u_prev)             # <<<<<<<<<<<<<<
@@ -9791,7 +9807,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
  */
         __pyx_v_self->u = (0.5 * (__pyx_v_self->u + __pyx_v_self->u_prev));
 
-        /* "mlgrad/avragg.pyx":350
+        /* "mlgrad/avragg.pyx":355
  *                         break
  *                     self.u = 0.5 * (self.u + self.u_prev)
  *                     self.pval = penalty.evaluate(Y, self.u)             # <<<<<<<<<<<<<<
@@ -9802,7 +9818,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
       }
       __pyx_L8_break:;
 
-      /* "mlgrad/avragg.pyx":345
+      /* "mlgrad/avragg.pyx":350
  * 
  *             self.pval = penalty.evaluate(Y, self.u)
  *             if self.pval > self.pval_prev:             # <<<<<<<<<<<<<<
@@ -9811,7 +9827,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
  */
     }
 
-    /* "mlgrad/avragg.pyx":352
+    /* "mlgrad/avragg.pyx":357
  *                     self.pval = penalty.evaluate(Y, self.u)
  *             #
  *             if self.stop_condition():             # <<<<<<<<<<<<<<
@@ -9821,7 +9837,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
     __pyx_t_9 = (((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->__pyx_vtab)->stop_condition(__pyx_v_self) != 0);
     if (__pyx_t_9) {
 
-      /* "mlgrad/avragg.pyx":353
+      /* "mlgrad/avragg.pyx":358
  *             #
  *             if self.stop_condition():
  *                 break             # <<<<<<<<<<<<<<
@@ -9830,7 +9846,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
  */
       goto __pyx_L5_break;
 
-      /* "mlgrad/avragg.pyx":352
+      /* "mlgrad/avragg.pyx":357
  *                     self.pval = penalty.evaluate(Y, self.u)
  *             #
  *             if self.stop_condition():             # <<<<<<<<<<<<<<
@@ -9839,7 +9855,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
  */
     }
 
-    /* "mlgrad/avragg.pyx":355
+    /* "mlgrad/avragg.pyx":360
  *                 break
  *             #
  *             K += 1             # <<<<<<<<<<<<<<
@@ -9850,7 +9866,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
   }
   __pyx_L5_break:;
 
-  /* "mlgrad/avragg.pyx":357
+  /* "mlgrad/avragg.pyx":362
  *             K += 1
  * 
  *         self.K = K             # <<<<<<<<<<<<<<
@@ -9859,7 +9875,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
  */
   __pyx_v_self->K = __pyx_v_K;
 
-  /* "mlgrad/avragg.pyx":358
+  /* "mlgrad/avragg.pyx":363
  * 
  *         self.K = K
  *         self.u = self.u_best             # <<<<<<<<<<<<<<
@@ -9869,7 +9885,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6
   __pyx_t_10 = __pyx_v_self->u_best;
   __pyx_v_self->u = __pyx_t_10;
 
-  /* "mlgrad/avragg.pyx":326
+  /* "mlgrad/avragg.pyx":330
  *         return grad
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -9936,7 +9952,7 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_7Average_5fit(PyObject *__pyx_v_self, 
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 326, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 330, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -9947,12 +9963,12 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_7Average_5fit(PyObject *__pyx_v_self, 
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 326, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 330, __pyx_L3_error)
     __pyx_v_u0 = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 326, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 330, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.Average.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -9977,7 +9993,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_4fit(struct __pyx_obj_6mlgrad
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.u0 = __pyx_v_u0;
-  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_Average->fit(__pyx_v_self, __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 326, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_Average->fit(__pyx_v_self, __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -9995,7 +10011,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_4fit(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":360
+/* "mlgrad/avragg.pyx":365
  *         self.u = self.u_best
  *     ##
  *     cdef fit_epoch(self, double[::1] Y):             # <<<<<<<<<<<<<<
@@ -10008,7 +10024,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit_epoch(CYTHON_UNUSED struct
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("fit_epoch", 0);
 
-  /* "mlgrad/avragg.pyx":361
+  /* "mlgrad/avragg.pyx":366
  *     ##
  *     cdef fit_epoch(self, double[::1] Y):
  *         return None             # <<<<<<<<<<<<<<
@@ -10019,7 +10035,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit_epoch(CYTHON_UNUSED struct
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pyx":360
+  /* "mlgrad/avragg.pyx":365
  *         self.u = self.u_best
  *     ##
  *     cdef fit_epoch(self, double[::1] Y):             # <<<<<<<<<<<<<<
@@ -10034,7 +10050,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit_epoch(CYTHON_UNUSED struct
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":363
+/* "mlgrad/avragg.pyx":368
  *         return None
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -10047,7 +10063,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_gradient(struct __pyx_obj_6mlg
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":364
+  /* "mlgrad/avragg.pyx":369
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         self.penalty.gradient(Y, self.u, grad)             # <<<<<<<<<<<<<<
@@ -10056,7 +10072,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_gradient(struct __pyx_obj_6mlg
  */
   ((struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty *)__pyx_v_self->penalty->__pyx_vtab)->gradient(__pyx_v_self->penalty, __pyx_v_Y, __pyx_v_self->u, __pyx_v_grad);
 
-  /* "mlgrad/avragg.pyx":363
+  /* "mlgrad/avragg.pyx":368
  *         return None
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -10071,7 +10087,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_gradient(struct __pyx_obj_6mlg
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":366
+/* "mlgrad/avragg.pyx":371
  *         self.penalty.gradient(Y, self.u, grad)
  *     #
  *     cdef bint stop_condition(self):             # <<<<<<<<<<<<<<
@@ -10093,7 +10109,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("stop_condition", 0);
 
-  /* "mlgrad/avragg.pyx":369
+  /* "mlgrad/avragg.pyx":374
  *         cdef double p, pmin, prev
  *         #
  *         pval = self.pval             # <<<<<<<<<<<<<<
@@ -10103,7 +10119,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
   __pyx_t_1 = __pyx_v_self->pval;
   __pyx_v_pval = __pyx_t_1;
 
-  /* "mlgrad/avragg.pyx":370
+  /* "mlgrad/avragg.pyx":375
  *         #
  *         pval = self.pval
  *         pmin = self.pmin             # <<<<<<<<<<<<<<
@@ -10113,7 +10129,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
   __pyx_t_1 = __pyx_v_self->pmin;
   __pyx_v_pmin = __pyx_t_1;
 
-  /* "mlgrad/avragg.pyx":371
+  /* "mlgrad/avragg.pyx":376
  *         pval = self.pval
  *         pmin = self.pmin
  *         prev = self.pval_prev             # <<<<<<<<<<<<<<
@@ -10123,7 +10139,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
   __pyx_t_1 = __pyx_v_self->pval_prev;
   __pyx_v_prev = __pyx_t_1;
 
-  /* "mlgrad/avragg.pyx":373
+  /* "mlgrad/avragg.pyx":378
  *         prev = self.pval_prev
  * 
  *         if pval < pmin:             # <<<<<<<<<<<<<<
@@ -10133,7 +10149,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
   __pyx_t_2 = ((__pyx_v_pval < __pyx_v_pmin) != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/avragg.pyx":374
+    /* "mlgrad/avragg.pyx":379
  * 
  *         if pval < pmin:
  *             self.pmin = pval             # <<<<<<<<<<<<<<
@@ -10142,7 +10158,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
  */
     __pyx_v_self->pmin = __pyx_v_pval;
 
-    /* "mlgrad/avragg.pyx":375
+    /* "mlgrad/avragg.pyx":380
  *         if pval < pmin:
  *             self.pmin = pval
  *             self.u_best = self.u             # <<<<<<<<<<<<<<
@@ -10152,7 +10168,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
     __pyx_t_1 = __pyx_v_self->u;
     __pyx_v_self->u_best = __pyx_t_1;
 
-    /* "mlgrad/avragg.pyx":376
+    /* "mlgrad/avragg.pyx":381
  *             self.pmin = pval
  *             self.u_best = self.u
  *             self.m = 0             # <<<<<<<<<<<<<<
@@ -10161,7 +10177,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
  */
     __pyx_v_self->m = 0;
 
-    /* "mlgrad/avragg.pyx":373
+    /* "mlgrad/avragg.pyx":378
  *         prev = self.pval_prev
  * 
  *         if pval < pmin:             # <<<<<<<<<<<<<<
@@ -10170,7 +10186,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
  */
   }
 
-  /* "mlgrad/avragg.pyx":381
+  /* "mlgrad/avragg.pyx":386
  * #                 self.u_best = self.u
  *         #
  *         if fabs(pval - prev) / (1 + fabs(pmin)) < self.tol:             # <<<<<<<<<<<<<<
@@ -10181,12 +10197,12 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
   __pyx_t_3 = (1.0 + fabs(__pyx_v_pmin));
   if (unlikely(__pyx_t_3 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 381, __pyx_L1_error)
+    __PYX_ERR(2, 386, __pyx_L1_error)
   }
   __pyx_t_2 = (((__pyx_t_1 / __pyx_t_3) < __pyx_v_self->tol) != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/avragg.pyx":382
+    /* "mlgrad/avragg.pyx":387
  *         #
  *         if fabs(pval - prev) / (1 + fabs(pmin)) < self.tol:
  *             return 1             # <<<<<<<<<<<<<<
@@ -10196,7 +10212,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
     __pyx_r = 1;
     goto __pyx_L0;
 
-    /* "mlgrad/avragg.pyx":381
+    /* "mlgrad/avragg.pyx":386
  * #                 self.u_best = self.u
  *         #
  *         if fabs(pval - prev) / (1 + fabs(pmin)) < self.tol:             # <<<<<<<<<<<<<<
@@ -10205,7 +10221,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
  */
   }
 
-  /* "mlgrad/avragg.pyx":384
+  /* "mlgrad/avragg.pyx":389
  *             return 1
  * 
  *         if self.m > self.m_iter:             # <<<<<<<<<<<<<<
@@ -10215,7 +10231,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
   __pyx_t_2 = ((__pyx_v_self->m > __pyx_v_self->m_iter) != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/avragg.pyx":385
+    /* "mlgrad/avragg.pyx":390
  * 
  *         if self.m > self.m_iter:
  *             return 1             # <<<<<<<<<<<<<<
@@ -10225,7 +10241,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
     __pyx_r = 1;
     goto __pyx_L0;
 
-    /* "mlgrad/avragg.pyx":384
+    /* "mlgrad/avragg.pyx":389
  *             return 1
  * 
  *         if self.m > self.m_iter:             # <<<<<<<<<<<<<<
@@ -10234,7 +10250,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
  */
   }
 
-  /* "mlgrad/avragg.pyx":387
+  /* "mlgrad/avragg.pyx":392
  *             return 1
  * 
  *         self.m += 1             # <<<<<<<<<<<<<<
@@ -10243,7 +10259,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
  */
   __pyx_v_self->m = (__pyx_v_self->m + 1);
 
-  /* "mlgrad/avragg.pyx":389
+  /* "mlgrad/avragg.pyx":394
  *         self.m += 1
  * 
  *         return 0             # <<<<<<<<<<<<<<
@@ -10253,7 +10269,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
   __pyx_r = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pyx":366
+  /* "mlgrad/avragg.pyx":371
  *         self.penalty.gradient(Y, self.u, grad)
  *     #
  *     cdef bint stop_condition(self):             # <<<<<<<<<<<<<<
@@ -10270,12 +10286,12 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":74
+/* "mlgrad/avragg.pxd":79
  * 
  * cdef class Average:
- *     cdef public Penalty penalty             # <<<<<<<<<<<<<<
- *     cdef public double tol
- *     cdef public int n_iter, m_iter, K, L
+ *     cdef readonly Penalty penalty             # <<<<<<<<<<<<<<
+ *     cdef readonly double tol
+ *     cdef readonly int n_iter
  */
 
 /* Python wrapper */
@@ -10307,83 +10323,12 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_7penalty___get__(struct __pyx
   return __pyx_r;
 }
 
-/* Python wrapper */
-static int __pyx_pw_6mlgrad_6avragg_7Average_7penalty_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_6mlgrad_6avragg_7Average_7penalty_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_6avragg_7Average_7penalty_2__set__(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_6mlgrad_6avragg_7Average_7penalty_2__set__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_6avragg_Penalty))))) __PYX_ERR(0, 74, __pyx_L1_error)
-  __pyx_t_1 = __pyx_v_value;
-  __Pyx_INCREF(__pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_1);
-  __Pyx_GOTREF(__pyx_v_self->penalty);
-  __Pyx_DECREF(((PyObject *)__pyx_v_self->penalty));
-  __pyx_v_self->penalty = ((struct __pyx_obj_6mlgrad_6avragg_Penalty *)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("mlgrad.avragg.Average.penalty.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_6mlgrad_6avragg_7Average_7penalty_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_6mlgrad_6avragg_7Average_7penalty_5__del__(PyObject *__pyx_v_self) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_6avragg_7Average_7penalty_4__del__(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_6mlgrad_6avragg_7Average_7penalty_4__del__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__del__", 0);
-  __Pyx_INCREF(Py_None);
-  __Pyx_GIVEREF(Py_None);
-  __Pyx_GOTREF(__pyx_v_self->penalty);
-  __Pyx_DECREF(((PyObject *)__pyx_v_self->penalty));
-  __pyx_v_self->penalty = ((struct __pyx_obj_6mlgrad_6avragg_Penalty *)Py_None);
-
-  /* function exit code */
-  __pyx_r = 0;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "mlgrad/avragg.pxd":75
+/* "mlgrad/avragg.pxd":80
  * cdef class Average:
- *     cdef public Penalty penalty
- *     cdef public double tol             # <<<<<<<<<<<<<<
- *     cdef public int n_iter, m_iter, K, L
- *     cdef public double h
+ *     cdef readonly Penalty penalty
+ *     cdef readonly double tol             # <<<<<<<<<<<<<<
+ *     cdef readonly int n_iter
+ *     cdef readonly int K
  */
 
 /* Python wrapper */
@@ -10408,7 +10353,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_3tol___get__(struct __pyx_obj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->tol); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->tol); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10425,47 +10370,12 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_3tol___get__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* Python wrapper */
-static int __pyx_pw_6mlgrad_6avragg_7Average_3tol_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_6mlgrad_6avragg_7Average_3tol_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_6avragg_7Average_3tol_2__set__(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_6mlgrad_6avragg_7Average_3tol_2__set__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  double __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L1_error)
-  __pyx_v_self->tol = __pyx_t_1;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.avragg.Average.tol.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "mlgrad/avragg.pxd":76
- *     cdef public Penalty penalty
- *     cdef public double tol
- *     cdef public int n_iter, m_iter, K, L             # <<<<<<<<<<<<<<
- *     cdef public double h
- *     cdef public bint success
+/* "mlgrad/avragg.pxd":81
+ *     cdef readonly Penalty penalty
+ *     cdef readonly double tol
+ *     cdef readonly int n_iter             # <<<<<<<<<<<<<<
+ *     cdef readonly int K
+ *     cdef public int m_iter, L
  */
 
 /* Python wrapper */
@@ -10490,7 +10400,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_6n_iter___get__(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n_iter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n_iter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10507,40 +10417,60 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_6n_iter___get__(struct __pyx_
   return __pyx_r;
 }
 
+/* "mlgrad/avragg.pxd":82
+ *     cdef readonly double tol
+ *     cdef readonly int n_iter
+ *     cdef readonly int K             # <<<<<<<<<<<<<<
+ *     cdef public int m_iter, L
+ *     cdef public double h
+ */
+
 /* Python wrapper */
-static int __pyx_pw_6mlgrad_6avragg_7Average_6n_iter_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_6mlgrad_6avragg_7Average_6n_iter_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
+static PyObject *__pyx_pw_6mlgrad_6avragg_7Average_1K_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6mlgrad_6avragg_7Average_1K_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_6avragg_7Average_6n_iter_2__set__(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_6avragg_7Average_1K___get__(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_6avragg_7Average_6n_iter_2__set__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
+static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_1K___get__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
+  PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
-  __pyx_v_self->n_iter = __pyx_t_1;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->K); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
 
   /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.avragg.Average.n_iter.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.avragg.Average.K.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
   __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
+
+/* "mlgrad/avragg.pxd":83
+ *     cdef readonly int n_iter
+ *     cdef readonly int K
+ *     cdef public int m_iter, L             # <<<<<<<<<<<<<<
+ *     cdef public double h
+ *     cdef public bint success
+ */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6mlgrad_6avragg_7Average_6m_iter_1__get__(PyObject *__pyx_v_self); /*proto*/
@@ -10564,7 +10494,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_6m_iter___get__(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->m_iter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->m_iter); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10602,7 +10532,7 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_6m_iter_2__set__(struct __pyx_obj_6
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L1_error)
   __pyx_v_self->m_iter = __pyx_t_1;
 
   /* function exit code */
@@ -10610,80 +10540,6 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_6m_iter_2__set__(struct __pyx_obj_6
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_AddTraceback("mlgrad.avragg.Average.m_iter.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_6avragg_7Average_1K_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6mlgrad_6avragg_7Average_1K_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_6avragg_7Average_1K___get__(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_1K___get__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->K); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("mlgrad.avragg.Average.K.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_6mlgrad_6avragg_7Average_1K_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_6mlgrad_6avragg_7Average_1K_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_6avragg_7Average_1K_2__set__(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_6mlgrad_6avragg_7Average_1K_2__set__(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
-  __pyx_v_self->K = __pyx_t_1;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.avragg.Average.K.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -10712,7 +10568,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_1L___get__(struct __pyx_obj_6
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->L); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->L); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10750,7 +10606,7 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_1L_2__set__(struct __pyx_obj_6mlgra
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L1_error)
   __pyx_v_self->L = __pyx_t_1;
 
   /* function exit code */
@@ -10764,9 +10620,9 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_1L_2__set__(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":77
- *     cdef public double tol
- *     cdef public int n_iter, m_iter, K, L
+/* "mlgrad/avragg.pxd":84
+ *     cdef readonly int K
+ *     cdef public int m_iter, L
  *     cdef public double h             # <<<<<<<<<<<<<<
  *     cdef public bint success
  *     cdef public double u_best
@@ -10794,7 +10650,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_1h___get__(struct __pyx_obj_6
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->h); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->h); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10832,7 +10688,7 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_1h_2__set__(struct __pyx_obj_6mlgra
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L1_error)
   __pyx_v_self->h = __pyx_t_1;
 
   /* function exit code */
@@ -10846,8 +10702,8 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_1h_2__set__(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":78
- *     cdef public int n_iter, m_iter, K, L
+/* "mlgrad/avragg.pxd":85
+ *     cdef public int m_iter, L
  *     cdef public double h
  *     cdef public bint success             # <<<<<<<<<<<<<<
  *     cdef public double u_best
@@ -10876,7 +10732,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_7success___get__(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->success); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->success); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10914,7 +10770,7 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_7success_2__set__(struct __pyx_obj_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 85, __pyx_L1_error)
   __pyx_v_self->success = __pyx_t_1;
 
   /* function exit code */
@@ -10928,7 +10784,7 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_7success_2__set__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":79
+/* "mlgrad/avragg.pxd":86
  *     cdef public double h
  *     cdef public bint success
  *     cdef public double u_best             # <<<<<<<<<<<<<<
@@ -10958,7 +10814,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_6u_best___get__(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->u_best); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->u_best); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10996,7 +10852,7 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_6u_best_2__set__(struct __pyx_obj_6
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 86, __pyx_L1_error)
   __pyx_v_self->u_best = __pyx_t_1;
 
   /* function exit code */
@@ -11010,7 +10866,7 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_6u_best_2__set__(struct __pyx_obj_6
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":80
+/* "mlgrad/avragg.pxd":87
  *     cdef public bint success
  *     cdef public double u_best
  *     cdef public double pmin             # <<<<<<<<<<<<<<
@@ -11040,7 +10896,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_4pmin___get__(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->pmin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->pmin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -11078,7 +10934,7 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_4pmin_2__set__(struct __pyx_obj_6ml
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 87, __pyx_L1_error)
   __pyx_v_self->pmin = __pyx_t_1;
 
   /* function exit code */
@@ -11092,7 +10948,7 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_4pmin_2__set__(struct __pyx_obj_6ml
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":81
+/* "mlgrad/avragg.pxd":88
  *     cdef public double u_best
  *     cdef public double pmin
  *     cdef public double u             # <<<<<<<<<<<<<<
@@ -11122,7 +10978,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_1u___get__(struct __pyx_obj_6
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->u); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->u); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -11160,7 +11016,7 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_1u_2__set__(struct __pyx_obj_6mlgra
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
   __pyx_v_self->u = __pyx_t_1;
 
   /* function exit code */
@@ -11174,7 +11030,7 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_1u_2__set__(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":82
+/* "mlgrad/avragg.pxd":89
  *     cdef public double pmin
  *     cdef public double u
  *     cdef public double pval             # <<<<<<<<<<<<<<
@@ -11204,7 +11060,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_4pval___get__(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->pval); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->pval); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -11242,7 +11098,7 @@ static int __pyx_pf_6mlgrad_6avragg_7Average_4pval_2__set__(struct __pyx_obj_6ml
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 89, __pyx_L1_error)
   __pyx_v_self->pval = __pyx_t_1;
 
   /* function exit code */
@@ -11659,7 +11515,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_8__setstate_cython__(struct _
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":395
+/* "mlgrad/avragg.pyx":400
  * cdef class ParameterizedAverage(Average):
  *     #
  *     def __init__(self, ParameterizedFunc func, Average avr):             # <<<<<<<<<<<<<<
@@ -11701,11 +11557,11 @@ static int __pyx_pw_6mlgrad_6avragg_20ParameterizedAverage_1__init__(PyObject *_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_avr)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(2, 395, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(2, 400, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 395, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 400, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -11718,14 +11574,14 @@ static int __pyx_pw_6mlgrad_6avragg_20ParameterizedAverage_1__init__(PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 395, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 400, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.ParameterizedAverage.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_ParameterizedFunc, 1, "func", 0))) __PYX_ERR(2, 395, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avr), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avr", 0))) __PYX_ERR(2, 395, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_ParameterizedFunc, 1, "func", 0))) __PYX_ERR(2, 400, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avr), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avr", 0))) __PYX_ERR(2, 400, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_20ParameterizedAverage___init__(((struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage *)__pyx_v_self), __pyx_v_func, __pyx_v_avr);
 
   /* function exit code */
@@ -11742,7 +11598,7 @@ static int __pyx_pf_6mlgrad_6avragg_20ParameterizedAverage___init__(struct __pyx
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/avragg.pyx":396
+  /* "mlgrad/avragg.pyx":401
  *     #
  *     def __init__(self, ParameterizedFunc func, Average avr):
  *         self.func = func             # <<<<<<<<<<<<<<
@@ -11755,7 +11611,7 @@ static int __pyx_pf_6mlgrad_6avragg_20ParameterizedAverage___init__(struct __pyx
   __Pyx_DECREF(((PyObject *)__pyx_v_self->func));
   __pyx_v_self->func = __pyx_v_func;
 
-  /* "mlgrad/avragg.pyx":397
+  /* "mlgrad/avragg.pyx":402
  *     def __init__(self, ParameterizedFunc func, Average avr):
  *         self.func = func
  *         self.avr = avr             # <<<<<<<<<<<<<<
@@ -11768,7 +11624,7 @@ static int __pyx_pf_6mlgrad_6avragg_20ParameterizedAverage___init__(struct __pyx
   __Pyx_DECREF(((PyObject *)__pyx_v_self->avr));
   __pyx_v_self->avr = __pyx_v_avr;
 
-  /* "mlgrad/avragg.pyx":395
+  /* "mlgrad/avragg.pyx":400
  * cdef class ParameterizedAverage(Average):
  *     #
  *     def __init__(self, ParameterizedFunc func, Average avr):             # <<<<<<<<<<<<<<
@@ -11782,7 +11638,7 @@ static int __pyx_pf_6mlgrad_6avragg_20ParameterizedAverage___init__(struct __pyx
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":400
+/* "mlgrad/avragg.pyx":405
  *     #
  *     @cython.final
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -11823,7 +11679,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
   if (__pyx_optional_args) {
   }
 
-  /* "mlgrad/avragg.pyx":402
+  /* "mlgrad/avragg.pyx":407
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef Py_ssize_t k
  *         cdef Py_ssize_t N = Y.shape[0], M             # <<<<<<<<<<<<<<
@@ -11832,7 +11688,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":404
+  /* "mlgrad/avragg.pyx":409
  *         cdef Py_ssize_t N = Y.shape[0], M
  *         cdef double c
  *         cdef double u = 0             # <<<<<<<<<<<<<<
@@ -11841,7 +11697,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
   __pyx_v_u = 0.0;
 
-  /* "mlgrad/avragg.pyx":407
+  /* "mlgrad/avragg.pyx":412
  *         cdef double u1,u2,u3,u4
  *         cdef double v1,v2,v3,v4
  *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
@@ -11851,7 +11707,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
   __pyx_t_1 = 0;
   __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":408
+  /* "mlgrad/avragg.pyx":413
  *         cdef double v1,v2,v3,v4
  *         cdef double *YY = &Y[0]
  *         cdef ParameterizedFunc func = self.func             # <<<<<<<<<<<<<<
@@ -11863,18 +11719,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
   __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "mlgrad/avragg.pyx":410
+  /* "mlgrad/avragg.pyx":415
  *         cdef ParameterizedFunc func = self.func
  * 
  *         self.avr.fit(Y)             # <<<<<<<<<<<<<<
  *         c = self.avr.u
  * 
  */
-  __pyx_t_2 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->fit(__pyx_v_self->avr, __pyx_v_Y, 0, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 410, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->fit(__pyx_v_self->avr, __pyx_v_Y, 0, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 415, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/avragg.pyx":411
+  /* "mlgrad/avragg.pyx":416
  * 
  *         self.avr.fit(Y)
  *         c = self.avr.u             # <<<<<<<<<<<<<<
@@ -11884,7 +11740,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
   __pyx_t_3 = __pyx_v_self->avr->u;
   __pyx_v_c = __pyx_t_3;
 
-  /* "mlgrad/avragg.pyx":413
+  /* "mlgrad/avragg.pyx":418
  *         c = self.avr.u
  * 
  *         M = 4 * (N // 4)             # <<<<<<<<<<<<<<
@@ -11893,7 +11749,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
   __pyx_v_M = (4 * __Pyx_div_Py_ssize_t(__pyx_v_N, 4));
 
-  /* "mlgrad/avragg.pyx":414
+  /* "mlgrad/avragg.pyx":419
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -11903,7 +11759,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
   __pyx_t_4 = ((__pyx_v_M > 0) != 0);
   if (__pyx_t_4) {
 
-    /* "mlgrad/avragg.pyx":415
+    /* "mlgrad/avragg.pyx":420
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -11949,7 +11805,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
                               __pyx_v_v3 = ((double)__PYX_NAN());
                               __pyx_v_v4 = ((double)__PYX_NAN());
 
-                              /* "mlgrad/avragg.pyx":417
+                              /* "mlgrad/avragg.pyx":422
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  *     #         for k in range(N):
  *                 u1 = YY[k]             # <<<<<<<<<<<<<<
@@ -11958,7 +11814,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
                               __pyx_v_u1 = (__pyx_v_YY[__pyx_v_k]);
 
-                              /* "mlgrad/avragg.pyx":418
+                              /* "mlgrad/avragg.pyx":423
  *     #         for k in range(N):
  *                 u1 = YY[k]
  *                 u2 = YY[k+1]             # <<<<<<<<<<<<<<
@@ -11967,7 +11823,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
                               __pyx_v_u2 = (__pyx_v_YY[(__pyx_v_k + 1)]);
 
-                              /* "mlgrad/avragg.pyx":419
+                              /* "mlgrad/avragg.pyx":424
  *                 u1 = YY[k]
  *                 u2 = YY[k+1]
  *                 u3 = YY[k+2]             # <<<<<<<<<<<<<<
@@ -11976,7 +11832,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
                               __pyx_v_u3 = (__pyx_v_YY[(__pyx_v_k + 2)]);
 
-                              /* "mlgrad/avragg.pyx":420
+                              /* "mlgrad/avragg.pyx":425
  *                 u2 = YY[k+1]
  *                 u3 = YY[k+2]
  *                 u4 = YY[k+3]             # <<<<<<<<<<<<<<
@@ -11985,7 +11841,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
                               __pyx_v_u4 = (__pyx_v_YY[(__pyx_v_k + 3)]);
 
-                              /* "mlgrad/avragg.pyx":422
+                              /* "mlgrad/avragg.pyx":427
  *                 u4 = YY[k+3]
  * 
  *                 v1 = func.evaluate(u1, c)             # <<<<<<<<<<<<<<
@@ -11994,7 +11850,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
                               __pyx_v_v1 = ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, __pyx_v_u1, __pyx_v_c);
 
-                              /* "mlgrad/avragg.pyx":423
+                              /* "mlgrad/avragg.pyx":428
  * 
  *                 v1 = func.evaluate(u1, c)
  *                 v2 = func.evaluate(u2, c)             # <<<<<<<<<<<<<<
@@ -12003,7 +11859,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
                               __pyx_v_v2 = ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, __pyx_v_u2, __pyx_v_c);
 
-                              /* "mlgrad/avragg.pyx":424
+                              /* "mlgrad/avragg.pyx":429
  *                 v1 = func.evaluate(u1, c)
  *                 v2 = func.evaluate(u2, c)
  *                 v3 = func.evaluate(u3, c)             # <<<<<<<<<<<<<<
@@ -12012,7 +11868,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
                               __pyx_v_v3 = ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, __pyx_v_u3, __pyx_v_c);
 
-                              /* "mlgrad/avragg.pyx":425
+                              /* "mlgrad/avragg.pyx":430
  *                 v2 = func.evaluate(u2, c)
  *                 v3 = func.evaluate(u3, c)
  *                 v4 = func.evaluate(u4, c)             # <<<<<<<<<<<<<<
@@ -12021,7 +11877,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
                               __pyx_v_v4 = ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, __pyx_v_u4, __pyx_v_c);
 
-                              /* "mlgrad/avragg.pyx":427
+                              /* "mlgrad/avragg.pyx":432
  *                 v4 = func.evaluate(u4, c)
  * 
  *                 u += v1 + v2 + v3 + v4             # <<<<<<<<<<<<<<
@@ -12042,7 +11898,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
           #endif
         }
 
-        /* "mlgrad/avragg.pyx":415
+        /* "mlgrad/avragg.pyx":420
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -12061,7 +11917,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
         }
     }
 
-    /* "mlgrad/avragg.pyx":414
+    /* "mlgrad/avragg.pyx":419
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -12070,7 +11926,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
   }
 
-  /* "mlgrad/avragg.pyx":429
+  /* "mlgrad/avragg.pyx":434
  *                 u += v1 + v2 + v3 + v4
  * 
  *         k += 4             # <<<<<<<<<<<<<<
@@ -12079,7 +11935,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
   __pyx_v_k = (__pyx_v_k + 4);
 
-  /* "mlgrad/avragg.pyx":430
+  /* "mlgrad/avragg.pyx":435
  * 
  *         k += 4
  *         while k < N:             # <<<<<<<<<<<<<<
@@ -12090,7 +11946,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
     __pyx_t_4 = ((__pyx_v_k < __pyx_v_N) != 0);
     if (!__pyx_t_4) break;
 
-    /* "mlgrad/avragg.pyx":431
+    /* "mlgrad/avragg.pyx":436
  *         k += 4
  *         while k < N:
  *             u += func.evaluate(YY[k], c)             # <<<<<<<<<<<<<<
@@ -12099,7 +11955,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
     __pyx_v_u = (__pyx_v_u + ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, (__pyx_v_YY[__pyx_v_k]), __pyx_v_c));
 
-    /* "mlgrad/avragg.pyx":432
+    /* "mlgrad/avragg.pyx":437
  *         while k < N:
  *             u += func.evaluate(YY[k], c)
  *             k += 1             # <<<<<<<<<<<<<<
@@ -12109,7 +11965,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
     __pyx_v_k = (__pyx_v_k + 1);
   }
 
-  /* "mlgrad/avragg.pyx":434
+  /* "mlgrad/avragg.pyx":439
  *             k += 1
  * 
  *         self.u = u / N             # <<<<<<<<<<<<<<
@@ -12118,11 +11974,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit(struct __pyx
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 434, __pyx_L1_error)
+    __PYX_ERR(2, 439, __pyx_L1_error)
   }
   __pyx_v_self->__pyx_base.u = (__pyx_v_u / ((double)__pyx_v_N));
 
-  /* "mlgrad/avragg.pyx":400
+  /* "mlgrad/avragg.pyx":405
  *     #
  *     @cython.final
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -12184,7 +12040,7 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_20ParameterizedAverage_3fit(PyObject *
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 400, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 405, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -12195,12 +12051,12 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_20ParameterizedAverage_3fit(PyObject *
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 400, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 405, __pyx_L3_error)
     __pyx_v_u0 = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 400, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 405, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.ParameterizedAverage.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -12225,7 +12081,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_20ParameterizedAverage_2fit(struct __p
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.u0 = __pyx_v_u0;
-  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 400, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 405, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -12243,7 +12099,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_20ParameterizedAverage_2fit(struct __p
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":437
+/* "mlgrad/avragg.pyx":442
  *     #
  *     @cython.final
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -12287,7 +12143,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":439
+  /* "mlgrad/avragg.pyx":444
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         cdef Py_ssize_t k
  *         cdef Py_ssize_t N = Y.shape[0], M             # <<<<<<<<<<<<<<
@@ -12296,7 +12152,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":441
+  /* "mlgrad/avragg.pyx":446
  *         cdef Py_ssize_t N = Y.shape[0], M
  *         cdef double c
  *         cdef double N1 = 1/N             # <<<<<<<<<<<<<<
@@ -12305,11 +12161,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 441, __pyx_L1_error)
+    __PYX_ERR(2, 446, __pyx_L1_error)
   }
   __pyx_v_N1 = (1.0 / ((double)__pyx_v_N));
 
-  /* "mlgrad/avragg.pyx":446
+  /* "mlgrad/avragg.pyx":451
  *         cdef double v1,v2,v3,v4
  *         cdef double w1,w2,w3,w4
  *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
@@ -12319,7 +12175,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
   __pyx_t_1 = 0;
   __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":447
+  /* "mlgrad/avragg.pyx":452
  *         cdef double w1,w2,w3,w4
  *         cdef double *YY = &Y[0]
  *         cdef double *GG = &grad[0]             # <<<<<<<<<<<<<<
@@ -12329,7 +12185,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
   __pyx_t_1 = 0;
   __pyx_v_GG = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":448
+  /* "mlgrad/avragg.pyx":453
  *         cdef double *YY = &Y[0]
  *         cdef double *GG = &grad[0]
  *         cdef ParameterizedFunc func = self.func             # <<<<<<<<<<<<<<
@@ -12341,18 +12197,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
   __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "mlgrad/avragg.pyx":450
+  /* "mlgrad/avragg.pyx":455
  *         cdef ParameterizedFunc func = self.func
  * 
  *         self.avr.gradient(Y, grad)             # <<<<<<<<<<<<<<
  *         c = self.avr.u
  * 
  */
-  __pyx_t_2 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->gradient(__pyx_v_self->avr, __pyx_v_Y, __pyx_v_grad); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 450, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->gradient(__pyx_v_self->avr, __pyx_v_Y, __pyx_v_grad); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 455, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/avragg.pyx":451
+  /* "mlgrad/avragg.pyx":456
  * 
  *         self.avr.gradient(Y, grad)
  *         c = self.avr.u             # <<<<<<<<<<<<<<
@@ -12362,7 +12218,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
   __pyx_t_3 = __pyx_v_self->avr->u;
   __pyx_v_c = __pyx_t_3;
 
-  /* "mlgrad/avragg.pyx":453
+  /* "mlgrad/avragg.pyx":458
  *         c = self.avr.u
  * 
  *         H = 0             # <<<<<<<<<<<<<<
@@ -12371,7 +12227,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
   __pyx_v_H = 0.0;
 
-  /* "mlgrad/avragg.pyx":454
+  /* "mlgrad/avragg.pyx":459
  * 
  *         H = 0
  *         M = 4 * (N // 4)             # <<<<<<<<<<<<<<
@@ -12380,7 +12236,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
   __pyx_v_M = (4 * __Pyx_div_Py_ssize_t(__pyx_v_N, 4));
 
-  /* "mlgrad/avragg.pyx":455
+  /* "mlgrad/avragg.pyx":460
  *         H = 0
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -12390,7 +12246,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
   __pyx_t_4 = ((__pyx_v_M > 0) != 0);
   if (__pyx_t_4) {
 
-    /* "mlgrad/avragg.pyx":456
+    /* "mlgrad/avragg.pyx":461
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -12436,7 +12292,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
                               __pyx_v_v3 = ((double)__PYX_NAN());
                               __pyx_v_v4 = ((double)__PYX_NAN());
 
-                              /* "mlgrad/avragg.pyx":458
+                              /* "mlgrad/avragg.pyx":463
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  * #             for k in range(N):
  *                 u1 = YY[k]             # <<<<<<<<<<<<<<
@@ -12445,7 +12301,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_u1 = (__pyx_v_YY[__pyx_v_k]);
 
-                              /* "mlgrad/avragg.pyx":459
+                              /* "mlgrad/avragg.pyx":464
  * #             for k in range(N):
  *                 u1 = YY[k]
  *                 u2 = YY[k+1]             # <<<<<<<<<<<<<<
@@ -12454,7 +12310,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_u2 = (__pyx_v_YY[(__pyx_v_k + 1)]);
 
-                              /* "mlgrad/avragg.pyx":460
+                              /* "mlgrad/avragg.pyx":465
  *                 u1 = YY[k]
  *                 u2 = YY[k+1]
  *                 u3 = YY[k+2]             # <<<<<<<<<<<<<<
@@ -12463,7 +12319,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_u3 = (__pyx_v_YY[(__pyx_v_k + 2)]);
 
-                              /* "mlgrad/avragg.pyx":461
+                              /* "mlgrad/avragg.pyx":466
  *                 u2 = YY[k+1]
  *                 u3 = YY[k+2]
  *                 u4 = YY[k+3]             # <<<<<<<<<<<<<<
@@ -12472,7 +12328,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_u4 = (__pyx_v_YY[(__pyx_v_k + 3)]);
 
-                              /* "mlgrad/avragg.pyx":463
+                              /* "mlgrad/avragg.pyx":468
  *                 u4 = YY[k+3]
  * 
  *                 v1 = func.derivative_u(u1, c)             # <<<<<<<<<<<<<<
@@ -12481,7 +12337,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_v1 = ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->derivative_u(__pyx_v_func, __pyx_v_u1, __pyx_v_c);
 
-                              /* "mlgrad/avragg.pyx":464
+                              /* "mlgrad/avragg.pyx":469
  * 
  *                 v1 = func.derivative_u(u1, c)
  *                 v2 = func.derivative_u(u2, c)             # <<<<<<<<<<<<<<
@@ -12490,7 +12346,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_v2 = ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->derivative_u(__pyx_v_func, __pyx_v_u2, __pyx_v_c);
 
-                              /* "mlgrad/avragg.pyx":465
+                              /* "mlgrad/avragg.pyx":470
  *                 v1 = func.derivative_u(u1, c)
  *                 v2 = func.derivative_u(u2, c)
  *                 v3 = func.derivative_u(u3, c)             # <<<<<<<<<<<<<<
@@ -12499,7 +12355,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_v3 = ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->derivative_u(__pyx_v_func, __pyx_v_u3, __pyx_v_c);
 
-                              /* "mlgrad/avragg.pyx":466
+                              /* "mlgrad/avragg.pyx":471
  *                 v2 = func.derivative_u(u2, c)
  *                 v3 = func.derivative_u(u3, c)
  *                 v4 = func.derivative_u(u4, c)             # <<<<<<<<<<<<<<
@@ -12508,7 +12364,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_v4 = ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->derivative_u(__pyx_v_func, __pyx_v_u4, __pyx_v_c);
 
-                              /* "mlgrad/avragg.pyx":467
+                              /* "mlgrad/avragg.pyx":472
  *                 v3 = func.derivative_u(u3, c)
  *                 v4 = func.derivative_u(u4, c)
  *                 H += v1 + v2 + v3 + v4             # <<<<<<<<<<<<<<
@@ -12529,7 +12385,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
           #endif
         }
 
-        /* "mlgrad/avragg.pyx":456
+        /* "mlgrad/avragg.pyx":461
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -12548,7 +12404,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
         }
     }
 
-    /* "mlgrad/avragg.pyx":469
+    /* "mlgrad/avragg.pyx":474
  *                 H += v1 + v2 + v3 + v4
  * 
  *             k += 4             # <<<<<<<<<<<<<<
@@ -12557,7 +12413,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
     __pyx_v_k = (__pyx_v_k + 4);
 
-    /* "mlgrad/avragg.pyx":455
+    /* "mlgrad/avragg.pyx":460
  *         H = 0
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -12567,7 +12423,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
     goto __pyx_L3;
   }
 
-  /* "mlgrad/avragg.pyx":471
+  /* "mlgrad/avragg.pyx":476
  *             k += 4
  *         else:
  *             k = 0             # <<<<<<<<<<<<<<
@@ -12579,7 +12435,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
   }
   __pyx_L3:;
 
-  /* "mlgrad/avragg.pyx":472
+  /* "mlgrad/avragg.pyx":477
  *         else:
  *             k = 0
  *         while k < N:             # <<<<<<<<<<<<<<
@@ -12590,7 +12446,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
     __pyx_t_4 = ((__pyx_v_k < __pyx_v_N) != 0);
     if (!__pyx_t_4) break;
 
-    /* "mlgrad/avragg.pyx":473
+    /* "mlgrad/avragg.pyx":478
  *             k = 0
  *         while k < N:
  *             H += func.derivative_u(YY[k], c)             # <<<<<<<<<<<<<<
@@ -12599,7 +12455,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
     __pyx_v_H = (__pyx_v_H + ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->derivative_u(__pyx_v_func, (__pyx_v_YY[__pyx_v_k]), __pyx_v_c));
 
-    /* "mlgrad/avragg.pyx":474
+    /* "mlgrad/avragg.pyx":479
  *         while k < N:
  *             H += func.derivative_u(YY[k], c)
  *             k += 1             # <<<<<<<<<<<<<<
@@ -12609,7 +12465,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
     __pyx_v_k = (__pyx_v_k + 1);
   }
 
-  /* "mlgrad/avragg.pyx":476
+  /* "mlgrad/avragg.pyx":481
  *             k += 1
  * 
  *         M = 4 * (N // 4)             # <<<<<<<<<<<<<<
@@ -12618,7 +12474,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
   __pyx_v_M = (4 * __Pyx_div_Py_ssize_t(__pyx_v_N, 4));
 
-  /* "mlgrad/avragg.pyx":477
+  /* "mlgrad/avragg.pyx":482
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -12628,7 +12484,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
   __pyx_t_4 = ((__pyx_v_M > 0) != 0);
   if (__pyx_t_4) {
 
-    /* "mlgrad/avragg.pyx":478
+    /* "mlgrad/avragg.pyx":483
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -12678,7 +12534,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
                               __pyx_v_w3 = ((double)__PYX_NAN());
                               __pyx_v_w4 = ((double)__PYX_NAN());
 
-                              /* "mlgrad/avragg.pyx":480
+                              /* "mlgrad/avragg.pyx":485
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  * #             for k in range(0, M, 4):
  *                 u1 = YY[k]             # <<<<<<<<<<<<<<
@@ -12687,7 +12543,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_u1 = (__pyx_v_YY[__pyx_v_k]);
 
-                              /* "mlgrad/avragg.pyx":481
+                              /* "mlgrad/avragg.pyx":486
  * #             for k in range(0, M, 4):
  *                 u1 = YY[k]
  *                 u2 = YY[k+1]             # <<<<<<<<<<<<<<
@@ -12696,7 +12552,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_u2 = (__pyx_v_YY[(__pyx_v_k + 1)]);
 
-                              /* "mlgrad/avragg.pyx":482
+                              /* "mlgrad/avragg.pyx":487
  *                 u1 = YY[k]
  *                 u2 = YY[k+1]
  *                 u3 = YY[k+2]             # <<<<<<<<<<<<<<
@@ -12705,7 +12561,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_u3 = (__pyx_v_YY[(__pyx_v_k + 2)]);
 
-                              /* "mlgrad/avragg.pyx":483
+                              /* "mlgrad/avragg.pyx":488
  *                 u2 = YY[k+1]
  *                 u3 = YY[k+2]
  *                 u4 = YY[k+3]             # <<<<<<<<<<<<<<
@@ -12714,7 +12570,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_u4 = (__pyx_v_YY[(__pyx_v_k + 3)]);
 
-                              /* "mlgrad/avragg.pyx":485
+                              /* "mlgrad/avragg.pyx":490
  *                 u4 = YY[k+3]
  * 
  *                 v1 = GG[k]             # <<<<<<<<<<<<<<
@@ -12723,7 +12579,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_v1 = (__pyx_v_GG[__pyx_v_k]);
 
-                              /* "mlgrad/avragg.pyx":486
+                              /* "mlgrad/avragg.pyx":491
  * 
  *                 v1 = GG[k]
  *                 v2 = GG[k+1]             # <<<<<<<<<<<<<<
@@ -12732,7 +12588,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_v2 = (__pyx_v_GG[(__pyx_v_k + 1)]);
 
-                              /* "mlgrad/avragg.pyx":487
+                              /* "mlgrad/avragg.pyx":492
  *                 v1 = GG[k]
  *                 v2 = GG[k+1]
  *                 v3 = GG[k+2]             # <<<<<<<<<<<<<<
@@ -12741,7 +12597,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_v3 = (__pyx_v_GG[(__pyx_v_k + 2)]);
 
-                              /* "mlgrad/avragg.pyx":488
+                              /* "mlgrad/avragg.pyx":493
  *                 v2 = GG[k+1]
  *                 v3 = GG[k+2]
  *                 v4 = GG[k+3]             # <<<<<<<<<<<<<<
@@ -12750,7 +12606,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_v4 = (__pyx_v_GG[(__pyx_v_k + 3)]);
 
-                              /* "mlgrad/avragg.pyx":490
+                              /* "mlgrad/avragg.pyx":495
  *                 v4 = GG[k+3]
  * 
  *                 w1 = func.derivative(u1, c) +  H * v1             # <<<<<<<<<<<<<<
@@ -12759,7 +12615,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_w1 = (((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->derivative(__pyx_v_func, __pyx_v_u1, __pyx_v_c) + (__pyx_v_H * __pyx_v_v1));
 
-                              /* "mlgrad/avragg.pyx":491
+                              /* "mlgrad/avragg.pyx":496
  * 
  *                 w1 = func.derivative(u1, c) +  H * v1
  *                 w2 = func.derivative(u2, c) +  H * v2             # <<<<<<<<<<<<<<
@@ -12768,7 +12624,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_w2 = (((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->derivative(__pyx_v_func, __pyx_v_u2, __pyx_v_c) + (__pyx_v_H * __pyx_v_v2));
 
-                              /* "mlgrad/avragg.pyx":492
+                              /* "mlgrad/avragg.pyx":497
  *                 w1 = func.derivative(u1, c) +  H * v1
  *                 w2 = func.derivative(u2, c) +  H * v2
  *                 w3 = func.derivative(u3, c) +  H * v3             # <<<<<<<<<<<<<<
@@ -12777,7 +12633,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_w3 = (((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->derivative(__pyx_v_func, __pyx_v_u3, __pyx_v_c) + (__pyx_v_H * __pyx_v_v3));
 
-                              /* "mlgrad/avragg.pyx":493
+                              /* "mlgrad/avragg.pyx":498
  *                 w2 = func.derivative(u2, c) +  H * v2
  *                 w3 = func.derivative(u3, c) +  H * v3
  *                 w4 = func.derivative(u4, c) +  H * v4             # <<<<<<<<<<<<<<
@@ -12786,7 +12642,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               __pyx_v_w4 = (((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->derivative(__pyx_v_func, __pyx_v_u4, __pyx_v_c) + (__pyx_v_H * __pyx_v_v4));
 
-                              /* "mlgrad/avragg.pyx":495
+                              /* "mlgrad/avragg.pyx":500
  *                 w4 = func.derivative(u4, c) +  H * v4
  * 
  *                 GG[k]   = N1 * w1             # <<<<<<<<<<<<<<
@@ -12795,7 +12651,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               (__pyx_v_GG[__pyx_v_k]) = (__pyx_v_N1 * __pyx_v_w1);
 
-                              /* "mlgrad/avragg.pyx":496
+                              /* "mlgrad/avragg.pyx":501
  * 
  *                 GG[k]   = N1 * w1
  *                 GG[k+1] = N1 * w2             # <<<<<<<<<<<<<<
@@ -12804,7 +12660,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               (__pyx_v_GG[(__pyx_v_k + 1)]) = (__pyx_v_N1 * __pyx_v_w2);
 
-                              /* "mlgrad/avragg.pyx":497
+                              /* "mlgrad/avragg.pyx":502
  *                 GG[k]   = N1 * w1
  *                 GG[k+1] = N1 * w2
  *                 GG[k+2] = N1 * w3             # <<<<<<<<<<<<<<
@@ -12813,7 +12669,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
                               (__pyx_v_GG[(__pyx_v_k + 2)]) = (__pyx_v_N1 * __pyx_v_w3);
 
-                              /* "mlgrad/avragg.pyx":498
+                              /* "mlgrad/avragg.pyx":503
  *                 GG[k+1] = N1 * w2
  *                 GG[k+2] = N1 * w3
  *                 GG[k+3] = N1 * w4             # <<<<<<<<<<<<<<
@@ -12834,7 +12690,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
           #endif
         }
 
-        /* "mlgrad/avragg.pyx":478
+        /* "mlgrad/avragg.pyx":483
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -12853,7 +12709,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
         }
     }
 
-    /* "mlgrad/avragg.pyx":500
+    /* "mlgrad/avragg.pyx":505
  *                 GG[k+3] = N1 * w4
  * 
  *             k += 4             # <<<<<<<<<<<<<<
@@ -12862,7 +12718,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
     __pyx_v_k = (__pyx_v_k + 4);
 
-    /* "mlgrad/avragg.pyx":477
+    /* "mlgrad/avragg.pyx":482
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -12872,7 +12728,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
     goto __pyx_L15;
   }
 
-  /* "mlgrad/avragg.pyx":502
+  /* "mlgrad/avragg.pyx":507
  *             k += 4
  *         else:
  *             k = 0             # <<<<<<<<<<<<<<
@@ -12884,7 +12740,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
   }
   __pyx_L15:;
 
-  /* "mlgrad/avragg.pyx":503
+  /* "mlgrad/avragg.pyx":508
  *         else:
  *             k = 0
  *         while k < N:             # <<<<<<<<<<<<<<
@@ -12895,7 +12751,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
     __pyx_t_4 = ((__pyx_v_k < __pyx_v_N) != 0);
     if (!__pyx_t_4) break;
 
-    /* "mlgrad/avragg.pyx":504
+    /* "mlgrad/avragg.pyx":509
  *             k = 0
  *         while k < N:
  *             GG[k] = N1 * (func.derivative(YY[k], c) +  H * GG[k])             # <<<<<<<<<<<<<<
@@ -12904,7 +12760,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
  */
     (__pyx_v_GG[__pyx_v_k]) = (__pyx_v_N1 * (((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->derivative(__pyx_v_func, (__pyx_v_YY[__pyx_v_k]), __pyx_v_c) + (__pyx_v_H * (__pyx_v_GG[__pyx_v_k]))));
 
-    /* "mlgrad/avragg.pyx":505
+    /* "mlgrad/avragg.pyx":510
  *         while k < N:
  *             GG[k] = N1 * (func.derivative(YY[k], c) +  H * GG[k])
  *             k += 1             # <<<<<<<<<<<<<<
@@ -12914,7 +12770,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient(struct 
     __pyx_v_k = (__pyx_v_k + 1);
   }
 
-  /* "mlgrad/avragg.pyx":437
+  /* "mlgrad/avragg.pyx":442
  *     #
  *     @cython.final
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -15541,7 +15397,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_10Average_FG_6__setstate_cython__(stru
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":515
+/* "mlgrad/avragg.pyx":520
  * cdef class WMAverage(Average):
  *     #
  *     def __init__(self, Average avr):             # <<<<<<<<<<<<<<
@@ -15578,7 +15434,7 @@ static int __pyx_pw_6mlgrad_6avragg_9WMAverage_1__init__(PyObject *__pyx_v_self,
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 515, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 520, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -15589,13 +15445,13 @@ static int __pyx_pw_6mlgrad_6avragg_9WMAverage_1__init__(PyObject *__pyx_v_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 515, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 520, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.WMAverage.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avr), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avr", 0))) __PYX_ERR(2, 515, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avr), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avr", 0))) __PYX_ERR(2, 520, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_9WMAverage___init__(((struct __pyx_obj_6mlgrad_6avragg_WMAverage *)__pyx_v_self), __pyx_v_avr);
 
   /* function exit code */
@@ -15612,7 +15468,7 @@ static int __pyx_pf_6mlgrad_6avragg_9WMAverage___init__(struct __pyx_obj_6mlgrad
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/avragg.pyx":516
+  /* "mlgrad/avragg.pyx":521
  *     #
  *     def __init__(self, Average avr):
  *         self.avr = avr             # <<<<<<<<<<<<<<
@@ -15625,7 +15481,7 @@ static int __pyx_pf_6mlgrad_6avragg_9WMAverage___init__(struct __pyx_obj_6mlgrad
   __Pyx_DECREF(((PyObject *)__pyx_v_self->avr));
   __pyx_v_self->avr = __pyx_v_avr;
 
-  /* "mlgrad/avragg.pyx":517
+  /* "mlgrad/avragg.pyx":522
  *     def __init__(self, Average avr):
  *         self.avr = avr
  *         self.gamma = 1             # <<<<<<<<<<<<<<
@@ -15634,7 +15490,7 @@ static int __pyx_pf_6mlgrad_6avragg_9WMAverage___init__(struct __pyx_obj_6mlgrad
  */
   __pyx_v_self->gamma = 1.0;
 
-  /* "mlgrad/avragg.pyx":518
+  /* "mlgrad/avragg.pyx":523
  *         self.avr = avr
  *         self.gamma = 1
  *         self.u = 0             # <<<<<<<<<<<<<<
@@ -15643,7 +15499,7 @@ static int __pyx_pf_6mlgrad_6avragg_9WMAverage___init__(struct __pyx_obj_6mlgrad
  */
   __pyx_v_self->__pyx_base.u = 0.0;
 
-  /* "mlgrad/avragg.pyx":515
+  /* "mlgrad/avragg.pyx":520
  * cdef class WMAverage(Average):
  *     #
  *     def __init__(self, Average avr):             # <<<<<<<<<<<<<<
@@ -15657,7 +15513,7 @@ static int __pyx_pf_6mlgrad_6avragg_9WMAverage___init__(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":521
+/* "mlgrad/avragg.pyx":526
  *     #
  *     @cython.final
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -15700,7 +15556,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
   if (__pyx_optional_args) {
   }
 
-  /* "mlgrad/avragg.pyx":523
+  /* "mlgrad/avragg.pyx":528
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef double u, v, yk, avr_u
  *         cdef Py_ssize_t k, m, N = Y.shape[0], M             # <<<<<<<<<<<<<<
@@ -15709,7 +15565,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":527
+  /* "mlgrad/avragg.pyx":532
  *         cdef double v1,v2,v3,v4
  *         cdef double s1,s2,s3,s4
  *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
@@ -15719,18 +15575,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_t_1 = 0;
   __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":529
+  /* "mlgrad/avragg.pyx":534
  *         cdef double *YY = &Y[0]
  * 
  *         self.avr.fit(Y)             # <<<<<<<<<<<<<<
  *         avr_u = self.avr.u
  * 
  */
-  __pyx_t_2 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->fit(__pyx_v_self->avr, __pyx_v_Y, 0, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 529, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->fit(__pyx_v_self->avr, __pyx_v_Y, 0, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 534, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/avragg.pyx":530
+  /* "mlgrad/avragg.pyx":535
  * 
  *         self.avr.fit(Y)
  *         avr_u = self.avr.u             # <<<<<<<<<<<<<<
@@ -15740,7 +15596,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_t_3 = __pyx_v_self->avr->u;
   __pyx_v_avr_u = __pyx_t_3;
 
-  /* "mlgrad/avragg.pyx":532
+  /* "mlgrad/avragg.pyx":537
  *         avr_u = self.avr.u
  * 
  *         u = 0             # <<<<<<<<<<<<<<
@@ -15749,7 +15605,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
  */
   __pyx_v_u = 0.0;
 
-  /* "mlgrad/avragg.pyx":533
+  /* "mlgrad/avragg.pyx":538
  * 
  *         u = 0
  *         M = 4 * (N // 4)             # <<<<<<<<<<<<<<
@@ -15758,7 +15614,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
  */
   __pyx_v_M = (4 * __Pyx_div_Py_ssize_t(__pyx_v_N, 4));
 
-  /* "mlgrad/avragg.pyx":534
+  /* "mlgrad/avragg.pyx":539
  *         u = 0
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -15768,7 +15624,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_t_4 = ((__pyx_v_M > 0) != 0);
   if (__pyx_t_4) {
 
-    /* "mlgrad/avragg.pyx":535
+    /* "mlgrad/avragg.pyx":540
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -15814,7 +15670,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
                               __pyx_v_y3 = ((double)__PYX_NAN());
                               __pyx_v_y4 = ((double)__PYX_NAN());
 
-                              /* "mlgrad/avragg.pyx":537
+                              /* "mlgrad/avragg.pyx":542
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  * #             for k in range(0, M, 4):
  *                 y1 = YY[k]             # <<<<<<<<<<<<<<
@@ -15823,7 +15679,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
  */
                               __pyx_v_y1 = (__pyx_v_YY[__pyx_v_k]);
 
-                              /* "mlgrad/avragg.pyx":538
+                              /* "mlgrad/avragg.pyx":543
  * #             for k in range(0, M, 4):
  *                 y1 = YY[k]
  *                 y2 = YY[k+1]             # <<<<<<<<<<<<<<
@@ -15832,7 +15688,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
  */
                               __pyx_v_y2 = (__pyx_v_YY[(__pyx_v_k + 1)]);
 
-                              /* "mlgrad/avragg.pyx":539
+                              /* "mlgrad/avragg.pyx":544
  *                 y1 = YY[k]
  *                 y2 = YY[k+1]
  *                 y3 = YY[k+2]             # <<<<<<<<<<<<<<
@@ -15841,7 +15697,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
  */
                               __pyx_v_y3 = (__pyx_v_YY[(__pyx_v_k + 2)]);
 
-                              /* "mlgrad/avragg.pyx":540
+                              /* "mlgrad/avragg.pyx":545
  *                 y2 = YY[k+1]
  *                 y3 = YY[k+2]
  *                 y4 = YY[k+3]             # <<<<<<<<<<<<<<
@@ -15850,7 +15706,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
  */
                               __pyx_v_y4 = (__pyx_v_YY[(__pyx_v_k + 3)]);
 
-                              /* "mlgrad/avragg.pyx":542
+                              /* "mlgrad/avragg.pyx":547
  *                 y4 = YY[k+3]
  * 
  *                 v1 = avr_u if y1 > avr_u else y1             # <<<<<<<<<<<<<<
@@ -15864,7 +15720,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
                               }
                               __pyx_v_v1 = __pyx_t_3;
 
-                              /* "mlgrad/avragg.pyx":543
+                              /* "mlgrad/avragg.pyx":548
  * 
  *                 v1 = avr_u if y1 > avr_u else y1
  *                 v2 = avr_u if y2 > avr_u else y2             # <<<<<<<<<<<<<<
@@ -15878,7 +15734,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
                               }
                               __pyx_v_v2 = __pyx_t_3;
 
-                              /* "mlgrad/avragg.pyx":544
+                              /* "mlgrad/avragg.pyx":549
  *                 v1 = avr_u if y1 > avr_u else y1
  *                 v2 = avr_u if y2 > avr_u else y2
  *                 v3 = avr_u if y3 > avr_u else y3             # <<<<<<<<<<<<<<
@@ -15892,7 +15748,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
                               }
                               __pyx_v_v3 = __pyx_t_3;
 
-                              /* "mlgrad/avragg.pyx":545
+                              /* "mlgrad/avragg.pyx":550
  *                 v2 = avr_u if y2 > avr_u else y2
  *                 v3 = avr_u if y3 > avr_u else y3
  *                 v4 = avr_u if y4 > avr_u else y4             # <<<<<<<<<<<<<<
@@ -15906,7 +15762,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
                               }
                               __pyx_v_v4 = __pyx_t_3;
 
-                              /* "mlgrad/avragg.pyx":547
+                              /* "mlgrad/avragg.pyx":552
  *                 v4 = avr_u if y4 > avr_u else y4
  * 
  *                 u += v1 + v2 + v3 + v4             # <<<<<<<<<<<<<<
@@ -15927,7 +15783,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
           #endif
         }
 
-        /* "mlgrad/avragg.pyx":535
+        /* "mlgrad/avragg.pyx":540
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -15946,7 +15802,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
         }
     }
 
-    /* "mlgrad/avragg.pyx":549
+    /* "mlgrad/avragg.pyx":554
  *                 u += v1 + v2 + v3 + v4
  * 
  *             k += 4             # <<<<<<<<<<<<<<
@@ -15955,7 +15811,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
  */
     __pyx_v_k = (__pyx_v_k + 4);
 
-    /* "mlgrad/avragg.pyx":534
+    /* "mlgrad/avragg.pyx":539
  *         u = 0
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -15965,7 +15821,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
     goto __pyx_L3;
   }
 
-  /* "mlgrad/avragg.pyx":551
+  /* "mlgrad/avragg.pyx":556
  *             k += 4
  *         else:
  *             k = 0             # <<<<<<<<<<<<<<
@@ -15977,7 +15833,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
   }
   __pyx_L3:;
 
-  /* "mlgrad/avragg.pyx":552
+  /* "mlgrad/avragg.pyx":557
  *         else:
  *             k = 0
  *         while k < N:             # <<<<<<<<<<<<<<
@@ -15988,7 +15844,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
     __pyx_t_4 = ((__pyx_v_k < __pyx_v_N) != 0);
     if (!__pyx_t_4) break;
 
-    /* "mlgrad/avragg.pyx":553
+    /* "mlgrad/avragg.pyx":558
  *             k = 0
  *         while k < N:
  *             yk = YY[k]             # <<<<<<<<<<<<<<
@@ -15997,7 +15853,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
  */
     __pyx_v_yk = (__pyx_v_YY[__pyx_v_k]);
 
-    /* "mlgrad/avragg.pyx":554
+    /* "mlgrad/avragg.pyx":559
  *         while k < N:
  *             yk = YY[k]
  *             v = avr_u if yk > avr_u else yk             # <<<<<<<<<<<<<<
@@ -16011,7 +15867,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
     }
     __pyx_v_v = __pyx_t_3;
 
-    /* "mlgrad/avragg.pyx":555
+    /* "mlgrad/avragg.pyx":560
  *             yk = YY[k]
  *             v = avr_u if yk > avr_u else yk
  *             u += v             # <<<<<<<<<<<<<<
@@ -16020,7 +15876,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
  */
     __pyx_v_u = (__pyx_v_u + __pyx_v_v);
 
-    /* "mlgrad/avragg.pyx":556
+    /* "mlgrad/avragg.pyx":561
  *             v = avr_u if yk > avr_u else yk
  *             u += v
  *             k += 1             # <<<<<<<<<<<<<<
@@ -16030,7 +15886,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
     __pyx_v_k = (__pyx_v_k + 1);
   }
 
-  /* "mlgrad/avragg.pyx":558
+  /* "mlgrad/avragg.pyx":563
  *             k += 1
  * 
  *         self.u = u / N             # <<<<<<<<<<<<<<
@@ -16039,11 +15895,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 558, __pyx_L1_error)
+    __PYX_ERR(2, 563, __pyx_L1_error)
   }
   __pyx_v_self->__pyx_base.u = (__pyx_v_u / ((double)__pyx_v_N));
 
-  /* "mlgrad/avragg.pyx":559
+  /* "mlgrad/avragg.pyx":564
  * 
  *         self.u = u / N
  *         self.u_best = self.u             # <<<<<<<<<<<<<<
@@ -16053,7 +15909,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_t_3 = __pyx_v_self->__pyx_base.u;
   __pyx_v_self->__pyx_base.u_best = __pyx_t_3;
 
-  /* "mlgrad/avragg.pyx":560
+  /* "mlgrad/avragg.pyx":565
  *         self.u = u / N
  *         self.u_best = self.u
  *         self.K = self.avr.K             # <<<<<<<<<<<<<<
@@ -16063,7 +15919,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_t_8 = __pyx_v_self->avr->K;
   __pyx_v_self->__pyx_base.K = __pyx_t_8;
 
-  /* "mlgrad/avragg.pyx":521
+  /* "mlgrad/avragg.pyx":526
  *     #
  *     @cython.final
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -16124,7 +15980,7 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_9WMAverage_3fit(PyObject *__pyx_v_self
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 521, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 526, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -16135,12 +15991,12 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_9WMAverage_3fit(PyObject *__pyx_v_self
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 521, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 526, __pyx_L3_error)
     __pyx_v_u0 = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 521, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 526, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.WMAverage.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -16165,7 +16021,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9WMAverage_2fit(struct __pyx_obj_6mlgr
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.u0 = __pyx_v_u0;
-  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_WMAverage->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 521, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_WMAverage->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 526, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -16183,7 +16039,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9WMAverage_2fit(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":563
+/* "mlgrad/avragg.pyx":568
  *     #
  *     @cython.final
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -16228,7 +16084,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":564
+  /* "mlgrad/avragg.pyx":569
  *     @cython.final
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         cdef Py_ssize_t k, m, m4, N = Y.shape[0], M             # <<<<<<<<<<<<<<
@@ -16237,7 +16093,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":570
+  /* "mlgrad/avragg.pyx":575
  *         cdef double v1,v2,v3,v4
  *         cdef double s1,s2,s3,s4
  *         cdef double N1 = 1/N             # <<<<<<<<<<<<<<
@@ -16246,11 +16102,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 570, __pyx_L1_error)
+    __PYX_ERR(2, 575, __pyx_L1_error)
   }
   __pyx_v_N1 = (1.0 / ((double)__pyx_v_N));
 
-  /* "mlgrad/avragg.pyx":571
+  /* "mlgrad/avragg.pyx":576
  *         cdef double s1,s2,s3,s4
  *         cdef double N1 = 1/N
  *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
@@ -16260,7 +16116,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
   __pyx_t_1 = 0;
   __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":572
+  /* "mlgrad/avragg.pyx":577
  *         cdef double N1 = 1/N
  *         cdef double *YY = &Y[0]
  *         cdef double *GG = &grad[0]             # <<<<<<<<<<<<<<
@@ -16270,18 +16126,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
   __pyx_t_1 = 0;
   __pyx_v_GG = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":574
+  /* "mlgrad/avragg.pyx":579
  *         cdef double *GG = &grad[0]
  * 
  *         self.avr.gradient(Y, grad)             # <<<<<<<<<<<<<<
  *         u = self.avr.u
  * 
  */
-  __pyx_t_2 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->gradient(__pyx_v_self->avr, __pyx_v_Y, __pyx_v_grad); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 574, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->gradient(__pyx_v_self->avr, __pyx_v_Y, __pyx_v_grad); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 579, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/avragg.pyx":575
+  /* "mlgrad/avragg.pyx":580
  * 
  *         self.avr.gradient(Y, grad)
  *         u = self.avr.u             # <<<<<<<<<<<<<<
@@ -16291,7 +16147,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
   __pyx_t_3 = __pyx_v_self->avr->u;
   __pyx_v_u = __pyx_t_3;
 
-  /* "mlgrad/avragg.pyx":577
+  /* "mlgrad/avragg.pyx":582
  *         u = self.avr.u
  * 
  *         m = 0             # <<<<<<<<<<<<<<
@@ -16300,7 +16156,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
   __pyx_v_m = 0;
 
-  /* "mlgrad/avragg.pyx":578
+  /* "mlgrad/avragg.pyx":583
  * 
  *         m = 0
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -16312,7 +16168,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
   for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
     __pyx_v_k = __pyx_t_6;
 
-    /* "mlgrad/avragg.pyx":579
+    /* "mlgrad/avragg.pyx":584
  *         m = 0
  *         for k in range(N):
  *             if YY[k] > u:             # <<<<<<<<<<<<<<
@@ -16322,7 +16178,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
     __pyx_t_7 = (((__pyx_v_YY[__pyx_v_k]) > __pyx_v_u) != 0);
     if (__pyx_t_7) {
 
-      /* "mlgrad/avragg.pyx":580
+      /* "mlgrad/avragg.pyx":585
  *         for k in range(N):
  *             if YY[k] > u:
  *                 m += 1             # <<<<<<<<<<<<<<
@@ -16331,7 +16187,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
       __pyx_v_m = (__pyx_v_m + 1);
 
-      /* "mlgrad/avragg.pyx":579
+      /* "mlgrad/avragg.pyx":584
  *         m = 0
  *         for k in range(N):
  *             if YY[k] > u:             # <<<<<<<<<<<<<<
@@ -16341,7 +16197,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
     }
   }
 
-  /* "mlgrad/avragg.pyx":582
+  /* "mlgrad/avragg.pyx":587
  *                 m += 1
  * 
  *         M = 4 * (N // 4)             # <<<<<<<<<<<<<<
@@ -16350,7 +16206,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
   __pyx_v_M = (4 * __Pyx_div_Py_ssize_t(__pyx_v_N, 4));
 
-  /* "mlgrad/avragg.pyx":583
+  /* "mlgrad/avragg.pyx":588
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -16360,7 +16216,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
   __pyx_t_7 = ((__pyx_v_M > 0) != 0);
   if (__pyx_t_7) {
 
-    /* "mlgrad/avragg.pyx":584
+    /* "mlgrad/avragg.pyx":589
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -16410,7 +16266,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
                               __pyx_v_y3 = ((double)__PYX_NAN());
                               __pyx_v_y4 = ((double)__PYX_NAN());
 
-                              /* "mlgrad/avragg.pyx":586
+                              /* "mlgrad/avragg.pyx":591
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):
  * #             for k in range(0, M, 4):
  *                 y1 = YY[k]             # <<<<<<<<<<<<<<
@@ -16419,7 +16275,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
                               __pyx_v_y1 = (__pyx_v_YY[__pyx_v_k]);
 
-                              /* "mlgrad/avragg.pyx":587
+                              /* "mlgrad/avragg.pyx":592
  * #             for k in range(0, M, 4):
  *                 y1 = YY[k]
  *                 y2 = YY[k+1]             # <<<<<<<<<<<<<<
@@ -16428,7 +16284,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
                               __pyx_v_y2 = (__pyx_v_YY[(__pyx_v_k + 1)]);
 
-                              /* "mlgrad/avragg.pyx":588
+                              /* "mlgrad/avragg.pyx":593
  *                 y1 = YY[k]
  *                 y2 = YY[k+1]
  *                 y3 = YY[k+2]             # <<<<<<<<<<<<<<
@@ -16437,7 +16293,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
                               __pyx_v_y3 = (__pyx_v_YY[(__pyx_v_k + 2)]);
 
-                              /* "mlgrad/avragg.pyx":589
+                              /* "mlgrad/avragg.pyx":594
  *                 y2 = YY[k+1]
  *                 y3 = YY[k+2]
  *                 y4 = YY[k+3]             # <<<<<<<<<<<<<<
@@ -16446,7 +16302,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
                               __pyx_v_y4 = (__pyx_v_YY[(__pyx_v_k + 3)]);
 
-                              /* "mlgrad/avragg.pyx":591
+                              /* "mlgrad/avragg.pyx":596
  *                 y4 = YY[k+3]
  * 
  *                 u1 = GG[k]             # <<<<<<<<<<<<<<
@@ -16455,7 +16311,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
                               __pyx_v_u1 = (__pyx_v_GG[__pyx_v_k]);
 
-                              /* "mlgrad/avragg.pyx":592
+                              /* "mlgrad/avragg.pyx":597
  * 
  *                 u1 = GG[k]
  *                 u2 = GG[k+1]             # <<<<<<<<<<<<<<
@@ -16464,7 +16320,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
                               __pyx_v_u2 = (__pyx_v_GG[(__pyx_v_k + 1)]);
 
-                              /* "mlgrad/avragg.pyx":593
+                              /* "mlgrad/avragg.pyx":598
  *                 u1 = GG[k]
  *                 u2 = GG[k+1]
  *                 u3 = GG[k+2]             # <<<<<<<<<<<<<<
@@ -16473,7 +16329,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
                               __pyx_v_u3 = (__pyx_v_GG[(__pyx_v_k + 2)]);
 
-                              /* "mlgrad/avragg.pyx":594
+                              /* "mlgrad/avragg.pyx":599
  *                 u2 = GG[k+1]
  *                 u3 = GG[k+2]
  *                 u4 = GG[k+3]             # <<<<<<<<<<<<<<
@@ -16482,7 +16338,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
                               __pyx_v_u4 = (__pyx_v_GG[(__pyx_v_k + 3)]);
 
-                              /* "mlgrad/avragg.pyx":596
+                              /* "mlgrad/avragg.pyx":601
  *                 u4 = GG[k+3]
  * 
  *                 v1 = (1 + m * u1) if y1 <= u else (m * u1)             # <<<<<<<<<<<<<<
@@ -16496,7 +16352,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
                               }
                               __pyx_v_v1 = __pyx_t_3;
 
-                              /* "mlgrad/avragg.pyx":597
+                              /* "mlgrad/avragg.pyx":602
  * 
  *                 v1 = (1 + m * u1) if y1 <= u else (m * u1)
  *                 v2 = (1 + m * u2) if y2 <= u else (m * u2)             # <<<<<<<<<<<<<<
@@ -16510,7 +16366,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
                               }
                               __pyx_v_v2 = __pyx_t_3;
 
-                              /* "mlgrad/avragg.pyx":598
+                              /* "mlgrad/avragg.pyx":603
  *                 v1 = (1 + m * u1) if y1 <= u else (m * u1)
  *                 v2 = (1 + m * u2) if y2 <= u else (m * u2)
  *                 v3 = (1 + m * u3) if y3 <= u else (m * u3)             # <<<<<<<<<<<<<<
@@ -16524,7 +16380,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
                               }
                               __pyx_v_v3 = __pyx_t_3;
 
-                              /* "mlgrad/avragg.pyx":599
+                              /* "mlgrad/avragg.pyx":604
  *                 v2 = (1 + m * u2) if y2 <= u else (m * u2)
  *                 v3 = (1 + m * u3) if y3 <= u else (m * u3)
  *                 v4 = (1 + m * u4) if y4 <= u else (m * u4)             # <<<<<<<<<<<<<<
@@ -16538,7 +16394,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
                               }
                               __pyx_v_v4 = __pyx_t_3;
 
-                              /* "mlgrad/avragg.pyx":601
+                              /* "mlgrad/avragg.pyx":606
  *                 v4 = (1 + m * u4) if y4 <= u else (m * u4)
  * 
  *                 GG[k]   = v1 * N1             # <<<<<<<<<<<<<<
@@ -16547,7 +16403,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
                               (__pyx_v_GG[__pyx_v_k]) = (__pyx_v_v1 * __pyx_v_N1);
 
-                              /* "mlgrad/avragg.pyx":602
+                              /* "mlgrad/avragg.pyx":607
  * 
  *                 GG[k]   = v1 * N1
  *                 GG[k+1] = v2 * N1             # <<<<<<<<<<<<<<
@@ -16556,7 +16412,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
                               (__pyx_v_GG[(__pyx_v_k + 1)]) = (__pyx_v_v2 * __pyx_v_N1);
 
-                              /* "mlgrad/avragg.pyx":603
+                              /* "mlgrad/avragg.pyx":608
  *                 GG[k]   = v1 * N1
  *                 GG[k+1] = v2 * N1
  *                 GG[k+2] = v3 * N1             # <<<<<<<<<<<<<<
@@ -16565,7 +16421,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
                               (__pyx_v_GG[(__pyx_v_k + 2)]) = (__pyx_v_v3 * __pyx_v_N1);
 
-                              /* "mlgrad/avragg.pyx":604
+                              /* "mlgrad/avragg.pyx":609
  *                 GG[k+1] = v2 * N1
  *                 GG[k+2] = v3 * N1
  *                 GG[k+3] = v4 * N1             # <<<<<<<<<<<<<<
@@ -16586,7 +16442,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
           #endif
         }
 
-        /* "mlgrad/avragg.pyx":584
+        /* "mlgrad/avragg.pyx":589
  *         M = 4 * (N // 4)
  *         if M > 0:
  *             for k in prange(0, M, 4, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -16605,7 +16461,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
         }
     }
 
-    /* "mlgrad/avragg.pyx":583
+    /* "mlgrad/avragg.pyx":588
  * 
  *         M = 4 * (N // 4)
  *         if M > 0:             # <<<<<<<<<<<<<<
@@ -16614,7 +16470,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
   }
 
-  /* "mlgrad/avragg.pyx":606
+  /* "mlgrad/avragg.pyx":611
  *                 GG[k+3] = v4 * N1
  * 
  *         k += 4             # <<<<<<<<<<<<<<
@@ -16623,7 +16479,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
   __pyx_v_k = (__pyx_v_k + 4);
 
-  /* "mlgrad/avragg.pyx":607
+  /* "mlgrad/avragg.pyx":612
  * 
  *         k += 4
  *         while k < N:             # <<<<<<<<<<<<<<
@@ -16634,7 +16490,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
     __pyx_t_7 = ((__pyx_v_k < __pyx_v_N) != 0);
     if (!__pyx_t_7) break;
 
-    /* "mlgrad/avragg.pyx":608
+    /* "mlgrad/avragg.pyx":613
  *         k += 4
  *         while k < N:
  *             yk = YY[k]             # <<<<<<<<<<<<<<
@@ -16643,7 +16499,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
     __pyx_v_yk = (__pyx_v_YY[__pyx_v_k]);
 
-    /* "mlgrad/avragg.pyx":609
+    /* "mlgrad/avragg.pyx":614
  *         while k < N:
  *             yk = YY[k]
  *             u = GG[k]             # <<<<<<<<<<<<<<
@@ -16652,7 +16508,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
     __pyx_v_u = (__pyx_v_GG[__pyx_v_k]);
 
-    /* "mlgrad/avragg.pyx":610
+    /* "mlgrad/avragg.pyx":615
  *             yk = YY[k]
  *             u = GG[k]
  *             v = (1 + m * u) if yk <= u else (m * u)             # <<<<<<<<<<<<<<
@@ -16666,7 +16522,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
     }
     __pyx_v_v = __pyx_t_3;
 
-    /* "mlgrad/avragg.pyx":611
+    /* "mlgrad/avragg.pyx":616
  *             u = GG[k]
  *             v = (1 + m * u) if yk <= u else (m * u)
  *             GG[k] = v * N1             # <<<<<<<<<<<<<<
@@ -16675,7 +16531,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  */
     (__pyx_v_GG[__pyx_v_k]) = (__pyx_v_v * __pyx_v_N1);
 
-    /* "mlgrad/avragg.pyx":612
+    /* "mlgrad/avragg.pyx":617
  *             v = (1 + m * u) if yk <= u else (m * u)
  *             GG[k] = v * N1
  *             k += 1             # <<<<<<<<<<<<<<
@@ -16685,7 +16541,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
     __pyx_v_k = (__pyx_v_k + 1);
   }
 
-  /* "mlgrad/avragg.pyx":563
+  /* "mlgrad/avragg.pyx":568
  *     #
  *     @cython.final
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -17130,7 +16986,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9WMAverage_6__setstate_cython__(struct
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":617
+/* "mlgrad/avragg.pyx":622
  * cdef class WMAverageMixed(Average):
  *     #
  *     def __init__(self, Average avr, double gamma=1):             # <<<<<<<<<<<<<<
@@ -17176,7 +17032,7 @@ static int __pyx_pw_6mlgrad_6avragg_14WMAverageMixed_1__init__(PyObject *__pyx_v
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 617, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 622, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -17189,20 +17045,20 @@ static int __pyx_pw_6mlgrad_6avragg_14WMAverageMixed_1__init__(PyObject *__pyx_v
     }
     __pyx_v_avr = ((struct __pyx_obj_6mlgrad_6avragg_Average *)values[0]);
     if (values[1]) {
-      __pyx_v_gamma = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_gamma == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 617, __pyx_L3_error)
+      __pyx_v_gamma = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_gamma == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 622, __pyx_L3_error)
     } else {
       __pyx_v_gamma = ((double)1.0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 617, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 622, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.WMAverageMixed.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avr), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avr", 0))) __PYX_ERR(2, 617, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avr), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avr", 0))) __PYX_ERR(2, 622, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_14WMAverageMixed___init__(((struct __pyx_obj_6mlgrad_6avragg_WMAverageMixed *)__pyx_v_self), __pyx_v_avr, __pyx_v_gamma);
 
   /* function exit code */
@@ -17219,7 +17075,7 @@ static int __pyx_pf_6mlgrad_6avragg_14WMAverageMixed___init__(struct __pyx_obj_6
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/avragg.pyx":618
+  /* "mlgrad/avragg.pyx":623
  *     #
  *     def __init__(self, Average avr, double gamma=1):
  *         self.avr = avr             # <<<<<<<<<<<<<<
@@ -17232,7 +17088,7 @@ static int __pyx_pf_6mlgrad_6avragg_14WMAverageMixed___init__(struct __pyx_obj_6
   __Pyx_DECREF(((PyObject *)__pyx_v_self->avr));
   __pyx_v_self->avr = __pyx_v_avr;
 
-  /* "mlgrad/avragg.pyx":619
+  /* "mlgrad/avragg.pyx":624
  *     def __init__(self, Average avr, double gamma=1):
  *         self.avr = avr
  *         self.gamma = gamma             # <<<<<<<<<<<<<<
@@ -17241,7 +17097,7 @@ static int __pyx_pf_6mlgrad_6avragg_14WMAverageMixed___init__(struct __pyx_obj_6
  */
   __pyx_v_self->gamma = __pyx_v_gamma;
 
-  /* "mlgrad/avragg.pyx":620
+  /* "mlgrad/avragg.pyx":625
  *         self.avr = avr
  *         self.gamma = gamma
  *         self.u = 0             # <<<<<<<<<<<<<<
@@ -17250,7 +17106,7 @@ static int __pyx_pf_6mlgrad_6avragg_14WMAverageMixed___init__(struct __pyx_obj_6
  */
   __pyx_v_self->__pyx_base.u = 0.0;
 
-  /* "mlgrad/avragg.pyx":617
+  /* "mlgrad/avragg.pyx":622
  * cdef class WMAverageMixed(Average):
  *     #
  *     def __init__(self, Average avr, double gamma=1):             # <<<<<<<<<<<<<<
@@ -17264,7 +17120,7 @@ static int __pyx_pf_6mlgrad_6avragg_14WMAverageMixed___init__(struct __pyx_obj_6
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":622
+/* "mlgrad/avragg.pyx":627
  *         self.u = 0
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -17299,7 +17155,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
   if (__pyx_optional_args) {
   }
 
-  /* "mlgrad/avragg.pyx":624
+  /* "mlgrad/avragg.pyx":629
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef double u, v, yk, avr_u
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -17308,18 +17164,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":626
+  /* "mlgrad/avragg.pyx":631
  *         cdef Py_ssize_t k, N = Y.shape[0]
  * 
  *         self.avr.fit(Y)             # <<<<<<<<<<<<<<
  *         avr_u = self.avr.u
  * 
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->fit(__pyx_v_self->avr, __pyx_v_Y, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 626, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->fit(__pyx_v_self->avr, __pyx_v_Y, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 631, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/avragg.pyx":627
+  /* "mlgrad/avragg.pyx":632
  * 
  *         self.avr.fit(Y)
  *         avr_u = self.avr.u             # <<<<<<<<<<<<<<
@@ -17329,7 +17185,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
   __pyx_t_2 = __pyx_v_self->avr->u;
   __pyx_v_avr_u = __pyx_t_2;
 
-  /* "mlgrad/avragg.pyx":629
+  /* "mlgrad/avragg.pyx":634
  *         avr_u = self.avr.u
  * 
  *         m = 0             # <<<<<<<<<<<<<<
@@ -17339,7 +17195,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_m = __pyx_int_0;
 
-  /* "mlgrad/avragg.pyx":630
+  /* "mlgrad/avragg.pyx":635
  * 
  *         m = 0
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -17351,7 +17207,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/avragg.pyx":631
+    /* "mlgrad/avragg.pyx":636
  *         m = 0
  *         for k in range(N):
  *             if Y[k] > avr_u:             # <<<<<<<<<<<<<<
@@ -17362,19 +17218,19 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
     __pyx_t_7 = (((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) ))) > __pyx_v_avr_u) != 0);
     if (__pyx_t_7) {
 
-      /* "mlgrad/avragg.pyx":632
+      /* "mlgrad/avragg.pyx":637
  *         for k in range(N):
  *             if Y[k] > avr_u:
  *                 m += 1             # <<<<<<<<<<<<<<
  * 
  *         u = 0
  */
-      __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_v_m, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 632, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_v_m, __pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 637, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF_SET(__pyx_v_m, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "mlgrad/avragg.pyx":631
+      /* "mlgrad/avragg.pyx":636
  *         m = 0
  *         for k in range(N):
  *             if Y[k] > avr_u:             # <<<<<<<<<<<<<<
@@ -17384,7 +17240,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
     }
   }
 
-  /* "mlgrad/avragg.pyx":634
+  /* "mlgrad/avragg.pyx":639
  *                 m += 1
  * 
  *         u = 0             # <<<<<<<<<<<<<<
@@ -17393,7 +17249,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
  */
   __pyx_v_u = 0.0;
 
-  /* "mlgrad/avragg.pyx":635
+  /* "mlgrad/avragg.pyx":640
  * 
  *         u = 0
  *         v = 0             # <<<<<<<<<<<<<<
@@ -17402,7 +17258,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
  */
   __pyx_v_v = 0.0;
 
-  /* "mlgrad/avragg.pyx":637
+  /* "mlgrad/avragg.pyx":642
  *         v = 0
  * #         for k in prange(N, nogil=True, num_threads=num_procs):
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -17414,7 +17270,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/avragg.pyx":638
+    /* "mlgrad/avragg.pyx":643
  * #         for k in prange(N, nogil=True, num_threads=num_procs):
  *         for k in range(N):
  *             yk = Y[k]             # <<<<<<<<<<<<<<
@@ -17424,7 +17280,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
     __pyx_t_6 = __pyx_v_k;
     __pyx_v_yk = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) )));
 
-    /* "mlgrad/avragg.pyx":639
+    /* "mlgrad/avragg.pyx":644
  *         for k in range(N):
  *             yk = Y[k]
  *             if yk <= avr_u:             # <<<<<<<<<<<<<<
@@ -17434,7 +17290,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
     __pyx_t_7 = ((__pyx_v_yk <= __pyx_v_avr_u) != 0);
     if (__pyx_t_7) {
 
-      /* "mlgrad/avragg.pyx":640
+      /* "mlgrad/avragg.pyx":645
  *             yk = Y[k]
  *             if yk <= avr_u:
  *                 u += yk             # <<<<<<<<<<<<<<
@@ -17443,7 +17299,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
  */
       __pyx_v_u = (__pyx_v_u + __pyx_v_yk);
 
-      /* "mlgrad/avragg.pyx":639
+      /* "mlgrad/avragg.pyx":644
  *         for k in range(N):
  *             yk = Y[k]
  *             if yk <= avr_u:             # <<<<<<<<<<<<<<
@@ -17453,7 +17309,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
       goto __pyx_L8;
     }
 
-    /* "mlgrad/avragg.pyx":642
+    /* "mlgrad/avragg.pyx":647
  *                 u += yk
  *             else:
  *                 v += yk             # <<<<<<<<<<<<<<
@@ -17466,38 +17322,38 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
     __pyx_L8:;
   }
 
-  /* "mlgrad/avragg.pyx":644
+  /* "mlgrad/avragg.pyx":649
  *                 v += yk
  * 
  *         self.u = (1-self.gamma) * u / (N-m) + self.gamma * v / m             # <<<<<<<<<<<<<<
  * 
  *         self.u_best = self.u
  */
-  __pyx_t_1 = PyFloat_FromDouble(((1.0 - __pyx_v_self->gamma) * __pyx_v_u)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 644, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(((1.0 - __pyx_v_self->gamma) * __pyx_v_u)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 649, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 644, __pyx_L1_error)
+  __pyx_t_8 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 649, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = PyNumber_Subtract(__pyx_t_8, __pyx_v_m); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 644, __pyx_L1_error)
+  __pyx_t_9 = PyNumber_Subtract(__pyx_t_8, __pyx_v_m); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 649, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 644, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 649, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = PyFloat_FromDouble((__pyx_v_self->gamma * __pyx_v_v)); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 644, __pyx_L1_error)
+  __pyx_t_9 = PyFloat_FromDouble((__pyx_v_self->gamma * __pyx_v_v)); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 649, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_9, __pyx_v_m); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 644, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_9, __pyx_v_m); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 649, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = PyNumber_Add(__pyx_t_8, __pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 644, __pyx_L1_error)
+  __pyx_t_9 = PyNumber_Add(__pyx_t_8, __pyx_t_1); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 649, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 644, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 649, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __pyx_v_self->__pyx_base.u = __pyx_t_2;
 
-  /* "mlgrad/avragg.pyx":646
+  /* "mlgrad/avragg.pyx":651
  *         self.u = (1-self.gamma) * u / (N-m) + self.gamma * v / m
  * 
  *         self.u_best = self.u             # <<<<<<<<<<<<<<
@@ -17507,7 +17363,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit(struct __pyx_obj_6
   __pyx_t_2 = __pyx_v_self->__pyx_base.u;
   __pyx_v_self->__pyx_base.u_best = __pyx_t_2;
 
-  /* "mlgrad/avragg.pyx":622
+  /* "mlgrad/avragg.pyx":627
  *         self.u = 0
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -17571,7 +17427,7 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_14WMAverageMixed_3fit(PyObject *__pyx_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 622, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 627, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -17582,12 +17438,12 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_14WMAverageMixed_3fit(PyObject *__pyx_
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 622, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 627, __pyx_L3_error)
     __pyx_v_u0 = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 622, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 627, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.WMAverageMixed.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -17612,7 +17468,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_14WMAverageMixed_2fit(struct __pyx_obj
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.u0 = __pyx_v_u0;
-  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 622, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 627, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -17630,7 +17486,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_14WMAverageMixed_2fit(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":648
+/* "mlgrad/avragg.pyx":653
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -17661,7 +17517,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":649
+  /* "mlgrad/avragg.pyx":654
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         cdef Py_ssize_t k, m, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -17670,18 +17526,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":652
+  /* "mlgrad/avragg.pyx":657
  *         cdef double v, N1, N2, yk, avr_u
  * 
  *         self.avr.gradient(Y, grad)             # <<<<<<<<<<<<<<
  *         avr_u = self.avr.u
  * 
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->gradient(__pyx_v_self->avr, __pyx_v_Y, __pyx_v_grad); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 652, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->gradient(__pyx_v_self->avr, __pyx_v_Y, __pyx_v_grad); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 657, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/avragg.pyx":653
+  /* "mlgrad/avragg.pyx":658
  * 
  *         self.avr.gradient(Y, grad)
  *         avr_u = self.avr.u             # <<<<<<<<<<<<<<
@@ -17691,7 +17547,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
   __pyx_t_2 = __pyx_v_self->avr->u;
   __pyx_v_avr_u = __pyx_t_2;
 
-  /* "mlgrad/avragg.pyx":655
+  /* "mlgrad/avragg.pyx":660
  *         avr_u = self.avr.u
  * 
  *         m = 0             # <<<<<<<<<<<<<<
@@ -17700,7 +17556,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
  */
   __pyx_v_m = 0;
 
-  /* "mlgrad/avragg.pyx":656
+  /* "mlgrad/avragg.pyx":661
  * 
  *         m = 0
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -17712,7 +17568,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/avragg.pyx":657
+    /* "mlgrad/avragg.pyx":662
  *         m = 0
  *         for k in range(N):
  *             if Y[k] > avr_u:             # <<<<<<<<<<<<<<
@@ -17723,7 +17579,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
     __pyx_t_7 = (((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) ))) > __pyx_v_avr_u) != 0);
     if (__pyx_t_7) {
 
-      /* "mlgrad/avragg.pyx":658
+      /* "mlgrad/avragg.pyx":663
  *         for k in range(N):
  *             if Y[k] > avr_u:
  *                 m += 1             # <<<<<<<<<<<<<<
@@ -17732,7 +17588,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
  */
       __pyx_v_m = (__pyx_v_m + 1);
 
-      /* "mlgrad/avragg.pyx":657
+      /* "mlgrad/avragg.pyx":662
  *         m = 0
  *         for k in range(N):
  *             if Y[k] > avr_u:             # <<<<<<<<<<<<<<
@@ -17742,7 +17598,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
     }
   }
 
-  /* "mlgrad/avragg.pyx":660
+  /* "mlgrad/avragg.pyx":665
  *                 m += 1
  * 
  *         N1 = (1-self.gamma) / (N-m)             # <<<<<<<<<<<<<<
@@ -17753,11 +17609,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
   __pyx_t_3 = (__pyx_v_N - __pyx_v_m);
   if (unlikely(__pyx_t_3 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 660, __pyx_L1_error)
+    __PYX_ERR(2, 665, __pyx_L1_error)
   }
   __pyx_v_N1 = (__pyx_t_2 / ((double)__pyx_t_3));
 
-  /* "mlgrad/avragg.pyx":661
+  /* "mlgrad/avragg.pyx":666
  * 
  *         N1 = (1-self.gamma) / (N-m)
  *         N2 = self.gamma / m             # <<<<<<<<<<<<<<
@@ -17766,11 +17622,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
  */
   if (unlikely(__pyx_v_m == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 661, __pyx_L1_error)
+    __PYX_ERR(2, 666, __pyx_L1_error)
   }
   __pyx_v_N2 = (__pyx_v_self->gamma / ((double)__pyx_v_m));
 
-  /* "mlgrad/avragg.pyx":663
+  /* "mlgrad/avragg.pyx":668
  *         N2 = self.gamma / m
  * #         for k in prange(N, nogil=True, num_threads=num_procs):
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -17782,7 +17638,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/avragg.pyx":664
+    /* "mlgrad/avragg.pyx":669
  * #         for k in prange(N, nogil=True, num_threads=num_procs):
  *         for k in range(N):
  *             yk = Y[k]             # <<<<<<<<<<<<<<
@@ -17792,7 +17648,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
     __pyx_t_6 = __pyx_v_k;
     __pyx_v_yk = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) )));
 
-    /* "mlgrad/avragg.pyx":665
+    /* "mlgrad/avragg.pyx":670
  *         for k in range(N):
  *             yk = Y[k]
  *             if yk <= avr_u:             # <<<<<<<<<<<<<<
@@ -17802,7 +17658,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
     __pyx_t_7 = ((__pyx_v_yk <= __pyx_v_avr_u) != 0);
     if (__pyx_t_7) {
 
-      /* "mlgrad/avragg.pyx":666
+      /* "mlgrad/avragg.pyx":671
  *             yk = Y[k]
  *             if yk <= avr_u:
  *                 v = N1             # <<<<<<<<<<<<<<
@@ -17811,7 +17667,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
  */
       __pyx_v_v = __pyx_v_N1;
 
-      /* "mlgrad/avragg.pyx":665
+      /* "mlgrad/avragg.pyx":670
  *         for k in range(N):
  *             yk = Y[k]
  *             if yk <= avr_u:             # <<<<<<<<<<<<<<
@@ -17821,7 +17677,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
       goto __pyx_L8;
     }
 
-    /* "mlgrad/avragg.pyx":668
+    /* "mlgrad/avragg.pyx":673
  *                 v = N1
  *             else:
  *                 v = N2             # <<<<<<<<<<<<<<
@@ -17833,7 +17689,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
     }
     __pyx_L8:;
 
-    /* "mlgrad/avragg.pyx":669
+    /* "mlgrad/avragg.pyx":674
  *             else:
  *                 v = N2
  *             grad[k] = v             # <<<<<<<<<<<<<<
@@ -17844,7 +17700,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient(struct __pyx_
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = __pyx_v_v;
   }
 
-  /* "mlgrad/avragg.pyx":648
+  /* "mlgrad/avragg.pyx":653
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -18289,7 +18145,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_14WMAverageMixed_6__setstate_cython__(
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":674
+/* "mlgrad/avragg.pyx":679
  * cdef class TMAverage(Average):
  *     #
  *     def __init__(self, Average avr):             # <<<<<<<<<<<<<<
@@ -18326,7 +18182,7 @@ static int __pyx_pw_6mlgrad_6avragg_9TMAverage_1__init__(PyObject *__pyx_v_self,
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 674, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 679, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -18337,13 +18193,13 @@ static int __pyx_pw_6mlgrad_6avragg_9TMAverage_1__init__(PyObject *__pyx_v_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 674, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 679, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.TMAverage.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avr), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avr", 0))) __PYX_ERR(2, 674, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avr), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avr", 0))) __PYX_ERR(2, 679, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_9TMAverage___init__(((struct __pyx_obj_6mlgrad_6avragg_TMAverage *)__pyx_v_self), __pyx_v_avr);
 
   /* function exit code */
@@ -18360,7 +18216,7 @@ static int __pyx_pf_6mlgrad_6avragg_9TMAverage___init__(struct __pyx_obj_6mlgrad
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/avragg.pyx":675
+  /* "mlgrad/avragg.pyx":680
  *     #
  *     def __init__(self, Average avr):
  *         self.avr = avr             # <<<<<<<<<<<<<<
@@ -18373,7 +18229,7 @@ static int __pyx_pf_6mlgrad_6avragg_9TMAverage___init__(struct __pyx_obj_6mlgrad
   __Pyx_DECREF(((PyObject *)__pyx_v_self->avr));
   __pyx_v_self->avr = __pyx_v_avr;
 
-  /* "mlgrad/avragg.pyx":676
+  /* "mlgrad/avragg.pyx":681
  *     def __init__(self, Average avr):
  *         self.avr = avr
  *         self.u = 0             # <<<<<<<<<<<<<<
@@ -18382,7 +18238,7 @@ static int __pyx_pf_6mlgrad_6avragg_9TMAverage___init__(struct __pyx_obj_6mlgrad
  */
   __pyx_v_self->__pyx_base.u = 0.0;
 
-  /* "mlgrad/avragg.pyx":674
+  /* "mlgrad/avragg.pyx":679
  * cdef class TMAverage(Average):
  *     #
  *     def __init__(self, Average avr):             # <<<<<<<<<<<<<<
@@ -18396,7 +18252,7 @@ static int __pyx_pf_6mlgrad_6avragg_9TMAverage___init__(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":678
+/* "mlgrad/avragg.pyx":683
  *         self.u = 0
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -18429,7 +18285,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
   if (__pyx_optional_args) {
   }
 
-  /* "mlgrad/avragg.pyx":680
+  /* "mlgrad/avragg.pyx":685
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef double u, v, yk, avr_u
  *         cdef Py_ssize_t k, M, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -18438,18 +18294,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":682
+  /* "mlgrad/avragg.pyx":687
  *         cdef Py_ssize_t k, M, N = Y.shape[0]
  * 
  *         self.avr.fit(Y)             # <<<<<<<<<<<<<<
  *         u = 0
  *         M = 0
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->fit(__pyx_v_self->avr, __pyx_v_Y, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 682, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->fit(__pyx_v_self->avr, __pyx_v_Y, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 687, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/avragg.pyx":683
+  /* "mlgrad/avragg.pyx":688
  * 
  *         self.avr.fit(Y)
  *         u = 0             # <<<<<<<<<<<<<<
@@ -18458,7 +18314,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
  */
   __pyx_v_u = 0.0;
 
-  /* "mlgrad/avragg.pyx":684
+  /* "mlgrad/avragg.pyx":689
  *         self.avr.fit(Y)
  *         u = 0
  *         M = 0             # <<<<<<<<<<<<<<
@@ -18467,7 +18323,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
  */
   __pyx_v_M = 0;
 
-  /* "mlgrad/avragg.pyx":685
+  /* "mlgrad/avragg.pyx":690
  *         u = 0
  *         M = 0
  *         avr_u = self.avr.u             # <<<<<<<<<<<<<<
@@ -18477,7 +18333,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_t_2 = __pyx_v_self->avr->u;
   __pyx_v_avr_u = __pyx_t_2;
 
-  /* "mlgrad/avragg.pyx":687
+  /* "mlgrad/avragg.pyx":692
  *         avr_u = self.avr.u
  * #         for k in prange(N, nogil=True, num_threads=num_procs):
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -18489,7 +18345,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/avragg.pyx":688
+    /* "mlgrad/avragg.pyx":693
  * #         for k in prange(N, nogil=True, num_threads=num_procs):
  *         for k in range(N):
  *             yk = Y[k]             # <<<<<<<<<<<<<<
@@ -18499,7 +18355,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
     __pyx_t_6 = __pyx_v_k;
     __pyx_v_yk = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) )));
 
-    /* "mlgrad/avragg.pyx":689
+    /* "mlgrad/avragg.pyx":694
  *         for k in range(N):
  *             yk = Y[k]
  *             if yk <= avr_u:             # <<<<<<<<<<<<<<
@@ -18509,7 +18365,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
     __pyx_t_7 = ((__pyx_v_yk <= __pyx_v_avr_u) != 0);
     if (__pyx_t_7) {
 
-      /* "mlgrad/avragg.pyx":690
+      /* "mlgrad/avragg.pyx":695
  *             yk = Y[k]
  *             if yk <= avr_u:
  *                 u += yk             # <<<<<<<<<<<<<<
@@ -18518,7 +18374,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
  */
       __pyx_v_u = (__pyx_v_u + __pyx_v_yk);
 
-      /* "mlgrad/avragg.pyx":691
+      /* "mlgrad/avragg.pyx":696
  *             if yk <= avr_u:
  *                 u += yk
  *                 M += 1             # <<<<<<<<<<<<<<
@@ -18527,7 +18383,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
  */
       __pyx_v_M = (__pyx_v_M + 1);
 
-      /* "mlgrad/avragg.pyx":689
+      /* "mlgrad/avragg.pyx":694
  *         for k in range(N):
  *             yk = Y[k]
  *             if yk <= avr_u:             # <<<<<<<<<<<<<<
@@ -18537,7 +18393,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
     }
   }
 
-  /* "mlgrad/avragg.pyx":693
+  /* "mlgrad/avragg.pyx":698
  *                 M += 1
  * 
  *         self.u = u / M             # <<<<<<<<<<<<<<
@@ -18546,11 +18402,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
  */
   if (unlikely(__pyx_v_M == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 693, __pyx_L1_error)
+    __PYX_ERR(2, 698, __pyx_L1_error)
   }
   __pyx_v_self->__pyx_base.u = (__pyx_v_u / ((double)__pyx_v_M));
 
-  /* "mlgrad/avragg.pyx":694
+  /* "mlgrad/avragg.pyx":699
  * 
  *         self.u = u / M
  *         self.u_best = self.u             # <<<<<<<<<<<<<<
@@ -18560,7 +18416,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_t_2 = __pyx_v_self->__pyx_base.u;
   __pyx_v_self->__pyx_base.u_best = __pyx_t_2;
 
-  /* "mlgrad/avragg.pyx":695
+  /* "mlgrad/avragg.pyx":700
  *         self.u = u / M
  *         self.u_best = self.u
  *         self.K = self.avr.K             # <<<<<<<<<<<<<<
@@ -18570,7 +18426,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_t_8 = __pyx_v_self->avr->K;
   __pyx_v_self->__pyx_base.K = __pyx_t_8;
 
-  /* "mlgrad/avragg.pyx":678
+  /* "mlgrad/avragg.pyx":683
  *         self.u = 0
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -18631,7 +18487,7 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_9TMAverage_3fit(PyObject *__pyx_v_self
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 678, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 683, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -18642,12 +18498,12 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_9TMAverage_3fit(PyObject *__pyx_v_self
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 678, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 683, __pyx_L3_error)
     __pyx_v_u0 = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 678, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 683, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.TMAverage.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -18672,7 +18528,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9TMAverage_2fit(struct __pyx_obj_6mlgr
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.u0 = __pyx_v_u0;
-  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_TMAverage->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 678, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_TMAverage->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 683, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -18690,7 +18546,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9TMAverage_2fit(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":697
+/* "mlgrad/avragg.pyx":702
  *         self.K = self.avr.K
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -18719,7 +18575,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":698
+  /* "mlgrad/avragg.pyx":703
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         cdef Py_ssize_t k, M, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -18728,18 +18584,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":701
+  /* "mlgrad/avragg.pyx":706
  *         cdef double u, N1, yk
  * 
  *         self.avr.gradient(Y, grad)             # <<<<<<<<<<<<<<
  *         u = self.avr.u
  * 
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->gradient(__pyx_v_self->avr, __pyx_v_Y, __pyx_v_grad); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 701, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->gradient(__pyx_v_self->avr, __pyx_v_Y, __pyx_v_grad); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 706, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/avragg.pyx":702
+  /* "mlgrad/avragg.pyx":707
  * 
  *         self.avr.gradient(Y, grad)
  *         u = self.avr.u             # <<<<<<<<<<<<<<
@@ -18749,7 +18605,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
   __pyx_t_2 = __pyx_v_self->avr->u;
   __pyx_v_u = __pyx_t_2;
 
-  /* "mlgrad/avragg.pyx":704
+  /* "mlgrad/avragg.pyx":709
  *         u = self.avr.u
  * 
  *         M = 0             # <<<<<<<<<<<<<<
@@ -18758,7 +18614,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
  */
   __pyx_v_M = 0;
 
-  /* "mlgrad/avragg.pyx":705
+  /* "mlgrad/avragg.pyx":710
  * 
  *         M = 0
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -18770,7 +18626,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/avragg.pyx":706
+    /* "mlgrad/avragg.pyx":711
  *         M = 0
  *         for k in range(N):
  *             yk = Y[k]             # <<<<<<<<<<<<<<
@@ -18780,7 +18636,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
     __pyx_t_6 = __pyx_v_k;
     __pyx_v_yk = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) )));
 
-    /* "mlgrad/avragg.pyx":707
+    /* "mlgrad/avragg.pyx":712
  *         for k in range(N):
  *             yk = Y[k]
  *             if yk <= u:             # <<<<<<<<<<<<<<
@@ -18790,7 +18646,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
     __pyx_t_7 = ((__pyx_v_yk <= __pyx_v_u) != 0);
     if (__pyx_t_7) {
 
-      /* "mlgrad/avragg.pyx":708
+      /* "mlgrad/avragg.pyx":713
  *             yk = Y[k]
  *             if yk <= u:
  *                 M += 1             # <<<<<<<<<<<<<<
@@ -18799,7 +18655,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
  */
       __pyx_v_M = (__pyx_v_M + 1);
 
-      /* "mlgrad/avragg.pyx":707
+      /* "mlgrad/avragg.pyx":712
  *         for k in range(N):
  *             yk = Y[k]
  *             if yk <= u:             # <<<<<<<<<<<<<<
@@ -18809,7 +18665,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
     }
   }
 
-  /* "mlgrad/avragg.pyx":710
+  /* "mlgrad/avragg.pyx":715
  *                 M += 1
  * 
  *         N1 = 1./M             # <<<<<<<<<<<<<<
@@ -18818,11 +18674,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
  */
   if (unlikely(__pyx_v_M == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 710, __pyx_L1_error)
+    __PYX_ERR(2, 715, __pyx_L1_error)
   }
   __pyx_v_N1 = (1. / ((double)__pyx_v_M));
 
-  /* "mlgrad/avragg.pyx":712
+  /* "mlgrad/avragg.pyx":717
  *         N1 = 1./M
  * #         for k in prange(N, nogil=True, num_threads=num_procs):
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -18834,7 +18690,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/avragg.pyx":713
+    /* "mlgrad/avragg.pyx":718
  * #         for k in prange(N, nogil=True, num_threads=num_procs):
  *         for k in range(N):
  *             yk = Y[k]             # <<<<<<<<<<<<<<
@@ -18844,7 +18700,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
     __pyx_t_6 = __pyx_v_k;
     __pyx_v_yk = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) )));
 
-    /* "mlgrad/avragg.pyx":714
+    /* "mlgrad/avragg.pyx":719
  *         for k in range(N):
  *             yk = Y[k]
  *             if yk <= u:             # <<<<<<<<<<<<<<
@@ -18854,7 +18710,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
     __pyx_t_7 = ((__pyx_v_yk <= __pyx_v_u) != 0);
     if (__pyx_t_7) {
 
-      /* "mlgrad/avragg.pyx":715
+      /* "mlgrad/avragg.pyx":720
  *             yk = Y[k]
  *             if yk <= u:
  *                 grad[k] = N1             # <<<<<<<<<<<<<<
@@ -18864,7 +18720,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
       __pyx_t_6 = __pyx_v_k;
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = __pyx_v_N1;
 
-      /* "mlgrad/avragg.pyx":714
+      /* "mlgrad/avragg.pyx":719
  *         for k in range(N):
  *             yk = Y[k]
  *             if yk <= u:             # <<<<<<<<<<<<<<
@@ -18874,7 +18730,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
       goto __pyx_L8;
     }
 
-    /* "mlgrad/avragg.pyx":717
+    /* "mlgrad/avragg.pyx":722
  *                 grad[k] = N1
  *             else:
  *                 grad[k] = 0             # <<<<<<<<<<<<<<
@@ -18888,7 +18744,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9TMAverage_gradient(struct __pyx_obj_6m
     __pyx_L8:;
   }
 
-  /* "mlgrad/avragg.pyx":697
+  /* "mlgrad/avragg.pyx":702
  *         self.K = self.avr.K
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -19326,7 +19182,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9TMAverage_6__setstate_cython__(struct
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":722
+/* "mlgrad/avragg.pyx":727
  * cdef class HMAverage(Average):
  *     #
  *     def __init__(self, Average avr, n_iter=1000, tol=1.0e-8):             # <<<<<<<<<<<<<<
@@ -19383,7 +19239,7 @@ static int __pyx_pw_6mlgrad_6avragg_9HMAverage_1__init__(PyObject *__pyx_v_self,
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 722, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 727, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -19402,13 +19258,13 @@ static int __pyx_pw_6mlgrad_6avragg_9HMAverage_1__init__(PyObject *__pyx_v_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 722, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 727, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.HMAverage.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avr), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avr", 0))) __PYX_ERR(2, 722, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avr), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avr", 0))) __PYX_ERR(2, 727, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_9HMAverage___init__(((struct __pyx_obj_6mlgrad_6avragg_HMAverage *)__pyx_v_self), __pyx_v_avr, __pyx_v_n_iter, __pyx_v_tol);
 
   /* function exit code */
@@ -19431,7 +19287,7 @@ static int __pyx_pf_6mlgrad_6avragg_9HMAverage___init__(struct __pyx_obj_6mlgrad
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/avragg.pyx":723
+  /* "mlgrad/avragg.pyx":728
  *     #
  *     def __init__(self, Average avr, n_iter=1000, tol=1.0e-8):
  *         self.avr = avr             # <<<<<<<<<<<<<<
@@ -19444,20 +19300,20 @@ static int __pyx_pf_6mlgrad_6avragg_9HMAverage___init__(struct __pyx_obj_6mlgrad
   __Pyx_DECREF(((PyObject *)__pyx_v_self->avr));
   __pyx_v_self->avr = __pyx_v_avr;
 
-  /* "mlgrad/avragg.pyx":724
+  /* "mlgrad/avragg.pyx":729
  *     def __init__(self, Average avr, n_iter=1000, tol=1.0e-8):
  *         self.avr = avr
  *         self.Z = None             # <<<<<<<<<<<<<<
  *         self.u = 0
  *         self.n_iter = n_iter
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 724, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 729, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->Z, 0);
   __pyx_v_self->Z = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/avragg.pyx":725
+  /* "mlgrad/avragg.pyx":730
  *         self.avr = avr
  *         self.Z = None
  *         self.u = 0             # <<<<<<<<<<<<<<
@@ -19466,27 +19322,27 @@ static int __pyx_pf_6mlgrad_6avragg_9HMAverage___init__(struct __pyx_obj_6mlgrad
  */
   __pyx_v_self->__pyx_base.u = 0.0;
 
-  /* "mlgrad/avragg.pyx":726
+  /* "mlgrad/avragg.pyx":731
  *         self.Z = None
  *         self.u = 0
  *         self.n_iter = n_iter             # <<<<<<<<<<<<<<
  *         self.tol = tol
  *     #
  */
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_n_iter); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 726, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_n_iter); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 731, __pyx_L1_error)
   __pyx_v_self->__pyx_base.n_iter = __pyx_t_2;
 
-  /* "mlgrad/avragg.pyx":727
+  /* "mlgrad/avragg.pyx":732
  *         self.u = 0
  *         self.n_iter = n_iter
  *         self.tol = tol             # <<<<<<<<<<<<<<
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):
  */
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_tol); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 727, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_tol); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 732, __pyx_L1_error)
   __pyx_v_self->__pyx_base.tol = __pyx_t_3;
 
-  /* "mlgrad/avragg.pyx":722
+  /* "mlgrad/avragg.pyx":727
  * cdef class HMAverage(Average):
  *     #
  *     def __init__(self, Average avr, n_iter=1000, tol=1.0e-8):             # <<<<<<<<<<<<<<
@@ -19506,7 +19362,7 @@ static int __pyx_pf_6mlgrad_6avragg_9HMAverage___init__(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":729
+/* "mlgrad/avragg.pyx":734
  *         self.tol = tol
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -19556,7 +19412,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
     }
   }
 
-  /* "mlgrad/avragg.pyx":732
+  /* "mlgrad/avragg.pyx":737
  *         cdef double v, w, yk, avr_z
  *         cdef double u, u_prev
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -19565,19 +19421,19 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":736
+  /* "mlgrad/avragg.pyx":741
  *         cdef int m
  *         cdef double[::1] Z
  *         cdef double[::1] grad = np.zeros(N, 'd')             # <<<<<<<<<<<<<<
  *         cdef Average wm = self.avr
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 736, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 741, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 736, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 741, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 736, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 741, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -19594,7 +19450,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 736, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 741, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -19603,14 +19459,14 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 736, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 741, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 736, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 741, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -19621,18 +19477,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
     __Pyx_GIVEREF(__pyx_n_u_d);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_u_d);
     __pyx_t_2 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 736, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 741, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(2, 736, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(2, 741, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_grad = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "mlgrad/avragg.pyx":737
+  /* "mlgrad/avragg.pyx":742
  *         cdef double[::1] Z
  *         cdef double[::1] grad = np.zeros(N, 'd')
  *         cdef Average wm = self.avr             # <<<<<<<<<<<<<<
@@ -19644,7 +19500,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_v_wm = ((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/avragg.pyx":739
+  /* "mlgrad/avragg.pyx":744
  *         cdef Average wm = self.avr
  * 
  *         if self.Z is None:             # <<<<<<<<<<<<<<
@@ -19654,19 +19510,19 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_t_8 = ((((PyObject *) __pyx_v_self->Z.memview) == Py_None) != 0);
   if (__pyx_t_8) {
 
-    /* "mlgrad/avragg.pyx":740
+    /* "mlgrad/avragg.pyx":745
  * 
  *         if self.Z is None:
  *             self.Z = np.zeros(N, 'd')             # <<<<<<<<<<<<<<
  *         Z = self.Z
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 740, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 745, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 740, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 745, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 740, __pyx_L1_error)
+    __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_N); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 745, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_2 = NULL;
     __pyx_t_5 = 0;
@@ -19683,7 +19539,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_3, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 740, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 745, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -19692,14 +19548,14 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_3, __pyx_n_u_d};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 740, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 745, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 740, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 745, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       if (__pyx_t_2) {
         __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
@@ -19710,19 +19566,19 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
       __Pyx_GIVEREF(__pyx_n_u_d);
       PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_5, __pyx_n_u_d);
       __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 740, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 745, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(2, 740, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(2, 745, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->Z, 0);
     __pyx_v_self->Z = __pyx_t_7;
     __pyx_t_7.memview = NULL;
     __pyx_t_7.data = NULL;
 
-    /* "mlgrad/avragg.pyx":739
+    /* "mlgrad/avragg.pyx":744
  *         cdef Average wm = self.avr
  * 
  *         if self.Z is None:             # <<<<<<<<<<<<<<
@@ -19731,7 +19587,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  */
   }
 
-  /* "mlgrad/avragg.pyx":741
+  /* "mlgrad/avragg.pyx":746
  *         if self.Z is None:
  *             self.Z = np.zeros(N, 'd')
  *         Z = self.Z             # <<<<<<<<<<<<<<
@@ -19744,7 +19600,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "mlgrad/avragg.pyx":743
+  /* "mlgrad/avragg.pyx":748
  *         Z = self.Z
  * 
  *         if u0 is None:             # <<<<<<<<<<<<<<
@@ -19755,18 +19611,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_t_9 = (__pyx_t_8 != 0);
   if (__pyx_t_9) {
 
-    /* "mlgrad/avragg.pyx":744
+    /* "mlgrad/avragg.pyx":749
  * 
  *         if u0 is None:
  *             wm.fit(Y)             # <<<<<<<<<<<<<<
  *             u = wm.u
  * #             for k in range(N):
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_wm->__pyx_vtab)->fit(__pyx_v_wm, __pyx_v_Y, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 744, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_wm->__pyx_vtab)->fit(__pyx_v_wm, __pyx_v_Y, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 749, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/avragg.pyx":745
+    /* "mlgrad/avragg.pyx":750
  *         if u0 is None:
  *             wm.fit(Y)
  *             u = wm.u             # <<<<<<<<<<<<<<
@@ -19776,7 +19632,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
     __pyx_t_10 = __pyx_v_wm->u;
     __pyx_v_u = __pyx_t_10;
 
-    /* "mlgrad/avragg.pyx":743
+    /* "mlgrad/avragg.pyx":748
  *         Z = self.Z
  * 
  *         if u0 is None:             # <<<<<<<<<<<<<<
@@ -19786,7 +19642,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
     goto __pyx_L4;
   }
 
-  /* "mlgrad/avragg.pyx":750
+  /* "mlgrad/avragg.pyx":755
  * #             u /= N
  *         else:
  *             u = u0             # <<<<<<<<<<<<<<
@@ -19794,12 +19650,12 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  *         self.K = 1
  */
   /*else*/ {
-    __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_v_u0); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 750, __pyx_L1_error)
+    __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_v_u0); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 755, __pyx_L1_error)
     __pyx_v_u = __pyx_t_10;
   }
   __pyx_L4:;
 
-  /* "mlgrad/avragg.pyx":752
+  /* "mlgrad/avragg.pyx":757
  *             u = u0
  * 
  *         self.K = 1             # <<<<<<<<<<<<<<
@@ -19808,7 +19664,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  */
   __pyx_v_self->__pyx_base.K = 1;
 
-  /* "mlgrad/avragg.pyx":753
+  /* "mlgrad/avragg.pyx":758
  * 
  *         self.K = 1
  *         while self.K < self.n_iter:             # <<<<<<<<<<<<<<
@@ -19819,7 +19675,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
     __pyx_t_9 = ((__pyx_v_self->__pyx_base.K < __pyx_v_self->__pyx_base.n_iter) != 0);
     if (!__pyx_t_9) break;
 
-    /* "mlgrad/avragg.pyx":754
+    /* "mlgrad/avragg.pyx":759
  *         self.K = 1
  *         while self.K < self.n_iter:
  *             u_prev = u             # <<<<<<<<<<<<<<
@@ -19828,7 +19684,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  */
     __pyx_v_u_prev = __pyx_v_u;
 
-    /* "mlgrad/avragg.pyx":755
+    /* "mlgrad/avragg.pyx":760
  *         while self.K < self.n_iter:
  *             u_prev = u
  *             for k in range(N):             # <<<<<<<<<<<<<<
@@ -19840,7 +19696,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
     for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
       __pyx_v_k = __pyx_t_13;
 
-      /* "mlgrad/avragg.pyx":756
+      /* "mlgrad/avragg.pyx":761
  *             u_prev = u
  *             for k in range(N):
  *                 w = Y[k] - u             # <<<<<<<<<<<<<<
@@ -19850,7 +19706,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
       __pyx_t_14 = __pyx_v_k;
       __pyx_v_w = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_14)) ))) - __pyx_v_u);
 
-      /* "mlgrad/avragg.pyx":757
+      /* "mlgrad/avragg.pyx":762
  *             for k in range(N):
  *                 w = Y[k] - u
  *                 Z[k] = w * w             # <<<<<<<<<<<<<<
@@ -19861,18 +19717,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Z.data) + __pyx_t_14)) )) = (__pyx_v_w * __pyx_v_w);
     }
 
-    /* "mlgrad/avragg.pyx":759
+    /* "mlgrad/avragg.pyx":764
  *                 Z[k] = w * w
  * 
  *             self.avr.fit(Z)             # <<<<<<<<<<<<<<
  *             avr_z = sqrt(self.avr.u)
  *             self.avr.gradient(Z, grad)
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->fit(__pyx_v_self->avr, __pyx_v_Z, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 759, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->fit(__pyx_v_self->avr, __pyx_v_Z, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 764, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/avragg.pyx":760
+    /* "mlgrad/avragg.pyx":765
  * 
  *             self.avr.fit(Z)
  *             avr_z = sqrt(self.avr.u)             # <<<<<<<<<<<<<<
@@ -19881,18 +19737,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  */
     __pyx_v_avr_z = sqrt(__pyx_v_self->avr->u);
 
-    /* "mlgrad/avragg.pyx":761
+    /* "mlgrad/avragg.pyx":766
  *             self.avr.fit(Z)
  *             avr_z = sqrt(self.avr.u)
  *             self.avr.gradient(Z, grad)             # <<<<<<<<<<<<<<
  * 
  *             m = 0
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->gradient(__pyx_v_self->avr, __pyx_v_Z, __pyx_v_grad); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 761, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->gradient(__pyx_v_self->avr, __pyx_v_Z, __pyx_v_grad); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 766, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/avragg.pyx":763
+    /* "mlgrad/avragg.pyx":768
  *             self.avr.gradient(Z, grad)
  * 
  *             m = 0             # <<<<<<<<<<<<<<
@@ -19901,7 +19757,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  */
     __pyx_v_m = 0;
 
-    /* "mlgrad/avragg.pyx":764
+    /* "mlgrad/avragg.pyx":769
  * 
  *             m = 0
  *             for k in range(N):             # <<<<<<<<<<<<<<
@@ -19913,7 +19769,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
     for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
       __pyx_v_k = __pyx_t_13;
 
-      /* "mlgrad/avragg.pyx":765
+      /* "mlgrad/avragg.pyx":770
  *             m = 0
  *             for k in range(N):
  *                 if fabs(Y[k] - u) > avr_z:             # <<<<<<<<<<<<<<
@@ -19924,7 +19780,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
       __pyx_t_9 = ((fabs(((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_14)) ))) - __pyx_v_u)) > __pyx_v_avr_z) != 0);
       if (__pyx_t_9) {
 
-        /* "mlgrad/avragg.pyx":766
+        /* "mlgrad/avragg.pyx":771
  *             for k in range(N):
  *                 if fabs(Y[k] - u) > avr_z:
  *                     m += 1             # <<<<<<<<<<<<<<
@@ -19933,7 +19789,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  */
         __pyx_v_m = (__pyx_v_m + 1);
 
-        /* "mlgrad/avragg.pyx":765
+        /* "mlgrad/avragg.pyx":770
  *             m = 0
  *             for k in range(N):
  *                 if fabs(Y[k] - u) > avr_z:             # <<<<<<<<<<<<<<
@@ -19943,7 +19799,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
       }
     }
 
-    /* "mlgrad/avragg.pyx":768
+    /* "mlgrad/avragg.pyx":773
  *                     m += 1
  * 
  *             v = 0             # <<<<<<<<<<<<<<
@@ -19952,7 +19808,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  */
     __pyx_v_v = 0.0;
 
-    /* "mlgrad/avragg.pyx":770
+    /* "mlgrad/avragg.pyx":775
  *             v = 0
  * #             for k in prange(N, nogil=True, num_threads=num_procs):
  *             for k in range(N):             # <<<<<<<<<<<<<<
@@ -19964,7 +19820,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
     for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
       __pyx_v_k = __pyx_t_13;
 
-      /* "mlgrad/avragg.pyx":771
+      /* "mlgrad/avragg.pyx":776
  * #             for k in prange(N, nogil=True, num_threads=num_procs):
  *             for k in range(N):
  *                 yk = Y[k]             # <<<<<<<<<<<<<<
@@ -19974,7 +19830,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
       __pyx_t_14 = __pyx_v_k;
       __pyx_v_yk = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_14)) )));
 
-      /* "mlgrad/avragg.pyx":772
+      /* "mlgrad/avragg.pyx":777
  *             for k in range(N):
  *                 yk = Y[k]
  *                 if fabs(yk - u) <= avr_z:             # <<<<<<<<<<<<<<
@@ -19984,7 +19840,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
       __pyx_t_9 = ((fabs((__pyx_v_yk - __pyx_v_u)) <= __pyx_v_avr_z) != 0);
       if (__pyx_t_9) {
 
-        /* "mlgrad/avragg.pyx":773
+        /* "mlgrad/avragg.pyx":778
  *                 yk = Y[k]
  *                 if fabs(yk - u) <= avr_z:
  *                     w = (1 + m*grad[k]) * yk             # <<<<<<<<<<<<<<
@@ -19994,7 +19850,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
         __pyx_t_14 = __pyx_v_k;
         __pyx_v_w = ((1.0 + (__pyx_v_m * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_14)) ))))) * __pyx_v_yk);
 
-        /* "mlgrad/avragg.pyx":772
+        /* "mlgrad/avragg.pyx":777
  *             for k in range(N):
  *                 yk = Y[k]
  *                 if fabs(yk - u) <= avr_z:             # <<<<<<<<<<<<<<
@@ -20004,7 +19860,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
         goto __pyx_L14;
       }
 
-      /* "mlgrad/avragg.pyx":775
+      /* "mlgrad/avragg.pyx":780
  *                     w = (1 + m*grad[k]) * yk
  *                 else:
  *                     w = m*grad[k] * yk             # <<<<<<<<<<<<<<
@@ -20017,7 +19873,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
       }
       __pyx_L14:;
 
-      /* "mlgrad/avragg.pyx":776
+      /* "mlgrad/avragg.pyx":781
  *                 else:
  *                     w = m*grad[k] * yk
  *                 v += w             # <<<<<<<<<<<<<<
@@ -20027,7 +19883,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
       __pyx_v_v = (__pyx_v_v + __pyx_v_w);
     }
 
-    /* "mlgrad/avragg.pyx":778
+    /* "mlgrad/avragg.pyx":783
  *                 v += w
  * 
  *             u = v / N             # <<<<<<<<<<<<<<
@@ -20036,11 +19892,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  */
     if (unlikely(__pyx_v_N == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(2, 778, __pyx_L1_error)
+      __PYX_ERR(2, 783, __pyx_L1_error)
     }
     __pyx_v_u = (__pyx_v_v / ((double)__pyx_v_N));
 
-    /* "mlgrad/avragg.pyx":780
+    /* "mlgrad/avragg.pyx":785
  *             u = v / N
  * 
  *             if fabs(u_prev - u) / fabs(1+fabs(u)) < self.tol:             # <<<<<<<<<<<<<<
@@ -20051,12 +19907,12 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
     __pyx_t_15 = fabs((1.0 + fabs(__pyx_v_u)));
     if (unlikely(__pyx_t_15 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(2, 780, __pyx_L1_error)
+      __PYX_ERR(2, 785, __pyx_L1_error)
     }
     __pyx_t_9 = (((__pyx_t_10 / __pyx_t_15) < __pyx_v_self->__pyx_base.tol) != 0);
     if (__pyx_t_9) {
 
-      /* "mlgrad/avragg.pyx":781
+      /* "mlgrad/avragg.pyx":786
  * 
  *             if fabs(u_prev - u) / fabs(1+fabs(u)) < self.tol:
  *                 break             # <<<<<<<<<<<<<<
@@ -20065,7 +19921,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  */
       goto __pyx_L6_break;
 
-      /* "mlgrad/avragg.pyx":780
+      /* "mlgrad/avragg.pyx":785
  *             u = v / N
  * 
  *             if fabs(u_prev - u) / fabs(1+fabs(u)) < self.tol:             # <<<<<<<<<<<<<<
@@ -20074,7 +19930,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  */
     }
 
-    /* "mlgrad/avragg.pyx":783
+    /* "mlgrad/avragg.pyx":788
  *                 break
  * 
  *             self.K += 1             # <<<<<<<<<<<<<<
@@ -20085,7 +19941,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
   }
   __pyx_L6_break:;
 
-  /* "mlgrad/avragg.pyx":784
+  /* "mlgrad/avragg.pyx":789
  * 
  *             self.K += 1
  *         self.u = u             # <<<<<<<<<<<<<<
@@ -20094,7 +19950,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
  */
   __pyx_v_self->__pyx_base.u = __pyx_v_u;
 
-  /* "mlgrad/avragg.pyx":785
+  /* "mlgrad/avragg.pyx":790
  *             self.K += 1
  *         self.u = u
  *         self.u_best = self.u             # <<<<<<<<<<<<<<
@@ -20104,7 +19960,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_t_15 = __pyx_v_self->__pyx_base.u;
   __pyx_v_self->__pyx_base.u_best = __pyx_t_15;
 
-  /* "mlgrad/avragg.pyx":729
+  /* "mlgrad/avragg.pyx":734
  *         self.tol = tol
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -20173,7 +20029,7 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_9HMAverage_3fit(PyObject *__pyx_v_self
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 729, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 734, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -20184,12 +20040,12 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_9HMAverage_3fit(PyObject *__pyx_v_self
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 729, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 734, __pyx_L3_error)
     __pyx_v_u0 = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 729, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 734, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.HMAverage.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -20214,7 +20070,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9HMAverage_2fit(struct __pyx_obj_6mlgr
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.u0 = __pyx_v_u0;
-  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_HMAverage->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 729, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_HMAverage->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 734, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20232,7 +20088,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9HMAverage_2fit(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":787
+/* "mlgrad/avragg.pyx":792
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -20265,7 +20121,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":788
+  /* "mlgrad/avragg.pyx":793
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -20274,7 +20130,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":792
+  /* "mlgrad/avragg.pyx":797
  *         cdef double q, avr_z, S
  *         cdef int m
  *         cdef double[::1] Z = self.Z             # <<<<<<<<<<<<<<
@@ -20287,7 +20143,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/avragg.pyx":794
+  /* "mlgrad/avragg.pyx":799
  *         cdef double[::1] Z = self.Z
  * 
  *         u = self.u             # <<<<<<<<<<<<<<
@@ -20297,7 +20153,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
   __pyx_t_2 = __pyx_v_self->__pyx_base.u;
   __pyx_v_u = __pyx_t_2;
 
-  /* "mlgrad/avragg.pyx":795
+  /* "mlgrad/avragg.pyx":800
  * 
  *         u = self.u
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -20309,7 +20165,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/avragg.pyx":796
+    /* "mlgrad/avragg.pyx":801
  *         u = self.u
  *         for k in range(N):
  *             w = Y[k] - u             # <<<<<<<<<<<<<<
@@ -20319,7 +20175,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
     __pyx_t_6 = __pyx_v_k;
     __pyx_v_w = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) ))) - __pyx_v_u);
 
-    /* "mlgrad/avragg.pyx":797
+    /* "mlgrad/avragg.pyx":802
  *         for k in range(N):
  *             w = Y[k] - u
  *             Z[k] = w * w             # <<<<<<<<<<<<<<
@@ -20330,18 +20186,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Z.data) + __pyx_t_6)) )) = (__pyx_v_w * __pyx_v_w);
   }
 
-  /* "mlgrad/avragg.pyx":799
+  /* "mlgrad/avragg.pyx":804
  *             Z[k] = w * w
  * 
  *         self.avr.fit(Z)             # <<<<<<<<<<<<<<
  *         avr_z = sqrt(self.avr.u)
  *         self.avr.gradient(Z, grad)
  */
-  __pyx_t_7 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->fit(__pyx_v_self->avr, __pyx_v_Z, 0, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 799, __pyx_L1_error)
+  __pyx_t_7 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->fit(__pyx_v_self->avr, __pyx_v_Z, 0, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 804, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "mlgrad/avragg.pyx":800
+  /* "mlgrad/avragg.pyx":805
  * 
  *         self.avr.fit(Z)
  *         avr_z = sqrt(self.avr.u)             # <<<<<<<<<<<<<<
@@ -20350,18 +20206,18 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
  */
   __pyx_v_avr_z = sqrt(__pyx_v_self->avr->u);
 
-  /* "mlgrad/avragg.pyx":801
+  /* "mlgrad/avragg.pyx":806
  *         self.avr.fit(Z)
  *         avr_z = sqrt(self.avr.u)
  *         self.avr.gradient(Z, grad)             # <<<<<<<<<<<<<<
  * 
  *         m = 0
  */
-  __pyx_t_7 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->gradient(__pyx_v_self->avr, __pyx_v_Z, __pyx_v_grad); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 801, __pyx_L1_error)
+  __pyx_t_7 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_self->avr->__pyx_vtab)->gradient(__pyx_v_self->avr, __pyx_v_Z, __pyx_v_grad); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 806, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "mlgrad/avragg.pyx":803
+  /* "mlgrad/avragg.pyx":808
  *         self.avr.gradient(Z, grad)
  * 
  *         m = 0             # <<<<<<<<<<<<<<
@@ -20370,7 +20226,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
  */
   __pyx_v_m = 0;
 
-  /* "mlgrad/avragg.pyx":804
+  /* "mlgrad/avragg.pyx":809
  * 
  *         m = 0
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -20382,7 +20238,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/avragg.pyx":805
+    /* "mlgrad/avragg.pyx":810
  *         m = 0
  *         for k in range(N):
  *             if fabs(Y[k] - u) > avr_z:             # <<<<<<<<<<<<<<
@@ -20393,7 +20249,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
     __pyx_t_8 = ((fabs(((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) ))) - __pyx_v_u)) > __pyx_v_avr_z) != 0);
     if (__pyx_t_8) {
 
-      /* "mlgrad/avragg.pyx":806
+      /* "mlgrad/avragg.pyx":811
  *         for k in range(N):
  *             if fabs(Y[k] - u) > avr_z:
  *                 m += 1             # <<<<<<<<<<<<<<
@@ -20402,7 +20258,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
  */
       __pyx_v_m = (__pyx_v_m + 1);
 
-      /* "mlgrad/avragg.pyx":805
+      /* "mlgrad/avragg.pyx":810
  *         m = 0
  *         for k in range(N):
  *             if fabs(Y[k] - u) > avr_z:             # <<<<<<<<<<<<<<
@@ -20412,7 +20268,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
     }
   }
 
-  /* "mlgrad/avragg.pyx":808
+  /* "mlgrad/avragg.pyx":813
  *                 m += 1
  * 
  *         N1 = 1./ N             # <<<<<<<<<<<<<<
@@ -20421,11 +20277,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 808, __pyx_L1_error)
+    __PYX_ERR(2, 813, __pyx_L1_error)
   }
   __pyx_v_N1 = (1. / ((double)__pyx_v_N));
 
-  /* "mlgrad/avragg.pyx":810
+  /* "mlgrad/avragg.pyx":815
  *         N1 = 1./ N
  * #         for k in prange(N, nogil=True, num_threads=num_procs):
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -20437,7 +20293,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/avragg.pyx":811
+    /* "mlgrad/avragg.pyx":816
  * #         for k in prange(N, nogil=True, num_threads=num_procs):
  *         for k in range(N):
  *             if fabs(Y[k] - u) <= avr_z:             # <<<<<<<<<<<<<<
@@ -20448,7 +20304,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
     __pyx_t_8 = ((fabs(((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) ))) - __pyx_v_u)) <= __pyx_v_avr_z) != 0);
     if (__pyx_t_8) {
 
-      /* "mlgrad/avragg.pyx":812
+      /* "mlgrad/avragg.pyx":817
  *         for k in range(N):
  *             if fabs(Y[k] - u) <= avr_z:
  *                 v = 1 + m*grad[k]             # <<<<<<<<<<<<<<
@@ -20458,7 +20314,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
       __pyx_t_6 = __pyx_v_k;
       __pyx_v_v = (1.0 + (__pyx_v_m * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )))));
 
-      /* "mlgrad/avragg.pyx":811
+      /* "mlgrad/avragg.pyx":816
  * #         for k in prange(N, nogil=True, num_threads=num_procs):
  *         for k in range(N):
  *             if fabs(Y[k] - u) <= avr_z:             # <<<<<<<<<<<<<<
@@ -20468,7 +20324,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
       goto __pyx_L10;
     }
 
-    /* "mlgrad/avragg.pyx":814
+    /* "mlgrad/avragg.pyx":819
  *                 v = 1 + m*grad[k]
  *             else:
  *                 v = m*grad[k]             # <<<<<<<<<<<<<<
@@ -20481,7 +20337,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
     }
     __pyx_L10:;
 
-    /* "mlgrad/avragg.pyx":815
+    /* "mlgrad/avragg.pyx":820
  *             else:
  *                 v = m*grad[k]
  *             grad[k] = v * N1             # <<<<<<<<<<<<<<
@@ -20492,7 +20348,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9HMAverage_gradient(struct __pyx_obj_6m
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = (__pyx_v_v * __pyx_v_N1);
   }
 
-  /* "mlgrad/avragg.pyx":787
+  /* "mlgrad/avragg.pyx":792
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -20939,7 +20795,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9HMAverage_6__setstate_cython__(struct
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":820
+/* "mlgrad/avragg.pyx":825
  * cdef class ArithMean(Average):
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -20967,7 +20823,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_fit(struct __pyx_obj_6mlgrad
   if (__pyx_optional_args) {
   }
 
-  /* "mlgrad/avragg.pyx":822
+  /* "mlgrad/avragg.pyx":827
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef double u
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -20976,7 +20832,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_fit(struct __pyx_obj_6mlgrad
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":823
+  /* "mlgrad/avragg.pyx":828
  *         cdef double u
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef double *y =&Y[0]             # <<<<<<<<<<<<<<
@@ -20986,7 +20842,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_fit(struct __pyx_obj_6mlgrad
   __pyx_t_1 = 0;
   __pyx_v_y = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":825
+  /* "mlgrad/avragg.pyx":830
  *         cdef double *y =&Y[0]
  * 
  *         u = 0             # <<<<<<<<<<<<<<
@@ -20995,7 +20851,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_fit(struct __pyx_obj_6mlgrad
  */
   __pyx_v_u = 0.0;
 
-  /* "mlgrad/avragg.pyx":826
+  /* "mlgrad/avragg.pyx":831
  * 
  *         u = 0
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -21032,7 +20888,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_fit(struct __pyx_obj_6mlgrad
                         {
                             __pyx_v_k = (Py_ssize_t)(0 + 1 * __pyx_t_3);
 
-                            /* "mlgrad/avragg.pyx":828
+                            /* "mlgrad/avragg.pyx":833
  *         for k in prange(N, nogil=True, num_threads=num_procs):
  * #         for k in range(N):
  *             u += y[k]             # <<<<<<<<<<<<<<
@@ -21053,7 +20909,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_fit(struct __pyx_obj_6mlgrad
         #endif
       }
 
-      /* "mlgrad/avragg.pyx":826
+      /* "mlgrad/avragg.pyx":831
  * 
  *         u = 0
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -21072,7 +20928,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_fit(struct __pyx_obj_6mlgrad
       }
   }
 
-  /* "mlgrad/avragg.pyx":829
+  /* "mlgrad/avragg.pyx":834
  * #         for k in range(N):
  *             u += y[k]
  *         self.u = u / N             # <<<<<<<<<<<<<<
@@ -21081,11 +20937,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_fit(struct __pyx_obj_6mlgrad
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 829, __pyx_L1_error)
+    __PYX_ERR(2, 834, __pyx_L1_error)
   }
   __pyx_v_self->__pyx_base.u = (__pyx_v_u / ((double)__pyx_v_N));
 
-  /* "mlgrad/avragg.pyx":830
+  /* "mlgrad/avragg.pyx":835
  *             u += y[k]
  *         self.u = u / N
  *         self.u_best = self.u             # <<<<<<<<<<<<<<
@@ -21095,7 +20951,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_fit(struct __pyx_obj_6mlgrad
   __pyx_t_5 = __pyx_v_self->__pyx_base.u;
   __pyx_v_self->__pyx_base.u_best = __pyx_t_5;
 
-  /* "mlgrad/avragg.pyx":820
+  /* "mlgrad/avragg.pyx":825
  * cdef class ArithMean(Average):
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -21155,7 +21011,7 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_9ArithMean_1fit(PyObject *__pyx_v_self
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 820, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 825, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -21166,12 +21022,12 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_9ArithMean_1fit(PyObject *__pyx_v_self
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 820, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 825, __pyx_L3_error)
     __pyx_v_u0 = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 820, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 825, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.ArithMean.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -21196,7 +21052,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9ArithMean_fit(struct __pyx_obj_6mlgra
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.u0 = __pyx_v_u0;
-  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_ArithMean->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 820, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_ArithMean->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 825, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -21214,7 +21070,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9ArithMean_fit(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":832
+/* "mlgrad/avragg.pyx":837
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -21238,7 +21094,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_gradient(CYTHON_UNUSED struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":833
+  /* "mlgrad/avragg.pyx":838
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -21247,7 +21103,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_gradient(CYTHON_UNUSED struc
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":835
+  /* "mlgrad/avragg.pyx":840
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef double N1
  *         cdef double *g =&grad[0]             # <<<<<<<<<<<<<<
@@ -21257,7 +21113,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_gradient(CYTHON_UNUSED struc
   __pyx_t_1 = 0;
   __pyx_v_g = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":837
+  /* "mlgrad/avragg.pyx":842
  *         cdef double *g =&grad[0]
  * 
  *         N1 = 1./N             # <<<<<<<<<<<<<<
@@ -21266,11 +21122,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_gradient(CYTHON_UNUSED struc
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 837, __pyx_L1_error)
+    __PYX_ERR(2, 842, __pyx_L1_error)
   }
   __pyx_v_N1 = (1. / ((double)__pyx_v_N));
 
-  /* "mlgrad/avragg.pyx":838
+  /* "mlgrad/avragg.pyx":843
  * 
  *         N1 = 1./N
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -21307,7 +21163,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_gradient(CYTHON_UNUSED struc
                         {
                             __pyx_v_k = (Py_ssize_t)(0 + 1 * __pyx_t_3);
 
-                            /* "mlgrad/avragg.pyx":840
+                            /* "mlgrad/avragg.pyx":845
  *         for k in prange(N, nogil=True, num_threads=num_procs):
  * #         for k in range(N):
  *             g[k] = N1             # <<<<<<<<<<<<<<
@@ -21328,7 +21184,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_gradient(CYTHON_UNUSED struc
         #endif
       }
 
-      /* "mlgrad/avragg.pyx":838
+      /* "mlgrad/avragg.pyx":843
  * 
  *         N1 = 1./N
  *         for k in prange(N, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -21347,7 +21203,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9ArithMean_gradient(CYTHON_UNUSED struc
       }
   }
 
-  /* "mlgrad/avragg.pyx":832
+  /* "mlgrad/avragg.pyx":837
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -21770,7 +21626,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9ArithMean_4__setstate_cython__(struct
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":845
+/* "mlgrad/avragg.pyx":850
  * cdef class Minimal(Average):
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -21797,7 +21653,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_6
   if (__pyx_optional_args) {
   }
 
-  /* "mlgrad/avragg.pyx":846
+  /* "mlgrad/avragg.pyx":851
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef double yk, y_min = Y[0]             # <<<<<<<<<<<<<<
@@ -21807,7 +21663,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_6
   __pyx_t_1 = 0;
   __pyx_v_y_min = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) )));
 
-  /* "mlgrad/avragg.pyx":847
+  /* "mlgrad/avragg.pyx":852
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef double yk, y_min = Y[0]
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -21816,7 +21672,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_6
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":848
+  /* "mlgrad/avragg.pyx":853
  *         cdef double yk, y_min = Y[0]
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef double *y = &Y[0]             # <<<<<<<<<<<<<<
@@ -21826,7 +21682,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_6
   __pyx_t_1 = 0;
   __pyx_v_y = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
-  /* "mlgrad/avragg.pyx":850
+  /* "mlgrad/avragg.pyx":855
  *         cdef double *y = &Y[0]
  * 
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -21838,7 +21694,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_6
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_k = __pyx_t_4;
 
-    /* "mlgrad/avragg.pyx":851
+    /* "mlgrad/avragg.pyx":856
  * 
  *         for k in range(N):
  *             yk = y[k]             # <<<<<<<<<<<<<<
@@ -21847,7 +21703,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_6
  */
     __pyx_v_yk = (__pyx_v_y[__pyx_v_k]);
 
-    /* "mlgrad/avragg.pyx":852
+    /* "mlgrad/avragg.pyx":857
  *         for k in range(N):
  *             yk = y[k]
  *             if yk < y_min:             # <<<<<<<<<<<<<<
@@ -21857,7 +21713,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_6
     __pyx_t_5 = ((__pyx_v_yk < __pyx_v_y_min) != 0);
     if (__pyx_t_5) {
 
-      /* "mlgrad/avragg.pyx":853
+      /* "mlgrad/avragg.pyx":858
  *             yk = y[k]
  *             if yk < y_min:
  *                 y_min = yk             # <<<<<<<<<<<<<<
@@ -21866,7 +21722,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_6
  */
       __pyx_v_y_min = __pyx_v_yk;
 
-      /* "mlgrad/avragg.pyx":852
+      /* "mlgrad/avragg.pyx":857
  *         for k in range(N):
  *             yk = y[k]
  *             if yk < y_min:             # <<<<<<<<<<<<<<
@@ -21876,7 +21732,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_6
     }
   }
 
-  /* "mlgrad/avragg.pyx":854
+  /* "mlgrad/avragg.pyx":859
  *             if yk < y_min:
  *                 y_min = yk
  *         self.u = y_min             # <<<<<<<<<<<<<<
@@ -21885,7 +21741,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_6
  */
   __pyx_v_self->__pyx_base.u = __pyx_v_y_min;
 
-  /* "mlgrad/avragg.pyx":855
+  /* "mlgrad/avragg.pyx":860
  *                 y_min = yk
  *         self.u = y_min
  *         self.u_best = self.u             # <<<<<<<<<<<<<<
@@ -21895,7 +21751,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_6
   __pyx_t_6 = __pyx_v_self->__pyx_base.u;
   __pyx_v_self->__pyx_base.u_best = __pyx_t_6;
 
-  /* "mlgrad/avragg.pyx":845
+  /* "mlgrad/avragg.pyx":850
  * cdef class Minimal(Average):
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -21950,7 +21806,7 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_7Minimal_1fit(PyObject *__pyx_v_self, 
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 845, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 850, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -21961,12 +21817,12 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_7Minimal_1fit(PyObject *__pyx_v_self, 
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 845, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 850, __pyx_L3_error)
     __pyx_v_u0 = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 845, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 850, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.Minimal.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -21991,7 +21847,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.u0 = __pyx_v_u0;
-  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_Minimal->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 845, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_Minimal->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 850, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -22009,7 +21865,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Minimal_fit(struct __pyx_obj_6mlgrad_
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":857
+/* "mlgrad/avragg.pyx":862
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -22038,7 +21894,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":858
+  /* "mlgrad/avragg.pyx":863
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -22047,7 +21903,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":859
+  /* "mlgrad/avragg.pyx":864
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef int m = 0             # <<<<<<<<<<<<<<
@@ -22056,7 +21912,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
  */
   __pyx_v_m = 0;
 
-  /* "mlgrad/avragg.pyx":860
+  /* "mlgrad/avragg.pyx":865
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef int m = 0
  *         cdef double u = self.u             # <<<<<<<<<<<<<<
@@ -22066,7 +21922,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
   __pyx_t_1 = __pyx_v_self->__pyx_base.u;
   __pyx_v_u = __pyx_t_1;
 
-  /* "mlgrad/avragg.pyx":861
+  /* "mlgrad/avragg.pyx":866
  *         cdef int m = 0
  *         cdef double u = self.u
  *         cdef double *g = &grad[0]             # <<<<<<<<<<<<<<
@@ -22076,7 +21932,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
   __pyx_t_2 = 0;
   __pyx_v_g = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_2)) ))));
 
-  /* "mlgrad/avragg.pyx":862
+  /* "mlgrad/avragg.pyx":867
  *         cdef double u = self.u
  *         cdef double *g = &grad[0]
  *         cdef double *y = &Y[0]             # <<<<<<<<<<<<<<
@@ -22086,7 +21942,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
   __pyx_t_2 = 0;
   __pyx_v_y = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_2)) ))));
 
-  /* "mlgrad/avragg.pyx":864
+  /* "mlgrad/avragg.pyx":869
  *         cdef double *y = &Y[0]
  * 
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -22098,7 +21954,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_k = __pyx_t_5;
 
-    /* "mlgrad/avragg.pyx":865
+    /* "mlgrad/avragg.pyx":870
  * 
  *         for k in range(N):
  *             if y[k] == u:             # <<<<<<<<<<<<<<
@@ -22108,7 +21964,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
     __pyx_t_6 = (((__pyx_v_y[__pyx_v_k]) == __pyx_v_u) != 0);
     if (__pyx_t_6) {
 
-      /* "mlgrad/avragg.pyx":866
+      /* "mlgrad/avragg.pyx":871
  *         for k in range(N):
  *             if y[k] == u:
  *                 g[k] = 1             # <<<<<<<<<<<<<<
@@ -22117,7 +21973,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
  */
       (__pyx_v_g[__pyx_v_k]) = 1.0;
 
-      /* "mlgrad/avragg.pyx":867
+      /* "mlgrad/avragg.pyx":872
  *             if y[k] == u:
  *                 g[k] = 1
  *                 m += 1             # <<<<<<<<<<<<<<
@@ -22126,7 +21982,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
  */
       __pyx_v_m = (__pyx_v_m + 1);
 
-      /* "mlgrad/avragg.pyx":865
+      /* "mlgrad/avragg.pyx":870
  * 
  *         for k in range(N):
  *             if y[k] == u:             # <<<<<<<<<<<<<<
@@ -22136,7 +21992,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
       goto __pyx_L5;
     }
 
-    /* "mlgrad/avragg.pyx":869
+    /* "mlgrad/avragg.pyx":874
  *                 m += 1
  *             else:
  *                 g[k] = 0             # <<<<<<<<<<<<<<
@@ -22149,7 +22005,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
     __pyx_L5:;
   }
 
-  /* "mlgrad/avragg.pyx":871
+  /* "mlgrad/avragg.pyx":876
  *                 g[k] = 0
  * 
  *         if m > 1:             # <<<<<<<<<<<<<<
@@ -22159,7 +22015,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
   __pyx_t_6 = ((__pyx_v_m > 1) != 0);
   if (__pyx_t_6) {
 
-    /* "mlgrad/avragg.pyx":872
+    /* "mlgrad/avragg.pyx":877
  * 
  *         if m > 1:
  *             for k in range(N):             # <<<<<<<<<<<<<<
@@ -22171,7 +22027,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
     for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
       __pyx_v_k = __pyx_t_5;
 
-      /* "mlgrad/avragg.pyx":873
+      /* "mlgrad/avragg.pyx":878
  *         if m > 1:
  *             for k in range(N):
  *                 if g[k] > 0:             # <<<<<<<<<<<<<<
@@ -22181,7 +22037,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
       __pyx_t_6 = (((__pyx_v_g[__pyx_v_k]) > 0.0) != 0);
       if (__pyx_t_6) {
 
-        /* "mlgrad/avragg.pyx":874
+        /* "mlgrad/avragg.pyx":879
  *             for k in range(N):
  *                 if g[k] > 0:
  *                     g[k] /= m             # <<<<<<<<<<<<<<
@@ -22191,11 +22047,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
         __pyx_t_7 = __pyx_v_k;
         if (unlikely(__pyx_v_m == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(2, 874, __pyx_L1_error)
+          __PYX_ERR(2, 879, __pyx_L1_error)
         }
         (__pyx_v_g[__pyx_t_7]) = ((__pyx_v_g[__pyx_t_7]) / __pyx_v_m);
 
-        /* "mlgrad/avragg.pyx":873
+        /* "mlgrad/avragg.pyx":878
  *         if m > 1:
  *             for k in range(N):
  *                 if g[k] > 0:             # <<<<<<<<<<<<<<
@@ -22205,7 +22061,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
       }
     }
 
-    /* "mlgrad/avragg.pyx":871
+    /* "mlgrad/avragg.pyx":876
  *                 g[k] = 0
  * 
  *         if m > 1:             # <<<<<<<<<<<<<<
@@ -22214,7 +22070,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Minimal_gradient(struct __pyx_obj_6mlg
  */
   }
 
-  /* "mlgrad/avragg.pyx":857
+  /* "mlgrad/avragg.pyx":862
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -22637,7 +22493,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Minimal_4__setstate_cython__(struct _
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":878
+/* "mlgrad/avragg.pyx":883
  * cdef class Maximal(Average):
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -22663,7 +22519,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_fit(struct __pyx_obj_6mlgrad_6
   if (__pyx_optional_args) {
   }
 
-  /* "mlgrad/avragg.pyx":879
+  /* "mlgrad/avragg.pyx":884
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef double yk, y_max = Y[0]             # <<<<<<<<<<<<<<
@@ -22673,7 +22529,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_fit(struct __pyx_obj_6mlgrad_6
   __pyx_t_1 = 0;
   __pyx_v_y_max = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) )));
 
-  /* "mlgrad/avragg.pyx":880
+  /* "mlgrad/avragg.pyx":885
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef double yk, y_max = Y[0]
  *         cdef int k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -22682,7 +22538,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_fit(struct __pyx_obj_6mlgrad_6
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":881
+  /* "mlgrad/avragg.pyx":886
  *         cdef double yk, y_max = Y[0]
  *         cdef int k, N = Y.shape[0]
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -22694,7 +22550,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_fit(struct __pyx_obj_6mlgrad_6
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_k = __pyx_t_4;
 
-    /* "mlgrad/avragg.pyx":882
+    /* "mlgrad/avragg.pyx":887
  *         cdef int k, N = Y.shape[0]
  *         for k in range(N):
  *             yk = Y[k]             # <<<<<<<<<<<<<<
@@ -22704,7 +22560,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_fit(struct __pyx_obj_6mlgrad_6
     __pyx_t_1 = __pyx_v_k;
     __pyx_v_yk = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) )));
 
-    /* "mlgrad/avragg.pyx":883
+    /* "mlgrad/avragg.pyx":888
  *         for k in range(N):
  *             yk = Y[k]
  *             if yk > y_max:             # <<<<<<<<<<<<<<
@@ -22714,7 +22570,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_fit(struct __pyx_obj_6mlgrad_6
     __pyx_t_5 = ((__pyx_v_yk > __pyx_v_y_max) != 0);
     if (__pyx_t_5) {
 
-      /* "mlgrad/avragg.pyx":884
+      /* "mlgrad/avragg.pyx":889
  *             yk = Y[k]
  *             if yk > y_max:
  *                 y_max = yk             # <<<<<<<<<<<<<<
@@ -22723,7 +22579,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_fit(struct __pyx_obj_6mlgrad_6
  */
       __pyx_v_y_max = __pyx_v_yk;
 
-      /* "mlgrad/avragg.pyx":883
+      /* "mlgrad/avragg.pyx":888
  *         for k in range(N):
  *             yk = Y[k]
  *             if yk > y_max:             # <<<<<<<<<<<<<<
@@ -22733,7 +22589,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_fit(struct __pyx_obj_6mlgrad_6
     }
   }
 
-  /* "mlgrad/avragg.pyx":885
+  /* "mlgrad/avragg.pyx":890
  *             if yk > y_max:
  *                 y_max = yk
  *         self.u = y_max             # <<<<<<<<<<<<<<
@@ -22742,7 +22598,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_fit(struct __pyx_obj_6mlgrad_6
  */
   __pyx_v_self->__pyx_base.u = __pyx_v_y_max;
 
-  /* "mlgrad/avragg.pyx":886
+  /* "mlgrad/avragg.pyx":891
  *                 y_max = yk
  *         self.u = y_max
  *         self.u_best = self.u             # <<<<<<<<<<<<<<
@@ -22752,7 +22608,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_fit(struct __pyx_obj_6mlgrad_6
   __pyx_t_6 = __pyx_v_self->__pyx_base.u;
   __pyx_v_self->__pyx_base.u_best = __pyx_t_6;
 
-  /* "mlgrad/avragg.pyx":878
+  /* "mlgrad/avragg.pyx":883
  * cdef class Maximal(Average):
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -22807,7 +22663,7 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_7Maximal_1fit(PyObject *__pyx_v_self, 
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 878, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 883, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -22818,12 +22674,12 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_7Maximal_1fit(PyObject *__pyx_v_self, 
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 878, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 883, __pyx_L3_error)
     __pyx_v_u0 = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 878, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 883, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.Maximal.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -22848,7 +22704,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Maximal_fit(struct __pyx_obj_6mlgrad_
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.u0 = __pyx_v_u0;
-  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_Maximal->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 878, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_Maximal->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 883, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -22866,7 +22722,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Maximal_fit(struct __pyx_obj_6mlgrad_
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":888
+/* "mlgrad/avragg.pyx":893
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -22887,7 +22743,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
   int __pyx_t_5;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":889
+  /* "mlgrad/avragg.pyx":894
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         cdef int k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -22896,7 +22752,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":890
+  /* "mlgrad/avragg.pyx":895
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         cdef int k, N = Y.shape[0]
  *         cdef int m = 0             # <<<<<<<<<<<<<<
@@ -22905,7 +22761,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
  */
   __pyx_v_m = 0;
 
-  /* "mlgrad/avragg.pyx":892
+  /* "mlgrad/avragg.pyx":897
  *         cdef int m = 0
  * 
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -22917,7 +22773,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_k = __pyx_t_3;
 
-    /* "mlgrad/avragg.pyx":893
+    /* "mlgrad/avragg.pyx":898
  * 
  *         for k in range(N):
  *             if Y[k] == self.u:             # <<<<<<<<<<<<<<
@@ -22928,7 +22784,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
     __pyx_t_5 = (((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_4)) ))) == __pyx_v_self->__pyx_base.u) != 0);
     if (__pyx_t_5) {
 
-      /* "mlgrad/avragg.pyx":894
+      /* "mlgrad/avragg.pyx":899
  *         for k in range(N):
  *             if Y[k] == self.u:
  *                 grad[k] = 1             # <<<<<<<<<<<<<<
@@ -22938,7 +22794,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
       __pyx_t_4 = __pyx_v_k;
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_4)) )) = 1.0;
 
-      /* "mlgrad/avragg.pyx":895
+      /* "mlgrad/avragg.pyx":900
  *             if Y[k] == self.u:
  *                 grad[k] = 1
  *                 m += 1             # <<<<<<<<<<<<<<
@@ -22947,7 +22803,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
  */
       __pyx_v_m = (__pyx_v_m + 1);
 
-      /* "mlgrad/avragg.pyx":893
+      /* "mlgrad/avragg.pyx":898
  * 
  *         for k in range(N):
  *             if Y[k] == self.u:             # <<<<<<<<<<<<<<
@@ -22957,7 +22813,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
       goto __pyx_L5;
     }
 
-    /* "mlgrad/avragg.pyx":897
+    /* "mlgrad/avragg.pyx":902
  *                 m += 1
  *             else:
  *                 grad[k] = 0             # <<<<<<<<<<<<<<
@@ -22971,7 +22827,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
     __pyx_L5:;
   }
 
-  /* "mlgrad/avragg.pyx":899
+  /* "mlgrad/avragg.pyx":904
  *                 grad[k] = 0
  * 
  *         if m > 1:             # <<<<<<<<<<<<<<
@@ -22981,7 +22837,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
   __pyx_t_5 = ((__pyx_v_m > 1) != 0);
   if (__pyx_t_5) {
 
-    /* "mlgrad/avragg.pyx":900
+    /* "mlgrad/avragg.pyx":905
  * 
  *         if m > 1:
  *             for k in range(N):             # <<<<<<<<<<<<<<
@@ -22993,7 +22849,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
     for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
       __pyx_v_k = __pyx_t_3;
 
-      /* "mlgrad/avragg.pyx":901
+      /* "mlgrad/avragg.pyx":906
  *         if m > 1:
  *             for k in range(N):
  *                 if grad[k] > 0:             # <<<<<<<<<<<<<<
@@ -23004,7 +22860,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
       __pyx_t_5 = (((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_4)) ))) > 0.0) != 0);
       if (__pyx_t_5) {
 
-        /* "mlgrad/avragg.pyx":902
+        /* "mlgrad/avragg.pyx":907
  *             for k in range(N):
  *                 if grad[k] > 0:
  *                     grad[k] /= m             # <<<<<<<<<<<<<<
@@ -23014,7 +22870,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
         __pyx_t_4 = __pyx_v_k;
         *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_4)) )) /= __pyx_v_m;
 
-        /* "mlgrad/avragg.pyx":901
+        /* "mlgrad/avragg.pyx":906
  *         if m > 1:
  *             for k in range(N):
  *                 if grad[k] > 0:             # <<<<<<<<<<<<<<
@@ -23024,7 +22880,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
       }
     }
 
-    /* "mlgrad/avragg.pyx":899
+    /* "mlgrad/avragg.pyx":904
  *                 grad[k] = 0
  * 
  *         if m > 1:             # <<<<<<<<<<<<<<
@@ -23033,7 +22889,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Maximal_gradient(struct __pyx_obj_6mlg
  */
   }
 
-  /* "mlgrad/avragg.pyx":888
+  /* "mlgrad/avragg.pyx":893
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -23451,7 +23307,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Maximal_4__setstate_cython__(struct _
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":906
+/* "mlgrad/avragg.pyx":911
  * cdef class KolmogorovMean(Average):
  *     #
  *     def __init__(self, Func func, Func invfunc):             # <<<<<<<<<<<<<<
@@ -23493,11 +23349,11 @@ static int __pyx_pw_6mlgrad_6avragg_14KolmogorovMean_1__init__(PyObject *__pyx_v
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_invfunc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(2, 906, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(2, 911, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 906, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 911, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -23510,14 +23366,14 @@ static int __pyx_pw_6mlgrad_6avragg_14KolmogorovMean_1__init__(PyObject *__pyx_v
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 906, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 911, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.KolmogorovMean.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(2, 906, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_invfunc), __pyx_ptype_6mlgrad_4func_Func, 1, "invfunc", 0))) __PYX_ERR(2, 906, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(2, 911, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_invfunc), __pyx_ptype_6mlgrad_4func_Func, 1, "invfunc", 0))) __PYX_ERR(2, 911, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_14KolmogorovMean___init__(((struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean *)__pyx_v_self), __pyx_v_func, __pyx_v_invfunc);
 
   /* function exit code */
@@ -23534,7 +23390,7 @@ static int __pyx_pf_6mlgrad_6avragg_14KolmogorovMean___init__(struct __pyx_obj_6
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/avragg.pyx":907
+  /* "mlgrad/avragg.pyx":912
  *     #
  *     def __init__(self, Func func, Func invfunc):
  *         self.func = func             # <<<<<<<<<<<<<<
@@ -23547,7 +23403,7 @@ static int __pyx_pf_6mlgrad_6avragg_14KolmogorovMean___init__(struct __pyx_obj_6
   __Pyx_DECREF(((PyObject *)__pyx_v_self->func));
   __pyx_v_self->func = __pyx_v_func;
 
-  /* "mlgrad/avragg.pyx":908
+  /* "mlgrad/avragg.pyx":913
  *     def __init__(self, Func func, Func invfunc):
  *         self.func = func
  *         self.invfunc = invfunc             # <<<<<<<<<<<<<<
@@ -23560,7 +23416,7 @@ static int __pyx_pf_6mlgrad_6avragg_14KolmogorovMean___init__(struct __pyx_obj_6
   __Pyx_DECREF(((PyObject *)__pyx_v_self->invfunc));
   __pyx_v_self->invfunc = __pyx_v_invfunc;
 
-  /* "mlgrad/avragg.pyx":906
+  /* "mlgrad/avragg.pyx":911
  * cdef class KolmogorovMean(Average):
  *     #
  *     def __init__(self, Func func, Func invfunc):             # <<<<<<<<<<<<<<
@@ -23574,7 +23430,7 @@ static int __pyx_pf_6mlgrad_6avragg_14KolmogorovMean___init__(struct __pyx_obj_6
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":910
+/* "mlgrad/avragg.pyx":915
  *         self.invfunc = invfunc
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -23602,7 +23458,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_fit(struct __pyx_obj_6
   if (__pyx_optional_args) {
   }
 
-  /* "mlgrad/avragg.pyx":912
+  /* "mlgrad/avragg.pyx":917
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef double u, yk
  *         cdef int k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -23611,7 +23467,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_fit(struct __pyx_obj_6
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":914
+  /* "mlgrad/avragg.pyx":919
  *         cdef int k, N = Y.shape[0]
  * 
  *         u = 0             # <<<<<<<<<<<<<<
@@ -23620,7 +23476,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_fit(struct __pyx_obj_6
  */
   __pyx_v_u = 0.0;
 
-  /* "mlgrad/avragg.pyx":916
+  /* "mlgrad/avragg.pyx":921
  *         u = 0
  * #         for k in prange(N, nogil=True):
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -23632,7 +23488,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_fit(struct __pyx_obj_6
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_k = __pyx_t_3;
 
-    /* "mlgrad/avragg.pyx":917
+    /* "mlgrad/avragg.pyx":922
  * #         for k in prange(N, nogil=True):
  *         for k in range(N):
  *             yk = Y[k]             # <<<<<<<<<<<<<<
@@ -23642,7 +23498,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_fit(struct __pyx_obj_6
     __pyx_t_4 = __pyx_v_k;
     __pyx_v_yk = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_4)) )));
 
-    /* "mlgrad/avragg.pyx":918
+    /* "mlgrad/avragg.pyx":923
  *         for k in range(N):
  *             yk = Y[k]
  *             u += self.func.evaluate(yk)             # <<<<<<<<<<<<<<
@@ -23652,7 +23508,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_fit(struct __pyx_obj_6
     __pyx_v_u = (__pyx_v_u + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->evaluate(__pyx_v_self->func, __pyx_v_yk));
   }
 
-  /* "mlgrad/avragg.pyx":919
+  /* "mlgrad/avragg.pyx":924
  *             yk = Y[k]
  *             u += self.func.evaluate(yk)
  *         u /= N             # <<<<<<<<<<<<<<
@@ -23661,11 +23517,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_fit(struct __pyx_obj_6
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 919, __pyx_L1_error)
+    __PYX_ERR(2, 924, __pyx_L1_error)
   }
   __pyx_v_u = (__pyx_v_u / __pyx_v_N);
 
-  /* "mlgrad/avragg.pyx":920
+  /* "mlgrad/avragg.pyx":925
  *             u += self.func.evaluate(yk)
  *         u /= N
  *         self.uu = u             # <<<<<<<<<<<<<<
@@ -23674,7 +23530,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_fit(struct __pyx_obj_6
  */
   __pyx_v_self->uu = __pyx_v_u;
 
-  /* "mlgrad/avragg.pyx":921
+  /* "mlgrad/avragg.pyx":926
  *         u /= N
  *         self.uu = u
  *         self.u = self.invfunc.evaluate(u)             # <<<<<<<<<<<<<<
@@ -23683,7 +23539,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_fit(struct __pyx_obj_6
  */
   __pyx_v_self->__pyx_base.u = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->invfunc->__pyx_vtab)->evaluate(__pyx_v_self->invfunc, __pyx_v_u);
 
-  /* "mlgrad/avragg.pyx":922
+  /* "mlgrad/avragg.pyx":927
  *         self.uu = u
  *         self.u = self.invfunc.evaluate(u)
  *         self.u_best = self.u             # <<<<<<<<<<<<<<
@@ -23693,7 +23549,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_fit(struct __pyx_obj_6
   __pyx_t_5 = __pyx_v_self->__pyx_base.u;
   __pyx_v_self->__pyx_base.u_best = __pyx_t_5;
 
-  /* "mlgrad/avragg.pyx":910
+  /* "mlgrad/avragg.pyx":915
  *         self.invfunc = invfunc
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -23753,7 +23609,7 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_14KolmogorovMean_3fit(PyObject *__pyx_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 910, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 915, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -23764,12 +23620,12 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_14KolmogorovMean_3fit(PyObject *__pyx_
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 910, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 915, __pyx_L3_error)
     __pyx_v_u0 = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 910, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 915, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.KolmogorovMean.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -23794,7 +23650,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_14KolmogorovMean_2fit(struct __pyx_obj
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.u0 = __pyx_v_u0;
-  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 910, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 915, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -23812,7 +23668,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_14KolmogorovMean_2fit(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":924
+/* "mlgrad/avragg.pyx":929
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -23833,7 +23689,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_gradient(struct __pyx_
   Py_ssize_t __pyx_t_5;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":925
+  /* "mlgrad/avragg.pyx":930
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         cdef int k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -23842,7 +23698,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_gradient(struct __pyx_
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":928
+  /* "mlgrad/avragg.pyx":933
  *         cdef double V
  * 
  *         V = self.invfunc.derivative(self.uu)             # <<<<<<<<<<<<<<
@@ -23851,7 +23707,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_gradient(struct __pyx_
  */
   __pyx_v_V = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->invfunc->__pyx_vtab)->derivative(__pyx_v_self->invfunc, __pyx_v_self->uu);
 
-  /* "mlgrad/avragg.pyx":930
+  /* "mlgrad/avragg.pyx":935
  *         V = self.invfunc.derivative(self.uu)
  * #         for k in prange(N, nogil=True):
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -23863,7 +23719,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_gradient(struct __pyx_
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_k = __pyx_t_3;
 
-    /* "mlgrad/avragg.pyx":931
+    /* "mlgrad/avragg.pyx":936
  * #         for k in prange(N, nogil=True):
  *         for k in range(N):
  *             grad[k] = self.func.derivative(Y[k]) * V             # <<<<<<<<<<<<<<
@@ -23875,7 +23731,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean_gradient(struct __pyx_
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->derivative(__pyx_v_self->func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_4)) )))) * __pyx_v_V);
   }
 
-  /* "mlgrad/avragg.pyx":924
+  /* "mlgrad/avragg.pyx":929
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -24324,7 +24180,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_14KolmogorovMean_6__setstate_cython__(
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":935
+/* "mlgrad/avragg.pyx":940
  * cdef class SoftMinimal(Average):
  *     #
  *     def __init__(self, a):             # <<<<<<<<<<<<<<
@@ -24361,7 +24217,7 @@ static int __pyx_pw_6mlgrad_6avragg_11SoftMinimal_1__init__(PyObject *__pyx_v_se
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 935, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(2, 940, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -24372,7 +24228,7 @@ static int __pyx_pw_6mlgrad_6avragg_11SoftMinimal_1__init__(PyObject *__pyx_v_se
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 935, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 940, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.SoftMinimal.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -24394,17 +24250,17 @@ static int __pyx_pf_6mlgrad_6avragg_11SoftMinimal___init__(struct __pyx_obj_6mlg
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/avragg.pyx":936
+  /* "mlgrad/avragg.pyx":941
  *     #
  *     def __init__(self, a):
  *         self.a = a             # <<<<<<<<<<<<<<
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 936, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 941, __pyx_L1_error)
   __pyx_v_self->a = __pyx_t_1;
 
-  /* "mlgrad/avragg.pyx":935
+  /* "mlgrad/avragg.pyx":940
  * cdef class SoftMinimal(Average):
  *     #
  *     def __init__(self, a):             # <<<<<<<<<<<<<<
@@ -24423,7 +24279,7 @@ static int __pyx_pf_6mlgrad_6avragg_11SoftMinimal___init__(struct __pyx_obj_6mlg
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":938
+/* "mlgrad/avragg.pyx":943
  *         self.a = a
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -24452,7 +24308,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_fit(struct __pyx_obj_6mlg
   if (__pyx_optional_args) {
   }
 
-  /* "mlgrad/avragg.pyx":940
+  /* "mlgrad/avragg.pyx":945
  *     cpdef fit(self, double[::1] Y, u0=None):
  *         cdef double u, yk
  *         cdef int k, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -24461,7 +24317,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_fit(struct __pyx_obj_6mlg
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":941
+  /* "mlgrad/avragg.pyx":946
  *         cdef double u, yk
  *         cdef int k, N = Y.shape[0]
  *         cdef double a = self.a             # <<<<<<<<<<<<<<
@@ -24471,7 +24327,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_fit(struct __pyx_obj_6mlg
   __pyx_t_1 = __pyx_v_self->a;
   __pyx_v_a = __pyx_t_1;
 
-  /* "mlgrad/avragg.pyx":943
+  /* "mlgrad/avragg.pyx":948
  *         cdef double a = self.a
  * 
  *         u = 0             # <<<<<<<<<<<<<<
@@ -24480,7 +24336,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_fit(struct __pyx_obj_6mlg
  */
   __pyx_v_u = 0.0;
 
-  /* "mlgrad/avragg.pyx":945
+  /* "mlgrad/avragg.pyx":950
  *         u = 0
  * #         for k in prange(N, nogil=True):
  *         for k in range(N):             # <<<<<<<<<<<<<<
@@ -24492,7 +24348,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_fit(struct __pyx_obj_6mlg
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_k = __pyx_t_4;
 
-    /* "mlgrad/avragg.pyx":946
+    /* "mlgrad/avragg.pyx":951
  * #         for k in prange(N, nogil=True):
  *         for k in range(N):
  *             yk = Y[k]             # <<<<<<<<<<<<<<
@@ -24502,7 +24358,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_fit(struct __pyx_obj_6mlg
     __pyx_t_5 = __pyx_v_k;
     __pyx_v_yk = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) )));
 
-    /* "mlgrad/avragg.pyx":947
+    /* "mlgrad/avragg.pyx":952
  *         for k in range(N):
  *             yk = Y[k]
  *             u += exp(-yk*a)             # <<<<<<<<<<<<<<
@@ -24512,7 +24368,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_fit(struct __pyx_obj_6mlg
     __pyx_v_u = (__pyx_v_u + exp(((-__pyx_v_yk) * __pyx_v_a)));
   }
 
-  /* "mlgrad/avragg.pyx":948
+  /* "mlgrad/avragg.pyx":953
  *             yk = Y[k]
  *             u += exp(-yk*a)
  *         u /= N             # <<<<<<<<<<<<<<
@@ -24521,11 +24377,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_fit(struct __pyx_obj_6mlg
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 948, __pyx_L1_error)
+    __PYX_ERR(2, 953, __pyx_L1_error)
   }
   __pyx_v_u = (__pyx_v_u / __pyx_v_N);
 
-  /* "mlgrad/avragg.pyx":949
+  /* "mlgrad/avragg.pyx":954
  *             u += exp(-yk*a)
  *         u /= N
  *         self.u = - log(u) / a             # <<<<<<<<<<<<<<
@@ -24535,11 +24391,11 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_fit(struct __pyx_obj_6mlg
   __pyx_t_1 = (-log(__pyx_v_u));
   if (unlikely(__pyx_v_a == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(2, 949, __pyx_L1_error)
+    __PYX_ERR(2, 954, __pyx_L1_error)
   }
   __pyx_v_self->__pyx_base.u = (__pyx_t_1 / __pyx_v_a);
 
-  /* "mlgrad/avragg.pyx":950
+  /* "mlgrad/avragg.pyx":955
  *         u /= N
  *         self.u = - log(u) / a
  *         self.u_best = self.u             # <<<<<<<<<<<<<<
@@ -24549,7 +24405,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_fit(struct __pyx_obj_6mlg
   __pyx_t_1 = __pyx_v_self->__pyx_base.u;
   __pyx_v_self->__pyx_base.u_best = __pyx_t_1;
 
-  /* "mlgrad/avragg.pyx":938
+  /* "mlgrad/avragg.pyx":943
  *         self.a = a
  *     #
  *     cpdef fit(self, double[::1] Y, u0=None):             # <<<<<<<<<<<<<<
@@ -24609,7 +24465,7 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_11SoftMinimal_3fit(PyObject *__pyx_v_s
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 938, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "fit") < 0)) __PYX_ERR(2, 943, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -24620,12 +24476,12 @@ static PyObject *__pyx_pw_6mlgrad_6avragg_11SoftMinimal_3fit(PyObject *__pyx_v_s
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 938, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(2, 943, __pyx_L3_error)
     __pyx_v_u0 = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 938, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("fit", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 943, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.avragg.SoftMinimal.fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -24650,7 +24506,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_11SoftMinimal_2fit(struct __pyx_obj_6m
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.u0 = __pyx_v_u0;
-  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_SoftMinimal->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 938, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_6mlgrad_6avragg_SoftMinimal->__pyx_base.fit(((struct __pyx_obj_6mlgrad_6avragg_Average *)__pyx_v_self), __pyx_v_Y, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 943, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -24668,7 +24524,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_11SoftMinimal_2fit(struct __pyx_obj_6m
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":952
+/* "mlgrad/avragg.pyx":957
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -24699,7 +24555,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_gradient(struct __pyx_obj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
 
-  /* "mlgrad/avragg.pyx":953
+  /* "mlgrad/avragg.pyx":958
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):
  *         cdef int k, l, N = Y.shape[0]             # <<<<<<<<<<<<<<
@@ -24708,7 +24564,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_gradient(struct __pyx_obj
  */
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/avragg.pyx":955
+  /* "mlgrad/avragg.pyx":960
  *         cdef int k, l, N = Y.shape[0]
  *         cdef double u, yk, yl
  *         cdef double a = self.a             # <<<<<<<<<<<<<<
@@ -24718,7 +24574,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_gradient(struct __pyx_obj
   __pyx_t_1 = __pyx_v_self->a;
   __pyx_v_a = __pyx_t_1;
 
-  /* "mlgrad/avragg.pyx":957
+  /* "mlgrad/avragg.pyx":962
  *         cdef double a = self.a
  * 
  *         for l in range(N):             # <<<<<<<<<<<<<<
@@ -24730,7 +24586,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_gradient(struct __pyx_obj
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_l = __pyx_t_4;
 
-    /* "mlgrad/avragg.pyx":958
+    /* "mlgrad/avragg.pyx":963
  * 
  *         for l in range(N):
  *             u = 0             # <<<<<<<<<<<<<<
@@ -24739,7 +24595,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_gradient(struct __pyx_obj
  */
     __pyx_v_u = 0.0;
 
-    /* "mlgrad/avragg.pyx":959
+    /* "mlgrad/avragg.pyx":964
  *         for l in range(N):
  *             u = 0
  *             yl = Y[l]             # <<<<<<<<<<<<<<
@@ -24749,7 +24605,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_gradient(struct __pyx_obj
     __pyx_t_5 = __pyx_v_l;
     __pyx_v_yl = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) )));
 
-    /* "mlgrad/avragg.pyx":960
+    /* "mlgrad/avragg.pyx":965
  *             u = 0
  *             yl = Y[l]
  *             for k in range(N):             # <<<<<<<<<<<<<<
@@ -24761,7 +24617,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_gradient(struct __pyx_obj
     for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
       __pyx_v_k = __pyx_t_8;
 
-      /* "mlgrad/avragg.pyx":961
+      /* "mlgrad/avragg.pyx":966
  *             yl = Y[l]
  *             for k in range(N):
  *                 yk = Y[k] - yl             # <<<<<<<<<<<<<<
@@ -24771,7 +24627,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_gradient(struct __pyx_obj
       __pyx_t_5 = __pyx_v_k;
       __pyx_v_yk = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) ))) - __pyx_v_yl);
 
-      /* "mlgrad/avragg.pyx":962
+      /* "mlgrad/avragg.pyx":967
  *             for k in range(N):
  *                 yk = Y[k] - yl
  *                 u += exp(-yk*a)             # <<<<<<<<<<<<<<
@@ -24781,7 +24637,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_gradient(struct __pyx_obj
       __pyx_v_u = (__pyx_v_u + exp(((-__pyx_v_yk) * __pyx_v_a)));
     }
 
-    /* "mlgrad/avragg.pyx":964
+    /* "mlgrad/avragg.pyx":969
  *                 u += exp(-yk*a)
  * 
  *             grad[l] = 1. / u             # <<<<<<<<<<<<<<
@@ -24790,13 +24646,13 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal_gradient(struct __pyx_obj
  */
     if (unlikely(__pyx_v_u == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(2, 964, __pyx_L1_error)
+      __PYX_ERR(2, 969, __pyx_L1_error)
     }
     __pyx_t_5 = __pyx_v_l;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = (1. / __pyx_v_u);
   }
 
-  /* "mlgrad/avragg.pyx":952
+  /* "mlgrad/avragg.pyx":957
  *         self.u_best = self.u
  *     #
  *     cdef gradient(self, double[::1] Y, double[::1] grad):             # <<<<<<<<<<<<<<
@@ -25226,7 +25082,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_11SoftMinimal_6__setstate_cython__(str
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":966
+/* "mlgrad/avragg.pyx":971
  *             grad[l] = 1. / u
  * 
  * cdef inline double nearest_value(double[::1] u, double y):             # <<<<<<<<<<<<<<
@@ -25250,7 +25106,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_nearest_value(__Pyx_memviews
   int __pyx_t_5;
   __Pyx_RefNannySetupContext("nearest_value", 0);
 
-  /* "mlgrad/avragg.pyx":967
+  /* "mlgrad/avragg.pyx":972
  * 
  * cdef inline double nearest_value(double[::1] u, double y):
  *     cdef Py_ssize_t j, K = u.shape[0]             # <<<<<<<<<<<<<<
@@ -25259,7 +25115,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_nearest_value(__Pyx_memviews
  */
   __pyx_v_K = (__pyx_v_u.shape[0]);
 
-  /* "mlgrad/avragg.pyx":968
+  /* "mlgrad/avragg.pyx":973
  * cdef inline double nearest_value(double[::1] u, double y):
  *     cdef Py_ssize_t j, K = u.shape[0]
  *     cdef double u_j, u_min=0, d_min = max_float             # <<<<<<<<<<<<<<
@@ -25269,7 +25125,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_nearest_value(__Pyx_memviews
   __pyx_v_u_min = 0.0;
   __pyx_v_d_min = __pyx_v_6mlgrad_6avragg_max_float;
 
-  /* "mlgrad/avragg.pyx":970
+  /* "mlgrad/avragg.pyx":975
  *     cdef double u_j, u_min=0, d_min = max_float
  * 
  *     for j in range(K):             # <<<<<<<<<<<<<<
@@ -25281,7 +25137,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_nearest_value(__Pyx_memviews
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_j = __pyx_t_3;
 
-    /* "mlgrad/avragg.pyx":971
+    /* "mlgrad/avragg.pyx":976
  * 
  *     for j in range(K):
  *         u_j = u[j]             # <<<<<<<<<<<<<<
@@ -25291,7 +25147,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_nearest_value(__Pyx_memviews
     __pyx_t_4 = __pyx_v_j;
     __pyx_v_u_j = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_u.data) + __pyx_t_4)) )));
 
-    /* "mlgrad/avragg.pyx":972
+    /* "mlgrad/avragg.pyx":977
  *     for j in range(K):
  *         u_j = u[j]
  *         d = fabs(y - u_j)             # <<<<<<<<<<<<<<
@@ -25300,7 +25156,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_nearest_value(__Pyx_memviews
  */
     __pyx_v_d = fabs((__pyx_v_y - __pyx_v_u_j));
 
-    /* "mlgrad/avragg.pyx":973
+    /* "mlgrad/avragg.pyx":978
  *         u_j = u[j]
  *         d = fabs(y - u_j)
  *         if d < d_min:             # <<<<<<<<<<<<<<
@@ -25310,7 +25166,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_nearest_value(__Pyx_memviews
     __pyx_t_5 = ((__pyx_v_d < __pyx_v_d_min) != 0);
     if (__pyx_t_5) {
 
-      /* "mlgrad/avragg.pyx":974
+      /* "mlgrad/avragg.pyx":979
  *         d = fabs(y - u_j)
  *         if d < d_min:
  *             d_min = d             # <<<<<<<<<<<<<<
@@ -25319,7 +25175,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_nearest_value(__Pyx_memviews
  */
       __pyx_v_d_min = __pyx_v_d;
 
-      /* "mlgrad/avragg.pyx":975
+      /* "mlgrad/avragg.pyx":980
  *         if d < d_min:
  *             d_min = d
  *             u_min = u_j             # <<<<<<<<<<<<<<
@@ -25328,7 +25184,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_nearest_value(__Pyx_memviews
  */
       __pyx_v_u_min = __pyx_v_u_j;
 
-      /* "mlgrad/avragg.pyx":973
+      /* "mlgrad/avragg.pyx":978
  *         u_j = u[j]
  *         d = fabs(y - u_j)
  *         if d < d_min:             # <<<<<<<<<<<<<<
@@ -25338,7 +25194,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_nearest_value(__Pyx_memviews
     }
   }
 
-  /* "mlgrad/avragg.pyx":976
+  /* "mlgrad/avragg.pyx":981
  *             d_min = d
  *             u_min = u_j
  *     return u_min             # <<<<<<<<<<<<<<
@@ -25348,7 +25204,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_nearest_value(__Pyx_memviews
   __pyx_r = __pyx_v_u_min;
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pyx":966
+  /* "mlgrad/avragg.pyx":971
  *             grad[l] = 1. / u
  * 
  * cdef inline double nearest_value(double[::1] u, double y):             # <<<<<<<<<<<<<<
@@ -25362,7 +25218,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_nearest_value(__Pyx_memviews
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pyx":978
+/* "mlgrad/avragg.pyx":983
  *     return u_min
  * 
  * cdef inline Py_ssize_t nearest_index(double[::1] u, double y):             # <<<<<<<<<<<<<<
@@ -25386,7 +25242,7 @@ static CYTHON_INLINE Py_ssize_t __pyx_f_6mlgrad_6avragg_nearest_index(__Pyx_memv
   int __pyx_t_5;
   __Pyx_RefNannySetupContext("nearest_index", 0);
 
-  /* "mlgrad/avragg.pyx":979
+  /* "mlgrad/avragg.pyx":984
  * 
  * cdef inline Py_ssize_t nearest_index(double[::1] u, double y):
  *     cdef Py_ssize_t j, j_min, K = u.shape[0]             # <<<<<<<<<<<<<<
@@ -25395,7 +25251,7 @@ static CYTHON_INLINE Py_ssize_t __pyx_f_6mlgrad_6avragg_nearest_index(__Pyx_memv
  */
   __pyx_v_K = (__pyx_v_u.shape[0]);
 
-  /* "mlgrad/avragg.pyx":980
+  /* "mlgrad/avragg.pyx":985
  * cdef inline Py_ssize_t nearest_index(double[::1] u, double y):
  *     cdef Py_ssize_t j, j_min, K = u.shape[0]
  *     cdef double u_j, d_min = max_float             # <<<<<<<<<<<<<<
@@ -25404,7 +25260,7 @@ static CYTHON_INLINE Py_ssize_t __pyx_f_6mlgrad_6avragg_nearest_index(__Pyx_memv
  */
   __pyx_v_d_min = __pyx_v_6mlgrad_6avragg_max_float;
 
-  /* "mlgrad/avragg.pyx":982
+  /* "mlgrad/avragg.pyx":987
  *     cdef double u_j, d_min = max_float
  * 
  *     for j in range(K):             # <<<<<<<<<<<<<<
@@ -25416,7 +25272,7 @@ static CYTHON_INLINE Py_ssize_t __pyx_f_6mlgrad_6avragg_nearest_index(__Pyx_memv
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_j = __pyx_t_3;
 
-    /* "mlgrad/avragg.pyx":983
+    /* "mlgrad/avragg.pyx":988
  * 
  *     for j in range(K):
  *         u_j = u[j]             # <<<<<<<<<<<<<<
@@ -25426,7 +25282,7 @@ static CYTHON_INLINE Py_ssize_t __pyx_f_6mlgrad_6avragg_nearest_index(__Pyx_memv
     __pyx_t_4 = __pyx_v_j;
     __pyx_v_u_j = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_u.data) + __pyx_t_4)) )));
 
-    /* "mlgrad/avragg.pyx":984
+    /* "mlgrad/avragg.pyx":989
  *     for j in range(K):
  *         u_j = u[j]
  *         d = fabs(y - u_j)             # <<<<<<<<<<<<<<
@@ -25435,7 +25291,7 @@ static CYTHON_INLINE Py_ssize_t __pyx_f_6mlgrad_6avragg_nearest_index(__Pyx_memv
  */
     __pyx_v_d = fabs((__pyx_v_y - __pyx_v_u_j));
 
-    /* "mlgrad/avragg.pyx":985
+    /* "mlgrad/avragg.pyx":990
  *         u_j = u[j]
  *         d = fabs(y - u_j)
  *         if d < d_min:             # <<<<<<<<<<<<<<
@@ -25445,7 +25301,7 @@ static CYTHON_INLINE Py_ssize_t __pyx_f_6mlgrad_6avragg_nearest_index(__Pyx_memv
     __pyx_t_5 = ((__pyx_v_d < __pyx_v_d_min) != 0);
     if (__pyx_t_5) {
 
-      /* "mlgrad/avragg.pyx":986
+      /* "mlgrad/avragg.pyx":991
  *         d = fabs(y - u_j)
  *         if d < d_min:
  *             d_min = d             # <<<<<<<<<<<<<<
@@ -25454,7 +25310,7 @@ static CYTHON_INLINE Py_ssize_t __pyx_f_6mlgrad_6avragg_nearest_index(__Pyx_memv
  */
       __pyx_v_d_min = __pyx_v_d;
 
-      /* "mlgrad/avragg.pyx":987
+      /* "mlgrad/avragg.pyx":992
  *         if d < d_min:
  *             d_min = d
  *             j_min = j             # <<<<<<<<<<<<<<
@@ -25463,7 +25319,7 @@ static CYTHON_INLINE Py_ssize_t __pyx_f_6mlgrad_6avragg_nearest_index(__Pyx_memv
  */
       __pyx_v_j_min = __pyx_v_j;
 
-      /* "mlgrad/avragg.pyx":985
+      /* "mlgrad/avragg.pyx":990
  *         u_j = u[j]
  *         d = fabs(y - u_j)
  *         if d < d_min:             # <<<<<<<<<<<<<<
@@ -25473,7 +25329,7 @@ static CYTHON_INLINE Py_ssize_t __pyx_f_6mlgrad_6avragg_nearest_index(__Pyx_memv
     }
   }
 
-  /* "mlgrad/avragg.pyx":988
+  /* "mlgrad/avragg.pyx":993
  *             d_min = d
  *             j_min = j
  *     return j_min             # <<<<<<<<<<<<<<
@@ -25483,7 +25339,7 @@ static CYTHON_INLINE Py_ssize_t __pyx_f_6mlgrad_6avragg_nearest_index(__Pyx_memv
   __pyx_r = __pyx_v_j_min;
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pyx":978
+  /* "mlgrad/avragg.pyx":983
  *     return u_min
  * 
  * cdef inline Py_ssize_t nearest_index(double[::1] u, double y):             # <<<<<<<<<<<<<<
@@ -33945,7 +33801,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_copy_memoryview(__Pyx_memvie
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/avragg.pxd":27
+/* "mlgrad/avragg.pxd":32
  *     bint copysign(double x, double x)
  * 
  * cdef inline double array_min(double[::1] arr):             # <<<<<<<<<<<<<<
@@ -33967,7 +33823,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   int __pyx_t_5;
   __Pyx_RefNannySetupContext("array_min", 0);
 
-  /* "mlgrad/avragg.pxd":28
+  /* "mlgrad/avragg.pxd":33
  * 
  * cdef inline double array_min(double[::1] arr):
  *     cdef Py_ssize_t i, N = arr.shape[0]             # <<<<<<<<<<<<<<
@@ -33976,7 +33832,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
  */
   __pyx_v_N = (__pyx_v_arr.shape[0]);
 
-  /* "mlgrad/avragg.pxd":29
+  /* "mlgrad/avragg.pxd":34
  * cdef inline double array_min(double[::1] arr):
  *     cdef Py_ssize_t i, N = arr.shape[0]
  *     cdef double v, min_val = arr[0]             # <<<<<<<<<<<<<<
@@ -33986,7 +33842,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   __pyx_t_1 = 0;
   __pyx_v_min_val = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) )));
 
-  /* "mlgrad/avragg.pxd":31
+  /* "mlgrad/avragg.pxd":36
  *     cdef double v, min_val = arr[0]
  * 
  *     for i in range(N):             # <<<<<<<<<<<<<<
@@ -33998,7 +33854,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "mlgrad/avragg.pxd":32
+    /* "mlgrad/avragg.pxd":37
  * 
  *     for i in range(N):
  *         v = arr[i]             # <<<<<<<<<<<<<<
@@ -34008,7 +33864,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
     __pyx_t_1 = __pyx_v_i;
     __pyx_v_v = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) )));
 
-    /* "mlgrad/avragg.pxd":33
+    /* "mlgrad/avragg.pxd":38
  *     for i in range(N):
  *         v = arr[i]
  *         if v < min_val:             # <<<<<<<<<<<<<<
@@ -34018,7 +33874,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
     __pyx_t_5 = ((__pyx_v_v < __pyx_v_min_val) != 0);
     if (__pyx_t_5) {
 
-      /* "mlgrad/avragg.pxd":34
+      /* "mlgrad/avragg.pxd":39
  *         v = arr[i]
  *         if v < min_val:
  *             min_val = v             # <<<<<<<<<<<<<<
@@ -34027,7 +33883,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
  */
       __pyx_v_min_val = __pyx_v_v;
 
-      /* "mlgrad/avragg.pxd":33
+      /* "mlgrad/avragg.pxd":38
  *     for i in range(N):
  *         v = arr[i]
  *         if v < min_val:             # <<<<<<<<<<<<<<
@@ -34037,7 +33893,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
     }
   }
 
-  /* "mlgrad/avragg.pxd":36
+  /* "mlgrad/avragg.pxd":41
  *             min_val = v
  * 
  *     return min_val             # <<<<<<<<<<<<<<
@@ -34047,7 +33903,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   __pyx_r = __pyx_v_min_val;
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pxd":27
+  /* "mlgrad/avragg.pxd":32
  *     bint copysign(double x, double x)
  * 
  * cdef inline double array_min(double[::1] arr):             # <<<<<<<<<<<<<<
@@ -34061,7 +33917,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":38
+/* "mlgrad/avragg.pxd":43
  *     return min_val
  * 
  * cdef inline double array_mean(double[::1] arr):             # <<<<<<<<<<<<<<
@@ -34084,7 +33940,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("array_mean", 0);
 
-  /* "mlgrad/avragg.pxd":39
+  /* "mlgrad/avragg.pxd":44
  * 
  * cdef inline double array_mean(double[::1] arr):
  *     cdef Py_ssize_t i, N = arr.shape[0]             # <<<<<<<<<<<<<<
@@ -34093,7 +33949,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
  */
   __pyx_v_N = (__pyx_v_arr.shape[0]);
 
-  /* "mlgrad/avragg.pxd":42
+  /* "mlgrad/avragg.pxd":47
  *     cdef double v
  * 
  *     v = 0             # <<<<<<<<<<<<<<
@@ -34102,7 +33958,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
  */
   __pyx_v_v = 0.0;
 
-  /* "mlgrad/avragg.pxd":43
+  /* "mlgrad/avragg.pxd":48
  * 
  *     v = 0
  *     for i in range(N):             # <<<<<<<<<<<<<<
@@ -34114,7 +33970,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/avragg.pxd":44
+    /* "mlgrad/avragg.pxd":49
  *     v = 0
  *     for i in range(N):
  *         v += arr[i]             # <<<<<<<<<<<<<<
@@ -34125,7 +33981,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
     __pyx_v_v = (__pyx_v_v + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_4)) ))));
   }
 
-  /* "mlgrad/avragg.pxd":46
+  /* "mlgrad/avragg.pxd":51
  *         v += arr[i]
  * 
  *     return v / N             # <<<<<<<<<<<<<<
@@ -34134,12 +33990,12 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 46, __pyx_L1_error)
+    __PYX_ERR(0, 51, __pyx_L1_error)
   }
   __pyx_r = (__pyx_v_v / ((double)__pyx_v_N));
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pxd":38
+  /* "mlgrad/avragg.pxd":43
  *     return min_val
  * 
  * cdef inline double array_mean(double[::1] arr):             # <<<<<<<<<<<<<<
@@ -34156,7 +34012,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":48
+/* "mlgrad/avragg.pxd":53
  *     return v / N
  * 
  * cdef inline void array_add_scalar(double[::1] arr, double v):             # <<<<<<<<<<<<<<
@@ -34174,7 +34030,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
   Py_ssize_t __pyx_t_4;
   __Pyx_RefNannySetupContext("array_add_scalar", 0);
 
-  /* "mlgrad/avragg.pxd":49
+  /* "mlgrad/avragg.pxd":54
  * 
  * cdef inline void array_add_scalar(double[::1] arr, double v):
  *     cdef Py_ssize_t i, N = arr.shape[0]             # <<<<<<<<<<<<<<
@@ -34183,7 +34039,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
  */
   __pyx_v_N = (__pyx_v_arr.shape[0]);
 
-  /* "mlgrad/avragg.pxd":51
+  /* "mlgrad/avragg.pxd":56
  *     cdef Py_ssize_t i, N = arr.shape[0]
  * 
  *     for i in range(N):             # <<<<<<<<<<<<<<
@@ -34195,7 +34051,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/avragg.pxd":52
+    /* "mlgrad/avragg.pxd":57
  * 
  *     for i in range(N):
  *         arr[i] += v             # <<<<<<<<<<<<<<
@@ -34206,7 +34062,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_4)) )) += __pyx_v_v;
   }
 
-  /* "mlgrad/avragg.pxd":48
+  /* "mlgrad/avragg.pxd":53
  *     return v / N
  * 
  * cdef inline void array_add_scalar(double[::1] arr, double v):             # <<<<<<<<<<<<<<
@@ -47286,15 +47142,6 @@ static PyObject *__pyx_getprop_6mlgrad_6avragg_7Penalty_func(PyObject *o, CYTHON
   return __pyx_pw_6mlgrad_6avragg_7Penalty_4func_1__get__(o);
 }
 
-static int __pyx_setprop_6mlgrad_6avragg_7Penalty_func(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_6mlgrad_6avragg_7Penalty_4func_3__set__(o, v);
-  }
-  else {
-    return __pyx_pw_6mlgrad_6avragg_7Penalty_4func_5__del__(o);
-  }
-}
-
 static PyMethodDef __pyx_methods_6mlgrad_6avragg_Penalty[] = {
   {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_6avragg_7Penalty_1__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_6avragg_7Penalty___reduce_cython__},
   {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_6avragg_7Penalty_3__setstate_cython__, METH_O, __pyx_doc_6mlgrad_6avragg_7Penalty_2__setstate_cython__},
@@ -47302,7 +47149,7 @@ static PyMethodDef __pyx_methods_6mlgrad_6avragg_Penalty[] = {
 };
 
 static struct PyGetSetDef __pyx_getsets_6mlgrad_6avragg_Penalty[] = {
-  {(char *)"func", __pyx_getprop_6mlgrad_6avragg_7Penalty_func, __pyx_setprop_6mlgrad_6avragg_7Penalty_func, (char *)"func: mlgrad.func.Func", 0},
+  {(char *)"func", __pyx_getprop_6mlgrad_6avragg_7Penalty_func, 0, (char *)0, 0},
   {0, 0, 0, 0, 0}
 };
 
@@ -47595,41 +47442,16 @@ static PyObject *__pyx_getprop_6mlgrad_6avragg_7Average_penalty(PyObject *o, CYT
   return __pyx_pw_6mlgrad_6avragg_7Average_7penalty_1__get__(o);
 }
 
-static int __pyx_setprop_6mlgrad_6avragg_7Average_penalty(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_6mlgrad_6avragg_7Average_7penalty_3__set__(o, v);
-  }
-  else {
-    return __pyx_pw_6mlgrad_6avragg_7Average_7penalty_5__del__(o);
-  }
-}
-
 static PyObject *__pyx_getprop_6mlgrad_6avragg_7Average_tol(PyObject *o, CYTHON_UNUSED void *x) {
   return __pyx_pw_6mlgrad_6avragg_7Average_3tol_1__get__(o);
-}
-
-static int __pyx_setprop_6mlgrad_6avragg_7Average_tol(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_6mlgrad_6avragg_7Average_3tol_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
 }
 
 static PyObject *__pyx_getprop_6mlgrad_6avragg_7Average_n_iter(PyObject *o, CYTHON_UNUSED void *x) {
   return __pyx_pw_6mlgrad_6avragg_7Average_6n_iter_1__get__(o);
 }
 
-static int __pyx_setprop_6mlgrad_6avragg_7Average_n_iter(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_6mlgrad_6avragg_7Average_6n_iter_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
+static PyObject *__pyx_getprop_6mlgrad_6avragg_7Average_K(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6mlgrad_6avragg_7Average_1K_1__get__(o);
 }
 
 static PyObject *__pyx_getprop_6mlgrad_6avragg_7Average_m_iter(PyObject *o, CYTHON_UNUSED void *x) {
@@ -47639,20 +47461,6 @@ static PyObject *__pyx_getprop_6mlgrad_6avragg_7Average_m_iter(PyObject *o, CYTH
 static int __pyx_setprop_6mlgrad_6avragg_7Average_m_iter(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
     return __pyx_pw_6mlgrad_6avragg_7Average_6m_iter_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyObject *__pyx_getprop_6mlgrad_6avragg_7Average_K(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6mlgrad_6avragg_7Average_1K_1__get__(o);
-}
-
-static int __pyx_setprop_6mlgrad_6avragg_7Average_K(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_6mlgrad_6avragg_7Average_1K_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -47767,11 +47575,11 @@ static PyMethodDef __pyx_methods_6mlgrad_6avragg_Average[] = {
 };
 
 static struct PyGetSetDef __pyx_getsets_6mlgrad_6avragg_Average[] = {
-  {(char *)"penalty", __pyx_getprop_6mlgrad_6avragg_7Average_penalty, __pyx_setprop_6mlgrad_6avragg_7Average_penalty, (char *)"penalty: mlgrad.avragg.Penalty", 0},
-  {(char *)"tol", __pyx_getprop_6mlgrad_6avragg_7Average_tol, __pyx_setprop_6mlgrad_6avragg_7Average_tol, (char *)"tol: 'double'", 0},
-  {(char *)"n_iter", __pyx_getprop_6mlgrad_6avragg_7Average_n_iter, __pyx_setprop_6mlgrad_6avragg_7Average_n_iter, (char *)"n_iter: 'int'", 0},
+  {(char *)"penalty", __pyx_getprop_6mlgrad_6avragg_7Average_penalty, 0, (char *)0, 0},
+  {(char *)"tol", __pyx_getprop_6mlgrad_6avragg_7Average_tol, 0, (char *)0, 0},
+  {(char *)"n_iter", __pyx_getprop_6mlgrad_6avragg_7Average_n_iter, 0, (char *)0, 0},
+  {(char *)"K", __pyx_getprop_6mlgrad_6avragg_7Average_K, 0, (char *)0, 0},
   {(char *)"m_iter", __pyx_getprop_6mlgrad_6avragg_7Average_m_iter, __pyx_setprop_6mlgrad_6avragg_7Average_m_iter, (char *)"m_iter: 'int'", 0},
-  {(char *)"K", __pyx_getprop_6mlgrad_6avragg_7Average_K, __pyx_setprop_6mlgrad_6avragg_7Average_K, (char *)"K: 'int'", 0},
   {(char *)"L", __pyx_getprop_6mlgrad_6avragg_7Average_L, __pyx_setprop_6mlgrad_6avragg_7Average_L, (char *)"L: 'int'", 0},
   {(char *)"h", __pyx_getprop_6mlgrad_6avragg_7Average_h, __pyx_setprop_6mlgrad_6avragg_7Average_h, (char *)"h: 'double'", 0},
   {(char *)"success", __pyx_getprop_6mlgrad_6avragg_7Average_success, __pyx_setprop_6mlgrad_6avragg_7Average_success, (char *)"success: 'bool'", 0},
@@ -50182,7 +49990,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 36, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 148, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(1, 151, __pyx_L1_error)
@@ -50655,16 +50463,16 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_6avragg_PenaltyScale.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient;
   __pyx_vtable_6mlgrad_6avragg_PenaltyScale.__pyx_base.iterative_next = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next;
   __pyx_type_6mlgrad_6avragg_PenaltyScale.tp_base = __pyx_ptype_6mlgrad_6avragg_Penalty;
-  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_PenaltyScale) < 0) __PYX_ERR(2, 241, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_PenaltyScale) < 0) __PYX_ERR(2, 245, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_PenaltyScale.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_6avragg_PenaltyScale.tp_dictoffset && __pyx_type_6mlgrad_6avragg_PenaltyScale.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_6avragg_PenaltyScale.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_PenaltyScale.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_PenaltyScale) < 0) __PYX_ERR(2, 241, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PenaltyScale, (PyObject *)&__pyx_type_6mlgrad_6avragg_PenaltyScale) < 0) __PYX_ERR(2, 241, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_PenaltyScale) < 0) __PYX_ERR(2, 241, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_PenaltyScale.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_PenaltyScale) < 0) __PYX_ERR(2, 245, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PenaltyScale, (PyObject *)&__pyx_type_6mlgrad_6avragg_PenaltyScale) < 0) __PYX_ERR(2, 245, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_PenaltyScale) < 0) __PYX_ERR(2, 245, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_PenaltyScale = &__pyx_type_6mlgrad_6avragg_PenaltyScale;
   __pyx_vtabptr_6mlgrad_6avragg_Average = &__pyx_vtable_6mlgrad_6avragg_Average;
   __pyx_vtable_6mlgrad_6avragg_Average.gradient = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_7Average_gradient;
@@ -50672,16 +50480,16 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_6avragg_Average.fit = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args))__pyx_f_6mlgrad_6avragg_7Average_fit;
   __pyx_vtable_6mlgrad_6avragg_Average.fit_epoch = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_7Average_fit_epoch;
   __pyx_vtable_6mlgrad_6avragg_Average.stop_condition = (int (*)(struct __pyx_obj_6mlgrad_6avragg_Average *))__pyx_f_6mlgrad_6avragg_7Average_stop_condition;
-  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_Average) < 0) __PYX_ERR(2, 300, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_Average) < 0) __PYX_ERR(2, 304, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_Average.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_6avragg_Average.tp_dictoffset && __pyx_type_6mlgrad_6avragg_Average.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_6avragg_Average.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_Average.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_Average) < 0) __PYX_ERR(2, 300, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Average, (PyObject *)&__pyx_type_6mlgrad_6avragg_Average) < 0) __PYX_ERR(2, 300, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_Average) < 0) __PYX_ERR(2, 300, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_Average.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_Average) < 0) __PYX_ERR(2, 304, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Average, (PyObject *)&__pyx_type_6mlgrad_6avragg_Average) < 0) __PYX_ERR(2, 304, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_Average) < 0) __PYX_ERR(2, 304, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Average = &__pyx_type_6mlgrad_6avragg_Average;
   __pyx_vtabptr_6mlgrad_6avragg_Average_Iterative = &__pyx_vtable_6mlgrad_6avragg_Average_Iterative;
   __pyx_vtable_6mlgrad_6avragg_Average_Iterative.__pyx_base = *__pyx_vtabptr_6mlgrad_6avragg_Average;
@@ -50764,160 +50572,160 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_6avragg_ParameterizedAverage.__pyx_base.gradient = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_gradient;
   __pyx_vtable_6mlgrad_6avragg_ParameterizedAverage.__pyx_base.fit = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args))__pyx_f_6mlgrad_6avragg_20ParameterizedAverage_fit;
   __pyx_type_6mlgrad_6avragg_ParameterizedAverage.tp_base = __pyx_ptype_6mlgrad_6avragg_Average;
-  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_ParameterizedAverage) < 0) __PYX_ERR(2, 393, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_ParameterizedAverage) < 0) __PYX_ERR(2, 398, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_ParameterizedAverage.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_6avragg_ParameterizedAverage.tp_dictoffset && __pyx_type_6mlgrad_6avragg_ParameterizedAverage.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_6avragg_ParameterizedAverage.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_ParameterizedAverage.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage) < 0) __PYX_ERR(2, 393, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ParameterizedAverage, (PyObject *)&__pyx_type_6mlgrad_6avragg_ParameterizedAverage) < 0) __PYX_ERR(2, 393, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_ParameterizedAverage) < 0) __PYX_ERR(2, 393, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_ParameterizedAverage.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage) < 0) __PYX_ERR(2, 398, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ParameterizedAverage, (PyObject *)&__pyx_type_6mlgrad_6avragg_ParameterizedAverage) < 0) __PYX_ERR(2, 398, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_ParameterizedAverage) < 0) __PYX_ERR(2, 398, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_ParameterizedAverage = &__pyx_type_6mlgrad_6avragg_ParameterizedAverage;
   __pyx_vtabptr_6mlgrad_6avragg_WMAverage = &__pyx_vtable_6mlgrad_6avragg_WMAverage;
   __pyx_vtable_6mlgrad_6avragg_WMAverage.__pyx_base = *__pyx_vtabptr_6mlgrad_6avragg_Average;
   __pyx_vtable_6mlgrad_6avragg_WMAverage.__pyx_base.gradient = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_9WMAverage_gradient;
   __pyx_vtable_6mlgrad_6avragg_WMAverage.__pyx_base.fit = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args))__pyx_f_6mlgrad_6avragg_9WMAverage_fit;
   __pyx_type_6mlgrad_6avragg_WMAverage.tp_base = __pyx_ptype_6mlgrad_6avragg_Average;
-  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_WMAverage) < 0) __PYX_ERR(2, 513, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_WMAverage) < 0) __PYX_ERR(2, 518, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_WMAverage.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_6avragg_WMAverage.tp_dictoffset && __pyx_type_6mlgrad_6avragg_WMAverage.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_6avragg_WMAverage.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_WMAverage.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_WMAverage) < 0) __PYX_ERR(2, 513, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WMAverage, (PyObject *)&__pyx_type_6mlgrad_6avragg_WMAverage) < 0) __PYX_ERR(2, 513, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_WMAverage) < 0) __PYX_ERR(2, 513, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_WMAverage.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_WMAverage) < 0) __PYX_ERR(2, 518, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WMAverage, (PyObject *)&__pyx_type_6mlgrad_6avragg_WMAverage) < 0) __PYX_ERR(2, 518, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_WMAverage) < 0) __PYX_ERR(2, 518, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_WMAverage = &__pyx_type_6mlgrad_6avragg_WMAverage;
   __pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed = &__pyx_vtable_6mlgrad_6avragg_WMAverageMixed;
   __pyx_vtable_6mlgrad_6avragg_WMAverageMixed.__pyx_base = *__pyx_vtabptr_6mlgrad_6avragg_Average;
   __pyx_vtable_6mlgrad_6avragg_WMAverageMixed.__pyx_base.gradient = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_14WMAverageMixed_gradient;
   __pyx_vtable_6mlgrad_6avragg_WMAverageMixed.__pyx_base.fit = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args))__pyx_f_6mlgrad_6avragg_14WMAverageMixed_fit;
   __pyx_type_6mlgrad_6avragg_WMAverageMixed.tp_base = __pyx_ptype_6mlgrad_6avragg_Average;
-  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_WMAverageMixed) < 0) __PYX_ERR(2, 615, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_WMAverageMixed) < 0) __PYX_ERR(2, 620, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_WMAverageMixed.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_6avragg_WMAverageMixed.tp_dictoffset && __pyx_type_6mlgrad_6avragg_WMAverageMixed.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_6avragg_WMAverageMixed.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_WMAverageMixed.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed) < 0) __PYX_ERR(2, 615, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WMAverageMixed, (PyObject *)&__pyx_type_6mlgrad_6avragg_WMAverageMixed) < 0) __PYX_ERR(2, 615, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_WMAverageMixed) < 0) __PYX_ERR(2, 615, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_WMAverageMixed.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed) < 0) __PYX_ERR(2, 620, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WMAverageMixed, (PyObject *)&__pyx_type_6mlgrad_6avragg_WMAverageMixed) < 0) __PYX_ERR(2, 620, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_WMAverageMixed) < 0) __PYX_ERR(2, 620, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_WMAverageMixed = &__pyx_type_6mlgrad_6avragg_WMAverageMixed;
   __pyx_vtabptr_6mlgrad_6avragg_TMAverage = &__pyx_vtable_6mlgrad_6avragg_TMAverage;
   __pyx_vtable_6mlgrad_6avragg_TMAverage.__pyx_base = *__pyx_vtabptr_6mlgrad_6avragg_Average;
   __pyx_vtable_6mlgrad_6avragg_TMAverage.__pyx_base.gradient = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_9TMAverage_gradient;
   __pyx_vtable_6mlgrad_6avragg_TMAverage.__pyx_base.fit = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args))__pyx_f_6mlgrad_6avragg_9TMAverage_fit;
   __pyx_type_6mlgrad_6avragg_TMAverage.tp_base = __pyx_ptype_6mlgrad_6avragg_Average;
-  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_TMAverage) < 0) __PYX_ERR(2, 672, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_TMAverage) < 0) __PYX_ERR(2, 677, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_TMAverage.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_6avragg_TMAverage.tp_dictoffset && __pyx_type_6mlgrad_6avragg_TMAverage.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_6avragg_TMAverage.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_TMAverage.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_TMAverage) < 0) __PYX_ERR(2, 672, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_TMAverage, (PyObject *)&__pyx_type_6mlgrad_6avragg_TMAverage) < 0) __PYX_ERR(2, 672, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_TMAverage) < 0) __PYX_ERR(2, 672, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_TMAverage.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_TMAverage) < 0) __PYX_ERR(2, 677, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_TMAverage, (PyObject *)&__pyx_type_6mlgrad_6avragg_TMAverage) < 0) __PYX_ERR(2, 677, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_TMAverage) < 0) __PYX_ERR(2, 677, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_TMAverage = &__pyx_type_6mlgrad_6avragg_TMAverage;
   __pyx_vtabptr_6mlgrad_6avragg_HMAverage = &__pyx_vtable_6mlgrad_6avragg_HMAverage;
   __pyx_vtable_6mlgrad_6avragg_HMAverage.__pyx_base = *__pyx_vtabptr_6mlgrad_6avragg_Average;
   __pyx_vtable_6mlgrad_6avragg_HMAverage.__pyx_base.gradient = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_9HMAverage_gradient;
   __pyx_vtable_6mlgrad_6avragg_HMAverage.__pyx_base.fit = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args))__pyx_f_6mlgrad_6avragg_9HMAverage_fit;
   __pyx_type_6mlgrad_6avragg_HMAverage.tp_base = __pyx_ptype_6mlgrad_6avragg_Average;
-  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_HMAverage) < 0) __PYX_ERR(2, 720, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_HMAverage) < 0) __PYX_ERR(2, 725, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_HMAverage.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_6avragg_HMAverage.tp_dictoffset && __pyx_type_6mlgrad_6avragg_HMAverage.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_6avragg_HMAverage.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_HMAverage.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_HMAverage) < 0) __PYX_ERR(2, 720, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_HMAverage, (PyObject *)&__pyx_type_6mlgrad_6avragg_HMAverage) < 0) __PYX_ERR(2, 720, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_HMAverage) < 0) __PYX_ERR(2, 720, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_HMAverage.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_HMAverage) < 0) __PYX_ERR(2, 725, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_HMAverage, (PyObject *)&__pyx_type_6mlgrad_6avragg_HMAverage) < 0) __PYX_ERR(2, 725, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_HMAverage) < 0) __PYX_ERR(2, 725, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_HMAverage = &__pyx_type_6mlgrad_6avragg_HMAverage;
   __pyx_vtabptr_6mlgrad_6avragg_ArithMean = &__pyx_vtable_6mlgrad_6avragg_ArithMean;
   __pyx_vtable_6mlgrad_6avragg_ArithMean.__pyx_base = *__pyx_vtabptr_6mlgrad_6avragg_Average;
   __pyx_vtable_6mlgrad_6avragg_ArithMean.__pyx_base.gradient = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_9ArithMean_gradient;
   __pyx_vtable_6mlgrad_6avragg_ArithMean.__pyx_base.fit = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args))__pyx_f_6mlgrad_6avragg_9ArithMean_fit;
   __pyx_type_6mlgrad_6avragg_ArithMean.tp_base = __pyx_ptype_6mlgrad_6avragg_Average;
-  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_ArithMean) < 0) __PYX_ERR(2, 818, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_ArithMean) < 0) __PYX_ERR(2, 823, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_ArithMean.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_6avragg_ArithMean.tp_dictoffset && __pyx_type_6mlgrad_6avragg_ArithMean.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_6avragg_ArithMean.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_ArithMean.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_ArithMean) < 0) __PYX_ERR(2, 818, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArithMean, (PyObject *)&__pyx_type_6mlgrad_6avragg_ArithMean) < 0) __PYX_ERR(2, 818, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_ArithMean) < 0) __PYX_ERR(2, 818, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_ArithMean.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_ArithMean) < 0) __PYX_ERR(2, 823, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArithMean, (PyObject *)&__pyx_type_6mlgrad_6avragg_ArithMean) < 0) __PYX_ERR(2, 823, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_ArithMean) < 0) __PYX_ERR(2, 823, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_ArithMean = &__pyx_type_6mlgrad_6avragg_ArithMean;
   __pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean = &__pyx_vtable_6mlgrad_6avragg_KolmogorovMean;
   __pyx_vtable_6mlgrad_6avragg_KolmogorovMean.__pyx_base = *__pyx_vtabptr_6mlgrad_6avragg_Average;
   __pyx_vtable_6mlgrad_6avragg_KolmogorovMean.__pyx_base.gradient = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_14KolmogorovMean_gradient;
   __pyx_vtable_6mlgrad_6avragg_KolmogorovMean.__pyx_base.fit = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args))__pyx_f_6mlgrad_6avragg_14KolmogorovMean_fit;
   __pyx_type_6mlgrad_6avragg_KolmogorovMean.tp_base = __pyx_ptype_6mlgrad_6avragg_Average;
-  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_KolmogorovMean) < 0) __PYX_ERR(2, 904, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_KolmogorovMean) < 0) __PYX_ERR(2, 909, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_KolmogorovMean.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_6avragg_KolmogorovMean.tp_dictoffset && __pyx_type_6mlgrad_6avragg_KolmogorovMean.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_6avragg_KolmogorovMean.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_KolmogorovMean.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean) < 0) __PYX_ERR(2, 904, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_KolmogorovMean, (PyObject *)&__pyx_type_6mlgrad_6avragg_KolmogorovMean) < 0) __PYX_ERR(2, 904, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_KolmogorovMean) < 0) __PYX_ERR(2, 904, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_KolmogorovMean.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean) < 0) __PYX_ERR(2, 909, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_KolmogorovMean, (PyObject *)&__pyx_type_6mlgrad_6avragg_KolmogorovMean) < 0) __PYX_ERR(2, 909, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_KolmogorovMean) < 0) __PYX_ERR(2, 909, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_KolmogorovMean = &__pyx_type_6mlgrad_6avragg_KolmogorovMean;
   __pyx_vtabptr_6mlgrad_6avragg_SoftMinimal = &__pyx_vtable_6mlgrad_6avragg_SoftMinimal;
   __pyx_vtable_6mlgrad_6avragg_SoftMinimal.__pyx_base = *__pyx_vtabptr_6mlgrad_6avragg_Average;
   __pyx_vtable_6mlgrad_6avragg_SoftMinimal.__pyx_base.gradient = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_11SoftMinimal_gradient;
   __pyx_vtable_6mlgrad_6avragg_SoftMinimal.__pyx_base.fit = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args))__pyx_f_6mlgrad_6avragg_11SoftMinimal_fit;
   __pyx_type_6mlgrad_6avragg_SoftMinimal.tp_base = __pyx_ptype_6mlgrad_6avragg_Average;
-  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_SoftMinimal) < 0) __PYX_ERR(2, 933, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_SoftMinimal) < 0) __PYX_ERR(2, 938, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_SoftMinimal.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_6avragg_SoftMinimal.tp_dictoffset && __pyx_type_6mlgrad_6avragg_SoftMinimal.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_6avragg_SoftMinimal.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_SoftMinimal.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_SoftMinimal) < 0) __PYX_ERR(2, 933, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SoftMinimal, (PyObject *)&__pyx_type_6mlgrad_6avragg_SoftMinimal) < 0) __PYX_ERR(2, 933, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_SoftMinimal) < 0) __PYX_ERR(2, 933, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_SoftMinimal.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_SoftMinimal) < 0) __PYX_ERR(2, 938, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SoftMinimal, (PyObject *)&__pyx_type_6mlgrad_6avragg_SoftMinimal) < 0) __PYX_ERR(2, 938, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_SoftMinimal) < 0) __PYX_ERR(2, 938, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_SoftMinimal = &__pyx_type_6mlgrad_6avragg_SoftMinimal;
   __pyx_vtabptr_6mlgrad_6avragg_Minimal = &__pyx_vtable_6mlgrad_6avragg_Minimal;
   __pyx_vtable_6mlgrad_6avragg_Minimal.__pyx_base = *__pyx_vtabptr_6mlgrad_6avragg_Average;
   __pyx_vtable_6mlgrad_6avragg_Minimal.__pyx_base.gradient = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_7Minimal_gradient;
   __pyx_vtable_6mlgrad_6avragg_Minimal.__pyx_base.fit = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args))__pyx_f_6mlgrad_6avragg_7Minimal_fit;
   __pyx_type_6mlgrad_6avragg_Minimal.tp_base = __pyx_ptype_6mlgrad_6avragg_Average;
-  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_Minimal) < 0) __PYX_ERR(2, 843, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_Minimal) < 0) __PYX_ERR(2, 848, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_Minimal.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_6avragg_Minimal.tp_dictoffset && __pyx_type_6mlgrad_6avragg_Minimal.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_6avragg_Minimal.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_Minimal.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_Minimal) < 0) __PYX_ERR(2, 843, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Minimal, (PyObject *)&__pyx_type_6mlgrad_6avragg_Minimal) < 0) __PYX_ERR(2, 843, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_Minimal) < 0) __PYX_ERR(2, 843, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_Minimal.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_Minimal) < 0) __PYX_ERR(2, 848, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Minimal, (PyObject *)&__pyx_type_6mlgrad_6avragg_Minimal) < 0) __PYX_ERR(2, 848, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_Minimal) < 0) __PYX_ERR(2, 848, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Minimal = &__pyx_type_6mlgrad_6avragg_Minimal;
   __pyx_vtabptr_6mlgrad_6avragg_Maximal = &__pyx_vtable_6mlgrad_6avragg_Maximal;
   __pyx_vtable_6mlgrad_6avragg_Maximal.__pyx_base = *__pyx_vtabptr_6mlgrad_6avragg_Average;
   __pyx_vtable_6mlgrad_6avragg_Maximal.__pyx_base.gradient = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_7Maximal_gradient;
   __pyx_vtable_6mlgrad_6avragg_Maximal.__pyx_base.fit = (PyObject *(*)(struct __pyx_obj_6mlgrad_6avragg_Average *, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args))__pyx_f_6mlgrad_6avragg_7Maximal_fit;
   __pyx_type_6mlgrad_6avragg_Maximal.tp_base = __pyx_ptype_6mlgrad_6avragg_Average;
-  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_Maximal) < 0) __PYX_ERR(2, 876, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_Maximal) < 0) __PYX_ERR(2, 881, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_Maximal.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_6avragg_Maximal.tp_dictoffset && __pyx_type_6mlgrad_6avragg_Maximal.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_6avragg_Maximal.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_Maximal.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_Maximal) < 0) __PYX_ERR(2, 876, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Maximal, (PyObject *)&__pyx_type_6mlgrad_6avragg_Maximal) < 0) __PYX_ERR(2, 876, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_Maximal) < 0) __PYX_ERR(2, 876, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_6avragg_Maximal.tp_dict, __pyx_vtabptr_6mlgrad_6avragg_Maximal) < 0) __PYX_ERR(2, 881, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Maximal, (PyObject *)&__pyx_type_6mlgrad_6avragg_Maximal) < 0) __PYX_ERR(2, 881, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_6avragg_Maximal) < 0) __PYX_ERR(2, 881, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Maximal = &__pyx_type_6mlgrad_6avragg_Maximal;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -51881,19 +51689,6 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
     return result;
 }
 
-/* ExtTypeTest */
-static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
-    }
-    if (likely(__Pyx_TypeCheck(obj, type)))
-        return 1;
-    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
-                 Py_TYPE(obj)->tp_name, type->tp_name);
-    return 0;
-}
-
 /* PyErrExceptionMatches */
 #if CYTHON_FAST_THREAD_STATE
 static int __Pyx_PyErr_ExceptionMatchesTuple(PyObject *exc_type, PyObject *tuple) {
@@ -52598,6 +52393,19 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
     return result;
 }
 #endif
+
+/* ExtTypeTest */
+static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
+    }
+    if (likely(__Pyx_TypeCheck(obj, type)))
+        return 1;
+    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
+                 Py_TYPE(obj)->tp_name, type->tp_name);
+    return 0;
+}
 
 /* PyIntBinop */
 #if !CYTHON_COMPILING_IN_PYPY

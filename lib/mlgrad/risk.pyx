@@ -1,11 +1,11 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=True
-# cython: wraparound=True
-# cython: nonecheck=True
+# cython: boundscheck=False
+# cython: wraparound=False
+# cython: nonecheck=False
 # cython: embedsignature=True
-# cython: initializedcheck=True
+# cython: initializedcheck=False
 # cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
@@ -147,7 +147,8 @@ cdef class MRisk(Risk):
         self.weights = np.full(size, 1./size, 'd')
         self.lval_all = np.zeros(size, 'd')
         self.Yp = np.zeros(size, 'd')
-        self.lval = 0        
+        self.lval = 0
+        self.first = 1
     #
     def use_batch(self, batch not None):
         self.batch = batch
@@ -199,11 +200,14 @@ cdef class MRisk(Risk):
         
         cdef Py_ssize_t i, j, k
         cdef double yk, v
+
+        cdef ModelEvaluate model_evaluate = _model.evaluate
+        cdef LossEvaluate loss_evaluate = _loss.evaluate
         
         for j in range(size):
             k = indices[j]
-            yk = _model.evaluate(X[k])
-            lval_all[j] = _loss.evaluate(yk, Y[k])
+            yk = model_evaluate(_model, X[k])
+            lval_all[j] = loss_evaluate(_loss, yk, Y[k])
             
         if self.regular is not None:
             v = self.tau * self.regular.evaluate(_model.param) / size
@@ -212,8 +216,11 @@ cdef class MRisk(Risk):
     #
     cdef double evaluate(self):        
         self.eval_losses(self.lval_all)
-        self.avg.fit(self.lval_all)
-
+        if self.first:
+            self.avg.fit(self.lval_all, self.lval_all[0])
+            self.first = 0
+        else:
+            self.avg.fit(self.lval_all, self.lval)
         self.lval = self.avg.u
         return self.lval
     #
@@ -233,6 +240,10 @@ cdef class MRisk(Risk):
         cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
 
+        cdef ModelEvaluate model_evaluate = _model.evaluate
+        cdef ModelGradient model_gradient = _model.gradient
+        cdef LossDerivative loss_derivative = _loss.derivative
+
         self.eval_losses(self.lval_all)
         self.avg.gradient(self.lval_all, self.weights)
 
@@ -242,10 +253,10 @@ cdef class MRisk(Risk):
             k = indices[j]
             yk = Y[k]
 
-            y = _model.evaluate(X[k])
-            _model.gradient(X[k], grad)
+            y = model_evaluate(_model, X[k])
+            model_gradient(_model, X[k], grad)
 
-            lval_dy = _loss.derivative(y, yk)
+            lval_dy = loss_derivative(_loss, y, yk)
             wk = weights[j]
 
             vv = lval_dy * wk
@@ -347,7 +358,7 @@ cdef class ERisk(SRisk):
                        FuncMulti regular=None, Batch batch=None, tau=1.0e-3):
         self.model = model
         self.param = model.param
-        print(np.array(self.model.param))
+#         print(np.array(self.model.param))
         
         n_param = model.n_param
         n_input = model.n_input
@@ -433,11 +444,14 @@ cdef class ERisk(SRisk):
         cdef double[::1] Y = self.Y
         cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
+
+        cdef ModelEvaluate model_evaluate = _model.evaluate
+        cdef LossEvaluate loss_evaluate = _loss.evaluate
         
         for j in range(size):
             k = indices[j]
-            y = _model.evaluate(X[k])
-            lval_all[j] = _loss.evaluate(y, Y[k])
+            y = model_evaluate(_model, X[k])
+            lval_all[j] = loss_evaluate(_loss, y, Y[k])
     #
     cdef double eval_loss(self, int k):
         cdef double y
@@ -457,6 +471,9 @@ cdef class ERisk(SRisk):
         cdef double[::1] weights = self.weights
         cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
+
+        cdef ModelEvaluate model_evaluate = _model.evaluate
+        cdef LossEvaluate loss_evaluate = _loss.evaluate
         
 #         if weights.shape[0] != size:
 #             self.weights = np.full(size, 1./size, 'd')
@@ -465,8 +482,8 @@ cdef class ERisk(SRisk):
         S = 0
         for j in range(size):
             k = indices[j]
-            yk = _model.evaluate(X[k])
-            S += weights[j] * _loss.evaluate(yk, Y[k]) 
+            yk = model_evaluate(_model, X[k])
+            S += weights[j] * loss_evaluate(_loss, yk, Y[k]) 
                     
         if self.regular is not None:
             S += self.tau * self.regular.evaluate(_model.param)                
@@ -510,6 +527,10 @@ cdef class ERisk(SRisk):
 
         cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
+
+        cdef ModelEvaluate model_evaluate = _model.evaluate
+        cdef ModelGradient model_gradient = _model.gradient
+        cdef LossDerivative loss_derivative = _loss.derivative
         
 #         if weights.shape[0] != size:
 #             self.weights = np.full(size, 1./size, 'd')
@@ -521,10 +542,10 @@ cdef class ERisk(SRisk):
             k = indices[j]
             yk = Y[k]
 
-            y = _model.evaluate(X[k])
-            _model.gradient(X[k], grad)
+            y = model_evaluate(_model, X[k])
+            model_gradient(_model, X[k], grad)
 
-            lval_dy = _loss.derivative(y, yk)
+            lval_dy = loss_derivative(_loss, y, yk)
             wk = weights[j]
 
             vv = lval_dy * wk

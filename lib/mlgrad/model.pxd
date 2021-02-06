@@ -28,6 +28,14 @@ cdef extern from "Python.h":
 
 ctypedef double[::1] double_array
 
+ctypedef double (*ModelEvaluate)(Model, double[::1])
+ctypedef void (*ModelGradient)(Model, double[::1], double[::1])
+
+ctypedef double (*FuncEvaluate)(Func, double) nogil
+ctypedef double (*FuncDerivative)(Func, double) nogil
+ctypedef double (*FuncDerivative2)(Func, double) nogil
+ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
+
 
 cdef class Allocator:
     #

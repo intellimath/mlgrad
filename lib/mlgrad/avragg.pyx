@@ -76,6 +76,7 @@ cdef class PenaltyAverage(Penalty):
         cdef double v1, v2, v3, v4
         cdef double *YY = &Y[0]
         cdef Func func = self.func
+        cdef FuncEvaluate func_evaluate = func.evaluate
     
         S = 0
 
@@ -88,10 +89,10 @@ cdef class PenaltyAverage(Penalty):
                 y3 = YY[k+2]
                 y4 = YY[k+3]
 
-                v1 = func.evaluate(y1-u)
-                v2 = func.evaluate(y2-u)
-                v3 = func.evaluate(y3-u)
-                v4 = func.evaluate(y4-u)
+                v1 = func_evaluate(func, y1-u)
+                v2 = func_evaluate(func, y2-u)
+                v3 = func_evaluate(func, y3-u)
+                v4 = func_evaluate(func, y4-u)
 
                 S += v1 + v2 + v3 + v4
             
@@ -99,7 +100,7 @@ cdef class PenaltyAverage(Penalty):
         else:
             k = 0
         while k < N:
-            S += func.evaluate(YY[k] - u)
+            S += func_evaluate(func, YY[k] - u)
             k += 1
        
         return S / N
@@ -112,6 +113,7 @@ cdef class PenaltyAverage(Penalty):
         cdef double v1, v2, v3, v4
         cdef double *YY = &Y[0]
         cdef Func func = self.func
+        cdef FuncDerivative func_derivative = func.derivative
         
         S = 0
 
@@ -124,10 +126,10 @@ cdef class PenaltyAverage(Penalty):
                 y3 = YY[k+2]
                 y4 = YY[k+3]
 
-                v1 = func.derivative(y1 - u)
-                v2 = func.derivative(y2 - u)                       
-                v3 = func.derivative(y3 - u)
-                v4 = func.derivative(y4 - u)
+                v1 = func_derivative(func, y1 - u)
+                v2 = func_derivative(func, y2 - u)                       
+                v3 = func_derivative(func, y3 - u)
+                v4 = func_derivative(func, y4 - u)
 
                 S += v1 + v2 + v3 + v4
 
@@ -135,7 +137,7 @@ cdef class PenaltyAverage(Penalty):
         else:
             k = 0
         while k < N:
-            S += func.derivative(YY[k] - u)                        
+            S += func_derivative(func, YY[k] - u)                        
             k += 1
     
         return -S / N
@@ -148,6 +150,7 @@ cdef class PenaltyAverage(Penalty):
         cdef double v1, v2, v3, v4
         cdef double *YY = &Y[0]
         cdef Func func = self.func
+        cdef FuncDerivativeDivX func_derivative_div_x = func.derivative_div_x
 
         S = 0
         V = 0
@@ -161,10 +164,10 @@ cdef class PenaltyAverage(Penalty):
                 y3 = YY[k+2]
                 y4 = YY[k+3]
 
-                v1 = func.derivative_div_x(y1 - u)
-                v2 = func.derivative_div_x(y2 - u)
-                v3 = func.derivative_div_x(y3 - u)
-                v4 = func.derivative_div_x(y4 - u)
+                v1 = func_derivative_div_x(func, y1 - u)
+                v2 = func_derivative_div_x(func, y2 - u)
+                v3 = func_derivative_div_x(func, y3 - u)
+                v4 = func_derivative_div_x(func, y4 - u)
 
                 V += v1 + v2 + v3 + v4
                 S += v1*y1 + v2*y2 + v3*y3 + v4*y4
@@ -174,7 +177,7 @@ cdef class PenaltyAverage(Penalty):
             k = 0
         while k < N:
             yk = YY[k]
-            v = func.derivative_div_x(yk - u)
+            v = func_derivative_div_x(func, yk - u)
             V += v
             S += v * yk
             k += 1
@@ -190,6 +193,7 @@ cdef class PenaltyAverage(Penalty):
         cdef double *YY = &Y[0]
         cdef double *GG = &grad[0]
         cdef Func func = self.func
+        cdef FuncDerivative2 func_derivative2 = func.derivative2
         
         S = 0
 
@@ -202,10 +206,10 @@ cdef class PenaltyAverage(Penalty):
                 y3 = YY[k+2]
                 y4 = YY[k+3]
 
-                v1 = func.derivative2(y1 - u)
-                v2 = func.derivative2(y2 - u)
-                v3 = func.derivative2(y3 - u)
-                v4 = func.derivative2(y4 - u)
+                v1 = func_derivative2(func, y1 - u)
+                v2 = func_derivative2(func, y2 - u)
+                v3 = func_derivative2(func, y3 - u)
+                v4 = func_derivative2(func, y4 - u)
 
                 GG[k]   = v1
                 GG[k+1] = v2
@@ -218,7 +222,7 @@ cdef class PenaltyAverage(Penalty):
         else:
             k = 0
         while k < N: 
-            v = func.derivative2(YY[k] - u)
+            v = func_derivative2(func, YY[k] - u)
             S += v
             GG[k] = v
             k += 1            
@@ -306,7 +310,7 @@ cdef class Average(object):
         if u0 is not None:
             self.u = u0
         elif self.first:
-            self.u = 0
+            self.u = array_mean(Y)
             
         self.first = 0
 
@@ -328,6 +332,7 @@ cdef class Average(object):
         cdef Penalty penalty = self.penalty
         
         self.init(Y, u0)
+        self.first = 0
         self.pval = penalty.evaluate(Y, self.u)
         if self.pval < self.pmin:
             self.pmin = self.pval

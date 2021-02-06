@@ -736,6 +736,8 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         cdef double *output = &self.output[0]
         cdef Func func = self.func
         
+        cdef FuncEvaluate func_evaluate = func.evaluate
+        
 #         size = cython.sizeof(double)*n_input
 #         for i in range(num_procs):
 #             memcpy(&self.X[i,0], &X[0], size);
@@ -748,7 +750,7 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
             if func is None:
                 output[j] = s
             else:
-                output[j] = func.evaluate(s)
+                output[j] = func_evaluate(func, s)
     #
     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Py_ssize_t i, j, jj, offset
@@ -761,6 +763,7 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         cdef double[:,::1] matrix = self.matrix
         cdef double *output = &self.output[0]
         cdef Func func = self.func
+        cdef FuncDerivative func_derivative = func.derivative
 #         cdef double[::1] ss = self.ss
         
 #         fill_memoryview(grad_in, 0) 
@@ -775,7 +778,7 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
             if func is None:
                 sx = grad_out[j]
             else:
-                sx = grad_out[j] * func.derivative(s)
+                sx = grad_out[j] * func_derivative(func, s)
 
 #         for j in range(n_output):
             inner_add(grad_in, &matrix[j,1], sx, n_input)
@@ -900,11 +903,12 @@ cdef class FFNetworkModel(MLModel):
         cdef int i, n_layer
         cdef ModelLayer layer
         cdef double[::1] input, output
+        cdef list layers = self.layers
 
         n_layer = len(self.layers)
         input = X
         for i in range(n_layer):
-            layer = self.layers[i]
+            layer = <ModelLayer>layers[i]
             layer.forward(input)
             input = layer.output
 #         self.output = layer.output
@@ -915,14 +919,15 @@ cdef class FFNetworkModel(MLModel):
         cdef ModelLayer layer, prev_layer
 #         cdef double[::1] grad_in
         cdef double[::1] grad_out, input
+        cdef list layers = self.layers
 
         m = len(grad)
         l = n_layer-1
         grad_out = grad_u
         while l >= 0:
-            layer = <ModelLayer>self.layers[l]
+            layer = <ModelLayer>layers[l]
             if l > 0:
-                prev_layer = <ModelLayer>self.layers[l-1]
+                prev_layer = <ModelLayer>layers[l-1]
                 input = prev_layer.output
             else:
                 input = X

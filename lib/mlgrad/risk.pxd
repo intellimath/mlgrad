@@ -25,7 +25,12 @@ cdef extern from "Python.h":
 cdef extern from *:
     PyObject* PyList_GET_ITEM(PyObject* list, Py_ssize_t i) nogil
     int PyList_GET_SIZE(PyObject* list) nogil
-    
+
+ctypedef double (*ModelEvaluate)(Model, double[::1])
+ctypedef void (*ModelGradient)(Model, double[::1], double[::1])
+ctypedef double (*LossEvaluate)(Loss, double, double)
+ctypedef double (*LossDerivative)(Loss, double, double)
+
 cdef inline void fill_memoryview(double[::1] X, double c):
     cdef int m = X.shape[0]
     memset(&X[0], 0, m*cython.sizeof(double))    
@@ -45,12 +50,12 @@ cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
     memcpy(&Y[0], &X[0], m*cython.sizeof(double))    
 
 cdef class Functional:
-    cdef public FuncMulti regular
-    cdef public double[::1] param
-    cdef public double[::1] grad_average
-    cdef public double lval
-    cdef public Batch batch
-    cdef public Py_ssize_t n_sample
+    cdef readonly FuncMulti regular
+    cdef readonly double[::1] param
+    cdef readonly double[::1] grad_average
+    cdef readonly double lval
+    cdef readonly Batch batch
+    cdef readonly Py_ssize_t n_sample
 
     cpdef init(self)
     cdef double evaluate(self)
@@ -63,8 +68,8 @@ cdef class Risk(Functional):
     #
     cdef double[::1] grad
     cdef double[::1] grad_r
-    cdef public double[::1] weights    
-    cdef public double tau
+    cdef readonly double[::1] weights    
+    cdef readonly double tau
     #
     cdef void eval_losses(self, double[::1] lval_all)
     
@@ -73,26 +78,27 @@ cdef class SRisk(Risk):
     cdef void gradient_loss(self, int k)    
 
 cdef class MRisk(Risk):
-    cdef public Model model
-    cdef public Loss loss
-    cdef public double[:, ::1] X
-    cdef public double[::1] Y
-    cdef public double[::1] Yp
+    cdef readonly Model model
+    cdef readonly Loss loss
+    cdef readonly double[:, ::1] X
+    cdef readonly double[::1] Y
+    cdef readonly double[::1] Yp
     cdef double[::1] lval_all
     cdef Average avg
+    cdef bint first
     
 cdef class ED(Risk):
-    cdef double[:, ::1] X
-    cdef Distance distfunc
+    cdef readonly double[:, ::1] X
+    cdef readonly Distance distfunc
     cdef int n_param
     #
 
 cdef class ERisk(SRisk):
-    cdef public Model model
-    cdef public Loss loss
-    cdef public double[:, ::1] X
-    cdef public double[::1] Y
-    cdef public double[::1] Yp
+    cdef readonly Model model
+    cdef readonly Loss loss
+    cdef readonly double[:, ::1] X
+    cdef readonly double[::1] Y
+    cdef readonly double[::1] Yp
     
 cdef class AER(ERisk):
     cdef Average loss_averager
@@ -103,8 +109,8 @@ cdef class AER(ERisk):
     
 
 cdef class ER2(SRisk):
-    cdef public MLModel model
-    cdef public MultLoss loss
-    cdef double[:, ::1] X
-    cdef double[:, ::1] Y
+    cdef readonly MLModel model
+    cdef readonly MultLoss loss
+    cdef readonly double[:, ::1] X
+    cdef readonly double[:, ::1] Y
     cdef double[::1] grad_u

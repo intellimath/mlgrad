@@ -173,7 +173,7 @@ setup(
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
     license = "MIT License",
-    #ext_modules = cythonize(ext_modules),
+#     ext_modules = cythonize(ext_modules),
     ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},

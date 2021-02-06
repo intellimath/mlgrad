@@ -9,6 +9,11 @@ from mlgrad.miscfuncs cimport init_rand, rand, fill
 
 from libc.math cimport fabs, pow, sqrt, fmax, log, exp
 
+ctypedef double (*FuncEvaluate)(Func, double) nogil
+ctypedef double (*FuncDerivative)(Func, double) nogil
+ctypedef double (*FuncDerivative2)(Func, double) nogil
+ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
+
 ctypedef fused number:
     float
     double
@@ -52,7 +57,7 @@ cdef inline void array_add_scalar(double[::1] arr, double v):
         arr[i] += v
 
 cdef class Penalty:
-    cdef public Func func
+    cdef readonly Func func
 
     cdef double evaluate(self, double[::1] Y, double u)
     cdef double derivative(self, double[::1] Y, double u)
@@ -71,9 +76,11 @@ cdef class PenaltyScale(Penalty):
 #############################################################
 
 cdef class Average:
-    cdef public Penalty penalty
-    cdef public double tol
-    cdef public int n_iter, m_iter, K, L
+    cdef readonly Penalty penalty
+    cdef readonly double tol
+    cdef readonly int n_iter 
+    cdef readonly int K 
+    cdef public int m_iter, L
     cdef public double h
     cdef public bint success    
     cdef public double u_best

@@ -6,6 +6,7 @@
 # cython: nonecheck=False
 # cython: embedsignature=True
 # cython: initializedcheck=False
+# cython: unraisable_tracebacks=True  
 
 
 # The MIT License (MIT)
