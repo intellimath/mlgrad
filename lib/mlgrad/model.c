@@ -1073,8 +1073,8 @@ typedef double (*__pyx_t_6mlgrad_5model_FuncDerivative2)(struct __pyx_obj_6mlgra
 typedef double (*__pyx_t_6mlgrad_5model_FuncDerivativeDivX)(struct __pyx_obj_6mlgrad_4func_Func *, double);
 
 /* "mlgrad/model.pxd":86
- *     cdef void gradient(self, double[::1] X, double[::1] grad)
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad)
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad)
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad)
  *     cpdef Model copy(self, bint share=*)             # <<<<<<<<<<<<<<
  *     #
  * 
@@ -1085,8 +1085,8 @@ struct __pyx_opt_args_6mlgrad_5model_5Model_copy {
 };
 
 /* "mlgrad/model.pxd":117
- *     cdef void forward(self, double[::1] X)
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad)
+ *     cdef void forward(self, const double[::1] X)
+ *     cdef void backward(self, const double[::1] X, const double[::1] grad_out, double[::1] grad)
  *     cpdef ModelLayer copy(self, bint share=*)             # <<<<<<<<<<<<<<
  * 
  * cdef class SigmaNeuronModelLayer(ModelLayer):
@@ -1097,8 +1097,8 @@ struct __pyx_opt_args_6mlgrad_5model_10ModelLayer_copy {
 };
 
 /* "mlgrad/model.pxd":142
- * #     cdef void forward(self, double[::1] X)
- * #     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
+ * #     cdef void forward(self, const double[::1] X)
+ * #     cdef void backward(self, const double[::1] X, double[::1] grad_u, double[::1] grad)
  *     cpdef MLModel copy(self, bint share=*)             # <<<<<<<<<<<<<<
  * 
  * @cython.final
@@ -1850,7 +1850,7 @@ struct __pyx_obj_6mlgrad_5model_ComplexModel {
 
 
 /* "mlgrad/model.pxd":137
- *     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
+ *     cdef void backward(self, const double[::1] X, double[::1] grad_u, double[::1] grad)
  * 
  * cdef class MLModel(ComplexModel):             # <<<<<<<<<<<<<<
  *     cdef public list layers
@@ -2004,10 +2004,10 @@ struct __pyx_memoryviewslice_obj {
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Func {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double);
-  double (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double);
-  double (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double);
-  double (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  double (*evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
 };
 static struct __pyx_vtabstruct_6mlgrad_4func_Func *__pyx_vtabptr_6mlgrad_4func_Func;
 
@@ -2641,7 +2641,7 @@ static struct __pyx_vtabstruct_6mlgrad_5model_PolynomialModel *__pyx_vtabptr_6ml
  * 
  * cdef class ModelLayer:             # <<<<<<<<<<<<<<
  * 
- *     cdef void forward(self, double[::1] X):
+ *     cdef void forward(self, const double[::1] X):
  */
 
 struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer {
@@ -2685,7 +2685,7 @@ static struct __pyx_vtabstruct_6mlgrad_5model_GeneralModelLayer *__pyx_vtabptr_6
  * 
  * cdef class ComplexModel(object):             # <<<<<<<<<<<<<<
  * 
- *     cdef void forward(self, double[::1] X):
+ *     cdef void forward(self, const double[::1] X):
  */
 
 struct __pyx_vtabstruct_6mlgrad_5model_ComplexModel {
@@ -3570,6 +3570,12 @@ static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
 /* CIntFromPy.proto */
 static CYTHON_INLINE char __Pyx_PyInt_As_char(PyObject *);
 
+/* ObjectToMemviewSlice.proto */
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double__const__(PyObject *, int writable_flag);
+
+/* ObjectToMemviewSlice.proto */
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double__const__(PyObject *, int writable_flag);
+
 /* CheckBinaryVersion.proto */
 static int __Pyx_check_binary_version(void);
 
@@ -3617,9 +3623,9 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
 static struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5model_18FFNetworkFuncModel_copy(struct __pyx_obj_6mlgrad_5model_FFNetworkFuncModel *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_5model_18FFNetworkFuncModel_copy *__pyx_optional_args); /* proto*/
 static double __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_evaluate(struct __pyx_obj_6mlgrad_5model_FFNetworkFuncModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_X); /* proto*/
 static void __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_gradient(struct __pyx_obj_6mlgrad_5model_FFNetworkFuncModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_grad); /* proto*/
-static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_x); /* proto*/
-static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient_x(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_y); /* proto*/
-static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y); /* proto*/
+static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_X); /* proto*/
+static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient_x(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_y); /* proto*/
+static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_y); /* proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj); /* proto*/
@@ -3778,6 +3784,7 @@ static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *, int, size
 static void __pyx_memoryview__slice_assign_scalar(char *, Py_ssize_t *, Py_ssize_t *, int, size_t, void *); /*proto*/
 static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, PyObject *); /*proto*/
 static __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
+static __Pyx_TypeInfo __Pyx_TypeInfo_double__const__ = { "const double", NULL, sizeof(double const ), { 0 }, 0, 'R', 0, 0 };
 #define __Pyx_MODULE_NAME "mlgrad.model"
 extern int __pyx_module_is_main_mlgrad__model;
 int __pyx_module_is_main_mlgrad__model = 0;
@@ -5403,8 +5410,8 @@ static PyObject *__pyx_pf_6mlgrad_5model_4matdot(CYTHON_UNUSED PyObject *__pyx_s
  * 
  * def matdot_t(A, x, y):
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_A, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 101, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_x, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(1, 101, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double__const__(__pyx_v_A, 0); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 101, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double__const__(__pyx_v_x, 0); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(1, 101, __pyx_L1_error)
   __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_y, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(1, 101, __pyx_L1_error)
   __pyx_f_6mlgrad_5model_matrix_dot(__pyx_t_1, __pyx_t_2, __pyx_t_3);
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
@@ -5542,8 +5549,8 @@ static PyObject *__pyx_pf_6mlgrad_5model_6matdot_t(CYTHON_UNUSED PyObject *__pyx
  * 
  * cdef inline double inner_dot(double *a, double *b, Py_ssize_t m) nogil:
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_A, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 104, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_x, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(1, 104, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double__const__(__pyx_v_A, 0); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 104, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double__const__(__pyx_v_x, 0); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(1, 104, __pyx_L1_error)
   __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_y, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(1, 104, __pyx_L1_error)
   __pyx_f_6mlgrad_5model_matrix_dot_t(__pyx_t_1, __pyx_t_2, __pyx_t_3);
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
@@ -10520,7 +10527,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_4init(struct __pyx_obj_6mlgrad_5
  *             else:
  *                 self.param[:] = param             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double[::1] X):
+ *     cdef double evaluate(self, const double[::1] X):
  */
     /*else*/ {
       __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_v_param); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 315, __pyx_L1_error)
@@ -10569,7 +10576,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_4init(struct __pyx_obj_6mlgrad_5
 /* "mlgrad/model.pyx":317
  *                 self.param[:] = param
  *     #
- *     cdef double evaluate(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
@@ -10581,7 +10588,7 @@ static double __pyx_f_6mlgrad_5model_5Model_evaluate(CYTHON_UNUSED struct __pyx_
 
   /* "mlgrad/model.pyx":318
  *     #
- *     cdef double evaluate(self, double[::1] X):
+ *     cdef double evaluate(self, const double[::1] X):
  *         return 0             # <<<<<<<<<<<<<<
  *     #
  *     def evaluate_all(self, X):
@@ -10592,7 +10599,7 @@ static double __pyx_f_6mlgrad_5model_5Model_evaluate(CYTHON_UNUSED struct __pyx_
   /* "mlgrad/model.pyx":317
  *                 self.param[:] = param
  *     #
- *     cdef double evaluate(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
@@ -10644,7 +10651,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_6evaluate_all(struct __pyx_obj_6
  *     def evaluate_all(self, X):
  *         return [self.evaluate(Xk) for Xk in X]             # <<<<<<<<<<<<<<
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):
  */
   __Pyx_XDECREF(__pyx_r);
   { /* enter inner scope */
@@ -10691,7 +10698,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_6evaluate_all(struct __pyx_obj_6
       }
       __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_Xk, __pyx_t_5);
       __pyx_t_5 = 0;
-      __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_7genexpr__pyx_v_Xk, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 321, __pyx_L5_error)
+      __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double__const__(__pyx_7genexpr__pyx_v_Xk, 0); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 321, __pyx_L5_error)
       __pyx_t_5 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_self->__pyx_vtab)->evaluate(__pyx_v_self, __pyx_t_6)); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 321, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_5);
       __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
@@ -10738,7 +10745,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_6evaluate_all(struct __pyx_obj_6
 /* "mlgrad/model.pyx":323
  *         return [self.evaluate(Xk) for Xk in X]
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
  *         pass
  *     #
  */
@@ -10754,7 +10761,7 @@ static void __pyx_f_6mlgrad_5model_5Model_gradient(CYTHON_UNUSED struct __pyx_ob
 /* "mlgrad/model.pyx":326
  *         pass
  *     #
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
  *         pass
  *     #
  */
@@ -12079,7 +12086,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_10ConstModel_2_allocate(CYTHON_UNUSED s
 /* "mlgrad/model.pyx":353
  *         pass
  *     #
- *     cdef double evaluate(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         return self.param[0]
  *     #
  */
@@ -12092,10 +12099,10 @@ static double __pyx_f_6mlgrad_5model_10ConstModel_evaluate(struct __pyx_obj_6mlg
 
   /* "mlgrad/model.pyx":354
  *     #
- *     cdef double evaluate(self, double[::1] X):
+ *     cdef double evaluate(self, const double[::1] X):
  *         return self.param[0]             # <<<<<<<<<<<<<<
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):
  */
   __pyx_t_1 = 0;
   __pyx_r = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_1)) )));
@@ -12104,7 +12111,7 @@ static double __pyx_f_6mlgrad_5model_10ConstModel_evaluate(struct __pyx_obj_6mlg
   /* "mlgrad/model.pyx":353
  *         pass
  *     #
- *     cdef double evaluate(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         return self.param[0]
  *     #
  */
@@ -12118,7 +12125,7 @@ static double __pyx_f_6mlgrad_5model_10ConstModel_evaluate(struct __pyx_obj_6mlg
 /* "mlgrad/model.pyx":356
  *         return self.param[0]
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
  *         grad[0] = 1
  *     #
  */
@@ -12130,10 +12137,10 @@ static void __pyx_f_6mlgrad_5model_10ConstModel_gradient(CYTHON_UNUSED struct __
 
   /* "mlgrad/model.pyx":357
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):
  *         grad[0] = 1             # <<<<<<<<<<<<<<
  *     #
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):
  */
   __pyx_t_1 = 0;
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_1)) )) = 1.0;
@@ -12141,7 +12148,7 @@ static void __pyx_f_6mlgrad_5model_10ConstModel_gradient(CYTHON_UNUSED struct __
   /* "mlgrad/model.pyx":356
  *         return self.param[0]
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
  *         grad[0] = 1
  *     #
  */
@@ -12153,7 +12160,7 @@ static void __pyx_f_6mlgrad_5model_10ConstModel_gradient(CYTHON_UNUSED struct __
 /* "mlgrad/model.pyx":359
  *         grad[0] = 1
  *     #
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):             # <<<<<<<<<<<<<<
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):             # <<<<<<<<<<<<<<
  *         grad_x[0] = 0
  * 
  */
@@ -12165,7 +12172,7 @@ static void __pyx_f_6mlgrad_5model_10ConstModel_gradient_x(CYTHON_UNUSED struct 
 
   /* "mlgrad/model.pyx":360
  *     #
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):
  *         grad_x[0] = 0             # <<<<<<<<<<<<<<
  * 
  * cdef class LinearModel(Model):
@@ -12176,7 +12183,7 @@ static void __pyx_f_6mlgrad_5model_10ConstModel_gradient_x(CYTHON_UNUSED struct 
   /* "mlgrad/model.pyx":359
  *         grad[0] = 1
  *     #
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):             # <<<<<<<<<<<<<<
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):             # <<<<<<<<<<<<<<
  *         grad_x[0] = 0
  * 
  */
@@ -13204,7 +13211,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_8__getnewargs__(struct __
 /* "mlgrad/model.pyx":409
  * #             self.param[i] /= v
  *     #
- *     cdef double evaluate(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, n_param = self.n_param
  *         cdef double v
  */
@@ -13226,7 +13233,7 @@ static double __pyx_f_6mlgrad_5model_11LinearModel_evaluate(struct __pyx_obj_6ml
 
   /* "mlgrad/model.pyx":410
  *     #
- *     cdef double evaluate(self, double[::1] X):
+ *     cdef double evaluate(self, const double[::1] X):
  *         cdef Py_ssize_t i, n_param = self.n_param             # <<<<<<<<<<<<<<
  *         cdef double v
  *         cdef double[::1] param = self.param
@@ -13278,7 +13285,7 @@ static double __pyx_f_6mlgrad_5model_11LinearModel_evaluate(struct __pyx_obj_6ml
  */
     __pyx_t_3 = __pyx_v_i;
     __pyx_t_6 = (__pyx_v_i - 1);
-    __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_3)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) )))));
+    __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_3)) ))) * (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_X.data) + __pyx_t_6)) )))));
   }
 
   /* "mlgrad/model.pyx":418
@@ -13286,7 +13293,7 @@ static double __pyx_f_6mlgrad_5model_11LinearModel_evaluate(struct __pyx_obj_6ml
  *             v += param[i] * X[i-1]
  *         return v             # <<<<<<<<<<<<<<
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):
  */
   __pyx_r = __pyx_v_v;
   goto __pyx_L0;
@@ -13294,7 +13301,7 @@ static double __pyx_f_6mlgrad_5model_11LinearModel_evaluate(struct __pyx_obj_6ml
   /* "mlgrad/model.pyx":409
  * #             self.param[i] /= v
  *     #
- *     cdef double evaluate(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, n_param = self.n_param
  *         cdef double v
  */
@@ -13309,7 +13316,7 @@ static double __pyx_f_6mlgrad_5model_11LinearModel_evaluate(struct __pyx_obj_6ml
 /* "mlgrad/model.pyx":420
  *         return v
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef int i, n_param = self.n_param
  * 
  */
@@ -13328,7 +13335,7 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient(struct __pyx_obj_6mlgr
 
   /* "mlgrad/model.pyx":421
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):
  *         cdef int i, n_param = self.n_param             # <<<<<<<<<<<<<<
  * 
  *         grad[0] = 1
@@ -13363,17 +13370,17 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient(struct __pyx_obj_6mlgr
  *         for i in range(1, n_param):
  *             grad[i] = X[i-1]             # <<<<<<<<<<<<<<
  *     #
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):
  */
     __pyx_t_2 = (__pyx_v_i - 1);
     __pyx_t_6 = __pyx_v_i;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_2)) )));
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_X.data) + __pyx_t_2)) )));
   }
 
   /* "mlgrad/model.pyx":420
  *         return v
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef int i, n_param = self.n_param
  * 
  */
@@ -13385,7 +13392,7 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient(struct __pyx_obj_6mlgr
 /* "mlgrad/model.pyx":427
  *             grad[i] = X[i-1]
  *     #
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):             # <<<<<<<<<<<<<<
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):             # <<<<<<<<<<<<<<
  *         cdef int i, n_input = self.n_input
  *         cdef double[::1] param = self.param
  */
@@ -13406,7 +13413,7 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient_x(struct __pyx_obj_6ml
 
   /* "mlgrad/model.pyx":428
  *     #
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):
  *         cdef int i, n_input = self.n_input             # <<<<<<<<<<<<<<
  *         cdef double[::1] param = self.param
  * 
@@ -13415,7 +13422,7 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient_x(struct __pyx_obj_6ml
   __pyx_v_n_input = __pyx_t_1;
 
   /* "mlgrad/model.pyx":429
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):
  *         cdef int i, n_input = self.n_input
  *         cdef double[::1] param = self.param             # <<<<<<<<<<<<<<
  * 
@@ -13454,7 +13461,7 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient_x(struct __pyx_obj_6ml
   /* "mlgrad/model.pyx":427
  *             grad[i] = X[i-1]
  *     #
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):             # <<<<<<<<<<<<<<
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):             # <<<<<<<<<<<<<<
  *         cdef int i, n_input = self.n_input
  *         cdef double[::1] param = self.param
  */
@@ -15155,7 +15162,7 @@ static struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5model_16SigmaNeur
  *         mod.grad_x = np.zeros(self.n_input, 'd')
  *         return <Model>mod             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double[::1] X):
+ *     cdef double evaluate(self, const double[::1] X):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
   __Pyx_INCREF(((PyObject *)((struct __pyx_obj_6mlgrad_5model_Model *)__pyx_v_mod)));
@@ -15281,7 +15288,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_16SigmaNeuronModel_2copy(struct __pyx_o
 /* "mlgrad/model.pyx":516
  *         return <Model>mod
  *     #
- *     cdef double evaluate(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef int i, n_param = self.n_param
  *         cdef double s
  */
@@ -15302,7 +15309,7 @@ static double __pyx_f_6mlgrad_5model_16SigmaNeuronModel_evaluate(struct __pyx_ob
 
   /* "mlgrad/model.pyx":517
  *     #
- *     cdef double evaluate(self, double[::1] X):
+ *     cdef double evaluate(self, const double[::1] X):
  *         cdef int i, n_param = self.n_param             # <<<<<<<<<<<<<<
  *         cdef double s
  * 
@@ -15341,7 +15348,7 @@ static double __pyx_f_6mlgrad_5model_16SigmaNeuronModel_evaluate(struct __pyx_ob
  */
     __pyx_t_2 = __pyx_v_i;
     __pyx_t_6 = (__pyx_v_i - 1);
-    __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) )))));
+    __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) ))) * (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_X.data) + __pyx_t_6)) )))));
   }
 
   /* "mlgrad/model.pyx":524
@@ -15358,7 +15365,7 @@ static double __pyx_f_6mlgrad_5model_16SigmaNeuronModel_evaluate(struct __pyx_ob
  *         s = self.outfunc.evaluate(s)
  *         return s             # <<<<<<<<<<<<<<
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):
  */
   __pyx_r = __pyx_v_s;
   goto __pyx_L0;
@@ -15366,7 +15373,7 @@ static double __pyx_f_6mlgrad_5model_16SigmaNeuronModel_evaluate(struct __pyx_ob
   /* "mlgrad/model.pyx":516
  *         return <Model>mod
  *     #
- *     cdef double evaluate(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef int i, n_param = self.n_param
  *         cdef double s
  */
@@ -15380,7 +15387,7 @@ static double __pyx_f_6mlgrad_5model_16SigmaNeuronModel_evaluate(struct __pyx_ob
 /* "mlgrad/model.pyx":527
  *         return s
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef int i
  *         cdef int n_param = self.n_param
  */
@@ -15400,7 +15407,7 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient(struct __pyx_obj_
   __Pyx_RefNannySetupContext("gradient", 0);
 
   /* "mlgrad/model.pyx":529
- *     cdef void gradient(self, double[::1] X, double[::1] grad):
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):
  *         cdef int i
  *         cdef int n_param = self.n_param             # <<<<<<<<<<<<<<
  *         cdef double s, sx
@@ -15440,7 +15447,7 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient(struct __pyx_obj_
  */
     __pyx_t_2 = __pyx_v_i;
     __pyx_t_6 = (__pyx_v_i - 1);
-    __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) )))));
+    __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) ))) * (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_X.data) + __pyx_t_6)) )))));
   }
 
   /* "mlgrad/model.pyx":536
@@ -15479,17 +15486,17 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient(struct __pyx_obj_
  *         for i in range(1, n_param):
  *             grad[i] = sx * X[i-1]             # <<<<<<<<<<<<<<
  *     #
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):
  */
     __pyx_t_6 = (__pyx_v_i - 1);
     __pyx_t_2 = __pyx_v_i;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_2)) )) = (__pyx_v_sx * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) ))));
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_2)) )) = (__pyx_v_sx * (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_X.data) + __pyx_t_6)) ))));
   }
 
   /* "mlgrad/model.pyx":527
  *         return s
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef int i
  *         cdef int n_param = self.n_param
  */
@@ -15501,7 +15508,7 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient(struct __pyx_obj_
 /* "mlgrad/model.pyx":542
  *             grad[i] = sx * X[i-1]
  *     #
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):             # <<<<<<<<<<<<<<
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):             # <<<<<<<<<<<<<<
  *         cdef int i
  *         cdef int n_input = self.n_input
  */
@@ -15522,7 +15529,7 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient_x(struct __pyx_ob
   __Pyx_RefNannySetupContext("gradient_x", 0);
 
   /* "mlgrad/model.pyx":544
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):
  *         cdef int i
  *         cdef int n_input = self.n_input             # <<<<<<<<<<<<<<
  *         cdef int n_param = self.n_param
@@ -15572,7 +15579,7 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient_x(struct __pyx_ob
  */
     __pyx_t_2 = __pyx_v_i;
     __pyx_t_6 = (__pyx_v_i - 1);
-    __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) )))));
+    __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) ))) * (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_X.data) + __pyx_t_6)) )))));
   }
 
   /* "mlgrad/model.pyx":552
@@ -15611,7 +15618,7 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient_x(struct __pyx_ob
   /* "mlgrad/model.pyx":542
  *             grad[i] = sx * X[i-1]
  *     #
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):             # <<<<<<<<<<<<<<
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):             # <<<<<<<<<<<<<<
  *         cdef int i
  *         cdef int n_input = self.n_input
  */
@@ -16331,9 +16338,9 @@ static PyObject *__pyx_pf_6mlgrad_5model_14sigma_neuron_from_dict(CYTHON_UNUSED 
 /* "mlgrad/model.pyx":573
  * cdef class ModelLayer:
  * 
- *     cdef void forward(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef void forward(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         pass
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+ *     cdef void backward(self, const double[::1] X, double[::1] grad_out, double[::1] grad):
  */
 
 static void __pyx_f_6mlgrad_5model_10ModelLayer_forward(CYTHON_UNUSED struct __pyx_obj_6mlgrad_5model_ModelLayer *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_X) {
@@ -16345,9 +16352,9 @@ static void __pyx_f_6mlgrad_5model_10ModelLayer_forward(CYTHON_UNUSED struct __p
 }
 
 /* "mlgrad/model.pyx":575
- *     cdef void forward(self, double[::1] X):
+ *     cdef void forward(self, const double[::1] X):
  *         pass
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void backward(self, const double[::1] X, double[::1] grad_out, double[::1] grad):             # <<<<<<<<<<<<<<
  *         pass
  *     cpdef ModelLayer copy(self, bint share=1):
  */
@@ -16361,7 +16368,7 @@ static void __pyx_f_6mlgrad_5model_10ModelLayer_backward(CYTHON_UNUSED struct __
 }
 
 /* "mlgrad/model.pyx":577
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+ *     cdef void backward(self, const double[::1] X, double[::1] grad_out, double[::1] grad):
  *         pass
  *     cpdef ModelLayer copy(self, bint share=1):             # <<<<<<<<<<<<<<
  *         pass
@@ -16464,7 +16471,7 @@ static struct __pyx_obj_6mlgrad_5model_ModelLayer *__pyx_f_6mlgrad_5model_10Mode
 }
 
 /* "mlgrad/model.pyx":577
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+ *     cdef void backward(self, const double[::1] X, double[::1] grad_out, double[::1] grad):
  *         pass
  *     cpdef ModelLayer copy(self, bint share=1):             # <<<<<<<<<<<<<<
  *         pass
@@ -16969,7 +16976,7 @@ static int __pyx_pf_6mlgrad_5model_10ModelLayer_6output_2__set__(struct __pyx_ob
  *     cdef public double[::1] output
  *     cdef public double[::1] grad_input             # <<<<<<<<<<<<<<
  * 
- *     cdef void forward(self, double[::1] X)
+ *     cdef void forward(self, const double[::1] X)
  */
 
 /* Python wrapper */
@@ -18697,7 +18704,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_17GeneralModelLayer_12__iter__(struct _
  *     def __iter__(self):
  *         return iter(self.models)             # <<<<<<<<<<<<<<
  *     #
- *     cdef void forward(self, double[::1] X):
+ *     cdef void forward(self, const double[::1] X):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_v_self->models;
@@ -18732,7 +18739,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_17GeneralModelLayer_12__iter__(struct _
 /* "mlgrad/model.pyx":637
  *         return iter(self.models)
  *     #
- *     cdef void forward(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef void forward(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef Model mod
  *         cdef int j, n_output = self.n_output
  */
@@ -18754,7 +18761,7 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_forward(struct __pyx_obj_
   __Pyx_RefNannySetupContext("forward", 0);
 
   /* "mlgrad/model.pyx":639
- *     cdef void forward(self, double[::1] X):
+ *     cdef void forward(self, const double[::1] X):
  *         cdef Model mod
  *         cdef int j, n_output = self.n_output             # <<<<<<<<<<<<<<
  * 
@@ -18796,7 +18803,7 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_forward(struct __pyx_obj_
  *             mod = <Model>self.models[j]
  *             self.output[j] = mod.evaluate(X)             # <<<<<<<<<<<<<<
  *     #
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+ *     cdef void backward(self, const double[::1] X, double[::1] grad_out, double[::1] grad):
  */
     __pyx_t_6 = __pyx_v_j;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.output.data) + __pyx_t_6)) )) = ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_mod->__pyx_vtab)->evaluate(__pyx_v_mod, __pyx_v_X);
@@ -18805,7 +18812,7 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_forward(struct __pyx_obj_
   /* "mlgrad/model.pyx":637
  *         return iter(self.models)
  *     #
- *     cdef void forward(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef void forward(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef Model mod
  *         cdef int j, n_output = self.n_output
  */
@@ -18823,7 +18830,7 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_forward(struct __pyx_obj_
 /* "mlgrad/model.pyx":645
  *             self.output[j] = mod.evaluate(X)
  *     #
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void backward(self, const double[::1] X, double[::1] grad_out, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef Model mod_j
  *         cdef int i, j, offset, n_param
  */
@@ -19073,7 +19080,7 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
   /* "mlgrad/model.pyx":645
  *             self.output[j] = mod.evaluate(X)
  *     #
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void backward(self, const double[::1] X, double[::1] grad_out, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef Model mod_j
  *         cdef int i, j, offset, n_param
  */
@@ -21091,7 +21098,7 @@ static struct __pyx_obj_6mlgrad_5model_ModelLayer *__pyx_f_6mlgrad_5model_21Sigm
  *         self.X = np.zeros((num_procs, self.n_input), 'd')
  *         return <ModelLayer>layer             # <<<<<<<<<<<<<<
  *     #
- *     cdef void forward(self, double[::1] X):
+ *     cdef void forward(self, const double[::1] X):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
   __Pyx_INCREF(((PyObject *)((struct __pyx_obj_6mlgrad_5model_ModelLayer *)__pyx_v_layer)));
@@ -21219,7 +21226,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_21SigmaNeuronModelLayer_4copy(struct __
 /* "mlgrad/model.pyx":730
  *         return <ModelLayer>layer
  *     #
- *     cdef void forward(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef void forward(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t n_input = self.n_input
  *         cdef Py_ssize_t n_output = self.n_output
  */
@@ -21240,7 +21247,7 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
   __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_t_3;
   PyObject *__pyx_t_4 = NULL;
-  double (*__pyx_t_5)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  double (*__pyx_t_5)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
@@ -21251,7 +21258,7 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
 
   /* "mlgrad/model.pyx":731
  *     #
- *     cdef void forward(self, double[::1] X):
+ *     cdef void forward(self, const double[::1] X):
  *         cdef Py_ssize_t n_input = self.n_input             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t n_output = self.n_output
  *         cdef Py_ssize_t i, j, size
@@ -21260,7 +21267,7 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
   __pyx_v_n_input = __pyx_t_1;
 
   /* "mlgrad/model.pyx":732
- *     cdef void forward(self, double[::1] X):
+ *     cdef void forward(self, const double[::1] X):
  *         cdef Py_ssize_t n_input = self.n_input
  *         cdef Py_ssize_t n_output = self.n_output             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, j, size
@@ -21347,7 +21354,7 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
     __pyx_t_8 = __pyx_v_j;
     __pyx_t_3 = 1;
     __pyx_t_9 = 0;
-    __pyx_v_s2 = __pyx_f_6mlgrad_5model_inner_dot((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_8 * __pyx_v_matrix.strides[0]) )) + __pyx_t_3)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_9)) )))), __pyx_v_n_input);
+    __pyx_v_s2 = __pyx_f_6mlgrad_5model_inner_dot((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_8 * __pyx_v_matrix.strides[0]) )) + __pyx_t_3)) )))), (&(*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_X.data) + __pyx_t_9)) )))), __pyx_v_n_input);
 
     /* "mlgrad/model.pyx":749
  *             s1 = matrix[j,0]
@@ -21393,7 +21400,7 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
  *             else:
  *                 output[j] = func_evaluate(func, s)             # <<<<<<<<<<<<<<
  *     #
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+ *     cdef void backward(self, const double[::1] X, const double[::1] grad_out, double[::1] grad):
  */
     /*else*/ {
       (__pyx_v_output[__pyx_v_j]) = __pyx_v_func_evaluate(__pyx_v_func, __pyx_v_s);
@@ -21404,7 +21411,7 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
   /* "mlgrad/model.pyx":730
  *         return <ModelLayer>layer
  *     #
- *     cdef void forward(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef void forward(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t n_input = self.n_input
  *         cdef Py_ssize_t n_output = self.n_output
  */
@@ -21418,7 +21425,7 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
 /* "mlgrad/model.pyx":755
  *                 output[j] = func_evaluate(func, s)
  *     #
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void backward(self, const double[::1] X, const double[::1] grad_out, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, j, jj, offset
  *         cdef Py_ssize_t n_input = self.n_input
  */
@@ -21443,7 +21450,7 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
   Py_ssize_t __pyx_t_2;
   __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_t_4 = NULL;
-  double (*__pyx_t_5)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  double (*__pyx_t_5)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
@@ -21453,7 +21460,7 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
   __Pyx_RefNannySetupContext("backward", 0);
 
   /* "mlgrad/model.pyx":757
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+ *     cdef void backward(self, const double[::1] X, const double[::1] grad_out, double[::1] grad):
  *         cdef Py_ssize_t i, j, jj, offset
  *         cdef Py_ssize_t n_input = self.n_input             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t n_input1 = n_input + 1
@@ -21578,7 +21585,7 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
     __pyx_t_8 = __pyx_v_j;
     __pyx_t_2 = 1;
     __pyx_t_9 = 0;
-    __pyx_v_s2 = __pyx_f_6mlgrad_5model_inner_dot((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_8 * __pyx_v_matrix.strides[0]) )) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_9)) )))), __pyx_v_n_input);
+    __pyx_v_s2 = __pyx_f_6mlgrad_5model_inner_dot((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_8 * __pyx_v_matrix.strides[0]) )) + __pyx_t_2)) )))), (&(*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_X.data) + __pyx_t_9)) )))), __pyx_v_n_input);
 
     /* "mlgrad/model.pyx":776
  *             s1 = matrix[j,0]
@@ -21608,7 +21615,7 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  *                 sx = grad_out[j] * func_derivative(func, s)
  */
       __pyx_t_9 = __pyx_v_j;
-      __pyx_v_sx = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_out.data) + __pyx_t_9)) )));
+      __pyx_v_sx = (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_grad_out.data) + __pyx_t_9)) )));
 
       /* "mlgrad/model.pyx":778
  *             s = s1 + s2
@@ -21629,7 +21636,7 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  */
     /*else*/ {
       __pyx_t_9 = __pyx_v_j;
-      __pyx_v_sx = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_out.data) + __pyx_t_9)) ))) * __pyx_v_func_derivative(__pyx_v_func, __pyx_v_s));
+      __pyx_v_sx = ((*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_grad_out.data) + __pyx_t_9)) ))) * __pyx_v_func_derivative(__pyx_v_func, __pyx_v_s));
     }
     __pyx_L5:;
 
@@ -21672,13 +21679,13 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  */
     __pyx_t_2 = (__pyx_v_jj + 1);
     __pyx_t_9 = 0;
-    __pyx_f_6mlgrad_5model_inner_assign((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_9)) )))), __pyx_v_sx, __pyx_v_n_input);
+    __pyx_f_6mlgrad_5model_inner_assign((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_2)) )))), (&(*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_X.data) + __pyx_t_9)) )))), __pyx_v_sx, __pyx_v_n_input);
   }
 
   /* "mlgrad/model.pyx":755
  *                 output[j] = func_evaluate(func, s)
  *     #
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void backward(self, const double[::1] X, const double[::1] grad_out, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, j, jj, offset
  *         cdef Py_ssize_t n_input = self.n_input
  */
@@ -22652,7 +22659,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_18sigma_neuron_layer_from_dict(CYTHON_U
 /* "mlgrad/model.pyx":814
  * cdef class ComplexModel(object):
  * 
- *     cdef void forward(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef void forward(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         pass
  *     #
  */
@@ -22668,7 +22675,7 @@ static void __pyx_f_6mlgrad_5model_12ComplexModel_forward(CYTHON_UNUSED struct _
 /* "mlgrad/model.pyx":817
  *         pass
  *     #
- *     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void backward(self, const double[::1] X, double[::1] grad_u, double[::1] grad):             # <<<<<<<<<<<<<<
  *         pass
  *     #
  */
@@ -23010,7 +23017,7 @@ static int __pyx_pf_6mlgrad_5model_12ComplexModel_5param_2__set__(struct __pyx_o
  *     cdef public double[::1] param
  *     cdef public double[::1] output             # <<<<<<<<<<<<<<
  * 
- *     cdef void forward(self, double[::1] X)
+ *     cdef void forward(self, const double[::1] X)
  */
 
 /* Python wrapper */
@@ -23772,7 +23779,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_7MLModel_2__call__(struct __pyx_obj_6ml
  * cdef class MLModel(ComplexModel):
  *     cdef public list layers             # <<<<<<<<<<<<<<
  * 
- * #     cdef void forward(self, double[::1] X)
+ * #     cdef void forward(self, const double[::1] X)
  */
 
 /* Python wrapper */
@@ -25453,7 +25460,7 @@ static struct __pyx_obj_6mlgrad_5model_MLModel *__pyx_f_6mlgrad_5model_14FFNetwo
  * 
  *         return <MLModel>ml             # <<<<<<<<<<<<<<
  *     #
- *     cdef void forward(self, double[::1] X):
+ *     cdef void forward(self, const double[::1] X):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
   __Pyx_INCREF(((PyObject *)((struct __pyx_obj_6mlgrad_5model_MLModel *)__pyx_v_ml)));
@@ -25577,7 +25584,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_14FFNetworkModel_16copy(struct __pyx_ob
 /* "mlgrad/model.pyx":902
  *         return <MLModel>ml
  *     #
- *     cdef void forward(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef void forward(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef int i, n_layer
  *         cdef ModelLayer layer
  */
@@ -25602,7 +25609,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_forward(struct __pyx_obj_6ml
 
   /* "mlgrad/model.pyx":906
  *         cdef ModelLayer layer
- *         cdef double[::1] input, output
+ *         cdef const double[::1] input, output
  *         cdef list layers = self.layers             # <<<<<<<<<<<<<<
  * 
  *         n_layer = len(self.layers)
@@ -25694,7 +25701,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_forward(struct __pyx_obj_6ml
   /* "mlgrad/model.pyx":902
  *         return <MLModel>ml
  *     #
- *     cdef void forward(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef void forward(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef int i, n_layer
  *         cdef ModelLayer layer
  */
@@ -25715,7 +25722,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_forward(struct __pyx_obj_6ml
 /* "mlgrad/model.pyx":916
  * #         self.output = layer.output
  * 
- *     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void backward(self, const double[::1] X, double[::1] grad_u, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef int n_layer = PyList_GET_SIZE(<PyObject*>self.layers)
  *         cdef int j, l, m, m0
  */
@@ -25744,7 +25751,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
 
   /* "mlgrad/model.pyx":917
  * 
- *     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
+ *     cdef void backward(self, const double[::1] X, double[::1] grad_u, double[::1] grad):
  *         cdef int n_layer = PyList_GET_SIZE(<PyObject*>self.layers)             # <<<<<<<<<<<<<<
  *         cdef int j, l, m, m0
  *         cdef ModelLayer layer, prev_layer
@@ -25753,7 +25760,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
 
   /* "mlgrad/model.pyx":922
  * #         cdef double[::1] grad_in
- *         cdef double[::1] grad_out, input
+ *         cdef const double[::1] grad_out, input
  *         cdef list layers = self.layers             # <<<<<<<<<<<<<<
  * 
  *         m = len(grad)
@@ -25998,7 +26005,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
   /* "mlgrad/model.pyx":916
  * #         self.output = layer.output
  * 
- *     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void backward(self, const double[::1] X, double[::1] grad_u, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef int n_layer = PyList_GET_SIZE(<PyObject*>self.layers)
  *         cdef int j, l, m, m0
  */
@@ -27464,7 +27471,7 @@ static struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5model_18FFNetwork
  * 
  *         return <Model>mod             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double[::1] X):
+ *     cdef double evaluate(self, const double[::1] X):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
   __Pyx_INCREF(((PyObject *)((struct __pyx_obj_6mlgrad_5model_Model *)__pyx_v_mod)));
@@ -27588,7 +27595,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_18FFNetworkFuncModel_6copy(struct __pyx
 /* "mlgrad/model.pyx":995
  *         return <Model>mod
  *     #
- *     cdef double evaluate(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         self.body.forward(X)
  *         return self.head.evaluate(self.body.output)
  */
@@ -27600,7 +27607,7 @@ static double __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_evaluate(struct __pyx_
 
   /* "mlgrad/model.pyx":996
  *     #
- *     cdef double evaluate(self, double[::1] X):
+ *     cdef double evaluate(self, const double[::1] X):
  *         self.body.forward(X)             # <<<<<<<<<<<<<<
  *         return self.head.evaluate(self.body.output)
  *     #
@@ -27608,11 +27615,11 @@ static double __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_evaluate(struct __pyx_
   ((struct __pyx_vtabstruct_6mlgrad_5model_MLModel *)__pyx_v_self->body->__pyx_base.__pyx_vtab)->__pyx_base.forward(((struct __pyx_obj_6mlgrad_5model_ComplexModel *)__pyx_v_self->body), __pyx_v_X);
 
   /* "mlgrad/model.pyx":997
- *     cdef double evaluate(self, double[::1] X):
+ *     cdef double evaluate(self, const double[::1] X):
  *         self.body.forward(X)
  *         return self.head.evaluate(self.body.output)             # <<<<<<<<<<<<<<
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):
  */
   __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_self->head->__pyx_vtab)->evaluate(__pyx_v_self->head, __pyx_v_self->body->__pyx_base.output);
   goto __pyx_L0;
@@ -27620,7 +27627,7 @@ static double __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_evaluate(struct __pyx_
   /* "mlgrad/model.pyx":995
  *         return <Model>mod
  *     #
- *     cdef double evaluate(self, double[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         self.body.forward(X)
  *         return self.head.evaluate(self.body.output)
  */
@@ -27634,7 +27641,7 @@ static double __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_evaluate(struct __pyx_
 /* "mlgrad/model.pyx":999
  *         return self.head.evaluate(self.body.output)
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef int i, j, n
  * 
  */
@@ -27746,7 +27753,7 @@ static void __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_gradient(struct __pyx_ob
   /* "mlgrad/model.pyx":999
  *         return self.head.evaluate(self.body.output)
  *     #
- *     cdef void gradient(self, double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef int i, j, n
  * 
  */
@@ -28982,7 +28989,7 @@ static int __pyx_pf_6mlgrad_5model_12SquaredModel___init__(struct __pyx_obj_6mlg
  *         self.grad = np.zeros(self.n_param, 'd')
  *         self.grad_x = np.zeros(self.n_input, 'd')             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double[::1] x):
+ *     cdef double evaluate(self, const double[::1] X):
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1075, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -29076,12 +29083,12 @@ static int __pyx_pf_6mlgrad_5model_12SquaredModel___init__(struct __pyx_obj_6mlg
 /* "mlgrad/model.pyx":1077
  *         self.grad_x = np.zeros(self.n_input, 'd')
  *     #
- *     cdef double evaluate(self, double[::1] x):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef double val, s
  *         #cdef double[:,::1] mat = self.matrix
  */
 
-static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_x) {
+static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_X) {
   double __pyx_v_val;
   double __pyx_v_s;
   int __pyx_v_i;
@@ -29145,7 +29152,7 @@ static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6m
  *         for j in range(n):
  *             s = self.matrix[j,0]             # <<<<<<<<<<<<<<
  *             for i in range(1,m):
- *                 s += self.matrix[j,i] * x[i-1]
+ *                 s += self.matrix[j,i] * X[i-1]
  */
     __pyx_t_4 = __pyx_v_j;
     __pyx_t_5 = 0;
@@ -29155,7 +29162,7 @@ static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6m
  *         for j in range(n):
  *             s = self.matrix[j,0]
  *             for i in range(1,m):             # <<<<<<<<<<<<<<
- *                 s += self.matrix[j,i] * x[i-1]
+ *                 s += self.matrix[j,i] * X[i-1]
  *             val += s*s
  */
     __pyx_t_6 = __pyx_v_m;
@@ -29166,19 +29173,19 @@ static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6m
       /* "mlgrad/model.pyx":1088
  *             s = self.matrix[j,0]
  *             for i in range(1,m):
- *                 s += self.matrix[j,i] * x[i-1]             # <<<<<<<<<<<<<<
+ *                 s += self.matrix[j,i] * X[i-1]             # <<<<<<<<<<<<<<
  *             val += s*s
  *         return val
  */
       __pyx_t_5 = __pyx_v_j;
       __pyx_t_4 = __pyx_v_i;
       __pyx_t_9 = (__pyx_v_i - 1);
-      __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->matrix.data + __pyx_t_5 * __pyx_v_self->matrix.strides[0]) )) + __pyx_t_4)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) )))));
+      __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->matrix.data + __pyx_t_5 * __pyx_v_self->matrix.strides[0]) )) + __pyx_t_4)) ))) * (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_X.data) + __pyx_t_9)) )))));
     }
 
     /* "mlgrad/model.pyx":1089
  *             for i in range(1,m):
- *                 s += self.matrix[j,i] * x[i-1]
+ *                 s += self.matrix[j,i] * X[i-1]
  *             val += s*s             # <<<<<<<<<<<<<<
  *         return val
  *     #
@@ -29187,11 +29194,11 @@ static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6m
   }
 
   /* "mlgrad/model.pyx":1090
- *                 s += self.matrix[j,i] * x[i-1]
+ *                 s += self.matrix[j,i] * X[i-1]
  *             val += s*s
  *         return val             # <<<<<<<<<<<<<<
  *     #
- *     cdef void gradient_x(self, double[::1] x, double[::1] y):
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] y):
  */
   __pyx_r = __pyx_v_val;
   goto __pyx_L0;
@@ -29199,7 +29206,7 @@ static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6m
   /* "mlgrad/model.pyx":1077
  *         self.grad_x = np.zeros(self.n_input, 'd')
  *     #
- *     cdef double evaluate(self, double[::1] x):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef double val, s
  *         #cdef double[:,::1] mat = self.matrix
  */
@@ -29213,12 +29220,12 @@ static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6m
 /* "mlgrad/model.pyx":1092
  *         return val
  *     #
- *     cdef void gradient_x(self, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] y):             # <<<<<<<<<<<<<<
  *         cdef double val, s
  *         #cdef double[:,::1] mat = self.matrix
  */
 
-static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient_x(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_y) {
+static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient_x(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_y) {
   double __pyx_v_s;
   int __pyx_v_i;
   int __pyx_v_j;
@@ -29322,7 +29329,7 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient_x(struct __pyx_obj_6m
   /* "mlgrad/model.pyx":1092
  *         return val
  *     #
- *     cdef void gradient_x(self, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
+ *     cdef void gradient_x(self, const double[::1] X, double[::1] y):             # <<<<<<<<<<<<<<
  *         cdef double val, s
  *         #cdef double[:,::1] mat = self.matrix
  */
@@ -29334,12 +29341,12 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient_x(struct __pyx_obj_6m
 /* "mlgrad/model.pyx":1108
  *             #s *= mat[j,]
  *     #
- *     cdef void gradient(self, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] X, double[::1] y):             # <<<<<<<<<<<<<<
  *         cdef double val, s
  *         #cdef double[:,::1] mat = self.matrix
  */
 
-static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
+static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_y) {
   double __pyx_v_s;
   int __pyx_v_i;
   int __pyx_v_j;
@@ -29402,7 +29409,7 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
  *         for j in range(n):
  *             s = self.matrix[j,0]             # <<<<<<<<<<<<<<
  *             for i in range(1,m):
- *                 s += self.matrix[j,i] * x[i-1]
+ *                 s += self.matrix[j,i] * X[i-1]
  */
     __pyx_t_4 = __pyx_v_j;
     __pyx_t_5 = 0;
@@ -29412,7 +29419,7 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
  *         for j in range(n):
  *             s = self.matrix[j,0]
  *             for i in range(1,m):             # <<<<<<<<<<<<<<
- *                 s += self.matrix[j,i] * x[i-1]
+ *                 s += self.matrix[j,i] * X[i-1]
  *             s *= 2
  */
     __pyx_t_6 = __pyx_v_m;
@@ -29423,19 +29430,19 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
       /* "mlgrad/model.pyx":1120
  *             s = self.matrix[j,0]
  *             for i in range(1,m):
- *                 s += self.matrix[j,i] * x[i-1]             # <<<<<<<<<<<<<<
+ *                 s += self.matrix[j,i] * X[i-1]             # <<<<<<<<<<<<<<
  *             s *= 2
  * 
  */
       __pyx_t_5 = __pyx_v_j;
       __pyx_t_4 = __pyx_v_i;
       __pyx_t_9 = (__pyx_v_i - 1);
-      __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->matrix.data + __pyx_t_5 * __pyx_v_self->matrix.strides[0]) )) + __pyx_t_4)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) )))));
+      __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->matrix.data + __pyx_t_5 * __pyx_v_self->matrix.strides[0]) )) + __pyx_t_4)) ))) * (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_X.data) + __pyx_t_9)) )))));
     }
 
     /* "mlgrad/model.pyx":1121
  *             for i in range(1,m):
- *                 s += self.matrix[j,i] * x[i-1]
+ *                 s += self.matrix[j,i] * X[i-1]
  *             s *= 2             # <<<<<<<<<<<<<<
  * 
  *             y[k] = s
@@ -29457,7 +29464,7 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
  *             y[k] = s
  *             k += 1             # <<<<<<<<<<<<<<
  *             for i in range(1, m):
- *                 y[k] = s*x[i-1]
+ *                 y[k] = s * X[i-1]
  */
     __pyx_v_k = (__pyx_v_k + 1);
 
@@ -29465,7 +29472,7 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
  *             y[k] = s
  *             k += 1
  *             for i in range(1, m):             # <<<<<<<<<<<<<<
- *                 y[k] = s*x[i-1]
+ *                 y[k] = s * X[i-1]
  *                 k += 1
  */
     __pyx_t_6 = __pyx_v_m;
@@ -29476,17 +29483,17 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
       /* "mlgrad/model.pyx":1126
  *             k += 1
  *             for i in range(1, m):
- *                 y[k] = s*x[i-1]             # <<<<<<<<<<<<<<
+ *                 y[k] = s * X[i-1]             # <<<<<<<<<<<<<<
  *                 k += 1
  * 
  */
       __pyx_t_9 = (__pyx_v_i - 1);
       __pyx_t_4 = __pyx_v_k;
-      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_4)) )) = (__pyx_v_s * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) ))));
+      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_4)) )) = (__pyx_v_s * (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_X.data) + __pyx_t_9)) ))));
 
       /* "mlgrad/model.pyx":1127
  *             for i in range(1, m):
- *                 y[k] = s*x[i-1]
+ *                 y[k] = s * X[i-1]
  *                 k += 1             # <<<<<<<<<<<<<<
  * 
  * 
@@ -29498,7 +29505,7 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
   /* "mlgrad/model.pyx":1108
  *             #s *= mat[j,]
  *     #
- *     cdef void gradient(self, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] X, double[::1] y):             # <<<<<<<<<<<<<<
  *         cdef double val, s
  *         #cdef double[:,::1] mat = self.matrix
  */
@@ -35421,7 +35428,7 @@ static CYTHON_INLINE struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5mod
  * cdef inline Model as_model(object o):
  *     return <Model>(<PyObject*>o)             # <<<<<<<<<<<<<<
  * 
- * cdef inline void matrix_dot(double[:,::1] A, double[::1]x, double[::1] y):
+ * cdef inline void matrix_dot(const double[:,::1] A, const double[::1] x, double[::1] y):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
   __Pyx_INCREF(((PyObject *)((struct __pyx_obj_6mlgrad_5model_Model *)((PyObject *)__pyx_v_o))));
@@ -35446,7 +35453,7 @@ static CYTHON_INLINE struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5mod
 /* "mlgrad/model.pxd":56
  *     return <Model>(<PyObject*>o)
  * 
- * cdef inline void matrix_dot(double[:,::1] A, double[::1]x, double[::1] y):             # <<<<<<<<<<<<<<
+ * cdef inline void matrix_dot(const double[:,::1] A, const double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
  *     cdef int i, n=A.shape[0], m=A.shape[1]
  *     cdef double v
  */
@@ -35471,7 +35478,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
 
   /* "mlgrad/model.pxd":57
  * 
- * cdef inline void matrix_dot(double[:,::1] A, double[::1]x, double[::1] y):
+ * cdef inline void matrix_dot(const double[:,::1] A, const double[::1] x, double[::1] y):
  *     cdef int i, n=A.shape[0], m=A.shape[1]             # <<<<<<<<<<<<<<
  *     cdef double v
  * 
@@ -35522,7 +35529,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
       __pyx_t_7 = __pyx_v_j;
       __pyx_t_8 = __pyx_v_i;
       __pyx_t_9 = __pyx_v_i;
-      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) )))));
+      __pyx_v_v = (__pyx_v_v + ((*((double const  *) ( /* dim=1 */ ((char *) (((double const  *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_x.data) + __pyx_t_9)) )))));
     }
 
     /* "mlgrad/model.pxd":64
@@ -35530,7 +35537,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
  *             v += A[j,i] * x[i]
  *         y[j] = v             # <<<<<<<<<<<<<<
  * 
- * cdef inline void matrix_dot_t(double[:,::1] A, double[::1]x, double[::1] y):
+ * cdef inline void matrix_dot_t(const double[:,::1] A, const double[::1] x, double[::1] y):
  */
     __pyx_t_9 = __pyx_v_j;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_9)) )) = __pyx_v_v;
@@ -35539,7 +35546,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
   /* "mlgrad/model.pxd":56
  *     return <Model>(<PyObject*>o)
  * 
- * cdef inline void matrix_dot(double[:,::1] A, double[::1]x, double[::1] y):             # <<<<<<<<<<<<<<
+ * cdef inline void matrix_dot(const double[:,::1] A, const double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
  *     cdef int i, n=A.shape[0], m=A.shape[1]
  *     cdef double v
  */
@@ -35551,7 +35558,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
 /* "mlgrad/model.pxd":66
  *         y[j] = v
  * 
- * cdef inline void matrix_dot_t(double[:,::1] A, double[::1]x, double[::1] y):             # <<<<<<<<<<<<<<
+ * cdef inline void matrix_dot_t(const double[:,::1] A, const double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
  *     cdef int i, n=A.shape[0], m=A.shape[1]
  *     cdef double v
  */
@@ -35576,7 +35583,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot_t(__Pyx_memviewslice
 
   /* "mlgrad/model.pxd":67
  * 
- * cdef inline void matrix_dot_t(double[:,::1] A, double[::1]x, double[::1] y):
+ * cdef inline void matrix_dot_t(const double[:,::1] A, const double[::1] x, double[::1] y):
  *     cdef int i, n=A.shape[0], m=A.shape[1]             # <<<<<<<<<<<<<<
  *     cdef double v
  * 
@@ -35627,7 +35634,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot_t(__Pyx_memviewslice
       __pyx_t_7 = __pyx_v_j;
       __pyx_t_8 = __pyx_v_i;
       __pyx_t_9 = __pyx_v_j;
-      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) )))));
+      __pyx_v_v = (__pyx_v_v + ((*((double const  *) ( /* dim=1 */ ((char *) (((double const  *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_x.data) + __pyx_t_9)) )))));
     }
 
     /* "mlgrad/model.pxd":74
@@ -35644,7 +35651,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot_t(__Pyx_memviewslice
   /* "mlgrad/model.pxd":66
  *         y[j] = v
  * 
- * cdef inline void matrix_dot_t(double[:,::1] A, double[::1]x, double[::1] y):             # <<<<<<<<<<<<<<
+ * cdef inline void matrix_dot_t(const double[:,::1] A, const double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
  *     cdef int i, n=A.shape[0], m=A.shape[1]
  *     cdef double v
  */
@@ -59448,6 +59455,52 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to char");
     return (char) -1;
+}
+
+/* ObjectToMemviewSlice */
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double__const__(PyObject *obj, int writable_flag) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_FOLLOW), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
+                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 2,
+                                                 &__Pyx_TypeInfo_double__const__, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
+/* ObjectToMemviewSlice */
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double__const__(PyObject *obj, int writable_flag) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
+                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 1,
+                                                 &__Pyx_TypeInfo_double__const__, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
 }
 
 /* CheckBinaryVersion */

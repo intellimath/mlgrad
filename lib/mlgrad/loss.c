@@ -1482,7 +1482,7 @@ struct __pyx_obj_6mlgrad_4func_SoftMinFunc {
  * 
  * cdef class Loss(object):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double x, double y) nogil
+ *     cdef double evaluate(self, const double x, const double y) nogil
  */
 struct __pyx_obj_6mlgrad_4loss_Loss {
   PyObject_HEAD
@@ -1508,15 +1508,16 @@ struct __pyx_obj_6mlgrad_4loss_ErrorLoss {
  * @cython.final
  * cdef class RelativeErrorLoss(Loss):             # <<<<<<<<<<<<<<
  *     cdef public Func func
- *     #
+ *     cdef double eps
  */
 struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss {
   struct __pyx_obj_6mlgrad_4loss_Loss __pyx_base;
   struct __pyx_obj_6mlgrad_4func_Func *func;
+  double eps;
 };
 
 
-/* "mlgrad/loss.pxd":37
+/* "mlgrad/loss.pxd":38
  * 
  * @cython.final
  * cdef class MarginLoss(Loss):             # <<<<<<<<<<<<<<
@@ -1529,7 +1530,7 @@ struct __pyx_obj_6mlgrad_4loss_MarginLoss {
 };
 
 
-/* "mlgrad/loss.pxd":42
+/* "mlgrad/loss.pxd":43
  * 
  * @cython.final
  * cdef class MLoss(Loss):             # <<<<<<<<<<<<<<
@@ -1543,7 +1544,7 @@ struct __pyx_obj_6mlgrad_4loss_MLoss {
 };
 
 
-/* "mlgrad/loss.pxd":47
+/* "mlgrad/loss.pxd":48
  * 
  * 
  * cdef class MultLoss(object):             # <<<<<<<<<<<<<<
@@ -1556,7 +1557,7 @@ struct __pyx_obj_6mlgrad_4loss_MultLoss {
 };
 
 
-/* "mlgrad/loss.pxd":52
+/* "mlgrad/loss.pxd":53
  * 
  * @cython.final
  * cdef class ErrorMultLoss(MultLoss):             # <<<<<<<<<<<<<<
@@ -1569,7 +1570,7 @@ struct __pyx_obj_6mlgrad_4loss_ErrorMultLoss {
 };
 
 
-/* "mlgrad/loss.pxd":56
+/* "mlgrad/loss.pxd":57
  * 
  * @cython.final
  * cdef class MarginMultLoss(MultLoss):             # <<<<<<<<<<<<<<
@@ -1582,7 +1583,7 @@ struct __pyx_obj_6mlgrad_4loss_MarginMultLoss {
 };
 
 
-/* "mlgrad/loss.pxd":59
+/* "mlgrad/loss.pxd":60
  *     cdef public Func func
  * 
  * cdef class MinLoss:             # <<<<<<<<<<<<<<
@@ -2203,13 +2204,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc *__pyx_vtabptr_6mlgrad_
  * 
  * cdef class Loss(object):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double y, double yk) nogil:
+ *     cdef double evaluate(self, const double y, const double yk) nogil:
  */
 
 struct __pyx_vtabstruct_6mlgrad_4loss_Loss {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double);
-  double (*derivative)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double);
-  double (*difference)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double);
+  double (*evaluate)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const );
+  double (*derivative)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const );
+  double (*difference)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const );
 };
 static struct __pyx_vtabstruct_6mlgrad_4loss_Loss *__pyx_vtabptr_6mlgrad_4loss_Loss;
 
@@ -2233,7 +2234,7 @@ static struct __pyx_vtabstruct_6mlgrad_4loss_ErrorLoss *__pyx_vtabptr_6mlgrad_4l
  * 
  * cdef class RelativeErrorLoss(Loss):             # <<<<<<<<<<<<<<
  *     #
- *     def __init__(self, Func func):
+ *     def __init__(self, Func func, eps=1.0e-9):
  */
 
 struct __pyx_vtabstruct_6mlgrad_4loss_RelativeErrorLoss {
@@ -2242,7 +2243,7 @@ struct __pyx_vtabstruct_6mlgrad_4loss_RelativeErrorLoss {
 static struct __pyx_vtabstruct_6mlgrad_4loss_RelativeErrorLoss *__pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss;
 
 
-/* "mlgrad/loss.pyx":81
+/* "mlgrad/loss.pyx":89
  *         return r"$\ell(y - \tilde y)$"
  * 
  * cdef class MarginLoss(Loss):             # <<<<<<<<<<<<<<
@@ -2256,7 +2257,7 @@ struct __pyx_vtabstruct_6mlgrad_4loss_MarginLoss {
 static struct __pyx_vtabstruct_6mlgrad_4loss_MarginLoss *__pyx_vtabptr_6mlgrad_4loss_MarginLoss;
 
 
-/* "mlgrad/loss.pyx":99
+/* "mlgrad/loss.pyx":107
  * 
  * 
  * cdef class MLoss(Loss):             # <<<<<<<<<<<<<<
@@ -2270,7 +2271,7 @@ struct __pyx_vtabstruct_6mlgrad_4loss_MLoss {
 static struct __pyx_vtabstruct_6mlgrad_4loss_MLoss *__pyx_vtabptr_6mlgrad_4loss_MLoss;
 
 
-/* "mlgrad/loss.pyx":139
+/* "mlgrad/loss.pyx":147
  *                 grad[i] = 0
  * 
  * cdef class MultLoss:             # <<<<<<<<<<<<<<
@@ -2285,7 +2286,7 @@ struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss {
 static struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss *__pyx_vtabptr_6mlgrad_4loss_MultLoss;
 
 
-/* "mlgrad/loss.pyx":147
+/* "mlgrad/loss.pyx":155
  *         pass
  * 
  * cdef class ErrorMultLoss(MultLoss):             # <<<<<<<<<<<<<<
@@ -2299,7 +2300,7 @@ struct __pyx_vtabstruct_6mlgrad_4loss_ErrorMultLoss {
 static struct __pyx_vtabstruct_6mlgrad_4loss_ErrorMultLoss *__pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss;
 
 
-/* "mlgrad/loss.pyx":167
+/* "mlgrad/loss.pyx":175
  *         return r"$\ell(y - \tilde y)$"
  * 
  * cdef class MarginMultLoss(MultLoss):             # <<<<<<<<<<<<<<
@@ -2313,7 +2314,7 @@ struct __pyx_vtabstruct_6mlgrad_4loss_MarginMultLoss {
 static struct __pyx_vtabstruct_6mlgrad_4loss_MarginMultLoss *__pyx_vtabptr_6mlgrad_4loss_MarginMultLoss;
 
 
-/* "mlgrad/loss.pyx":111
+/* "mlgrad/loss.pyx":119
  *         return self.rho.derivative(self.loss.evaluate(y, yk)) * self.loss.derivative(y, yk)
  * 
  * cdef class MinLoss:             # <<<<<<<<<<<<<<
@@ -2991,20 +2992,20 @@ static int __Pyx_ExportVoidPtr(PyObject *name, void *p, const char *sig);
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static double __pyx_f_6mlgrad_4loss_4Loss_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_Loss *__pyx_v_self, CYTHON_UNUSED double __pyx_v_y, CYTHON_UNUSED double __pyx_v_yk); /* proto*/
-static double __pyx_f_6mlgrad_4loss_4Loss_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_Loss *__pyx_v_self, CYTHON_UNUSED double __pyx_v_y, CYTHON_UNUSED double __pyx_v_yk); /* proto*/
-static double __pyx_f_6mlgrad_4loss_4Loss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_Loss *__pyx_v_self, CYTHON_UNUSED double __pyx_v_x, CYTHON_UNUSED double __pyx_v_y); /* proto*/
-static double __pyx_f_6mlgrad_4loss_9ErrorLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk); /* proto*/
-static double __pyx_f_6mlgrad_4loss_9ErrorLoss_derivative(struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk); /* proto*/
-static double __pyx_f_6mlgrad_4loss_9ErrorLoss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk); /* proto*/
-static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk); /* proto*/
-static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_derivative(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk); /* proto*/
-static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk); /* proto*/
-static double __pyx_f_6mlgrad_4loss_10MarginLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_MarginLoss *__pyx_v_self, double __pyx_v_u, double __pyx_v_yk); /* proto*/
-static double __pyx_f_6mlgrad_4loss_10MarginLoss_derivative(struct __pyx_obj_6mlgrad_4loss_MarginLoss *__pyx_v_self, double __pyx_v_u, double __pyx_v_yk); /* proto*/
-static double __pyx_f_6mlgrad_4loss_10MarginLoss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_MarginLoss *__pyx_v_self, double __pyx_v_u, double __pyx_v_yk); /* proto*/
-static double __pyx_f_6mlgrad_4loss_5MLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_MLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk); /* proto*/
-static double __pyx_f_6mlgrad_4loss_5MLoss_derivative(struct __pyx_obj_6mlgrad_4loss_MLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_4Loss_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_Loss *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_y, CYTHON_UNUSED double const __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_4Loss_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_Loss *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_y, CYTHON_UNUSED double const __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_4Loss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_Loss *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x, CYTHON_UNUSED double const __pyx_v_y); /* proto*/
+static double __pyx_f_6mlgrad_4loss_9ErrorLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_9ErrorLoss_derivative(struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_9ErrorLoss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_derivative(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_difference(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_10MarginLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_MarginLoss *__pyx_v_self, double const __pyx_v_u, double const __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_10MarginLoss_derivative(struct __pyx_obj_6mlgrad_4loss_MarginLoss *__pyx_v_self, double const __pyx_v_u, double const __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_10MarginLoss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_MarginLoss *__pyx_v_self, double const __pyx_v_u, double const __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_5MLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_MLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk); /* proto*/
+static double __pyx_f_6mlgrad_4loss_5MLoss_derivative(struct __pyx_obj_6mlgrad_4loss_MLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk); /* proto*/
 static double __pyx_f_6mlgrad_4loss_7MinLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_MinLoss *__pyx_v_self, __Pyx_memviewslice __pyx_v_y, double __pyx_v_yk); /* proto*/
 static void __pyx_f_6mlgrad_4loss_7MinLoss_gradient(struct __pyx_obj_6mlgrad_4loss_MinLoss *__pyx_v_self, __Pyx_memviewslice __pyx_v_y, double __pyx_v_yk, __Pyx_memviewslice __pyx_v_grad); /* proto*/
 static double __pyx_f_6mlgrad_4loss_8MultLoss_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_MultLoss *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_y, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_yk); /* proto*/
@@ -3149,6 +3150,7 @@ static PyObject *__pyx_builtin_IndexError;
 static const char __pyx_k_O[] = "O";
 static const char __pyx_k_c[] = "c";
 static const char __pyx_k_id[] = "id";
+static const char __pyx_k_eps[] = "eps";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_rho[] = "rho";
@@ -3249,6 +3251,7 @@ static const char __pyx_k_Cannot_assign_to_read_only_memor[] = "Cannot assign to
 static const char __pyx_k_Cannot_create_writable_memory_vi[] = "Cannot create writable memory view from read-only memoryview";
 static const char __pyx_k_Empty_shape_tuple_for_cython_arr[] = "Empty shape tuple for cython.array";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x7d[] = "Incompatible checksums (%s vs 0x7df4935 = (func))";
+static const char __pyx_k_Incompatible_checksums_s_vs_0x84[] = "Incompatible checksums (%s vs 0x845f8ae = (eps, func))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xb0[] = "Incompatible checksums (%s vs 0xb068931 = (name))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xd4[] = "Incompatible checksums (%s vs 0xd41d8cd = ())";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xf5[] = "Incompatible checksums (%s vs 0xf56a4d6 = (loss, rho))";
@@ -3271,6 +3274,7 @@ static PyObject *__pyx_kp_s_Empty_shape_tuple_for_cython_arr;
 static PyObject *__pyx_n_s_ErrorLoss;
 static PyObject *__pyx_n_s_ErrorMultLoss;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x7d;
+static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x84;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xb0;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xd4;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xf5;
@@ -3310,6 +3314,7 @@ static PyObject *__pyx_kp_u_ell_u_tilde_y;
 static PyObject *__pyx_kp_u_ell_y_tilde_y;
 static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_enumerate;
+static PyObject *__pyx_n_s_eps;
 static PyObject *__pyx_n_s_error;
 static PyObject *__pyx_n_s_flags;
 static PyObject *__pyx_n_s_float_min;
@@ -3385,7 +3390,7 @@ static int __pyx_pf_6mlgrad_4loss_9ErrorLoss_4func_2__set__(struct __pyx_obj_6ml
 static int __pyx_pf_6mlgrad_4loss_9ErrorLoss_4func_4__del__(struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4loss_9ErrorLoss_4__reduce_cython__(struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4loss_9ErrorLoss_6__setstate_cython__(struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6mlgrad_4loss_17RelativeErrorLoss___init__(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func); /* proto */
+static int __pyx_pf_6mlgrad_4loss_17RelativeErrorLoss___init__(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, PyObject *__pyx_v_eps); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_2_repr_latex_(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_4func___get__(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self); /* proto */
 static int __pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_4func_2__set__(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
@@ -3494,9 +3499,11 @@ static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); 
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new__memoryviewslice(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_float_1_0eneg_9;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_132073781;
+static PyObject *__pyx_int_138803374;
 static PyObject *__pyx_int_184977713;
 static PyObject *__pyx_int_222419149;
 static PyObject *__pyx_int_257336534;
@@ -3550,20 +3557,20 @@ static PyObject *__pyx_codeobj__43;
 /* "mlgrad/loss.pyx":38
  * cdef class Loss(object):
  *     #
- *     cdef double evaluate(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
 
-static double __pyx_f_6mlgrad_4loss_4Loss_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_Loss *__pyx_v_self, CYTHON_UNUSED double __pyx_v_y, CYTHON_UNUSED double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_4Loss_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_Loss *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_y, CYTHON_UNUSED double const __pyx_v_yk) {
   double __pyx_r;
 
   /* "mlgrad/loss.pyx":39
  *     #
- *     cdef double evaluate(self, double y, double yk) nogil:
+ *     cdef double evaluate(self, const double y, const double yk) nogil:
  *         return 0             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, double y, double yk) nogil:
+ *     cdef double derivative(self, const double y, const double yk) nogil:
  */
   __pyx_r = 0.0;
   goto __pyx_L0;
@@ -3571,7 +3578,7 @@ static double __pyx_f_6mlgrad_4loss_4Loss_evaluate(CYTHON_UNUSED struct __pyx_ob
   /* "mlgrad/loss.pyx":38
  * cdef class Loss(object):
  *     #
- *     cdef double evaluate(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
@@ -3584,20 +3591,20 @@ static double __pyx_f_6mlgrad_4loss_4Loss_evaluate(CYTHON_UNUSED struct __pyx_ob
 /* "mlgrad/loss.pyx":41
  *         return 0
  *     #
- *     cdef double derivative(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
 
-static double __pyx_f_6mlgrad_4loss_4Loss_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_Loss *__pyx_v_self, CYTHON_UNUSED double __pyx_v_y, CYTHON_UNUSED double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_4Loss_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_Loss *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_y, CYTHON_UNUSED double const __pyx_v_yk) {
   double __pyx_r;
 
   /* "mlgrad/loss.pyx":42
  *     #
- *     cdef double derivative(self, double y, double yk) nogil:
+ *     cdef double derivative(self, const double y, const double yk) nogil:
  *         return 0             # <<<<<<<<<<<<<<
  *     #
- *     cdef double difference(self, double x, double y) nogil:
+ *     cdef double difference(self, const double x, const double y) nogil:
  */
   __pyx_r = 0.0;
   goto __pyx_L0;
@@ -3605,7 +3612,7 @@ static double __pyx_f_6mlgrad_4loss_4Loss_derivative(CYTHON_UNUSED struct __pyx_
   /* "mlgrad/loss.pyx":41
  *         return 0
  *     #
- *     cdef double derivative(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
@@ -3618,17 +3625,17 @@ static double __pyx_f_6mlgrad_4loss_4Loss_derivative(CYTHON_UNUSED struct __pyx_
 /* "mlgrad/loss.pyx":44
  *         return 0
  *     #
- *     cdef double difference(self, double x, double y) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double difference(self, const double x, const double y) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  * 
  */
 
-static double __pyx_f_6mlgrad_4loss_4Loss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_Loss *__pyx_v_self, CYTHON_UNUSED double __pyx_v_x, CYTHON_UNUSED double __pyx_v_y) {
+static double __pyx_f_6mlgrad_4loss_4Loss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_Loss *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x, CYTHON_UNUSED double const __pyx_v_y) {
   double __pyx_r;
 
   /* "mlgrad/loss.pyx":45
  *     #
- *     cdef double difference(self, double x, double y) nogil:
+ *     cdef double difference(self, const double x, const double y) nogil:
  *         return 0             # <<<<<<<<<<<<<<
  * 
  * cdef class ErrorLoss(Loss):
@@ -3639,7 +3646,7 @@ static double __pyx_f_6mlgrad_4loss_4Loss_difference(CYTHON_UNUSED struct __pyx_
   /* "mlgrad/loss.pyx":44
  *         return 0
  *     #
- *     cdef double difference(self, double x, double y) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double difference(self, const double x, const double y) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  * 
  */
@@ -4014,7 +4021,7 @@ static int __pyx_pf_6mlgrad_4loss_9ErrorLoss___init__(struct __pyx_obj_6mlgrad_4
  *     def __init__(self, Func func):
  *         self.func = func             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double y, double yk) nogil:
+ *     cdef double evaluate(self, const double y, const double yk) nogil:
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_func));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_func));
@@ -4039,20 +4046,20 @@ static int __pyx_pf_6mlgrad_4loss_9ErrorLoss___init__(struct __pyx_obj_6mlgrad_4
 /* "mlgrad/loss.pyx":52
  *         self.func = func
  *     #
- *     cdef double evaluate(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return self.func.evaluate(y - yk)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4loss_9ErrorLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_9ErrorLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk) {
   double __pyx_r;
 
   /* "mlgrad/loss.pyx":53
  *     #
- *     cdef double evaluate(self, double y, double yk) nogil:
+ *     cdef double evaluate(self, const double y, const double yk) nogil:
  *         return self.func.evaluate(y - yk)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, double y, double yk) nogil:
+ *     cdef double derivative(self, const double y, const double yk) nogil:
  */
   __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->evaluate(__pyx_v_self->func, (__pyx_v_y - __pyx_v_yk));
   goto __pyx_L0;
@@ -4060,7 +4067,7 @@ static double __pyx_f_6mlgrad_4loss_9ErrorLoss_evaluate(struct __pyx_obj_6mlgrad
   /* "mlgrad/loss.pyx":52
  *         self.func = func
  *     #
- *     cdef double evaluate(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return self.func.evaluate(y - yk)
  *     #
  */
@@ -4073,20 +4080,20 @@ static double __pyx_f_6mlgrad_4loss_9ErrorLoss_evaluate(struct __pyx_obj_6mlgrad
 /* "mlgrad/loss.pyx":55
  *         return self.func.evaluate(y - yk)
  *     #
- *     cdef double derivative(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return self.func.derivative(y-yk)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4loss_9ErrorLoss_derivative(struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_9ErrorLoss_derivative(struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk) {
   double __pyx_r;
 
   /* "mlgrad/loss.pyx":56
  *     #
- *     cdef double derivative(self, double y, double yk) nogil:
+ *     cdef double derivative(self, const double y, const double yk) nogil:
  *         return self.func.derivative(y-yk)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double difference(self, double y, double yk) nogil:
+ *     cdef double difference(self, const double y, const double yk) nogil:
  */
   __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->derivative(__pyx_v_self->func, (__pyx_v_y - __pyx_v_yk));
   goto __pyx_L0;
@@ -4094,7 +4101,7 @@ static double __pyx_f_6mlgrad_4loss_9ErrorLoss_derivative(struct __pyx_obj_6mlgr
   /* "mlgrad/loss.pyx":55
  *         return self.func.evaluate(y - yk)
  *     #
- *     cdef double derivative(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return self.func.derivative(y-yk)
  *     #
  */
@@ -4107,17 +4114,17 @@ static double __pyx_f_6mlgrad_4loss_9ErrorLoss_derivative(struct __pyx_obj_6mlgr
 /* "mlgrad/loss.pyx":58
  *         return self.func.derivative(y-yk)
  *     #
- *     cdef double difference(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double difference(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return fabs(y-yk)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4loss_9ErrorLoss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_9ErrorLoss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_ErrorLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk) {
   double __pyx_r;
 
   /* "mlgrad/loss.pyx":59
  *     #
- *     cdef double difference(self, double y, double yk) nogil:
+ *     cdef double difference(self, const double y, const double yk) nogil:
  *         return fabs(y-yk)             # <<<<<<<<<<<<<<
  *     #
  *     def _repr_latex_(self):
@@ -4128,7 +4135,7 @@ static double __pyx_f_6mlgrad_4loss_9ErrorLoss_difference(CYTHON_UNUSED struct _
   /* "mlgrad/loss.pyx":58
  *         return self.func.derivative(y-yk)
  *     #
- *     cdef double difference(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double difference(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return fabs(y-yk)
  *     #
  */
@@ -4598,15 +4605,16 @@ static PyObject *__pyx_pf_6mlgrad_4loss_9ErrorLoss_6__setstate_cython__(struct _
 /* "mlgrad/loss.pyx":66
  * cdef class RelativeErrorLoss(Loss):
  *     #
- *     def __init__(self, Func func):             # <<<<<<<<<<<<<<
+ *     def __init__(self, Func func, eps=1.0e-9):             # <<<<<<<<<<<<<<
  *         self.func = func
- *     #
+ *         self.eps = eps
  */
 
 /* Python wrapper */
 static int __pyx_pw_6mlgrad_4loss_17RelativeErrorLoss_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_6mlgrad_4loss_17RelativeErrorLoss_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  PyObject *__pyx_v_eps = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -4614,12 +4622,15 @@ static int __pyx_pw_6mlgrad_4loss_17RelativeErrorLoss_1__init__(PyObject *__pyx_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_func,0};
-    PyObject* values[1] = {0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_func,&__pyx_n_s_eps,0};
+    PyObject* values[2] = {0,0};
+    values[1] = ((PyObject *)__pyx_float_1_0eneg_9);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
         CYTHON_FALLTHROUGH;
         case  0: break;
@@ -4630,27 +4641,38 @@ static int __pyx_pw_6mlgrad_4loss_17RelativeErrorLoss_1__init__(PyObject *__pyx_
         case  0:
         if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_func)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_eps);
+          if (value) { values[1] = value; kw_args--; }
+        }
       }
       if (unlikely(kw_args > 0)) {
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 66, __pyx_L3_error)
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
-      goto __pyx_L5_argtuple_error;
     } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
     }
     __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)values[0]);
+    __pyx_v_eps = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 66, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 66, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.loss.RelativeErrorLoss.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(0, 66, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6mlgrad_4loss_17RelativeErrorLoss___init__(((struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *)__pyx_v_self), __pyx_v_func);
+  __pyx_r = __pyx_pf_6mlgrad_4loss_17RelativeErrorLoss___init__(((struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *)__pyx_v_self), __pyx_v_func, __pyx_v_eps);
 
   /* function exit code */
   goto __pyx_L0;
@@ -4661,17 +4683,21 @@ static int __pyx_pw_6mlgrad_4loss_17RelativeErrorLoss_1__init__(PyObject *__pyx_
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_4loss_17RelativeErrorLoss___init__(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func) {
+static int __pyx_pf_6mlgrad_4loss_17RelativeErrorLoss___init__(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, PyObject *__pyx_v_eps) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
+  double __pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
   /* "mlgrad/loss.pyx":67
  *     #
- *     def __init__(self, Func func):
+ *     def __init__(self, Func func, eps=1.0e-9):
  *         self.func = func             # <<<<<<<<<<<<<<
+ *         self.eps = eps
  *     #
- *     cdef double evaluate(self, double y, double yk) nogil:
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_func));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_func));
@@ -4679,42 +4705,73 @@ static int __pyx_pf_6mlgrad_4loss_17RelativeErrorLoss___init__(struct __pyx_obj_
   __Pyx_DECREF(((PyObject *)__pyx_v_self->func));
   __pyx_v_self->func = __pyx_v_func;
 
+  /* "mlgrad/loss.pyx":68
+ *     def __init__(self, Func func, eps=1.0e-9):
+ *         self.func = func
+ *         self.eps = eps             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef double evaluate(self, const double y, const double yk) nogil:
+ */
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_eps); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_v_self->eps = __pyx_t_1;
+
   /* "mlgrad/loss.pyx":66
  * cdef class RelativeErrorLoss(Loss):
  *     #
- *     def __init__(self, Func func):             # <<<<<<<<<<<<<<
+ *     def __init__(self, Func func, eps=1.0e-9):             # <<<<<<<<<<<<<<
  *         self.func = func
- *     #
+ *         self.eps = eps
  */
 
   /* function exit code */
   __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("mlgrad.loss.RelativeErrorLoss.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":69
- *         self.func = func
+/* "mlgrad/loss.pyx":70
+ *         self.eps = eps
  *     #
- *     cdef double evaluate(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
- *         return self.func.evaluate(y/yk - 1)
- *     #
+ *     cdef double evaluate(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
+ *         cdef double eps = self.eps
+ *         cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)
  */
 
-static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk) {
+  double __pyx_v_eps;
+  double __pyx_v_re;
   double __pyx_r;
+  double __pyx_t_1;
+  double __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/loss.pyx":70
+  /* "mlgrad/loss.pyx":71
  *     #
- *     cdef double evaluate(self, double y, double yk) nogil:
- *         return self.func.evaluate(y/yk - 1)             # <<<<<<<<<<<<<<
- *     #
- *     cdef double derivative(self, double y, double yk) nogil:
+ *     cdef double evaluate(self, const double y, const double yk) nogil:
+ *         cdef double eps = self.eps             # <<<<<<<<<<<<<<
+ *         cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)
+ *         return self.func.evaluate(re - 1)
  */
-  if (unlikely(__pyx_v_yk == 0)) {
+  __pyx_t_1 = __pyx_v_self->eps;
+  __pyx_v_eps = __pyx_t_1;
+
+  /* "mlgrad/loss.pyx":72
+ *     cdef double evaluate(self, const double y, const double yk) nogil:
+ *         cdef double eps = self.eps
+ *         cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)             # <<<<<<<<<<<<<<
+ *         return self.func.evaluate(re - 1)
+ *     #
+ */
+  __pyx_t_1 = (fabs(__pyx_v_y) + __pyx_v_eps);
+  __pyx_t_2 = (fabs(__pyx_v_yk) + __pyx_v_eps);
+  if (unlikely(__pyx_t_2 == 0)) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
     #endif
@@ -4722,17 +4779,26 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_evaluate(struct __pyx_ob
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 70, __pyx_L1_error)
+    __PYX_ERR(0, 72, __pyx_L1_error)
   }
-  __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->evaluate(__pyx_v_self->func, ((__pyx_v_y / __pyx_v_yk) - 1.0));
+  __pyx_v_re = (__pyx_t_1 / __pyx_t_2);
+
+  /* "mlgrad/loss.pyx":73
+ *         cdef double eps = self.eps
+ *         cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)
+ *         return self.func.evaluate(re - 1)             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef double derivative(self, const double y, const double yk) nogil:
+ */
+  __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->evaluate(__pyx_v_self->func, (__pyx_v_re - 1.0));
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":69
- *         self.func = func
+  /* "mlgrad/loss.pyx":70
+ *         self.eps = eps
  *     #
- *     cdef double evaluate(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
- *         return self.func.evaluate(y/yk - 1)
- *     #
+ *     cdef double evaluate(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
+ *         cdef double eps = self.eps
+ *         cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)
  */
 
   /* function exit code */
@@ -4743,29 +4809,52 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_evaluate(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":72
- *         return self.func.evaluate(y/yk - 1)
+/* "mlgrad/loss.pyx":75
+ *         return self.func.evaluate(re - 1)
  *     #
- *     cdef double derivative(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
- *         return self.func.derivative(y/yk - 1) / yk
- *     #
+ *     cdef double derivative(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
+ *         cdef double eps = self.eps
+ *         cdef double re0 = (fabs(yk) + eps)
  */
 
-static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_derivative(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_derivative(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk) {
+  double __pyx_v_eps;
+  double __pyx_v_re0;
+  double __pyx_v_re;
   double __pyx_r;
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/loss.pyx":73
+  /* "mlgrad/loss.pyx":76
  *     #
- *     cdef double derivative(self, double y, double yk) nogil:
- *         return self.func.derivative(y/yk - 1) / yk             # <<<<<<<<<<<<<<
- *     #
- *     cdef double difference(self, double y, double yk) nogil:
+ *     cdef double derivative(self, const double y, const double yk) nogil:
+ *         cdef double eps = self.eps             # <<<<<<<<<<<<<<
+ *         cdef double re0 = (fabs(yk) + eps)
+ *         cdef double re = (fabs(y) + eps) / re0
  */
-  if (unlikely(__pyx_v_yk == 0)) {
+  __pyx_t_1 = __pyx_v_self->eps;
+  __pyx_v_eps = __pyx_t_1;
+
+  /* "mlgrad/loss.pyx":77
+ *     cdef double derivative(self, const double y, const double yk) nogil:
+ *         cdef double eps = self.eps
+ *         cdef double re0 = (fabs(yk) + eps)             # <<<<<<<<<<<<<<
+ *         cdef double re = (fabs(y) + eps) / re0
+ *         return self.func.derivative(re - 1) / re0
+ */
+  __pyx_v_re0 = (fabs(__pyx_v_yk) + __pyx_v_eps);
+
+  /* "mlgrad/loss.pyx":78
+ *         cdef double eps = self.eps
+ *         cdef double re0 = (fabs(yk) + eps)
+ *         cdef double re = (fabs(y) + eps) / re0             # <<<<<<<<<<<<<<
+ *         return self.func.derivative(re - 1) / re0
+ *     #
+ */
+  __pyx_t_1 = (fabs(__pyx_v_y) + __pyx_v_eps);
+  if (unlikely(__pyx_v_re0 == 0)) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
     #endif
@@ -4773,10 +4862,19 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_derivative(struct __pyx_
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 73, __pyx_L1_error)
+    __PYX_ERR(0, 78, __pyx_L1_error)
   }
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->derivative(__pyx_v_self->func, ((__pyx_v_y / __pyx_v_yk) - 1.0));
-  if (unlikely(__pyx_v_yk == 0)) {
+  __pyx_v_re = (__pyx_t_1 / __pyx_v_re0);
+
+  /* "mlgrad/loss.pyx":79
+ *         cdef double re0 = (fabs(yk) + eps)
+ *         cdef double re = (fabs(y) + eps) / re0
+ *         return self.func.derivative(re - 1) / re0             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef double difference(self, const double y, const double yk) nogil:
+ */
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->derivative(__pyx_v_self->func, (__pyx_v_re - 1.0));
+  if (unlikely(__pyx_v_re0 == 0)) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
     #endif
@@ -4784,17 +4882,17 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_derivative(struct __pyx_
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 73, __pyx_L1_error)
+    __PYX_ERR(0, 79, __pyx_L1_error)
   }
-  __pyx_r = (__pyx_t_1 / __pyx_v_yk);
+  __pyx_r = (__pyx_t_1 / __pyx_v_re0);
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":72
- *         return self.func.evaluate(y/yk - 1)
+  /* "mlgrad/loss.pyx":75
+ *         return self.func.evaluate(re - 1)
  *     #
- *     cdef double derivative(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
- *         return self.func.derivative(y/yk - 1) / yk
- *     #
+ *     cdef double derivative(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
+ *         cdef double eps = self.eps
+ *         cdef double re0 = (fabs(yk) + eps)
  */
 
   /* function exit code */
@@ -4805,28 +4903,44 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_derivative(struct __pyx_
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":75
- *         return self.func.derivative(y/yk - 1) / yk
+/* "mlgrad/loss.pyx":81
+ *         return self.func.derivative(re - 1) / re0
  *     #
- *     cdef double difference(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
- *         return fabs(y/yk-1)
- *     #
+ *     cdef double difference(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
+ *         cdef double eps = self.eps
+ *         cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)
  */
 
-static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_difference(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk) {
+  double __pyx_v_eps;
+  double __pyx_v_re;
   double __pyx_r;
+  double __pyx_t_1;
+  double __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/loss.pyx":76
+  /* "mlgrad/loss.pyx":82
  *     #
- *     cdef double difference(self, double y, double yk) nogil:
- *         return fabs(y/yk-1)             # <<<<<<<<<<<<<<
- *     #
- *     def _repr_latex_(self):
+ *     cdef double difference(self, const double y, const double yk) nogil:
+ *         cdef double eps = self.eps             # <<<<<<<<<<<<<<
+ *         cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)
+ *         return fabs(re - 1)
  */
-  if (unlikely(__pyx_v_yk == 0)) {
+  __pyx_t_1 = __pyx_v_self->eps;
+  __pyx_v_eps = __pyx_t_1;
+
+  /* "mlgrad/loss.pyx":83
+ *     cdef double difference(self, const double y, const double yk) nogil:
+ *         cdef double eps = self.eps
+ *         cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)             # <<<<<<<<<<<<<<
+ *         return fabs(re - 1)
+ *     #
+ */
+  __pyx_t_1 = (fabs(__pyx_v_y) + __pyx_v_eps);
+  __pyx_t_2 = (fabs(__pyx_v_yk) + __pyx_v_eps);
+  if (unlikely(__pyx_t_2 == 0)) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
     #endif
@@ -4834,17 +4948,26 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_difference(CYTHON_UNUSED
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 76, __pyx_L1_error)
+    __PYX_ERR(0, 83, __pyx_L1_error)
   }
-  __pyx_r = fabs(((__pyx_v_y / __pyx_v_yk) - 1.0));
+  __pyx_v_re = (__pyx_t_1 / __pyx_t_2);
+
+  /* "mlgrad/loss.pyx":84
+ *         cdef double eps = self.eps
+ *         cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)
+ *         return fabs(re - 1)             # <<<<<<<<<<<<<<
+ *     #
+ *     def _repr_latex_(self):
+ */
+  __pyx_r = fabs((__pyx_v_re - 1.0));
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":75
- *         return self.func.derivative(y/yk - 1) / yk
+  /* "mlgrad/loss.pyx":81
+ *         return self.func.derivative(re - 1) / re0
  *     #
- *     cdef double difference(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
- *         return fabs(y/yk-1)
- *     #
+ *     cdef double difference(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
+ *         cdef double eps = self.eps
+ *         cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)
  */
 
   /* function exit code */
@@ -4855,8 +4978,8 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_difference(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":78
- *         return fabs(y/yk-1)
+/* "mlgrad/loss.pyx":86
+ *         return fabs(re - 1)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return r"$\ell(y - \tilde y)$"
@@ -4882,7 +5005,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_2_repr_latex_(CYTHON
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/loss.pyx":79
+  /* "mlgrad/loss.pyx":87
  *     #
  *     def _repr_latex_(self):
  *         return r"$\ell(y - \tilde y)$"             # <<<<<<<<<<<<<<
@@ -4894,8 +5017,8 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_2_repr_latex_(CYTHON
   __pyx_r = __pyx_kp_u_ell_y_tilde_y;
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":78
- *         return fabs(y/yk-1)
+  /* "mlgrad/loss.pyx":86
+ *         return fabs(re - 1)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return r"$\ell(y - \tilde y)$"
@@ -4913,8 +5036,8 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_2_repr_latex_(CYTHON
  * @cython.final
  * cdef class RelativeErrorLoss(Loss):
  *     cdef public Func func             # <<<<<<<<<<<<<<
+ *     cdef double eps
  *     #
- * 
  */
 
 /* Python wrapper */
@@ -5044,9 +5167,9 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_4__reduce_cython__(s
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
+  PyObject *__pyx_t_2 = NULL;
   int __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -5056,40 +5179,45 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_4__reduce_cython__(s
   /* "(tree fragment)":5
  *     cdef object _dict
  *     cdef bint use_setstate
- *     state = (self.func,)             # <<<<<<<<<<<<<<
+ *     state = (self.eps, self.func)             # <<<<<<<<<<<<<<
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->eps); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_v_self->func));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->func));
-  PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)__pyx_v_self->func));
-  __pyx_v_state = ((PyObject*)__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, ((PyObject *)__pyx_v_self->func));
   __pyx_t_1 = 0;
+  __pyx_v_state = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
 
   /* "(tree fragment)":6
  *     cdef bint use_setstate
- *     state = (self.func,)
+ *     state = (self.eps, self.func)
  *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
  *     if _dict is not None:
  *         state += (_dict,)
  */
-  __pyx_t_1 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 6, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v__dict = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_v__dict = __pyx_t_2;
+  __pyx_t_2 = 0;
 
   /* "(tree fragment)":7
- *     state = (self.func,)
+ *     state = (self.eps, self.func)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
  *         use_setstate = True
  */
-  __pyx_t_2 = (__pyx_v__dict != Py_None);
-  __pyx_t_3 = (__pyx_t_2 != 0);
-  if (__pyx_t_3) {
+  __pyx_t_3 = (__pyx_v__dict != Py_None);
+  __pyx_t_4 = (__pyx_t_3 != 0);
+  if (__pyx_t_4) {
 
     /* "(tree fragment)":8
  *     _dict = getattr(self, '__dict__', None)
@@ -5098,16 +5226,16 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_4__reduce_cython__(s
  *         use_setstate = True
  *     else:
  */
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_v__dict);
     __Pyx_GIVEREF(__pyx_v__dict);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v__dict);
-    __pyx_t_4 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_4));
-    __pyx_t_4 = 0;
+    PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v__dict);
+    __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_1));
+    __pyx_t_1 = 0;
 
     /* "(tree fragment)":9
  *     if _dict is not None:
@@ -5119,7 +5247,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_4__reduce_cython__(s
     __pyx_v_use_setstate = 1;
 
     /* "(tree fragment)":7
- *     state = (self.func,)
+ *     state = (self.eps, self.func)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -5133,11 +5261,11 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_4__reduce_cython__(s
  *     else:
  *         use_setstate = self.func is not None             # <<<<<<<<<<<<<<
  *     if use_setstate:
- *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x7df4935, None), state
+ *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x845f8ae, None), state
  */
   /*else*/ {
-    __pyx_t_3 = (((PyObject *)__pyx_v_self->func) != Py_None);
-    __pyx_v_use_setstate = __pyx_t_3;
+    __pyx_t_4 = (((PyObject *)__pyx_v_self->func) != Py_None);
+    __pyx_v_use_setstate = __pyx_t_4;
   }
   __pyx_L3:;
 
@@ -5145,44 +5273,44 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_4__reduce_cython__(s
  *     else:
  *         use_setstate = self.func is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x7df4935, None), state
+ *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x845f8ae, None), state
  *     else:
  */
-  __pyx_t_3 = (__pyx_v_use_setstate != 0);
-  if (__pyx_t_3) {
+  __pyx_t_4 = (__pyx_v_use_setstate != 0);
+  if (__pyx_t_4) {
 
     /* "(tree fragment)":13
  *         use_setstate = self.func is not None
  *     if use_setstate:
- *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x7df4935, None), state             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x845f8ae, None), state             # <<<<<<<<<<<<<<
  *     else:
- *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x7df4935, state)
+ *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x845f8ae, state)
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pyx_unpickle_RelativeErrorLoss); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 13, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pyx_unpickle_RelativeErrorLoss); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_132073781);
-    __Pyx_GIVEREF(__pyx_int_132073781);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_132073781);
+    PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_138803374);
+    __Pyx_GIVEREF(__pyx_int_138803374);
+    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_int_138803374);
     __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_1, 2, Py_None);
+    PyTuple_SET_ITEM(__pyx_t_2, 2, Py_None);
     __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_2);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
     PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_v_state);
-    __pyx_t_4 = 0;
     __pyx_t_1 = 0;
+    __pyx_t_2 = 0;
     __pyx_r = __pyx_t_5;
     __pyx_t_5 = 0;
     goto __pyx_L0;
@@ -5191,15 +5319,15 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_4__reduce_cython__(s
  *     else:
  *         use_setstate = self.func is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x7df4935, None), state
+ *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x845f8ae, None), state
  *     else:
  */
   }
 
   /* "(tree fragment)":15
- *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x7df4935, None), state
+ *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x845f8ae, None), state
  *     else:
- *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x7df4935, state)             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x845f8ae, state)             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_RelativeErrorLoss__set_state(self, __pyx_state)
  */
@@ -5207,27 +5335,27 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_4__reduce_cython__(s
     __Pyx_XDECREF(__pyx_r);
     __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pyx_unpickle_RelativeErrorLoss); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = PyTuple_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_1, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_132073781);
-    __Pyx_GIVEREF(__pyx_int_132073781);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_132073781);
+    PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_138803374);
+    __Pyx_GIVEREF(__pyx_int_138803374);
+    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_int_138803374);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_state);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_v_state);
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_5);
-    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_1);
+    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2);
     __pyx_t_5 = 0;
+    __pyx_t_2 = 0;
+    __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
-    __pyx_r = __pyx_t_4;
-    __pyx_t_4 = 0;
     goto __pyx_L0;
   }
 
@@ -5240,7 +5368,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_4__reduce_cython__(s
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_AddTraceback("mlgrad.loss.RelativeErrorLoss.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
@@ -5254,7 +5382,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_4__reduce_cython__(s
 
 /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x7df4935, state)
+ *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x845f8ae, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_RelativeErrorLoss__set_state(self, __pyx_state)
  */
@@ -5283,7 +5411,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_6__setstate_cython__
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
 
   /* "(tree fragment)":17
- *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x7df4935, state)
+ *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x845f8ae, state)
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_RelativeErrorLoss__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
@@ -5294,7 +5422,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_6__setstate_cython__
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x7df4935, state)
+ *         return __pyx_unpickle_RelativeErrorLoss, (type(self), 0x845f8ae, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_RelativeErrorLoss__set_state(self, __pyx_state)
  */
@@ -5312,7 +5440,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_6__setstate_cython__
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":83
+/* "mlgrad/loss.pyx":91
  * cdef class MarginLoss(Loss):
  *     #
  *     def __init__(self, Func func):             # <<<<<<<<<<<<<<
@@ -5349,7 +5477,7 @@ static int __pyx_pw_6mlgrad_4loss_10MarginLoss_1__init__(PyObject *__pyx_v_self,
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 83, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 91, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -5360,13 +5488,13 @@ static int __pyx_pw_6mlgrad_4loss_10MarginLoss_1__init__(PyObject *__pyx_v_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 83, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 91, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.loss.MarginLoss.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(0, 83, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(0, 91, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_4loss_10MarginLoss___init__(((struct __pyx_obj_6mlgrad_4loss_MarginLoss *)__pyx_v_self), __pyx_v_func);
 
   /* function exit code */
@@ -5383,12 +5511,12 @@ static int __pyx_pf_6mlgrad_4loss_10MarginLoss___init__(struct __pyx_obj_6mlgrad
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/loss.pyx":84
+  /* "mlgrad/loss.pyx":92
  *     #
  *     def __init__(self, Func func):
  *         self.func = func             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double u, double yk) nogil:
+ *     cdef double evaluate(self, const double u, const double yk) nogil:
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_func));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_func));
@@ -5396,7 +5524,7 @@ static int __pyx_pf_6mlgrad_4loss_10MarginLoss___init__(struct __pyx_obj_6mlgrad
   __Pyx_DECREF(((PyObject *)__pyx_v_self->func));
   __pyx_v_self->func = __pyx_v_func;
 
-  /* "mlgrad/loss.pyx":83
+  /* "mlgrad/loss.pyx":91
  * cdef class MarginLoss(Loss):
  *     #
  *     def __init__(self, Func func):             # <<<<<<<<<<<<<<
@@ -5410,31 +5538,31 @@ static int __pyx_pf_6mlgrad_4loss_10MarginLoss___init__(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":86
+/* "mlgrad/loss.pyx":94
  *         self.func = func
  *     #
- *     cdef double evaluate(self, double u, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double u, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return self.func.evaluate(u*yk)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4loss_10MarginLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_MarginLoss *__pyx_v_self, double __pyx_v_u, double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_10MarginLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_MarginLoss *__pyx_v_self, double const __pyx_v_u, double const __pyx_v_yk) {
   double __pyx_r;
 
-  /* "mlgrad/loss.pyx":87
+  /* "mlgrad/loss.pyx":95
  *     #
- *     cdef double evaluate(self, double u, double yk) nogil:
+ *     cdef double evaluate(self, const double u, const double yk) nogil:
  *         return self.func.evaluate(u*yk)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, double u, double yk) nogil:
+ *     cdef double derivative(self, const double u, const double yk) nogil:
  */
   __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->evaluate(__pyx_v_self->func, (__pyx_v_u * __pyx_v_yk));
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":86
+  /* "mlgrad/loss.pyx":94
  *         self.func = func
  *     #
- *     cdef double evaluate(self, double u, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double u, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return self.func.evaluate(u*yk)
  *     #
  */
@@ -5444,31 +5572,31 @@ static double __pyx_f_6mlgrad_4loss_10MarginLoss_evaluate(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":89
+/* "mlgrad/loss.pyx":97
  *         return self.func.evaluate(u*yk)
  *     #
- *     cdef double derivative(self, double u, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double u, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return yk*self.func.derivative(u*yk)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4loss_10MarginLoss_derivative(struct __pyx_obj_6mlgrad_4loss_MarginLoss *__pyx_v_self, double __pyx_v_u, double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_10MarginLoss_derivative(struct __pyx_obj_6mlgrad_4loss_MarginLoss *__pyx_v_self, double const __pyx_v_u, double const __pyx_v_yk) {
   double __pyx_r;
 
-  /* "mlgrad/loss.pyx":90
+  /* "mlgrad/loss.pyx":98
  *     #
- *     cdef double derivative(self, double u, double yk) nogil:
+ *     cdef double derivative(self, const double u, const double yk) nogil:
  *         return yk*self.func.derivative(u*yk)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double difference(self, double u, double yk) nogil:
+ *     cdef double difference(self, const double u, const double yk) nogil:
  */
   __pyx_r = (__pyx_v_yk * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->derivative(__pyx_v_self->func, (__pyx_v_u * __pyx_v_yk)));
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":89
+  /* "mlgrad/loss.pyx":97
  *         return self.func.evaluate(u*yk)
  *     #
- *     cdef double derivative(self, double u, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double u, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return yk*self.func.derivative(u*yk)
  *     #
  */
@@ -5478,20 +5606,20 @@ static double __pyx_f_6mlgrad_4loss_10MarginLoss_derivative(struct __pyx_obj_6ml
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":92
+/* "mlgrad/loss.pyx":100
  *         return yk*self.func.derivative(u*yk)
  *     #
- *     cdef double difference(self, double u, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double difference(self, const double u, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return -u*yk
  *     #
  */
 
-static double __pyx_f_6mlgrad_4loss_10MarginLoss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_MarginLoss *__pyx_v_self, double __pyx_v_u, double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_10MarginLoss_difference(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_MarginLoss *__pyx_v_self, double const __pyx_v_u, double const __pyx_v_yk) {
   double __pyx_r;
 
-  /* "mlgrad/loss.pyx":93
+  /* "mlgrad/loss.pyx":101
  *     #
- *     cdef double difference(self, double u, double yk) nogil:
+ *     cdef double difference(self, const double u, const double yk) nogil:
  *         return -u*yk             # <<<<<<<<<<<<<<
  *     #
  *     def _repr_latex_(self):
@@ -5499,10 +5627,10 @@ static double __pyx_f_6mlgrad_4loss_10MarginLoss_difference(CYTHON_UNUSED struct
   __pyx_r = ((-__pyx_v_u) * __pyx_v_yk);
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":92
+  /* "mlgrad/loss.pyx":100
  *         return yk*self.func.derivative(u*yk)
  *     #
- *     cdef double difference(self, double u, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double difference(self, const double u, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return -u*yk
  *     #
  */
@@ -5512,7 +5640,7 @@ static double __pyx_f_6mlgrad_4loss_10MarginLoss_difference(CYTHON_UNUSED struct
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":95
+/* "mlgrad/loss.pyx":103
  *         return -u*yk
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -5539,7 +5667,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_10MarginLoss_2_repr_latex_(CYTHON_UNUSED
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/loss.pyx":96
+  /* "mlgrad/loss.pyx":104
  *     #
  *     def _repr_latex_(self):
  *         return r"$\ell(u\tilde y)$"             # <<<<<<<<<<<<<<
@@ -5551,7 +5679,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_10MarginLoss_2_repr_latex_(CYTHON_UNUSED
   __pyx_r = __pyx_kp_u_ell_u_tilde_y;
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":95
+  /* "mlgrad/loss.pyx":103
  *         return -u*yk
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -5566,7 +5694,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_10MarginLoss_2_repr_latex_(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pxd":38
+/* "mlgrad/loss.pxd":39
  * @cython.final
  * cdef class MarginLoss(Loss):
  *     cdef public Func func             # <<<<<<<<<<<<<<
@@ -5624,7 +5752,7 @@ static int __pyx_pf_6mlgrad_4loss_10MarginLoss_4func_2__set__(struct __pyx_obj_6
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 38, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 39, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -5969,7 +6097,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_10MarginLoss_6__setstate_cython__(struct
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":101
+/* "mlgrad/loss.pyx":109
  * cdef class MLoss(Loss):
  * 
  *     def __init__(self, Func rho, Loss loss):             # <<<<<<<<<<<<<<
@@ -6011,11 +6139,11 @@ static int __pyx_pw_6mlgrad_4loss_5MLoss_1__init__(PyObject *__pyx_v_self, PyObj
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_loss)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 101, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 109, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 101, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 109, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6028,14 +6156,14 @@ static int __pyx_pw_6mlgrad_4loss_5MLoss_1__init__(PyObject *__pyx_v_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 101, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 109, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.loss.MLoss.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rho), __pyx_ptype_6mlgrad_4func_Func, 1, "rho", 0))) __PYX_ERR(0, 101, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_loss), __pyx_ptype_6mlgrad_4loss_Loss, 1, "loss", 0))) __PYX_ERR(0, 101, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rho), __pyx_ptype_6mlgrad_4func_Func, 1, "rho", 0))) __PYX_ERR(0, 109, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_loss), __pyx_ptype_6mlgrad_4loss_Loss, 1, "loss", 0))) __PYX_ERR(0, 109, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_4loss_5MLoss___init__(((struct __pyx_obj_6mlgrad_4loss_MLoss *)__pyx_v_self), __pyx_v_rho, __pyx_v_loss);
 
   /* function exit code */
@@ -6052,7 +6180,7 @@ static int __pyx_pf_6mlgrad_4loss_5MLoss___init__(struct __pyx_obj_6mlgrad_4loss
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/loss.pyx":102
+  /* "mlgrad/loss.pyx":110
  * 
  *     def __init__(self, Func rho, Loss loss):
  *         self.rho = rho             # <<<<<<<<<<<<<<
@@ -6065,12 +6193,12 @@ static int __pyx_pf_6mlgrad_4loss_5MLoss___init__(struct __pyx_obj_6mlgrad_4loss
   __Pyx_DECREF(((PyObject *)__pyx_v_self->rho));
   __pyx_v_self->rho = __pyx_v_rho;
 
-  /* "mlgrad/loss.pyx":103
+  /* "mlgrad/loss.pyx":111
  *     def __init__(self, Func rho, Loss loss):
  *         self.rho = rho
  *         self.loss = loss             # <<<<<<<<<<<<<<
  * 
- *     cdef double evaluate(self, double y, double yk) nogil:
+ *     cdef double evaluate(self, const double y, const double yk) nogil:
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_loss));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_loss));
@@ -6078,7 +6206,7 @@ static int __pyx_pf_6mlgrad_4loss_5MLoss___init__(struct __pyx_obj_6mlgrad_4loss
   __Pyx_DECREF(((PyObject *)__pyx_v_self->loss));
   __pyx_v_self->loss = __pyx_v_loss;
 
-  /* "mlgrad/loss.pyx":101
+  /* "mlgrad/loss.pyx":109
  * cdef class MLoss(Loss):
  * 
  *     def __init__(self, Func rho, Loss loss):             # <<<<<<<<<<<<<<
@@ -6092,31 +6220,31 @@ static int __pyx_pf_6mlgrad_4loss_5MLoss___init__(struct __pyx_obj_6mlgrad_4loss
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":105
+/* "mlgrad/loss.pyx":113
  *         self.loss = loss
  * 
- *     cdef double evaluate(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return self.rho.evaluate(self.loss.evaluate(y, yk))
  * 
  */
 
-static double __pyx_f_6mlgrad_4loss_5MLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_MLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_5MLoss_evaluate(struct __pyx_obj_6mlgrad_4loss_MLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk) {
   double __pyx_r;
 
-  /* "mlgrad/loss.pyx":106
+  /* "mlgrad/loss.pyx":114
  * 
- *     cdef double evaluate(self, double y, double yk) nogil:
+ *     cdef double evaluate(self, const double y, const double yk) nogil:
  *         return self.rho.evaluate(self.loss.evaluate(y, yk))             # <<<<<<<<<<<<<<
  * 
- *     cdef double derivative(self, double y, double yk) nogil:
+ *     cdef double derivative(self, const double y, const double yk) nogil:
  */
   __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->rho->__pyx_vtab)->evaluate(__pyx_v_self->rho, ((struct __pyx_vtabstruct_6mlgrad_4loss_Loss *)__pyx_v_self->loss->__pyx_vtab)->evaluate(__pyx_v_self->loss, __pyx_v_y, __pyx_v_yk));
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":105
+  /* "mlgrad/loss.pyx":113
  *         self.loss = loss
  * 
- *     cdef double evaluate(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return self.rho.evaluate(self.loss.evaluate(y, yk))
  * 
  */
@@ -6126,20 +6254,20 @@ static double __pyx_f_6mlgrad_4loss_5MLoss_evaluate(struct __pyx_obj_6mlgrad_4lo
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":108
+/* "mlgrad/loss.pyx":116
  *         return self.rho.evaluate(self.loss.evaluate(y, yk))
  * 
- *     cdef double derivative(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return self.rho.derivative(self.loss.evaluate(y, yk)) * self.loss.derivative(y, yk)
  * 
  */
 
-static double __pyx_f_6mlgrad_4loss_5MLoss_derivative(struct __pyx_obj_6mlgrad_4loss_MLoss *__pyx_v_self, double __pyx_v_y, double __pyx_v_yk) {
+static double __pyx_f_6mlgrad_4loss_5MLoss_derivative(struct __pyx_obj_6mlgrad_4loss_MLoss *__pyx_v_self, double const __pyx_v_y, double const __pyx_v_yk) {
   double __pyx_r;
 
-  /* "mlgrad/loss.pyx":109
+  /* "mlgrad/loss.pyx":117
  * 
- *     cdef double derivative(self, double y, double yk) nogil:
+ *     cdef double derivative(self, const double y, const double yk) nogil:
  *         return self.rho.derivative(self.loss.evaluate(y, yk)) * self.loss.derivative(y, yk)             # <<<<<<<<<<<<<<
  * 
  * cdef class MinLoss:
@@ -6147,10 +6275,10 @@ static double __pyx_f_6mlgrad_4loss_5MLoss_derivative(struct __pyx_obj_6mlgrad_4
   __pyx_r = (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->rho->__pyx_vtab)->derivative(__pyx_v_self->rho, ((struct __pyx_vtabstruct_6mlgrad_4loss_Loss *)__pyx_v_self->loss->__pyx_vtab)->evaluate(__pyx_v_self->loss, __pyx_v_y, __pyx_v_yk)) * ((struct __pyx_vtabstruct_6mlgrad_4loss_Loss *)__pyx_v_self->loss->__pyx_vtab)->derivative(__pyx_v_self->loss, __pyx_v_y, __pyx_v_yk));
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":108
+  /* "mlgrad/loss.pyx":116
  *         return self.rho.evaluate(self.loss.evaluate(y, yk))
  * 
- *     cdef double derivative(self, double y, double yk) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
  *         return self.rho.derivative(self.loss.evaluate(y, yk)) * self.loss.derivative(y, yk)
  * 
  */
@@ -6160,7 +6288,7 @@ static double __pyx_f_6mlgrad_4loss_5MLoss_derivative(struct __pyx_obj_6mlgrad_4
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pxd":43
+/* "mlgrad/loss.pxd":44
  * @cython.final
  * cdef class MLoss(Loss):
  *    cdef public Func rho             # <<<<<<<<<<<<<<
@@ -6218,7 +6346,7 @@ static int __pyx_pf_6mlgrad_4loss_5MLoss_3rho_2__set__(struct __pyx_obj_6mlgrad_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 43, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 44, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6268,7 +6396,7 @@ static int __pyx_pf_6mlgrad_4loss_5MLoss_3rho_4__del__(struct __pyx_obj_6mlgrad_
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pxd":44
+/* "mlgrad/loss.pxd":45
  * cdef class MLoss(Loss):
  *    cdef public Func rho
  *    cdef public Loss loss             # <<<<<<<<<<<<<<
@@ -6326,7 +6454,7 @@ static int __pyx_pf_6mlgrad_4loss_5MLoss_4loss_2__set__(struct __pyx_obj_6mlgrad
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4loss_Loss))))) __PYX_ERR(2, 44, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4loss_Loss))))) __PYX_ERR(2, 45, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6685,7 +6813,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_5MLoss_4__setstate_cython__(struct __pyx
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":113
+/* "mlgrad/loss.pyx":121
  * cdef class MinLoss:
  * 
  *     def __init__(self, Loss loss):             # <<<<<<<<<<<<<<
@@ -6722,7 +6850,7 @@ static int __pyx_pw_6mlgrad_4loss_7MinLoss_1__init__(PyObject *__pyx_v_self, PyO
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 113, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 121, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -6733,13 +6861,13 @@ static int __pyx_pw_6mlgrad_4loss_7MinLoss_1__init__(PyObject *__pyx_v_self, PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 113, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 121, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.loss.MinLoss.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_loss), __pyx_ptype_6mlgrad_4loss_Loss, 1, "loss", 0))) __PYX_ERR(0, 113, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_loss), __pyx_ptype_6mlgrad_4loss_Loss, 1, "loss", 0))) __PYX_ERR(0, 121, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_4loss_7MinLoss___init__(((struct __pyx_obj_6mlgrad_4loss_MinLoss *)__pyx_v_self), __pyx_v_loss);
 
   /* function exit code */
@@ -6756,7 +6884,7 @@ static int __pyx_pf_6mlgrad_4loss_7MinLoss___init__(struct __pyx_obj_6mlgrad_4lo
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/loss.pyx":114
+  /* "mlgrad/loss.pyx":122
  * 
  *     def __init__(self, Loss loss):
  *         self.loss = loss             # <<<<<<<<<<<<<<
@@ -6769,7 +6897,7 @@ static int __pyx_pf_6mlgrad_4loss_7MinLoss___init__(struct __pyx_obj_6mlgrad_4lo
   __Pyx_DECREF(((PyObject *)__pyx_v_self->loss));
   __pyx_v_self->loss = __pyx_v_loss;
 
-  /* "mlgrad/loss.pyx":113
+  /* "mlgrad/loss.pyx":121
  * cdef class MinLoss:
  * 
  *     def __init__(self, Loss loss):             # <<<<<<<<<<<<<<
@@ -6783,7 +6911,7 @@ static int __pyx_pf_6mlgrad_4loss_7MinLoss___init__(struct __pyx_obj_6mlgrad_4lo
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":116
+/* "mlgrad/loss.pyx":124
  *         self.loss = loss
  * 
  *     cdef double evaluate(self, double[::1] y, double yk) nogil:             # <<<<<<<<<<<<<<
@@ -6803,7 +6931,7 @@ static double __pyx_f_6mlgrad_4loss_7MinLoss_evaluate(struct __pyx_obj_6mlgrad_4
   Py_ssize_t __pyx_t_4;
   int __pyx_t_5;
 
-  /* "mlgrad/loss.pyx":117
+  /* "mlgrad/loss.pyx":125
  * 
  *     cdef double evaluate(self, double[::1] y, double yk) nogil:
  *         cdef Py_ssize_t i, n = y.shape[0]             # <<<<<<<<<<<<<<
@@ -6812,7 +6940,7 @@ static double __pyx_f_6mlgrad_4loss_7MinLoss_evaluate(struct __pyx_obj_6mlgrad_4
  */
   __pyx_v_n = (__pyx_v_y.shape[0]);
 
-  /* "mlgrad/loss.pyx":118
+  /* "mlgrad/loss.pyx":126
  *     cdef double evaluate(self, double[::1] y, double yk) nogil:
  *         cdef Py_ssize_t i, n = y.shape[0]
  *         cdef double val, val_min = float_min             # <<<<<<<<<<<<<<
@@ -6821,7 +6949,7 @@ static double __pyx_f_6mlgrad_4loss_7MinLoss_evaluate(struct __pyx_obj_6mlgrad_4
  */
   __pyx_v_val_min = __pyx_v_6mlgrad_4loss_float_min;
 
-  /* "mlgrad/loss.pyx":120
+  /* "mlgrad/loss.pyx":128
  *         cdef double val, val_min = float_min
  * 
  *         for i in range(n):             # <<<<<<<<<<<<<<
@@ -6833,7 +6961,7 @@ static double __pyx_f_6mlgrad_4loss_7MinLoss_evaluate(struct __pyx_obj_6mlgrad_4
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/loss.pyx":121
+    /* "mlgrad/loss.pyx":129
  * 
  *         for i in range(n):
  *             val = self.loss.evaluate(y[i], yk)             # <<<<<<<<<<<<<<
@@ -6843,7 +6971,7 @@ static double __pyx_f_6mlgrad_4loss_7MinLoss_evaluate(struct __pyx_obj_6mlgrad_4
     __pyx_t_4 = __pyx_v_i;
     __pyx_v_val = ((struct __pyx_vtabstruct_6mlgrad_4loss_Loss *)__pyx_v_self->loss->__pyx_vtab)->evaluate(__pyx_v_self->loss, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_4)) ))), __pyx_v_yk);
 
-    /* "mlgrad/loss.pyx":122
+    /* "mlgrad/loss.pyx":130
  *         for i in range(n):
  *             val = self.loss.evaluate(y[i], yk)
  *             if val < val_min:             # <<<<<<<<<<<<<<
@@ -6853,7 +6981,7 @@ static double __pyx_f_6mlgrad_4loss_7MinLoss_evaluate(struct __pyx_obj_6mlgrad_4
     __pyx_t_5 = ((__pyx_v_val < __pyx_v_val_min) != 0);
     if (__pyx_t_5) {
 
-      /* "mlgrad/loss.pyx":123
+      /* "mlgrad/loss.pyx":131
  *             val = self.loss.evaluate(y[i], yk)
  *             if val < val_min:
  *                 val_min = val             # <<<<<<<<<<<<<<
@@ -6862,7 +6990,7 @@ static double __pyx_f_6mlgrad_4loss_7MinLoss_evaluate(struct __pyx_obj_6mlgrad_4
  */
       __pyx_v_val_min = __pyx_v_val;
 
-      /* "mlgrad/loss.pyx":122
+      /* "mlgrad/loss.pyx":130
  *         for i in range(n):
  *             val = self.loss.evaluate(y[i], yk)
  *             if val < val_min:             # <<<<<<<<<<<<<<
@@ -6872,7 +7000,7 @@ static double __pyx_f_6mlgrad_4loss_7MinLoss_evaluate(struct __pyx_obj_6mlgrad_4
     }
   }
 
-  /* "mlgrad/loss.pyx":125
+  /* "mlgrad/loss.pyx":133
  *                 val_min = val
  * 
  *         self.val_min = val_min             # <<<<<<<<<<<<<<
@@ -6881,7 +7009,7 @@ static double __pyx_f_6mlgrad_4loss_7MinLoss_evaluate(struct __pyx_obj_6mlgrad_4
  */
   __pyx_v_self->val_min = __pyx_v_val_min;
 
-  /* "mlgrad/loss.pyx":126
+  /* "mlgrad/loss.pyx":134
  * 
  *         self.val_min = val_min
  *         return val_min             # <<<<<<<<<<<<<<
@@ -6891,7 +7019,7 @@ static double __pyx_f_6mlgrad_4loss_7MinLoss_evaluate(struct __pyx_obj_6mlgrad_4
   __pyx_r = __pyx_v_val_min;
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":116
+  /* "mlgrad/loss.pyx":124
  *         self.loss = loss
  * 
  *     cdef double evaluate(self, double[::1] y, double yk) nogil:             # <<<<<<<<<<<<<<
@@ -6904,7 +7032,7 @@ static double __pyx_f_6mlgrad_4loss_7MinLoss_evaluate(struct __pyx_obj_6mlgrad_4
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":128
+/* "mlgrad/loss.pyx":136
  *         return val_min
  * 
  *     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -6924,7 +7052,7 @@ static void __pyx_f_6mlgrad_4loss_7MinLoss_gradient(struct __pyx_obj_6mlgrad_4lo
   Py_ssize_t __pyx_t_5;
   int __pyx_t_6;
 
-  /* "mlgrad/loss.pyx":129
+  /* "mlgrad/loss.pyx":137
  * 
  *     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil:
  *         cdef Py_ssize_t i, n = y.shape[0]             # <<<<<<<<<<<<<<
@@ -6933,7 +7061,7 @@ static void __pyx_f_6mlgrad_4loss_7MinLoss_gradient(struct __pyx_obj_6mlgrad_4lo
  */
   __pyx_v_n = (__pyx_v_y.shape[0]);
 
-  /* "mlgrad/loss.pyx":130
+  /* "mlgrad/loss.pyx":138
  *     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil:
  *         cdef Py_ssize_t i, n = y.shape[0]
  *         cdef double val, val_min = self.val_min             # <<<<<<<<<<<<<<
@@ -6943,7 +7071,7 @@ static void __pyx_f_6mlgrad_4loss_7MinLoss_gradient(struct __pyx_obj_6mlgrad_4lo
   __pyx_t_1 = __pyx_v_self->val_min;
   __pyx_v_val_min = __pyx_t_1;
 
-  /* "mlgrad/loss.pyx":132
+  /* "mlgrad/loss.pyx":140
  *         cdef double val, val_min = self.val_min
  * 
  *         for i in range(n):             # <<<<<<<<<<<<<<
@@ -6955,7 +7083,7 @@ static void __pyx_f_6mlgrad_4loss_7MinLoss_gradient(struct __pyx_obj_6mlgrad_4lo
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "mlgrad/loss.pyx":133
+    /* "mlgrad/loss.pyx":141
  * 
  *         for i in range(n):
  *             val = self.loss.evaluate(y[i], yk)             # <<<<<<<<<<<<<<
@@ -6965,7 +7093,7 @@ static void __pyx_f_6mlgrad_4loss_7MinLoss_gradient(struct __pyx_obj_6mlgrad_4lo
     __pyx_t_5 = __pyx_v_i;
     __pyx_v_val = ((struct __pyx_vtabstruct_6mlgrad_4loss_Loss *)__pyx_v_self->loss->__pyx_vtab)->evaluate(__pyx_v_self->loss, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))), __pyx_v_yk);
 
-    /* "mlgrad/loss.pyx":134
+    /* "mlgrad/loss.pyx":142
  *         for i in range(n):
  *             val = self.loss.evaluate(y[i], yk)
  *             if val == val_min:             # <<<<<<<<<<<<<<
@@ -6975,7 +7103,7 @@ static void __pyx_f_6mlgrad_4loss_7MinLoss_gradient(struct __pyx_obj_6mlgrad_4lo
     __pyx_t_6 = ((__pyx_v_val == __pyx_v_val_min) != 0);
     if (__pyx_t_6) {
 
-      /* "mlgrad/loss.pyx":135
+      /* "mlgrad/loss.pyx":143
  *             val = self.loss.evaluate(y[i], yk)
  *             if val == val_min:
  *                 grad[i] = 1             # <<<<<<<<<<<<<<
@@ -6985,7 +7113,7 @@ static void __pyx_f_6mlgrad_4loss_7MinLoss_gradient(struct __pyx_obj_6mlgrad_4lo
       __pyx_t_5 = __pyx_v_i;
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = 1.0;
 
-      /* "mlgrad/loss.pyx":134
+      /* "mlgrad/loss.pyx":142
  *         for i in range(n):
  *             val = self.loss.evaluate(y[i], yk)
  *             if val == val_min:             # <<<<<<<<<<<<<<
@@ -6995,7 +7123,7 @@ static void __pyx_f_6mlgrad_4loss_7MinLoss_gradient(struct __pyx_obj_6mlgrad_4lo
       goto __pyx_L5;
     }
 
-    /* "mlgrad/loss.pyx":137
+    /* "mlgrad/loss.pyx":145
  *                 grad[i] = 1
  *             else:
  *                 grad[i] = 0             # <<<<<<<<<<<<<<
@@ -7009,7 +7137,7 @@ static void __pyx_f_6mlgrad_4loss_7MinLoss_gradient(struct __pyx_obj_6mlgrad_4lo
     __pyx_L5:;
   }
 
-  /* "mlgrad/loss.pyx":128
+  /* "mlgrad/loss.pyx":136
  *         return val_min
  * 
  *     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -7020,7 +7148,7 @@ static void __pyx_f_6mlgrad_4loss_7MinLoss_gradient(struct __pyx_obj_6mlgrad_4lo
   /* function exit code */
 }
 
-/* "mlgrad/loss.pxd":60
+/* "mlgrad/loss.pxd":61
  * 
  * cdef class MinLoss:
  *     cdef public Loss loss             # <<<<<<<<<<<<<<
@@ -7078,7 +7206,7 @@ static int __pyx_pf_6mlgrad_4loss_7MinLoss_4loss_2__set__(struct __pyx_obj_6mlgr
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4loss_Loss))))) __PYX_ERR(2, 60, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4loss_Loss))))) __PYX_ERR(2, 61, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -7428,7 +7556,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_7MinLoss_4__setstate_cython__(struct __p
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":141
+/* "mlgrad/loss.pyx":149
  * cdef class MultLoss:
  * 
  *     cdef double evaluate(self, double[::1] y, double[::1] yk) nogil:             # <<<<<<<<<<<<<<
@@ -7439,7 +7567,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_7MinLoss_4__setstate_cython__(struct __p
 static double __pyx_f_6mlgrad_4loss_8MultLoss_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4loss_MultLoss *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_y, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_yk) {
   double __pyx_r;
 
-  /* "mlgrad/loss.pyx":142
+  /* "mlgrad/loss.pyx":150
  * 
  *     cdef double evaluate(self, double[::1] y, double[::1] yk) nogil:
  *         return 0             # <<<<<<<<<<<<<<
@@ -7449,7 +7577,7 @@ static double __pyx_f_6mlgrad_4loss_8MultLoss_evaluate(CYTHON_UNUSED struct __py
   __pyx_r = 0.0;
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":141
+  /* "mlgrad/loss.pyx":149
  * cdef class MultLoss:
  * 
  *     cdef double evaluate(self, double[::1] y, double[::1] yk) nogil:             # <<<<<<<<<<<<<<
@@ -7462,7 +7590,7 @@ static double __pyx_f_6mlgrad_4loss_8MultLoss_evaluate(CYTHON_UNUSED struct __py
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":144
+/* "mlgrad/loss.pyx":152
  *         return 0
  * 
  *     cdef void gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -7764,7 +7892,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_8MultLoss_2__setstate_cython__(struct __
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":148
+/* "mlgrad/loss.pyx":156
  * 
  * cdef class ErrorMultLoss(MultLoss):
  *     def __init__(self, Func func):             # <<<<<<<<<<<<<<
@@ -7801,7 +7929,7 @@ static int __pyx_pw_6mlgrad_4loss_13ErrorMultLoss_1__init__(PyObject *__pyx_v_se
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 148, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 156, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -7812,13 +7940,13 @@ static int __pyx_pw_6mlgrad_4loss_13ErrorMultLoss_1__init__(PyObject *__pyx_v_se
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 148, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 156, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.loss.ErrorMultLoss.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(0, 148, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(0, 156, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_4loss_13ErrorMultLoss___init__(((struct __pyx_obj_6mlgrad_4loss_ErrorMultLoss *)__pyx_v_self), __pyx_v_func);
 
   /* function exit code */
@@ -7835,7 +7963,7 @@ static int __pyx_pf_6mlgrad_4loss_13ErrorMultLoss___init__(struct __pyx_obj_6mlg
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/loss.pyx":149
+  /* "mlgrad/loss.pyx":157
  * cdef class ErrorMultLoss(MultLoss):
  *     def __init__(self, Func func):
  *         self.func = func             # <<<<<<<<<<<<<<
@@ -7848,7 +7976,7 @@ static int __pyx_pf_6mlgrad_4loss_13ErrorMultLoss___init__(struct __pyx_obj_6mlg
   __Pyx_DECREF(((PyObject *)__pyx_v_self->func));
   __pyx_v_self->func = __pyx_v_func;
 
-  /* "mlgrad/loss.pyx":148
+  /* "mlgrad/loss.pyx":156
  * 
  * cdef class ErrorMultLoss(MultLoss):
  *     def __init__(self, Func func):             # <<<<<<<<<<<<<<
@@ -7862,7 +7990,7 @@ static int __pyx_pf_6mlgrad_4loss_13ErrorMultLoss___init__(struct __pyx_obj_6mlg
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":151
+/* "mlgrad/loss.pyx":159
  *         self.func = func
  * 
  *     cdef double evaluate(self, double[::1] y, double[::1] yk) nogil:             # <<<<<<<<<<<<<<
@@ -7881,7 +8009,7 @@ static double __pyx_f_6mlgrad_4loss_13ErrorMultLoss_evaluate(struct __pyx_obj_6m
   Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
 
-  /* "mlgrad/loss.pyx":152
+  /* "mlgrad/loss.pyx":160
  * 
  *     cdef double evaluate(self, double[::1] y, double[::1] yk) nogil:
  *         cdef Py_ssize_t i, n = y.shape[0]             # <<<<<<<<<<<<<<
@@ -7890,7 +8018,7 @@ static double __pyx_f_6mlgrad_4loss_13ErrorMultLoss_evaluate(struct __pyx_obj_6m
  */
   __pyx_v_n = (__pyx_v_y.shape[0]);
 
-  /* "mlgrad/loss.pyx":153
+  /* "mlgrad/loss.pyx":161
  *     cdef double evaluate(self, double[::1] y, double[::1] yk) nogil:
  *         cdef Py_ssize_t i, n = y.shape[0]
  *         cdef double s = 0             # <<<<<<<<<<<<<<
@@ -7899,7 +8027,7 @@ static double __pyx_f_6mlgrad_4loss_13ErrorMultLoss_evaluate(struct __pyx_obj_6m
  */
   __pyx_v_s = 0.0;
 
-  /* "mlgrad/loss.pyx":155
+  /* "mlgrad/loss.pyx":163
  *         cdef double s = 0
  * 
  *         for i in range(n):             # <<<<<<<<<<<<<<
@@ -7911,7 +8039,7 @@ static double __pyx_f_6mlgrad_4loss_13ErrorMultLoss_evaluate(struct __pyx_obj_6m
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/loss.pyx":156
+    /* "mlgrad/loss.pyx":164
  * 
  *         for i in range(n):
  *             s += self.func.evaluate(y[i] - yk[i])             # <<<<<<<<<<<<<<
@@ -7923,7 +8051,7 @@ static double __pyx_f_6mlgrad_4loss_13ErrorMultLoss_evaluate(struct __pyx_obj_6m
     __pyx_v_s = (__pyx_v_s + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->evaluate(__pyx_v_self->func, ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_yk.data) + __pyx_t_5)) ))))));
   }
 
-  /* "mlgrad/loss.pyx":157
+  /* "mlgrad/loss.pyx":165
  *         for i in range(n):
  *             s += self.func.evaluate(y[i] - yk[i])
  *         return s             # <<<<<<<<<<<<<<
@@ -7933,7 +8061,7 @@ static double __pyx_f_6mlgrad_4loss_13ErrorMultLoss_evaluate(struct __pyx_obj_6m
   __pyx_r = __pyx_v_s;
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":151
+  /* "mlgrad/loss.pyx":159
  *         self.func = func
  * 
  *     cdef double evaluate(self, double[::1] y, double[::1] yk) nogil:             # <<<<<<<<<<<<<<
@@ -7946,7 +8074,7 @@ static double __pyx_f_6mlgrad_4loss_13ErrorMultLoss_evaluate(struct __pyx_obj_6m
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":159
+/* "mlgrad/loss.pyx":167
  *         return s
  * 
  *     cdef void gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -7964,7 +8092,7 @@ static void __pyx_f_6mlgrad_4loss_13ErrorMultLoss_gradient(struct __pyx_obj_6mlg
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
 
-  /* "mlgrad/loss.pyx":160
+  /* "mlgrad/loss.pyx":168
  * 
  *     cdef void gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:
  *         cdef Py_ssize_t i, n = y.shape[0]             # <<<<<<<<<<<<<<
@@ -7973,7 +8101,7 @@ static void __pyx_f_6mlgrad_4loss_13ErrorMultLoss_gradient(struct __pyx_obj_6mlg
  */
   __pyx_v_n = (__pyx_v_y.shape[0]);
 
-  /* "mlgrad/loss.pyx":161
+  /* "mlgrad/loss.pyx":169
  *     cdef void gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:
  *         cdef Py_ssize_t i, n = y.shape[0]
  *         for i in range(n):             # <<<<<<<<<<<<<<
@@ -7985,7 +8113,7 @@ static void __pyx_f_6mlgrad_4loss_13ErrorMultLoss_gradient(struct __pyx_obj_6mlg
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/loss.pyx":162
+    /* "mlgrad/loss.pyx":170
  *         cdef Py_ssize_t i, n = y.shape[0]
  *         for i in range(n):
  *             grad[i] = self.func.derivative(y[i]-yk[i])             # <<<<<<<<<<<<<<
@@ -7998,7 +8126,7 @@ static void __pyx_f_6mlgrad_4loss_13ErrorMultLoss_gradient(struct __pyx_obj_6mlg
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->derivative(__pyx_v_self->func, ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_yk.data) + __pyx_t_5)) )))));
   }
 
-  /* "mlgrad/loss.pyx":159
+  /* "mlgrad/loss.pyx":167
  *         return s
  * 
  *     cdef void gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -8009,7 +8137,7 @@ static void __pyx_f_6mlgrad_4loss_13ErrorMultLoss_gradient(struct __pyx_obj_6mlg
   /* function exit code */
 }
 
-/* "mlgrad/loss.pyx":164
+/* "mlgrad/loss.pyx":172
  *             grad[i] = self.func.derivative(y[i]-yk[i])
  * 
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -8036,7 +8164,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_13ErrorMultLoss_2_repr_latex_(CYTHON_UNU
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/loss.pyx":165
+  /* "mlgrad/loss.pyx":173
  * 
  *     def _repr_latex_(self):
  *         return r"$\ell(y - \tilde y)$"             # <<<<<<<<<<<<<<
@@ -8048,7 +8176,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_13ErrorMultLoss_2_repr_latex_(CYTHON_UNU
   __pyx_r = __pyx_kp_u_ell_y_tilde_y;
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":164
+  /* "mlgrad/loss.pyx":172
  *             grad[i] = self.func.derivative(y[i]-yk[i])
  * 
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -8063,7 +8191,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_13ErrorMultLoss_2_repr_latex_(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pxd":53
+/* "mlgrad/loss.pxd":54
  * @cython.final
  * cdef class ErrorMultLoss(MultLoss):
  *     cdef public Func func             # <<<<<<<<<<<<<<
@@ -8121,7 +8249,7 @@ static int __pyx_pf_6mlgrad_4loss_13ErrorMultLoss_4func_2__set__(struct __pyx_ob
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 53, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 54, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -8466,7 +8594,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_13ErrorMultLoss_6__setstate_cython__(str
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":169
+/* "mlgrad/loss.pyx":177
  * cdef class MarginMultLoss(MultLoss):
  * 
  *     def __init__(self, Func func):             # <<<<<<<<<<<<<<
@@ -8503,7 +8631,7 @@ static int __pyx_pw_6mlgrad_4loss_14MarginMultLoss_1__init__(PyObject *__pyx_v_s
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 169, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 177, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -8514,13 +8642,13 @@ static int __pyx_pw_6mlgrad_4loss_14MarginMultLoss_1__init__(PyObject *__pyx_v_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 169, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 177, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.loss.MarginMultLoss.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(0, 169, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(0, 177, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_4loss_14MarginMultLoss___init__(((struct __pyx_obj_6mlgrad_4loss_MarginMultLoss *)__pyx_v_self), __pyx_v_func);
 
   /* function exit code */
@@ -8537,7 +8665,7 @@ static int __pyx_pf_6mlgrad_4loss_14MarginMultLoss___init__(struct __pyx_obj_6ml
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/loss.pyx":170
+  /* "mlgrad/loss.pyx":178
  * 
  *     def __init__(self, Func func):
  *         self.func = func             # <<<<<<<<<<<<<<
@@ -8550,7 +8678,7 @@ static int __pyx_pf_6mlgrad_4loss_14MarginMultLoss___init__(struct __pyx_obj_6ml
   __Pyx_DECREF(((PyObject *)__pyx_v_self->func));
   __pyx_v_self->func = __pyx_v_func;
 
-  /* "mlgrad/loss.pyx":169
+  /* "mlgrad/loss.pyx":177
  * cdef class MarginMultLoss(MultLoss):
  * 
  *     def __init__(self, Func func):             # <<<<<<<<<<<<<<
@@ -8564,7 +8692,7 @@ static int __pyx_pf_6mlgrad_4loss_14MarginMultLoss___init__(struct __pyx_obj_6ml
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":172
+/* "mlgrad/loss.pyx":180
  *         self.func = func
  * 
  *     cdef double evaluate(self, double[::1] u, double[::1] yk) nogil:             # <<<<<<<<<<<<<<
@@ -8583,7 +8711,7 @@ static double __pyx_f_6mlgrad_4loss_14MarginMultLoss_evaluate(struct __pyx_obj_6
   Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
 
-  /* "mlgrad/loss.pyx":173
+  /* "mlgrad/loss.pyx":181
  * 
  *     cdef double evaluate(self, double[::1] u, double[::1] yk) nogil:
  *         cdef Py_ssize_t i, n = u.shape[0]             # <<<<<<<<<<<<<<
@@ -8592,7 +8720,7 @@ static double __pyx_f_6mlgrad_4loss_14MarginMultLoss_evaluate(struct __pyx_obj_6
  */
   __pyx_v_n = (__pyx_v_u.shape[0]);
 
-  /* "mlgrad/loss.pyx":174
+  /* "mlgrad/loss.pyx":182
  *     cdef double evaluate(self, double[::1] u, double[::1] yk) nogil:
  *         cdef Py_ssize_t i, n = u.shape[0]
  *         cdef double s = 0             # <<<<<<<<<<<<<<
@@ -8601,7 +8729,7 @@ static double __pyx_f_6mlgrad_4loss_14MarginMultLoss_evaluate(struct __pyx_obj_6
  */
   __pyx_v_s = 0.0;
 
-  /* "mlgrad/loss.pyx":176
+  /* "mlgrad/loss.pyx":184
  *         cdef double s = 0
  * 
  *         for i in range(n):             # <<<<<<<<<<<<<<
@@ -8613,7 +8741,7 @@ static double __pyx_f_6mlgrad_4loss_14MarginMultLoss_evaluate(struct __pyx_obj_6
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/loss.pyx":177
+    /* "mlgrad/loss.pyx":185
  * 
  *         for i in range(n):
  *             s += self.func.evaluate(u[i]*yk[i])             # <<<<<<<<<<<<<<
@@ -8625,7 +8753,7 @@ static double __pyx_f_6mlgrad_4loss_14MarginMultLoss_evaluate(struct __pyx_obj_6
     __pyx_v_s = (__pyx_v_s + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->evaluate(__pyx_v_self->func, ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_u.data) + __pyx_t_4)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_yk.data) + __pyx_t_5)) ))))));
   }
 
-  /* "mlgrad/loss.pyx":178
+  /* "mlgrad/loss.pyx":186
  *         for i in range(n):
  *             s += self.func.evaluate(u[i]*yk[i])
  *         return s             # <<<<<<<<<<<<<<
@@ -8635,7 +8763,7 @@ static double __pyx_f_6mlgrad_4loss_14MarginMultLoss_evaluate(struct __pyx_obj_6
   __pyx_r = __pyx_v_s;
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":172
+  /* "mlgrad/loss.pyx":180
  *         self.func = func
  * 
  *     cdef double evaluate(self, double[::1] u, double[::1] yk) nogil:             # <<<<<<<<<<<<<<
@@ -8648,7 +8776,7 @@ static double __pyx_f_6mlgrad_4loss_14MarginMultLoss_evaluate(struct __pyx_obj_6
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pyx":180
+/* "mlgrad/loss.pyx":188
  *         return s
  * 
  *     cdef void gradient(self, double[::1] u, double[::1] yk, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -8667,7 +8795,7 @@ static void __pyx_f_6mlgrad_4loss_14MarginMultLoss_gradient(struct __pyx_obj_6ml
   Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
 
-  /* "mlgrad/loss.pyx":181
+  /* "mlgrad/loss.pyx":189
  * 
  *     cdef void gradient(self, double[::1] u, double[::1] yk, double[::1] grad) nogil:
  *         cdef Py_ssize_t i, n = u.shape[0]             # <<<<<<<<<<<<<<
@@ -8676,7 +8804,7 @@ static void __pyx_f_6mlgrad_4loss_14MarginMultLoss_gradient(struct __pyx_obj_6ml
  */
   __pyx_v_n = (__pyx_v_u.shape[0]);
 
-  /* "mlgrad/loss.pyx":182
+  /* "mlgrad/loss.pyx":190
  *     cdef void gradient(self, double[::1] u, double[::1] yk, double[::1] grad) nogil:
  *         cdef Py_ssize_t i, n = u.shape[0]
  *         for i in range(n):             # <<<<<<<<<<<<<<
@@ -8688,7 +8816,7 @@ static void __pyx_f_6mlgrad_4loss_14MarginMultLoss_gradient(struct __pyx_obj_6ml
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/loss.pyx":183
+    /* "mlgrad/loss.pyx":191
  *         cdef Py_ssize_t i, n = u.shape[0]
  *         for i in range(n):
  *             grad[i] = yk[i] * self.func.derivative(u[i]*yk[i])             # <<<<<<<<<<<<<<
@@ -8702,7 +8830,7 @@ static void __pyx_f_6mlgrad_4loss_14MarginMultLoss_gradient(struct __pyx_obj_6ml
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_7)) )) = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_yk.data) + __pyx_t_4)) ))) * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->derivative(__pyx_v_self->func, ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_u.data) + __pyx_t_5)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_yk.data) + __pyx_t_6)) ))))));
   }
 
-  /* "mlgrad/loss.pyx":180
+  /* "mlgrad/loss.pyx":188
  *         return s
  * 
  *     cdef void gradient(self, double[::1] u, double[::1] yk, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -8713,7 +8841,7 @@ static void __pyx_f_6mlgrad_4loss_14MarginMultLoss_gradient(struct __pyx_obj_6ml
   /* function exit code */
 }
 
-/* "mlgrad/loss.pyx":185
+/* "mlgrad/loss.pyx":193
  *             grad[i] = yk[i] * self.func.derivative(u[i]*yk[i])
  * 
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -8740,7 +8868,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_14MarginMultLoss_2_repr_latex_(CYTHON_UN
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/loss.pyx":186
+  /* "mlgrad/loss.pyx":194
  * 
  *     def _repr_latex_(self):
  *         return r"$\ell(u\tilde y)$"             # <<<<<<<<<<<<<<
@@ -8752,7 +8880,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_14MarginMultLoss_2_repr_latex_(CYTHON_UN
   __pyx_r = __pyx_kp_u_ell_u_tilde_y;
   goto __pyx_L0;
 
-  /* "mlgrad/loss.pyx":185
+  /* "mlgrad/loss.pyx":193
  *             grad[i] = yk[i] * self.func.derivative(u[i]*yk[i])
  * 
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -8767,7 +8895,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_14MarginMultLoss_2_repr_latex_(CYTHON_UN
   return __pyx_r;
 }
 
-/* "mlgrad/loss.pxd":57
+/* "mlgrad/loss.pxd":58
  * @cython.final
  * cdef class MarginMultLoss(MultLoss):
  *     cdef public Func func             # <<<<<<<<<<<<<<
@@ -8825,7 +8953,7 @@ static int __pyx_pf_6mlgrad_4loss_14MarginMultLoss_4func_2__set__(struct __pyx_o
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 57, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 58, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -10040,18 +10168,18 @@ static PyObject *__pyx_pf_6mlgrad_4loss_4__pyx_unpickle_RelativeErrorLoss(CYTHON
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x7df4935:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x845f8ae:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7df4935 = (func))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x845f8ae = (eps, func))" % __pyx_checksum)
  */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x7df4935) != 0);
+  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x845f8ae) != 0);
   if (__pyx_t_1) {
 
     /* "(tree fragment)":5
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x7df4935:
+ *     if __pyx_checksum != 0x845f8ae:
  *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7df4935 = (func))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x845f8ae = (eps, func))" % __pyx_checksum)
  *     __pyx_result = RelativeErrorLoss.__new__(__pyx_type)
  */
     __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
@@ -10070,15 +10198,15 @@ static PyObject *__pyx_pf_6mlgrad_4loss_4__pyx_unpickle_RelativeErrorLoss(CYTHON
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":6
- *     if __pyx_checksum != 0x7df4935:
+ *     if __pyx_checksum != 0x845f8ae:
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7df4935 = (func))" % __pyx_checksum)             # <<<<<<<<<<<<<<
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x845f8ae = (eps, func))" % __pyx_checksum)             # <<<<<<<<<<<<<<
  *     __pyx_result = RelativeErrorLoss.__new__(__pyx_type)
  *     if __pyx_state is not None:
  */
     __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x7d, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 6, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x84, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_INCREF(__pyx_v___pyx_PickleError);
@@ -10105,15 +10233,15 @@ static PyObject *__pyx_pf_6mlgrad_4loss_4__pyx_unpickle_RelativeErrorLoss(CYTHON
     /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x7df4935:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x845f8ae:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7df4935 = (func))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x845f8ae = (eps, func))" % __pyx_checksum)
  */
   }
 
   /* "(tree fragment)":7
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7df4935 = (func))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x845f8ae = (eps, func))" % __pyx_checksum)
  *     __pyx_result = RelativeErrorLoss.__new__(__pyx_type)             # <<<<<<<<<<<<<<
  *     if __pyx_state is not None:
  *         __pyx_unpickle_RelativeErrorLoss__set_state(<RelativeErrorLoss> __pyx_result, __pyx_state)
@@ -10139,7 +10267,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_4__pyx_unpickle_RelativeErrorLoss(CYTHON
   __pyx_t_3 = 0;
 
   /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7df4935 = (func))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x845f8ae = (eps, func))" % __pyx_checksum)
  *     __pyx_result = RelativeErrorLoss.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_RelativeErrorLoss__set_state(<RelativeErrorLoss> __pyx_result, __pyx_state)
@@ -10162,7 +10290,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_4__pyx_unpickle_RelativeErrorLoss(CYTHON
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7df4935 = (func))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x845f8ae = (eps, func))" % __pyx_checksum)
  *     __pyx_result = RelativeErrorLoss.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_RelativeErrorLoss__set_state(<RelativeErrorLoss> __pyx_result, __pyx_state)
@@ -10175,7 +10303,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_4__pyx_unpickle_RelativeErrorLoss(CYTHON
  *         __pyx_unpickle_RelativeErrorLoss__set_state(<RelativeErrorLoss> __pyx_result, __pyx_state)
  *     return __pyx_result             # <<<<<<<<<<<<<<
  * cdef __pyx_unpickle_RelativeErrorLoss__set_state(RelativeErrorLoss __pyx_result, tuple __pyx_state):
- *     __pyx_result.func = __pyx_state[0]
+ *     __pyx_result.eps = __pyx_state[0]; __pyx_result.func = __pyx_state[1]
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v___pyx_result);
@@ -10208,20 +10336,21 @@ static PyObject *__pyx_pf_6mlgrad_4loss_4__pyx_unpickle_RelativeErrorLoss(CYTHON
  *         __pyx_unpickle_RelativeErrorLoss__set_state(<RelativeErrorLoss> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_RelativeErrorLoss__set_state(RelativeErrorLoss __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.func = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.eps = __pyx_state[0]; __pyx_result.func = __pyx_state[1]
+ *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
  */
 
 static PyObject *__pyx_f_6mlgrad_4loss___pyx_unpickle_RelativeErrorLoss__set_state(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  int __pyx_t_4;
+  double __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
   int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -10230,82 +10359,88 @@ static PyObject *__pyx_f_6mlgrad_4loss___pyx_unpickle_RelativeErrorLoss__set_sta
   /* "(tree fragment)":12
  *     return __pyx_result
  * cdef __pyx_unpickle_RelativeErrorLoss__set_state(RelativeErrorLoss __pyx_result, tuple __pyx_state):
- *     __pyx_result.func = __pyx_state[0]             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[1])
+ *     __pyx_result.eps = __pyx_state[0]; __pyx_result.func = __pyx_state[1]             # <<<<<<<<<<<<<<
+ *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[2])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
-  __Pyx_INCREF(__pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->eps = __pyx_t_1;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(1, 12, __pyx_L1_error)
+  }
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 1);
+  __Pyx_INCREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v___pyx_result->func);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->func));
-  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
-  __pyx_t_1 = 0;
+  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_2);
+  __pyx_t_2 = 0;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_RelativeErrorLoss__set_state(RelativeErrorLoss __pyx_result, tuple __pyx_state):
- *     __pyx_result.func = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[1])
+ *     __pyx_result.eps = __pyx_state[0]; __pyx_result.func = __pyx_state[1]
+ *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[2])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(1, 13, __pyx_L1_error)
   }
-  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_4 = ((__pyx_t_3 > 1) != 0);
-  if (__pyx_t_4) {
+  __pyx_t_4 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_t_5 = ((__pyx_t_4 > 2) != 0);
+  if (__pyx_t_5) {
   } else {
-    __pyx_t_2 = __pyx_t_4;
+    __pyx_t_3 = __pyx_t_5;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_4 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_5 = (__pyx_t_4 != 0);
-  __pyx_t_2 = __pyx_t_5;
+  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_t_6 = (__pyx_t_5 != 0);
+  __pyx_t_3 = __pyx_t_6;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_2) {
+  if (__pyx_t_3) {
 
     /* "(tree fragment)":14
- *     __pyx_result.func = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[1])             # <<<<<<<<<<<<<<
+ *     __pyx_result.eps = __pyx_state[0]; __pyx_result.func = __pyx_state[1]
+ *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[2])             # <<<<<<<<<<<<<<
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_update); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 14, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_update); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (unlikely(__pyx_v___pyx_state == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 14, __pyx_L1_error)
     }
-    __pyx_t_6 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_7);
-      if (likely(__pyx_t_6)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_6);
+    __pyx_t_7 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_7, function);
+        __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_6, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)) : __Pyx_PyObject_CallOneArg(__pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1));
-    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 2));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_RelativeErrorLoss__set_state(RelativeErrorLoss __pyx_result, tuple __pyx_state):
- *     __pyx_result.func = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[1])
+ *     __pyx_result.eps = __pyx_state[0]; __pyx_result.func = __pyx_state[1]
+ *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[2])
  */
   }
 
@@ -10313,17 +10448,17 @@ static PyObject *__pyx_f_6mlgrad_4loss___pyx_unpickle_RelativeErrorLoss__set_sta
  *         __pyx_unpickle_RelativeErrorLoss__set_state(<RelativeErrorLoss> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_RelativeErrorLoss__set_state(RelativeErrorLoss __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.func = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.eps = __pyx_state[0]; __pyx_result.func = __pyx_state[1]
+ *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
  */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("mlgrad.loss.__pyx_unpickle_RelativeErrorLoss__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -26046,7 +26181,7 @@ static PyTypeObject __pyx_type_6mlgrad_4loss_RelativeErrorLoss = {
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  "RelativeErrorLoss(Func func)", /*tp_doc*/
+  "RelativeErrorLoss(Func func, eps=1.0e-9)", /*tp_doc*/
   __pyx_tp_traverse_6mlgrad_4loss_RelativeErrorLoss, /*tp_traverse*/
   __pyx_tp_clear_6mlgrad_4loss_RelativeErrorLoss, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -27659,6 +27794,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ErrorLoss, __pyx_k_ErrorLoss, sizeof(__pyx_k_ErrorLoss), 0, 0, 1, 1},
   {&__pyx_n_s_ErrorMultLoss, __pyx_k_ErrorMultLoss, sizeof(__pyx_k_ErrorMultLoss), 0, 0, 1, 1},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x7d, __pyx_k_Incompatible_checksums_s_vs_0x7d, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x7d), 0, 0, 1, 0},
+  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x84, __pyx_k_Incompatible_checksums_s_vs_0x84, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x84), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0xb0, __pyx_k_Incompatible_checksums_s_vs_0xb0, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xb0), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0xd4, __pyx_k_Incompatible_checksums_s_vs_0xd4, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xd4), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0xf5, __pyx_k_Incompatible_checksums_s_vs_0xf5, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xf5), 0, 0, 1, 0},
@@ -27698,6 +27834,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_ell_y_tilde_y, __pyx_k_ell_y_tilde_y, sizeof(__pyx_k_ell_y_tilde_y), 0, 1, 0, 0},
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
+  {&__pyx_n_s_eps, __pyx_k_eps, sizeof(__pyx_k_eps), 0, 0, 1, 1},
   {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
   {&__pyx_n_s_flags, __pyx_k_flags, sizeof(__pyx_k_flags), 0, 0, 1, 1},
   {&__pyx_n_s_float_min, __pyx_k_float_min, sizeof(__pyx_k_float_min), 0, 0, 1, 1},
@@ -27767,7 +27904,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 128, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 148, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(1, 151, __pyx_L1_error)
@@ -28091,9 +28228,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  __pyx_float_1_0eneg_9 = PyFloat_FromDouble(1.0e-9); if (unlikely(!__pyx_float_1_0eneg_9)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_132073781 = PyInt_FromLong(132073781L); if (unlikely(!__pyx_int_132073781)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_138803374 = PyInt_FromLong(138803374L); if (unlikely(!__pyx_int_138803374)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_184977713 = PyInt_FromLong(184977713L); if (unlikely(!__pyx_int_184977713)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_222419149 = PyInt_FromLong(222419149L); if (unlikely(!__pyx_int_222419149)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_257336534 = PyInt_FromLong(257336534L); if (unlikely(!__pyx_int_257336534)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -28156,9 +28295,9 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
   __pyx_vtabptr_6mlgrad_4loss_Loss = &__pyx_vtable_6mlgrad_4loss_Loss;
-  __pyx_vtable_6mlgrad_4loss_Loss.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_4Loss_evaluate;
-  __pyx_vtable_6mlgrad_4loss_Loss.derivative = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_4Loss_derivative;
-  __pyx_vtable_6mlgrad_4loss_Loss.difference = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_4Loss_difference;
+  __pyx_vtable_6mlgrad_4loss_Loss.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_4Loss_evaluate;
+  __pyx_vtable_6mlgrad_4loss_Loss.derivative = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_4Loss_derivative;
+  __pyx_vtable_6mlgrad_4loss_Loss.difference = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_4Loss_difference;
   if (PyType_Ready(&__pyx_type_6mlgrad_4loss_Loss) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4loss_Loss.tp_print = 0;
@@ -28172,9 +28311,9 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4loss_Loss = &__pyx_type_6mlgrad_4loss_Loss;
   __pyx_vtabptr_6mlgrad_4loss_ErrorLoss = &__pyx_vtable_6mlgrad_4loss_ErrorLoss;
   __pyx_vtable_6mlgrad_4loss_ErrorLoss.__pyx_base = *__pyx_vtabptr_6mlgrad_4loss_Loss;
-  __pyx_vtable_6mlgrad_4loss_ErrorLoss.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_9ErrorLoss_evaluate;
-  __pyx_vtable_6mlgrad_4loss_ErrorLoss.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_9ErrorLoss_derivative;
-  __pyx_vtable_6mlgrad_4loss_ErrorLoss.__pyx_base.difference = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_9ErrorLoss_difference;
+  __pyx_vtable_6mlgrad_4loss_ErrorLoss.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_9ErrorLoss_evaluate;
+  __pyx_vtable_6mlgrad_4loss_ErrorLoss.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_9ErrorLoss_derivative;
+  __pyx_vtable_6mlgrad_4loss_ErrorLoss.__pyx_base.difference = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_9ErrorLoss_difference;
   __pyx_type_6mlgrad_4loss_ErrorLoss.tp_base = __pyx_ptype_6mlgrad_4loss_Loss;
   if (PyType_Ready(&__pyx_type_6mlgrad_4loss_ErrorLoss) < 0) __PYX_ERR(0, 47, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -28189,9 +28328,9 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4loss_ErrorLoss = &__pyx_type_6mlgrad_4loss_ErrorLoss;
   __pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss = &__pyx_vtable_6mlgrad_4loss_RelativeErrorLoss;
   __pyx_vtable_6mlgrad_4loss_RelativeErrorLoss.__pyx_base = *__pyx_vtabptr_6mlgrad_4loss_Loss;
-  __pyx_vtable_6mlgrad_4loss_RelativeErrorLoss.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_17RelativeErrorLoss_evaluate;
-  __pyx_vtable_6mlgrad_4loss_RelativeErrorLoss.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_17RelativeErrorLoss_derivative;
-  __pyx_vtable_6mlgrad_4loss_RelativeErrorLoss.__pyx_base.difference = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_17RelativeErrorLoss_difference;
+  __pyx_vtable_6mlgrad_4loss_RelativeErrorLoss.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_17RelativeErrorLoss_evaluate;
+  __pyx_vtable_6mlgrad_4loss_RelativeErrorLoss.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_17RelativeErrorLoss_derivative;
+  __pyx_vtable_6mlgrad_4loss_RelativeErrorLoss.__pyx_base.difference = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_17RelativeErrorLoss_difference;
   __pyx_type_6mlgrad_4loss_RelativeErrorLoss.tp_base = __pyx_ptype_6mlgrad_4loss_Loss;
   if (PyType_Ready(&__pyx_type_6mlgrad_4loss_RelativeErrorLoss) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -28206,96 +28345,96 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4loss_RelativeErrorLoss = &__pyx_type_6mlgrad_4loss_RelativeErrorLoss;
   __pyx_vtabptr_6mlgrad_4loss_MarginLoss = &__pyx_vtable_6mlgrad_4loss_MarginLoss;
   __pyx_vtable_6mlgrad_4loss_MarginLoss.__pyx_base = *__pyx_vtabptr_6mlgrad_4loss_Loss;
-  __pyx_vtable_6mlgrad_4loss_MarginLoss.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_10MarginLoss_evaluate;
-  __pyx_vtable_6mlgrad_4loss_MarginLoss.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_10MarginLoss_derivative;
-  __pyx_vtable_6mlgrad_4loss_MarginLoss.__pyx_base.difference = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_10MarginLoss_difference;
+  __pyx_vtable_6mlgrad_4loss_MarginLoss.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_10MarginLoss_evaluate;
+  __pyx_vtable_6mlgrad_4loss_MarginLoss.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_10MarginLoss_derivative;
+  __pyx_vtable_6mlgrad_4loss_MarginLoss.__pyx_base.difference = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_10MarginLoss_difference;
   __pyx_type_6mlgrad_4loss_MarginLoss.tp_base = __pyx_ptype_6mlgrad_4loss_Loss;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4loss_MarginLoss) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4loss_MarginLoss) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4loss_MarginLoss.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4loss_MarginLoss.tp_dictoffset && __pyx_type_6mlgrad_4loss_MarginLoss.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4loss_MarginLoss.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4loss_MarginLoss.tp_dict, __pyx_vtabptr_6mlgrad_4loss_MarginLoss) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MarginLoss, (PyObject *)&__pyx_type_6mlgrad_4loss_MarginLoss) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4loss_MarginLoss) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4loss_MarginLoss.tp_dict, __pyx_vtabptr_6mlgrad_4loss_MarginLoss) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MarginLoss, (PyObject *)&__pyx_type_6mlgrad_4loss_MarginLoss) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4loss_MarginLoss) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MarginLoss = &__pyx_type_6mlgrad_4loss_MarginLoss;
   __pyx_vtabptr_6mlgrad_4loss_MLoss = &__pyx_vtable_6mlgrad_4loss_MLoss;
   __pyx_vtable_6mlgrad_4loss_MLoss.__pyx_base = *__pyx_vtabptr_6mlgrad_4loss_Loss;
-  __pyx_vtable_6mlgrad_4loss_MLoss.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_5MLoss_evaluate;
-  __pyx_vtable_6mlgrad_4loss_MLoss.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double))__pyx_f_6mlgrad_4loss_5MLoss_derivative;
+  __pyx_vtable_6mlgrad_4loss_MLoss.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_5MLoss_evaluate;
+  __pyx_vtable_6mlgrad_4loss_MLoss.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const ))__pyx_f_6mlgrad_4loss_5MLoss_derivative;
   __pyx_type_6mlgrad_4loss_MLoss.tp_base = __pyx_ptype_6mlgrad_4loss_Loss;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4loss_MLoss) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4loss_MLoss) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4loss_MLoss.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4loss_MLoss.tp_dictoffset && __pyx_type_6mlgrad_4loss_MLoss.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4loss_MLoss.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4loss_MLoss.tp_dict, __pyx_vtabptr_6mlgrad_4loss_MLoss) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MLoss, (PyObject *)&__pyx_type_6mlgrad_4loss_MLoss) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4loss_MLoss) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4loss_MLoss.tp_dict, __pyx_vtabptr_6mlgrad_4loss_MLoss) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MLoss, (PyObject *)&__pyx_type_6mlgrad_4loss_MLoss) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4loss_MLoss) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MLoss = &__pyx_type_6mlgrad_4loss_MLoss;
   __pyx_vtabptr_6mlgrad_4loss_MultLoss = &__pyx_vtable_6mlgrad_4loss_MultLoss;
   __pyx_vtable_6mlgrad_4loss_MultLoss.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_MultLoss *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_4loss_8MultLoss_evaluate;
   __pyx_vtable_6mlgrad_4loss_MultLoss.gradient = (void (*)(struct __pyx_obj_6mlgrad_4loss_MultLoss *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_4loss_8MultLoss_gradient;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4loss_MultLoss) < 0) __PYX_ERR(0, 139, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4loss_MultLoss) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4loss_MultLoss.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4loss_MultLoss.tp_dictoffset && __pyx_type_6mlgrad_4loss_MultLoss.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4loss_MultLoss.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4loss_MultLoss.tp_dict, __pyx_vtabptr_6mlgrad_4loss_MultLoss) < 0) __PYX_ERR(0, 139, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MultLoss, (PyObject *)&__pyx_type_6mlgrad_4loss_MultLoss) < 0) __PYX_ERR(0, 139, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4loss_MultLoss) < 0) __PYX_ERR(0, 139, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4loss_MultLoss.tp_dict, __pyx_vtabptr_6mlgrad_4loss_MultLoss) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MultLoss, (PyObject *)&__pyx_type_6mlgrad_4loss_MultLoss) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4loss_MultLoss) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MultLoss = &__pyx_type_6mlgrad_4loss_MultLoss;
   __pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss = &__pyx_vtable_6mlgrad_4loss_ErrorMultLoss;
   __pyx_vtable_6mlgrad_4loss_ErrorMultLoss.__pyx_base = *__pyx_vtabptr_6mlgrad_4loss_MultLoss;
   __pyx_vtable_6mlgrad_4loss_ErrorMultLoss.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_MultLoss *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_4loss_13ErrorMultLoss_evaluate;
   __pyx_vtable_6mlgrad_4loss_ErrorMultLoss.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_4loss_MultLoss *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_4loss_13ErrorMultLoss_gradient;
   __pyx_type_6mlgrad_4loss_ErrorMultLoss.tp_base = __pyx_ptype_6mlgrad_4loss_MultLoss;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4loss_ErrorMultLoss) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4loss_ErrorMultLoss) < 0) __PYX_ERR(0, 155, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4loss_ErrorMultLoss.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4loss_ErrorMultLoss.tp_dictoffset && __pyx_type_6mlgrad_4loss_ErrorMultLoss.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4loss_ErrorMultLoss.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4loss_ErrorMultLoss.tp_dict, __pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ErrorMultLoss, (PyObject *)&__pyx_type_6mlgrad_4loss_ErrorMultLoss) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4loss_ErrorMultLoss) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4loss_ErrorMultLoss.tp_dict, __pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss) < 0) __PYX_ERR(0, 155, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ErrorMultLoss, (PyObject *)&__pyx_type_6mlgrad_4loss_ErrorMultLoss) < 0) __PYX_ERR(0, 155, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4loss_ErrorMultLoss) < 0) __PYX_ERR(0, 155, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_ErrorMultLoss = &__pyx_type_6mlgrad_4loss_ErrorMultLoss;
   __pyx_vtabptr_6mlgrad_4loss_MarginMultLoss = &__pyx_vtable_6mlgrad_4loss_MarginMultLoss;
   __pyx_vtable_6mlgrad_4loss_MarginMultLoss.__pyx_base = *__pyx_vtabptr_6mlgrad_4loss_MultLoss;
   __pyx_vtable_6mlgrad_4loss_MarginMultLoss.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_MultLoss *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_4loss_14MarginMultLoss_evaluate;
   __pyx_vtable_6mlgrad_4loss_MarginMultLoss.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_4loss_MultLoss *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_4loss_14MarginMultLoss_gradient;
   __pyx_type_6mlgrad_4loss_MarginMultLoss.tp_base = __pyx_ptype_6mlgrad_4loss_MultLoss;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4loss_MarginMultLoss) < 0) __PYX_ERR(0, 167, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4loss_MarginMultLoss) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4loss_MarginMultLoss.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4loss_MarginMultLoss.tp_dictoffset && __pyx_type_6mlgrad_4loss_MarginMultLoss.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4loss_MarginMultLoss.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4loss_MarginMultLoss.tp_dict, __pyx_vtabptr_6mlgrad_4loss_MarginMultLoss) < 0) __PYX_ERR(0, 167, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MarginMultLoss, (PyObject *)&__pyx_type_6mlgrad_4loss_MarginMultLoss) < 0) __PYX_ERR(0, 167, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4loss_MarginMultLoss) < 0) __PYX_ERR(0, 167, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4loss_MarginMultLoss.tp_dict, __pyx_vtabptr_6mlgrad_4loss_MarginMultLoss) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MarginMultLoss, (PyObject *)&__pyx_type_6mlgrad_4loss_MarginMultLoss) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4loss_MarginMultLoss) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MarginMultLoss = &__pyx_type_6mlgrad_4loss_MarginMultLoss;
   __pyx_vtabptr_6mlgrad_4loss_MinLoss = &__pyx_vtable_6mlgrad_4loss_MinLoss;
   __pyx_vtable_6mlgrad_4loss_MinLoss.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4loss_MinLoss *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_4loss_7MinLoss_evaluate;
   __pyx_vtable_6mlgrad_4loss_MinLoss.gradient = (void (*)(struct __pyx_obj_6mlgrad_4loss_MinLoss *, __Pyx_memviewslice, double, __Pyx_memviewslice))__pyx_f_6mlgrad_4loss_7MinLoss_gradient;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4loss_MinLoss) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4loss_MinLoss) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4loss_MinLoss.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4loss_MinLoss.tp_dictoffset && __pyx_type_6mlgrad_4loss_MinLoss.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4loss_MinLoss.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4loss_MinLoss.tp_dict, __pyx_vtabptr_6mlgrad_4loss_MinLoss) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MinLoss, (PyObject *)&__pyx_type_6mlgrad_4loss_MinLoss) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4loss_MinLoss) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4loss_MinLoss.tp_dict, __pyx_vtabptr_6mlgrad_4loss_MinLoss) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MinLoss, (PyObject *)&__pyx_type_6mlgrad_4loss_MinLoss) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4loss_MinLoss) < 0) __PYX_ERR(0, 119, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MinLoss = &__pyx_type_6mlgrad_4loss_MinLoss;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -28740,8 +28879,8 @@ if (!__Pyx_RefNanny) {
  *         __pyx_unpickle_RelativeErrorLoss__set_state(<RelativeErrorLoss> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_RelativeErrorLoss__set_state(RelativeErrorLoss __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.func = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.eps = __pyx_state[0]; __pyx_result.func = __pyx_state[1]
+ *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_4loss_7__pyx_unpickle_MarginLoss, NULL, __pyx_n_s_mlgrad_loss); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

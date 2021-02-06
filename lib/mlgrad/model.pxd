@@ -53,7 +53,7 @@ cdef class ArrayAllocator(Allocator):
 cdef inline Model as_model(object o):
     return <Model>(<PyObject*>o)
 
-cdef inline void matrix_dot(double[:,::1] A, double[::1]x, double[::1] y):
+cdef inline void matrix_dot(const double[:,::1] A, const double[::1] x, double[::1] y):
     cdef int i, n=A.shape[0], m=A.shape[1]
     cdef double v
     
@@ -63,7 +63,7 @@ cdef inline void matrix_dot(double[:,::1] A, double[::1]x, double[::1] y):
             v += A[j,i] * x[i]
         y[j] = v
 
-cdef inline void matrix_dot_t(double[:,::1] A, double[::1]x, double[::1] y):
+cdef inline void matrix_dot_t(const double[:,::1] A, const double[::1] x, double[::1] y):
     cdef int i, n=A.shape[0], m=A.shape[1]
     cdef double v
     
@@ -80,9 +80,9 @@ cdef class Model(object):
     cdef public double[::1] grad_x
 
     #cdef void init_param(self, double[::1] param=*, bint random=*)
-    cdef double evaluate(self, double[::1] X)
-    cdef void gradient(self, double[::1] X, double[::1] grad)
-    cdef void gradient_x(self, double[::1] X, double[::1] grad)
+    cdef double evaluate(self, const double[::1] X)
+    cdef void gradient(self, const double[::1] X, double[::1] grad)
+    cdef void gradient_x(self, const double[::1] X, double[::1] grad)
     cpdef Model copy(self, bint share=*)
     #
 
@@ -112,8 +112,8 @@ cdef class ModelLayer:
     cdef public double[::1] output
     cdef public double[::1] grad_input
     
-    cdef void forward(self, double[::1] X)
-    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad)
+    cdef void forward(self, const double[::1] X)
+    cdef void backward(self, const double[::1] X, const double[::1] grad_out, double[::1] grad)
     cpdef ModelLayer copy(self, bint share=*)
     
 cdef class SigmaNeuronModelLayer(ModelLayer):
@@ -131,14 +131,14 @@ cdef class ComplexModel(object):
     cdef public double[::1] param
     cdef public double[::1] output
     
-    cdef void forward(self, double[::1] X)
-    cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
+    cdef void forward(self, const double[::1] X)
+    cdef void backward(self, const double[::1] X, double[::1] grad_u, double[::1] grad)
     
 cdef class MLModel(ComplexModel):
     cdef public list layers
 
-#     cdef void forward(self, double[::1] X)
-#     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
+#     cdef void forward(self, const double[::1] X)
+#     cdef void backward(self, const double[::1] X, double[::1] grad_u, double[::1] grad)
     cpdef MLModel copy(self, bint share=*)
 
 @cython.final
@@ -155,7 +155,7 @@ cdef class FFNetworkFuncModel(Model):
 cdef class SquaredModel(Model):
     cdef double[:,::1] matrix
     cdef double[:,::1] matrix_grad
-    
+         
 
 cdef class MultiModel:
     cdef Model[::1] models

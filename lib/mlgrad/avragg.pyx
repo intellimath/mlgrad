@@ -50,16 +50,16 @@ import numpy as np
 
 cdef class Penalty(object):
     #
-    cdef double evaluate(self, double[::1] Y, double u):
+    cdef double evaluate(self, const double[::1] Y, const double u):
         return 0
     #
-    cdef double derivative(self, double[::1] Y, double u):
+    cdef double derivative(self, const double[::1] Y, const double u):
         return 0
     #
-    cdef void gradient(self, double[::1] Y, double u, double[::1] grad):
+    cdef void gradient(self, const double[::1] Y, const double u, double[::1] grad):
         pass
     #
-    cdef double iterative_next(self, double[::1] Y, double u):
+    cdef double iterative_next(self, const double[::1] Y, const double u):
         return 0
 
 @cython.final
@@ -69,12 +69,12 @@ cdef class PenaltyAverage(Penalty):
         self.func = func
     #
     @cython.final
-    cdef double evaluate(self, double[::1] Y, double u):
+    cdef double evaluate(self, const double[::1] Y, const double u):
         cdef Py_ssize_t k=0, M, N = Y.shape[0]
         cdef double S
         cdef double y1, y2, y3, y4
         cdef double v1, v2, v3, v4
-        cdef double *YY = &Y[0]
+        cdef const double *YY = &Y[0]
         cdef Func func = self.func
         cdef FuncEvaluate func_evaluate = func.evaluate
     
@@ -106,12 +106,12 @@ cdef class PenaltyAverage(Penalty):
         return S / N
     #
     @cython.final
-    cdef double derivative(self, double[::1] Y, double u):
+    cdef double derivative(self, const double[::1] Y, const double u):
         cdef Py_ssize_t k, M, N = Y.shape[0]
         cdef double S
         cdef double y1, y2, y3, y4
         cdef double v1, v2, v3, v4
-        cdef double *YY = &Y[0]
+        cdef const double *YY = &Y[0]
         cdef Func func = self.func
         cdef FuncDerivative func_derivative = func.derivative
         
@@ -143,12 +143,12 @@ cdef class PenaltyAverage(Penalty):
         return -S / N
     #
     @cython.final
-    cdef double iterative_next(self, double[::1] Y, double u):
+    cdef double iterative_next(self, const double[::1] Y, const double u):
         cdef Py_ssize_t k, M, N = Y.shape[0]
         cdef double S, V, v, yk
         cdef double y1, y2, y3, y4
         cdef double v1, v2, v3, v4
-        cdef double *YY = &Y[0]
+        cdef const double *YY = &Y[0]
         cdef Func func = self.func
         cdef FuncDerivativeDivX func_derivative_div_x = func.derivative_div_x
 
@@ -185,12 +185,12 @@ cdef class PenaltyAverage(Penalty):
         return S / V
     #
     @cython.final
-    cdef void gradient(self, double[::1] Y, double u, double[::1] grad):
+    cdef void gradient(self, const double[::1] Y, const double u, double[::1] grad):
         cdef Py_ssize_t k, M, N = Y.shape[0]
         cdef double v, S
         cdef double y1, y2, y3, y4
         cdef double v1, v2, v3, v4
-        cdef double *YY = &Y[0]
+        cdef const double *YY = &Y[0]
         cdef double *GG = &grad[0]
         cdef Func func = self.func
         cdef FuncDerivative2 func_derivative2 = func.derivative2
@@ -247,7 +247,7 @@ cdef class PenaltyScale(Penalty):
     def __init__(self, Func func):
         self.func = func
     #
-    cdef double evaluate(self, double[::1] Y, double s):
+    cdef double evaluate(self, const double[::1] Y, const double s):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef Func func = self.func
         cdef double S
@@ -261,7 +261,7 @@ cdef class PenaltyScale(Penalty):
     
         return S / N + log(s)
     #
-    cdef double derivative(self, double[::1] Y, double s):
+    cdef double derivative(self, const double[::1] Y, const double s):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double S, y_k, v
         
@@ -273,7 +273,7 @@ cdef class PenaltyScale(Penalty):
             
         return (1 - (S / N)) / s
 
-    cdef double iterative_next(self, double[::1] Y, double s):
+    cdef double iterative_next(self, const double[::1] Y, const double s):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double S, v, y_k
         
@@ -285,7 +285,7 @@ cdef class PenaltyScale(Penalty):
         
         return sqrt(S / N)
     #
-    cdef void gradient(self, double[::1] Y, double s, double[::1] grad):
+    cdef void gradient(self, const double[::1] Y, const double s, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double S, v
         

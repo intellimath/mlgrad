@@ -6,13 +6,13 @@ cimport cython
 cdef class Func(object):
     cdef public unicode label
     #
-    cdef double evaluate(self, double x) nogil
+    cdef double evaluate(self, const double x) nogil
     #
-    cdef double derivative(self, double x) nogil
+    cdef double derivative(self, const double x) nogil
     #
-    cdef double derivative2(self, double x) nogil
+    cdef double derivative2(self, const double x) nogil
     #
-    cdef double derivative_div_x(self, double x) nogil
+    cdef double derivative_div_x(self, const double x) nogil
     #
 
 @cython.final

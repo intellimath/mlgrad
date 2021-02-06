@@ -14,11 +14,11 @@ cdef double float_min = PyFloat_GetMax()
 
 cdef class Loss(object):
     #
-    cdef double evaluate(self, double x, double y) nogil        
+    cdef double evaluate(self, const double x, const double y) nogil        
     #
-    cdef double derivative(self, double x, double y) nogil
+    cdef double derivative(self, const double x, const double y) nogil
     #
-    cdef double difference(self, double x, double y) nogil
+    cdef double difference(self, const double x, const double y) nogil
 
 # cdef class WinsorizedLoss(Loss):
 #     cdef public ParameterizedFunc wins_func
@@ -31,6 +31,7 @@ cdef class ErrorLoss(Loss):
 @cython.final
 cdef class RelativeErrorLoss(Loss):
     cdef public Func func
+    cdef double eps
     #
 
 @cython.final

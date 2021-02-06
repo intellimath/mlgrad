@@ -1029,38 +1029,38 @@ struct __pyx_opt_args_6mlgrad_6avragg_11SoftMinimal_fit;
 /* "mlgrad/avragg.pxd":12
  * from libc.math cimport fabs, pow, sqrt, fmax, log, exp
  * 
- * ctypedef double (*FuncEvaluate)(Func, double) nogil             # <<<<<<<<<<<<<<
- * ctypedef double (*FuncDerivative)(Func, double) nogil
- * ctypedef double (*FuncDerivative2)(Func, double) nogil
+ * ctypedef double (*FuncEvaluate)(Func, const double) nogil             # <<<<<<<<<<<<<<
+ * ctypedef double (*FuncDerivative)(Func, const double) nogil
+ * ctypedef double (*FuncDerivative2)(Func, const double) nogil
  */
-typedef double (*__pyx_t_6mlgrad_6avragg_FuncEvaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef double (*__pyx_t_6mlgrad_6avragg_FuncEvaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
 
 /* "mlgrad/avragg.pxd":13
  * 
- * ctypedef double (*FuncEvaluate)(Func, double) nogil
- * ctypedef double (*FuncDerivative)(Func, double) nogil             # <<<<<<<<<<<<<<
- * ctypedef double (*FuncDerivative2)(Func, double) nogil
- * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
+ * ctypedef double (*FuncEvaluate)(Func, const double) nogil
+ * ctypedef double (*FuncDerivative)(Func, const double) nogil             # <<<<<<<<<<<<<<
+ * ctypedef double (*FuncDerivative2)(Func, const double) nogil
+ * ctypedef double (*FuncDerivativeDivX)(Func, const double) nogil
  */
-typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
 
 /* "mlgrad/avragg.pxd":14
- * ctypedef double (*FuncEvaluate)(Func, double) nogil
- * ctypedef double (*FuncDerivative)(Func, double) nogil
- * ctypedef double (*FuncDerivative2)(Func, double) nogil             # <<<<<<<<<<<<<<
- * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
+ * ctypedef double (*FuncEvaluate)(Func, const double) nogil
+ * ctypedef double (*FuncDerivative)(Func, const double) nogil
+ * ctypedef double (*FuncDerivative2)(Func, const double) nogil             # <<<<<<<<<<<<<<
+ * ctypedef double (*FuncDerivativeDivX)(Func, const double) nogil
  * 
  */
-typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
 
 /* "mlgrad/avragg.pxd":15
- * ctypedef double (*FuncDerivative)(Func, double) nogil
- * ctypedef double (*FuncDerivative2)(Func, double) nogil
- * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil             # <<<<<<<<<<<<<<
+ * ctypedef double (*FuncDerivative)(Func, const double) nogil
+ * ctypedef double (*FuncDerivative2)(Func, const double) nogil
+ * ctypedef double (*FuncDerivativeDivX)(Func, const double) nogil             # <<<<<<<<<<<<<<
  * 
  * ctypedef fused number:
  */
-typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivativeDivX)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivativeDivX)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
 
 /* "mlgrad/avragg.pxd":98
  *     cdef gradient(self, double[::1] Y, double[::1] grad)
@@ -2274,10 +2274,10 @@ struct __pyx_memoryviewslice_obj {
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Func {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double);
-  double (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double);
-  double (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double);
-  double (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  double (*evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
 };
 static struct __pyx_vtabstruct_6mlgrad_4func_Func *__pyx_vtabptr_6mlgrad_4func_Func;
 
@@ -3007,14 +3007,14 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager *__pyx_vtabptr_6
  * 
  * cdef class Penalty(object):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double[::1] Y, double u):
+ *     cdef double evaluate(self, const double[::1] Y, const double u):
  */
 
 struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double);
-  double (*derivative)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double);
-  void (*gradient)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double, __Pyx_memviewslice);
-  double (*iterative_next)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double);
+  double (*evaluate)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const );
+  double (*derivative)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const );
+  void (*gradient)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const , __Pyx_memviewslice);
+  double (*iterative_next)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const );
 };
 static struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty *__pyx_vtabptr_6mlgrad_6avragg_Penalty;
 
@@ -3925,18 +3925,18 @@ static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static double __pyx_f_6mlgrad_6avragg_7Penalty_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double __pyx_v_u); /* proto*/
-static double __pyx_f_6mlgrad_6avragg_7Penalty_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double __pyx_v_u); /* proto*/
-static void __pyx_f_6mlgrad_6avragg_7Penalty_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double __pyx_v_u, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_grad); /* proto*/
-static double __pyx_f_6mlgrad_6avragg_7Penalty_iterative_next(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double __pyx_v_u); /* proto*/
-static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_u); /* proto*/
-static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_u); /* proto*/
-static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_u); /* proto*/
-static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_u, __Pyx_memviewslice __pyx_v_grad); /* proto*/
-static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_s); /* proto*/
-static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_s); /* proto*/
-static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_s); /* proto*/
-static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_s, __Pyx_memviewslice __pyx_v_grad); /* proto*/
+static double __pyx_f_6mlgrad_6avragg_7Penalty_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double const __pyx_v_u); /* proto*/
+static double __pyx_f_6mlgrad_6avragg_7Penalty_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double const __pyx_v_u); /* proto*/
+static void __pyx_f_6mlgrad_6avragg_7Penalty_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double const __pyx_v_u, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_grad); /* proto*/
+static double __pyx_f_6mlgrad_6avragg_7Penalty_iterative_next(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double const __pyx_v_u); /* proto*/
+static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_u); /* proto*/
+static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_u); /* proto*/
+static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_u); /* proto*/
+static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_u, __Pyx_memviewslice __pyx_v_grad); /* proto*/
+static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_s); /* proto*/
+static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_s); /* proto*/
+static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_s); /* proto*/
+static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_s, __Pyx_memviewslice __pyx_v_grad); /* proto*/
 static PyObject *__pyx_f_6mlgrad_6avragg_7Average_init(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, struct __pyx_opt_args_6mlgrad_6avragg_7Average_init *__pyx_optional_args); /* proto*/
 static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit *__pyx_optional_args); /* proto*/
 static PyObject *__pyx_f_6mlgrad_6avragg_7Average_fit_epoch(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y); /* proto*/
@@ -4683,22 +4683,22 @@ static PyObject *__pyx_codeobj__59;
 /* "mlgrad/avragg.pyx":53
  * cdef class Penalty(object):
  *     #
- *     cdef double evaluate(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] Y, const double u):             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
 
-static double __pyx_f_6mlgrad_6avragg_7Penalty_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double __pyx_v_u) {
+static double __pyx_f_6mlgrad_6avragg_7Penalty_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double const __pyx_v_u) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("evaluate", 0);
 
   /* "mlgrad/avragg.pyx":54
  *     #
- *     cdef double evaluate(self, double[::1] Y, double u):
+ *     cdef double evaluate(self, const double[::1] Y, const double u):
  *         return 0             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, double[::1] Y, double u):
+ *     cdef double derivative(self, const double[::1] Y, const double u):
  */
   __pyx_r = 0.0;
   goto __pyx_L0;
@@ -4706,7 +4706,7 @@ static double __pyx_f_6mlgrad_6avragg_7Penalty_evaluate(CYTHON_UNUSED struct __p
   /* "mlgrad/avragg.pyx":53
  * cdef class Penalty(object):
  *     #
- *     cdef double evaluate(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] Y, const double u):             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
@@ -4720,22 +4720,22 @@ static double __pyx_f_6mlgrad_6avragg_7Penalty_evaluate(CYTHON_UNUSED struct __p
 /* "mlgrad/avragg.pyx":56
  *         return 0
  *     #
- *     cdef double derivative(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double[::1] Y, const double u):             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
 
-static double __pyx_f_6mlgrad_6avragg_7Penalty_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double __pyx_v_u) {
+static double __pyx_f_6mlgrad_6avragg_7Penalty_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double const __pyx_v_u) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("derivative", 0);
 
   /* "mlgrad/avragg.pyx":57
  *     #
- *     cdef double derivative(self, double[::1] Y, double u):
+ *     cdef double derivative(self, const double[::1] Y, const double u):
  *         return 0             # <<<<<<<<<<<<<<
  *     #
- *     cdef void gradient(self, double[::1] Y, double u, double[::1] grad):
+ *     cdef void gradient(self, const double[::1] Y, const double u, double[::1] grad):
  */
   __pyx_r = 0.0;
   goto __pyx_L0;
@@ -4743,7 +4743,7 @@ static double __pyx_f_6mlgrad_6avragg_7Penalty_derivative(CYTHON_UNUSED struct _
   /* "mlgrad/avragg.pyx":56
  *         return 0
  *     #
- *     cdef double derivative(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double[::1] Y, const double u):             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
@@ -4757,12 +4757,12 @@ static double __pyx_f_6mlgrad_6avragg_7Penalty_derivative(CYTHON_UNUSED struct _
 /* "mlgrad/avragg.pyx":59
  *         return 0
  *     #
- *     cdef void gradient(self, double[::1] Y, double u, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] Y, const double u, double[::1] grad):             # <<<<<<<<<<<<<<
  *         pass
  *     #
  */
 
-static void __pyx_f_6mlgrad_6avragg_7Penalty_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double __pyx_v_u, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_grad) {
+static void __pyx_f_6mlgrad_6avragg_7Penalty_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double const __pyx_v_u, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_grad) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("gradient", 0);
 
@@ -4773,19 +4773,19 @@ static void __pyx_f_6mlgrad_6avragg_7Penalty_gradient(CYTHON_UNUSED struct __pyx
 /* "mlgrad/avragg.pyx":62
  *         pass
  *     #
- *     cdef double iterative_next(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
+ *     cdef double iterative_next(self, const double[::1] Y, const double u):             # <<<<<<<<<<<<<<
  *         return 0
  * 
  */
 
-static double __pyx_f_6mlgrad_6avragg_7Penalty_iterative_next(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double __pyx_v_u) {
+static double __pyx_f_6mlgrad_6avragg_7Penalty_iterative_next(CYTHON_UNUSED struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_Y, CYTHON_UNUSED double const __pyx_v_u) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("iterative_next", 0);
 
   /* "mlgrad/avragg.pyx":63
  *     #
- *     cdef double iterative_next(self, double[::1] Y, double u):
+ *     cdef double iterative_next(self, const double[::1] Y, const double u):
  *         return 0             # <<<<<<<<<<<<<<
  * 
  * @cython.final
@@ -4796,7 +4796,7 @@ static double __pyx_f_6mlgrad_6avragg_7Penalty_iterative_next(CYTHON_UNUSED stru
   /* "mlgrad/avragg.pyx":62
  *         pass
  *     #
- *     cdef double iterative_next(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
+ *     cdef double iterative_next(self, const double[::1] Y, const double u):             # <<<<<<<<<<<<<<
  *         return 0
  * 
  */
@@ -4812,7 +4812,7 @@ static double __pyx_f_6mlgrad_6avragg_7Penalty_iterative_next(CYTHON_UNUSED stru
  * cdef class Penalty:
  *     cdef readonly Func func             # <<<<<<<<<<<<<<
  * 
- *     cdef double evaluate(self, double[::1] Y, double u)
+ *     cdef double evaluate(self, const double[::1] Y, const double u)
  */
 
 /* Python wrapper */
@@ -5240,12 +5240,12 @@ static int __pyx_pf_6mlgrad_6avragg_14PenaltyAverage___init__(struct __pyx_obj_6
 /* "mlgrad/avragg.pyx":72
  *     #
  *     @cython.final
- *     cdef double evaluate(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] Y, const double u):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k=0, M, N = Y.shape[0]
  *         cdef double S
  */
 
-static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_u) {
+static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_u) {
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_M;
   Py_ssize_t __pyx_v_N;
@@ -5258,14 +5258,14 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
   double __pyx_v_v2;
   double __pyx_v_v3;
   double __pyx_v_v4;
-  double *__pyx_v_YY;
+  double const *__pyx_v_YY;
   struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
   __pyx_t_6mlgrad_6avragg_FuncEvaluate __pyx_v_func_evaluate;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
-  double (*__pyx_t_3)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  double (*__pyx_t_3)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
@@ -5277,7 +5277,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
 
   /* "mlgrad/avragg.pyx":73
  *     @cython.final
- *     cdef double evaluate(self, double[::1] Y, double u):
+ *     cdef double evaluate(self, const double[::1] Y, const double u):
  *         cdef Py_ssize_t k=0, M, N = Y.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double S
  *         cdef double y1, y2, y3, y4
@@ -5288,16 +5288,16 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
   /* "mlgrad/avragg.pyx":77
  *         cdef double y1, y2, y3, y4
  *         cdef double v1, v2, v3, v4
- *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
+ *         cdef const double *YY = &Y[0]             # <<<<<<<<<<<<<<
  *         cdef Func func = self.func
  *         cdef FuncEvaluate func_evaluate = func.evaluate
  */
   __pyx_t_1 = 0;
-  __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
+  __pyx_v_YY = (&(*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
   /* "mlgrad/avragg.pyx":78
  *         cdef double v1, v2, v3, v4
- *         cdef double *YY = &Y[0]
+ *         cdef const double *YY = &Y[0]
  *         cdef Func func = self.func             # <<<<<<<<<<<<<<
  *         cdef FuncEvaluate func_evaluate = func.evaluate
  * 
@@ -5308,7 +5308,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
   __pyx_t_2 = 0;
 
   /* "mlgrad/avragg.pyx":79
- *         cdef double *YY = &Y[0]
+ *         cdef const double *YY = &Y[0]
  *         cdef Func func = self.func
  *         cdef FuncEvaluate func_evaluate = func.evaluate             # <<<<<<<<<<<<<<
  * 
@@ -5581,7 +5581,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
   /* "mlgrad/avragg.pyx":72
  *     #
  *     @cython.final
- *     cdef double evaluate(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] Y, const double u):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k=0, M, N = Y.shape[0]
  *         cdef double S
  */
@@ -5600,12 +5600,12 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
 /* "mlgrad/avragg.pyx":109
  *     #
  *     @cython.final
- *     cdef double derivative(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double[::1] Y, const double u):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, M, N = Y.shape[0]
  *         cdef double S
  */
 
-static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_u) {
+static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_u) {
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_M;
   Py_ssize_t __pyx_v_N;
@@ -5618,14 +5618,14 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
   double __pyx_v_v2;
   double __pyx_v_v3;
   double __pyx_v_v4;
-  double *__pyx_v_YY;
+  double const *__pyx_v_YY;
   struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
   __pyx_t_6mlgrad_6avragg_FuncDerivative __pyx_v_func_derivative;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
-  double (*__pyx_t_3)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  double (*__pyx_t_3)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
@@ -5638,7 +5638,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
 
   /* "mlgrad/avragg.pyx":110
  *     @cython.final
- *     cdef double derivative(self, double[::1] Y, double u):
+ *     cdef double derivative(self, const double[::1] Y, const double u):
  *         cdef Py_ssize_t k, M, N = Y.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double S
  *         cdef double y1, y2, y3, y4
@@ -5648,16 +5648,16 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
   /* "mlgrad/avragg.pyx":114
  *         cdef double y1, y2, y3, y4
  *         cdef double v1, v2, v3, v4
- *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
+ *         cdef const double *YY = &Y[0]             # <<<<<<<<<<<<<<
  *         cdef Func func = self.func
  *         cdef FuncDerivative func_derivative = func.derivative
  */
   __pyx_t_1 = 0;
-  __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
+  __pyx_v_YY = (&(*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
   /* "mlgrad/avragg.pyx":115
  *         cdef double v1, v2, v3, v4
- *         cdef double *YY = &Y[0]
+ *         cdef const double *YY = &Y[0]
  *         cdef Func func = self.func             # <<<<<<<<<<<<<<
  *         cdef FuncDerivative func_derivative = func.derivative
  * 
@@ -5668,7 +5668,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
   __pyx_t_2 = 0;
 
   /* "mlgrad/avragg.pyx":116
- *         cdef double *YY = &Y[0]
+ *         cdef const double *YY = &Y[0]
  *         cdef Func func = self.func
  *         cdef FuncDerivative func_derivative = func.derivative             # <<<<<<<<<<<<<<
  * 
@@ -5942,7 +5942,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
   /* "mlgrad/avragg.pyx":109
  *     #
  *     @cython.final
- *     cdef double derivative(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double[::1] Y, const double u):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, M, N = Y.shape[0]
  *         cdef double S
  */
@@ -5961,12 +5961,12 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
 /* "mlgrad/avragg.pyx":146
  *     #
  *     @cython.final
- *     cdef double iterative_next(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
+ *     cdef double iterative_next(self, const double[::1] Y, const double u):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, M, N = Y.shape[0]
  *         cdef double S, V, v, yk
  */
 
-static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_u) {
+static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_u) {
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_M;
   Py_ssize_t __pyx_v_N;
@@ -5982,14 +5982,14 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
   double __pyx_v_v2;
   double __pyx_v_v3;
   double __pyx_v_v4;
-  double *__pyx_v_YY;
+  double const *__pyx_v_YY;
   struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
   __pyx_t_6mlgrad_6avragg_FuncDerivativeDivX __pyx_v_func_derivative_div_x;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
-  double (*__pyx_t_3)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  double (*__pyx_t_3)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
@@ -6001,7 +6001,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
 
   /* "mlgrad/avragg.pyx":147
  *     @cython.final
- *     cdef double iterative_next(self, double[::1] Y, double u):
+ *     cdef double iterative_next(self, const double[::1] Y, const double u):
  *         cdef Py_ssize_t k, M, N = Y.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double S, V, v, yk
  *         cdef double y1, y2, y3, y4
@@ -6011,16 +6011,16 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
   /* "mlgrad/avragg.pyx":151
  *         cdef double y1, y2, y3, y4
  *         cdef double v1, v2, v3, v4
- *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
+ *         cdef const double *YY = &Y[0]             # <<<<<<<<<<<<<<
  *         cdef Func func = self.func
  *         cdef FuncDerivativeDivX func_derivative_div_x = func.derivative_div_x
  */
   __pyx_t_1 = 0;
-  __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
+  __pyx_v_YY = (&(*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
   /* "mlgrad/avragg.pyx":152
  *         cdef double v1, v2, v3, v4
- *         cdef double *YY = &Y[0]
+ *         cdef const double *YY = &Y[0]
  *         cdef Func func = self.func             # <<<<<<<<<<<<<<
  *         cdef FuncDerivativeDivX func_derivative_div_x = func.derivative_div_x
  * 
@@ -6031,7 +6031,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
   __pyx_t_2 = 0;
 
   /* "mlgrad/avragg.pyx":153
- *         cdef double *YY = &Y[0]
+ *         cdef const double *YY = &Y[0]
  *         cdef Func func = self.func
  *         cdef FuncDerivativeDivX func_derivative_div_x = func.derivative_div_x             # <<<<<<<<<<<<<<
  * 
@@ -6349,7 +6349,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
   /* "mlgrad/avragg.pyx":146
  *     #
  *     @cython.final
- *     cdef double iterative_next(self, double[::1] Y, double u):             # <<<<<<<<<<<<<<
+ *     cdef double iterative_next(self, const double[::1] Y, const double u):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, M, N = Y.shape[0]
  *         cdef double S, V, v, yk
  */
@@ -6368,12 +6368,12 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
 /* "mlgrad/avragg.pyx":188
  *     #
  *     @cython.final
- *     cdef void gradient(self, double[::1] Y, double u, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] Y, const double u, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, M, N = Y.shape[0]
  *         cdef double v, S
  */
 
-static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_u, __Pyx_memviewslice __pyx_v_grad) {
+static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_u, __Pyx_memviewslice __pyx_v_grad) {
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_M;
   Py_ssize_t __pyx_v_N;
@@ -6387,14 +6387,14 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
   double __pyx_v_v2;
   double __pyx_v_v3;
   double __pyx_v_v4;
-  double *__pyx_v_YY;
+  double const *__pyx_v_YY;
   double *__pyx_v_GG;
   struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
   __pyx_t_6mlgrad_6avragg_FuncDerivative2 __pyx_v_func_derivative2;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
-  double (*__pyx_t_3)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  double (*__pyx_t_3)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
@@ -6407,7 +6407,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
 
   /* "mlgrad/avragg.pyx":189
  *     @cython.final
- *     cdef void gradient(self, double[::1] Y, double u, double[::1] grad):
+ *     cdef void gradient(self, const double[::1] Y, const double u, double[::1] grad):
  *         cdef Py_ssize_t k, M, N = Y.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double v, S
  *         cdef double y1, y2, y3, y4
@@ -6417,16 +6417,16 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
   /* "mlgrad/avragg.pyx":193
  *         cdef double y1, y2, y3, y4
  *         cdef double v1, v2, v3, v4
- *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
+ *         cdef const double *YY = &Y[0]             # <<<<<<<<<<<<<<
  *         cdef double *GG = &grad[0]
  *         cdef Func func = self.func
  */
   __pyx_t_1 = 0;
-  __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
+  __pyx_v_YY = (&(*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
   /* "mlgrad/avragg.pyx":194
  *         cdef double v1, v2, v3, v4
- *         cdef double *YY = &Y[0]
+ *         cdef const double *YY = &Y[0]
  *         cdef double *GG = &grad[0]             # <<<<<<<<<<<<<<
  *         cdef Func func = self.func
  *         cdef FuncDerivative2 func_derivative2 = func.derivative2
@@ -6435,7 +6435,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
   __pyx_v_GG = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_1)) ))));
 
   /* "mlgrad/avragg.pyx":195
- *         cdef double *YY = &Y[0]
+ *         cdef const double *YY = &Y[0]
  *         cdef double *GG = &grad[0]
  *         cdef Func func = self.func             # <<<<<<<<<<<<<<
  *         cdef FuncDerivative2 func_derivative2 = func.derivative2
@@ -7071,7 +7071,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
   /* "mlgrad/avragg.pyx":188
  *     #
  *     @cython.final
- *     cdef void gradient(self, double[::1] Y, double u, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] Y, const double u, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, M, N = Y.shape[0]
  *         cdef double v, S
  */
@@ -7457,7 +7457,7 @@ static int __pyx_pf_6mlgrad_6avragg_12PenaltyScale___init__(struct __pyx_obj_6ml
  *     def __init__(self, Func func):
  *         self.func = func             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double[::1] Y, double s):
+ *     cdef double evaluate(self, const double[::1] Y, const double s):
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_func));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_func));
@@ -7482,12 +7482,12 @@ static int __pyx_pf_6mlgrad_6avragg_12PenaltyScale___init__(struct __pyx_obj_6ml
 /* "mlgrad/avragg.pyx":250
  *         self.func = func
  *     #
- *     cdef double evaluate(self, double[::1] Y, double s):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] Y, const double s):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef Func func = self.func
  */
 
-static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_s) {
+static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_s) {
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_N;
   struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
@@ -7507,7 +7507,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
 
   /* "mlgrad/avragg.pyx":251
  *     #
- *     cdef double evaluate(self, double[::1] Y, double s):
+ *     cdef double evaluate(self, const double[::1] Y, const double s):
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
  *         cdef Func func = self.func
  *         cdef double S
@@ -7515,7 +7515,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
   __pyx_v_N = (__pyx_v_Y.shape[0]);
 
   /* "mlgrad/avragg.pyx":252
- *     cdef double evaluate(self, double[::1] Y, double s):
+ *     cdef double evaluate(self, const double[::1] Y, const double s):
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef Func func = self.func             # <<<<<<<<<<<<<<
  *         cdef double S
@@ -7596,7 +7596,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
  * 
  */
                             __pyx_t_5 = __pyx_v_k;
-                            __pyx_v_v = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) )));
+                            __pyx_v_v = (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_Y.data) + __pyx_t_5)) )));
 
                             /* "mlgrad/avragg.pyx":260
  * #         for k in range(N):
@@ -7615,7 +7615,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
                               #endif
                               __PYX_ERR(2, 260, __pyx_L8_error)
                             }
-                            __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, (__pyx_v_v / __pyx_v_s)));
+                            __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->evaluate(__pyx_v_func, (__pyx_v_v / ((double)__pyx_v_s))));
                             goto __pyx_L11;
                             __pyx_L8_error:;
                             {
@@ -7732,7 +7732,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
  * 
  *         return S / N + log(s)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, double[::1] Y, double s):
+ *     cdef double derivative(self, const double[::1] Y, const double s):
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
@@ -7744,7 +7744,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
   /* "mlgrad/avragg.pyx":250
  *         self.func = func
  *     #
- *     cdef double evaluate(self, double[::1] Y, double s):             # <<<<<<<<<<<<<<
+ *     cdef double evaluate(self, const double[::1] Y, const double s):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef Func func = self.func
  */
@@ -7763,12 +7763,12 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
 /* "mlgrad/avragg.pyx":264
  *         return S / N + log(s)
  *     #
- *     cdef double derivative(self, double[::1] Y, double s):             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double[::1] Y, const double s):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef double S, y_k, v
  */
 
-static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_s) {
+static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_s) {
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_N;
   double __pyx_v_S;
@@ -7787,7 +7787,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
 
   /* "mlgrad/avragg.pyx":265
  *     #
- *     cdef double derivative(self, double[::1] Y, double s):
+ *     cdef double derivative(self, const double[::1] Y, const double s):
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double S, y_k, v
  * 
@@ -7864,7 +7864,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
  * 
  */
                             __pyx_t_4 = __pyx_v_k;
-                            __pyx_t_5 = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_4)) )));
+                            __pyx_t_5 = (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_Y.data) + __pyx_t_4)) )));
                             if (unlikely(__pyx_v_s == 0)) {
                               #ifdef WITH_THREAD
                               PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -7875,7 +7875,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
                               #endif
                               __PYX_ERR(2, 271, __pyx_L8_error)
                             }
-                            __pyx_v_v = (__pyx_t_5 / __pyx_v_s);
+                            __pyx_v_v = (__pyx_t_5 / ((double)__pyx_v_s));
 
                             /* "mlgrad/avragg.pyx":272
  * #         for k in range(N):
@@ -8001,7 +8001,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
  * 
  *         return (1 - (S / N)) / s             # <<<<<<<<<<<<<<
  * 
- *     cdef double iterative_next(self, double[::1] Y, double s):
+ *     cdef double iterative_next(self, const double[::1] Y, const double s):
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
@@ -8012,13 +8012,13 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
     __PYX_ERR(2, 274, __pyx_L1_error)
   }
-  __pyx_r = (__pyx_t_5 / __pyx_v_s);
+  __pyx_r = (__pyx_t_5 / ((double)__pyx_v_s));
   goto __pyx_L0;
 
   /* "mlgrad/avragg.pyx":264
  *         return S / N + log(s)
  *     #
- *     cdef double derivative(self, double[::1] Y, double s):             # <<<<<<<<<<<<<<
+ *     cdef double derivative(self, const double[::1] Y, const double s):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef double S, y_k, v
  */
@@ -8035,12 +8035,12 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
 /* "mlgrad/avragg.pyx":276
  *         return (1 - (S / N)) / s
  * 
- *     cdef double iterative_next(self, double[::1] Y, double s):             # <<<<<<<<<<<<<<
+ *     cdef double iterative_next(self, const double[::1] Y, const double s):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef double S, v, y_k
  */
 
-static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_s) {
+static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_s) {
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_N;
   double __pyx_v_S;
@@ -8058,7 +8058,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
 
   /* "mlgrad/avragg.pyx":277
  * 
- *     cdef double iterative_next(self, double[::1] Y, double s):
+ *     cdef double iterative_next(self, const double[::1] Y, const double s):
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double S, v, y_k
  * 
@@ -8135,7 +8135,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
  * 
  */
                             __pyx_t_4 = __pyx_v_k;
-                            __pyx_v_y_k = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_4)) )));
+                            __pyx_v_y_k = (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_Y.data) + __pyx_t_4)) )));
 
                             /* "mlgrad/avragg.pyx":284
  * #         for k in range(N):
@@ -8154,7 +8154,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
                               #endif
                               __PYX_ERR(2, 284, __pyx_L8_error)
                             }
-                            __pyx_v_S = (__pyx_v_S + ((((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_base.func->__pyx_vtab)->derivative_div_x(__pyx_v_self->__pyx_base.func, (__pyx_v_y_k / __pyx_v_s)) * __pyx_v_y_k) * __pyx_v_y_k));
+                            __pyx_v_S = (__pyx_v_S + ((((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_base.func->__pyx_vtab)->derivative_div_x(__pyx_v_self->__pyx_base.func, (__pyx_v_y_k / ((double)__pyx_v_s))) * __pyx_v_y_k) * __pyx_v_y_k));
                             goto __pyx_L11;
                             __pyx_L8_error:;
                             {
@@ -8271,7 +8271,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
  * 
  *         return sqrt(S / N)             # <<<<<<<<<<<<<<
  *     #
- *     cdef void gradient(self, double[::1] Y, double s, double[::1] grad):
+ *     cdef void gradient(self, const double[::1] Y, const double s, double[::1] grad):
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
@@ -8283,7 +8283,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
   /* "mlgrad/avragg.pyx":276
  *         return (1 - (S / N)) / s
  * 
- *     cdef double iterative_next(self, double[::1] Y, double s):             # <<<<<<<<<<<<<<
+ *     cdef double iterative_next(self, const double[::1] Y, const double s):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef double S, v, y_k
  */
@@ -8300,12 +8300,12 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
 /* "mlgrad/avragg.pyx":288
  *         return sqrt(S / N)
  *     #
- *     cdef void gradient(self, double[::1] Y, double s, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] Y, const double s, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef double S, v
  */
 
-static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double __pyx_v_s, __Pyx_memviewslice __pyx_v_grad) {
+static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_s, __Pyx_memviewslice __pyx_v_grad) {
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_N;
   double __pyx_v_S;
@@ -8323,7 +8323,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
 
   /* "mlgrad/avragg.pyx":289
  *     #
- *     cdef void gradient(self, double[::1] Y, double s, double[::1] grad):
+ *     cdef void gradient(self, const double[::1] Y, const double s, double[::1] grad):
  *         cdef Py_ssize_t k, N = Y.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double S, v
  * 
@@ -8400,7 +8400,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
  *         S += N
  */
                             __pyx_t_4 = __pyx_v_k;
-                            __pyx_t_5 = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_4)) )));
+                            __pyx_t_5 = (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_Y.data) + __pyx_t_4)) )));
                             if (unlikely(__pyx_v_s == 0)) {
                               #ifdef WITH_THREAD
                               PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -8411,7 +8411,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
                               #endif
                               __PYX_ERR(2, 295, __pyx_L8_error)
                             }
-                            __pyx_v_v = (__pyx_t_5 / __pyx_v_s);
+                            __pyx_v_v = (__pyx_t_5 / ((double)__pyx_v_s));
 
                             /* "mlgrad/avragg.pyx":296
  * #         for k in range(N):
@@ -8601,7 +8601,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
  * 
  */
                             __pyx_t_4 = __pyx_v_k;
-                            __pyx_t_5 = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_4)) )));
+                            __pyx_t_5 = (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_Y.data) + __pyx_t_4)) )));
                             if (unlikely(__pyx_v_s == 0)) {
                               #ifdef WITH_THREAD
                               PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -8612,7 +8612,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
                               #endif
                               __PYX_ERR(2, 300, __pyx_L17_error)
                             }
-                            __pyx_v_v = (__pyx_t_5 / __pyx_v_s);
+                            __pyx_v_v = (__pyx_t_5 / ((double)__pyx_v_s));
 
                             /* "mlgrad/avragg.pyx":301
  *         for k in prange(N, nogil=True, num_threads=num_procs):
@@ -8746,7 +8746,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
   /* "mlgrad/avragg.pyx":288
  *         return sqrt(S / N)
  *     #
- *     cdef void gradient(self, double[::1] Y, double s, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void gradient(self, const double[::1] Y, const double s, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t k, N = Y.shape[0]
  *         cdef double S, v
  */
@@ -50423,10 +50423,10 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
   __pyx_vtabptr_6mlgrad_6avragg_Penalty = &__pyx_vtable_6mlgrad_6avragg_Penalty;
-  __pyx_vtable_6mlgrad_6avragg_Penalty.evaluate = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_6avragg_7Penalty_evaluate;
-  __pyx_vtable_6mlgrad_6avragg_Penalty.derivative = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_6avragg_7Penalty_derivative;
-  __pyx_vtable_6mlgrad_6avragg_Penalty.gradient = (void (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_7Penalty_gradient;
-  __pyx_vtable_6mlgrad_6avragg_Penalty.iterative_next = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_6avragg_7Penalty_iterative_next;
+  __pyx_vtable_6mlgrad_6avragg_Penalty.evaluate = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const ))__pyx_f_6mlgrad_6avragg_7Penalty_evaluate;
+  __pyx_vtable_6mlgrad_6avragg_Penalty.derivative = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const ))__pyx_f_6mlgrad_6avragg_7Penalty_derivative;
+  __pyx_vtable_6mlgrad_6avragg_Penalty.gradient = (void (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const , __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_7Penalty_gradient;
+  __pyx_vtable_6mlgrad_6avragg_Penalty.iterative_next = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const ))__pyx_f_6mlgrad_6avragg_7Penalty_iterative_next;
   if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_Penalty) < 0) __PYX_ERR(2, 51, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_6avragg_Penalty.tp_print = 0;
@@ -50440,10 +50440,10 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_6avragg_Penalty = &__pyx_type_6mlgrad_6avragg_Penalty;
   __pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage = &__pyx_vtable_6mlgrad_6avragg_PenaltyAverage;
   __pyx_vtable_6mlgrad_6avragg_PenaltyAverage.__pyx_base = *__pyx_vtabptr_6mlgrad_6avragg_Penalty;
-  __pyx_vtable_6mlgrad_6avragg_PenaltyAverage.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate;
-  __pyx_vtable_6mlgrad_6avragg_PenaltyAverage.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative;
-  __pyx_vtable_6mlgrad_6avragg_PenaltyAverage.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient;
-  __pyx_vtable_6mlgrad_6avragg_PenaltyAverage.__pyx_base.iterative_next = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next;
+  __pyx_vtable_6mlgrad_6avragg_PenaltyAverage.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const ))__pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate;
+  __pyx_vtable_6mlgrad_6avragg_PenaltyAverage.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const ))__pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative;
+  __pyx_vtable_6mlgrad_6avragg_PenaltyAverage.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const , __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient;
+  __pyx_vtable_6mlgrad_6avragg_PenaltyAverage.__pyx_base.iterative_next = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const ))__pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next;
   __pyx_type_6mlgrad_6avragg_PenaltyAverage.tp_base = __pyx_ptype_6mlgrad_6avragg_Penalty;
   if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_PenaltyAverage) < 0) __PYX_ERR(2, 66, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -50458,10 +50458,10 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_6avragg_PenaltyAverage = &__pyx_type_6mlgrad_6avragg_PenaltyAverage;
   __pyx_vtabptr_6mlgrad_6avragg_PenaltyScale = &__pyx_vtable_6mlgrad_6avragg_PenaltyScale;
   __pyx_vtable_6mlgrad_6avragg_PenaltyScale.__pyx_base = *__pyx_vtabptr_6mlgrad_6avragg_Penalty;
-  __pyx_vtable_6mlgrad_6avragg_PenaltyScale.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate;
-  __pyx_vtable_6mlgrad_6avragg_PenaltyScale.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative;
-  __pyx_vtable_6mlgrad_6avragg_PenaltyScale.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double, __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient;
-  __pyx_vtable_6mlgrad_6avragg_PenaltyScale.__pyx_base.iterative_next = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next;
+  __pyx_vtable_6mlgrad_6avragg_PenaltyScale.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const ))__pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate;
+  __pyx_vtable_6mlgrad_6avragg_PenaltyScale.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const ))__pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative;
+  __pyx_vtable_6mlgrad_6avragg_PenaltyScale.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const , __Pyx_memviewslice))__pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient;
+  __pyx_vtable_6mlgrad_6avragg_PenaltyScale.__pyx_base.iterative_next = (double (*)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double const ))__pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next;
   __pyx_type_6mlgrad_6avragg_PenaltyScale.tp_base = __pyx_ptype_6mlgrad_6avragg_Penalty;
   if (PyType_Ready(&__pyx_type_6mlgrad_6avragg_PenaltyScale) < 0) __PYX_ERR(2, 245, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1

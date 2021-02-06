@@ -35,13 +35,13 @@ from libc.math cimport fabs, pow, sqrt, fmax, exp, log
 
 cdef class Loss(object):
     #
-    cdef double evaluate(self, double y, double yk) nogil:
+    cdef double evaluate(self, const double y, const double yk) nogil:
         return 0
     #
-    cdef double derivative(self, double y, double yk) nogil:
+    cdef double derivative(self, const double y, const double yk) nogil:
         return 0
     #
-    cdef double difference(self, double x, double y) nogil:
+    cdef double difference(self, const double x, const double y) nogil:
         return 0
 
 cdef class ErrorLoss(Loss):
@@ -49,13 +49,13 @@ cdef class ErrorLoss(Loss):
     def __init__(self, Func func):
         self.func = func
     #
-    cdef double evaluate(self, double y, double yk) nogil:
+    cdef double evaluate(self, const double y, const double yk) nogil:
         return self.func.evaluate(y - yk)
     #
-    cdef double derivative(self, double y, double yk) nogil:
+    cdef double derivative(self, const double y, const double yk) nogil:
         return self.func.derivative(y-yk)
     #
-    cdef double difference(self, double y, double yk) nogil:
+    cdef double difference(self, const double y, const double yk) nogil:
         return fabs(y-yk)
     #
     def _repr_latex_(self):
@@ -63,17 +63,25 @@ cdef class ErrorLoss(Loss):
 
 cdef class RelativeErrorLoss(Loss):
     #
-    def __init__(self, Func func):
+    def __init__(self, Func func, eps=1.0e-9):
         self.func = func
+        self.eps = eps
     #
-    cdef double evaluate(self, double y, double yk) nogil:
-        return self.func.evaluate(y/yk - 1)
+    cdef double evaluate(self, const double y, const double yk) nogil:
+        cdef double eps = self.eps
+        cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)
+        return self.func.evaluate(re - 1)
     #
-    cdef double derivative(self, double y, double yk) nogil:
-        return self.func.derivative(y/yk - 1) / yk
+    cdef double derivative(self, const double y, const double yk) nogil:
+        cdef double eps = self.eps
+        cdef double re0 = (fabs(yk) + eps)
+        cdef double re = (fabs(y) + eps) / re0
+        return self.func.derivative(re - 1) / re0
     #
-    cdef double difference(self, double y, double yk) nogil:
-        return fabs(y/yk-1)
+    cdef double difference(self, const double y, const double yk) nogil:
+        cdef double eps = self.eps
+        cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)
+        return fabs(re - 1)
     #
     def _repr_latex_(self):
         return r"$\ell(y - \tilde y)$" 
@@ -83,13 +91,13 @@ cdef class MarginLoss(Loss):
     def __init__(self, Func func):
         self.func = func
     #
-    cdef double evaluate(self, double u, double yk) nogil:
+    cdef double evaluate(self, const double u, const double yk) nogil:
         return self.func.evaluate(u*yk)
     #
-    cdef double derivative(self, double u, double yk) nogil:
+    cdef double derivative(self, const double u, const double yk) nogil:
         return yk*self.func.derivative(u*yk)
     #
-    cdef double difference(self, double u, double yk) nogil:
+    cdef double difference(self, const double u, const double yk) nogil:
         return -u*yk
     #
     def _repr_latex_(self):
@@ -102,10 +110,10 @@ cdef class MLoss(Loss):
         self.rho = rho
         self.loss = loss
 
-    cdef double evaluate(self, double y, double yk) nogil:
+    cdef double evaluate(self, const double y, const double yk) nogil:
         return self.rho.evaluate(self.loss.evaluate(y, yk))
         
-    cdef double derivative(self, double y, double yk) nogil:
+    cdef double derivative(self, const double y, const double yk) nogil:
         return self.rho.derivative(self.loss.evaluate(y, yk)) * self.loss.derivative(y, yk)
 
 cdef class MinLoss:
