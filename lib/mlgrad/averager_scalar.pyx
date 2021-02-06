@@ -35,7 +35,7 @@ cdef class ScalarAverager:
     cdef init(self):
         pass
     #
-    cdef double update(self, double x):
+    cdef double update(self, const double x):
         return x
         
 cdef class ScalarAdaM2(ScalarAverager):
@@ -78,7 +78,7 @@ cdef class ScalarAdaM1(ScalarAverager):
         self.beta1_k = 1.
         self.beta2_k = 1.
     #
-    cdef double update(self, double x):
+    cdef double update(self, const double x):
         cdef double m_tilde, v_tilde
         cdef double beta1 = self.beta1, beta2 = self.beta2
     
@@ -101,7 +101,7 @@ cdef class ScalarExponentialScalarAverager(ScalarAverager):
         self.m = 0
         self.beta_k = 1.
     #
-    cdef double update(self, double x):    
+    cdef double update(self, const double x):    
         self.m = (1.0 - self.beta) * x + self.beta * self.m
         self.beta_k *= self.beta
         return self.m  / (1.0 - self.beta_k)
@@ -122,7 +122,7 @@ cdef class ScalarWindowAverager(ScalarAverager):
         self.first = 1
         self.buffer_sum = 0
     #
-    cdef double update(self, double x):
+    cdef double update(self, const double x):
         if self.idx == self.size:
             self.idx = 0
             if self.first:

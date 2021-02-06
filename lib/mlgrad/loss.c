@@ -1685,10 +1685,10 @@ struct __pyx_memoryviewslice_obj {
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Func {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double);
-  double (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double);
-  double (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double);
-  double (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+  double (*evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
 };
 static struct __pyx_vtabstruct_6mlgrad_4func_Func *__pyx_vtabptr_6mlgrad_4func_Func;
 

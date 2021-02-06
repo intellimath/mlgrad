@@ -216,15 +216,10 @@ cdef class MLSE2:
         cdef double *D = &self.D[0]
         cdef double s, W
         
-#         W = 0
-#         for k in range(N):
-#             W += weights[k]
-        
         s = 0
         for k in range(N):
             s += weights[k] * D[k]
 
-#         return s / W
         return s
     
     def update_distfuncs(self, double[:,:,::1] scatters):
@@ -243,7 +238,7 @@ cdef class MLSE2:
 
 cdef class MLocationsScattersEstimator(MLSE2):
 
-    def __init__(self, Average avg, Average avg_min, n_locs, tol=1.0e-6, n_iter=100, n_iter_s=0, n_step=100, alpha=0.1):
+    def __init__(self, Average avg, Average avg_min, n_locs, tol=1.0e-6, n_iter=100, n_iter_s=0, n_step=100, alpha=0.9):
         self.avg = avg
         self.avg_min = avg_min
         self.X = None
@@ -426,23 +421,17 @@ cdef class MLocationsScattersEstimator(MLSE2):
         cdef double *Xk
         cdef double[:, ::1] GG = self.GG
         cdef double *GG_k
+        cdef double alpha = self.alpha
         
-        fill_memoryview2(locs, 0)
+        multiply_memoryview2(locs, 1-alpha)
         for k in range(N):
             GG_k = &GG[k, 0]
             Xk = &X[k, 0]
             for j in range(self.n_locs):
                 locs_j = &locs[j, 0]
-                gkj = GG_k[j]
+                gkj = alpha * GG_k[j]
                 for i in range(n):
                     locs_j[i] += gkj * Xk[i]
-                    
-#         for j in range(self.n_locs):
-#             locs_j = &locs[j, 0]
-#             Wj = W[j]
-
-#             for i in range(n):
-#                 locs_j[i] /= Wj
                 
     def fit_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):
         self.K = 1
@@ -486,12 +475,13 @@ cdef class MLocationsScattersEstimator(MLSE2):
         cdef double[::1] weights = self.weights
         cdef double[::1] W = self.W
         cdef double[:, ::1] GG = self.GG
+        cdef double alpha = self.alpha
 
         cdef double *loc
         cdef double *Xk
         cdef double *Si
 
-        fill_memoryview3(scatters, 0)
+        multiply_memoryview3(scatters, 1-alpha)
         for l in range(self.n_locs):
             S = scatters[l]
             loc = &locs[l, 0]
@@ -499,24 +489,12 @@ cdef class MLocationsScattersEstimator(MLSE2):
                 Xk = &X[k, 0]
                 wk = GG[k,l]
                 for i in range(n):
-                    vv = wk * (Xk[i] - loc[i])
+                    vv = alpha * wk * (Xk[i] - loc[i])
                     Si = &S[i, 0]
                     for j in range(i,n):
                         Si[j] += vv * (Xk[j] - loc[j])
                         if j > i:
                             S[j,i] = Si[j]
-
-#             i = 0
-#             W_l = W[l]
-#             while i < n:
-#                 Si = &S[i, 0]
-#                 Si[i] /= W_l
-#                 j = i+1
-#                 while j < n:
-#                     Si[j] /= W_l
-#                     S[j,i] = Si[j]
-#                     j += 1
-#                 i += 1
             
         for l in range(self.n_locs):
             S = scatters[l]

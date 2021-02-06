@@ -30,7 +30,7 @@ cdef class ScalarAverager:
     #
     cdef init(self)
     #
-    cdef double update(self, double x)
+    cdef double update(self, const double x)
     
 @cython.final
 cdef class ScalarAdaM2(ScalarAverager):

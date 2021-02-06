@@ -15538,7 +15538,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
   double __pyx_v_v2;
   double __pyx_v_v3;
   double __pyx_v_v4;
-  double *__pyx_v_YY;
+  double const *__pyx_v_YY;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
@@ -15568,7 +15568,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
   /* "mlgrad/avragg.pyx":532
  *         cdef double v1,v2,v3,v4
  *         cdef double s1,s2,s3,s4
- *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
+ *         cdef const double *YY = &Y[0]             # <<<<<<<<<<<<<<
  * 
  *         self.avr.fit(Y)
  */
@@ -15576,7 +15576,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_fit(struct __pyx_obj_6mlgrad
   __pyx_v_YY = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) ))));
 
   /* "mlgrad/avragg.pyx":534
- *         cdef double *YY = &Y[0]
+ *         cdef const double *YY = &Y[0]
  * 
  *         self.avr.fit(Y)             # <<<<<<<<<<<<<<
  *         avr_u = self.avr.u
@@ -16068,7 +16068,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
   double __pyx_v_v3;
   double __pyx_v_v4;
   double __pyx_v_N1;
-  double *__pyx_v_YY;
+  double const *__pyx_v_YY;
   double *__pyx_v_GG;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -16097,7 +16097,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
  *         cdef double v1,v2,v3,v4
  *         cdef double s1,s2,s3,s4
  *         cdef double N1 = 1/N             # <<<<<<<<<<<<<<
- *         cdef double *YY = &Y[0]
+ *         cdef const double *YY = &Y[0]
  *         cdef double *GG = &grad[0]
  */
   if (unlikely(__pyx_v_N == 0)) {
@@ -16109,7 +16109,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
   /* "mlgrad/avragg.pyx":576
  *         cdef double s1,s2,s3,s4
  *         cdef double N1 = 1/N
- *         cdef double *YY = &Y[0]             # <<<<<<<<<<<<<<
+ *         cdef const double *YY = &Y[0]             # <<<<<<<<<<<<<<
  *         cdef double *GG = &grad[0]
  * 
  */
@@ -16118,7 +16118,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_9WMAverage_gradient(struct __pyx_obj_6m
 
   /* "mlgrad/avragg.pyx":577
  *         cdef double N1 = 1/N
- *         cdef double *YY = &Y[0]
+ *         cdef const double *YY = &Y[0]
  *         cdef double *GG = &grad[0]             # <<<<<<<<<<<<<<
  * 
  *         self.avr.gradient(Y, grad)

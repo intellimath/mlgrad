@@ -529,7 +529,7 @@ cdef class WMAverage(Average):
         cdef double y1,y2,y3,y4
         cdef double v1,v2,v3,v4
         cdef double s1,s2,s3,s4
-        cdef double *YY = &Y[0]
+        cdef const double *YY = &Y[0]
         
         self.avr.fit(Y)
         avr_u = self.avr.u
@@ -573,7 +573,7 @@ cdef class WMAverage(Average):
         cdef double v1,v2,v3,v4
         cdef double s1,s2,s3,s4
         cdef double N1 = 1/N
-        cdef double *YY = &Y[0]
+        cdef const double *YY = &Y[0]
         cdef double *GG = &grad[0]
 
         self.avr.gradient(Y, grad)

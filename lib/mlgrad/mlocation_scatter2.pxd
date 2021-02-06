@@ -22,31 +22,31 @@ cdef inline int int_min(int a, int b) nogil:
         return b
 
 cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:
-    cdef int m = X.shape[0], n = Y.shape[0]
+    cdef Py_ssize_t m = X.shape[0], n = Y.shape[0]
     if n < m:
         m = n
     memcpy(&Y[0], &X[0], m*cython.sizeof(double))    
 
 cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X) nogil:
-    cdef int m = X.shape[0], n = X.shape[1]
+    cdef Py_ssize_t m = X.shape[0], n = X.shape[1]
     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))
 
 cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X) nogil:
-    cdef int m = X.shape[0], n = X.shape[1], l = X.shape[2]
+    cdef Py_ssize_t m = X.shape[0], n = X.shape[1], l = X.shape[2]
     memcpy(&Y[0,0,0], &X[0,0,0], n*m*l*cython.sizeof(double))
     
 cdef inline void fill_memoryview(double[::1] X, double c) nogil:
-    cdef int m = X.shape[0]
+    cdef Py_ssize_t m = X.shape[0]
     memset(&X[0], 0, m*cython.sizeof(double))    
 
 cdef inline void fill_memoryview2(double[:,::1] X, double c) nogil:
-    cdef int i, j
-    cdef int m = X.shape[0], n = X.shape[1]
+    cdef Py_ssize_t i, j
+    cdef Py_ssize_t m = X.shape[0], n = X.shape[1]
     memset(&X[0,0], 0, m*n*cython.sizeof(double))     
 
 cdef inline void fill_memoryview3(double[:,:,::1] X, double c) nogil:
-    cdef int i, j
-    cdef int m = X.shape[0], n = X.shape[1], l = X.shape[2]
+    cdef Py_ssize_t i, j
+    cdef Py_ssize_t m = X.shape[0], n = X.shape[1], l = X.shape[2]
     memset(&X[0,0,0], 0, m*n*l*cython.sizeof(double))     
     
 cdef inline void multiply_memoryview(double[::1] X, double c) nogil:
@@ -56,7 +56,7 @@ cdef inline void multiply_memoryview(double[::1] X, double c) nogil:
 
     for i in range(n):
         ptr[i] *= c
-    
+        
 cdef inline void multiply_memoryview2(double[:,::1] X, double c) nogil:
     cdef Py_ssize_t i
     cdef Py_ssize_t mn = X.shape[0] * X.shape[1]
@@ -65,6 +65,15 @@ cdef inline void multiply_memoryview2(double[:,::1] X, double c) nogil:
     for i in range(mn):
         ptr[i] *= c
 
+cdef inline void multiply_memoryview3(double[:,:,::1] X, double c) nogil:
+    cdef Py_ssize_t i, j
+    cdef Py_ssize_t m = X.shape[0], n = X.shape[1], l = X.shape[2]
+    cdef Py_ssize_t N = m*n*l
+    cdef double *ptr = &X[0,0,0]
+    
+    for i in range(N):
+        ptr[i] *= c
+        
 cdef class MLSE2:
     cdef public DistanceWithScale[::1] distfuncs
     cdef public double[:,::1] X

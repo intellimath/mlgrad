@@ -136,7 +136,7 @@ cdef class GD:
     #
     cpdef fit_epoch(self):
         cdef Functional risk = self.risk
-        cdef int i, n_param = len(risk.param)
+        cdef Py_ssize_t i, n_param = len(risk.param)
         cdef double[::1] grad_average
         cdef double[::1] param = risk.param
         cdef double h
