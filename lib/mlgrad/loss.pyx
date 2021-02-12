@@ -44,6 +44,22 @@ cdef class Loss(object):
     cdef double difference(self, const double x, const double y) nogil:
         return 0
 
+cdef class SquareErrorLoss(Loss):
+    #
+    cdef double evaluate(self, const double y, const double yk) nogil:
+        cdef double r = y - yk
+        return r * r
+    #
+    cdef double derivative(self, const double y, const double yk) nogil:
+        cdef double r = y - yk
+        return 2 * (y - yk)
+    #
+    cdef double difference(self, const double y, const double yk) nogil:
+        return fabs(y-yk)
+    #
+    def _repr_latex_(self):
+        return r"$(y - \tilde y)^2$" 
+
 cdef class ErrorLoss(Loss):
     #
     def __init__(self, Func func):

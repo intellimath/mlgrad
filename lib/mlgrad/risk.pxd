@@ -58,8 +58,8 @@ cdef class Functional:
     cdef readonly Py_ssize_t n_sample
 
     cpdef init(self)
-    cdef double evaluate(self)
-    cdef void gradient(self)
+    cdef public double evaluate(self)
+    cdef public void gradient(self)
 
 cdef class SimpleFunctional(Functional):
     pass
@@ -71,11 +71,11 @@ cdef class Risk(Functional):
     cdef readonly double[::1] weights    
     cdef readonly double tau
     #
-    cdef void eval_losses(self, double[::1] lval_all)
+    cdef public void eval_losses(self, double[::1] lval_all)
     
 cdef class SRisk(Risk):
-    cdef double eval_loss(self, int k)
-    cdef void gradient_loss(self, int k)    
+    cdef public double eval_loss(self, int k)
+    cdef public void gradient_loss(self, int k)    
 
 cdef class MRisk(Risk):
     cdef readonly Model model

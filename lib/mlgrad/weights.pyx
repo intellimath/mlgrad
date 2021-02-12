@@ -31,6 +31,7 @@
 # THE SOFTWARE.
 
 import numpy as np
+from libc.math cimport sqrt #, fabs, fmax, exp, log, atan
 
 cdef class Weights(object):
     #
@@ -46,7 +47,7 @@ cdef class Weights(object):
     
     cdef double get_qvalue(self):
         return 0
-        
+    #
     cdef set_param(self, name, val):
         pass
 
@@ -77,28 +78,25 @@ cdef class RWeights(Weights):
         self.weights = None
         self.lval_all = None
         self.normalize = normalize
+        N = risk.batch.size
+        self.lval_all = np.zeros(N, 'd')
+        self.weights = np.zeros(N, 'd')
     #
     cdef eval_weights(self):
         cdef Risk risk = self.risk
         cdef Py_ssize_t N = risk.batch.size
         cdef Py_ssize_t j, k
         cdef Py_ssize_t[::1] indices = risk.batch.indices
-        cdef double[::1] weights
-        cdef double[::1] lval_all
-
-        if self.lval_all is None:
-            self.lval_all = np.empty((N,), 'd')
-        if self.weights is None:
-            self.weights = np.empty((N,), 'd')
+        cdef double[::1] weights = self.weights
+        cdef double[::1] lval_all = self.lval_all
+        cdef double val
 
         risk.eval_losses(self.lval_all)
-        
-        weights = self.weights
-        lval_all = self.lval_all
 
         for j in range(N):
             k = indices[j]
-            weights[j] = self.func.derivative_div_x(lval_all[k])
+            val = sqrt(lval_all[k])
+            weights[j] = 0.5 * self.func.derivative_div_x(val)
         
         if self.normalize:
             normalize_memoryview(weights)
@@ -115,7 +113,7 @@ cdef class RWeights(Weights):
         qval = 0
         for j in range(N):
             k = indices[j]
-            qval += self.func.evaluate(lval_all[k])
+            qval += self.func.evaluate(sqrt(lval_all[k]))
         qval /= N 
         return qval
     #
@@ -133,18 +131,15 @@ cdef class MWeights(Weights):
         self.normalize = normalize
         self.best_u = PyFloat_GetMax()
         self.use_best_u = use_best_u
+        N = len(risk.batch)
+        self.weights = np.zeros(N, 'd')
+        self.lval_all = np.zeros(N, 'd')
     #
     cdef eval_weights(self):
         cdef Risk risk = <Risk>self.risk
         cdef Py_ssize_t N = risk.batch.size
 
-        if self.lval_all is None: # or self.lval_all.shape[0] != N:
-            self.lval_all = np.zeros(N, 'd')
-
         risk.eval_losses(self.lval_all)
-        
-        if self.weights is None: # or self.weights.shape[0] != N:
-            self.weights = np.zeros(N, 'd')
 
         if self.first_time:
             u0 = None

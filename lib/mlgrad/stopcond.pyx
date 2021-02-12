@@ -17,8 +17,8 @@ cdef class StopCondition:
     cdef bint verify(self):
         return 1
     #
-    cdef void finalize(self):
-        pass
+#     cdef void finalize(self):
+#         pass
 
 cdef class DiffL1StopCondition(StopCondition):
     #
@@ -40,11 +40,11 @@ cdef class DiffL1StopCondition(StopCondition):
             
         return 0
     #
-    cdef void finalize(self):
-        cdef GD gd = self.gd
-        cdef Functional risk = gd.risk
+#     cdef void finalize(self):
+#         cdef GD gd = self.gd
+#         cdef Functional risk = gd.risk
         
-        copy_memoryview(risk.param, gd.param_min)
+#         copy_memoryview(risk.param, gd.param_min)
             
         
 cdef class DiffL2StopCondition(StopCondition):
@@ -63,25 +63,25 @@ cdef class DiffL2StopCondition(StopCondition):
         #self.lval = risk.evaluate()
 
         if gd.K <= 3:
-            self.lval1, self.lval2 = risk.lval, self.lval1
+            self.lval1, self.lval2 = gd.lval, self.lval1
             return 0
 
-        lval_min = min3(risk.lval, self.lval1, self.lval2)
+        lval_min = min3(gd.lval, self.lval1, self.lval2)
 
-        if 0.5 * fabs(risk.lval - 2*self.lval1 + self.lval2) / (1.0 + fabs(lval_min)) < gd.tol:
+        if 0.5 * fabs(gd.lval - 2*self.lval1 + self.lval2) / (1.0 + fabs(lval_min)) < gd.tol:
             return 1
 
-        self.lval1, self.lval2 = risk.lval, self.lval1
+        self.lval1, self.lval2 = gd.lval, self.lval1
             
         return 0
     #
-    cdef void finalize(self):
-        cdef GD gd = self.gd
-        cdef Functional risk = gd.risk
-        cdef int i, m = len(risk.param)
+#     cdef void finalize(self):
+#         cdef GD gd = self.gd
+#         cdef Functional risk = gd.risk
+#         cdef int i, m = len(risk.param)
         
-        for i in range(m):
-            risk.param[i] = 0.5 * (risk.param[i] + gd.param_prev[i])
+#         for i in range(m):
+#             risk.param[i] = 0.5 * (risk.param[i] + gd.param_prev[i])
 
 
 cdef class DiffG1StopCondition(StopCondition):

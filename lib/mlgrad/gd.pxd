@@ -9,7 +9,7 @@ from mlgrad.regular cimport FuncMulti
 from mlgrad.averager cimport ArrayAverager, ArraySave
 from mlgrad.avragg cimport Average, ArithMean
 from mlgrad.weights cimport Weights
-from mlgrad.risk cimport Functional, Risk
+from mlgrad.risk cimport Functional, Risk, ERisk
 from mlgrad.normalizer cimport Normalizer
 
 from mlgrad.normalizer cimport LinearModelNormalizer

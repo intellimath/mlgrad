@@ -11,7 +11,7 @@ cdef extern from "Python.h":
     double PyFloat_GetMax()
     double PyFloat_GetMin()
 
-cdef inline double min3(double v1, double v2, double v3):
+cdef inline double min3(const double v1, const double v2, const double v3):
     cdef double vmin = v1
     if v2 < vmin:
         vmin = v2
@@ -27,7 +27,7 @@ cdef class StopCondition:
     #
     cdef bint verify(self)
     #
-    cdef void finalize(self)
+#     cdef void finalize(self)
 
 @cython.final
 cdef class DiffL1StopCondition(StopCondition):

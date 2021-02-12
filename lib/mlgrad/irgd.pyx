@@ -37,7 +37,7 @@ import numpy as np
 from mlgrad.avragg import Average_FG
 from mlgrad.gd import FG
 from mlgrad.risk import Risk, Functional
-from mlgrad.averager import ScalarAdaM1, ArrayAdaM1
+# from mlgrad.averager import ScalarAdaM1, ArrayAdaM1
 
 # cdef void eval_losses(Model model, Loss loss, double[:,::1], double[::1] Y, double[::1] lval_all):
 #     cdef int k, N = X.shape[0]
@@ -96,7 +96,6 @@ cdef class IRGD(object):
 
         self.lval_best = self.weights.get_qvalue()
         copy_memoryview(self.param_best, risk.param)
-#         self.param_best = risk.param.copy()
         
         if self.callback is not None:
             self.callback(self)
@@ -118,7 +117,6 @@ cdef class IRGD(object):
 
             if self.lval < self.lval_best:
                 copy_memoryview(self.param_best, risk.param)
-#                 self.param_best = risk.param.copy()
                 self.lval_best = self.lval            
                 
             if self.stop_condition():

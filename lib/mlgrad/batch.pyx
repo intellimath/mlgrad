@@ -36,6 +36,9 @@ cdef class Batch:
     #
     cdef void generate(self):
         pass
+    
+    def __len__(self):
+        return self.size
 
 cdef class RandomBatch(Batch):
     #

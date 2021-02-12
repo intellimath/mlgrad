@@ -10,7 +10,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2019> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -36,8 +36,8 @@ from mlgrad.loss cimport Loss, ErrorLoss
 from mlgrad.distance cimport Distance
 from mlgrad.regular cimport FuncMulti
 from mlgrad.avragg cimport Average, ArithMean
-from mlgrad.averager cimport ArrayAdaM1
-from mlgrad.weights cimport Weights, ConstantWeights, ArrayWeights
+# from mlgrad.averager cimport ArrayAdaM1
+# from mlgrad.weights cimport Weights, ConstantWeights, ArrayWeights
 from mlgrad.batch import make_batch
 
 import numpy as np
@@ -155,39 +155,6 @@ cdef class MRisk(Risk):
     #
     cpdef init(self):
         pass
-#         N = self.n_sample    
-#         n_param = self.model.n_param
-#         n_input = self.model.n_input
-
-#         if self.model.grad is None:
-#             self.model.grad = np.zeros(n_param, 'd')
-
-#         if self.model.grad_x is None:
-#             self.model.grad_x = np.zeros(n_input, 'd')
-
-#         if self.grad is None:
-#             self.grad = np.zeros(n_param, dtype='d')
-
-#         if self.grad_average is None:
-#             self.grad_average = np.zeros(n_param, dtype='d')
-
-#         if self.regular is not None:
-#             if self.grad_r is None:
-#                 self.grad_r = np.zeros(n_param, dtype='d')
-
-#         size = self.batch.size 
-
-#         if self.lval_all is None:
-#             self.lval_all = np.zeros(size, 'd')
-        
-            
-#         if self.Yp is None:
-#             self.Yp = np.zeros(size, 'd')
-
-#         self.lval = 0
-        
-#         if self.avg is not None:
-#             self.avg_grad = np.zeros(size, 'd')
     #
     cdef void eval_losses(self, double[::1] lval_all):
         cdef Model _model = self.model
@@ -267,8 +234,6 @@ cdef class MRisk(Risk):
             self.regular.gradient(self.model.param, self.grad_r)
             for i in range(n_param):
                 self.grad_average[i] += self.tau * self.grad_r[i]
-                
-#         print(grad_average.base)
 
 cdef class ED(Risk):
     #
@@ -358,7 +323,6 @@ cdef class ERisk(SRisk):
                        FuncMulti regular=None, Batch batch=None, tau=1.0e-3):
         self.model = model
         self.param = model.param
-#         print(np.array(self.model.param))
         
         n_param = model.n_param
         n_input = model.n_input
@@ -391,7 +355,7 @@ cdef class ERisk(SRisk):
         size = self.batch.size 
         self.weights = np.full(size, 1./size, 'd')
         self.Yp = np.zeros(size, 'd')
-        self.lval = 0        
+        self.lval = 0
     #
     def use_weights(self, weights not None):
         self.weights = weights
@@ -401,38 +365,6 @@ cdef class ERisk(SRisk):
     #
     cpdef init(self):
         pass
-#         N = self.n_sample    
-#         n_param = self.model.n_param
-#         n_input = self.model.n_input
-
-#         if self.model.grad is None:
-#             self.model.grad = np.zeros(n_param, 'd')
-
-#         if self.model.grad_x is None:
-#             self.model.grad_x = np.zeros(n_input, 'd')
-
-#         if self.grad is None:
-#             self.grad = np.zeros(n_param, dtype='d')
-
-#         if self.grad_average is None:
-#             self.grad_average = np.zeros(n_param, dtype='d')
-
-#         if self.regular is not None:
-#             if self.grad_r is None:
-#                 self.grad_r = np.zeros(n_param, dtype='d')
-
-#         size = self.batch.size 
-#         if self.weights is None or len(self.weights) != size:
-#             self.weights = np.full(size, 1./size, 'd')
-#         print(np.array(self.weights))
-            
-#         if self.Yp is None:
-#             self.Yp = np.zeros(size, 'd')
-
-#         self.lval = 0
-        
-#         if self.avg is not None:
-#             self.avg_grad = np.zeros(size, 'd')
     #
     cdef void eval_losses(self, double[::1] lval_all):
         cdef Py_ssize_t j, k, N = self.n_sample
@@ -556,8 +488,6 @@ cdef class ERisk(SRisk):
             self.regular.gradient(self.model.param, self.grad_r)
             for i in range(n_param):
                 self.grad_average[i] += self.tau * self.grad_r[i]
-                
-#         print(grad_average.base)
 
 cdef class AER(ERisk):
     #

@@ -3,7 +3,7 @@
 cimport cython
 
 from mlgrad.func cimport Func
-from mlgrad.risk cimport Risk, Functional
+from mlgrad.risk cimport ERisk, Risk, Functional
 from mlgrad.avragg cimport Average
 
 cdef extern from "Python.h":
@@ -69,7 +69,7 @@ cdef class ConstantWeights(Weights):
 cdef class RWeights(Weights):
     cdef double[::1] lval_all
     cdef public Func func
-    cdef public Functional risk
+    cdef public Risk risk
     cdef bint normalize
 
 @cython.final
@@ -77,19 +77,19 @@ cdef class MWeights(Weights):
     cdef double[::1] lval_all
     cdef double best_u
     cdef public Average average
-    cdef public Functional risk
+    cdef public Risk risk
     cdef bint first_time, normalize, u_only, use_best_u
 
 @cython.final
 cdef class SWMWeights(Weights):
     cdef double[::1] lval_all
     cdef public Average average
-    cdef public Functional risk
+    cdef public Risk risk
     cdef bint first_time, normalize, u_only
 
 @cython.final
 cdef class WMWeights(Weights):
     cdef double[::1] lval_all
     cdef public Average average
-    cdef public Functional risk
+    cdef public Risk risk
     cdef bint first_time, normalize, u_only

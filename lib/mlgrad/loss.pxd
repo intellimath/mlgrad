@@ -24,6 +24,11 @@ cdef class Loss(object):
 #     cdef public ParameterizedFunc wins_func
 
 @cython.final
+cdef class SquareErrorLoss(Loss):
+    pass
+    #
+
+@cython.final
 cdef class ErrorLoss(Loss):
     cdef public Func func
     #

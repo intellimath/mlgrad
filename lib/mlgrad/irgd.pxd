@@ -10,7 +10,7 @@ from mlgrad.avragg cimport Average
 from mlgrad.gd cimport GD
 from mlgrad.risk cimport Risk, Functional
 from mlgrad.weights cimport Weights
-from mlgrad.averager cimport ScalarAverager, ArrayAverager
+# from mlgrad.averager cimport ScalarAverager, ArrayAverager
 
 from mlgrad.avragg cimport array_min
 from mlgrad.miscfuncs cimport init_rand, rand, fill

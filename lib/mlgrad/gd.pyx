@@ -52,6 +52,9 @@ import numpy as np
 
 from mlgrad.abc import Fittable
 
+cdef double float_max = PyFloat_GetMax()
+cdef double float_min = PyFloat_GetMin()
+
 cdef class GD: 
 
     cpdef init(self):
@@ -78,11 +81,6 @@ cdef class GD:
 #         if self.param_averager is not None:
 #             self.param_averager.init(n_param)
             
-        self.h_rate.init()
-            
-        self.m = 0
-        self.lval = self.lval_min = self.risk.evaluate()
-        self.lvals = [self.lval]
     #
     def fit(self):
         cdef Risk risk = self.risk
@@ -91,41 +89,38 @@ cdef class GD:
 #         cdef int i, j, n = param.shape[0]
 
         self.init()
+    
+        self.h_rate.init()
+            
+        self.m = 0
+        self.lval = self.lval_min = float_max #self.risk.evaluate()
+        self.lvals = []    
 
         self.K = 1
         self.completed = 0
         while self.K < self.n_iter:
 
+            risk.batch.generate()
+
             self.lval_prev = self.lval
 
-            risk.batch.generate()
+            self.lval = risk.lval = risk.evaluate()
+            self.lvals.append(self.lval)
+
+            if self.lval < self.lval_min:
+                self.lval_min = self.lval
+                copy_memoryview(self.param_min, risk.param)
+                
+            if self.stop_condition.verify():
+                self.completed = 1
+                break
+
             self.fit_epoch()
 #             if self.normalizer is not None:
 #                 self.normalizer.normalize(param)
 
-            self.lval = risk.lval = risk.evaluate()
-            if self.lval < self.lval_min:
-                self.lval_min = self.lval
-                copy_memoryview(self.param_min, risk.param)
-#                 print(self.param_min.base)
-
-#             j = 1
-#             while self.lval > self.lval_prev:
-#                 if j == 10:
-#                     break
-#                 for i in range(n):
-#                     risk.param[i] = 0.5 * (risk.param[i] + self.param_prev[i])
-#                 self.lval = risk.lval = risk.evaluate()
-#                 j += 1
-
-            self.lvals.append(self.lval)
-
             if self.callback is not None:
                 self.callback(self)
-
-            if self.stop_condition.verify():
-                self.completed = 1
-                break
 
             self.K += 1
 
