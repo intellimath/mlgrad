@@ -36,7 +36,6 @@ cdef class ErrorLoss(Loss):
 @cython.final
 cdef class RelativeErrorLoss(Loss):
     cdef public Func func
-    cdef double eps
     #
 
 @cython.final

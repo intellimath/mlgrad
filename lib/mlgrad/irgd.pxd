@@ -79,6 +79,7 @@ cdef class IRGD(object):
     cdef public double lval, lval1, lval2
     cdef int m, M
     cdef bint u_only, is_warm_start
+    cdef bint completed
     
     cdef double[::1] param_prev
     cdef double[::1] param_best

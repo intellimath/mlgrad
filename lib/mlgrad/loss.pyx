@@ -79,25 +79,26 @@ cdef class ErrorLoss(Loss):
 
 cdef class RelativeErrorLoss(Loss):
     #
-    def __init__(self, Func func, eps=1.0e-9):
+    def __init__(self, Func func):
         self.func = func
-        self.eps = eps
     #
     cdef double evaluate(self, const double y, const double yk) nogil:
-        cdef double eps = self.eps
-        cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)
-        return self.func.evaluate(re - 1)
+        cdef double v = fabs(yk) + 1
+        cdef double b = v / (v + yk*yk)
+
+        return self.func.evaluate(b * (y - yk))
     #
     cdef double derivative(self, const double y, const double yk) nogil:
-        cdef double eps = self.eps
-        cdef double re0 = (fabs(yk) + eps)
-        cdef double re = (fabs(y) + eps) / re0
-        return self.func.derivative(re - 1) / re0
+        cdef double v = fabs(yk) + 1
+        cdef double b = v / (v + yk*yk)
+
+        return b * self.func.derivative(b * (y - yk))
     #
     cdef double difference(self, const double y, const double yk) nogil:
-        cdef double eps = self.eps
-        cdef double re = (fabs(y) + eps) / (fabs(yk) + eps)
-        return fabs(re - 1)
+        cdef double v = fabs(yk) + 1
+        cdef double b = v / (v + yk*yk)
+
+        return b * fabs(y - yk)
     #
     def _repr_latex_(self):
         return r"$\ell(y - \tilde y)$" 

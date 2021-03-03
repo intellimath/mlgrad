@@ -32,7 +32,8 @@ cdef class StopCondition:
 @cython.final
 cdef class DiffL1StopCondition(StopCondition):
     cdef GD gd
-    cdef double lval1
+#     cdef double lval
+    cdef double lval_min
     
 @cython.final
 cdef class DiffL2StopCondition(StopCondition):

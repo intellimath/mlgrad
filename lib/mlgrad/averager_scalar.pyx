@@ -9,7 +9,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2019> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@ cdef class ScalarAverager:
         
 cdef class ScalarAdaM2(ScalarAverager):
 
-    def __init__(self, beta1=Beta1, beta2=Beta2, epsilon=1.0e-8):
+    def __init__(self, beta1=Beta1, beta2=Beta2, epsilon=Epsilon):
         self.beta1 = beta1
         self.beta2 = beta2
         self.epsilon = epsilon
@@ -67,7 +67,7 @@ cdef class ScalarAdaM2(ScalarAverager):
 
 cdef class ScalarAdaM1(ScalarAverager):
 
-    def __init__(self, beta1=Beta1, beta2=Beta2, epsilon=1.0e-8):
+    def __init__(self, beta1=Beta1, beta2=Beta2, epsilon=Epsilon):
         self.beta1 = beta1
         self.beta2 = beta2
         self.epsilon = epsilon

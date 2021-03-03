@@ -10097,7 +10097,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_7Average_gradient(struct __pyx_obj_6mlg
 
 static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self) {
   double __pyx_v_pmin;
-  double __pyx_v_prev;
+  CYTHON_UNUSED double __pyx_v_prev;
   double __pyx_v_pval;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
@@ -10143,7 +10143,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
  *         prev = self.pval_prev
  * 
  *         if pval < pmin:             # <<<<<<<<<<<<<<
- *             self.pmin = pval
+ *             pmin = self.pmin = pval
  *             self.u_best = self.u
  */
   __pyx_t_2 = ((__pyx_v_pval < __pyx_v_pmin) != 0);
@@ -10152,15 +10152,16 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
     /* "mlgrad/avragg.pyx":379
  * 
  *         if pval < pmin:
- *             self.pmin = pval             # <<<<<<<<<<<<<<
+ *             pmin = self.pmin = pval             # <<<<<<<<<<<<<<
  *             self.u_best = self.u
  *             self.m = 0
  */
+    __pyx_v_pmin = __pyx_v_pval;
     __pyx_v_self->pmin = __pyx_v_pval;
 
     /* "mlgrad/avragg.pyx":380
  *         if pval < pmin:
- *             self.pmin = pval
+ *             pmin = self.pmin = pval
  *             self.u_best = self.u             # <<<<<<<<<<<<<<
  *             self.m = 0
  * #         elif pval == pmin:
@@ -10169,7 +10170,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
     __pyx_v_self->u_best = __pyx_t_1;
 
     /* "mlgrad/avragg.pyx":381
- *             self.pmin = pval
+ *             pmin = self.pmin = pval
  *             self.u_best = self.u
  *             self.m = 0             # <<<<<<<<<<<<<<
  * #         elif pval == pmin:
@@ -10181,7 +10182,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
  *         prev = self.pval_prev
  * 
  *         if pval < pmin:             # <<<<<<<<<<<<<<
- *             self.pmin = pval
+ *             pmin = self.pmin = pval
  *             self.u_best = self.u
  */
   }
@@ -10189,11 +10190,11 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
   /* "mlgrad/avragg.pyx":386
  * #                 self.u_best = self.u
  *         #
- *         if fabs(pval - prev) / (1 + fabs(pmin)) < self.tol:             # <<<<<<<<<<<<<<
+ *         if fabs(pval - pmin) / (1 + fabs(pmin)) < self.tol:             # <<<<<<<<<<<<<<
  *             return 1
  * 
  */
-  __pyx_t_1 = fabs((__pyx_v_pval - __pyx_v_prev));
+  __pyx_t_1 = fabs((__pyx_v_pval - __pyx_v_pmin));
   __pyx_t_3 = (1.0 + fabs(__pyx_v_pmin));
   if (unlikely(__pyx_t_3 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
@@ -10204,7 +10205,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
 
     /* "mlgrad/avragg.pyx":387
  *         #
- *         if fabs(pval - prev) / (1 + fabs(pmin)) < self.tol:
+ *         if fabs(pval - pmin) / (1 + fabs(pmin)) < self.tol:
  *             return 1             # <<<<<<<<<<<<<<
  * 
  *         if self.m > self.m_iter:
@@ -10215,7 +10216,7 @@ static int __pyx_f_6mlgrad_6avragg_7Average_stop_condition(struct __pyx_obj_6mlg
     /* "mlgrad/avragg.pyx":386
  * #                 self.u_best = self.u
  *         #
- *         if fabs(pval - prev) / (1 + fabs(pmin)) < self.tol:             # <<<<<<<<<<<<<<
+ *         if fabs(pval - pmin) / (1 + fabs(pmin)) < self.tol:             # <<<<<<<<<<<<<<
  *             return 1
  * 
  */

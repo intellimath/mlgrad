@@ -9,7 +9,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2019> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -115,48 +115,6 @@ cdef class ArrayMOM(ArrayAverager):
             for i in range(m):
                 array_average[i] = h * mgrad[i]
     
-cdef class ArrayAMOM(ArrayAverager):
-
-    def __init__(self, beta=Beta, normalize=0):
-        self.beta = beta
-        self.mgrad = None
-        self.array_average = None
-        self.normalize = normalize
-    #
-    cdef void set_param1(self, double val):
-        self.beta = val
-    #
-    cdef init(self, ndim):
-        self.M = 0
-        
-        if self.mgrad is None:
-            self.mgrad = np.zeros(ndim, dtype='d')
-        else:
-            fill_memoryview(self.mgrad, 0)
-            
-        if self.array_average is None:
-            self.array_average = np.zeros(ndim, dtype='d')
-        else:
-            fill_memoryview(self.array_average, 0)
-    #
-    cdef void update(self, const double[::1] x, const double h):
-        cdef Py_ssize_t i, m = self.mgrad.shape[0]
-        cdef double v, mv, vv
-        cdef double beta = self.beta
-        cdef double[::1] mgrad = self.mgrad
-        cdef double[::1] array_average = self.array_average
-
-        for i in range(m):
-            mgrad[i] = beta * mgrad[i] + (1-beta) * x[i]
-
-        if self.normalize:
-            self.M *= beta
-            self.M += 1-beta
-            for i in range(m):
-                array_average[i] = h * mgrad[i] / self.M
-        else:
-            for i in range(m):
-                array_average[i] = h * mgrad[i]
 
 # cdef class ArrayRUD(ArrayAverager):
 
@@ -202,7 +160,7 @@ cdef class ArrayAMOM(ArrayAverager):
 
 cdef class ArrayRMSProp(ArrayAverager):
 
-    def __init__(self, beta=Beta, epsilon=1.0e-8):
+    def __init__(self, beta=Beta, epsilon=Epsilon):
         self.beta = beta
         self.epsilon = epsilon
         self.vgrad = None
@@ -241,7 +199,7 @@ cdef class ArrayRMSProp(ArrayAverager):
 
 cdef class ArrayAdaM2(ArrayAverager):
 
-    def __init__(self, beta1=Beta1, beta2=Beta2, epsilon=1.0e-8):
+    def __init__(self, beta1=Beta1, beta2=Beta2, epsilon=Epsilon):
         self.beta1 = beta1
         self.beta2 = beta2
         self.epsilon = epsilon
@@ -281,21 +239,27 @@ cdef class ArrayAdaM2(ArrayAverager):
         cdef double[::1] mgrad = self.mgrad
         cdef double[::1] vgrad = self.vgrad
         cdef double[::1] array_average = self.array_average
+        cdef double beta1_k, beta2_k
+        cdef double epsilon = self.epsilon
     
         self.beta1_k *= beta1
         self.beta2_k *= beta2
+        self.beta1_k += 1
+        self.beta2_k += 1
+        beta1_k = self.beta1_k
+        beta2_k = self.beta2_k
         for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
             v = x[i]
-            mgrad[i] = beta1 * mgrad[i] + (1.0 - beta1) * v 
-            mv = mgrad[i] / (1.0 - self.beta1_k)
+            mgrad[i] = beta1 * mgrad[i] + v 
+            mv = mgrad[i] / beta1_k
 
-            vgrad[i] = beta2 * vgrad[i] + (1-beta2) * v*v
-            vv = vgrad[i] / (1 - self.beta2_k)
-            array_average[i] = h * (mv / (sqrt(vv) + self.epsilon))
+            vgrad[i] = beta2 * vgrad[i] + v*v
+            vv = vgrad[i] / beta2_k
+            array_average[i] = h * (mv / (sqrt(vv) + epsilon))
 
 cdef class ArrayAdaM1(ArrayAverager):
 
-    def __init__(self, beta1=Beta1, beta2=Beta2, epsilon=1.0e-8):
+    def __init__(self, beta1=Beta1, beta2=Beta2, epsilon=Epsilon):
         self.beta1 = beta1
         self.beta2 = beta2
         self.epsilon = epsilon

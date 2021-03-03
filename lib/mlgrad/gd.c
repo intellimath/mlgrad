@@ -2081,16 +2081,15 @@ struct __pyx_obj_6mlgrad_4loss_ErrorLoss {
  * @cython.final
  * cdef class RelativeErrorLoss(Loss):             # <<<<<<<<<<<<<<
  *     cdef public Func func
- *     cdef double eps
+ *     #
  */
 struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss {
   struct __pyx_obj_6mlgrad_4loss_Loss __pyx_base;
   struct __pyx_obj_6mlgrad_4func_Func *func;
-  double eps;
 };
 
 
-/* "mlgrad/loss.pxd":43
+/* "mlgrad/loss.pxd":42
  * 
  * @cython.final
  * cdef class MarginLoss(Loss):             # <<<<<<<<<<<<<<
@@ -2103,7 +2102,7 @@ struct __pyx_obj_6mlgrad_4loss_MarginLoss {
 };
 
 
-/* "mlgrad/loss.pxd":48
+/* "mlgrad/loss.pxd":47
  * 
  * @cython.final
  * cdef class MLoss(Loss):             # <<<<<<<<<<<<<<
@@ -2117,7 +2116,7 @@ struct __pyx_obj_6mlgrad_4loss_MLoss {
 };
 
 
-/* "mlgrad/loss.pxd":53
+/* "mlgrad/loss.pxd":52
  * 
  * 
  * cdef class MultLoss(object):             # <<<<<<<<<<<<<<
@@ -2130,7 +2129,7 @@ struct __pyx_obj_6mlgrad_4loss_MultLoss {
 };
 
 
-/* "mlgrad/loss.pxd":58
+/* "mlgrad/loss.pxd":57
  * 
  * @cython.final
  * cdef class ErrorMultLoss(MultLoss):             # <<<<<<<<<<<<<<
@@ -2143,7 +2142,7 @@ struct __pyx_obj_6mlgrad_4loss_ErrorMultLoss {
 };
 
 
-/* "mlgrad/loss.pxd":62
+/* "mlgrad/loss.pxd":61
  * 
  * @cython.final
  * cdef class MarginMultLoss(MultLoss):             # <<<<<<<<<<<<<<
@@ -2156,7 +2155,7 @@ struct __pyx_obj_6mlgrad_4loss_MarginMultLoss {
 };
 
 
-/* "mlgrad/loss.pxd":65
+/* "mlgrad/loss.pxd":64
  *     cdef public Func func
  * 
  * cdef class MinLoss:             # <<<<<<<<<<<<<<
@@ -3228,16 +3227,16 @@ struct __pyx_obj_6mlgrad_2gd_StopCondition {
  * @cython.final
  * cdef class DiffL1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
  *     cdef GD gd
- *     cdef double lval1
+ * #     cdef double lval
  */
 struct __pyx_obj_6mlgrad_2gd_DiffL1StopCondition {
   struct __pyx_obj_6mlgrad_2gd_StopCondition __pyx_base;
   struct __pyx_obj_6mlgrad_2gd_GD *gd;
-  double lval1;
+  double lval_min;
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":38
+/* "lib/mlgrad/stopcond.pxd":39
  * 
  * @cython.final
  * cdef class DiffL2StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -3252,7 +3251,7 @@ struct __pyx_obj_6mlgrad_2gd_DiffL2StopCondition {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":43
+/* "lib/mlgrad/stopcond.pxd":44
  * 
  * @cython.final
  * cdef class DiffG1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -3266,7 +3265,7 @@ struct __pyx_obj_6mlgrad_2gd_DiffG1StopCondition {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":48
+/* "lib/mlgrad/stopcond.pxd":49
  * 
  * @cython.final
  * cdef class DiffP1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -4217,7 +4216,7 @@ static struct __pyx_vtabstruct_6mlgrad_4loss_ErrorLoss *__pyx_vtabptr_6mlgrad_4l
  * @cython.final
  * cdef class RelativeErrorLoss(Loss):             # <<<<<<<<<<<<<<
  *     cdef public Func func
- *     cdef double eps
+ *     #
  */
 
 struct __pyx_vtabstruct_6mlgrad_4loss_RelativeErrorLoss {
@@ -4226,7 +4225,7 @@ struct __pyx_vtabstruct_6mlgrad_4loss_RelativeErrorLoss {
 static struct __pyx_vtabstruct_6mlgrad_4loss_RelativeErrorLoss *__pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss;
 
 
-/* "mlgrad/loss.pxd":43
+/* "mlgrad/loss.pxd":42
  * 
  * @cython.final
  * cdef class MarginLoss(Loss):             # <<<<<<<<<<<<<<
@@ -4240,7 +4239,7 @@ struct __pyx_vtabstruct_6mlgrad_4loss_MarginLoss {
 static struct __pyx_vtabstruct_6mlgrad_4loss_MarginLoss *__pyx_vtabptr_6mlgrad_4loss_MarginLoss;
 
 
-/* "mlgrad/loss.pxd":48
+/* "mlgrad/loss.pxd":47
  * 
  * @cython.final
  * cdef class MLoss(Loss):             # <<<<<<<<<<<<<<
@@ -4254,7 +4253,7 @@ struct __pyx_vtabstruct_6mlgrad_4loss_MLoss {
 static struct __pyx_vtabstruct_6mlgrad_4loss_MLoss *__pyx_vtabptr_6mlgrad_4loss_MLoss;
 
 
-/* "mlgrad/loss.pxd":53
+/* "mlgrad/loss.pxd":52
  * 
  * 
  * cdef class MultLoss(object):             # <<<<<<<<<<<<<<
@@ -4269,7 +4268,7 @@ struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss {
 static struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss *__pyx_vtabptr_6mlgrad_4loss_MultLoss;
 
 
-/* "mlgrad/loss.pxd":58
+/* "mlgrad/loss.pxd":57
  * 
  * @cython.final
  * cdef class ErrorMultLoss(MultLoss):             # <<<<<<<<<<<<<<
@@ -4283,7 +4282,7 @@ struct __pyx_vtabstruct_6mlgrad_4loss_ErrorMultLoss {
 static struct __pyx_vtabstruct_6mlgrad_4loss_ErrorMultLoss *__pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss;
 
 
-/* "mlgrad/loss.pxd":62
+/* "mlgrad/loss.pxd":61
  * 
  * @cython.final
  * cdef class MarginMultLoss(MultLoss):             # <<<<<<<<<<<<<<
@@ -4297,7 +4296,7 @@ struct __pyx_vtabstruct_6mlgrad_4loss_MarginMultLoss {
 static struct __pyx_vtabstruct_6mlgrad_4loss_MarginMultLoss *__pyx_vtabptr_6mlgrad_4loss_MarginMultLoss;
 
 
-/* "mlgrad/loss.pxd":65
+/* "mlgrad/loss.pxd":64
  *     cdef public Func func
  * 
  * cdef class MinLoss:             # <<<<<<<<<<<<<<
@@ -5359,7 +5358,7 @@ struct __pyx_vtabstruct_6mlgrad_2gd_DiffL1StopCondition {
 static struct __pyx_vtabstruct_6mlgrad_2gd_DiffL1StopCondition *__pyx_vtabptr_6mlgrad_2gd_DiffL1StopCondition;
 
 
-/* "lib/mlgrad/stopcond.pyx":50
+/* "lib/mlgrad/stopcond.pyx":49
  * 
  * 
  * cdef class DiffL2StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -5373,7 +5372,7 @@ struct __pyx_vtabstruct_6mlgrad_2gd_DiffL2StopCondition {
 static struct __pyx_vtabstruct_6mlgrad_2gd_DiffL2StopCondition *__pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition;
 
 
-/* "lib/mlgrad/stopcond.pyx":87
+/* "lib/mlgrad/stopcond.pyx":86
  * 
  * 
  * cdef class DiffG1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -5387,7 +5386,7 @@ struct __pyx_vtabstruct_6mlgrad_2gd_DiffG1StopCondition {
 static struct __pyx_vtabstruct_6mlgrad_2gd_DiffG1StopCondition *__pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition;
 
 
-/* "lib/mlgrad/stopcond.pyx":116
+/* "lib/mlgrad/stopcond.pyx":115
  *         return 0
  * 
  * cdef class DiffP1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -6172,7 +6171,6 @@ static PyObject *__pyx_f_6mlgrad_2gd_6FG_RUD_gradient(struct __pyx_obj_6mlgrad_2
 static PyObject *__pyx_f_6mlgrad_2gd_3SGD_fit_epoch(struct __pyx_obj_6mlgrad_2gd_SGD *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_6mlgrad_2gd_13StopCondition_init(CYTHON_UNUSED struct __pyx_obj_6mlgrad_2gd_StopCondition *__pyx_v_self); /* proto*/
 static int __pyx_f_6mlgrad_2gd_13StopCondition_verify(CYTHON_UNUSED struct __pyx_obj_6mlgrad_2gd_StopCondition *__pyx_v_self); /* proto*/
-static PyObject *__pyx_f_6mlgrad_2gd_19DiffL1StopCondition_init(struct __pyx_obj_6mlgrad_2gd_DiffL1StopCondition *__pyx_v_self); /* proto*/
 static int __pyx_f_6mlgrad_2gd_19DiffL1StopCondition_verify(struct __pyx_obj_6mlgrad_2gd_DiffL1StopCondition *__pyx_v_self); /* proto*/
 static PyObject *__pyx_f_6mlgrad_2gd_19DiffL2StopCondition_init(struct __pyx_obj_6mlgrad_2gd_DiffL2StopCondition *__pyx_v_self); /* proto*/
 static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6mlgrad_2gd_DiffL2StopCondition *__pyx_v_self); /* proto*/
@@ -6612,12 +6610,12 @@ static const char __pyx_k_Can_only_create_a_buffer_that_is[] = "Can only create 
 static const char __pyx_k_Cannot_assign_to_read_only_memor[] = "Cannot assign to read-only memoryview";
 static const char __pyx_k_Cannot_create_writable_memory_vi[] = "Cannot create writable memory view from read-only memoryview";
 static const char __pyx_k_Empty_shape_tuple_for_cython_arr[] = "Empty shape tuple for cython.array";
-static const char __pyx_k_Incompatible_checksums_s_vs_0x12[] = "Incompatible checksums (%s vs 0x122861f = (gd, lval1))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x27[] = "Incompatible checksums (%s vs 0x27cb978 = (K, M, callback, completed, gamma, grad_averager, h, h_rate, lval, lval_min, lval_prev, lvals, m, n_iter, normalizer, param_min, param_prev, risk, stop_condition, tol))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x2d[] = "Incompatible checksums (%s vs 0x2d1b058 = (gd, param))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x3b[] = "Incompatible checksums (%s vs 0x3b960f6 = (gd, grad))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x43[] = "Incompatible checksums (%s vs 0x43d3c47 = (K, h, p))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x52[] = "Incompatible checksums (%s vs 0x52c3a3e = (gd, lval1, lval2))";
+static const char __pyx_k_Incompatible_checksums_s_vs_0x66[] = "Incompatible checksums (%s vs 0x66a7bc7 = (gd, lval_min))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x8f[] = "Incompatible checksums (%s vs 0x8f3cf2d = (K, M, callback, completed, grad_averager, h, h0, h_rate, lval, lval_min, lval_prev, lvals, m, n_iter, normalizer, param_min, risk, stop_condition, tol))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xb0[] = "Incompatible checksums (%s vs 0xb068931 = (name))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xb2[] = "Incompatible checksums (%s vs 0xb2d4801 = (K, curr_h, h, p))";
@@ -6650,12 +6648,12 @@ static PyObject *__pyx_n_s_FG;
 static PyObject *__pyx_n_s_FG_RUD;
 static PyObject *__pyx_n_s_Fittable;
 static PyObject *__pyx_n_s_GD;
-static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x12;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x27;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x2d;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x3b;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x43;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x52;
+static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x66;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x8f;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xb0;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xb2;
@@ -6966,12 +6964,12 @@ static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_12;
 static PyObject *__pyx_int_1000;
-static PyObject *__pyx_int_19039775;
 static PyObject *__pyx_int_41728376;
 static PyObject *__pyx_int_47296600;
 static PyObject *__pyx_int_62480630;
 static PyObject *__pyx_int_71121991;
 static PyObject *__pyx_int_86784574;
+static PyObject *__pyx_int_107641799;
 static PyObject *__pyx_int_150196013;
 static PyObject *__pyx_int_184977713;
 static PyObject *__pyx_int_187516929;
@@ -7358,8 +7356,8 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  double __pyx_t_3;
+  double __pyx_t_2;
+  int __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
@@ -7408,7 +7406,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
  *         self.h_rate.init()
  * 
  *         self.m = 0             # <<<<<<<<<<<<<<
- *         self.lval = self.lval_min = float_max #self.risk.evaluate()
+ *         self.lval = self.lval_min = float_max / 2 #self.risk.evaluate()
  *         self.lvals = []
  */
   __pyx_v_self->m = 0;
@@ -7416,19 +7414,20 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
   /* "mlgrad/gd.pyx":96
  * 
  *         self.m = 0
- *         self.lval = self.lval_min = float_max #self.risk.evaluate()             # <<<<<<<<<<<<<<
+ *         self.lval = self.lval_min = float_max / 2 #self.risk.evaluate()             # <<<<<<<<<<<<<<
  *         self.lvals = []
  * 
  */
-  __pyx_v_self->lval = __pyx_v_6mlgrad_2gd_float_max;
-  __pyx_v_self->lval_min = __pyx_v_6mlgrad_2gd_float_max;
+  __pyx_t_2 = (__pyx_v_6mlgrad_2gd_float_max / 2.0);
+  __pyx_v_self->lval = __pyx_t_2;
+  __pyx_v_self->lval_min = __pyx_t_2;
 
   /* "mlgrad/gd.pyx":97
  *         self.m = 0
- *         self.lval = self.lval_min = float_max #self.risk.evaluate()
+ *         self.lval = self.lval_min = float_max / 2 #self.risk.evaluate()
  *         self.lvals = []             # <<<<<<<<<<<<<<
  * 
- *         self.K = 1
+ *         self.K = 0
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -7441,15 +7440,15 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
   /* "mlgrad/gd.pyx":99
  *         self.lvals = []
  * 
- *         self.K = 1             # <<<<<<<<<<<<<<
+ *         self.K = 0             # <<<<<<<<<<<<<<
  *         self.completed = 0
  *         while self.K < self.n_iter:
  */
-  __pyx_v_self->K = 1;
+  __pyx_v_self->K = 0;
 
   /* "mlgrad/gd.pyx":100
  * 
- *         self.K = 1
+ *         self.K = 0
  *         self.completed = 0             # <<<<<<<<<<<<<<
  *         while self.K < self.n_iter:
  * 
@@ -7457,15 +7456,15 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
   __pyx_v_self->completed = 0;
 
   /* "mlgrad/gd.pyx":101
- *         self.K = 1
+ *         self.K = 0
  *         self.completed = 0
  *         while self.K < self.n_iter:             # <<<<<<<<<<<<<<
  * 
  *             risk.batch.generate()
  */
   while (1) {
-    __pyx_t_2 = ((__pyx_v_self->K < __pyx_v_self->n_iter) != 0);
-    if (!__pyx_t_2) break;
+    __pyx_t_3 = ((__pyx_v_self->K < __pyx_v_self->n_iter) != 0);
+    if (!__pyx_t_3) break;
 
     /* "mlgrad/gd.pyx":103
  *         while self.K < self.n_iter:
@@ -7483,8 +7482,8 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
  * 
  *             self.lval = risk.lval = risk.evaluate()
  */
-    __pyx_t_3 = __pyx_v_self->lval;
-    __pyx_v_self->lval_prev = __pyx_t_3;
+    __pyx_t_2 = __pyx_v_self->lval;
+    __pyx_v_self->lval_prev = __pyx_t_2;
 
     /* "mlgrad/gd.pyx":107
  *             self.lval_prev = self.lval
@@ -7493,16 +7492,16 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
  *             self.lvals.append(self.lval)
  * 
  */
-    __pyx_t_3 = ((struct __pyx_vtabstruct_6mlgrad_4risk_Risk *)__pyx_v_risk->__pyx_base.__pyx_vtab)->__pyx_base.evaluate(((struct __pyx_obj_6mlgrad_4risk_Functional *)__pyx_v_risk));
-    __pyx_v_self->lval = __pyx_t_3;
-    __pyx_v_risk->__pyx_base.lval = __pyx_t_3;
+    __pyx_t_2 = ((struct __pyx_vtabstruct_6mlgrad_4risk_Risk *)__pyx_v_risk->__pyx_base.__pyx_vtab)->__pyx_base.evaluate(((struct __pyx_obj_6mlgrad_4risk_Functional *)__pyx_v_risk));
+    __pyx_v_self->lval = __pyx_t_2;
+    __pyx_v_risk->__pyx_base.lval = __pyx_t_2;
 
     /* "mlgrad/gd.pyx":108
  * 
  *             self.lval = risk.lval = risk.evaluate()
  *             self.lvals.append(self.lval)             # <<<<<<<<<<<<<<
  * 
- *             if self.lval < self.lval_min:
+ *             if self.stop_condition.verify():
  */
     if (unlikely(__pyx_v_self->lvals == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
@@ -7516,34 +7515,62 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
     /* "mlgrad/gd.pyx":110
  *             self.lvals.append(self.lval)
  * 
+ *             if self.stop_condition.verify():             # <<<<<<<<<<<<<<
+ *                 self.completed = 1
+ * 
+ */
+    __pyx_t_3 = (((struct __pyx_vtabstruct_6mlgrad_2gd_StopCondition *)__pyx_v_self->stop_condition->__pyx_vtab)->verify(__pyx_v_self->stop_condition) != 0);
+    if (__pyx_t_3) {
+
+      /* "mlgrad/gd.pyx":111
+ * 
+ *             if self.stop_condition.verify():
+ *                 self.completed = 1             # <<<<<<<<<<<<<<
+ * 
+ *             if self.lval < self.lval_min:
+ */
+      __pyx_v_self->completed = 1;
+
+      /* "mlgrad/gd.pyx":110
+ *             self.lvals.append(self.lval)
+ * 
+ *             if self.stop_condition.verify():             # <<<<<<<<<<<<<<
+ *                 self.completed = 1
+ * 
+ */
+    }
+
+    /* "mlgrad/gd.pyx":113
+ *                 self.completed = 1
+ * 
  *             if self.lval < self.lval_min:             # <<<<<<<<<<<<<<
  *                 self.lval_min = self.lval
  *                 copy_memoryview(self.param_min, risk.param)
  */
-    __pyx_t_2 = ((__pyx_v_self->lval < __pyx_v_self->lval_min) != 0);
-    if (__pyx_t_2) {
+    __pyx_t_3 = ((__pyx_v_self->lval < __pyx_v_self->lval_min) != 0);
+    if (__pyx_t_3) {
 
-      /* "mlgrad/gd.pyx":111
+      /* "mlgrad/gd.pyx":114
  * 
  *             if self.lval < self.lval_min:
  *                 self.lval_min = self.lval             # <<<<<<<<<<<<<<
  *                 copy_memoryview(self.param_min, risk.param)
  * 
  */
-      __pyx_t_3 = __pyx_v_self->lval;
-      __pyx_v_self->lval_min = __pyx_t_3;
+      __pyx_t_2 = __pyx_v_self->lval;
+      __pyx_v_self->lval_min = __pyx_t_2;
 
-      /* "mlgrad/gd.pyx":112
+      /* "mlgrad/gd.pyx":115
  *             if self.lval < self.lval_min:
  *                 self.lval_min = self.lval
  *                 copy_memoryview(self.param_min, risk.param)             # <<<<<<<<<<<<<<
  * 
- *             if self.stop_condition.verify():
+ *             if self.completed:
  */
       __pyx_f_6mlgrad_2gd_copy_memoryview(__pyx_v_self->param_min, __pyx_v_risk->__pyx_base.param);
 
-      /* "mlgrad/gd.pyx":110
- *             self.lvals.append(self.lval)
+      /* "mlgrad/gd.pyx":113
+ *                 self.completed = 1
  * 
  *             if self.lval < self.lval_min:             # <<<<<<<<<<<<<<
  *                 self.lval_min = self.lval
@@ -7551,66 +7578,57 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
  */
     }
 
-    /* "mlgrad/gd.pyx":114
+    /* "mlgrad/gd.pyx":117
  *                 copy_memoryview(self.param_min, risk.param)
  * 
- *             if self.stop_condition.verify():             # <<<<<<<<<<<<<<
- *                 self.completed = 1
- *                 break
- */
-    __pyx_t_2 = (((struct __pyx_vtabstruct_6mlgrad_2gd_StopCondition *)__pyx_v_self->stop_condition->__pyx_vtab)->verify(__pyx_v_self->stop_condition) != 0);
-    if (__pyx_t_2) {
-
-      /* "mlgrad/gd.pyx":115
- * 
- *             if self.stop_condition.verify():
- *                 self.completed = 1             # <<<<<<<<<<<<<<
+ *             if self.completed:             # <<<<<<<<<<<<<<
  *                 break
  * 
  */
-      __pyx_v_self->completed = 1;
+    __pyx_t_3 = (__pyx_v_self->completed != 0);
+    if (__pyx_t_3) {
 
-      /* "mlgrad/gd.pyx":116
- *             if self.stop_condition.verify():
- *                 self.completed = 1
+      /* "mlgrad/gd.pyx":118
+ * 
+ *             if self.completed:
  *                 break             # <<<<<<<<<<<<<<
  * 
  *             self.fit_epoch()
  */
       goto __pyx_L4_break;
 
-      /* "mlgrad/gd.pyx":114
+      /* "mlgrad/gd.pyx":117
  *                 copy_memoryview(self.param_min, risk.param)
  * 
- *             if self.stop_condition.verify():             # <<<<<<<<<<<<<<
- *                 self.completed = 1
+ *             if self.completed:             # <<<<<<<<<<<<<<
  *                 break
+ * 
  */
     }
 
-    /* "mlgrad/gd.pyx":118
+    /* "mlgrad/gd.pyx":120
  *                 break
  * 
  *             self.fit_epoch()             # <<<<<<<<<<<<<<
  * #             if self.normalizer is not None:
  * #                 self.normalizer.normalize(param)
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_2gd_GD *)__pyx_v_self->__pyx_vtab)->fit_epoch(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_2gd_GD *)__pyx_v_self->__pyx_vtab)->fit_epoch(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "mlgrad/gd.pyx":122
+    /* "mlgrad/gd.pyx":124
  * #                 self.normalizer.normalize(param)
  * 
  *             if self.callback is not None:             # <<<<<<<<<<<<<<
  *                 self.callback(self)
  * 
  */
-    __pyx_t_2 = (__pyx_v_self->callback != Py_None);
-    __pyx_t_5 = (__pyx_t_2 != 0);
+    __pyx_t_3 = (__pyx_v_self->callback != Py_None);
+    __pyx_t_5 = (__pyx_t_3 != 0);
     if (__pyx_t_5) {
 
-      /* "mlgrad/gd.pyx":123
+      /* "mlgrad/gd.pyx":125
  * 
  *             if self.callback is not None:
  *                 self.callback(self)             # <<<<<<<<<<<<<<
@@ -7630,12 +7648,12 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
       }
       __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, ((PyObject *)__pyx_v_self)) : __Pyx_PyObject_CallOneArg(__pyx_t_6, ((PyObject *)__pyx_v_self));
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "mlgrad/gd.pyx":122
+      /* "mlgrad/gd.pyx":124
  * #                 self.normalizer.normalize(param)
  * 
  *             if self.callback is not None:             # <<<<<<<<<<<<<<
@@ -7644,7 +7662,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
  */
     }
 
-    /* "mlgrad/gd.pyx":125
+    /* "mlgrad/gd.pyx":127
  *                 self.callback(self)
  * 
  *             self.K += 1             # <<<<<<<<<<<<<<
@@ -7655,14 +7673,14 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
   }
   __pyx_L4_break:;
 
-  /* "mlgrad/gd.pyx":127
+  /* "mlgrad/gd.pyx":129
  *             self.K += 1
  * 
  *         self.finalize()             # <<<<<<<<<<<<<<
  *     #
  *     cpdef gradient(self):
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_2gd_GD *)__pyx_v_self->__pyx_vtab)->finalize(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_2gd_GD *)__pyx_v_self->__pyx_vtab)->finalize(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -7690,7 +7708,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_2fit(struct __pyx_obj_6mlgrad_2gd_GD *
   return __pyx_r;
 }
 
-/* "mlgrad/gd.pyx":129
+/* "mlgrad/gd.pyx":131
  *         self.finalize()
  *     #
  *     cpdef gradient(self):             # <<<<<<<<<<<<<<
@@ -7719,7 +7737,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_gradient(struct __pyx_obj_6mlgrad_2gd_G
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_gradient); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_gradient); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_2gd_2GD_5gradient)) {
         __Pyx_XDECREF(__pyx_r);
@@ -7736,7 +7754,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_gradient(struct __pyx_obj_6mlgrad_2gd_G
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 131, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -7757,7 +7775,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_gradient(struct __pyx_obj_6mlgrad_2gd_G
     #endif
   }
 
-  /* "mlgrad/gd.pyx":130
+  /* "mlgrad/gd.pyx":132
  *     #
  *     cpdef gradient(self):
  *         self.risk.gradient()             # <<<<<<<<<<<<<<
@@ -7766,7 +7784,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_gradient(struct __pyx_obj_6mlgrad_2gd_G
  */
   ((struct __pyx_vtabstruct_6mlgrad_4risk_Functional *)__pyx_v_self->risk->__pyx_vtab)->gradient(__pyx_v_self->risk);
 
-  /* "mlgrad/gd.pyx":129
+  /* "mlgrad/gd.pyx":131
  *         self.finalize()
  *     #
  *     cpdef gradient(self):             # <<<<<<<<<<<<<<
@@ -7813,7 +7831,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_4gradient(struct __pyx_obj_6mlgrad_2gd
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6mlgrad_2gd_2GD_gradient(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6mlgrad_2gd_2GD_gradient(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7830,7 +7848,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_4gradient(struct __pyx_obj_6mlgrad_2gd
   return __pyx_r;
 }
 
-/* "mlgrad/gd.pyx":132
+/* "mlgrad/gd.pyx":134
  *         self.risk.gradient()
  *     #
  *     cpdef fit_epoch(self):             # <<<<<<<<<<<<<<
@@ -7873,7 +7891,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_fit_epoch(struct __pyx_obj_6mlgrad_2gd_
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fit_epoch); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_fit_epoch); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_2gd_2GD_7fit_epoch)) {
         __Pyx_XDECREF(__pyx_r);
@@ -7890,7 +7908,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_fit_epoch(struct __pyx_obj_6mlgrad_2gd_
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 134, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -7911,7 +7929,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_fit_epoch(struct __pyx_obj_6mlgrad_2gd_
     #endif
   }
 
-  /* "mlgrad/gd.pyx":133
+  /* "mlgrad/gd.pyx":135
  *     #
  *     cpdef fit_epoch(self):
  *         cdef Functional risk = self.risk             # <<<<<<<<<<<<<<
@@ -7923,7 +7941,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_fit_epoch(struct __pyx_obj_6mlgrad_2gd_
   __pyx_v_risk = ((struct __pyx_obj_6mlgrad_4risk_Functional *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/gd.pyx":134
+  /* "mlgrad/gd.pyx":136
  *     cpdef fit_epoch(self):
  *         cdef Functional risk = self.risk
  *         cdef Py_ssize_t i, n_param = len(risk.param)             # <<<<<<<<<<<<<<
@@ -7933,7 +7951,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_fit_epoch(struct __pyx_obj_6mlgrad_2gd_
   __pyx_t_5 = __Pyx_MemoryView_Len(__pyx_v_risk->param); 
   __pyx_v_n_param = __pyx_t_5;
 
-  /* "mlgrad/gd.pyx":136
+  /* "mlgrad/gd.pyx":138
  *         cdef Py_ssize_t i, n_param = len(risk.param)
  *         cdef double[::1] grad_average
  *         cdef double[::1] param = risk.param             # <<<<<<<<<<<<<<
@@ -7946,7 +7964,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_fit_epoch(struct __pyx_obj_6mlgrad_2gd_
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "mlgrad/gd.pyx":139
+  /* "mlgrad/gd.pyx":141
  *         cdef double h
  * 
  *         h = self.h = self.h_rate.get_rate()             # <<<<<<<<<<<<<<
@@ -7957,18 +7975,18 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_fit_epoch(struct __pyx_obj_6mlgrad_2gd_
   __pyx_v_h = __pyx_t_7;
   __pyx_v_self->h = __pyx_t_7;
 
-  /* "mlgrad/gd.pyx":141
+  /* "mlgrad/gd.pyx":143
  *         h = self.h = self.h_rate.get_rate()
  * 
  *         self.gradient()             # <<<<<<<<<<<<<<
  * 
  *         self.grad_averager.update(risk.grad_average, h)
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_2gd_GD *)__pyx_v_self->__pyx_vtab)->gradient(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_2gd_GD *)__pyx_v_self->__pyx_vtab)->gradient(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/gd.pyx":143
+  /* "mlgrad/gd.pyx":145
  *         self.gradient()
  * 
  *         self.grad_averager.update(risk.grad_average, h)             # <<<<<<<<<<<<<<
@@ -7977,7 +7995,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_fit_epoch(struct __pyx_obj_6mlgrad_2gd_
  */
   ((struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager *)__pyx_v_self->grad_averager->__pyx_vtab)->update(__pyx_v_self->grad_averager, __pyx_v_risk->grad_average, __pyx_v_h);
 
-  /* "mlgrad/gd.pyx":144
+  /* "mlgrad/gd.pyx":146
  * 
  *         self.grad_averager.update(risk.grad_average, h)
  *         grad_average = self.grad_averager.array_average             # <<<<<<<<<<<<<<
@@ -7990,7 +8008,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_fit_epoch(struct __pyx_obj_6mlgrad_2gd_
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "mlgrad/gd.pyx":145
+  /* "mlgrad/gd.pyx":147
  *         self.grad_averager.update(risk.grad_average, h)
  *         grad_average = self.grad_averager.array_average
  *         for i in range(n_param):             # <<<<<<<<<<<<<<
@@ -8002,7 +8020,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_fit_epoch(struct __pyx_obj_6mlgrad_2gd_
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "mlgrad/gd.pyx":146
+    /* "mlgrad/gd.pyx":148
  *         grad_average = self.grad_averager.array_average
  *         for i in range(n_param):
  *             param[i] -= grad_average[i]             # <<<<<<<<<<<<<<
@@ -8014,7 +8032,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_fit_epoch(struct __pyx_obj_6mlgrad_2gd_
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_12)) )) -= (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_average.data) + __pyx_t_11)) )));
   }
 
-  /* "mlgrad/gd.pyx":132
+  /* "mlgrad/gd.pyx":134
  *         self.risk.gradient()
  *     #
  *     cpdef fit_epoch(self):             # <<<<<<<<<<<<<<
@@ -8065,7 +8083,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_6fit_epoch(struct __pyx_obj_6mlgrad_2g
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fit_epoch", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6mlgrad_2gd_2GD_fit_epoch(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6mlgrad_2gd_2GD_fit_epoch(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8082,7 +8100,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_6fit_epoch(struct __pyx_obj_6mlgrad_2g
   return __pyx_r;
 }
 
-/* "mlgrad/gd.pyx":152
+/* "mlgrad/gd.pyx":154
  * #             copy_memoryview(risk.param, self.param_averager.array_average)
  *     #
  *     def use_gradient_averager(self, averager):             # <<<<<<<<<<<<<<
@@ -8113,14 +8131,14 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_8use_gradient_averager(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("use_gradient_averager", 0);
 
-  /* "mlgrad/gd.pyx":153
+  /* "mlgrad/gd.pyx":155
  *     #
  *     def use_gradient_averager(self, averager):
  *         self.grad_averager = averager             # <<<<<<<<<<<<<<
  * #
  * #     def use_param_averager(self, averager):
  */
-  if (!(likely(((__pyx_v_averager) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_averager, __pyx_ptype_6mlgrad_8averager_ArrayAverager))))) __PYX_ERR(0, 153, __pyx_L1_error)
+  if (!(likely(((__pyx_v_averager) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_averager, __pyx_ptype_6mlgrad_8averager_ArrayAverager))))) __PYX_ERR(0, 155, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_averager;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -8129,7 +8147,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_8use_gradient_averager(struct __pyx_ob
   __pyx_v_self->grad_averager = ((struct __pyx_obj_6mlgrad_8averager_ArrayAverager *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/gd.pyx":152
+  /* "mlgrad/gd.pyx":154
  * #             copy_memoryview(risk.param, self.param_averager.array_average)
  *     #
  *     def use_gradient_averager(self, averager):             # <<<<<<<<<<<<<<
@@ -8150,7 +8168,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_8use_gradient_averager(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "mlgrad/gd.pyx":158
+/* "mlgrad/gd.pyx":160
  * #         self.param_averager = averager
  * #
  *     cpdef finalize(self):             # <<<<<<<<<<<<<<
@@ -8180,7 +8198,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_finalize(struct __pyx_obj_6mlgrad_2gd_G
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_finalize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_finalize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 160, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_2gd_2GD_11finalize)) {
         __Pyx_XDECREF(__pyx_r);
@@ -8197,7 +8215,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_finalize(struct __pyx_obj_6mlgrad_2gd_G
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 160, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -8218,7 +8236,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_finalize(struct __pyx_obj_6mlgrad_2gd_G
     #endif
   }
 
-  /* "mlgrad/gd.pyx":159
+  /* "mlgrad/gd.pyx":161
  * #
  *     cpdef finalize(self):
  *         cdef Functional risk = self.risk             # <<<<<<<<<<<<<<
@@ -8230,7 +8248,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_finalize(struct __pyx_obj_6mlgrad_2gd_G
   __pyx_v_risk = ((struct __pyx_obj_6mlgrad_4risk_Functional *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/gd.pyx":161
+  /* "mlgrad/gd.pyx":163
  *         cdef Functional risk = self.risk
  * 
  *         copy_memoryview(risk.param, self.param_min)             # <<<<<<<<<<<<<<
@@ -8239,7 +8257,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_2GD_finalize(struct __pyx_obj_6mlgrad_2gd_G
  */
   __pyx_f_6mlgrad_2gd_copy_memoryview(__pyx_v_risk->param, __pyx_v_self->param_min);
 
-  /* "mlgrad/gd.pyx":158
+  /* "mlgrad/gd.pyx":160
  * #         self.param_averager = averager
  * #
  *     cpdef finalize(self):             # <<<<<<<<<<<<<<
@@ -8287,7 +8305,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_2GD_10finalize(struct __pyx_obj_6mlgrad_2g
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("finalize", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6mlgrad_2gd_2GD_finalize(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6mlgrad_2gd_2GD_finalize(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 160, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -11267,13 +11285,13 @@ static PyObject *__pyx_pf_6mlgrad_2gd_6FG_RUD_2init(struct __pyx_obj_6mlgrad_2gd
  *             self.param_prev = np.zeros(n_param, 'd')
  *     #
  *     cpdef gradient(self):             # <<<<<<<<<<<<<<
- *         cdef Functional risk = self.risk
+ *         cdef Risk risk = self.risk
  *         cdef int i, n_param = risk.param.shape[0]
  */
 
 static PyObject *__pyx_pw_6mlgrad_2gd_6FG_RUD_5gradient(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static PyObject *__pyx_f_6mlgrad_2gd_6FG_RUD_gradient(struct __pyx_obj_6mlgrad_2gd_FG_RUD *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch) {
-  struct __pyx_obj_6mlgrad_4risk_Functional *__pyx_v_risk = 0;
+  struct __pyx_obj_6mlgrad_4risk_Risk *__pyx_v_risk = 0;
   int __pyx_v_i;
   int __pyx_v_n_param;
   __Pyx_memviewslice __pyx_v_param = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -11288,37 +11306,41 @@ static PyObject *__pyx_f_6mlgrad_2gd_6FG_RUD_gradient(struct __pyx_obj_6mlgrad_2
   int __pyx_t_5;
   Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
 
   /* "lib/mlgrad/gd_fg_rud.pyx":35
  *     #
  *     cpdef gradient(self):
- *         cdef Functional risk = self.risk             # <<<<<<<<<<<<<<
+ *         cdef Risk risk = self.risk             # <<<<<<<<<<<<<<
  *         cdef int i, n_param = risk.param.shape[0]
  *         cdef double[::1] param = risk.param
  */
+  if (!(likely(((((PyObject *)__pyx_v_self->__pyx_base.risk)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_self->__pyx_base.risk), __pyx_ptype_6mlgrad_4risk_Risk))))) __PYX_ERR(5, 35, __pyx_L1_error)
   __pyx_t_1 = ((PyObject *)__pyx_v_self->__pyx_base.risk);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_risk = ((struct __pyx_obj_6mlgrad_4risk_Functional *)__pyx_t_1);
+  __pyx_v_risk = ((struct __pyx_obj_6mlgrad_4risk_Risk *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "lib/mlgrad/gd_fg_rud.pyx":36
  *     cpdef gradient(self):
- *         cdef Functional risk = self.risk
+ *         cdef Risk risk = self.risk
  *         cdef int i, n_param = risk.param.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double[::1] param = risk.param
  *         cdef double[::1] param_prev = self.param_prev
  */
-  __pyx_v_n_param = (__pyx_v_risk->param.shape[0]);
+  __pyx_v_n_param = (__pyx_v_risk->__pyx_base.param.shape[0]);
 
   /* "lib/mlgrad/gd_fg_rud.pyx":37
- *         cdef Functional risk = self.risk
+ *         cdef Risk risk = self.risk
  *         cdef int i, n_param = risk.param.shape[0]
  *         cdef double[::1] param = risk.param             # <<<<<<<<<<<<<<
  *         cdef double[::1] param_prev = self.param_prev
  *         cdef double[::1] array_average
  */
-  __pyx_t_2 = __pyx_v_risk->param;
+  __pyx_t_2 = __pyx_v_risk->__pyx_base.param;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
   __pyx_v_param = __pyx_t_2;
   __pyx_t_2.memview = NULL;
@@ -11405,12 +11427,19 @@ static PyObject *__pyx_f_6mlgrad_2gd_6FG_RUD_gradient(struct __pyx_obj_6mlgrad_2
  *             self.param_prev = np.zeros(n_param, 'd')
  *     #
  *     cpdef gradient(self):             # <<<<<<<<<<<<<<
- *         cdef Functional risk = self.risk
+ *         cdef Risk risk = self.risk
  *         cdef int i, n_param = risk.param.shape[0]
  */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __Pyx_AddTraceback("mlgrad.gd.FG_RUD.gradient", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_risk);
   __PYX_XDEC_MEMVIEW(&__pyx_v_param, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_param_prev, 1);
@@ -13608,7 +13637,7 @@ static int __pyx_pf_6mlgrad_2gd_19DiffL1StopCondition___init__(struct __pyx_obj_
  *     def __init__(self, GD gd):
  *         self.gd = gd             # <<<<<<<<<<<<<<
  *     #
- *     cdef init(self):
+ * #     cdef init(self):
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_gd));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_gd));
@@ -13630,49 +13659,12 @@ static int __pyx_pf_6mlgrad_2gd_19DiffL1StopCondition___init__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "lib/mlgrad/stopcond.pyx":28
- *         self.gd = gd
- *     #
- *     cdef init(self):             # <<<<<<<<<<<<<<
- *         self.lval1 = PyFloat_GetMax()
- *     #
- */
-
-static PyObject *__pyx_f_6mlgrad_2gd_19DiffL1StopCondition_init(struct __pyx_obj_6mlgrad_2gd_DiffL1StopCondition *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("init", 0);
-
-  /* "lib/mlgrad/stopcond.pyx":29
- *     #
- *     cdef init(self):
- *         self.lval1 = PyFloat_GetMax()             # <<<<<<<<<<<<<<
- *     #
- *     cdef bint verify(self):
- */
-  __pyx_v_self->lval1 = PyFloat_GetMax();
-
-  /* "lib/mlgrad/stopcond.pyx":28
- *         self.gd = gd
- *     #
- *     cdef init(self):             # <<<<<<<<<<<<<<
- *         self.lval1 = PyFloat_GetMax()
- *     #
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
 /* "lib/mlgrad/stopcond.pyx":31
- *         self.lval1 = PyFloat_GetMax()
+ * #         self.lval_min = PyFloat_GetMax() / 2
  *     #
  *     cdef bint verify(self):             # <<<<<<<<<<<<<<
  *         cdef GD gd = self.gd
- * #         cdef Functional risk = gd.risk
+ * 
  */
 
 static int __pyx_f_6mlgrad_2gd_19DiffL1StopCondition_verify(struct __pyx_obj_6mlgrad_2gd_DiffL1StopCondition *__pyx_v_self) {
@@ -13692,16 +13684,16 @@ static int __pyx_f_6mlgrad_2gd_19DiffL1StopCondition_verify(struct __pyx_obj_6ml
  *     #
  *     cdef bint verify(self):
  *         cdef GD gd = self.gd             # <<<<<<<<<<<<<<
- * #         cdef Functional risk = gd.risk
  * 
+ *         if gd.K <= 2:
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->gd);
   __Pyx_INCREF(__pyx_t_1);
   __pyx_v_gd = ((struct __pyx_obj_6mlgrad_2gd_GD *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "lib/mlgrad/stopcond.pyx":35
- * #         cdef Functional risk = gd.risk
+  /* "lib/mlgrad/stopcond.pyx":34
+ *         cdef GD gd = self.gd
  * 
  *         if gd.K <= 2:             # <<<<<<<<<<<<<<
  *             return 0
@@ -13710,18 +13702,18 @@ static int __pyx_f_6mlgrad_2gd_19DiffL1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_t_2 = ((__pyx_v_gd->K <= 2) != 0);
   if (__pyx_t_2) {
 
-    /* "lib/mlgrad/stopcond.pyx":36
+    /* "lib/mlgrad/stopcond.pyx":35
  * 
  *         if gd.K <= 2:
  *             return 0             # <<<<<<<<<<<<<<
  * 
- *         if fabs(gd.lval - gd.lval_prev) / (1.0 + fabs(gd.lval)) < gd.tol:
+ *         if fabs(gd.lval - gd.lval_min) / (1.0 + fabs(gd.lval_min)) < gd.tol:
  */
     __pyx_r = 0;
     goto __pyx_L0;
 
-    /* "lib/mlgrad/stopcond.pyx":35
- * #         cdef Functional risk = gd.risk
+    /* "lib/mlgrad/stopcond.pyx":34
+ *         cdef GD gd = self.gd
  * 
  *         if gd.K <= 2:             # <<<<<<<<<<<<<<
  *             return 0
@@ -13729,25 +13721,25 @@ static int __pyx_f_6mlgrad_2gd_19DiffL1StopCondition_verify(struct __pyx_obj_6ml
  */
   }
 
-  /* "lib/mlgrad/stopcond.pyx":38
+  /* "lib/mlgrad/stopcond.pyx":37
  *             return 0
  * 
- *         if fabs(gd.lval - gd.lval_prev) / (1.0 + fabs(gd.lval)) < gd.tol:             # <<<<<<<<<<<<<<
+ *         if fabs(gd.lval - gd.lval_min) / (1.0 + fabs(gd.lval_min)) < gd.tol:             # <<<<<<<<<<<<<<
  *             return 1
  * 
  */
-  __pyx_t_3 = fabs((__pyx_v_gd->lval - __pyx_v_gd->lval_prev));
-  __pyx_t_4 = (1.0 + fabs(__pyx_v_gd->lval));
+  __pyx_t_3 = fabs((__pyx_v_gd->lval - __pyx_v_gd->lval_min));
+  __pyx_t_4 = (1.0 + fabs(__pyx_v_gd->lval_min));
   if (unlikely(__pyx_t_4 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(7, 38, __pyx_L1_error)
+    __PYX_ERR(7, 37, __pyx_L1_error)
   }
   __pyx_t_2 = (((__pyx_t_3 / __pyx_t_4) < __pyx_v_gd->tol) != 0);
   if (__pyx_t_2) {
 
-    /* "lib/mlgrad/stopcond.pyx":39
+    /* "lib/mlgrad/stopcond.pyx":38
  * 
- *         if fabs(gd.lval - gd.lval_prev) / (1.0 + fabs(gd.lval)) < gd.tol:
+ *         if fabs(gd.lval - gd.lval_min) / (1.0 + fabs(gd.lval_min)) < gd.tol:
  *             return 1             # <<<<<<<<<<<<<<
  * 
  *         return 0
@@ -13755,16 +13747,16 @@ static int __pyx_f_6mlgrad_2gd_19DiffL1StopCondition_verify(struct __pyx_obj_6ml
     __pyx_r = 1;
     goto __pyx_L0;
 
-    /* "lib/mlgrad/stopcond.pyx":38
+    /* "lib/mlgrad/stopcond.pyx":37
  *             return 0
  * 
- *         if fabs(gd.lval - gd.lval_prev) / (1.0 + fabs(gd.lval)) < gd.tol:             # <<<<<<<<<<<<<<
+ *         if fabs(gd.lval - gd.lval_min) / (1.0 + fabs(gd.lval_min)) < gd.tol:             # <<<<<<<<<<<<<<
  *             return 1
  * 
  */
   }
 
-  /* "lib/mlgrad/stopcond.pyx":41
+  /* "lib/mlgrad/stopcond.pyx":40
  *             return 1
  * 
  *         return 0             # <<<<<<<<<<<<<<
@@ -13775,11 +13767,11 @@ static int __pyx_f_6mlgrad_2gd_19DiffL1StopCondition_verify(struct __pyx_obj_6ml
   goto __pyx_L0;
 
   /* "lib/mlgrad/stopcond.pyx":31
- *         self.lval1 = PyFloat_GetMax()
+ * #         self.lval_min = PyFloat_GetMax() / 2
  *     #
  *     cdef bint verify(self):             # <<<<<<<<<<<<<<
  *         cdef GD gd = self.gd
- * #         cdef Functional risk = gd.risk
+ * 
  */
 
   /* function exit code */
@@ -13832,11 +13824,11 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_2__reduce_cython__(s
   /* "(tree fragment)":5
  *     cdef object _dict
  *     cdef bint use_setstate
- *     state = (self.gd, self.lval1)             # <<<<<<<<<<<<<<
+ *     state = (self.gd, self.lval_min)             # <<<<<<<<<<<<<<
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->lval1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 5, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->lval_min); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -13851,7 +13843,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_2__reduce_cython__(s
 
   /* "(tree fragment)":6
  *     cdef bint use_setstate
- *     state = (self.gd, self.lval1)
+ *     state = (self.gd, self.lval_min)
  *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
  *     if _dict is not None:
  *         state += (_dict,)
@@ -13862,7 +13854,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_2__reduce_cython__(s
   __pyx_t_2 = 0;
 
   /* "(tree fragment)":7
- *     state = (self.gd, self.lval1)
+ *     state = (self.gd, self.lval_min)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -13900,7 +13892,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_2__reduce_cython__(s
     __pyx_v_use_setstate = 1;
 
     /* "(tree fragment)":7
- *     state = (self.gd, self.lval1)
+ *     state = (self.gd, self.lval_min)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -13914,7 +13906,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_2__reduce_cython__(s
  *     else:
  *         use_setstate = self.gd is not None             # <<<<<<<<<<<<<<
  *     if use_setstate:
- *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x122861f, None), state
+ *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x66a7bc7, None), state
  */
   /*else*/ {
     __pyx_t_4 = (((PyObject *)__pyx_v_self->gd) != Py_None);
@@ -13926,7 +13918,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_2__reduce_cython__(s
  *     else:
  *         use_setstate = self.gd is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x122861f, None), state
+ *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x66a7bc7, None), state
  *     else:
  */
   __pyx_t_4 = (__pyx_v_use_setstate != 0);
@@ -13935,9 +13927,9 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_2__reduce_cython__(s
     /* "(tree fragment)":13
  *         use_setstate = self.gd is not None
  *     if use_setstate:
- *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x122861f, None), state             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x66a7bc7, None), state             # <<<<<<<<<<<<<<
  *     else:
- *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x122861f, state)
+ *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x66a7bc7, state)
  */
     __Pyx_XDECREF(__pyx_r);
     __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pyx_unpickle_DiffL1StopConditi); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 13, __pyx_L1_error)
@@ -13947,9 +13939,9 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_2__reduce_cython__(s
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_19039775);
-    __Pyx_GIVEREF(__pyx_int_19039775);
-    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_int_19039775);
+    __Pyx_INCREF(__pyx_int_107641799);
+    __Pyx_GIVEREF(__pyx_int_107641799);
+    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_int_107641799);
     __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(Py_None);
     PyTuple_SET_ITEM(__pyx_t_2, 2, Py_None);
@@ -13972,15 +13964,15 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_2__reduce_cython__(s
  *     else:
  *         use_setstate = self.gd is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x122861f, None), state
+ *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x66a7bc7, None), state
  *     else:
  */
   }
 
   /* "(tree fragment)":15
- *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x122861f, None), state
+ *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x66a7bc7, None), state
  *     else:
- *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x122861f, state)             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x66a7bc7, state)             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_DiffL1StopCondition__set_state(self, __pyx_state)
  */
@@ -13993,9 +13985,9 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_2__reduce_cython__(s
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_19039775);
-    __Pyx_GIVEREF(__pyx_int_19039775);
-    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_int_19039775);
+    __Pyx_INCREF(__pyx_int_107641799);
+    __Pyx_GIVEREF(__pyx_int_107641799);
+    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_int_107641799);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
     PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_v_state);
@@ -14035,7 +14027,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_2__reduce_cython__(s
 
 /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x122861f, state)
+ *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x66a7bc7, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_DiffL1StopCondition__set_state(self, __pyx_state)
  */
@@ -14064,7 +14056,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_4__setstate_cython__
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
 
   /* "(tree fragment)":17
- *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x122861f, state)
+ *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x66a7bc7, state)
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_DiffL1StopCondition__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
@@ -14075,7 +14067,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_4__setstate_cython__
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x122861f, state)
+ *         return __pyx_unpickle_DiffL1StopCondition, (type(self), 0x66a7bc7, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_DiffL1StopCondition__set_state(self, __pyx_state)
  */
@@ -14093,7 +14085,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL1StopCondition_4__setstate_cython__
   return __pyx_r;
 }
 
-/* "lib/mlgrad/stopcond.pyx":52
+/* "lib/mlgrad/stopcond.pyx":51
  * cdef class DiffL2StopCondition(StopCondition):
  *     #
  *     def __init__(self, GD gd):             # <<<<<<<<<<<<<<
@@ -14130,7 +14122,7 @@ static int __pyx_pw_6mlgrad_2gd_19DiffL2StopCondition_1__init__(PyObject *__pyx_
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(7, 52, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(7, 51, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -14141,13 +14133,13 @@ static int __pyx_pw_6mlgrad_2gd_19DiffL2StopCondition_1__init__(PyObject *__pyx_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(7, 52, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(7, 51, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.gd.DiffL2StopCondition.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_gd), __pyx_ptype_6mlgrad_2gd_GD, 1, "gd", 0))) __PYX_ERR(7, 52, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_gd), __pyx_ptype_6mlgrad_2gd_GD, 1, "gd", 0))) __PYX_ERR(7, 51, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_2gd_19DiffL2StopCondition___init__(((struct __pyx_obj_6mlgrad_2gd_DiffL2StopCondition *)__pyx_v_self), __pyx_v_gd);
 
   /* function exit code */
@@ -14164,7 +14156,7 @@ static int __pyx_pf_6mlgrad_2gd_19DiffL2StopCondition___init__(struct __pyx_obj_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "lib/mlgrad/stopcond.pyx":53
+  /* "lib/mlgrad/stopcond.pyx":52
  *     #
  *     def __init__(self, GD gd):
  *         self.gd = gd             # <<<<<<<<<<<<<<
@@ -14177,7 +14169,7 @@ static int __pyx_pf_6mlgrad_2gd_19DiffL2StopCondition___init__(struct __pyx_obj_
   __Pyx_DECREF(((PyObject *)__pyx_v_self->gd));
   __pyx_v_self->gd = __pyx_v_gd;
 
-  /* "lib/mlgrad/stopcond.pyx":52
+  /* "lib/mlgrad/stopcond.pyx":51
  * cdef class DiffL2StopCondition(StopCondition):
  *     #
  *     def __init__(self, GD gd):             # <<<<<<<<<<<<<<
@@ -14191,7 +14183,7 @@ static int __pyx_pf_6mlgrad_2gd_19DiffL2StopCondition___init__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "lib/mlgrad/stopcond.pyx":55
+/* "lib/mlgrad/stopcond.pyx":54
  *         self.gd = gd
  *     #
  *     cdef init(self):             # <<<<<<<<<<<<<<
@@ -14204,7 +14196,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffL2StopCondition_init(struct __pyx_obj
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("init", 0);
 
-  /* "lib/mlgrad/stopcond.pyx":56
+  /* "lib/mlgrad/stopcond.pyx":55
  *     #
  *     cdef init(self):
  *         self.lval1 = self.lval2 = 0             # <<<<<<<<<<<<<<
@@ -14214,7 +14206,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffL2StopCondition_init(struct __pyx_obj
   __pyx_v_self->lval1 = 0.0;
   __pyx_v_self->lval2 = 0.0;
 
-  /* "lib/mlgrad/stopcond.pyx":55
+  /* "lib/mlgrad/stopcond.pyx":54
  *         self.gd = gd
  *     #
  *     cdef init(self):             # <<<<<<<<<<<<<<
@@ -14229,7 +14221,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffL2StopCondition_init(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "lib/mlgrad/stopcond.pyx":58
+/* "lib/mlgrad/stopcond.pyx":57
  *         self.lval1 = self.lval2 = 0
  *     #
  *     cdef bint verify(self):             # <<<<<<<<<<<<<<
@@ -14252,7 +14244,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("verify", 0);
 
-  /* "lib/mlgrad/stopcond.pyx":59
+  /* "lib/mlgrad/stopcond.pyx":58
  *     #
  *     cdef bint verify(self):
  *         cdef GD gd = self.gd             # <<<<<<<<<<<<<<
@@ -14264,7 +14256,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
   __pyx_v_gd = ((struct __pyx_obj_6mlgrad_2gd_GD *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "lib/mlgrad/stopcond.pyx":60
+  /* "lib/mlgrad/stopcond.pyx":59
  *     cdef bint verify(self):
  *         cdef GD gd = self.gd
  *         cdef Functional risk = gd.risk             # <<<<<<<<<<<<<<
@@ -14276,7 +14268,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
   __pyx_v_risk = ((struct __pyx_obj_6mlgrad_4risk_Functional *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "lib/mlgrad/stopcond.pyx":65
+  /* "lib/mlgrad/stopcond.pyx":64
  *         #self.lval = risk.evaluate()
  * 
  *         if gd.K <= 3:             # <<<<<<<<<<<<<<
@@ -14286,7 +14278,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
   __pyx_t_2 = ((__pyx_v_gd->K <= 3) != 0);
   if (__pyx_t_2) {
 
-    /* "lib/mlgrad/stopcond.pyx":66
+    /* "lib/mlgrad/stopcond.pyx":65
  * 
  *         if gd.K <= 3:
  *             self.lval1, self.lval2 = gd.lval, self.lval1             # <<<<<<<<<<<<<<
@@ -14298,7 +14290,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
     __pyx_v_self->lval1 = __pyx_t_3;
     __pyx_v_self->lval2 = __pyx_t_4;
 
-    /* "lib/mlgrad/stopcond.pyx":67
+    /* "lib/mlgrad/stopcond.pyx":66
  *         if gd.K <= 3:
  *             self.lval1, self.lval2 = gd.lval, self.lval1
  *             return 0             # <<<<<<<<<<<<<<
@@ -14308,7 +14300,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
     __pyx_r = 0;
     goto __pyx_L0;
 
-    /* "lib/mlgrad/stopcond.pyx":65
+    /* "lib/mlgrad/stopcond.pyx":64
  *         #self.lval = risk.evaluate()
  * 
  *         if gd.K <= 3:             # <<<<<<<<<<<<<<
@@ -14317,7 +14309,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
  */
   }
 
-  /* "lib/mlgrad/stopcond.pyx":69
+  /* "lib/mlgrad/stopcond.pyx":68
  *             return 0
  * 
  *         lval_min = min3(gd.lval, self.lval1, self.lval2)             # <<<<<<<<<<<<<<
@@ -14326,7 +14318,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
  */
   __pyx_v_lval_min = __pyx_f_6mlgrad_2gd_min3(__pyx_v_gd->lval, __pyx_v_self->lval1, __pyx_v_self->lval2);
 
-  /* "lib/mlgrad/stopcond.pyx":71
+  /* "lib/mlgrad/stopcond.pyx":70
  *         lval_min = min3(gd.lval, self.lval1, self.lval2)
  * 
  *         if 0.5 * fabs(gd.lval - 2*self.lval1 + self.lval2) / (1.0 + fabs(lval_min)) < gd.tol:             # <<<<<<<<<<<<<<
@@ -14337,12 +14329,12 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
   __pyx_t_3 = (1.0 + fabs(__pyx_v_lval_min));
   if (unlikely(__pyx_t_3 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(7, 71, __pyx_L1_error)
+    __PYX_ERR(7, 70, __pyx_L1_error)
   }
   __pyx_t_2 = (((__pyx_t_4 / __pyx_t_3) < __pyx_v_gd->tol) != 0);
   if (__pyx_t_2) {
 
-    /* "lib/mlgrad/stopcond.pyx":72
+    /* "lib/mlgrad/stopcond.pyx":71
  * 
  *         if 0.5 * fabs(gd.lval - 2*self.lval1 + self.lval2) / (1.0 + fabs(lval_min)) < gd.tol:
  *             return 1             # <<<<<<<<<<<<<<
@@ -14352,7 +14344,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
     __pyx_r = 1;
     goto __pyx_L0;
 
-    /* "lib/mlgrad/stopcond.pyx":71
+    /* "lib/mlgrad/stopcond.pyx":70
  *         lval_min = min3(gd.lval, self.lval1, self.lval2)
  * 
  *         if 0.5 * fabs(gd.lval - 2*self.lval1 + self.lval2) / (1.0 + fabs(lval_min)) < gd.tol:             # <<<<<<<<<<<<<<
@@ -14361,7 +14353,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
  */
   }
 
-  /* "lib/mlgrad/stopcond.pyx":74
+  /* "lib/mlgrad/stopcond.pyx":73
  *             return 1
  * 
  *         self.lval1, self.lval2 = gd.lval, self.lval1             # <<<<<<<<<<<<<<
@@ -14373,7 +14365,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
   __pyx_v_self->lval1 = __pyx_t_3;
   __pyx_v_self->lval2 = __pyx_t_4;
 
-  /* "lib/mlgrad/stopcond.pyx":76
+  /* "lib/mlgrad/stopcond.pyx":75
  *         self.lval1, self.lval2 = gd.lval, self.lval1
  * 
  *         return 0             # <<<<<<<<<<<<<<
@@ -14383,7 +14375,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify(struct __pyx_obj_6ml
   __pyx_r = 0;
   goto __pyx_L0;
 
-  /* "lib/mlgrad/stopcond.pyx":58
+  /* "lib/mlgrad/stopcond.pyx":57
  *         self.lval1 = self.lval2 = 0
  *     #
  *     cdef bint verify(self):             # <<<<<<<<<<<<<<
@@ -14708,7 +14700,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffL2StopCondition_4__setstate_cython__
   return __pyx_r;
 }
 
-/* "lib/mlgrad/stopcond.pyx":89
+/* "lib/mlgrad/stopcond.pyx":88
  * cdef class DiffG1StopCondition(StopCondition):
  *     #
  *     def __init__(self, GD gd):             # <<<<<<<<<<<<<<
@@ -14745,7 +14737,7 @@ static int __pyx_pw_6mlgrad_2gd_19DiffG1StopCondition_1__init__(PyObject *__pyx_
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(7, 89, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(7, 88, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -14756,13 +14748,13 @@ static int __pyx_pw_6mlgrad_2gd_19DiffG1StopCondition_1__init__(PyObject *__pyx_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(7, 89, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(7, 88, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.gd.DiffG1StopCondition.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_gd), __pyx_ptype_6mlgrad_2gd_GD, 1, "gd", 0))) __PYX_ERR(7, 89, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_gd), __pyx_ptype_6mlgrad_2gd_GD, 1, "gd", 0))) __PYX_ERR(7, 88, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_2gd_19DiffG1StopCondition___init__(((struct __pyx_obj_6mlgrad_2gd_DiffG1StopCondition *)__pyx_v_self), __pyx_v_gd);
 
   /* function exit code */
@@ -14779,7 +14771,7 @@ static int __pyx_pf_6mlgrad_2gd_19DiffG1StopCondition___init__(struct __pyx_obj_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "lib/mlgrad/stopcond.pyx":90
+  /* "lib/mlgrad/stopcond.pyx":89
  *     #
  *     def __init__(self, GD gd):
  *         self.gd = gd             # <<<<<<<<<<<<<<
@@ -14792,7 +14784,7 @@ static int __pyx_pf_6mlgrad_2gd_19DiffG1StopCondition___init__(struct __pyx_obj_
   __Pyx_DECREF(((PyObject *)__pyx_v_self->gd));
   __pyx_v_self->gd = __pyx_v_gd;
 
-  /* "lib/mlgrad/stopcond.pyx":89
+  /* "lib/mlgrad/stopcond.pyx":88
  * cdef class DiffG1StopCondition(StopCondition):
  *     #
  *     def __init__(self, GD gd):             # <<<<<<<<<<<<<<
@@ -14806,7 +14798,7 @@ static int __pyx_pf_6mlgrad_2gd_19DiffG1StopCondition___init__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "lib/mlgrad/stopcond.pyx":92
+/* "lib/mlgrad/stopcond.pyx":91
  *         self.gd = gd
  *     #
  *     cdef init(self):             # <<<<<<<<<<<<<<
@@ -14831,7 +14823,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffG1StopCondition_init(struct __pyx_obj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init", 0);
 
-  /* "lib/mlgrad/stopcond.pyx":93
+  /* "lib/mlgrad/stopcond.pyx":92
  *     #
  *     cdef init(self):
  *         m = len(self.gd.risk.param)             # <<<<<<<<<<<<<<
@@ -14841,21 +14833,21 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffG1StopCondition_init(struct __pyx_obj
   __pyx_t_1 = __Pyx_MemoryView_Len(__pyx_v_self->gd->risk->param); 
   __pyx_v_m = __pyx_t_1;
 
-  /* "lib/mlgrad/stopcond.pyx":94
+  /* "lib/mlgrad/stopcond.pyx":93
  *     cdef init(self):
  *         m = len(self.gd.risk.param)
  *         self.grad = np.zeros((m,), "d")             # <<<<<<<<<<<<<<
  *     #
  *     cdef bint verify(self):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(7, 94, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(7, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(7, 94, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(7, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_m); if (unlikely(!__pyx_t_3)) __PYX_ERR(7, 94, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_m); if (unlikely(!__pyx_t_3)) __PYX_ERR(7, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(7, 94, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(7, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
@@ -14875,7 +14867,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffG1StopCondition_init(struct __pyx_obj
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_5, __pyx_n_u_d};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(7, 94, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(7, 93, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -14884,14 +14876,14 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffG1StopCondition_init(struct __pyx_obj
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_5, __pyx_n_u_d};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(7, 94, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(7, 93, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(7, 94, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(7, 93, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -14902,19 +14894,19 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffG1StopCondition_init(struct __pyx_obj
     __Pyx_GIVEREF(__pyx_n_u_d);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_d);
     __pyx_t_5 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(7, 94, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(7, 93, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(7, 94, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(7, 93, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->grad, 0);
   __pyx_v_self->grad = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "lib/mlgrad/stopcond.pyx":92
+  /* "lib/mlgrad/stopcond.pyx":91
  *         self.gd = gd
  *     #
  *     cdef init(self):             # <<<<<<<<<<<<<<
@@ -14940,7 +14932,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffG1StopCondition_init(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "lib/mlgrad/stopcond.pyx":96
+/* "lib/mlgrad/stopcond.pyx":95
  *         self.grad = np.zeros((m,), "d")
  *     #
  *     cdef bint verify(self):             # <<<<<<<<<<<<<<
@@ -14967,7 +14959,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
   Py_ssize_t __pyx_t_9;
   __Pyx_RefNannySetupContext("verify", 0);
 
-  /* "lib/mlgrad/stopcond.pyx":97
+  /* "lib/mlgrad/stopcond.pyx":96
  *     #
  *     cdef bint verify(self):
  *         cdef GD gd = self.gd             # <<<<<<<<<<<<<<
@@ -14979,7 +14971,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_v_gd = ((struct __pyx_obj_6mlgrad_2gd_GD *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "lib/mlgrad/stopcond.pyx":98
+  /* "lib/mlgrad/stopcond.pyx":97
  *     cdef bint verify(self):
  *         cdef GD gd = self.gd
  *         cdef double[::1] grad_average = gd.risk.grad_average             # <<<<<<<<<<<<<<
@@ -14992,7 +14984,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "lib/mlgrad/stopcond.pyx":100
+  /* "lib/mlgrad/stopcond.pyx":99
  *         cdef double[::1] grad_average = gd.risk.grad_average
  *         cdef double dg
  *         cdef int i, m = len(grad_average)             # <<<<<<<<<<<<<<
@@ -15002,7 +14994,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_t_3 = __Pyx_MemoryView_Len(__pyx_v_grad_average); 
   __pyx_v_m = __pyx_t_3;
 
-  /* "lib/mlgrad/stopcond.pyx":102
+  /* "lib/mlgrad/stopcond.pyx":101
  *         cdef int i, m = len(grad_average)
  * 
  *         if gd.K <= 2:             # <<<<<<<<<<<<<<
@@ -15012,7 +15004,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_t_4 = ((__pyx_v_gd->K <= 2) != 0);
   if (__pyx_t_4) {
 
-    /* "lib/mlgrad/stopcond.pyx":103
+    /* "lib/mlgrad/stopcond.pyx":102
  * 
  *         if gd.K <= 2:
  *             copy_memoryview(self.grad, grad_average)             # <<<<<<<<<<<<<<
@@ -15021,7 +15013,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
  */
     __pyx_f_6mlgrad_2gd_copy_memoryview(__pyx_v_self->grad, __pyx_v_grad_average);
 
-    /* "lib/mlgrad/stopcond.pyx":104
+    /* "lib/mlgrad/stopcond.pyx":103
  *         if gd.K <= 2:
  *             copy_memoryview(self.grad, grad_average)
  *             return 0             # <<<<<<<<<<<<<<
@@ -15031,7 +15023,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
     __pyx_r = 0;
     goto __pyx_L0;
 
-    /* "lib/mlgrad/stopcond.pyx":102
+    /* "lib/mlgrad/stopcond.pyx":101
  *         cdef int i, m = len(grad_average)
  * 
  *         if gd.K <= 2:             # <<<<<<<<<<<<<<
@@ -15040,7 +15032,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
  */
   }
 
-  /* "lib/mlgrad/stopcond.pyx":106
+  /* "lib/mlgrad/stopcond.pyx":105
  *             return 0
  * 
  *         dg = 0             # <<<<<<<<<<<<<<
@@ -15049,7 +15041,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
  */
   __pyx_v_dg = 0.0;
 
-  /* "lib/mlgrad/stopcond.pyx":107
+  /* "lib/mlgrad/stopcond.pyx":106
  * 
  *         dg = 0
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -15061,7 +15053,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "lib/mlgrad/stopcond.pyx":108
+    /* "lib/mlgrad/stopcond.pyx":107
  *         dg = 0
  *         for i in range(m):
  *             dg += abs(self.grad[i] - grad_average[i])             # <<<<<<<<<<<<<<
@@ -15073,7 +15065,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
     __pyx_v_dg = (__pyx_v_dg + fabs(((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->grad.data) + __pyx_t_8)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_average.data) + __pyx_t_9)) ))))));
   }
 
-  /* "lib/mlgrad/stopcond.pyx":109
+  /* "lib/mlgrad/stopcond.pyx":108
  *         for i in range(m):
  *             dg += abs(self.grad[i] - grad_average[i])
  *         copy_memoryview(self.grad, grad_average)             # <<<<<<<<<<<<<<
@@ -15082,7 +15074,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
  */
   __pyx_f_6mlgrad_2gd_copy_memoryview(__pyx_v_self->grad, __pyx_v_grad_average);
 
-  /* "lib/mlgrad/stopcond.pyx":111
+  /* "lib/mlgrad/stopcond.pyx":110
  *         copy_memoryview(self.grad, grad_average)
  * 
  *         if dg < gd.tol:             # <<<<<<<<<<<<<<
@@ -15092,7 +15084,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_t_4 = ((__pyx_v_dg < __pyx_v_gd->tol) != 0);
   if (__pyx_t_4) {
 
-    /* "lib/mlgrad/stopcond.pyx":112
+    /* "lib/mlgrad/stopcond.pyx":111
  * 
  *         if dg < gd.tol:
  *             return 1             # <<<<<<<<<<<<<<
@@ -15102,7 +15094,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
     __pyx_r = 1;
     goto __pyx_L0;
 
-    /* "lib/mlgrad/stopcond.pyx":111
+    /* "lib/mlgrad/stopcond.pyx":110
  *         copy_memoryview(self.grad, grad_average)
  * 
  *         if dg < gd.tol:             # <<<<<<<<<<<<<<
@@ -15111,7 +15103,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
  */
   }
 
-  /* "lib/mlgrad/stopcond.pyx":114
+  /* "lib/mlgrad/stopcond.pyx":113
  *             return 1
  * 
  *         return 0             # <<<<<<<<<<<<<<
@@ -15121,7 +15113,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_r = 0;
   goto __pyx_L0;
 
-  /* "lib/mlgrad/stopcond.pyx":96
+  /* "lib/mlgrad/stopcond.pyx":95
  *         self.grad = np.zeros((m,), "d")
  *     #
  *     cdef bint verify(self):             # <<<<<<<<<<<<<<
@@ -15437,7 +15429,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_19DiffG1StopCondition_4__setstate_cython__
   return __pyx_r;
 }
 
-/* "lib/mlgrad/stopcond.pyx":118
+/* "lib/mlgrad/stopcond.pyx":117
  * cdef class DiffP1StopCondition(StopCondition):
  *     #
  *     def __init__(self, GD gd):             # <<<<<<<<<<<<<<
@@ -15474,7 +15466,7 @@ static int __pyx_pw_6mlgrad_2gd_19DiffP1StopCondition_1__init__(PyObject *__pyx_
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(7, 118, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(7, 117, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -15485,13 +15477,13 @@ static int __pyx_pw_6mlgrad_2gd_19DiffP1StopCondition_1__init__(PyObject *__pyx_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(7, 118, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(7, 117, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.gd.DiffP1StopCondition.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_gd), __pyx_ptype_6mlgrad_2gd_GD, 1, "gd", 0))) __PYX_ERR(7, 118, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_gd), __pyx_ptype_6mlgrad_2gd_GD, 1, "gd", 0))) __PYX_ERR(7, 117, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_2gd_19DiffP1StopCondition___init__(((struct __pyx_obj_6mlgrad_2gd_DiffP1StopCondition *)__pyx_v_self), __pyx_v_gd);
 
   /* function exit code */
@@ -15508,7 +15500,7 @@ static int __pyx_pf_6mlgrad_2gd_19DiffP1StopCondition___init__(struct __pyx_obj_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "lib/mlgrad/stopcond.pyx":119
+  /* "lib/mlgrad/stopcond.pyx":118
  *     #
  *     def __init__(self, GD gd):
  *         self.gd = gd             # <<<<<<<<<<<<<<
@@ -15521,7 +15513,7 @@ static int __pyx_pf_6mlgrad_2gd_19DiffP1StopCondition___init__(struct __pyx_obj_
   __Pyx_DECREF(((PyObject *)__pyx_v_self->gd));
   __pyx_v_self->gd = __pyx_v_gd;
 
-  /* "lib/mlgrad/stopcond.pyx":118
+  /* "lib/mlgrad/stopcond.pyx":117
  * cdef class DiffP1StopCondition(StopCondition):
  *     #
  *     def __init__(self, GD gd):             # <<<<<<<<<<<<<<
@@ -15535,7 +15527,7 @@ static int __pyx_pf_6mlgrad_2gd_19DiffP1StopCondition___init__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "lib/mlgrad/stopcond.pyx":121
+/* "lib/mlgrad/stopcond.pyx":120
  *         self.gd = gd
  *     #
  *     cdef init(self):             # <<<<<<<<<<<<<<
@@ -15560,7 +15552,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffP1StopCondition_init(struct __pyx_obj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init", 0);
 
-  /* "lib/mlgrad/stopcond.pyx":122
+  /* "lib/mlgrad/stopcond.pyx":121
  *     #
  *     cdef init(self):
  *         m = len(self.gd.risk.param)             # <<<<<<<<<<<<<<
@@ -15570,21 +15562,21 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffP1StopCondition_init(struct __pyx_obj
   __pyx_t_1 = __Pyx_MemoryView_Len(__pyx_v_self->gd->risk->param); 
   __pyx_v_m = __pyx_t_1;
 
-  /* "lib/mlgrad/stopcond.pyx":123
+  /* "lib/mlgrad/stopcond.pyx":122
  *     cdef init(self):
  *         m = len(self.gd.risk.param)
  *         self.param = np.zeros((m,), "d")             # <<<<<<<<<<<<<<
  *     #
  *     cdef bint verify(self):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(7, 123, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(7, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(7, 123, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(7, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_m); if (unlikely(!__pyx_t_3)) __PYX_ERR(7, 123, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_m); if (unlikely(!__pyx_t_3)) __PYX_ERR(7, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(7, 123, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(7, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
@@ -15604,7 +15596,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffP1StopCondition_init(struct __pyx_obj
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_5, __pyx_n_u_d};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(7, 123, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(7, 122, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -15613,14 +15605,14 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffP1StopCondition_init(struct __pyx_obj
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_5, __pyx_n_u_d};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(7, 123, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(7, 122, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(7, 123, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(7, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -15631,19 +15623,19 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffP1StopCondition_init(struct __pyx_obj
     __Pyx_GIVEREF(__pyx_n_u_d);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_d);
     __pyx_t_5 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(7, 123, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(7, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(7, 123, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(7, 122, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->param, 0);
   __pyx_v_self->param = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "lib/mlgrad/stopcond.pyx":121
+  /* "lib/mlgrad/stopcond.pyx":120
  *         self.gd = gd
  *     #
  *     cdef init(self):             # <<<<<<<<<<<<<<
@@ -15669,7 +15661,7 @@ static PyObject *__pyx_f_6mlgrad_2gd_19DiffP1StopCondition_init(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "lib/mlgrad/stopcond.pyx":125
+/* "lib/mlgrad/stopcond.pyx":124
  *         self.param = np.zeros((m,), "d")
  *     #
  *     cdef bint verify(self):             # <<<<<<<<<<<<<<
@@ -15696,7 +15688,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
   Py_ssize_t __pyx_t_9;
   __Pyx_RefNannySetupContext("verify", 0);
 
-  /* "lib/mlgrad/stopcond.pyx":126
+  /* "lib/mlgrad/stopcond.pyx":125
  *     #
  *     cdef bint verify(self):
  *         cdef GD gd = self.gd             # <<<<<<<<<<<<<<
@@ -15708,7 +15700,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_v_gd = ((struct __pyx_obj_6mlgrad_2gd_GD *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "lib/mlgrad/stopcond.pyx":127
+  /* "lib/mlgrad/stopcond.pyx":126
  *     cdef bint verify(self):
  *         cdef GD gd = self.gd
  *         cdef double[::1] param = gd.risk.param             # <<<<<<<<<<<<<<
@@ -15721,7 +15713,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "lib/mlgrad/stopcond.pyx":129
+  /* "lib/mlgrad/stopcond.pyx":128
  *         cdef double[::1] param = gd.risk.param
  *         cdef double dp
  *         cdef int i, m = len(param)             # <<<<<<<<<<<<<<
@@ -15731,7 +15723,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_t_3 = __Pyx_MemoryView_Len(__pyx_v_param); 
   __pyx_v_m = __pyx_t_3;
 
-  /* "lib/mlgrad/stopcond.pyx":131
+  /* "lib/mlgrad/stopcond.pyx":130
  *         cdef int i, m = len(param)
  * 
  *         if gd.K <= 2:             # <<<<<<<<<<<<<<
@@ -15741,7 +15733,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_t_4 = ((__pyx_v_gd->K <= 2) != 0);
   if (__pyx_t_4) {
 
-    /* "lib/mlgrad/stopcond.pyx":132
+    /* "lib/mlgrad/stopcond.pyx":131
  * 
  *         if gd.K <= 2:
  *             copy_memoryview(self.param, param)             # <<<<<<<<<<<<<<
@@ -15750,7 +15742,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
  */
     __pyx_f_6mlgrad_2gd_copy_memoryview(__pyx_v_self->param, __pyx_v_param);
 
-    /* "lib/mlgrad/stopcond.pyx":133
+    /* "lib/mlgrad/stopcond.pyx":132
  *         if gd.K <= 2:
  *             copy_memoryview(self.param, param)
  *             return 0             # <<<<<<<<<<<<<<
@@ -15760,7 +15752,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
     __pyx_r = 0;
     goto __pyx_L0;
 
-    /* "lib/mlgrad/stopcond.pyx":131
+    /* "lib/mlgrad/stopcond.pyx":130
  *         cdef int i, m = len(param)
  * 
  *         if gd.K <= 2:             # <<<<<<<<<<<<<<
@@ -15769,7 +15761,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
  */
   }
 
-  /* "lib/mlgrad/stopcond.pyx":135
+  /* "lib/mlgrad/stopcond.pyx":134
  *             return 0
  * 
  *         dp = 0             # <<<<<<<<<<<<<<
@@ -15778,7 +15770,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
  */
   __pyx_v_dp = 0.0;
 
-  /* "lib/mlgrad/stopcond.pyx":136
+  /* "lib/mlgrad/stopcond.pyx":135
  * 
  *         dp = 0
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -15790,7 +15782,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "lib/mlgrad/stopcond.pyx":137
+    /* "lib/mlgrad/stopcond.pyx":136
  *         dp = 0
  *         for i in range(m):
  *             dp += abs(self.param[i] - param[i])             # <<<<<<<<<<<<<<
@@ -15802,7 +15794,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
     __pyx_v_dp = (__pyx_v_dp + fabs(((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->param.data) + __pyx_t_8)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_9)) ))))));
   }
 
-  /* "lib/mlgrad/stopcond.pyx":138
+  /* "lib/mlgrad/stopcond.pyx":137
  *         for i in range(m):
  *             dp += abs(self.param[i] - param[i])
  *         copy_memoryview(self.param, param)             # <<<<<<<<<<<<<<
@@ -15811,7 +15803,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
  */
   __pyx_f_6mlgrad_2gd_copy_memoryview(__pyx_v_self->param, __pyx_v_param);
 
-  /* "lib/mlgrad/stopcond.pyx":140
+  /* "lib/mlgrad/stopcond.pyx":139
  *         copy_memoryview(self.param, param)
  * 
  *         if dp < gd.tol:             # <<<<<<<<<<<<<<
@@ -15821,7 +15813,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_t_4 = ((__pyx_v_dp < __pyx_v_gd->tol) != 0);
   if (__pyx_t_4) {
 
-    /* "lib/mlgrad/stopcond.pyx":141
+    /* "lib/mlgrad/stopcond.pyx":140
  * 
  *         if dp < gd.tol:
  *             return 1             # <<<<<<<<<<<<<<
@@ -15831,7 +15823,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
     __pyx_r = 1;
     goto __pyx_L0;
 
-    /* "lib/mlgrad/stopcond.pyx":140
+    /* "lib/mlgrad/stopcond.pyx":139
  *         copy_memoryview(self.param, param)
  * 
  *         if dp < gd.tol:             # <<<<<<<<<<<<<<
@@ -15840,7 +15832,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
  */
   }
 
-  /* "lib/mlgrad/stopcond.pyx":143
+  /* "lib/mlgrad/stopcond.pyx":142
  *             return 1
  * 
  *         return 0             # <<<<<<<<<<<<<<
@@ -15848,7 +15840,7 @@ static int __pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify(struct __pyx_obj_6ml
   __pyx_r = 0;
   goto __pyx_L0;
 
-  /* "lib/mlgrad/stopcond.pyx":125
+  /* "lib/mlgrad/stopcond.pyx":124
  *         self.param = np.zeros((m,), "d")
  *     #
  *     cdef bint verify(self):             # <<<<<<<<<<<<<<
@@ -21585,18 +21577,18 @@ static PyObject *__pyx_pf_6mlgrad_2gd_14__pyx_unpickle_DiffL1StopCondition(CYTHO
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x122861f:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x66a7bc7:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x122861f = (gd, lval1))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x66a7bc7 = (gd, lval_min))" % __pyx_checksum)
  */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x122861f) != 0);
+  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x66a7bc7) != 0);
   if (__pyx_t_1) {
 
     /* "(tree fragment)":5
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x122861f:
+ *     if __pyx_checksum != 0x66a7bc7:
  *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x122861f = (gd, lval1))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x66a7bc7 = (gd, lval_min))" % __pyx_checksum)
  *     __pyx_result = DiffL1StopCondition.__new__(__pyx_type)
  */
     __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 5, __pyx_L1_error)
@@ -21615,15 +21607,15 @@ static PyObject *__pyx_pf_6mlgrad_2gd_14__pyx_unpickle_DiffL1StopCondition(CYTHO
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":6
- *     if __pyx_checksum != 0x122861f:
+ *     if __pyx_checksum != 0x66a7bc7:
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x122861f = (gd, lval1))" % __pyx_checksum)             # <<<<<<<<<<<<<<
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x66a7bc7 = (gd, lval_min))" % __pyx_checksum)             # <<<<<<<<<<<<<<
  *     __pyx_result = DiffL1StopCondition.__new__(__pyx_type)
  *     if __pyx_state is not None:
  */
     __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x12, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 6, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x66, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_INCREF(__pyx_v___pyx_PickleError);
@@ -21650,15 +21642,15 @@ static PyObject *__pyx_pf_6mlgrad_2gd_14__pyx_unpickle_DiffL1StopCondition(CYTHO
     /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x122861f:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0x66a7bc7:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x122861f = (gd, lval1))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x66a7bc7 = (gd, lval_min))" % __pyx_checksum)
  */
   }
 
   /* "(tree fragment)":7
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x122861f = (gd, lval1))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x66a7bc7 = (gd, lval_min))" % __pyx_checksum)
  *     __pyx_result = DiffL1StopCondition.__new__(__pyx_type)             # <<<<<<<<<<<<<<
  *     if __pyx_state is not None:
  *         __pyx_unpickle_DiffL1StopCondition__set_state(<DiffL1StopCondition> __pyx_result, __pyx_state)
@@ -21684,7 +21676,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_14__pyx_unpickle_DiffL1StopCondition(CYTHO
   __pyx_t_3 = 0;
 
   /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x122861f = (gd, lval1))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x66a7bc7 = (gd, lval_min))" % __pyx_checksum)
  *     __pyx_result = DiffL1StopCondition.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_DiffL1StopCondition__set_state(<DiffL1StopCondition> __pyx_result, __pyx_state)
@@ -21707,7 +21699,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_14__pyx_unpickle_DiffL1StopCondition(CYTHO
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x122861f = (gd, lval1))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x66a7bc7 = (gd, lval_min))" % __pyx_checksum)
  *     __pyx_result = DiffL1StopCondition.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_DiffL1StopCondition__set_state(<DiffL1StopCondition> __pyx_result, __pyx_state)
@@ -21720,7 +21712,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_14__pyx_unpickle_DiffL1StopCondition(CYTHO
  *         __pyx_unpickle_DiffL1StopCondition__set_state(<DiffL1StopCondition> __pyx_result, __pyx_state)
  *     return __pyx_result             # <<<<<<<<<<<<<<
  * cdef __pyx_unpickle_DiffL1StopCondition__set_state(DiffL1StopCondition __pyx_result, tuple __pyx_state):
- *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval1 = __pyx_state[1]
+ *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval_min = __pyx_state[1]
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v___pyx_result);
@@ -21753,7 +21745,7 @@ static PyObject *__pyx_pf_6mlgrad_2gd_14__pyx_unpickle_DiffL1StopCondition(CYTHO
  *         __pyx_unpickle_DiffL1StopCondition__set_state(<DiffL1StopCondition> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_DiffL1StopCondition__set_state(DiffL1StopCondition __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval1 = __pyx_state[1]
+ *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval_min = __pyx_state[1]
  *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
  */
 
@@ -21776,7 +21768,7 @@ static PyObject *__pyx_f_6mlgrad_2gd___pyx_unpickle_DiffL1StopCondition__set_sta
   /* "(tree fragment)":12
  *     return __pyx_result
  * cdef __pyx_unpickle_DiffL1StopCondition__set_state(DiffL1StopCondition __pyx_result, tuple __pyx_state):
- *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval1 = __pyx_state[1]             # <<<<<<<<<<<<<<
+ *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval_min = __pyx_state[1]             # <<<<<<<<<<<<<<
  *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
  *         __pyx_result.__dict__.update(__pyx_state[2])
  */
@@ -21797,11 +21789,11 @@ static PyObject *__pyx_f_6mlgrad_2gd___pyx_unpickle_DiffL1StopCondition__set_sta
     __PYX_ERR(3, 12, __pyx_L1_error)
   }
   __pyx_t_2 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(3, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->lval1 = __pyx_t_2;
+  __pyx_v___pyx_result->lval_min = __pyx_t_2;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_DiffL1StopCondition__set_state(DiffL1StopCondition __pyx_result, tuple __pyx_state):
- *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval1 = __pyx_state[1]
+ *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval_min = __pyx_state[1]
  *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
  *         __pyx_result.__dict__.update(__pyx_state[2])
  */
@@ -21823,7 +21815,7 @@ static PyObject *__pyx_f_6mlgrad_2gd___pyx_unpickle_DiffL1StopCondition__set_sta
   if (__pyx_t_3) {
 
     /* "(tree fragment)":14
- *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval1 = __pyx_state[1]
+ *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval_min = __pyx_state[1]
  *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
  *         __pyx_result.__dict__.update(__pyx_state[2])             # <<<<<<<<<<<<<<
  */
@@ -21855,7 +21847,7 @@ static PyObject *__pyx_f_6mlgrad_2gd___pyx_unpickle_DiffL1StopCondition__set_sta
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_DiffL1StopCondition__set_state(DiffL1StopCondition __pyx_result, tuple __pyx_state):
- *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval1 = __pyx_state[1]
+ *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval_min = __pyx_state[1]
  *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
  *         __pyx_result.__dict__.update(__pyx_state[2])
  */
@@ -21865,7 +21857,7 @@ static PyObject *__pyx_f_6mlgrad_2gd___pyx_unpickle_DiffL1StopCondition__set_sta
  *         __pyx_unpickle_DiffL1StopCondition__set_state(<DiffL1StopCondition> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_DiffL1StopCondition__set_state(DiffL1StopCondition __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval1 = __pyx_state[1]
+ *     __pyx_result.gd = __pyx_state[0]; __pyx_result.lval_min = __pyx_state[1]
  *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
  */
 
@@ -42058,12 +42050,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_FG_RUD, __pyx_k_FG_RUD, sizeof(__pyx_k_FG_RUD), 0, 0, 1, 1},
   {&__pyx_n_s_Fittable, __pyx_k_Fittable, sizeof(__pyx_k_Fittable), 0, 0, 1, 1},
   {&__pyx_n_s_GD, __pyx_k_GD, sizeof(__pyx_k_GD), 0, 0, 1, 1},
-  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x12, __pyx_k_Incompatible_checksums_s_vs_0x12, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x12), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x27, __pyx_k_Incompatible_checksums_s_vs_0x27, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x27), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x2d, __pyx_k_Incompatible_checksums_s_vs_0x2d, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x2d), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x3b, __pyx_k_Incompatible_checksums_s_vs_0x3b, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x3b), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x43, __pyx_k_Incompatible_checksums_s_vs_0x43, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x43), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x52, __pyx_k_Incompatible_checksums_s_vs_0x52, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x52), 0, 0, 1, 0},
+  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x66, __pyx_k_Incompatible_checksums_s_vs_0x66, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x66), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x8f, __pyx_k_Incompatible_checksums_s_vs_0x8f, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x8f), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0xb0, __pyx_k_Incompatible_checksums_s_vs_0xb0, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xb0), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0xb2, __pyx_k_Incompatible_checksums_s_vs_0xb2, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xb2), 0, 0, 1, 0},
@@ -42209,7 +42201,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 147, __pyx_L1_error)
   __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) __PYX_ERR(1, 57, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(3, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(3, 148, __pyx_L1_error)
@@ -42568,12 +42560,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_12 = PyInt_FromLong(12); if (unlikely(!__pyx_int_12)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1000 = PyInt_FromLong(1000); if (unlikely(!__pyx_int_1000)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_19039775 = PyInt_FromLong(19039775L); if (unlikely(!__pyx_int_19039775)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_41728376 = PyInt_FromLong(41728376L); if (unlikely(!__pyx_int_41728376)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_47296600 = PyInt_FromLong(47296600L); if (unlikely(!__pyx_int_47296600)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_62480630 = PyInt_FromLong(62480630L); if (unlikely(!__pyx_int_62480630)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_71121991 = PyInt_FromLong(71121991L); if (unlikely(!__pyx_int_71121991)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_86784574 = PyInt_FromLong(86784574L); if (unlikely(!__pyx_int_86784574)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_107641799 = PyInt_FromLong(107641799L); if (unlikely(!__pyx_int_107641799)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_150196013 = PyInt_FromLong(150196013L); if (unlikely(!__pyx_int_150196013)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_184977713 = PyInt_FromLong(184977713L); if (unlikely(!__pyx_int_184977713)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_187516929 = PyInt_FromLong(187516929L); if (unlikely(!__pyx_int_187516929)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -42746,7 +42738,6 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_2gd_StopCondition = &__pyx_type_6mlgrad_2gd_StopCondition;
   __pyx_vtabptr_6mlgrad_2gd_DiffL1StopCondition = &__pyx_vtable_6mlgrad_2gd_DiffL1StopCondition;
   __pyx_vtable_6mlgrad_2gd_DiffL1StopCondition.__pyx_base = *__pyx_vtabptr_6mlgrad_2gd_StopCondition;
-  __pyx_vtable_6mlgrad_2gd_DiffL1StopCondition.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_2gd_StopCondition *))__pyx_f_6mlgrad_2gd_19DiffL1StopCondition_init;
   __pyx_vtable_6mlgrad_2gd_DiffL1StopCondition.__pyx_base.verify = (int (*)(struct __pyx_obj_6mlgrad_2gd_StopCondition *))__pyx_f_6mlgrad_2gd_19DiffL1StopCondition_verify;
   __pyx_type_6mlgrad_2gd_DiffL1StopCondition.tp_base = __pyx_ptype_6mlgrad_2gd_StopCondition;
   if (PyType_Ready(&__pyx_type_6mlgrad_2gd_DiffL1StopCondition) < 0) __PYX_ERR(7, 23, __pyx_L1_error)
@@ -42765,48 +42756,48 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_2gd_DiffL2StopCondition.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_2gd_StopCondition *))__pyx_f_6mlgrad_2gd_19DiffL2StopCondition_init;
   __pyx_vtable_6mlgrad_2gd_DiffL2StopCondition.__pyx_base.verify = (int (*)(struct __pyx_obj_6mlgrad_2gd_StopCondition *))__pyx_f_6mlgrad_2gd_19DiffL2StopCondition_verify;
   __pyx_type_6mlgrad_2gd_DiffL2StopCondition.tp_base = __pyx_ptype_6mlgrad_2gd_StopCondition;
-  if (PyType_Ready(&__pyx_type_6mlgrad_2gd_DiffL2StopCondition) < 0) __PYX_ERR(7, 50, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_2gd_DiffL2StopCondition) < 0) __PYX_ERR(7, 49, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_2gd_DiffL2StopCondition.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_2gd_DiffL2StopCondition.tp_dictoffset && __pyx_type_6mlgrad_2gd_DiffL2StopCondition.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_2gd_DiffL2StopCondition.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_2gd_DiffL2StopCondition.tp_dict, __pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition) < 0) __PYX_ERR(7, 50, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DiffL2StopCondition, (PyObject *)&__pyx_type_6mlgrad_2gd_DiffL2StopCondition) < 0) __PYX_ERR(7, 50, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_2gd_DiffL2StopCondition) < 0) __PYX_ERR(7, 50, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_2gd_DiffL2StopCondition.tp_dict, __pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition) < 0) __PYX_ERR(7, 49, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DiffL2StopCondition, (PyObject *)&__pyx_type_6mlgrad_2gd_DiffL2StopCondition) < 0) __PYX_ERR(7, 49, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_2gd_DiffL2StopCondition) < 0) __PYX_ERR(7, 49, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_DiffL2StopCondition = &__pyx_type_6mlgrad_2gd_DiffL2StopCondition;
   __pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition = &__pyx_vtable_6mlgrad_2gd_DiffG1StopCondition;
   __pyx_vtable_6mlgrad_2gd_DiffG1StopCondition.__pyx_base = *__pyx_vtabptr_6mlgrad_2gd_StopCondition;
   __pyx_vtable_6mlgrad_2gd_DiffG1StopCondition.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_2gd_StopCondition *))__pyx_f_6mlgrad_2gd_19DiffG1StopCondition_init;
   __pyx_vtable_6mlgrad_2gd_DiffG1StopCondition.__pyx_base.verify = (int (*)(struct __pyx_obj_6mlgrad_2gd_StopCondition *))__pyx_f_6mlgrad_2gd_19DiffG1StopCondition_verify;
   __pyx_type_6mlgrad_2gd_DiffG1StopCondition.tp_base = __pyx_ptype_6mlgrad_2gd_StopCondition;
-  if (PyType_Ready(&__pyx_type_6mlgrad_2gd_DiffG1StopCondition) < 0) __PYX_ERR(7, 87, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_2gd_DiffG1StopCondition) < 0) __PYX_ERR(7, 86, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_2gd_DiffG1StopCondition.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_2gd_DiffG1StopCondition.tp_dictoffset && __pyx_type_6mlgrad_2gd_DiffG1StopCondition.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_2gd_DiffG1StopCondition.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_2gd_DiffG1StopCondition.tp_dict, __pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition) < 0) __PYX_ERR(7, 87, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DiffG1StopCondition, (PyObject *)&__pyx_type_6mlgrad_2gd_DiffG1StopCondition) < 0) __PYX_ERR(7, 87, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_2gd_DiffG1StopCondition) < 0) __PYX_ERR(7, 87, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_2gd_DiffG1StopCondition.tp_dict, __pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition) < 0) __PYX_ERR(7, 86, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DiffG1StopCondition, (PyObject *)&__pyx_type_6mlgrad_2gd_DiffG1StopCondition) < 0) __PYX_ERR(7, 86, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_2gd_DiffG1StopCondition) < 0) __PYX_ERR(7, 86, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_DiffG1StopCondition = &__pyx_type_6mlgrad_2gd_DiffG1StopCondition;
   __pyx_vtabptr_6mlgrad_2gd_DiffP1StopCondition = &__pyx_vtable_6mlgrad_2gd_DiffP1StopCondition;
   __pyx_vtable_6mlgrad_2gd_DiffP1StopCondition.__pyx_base = *__pyx_vtabptr_6mlgrad_2gd_StopCondition;
   __pyx_vtable_6mlgrad_2gd_DiffP1StopCondition.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_2gd_StopCondition *))__pyx_f_6mlgrad_2gd_19DiffP1StopCondition_init;
   __pyx_vtable_6mlgrad_2gd_DiffP1StopCondition.__pyx_base.verify = (int (*)(struct __pyx_obj_6mlgrad_2gd_StopCondition *))__pyx_f_6mlgrad_2gd_19DiffP1StopCondition_verify;
   __pyx_type_6mlgrad_2gd_DiffP1StopCondition.tp_base = __pyx_ptype_6mlgrad_2gd_StopCondition;
-  if (PyType_Ready(&__pyx_type_6mlgrad_2gd_DiffP1StopCondition) < 0) __PYX_ERR(7, 116, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_2gd_DiffP1StopCondition) < 0) __PYX_ERR(7, 115, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_2gd_DiffP1StopCondition.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_2gd_DiffP1StopCondition.tp_dictoffset && __pyx_type_6mlgrad_2gd_DiffP1StopCondition.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_2gd_DiffP1StopCondition.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_2gd_DiffP1StopCondition.tp_dict, __pyx_vtabptr_6mlgrad_2gd_DiffP1StopCondition) < 0) __PYX_ERR(7, 116, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DiffP1StopCondition, (PyObject *)&__pyx_type_6mlgrad_2gd_DiffP1StopCondition) < 0) __PYX_ERR(7, 116, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_2gd_DiffP1StopCondition) < 0) __PYX_ERR(7, 116, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_2gd_DiffP1StopCondition.tp_dict, __pyx_vtabptr_6mlgrad_2gd_DiffP1StopCondition) < 0) __PYX_ERR(7, 115, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DiffP1StopCondition, (PyObject *)&__pyx_type_6mlgrad_2gd_DiffP1StopCondition) < 0) __PYX_ERR(7, 115, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_2gd_DiffP1StopCondition) < 0) __PYX_ERR(7, 115, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_DiffP1StopCondition = &__pyx_type_6mlgrad_2gd_DiffP1StopCondition;
   __pyx_vtabptr_6mlgrad_2gd_ParamRate = &__pyx_vtable_6mlgrad_2gd_ParamRate;
   __pyx_vtable_6mlgrad_2gd_ParamRate.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_2gd_ParamRate *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_2gd_9ParamRate_init;
@@ -43127,23 +43118,23 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_6mlgrad_4loss_RelativeErrorLoss) __PYX_ERR(14, 37, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_RelativeErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_RelativeErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss)) __PYX_ERR(14, 37, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MarginLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MarginLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MarginLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MarginLoss) __PYX_ERR(14, 43, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MarginLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MarginLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MarginLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MarginLoss)) __PYX_ERR(14, 43, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MarginLoss) __PYX_ERR(14, 42, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MarginLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MarginLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MarginLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MarginLoss)) __PYX_ERR(14, 42, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MLoss) __PYX_ERR(14, 48, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MLoss)) __PYX_ERR(14, 48, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MLoss) __PYX_ERR(14, 47, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MLoss)) __PYX_ERR(14, 47, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MultLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MultLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MultLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MultLoss) __PYX_ERR(14, 53, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MultLoss)) __PYX_ERR(14, 53, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MultLoss) __PYX_ERR(14, 52, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MultLoss)) __PYX_ERR(14, 52, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_ErrorMultLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "ErrorMultLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_ErrorMultLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_ErrorMultLoss) __PYX_ERR(14, 58, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_ErrorMultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_ErrorMultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss)) __PYX_ERR(14, 58, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_ErrorMultLoss) __PYX_ERR(14, 57, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_ErrorMultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_ErrorMultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss)) __PYX_ERR(14, 57, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MarginMultLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MarginMultLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MarginMultLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MarginMultLoss) __PYX_ERR(14, 62, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MarginMultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MarginMultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MarginMultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MarginMultLoss)) __PYX_ERR(14, 62, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MarginMultLoss) __PYX_ERR(14, 61, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MarginMultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MarginMultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MarginMultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MarginMultLoss)) __PYX_ERR(14, 61, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MinLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MinLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MinLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MinLoss) __PYX_ERR(14, 65, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MinLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MinLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MinLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MinLoss)) __PYX_ERR(14, 65, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MinLoss) __PYX_ERR(14, 64, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MinLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MinLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MinLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MinLoss)) __PYX_ERR(14, 64, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("mlgrad.regular"); if (unlikely(!__pyx_t_1)) __PYX_ERR(15, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -43675,70 +43666,70 @@ if (!__Pyx_RefNanny) {
  */
   __pyx_v_6mlgrad_2gd_float_min = PyFloat_GetMin();
 
-  /* "mlgrad/gd.pyx":170
+  /* "mlgrad/gd.pyx":172
  * #include "gd_sag.pyx"
  * 
  * Fittable.register(GD)             # <<<<<<<<<<<<<<
  * Fittable.register(FG)
  * Fittable.register(FG_RUD)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Fittable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Fittable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, ((PyObject *)__pyx_ptype_6mlgrad_2gd_GD)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, ((PyObject *)__pyx_ptype_6mlgrad_2gd_GD)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/gd.pyx":171
+  /* "mlgrad/gd.pyx":173
  * 
  * Fittable.register(GD)
  * Fittable.register(FG)             # <<<<<<<<<<<<<<
  * Fittable.register(FG_RUD)
  * Fittable.register(SGD)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Fittable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Fittable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, ((PyObject *)__pyx_ptype_6mlgrad_2gd_FG)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, ((PyObject *)__pyx_ptype_6mlgrad_2gd_FG)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/gd.pyx":172
+  /* "mlgrad/gd.pyx":174
  * Fittable.register(GD)
  * Fittable.register(FG)
  * Fittable.register(FG_RUD)             # <<<<<<<<<<<<<<
  * Fittable.register(SGD)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Fittable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Fittable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, ((PyObject *)__pyx_ptype_6mlgrad_2gd_FG_RUD)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, ((PyObject *)__pyx_ptype_6mlgrad_2gd_FG_RUD)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "mlgrad/gd.pyx":173
+  /* "mlgrad/gd.pyx":175
  * Fittable.register(FG)
  * Fittable.register(FG_RUD)
  * Fittable.register(SGD)             # <<<<<<<<<<<<<<
  * 
  * include "stopcond.pyx"
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Fittable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Fittable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_register); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, ((PyObject *)__pyx_ptype_6mlgrad_2gd_SGD)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, ((PyObject *)__pyx_ptype_6mlgrad_2gd_SGD)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;

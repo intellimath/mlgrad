@@ -32,7 +32,7 @@ cdef class FG_RUD(GD):
             self.param_prev = np.zeros(n_param, 'd')
     #
     cpdef gradient(self):
-        cdef Functional risk = self.risk
+        cdef Risk risk = self.risk
         cdef int i, n_param = risk.param.shape[0]
         cdef double[::1] param = risk.param
         cdef double[::1] param_prev = self.param_prev

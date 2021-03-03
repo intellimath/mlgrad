@@ -37,8 +37,10 @@ import numpy as np
 DEF Beta = 0.9
 DEF Beta1 = 0.99
 DEF Beta2 = 0.9999
+DEF Epsilon = 1.0e-10
 
 include "averager_scalar.pyx"
 include "averager_array.pyx"
+
 
 

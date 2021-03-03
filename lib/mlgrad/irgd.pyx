@@ -71,6 +71,7 @@ cdef class IRGD(object):
         self.lval = self.lval1 = self.lval2 = 0
         
         self.is_warm_start = 0
+        self.completed = False
     #
     @property
     def risk(self):
@@ -114,18 +115,23 @@ cdef class IRGD(object):
             
             self.lval = self.weights.get_qvalue()
             self.lvals.append(self.lval)
+                
+            if self.stop_condition():
+                self.completed = 1
 
             if self.lval < self.lval_best:
                 copy_memoryview(self.param_best, risk.param)
-                self.lval_best = self.lval            
+                self.lval_best = self.lval
                 
-            if self.stop_condition():
-                self.finalize()
+            if self.completed:
                 break
-
+                
             self.K += 1
             
             self.gd.h_rate.h *= self.h_anneal
+
+        self.finalize()
+
     #
     cdef finalize(self):
         cdef Functional risk = self.gd.risk
@@ -133,17 +139,20 @@ cdef class IRGD(object):
         copy_memoryview(risk.param, self.param_best)
     #
     cdef bint stop_condition(self):
-        cdef double lval_min
+#         cdef double lval_min
         
-        if self.K < 3:
-            self.lval1, self.lval2 = self.lval, self.lval1
-            return 0        
-
-        lval_min = min3(self.lval, self.lval1, self.lval2)
-        if 0.5 * fabs(self.lval - 2*self.lval1 + self.lval2) / (1.0e-8 + fabs(lval_min)) < self.tol:
+        if fabs(self.lval - self.lval_best) / (1 + fabs(self.lval_best)) < self.tol:
             return 1
+        
+#         if self.K < 3:
+#             self.lval1, self.lval2 = self.lval, self.lval1
+#             return 0        
 
-        self.lval1, self.lval2 = self.lval, self.lval1
+#         lval_min = min3(self.lval, self.lval1, self.lval2)
+#         if 0.5 * fabs(self.lval - 2*self.lval1 + self.lval2) / (1.0e-8 + fabs(lval_min)) < self.tol:
+#             return 1
+
+#         self.lval1, self.lval2 = self.lval, self.lval1
 
         return 0
 

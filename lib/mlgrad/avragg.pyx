@@ -10,7 +10,7 @@
 
 # The MIT License (MIT) 
 #
-# Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -376,14 +376,14 @@ cdef class Average(object):
         prev = self.pval_prev
         
         if pval < pmin:
-            self.pmin = pval
+            pmin = self.pmin = pval
             self.u_best = self.u
             self.m = 0
 #         elif pval == pmin:
 #             if self.u < self.u_best:
 #                 self.u_best = self.u
         #
-        if fabs(pval - prev) / (1 + fabs(pmin)) < self.tol:
+        if fabs(pval - pmin) / (1 + fabs(pmin)) < self.tol:
             return 1
             
         if self.m > self.m_iter:

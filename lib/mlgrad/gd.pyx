@@ -93,10 +93,10 @@ cdef class GD:
         self.h_rate.init()
             
         self.m = 0
-        self.lval = self.lval_min = float_max #self.risk.evaluate()
+        self.lval = self.lval_min = float_max / 2 #self.risk.evaluate()
         self.lvals = []    
 
-        self.K = 1
+        self.K = 0
         self.completed = 0
         while self.K < self.n_iter:
 
@@ -106,15 +106,17 @@ cdef class GD:
 
             self.lval = risk.lval = risk.evaluate()
             self.lvals.append(self.lval)
+                
+            if self.stop_condition.verify():
+                self.completed = 1
 
             if self.lval < self.lval_min:
                 self.lval_min = self.lval
                 copy_memoryview(self.param_min, risk.param)
                 
-            if self.stop_condition.verify():
-                self.completed = 1
+            if self.completed:
                 break
-
+                
             self.fit_epoch()
 #             if self.normalizer is not None:
 #                 self.normalizer.normalize(param)
