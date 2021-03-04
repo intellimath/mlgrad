@@ -10,6 +10,20 @@ from mlgrad.utils import array_exclude_outliers
 
 from mlgrad import averager_it, averager_fg, fg, erm_fg, sg, erm_sg, irgd, erm_irgd, erisk, mrisk
 
+def averaging_function(kind, **kw):
+    if kind == 'M':
+        alpha = kw.get('alpha', 0.5)
+        func = kw.get('func', Quantile_Sqrt(alpha, 0.001))
+        avg = averager_it(func)
+    elif kind == 'WM':
+        alpha = kw.get('alpha', 0.5)
+        func = kw.get('func', Quantile_Sqrt(alpha, 0.001))
+        avg = averager_it(func)
+        avg = avragg.WMAverage(avg)
+    else:
+        raise ValueError('Invalid argument value')
+    return avg
+
 def regression(Xs, Y, mod, lossfunc=None, h=0.001, tol=1.0e-8, n_iter=1000, verbose=1, n_restart=5):
     _lossfunc = lossfunc
     if lossfunc is None:
@@ -18,6 +32,21 @@ def regression(Xs, Y, mod, lossfunc=None, h=0.001, tol=1.0e-8, n_iter=1000, verb
     alg_fg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, n_restart=5)
     return alg_fg
 
+
+def r_regression(Xs, Y, mod, lossfunc=None, rhofunc=None, 
+               h=0.001, tol=1.0e-8, n_iter=1000, tol2=1.0e-5, n_iter2=21):
+    _lossfunc = lossfunc
+    if lossfunc is None:
+        _lossfunc = loss.SquareErrorLoss()
+
+    _rhofunc = rhofunc
+    if rhofunc is None:
+        _rhofunc = func.Sqrt(1.0)
+    er = erisk(Xs, Y, mod, _lossfunc)
+    alg_fg = fg(er, h=h, n_iter=n_iter, tol=tol)
+    wg = weights.RWeights(_rhofunc, er)
+    irgd = erm_irgd(alg_fg, wg, n_iter=n_iter2, tol=tol2)
+    return irgd
 
 def m_regression(Xs, Y, mod, 
                  lossfunc=None, avrfunc=None, h=0.001, 
