@@ -27,13 +27,11 @@ cdef class FG_RUD(GD):
     cpdef init(self):
         GD.init(self)
         n_param = len(self.risk.param)
-
-        if self.param_prev is None:
-            self.param_prev = np.zeros(n_param, 'd')
+        self.param_prev = np.zeros(n_param, 'd')
     #
     cpdef gradient(self):
         cdef Risk risk = self.risk
-        cdef int i, n_param = risk.param.shape[0]
+        cdef Py_ssize_t i, n_param = risk.param.shape[0]
         cdef double[::1] param = risk.param
         cdef double[::1] param_prev = self.param_prev
         cdef double[::1] array_average

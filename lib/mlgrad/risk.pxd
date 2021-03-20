@@ -56,6 +56,7 @@ cdef class Functional:
     cdef readonly double lval
     cdef readonly Batch batch
     cdef readonly Py_ssize_t n_sample
+    cdef readonly Py_ssize_t n_param
 
     cpdef init(self)
     cdef public double evaluate(self)
@@ -73,32 +74,31 @@ cdef class Risk(Functional):
     #
     cdef public void eval_losses(self, double[::1] lval_all)
     
-cdef class SRisk(Risk):
-    cdef public double eval_loss(self, int k)
-    cdef public void gradient_loss(self, int k)    
+# cdef class SRisk(Risk):
+#     cdef public double eval_loss(self, int k)
+#     cdef public void gradient_loss(self, int k)    
 
+cdef class ERisk(Risk):
+    cdef readonly Model model
+    cdef readonly Loss loss
+    cdef readonly double[:, ::1] X
+    cdef readonly double[::1] Y
+    cdef readonly double[::1] Yp
+    
 cdef class MRisk(Risk):
     cdef readonly Model model
     cdef readonly Loss loss
     cdef readonly double[:, ::1] X
     cdef readonly double[::1] Y
     cdef readonly double[::1] Yp
-    cdef double[::1] lval_all
+    cdef readonly double[::1] lval_all
     cdef Average avg
     cdef bint first
     
 cdef class ED(Risk):
     cdef readonly double[:, ::1] X
     cdef readonly Distance distfunc
-    cdef int n_param
     #
-
-cdef class ERisk(SRisk):
-    cdef readonly Model model
-    cdef readonly Loss loss
-    cdef readonly double[:, ::1] X
-    cdef readonly double[::1] Y
-    cdef readonly double[::1] Yp
     
 cdef class AER(ERisk):
     cdef Average loss_averager
@@ -108,7 +108,7 @@ cdef class AER(ERisk):
     cdef eval_all(self)
     
 
-cdef class ER2(SRisk):
+cdef class ER2(Risk):
     cdef readonly MLModel model
     cdef readonly MultLoss loss
     cdef readonly double[:, ::1] X

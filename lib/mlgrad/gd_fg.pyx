@@ -18,6 +18,7 @@ cdef class FG(GD):
 #         self.normalizer = normalizer
         
         if h_rate is None:
+#             self.h_rate = ExponentParamRate(h)
             self.h_rate = ConstantParamRate(h)
         else:
             self.h_rate = h_rate

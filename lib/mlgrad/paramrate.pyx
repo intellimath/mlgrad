@@ -18,7 +18,7 @@ cdef class ConstantParamRate(ParamRate):
 
 cdef class ExponentParamRate(ParamRate):
 
-    def __init__(self, h, p=0.998):
+    def __init__(self, h, p=0.999):
         self.h = h
         self.curr_h = h
         self.p = p

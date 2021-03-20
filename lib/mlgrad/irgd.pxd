@@ -67,7 +67,7 @@ cdef class IRGD(object):
     
     cdef public double tol
 
-    cdef double[::1] lval_all
+#     cdef public double[::1] lval_all
     
     cdef public list lvals
     #cdef public list qvals
@@ -79,7 +79,7 @@ cdef class IRGD(object):
     cdef public double lval, lval1, lval2
     cdef int m, M
     cdef bint u_only, is_warm_start
-    cdef bint completed
+    cdef public bint completed
     
     cdef double[::1] param_prev
     cdef double[::1] param_best

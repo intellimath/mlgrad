@@ -1,16 +1,16 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
+# cython: boundscheck=True
+# cython: wraparound=True
+# cython: nonecheck=True
 # cython: embedsignature=True
-# cython: initializedcheck=False
+# cython: initializedcheck=True
 # cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2019> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@
 # THE SOFTWARE.
 
 #from cython.parallel cimport parallel, prange
-
+ 
 from mlgrad.model cimport Model
 from mlgrad.func cimport Func
 from mlgrad.regular cimport FuncMulti
@@ -58,7 +58,6 @@ cdef double float_min = PyFloat_GetMin()
 cdef class GD: 
 
     cpdef init(self):
-        init_rand()
         self.risk.init()
 #         if self.normalizer is not None:
 #             self.normalizer.normalize(self.risk.param)
@@ -67,7 +66,8 @@ cdef class GD:
         
 #         if self.param_prev is None:
 #             self.param_prev = np.zeros((n_param,), dtype='d')
-        self.param_min = np.array(self.risk.param, dtype='d', copy=True)
+        if self.param_min is None:
+            self.param_min = np.array(self.risk.param, dtype='d', copy=True)
 #         print(self.param_min.base)
         
         if self.stop_condition is None:
@@ -82,23 +82,22 @@ cdef class GD:
 #             self.param_averager.init(n_param)
             
     #
-    def fit(self):
+    def fit(self, warm=False):
         cdef Risk risk = self.risk
-#         cdef double[::1] param = risk.param
-#         cdef double[::1] param_min = self.param_min
-#         cdef int i, j, n = param.shape[0]
 
+        self.risk.batch.init()
         self.init()
+        self.lval = self.lval_min = float_max / 2 #self.risk.evaluate()
+        self.lvals = []   
+        self.K = 0
     
         self.h_rate.init()
-            
-        self.m = 0
-        self.lval = self.lval_min = float_max / 2 #self.risk.evaluate()
-        self.lvals = []    
 
-        self.K = 0
+        self.m = 0    
+
+        K = 0
         self.completed = 0
-        while self.K < self.n_iter:
+        while K < self.n_iter:
 
             risk.batch.generate()
 
@@ -124,8 +123,9 @@ cdef class GD:
             if self.callback is not None:
                 self.callback(self)
 
-            self.K += 1
+            K += 1
 
+        self.K += K
         self.finalize()
     #
     cpdef gradient(self):

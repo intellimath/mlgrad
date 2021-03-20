@@ -1,14 +1,14 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
+# cython: boundscheck=True
+# cython: wraparound=True
+# cython: nonecheck=True
 # cython: embedsignature=True
-# cython: initializedcheck=False
+# cython: initializedcheck=True
 # cython: unraisable_tracebacks=True  
 
-# The MIT License (MIT)
+# The MIT License (MIT) 
 #
 # Copyright (c) <2015-2019> <Shibzukhov Zaur, szport at gmail dot com>
 #
@@ -41,6 +41,7 @@ DEF Epsilon = 1.0e-10
 
 include "averager_scalar.pyx"
 include "averager_array.pyx"
+
 
 
 

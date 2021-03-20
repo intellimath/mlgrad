@@ -11,7 +11,7 @@ cdef extern from "Python.h":
     double PyFloat_GetMin()
 
 cdef inline double array_min(double[::1] arr):
-    cdef int i, N = arr.shape[0]
+    cdef Py_ssize_t i, N = arr.shape[0]
     cdef double v, min_val = arr[0]
 
     for i in range(N):
@@ -23,7 +23,7 @@ cdef inline double array_min(double[::1] arr):
 
 cdef inline double sum_memoryview(double[::1] X):
     cdef double S
-    cdef int i, m = X.shape[0]
+    cdef Py_ssize_t i, m = X.shape[0]
     
     S = 0
     for i in range(m):
@@ -31,14 +31,14 @@ cdef inline double sum_memoryview(double[::1] X):
     return S
 
 cdef inline void mult_scalar_memoryview(double[::1] X, double c):
-    cdef int i, m = X.shape[0]
+    cdef Py_ssize_t i, m = X.shape[0]
 
     for i in range(m):
         X[i] *= c
         
 cdef inline void normalize_memoryview(double[::1] X):
     cdef double S, c
-    cdef int i, m = X.shape[0]
+    cdef Py_ssize_t i, m = X.shape[0]
 
     S = 0
     for i in range(m):
@@ -52,6 +52,7 @@ cdef class Weights(object):
     #
     cdef public double[::1] weights
     #
+    cdef init(self)
     cdef eval_weights(self)
     cdef double[::1] get_weights(self)
     cdef double get_qvalue(self)
@@ -67,29 +68,29 @@ cdef class ConstantWeights(Weights):
 
 @cython.final
 cdef class RWeights(Weights):
-    cdef double[::1] lval_all
+    cdef readonly double[::1] lval_all
     cdef public Func func
     cdef public Risk risk
     cdef bint normalize
 
 @cython.final
 cdef class MWeights(Weights):
-    cdef double[::1] lval_all
+    cdef readonly double[::1] lval_all
     cdef double best_u
     cdef public Average average
     cdef public Risk risk
     cdef bint first_time, normalize, u_only, use_best_u
 
-@cython.final
-cdef class SWMWeights(Weights):
-    cdef double[::1] lval_all
-    cdef public Average average
-    cdef public Risk risk
-    cdef bint first_time, normalize, u_only
+# @cython.final
+# cdef class SWMWeights(Weights):
+#     cdef double[::1] lval_all
+#     cdef public Average average
+#     cdef public Risk risk
+#     cdef bint first_time, normalize, u_only
 
-@cython.final
-cdef class WMWeights(Weights):
-    cdef double[::1] lval_all
-    cdef public Average average
-    cdef public Risk risk
-    cdef bint first_time, normalize, u_only
+# @cython.final
+# cdef class WMWeights(Weights):
+#     cdef double[::1] lval_all
+#     cdef public Average average
+#     cdef public Risk risk
+#     cdef bint first_time, normalize, u_only

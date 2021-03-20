@@ -37,6 +37,9 @@ cdef class Batch:
     cdef void generate(self):
         pass
     
+    cdef void init(self):
+        pass
+    
     def __len__(self):
         return self.size
 
@@ -49,6 +52,8 @@ cdef class RandomBatch(Batch):
         else:
             self.size = size
         self.indices = np.zeros(self.size, dtype='i')
+    #
+    cdef void init(self):
         init_rand()
     #
     cdef void generate(self):

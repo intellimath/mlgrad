@@ -1,16 +1,16 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
+# cython: boundscheck=True
+# cython: wraparound=True
 # cython: nonecheck=False
 # cython: embedsignature=False
-# cython: initializedcheck=False
+# cython: initializedcheck=True
 # cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
-# 
-# Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
+#
+# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -103,84 +103,26 @@ def matdot(A, x, y):
 def matdot_t(A, x, y):
     matrix_dot_t(A, x, y)
     
-cdef inline double inner_dot(double *a, double *b, Py_ssize_t m) nogil:
-    cdef double s
-    cdef double a1, a2, a3, a4
-    cdef double b1, b2, b3, b4
+# cdef inline double inner_dot(double *a, double *b, Py_ssize_t m) nogil:
+#     cdef double s
+#     cdef Py_ssize_t i
     
-    s = 0
-    while m >= 4:
-        a1 = a[0]
-        a2 = a[1]
-        a3 = a[2]
-        a4 = a[3]
+#     s = 0
+#     for i in range(m):
+#         s += a[i]*b[i]
+#     return s
 
-        b1 = b[0]
-        b2 = b[1]
-        b3 = b[2]
-        b4 = b[3]
-
-        s += a1*b1 + a2*b2 + a3*b3 + a4*b4
-
-        m -= 4
-        a += 4
-        b += 4
-
-    while m > 0:
-        s += a[0]*b[0]
-        a += 1
-        b += 1
-        m -= 1
-
-    return s
-
-cdef inline void inner_add(double *b, double *a, double c, Py_ssize_t m) nogil:
-    cdef double a1, a2, a3, a4
+# cdef inline void inner_add(double *b, double *a, double c, Py_ssize_t m) nogil:
+#     cdef Py_ssize_t i
     
-    while m >= 4:
-        a1 = a[0]
-        a2 = a[1]
-        a3 = a[2]
-        a4 = a[3]
+#     for i in range(m):
+#         b[i] += a[i] * c
 
-        b[0] += a1 * c
-        b[1] += a2 * c
-        b[2] += a3 * c
-        b[3] += a3 * c
-
-        m -= 4
-        a += 4
-        b += 4
-
-    while m > 0:
-        b[0] += a[0]*c
-        a += 1
-        b += 1
-        m -= 1
-
-cdef inline void inner_assign(double *b, double *a, double c, Py_ssize_t m) nogil:
-    cdef double a1, a2, a3, a4
+# cdef inline void inner_assign(double *b, double *a, double c, Py_ssize_t m) nogil:
+#     cdef Py_ssize_t i
     
-    while m >= 4:
-        a1 = a[0]
-        a2 = a[1]
-        a3 = a[2]
-        a4 = a[3]
-
-        b[0] = a1 * c
-        b[1] = a2 * c
-        b[2] = a3 * c
-        b[3] = a3 * c
-
-        m -= 4
-        a += 4
-        b += 4
-
-    while m > 0:
-        b[0] = a[0]*c
-        a += 1
-        b += 1
-        m -= 1
+#     for i in range(m):
+#         b[i] = a[i] * c
 
 cdef class Allocator(object):
     #
@@ -314,16 +256,16 @@ cdef class Model(object):
             else:
                 self.param[:] = param
     #
-    cdef double evaluate(self, const double[::1] X):
+    cdef double evaluate(self, double[::1] X):
         return 0
     #
     def evaluate_all(self, X):
         return [self.evaluate(Xk) for Xk in X]           
     #
-    cdef void gradient(self, const double[::1] X, double[::1] grad):
+    cdef void gradient(self, double[::1] X, double[::1] grad):
         pass
     #
-    cdef void gradient_x(self, const double[::1] X, double[::1] grad):
+    cdef void gradient_x(self, double[::1] X, double[::1] grad):
         pass
     #
     def __call__(self, x):
@@ -334,7 +276,6 @@ cdef class Model(object):
     #
     cpdef Model copy(self, bint share=1):
         return <Model>self
-    #
 
 cdef class ConstModel(Model):
     __doc__ = """Constant"""
@@ -350,13 +291,13 @@ cdef class ConstModel(Model):
     def _allocate(self, allocator):
         pass
     #
-    cdef double evaluate(self, const double[::1] X):
+    cdef double evaluate(self, double[::1] X):
         return self.param[0]
     #
-    cdef void gradient(self, const double[::1] X, double[::1] grad):
+    cdef void gradient(self, double[::1] X, double[::1] grad):
         grad[0] = 1
     #   
-    cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):
+    cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
         grad_x[0] = 0
         
 cdef class LinearModel(Model):
@@ -406,7 +347,7 @@ cdef class LinearModel(Model):
 #         for i in range(1, n_param):
 #             self.param[i] /= v        
     #
-    cdef double evaluate(self, const double[::1] X):
+    cdef double evaluate(self, double[::1] X):
         cdef Py_ssize_t i, n_param = self.n_param
         cdef double v
         cdef double[::1] param = self.param
@@ -417,14 +358,14 @@ cdef class LinearModel(Model):
             v += param[i] * X[i-1]
         return v
     #
-    cdef void gradient(self, const double[::1] X, double[::1] grad):
+    cdef void gradient(self, double[::1] X, double[::1] grad):
         cdef int i, n_param = self.n_param
         
         grad[0] = 1
         for i in range(1, n_param):
             grad[i] = X[i-1]
     #
-    cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):
+    cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
         cdef int i, n_input = self.n_input
         cdef double[::1] param = self.param
 
@@ -513,7 +454,7 @@ cdef class SigmaNeuronModel(Model):
         mod.grad_x = np.zeros(self.n_input, 'd')
         return <Model>mod
     #
-    cdef double evaluate(self, const double[::1] X):
+    cdef double evaluate(self, double[::1] X):
         cdef int i, n_param = self.n_param
         cdef double s        
 
@@ -524,7 +465,7 @@ cdef class SigmaNeuronModel(Model):
         s = self.outfunc.evaluate(s)
         return s
     #
-    cdef void gradient(self, const double[::1] X, double[::1] grad):
+    cdef void gradient(self, double[::1] X, double[::1] grad):
         cdef int i
         cdef int n_param = self.n_param
         cdef double s, sx
@@ -539,7 +480,7 @@ cdef class SigmaNeuronModel(Model):
         for i in range(1, n_param):
             grad[i] = sx * X[i-1]
     #
-    cdef void gradient_x(self, const double[::1] X, double[::1] grad_x):
+    cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
         cdef int i
         cdef int n_input = self.n_input
         cdef int n_param = self.n_param
@@ -570,9 +511,9 @@ def sigma_neuron_from_dict(ob):
 
 cdef class ModelLayer:
     
-    cdef void forward(self, const double[::1] X):
+    cdef void forward(self, double[::1] X):
         pass
-    cdef void backward(self, const double[::1] X, double[::1] grad_out, double[::1] grad):
+    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         pass
     cpdef ModelLayer copy(self, bint share=1):
         pass
@@ -634,7 +575,7 @@ cdef class GeneralModelLayer(ModelLayer):
     def __iter__(self):
         return iter(self.models)
     #
-    cdef void forward(self, const double[::1] X):
+    cdef void forward(self, double[::1] X):
         cdef Model mod
         cdef int j, n_output = self.n_output
 
@@ -642,7 +583,7 @@ cdef class GeneralModelLayer(ModelLayer):
             mod = <Model>self.models[j]
             self.output[j] = mod.evaluate(X)
     #
-    cdef void backward(self, const double[::1] X, double[::1] grad_out, double[::1] grad):
+    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Model mod_j
         cdef int i, j, offset, n_param
         cdef double val_j
@@ -722,75 +663,131 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         layer.param = self.param
     
         layer.output = np.zeros(self.n_output, 'd')
-        layer.ss = np.zeros(self.n_output, 'd')
+#         layer.ss = np.zeros(self.n_output, 'd')
         layer.grad_input = np.zeros(self.n_input, 'd')
         self.X = np.zeros((num_procs, self.n_input), 'd')
         return <ModelLayer>layer
     #
-    cdef void forward(self, const double[::1] X):
+    cdef void forward(self, double[::1] X):
         cdef Py_ssize_t n_input = self.n_input
         cdef Py_ssize_t n_output = self.n_output
-        cdef Py_ssize_t i, j, size
-        cdef double s1, s2, s
+        cdef Py_ssize_t i, j
+        cdef double s
         cdef double[:,::1] matrix = self.matrix
-        cdef double *output = &self.output[0]
+        cdef double[::1] output = self.output
+#         cdef double *ss = &self.ss[0]
+        cdef double *matrix_j
         cdef Func func = self.func
         
         cdef FuncEvaluate func_evaluate = func.evaluate
-        
-#         size = cython.sizeof(double)*n_input
-#         for i in range(num_procs):
-#             memcpy(&self.X[i,0], &X[0], size);
 
-#         for j in prange(n_output, nogil=True, num_threads=num_procs):
-        for j in range(n_output): 
-            s1 = matrix[j,0]
-            s2 = inner_dot(&matrix[j,1], &X[0], n_input)
-            s = s1 + s2
+        for j in range(n_output):
+            s = matrix[j,0]
+            matrix_j = &matrix[j,1]
+            for i in range(n_input):
+                s += matrix_j[i] * X[i]
             if func is None:
                 output[j] = s
             else:
                 output[j] = func_evaluate(func, s)
+#             ss[j] = s        
+#         cdef Py_ssize_t n_input = self.n_input
+#         cdef Py_ssize_t n_output = self.n_output
+#         cdef Py_ssize_t i, j, size
+#         cdef double s1, s2, s
+#         cdef double[:,::1] matrix = self.matrix
+#         cdef double[::1] output = self.output
+#         cdef Func func = self.func
+        
+#         cdef FuncEvaluate func_evaluate = func.evaluate
+
+# #         for j in prange(n_output, nogil=True, num_threads=num_procs):
+#         for j in range(n_output): 
+#             s1 = matrix[j,0]
+#             s2 = inner_dot(&matrix[j,1], &X[0], n_input)
+#             s = s1 + s2
+#             if func is None:
+#                 output[j] = s
+#             else:
+#                 output[j] = func_evaluate(func, s)
     #
-    cdef void backward(self, const double[::1] X, const double[::1] grad_out, double[::1] grad):
+    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Py_ssize_t i, j, jj, offset
         cdef Py_ssize_t n_input = self.n_input
         cdef Py_ssize_t n_input1 = n_input + 1
         cdef Py_ssize_t n_output = self.n_output
-        cdef double val_j, s, s1, s2, sx
-        cdef double* grad_in = &self.grad_input[0]
+        cdef double val_j, s, sx
+        cdef double[::1] grad_in = self.grad_input
 
         cdef double[:,::1] matrix = self.matrix
-        cdef double *output = &self.output[0]
+        cdef double[::1] output = self.output
+#         cdef double *ss = &self.ss[0]
+        cdef double *matrix_j
         cdef Func func = self.func
-        cdef FuncDerivative func_derivative = func.derivative
-#         cdef double[::1] ss = self.ss
         
-#         fill_memoryview(grad_in, 0) 
-        memset(grad_in, 0, n_input*cython.sizeof(double))        
-#         for j in prange(n_output, nogil=True, num_threads=num_procs):
+        cdef FuncDerivative func_derivative = func.derivative
+        
+#         fill_memoryview(grad_in, 0)
+        memset(&grad_in[0], 0, n_input*cython.sizeof(double))        
         for j in range(n_output):
-
-            s1 = matrix[j,0]
-            s2 = inner_dot(&matrix[j,1], &X[0], n_input)
-            s = s1 + s2
             
+            s = matrix[j,0]
+            matrix_j = &matrix[j,1]
+            for i in range(n_input):
+                s += matrix_j[i] * X[i]
+            
+#             val_j = grad_out[j]
             if func is None:
                 sx = grad_out[j]
             else:
                 sx = grad_out[j] * func_derivative(func, s)
 
-#         for j in range(n_output):
-            inner_add(grad_in, &matrix[j,1], sx, n_input)
+            for i in range(n_input):
+                grad_in[i] += sx * matrix_j[i]
 
-#         for j in range(n_output):
-#         for j in prange(n_output, nogil=True, num_threads=num_procs):
             jj = j*n_input1
-#             sx = ss[j]
             grad[jj] = sx
+            for i in range(n_input):
+                grad[jj+i+1] = sx * X[i]        
+        
+#         cdef Py_ssize_t i, j, jj, offset
+#         cdef Py_ssize_t n_input = self.n_input
+#         cdef Py_ssize_t n_input1 = n_input + 1
+#         cdef Py_ssize_t n_output = self.n_output
+#         cdef double val_j, s, s1, s2, sx
+#         cdef double[::1] grad_in = self.grad_input
+
+#         cdef double[:,::1] matrix = self.matrix
+#         cdef double[::1] output = self.output
+#         cdef Func func = self.func
+#         cdef FuncDerivative func_derivative = func.derivative
+# #         cdef double[::1] ss = self.ss
+        
+# #         fill_memoryview(grad_in, 0) 
+#         memset(&grad_in[0], 0, n_input*cython.sizeof(double))        
+# #         for j in prange(n_output, nogil=True, num_threads=num_procs):
+#         for j in range(n_output):
+
+#             s1 = matrix[j,0]
+#             s2 = inner_dot(&matrix[j,1], &X[0], n_input)
+#             s = s1 + s2
             
-            inner_assign(&grad[jj+1], &X[0], sx, n_input)
-    #
+#             if func is None:
+#                 sx = grad_out[j]
+#             else:
+#                 sx = grad_out[j] * func_derivative(func, s)
+
+# #         for j in range(n_output):
+#             inner_add(&grad_in[0], &matrix[j,1], sx, n_input)
+
+# #         for j in range(n_output):
+# #         for j in prange(n_output, nogil=True, num_threads=num_procs):
+#             jj = j*n_input1
+# #             sx = ss[j]
+#             grad[jj] = sx
+            
+#             inner_assign(&grad[jj+1], &X[0], sx, n_input)
+#     #
     def as_dict(self):
         return { 'name': 'sigma_neuron_layer',
                  'func': self.func.to_dict(),
@@ -811,10 +808,10 @@ def sigma_neuron_layer_from_dict(ob):
     
 cdef class ComplexModel(object):
 
-    cdef void forward(self, const double[::1] X):
+    cdef void forward(self, double[::1] X):
         pass
     #
-    cdef void backward(self, const double[::1] X, double[::1] grad_u, double[::1] grad):
+    cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
         pass
     #
     
@@ -899,10 +896,10 @@ cdef class FFNetworkModel(MLModel):
             
         return <MLModel>ml
     #
-    cdef void forward(self, const double[::1] X):
+    cdef void forward(self, double[::1] X):
         cdef int i, n_layer
         cdef ModelLayer layer
-        cdef const double[::1] input, output
+        cdef double[::1] input, output
         cdef list layers = self.layers
 
         n_layer = len(self.layers)
@@ -913,12 +910,12 @@ cdef class FFNetworkModel(MLModel):
             input = layer.output
 #         self.output = layer.output
 
-    cdef void backward(self, const double[::1] X, double[::1] grad_u, double[::1] grad):
+    cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
         cdef int n_layer = PyList_GET_SIZE(<PyObject*>self.layers)
         cdef int j, l, m, m0
         cdef ModelLayer layer, prev_layer
 #         cdef double[::1] grad_in
-        cdef const double[::1] grad_out, input
+        cdef double[::1] grad_out, input
         cdef list layers = self.layers
 
         m = len(grad)
@@ -992,11 +989,11 @@ cdef class FFNetworkFuncModel(Model):
         
         return <Model>mod
     #
-    cdef double evaluate(self, const double[::1] X):
+    cdef double evaluate(self, double[::1] X):
         self.body.forward(X)
         return self.head.evaluate(self.body.output)
     #
-    cdef void gradient(self, const double[::1] X, double[::1] grad):
+    cdef void gradient(self, double[::1] X, double[::1] grad):
         cdef int i, j, n
         
         if self.head.n_param > 0:
@@ -1027,7 +1024,7 @@ def ff_ml_network_func_from_dict(ob):
 #     def __init__(self, param):
 #         self.param = np.asarray(param, 'd')
 #     #
-#     cdef double evaluate(self, const double[::1] X):
+#     cdef double evaluate(self, double[::1] X):
 #         cdef double *param_ptr = &self.param[0]
 #         cdef double x = X[0]
 #         cdef double val = 0
@@ -1039,7 +1036,7 @@ def ff_ml_network_func_from_dict(ob):
 #             i -= 1
 #         return val
         
-#     cdef gradient(self, const double[::1] X, double[::1] grad):
+#     cdef gradient(self, double[::1] X, double[::1] grad):
 #         cdef double x = X[0]
 #         cdef double val = 1.0
 #         cdef int i, m = self.param.shape[0]
@@ -1048,7 +1045,7 @@ def ff_ml_network_func_from_dict(ob):
 #             grad[i] = val
 #             val *= x
 
-#     cdef gradient_x(self, const double[::1] X, double[::1] grad):
+#     cdef gradient_x(self, double[::1] X, double[::1] grad):
 #         cdef double x = X[0]
 #         cdef double val = 1.0
 #         cdef int i, m = self.param.shape[0]
@@ -1074,7 +1071,7 @@ cdef class SquaredModel(Model):
         self.grad = np.zeros(self.n_param, 'd')
         self.grad_x = np.zeros(self.n_input, 'd')
     #
-    cdef double evaluate(self, const double[::1] X):
+    cdef double evaluate(self, double[::1] X):
         cdef double val, s
         #cdef double[:,::1] mat = self.matrix
         cdef int i, j, n, m
@@ -1089,7 +1086,7 @@ cdef class SquaredModel(Model):
             val += s*s
         return val
     #
-    cdef void gradient_x(self, const double[::1] X, double[::1] y):
+    cdef void gradient_x(self, double[::1] X, double[::1] y):
         cdef double val, s
         #cdef double[:,::1] mat = self.matrix
         cdef int i, j, n, m
@@ -1105,7 +1102,7 @@ cdef class SquaredModel(Model):
             s *= 2
             #s *= mat[j,]
     #
-    cdef void gradient(self, const double[::1] X, double[::1] y):
+    cdef void gradient(self, double[::1] X, double[::1] y):
         cdef double val, s
         #cdef double[:,::1] mat = self.matrix
         cdef int i, j, n, m, k
@@ -1138,7 +1135,7 @@ cdef class SquaredModel(Model):
 #         self.n_input = n_input
 #         self.param = None
 #     #
-#     cdef double evaluate(self, const double[::1] X):
+#     cdef double evaluate(self, double[::1] X):
 #         cdef i, n = X.shape[0]
 #         cdef int i_max = 0
 #         cdef double x, x_max = X[0]
@@ -1149,10 +1146,10 @@ cdef class SquaredModel(Model):
 #                 i_max = i
 #         return self.outfunc.evaluate(X[i_max])
 #     #
-#     cdef void gradient(self, const double[::1] X, double[::1] grad):
+#     cdef void gradient(self, double[::1] X, double[::1] grad):
 #         pass
 #     #
-#     cdef void gradient_x(self, const double[::1] X, double[::1] grad):
+#     cdef void gradient_x(self, double[::1] X, double[::1] grad):
 #         cdef i, n = X.shape[0]
 #         cdef int i_max = 0
 #         cdef double x, x_max = X[0]
@@ -1178,7 +1175,7 @@ cdef class SquaredModel(Model):
 #         self.model = mod
 #         self.loss_func = loss_func
 #     #
-#     def gradient(self, const double[::1] X, double y):
+#     def gradient(self, double[::1] X, double y):
 #         cdef double yk
 #
 #         yk = self.model.evaluate(X)

@@ -1,16 +1,16 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
+# cython: boundscheck=True
+# cython: wraparound=True
+# cython: nonecheck=True
 # cython: embedsignature=True
-# cython: initializedcheck=False
+# cython: initializedcheck=True
 # cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -66,23 +66,18 @@ cdef class Functional:
     cdef void gradient(self):
         pass
     #
-
-#     def __call__(self, param):
-#         return self.func.evaluate(as_array_1d(param))
     
 cdef class SimpleFunctional(Functional):
     #
     def __init__(self, FuncMulti func, double[::1] param=None):
         self.regular = func
-        self.param = param
-        self.grad_average = None
-        self.batch = None
-        self.n_sample = 0
-    #
-    cpdef init(self):
         if self.param is None:
             raise RuntimeError("Param is not specified")
-        self.grad_average = np.zeros(self.param.shape[0], 'd')
+        self.param = param
+        self.n_param = len(self.param)
+        self.grad_average = np.zeros(self.n_param, 'd')
+        self.batch = None
+        self.n_sample = 0
     #
     cdef double evaluate(self):
         self.lval = self.regular.evaluate(self.param)
@@ -98,31 +93,34 @@ cdef class Risk(Functional):
         pass
     #
 
-cdef class SRisk(Risk):
-    #
-    cdef double eval_loss(self, int k):
-        return 0
-    #
-    cdef void gradient_loss(self, int k):
-        pass
+# cdef class SRisk(Risk):
+#     #
+#     cdef double eval_loss(self, int k):
+#         return 0
+#     #
+#     cdef void gradient_loss(self, int k):
+#         pass
 
 cdef class MRisk(Risk): 
     #
-    def __init__(self, double[:,::1] X, double[::1] Y, Model model, Loss loss=None, Average avg=None,
+    def __init__(self, double[:,::1] X not None, double[::1] Y not None, Model model not None, 
+                       Loss loss=None, Average avg=None,
                        FuncMulti regular=None, Batch batch=None, tau=1.0e-3):
         self.model = model
         self.param = model.param
-        n_param = model.n_param
-        n_input = model.n_input
+        self.n_param = model.n_param
+
         if self.model.grad is None:
-            self.model.grad = np.zeros(n_param, 'd')
+            self.model.grad = np.zeros(self.n_param, 'd')
 
         if self.model.grad_x is None:
-            self.model.grad_x = np.zeros(n_input, 'd')
+            self.model.grad_x = np.zeros(model.n_input, 'd')
+
         if loss is None:
             self.loss = ErrorLoss(Square())
         else:
             self.loss = loss
+
         if avg is None:
             self.avg = ArithMean()
         else:
@@ -130,21 +128,23 @@ cdef class MRisk(Risk):
 
         self.regular = regular
         if regular is not None:
-            self.grad_r = np.zeros(n_param, 'd')
+            self.grad_r = np.zeros(self.n_param, 'd')
 
-        self.grad = np.zeros(n_param, 'd')
-        self.grad_average = np.zeros(n_param, 'd')
+        self.grad = np.zeros(self.n_param, 'd')
+        self.grad_average = np.zeros(self.n_param, 'd')
 
         self.X = X
         self.Y = Y
         self.n_sample = len(Y)
         self.tau = tau
+
         if batch is None:
             self.batch = WholeBatch(self.n_sample)
         else:
             self.batch = batch
+
         size = self.batch.size 
-        self.weights = np.full(size, 1./size, 'd')
+        self.weights = np.ones(size, 'd')
         self.lval_all = np.zeros(size, 'd')
         self.Yp = np.zeros(size, 'd')
         self.lval = 0
@@ -155,6 +155,7 @@ cdef class MRisk(Risk):
     #
     cpdef init(self):
         pass
+#         self.batch.init()
     #
     cdef void eval_losses(self, double[::1] lval_all):
         cdef Model _model = self.model
@@ -211,7 +212,7 @@ cdef class MRisk(Risk):
         cdef ModelGradient model_gradient = _model.gradient
         cdef LossDerivative loss_derivative = _loss.derivative
 
-        self.eval_losses(self.lval_all)
+#         self.eval_losses(self.lval_all)
         self.avg.gradient(self.lval_all, self.weights)
 
         fill_memoryview(self.grad_average, 0.)
@@ -249,9 +250,6 @@ cdef class ED(Risk):
         self.n_sample = X.shape[0]
         self.n_param = X.shape[1]
         self.batch = WholeBatch(self.n_sample)        
-    #
-    def use_weights(self, weights):
-        self.weights = weights
     #
     cpdef init(self):
         n_sample = self.n_sample    
@@ -317,10 +315,11 @@ cdef class ED(Risk):
         for k in range(n_sample):
             lval_all[k] = self.distfunc.evaluate(X[k], param)
 
-cdef class ERisk(SRisk):
+cdef class ERisk(Risk):
     #
-    def __init__(self, double[:,::1] X, double[::1] Y, Model model, Loss loss=None,
-                       FuncMulti regular=None, Batch batch=None, tau=1.0e-3):
+    def __init__(self, double[:,::1] X not None, double[::1] Y not None, Model model not None, 
+                 Loss loss=None, FuncMulti regular=None, Batch batch=None, tau=1.0e-3):
+
         self.model = model
         self.param = model.param
         
@@ -348,10 +347,12 @@ cdef class ERisk(SRisk):
         self.Y = Y
         self.n_sample = len(Y)
         self.tau = tau
+
         if batch is None:
             self.batch = WholeBatch(self.n_sample)
         else:
             self.batch = batch
+
         size = self.batch.size 
         self.weights = np.full(size, 1./size, 'd')
         self.Yp = np.zeros(size, 'd')
@@ -364,7 +365,7 @@ cdef class ERisk(SRisk):
         self.batch = batch
     #
     cpdef init(self):
-        pass
+        self.batch.init()
     #
     cdef void eval_losses(self, double[::1] lval_all):
         cdef Py_ssize_t j, k, N = self.n_sample
@@ -385,11 +386,11 @@ cdef class ERisk(SRisk):
             y = model_evaluate(_model, X[k])
             lval_all[j] = loss_evaluate(_loss, y, Y[k])
     #
-    cdef double eval_loss(self, int k):
-        cdef double y
+#     cdef double eval_loss(self, int k):
+#         cdef double y
 
-        y = self.model.evaluate(self.X[k])
-        return self.loss.evaluate(y, self.Y[k])
+#         y = self.model.evaluate(self.X[k])
+#         return self.loss.evaluate(y, self.Y[k])
     #
     cdef double evaluate(self):
         cdef Py_ssize_t j, k, N = self.n_sample
@@ -423,26 +424,26 @@ cdef class ERisk(SRisk):
         self.lval = S
         return S
     #
-    cdef void gradient_loss(self, int k):
-        cdef Model _model = self.model
-        cdef Loss _loss = self.loss
-        cdef double[::1] Xk, Yk
-        cdef double y, yk, lval, lval_dy
-        cdef Py_ssize_t n_param = self.model.n_param
-        cdef double wk = self.weights[k]
+#     cdef void gradient_loss(self, int k):
+#         cdef Model _model = self.model
+#         cdef Loss _loss = self.loss
+#         cdef double[::1] Xk, Yk
+#         cdef double y, yk, lval, lval_dy
+#         cdef Py_ssize_t n_param = self.model.n_param
+#         cdef double wk = self.weights[k]
         
-        Xk = self.X[k]
-        yk = self.Y[k]
+#         Xk = self.X[k]
+#         yk = self.Y[k]
 
-        y = _model.evaluate(Xk)
-        lval_dy = _loss.derivative(y, yk)
+#         y = _model.evaluate(Xk)
+#         lval_dy = _loss.derivative(y, yk)
         
-        lval_dy *= wk
+#         lval_dy *= wk
 
-        _model.gradient(Xk, self.grad)
+#         _model.gradient(Xk, self.grad)
         
-        for i in range(n_param):
-            self.grad[i] *= lval_dy            
+#         for i in range(n_param):
+#             self.grad[i] *= lval_dy            
     #
     cdef void gradient(self):
         cdef Model _model = self.model
@@ -597,7 +598,7 @@ cdef class AER(ERisk):
             for i in range(n_param):
                 self.grad_average[i] += self.tau * self.grad_r[i]    
     
-cdef class ER2(SRisk):
+cdef class ER2(Risk):
     #
     def __init__(self, double[:,::1] X, double[:,::1] Y, MLModel model, MultLoss loss,
                        FuncMulti regular=None, Batch batch=None, tau=1.0e-3):
@@ -650,31 +651,31 @@ cdef class ER2(SRisk):
         
         self.lval = 0
     #
-    cdef double eval_loss(self, int k):
-        self.model.forward(self.X[k])
-        return self.loss.evaluate(self.model.output, self.Y[k])
+#     cdef double eval_loss(self, int k):
+#         self.model.forward(self.X[k])
+#         return self.loss.evaluate(self.model.output, self.Y[k])
     #
-    cdef void gradient_loss(self, int k):
-        cdef MLModel _model = self.model
-        cdef MultLoss _loss = self.loss
-        cdef double[::1] Xk, Yk
-        cdef Py_ssize_t j
-        cdef double wk = self.weights[k]
-        cdef double[::1] grad_u = self.grad_u
+#     cdef void gradient_loss(self, int k):
+#         cdef MLModel _model = self.model
+#         cdef MultLoss _loss = self.loss
+#         cdef double[::1] Xk, Yk
+#         cdef Py_ssize_t j
+#         cdef double wk = self.weights[k]
+#         cdef double[::1] grad_u = self.grad_u
         
-        Xk = self.X[k]
-        Yk = self.Y[k]
+#         Xk = self.X[k]
+#         Yk = self.Y[k]
 
-        _model.forward(Xk)
-        #lval = _loss.evaluate(_model.output, Yk)
-        _loss.gradient(_model.output, Yk, self.grad_u)
+#         _model.forward(Xk)
+#         #lval = _loss.evaluate(_model.output, Yk)
+#         _loss.gradient(_model.output, Yk, self.grad_u)
         
-        for j in range(_model.n_output):
-            grad_u[j] *= wk
+#         for j in range(_model.n_output):
+#             grad_u[j] *= wk
 
-        _model.backward(Xk, grad_u, self.grad)
+#         _model.backward(Xk, grad_u, self.grad)
 
-        #self.lval += lval
+#         #self.lval += lval
     #
     cdef void eval_losses(self, double[::1] lval_all):
         cdef Py_ssize_t j, k, N = self.n_sample

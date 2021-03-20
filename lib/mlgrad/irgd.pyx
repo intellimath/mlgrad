@@ -1,17 +1,17 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
+# cython: boundscheck=True
+# cython: wraparound=True
+# cython: nonecheck=True
 # cython: embedsignature=True
-# cython: initializedcheck=False
+# cython: initializedcheck=True
 # cython: unraisable_tracebacks=True  
 
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -37,18 +37,6 @@ import numpy as np
 from mlgrad.avragg import Average_FG
 from mlgrad.gd import FG
 from mlgrad.risk import Risk, Functional
-# from mlgrad.averager import ScalarAdaM1, ArrayAdaM1
-
-# cdef void eval_losses(Model model, Loss loss, double[:,::1], double[::1] Y, double[::1] lval_all):
-#     cdef int k, N = X.shape[0]
-#     cdef double y
-#     cdef double* Y_ptr = &Y[0]
-#     cdef double* lval_all_ptr = &lval_all[0]
-#
-#     for k in range(N):
-#         y = model.evaluate(X[k])
-#         lval_all_ptr[k] = loss.evaluate(y, Y_ptr[k])
-
 
 cdef class IRGD(object):
     #
@@ -62,6 +50,9 @@ cdef class IRGD(object):
         self.M = M
         self.m = 0
 
+        self.param_best = np.zeros(len(self.gd.risk.param), dtype='d')
+#         self.param_prev = np.zeros((m,), dtype='d')
+        
         self.h_anneal = h_anneal
         
         self.callback = callback
@@ -70,20 +61,9 @@ cdef class IRGD(object):
         
         self.lval = self.lval1 = self.lval2 = 0
         
-        self.is_warm_start = 0
+        self.is_warm_start = False
         self.completed = False
-    #
-    @property
-    def risk(self):
-        return self.gd.risk
-    #
-    def fit(self):
-        cdef Functional risk = self.gd.risk
-        cdef int m = len(risk.param)
-    
-        self.param_best = np.zeros((m,), dtype='d')
-#         self.param_prev = np.zeros((m,), dtype='d')
-                       
+        
         self.K = 0
         self.m = 0
         
@@ -91,19 +71,33 @@ cdef class IRGD(object):
         #self.qvals = []
         self.n_iters = []
         
-        self.K = 1
+        self.K = 0
+        
+    #
+    @property
+    def risk(self):
+        return self.gd.risk
+    #
+    def fit(self):
+        cdef Functional risk = self.gd.risk
+                           
+        self.weights.init()
         self.weights.eval_weights()
         risk.use_weights(self.weights.weights)
 
+#         if not self.is_warm_start:
         self.lval_best = self.weights.get_qvalue()
         copy_memoryview(self.param_best, risk.param)
         
         if self.callback is not None:
             self.callback(self)
         
-        while self.K <= self.n_iter:
+        K = 0
+        while K < self.n_iter:
             
             self.gd.fit()
+#             if not self.is_warm_start:
+#                 self.is_warm_start = True
             
             self.n_iters.append(self.gd.K)
 
@@ -126,10 +120,12 @@ cdef class IRGD(object):
             if self.completed:
                 break
                 
-            self.K += 1
-            
             self.gd.h_rate.h *= self.h_anneal
+            self.gd.h_rate.init()
 
+            K += 1            
+        #
+        self.K += K
         self.finalize()
 
     #

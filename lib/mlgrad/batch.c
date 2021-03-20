@@ -958,8 +958,8 @@ struct __pyx_obj_6mlgrad_5batch_Batch {
 };
 
 
-/* "mlgrad/batch.pxd":12
- *     cdef void generate(self)
+/* "mlgrad/batch.pxd":13
+ *     cdef void init(self)
  * 
  * cdef class RandomBatch(Batch):             # <<<<<<<<<<<<<<
  *     pass
@@ -970,7 +970,7 @@ struct __pyx_obj_6mlgrad_5batch_RandomBatch {
 };
 
 
-/* "mlgrad/batch.pxd":15
+/* "mlgrad/batch.pxd":16
  *     pass
  * 
  * cdef class FixedBatch(Batch):             # <<<<<<<<<<<<<<
@@ -982,7 +982,7 @@ struct __pyx_obj_6mlgrad_5batch_FixedBatch {
 };
 
 
-/* "mlgrad/batch.pxd":18
+/* "mlgrad/batch.pxd":19
  *     pass
  * 
  * cdef class WholeBatch(Batch):             # <<<<<<<<<<<<<<
@@ -1081,11 +1081,12 @@ struct __pyx_memoryviewslice_obj {
 
 struct __pyx_vtabstruct_6mlgrad_5batch_Batch {
   void (*generate)(struct __pyx_obj_6mlgrad_5batch_Batch *);
+  void (*init)(struct __pyx_obj_6mlgrad_5batch_Batch *);
 };
 static struct __pyx_vtabstruct_6mlgrad_5batch_Batch *__pyx_vtabptr_6mlgrad_5batch_Batch;
 
 
-/* "mlgrad/batch.pyx":43
+/* "mlgrad/batch.pyx":46
  *         return self.size
  * 
  * cdef class RandomBatch(Batch):             # <<<<<<<<<<<<<<
@@ -1099,7 +1100,7 @@ struct __pyx_vtabstruct_6mlgrad_5batch_RandomBatch {
 static struct __pyx_vtabstruct_6mlgrad_5batch_RandomBatch *__pyx_vtabptr_6mlgrad_5batch_RandomBatch;
 
 
-/* "mlgrad/batch.pyx":63
+/* "mlgrad/batch.pyx":68
  *             indices[i] = k
  * 
  * cdef class FixedBatch(Batch):             # <<<<<<<<<<<<<<
@@ -1113,7 +1114,7 @@ struct __pyx_vtabstruct_6mlgrad_5batch_FixedBatch {
 static struct __pyx_vtabstruct_6mlgrad_5batch_FixedBatch *__pyx_vtabptr_6mlgrad_5batch_FixedBatch;
 
 
-/* "mlgrad/batch.pyx":71
+/* "mlgrad/batch.pyx":76
  *     #
  * 
  * cdef class WholeBatch(Batch):             # <<<<<<<<<<<<<<
@@ -1787,6 +1788,8 @@ static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 static void __pyx_f_6mlgrad_5batch_5Batch_generate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_5batch_Batch *__pyx_v_self); /* proto*/
+static void __pyx_f_6mlgrad_5batch_5Batch_init(CYTHON_UNUSED struct __pyx_obj_6mlgrad_5batch_Batch *__pyx_v_self); /* proto*/
+static void __pyx_f_6mlgrad_5batch_11RandomBatch_init(CYTHON_UNUSED struct __pyx_obj_6mlgrad_5batch_RandomBatch *__pyx_v_self); /* proto*/
 static void __pyx_f_6mlgrad_5batch_11RandomBatch_generate(struct __pyx_obj_6mlgrad_5batch_RandomBatch *__pyx_v_self); /* proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
@@ -2222,6 +2225,22 @@ static void __pyx_f_6mlgrad_5batch_5Batch_generate(CYTHON_UNUSED struct __pyx_ob
 /* "mlgrad/batch.pyx":40
  *         pass
  * 
+ *     cdef void init(self):             # <<<<<<<<<<<<<<
+ *         pass
+ * 
+ */
+
+static void __pyx_f_6mlgrad_5batch_5Batch_init(CYTHON_UNUSED struct __pyx_obj_6mlgrad_5batch_Batch *__pyx_v_self) {
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("init", 0);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+}
+
+/* "mlgrad/batch.pyx":43
+ *         pass
+ * 
  *     def __len__(self):             # <<<<<<<<<<<<<<
  *         return self.size
  * 
@@ -2245,7 +2264,7 @@ static Py_ssize_t __pyx_pf_6mlgrad_5batch_5Batch___len__(struct __pyx_obj_6mlgra
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__len__", 0);
 
-  /* "mlgrad/batch.pyx":41
+  /* "mlgrad/batch.pyx":44
  * 
  *     def __len__(self):
  *         return self.size             # <<<<<<<<<<<<<<
@@ -2255,7 +2274,7 @@ static Py_ssize_t __pyx_pf_6mlgrad_5batch_5Batch___len__(struct __pyx_obj_6mlgra
   __pyx_r = __pyx_v_self->size;
   goto __pyx_L0;
 
-  /* "mlgrad/batch.pyx":40
+  /* "mlgrad/batch.pyx":43
  *         pass
  * 
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -2819,7 +2838,7 @@ static PyObject *__pyx_pf_6mlgrad_5batch_5Batch_4__setstate_cython__(struct __py
   return __pyx_r;
 }
 
-/* "mlgrad/batch.pyx":45
+/* "mlgrad/batch.pyx":48
  * cdef class RandomBatch(Batch):
  *     #
  *     def __init__(self, n_samples, size=None):             # <<<<<<<<<<<<<<
@@ -2866,7 +2885,7 @@ static int __pyx_pw_6mlgrad_5batch_11RandomBatch_1__init__(PyObject *__pyx_v_sel
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 45, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 48, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2882,7 +2901,7 @@ static int __pyx_pw_6mlgrad_5batch_11RandomBatch_1__init__(PyObject *__pyx_v_sel
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 45, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 48, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.batch.RandomBatch.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2911,17 +2930,17 @@ static int __pyx_pf_6mlgrad_5batch_11RandomBatch___init__(struct __pyx_obj_6mlgr
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/batch.pyx":46
+  /* "mlgrad/batch.pyx":49
  *     #
  *     def __init__(self, n_samples, size=None):
  *         self.n_samples = n_samples             # <<<<<<<<<<<<<<
  *         if size is None:
  *             self.size = self.n_samples
  */
-  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_n_samples); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_n_samples); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
   __pyx_v_self->__pyx_base.n_samples = __pyx_t_1;
 
-  /* "mlgrad/batch.pyx":47
+  /* "mlgrad/batch.pyx":50
  *     def __init__(self, n_samples, size=None):
  *         self.n_samples = n_samples
  *         if size is None:             # <<<<<<<<<<<<<<
@@ -2932,7 +2951,7 @@ static int __pyx_pf_6mlgrad_5batch_11RandomBatch___init__(struct __pyx_obj_6mlgr
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "mlgrad/batch.pyx":48
+    /* "mlgrad/batch.pyx":51
  *         self.n_samples = n_samples
  *         if size is None:
  *             self.size = self.n_samples             # <<<<<<<<<<<<<<
@@ -2942,7 +2961,7 @@ static int __pyx_pf_6mlgrad_5batch_11RandomBatch___init__(struct __pyx_obj_6mlgr
     __pyx_t_1 = __pyx_v_self->__pyx_base.n_samples;
     __pyx_v_self->__pyx_base.size = __pyx_t_1;
 
-    /* "mlgrad/batch.pyx":47
+    /* "mlgrad/batch.pyx":50
  *     def __init__(self, n_samples, size=None):
  *         self.n_samples = n_samples
  *         if size is None:             # <<<<<<<<<<<<<<
@@ -2952,63 +2971,54 @@ static int __pyx_pf_6mlgrad_5batch_11RandomBatch___init__(struct __pyx_obj_6mlgr
     goto __pyx_L3;
   }
 
-  /* "mlgrad/batch.pyx":50
+  /* "mlgrad/batch.pyx":53
  *             self.size = self.n_samples
  *         else:
  *             self.size = size             # <<<<<<<<<<<<<<
  *         self.indices = np.zeros(self.size, dtype='i')
- *         init_rand()
+ *     #
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_size); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_size); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 53, __pyx_L1_error)
     __pyx_v_self->__pyx_base.size = __pyx_t_1;
   }
   __pyx_L3:;
 
-  /* "mlgrad/batch.pyx":51
+  /* "mlgrad/batch.pyx":54
  *         else:
  *             self.size = size
  *         self.indices = np.zeros(self.size, dtype='i')             # <<<<<<<<<<<<<<
- *         init_rand()
  *     #
+ *     cdef void init(self):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.size); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.size); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_n_u_i) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 51, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_n_u_i) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_7, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_7, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.indices, 0);
   __pyx_v_self->__pyx_base.indices = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "mlgrad/batch.pyx":52
- *             self.size = size
- *         self.indices = np.zeros(self.size, dtype='i')
- *         init_rand()             # <<<<<<<<<<<<<<
- *     #
- *     cdef void generate(self):
- */
-  __pyx_f_6mlgrad_9miscfuncs_init_rand();
-
-  /* "mlgrad/batch.pyx":45
+  /* "mlgrad/batch.pyx":48
  * cdef class RandomBatch(Batch):
  *     #
  *     def __init__(self, n_samples, size=None):             # <<<<<<<<<<<<<<
@@ -3032,7 +3042,40 @@ static int __pyx_pf_6mlgrad_5batch_11RandomBatch___init__(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/batch.pyx":54
+/* "mlgrad/batch.pyx":56
+ *         self.indices = np.zeros(self.size, dtype='i')
+ *     #
+ *     cdef void init(self):             # <<<<<<<<<<<<<<
+ *         init_rand()
+ *     #
+ */
+
+static void __pyx_f_6mlgrad_5batch_11RandomBatch_init(CYTHON_UNUSED struct __pyx_obj_6mlgrad_5batch_RandomBatch *__pyx_v_self) {
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("init", 0);
+
+  /* "mlgrad/batch.pyx":57
+ *     #
+ *     cdef void init(self):
+ *         init_rand()             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef void generate(self):
+ */
+  __pyx_f_6mlgrad_9miscfuncs_init_rand();
+
+  /* "mlgrad/batch.pyx":56
+ *         self.indices = np.zeros(self.size, dtype='i')
+ *     #
+ *     cdef void init(self):             # <<<<<<<<<<<<<<
+ *         init_rand()
+ *     #
+ */
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+}
+
+/* "mlgrad/batch.pyx":59
  *         init_rand()
  *     #
  *     cdef void generate(self):             # <<<<<<<<<<<<<<
@@ -3054,7 +3097,7 @@ static void __pyx_f_6mlgrad_5batch_11RandomBatch_generate(struct __pyx_obj_6mlgr
   Py_ssize_t __pyx_t_5;
   __Pyx_RefNannySetupContext("generate", 0);
 
-  /* "mlgrad/batch.pyx":55
+  /* "mlgrad/batch.pyx":60
  *     #
  *     cdef void generate(self):
  *         cdef Py_ssize_t i, k, size = self.size             # <<<<<<<<<<<<<<
@@ -3064,7 +3107,7 @@ static void __pyx_f_6mlgrad_5batch_11RandomBatch_generate(struct __pyx_obj_6mlgr
   __pyx_t_1 = __pyx_v_self->__pyx_base.size;
   __pyx_v_size = __pyx_t_1;
 
-  /* "mlgrad/batch.pyx":56
+  /* "mlgrad/batch.pyx":61
  *     cdef void generate(self):
  *         cdef Py_ssize_t i, k, size = self.size
  *         cdef Py_ssize_t n_samples = self.n_samples             # <<<<<<<<<<<<<<
@@ -3074,7 +3117,7 @@ static void __pyx_f_6mlgrad_5batch_11RandomBatch_generate(struct __pyx_obj_6mlgr
   __pyx_t_1 = __pyx_v_self->__pyx_base.n_samples;
   __pyx_v_n_samples = __pyx_t_1;
 
-  /* "mlgrad/batch.pyx":57
+  /* "mlgrad/batch.pyx":62
  *         cdef Py_ssize_t i, k, size = self.size
  *         cdef Py_ssize_t n_samples = self.n_samples
  *         cdef Py_ssize_t[::1] indices = self.indices             # <<<<<<<<<<<<<<
@@ -3087,7 +3130,7 @@ static void __pyx_f_6mlgrad_5batch_11RandomBatch_generate(struct __pyx_obj_6mlgr
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "mlgrad/batch.pyx":59
+  /* "mlgrad/batch.pyx":64
  *         cdef Py_ssize_t[::1] indices = self.indices
  * 
  *         for i in range(size):             # <<<<<<<<<<<<<<
@@ -3099,7 +3142,7 @@ static void __pyx_f_6mlgrad_5batch_11RandomBatch_generate(struct __pyx_obj_6mlgr
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "mlgrad/batch.pyx":60
+    /* "mlgrad/batch.pyx":65
  * 
  *         for i in range(size):
  *             k = rand(self.n_samples)             # <<<<<<<<<<<<<<
@@ -3108,7 +3151,7 @@ static void __pyx_f_6mlgrad_5batch_11RandomBatch_generate(struct __pyx_obj_6mlgr
  */
     __pyx_v_k = __pyx_f_6mlgrad_9miscfuncs_rand(__pyx_v_self->__pyx_base.n_samples);
 
-    /* "mlgrad/batch.pyx":61
+    /* "mlgrad/batch.pyx":66
  *         for i in range(size):
  *             k = rand(self.n_samples)
  *             indices[i] = k             # <<<<<<<<<<<<<<
@@ -3119,7 +3162,7 @@ static void __pyx_f_6mlgrad_5batch_11RandomBatch_generate(struct __pyx_obj_6mlgr
     *((Py_ssize_t *) ( /* dim=0 */ ((char *) (((Py_ssize_t *) __pyx_v_indices.data) + __pyx_t_5)) )) = __pyx_v_k;
   }
 
-  /* "mlgrad/batch.pyx":54
+  /* "mlgrad/batch.pyx":59
  *         init_rand()
  *     #
  *     cdef void generate(self):             # <<<<<<<<<<<<<<
@@ -3440,7 +3483,7 @@ static PyObject *__pyx_pf_6mlgrad_5batch_11RandomBatch_4__setstate_cython__(stru
   return __pyx_r;
 }
 
-/* "mlgrad/batch.pyx":65
+/* "mlgrad/batch.pyx":70
  * cdef class FixedBatch(Batch):
  *     #
  *     def __init__(self, indices):             # <<<<<<<<<<<<<<
@@ -3477,7 +3520,7 @@ static int __pyx_pw_6mlgrad_5batch_10FixedBatch_1__init__(PyObject *__pyx_v_self
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 65, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 70, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -3488,7 +3531,7 @@ static int __pyx_pw_6mlgrad_5batch_10FixedBatch_1__init__(PyObject *__pyx_v_self
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 65, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 70, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.batch.FixedBatch.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3511,17 +3554,17 @@ static int __pyx_pf_6mlgrad_5batch_10FixedBatch___init__(struct __pyx_obj_6mlgra
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/batch.pyx":66
+  /* "mlgrad/batch.pyx":71
  *     #
  *     def __init__(self, indices):
  *         self.size = len(indices)             # <<<<<<<<<<<<<<
  *         self.n_samples = 0
  *         self.indices = indices
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_indices); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v_indices); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 71, __pyx_L1_error)
   __pyx_v_self->__pyx_base.size = __pyx_t_1;
 
-  /* "mlgrad/batch.pyx":67
+  /* "mlgrad/batch.pyx":72
  *     def __init__(self, indices):
  *         self.size = len(indices)
  *         self.n_samples = 0             # <<<<<<<<<<<<<<
@@ -3530,20 +3573,20 @@ static int __pyx_pf_6mlgrad_5batch_10FixedBatch___init__(struct __pyx_obj_6mlgra
  */
   __pyx_v_self->__pyx_base.n_samples = 0;
 
-  /* "mlgrad/batch.pyx":68
+  /* "mlgrad/batch.pyx":73
  *         self.size = len(indices)
  *         self.n_samples = 0
  *         self.indices = indices             # <<<<<<<<<<<<<<
  *     #
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_v_indices, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_v_indices, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 73, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.indices, 0);
   __pyx_v_self->__pyx_base.indices = __pyx_t_2;
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "mlgrad/batch.pyx":65
+  /* "mlgrad/batch.pyx":70
  * cdef class FixedBatch(Batch):
  *     #
  *     def __init__(self, indices):             # <<<<<<<<<<<<<<
@@ -3871,7 +3914,7 @@ static PyObject *__pyx_pf_6mlgrad_5batch_10FixedBatch_4__setstate_cython__(struc
   return __pyx_r;
 }
 
-/* "mlgrad/batch.pyx":73
+/* "mlgrad/batch.pyx":78
  * cdef class WholeBatch(Batch):
  *     #
  *     def __init__(self, n_samples):             # <<<<<<<<<<<<<<
@@ -3908,7 +3951,7 @@ static int __pyx_pw_6mlgrad_5batch_10WholeBatch_1__init__(PyObject *__pyx_v_self
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 73, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 78, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -3919,7 +3962,7 @@ static int __pyx_pw_6mlgrad_5batch_10WholeBatch_1__init__(PyObject *__pyx_v_self
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 73, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 78, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.batch.WholeBatch.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3946,20 +3989,20 @@ static int __pyx_pf_6mlgrad_5batch_10WholeBatch___init__(struct __pyx_obj_6mlgra
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/batch.pyx":74
+  /* "mlgrad/batch.pyx":79
  *     #
  *     def __init__(self, n_samples):
  *         self.size = int(n_samples)             # <<<<<<<<<<<<<<
  *         self.n_samples = self.size
  *         self.indices = np.arange(n_samples, dtype='l')
  */
-  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_v_n_samples); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_v_n_samples); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->__pyx_base.size = __pyx_t_2;
 
-  /* "mlgrad/batch.pyx":75
+  /* "mlgrad/batch.pyx":80
  *     def __init__(self, n_samples):
  *         self.size = int(n_samples)
  *         self.n_samples = self.size             # <<<<<<<<<<<<<<
@@ -3969,39 +4012,39 @@ static int __pyx_pf_6mlgrad_5batch_10WholeBatch___init__(struct __pyx_obj_6mlgra
   __pyx_t_2 = __pyx_v_self->__pyx_base.size;
   __pyx_v_self->__pyx_base.n_samples = __pyx_t_2;
 
-  /* "mlgrad/batch.pyx":76
+  /* "mlgrad/batch.pyx":81
  *         self.size = int(n_samples)
  *         self.n_samples = self.size
  *         self.indices = np.arange(n_samples, dtype='l')             # <<<<<<<<<<<<<<
  *     #
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_n_samples);
   __Pyx_GIVEREF(__pyx_v_n_samples);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_n_samples);
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_n_u_l) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_n_u_l) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_Py_ssize_t(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.indices, 0);
   __pyx_v_self->__pyx_base.indices = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "mlgrad/batch.pyx":73
+  /* "mlgrad/batch.pyx":78
  * cdef class WholeBatch(Batch):
  *     #
  *     def __init__(self, n_samples):             # <<<<<<<<<<<<<<
@@ -4333,7 +4376,7 @@ static PyObject *__pyx_pf_6mlgrad_5batch_10WholeBatch_4__setstate_cython__(struc
   return __pyx_r;
 }
 
-/* "mlgrad/batch.pyx":79
+/* "mlgrad/batch.pyx":84
  *     #
  * 
  * def make_batch(n_samples, size=None):             # <<<<<<<<<<<<<<
@@ -4382,7 +4425,7 @@ static PyObject *__pyx_pw_6mlgrad_5batch_1make_batch(PyObject *__pyx_self, PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "make_batch") < 0)) __PYX_ERR(0, 79, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "make_batch") < 0)) __PYX_ERR(0, 84, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4398,7 +4441,7 @@ static PyObject *__pyx_pw_6mlgrad_5batch_1make_batch(PyObject *__pyx_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("make_batch", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 79, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("make_batch", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 84, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.batch.make_batch", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4423,7 +4466,7 @@ static PyObject *__pyx_pf_6mlgrad_5batch_make_batch(CYTHON_UNUSED PyObject *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("make_batch", 0);
 
-  /* "mlgrad/batch.pyx":80
+  /* "mlgrad/batch.pyx":85
  * 
  * def make_batch(n_samples, size=None):
  *     if size is None:             # <<<<<<<<<<<<<<
@@ -4434,7 +4477,7 @@ static PyObject *__pyx_pf_6mlgrad_5batch_make_batch(CYTHON_UNUSED PyObject *__py
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/batch.pyx":81
+    /* "mlgrad/batch.pyx":86
  * def make_batch(n_samples, size=None):
  *     if size is None:
  *         return WholeBatch(n_samples)             # <<<<<<<<<<<<<<
@@ -4442,13 +4485,13 @@ static PyObject *__pyx_pf_6mlgrad_5batch_make_batch(CYTHON_UNUSED PyObject *__py
  *         return RandomBatch(n_samples, size)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6mlgrad_5batch_WholeBatch), __pyx_v_n_samples); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6mlgrad_5batch_WholeBatch), __pyx_v_n_samples); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "mlgrad/batch.pyx":80
+    /* "mlgrad/batch.pyx":85
  * 
  * def make_batch(n_samples, size=None):
  *     if size is None:             # <<<<<<<<<<<<<<
@@ -4457,7 +4500,7 @@ static PyObject *__pyx_pf_6mlgrad_5batch_make_batch(CYTHON_UNUSED PyObject *__py
  */
   }
 
-  /* "mlgrad/batch.pyx":83
+  /* "mlgrad/batch.pyx":88
  *         return WholeBatch(n_samples)
  *     else:
  *         return RandomBatch(n_samples, size)             # <<<<<<<<<<<<<<
@@ -4466,7 +4509,7 @@ static PyObject *__pyx_pf_6mlgrad_5batch_make_batch(CYTHON_UNUSED PyObject *__py
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_v_n_samples);
     __Pyx_GIVEREF(__pyx_v_n_samples);
@@ -4474,7 +4517,7 @@ static PyObject *__pyx_pf_6mlgrad_5batch_make_batch(CYTHON_UNUSED PyObject *__py
     __Pyx_INCREF(__pyx_v_size);
     __Pyx_GIVEREF(__pyx_v_size);
     PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_v_size);
-    __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_6mlgrad_5batch_RandomBatch), __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_6mlgrad_5batch_RandomBatch), __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_r = __pyx_t_4;
@@ -4482,7 +4525,7 @@ static PyObject *__pyx_pf_6mlgrad_5batch_make_batch(CYTHON_UNUSED PyObject *__py
     goto __pyx_L0;
   }
 
-  /* "mlgrad/batch.pyx":79
+  /* "mlgrad/batch.pyx":84
  *     #
  * 
  * def make_batch(n_samples, size=None):             # <<<<<<<<<<<<<<
@@ -4502,7 +4545,7 @@ static PyObject *__pyx_pf_6mlgrad_5batch_make_batch(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "mlgrad/batch.pyx":85
+/* "mlgrad/batch.pyx":90
  *         return RandomBatch(n_samples, size)
  * 
  * def make_batch_from(indices):             # <<<<<<<<<<<<<<
@@ -4533,19 +4576,19 @@ static PyObject *__pyx_pf_6mlgrad_5batch_2make_batch_from(CYTHON_UNUSED PyObject
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("make_batch_from", 0);
 
-  /* "mlgrad/batch.pyx":86
+  /* "mlgrad/batch.pyx":91
  * 
  * def make_batch_from(indices):
  *     return FixedBatch(indices)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6mlgrad_5batch_FixedBatch), __pyx_v_indices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6mlgrad_5batch_FixedBatch), __pyx_v_indices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/batch.pyx":85
+  /* "mlgrad/batch.pyx":90
  *         return RandomBatch(n_samples, size)
  * 
  * def make_batch_from(indices):             # <<<<<<<<<<<<<<
@@ -20499,7 +20542,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 64, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(2, 148, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(2, 151, __pyx_L1_error)
@@ -20708,28 +20751,28 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
 
-  /* "mlgrad/batch.pyx":79
+  /* "mlgrad/batch.pyx":84
  *     #
  * 
  * def make_batch(n_samples, size=None):             # <<<<<<<<<<<<<<
  *     if size is None:
  *         return WholeBatch(n_samples)
  */
-  __pyx_tuple__19 = PyTuple_Pack(2, __pyx_n_s_n_samples, __pyx_n_s_size); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(2, __pyx_n_s_n_samples, __pyx_n_s_size); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
-  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_batch_pyx, __pyx_n_s_make_batch, 79, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_batch_pyx, __pyx_n_s_make_batch, 84, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 84, __pyx_L1_error)
 
-  /* "mlgrad/batch.pyx":85
+  /* "mlgrad/batch.pyx":90
  *         return RandomBatch(n_samples, size)
  * 
  * def make_batch_from(indices):             # <<<<<<<<<<<<<<
  *     return FixedBatch(indices)
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_s_indices); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_s_indices); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_batch_pyx, __pyx_n_s_make_batch_from, 85, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_batch_pyx, __pyx_n_s_make_batch_from, 90, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 90, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Batch(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
@@ -20882,6 +20925,7 @@ static int __Pyx_modinit_type_init_code(void) {
   /*--- Type init code ---*/
   __pyx_vtabptr_6mlgrad_5batch_Batch = &__pyx_vtable_6mlgrad_5batch_Batch;
   __pyx_vtable_6mlgrad_5batch_Batch.generate = (void (*)(struct __pyx_obj_6mlgrad_5batch_Batch *))__pyx_f_6mlgrad_5batch_5Batch_generate;
+  __pyx_vtable_6mlgrad_5batch_Batch.init = (void (*)(struct __pyx_obj_6mlgrad_5batch_Batch *))__pyx_f_6mlgrad_5batch_5Batch_init;
   if (PyType_Ready(&__pyx_type_6mlgrad_5batch_Batch) < 0) __PYX_ERR(0, 35, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_5batch_Batch.tp_print = 0;
@@ -20896,45 +20940,46 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtabptr_6mlgrad_5batch_RandomBatch = &__pyx_vtable_6mlgrad_5batch_RandomBatch;
   __pyx_vtable_6mlgrad_5batch_RandomBatch.__pyx_base = *__pyx_vtabptr_6mlgrad_5batch_Batch;
   __pyx_vtable_6mlgrad_5batch_RandomBatch.__pyx_base.generate = (void (*)(struct __pyx_obj_6mlgrad_5batch_Batch *))__pyx_f_6mlgrad_5batch_11RandomBatch_generate;
+  __pyx_vtable_6mlgrad_5batch_RandomBatch.__pyx_base.init = (void (*)(struct __pyx_obj_6mlgrad_5batch_Batch *))__pyx_f_6mlgrad_5batch_11RandomBatch_init;
   __pyx_type_6mlgrad_5batch_RandomBatch.tp_base = __pyx_ptype_6mlgrad_5batch_Batch;
-  if (PyType_Ready(&__pyx_type_6mlgrad_5batch_RandomBatch) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_5batch_RandomBatch) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_5batch_RandomBatch.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_5batch_RandomBatch.tp_dictoffset && __pyx_type_6mlgrad_5batch_RandomBatch.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_5batch_RandomBatch.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_5batch_RandomBatch.tp_dict, __pyx_vtabptr_6mlgrad_5batch_RandomBatch) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_RandomBatch, (PyObject *)&__pyx_type_6mlgrad_5batch_RandomBatch) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_5batch_RandomBatch) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_5batch_RandomBatch.tp_dict, __pyx_vtabptr_6mlgrad_5batch_RandomBatch) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_RandomBatch, (PyObject *)&__pyx_type_6mlgrad_5batch_RandomBatch) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_5batch_RandomBatch) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5batch_RandomBatch = &__pyx_type_6mlgrad_5batch_RandomBatch;
   __pyx_vtabptr_6mlgrad_5batch_FixedBatch = &__pyx_vtable_6mlgrad_5batch_FixedBatch;
   __pyx_vtable_6mlgrad_5batch_FixedBatch.__pyx_base = *__pyx_vtabptr_6mlgrad_5batch_Batch;
   __pyx_type_6mlgrad_5batch_FixedBatch.tp_base = __pyx_ptype_6mlgrad_5batch_Batch;
-  if (PyType_Ready(&__pyx_type_6mlgrad_5batch_FixedBatch) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_5batch_FixedBatch) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_5batch_FixedBatch.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_5batch_FixedBatch.tp_dictoffset && __pyx_type_6mlgrad_5batch_FixedBatch.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_5batch_FixedBatch.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_5batch_FixedBatch.tp_dict, __pyx_vtabptr_6mlgrad_5batch_FixedBatch) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_FixedBatch, (PyObject *)&__pyx_type_6mlgrad_5batch_FixedBatch) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_5batch_FixedBatch) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_5batch_FixedBatch.tp_dict, __pyx_vtabptr_6mlgrad_5batch_FixedBatch) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_FixedBatch, (PyObject *)&__pyx_type_6mlgrad_5batch_FixedBatch) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_5batch_FixedBatch) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5batch_FixedBatch = &__pyx_type_6mlgrad_5batch_FixedBatch;
   __pyx_vtabptr_6mlgrad_5batch_WholeBatch = &__pyx_vtable_6mlgrad_5batch_WholeBatch;
   __pyx_vtable_6mlgrad_5batch_WholeBatch.__pyx_base = *__pyx_vtabptr_6mlgrad_5batch_Batch;
   __pyx_type_6mlgrad_5batch_WholeBatch.tp_base = __pyx_ptype_6mlgrad_5batch_Batch;
-  if (PyType_Ready(&__pyx_type_6mlgrad_5batch_WholeBatch) < 0) __PYX_ERR(0, 71, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_5batch_WholeBatch) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_5batch_WholeBatch.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_5batch_WholeBatch.tp_dictoffset && __pyx_type_6mlgrad_5batch_WholeBatch.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_5batch_WholeBatch.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_5batch_WholeBatch.tp_dict, __pyx_vtabptr_6mlgrad_5batch_WholeBatch) < 0) __PYX_ERR(0, 71, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WholeBatch, (PyObject *)&__pyx_type_6mlgrad_5batch_WholeBatch) < 0) __PYX_ERR(0, 71, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_5batch_WholeBatch) < 0) __PYX_ERR(0, 71, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_5batch_WholeBatch.tp_dict, __pyx_vtabptr_6mlgrad_5batch_WholeBatch) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WholeBatch, (PyObject *)&__pyx_type_6mlgrad_5batch_WholeBatch) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_5batch_WholeBatch) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5batch_WholeBatch = &__pyx_type_6mlgrad_5batch_WholeBatch;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -21247,27 +21292,27 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/batch.pyx":79
+  /* "mlgrad/batch.pyx":84
  *     #
  * 
  * def make_batch(n_samples, size=None):             # <<<<<<<<<<<<<<
  *     if size is None:
  *         return WholeBatch(n_samples)
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_5batch_1make_batch, NULL, __pyx_n_s_mlgrad_batch); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_5batch_1make_batch, NULL, __pyx_n_s_mlgrad_batch); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_make_batch, __pyx_t_1) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_make_batch, __pyx_t_1) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/batch.pyx":85
+  /* "mlgrad/batch.pyx":90
  *         return RandomBatch(n_samples, size)
  * 
  * def make_batch_from(indices):             # <<<<<<<<<<<<<<
  *     return FixedBatch(indices)
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_5batch_3make_batch_from, NULL, __pyx_n_s_mlgrad_batch); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_5batch_3make_batch_from, NULL, __pyx_n_s_mlgrad_batch); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_make_batch_from, __pyx_t_1) < 0) __PYX_ERR(0, 85, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_make_batch_from, __pyx_t_1) < 0) __PYX_ERR(0, 90, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "(tree fragment)":1

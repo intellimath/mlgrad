@@ -11,11 +11,11 @@ Options.fast_fail = True
 import platform
 WIN32 = (platform.system() == 'Windows')
 
-#extra_compile_args = ["-O3", "-march=native", "-ffast-math"] 
-extra_compile_args = ["-O3", "-march=native", "-msse2", "-mfpmath=sse", "-ftree-vectorizer-verbose=5"] 
+extra_compile_args = ["-O3", "-march=native"] 
+# extra_compile_args = ["-O3", "-march=native", "-mavx2", "-mfma", "-msse2",  "-fopt-info-vec-optimized"] 
 extra_link_args = [] #["-lm"]
-#extra_compile_args_openmp = ["-O3", "-march=native", "-ffast-math", ("-fopenmp" if not WIN32 else "/openmp")]
-extra_compile_args_openmp = ["-O3", "-march=native", "-msse2", "-mfpmath=sse", "-ftree-vectorizer-verbose=5", ("-fopenmp" if not WIN32 else "/openmp")]
+extra_compile_args_openmp = ["-O3", "-march=native", ("-fopenmp" if not WIN32 else "/openmp")]
+# extra_compile_args_openmp = ["-O3", "-march=native", "-mavx2", "-mfma", "-msse2", "-fopt-info-vec-optimized", ("-fopenmp" if not WIN32 else "/openmp")]
 extra_link_args_openmp = [("-fopenmp" if not WIN32 else "/openmp")] #, "-lm"]
 
 # cython_compile_time_env = {"USE_OPENMP":1}
@@ -47,7 +47,7 @@ ext_modules = [
     ),
     Extension(
         "mlgrad.avragg",
-        ["lib/mlgrad/avragg.pyx"],
+        ["lib/mlgrad/avragg.pyx"], #"lib/mlgrad/c/_avragg.c"],
         extra_compile_args = extra_compile_args_openmp, 
         extra_link_args = extra_link_args_openmp,
 #         cython_compile_time_env = cython_compile_time_env,
@@ -155,21 +155,21 @@ ext_modules = [
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
     ),
-    Extension(
-        "mlgrad.cytest",
-        ["lib/mlgrad/cytest.pyx"],
-        extra_compile_args = extra_compile_args,
-        extra_link_args = extra_link_args,
-#         cython_compile_time_env = cython_compile_time_env,
-    ),
+#     Extension(
+#         "mlgrad.cytest",
+#         ["lib/mlgrad/cytest.pyx"],
+#         extra_compile_args = extra_compile_args,
+#         extra_link_args = extra_link_args,
+# #         cython_compile_time_env = cython_compile_time_env,
+#     ),
  ]
 
 #long_description = open('README.rst').read()
 
 setup(
     name = 'mlgrad',
-    version = '0.3',
-    description = 'Gradient methods for Machine Learning & Data Analisys.',
+    version = '0.4',
+    description = 'Robust Gradient Methods for Machine Learning & Data Analisys',
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
     license = "MIT License",
@@ -177,7 +177,7 @@ setup(
     ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
-    packages = ['mlgrad', 'mlgrad.linreg', 'mlgrad.test'],
+    packages = ['mlgrad', 'mlgrad.regr', 'mlgrad.test'],
     package_data = {'': ['*.pxd']},
     url = 'https://bitbucket.org/intellimath/mlgrad',
     download_url = 'https://bitbucket.org/intellimath/mlgrad',

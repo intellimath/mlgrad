@@ -8,6 +8,7 @@ cdef class Batch:
     cdef public Py_ssize_t[::1] indices
     #
     cdef void generate(self)
+    cdef void init(self)
 
 cdef class RandomBatch(Batch):
     pass

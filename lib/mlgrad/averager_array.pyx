@@ -114,49 +114,6 @@ cdef class ArrayMOM(ArrayAverager):
         else:
             for i in range(m):
                 array_average[i] = h * mgrad[i]
-    
-
-# cdef class ArrayRUD(ArrayAverager):
-
-#     def __init__(self, beta=Beta, normalize=0):
-#         self.beta = beta
-#         self.mgrad = None
-#         self.array_average = None
-#         self.normalize = normalize
-#     #
-#     cdef init(self, ndim):
-#         self.M = 0
-        
-#         if self.mgrad is None:
-#             self.mgrad = np.zeros(ndim, dtype='d')
-#         else:
-#             fill_memoryview(self.mgrad, 0)
-            
-#         if self.array_average is None:
-#             self.array_average = np.zeros(ndim, dtype='d')
-#         else:
-#             fill_memoryview(self.array_average, 0)
-#     #
-#     cdef void set_param1(self, double val):
-#         self.beta = val
-#     #
-#     cdef void update(self, double[::1] x, double h):
-#         cdef int i, m = self.mgrad.shape[0]
-#         cdef double beta = self.beta
-#         cdef double[::1] mgrad = self.mgrad
-#         cdef double[::1] array_average = self.array_average
-    
-#         for i in range(m):
-#             mgrad[i] = beta * mgrad[i] + x[i]
-
-#         if self.normalize:
-#             self.M *= beta
-#             self.M += 1
-#             for i in range(m):
-#                 array_average[i] = h * mgrad[i] / self.M
-#         else:
-#             for i in range(m):
-#                 array_average[i] = h * mgrad[i]
 
 cdef class ArrayRMSProp(ArrayAverager):
 
@@ -217,28 +174,17 @@ cdef class ArrayAdaM2(ArrayAverager):
         self.beta1_k = 1.
         self.beta2_k = 1.
         
-        if self.mgrad is None:
-            self.mgrad = np.zeros(ndim, dtype='d')
-        else:
-            fill_memoryview(self.mgrad, 0)
-            
-        if self.vgrad is None:
-            self.vgrad = np.zeros(ndim, dtype='d')
-        else:
-            fill_memoryview(self.vgrad, 0)
-            
-        if self.array_average is None:
-            self.array_average = np.zeros(ndim, dtype='d')
-        else:
-            fill_memoryview(self.array_average, 0)
+        self.mgrad = np.zeros(ndim, dtype='d')    
+        self.vgrad = np.zeros(ndim, dtype='d')    
+        self.array_average = np.zeros(ndim, dtype='d')
     #
     cdef void update(self, const double[::1] x, const double h):
         cdef Py_ssize_t i, m = self.mgrad.shape[0]
-        cdef double v, mv, vv
+        cdef double v, v2, mv, vv
         cdef double beta1 = self.beta1, beta2 = self.beta2 
-        cdef double[::1] mgrad = self.mgrad
-        cdef double[::1] vgrad = self.vgrad
-        cdef double[::1] array_average = self.array_average
+        cdef double *mgrad = &self.mgrad[0]
+        cdef double *vgrad = &self.vgrad[0]
+        cdef double *array_average = &self.array_average[0]
         cdef double beta1_k, beta2_k
         cdef double epsilon = self.epsilon
     
@@ -248,14 +194,17 @@ cdef class ArrayAdaM2(ArrayAverager):
         self.beta2_k += 1
         beta1_k = self.beta1_k
         beta2_k = self.beta2_k
-        for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
+#         for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
+        for i in range(m):
             v = x[i]
             mgrad[i] = beta1 * mgrad[i] + v 
             mv = mgrad[i] / beta1_k
 
             vgrad[i] = beta2 * vgrad[i] + v*v
             vv = vgrad[i] / beta2_k
-            array_average[i] = h * (mv / (sqrt(vv) + epsilon))
+            v2 = sqrt(vv)
+#             array_average[i] = h * mv * ((1 + v2) / (v2 * (1 + v2) + 1)) #/ (sqrt(vv) + epsilon))
+            array_average[i] = h * (mv / (v2 + epsilon))
 
 cdef class ArrayAdaM1(ArrayAverager):
 
@@ -294,11 +243,12 @@ cdef class ArrayAdaM1(ArrayAverager):
     #
     cdef void update(self, const double[::1] x, const double h):
         cdef Py_ssize_t i, m = self.mgrad.shape[0]
-        cdef double v, mv, vv
+        cdef double v, v2, mv, vv
         cdef double beta1 = self.beta1, beta2 = self.beta2
-        cdef double[::1] mgrad = self.mgrad
-        cdef double[::1] vgrad = self.vgrad
-        cdef double[::1] array_average = self.array_average
+        cdef double *mgrad = &self.mgrad[0]
+        cdef double *vgrad = &self.vgrad[0]
+        cdef double *array_average = &self.array_average[0]
+        cdef double epsilon = self.epsilon
     
         self.beta1_k *= beta1
         self.beta2_k *= beta2
@@ -309,7 +259,9 @@ cdef class ArrayAdaM1(ArrayAverager):
 
             vgrad[i] = beta2 * vgrad[i] + (1.0 - beta2) * fabs(v)
             vv = vgrad[i] / (1.0 - self.beta2_k)
-            array_average[i] = h * mv / (vv + self.epsilon)
+            v2 = fabs(vv)
+#             array_average[i] = h * mv * ((1 + v2) / (v2 * (1 + v2) + 1)) # self.epsilon)
+            array_average[i] = h * (mv / (v2 + epsilon))
 
 # cdef class ArrayAdaNG(ArrayAverager):
 

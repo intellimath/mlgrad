@@ -9,7 +9,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright © «2015–2020» <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright © «2015–2021» <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -879,18 +879,18 @@ cdef class SoftAbs(Func):
     
 cdef class Sqrt(Func):
     #
-    def __init__(self, eps=1.0, alpha=0):
+    def __init__(self, eps=1.0):
         self.eps = eps
         self.eps2 = eps*eps
-        self.alpha = alpha
+#         self.alpha = alpha
     #
     cdef double evaluate(self, const double x) nogil:
         cdef double xx = x*x
-        return sqrt(self.eps2 + xx) - self.eps + 0.5 * self.alpha * xx
+        return sqrt(self.eps2 + xx) - self.eps
     #
     cdef double derivative(self, const double x) nogil:
         cdef double v = self.eps2 + x*x
-        return x / sqrt(v) + self.alpha * x
+        return x / sqrt(v)
     #
     cdef double derivative2(self, const double x) nogil:
         cdef double v = self.eps2 + x*x
@@ -898,14 +898,14 @@ cdef class Sqrt(Func):
     #
     cdef double derivative_div_x(self, const double x) nogil:
         cdef double v = self.eps2 + x*x
-        return 1 / sqrt(v) + self.alpha
+        return 1 / sqrt(v)
     #
     def _repr_latex_(self):
-        return r"$p(x)=\sqrt{\varepsilon^2+x^2}-\alpha$"
+        return r"$p(x)=\sqrt{\varepsilon^2+x^2}$"
     
     def to_dict(self):
         return { 'name':'sqrt', 
-                 'args': (self.eps, self.alpha) }
+                 'args': (self.eps) }
 
 cdef class Quantile_Sqrt(Func):
     #
@@ -915,10 +915,11 @@ cdef class Quantile_Sqrt(Func):
         self.eps2 = eps*eps
     #
     cdef double evaluate(self, const double x) nogil:
+        cdef double v = self.eps2 + x*x
         if x >= 0:
-            return (sqrt(self.eps2 + x*x) - self.eps) * self.alpha
+            return (sqrt(v) - self.eps) * self.alpha
         else:
-            return (sqrt(self.eps2 + x*x) - self.eps) * (1-self.alpha)
+            return (sqrt(v) - self.eps) * (1-self.alpha)
     #
     cdef double derivative(self, const double x) nogil:
         cdef double v = self.eps2 + x*x

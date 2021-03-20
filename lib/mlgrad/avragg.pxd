@@ -9,10 +9,10 @@ from mlgrad.miscfuncs cimport init_rand, rand, fill
 
 from libc.math cimport fabs, pow, sqrt, fmax, log, exp
 
-ctypedef double (*FuncEvaluate)(Func, const double) nogil
-ctypedef double (*FuncDerivative)(Func, const double) nogil
-ctypedef double (*FuncDerivative2)(Func, const double) nogil
-ctypedef double (*FuncDerivativeDivX)(Func, const double) nogil
+ctypedef double (*FuncEvaluate)(Func, double) nogil
+ctypedef double (*FuncDerivative)(Func, double) nogil
+ctypedef double (*FuncDerivative2)(Func, double) nogil
+ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
 
 ctypedef fused number:
     float
@@ -59,10 +59,10 @@ cdef inline void array_add_scalar(double[::1] arr, double v):
 cdef class Penalty:
     cdef readonly Func func
 
-    cdef double evaluate(self, const double[::1] Y, const double u)
-    cdef double derivative(self, const double[::1] Y, const double u)
-    cdef void gradient(self, const double[::1] Y, const double u, double[::1] grad)
-    cdef double iterative_next(self, const double[::1] Y, const double u)
+    cdef double evaluate(self, double[::1] Y, double u)
+    cdef double derivative(self, double[::1] Y, double u)
+    cdef void gradient(self, double[::1] Y, double u, double[::1] grad)
+    cdef double iterative_next(self, double[::1] Y, double u)
     
 
 @cython.final
@@ -126,7 +126,7 @@ cdef class ParameterizedAverage(Average):
 @cython.final
 cdef class WMAverage(Average):
     cdef Average avr
-    cdef double gamma
+    cdef bint initial
 
 @cython.final
 cdef class WMAverageMixed(Average):

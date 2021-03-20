@@ -6,7 +6,7 @@ from mlgrad.avragg import PenaltyAverage, Average_Iterative, Average_FG, ArithMe
 from mlgrad.gd import FG, FG_RUD, SGD
 from mlgrad.risk import ED, MRisk, ERisk, AER, ER2, SimpleFunctional
 from mlgrad.irgd import IRGD
-from mlgrad.averager import ArrayMOM, ArrayRMSProp, ArrayAMOM, ArrayAdaM1, ArrayAdaM2, ScalarAdaM1, ScalarAdaM2
+from mlgrad.averager import ArraySave, ArrayMOM, ArrayRMSProp, ArrayAMOM, ArrayAdaM1, ArrayAdaM2, ScalarAdaM1, ScalarAdaM2
 from mlgrad.normalizer import LinearModelNormalizer
 import numpy as np
 
@@ -16,6 +16,7 @@ __all__ = ['averager_it', 'average_it', 'ws_average_it', 'averager_fg', 'average
 
 
 __averager_dict = {
+    None : ArraySave,
     'AMom':ArrayAMOM,
     'Mom':ArrayMOM,
     'RMS':ArrayRMSProp,
@@ -109,15 +110,14 @@ def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', call
 def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, 
            stop_condition='diffL1', n_restart=1, verbose=0):
     K = 0
+    alg = fg(er, h=h, tol=tol, n_iter=n_iter,
+             averager=averager, callback=callback, stop_condition=stop_condition)
     for i in range(n_restart):
-        alg = fg(er, h=h, tol=tol, n_iter=n_iter,
-                 averager=averager, callback=callback, stop_condition=stop_condition)
-        alg.fit()
+        print('step:', i+1)
+        alg.fit(warm=(i>0))
         K += alg.K
         if alg.completed:
             break
-#         if i > 0:
-#             alg.h_rate.h *= 0.5
     alg.K = K
     if verbose:
         print("K={} param={}".format(alg.K, er.param.base))
@@ -167,10 +167,13 @@ def irgd(fg, weights, tol=1.0e-4, n_iter=100, param_averager=None, callback=None
 
 def erm_irgd(fg, weights, tol=1.0e-4, n_iter=100, 
              param_averager=None, callback=None, verbose=0, h_anneal=0.99, n_restart=1):
+    alg = irgd(fg, weights, tol=tol, n_iter=n_iter, 
+               param_averager=param_averager, callback=callback, h_anneal=h_anneal)
     for i in range(n_restart):
-        alg = irgd(fg, weights, tol=tol, n_iter=n_iter, 
-                   param_averager=param_averager, callback=callback, h_anneal=h_anneal)
+        print('step:', i+1)
         alg.fit()
+        if alg.completed:
+            break
     if verbose:
         print("K={} param={}".format(alg.K, fg.risk.param.base))
     return alg

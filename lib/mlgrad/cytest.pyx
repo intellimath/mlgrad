@@ -11,9 +11,9 @@ from cython.parallel cimport parallel, prange
 
 import numpy as np
 
-cdef void fill(double[:] X, double v):
+cdef void fill(float *X, float v, int n):
     cdef int i
-    for i in range(X.shape[0]):
+    for i in range(n):
         X[i] = v
 
 cdef double conv_parallel(double[::1] A, double[::1] B) nogil:
