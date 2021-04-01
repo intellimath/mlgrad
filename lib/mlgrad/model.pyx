@@ -260,7 +260,7 @@ cdef class Model(object):
         return 0
     #
     def evaluate_all(self, X):
-        return [self.evaluate(Xk) for Xk in X]           
+        return np.array([self.evaluate(Xk) for Xk in X], 'd')
     #
     cdef void gradient(self, double[::1] X, double[::1] grad):
         pass

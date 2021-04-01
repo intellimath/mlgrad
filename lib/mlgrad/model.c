@@ -10005,7 +10005,7 @@ static double __pyx_f_6mlgrad_5model_5Model_evaluate(CYTHON_UNUSED struct __pyx_
  *         return 0
  *     #
  *     def evaluate_all(self, X):             # <<<<<<<<<<<<<<
- *         return [self.evaluate(Xk) for Xk in X]
+ *         return np.array([self.evaluate(Xk) for Xk in X], 'd')
  *     #
  */
 
@@ -10028,10 +10028,13 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_6evaluate_all(struct __pyx_obj_6
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
-  Py_ssize_t __pyx_t_3;
-  PyObject *(*__pyx_t_4)(PyObject *);
-  PyObject *__pyx_t_5 = NULL;
-  __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  Py_ssize_t __pyx_t_5;
+  PyObject *(*__pyx_t_6)(PyObject *);
+  PyObject *__pyx_t_7 = NULL;
+  __Pyx_memviewslice __pyx_t_8 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_9;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -10040,44 +10043,49 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_6evaluate_all(struct __pyx_obj_6
   /* "mlgrad/model.pyx":263
  *     #
  *     def evaluate_all(self, X):
- *         return [self.evaluate(Xk) for Xk in X]             # <<<<<<<<<<<<<<
+ *         return np.array([self.evaluate(Xk) for Xk in X], 'd')             # <<<<<<<<<<<<<<
  *     #
  *     cdef void gradient(self, double[::1] X, double[::1] grad):
  */
   __Pyx_XDECREF(__pyx_r);
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 263, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 263, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   { /* enter inner scope */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 263, __pyx_L5_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 263, __pyx_L5_error)
+    __Pyx_GOTREF(__pyx_t_2);
     if (likely(PyList_CheckExact(__pyx_v_X)) || PyTuple_CheckExact(__pyx_v_X)) {
-      __pyx_t_2 = __pyx_v_X; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
-      __pyx_t_4 = NULL;
+      __pyx_t_4 = __pyx_v_X; __Pyx_INCREF(__pyx_t_4); __pyx_t_5 = 0;
+      __pyx_t_6 = NULL;
     } else {
-      __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_X); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 263, __pyx_L5_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 263, __pyx_L5_error)
+      __pyx_t_5 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_v_X); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 263, __pyx_L5_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_6 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 263, __pyx_L5_error)
     }
     for (;;) {
-      if (likely(!__pyx_t_4)) {
-        if (likely(PyList_CheckExact(__pyx_t_2))) {
-          if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
+      if (likely(!__pyx_t_6)) {
+        if (likely(PyList_CheckExact(__pyx_t_4))) {
+          if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_4)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 263, __pyx_L5_error)
+          __pyx_t_7 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(1, 263, __pyx_L5_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 263, __pyx_L5_error)
-          __Pyx_GOTREF(__pyx_t_5);
+          __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 263, __pyx_L5_error)
+          __Pyx_GOTREF(__pyx_t_7);
           #endif
         } else {
-          if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
+          if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 263, __pyx_L5_error)
+          __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(1, 263, __pyx_L5_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 263, __pyx_L5_error)
-          __Pyx_GOTREF(__pyx_t_5);
+          __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 263, __pyx_L5_error)
+          __Pyx_GOTREF(__pyx_t_7);
           #endif
         }
       } else {
-        __pyx_t_5 = __pyx_t_4(__pyx_t_2);
-        if (unlikely(!__pyx_t_5)) {
+        __pyx_t_7 = __pyx_t_6(__pyx_t_4);
+        if (unlikely(!__pyx_t_7)) {
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
@@ -10085,20 +10093,20 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_6evaluate_all(struct __pyx_obj_6
           }
           break;
         }
-        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_GOTREF(__pyx_t_7);
       }
-      __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_Xk, __pyx_t_5);
-      __pyx_t_5 = 0;
-      __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_7genexpr__pyx_v_Xk, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 263, __pyx_L5_error)
-      __pyx_t_5 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_self->__pyx_vtab)->evaluate(__pyx_v_self, __pyx_t_6)); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 263, __pyx_L5_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
-      __pyx_t_6.memview = NULL;
-      __pyx_t_6.data = NULL;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_5))) __PYX_ERR(1, 263, __pyx_L5_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_Xk, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_7genexpr__pyx_v_Xk, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 263, __pyx_L5_error)
+      __pyx_t_7 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_self->__pyx_vtab)->evaluate(__pyx_v_self, __pyx_t_8)); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 263, __pyx_L5_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
+      __pyx_t_8.memview = NULL;
+      __pyx_t_8.data = NULL;
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_7))) __PYX_ERR(1, 263, __pyx_L5_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_XDECREF(__pyx_7genexpr__pyx_v_Xk); __pyx_7genexpr__pyx_v_Xk = 0;
     goto __pyx_L8_exit_scope;
     __pyx_L5_error:;
@@ -10106,6 +10114,53 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_6evaluate_all(struct __pyx_obj_6
     goto __pyx_L1_error;
     __pyx_L8_exit_scope:;
   } /* exit inner scope */
+  __pyx_t_4 = NULL;
+  __pyx_t_9 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_9 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 263, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 263, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 263, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    if (__pyx_t_4) {
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    }
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_9, __pyx_t_2);
+    __Pyx_INCREF(__pyx_n_u_d);
+    __Pyx_GIVEREF(__pyx_n_u_d);
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_9, __pyx_n_u_d);
+    __pyx_t_2 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 263, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
@@ -10114,7 +10169,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_6evaluate_all(struct __pyx_obj_6
  *         return 0
  *     #
  *     def evaluate_all(self, X):             # <<<<<<<<<<<<<<
- *         return [self.evaluate(Xk) for Xk in X]
+ *         return np.array([self.evaluate(Xk) for Xk in X], 'd')
  *     #
  */
 
@@ -10122,8 +10177,10 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_6evaluate_all(struct __pyx_obj_6
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_5);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_7);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
   __Pyx_AddTraceback("mlgrad.model.Model.evaluate_all", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -10134,7 +10191,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_6evaluate_all(struct __pyx_obj_6
 }
 
 /* "mlgrad/model.pyx":265
- *         return [self.evaluate(Xk) for Xk in X]
+ *         return np.array([self.evaluate(Xk) for Xk in X], 'd')
  *     #
  *     cdef void gradient(self, double[::1] X, double[::1] grad):             # <<<<<<<<<<<<<<
  *         pass
