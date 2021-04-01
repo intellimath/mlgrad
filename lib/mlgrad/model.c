@@ -1197,7 +1197,7 @@ struct __pyx_obj_6mlgrad_4func_Func {
 };
 
 
-/* "mlgrad/func.pxd":19
+/* "mlgrad/func.pxd":16
  * 
  * @cython.final
  * cdef class Comp(Func):             # <<<<<<<<<<<<<<
@@ -1211,7 +1211,7 @@ struct __pyx_obj_6mlgrad_4func_Comp {
 };
 
 
-/* "mlgrad/func.pxd":25
+/* "mlgrad/func.pxd":22
  * 
  * @cython.final
  * cdef class ZeroOnPositive(Func):             # <<<<<<<<<<<<<<
@@ -1224,7 +1224,7 @@ struct __pyx_obj_6mlgrad_4func_ZeroOnPositive {
 };
 
 
-/* "mlgrad/func.pxd":30
+/* "mlgrad/func.pxd":27
  * 
  * @cython.final
  * cdef class FuncExp(Func):             # <<<<<<<<<<<<<<
@@ -1237,7 +1237,7 @@ struct __pyx_obj_6mlgrad_4func_FuncExp {
 };
 
 
-/* "mlgrad/func.pxd":34
+/* "mlgrad/func.pxd":31
  * 
  * @cython.final
  * cdef class Id(Func):             # <<<<<<<<<<<<<<
@@ -1249,7 +1249,7 @@ struct __pyx_obj_6mlgrad_4func_Id {
 };
 
 
-/* "mlgrad/func.pxd":39
+/* "mlgrad/func.pxd":36
  * 
  * @cython.final
  * cdef class Neg(Func):             # <<<<<<<<<<<<<<
@@ -1261,7 +1261,7 @@ struct __pyx_obj_6mlgrad_4func_Neg {
 };
 
 
-/* "mlgrad/func.pxd":44
+/* "mlgrad/func.pxd":41
  * 
  * @cython.final
  * cdef class Arctang(Func):             # <<<<<<<<<<<<<<
@@ -1274,7 +1274,7 @@ struct __pyx_obj_6mlgrad_4func_Arctang {
 };
 
 
-/* "mlgrad/func.pxd":48
+/* "mlgrad/func.pxd":45
  * 
  * @cython.final
  * cdef class Sigmoidal(Func):             # <<<<<<<<<<<<<<
@@ -1287,7 +1287,7 @@ struct __pyx_obj_6mlgrad_4func_Sigmoidal {
 };
 
 
-/* "mlgrad/func.pxd":52
+/* "mlgrad/func.pxd":49
  * 
  * @cython.final
  * cdef class ModSigmoidal(Func):             # <<<<<<<<<<<<<<
@@ -1300,7 +1300,7 @@ struct __pyx_obj_6mlgrad_4func_ModSigmoidal {
 };
 
 
-/* "mlgrad/func.pxd":56
+/* "mlgrad/func.pxd":53
  * 
  * @cython.final
  * cdef class Softplus(Func):             # <<<<<<<<<<<<<<
@@ -1314,7 +1314,7 @@ struct __pyx_obj_6mlgrad_4func_Softplus {
 };
 
 
-/* "mlgrad/func.pxd":61
+/* "mlgrad/func.pxd":58
  * 
  * @cython.final
  * cdef class Threshold(Func):             # <<<<<<<<<<<<<<
@@ -1327,7 +1327,7 @@ struct __pyx_obj_6mlgrad_4func_Threshold {
 };
 
 
-/* "mlgrad/func.pxd":65
+/* "mlgrad/func.pxd":62
  * 
  * @cython.final
  * cdef class Sign(Func):             # <<<<<<<<<<<<<<
@@ -1340,7 +1340,7 @@ struct __pyx_obj_6mlgrad_4func_Sign {
 };
 
 
-/* "mlgrad/func.pxd":69
+/* "mlgrad/func.pxd":66
  * 
  * @cython.final
  * cdef class Quantile(Func):             # <<<<<<<<<<<<<<
@@ -1353,7 +1353,7 @@ struct __pyx_obj_6mlgrad_4func_Quantile {
 };
 
 
-/* "mlgrad/func.pxd":75
+/* "mlgrad/func.pxd":72
  * 
  * @cython.final
  * cdef class QuantileFunc(Func):             # <<<<<<<<<<<<<<
@@ -1367,7 +1367,7 @@ struct __pyx_obj_6mlgrad_4func_QuantileFunc {
 };
 
 
-/* "mlgrad/func.pxd":80
+/* "mlgrad/func.pxd":77
  * 
  * @cython.final
  * cdef class Expectile(Func):             # <<<<<<<<<<<<<<
@@ -1380,7 +1380,7 @@ struct __pyx_obj_6mlgrad_4func_Expectile {
 };
 
 
-/* "mlgrad/func.pxd":86
+/* "mlgrad/func.pxd":83
  * 
  * @cython.final
  * cdef class Power(Func):             # <<<<<<<<<<<<<<
@@ -1395,7 +1395,7 @@ struct __pyx_obj_6mlgrad_4func_Power {
 };
 
 
-/* "mlgrad/func.pxd":92
+/* "mlgrad/func.pxd":89
  * 
  * @cython.final
  * cdef class Square(Func):             # <<<<<<<<<<<<<<
@@ -1407,7 +1407,7 @@ struct __pyx_obj_6mlgrad_4func_Square {
 };
 
 
-/* "mlgrad/func.pxd":97
+/* "mlgrad/func.pxd":94
  * 
  * @cython.final
  * cdef class SquareSigned(Func):             # <<<<<<<<<<<<<<
@@ -1419,7 +1419,7 @@ struct __pyx_obj_6mlgrad_4func_SquareSigned {
 };
 
 
-/* "mlgrad/func.pxd":102
+/* "mlgrad/func.pxd":99
  * 
  * @cython.final
  * cdef class Absolute(Func):             # <<<<<<<<<<<<<<
@@ -1431,7 +1431,7 @@ struct __pyx_obj_6mlgrad_4func_Absolute {
 };
 
 
-/* "mlgrad/func.pxd":107
+/* "mlgrad/func.pxd":104
  * 
  * @cython.final
  * cdef class Quantile_AlphaLog(Func):             # <<<<<<<<<<<<<<
@@ -1446,7 +1446,7 @@ struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog {
 };
 
 
-/* "mlgrad/func.pxd":114
+/* "mlgrad/func.pxd":111
  * 
  * @cython.final
  * cdef class SoftAbs(Func):             # <<<<<<<<<<<<<<
@@ -1459,7 +1459,7 @@ struct __pyx_obj_6mlgrad_4func_SoftAbs {
 };
 
 
-/* "mlgrad/func.pxd":119
+/* "mlgrad/func.pxd":116
  * 
  * @cython.final
  * cdef class Sqrt(Func):             # <<<<<<<<<<<<<<
@@ -1474,8 +1474,8 @@ struct __pyx_obj_6mlgrad_4func_Sqrt {
 };
 
 
-/* "mlgrad/func.pxd":126
- *     #
+/* "mlgrad/func.pxd":124
+ * 
  * @cython.final
  * cdef class Quantile_Sqrt(Func):             # <<<<<<<<<<<<<<
  *     #
@@ -1489,7 +1489,7 @@ struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt {
 };
 
 
-/* "mlgrad/func.pxd":134
+/* "mlgrad/func.pxd":132
  * 
  * @cython.final
  * cdef class Logistic(Func):             # <<<<<<<<<<<<<<
@@ -1502,7 +1502,7 @@ struct __pyx_obj_6mlgrad_4func_Logistic {
 };
 
 
-/* "mlgrad/func.pxd":140
+/* "mlgrad/func.pxd":138
  * 
  * @cython.final
  * cdef class Huber(Func):             # <<<<<<<<<<<<<<
@@ -1515,7 +1515,7 @@ struct __pyx_obj_6mlgrad_4func_Huber {
 };
 
 
-/* "mlgrad/func.pxd":146
+/* "mlgrad/func.pxd":144
  * 
  * @cython.final
  * cdef class TM(Func):             # <<<<<<<<<<<<<<
@@ -1528,7 +1528,7 @@ struct __pyx_obj_6mlgrad_4func_TM {
 };
 
 
-/* "mlgrad/func.pxd":151
+/* "mlgrad/func.pxd":149
  * 
  * @cython.final
  * cdef class LogSquare(Func):             # <<<<<<<<<<<<<<
@@ -1542,7 +1542,7 @@ struct __pyx_obj_6mlgrad_4func_LogSquare {
 };
 
 
-/* "mlgrad/func.pxd":157
+/* "mlgrad/func.pxd":155
  * 
  * @cython.final
  * cdef class Tukey(Func):             # <<<<<<<<<<<<<<
@@ -1556,7 +1556,7 @@ struct __pyx_obj_6mlgrad_4func_Tukey {
 };
 
 
-/* "mlgrad/func.pxd":164
+/* "mlgrad/func.pxd":162
  * 
  * @cython.final
  * cdef class Hinge(Func):             # <<<<<<<<<<<<<<
@@ -1569,7 +1569,7 @@ struct __pyx_obj_6mlgrad_4func_Hinge {
 };
 
 
-/* "mlgrad/func.pxd":170
+/* "mlgrad/func.pxd":168
  * 
  * @cython.final
  * cdef class HingeSqrt(Func):             # <<<<<<<<<<<<<<
@@ -1583,7 +1583,7 @@ struct __pyx_obj_6mlgrad_4func_HingeSqrt {
 };
 
 
-/* "mlgrad/func.pxd":177
+/* "mlgrad/func.pxd":175
  * 
  * @cython.final
  * cdef class  Exp(Func):             # <<<<<<<<<<<<<<
@@ -1596,7 +1596,7 @@ struct __pyx_obj_6mlgrad_4func_Exp {
 };
 
 
-/* "mlgrad/func.pxd":182
+/* "mlgrad/func.pxd":180
  * 
  * @cython.final
  * cdef class  Log(Func):             # <<<<<<<<<<<<<<
@@ -1609,7 +1609,7 @@ struct __pyx_obj_6mlgrad_4func_Log {
 };
 
 
-/* "mlgrad/func.pxd":187
+/* "mlgrad/func.pxd":185
  * 
  * @cython.final
  * cdef class KMinSquare(Func):             # <<<<<<<<<<<<<<
@@ -1624,7 +1624,7 @@ struct __pyx_obj_6mlgrad_4func_KMinSquare {
 };
 
 
-/* "mlgrad/func.pxd":192
+/* "mlgrad/func.pxd":190
  *     cdef int n_dim, j_min
  * 
  * cdef class ParameterizedFunc:             # <<<<<<<<<<<<<<
@@ -1637,7 +1637,7 @@ struct __pyx_obj_6mlgrad_4func_ParameterizedFunc {
 };
 
 
-/* "mlgrad/func.pxd":201
+/* "mlgrad/func.pxd":199
  * 
  * @cython.final
  * cdef class WinsorizedFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -1649,7 +1649,7 @@ struct __pyx_obj_6mlgrad_4func_WinsorizedFunc {
 };
 
 
-/* "mlgrad/func.pxd":205
+/* "mlgrad/func.pxd":203
  * 
  * @cython.final
  * cdef class WinsorizedSmoothFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -1662,7 +1662,7 @@ struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc {
 };
 
 
-/* "mlgrad/func.pxd":208
+/* "mlgrad/func.pxd":206
  *     cdef Func f
  * 
  * cdef class SoftMinFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -2012,7 +2012,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Func {
 static struct __pyx_vtabstruct_6mlgrad_4func_Func *__pyx_vtabptr_6mlgrad_4func_Func;
 
 
-/* "mlgrad/func.pxd":19
+/* "mlgrad/func.pxd":16
  * 
  * @cython.final
  * cdef class Comp(Func):             # <<<<<<<<<<<<<<
@@ -2026,7 +2026,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Comp {
 static struct __pyx_vtabstruct_6mlgrad_4func_Comp *__pyx_vtabptr_6mlgrad_4func_Comp;
 
 
-/* "mlgrad/func.pxd":25
+/* "mlgrad/func.pxd":22
  * 
  * @cython.final
  * cdef class ZeroOnPositive(Func):             # <<<<<<<<<<<<<<
@@ -2040,7 +2040,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive {
 static struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive *__pyx_vtabptr_6mlgrad_4func_ZeroOnPositive;
 
 
-/* "mlgrad/func.pxd":30
+/* "mlgrad/func.pxd":27
  * 
  * @cython.final
  * cdef class FuncExp(Func):             # <<<<<<<<<<<<<<
@@ -2054,7 +2054,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_FuncExp {
 static struct __pyx_vtabstruct_6mlgrad_4func_FuncExp *__pyx_vtabptr_6mlgrad_4func_FuncExp;
 
 
-/* "mlgrad/func.pxd":34
+/* "mlgrad/func.pxd":31
  * 
  * @cython.final
  * cdef class Id(Func):             # <<<<<<<<<<<<<<
@@ -2068,7 +2068,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Id {
 static struct __pyx_vtabstruct_6mlgrad_4func_Id *__pyx_vtabptr_6mlgrad_4func_Id;
 
 
-/* "mlgrad/func.pxd":39
+/* "mlgrad/func.pxd":36
  * 
  * @cython.final
  * cdef class Neg(Func):             # <<<<<<<<<<<<<<
@@ -2082,7 +2082,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Neg {
 static struct __pyx_vtabstruct_6mlgrad_4func_Neg *__pyx_vtabptr_6mlgrad_4func_Neg;
 
 
-/* "mlgrad/func.pxd":44
+/* "mlgrad/func.pxd":41
  * 
  * @cython.final
  * cdef class Arctang(Func):             # <<<<<<<<<<<<<<
@@ -2096,7 +2096,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Arctang {
 static struct __pyx_vtabstruct_6mlgrad_4func_Arctang *__pyx_vtabptr_6mlgrad_4func_Arctang;
 
 
-/* "mlgrad/func.pxd":48
+/* "mlgrad/func.pxd":45
  * 
  * @cython.final
  * cdef class Sigmoidal(Func):             # <<<<<<<<<<<<<<
@@ -2110,7 +2110,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal {
 static struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal *__pyx_vtabptr_6mlgrad_4func_Sigmoidal;
 
 
-/* "mlgrad/func.pxd":52
+/* "mlgrad/func.pxd":49
  * 
  * @cython.final
  * cdef class ModSigmoidal(Func):             # <<<<<<<<<<<<<<
@@ -2124,7 +2124,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal {
 static struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal *__pyx_vtabptr_6mlgrad_4func_ModSigmoidal;
 
 
-/* "mlgrad/func.pxd":56
+/* "mlgrad/func.pxd":53
  * 
  * @cython.final
  * cdef class Softplus(Func):             # <<<<<<<<<<<<<<
@@ -2138,7 +2138,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Softplus {
 static struct __pyx_vtabstruct_6mlgrad_4func_Softplus *__pyx_vtabptr_6mlgrad_4func_Softplus;
 
 
-/* "mlgrad/func.pxd":61
+/* "mlgrad/func.pxd":58
  * 
  * @cython.final
  * cdef class Threshold(Func):             # <<<<<<<<<<<<<<
@@ -2152,7 +2152,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Threshold {
 static struct __pyx_vtabstruct_6mlgrad_4func_Threshold *__pyx_vtabptr_6mlgrad_4func_Threshold;
 
 
-/* "mlgrad/func.pxd":65
+/* "mlgrad/func.pxd":62
  * 
  * @cython.final
  * cdef class Sign(Func):             # <<<<<<<<<<<<<<
@@ -2166,7 +2166,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Sign {
 static struct __pyx_vtabstruct_6mlgrad_4func_Sign *__pyx_vtabptr_6mlgrad_4func_Sign;
 
 
-/* "mlgrad/func.pxd":69
+/* "mlgrad/func.pxd":66
  * 
  * @cython.final
  * cdef class Quantile(Func):             # <<<<<<<<<<<<<<
@@ -2180,7 +2180,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Quantile {
 static struct __pyx_vtabstruct_6mlgrad_4func_Quantile *__pyx_vtabptr_6mlgrad_4func_Quantile;
 
 
-/* "mlgrad/func.pxd":75
+/* "mlgrad/func.pxd":72
  * 
  * @cython.final
  * cdef class QuantileFunc(Func):             # <<<<<<<<<<<<<<
@@ -2194,7 +2194,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc {
 static struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc *__pyx_vtabptr_6mlgrad_4func_QuantileFunc;
 
 
-/* "mlgrad/func.pxd":80
+/* "mlgrad/func.pxd":77
  * 
  * @cython.final
  * cdef class Expectile(Func):             # <<<<<<<<<<<<<<
@@ -2208,7 +2208,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Expectile {
 static struct __pyx_vtabstruct_6mlgrad_4func_Expectile *__pyx_vtabptr_6mlgrad_4func_Expectile;
 
 
-/* "mlgrad/func.pxd":86
+/* "mlgrad/func.pxd":83
  * 
  * @cython.final
  * cdef class Power(Func):             # <<<<<<<<<<<<<<
@@ -2222,7 +2222,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Power {
 static struct __pyx_vtabstruct_6mlgrad_4func_Power *__pyx_vtabptr_6mlgrad_4func_Power;
 
 
-/* "mlgrad/func.pxd":92
+/* "mlgrad/func.pxd":89
  * 
  * @cython.final
  * cdef class Square(Func):             # <<<<<<<<<<<<<<
@@ -2236,7 +2236,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Square {
 static struct __pyx_vtabstruct_6mlgrad_4func_Square *__pyx_vtabptr_6mlgrad_4func_Square;
 
 
-/* "mlgrad/func.pxd":97
+/* "mlgrad/func.pxd":94
  * 
  * @cython.final
  * cdef class SquareSigned(Func):             # <<<<<<<<<<<<<<
@@ -2250,7 +2250,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned {
 static struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned *__pyx_vtabptr_6mlgrad_4func_SquareSigned;
 
 
-/* "mlgrad/func.pxd":102
+/* "mlgrad/func.pxd":99
  * 
  * @cython.final
  * cdef class Absolute(Func):             # <<<<<<<<<<<<<<
@@ -2264,7 +2264,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Absolute {
 static struct __pyx_vtabstruct_6mlgrad_4func_Absolute *__pyx_vtabptr_6mlgrad_4func_Absolute;
 
 
-/* "mlgrad/func.pxd":107
+/* "mlgrad/func.pxd":104
  * 
  * @cython.final
  * cdef class Quantile_AlphaLog(Func):             # <<<<<<<<<<<<<<
@@ -2278,7 +2278,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog {
 static struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog *__pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog;
 
 
-/* "mlgrad/func.pxd":114
+/* "mlgrad/func.pxd":111
  * 
  * @cython.final
  * cdef class SoftAbs(Func):             # <<<<<<<<<<<<<<
@@ -2292,7 +2292,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs {
 static struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs *__pyx_vtabptr_6mlgrad_4func_SoftAbs;
 
 
-/* "mlgrad/func.pxd":119
+/* "mlgrad/func.pxd":116
  * 
  * @cython.final
  * cdef class Sqrt(Func):             # <<<<<<<<<<<<<<
@@ -2306,8 +2306,8 @@ struct __pyx_vtabstruct_6mlgrad_4func_Sqrt {
 static struct __pyx_vtabstruct_6mlgrad_4func_Sqrt *__pyx_vtabptr_6mlgrad_4func_Sqrt;
 
 
-/* "mlgrad/func.pxd":126
- *     #
+/* "mlgrad/func.pxd":124
+ * 
  * @cython.final
  * cdef class Quantile_Sqrt(Func):             # <<<<<<<<<<<<<<
  *     #
@@ -2320,7 +2320,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt {
 static struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt *__pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt;
 
 
-/* "mlgrad/func.pxd":134
+/* "mlgrad/func.pxd":132
  * 
  * @cython.final
  * cdef class Logistic(Func):             # <<<<<<<<<<<<<<
@@ -2334,7 +2334,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Logistic {
 static struct __pyx_vtabstruct_6mlgrad_4func_Logistic *__pyx_vtabptr_6mlgrad_4func_Logistic;
 
 
-/* "mlgrad/func.pxd":140
+/* "mlgrad/func.pxd":138
  * 
  * @cython.final
  * cdef class Huber(Func):             # <<<<<<<<<<<<<<
@@ -2348,7 +2348,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Huber {
 static struct __pyx_vtabstruct_6mlgrad_4func_Huber *__pyx_vtabptr_6mlgrad_4func_Huber;
 
 
-/* "mlgrad/func.pxd":146
+/* "mlgrad/func.pxd":144
  * 
  * @cython.final
  * cdef class TM(Func):             # <<<<<<<<<<<<<<
@@ -2362,7 +2362,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_TM {
 static struct __pyx_vtabstruct_6mlgrad_4func_TM *__pyx_vtabptr_6mlgrad_4func_TM;
 
 
-/* "mlgrad/func.pxd":151
+/* "mlgrad/func.pxd":149
  * 
  * @cython.final
  * cdef class LogSquare(Func):             # <<<<<<<<<<<<<<
@@ -2376,7 +2376,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_LogSquare {
 static struct __pyx_vtabstruct_6mlgrad_4func_LogSquare *__pyx_vtabptr_6mlgrad_4func_LogSquare;
 
 
-/* "mlgrad/func.pxd":157
+/* "mlgrad/func.pxd":155
  * 
  * @cython.final
  * cdef class Tukey(Func):             # <<<<<<<<<<<<<<
@@ -2390,7 +2390,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Tukey {
 static struct __pyx_vtabstruct_6mlgrad_4func_Tukey *__pyx_vtabptr_6mlgrad_4func_Tukey;
 
 
-/* "mlgrad/func.pxd":164
+/* "mlgrad/func.pxd":162
  * 
  * @cython.final
  * cdef class Hinge(Func):             # <<<<<<<<<<<<<<
@@ -2404,7 +2404,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Hinge {
 static struct __pyx_vtabstruct_6mlgrad_4func_Hinge *__pyx_vtabptr_6mlgrad_4func_Hinge;
 
 
-/* "mlgrad/func.pxd":170
+/* "mlgrad/func.pxd":168
  * 
  * @cython.final
  * cdef class HingeSqrt(Func):             # <<<<<<<<<<<<<<
@@ -2418,7 +2418,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt {
 static struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt *__pyx_vtabptr_6mlgrad_4func_HingeSqrt;
 
 
-/* "mlgrad/func.pxd":177
+/* "mlgrad/func.pxd":175
  * 
  * @cython.final
  * cdef class  Exp(Func):             # <<<<<<<<<<<<<<
@@ -2432,7 +2432,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Exp {
 static struct __pyx_vtabstruct_6mlgrad_4func_Exp *__pyx_vtabptr_6mlgrad_4func_Exp;
 
 
-/* "mlgrad/func.pxd":182
+/* "mlgrad/func.pxd":180
  * 
  * @cython.final
  * cdef class  Log(Func):             # <<<<<<<<<<<<<<
@@ -2446,7 +2446,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Log {
 static struct __pyx_vtabstruct_6mlgrad_4func_Log *__pyx_vtabptr_6mlgrad_4func_Log;
 
 
-/* "mlgrad/func.pxd":187
+/* "mlgrad/func.pxd":185
  * 
  * @cython.final
  * cdef class KMinSquare(Func):             # <<<<<<<<<<<<<<
@@ -2460,7 +2460,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare {
 static struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare *__pyx_vtabptr_6mlgrad_4func_KMinSquare;
 
 
-/* "mlgrad/func.pxd":192
+/* "mlgrad/func.pxd":190
  *     cdef int n_dim, j_min
  * 
  * cdef class ParameterizedFunc:             # <<<<<<<<<<<<<<
@@ -2476,7 +2476,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc {
 static struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc;
 
 
-/* "mlgrad/func.pxd":201
+/* "mlgrad/func.pxd":199
  * 
  * @cython.final
  * cdef class WinsorizedFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -2490,7 +2490,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc {
 static struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc *__pyx_vtabptr_6mlgrad_4func_WinsorizedFunc;
 
 
-/* "mlgrad/func.pxd":205
+/* "mlgrad/func.pxd":203
  * 
  * @cython.final
  * cdef class WinsorizedSmoothFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -2504,7 +2504,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc {
 static struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc;
 
 
-/* "mlgrad/func.pxd":208
+/* "mlgrad/func.pxd":206
  *     cdef Func f
  * 
  * cdef class SoftMinFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -2872,12 +2872,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
-
-/* BufferIndexError.proto */
-static void __Pyx_RaiseBufferIndexError(int axis);
-
-/* BufferIndexErrorNogil.proto */
-static void __Pyx_RaiseBufferIndexErrorNogil(int axis);
 
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -4611,10 +4605,6 @@ static PyObject *__pyx_codeobj__94;
 static CYTHON_INLINE void __pyx_f_6mlgrad_5model_fill_memoryview(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED double __pyx_v_c) {
   int __pyx_v_m;
   Py_ssize_t __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
 
   /* "mlgrad/model.pyx":63
  * 
@@ -4633,15 +4623,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_fill_memoryview(__Pyx_memviewsl
  * cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:
  */
   __pyx_t_1 = 0;
-  __pyx_t_2 = -1;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_X.shape[0];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_X.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
-    __PYX_ERR(1, 64, __pyx_L1_error)
-  }
   (void)(memset((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(double)))));
 
   /* "mlgrad/model.pyx":62
@@ -4653,10 +4634,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_fill_memoryview(__Pyx_memviewsl
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.fill_memoryview", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_L0:;
 }
 
 /* "mlgrad/model.pyx":66
@@ -4672,11 +4649,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_copy_memoryview(__Pyx_memviewsl
   int __pyx_v_n;
   int __pyx_t_1;
   Py_ssize_t __pyx_t_2;
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_3;
 
   /* "mlgrad/model.pyx":67
  * 
@@ -4724,26 +4697,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_copy_memoryview(__Pyx_memviewsl
  * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
  */
   __pyx_t_2 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_2 < 0) {
-    __pyx_t_2 += __pyx_v_Y.shape[0];
-    if (unlikely(__pyx_t_2 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_2 >= __pyx_v_Y.shape[0])) __pyx_t_3 = 0;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_3);
-    __PYX_ERR(1, 71, __pyx_L1_error)
-  }
-  __pyx_t_4 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_4 < 0) {
-    __pyx_t_4 += __pyx_v_X.shape[0];
-    if (unlikely(__pyx_t_4 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_4 >= __pyx_v_X.shape[0])) __pyx_t_3 = 0;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_3);
-    __PYX_ERR(1, 71, __pyx_L1_error)
-  }
-  (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )))), (__pyx_v_m * (sizeof(double)))));
+  __pyx_t_3 = 0;
+  (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_3)) )))), (__pyx_v_m * (sizeof(double)))));
 
   /* "mlgrad/model.pyx":66
  *     memset(&X[0], 0, m*cython.sizeof(double))
@@ -4754,10 +4709,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_copy_memoryview(__Pyx_memviewsl
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.copy_memoryview", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_L0:;
 }
 
 /* "mlgrad/model.pyx":73
@@ -4774,12 +4725,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_copy_memoryview2(__Pyx_memviews
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
-  int __pyx_t_3;
+  Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("copy_memoryview2", 0);
 
   /* "mlgrad/model.pyx":75
@@ -4801,35 +4748,9 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_copy_memoryview2(__Pyx_memviews
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_Y.shape[0];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_Y.shape[0])) __pyx_t_3 = 0;
-  if (__pyx_t_2 < 0) {
-    __pyx_t_2 += __pyx_v_Y.shape[1];
-    if (unlikely(__pyx_t_2 < 0)) __pyx_t_3 = 1;
-  } else if (unlikely(__pyx_t_2 >= __pyx_v_Y.shape[1])) __pyx_t_3 = 1;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(1, 76, __pyx_L1_error)
-  }
+  __pyx_t_3 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_5 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_4 < 0) {
-    __pyx_t_4 += __pyx_v_X.shape[0];
-    if (unlikely(__pyx_t_4 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_4 >= __pyx_v_X.shape[0])) __pyx_t_3 = 0;
-  if (__pyx_t_5 < 0) {
-    __pyx_t_5 += __pyx_v_X.shape[1];
-    if (unlikely(__pyx_t_5 < 0)) __pyx_t_3 = 1;
-  } else if (unlikely(__pyx_t_5 >= __pyx_v_X.shape[1])) __pyx_t_3 = 1;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(1, 76, __pyx_L1_error)
-  }
-  (void)(memcpy((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Y.data + __pyx_t_1 * __pyx_v_Y.strides[0]) )) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_4 * __pyx_v_X.strides[0]) )) + __pyx_t_5)) )))), ((__pyx_v_n * __pyx_v_m) * (sizeof(double)))));
+  (void)(memcpy((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Y.data + __pyx_t_1 * __pyx_v_Y.strides[0]) )) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_3 * __pyx_v_X.strides[0]) )) + __pyx_t_4)) )))), ((__pyx_v_n * __pyx_v_m) * (sizeof(double)))));
 
   /* "mlgrad/model.pyx":73
  *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
@@ -4840,10 +4761,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_copy_memoryview2(__Pyx_memviews
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.copy_memoryview2", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -5330,7 +5247,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_2as_array_1d(CYTHON_UNUSED PyObject *__
  * 
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_ob, 0, 0, NULL, NULL, &__pyx_slice__2, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 97, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_ob, 0, 0, NULL, NULL, &__pyx_slice__2, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 97, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(1, 97, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -7135,7 +7052,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_5model_14ArrayAllocator_allocate(struc
  *         self.allocated += n
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->allocated, (__pyx_v_self->allocated + __pyx_v_n), NULL, NULL, NULL, 1, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 162, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->allocated, (__pyx_v_self->allocated + __pyx_v_n), NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(1, 162, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7411,7 +7328,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_5model_14ArrayAllocator_allocate2(stru
  *         ar2 = ar.reshape((n,m))
  *         self.allocated += nm
  */
-  __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->allocated, (__pyx_v_self->allocated + __pyx_v_nm), NULL, NULL, NULL, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 181, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->allocated, (__pyx_v_self->allocated + __pyx_v_nm), NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_v_ar = __pyx_t_4;
   __pyx_t_4 = 0;
@@ -7678,7 +7595,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_5model_14ArrayAllocator_get_allocated(
  *     #
  *     cpdef Allocator suballocator(self):
  */
-  __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->start, __pyx_v_self->allocated, NULL, NULL, NULL, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 192, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->start, __pyx_v_self->allocated, NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(1, 192, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9158,7 +9075,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model__allocate(struct __pyx_obj_6mlgr
  *             if param.shape[0] != self.param.shape[0]:
  *                 raise TypeError("The shapes are not equal: %s != %s" % (param.base.shape, self.param.base.shape))
  */
-  if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 226, __pyx_L1_error)}
   __pyx_t_6 = ((((PyObject *) __pyx_v_self->param.memview) != Py_None) != 0);
   if (__pyx_t_6) {
 
@@ -9169,7 +9085,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model__allocate(struct __pyx_obj_6mlgr
  *                 raise TypeError("The shapes are not equal: %s != %s" % (param.base.shape, self.param.base.shape))
  *             copy_memoryview(param, self.param)
  */
-    if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 227, __pyx_L1_error)}
     __pyx_t_6 = (((__pyx_v_param.shape[0]) != (__pyx_v_self->param.shape[0])) != 0);
     if (unlikely(__pyx_t_6)) {
 
@@ -9208,7 +9123,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model__allocate(struct __pyx_obj_6mlgr
       __pyx_t_7 += 4;
       __Pyx_GIVEREF(__pyx_kp_u__8);
       PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_kp_u__8);
-      if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 228, __pyx_L1_error)}
       __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 228, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_base); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 228, __pyx_L1_error)
@@ -9251,7 +9165,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model__allocate(struct __pyx_obj_6mlgr
  * 
  *         self.param = allocator.get_allocated()
  */
-    if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 229, __pyx_L1_error)}
     __pyx_f_6mlgrad_5model_copy_memoryview(__pyx_v_param, __pyx_v_self->param);
 
     /* "mlgrad/model.pyx":226
@@ -9301,14 +9214,12 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model__allocate(struct __pyx_obj_6mlgr
  *             self.grad = np.zeros(self.n_param, 'd')
  *         if self.grad_x is None or self.grad.shape[0] != self.n_input:
  */
-  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 232, __pyx_L1_error)}
   __pyx_t_9 = ((((PyObject *) __pyx_v_self->grad.memview) == Py_None) != 0);
   if (!__pyx_t_9) {
   } else {
     __pyx_t_6 = __pyx_t_9;
     goto __pyx_L6_bool_binop_done;
   }
-  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 232, __pyx_L1_error)}
   __pyx_t_9 = (((__pyx_v_self->grad.shape[0]) != __pyx_v_self->n_param) != 0);
   __pyx_t_6 = __pyx_t_9;
   __pyx_L6_bool_binop_done:;
@@ -9398,14 +9309,12 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model__allocate(struct __pyx_obj_6mlgr
  *             self.grad_x = np.zeros(self.n_input, 'd')
  *     #
  */
-  if (unlikely(!__pyx_v_self->grad_x.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 234, __pyx_L1_error)}
   __pyx_t_9 = ((((PyObject *) __pyx_v_self->grad_x.memview) == Py_None) != 0);
   if (!__pyx_t_9) {
   } else {
     __pyx_t_6 = __pyx_t_9;
     goto __pyx_L9_bool_binop_done;
   }
-  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 234, __pyx_L1_error)}
   __pyx_t_9 = (((__pyx_v_self->grad.shape[0]) != __pyx_v_self->n_input) != 0);
   __pyx_t_6 = __pyx_t_9;
   __pyx_L9_bool_binop_done:;
@@ -9716,7 +9625,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_4init(struct __pyx_obj_6mlgrad_5
  *             if param is None:
  *                 if random:
  */
-  if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 242, __pyx_L1_error)}
   __pyx_t_1 = ((((PyObject *) __pyx_v_self->param.memview) == Py_None) != 0);
   if (__pyx_t_1) {
 
@@ -9924,7 +9832,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_4init(struct __pyx_obj_6mlgrad_5
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 253, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 253, __pyx_L1_error)}
         {
             double __pyx_temp_scalar = __pyx_t_8;
             {
@@ -9981,7 +9888,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_4init(struct __pyx_obj_6mlgrad_5
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 255, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 255, __pyx_L1_error)}
         {
             double __pyx_temp_scalar = __pyx_t_8;
             {
@@ -10016,7 +9922,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_4init(struct __pyx_obj_6mlgrad_5
  */
     /*else*/ {
       __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_v_param); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 257, __pyx_L1_error)
-      if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 257, __pyx_L1_error)}
       {
           double __pyx_temp_scalar = __pyx_t_8;
           {
@@ -10791,7 +10696,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_5param___get__(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 78, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -10878,7 +10782,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_4grad___get__(struct __pyx_obj_6
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 79, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -10965,7 +10868,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_6grad_x___get__(struct __pyx_obj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->grad_x.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 80, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->grad_x, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -11067,17 +10969,14 @@ static PyObject *__pyx_pf_6mlgrad_5model_5Model_12__reduce_cython__(struct __pyx
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(!__pyx_v_self->grad_x.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->grad_x, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->n_input); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->n_param); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = PyTuple_New(5); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -11420,7 +11319,6 @@ static int __pyx_pf_6mlgrad_5model_10ConstModel___init__(struct __pyx_obj_6mlgra
   __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
   double __pyx_t_4;
   Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -11456,17 +11354,7 @@ static int __pyx_pf_6mlgrad_5model_10ConstModel___init__(struct __pyx_obj_6mlgra
  *         self.grad_x = np.zeros(1, 'd')
  */
   __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_val); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 285, __pyx_L1_error)
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 285, __pyx_L1_error)}
   __pyx_t_5 = 0;
-  __pyx_t_6 = -1;
-  if (__pyx_t_5 < 0) {
-    __pyx_t_5 += __pyx_v_self->__pyx_base.param.shape[0];
-    if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 0;
-  } else if (unlikely(__pyx_t_5 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_6 = 0;
-  if (unlikely(__pyx_t_6 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_6);
-    __PYX_ERR(1, 285, __pyx_L1_error)
-  }
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_5)) )) = __pyx_t_4;
 
   /* "mlgrad/model.pyx":286
@@ -11598,10 +11486,6 @@ static double __pyx_f_6mlgrad_5model_10ConstModel_evaluate(struct __pyx_obj_6mlg
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("evaluate", 0);
 
   /* "mlgrad/model.pyx":295
@@ -11611,17 +11495,7 @@ static double __pyx_f_6mlgrad_5model_10ConstModel_evaluate(struct __pyx_obj_6mlg
  *     #
  *     cdef void gradient(self, double[::1] X, double[::1] grad):
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 295, __pyx_L1_error)}
   __pyx_t_1 = 0;
-  __pyx_t_2 = -1;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_self->__pyx_base.param.shape[0];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(1, 295, __pyx_L1_error)
-  }
   __pyx_r = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_1)) )));
   goto __pyx_L0;
 
@@ -11634,9 +11508,6 @@ static double __pyx_f_6mlgrad_5model_10ConstModel_evaluate(struct __pyx_obj_6mlg
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.ConstModel.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -11653,10 +11524,6 @@ static double __pyx_f_6mlgrad_5model_10ConstModel_evaluate(struct __pyx_obj_6mlg
 static void __pyx_f_6mlgrad_5model_10ConstModel_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_5model_ConstModel *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_grad) {
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient", 0);
 
   /* "mlgrad/model.pyx":298
@@ -11667,15 +11534,6 @@ static void __pyx_f_6mlgrad_5model_10ConstModel_gradient(CYTHON_UNUSED struct __
  *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
  */
   __pyx_t_1 = 0;
-  __pyx_t_2 = -1;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_grad.shape[0];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_grad.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(1, 298, __pyx_L1_error)
-  }
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_1)) )) = 1.0;
 
   /* "mlgrad/model.pyx":297
@@ -11687,10 +11545,6 @@ static void __pyx_f_6mlgrad_5model_10ConstModel_gradient(CYTHON_UNUSED struct __
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.ConstModel.gradient", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -11705,10 +11559,6 @@ static void __pyx_f_6mlgrad_5model_10ConstModel_gradient(CYTHON_UNUSED struct __
 static void __pyx_f_6mlgrad_5model_10ConstModel_gradient_x(CYTHON_UNUSED struct __pyx_obj_6mlgrad_5model_ConstModel *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_grad_x) {
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient_x", 0);
 
   /* "mlgrad/model.pyx":301
@@ -11719,15 +11569,6 @@ static void __pyx_f_6mlgrad_5model_10ConstModel_gradient_x(CYTHON_UNUSED struct 
  * cdef class LinearModel(Model):
  */
   __pyx_t_1 = 0;
-  __pyx_t_2 = -1;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_grad_x.shape[0];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_grad_x.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(1, 301, __pyx_L1_error)
-  }
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_x.data) + __pyx_t_1)) )) = 0.0;
 
   /* "mlgrad/model.pyx":300
@@ -11739,10 +11580,6 @@ static void __pyx_f_6mlgrad_5model_10ConstModel_gradient_x(CYTHON_UNUSED struct 
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.ConstModel.gradient_x", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -11791,17 +11628,14 @@ static PyObject *__pyx_pf_6mlgrad_5model_10ConstModel_4__reduce_cython__(struct 
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(!__pyx_v_self->__pyx_base.grad_x.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.grad_x, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_input); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_param); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = PyTuple_New(5); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -12315,7 +12149,6 @@ static int __pyx_pf_6mlgrad_5model_11LinearModel___init__(struct __pyx_obj_6mlgr
  *             self.n_input = self.n_param - 1
  *             self.grad = np.zeros(self.n_param, 'd')
  */
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 315, __pyx_L1_error)}
     __pyx_t_11 = __Pyx_MemoryView_Len(__pyx_v_self->__pyx_base.param); 
     __pyx_v_self->__pyx_base.n_param = __pyx_t_11;
 
@@ -12607,7 +12440,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_4__getstate__(struct __py
  *     def __setstate__(self, param):
  */
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 330, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -12785,13 +12617,9 @@ static double __pyx_f_6mlgrad_5model_11LinearModel_evaluate(struct __pyx_obj_6ml
   Py_ssize_t __pyx_t_1;
   __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_t_3;
-  int __pyx_t_4;
+  Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("evaluate", 0);
 
   /* "mlgrad/model.pyx":351
@@ -12811,7 +12639,6 @@ static double __pyx_f_6mlgrad_5model_11LinearModel_evaluate(struct __pyx_obj_6ml
  * 
  *         #print("LM: %s %s %s" % (self.n_param, tuple(self.param), X))
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 353, __pyx_L1_error)}
   __pyx_t_2 = __pyx_v_self->__pyx_base.param;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
   __pyx_v_param = __pyx_t_2;
@@ -12826,15 +12653,6 @@ static double __pyx_f_6mlgrad_5model_11LinearModel_evaluate(struct __pyx_obj_6ml
  *             v += param[i] * X[i-1]
  */
   __pyx_t_3 = 0;
-  __pyx_t_4 = -1;
-  if (__pyx_t_3 < 0) {
-    __pyx_t_3 += __pyx_v_param.shape[0];
-    if (unlikely(__pyx_t_3 < 0)) __pyx_t_4 = 0;
-  } else if (unlikely(__pyx_t_3 >= __pyx_v_param.shape[0])) __pyx_t_4 = 0;
-  if (unlikely(__pyx_t_4 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_4);
-    __PYX_ERR(1, 356, __pyx_L1_error)
-  }
   __pyx_v_v = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_3)) )));
 
   /* "mlgrad/model.pyx":357
@@ -12845,9 +12663,9 @@ static double __pyx_f_6mlgrad_5model_11LinearModel_evaluate(struct __pyx_obj_6ml
  *         return v
  */
   __pyx_t_1 = __pyx_v_n_param;
-  __pyx_t_5 = __pyx_t_1;
-  for (__pyx_t_6 = 1; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
-    __pyx_v_i = __pyx_t_6;
+  __pyx_t_4 = __pyx_t_1;
+  for (__pyx_t_5 = 1; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_i = __pyx_t_5;
 
     /* "mlgrad/model.pyx":358
  *         v = param[0]
@@ -12857,26 +12675,8 @@ static double __pyx_f_6mlgrad_5model_11LinearModel_evaluate(struct __pyx_obj_6ml
  *     #
  */
     __pyx_t_3 = __pyx_v_i;
-    __pyx_t_4 = -1;
-    if (__pyx_t_3 < 0) {
-      __pyx_t_3 += __pyx_v_param.shape[0];
-      if (unlikely(__pyx_t_3 < 0)) __pyx_t_4 = 0;
-    } else if (unlikely(__pyx_t_3 >= __pyx_v_param.shape[0])) __pyx_t_4 = 0;
-    if (unlikely(__pyx_t_4 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_4);
-      __PYX_ERR(1, 358, __pyx_L1_error)
-    }
-    __pyx_t_7 = (__pyx_v_i - 1);
-    __pyx_t_4 = -1;
-    if (__pyx_t_7 < 0) {
-      __pyx_t_7 += __pyx_v_X.shape[0];
-      if (unlikely(__pyx_t_7 < 0)) __pyx_t_4 = 0;
-    } else if (unlikely(__pyx_t_7 >= __pyx_v_X.shape[0])) __pyx_t_4 = 0;
-    if (unlikely(__pyx_t_4 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_4);
-      __PYX_ERR(1, 358, __pyx_L1_error)
-    }
-    __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_3)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_7)) )))));
+    __pyx_t_6 = (__pyx_v_i - 1);
+    __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_3)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) )))));
   }
 
   /* "mlgrad/model.pyx":359
@@ -12898,10 +12698,6 @@ static double __pyx_f_6mlgrad_5model_11LinearModel_evaluate(struct __pyx_obj_6ml
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
-  __Pyx_WriteUnraisable("mlgrad.model.LinearModel.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_param, 1);
   __Pyx_RefNannyFinishContext();
@@ -12925,11 +12721,7 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient(struct __pyx_obj_6mlgr
   int __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_6;
   __Pyx_RefNannySetupContext("gradient", 0);
 
   /* "mlgrad/model.pyx":362
@@ -12950,15 +12742,6 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient(struct __pyx_obj_6mlgr
  *             grad[i] = X[i-1]
  */
   __pyx_t_2 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_2 < 0) {
-    __pyx_t_2 += __pyx_v_grad.shape[0];
-    if (unlikely(__pyx_t_2 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_2 >= __pyx_v_grad.shape[0])) __pyx_t_3 = 0;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(1, 364, __pyx_L1_error)
-  }
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_2)) )) = 1.0;
 
   /* "mlgrad/model.pyx":365
@@ -12981,26 +12764,8 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient(struct __pyx_obj_6mlgr
  *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
  */
     __pyx_t_2 = (__pyx_v_i - 1);
-    __pyx_t_6 = -1;
-    if (__pyx_t_2 < 0) {
-      __pyx_t_2 += __pyx_v_X.shape[0];
-      if (unlikely(__pyx_t_2 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_2 >= __pyx_v_X.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 366, __pyx_L1_error)
-    }
-    __pyx_t_7 = __pyx_v_i;
-    __pyx_t_6 = -1;
-    if (__pyx_t_7 < 0) {
-      __pyx_t_7 += __pyx_v_grad.shape[0];
-      if (unlikely(__pyx_t_7 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_7 >= __pyx_v_grad.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 366, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_7)) )) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_2)) )));
+    __pyx_t_6 = __pyx_v_i;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_2)) )));
   }
 
   /* "mlgrad/model.pyx":361
@@ -13012,10 +12777,6 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient(struct __pyx_obj_6mlgr
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.LinearModel.gradient", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -13038,11 +12799,7 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient_x(struct __pyx_obj_6ml
   int __pyx_t_4;
   int __pyx_t_5;
   Py_ssize_t __pyx_t_6;
-  int __pyx_t_7;
-  Py_ssize_t __pyx_t_8;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_7;
   __Pyx_RefNannySetupContext("gradient_x", 0);
 
   /* "mlgrad/model.pyx":369
@@ -13062,7 +12819,6 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient_x(struct __pyx_obj_6ml
  * 
  *         for i in range(n_input):
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 370, __pyx_L1_error)}
   __pyx_t_2 = __pyx_v_self->__pyx_base.param;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
   __pyx_v_param = __pyx_t_2;
@@ -13089,26 +12845,8 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient_x(struct __pyx_obj_6ml
  *     cpdef Model copy(self, bint share=1):
  */
     __pyx_t_6 = (__pyx_v_i + 1);
-    __pyx_t_7 = -1;
-    if (__pyx_t_6 < 0) {
-      __pyx_t_6 += __pyx_v_param.shape[0];
-      if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_6 >= __pyx_v_param.shape[0])) __pyx_t_7 = 0;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 373, __pyx_L1_error)
-    }
-    __pyx_t_8 = __pyx_v_i;
-    __pyx_t_7 = -1;
-    if (__pyx_t_8 < 0) {
-      __pyx_t_8 += __pyx_v_grad_x.shape[0];
-      if (unlikely(__pyx_t_8 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_8 >= __pyx_v_grad_x.shape[0])) __pyx_t_7 = 0;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 373, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_x.data) + __pyx_t_8)) )) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_6)) )));
+    __pyx_t_7 = __pyx_v_i;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_x.data) + __pyx_t_7)) )) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_6)) )));
   }
 
   /* "mlgrad/model.pyx":368
@@ -13120,11 +12858,6 @@ static void __pyx_f_6mlgrad_5model_11LinearModel_gradient_x(struct __pyx_obj_6ml
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
-  __Pyx_WriteUnraisable("mlgrad.model.LinearModel.gradient_x", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_param, 1);
   __Pyx_RefNannyFinishContext();
 }
@@ -13193,7 +12926,6 @@ static struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5model_11LinearMod
  *         else:
  *             mod.param = self.param.copy()
  */
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 379, __pyx_L1_error)}
     __pyx_t_4 = __pyx_v_self->__pyx_base.param;
     __PYX_INC_MEMVIEW(&__pyx_t_4, 1);
     __PYX_XDEC_MEMVIEW(&__pyx_v_mod->__pyx_base.param, 0);
@@ -13219,7 +12951,6 @@ static struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5model_11LinearMod
  *         mod.grad = np.zeros(self.n_param, 'd')
  */
   /*else*/ {
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 381, __pyx_L1_error)}
     __pyx_t_4 = __pyx_memoryview_copy_slice_dc_double_c(__pyx_v_self->__pyx_base.param); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 381, __pyx_L1_error)
     __PYX_XDEC_MEMVIEW(&__pyx_v_mod->__pyx_base.param, 0);
     __pyx_v_mod->__pyx_base.param = __pyx_t_4;
@@ -13523,16 +13254,15 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
-  int __pyx_t_3;
+  PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
+  Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  Py_ssize_t __pyx_t_9;
-  double __pyx_t_10;
-  Py_ssize_t __pyx_t_11;
-  Py_UCS4 __pyx_t_12;
+  double __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_UCS4 __pyx_t_11;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -13545,19 +13275,9 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
  *             text = format_double % self.param[0]
  *         else:
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 388, __pyx_L1_error)}
   __pyx_t_1 = 0;
-  __pyx_t_2 = -1;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_self->__pyx_base.param.shape[0];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(1, 388, __pyx_L1_error)
-  }
-  __pyx_t_3 = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_1)) ))) != 0);
-  if (__pyx_t_3) {
+  __pyx_t_2 = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_1)) ))) != 0);
+  if (__pyx_t_2) {
 
     /* "mlgrad/model.pyx":389
  *     def _repr_latex_(self):
@@ -13566,27 +13286,17 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
  *         else:
  *             text = ''
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_format_double); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 389, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 389, __pyx_L1_error)}
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_format_double); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 389, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_1 = 0;
-    __pyx_t_2 = -1;
-    if (__pyx_t_1 < 0) {
-      __pyx_t_1 += __pyx_v_self->__pyx_base.param.shape[0];
-      if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_1 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_2 = 0;
-    if (unlikely(__pyx_t_2 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_2);
-      __PYX_ERR(1, 389, __pyx_L1_error)
-    }
-    __pyx_t_5 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 389, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 389, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = PyNumber_Remainder(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 389, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyNumber_Remainder(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 389, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_v_text = __pyx_t_6;
-    __pyx_t_6 = 0;
+    __pyx_v_text = __pyx_t_5;
+    __pyx_t_5 = 0;
 
     /* "mlgrad/model.pyx":388
  *     #
@@ -13618,8 +13328,8 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
  *         for i in range(1, m):
  *             par = self.param[i]
  */
-  __pyx_t_7 = __pyx_v_self->__pyx_base.n_param;
-  __pyx_v_m = __pyx_t_7;
+  __pyx_t_6 = __pyx_v_self->__pyx_base.n_param;
+  __pyx_v_m = __pyx_t_6;
 
   /* "mlgrad/model.pyx":393
  *             text = ''
@@ -13628,10 +13338,10 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
  *             par = self.param[i]
  *             if fabs(par) < display_precision:
  */
-  __pyx_t_7 = __pyx_v_m;
-  __pyx_t_8 = __pyx_t_7;
-  for (__pyx_t_9 = 1; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
-    __pyx_v_i = __pyx_t_9;
+  __pyx_t_6 = __pyx_v_m;
+  __pyx_t_7 = __pyx_t_6;
+  for (__pyx_t_8 = 1; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
+    __pyx_v_i = __pyx_t_8;
 
     /* "mlgrad/model.pyx":394
  *         m = self.n_param
@@ -13640,21 +13350,11 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
  *             if fabs(par) < display_precision:
  *                 continue
  */
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 394, __pyx_L1_error)}
     __pyx_t_1 = __pyx_v_i;
-    __pyx_t_2 = -1;
-    if (__pyx_t_1 < 0) {
-      __pyx_t_1 += __pyx_v_self->__pyx_base.param.shape[0];
-      if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_1 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_2 = 0;
-    if (unlikely(__pyx_t_2 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_2);
-      __PYX_ERR(1, 394, __pyx_L1_error)
-    }
-    __pyx_t_6 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 394, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_XDECREF_SET(__pyx_v_par, __pyx_t_6);
-    __pyx_t_6 = 0;
+    __pyx_t_5 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_1)) )))); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 394, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_XDECREF_SET(__pyx_v_par, __pyx_t_5);
+    __pyx_t_5 = 0;
 
     /* "mlgrad/model.pyx":395
  *         for i in range(1, m):
@@ -13663,17 +13363,17 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
  *                 continue
  *             spar = format_double % par
  */
-    __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_v_par); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 395, __pyx_L1_error)
-    __pyx_t_6 = PyFloat_FromDouble(fabs(__pyx_t_10)); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 395, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_display_precision); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 395, __pyx_L1_error)
+    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_v_par); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 395, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(fabs(__pyx_t_9)); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 395, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyObject_RichCompare(__pyx_t_6, __pyx_t_5, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 395, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_display_precision); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 395, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = PyObject_RichCompare(__pyx_t_5, __pyx_t_4, Py_LT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 395, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(1, 395, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (__pyx_t_3) {
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(1, 395, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if (__pyx_t_2) {
 
       /* "mlgrad/model.pyx":396
  *             par = self.param[i]
@@ -13700,13 +13400,13 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
  *             if self.param[i] >= 0:
  *                 text += "+%sx_{%s}" % (spar, i)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_format_double); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 397, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_format_double); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 397, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = PyNumber_Remainder(__pyx_t_3, __pyx_v_par); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 397, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyNumber_Remainder(__pyx_t_4, __pyx_v_par); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 397, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_spar, __pyx_t_5);
-    __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_spar, __pyx_t_4);
+    __pyx_t_4 = 0;
 
     /* "mlgrad/model.pyx":398
  *                 continue
@@ -13715,19 +13415,9 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
  *                 text += "+%sx_{%s}" % (spar, i)
  *             else:
  */
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 398, __pyx_L1_error)}
     __pyx_t_1 = __pyx_v_i;
-    __pyx_t_2 = -1;
-    if (__pyx_t_1 < 0) {
-      __pyx_t_1 += __pyx_v_self->__pyx_base.param.shape[0];
-      if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_1 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_2 = 0;
-    if (unlikely(__pyx_t_2 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_2);
-      __PYX_ERR(1, 398, __pyx_L1_error)
-    }
-    __pyx_t_3 = (((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_1)) ))) >= 0.0) != 0);
-    if (__pyx_t_3) {
+    __pyx_t_2 = (((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_1)) ))) >= 0.0) != 0);
+    if (__pyx_t_2) {
 
       /* "mlgrad/model.pyx":399
  *             spar = format_double % par
@@ -13736,43 +13426,43 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
  *             else:
  *                 text += "%sx_{%s}" % (spar, i)
  */
-      __pyx_t_5 = PyTuple_New(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 399, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_11 = 0;
-      __pyx_t_12 = 127;
+      __pyx_t_4 = PyTuple_New(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 399, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_10 = 0;
+      __pyx_t_11 = 127;
       __Pyx_INCREF(__pyx_kp_u__11);
-      __pyx_t_11 += 1;
+      __pyx_t_10 += 1;
       __Pyx_GIVEREF(__pyx_kp_u__11);
-      PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_kp_u__11);
-      __pyx_t_4 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Unicode(__pyx_v_spar), __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 399, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_12 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_12) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_12;
-      __pyx_t_11 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
-      __pyx_t_4 = 0;
+      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_kp_u__11);
+      __pyx_t_3 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Unicode(__pyx_v_spar), __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 399, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_11 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_3) > __pyx_t_11) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_3) : __pyx_t_11;
+      __pyx_t_10 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3);
+      __Pyx_GIVEREF(__pyx_t_3);
+      PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
+      __pyx_t_3 = 0;
       __Pyx_INCREF(__pyx_kp_u_x_2);
-      __pyx_t_11 += 3;
+      __pyx_t_10 += 3;
       __Pyx_GIVEREF(__pyx_kp_u_x_2);
-      PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_kp_u_x_2);
-      __pyx_t_4 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_i, 0, ' ', 'd'); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 399, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_11 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_5, 3, __pyx_t_4);
-      __pyx_t_4 = 0;
+      PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_kp_u_x_2);
+      __pyx_t_3 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_i, 0, ' ', 'd'); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 399, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_10 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3);
+      __Pyx_GIVEREF(__pyx_t_3);
+      PyTuple_SET_ITEM(__pyx_t_4, 3, __pyx_t_3);
+      __pyx_t_3 = 0;
       __Pyx_INCREF(__pyx_kp_u__12);
-      __pyx_t_11 += 1;
+      __pyx_t_10 += 1;
       __Pyx_GIVEREF(__pyx_kp_u__12);
-      PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_kp_u__12);
-      __pyx_t_4 = __Pyx_PyUnicode_Join(__pyx_t_5, 5, __pyx_t_11, __pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 399, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_v_text, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 399, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_4, 4, __pyx_kp_u__12);
+      __pyx_t_3 = __Pyx_PyUnicode_Join(__pyx_t_4, 5, __pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 399, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF_SET(__pyx_v_text, __pyx_t_5);
-      __pyx_t_5 = 0;
+      __pyx_t_4 = PyNumber_InPlaceAdd(__pyx_v_text, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 399, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF_SET(__pyx_v_text, __pyx_t_4);
+      __pyx_t_4 = 0;
 
       /* "mlgrad/model.pyx":398
  *                 continue
@@ -13792,39 +13482,39 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
  *         return text
  */
     /*else*/ {
-      __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 401, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_11 = 0;
-      __pyx_t_12 = 127;
-      __pyx_t_4 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Unicode(__pyx_v_spar), __pyx_empty_unicode); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 401, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 401, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_12 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) > __pyx_t_12) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_4) : __pyx_t_12;
-      __pyx_t_11 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
-      __pyx_t_4 = 0;
+      __pyx_t_10 = 0;
+      __pyx_t_11 = 127;
+      __pyx_t_3 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Unicode(__pyx_v_spar), __pyx_empty_unicode); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 401, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_11 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_3) > __pyx_t_11) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_3) : __pyx_t_11;
+      __pyx_t_10 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3);
+      __Pyx_GIVEREF(__pyx_t_3);
+      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
+      __pyx_t_3 = 0;
       __Pyx_INCREF(__pyx_kp_u_x_2);
-      __pyx_t_11 += 3;
+      __pyx_t_10 += 3;
       __Pyx_GIVEREF(__pyx_kp_u_x_2);
-      PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_kp_u_x_2);
-      __pyx_t_4 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_i, 0, ' ', 'd'); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 401, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_11 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_t_4);
-      __pyx_t_4 = 0;
+      PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_kp_u_x_2);
+      __pyx_t_3 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_i, 0, ' ', 'd'); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 401, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_10 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_3);
+      __Pyx_GIVEREF(__pyx_t_3);
+      PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_t_3);
+      __pyx_t_3 = 0;
       __Pyx_INCREF(__pyx_kp_u__12);
-      __pyx_t_11 += 1;
+      __pyx_t_10 += 1;
       __Pyx_GIVEREF(__pyx_kp_u__12);
-      PyTuple_SET_ITEM(__pyx_t_5, 3, __pyx_kp_u__12);
-      __pyx_t_4 = __Pyx_PyUnicode_Join(__pyx_t_5, 4, __pyx_t_11, __pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 401, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_v_text, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 401, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_4, 3, __pyx_kp_u__12);
+      __pyx_t_3 = __Pyx_PyUnicode_Join(__pyx_t_4, 4, __pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 401, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF_SET(__pyx_v_text, __pyx_t_5);
-      __pyx_t_5 = 0;
+      __pyx_t_4 = PyNumber_InPlaceAdd(__pyx_v_text, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 401, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF_SET(__pyx_v_text, __pyx_t_4);
+      __pyx_t_4 = 0;
     }
     __pyx_L7:;
     __pyx_L4_continue:;
@@ -13837,13 +13527,13 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
  *         return text
  *     #
  */
-  __pyx_t_5 = PyNumber_Add(__pyx_kp_u_y_mathbf_x, __pyx_v_text); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 402, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = PyNumber_Add(__pyx_t_5, __pyx_kp_u__13); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 402, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Add(__pyx_kp_u_y_mathbf_x, __pyx_v_text); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 402, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF_SET(__pyx_v_text, __pyx_t_4);
-  __pyx_t_4 = 0;
+  __pyx_t_3 = PyNumber_Add(__pyx_t_4, __pyx_kp_u__13); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 402, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF_SET(__pyx_v_text, __pyx_t_3);
+  __pyx_t_3 = 0;
 
   /* "mlgrad/model.pyx":403
  *                 text += "%sx_{%s}" % (spar, i)
@@ -13867,9 +13557,9 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_12_repr_latex_(struct __p
 
   /* function exit code */
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_AddTraceback("mlgrad.model.LinearModel._repr_latex_", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -13933,9 +13623,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_14as_dict(struct __pyx_ob
  *                  'n_input': self.n_input }
  *     #
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 407, __pyx_L1_error)}
   if (((((PyObject *) __pyx_v_self->__pyx_base.param.memview) != Py_None) != 0)) {
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 407, __pyx_L1_error)}
     __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 407, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = PySequence_List(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 407, __pyx_L1_error)
@@ -14098,7 +13786,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_11LinearModel_16init_from(struct __pyx_
  * 
  * @register_model('linear')
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 413, __pyx_L1_error)}
   __pyx_f_6mlgrad_5model_copy_memoryview(__pyx_v_self->__pyx_base.param, __pyx_v_param);
 
   /* "mlgrad/model.pyx":410
@@ -14433,7 +14120,6 @@ static int __pyx_pf_6mlgrad_5model_16SigmaNeuronModel___init__(struct __pyx_obj_
  *             self.n_input = self.n_param - 1
  *             self.grad = np.zeros(self.n_param, 'd')
  */
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 434, __pyx_L1_error)}
     __pyx_t_7 = __Pyx_MemoryView_Len(__pyx_v_self->__pyx_base.param); 
     __pyx_v_self->__pyx_base.n_param = __pyx_t_7;
 
@@ -14693,7 +14379,6 @@ static struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5model_16SigmaNeur
  *         else:
  *             mod.param = self.param.copy()
  */
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 449, __pyx_L1_error)}
     __pyx_t_5 = __pyx_v_self->__pyx_base.param;
     __PYX_INC_MEMVIEW(&__pyx_t_5, 1);
     __PYX_XDEC_MEMVIEW(&__pyx_v_mod->__pyx_base.param, 0);
@@ -14719,7 +14404,6 @@ static struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5model_16SigmaNeur
  *         mod.grad = np.zeros(self.n_param, 'd')
  */
   /*else*/ {
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 451, __pyx_L1_error)}
     __pyx_t_5 = __pyx_memoryview_copy_slice_dc_double_c(__pyx_v_self->__pyx_base.param); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 451, __pyx_L1_error)
     __PYX_XDEC_MEMVIEW(&__pyx_v_mod->__pyx_base.param, 0);
     __pyx_v_mod->__pyx_base.param = __pyx_t_5;
@@ -15011,11 +14695,7 @@ static double __pyx_f_6mlgrad_5model_16SigmaNeuronModel_evaluate(struct __pyx_ob
   int __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_6;
   __Pyx_RefNannySetupContext("evaluate", 0);
 
   /* "mlgrad/model.pyx":458
@@ -15035,17 +14715,7 @@ static double __pyx_f_6mlgrad_5model_16SigmaNeuronModel_evaluate(struct __pyx_ob
  *         for i in range(1, n_param):
  *             s += self.param[i] * X[i-1]
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 461, __pyx_L1_error)}
   __pyx_t_2 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_2 < 0) {
-    __pyx_t_2 += __pyx_v_self->__pyx_base.param.shape[0];
-    if (unlikely(__pyx_t_2 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_2 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_3 = 0;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(1, 461, __pyx_L1_error)
-  }
   __pyx_v_s = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) )));
 
   /* "mlgrad/model.pyx":462
@@ -15067,28 +14737,9 @@ static double __pyx_f_6mlgrad_5model_16SigmaNeuronModel_evaluate(struct __pyx_ob
  * 
  *         s = self.outfunc.evaluate(s)
  */
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 463, __pyx_L1_error)}
     __pyx_t_2 = __pyx_v_i;
-    __pyx_t_6 = -1;
-    if (__pyx_t_2 < 0) {
-      __pyx_t_2 += __pyx_v_self->__pyx_base.param.shape[0];
-      if (unlikely(__pyx_t_2 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_2 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 463, __pyx_L1_error)
-    }
-    __pyx_t_7 = (__pyx_v_i - 1);
-    __pyx_t_6 = -1;
-    if (__pyx_t_7 < 0) {
-      __pyx_t_7 += __pyx_v_X.shape[0];
-      if (unlikely(__pyx_t_7 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_7 >= __pyx_v_X.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 463, __pyx_L1_error)
-    }
-    __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_7)) )))));
+    __pyx_t_6 = (__pyx_v_i - 1);
+    __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) )))));
   }
 
   /* "mlgrad/model.pyx":465
@@ -15119,9 +14770,6 @@ static double __pyx_f_6mlgrad_5model_16SigmaNeuronModel_evaluate(struct __pyx_ob
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.SigmaNeuronModel.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -15146,11 +14794,7 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient(struct __pyx_obj_
   int __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_6;
   __Pyx_RefNannySetupContext("gradient", 0);
 
   /* "mlgrad/model.pyx":470
@@ -15170,17 +14814,7 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient(struct __pyx_obj_
  *         for i in range(1, n_param):
  *             s += self.param[i] * X[i-1]
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 473, __pyx_L1_error)}
   __pyx_t_2 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_2 < 0) {
-    __pyx_t_2 += __pyx_v_self->__pyx_base.param.shape[0];
-    if (unlikely(__pyx_t_2 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_2 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_3 = 0;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(1, 473, __pyx_L1_error)
-  }
   __pyx_v_s = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) )));
 
   /* "mlgrad/model.pyx":474
@@ -15202,28 +14836,9 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient(struct __pyx_obj_
  * 
  *         sx = self.outfunc.derivative(s)
  */
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 475, __pyx_L1_error)}
     __pyx_t_2 = __pyx_v_i;
-    __pyx_t_6 = -1;
-    if (__pyx_t_2 < 0) {
-      __pyx_t_2 += __pyx_v_self->__pyx_base.param.shape[0];
-      if (unlikely(__pyx_t_2 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_2 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 475, __pyx_L1_error)
-    }
-    __pyx_t_7 = (__pyx_v_i - 1);
-    __pyx_t_6 = -1;
-    if (__pyx_t_7 < 0) {
-      __pyx_t_7 += __pyx_v_X.shape[0];
-      if (unlikely(__pyx_t_7 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_7 >= __pyx_v_X.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 475, __pyx_L1_error)
-    }
-    __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_7)) )))));
+    __pyx_t_6 = (__pyx_v_i - 1);
+    __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) )))));
   }
 
   /* "mlgrad/model.pyx":477
@@ -15242,17 +14857,8 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient(struct __pyx_obj_
  *         for i in range(1, n_param):
  *             grad[i] = sx * X[i-1]
  */
-  __pyx_t_7 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_7 < 0) {
-    __pyx_t_7 += __pyx_v_grad.shape[0];
-    if (unlikely(__pyx_t_7 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_7 >= __pyx_v_grad.shape[0])) __pyx_t_3 = 0;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(1, 479, __pyx_L1_error)
-  }
-  *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_7)) )) = __pyx_v_sx;
+  __pyx_t_6 = 0;
+  *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = __pyx_v_sx;
 
   /* "mlgrad/model.pyx":480
  * 
@@ -15273,27 +14879,9 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient(struct __pyx_obj_
  *     #
  *     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
  */
-    __pyx_t_7 = (__pyx_v_i - 1);
-    __pyx_t_6 = -1;
-    if (__pyx_t_7 < 0) {
-      __pyx_t_7 += __pyx_v_X.shape[0];
-      if (unlikely(__pyx_t_7 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_7 >= __pyx_v_X.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 481, __pyx_L1_error)
-    }
+    __pyx_t_6 = (__pyx_v_i - 1);
     __pyx_t_2 = __pyx_v_i;
-    __pyx_t_6 = -1;
-    if (__pyx_t_2 < 0) {
-      __pyx_t_2 += __pyx_v_grad.shape[0];
-      if (unlikely(__pyx_t_2 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_2 >= __pyx_v_grad.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 481, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_2)) )) = (__pyx_v_sx * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_7)) ))));
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_2)) )) = (__pyx_v_sx * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) ))));
   }
 
   /* "mlgrad/model.pyx":468
@@ -15305,10 +14893,6 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient(struct __pyx_obj_
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.SigmaNeuronModel.gradient", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -15332,11 +14916,7 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient_x(struct __pyx_ob
   int __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_6;
   __Pyx_RefNannySetupContext("gradient_x", 0);
 
   /* "mlgrad/model.pyx":485
@@ -15366,17 +14946,7 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient_x(struct __pyx_ob
  *         for i in range(1, n_param):
  *             s += self.param[i] * X[i-1]
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 489, __pyx_L1_error)}
   __pyx_t_2 = 0;
-  __pyx_t_3 = -1;
-  if (__pyx_t_2 < 0) {
-    __pyx_t_2 += __pyx_v_self->__pyx_base.param.shape[0];
-    if (unlikely(__pyx_t_2 < 0)) __pyx_t_3 = 0;
-  } else if (unlikely(__pyx_t_2 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_3 = 0;
-  if (unlikely(__pyx_t_3 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(1, 489, __pyx_L1_error)
-  }
   __pyx_v_s = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) )));
 
   /* "mlgrad/model.pyx":490
@@ -15398,28 +14968,9 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient_x(struct __pyx_ob
  * 
  *         sx = self.outfunc.derivative(s)
  */
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 491, __pyx_L1_error)}
     __pyx_t_2 = __pyx_v_i;
-    __pyx_t_6 = -1;
-    if (__pyx_t_2 < 0) {
-      __pyx_t_2 += __pyx_v_self->__pyx_base.param.shape[0];
-      if (unlikely(__pyx_t_2 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_2 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 491, __pyx_L1_error)
-    }
-    __pyx_t_7 = (__pyx_v_i - 1);
-    __pyx_t_6 = -1;
-    if (__pyx_t_7 < 0) {
-      __pyx_t_7 += __pyx_v_X.shape[0];
-      if (unlikely(__pyx_t_7 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_7 >= __pyx_v_X.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 491, __pyx_L1_error)
-    }
-    __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_7)) )))));
+    __pyx_t_6 = (__pyx_v_i - 1);
+    __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_2)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) )))));
   }
 
   /* "mlgrad/model.pyx":493
@@ -15450,28 +15001,9 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient_x(struct __pyx_ob
  *     #
  *     def as_dict(self):
  */
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 495, __pyx_L1_error)}
-    __pyx_t_7 = (__pyx_v_i + 1);
-    __pyx_t_6 = -1;
-    if (__pyx_t_7 < 0) {
-      __pyx_t_7 += __pyx_v_self->__pyx_base.param.shape[0];
-      if (unlikely(__pyx_t_7 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_7 >= __pyx_v_self->__pyx_base.param.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 495, __pyx_L1_error)
-    }
+    __pyx_t_6 = (__pyx_v_i + 1);
     __pyx_t_2 = __pyx_v_i;
-    __pyx_t_6 = -1;
-    if (__pyx_t_2 < 0) {
-      __pyx_t_2 += __pyx_v_grad_x.shape[0];
-      if (unlikely(__pyx_t_2 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_2 >= __pyx_v_grad_x.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 495, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_x.data) + __pyx_t_2)) )) = (__pyx_v_sx * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_7)) ))));
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_x.data) + __pyx_t_2)) )) = (__pyx_v_sx * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.param.data) + __pyx_t_6)) ))));
   }
 
   /* "mlgrad/model.pyx":483
@@ -15483,10 +15015,6 @@ static void __pyx_f_6mlgrad_5model_16SigmaNeuronModel_gradient_x(struct __pyx_ob
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.SigmaNeuronModel.gradient_x", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -15569,9 +15097,7 @@ static PyObject *__pyx_pf_6mlgrad_5model_16SigmaNeuronModel_4as_dict(struct __py
  *                  'n_input': self.n_input }
  *     #
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 500, __pyx_L1_error)}
   if (((((PyObject *) __pyx_v_self->__pyx_base.param.memview) != Py_None) != 0)) {
-    if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 500, __pyx_L1_error)}
     __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 500, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = PySequence_List(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 500, __pyx_L1_error)
@@ -15734,7 +15260,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_16SigmaNeuronModel_6init_from(struct __
  * 
  * @register_model('sigma_neuron')
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 505, __pyx_L1_error)}
   __pyx_f_6mlgrad_5model_copy_memoryview(__pyx_v_self->__pyx_base.param, __pyx_v_param);
 
   /* "mlgrad/model.pyx":503
@@ -15809,17 +15334,14 @@ static PyObject *__pyx_pf_6mlgrad_5model_16SigmaNeuronModel_8__reduce_cython__(s
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(!__pyx_v_self->__pyx_base.grad_x.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.grad_x, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_input); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_param); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = PyTuple_New(6); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -16698,7 +16220,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_10ModelLayer_5param___get__(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 111, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -16785,7 +16306,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_10ModelLayer_6output___get__(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 112, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->output, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -16872,7 +16392,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_10ModelLayer_10grad_input___get__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->grad_input.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 113, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->grad_input, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -16975,7 +16494,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_10ModelLayer_2__reduce_cython__(struct 
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(!__pyx_v_self->grad_input.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->grad_input, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->n_input); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -16984,10 +16502,8 @@ static PyObject *__pyx_pf_6mlgrad_5model_10ModelLayer_2__reduce_cython__(struct 
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->n_param); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(!__pyx_v_self->output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->output, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = PyTuple_New(6); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -17679,7 +17195,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_17GeneralModelLayer_2_allocate(struct _
  * 
  *         self.n_output = len(self.models)
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 544, __pyx_L1_error)}
   __pyx_t_9 = __Pyx_MemoryView_Len(__pyx_v_self->__pyx_base.param); 
   __pyx_v_self->__pyx_base.n_param = __pyx_t_9;
 
@@ -18046,7 +17561,6 @@ static struct __pyx_obj_6mlgrad_5model_ModelLayer *__pyx_f_6mlgrad_5model_17Gene
  *         layer.n_param = self.n_param
  *         layer.output = np.zeros((self.n_output,), 'd')
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 560, __pyx_L1_error)}
   __pyx_t_9 = __pyx_v_self->__pyx_base.param;
   __PYX_INC_MEMVIEW(&__pyx_t_9, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_layer->__pyx_base.param, 0);
@@ -18631,9 +18145,7 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_forward(struct __pyx_obj_
   int __pyx_t_3;
   int __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  Py_ssize_t __pyx_t_7;
-  int __pyx_t_8;
+  Py_ssize_t __pyx_t_6;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -18672,13 +18184,10 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_forward(struct __pyx_obj_
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 583, __pyx_L1_error)
     }
-    __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_self->models, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 583, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __pyx_t_5;
-    __Pyx_INCREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_mod, ((struct __pyx_obj_6mlgrad_5model_Model *)__pyx_t_6));
-    __pyx_t_6 = 0;
+    __pyx_t_5 = PyList_GET_ITEM(__pyx_v_self->models, __pyx_v_j);
+    __Pyx_INCREF(__pyx_t_5);
+    __Pyx_XDECREF_SET(__pyx_v_mod, ((struct __pyx_obj_6mlgrad_5model_Model *)__pyx_t_5));
+    __pyx_t_5 = 0;
 
     /* "mlgrad/model.pyx":584
  *         for j in range(n_output):
@@ -18687,18 +18196,8 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_forward(struct __pyx_obj_
  *     #
  *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
  */
-    if (unlikely(!__pyx_v_self->__pyx_base.output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 584, __pyx_L1_error)}
-    __pyx_t_7 = __pyx_v_j;
-    __pyx_t_8 = -1;
-    if (__pyx_t_7 < 0) {
-      __pyx_t_7 += __pyx_v_self->__pyx_base.output.shape[0];
-      if (unlikely(__pyx_t_7 < 0)) __pyx_t_8 = 0;
-    } else if (unlikely(__pyx_t_7 >= __pyx_v_self->__pyx_base.output.shape[0])) __pyx_t_8 = 0;
-    if (unlikely(__pyx_t_8 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_8);
-      __PYX_ERR(1, 584, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.output.data) + __pyx_t_7)) )) = ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_mod->__pyx_vtab)->evaluate(__pyx_v_mod, __pyx_v_X);
+    __pyx_t_6 = __pyx_v_j;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.output.data) + __pyx_t_6)) )) = ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_mod->__pyx_vtab)->evaluate(__pyx_v_mod, __pyx_v_X);
   }
 
   /* "mlgrad/model.pyx":578
@@ -18713,7 +18212,6 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_forward(struct __pyx_obj_
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_WriteUnraisable("mlgrad.model.GeneralModelLayer.forward", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_mod);
@@ -18744,15 +18242,13 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
   int __pyx_t_4;
   int __pyx_t_5;
   Py_ssize_t __pyx_t_6;
-  int __pyx_t_7;
-  PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_8;
+  int __pyx_t_9;
   int __pyx_t_10;
   int __pyx_t_11;
-  int __pyx_t_12;
-  int __pyx_t_13;
-  Py_ssize_t __pyx_t_14;
-  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -18775,7 +18271,6 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
  * 
  *         fill_memoryview(grad_in, 0)
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.grad_input.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 591, __pyx_L1_error)}
   __pyx_t_2 = __pyx_v_self->__pyx_base.grad_input;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
   __pyx_v_grad_in = __pyx_t_2;
@@ -18811,15 +18306,6 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
  * 
  */
     __pyx_t_6 = __pyx_v_j;
-    __pyx_t_7 = -1;
-    if (__pyx_t_6 < 0) {
-      __pyx_t_6 += __pyx_v_grad_out.shape[0];
-      if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_6 >= __pyx_v_grad_out.shape[0])) __pyx_t_7 = 0;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 595, __pyx_L1_error)
-    }
     __pyx_v_val_j = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_out.data) + __pyx_t_6)) )));
 
     /* "mlgrad/model.pyx":596
@@ -18833,13 +18319,10 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 596, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_GetItemInt_List(__pyx_v_self->models, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 596, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = __pyx_t_8;
-    __Pyx_INCREF(__pyx_t_9);
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_mod_j, ((struct __pyx_obj_6mlgrad_5model_Model *)__pyx_t_9));
-    __pyx_t_9 = 0;
+    __pyx_t_7 = PyList_GET_ITEM(__pyx_v_self->models, __pyx_v_j);
+    __Pyx_INCREF(__pyx_t_7);
+    __Pyx_XDECREF_SET(__pyx_v_mod_j, ((struct __pyx_obj_6mlgrad_5model_Model *)__pyx_t_7));
+    __pyx_t_7 = 0;
 
     /* "mlgrad/model.pyx":598
  *             mod_j = <Model>self.models[j]
@@ -18848,7 +18331,6 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
  * 
  *             n_param = mod_j.n_param
  */
-    if (unlikely(!__pyx_v_mod_j->grad_x.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 598, __pyx_L1_error)}
     ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_mod_j->__pyx_vtab)->gradient_x(__pyx_v_mod_j, __pyx_v_X, __pyx_v_mod_j->grad_x);
 
     /* "mlgrad/model.pyx":600
@@ -18877,8 +18359,8 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
  *                 mod_j.gradient(X, mod_j.grad)
  *                 for i in range(n_param):
  */
-    __pyx_t_10 = ((__pyx_v_n_param > 0) != 0);
-    if (__pyx_t_10) {
+    __pyx_t_8 = ((__pyx_v_n_param > 0) != 0);
+    if (__pyx_t_8) {
 
       /* "mlgrad/model.pyx":603
  *             offset = j * n_param
@@ -18887,7 +18369,6 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
  *                 for i in range(n_param):
  *                     grad[offset+i] = mod_j.grad[i] * val_j
  */
-      if (unlikely(!__pyx_v_mod_j->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 603, __pyx_L1_error)}
       ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_mod_j->__pyx_vtab)->gradient(__pyx_v_mod_j, __pyx_v_X, __pyx_v_mod_j->grad);
 
       /* "mlgrad/model.pyx":604
@@ -18897,10 +18378,10 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
  *                     grad[offset+i] = mod_j.grad[i] * val_j
  * 
  */
-      __pyx_t_7 = __pyx_v_n_param;
-      __pyx_t_11 = __pyx_t_7;
-      for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
-        __pyx_v_i = __pyx_t_12;
+      __pyx_t_9 = __pyx_v_n_param;
+      __pyx_t_10 = __pyx_t_9;
+      for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
+        __pyx_v_i = __pyx_t_11;
 
         /* "mlgrad/model.pyx":605
  *                 mod_j.gradient(X, mod_j.grad)
@@ -18909,28 +18390,9 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
  * 
  *         for j in range(n_output):
  */
-        if (unlikely(!__pyx_v_mod_j->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 605, __pyx_L1_error)}
         __pyx_t_6 = __pyx_v_i;
-        __pyx_t_13 = -1;
-        if (__pyx_t_6 < 0) {
-          __pyx_t_6 += __pyx_v_mod_j->grad.shape[0];
-          if (unlikely(__pyx_t_6 < 0)) __pyx_t_13 = 0;
-        } else if (unlikely(__pyx_t_6 >= __pyx_v_mod_j->grad.shape[0])) __pyx_t_13 = 0;
-        if (unlikely(__pyx_t_13 != -1)) {
-          __Pyx_RaiseBufferIndexError(__pyx_t_13);
-          __PYX_ERR(1, 605, __pyx_L1_error)
-        }
-        __pyx_t_14 = (__pyx_v_offset + __pyx_v_i);
-        __pyx_t_13 = -1;
-        if (__pyx_t_14 < 0) {
-          __pyx_t_14 += __pyx_v_grad.shape[0];
-          if (unlikely(__pyx_t_14 < 0)) __pyx_t_13 = 0;
-        } else if (unlikely(__pyx_t_14 >= __pyx_v_grad.shape[0])) __pyx_t_13 = 0;
-        if (unlikely(__pyx_t_13 != -1)) {
-          __Pyx_RaiseBufferIndexError(__pyx_t_13);
-          __PYX_ERR(1, 605, __pyx_L1_error)
-        }
-        *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_14)) )) = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_mod_j->grad.data) + __pyx_t_6)) ))) * __pyx_v_val_j);
+        __pyx_t_12 = (__pyx_v_offset + __pyx_v_i);
+        *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_12)) )) = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_mod_j->grad.data) + __pyx_t_6)) ))) * __pyx_v_val_j);
       }
 
       /* "mlgrad/model.pyx":602
@@ -18963,15 +18425,6 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
  *             for i in range(self.n_input):
  */
     __pyx_t_6 = __pyx_v_j;
-    __pyx_t_7 = -1;
-    if (__pyx_t_6 < 0) {
-      __pyx_t_6 += __pyx_v_grad_out.shape[0];
-      if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_6 >= __pyx_v_grad_out.shape[0])) __pyx_t_7 = 0;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 608, __pyx_L1_error)
-    }
     __pyx_v_val_j = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_out.data) + __pyx_t_6)) )));
 
     /* "mlgrad/model.pyx":609
@@ -18985,13 +18438,10 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 609, __pyx_L1_error)
     }
-    __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_self->models, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 609, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_8 = __pyx_t_9;
-    __Pyx_INCREF(__pyx_t_8);
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_mod_j, ((struct __pyx_obj_6mlgrad_5model_Model *)__pyx_t_8));
-    __pyx_t_8 = 0;
+    __pyx_t_7 = PyList_GET_ITEM(__pyx_v_self->models, __pyx_v_j);
+    __Pyx_INCREF(__pyx_t_7);
+    __Pyx_XDECREF_SET(__pyx_v_mod_j, ((struct __pyx_obj_6mlgrad_5model_Model *)__pyx_t_7));
+    __pyx_t_7 = 0;
 
     /* "mlgrad/model.pyx":610
  *             val_j = grad_out[j]
@@ -19001,9 +18451,9 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
  *         #
  */
     __pyx_t_1 = __pyx_v_self->__pyx_base.n_input;
-    __pyx_t_15 = __pyx_t_1;
-    for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_15; __pyx_t_7+=1) {
-      __pyx_v_i = __pyx_t_7;
+    __pyx_t_13 = __pyx_t_1;
+    for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_13; __pyx_t_9+=1) {
+      __pyx_v_i = __pyx_t_9;
 
       /* "mlgrad/model.pyx":611
  *             mod_j = <Model>self.models[j]
@@ -19012,28 +18462,9 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
  *         #
  *     def as_dict(self):
  */
-      if (unlikely(!__pyx_v_mod_j->grad_x.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 611, __pyx_L1_error)}
       __pyx_t_6 = __pyx_v_i;
-      __pyx_t_11 = -1;
-      if (__pyx_t_6 < 0) {
-        __pyx_t_6 += __pyx_v_mod_j->grad_x.shape[0];
-        if (unlikely(__pyx_t_6 < 0)) __pyx_t_11 = 0;
-      } else if (unlikely(__pyx_t_6 >= __pyx_v_mod_j->grad_x.shape[0])) __pyx_t_11 = 0;
-      if (unlikely(__pyx_t_11 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_11);
-        __PYX_ERR(1, 611, __pyx_L1_error)
-      }
-      __pyx_t_14 = __pyx_v_i;
-      __pyx_t_11 = -1;
-      if (__pyx_t_14 < 0) {
-        __pyx_t_14 += __pyx_v_grad_in.shape[0];
-        if (unlikely(__pyx_t_14 < 0)) __pyx_t_11 = 0;
-      } else if (unlikely(__pyx_t_14 >= __pyx_v_grad_in.shape[0])) __pyx_t_11 = 0;
-      if (unlikely(__pyx_t_11 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_11);
-        __PYX_ERR(1, 611, __pyx_L1_error)
-      }
-      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_in.data) + __pyx_t_14)) )) += ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_mod_j->grad_x.data) + __pyx_t_6)) ))) * __pyx_v_val_j);
+      __pyx_t_12 = __pyx_v_i;
+      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_in.data) + __pyx_t_12)) )) += ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_mod_j->grad_x.data) + __pyx_t_6)) ))) * __pyx_v_val_j);
     }
   }
 
@@ -19049,8 +18480,7 @@ static void __pyx_f_6mlgrad_5model_17GeneralModelLayer_backward(struct __pyx_obj
   goto __pyx_L0;
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_WriteUnraisable("mlgrad.model.GeneralModelLayer.backward", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_mod_j);
@@ -19595,7 +19025,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_17GeneralModelLayer_18__reduce_cython__
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.grad_input.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.grad_input, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_input); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -19604,10 +19033,8 @@ static PyObject *__pyx_pf_6mlgrad_5model_17GeneralModelLayer_18__reduce_cython__
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_param); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(!__pyx_v_self->__pyx_base.output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.output, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = PyTuple_New(7); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -20762,7 +20189,6 @@ static struct __pyx_obj_6mlgrad_5model_ModelLayer *__pyx_f_6mlgrad_5model_21Sigm
  *         layer.param = self.param
  * 
  */
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 662, __pyx_L1_error)}
   __pyx_t_6 = __pyx_v_self->matrix;
   __PYX_INC_MEMVIEW(&__pyx_t_6, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_layer->matrix, 0);
@@ -20777,7 +20203,6 @@ static struct __pyx_obj_6mlgrad_5model_ModelLayer *__pyx_f_6mlgrad_5model_21Sigm
  * 
  *         layer.output = np.zeros(self.n_output, 'd')
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 663, __pyx_L1_error)}
   __pyx_t_7 = __pyx_v_self->__pyx_base.param;
   __PYX_INC_MEMVIEW(&__pyx_t_7, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_layer->__pyx_base.param, 0);
@@ -21154,15 +20579,11 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
   Py_ssize_t __pyx_t_9;
-  int __pyx_t_10;
+  Py_ssize_t __pyx_t_10;
   Py_ssize_t __pyx_t_11;
   Py_ssize_t __pyx_t_12;
-  Py_ssize_t __pyx_t_13;
+  int __pyx_t_13;
   int __pyx_t_14;
-  int __pyx_t_15;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("forward", 0);
 
   /* "mlgrad/model.pyx":672
@@ -21192,7 +20613,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
  *         cdef double[::1] output = self.output
  * #         cdef double *ss = &self.ss[0]
  */
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 676, __pyx_L1_error)}
   __pyx_t_2 = __pyx_v_self->matrix;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
   __pyx_v_matrix = __pyx_t_2;
@@ -21206,7 +20626,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
  * #         cdef double *ss = &self.ss[0]
  *         cdef double *matrix_j
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 677, __pyx_L1_error)}
   __pyx_t_3 = __pyx_v_self->__pyx_base.output;
   __PYX_INC_MEMVIEW(&__pyx_t_3, 1);
   __pyx_v_output = __pyx_t_3;
@@ -21256,19 +20675,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
  */
     __pyx_t_8 = __pyx_v_j;
     __pyx_t_9 = 0;
-    __pyx_t_10 = -1;
-    if (__pyx_t_8 < 0) {
-      __pyx_t_8 += __pyx_v_matrix.shape[0];
-      if (unlikely(__pyx_t_8 < 0)) __pyx_t_10 = 0;
-    } else if (unlikely(__pyx_t_8 >= __pyx_v_matrix.shape[0])) __pyx_t_10 = 0;
-    if (__pyx_t_9 < 0) {
-      __pyx_t_9 += __pyx_v_matrix.shape[1];
-      if (unlikely(__pyx_t_9 < 0)) __pyx_t_10 = 1;
-    } else if (unlikely(__pyx_t_9 >= __pyx_v_matrix.shape[1])) __pyx_t_10 = 1;
-    if (unlikely(__pyx_t_10 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_10);
-      __PYX_ERR(1, 685, __pyx_L1_error)
-    }
     __pyx_v_s = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_8 * __pyx_v_matrix.strides[0]) )) + __pyx_t_9)) )));
 
     /* "mlgrad/model.pyx":686
@@ -21280,19 +20686,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
  */
     __pyx_t_9 = __pyx_v_j;
     __pyx_t_8 = 1;
-    __pyx_t_10 = -1;
-    if (__pyx_t_9 < 0) {
-      __pyx_t_9 += __pyx_v_matrix.shape[0];
-      if (unlikely(__pyx_t_9 < 0)) __pyx_t_10 = 0;
-    } else if (unlikely(__pyx_t_9 >= __pyx_v_matrix.shape[0])) __pyx_t_10 = 0;
-    if (__pyx_t_8 < 0) {
-      __pyx_t_8 += __pyx_v_matrix.shape[1];
-      if (unlikely(__pyx_t_8 < 0)) __pyx_t_10 = 1;
-    } else if (unlikely(__pyx_t_8 >= __pyx_v_matrix.shape[1])) __pyx_t_10 = 1;
-    if (unlikely(__pyx_t_10 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_10);
-      __PYX_ERR(1, 686, __pyx_L1_error)
-    }
     __pyx_v_matrix_j = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_9 * __pyx_v_matrix.strides[0]) )) + __pyx_t_8)) ))));
 
     /* "mlgrad/model.pyx":687
@@ -21302,10 +20695,10 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
  *                 s += matrix_j[i] * X[i]
  *             if func is None:
  */
-    __pyx_t_11 = __pyx_v_n_input;
-    __pyx_t_12 = __pyx_t_11;
-    for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
-      __pyx_v_i = __pyx_t_13;
+    __pyx_t_10 = __pyx_v_n_input;
+    __pyx_t_11 = __pyx_t_10;
+    for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
+      __pyx_v_i = __pyx_t_12;
 
       /* "mlgrad/model.pyx":688
  *             matrix_j = &matrix[j,1]
@@ -21315,15 +20708,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
  *                 output[j] = s
  */
       __pyx_t_8 = __pyx_v_i;
-      __pyx_t_10 = -1;
-      if (__pyx_t_8 < 0) {
-        __pyx_t_8 += __pyx_v_X.shape[0];
-        if (unlikely(__pyx_t_8 < 0)) __pyx_t_10 = 0;
-      } else if (unlikely(__pyx_t_8 >= __pyx_v_X.shape[0])) __pyx_t_10 = 0;
-      if (unlikely(__pyx_t_10 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_10);
-        __PYX_ERR(1, 688, __pyx_L1_error)
-      }
       __pyx_v_s = (__pyx_v_s + ((__pyx_v_matrix_j[__pyx_v_i]) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_8)) )))));
     }
 
@@ -21334,9 +20718,9 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
  *                 output[j] = s
  *             else:
  */
-    __pyx_t_14 = (((PyObject *)__pyx_v_func) == Py_None);
-    __pyx_t_15 = (__pyx_t_14 != 0);
-    if (__pyx_t_15) {
+    __pyx_t_13 = (((PyObject *)__pyx_v_func) == Py_None);
+    __pyx_t_14 = (__pyx_t_13 != 0);
+    if (__pyx_t_14) {
 
       /* "mlgrad/model.pyx":690
  *                 s += matrix_j[i] * X[i]
@@ -21346,15 +20730,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
  *                 output[j] = func_evaluate(func, s)
  */
       __pyx_t_8 = __pyx_v_j;
-      __pyx_t_10 = -1;
-      if (__pyx_t_8 < 0) {
-        __pyx_t_8 += __pyx_v_output.shape[0];
-        if (unlikely(__pyx_t_8 < 0)) __pyx_t_10 = 0;
-      } else if (unlikely(__pyx_t_8 >= __pyx_v_output.shape[0])) __pyx_t_10 = 0;
-      if (unlikely(__pyx_t_10 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_10);
-        __PYX_ERR(1, 690, __pyx_L1_error)
-      }
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_output.data) + __pyx_t_8)) )) = __pyx_v_s;
 
       /* "mlgrad/model.pyx":689
@@ -21376,15 +20751,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
  */
     /*else*/ {
       __pyx_t_8 = __pyx_v_j;
-      __pyx_t_10 = -1;
-      if (__pyx_t_8 < 0) {
-        __pyx_t_8 += __pyx_v_output.shape[0];
-        if (unlikely(__pyx_t_8 < 0)) __pyx_t_10 = 0;
-      } else if (unlikely(__pyx_t_8 >= __pyx_v_output.shape[0])) __pyx_t_10 = 0;
-      if (unlikely(__pyx_t_10 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_10);
-        __PYX_ERR(1, 692, __pyx_L1_error)
-      }
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_output.data) + __pyx_t_8)) )) = __pyx_v_func_evaluate(__pyx_v_func, __pyx_v_s);
     }
     __pyx_L7:;
@@ -21399,13 +20765,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_forward(struct __pyx_
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_WriteUnraisable("mlgrad.model.SigmaNeuronModelLayer.forward", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_matrix, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_output, 1);
   __Pyx_XDECREF((PyObject *)__pyx_v_func);
@@ -21442,18 +20801,14 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
   PyObject *__pyx_t_4 = NULL;
   double (*__pyx_t_5)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   Py_ssize_t __pyx_t_6;
-  int __pyx_t_7;
+  Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
   Py_ssize_t __pyx_t_9;
   Py_ssize_t __pyx_t_10;
   Py_ssize_t __pyx_t_11;
   Py_ssize_t __pyx_t_12;
-  Py_ssize_t __pyx_t_13;
+  int __pyx_t_13;
   int __pyx_t_14;
-  int __pyx_t_15;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("backward", 0);
 
   /* "mlgrad/model.pyx":716
@@ -21492,7 +20847,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  * 
  *         cdef double[:,::1] matrix = self.matrix
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.grad_input.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 720, __pyx_L1_error)}
   __pyx_t_2 = __pyx_v_self->__pyx_base.grad_input;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
   __pyx_v_grad_in = __pyx_t_2;
@@ -21506,7 +20860,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  *         cdef double[::1] output = self.output
  * #         cdef double *ss = &self.ss[0]
  */
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 722, __pyx_L1_error)}
   __pyx_t_3 = __pyx_v_self->matrix;
   __PYX_INC_MEMVIEW(&__pyx_t_3, 1);
   __pyx_v_matrix = __pyx_t_3;
@@ -21520,7 +20873,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  * #         cdef double *ss = &self.ss[0]
  *         cdef double *matrix_j
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 723, __pyx_L1_error)}
   __pyx_t_2 = __pyx_v_self->__pyx_base.output;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
   __pyx_v_output = __pyx_t_2;
@@ -21557,15 +20909,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  * 
  */
   __pyx_t_6 = 0;
-  __pyx_t_7 = -1;
-  if (__pyx_t_6 < 0) {
-    __pyx_t_6 += __pyx_v_grad_in.shape[0];
-    if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-  } else if (unlikely(__pyx_t_6 >= __pyx_v_grad_in.shape[0])) __pyx_t_7 = 0;
-  if (unlikely(__pyx_t_7 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_7);
-    __PYX_ERR(1, 731, __pyx_L1_error)
-  }
   (void)(memset((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_in.data) + __pyx_t_6)) )))), 0, (__pyx_v_n_input * (sizeof(double)))));
 
   /* "mlgrad/model.pyx":732
@@ -21576,9 +20919,9 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  *             s = matrix[j,0]
  */
   __pyx_t_1 = __pyx_v_n_output;
-  __pyx_t_8 = __pyx_t_1;
-  for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
-    __pyx_v_j = __pyx_t_9;
+  __pyx_t_7 = __pyx_t_1;
+  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
+    __pyx_v_j = __pyx_t_8;
 
     /* "mlgrad/model.pyx":734
  *         for j in range(n_output):
@@ -21588,21 +20931,8 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  *             for i in range(n_input):
  */
     __pyx_t_6 = __pyx_v_j;
-    __pyx_t_10 = 0;
-    __pyx_t_7 = -1;
-    if (__pyx_t_6 < 0) {
-      __pyx_t_6 += __pyx_v_matrix.shape[0];
-      if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_6 >= __pyx_v_matrix.shape[0])) __pyx_t_7 = 0;
-    if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_v_matrix.shape[1];
-      if (unlikely(__pyx_t_10 < 0)) __pyx_t_7 = 1;
-    } else if (unlikely(__pyx_t_10 >= __pyx_v_matrix.shape[1])) __pyx_t_7 = 1;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 734, __pyx_L1_error)
-    }
-    __pyx_v_s = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_6 * __pyx_v_matrix.strides[0]) )) + __pyx_t_10)) )));
+    __pyx_t_9 = 0;
+    __pyx_v_s = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_6 * __pyx_v_matrix.strides[0]) )) + __pyx_t_9)) )));
 
     /* "mlgrad/model.pyx":735
  * 
@@ -21611,22 +20941,9 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  *             for i in range(n_input):
  *                 s += matrix_j[i] * X[i]
  */
-    __pyx_t_10 = __pyx_v_j;
+    __pyx_t_9 = __pyx_v_j;
     __pyx_t_6 = 1;
-    __pyx_t_7 = -1;
-    if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_v_matrix.shape[0];
-      if (unlikely(__pyx_t_10 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_10 >= __pyx_v_matrix.shape[0])) __pyx_t_7 = 0;
-    if (__pyx_t_6 < 0) {
-      __pyx_t_6 += __pyx_v_matrix.shape[1];
-      if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 1;
-    } else if (unlikely(__pyx_t_6 >= __pyx_v_matrix.shape[1])) __pyx_t_7 = 1;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 735, __pyx_L1_error)
-    }
-    __pyx_v_matrix_j = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_10 * __pyx_v_matrix.strides[0]) )) + __pyx_t_6)) ))));
+    __pyx_v_matrix_j = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_9 * __pyx_v_matrix.strides[0]) )) + __pyx_t_6)) ))));
 
     /* "mlgrad/model.pyx":736
  *             s = matrix[j,0]
@@ -21635,10 +20952,10 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  *                 s += matrix_j[i] * X[i]
  * 
  */
-    __pyx_t_11 = __pyx_v_n_input;
-    __pyx_t_12 = __pyx_t_11;
-    for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
-      __pyx_v_i = __pyx_t_13;
+    __pyx_t_10 = __pyx_v_n_input;
+    __pyx_t_11 = __pyx_t_10;
+    for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
+      __pyx_v_i = __pyx_t_12;
 
       /* "mlgrad/model.pyx":737
  *             matrix_j = &matrix[j,1]
@@ -21648,15 +20965,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  * #             val_j = grad_out[j]
  */
       __pyx_t_6 = __pyx_v_i;
-      __pyx_t_7 = -1;
-      if (__pyx_t_6 < 0) {
-        __pyx_t_6 += __pyx_v_X.shape[0];
-        if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-      } else if (unlikely(__pyx_t_6 >= __pyx_v_X.shape[0])) __pyx_t_7 = 0;
-      if (unlikely(__pyx_t_7 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 737, __pyx_L1_error)
-      }
       __pyx_v_s = (__pyx_v_s + ((__pyx_v_matrix_j[__pyx_v_i]) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) )))));
     }
 
@@ -21667,9 +20975,9 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  *                 sx = grad_out[j]
  *             else:
  */
-    __pyx_t_14 = (((PyObject *)__pyx_v_func) == Py_None);
-    __pyx_t_15 = (__pyx_t_14 != 0);
-    if (__pyx_t_15) {
+    __pyx_t_13 = (((PyObject *)__pyx_v_func) == Py_None);
+    __pyx_t_14 = (__pyx_t_13 != 0);
+    if (__pyx_t_14) {
 
       /* "mlgrad/model.pyx":741
  * #             val_j = grad_out[j]
@@ -21679,15 +20987,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  *                 sx = grad_out[j] * func_derivative(func, s)
  */
       __pyx_t_6 = __pyx_v_j;
-      __pyx_t_7 = -1;
-      if (__pyx_t_6 < 0) {
-        __pyx_t_6 += __pyx_v_grad_out.shape[0];
-        if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-      } else if (unlikely(__pyx_t_6 >= __pyx_v_grad_out.shape[0])) __pyx_t_7 = 0;
-      if (unlikely(__pyx_t_7 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 741, __pyx_L1_error)
-      }
       __pyx_v_sx = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_out.data) + __pyx_t_6)) )));
 
       /* "mlgrad/model.pyx":740
@@ -21709,15 +21008,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  */
     /*else*/ {
       __pyx_t_6 = __pyx_v_j;
-      __pyx_t_7 = -1;
-      if (__pyx_t_6 < 0) {
-        __pyx_t_6 += __pyx_v_grad_out.shape[0];
-        if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-      } else if (unlikely(__pyx_t_6 >= __pyx_v_grad_out.shape[0])) __pyx_t_7 = 0;
-      if (unlikely(__pyx_t_7 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 743, __pyx_L1_error)
-      }
       __pyx_v_sx = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_out.data) + __pyx_t_6)) ))) * __pyx_v_func_derivative(__pyx_v_func, __pyx_v_s));
     }
     __pyx_L7:;
@@ -21729,10 +21019,10 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  *                 grad_in[i] += sx * matrix_j[i]
  * 
  */
-    __pyx_t_11 = __pyx_v_n_input;
-    __pyx_t_12 = __pyx_t_11;
-    for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
-      __pyx_v_i = __pyx_t_13;
+    __pyx_t_10 = __pyx_v_n_input;
+    __pyx_t_11 = __pyx_t_10;
+    for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
+      __pyx_v_i = __pyx_t_12;
 
       /* "mlgrad/model.pyx":746
  * 
@@ -21742,15 +21032,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  *             jj = j*n_input1
  */
       __pyx_t_6 = __pyx_v_i;
-      __pyx_t_7 = -1;
-      if (__pyx_t_6 < 0) {
-        __pyx_t_6 += __pyx_v_grad_in.shape[0];
-        if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-      } else if (unlikely(__pyx_t_6 >= __pyx_v_grad_in.shape[0])) __pyx_t_7 = 0;
-      if (unlikely(__pyx_t_7 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 746, __pyx_L1_error)
-      }
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_in.data) + __pyx_t_6)) )) += (__pyx_v_sx * (__pyx_v_matrix_j[__pyx_v_i]));
     }
 
@@ -21771,15 +21052,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  *                 grad[jj+i+1] = sx * X[i]
  */
     __pyx_t_6 = __pyx_v_jj;
-    __pyx_t_7 = -1;
-    if (__pyx_t_6 < 0) {
-      __pyx_t_6 += __pyx_v_grad.shape[0];
-      if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_6 >= __pyx_v_grad.shape[0])) __pyx_t_7 = 0;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(1, 749, __pyx_L1_error)
-    }
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = __pyx_v_sx;
 
     /* "mlgrad/model.pyx":750
@@ -21789,10 +21061,10 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  *                 grad[jj+i+1] = sx * X[i]
  * 
  */
-    __pyx_t_11 = __pyx_v_n_input;
-    __pyx_t_12 = __pyx_t_11;
-    for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
-      __pyx_v_i = __pyx_t_13;
+    __pyx_t_10 = __pyx_v_n_input;
+    __pyx_t_11 = __pyx_t_10;
+    for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
+      __pyx_v_i = __pyx_t_12;
 
       /* "mlgrad/model.pyx":751
  *             grad[jj] = sx
@@ -21802,26 +21074,8 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  * #         cdef Py_ssize_t i, j, jj, offset
  */
       __pyx_t_6 = __pyx_v_i;
-      __pyx_t_7 = -1;
-      if (__pyx_t_6 < 0) {
-        __pyx_t_6 += __pyx_v_X.shape[0];
-        if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-      } else if (unlikely(__pyx_t_6 >= __pyx_v_X.shape[0])) __pyx_t_7 = 0;
-      if (unlikely(__pyx_t_7 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 751, __pyx_L1_error)
-      }
-      __pyx_t_10 = ((__pyx_v_jj + __pyx_v_i) + 1);
-      __pyx_t_7 = -1;
-      if (__pyx_t_10 < 0) {
-        __pyx_t_10 += __pyx_v_grad.shape[0];
-        if (unlikely(__pyx_t_10 < 0)) __pyx_t_7 = 0;
-      } else if (unlikely(__pyx_t_10 >= __pyx_v_grad.shape[0])) __pyx_t_7 = 0;
-      if (unlikely(__pyx_t_7 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_7);
-        __PYX_ERR(1, 751, __pyx_L1_error)
-      }
-      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_10)) )) = (__pyx_v_sx * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) ))));
+      __pyx_t_9 = ((__pyx_v_jj + __pyx_v_i) + 1);
+      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_9)) )) = (__pyx_v_sx * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) ))));
     }
   }
 
@@ -21834,13 +21088,6 @@ static void __pyx_f_6mlgrad_5model_21SigmaNeuronModelLayer_backward(struct __pyx
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_WriteUnraisable("mlgrad.model.SigmaNeuronModelLayer.backward", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_grad_in, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_matrix, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_output, 1);
@@ -21957,7 +21204,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_21SigmaNeuronModelLayer_6as_dict(struct
  */
     __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 796, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 796, __pyx_L5_error)}
     __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->matrix, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 796, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
@@ -22155,7 +21401,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_21SigmaNeuronModelLayer_8init_from(stru
  * 
  * @register_model('sigma_neuron_layer')
  */
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 802, __pyx_L1_error)}
   __pyx_f_6mlgrad_5model_copy_memoryview2(__pyx_v_self->matrix, __pyx_v_matrix);
 
   /* "mlgrad/model.pyx":800
@@ -22323,7 +21568,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_21SigmaNeuronModelLayer_6matrix___get__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 121, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->matrix, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -22427,10 +21671,8 @@ static PyObject *__pyx_pf_6mlgrad_5model_21SigmaNeuronModelLayer_10__reduce_cyth
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.grad_input.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.grad_input, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->matrix, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_input); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -22439,10 +21681,8 @@ static PyObject *__pyx_pf_6mlgrad_5model_21SigmaNeuronModelLayer_10__reduce_cyth
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_param); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (unlikely(!__pyx_v_self->__pyx_base.output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.output, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_8 = PyTuple_New(8); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -23115,7 +22355,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_12ComplexModel_5param___get__(struct __
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 131, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -23202,7 +22441,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_12ComplexModel_6output___get__(struct _
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 132, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->output, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -23310,10 +22548,8 @@ static PyObject *__pyx_pf_6mlgrad_5model_12ComplexModel___reduce_cython__(struct
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->n_param); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (unlikely(!__pyx_v_self->output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->output, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(!__pyx_v_self->param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = PyTuple_New(5); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -23904,7 +23140,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_7MLModel_2__call__(struct __pyx_obj_6ml
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->__pyx_base.output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 829, __pyx_L1_error)}
   __pyx_t_4 = __pyx_memoryview_copy_slice_dc_double_c(__pyx_v_self->__pyx_base.output); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(1, 829, __pyx_L1_error)
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_4, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 829, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -24097,10 +23332,8 @@ static PyObject *__pyx_pf_6mlgrad_5model_7MLModel_4__reduce_cython__(struct __py
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_param); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (unlikely(!__pyx_v_self->__pyx_base.output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.output, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = PyTuple_New(6); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -25483,7 +24716,6 @@ static struct __pyx_obj_6mlgrad_5model_MLModel *__pyx_f_6mlgrad_5model_14FFNetwo
  *         ml.n_param = self.n_param
  *         ml.n_input = self.n_input
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 886, __pyx_L1_error)}
   __pyx_t_2 = __pyx_v_self->__pyx_base.__pyx_base.param;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_ml->__pyx_base.__pyx_base.param, 0);
@@ -25602,9 +24834,9 @@ static struct __pyx_obj_6mlgrad_5model_MLModel *__pyx_f_6mlgrad_5model_14FFNetwo
     __PYX_ERR(1, 894, __pyx_L1_error)
   }
   __pyx_t_7 = (__pyx_v_n_layer - 1);
-  __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_ml->__pyx_base.layers, __pyx_t_7, long, 1, __Pyx_PyInt_From_long, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 894, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_5model_ModelLayer))))) __PYX_ERR(1, 894, __pyx_L1_error)
+  if (!(likely(((PyList_GET_ITEM(__pyx_v_ml->__pyx_base.layers, __pyx_t_7)) == Py_None) || likely(__Pyx_TypeTest(PyList_GET_ITEM(__pyx_v_ml->__pyx_base.layers, __pyx_t_7), __pyx_ptype_6mlgrad_5model_ModelLayer))))) __PYX_ERR(1, 894, __pyx_L1_error)
+  __pyx_t_1 = PyList_GET_ITEM(__pyx_v_ml->__pyx_base.layers, __pyx_t_7);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_XDECREF_SET(__pyx_v_layer, ((struct __pyx_obj_6mlgrad_5model_ModelLayer *)__pyx_t_1));
   __pyx_t_1 = 0;
 
@@ -25615,7 +24847,6 @@ static struct __pyx_obj_6mlgrad_5model_MLModel *__pyx_f_6mlgrad_5model_14FFNetwo
  * 
  *         return <MLModel>ml
  */
-  if (unlikely(!__pyx_v_layer->output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 895, __pyx_L1_error)}
   __pyx_t_2 = __pyx_v_layer->output;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_ml->__pyx_base.__pyx_base.output, 0);
@@ -25769,8 +25000,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_forward(struct __pyx_obj_6ml
   int __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
-  __Pyx_memviewslice __pyx_t_7 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -25838,13 +25068,10 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_forward(struct __pyx_obj_6ml
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 908, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_layers, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 908, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __pyx_t_1;
-    __Pyx_INCREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_layer, ((struct __pyx_obj_6mlgrad_5model_ModelLayer *)__pyx_t_6));
-    __pyx_t_6 = 0;
+    __pyx_t_1 = PyList_GET_ITEM(__pyx_v_layers, __pyx_v_i);
+    __Pyx_INCREF(__pyx_t_1);
+    __Pyx_XDECREF_SET(__pyx_v_layer, ((struct __pyx_obj_6mlgrad_5model_ModelLayer *)__pyx_t_1));
+    __pyx_t_1 = 0;
 
     /* "mlgrad/model.pyx":909
  *         for i in range(n_layer):
@@ -25862,13 +25089,12 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_forward(struct __pyx_obj_6ml
  * #         self.output = layer.output
  * 
  */
-    if (unlikely(!__pyx_v_layer->output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 910, __pyx_L1_error)}
-    __pyx_t_7 = __pyx_v_layer->output;
-    __PYX_INC_MEMVIEW(&__pyx_t_7, 1);
+    __pyx_t_6 = __pyx_v_layer->output;
+    __PYX_INC_MEMVIEW(&__pyx_t_6, 1);
     __PYX_XDEC_MEMVIEW(&__pyx_v_input, 1);
-    __pyx_v_input = __pyx_t_7;
-    __pyx_t_7.memview = NULL;
-    __pyx_t_7.data = NULL;
+    __pyx_v_input = __pyx_t_6;
+    __pyx_t_6.memview = NULL;
+    __pyx_t_6.data = NULL;
   }
 
   /* "mlgrad/model.pyx":899
@@ -25883,8 +25109,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_forward(struct __pyx_obj_6ml
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_6);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
   __Pyx_WriteUnraisable("mlgrad.model.FFNetworkModel.forward", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_layer);
@@ -25915,10 +25140,9 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
   PyObject *__pyx_t_1 = NULL;
   size_t __pyx_t_2;
   int __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
-  long __pyx_t_5;
-  __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_t_7;
+  long __pyx_t_4;
+  __Pyx_memviewslice __pyx_t_5 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_6;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -25996,13 +25220,10 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 925, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_layers, __pyx_v_l, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 925, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __pyx_t_1;
-    __Pyx_INCREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_layer, ((struct __pyx_obj_6mlgrad_5model_ModelLayer *)__pyx_t_4));
-    __pyx_t_4 = 0;
+    __pyx_t_1 = PyList_GET_ITEM(__pyx_v_layers, __pyx_v_l);
+    __Pyx_INCREF(__pyx_t_1);
+    __Pyx_XDECREF_SET(__pyx_v_layer, ((struct __pyx_obj_6mlgrad_5model_ModelLayer *)__pyx_t_1));
+    __pyx_t_1 = 0;
 
     /* "mlgrad/model.pyx":926
  *         while l >= 0:
@@ -26025,12 +25246,9 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
         __PYX_ERR(1, 927, __pyx_L1_error)
       }
-      __pyx_t_5 = (__pyx_v_l - 1);
-      __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_layers, __pyx_t_5, long, 1, __Pyx_PyInt_From_long, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 927, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_1 = __pyx_t_4;
+      __pyx_t_4 = (__pyx_v_l - 1);
+      __pyx_t_1 = PyList_GET_ITEM(__pyx_v_layers, __pyx_t_4);
       __Pyx_INCREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_XDECREF_SET(__pyx_v_prev_layer, ((struct __pyx_obj_6mlgrad_5model_ModelLayer *)__pyx_t_1));
       __pyx_t_1 = 0;
 
@@ -26041,13 +25259,12 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
  *             else:
  *                 input = X
  */
-      if (unlikely(!__pyx_v_prev_layer->output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 928, __pyx_L1_error)}
-      __pyx_t_6 = __pyx_v_prev_layer->output;
-      __PYX_INC_MEMVIEW(&__pyx_t_6, 1);
+      __pyx_t_5 = __pyx_v_prev_layer->output;
+      __PYX_INC_MEMVIEW(&__pyx_t_5, 1);
       __PYX_XDEC_MEMVIEW(&__pyx_v_input, 1);
-      __pyx_v_input = __pyx_t_6;
-      __pyx_t_6.memview = NULL;
-      __pyx_t_6.data = NULL;
+      __pyx_v_input = __pyx_t_5;
+      __pyx_t_5.memview = NULL;
+      __pyx_t_5.data = NULL;
 
       /* "mlgrad/model.pyx":926
  *         while l >= 0:
@@ -26099,16 +25316,16 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
  *             else:
  *                 layer.backward(input, grad_out, None)
  */
-      __pyx_t_6.data = __pyx_v_grad.data;
-      __pyx_t_6.memview = __pyx_v_grad.memview;
-      __PYX_INC_MEMVIEW(&__pyx_t_6, 0);
-      __pyx_t_7 = -1;
+      __pyx_t_5.data = __pyx_v_grad.data;
+      __pyx_t_5.memview = __pyx_v_grad.memview;
+      __PYX_INC_MEMVIEW(&__pyx_t_5, 0);
+      __pyx_t_6 = -1;
       if (unlikely(__pyx_memoryview_slice_memviewslice(
-    &__pyx_t_6,
+    &__pyx_t_5,
     __pyx_v_grad.shape[0], __pyx_v_grad.strides[0], __pyx_v_grad.suboffsets[0],
     0,
     0,
-    &__pyx_t_7,
+    &__pyx_t_6,
     __pyx_v_m0,
     __pyx_v_m,
     0,
@@ -26120,10 +25337,10 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
     __PYX_ERR(1, 933, __pyx_L1_error)
 }
 
-((struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer *)__pyx_v_layer->__pyx_vtab)->backward(__pyx_v_layer, __pyx_v_input, __pyx_v_grad_out, __pyx_t_6);
-      __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
-      __pyx_t_6.memview = NULL;
-      __pyx_t_6.data = NULL;
+((struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer *)__pyx_v_layer->__pyx_vtab)->backward(__pyx_v_layer, __pyx_v_input, __pyx_v_grad_out, __pyx_t_5);
+      __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
+      __pyx_t_5.memview = NULL;
+      __pyx_t_5.data = NULL;
 
       /* "mlgrad/model.pyx":932
  *                 input = X
@@ -26143,11 +25360,11 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
  *             l -= 1
  */
     /*else*/ {
-      __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(1, 935, __pyx_L1_error)
-      ((struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer *)__pyx_v_layer->__pyx_vtab)->backward(__pyx_v_layer, __pyx_v_input, __pyx_v_grad_out, __pyx_t_6);
-      __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
-      __pyx_t_6.memview = NULL;
-      __pyx_t_6.data = NULL;
+      __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 935, __pyx_L1_error)
+      ((struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer *)__pyx_v_layer->__pyx_vtab)->backward(__pyx_v_layer, __pyx_v_input, __pyx_v_grad_out, __pyx_t_5);
+      __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
+      __pyx_t_5.memview = NULL;
+      __pyx_t_5.data = NULL;
     }
     __pyx_L6:;
 
@@ -26158,13 +25375,12 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
  *             l -= 1
  *             m = m0
  */
-    if (unlikely(!__pyx_v_layer->grad_input.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 936, __pyx_L1_error)}
-    __pyx_t_6 = __pyx_v_layer->grad_input;
-    __PYX_INC_MEMVIEW(&__pyx_t_6, 1);
+    __pyx_t_5 = __pyx_v_layer->grad_input;
+    __PYX_INC_MEMVIEW(&__pyx_t_5, 1);
     __PYX_XDEC_MEMVIEW(&__pyx_v_grad_out, 1);
-    __pyx_v_grad_out = __pyx_t_6;
-    __pyx_t_6.memview = NULL;
-    __pyx_t_6.data = NULL;
+    __pyx_v_grad_out = __pyx_t_5;
+    __pyx_t_5.memview = NULL;
+    __pyx_t_5.data = NULL;
 
     /* "mlgrad/model.pyx":937
  *                 layer.backward(input, grad_out, None)
@@ -26197,8 +25413,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel_backward(struct __pyx_obj_6m
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
   __Pyx_WriteUnraisable("mlgrad.model.FFNetworkModel.backward", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_layer);
@@ -26629,10 +25844,8 @@ static PyObject *__pyx_pf_6mlgrad_5model_14FFNetworkModel_22__reduce_cython__(st
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.__pyx_base.n_param); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (unlikely(!__pyx_v_self->__pyx_base.__pyx_base.output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.__pyx_base.output, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(!__pyx_v_self->__pyx_base.__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.__pyx_base.param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = PyTuple_New(6); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -27453,7 +26666,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_18FFNetworkFuncModel_2_allocate(struct 
  *         #print("NN", allocator)
  *     #
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 978, __pyx_L1_error)}
   __pyx_t_6 = __Pyx_MemoryView_Len(__pyx_v_self->__pyx_base.param); 
   __pyx_v_self->__pyx_base.n_param = __pyx_t_6;
 
@@ -27646,7 +26858,6 @@ static struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5model_18FFNetwork
  * 
  *         return <Model>mod
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 988, __pyx_L1_error)}
   __pyx_t_6 = __pyx_v_self->__pyx_base.param;
   __PYX_INC_MEMVIEW(&__pyx_t_6, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_mod->__pyx_base.param, 0);
@@ -27791,9 +27002,6 @@ static PyObject *__pyx_pf_6mlgrad_5model_18FFNetworkFuncModel_6copy(struct __pyx
 static double __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_evaluate(struct __pyx_obj_6mlgrad_5model_FFNetworkFuncModel *__pyx_v_self, __Pyx_memviewslice __pyx_v_X) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("evaluate", 0);
 
   /* "mlgrad/model.pyx":993
@@ -27812,7 +27020,6 @@ static double __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_evaluate(struct __pyx_
  *     #
  *     cdef void gradient(self, double[::1] X, double[::1] grad):
  */
-  if (unlikely(!__pyx_v_self->body->__pyx_base.output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 994, __pyx_L1_error)}
   __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_self->head->__pyx_vtab)->evaluate(__pyx_v_self->head, __pyx_v_self->body->__pyx_base.output);
   goto __pyx_L0;
 
@@ -27825,9 +27032,6 @@ static double __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_evaluate(struct __pyx_
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.FFNetworkFuncModel.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -27868,7 +27072,6 @@ static void __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_gradient(struct __pyx_ob
  *         self.head.gradient_x(self.body.output, self.head.grad_x)
  *         self.body.backward(X, self.head.grad_x, grad[self.head.n_param:])
  */
-    if (unlikely(!__pyx_v_self->body->__pyx_base.output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1000, __pyx_L1_error)}
     __pyx_t_2.data = __pyx_v_grad.data;
     __pyx_t_2.memview = __pyx_v_grad.memview;
     __PYX_INC_MEMVIEW(&__pyx_t_2, 0);
@@ -27911,8 +27114,6 @@ static void __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_gradient(struct __pyx_ob
  *         self.body.backward(X, self.head.grad_x, grad[self.head.n_param:])
  *     #
  */
-  if (unlikely(!__pyx_v_self->body->__pyx_base.output.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1001, __pyx_L1_error)}
-  if (unlikely(!__pyx_v_self->head->grad_x.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1001, __pyx_L1_error)}
   ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_self->head->__pyx_vtab)->gradient_x(__pyx_v_self->head, __pyx_v_self->body->__pyx_base.output, __pyx_v_self->head->grad_x);
 
   /* "mlgrad/model.pyx":1002
@@ -27922,7 +27123,6 @@ static void __pyx_f_6mlgrad_5model_18FFNetworkFuncModel_gradient(struct __pyx_ob
  *     #
  *     def as_dict(self):
  */
-  if (unlikely(!__pyx_v_self->head->grad_x.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1002, __pyx_L1_error)}
   __pyx_t_2.data = __pyx_v_grad.data;
   __pyx_t_2.memview = __pyx_v_grad.memview;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 0);
@@ -28476,17 +27676,14 @@ static PyObject *__pyx_pf_6mlgrad_5model_18FFNetworkFuncModel_12__reduce_cython_
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(!__pyx_v_self->__pyx_base.grad_x.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.grad_x, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_input); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_param); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = PyTuple_New(7); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -29108,7 +28305,7 @@ static int __pyx_pf_6mlgrad_5model_12SquaredModel___init__(struct __pyx_obj_6mlg
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v__mat, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1069, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1069, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1069, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = __Pyx_PyInt_SubtractObjC(__pyx_t_3, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1069, __pyx_L1_error)
@@ -29307,11 +28504,7 @@ static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6m
   int __pyx_t_6;
   int __pyx_t_7;
   int __pyx_t_8;
-  int __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_9;
   __Pyx_RefNannySetupContext("evaluate", 0);
 
   /* "mlgrad/model.pyx":1079
@@ -29321,7 +28514,6 @@ static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6m
  *         m = self.matrix.shape[1]
  *         val = 0
  */
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1079, __pyx_L1_error)}
   __pyx_v_n = (__pyx_v_self->matrix.shape[0]);
 
   /* "mlgrad/model.pyx":1080
@@ -29331,7 +28523,6 @@ static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6m
  *         val = 0
  *         for j in range(n):
  */
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1080, __pyx_L1_error)}
   __pyx_v_m = (__pyx_v_self->matrix.shape[1]);
 
   /* "mlgrad/model.pyx":1081
@@ -29362,22 +28553,8 @@ static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6m
  *             for i in range(1,m):
  *                 s += self.matrix[j,i] * X[i-1]
  */
-    if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1083, __pyx_L1_error)}
     __pyx_t_4 = __pyx_v_j;
     __pyx_t_5 = 0;
-    __pyx_t_6 = -1;
-    if (__pyx_t_4 < 0) {
-      __pyx_t_4 += __pyx_v_self->matrix.shape[0];
-      if (unlikely(__pyx_t_4 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_4 >= __pyx_v_self->matrix.shape[0])) __pyx_t_6 = 0;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_v_self->matrix.shape[1];
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 1;
-    } else if (unlikely(__pyx_t_5 >= __pyx_v_self->matrix.shape[1])) __pyx_t_6 = 1;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 1083, __pyx_L1_error)
-    }
     __pyx_v_s = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->matrix.data + __pyx_t_4 * __pyx_v_self->matrix.strides[0]) )) + __pyx_t_5)) )));
 
     /* "mlgrad/model.pyx":1084
@@ -29399,33 +28576,10 @@ static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6m
  *             val += s*s
  *         return val
  */
-      if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1085, __pyx_L1_error)}
       __pyx_t_5 = __pyx_v_j;
       __pyx_t_4 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_5 < 0) {
-        __pyx_t_5 += __pyx_v_self->matrix.shape[0];
-        if (unlikely(__pyx_t_5 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_5 >= __pyx_v_self->matrix.shape[0])) __pyx_t_9 = 0;
-      if (__pyx_t_4 < 0) {
-        __pyx_t_4 += __pyx_v_self->matrix.shape[1];
-        if (unlikely(__pyx_t_4 < 0)) __pyx_t_9 = 1;
-      } else if (unlikely(__pyx_t_4 >= __pyx_v_self->matrix.shape[1])) __pyx_t_9 = 1;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(1, 1085, __pyx_L1_error)
-      }
-      __pyx_t_10 = (__pyx_v_i - 1);
-      __pyx_t_9 = -1;
-      if (__pyx_t_10 < 0) {
-        __pyx_t_10 += __pyx_v_X.shape[0];
-        if (unlikely(__pyx_t_10 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_10 >= __pyx_v_X.shape[0])) __pyx_t_9 = 0;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(1, 1085, __pyx_L1_error)
-      }
-      __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->matrix.data + __pyx_t_5 * __pyx_v_self->matrix.strides[0]) )) + __pyx_t_4)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_10)) )))));
+      __pyx_t_9 = (__pyx_v_i - 1);
+      __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->matrix.data + __pyx_t_5 * __pyx_v_self->matrix.strides[0]) )) + __pyx_t_4)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_9)) )))));
     }
 
     /* "mlgrad/model.pyx":1086
@@ -29457,9 +28611,6 @@ static double __pyx_f_6mlgrad_5model_12SquaredModel_evaluate(struct __pyx_obj_6m
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.SquaredModel.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -29488,10 +28639,6 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient_x(struct __pyx_obj_6m
   int __pyx_t_6;
   int __pyx_t_7;
   int __pyx_t_8;
-  int __pyx_t_9;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gradient_x", 0);
 
   /* "mlgrad/model.pyx":1094
@@ -29501,7 +28648,6 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient_x(struct __pyx_obj_6m
  *         m = self.matrix.shape[1]
  * 
  */
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1094, __pyx_L1_error)}
   __pyx_v_n = (__pyx_v_self->matrix.shape[0]);
 
   /* "mlgrad/model.pyx":1095
@@ -29511,7 +28657,6 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient_x(struct __pyx_obj_6m
  * 
  *         s = 0
  */
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1095, __pyx_L1_error)}
   __pyx_v_m = (__pyx_v_self->matrix.shape[1]);
 
   /* "mlgrad/model.pyx":1097
@@ -29542,22 +28687,8 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient_x(struct __pyx_obj_6m
  *             for j in range(n):
  *                 s += self.matrix[j,i]
  */
-    if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1099, __pyx_L1_error)}
     __pyx_t_4 = __pyx_v_j;
     __pyx_t_5 = 0;
-    __pyx_t_6 = -1;
-    if (__pyx_t_4 < 0) {
-      __pyx_t_4 += __pyx_v_self->matrix.shape[0];
-      if (unlikely(__pyx_t_4 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_4 >= __pyx_v_self->matrix.shape[0])) __pyx_t_6 = 0;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_v_self->matrix.shape[1];
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 1;
-    } else if (unlikely(__pyx_t_5 >= __pyx_v_self->matrix.shape[1])) __pyx_t_6 = 1;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 1099, __pyx_L1_error)
-    }
     __pyx_v_s = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->matrix.data + __pyx_t_4 * __pyx_v_self->matrix.strides[0]) )) + __pyx_t_5)) )));
 
     /* "mlgrad/model.pyx":1100
@@ -29579,22 +28710,8 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient_x(struct __pyx_obj_6m
  *             s *= 2
  *             #s *= mat[j,]
  */
-      if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1101, __pyx_L1_error)}
       __pyx_t_5 = __pyx_v_j;
       __pyx_t_4 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_5 < 0) {
-        __pyx_t_5 += __pyx_v_self->matrix.shape[0];
-        if (unlikely(__pyx_t_5 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_5 >= __pyx_v_self->matrix.shape[0])) __pyx_t_9 = 0;
-      if (__pyx_t_4 < 0) {
-        __pyx_t_4 += __pyx_v_self->matrix.shape[1];
-        if (unlikely(__pyx_t_4 < 0)) __pyx_t_9 = 1;
-      } else if (unlikely(__pyx_t_4 >= __pyx_v_self->matrix.shape[1])) __pyx_t_9 = 1;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(1, 1101, __pyx_L1_error)
-      }
       __pyx_v_s = (__pyx_v_s + (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->matrix.data + __pyx_t_5 * __pyx_v_self->matrix.strides[0]) )) + __pyx_t_4)) ))));
     }
 
@@ -29617,10 +28734,6 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient_x(struct __pyx_obj_6m
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.SquaredModel.gradient_x", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -29648,11 +28761,7 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
   int __pyx_t_6;
   int __pyx_t_7;
   int __pyx_t_8;
-  int __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_9;
   __Pyx_RefNannySetupContext("gradient", 0);
 
   /* "mlgrad/model.pyx":1110
@@ -29662,7 +28771,6 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
  *         m = self.matrix.shape[1]
  * 
  */
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1110, __pyx_L1_error)}
   __pyx_v_n = (__pyx_v_self->matrix.shape[0]);
 
   /* "mlgrad/model.pyx":1111
@@ -29672,7 +28780,6 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
  * 
  *         k = 0
  */
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1111, __pyx_L1_error)}
   __pyx_v_m = (__pyx_v_self->matrix.shape[1]);
 
   /* "mlgrad/model.pyx":1113
@@ -29703,22 +28810,8 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
  *             for i in range(1,m):
  *                 s += self.matrix[j,i] * X[i-1]
  */
-    if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1115, __pyx_L1_error)}
     __pyx_t_4 = __pyx_v_j;
     __pyx_t_5 = 0;
-    __pyx_t_6 = -1;
-    if (__pyx_t_4 < 0) {
-      __pyx_t_4 += __pyx_v_self->matrix.shape[0];
-      if (unlikely(__pyx_t_4 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_4 >= __pyx_v_self->matrix.shape[0])) __pyx_t_6 = 0;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_v_self->matrix.shape[1];
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 1;
-    } else if (unlikely(__pyx_t_5 >= __pyx_v_self->matrix.shape[1])) __pyx_t_6 = 1;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 1115, __pyx_L1_error)
-    }
     __pyx_v_s = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->matrix.data + __pyx_t_4 * __pyx_v_self->matrix.strides[0]) )) + __pyx_t_5)) )));
 
     /* "mlgrad/model.pyx":1116
@@ -29740,33 +28833,10 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
  *             s *= 2
  * 
  */
-      if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 1117, __pyx_L1_error)}
       __pyx_t_5 = __pyx_v_j;
       __pyx_t_4 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_5 < 0) {
-        __pyx_t_5 += __pyx_v_self->matrix.shape[0];
-        if (unlikely(__pyx_t_5 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_5 >= __pyx_v_self->matrix.shape[0])) __pyx_t_9 = 0;
-      if (__pyx_t_4 < 0) {
-        __pyx_t_4 += __pyx_v_self->matrix.shape[1];
-        if (unlikely(__pyx_t_4 < 0)) __pyx_t_9 = 1;
-      } else if (unlikely(__pyx_t_4 >= __pyx_v_self->matrix.shape[1])) __pyx_t_9 = 1;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(1, 1117, __pyx_L1_error)
-      }
-      __pyx_t_10 = (__pyx_v_i - 1);
-      __pyx_t_9 = -1;
-      if (__pyx_t_10 < 0) {
-        __pyx_t_10 += __pyx_v_X.shape[0];
-        if (unlikely(__pyx_t_10 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_10 >= __pyx_v_X.shape[0])) __pyx_t_9 = 0;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(1, 1117, __pyx_L1_error)
-      }
-      __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->matrix.data + __pyx_t_5 * __pyx_v_self->matrix.strides[0]) )) + __pyx_t_4)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_10)) )))));
+      __pyx_t_9 = (__pyx_v_i - 1);
+      __pyx_v_s = (__pyx_v_s + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->matrix.data + __pyx_t_5 * __pyx_v_self->matrix.strides[0]) )) + __pyx_t_4)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_9)) )))));
     }
 
     /* "mlgrad/model.pyx":1118
@@ -29785,17 +28855,8 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
  *             k += 1
  *             for i in range(1, m):
  */
-    __pyx_t_10 = __pyx_v_k;
-    __pyx_t_6 = -1;
-    if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_v_y.shape[0];
-      if (unlikely(__pyx_t_10 < 0)) __pyx_t_6 = 0;
-    } else if (unlikely(__pyx_t_10 >= __pyx_v_y.shape[0])) __pyx_t_6 = 0;
-    if (unlikely(__pyx_t_6 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_6);
-      __PYX_ERR(1, 1120, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_10)) )) = __pyx_v_s;
+    __pyx_t_9 = __pyx_v_k;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_9)) )) = __pyx_v_s;
 
     /* "mlgrad/model.pyx":1121
  * 
@@ -29825,27 +28886,9 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
  *                 k += 1
  * 
  */
-      __pyx_t_10 = (__pyx_v_i - 1);
-      __pyx_t_9 = -1;
-      if (__pyx_t_10 < 0) {
-        __pyx_t_10 += __pyx_v_X.shape[0];
-        if (unlikely(__pyx_t_10 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_10 >= __pyx_v_X.shape[0])) __pyx_t_9 = 0;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(1, 1123, __pyx_L1_error)
-      }
+      __pyx_t_9 = (__pyx_v_i - 1);
       __pyx_t_4 = __pyx_v_k;
-      __pyx_t_9 = -1;
-      if (__pyx_t_4 < 0) {
-        __pyx_t_4 += __pyx_v_y.shape[0];
-        if (unlikely(__pyx_t_4 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_4 >= __pyx_v_y.shape[0])) __pyx_t_9 = 0;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(1, 1123, __pyx_L1_error)
-      }
-      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_4)) )) = (__pyx_v_s * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_10)) ))));
+      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_4)) )) = (__pyx_v_s * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_9)) ))));
 
       /* "mlgrad/model.pyx":1124
  *             for i in range(1, m):
@@ -29867,10 +28910,6 @@ static void __pyx_f_6mlgrad_5model_12SquaredModel_gradient(struct __pyx_obj_6mlg
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.SquaredModel.gradient", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -29921,23 +28960,18 @@ static PyObject *__pyx_pf_6mlgrad_5model_12SquaredModel_2__reduce_cython__(struc
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  if (unlikely(!__pyx_v_self->__pyx_base.grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(!__pyx_v_self->__pyx_base.grad_x.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.grad_x, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(!__pyx_v_self->matrix.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->matrix, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (unlikely(!__pyx_v_self->matrix_grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->matrix_grad, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_input); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_self->__pyx_base.n_param); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (unlikely(!__pyx_v_self->__pyx_base.param.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.param, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_8 = PyTuple_New(7); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -30496,7 +29530,6 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_Allocator__set_state(stru
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -30539,21 +29572,18 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_Allocator__set_state(stru
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 13, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_8 = NULL;
+    __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
-      if (likely(__pyx_t_8)) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_7);
+      if (likely(__pyx_t_6)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_8);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_7, function);
       }
     }
-    __pyx_t_5 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_6, PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) : __Pyx_PyObject_CallOneArg(__pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 0));
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -30582,7 +29612,6 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_Allocator__set_state(stru
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_Allocator__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -30867,15 +29896,14 @@ static PyObject *__pyx_pf_6mlgrad_5model_26__pyx_unpickle_ArrayAllocator(CYTHON_
 static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ArrayAllocator__set_state(struct __pyx_obj_6mlgrad_5model_ArrayAllocator *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
   int __pyx_t_3;
   Py_ssize_t __pyx_t_4;
   int __pyx_t_5;
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -30892,52 +29920,43 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ArrayAllocator__set_state
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->allocated = __pyx_t_2;
+  __pyx_t_1 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->allocated = __pyx_t_1;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_5model_ArrayAllocator))))) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GIVEREF(__pyx_t_1);
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1), __pyx_ptype_6mlgrad_5model_ArrayAllocator))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 1);
+  __Pyx_INCREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v___pyx_result->base);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->base));
-  __pyx_v___pyx_result->base = ((struct __pyx_obj_6mlgrad_5model_ArrayAllocator *)__pyx_t_1);
-  __pyx_t_1 = 0;
+  __pyx_v___pyx_result->base = ((struct __pyx_obj_6mlgrad_5model_ArrayAllocator *)__pyx_t_2);
+  __pyx_t_2 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 2);
+  __Pyx_INCREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v___pyx_result->buf);
   __Pyx_DECREF(__pyx_v___pyx_result->buf);
-  __pyx_v___pyx_result->buf = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __pyx_v___pyx_result->buf = __pyx_t_2;
+  __pyx_t_2 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->size = __pyx_t_2;
+  __pyx_t_1 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->size = __pyx_t_1;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->start = __pyx_t_2;
+  __pyx_t_1 = __Pyx_PyInt_As_int(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->start = __pyx_t_1;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_ArrayAllocator__set_state(ArrayAllocator __pyx_result, tuple __pyx_state):
@@ -30976,25 +29995,22 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ArrayAllocator__set_state
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_ArrayAllocator__set_state(ArrayAllocator __pyx_result, tuple __pyx_state):
@@ -31016,10 +30032,9 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ArrayAllocator__set_state
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_ArrayAllocator__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -31304,15 +30319,14 @@ static PyObject *__pyx_pf_6mlgrad_5model_28__pyx_unpickle_Model(CYTHON_UNUSED Py
 static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_Model__set_state(struct __pyx_obj_6mlgrad_5model_Model *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  Py_ssize_t __pyx_t_3;
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_t_6;
+  PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -31329,56 +30343,41 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_Model__set_state(struct _
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->grad, 0);
-  __pyx_v___pyx_result->grad = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->grad = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->grad_x, 0);
-  __pyx_v___pyx_result->grad_x = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->grad_x = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->n_input = __pyx_t_3;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->n_input = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->n_param = __pyx_t_3;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->n_param = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->param, 0);
-  __pyx_v___pyx_result->param = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->param = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_Model__set_state(Model __pyx_result, tuple __pyx_state):
@@ -31390,18 +30389,18 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_Model__set_state(struct _
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
-  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_5 = ((__pyx_t_3 > 5) != 0);
-  if (__pyx_t_5) {
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_4 = ((__pyx_t_2 > 5) != 0);
+  if (__pyx_t_4) {
   } else {
-    __pyx_t_4 = __pyx_t_5;
+    __pyx_t_3 = __pyx_t_4;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_6 = (__pyx_t_5 != 0);
-  __pyx_t_4 = __pyx_t_6;
+  __pyx_t_4 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_5 = (__pyx_t_4 != 0);
+  __pyx_t_3 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_4) {
+  if (__pyx_t_3) {
 
     /* "(tree fragment)":14
  *     __pyx_result.grad = __pyx_state[0]; __pyx_result.grad_x = __pyx_state[1]; __pyx_result.n_input = __pyx_state[2]; __pyx_result.n_param = __pyx_state[3]; __pyx_result.param = __pyx_state[4]
@@ -31417,25 +30416,22 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_Model__set_state(struct _
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_Model__set_state(Model __pyx_result, tuple __pyx_state):
@@ -31457,11 +30453,10 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_Model__set_state(struct _
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_Model__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -31746,15 +30741,14 @@ static PyObject *__pyx_pf_6mlgrad_5model_30__pyx_unpickle_ConstModel(CYTHON_UNUS
 static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ConstModel__set_state(struct __pyx_obj_6mlgrad_5model_ConstModel *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  Py_ssize_t __pyx_t_3;
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_t_6;
+  PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -31771,56 +30765,41 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ConstModel__set_state(str
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.grad, 0);
-  __pyx_v___pyx_result->__pyx_base.grad = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.grad = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.grad_x, 0);
-  __pyx_v___pyx_result->__pyx_base.grad_x = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.grad_x = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->__pyx_base.n_input = __pyx_t_3;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.n_input = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->__pyx_base.n_param = __pyx_t_3;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.n_param = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.param, 0);
-  __pyx_v___pyx_result->__pyx_base.param = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.param = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_ConstModel__set_state(ConstModel __pyx_result, tuple __pyx_state):
@@ -31832,18 +30811,18 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ConstModel__set_state(str
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
-  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_5 = ((__pyx_t_3 > 5) != 0);
-  if (__pyx_t_5) {
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_4 = ((__pyx_t_2 > 5) != 0);
+  if (__pyx_t_4) {
   } else {
-    __pyx_t_4 = __pyx_t_5;
+    __pyx_t_3 = __pyx_t_4;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_6 = (__pyx_t_5 != 0);
-  __pyx_t_4 = __pyx_t_6;
+  __pyx_t_4 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_5 = (__pyx_t_4 != 0);
+  __pyx_t_3 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_4) {
+  if (__pyx_t_3) {
 
     /* "(tree fragment)":14
  *     __pyx_result.grad = __pyx_state[0]; __pyx_result.grad_x = __pyx_state[1]; __pyx_result.n_input = __pyx_state[2]; __pyx_result.n_param = __pyx_state[3]; __pyx_result.param = __pyx_state[4]
@@ -31859,25 +30838,22 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ConstModel__set_state(str
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_ConstModel__set_state(ConstModel __pyx_result, tuple __pyx_state):
@@ -31899,11 +30875,10 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ConstModel__set_state(str
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_ConstModel__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -32188,15 +31163,14 @@ static PyObject *__pyx_pf_6mlgrad_5model_32__pyx_unpickle_SigmaNeuronModel(CYTHO
 static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModel__set_state(struct __pyx_obj_6mlgrad_5model_SigmaNeuronModel *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  Py_ssize_t __pyx_t_3;
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
   int __pyx_t_4;
   int __pyx_t_5;
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -32213,68 +31187,53 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModel__set_sta
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.grad, 0);
-  __pyx_v___pyx_result->__pyx_base.grad = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.grad = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.grad_x, 0);
-  __pyx_v___pyx_result->__pyx_base.grad_x = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.grad_x = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->__pyx_base.n_input = __pyx_t_3;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.n_input = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->__pyx_base.n_param = __pyx_t_3;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.n_param = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GIVEREF(__pyx_t_1);
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 4);
+  __Pyx_INCREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_3);
   __Pyx_GOTREF(__pyx_v___pyx_result->outfunc);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->outfunc));
-  __pyx_v___pyx_result->outfunc = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
-  __pyx_t_1 = 0;
+  __pyx_v___pyx_result->outfunc = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_3);
+  __pyx_t_3 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.param, 0);
-  __pyx_v___pyx_result->__pyx_base.param = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.param = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_SigmaNeuronModel__set_state(SigmaNeuronModel __pyx_result, tuple __pyx_state):
@@ -32286,8 +31245,8 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModel__set_sta
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
-  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_5 = ((__pyx_t_3 > 6) != 0);
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_5 = ((__pyx_t_2 > 6) != 0);
   if (__pyx_t_5) {
   } else {
     __pyx_t_4 = __pyx_t_5;
@@ -32313,25 +31272,22 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModel__set_sta
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 6)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 6));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_SigmaNeuronModel__set_state(SigmaNeuronModel __pyx_result, tuple __pyx_state):
@@ -32353,11 +31309,10 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModel__set_sta
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_SigmaNeuronModel__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -32642,15 +31597,14 @@ static PyObject *__pyx_pf_6mlgrad_5model_34__pyx_unpickle_ModelLayer(CYTHON_UNUS
 static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ModelLayer__set_state(struct __pyx_obj_6mlgrad_5model_ModelLayer *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  Py_ssize_t __pyx_t_3;
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_t_6;
+  PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -32667,65 +31621,47 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ModelLayer__set_state(str
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->grad_input, 0);
-  __pyx_v___pyx_result->grad_input = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->grad_input = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->n_input = __pyx_t_3;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->n_input = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->n_output = __pyx_t_3;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->n_output = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->n_param = __pyx_t_3;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->n_param = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->output, 0);
-  __pyx_v___pyx_result->output = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->output = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->param, 0);
-  __pyx_v___pyx_result->param = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->param = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_ModelLayer__set_state(ModelLayer __pyx_result, tuple __pyx_state):
@@ -32737,18 +31673,18 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ModelLayer__set_state(str
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
-  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_5 = ((__pyx_t_3 > 6) != 0);
-  if (__pyx_t_5) {
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_4 = ((__pyx_t_2 > 6) != 0);
+  if (__pyx_t_4) {
   } else {
-    __pyx_t_4 = __pyx_t_5;
+    __pyx_t_3 = __pyx_t_4;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_6 = (__pyx_t_5 != 0);
-  __pyx_t_4 = __pyx_t_6;
+  __pyx_t_4 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_5 = (__pyx_t_4 != 0);
+  __pyx_t_3 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_4) {
+  if (__pyx_t_3) {
 
     /* "(tree fragment)":14
  *     __pyx_result.grad_input = __pyx_state[0]; __pyx_result.n_input = __pyx_state[1]; __pyx_result.n_output = __pyx_state[2]; __pyx_result.n_param = __pyx_state[3]; __pyx_result.output = __pyx_state[4]; __pyx_result.param = __pyx_state[5]
@@ -32764,25 +31700,22 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ModelLayer__set_state(str
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 6)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 6));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_ModelLayer__set_state(ModelLayer __pyx_result, tuple __pyx_state):
@@ -32804,11 +31737,10 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ModelLayer__set_state(str
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_ModelLayer__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -33093,15 +32025,14 @@ static PyObject *__pyx_pf_6mlgrad_5model_36__pyx_unpickle_GeneralModelLayer(CYTH
 static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_GeneralModelLayer__set_state(struct __pyx_obj_6mlgrad_5model_GeneralModelLayer *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_t_2 = NULL;
   Py_ssize_t __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -33118,77 +32049,59 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_GeneralModelLayer__set_st
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.grad_input, 0);
-  __pyx_v___pyx_result->__pyx_base.grad_input = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.grad_input = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GIVEREF(__pyx_t_1);
+  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1))->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 1);
+  __Pyx_INCREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v___pyx_result->models);
   __Pyx_DECREF(__pyx_v___pyx_result->models);
-  __pyx_v___pyx_result->models = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
+  __pyx_v___pyx_result->models = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.n_input = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.n_output = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.n_param = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.output, 0);
-  __pyx_v___pyx_result->__pyx_base.output = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.output = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 6), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.param, 0);
-  __pyx_v___pyx_result->__pyx_base.param = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.param = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_GeneralModelLayer__set_state(GeneralModelLayer __pyx_result, tuple __pyx_state):
@@ -33227,25 +32140,22 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_GeneralModelLayer__set_st
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 7)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 7));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_GeneralModelLayer__set_state(GeneralModelLayer __pyx_result, tuple __pyx_state):
@@ -33267,11 +32177,10 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_GeneralModelLayer__set_st
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_GeneralModelLayer__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -33565,7 +32474,6 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModelLayer__se
   int __pyx_t_7;
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -33582,9 +32490,9 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModelLayer__se
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->func);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->func));
@@ -33594,10 +32502,7 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModelLayer__se
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.grad_input, 0);
   __pyx_v___pyx_result->__pyx_base.grad_input = __pyx_t_2;
   __pyx_t_2.memview = NULL;
@@ -33606,10 +32511,7 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModelLayer__se
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->matrix, 0);
   __pyx_v___pyx_result->matrix = __pyx_t_3;
   __pyx_t_3.memview = NULL;
@@ -33618,37 +32520,25 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModelLayer__se
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.n_input = __pyx_t_4;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.n_output = __pyx_t_4;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.n_param = __pyx_t_4;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 6), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.output, 0);
   __pyx_v___pyx_result->__pyx_base.output = __pyx_t_2;
   __pyx_t_2.memview = NULL;
@@ -33657,10 +32547,7 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModelLayer__se
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 7), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.param, 0);
   __pyx_v___pyx_result->__pyx_base.param = __pyx_t_2;
   __pyx_t_2.memview = NULL;
@@ -33703,21 +32590,18 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModelLayer__se
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_10 = NULL;
+    __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
-      __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_9);
-      if (likely(__pyx_t_10)) {
+      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_9);
+      if (likely(__pyx_t_8)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
-        __Pyx_INCREF(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_8);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_9, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_10, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_8);
-    __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __pyx_t_1 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 8)) : __Pyx_PyObject_CallOneArg(__pyx_t_9, PyTuple_GET_ITEM(__pyx_v___pyx_state, 8));
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -33748,7 +32632,6 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SigmaNeuronModelLayer__se
   __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_SigmaNeuronModelLayer__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -34033,15 +32916,14 @@ static PyObject *__pyx_pf_6mlgrad_5model_40__pyx_unpickle_ComplexModel(CYTHON_UN
 static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ComplexModel__set_state(struct __pyx_obj_6mlgrad_5model_ComplexModel *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  Py_ssize_t __pyx_t_2;
-  __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_1;
+  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
-  int __pyx_t_6;
+  PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -34058,53 +32940,38 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ComplexModel__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->n_input = __pyx_t_2;
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->n_input = __pyx_t_1;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->n_output = __pyx_t_2;
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->n_output = __pyx_t_1;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->n_param = __pyx_t_2;
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->n_param = __pyx_t_1;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->output, 0);
-  __pyx_v___pyx_result->output = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
+  __pyx_v___pyx_result->output = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->param, 0);
-  __pyx_v___pyx_result->param = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
+  __pyx_v___pyx_result->param = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_ComplexModel__set_state(ComplexModel __pyx_result, tuple __pyx_state):
@@ -34116,18 +32983,18 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ComplexModel__set_state(s
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
-  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_5 = ((__pyx_t_2 > 5) != 0);
-  if (__pyx_t_5) {
+  __pyx_t_1 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_4 = ((__pyx_t_1 > 5) != 0);
+  if (__pyx_t_4) {
   } else {
-    __pyx_t_4 = __pyx_t_5;
+    __pyx_t_3 = __pyx_t_4;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_6 = (__pyx_t_5 != 0);
-  __pyx_t_4 = __pyx_t_6;
+  __pyx_t_4 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_5 = (__pyx_t_4 != 0);
+  __pyx_t_3 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_4) {
+  if (__pyx_t_3) {
 
     /* "(tree fragment)":14
  *     __pyx_result.n_input = __pyx_state[0]; __pyx_result.n_output = __pyx_state[1]; __pyx_result.n_param = __pyx_state[2]; __pyx_result.output = __pyx_state[3]; __pyx_result.param = __pyx_state[4]
@@ -34143,25 +33010,22 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ComplexModel__set_state(s
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_ComplexModel__set_state(ComplexModel __pyx_result, tuple __pyx_state):
@@ -34183,11 +33047,10 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_ComplexModel__set_state(s
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_ComplexModel__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -34480,7 +33343,6 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_MLModel__set_state(struct
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -34497,9 +33359,9 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_MLModel__set_state(struct
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
+  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0))->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->layers);
   __Pyx_DECREF(__pyx_v___pyx_result->layers);
@@ -34509,37 +33371,25 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_MLModel__set_state(struct
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.n_input = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.n_output = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.n_param = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.output, 0);
   __pyx_v___pyx_result->__pyx_base.output = __pyx_t_3;
   __pyx_t_3.memview = NULL;
@@ -34548,10 +33398,7 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_MLModel__set_state(struct
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.param, 0);
   __pyx_v___pyx_result->__pyx_base.param = __pyx_t_3;
   __pyx_t_3.memview = NULL;
@@ -34594,21 +33441,18 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_MLModel__set_state(struct
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 6)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 6));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -34638,7 +33482,6 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_MLModel__set_state(struct
   __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_MLModel__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -34931,7 +33774,6 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkModel__set_state
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -34948,9 +33790,9 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkModel__set_state
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
+  if (!(likely(PyList_CheckExact(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)))||((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0))->tp_name), 0))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->__pyx_base.layers);
   __Pyx_DECREF(__pyx_v___pyx_result->__pyx_base.layers);
@@ -34960,37 +33802,25 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkModel__set_state
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.__pyx_base.n_input = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.__pyx_base.n_output = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.__pyx_base.n_param = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.__pyx_base.output, 0);
   __pyx_v___pyx_result->__pyx_base.__pyx_base.output = __pyx_t_3;
   __pyx_t_3.memview = NULL;
@@ -34999,10 +33829,7 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkModel__set_state
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5), PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.__pyx_base.param, 0);
   __pyx_v___pyx_result->__pyx_base.__pyx_base.param = __pyx_t_3;
   __pyx_t_3.memview = NULL;
@@ -35045,21 +33872,18 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkModel__set_state
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 6)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 6));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -35089,7 +33913,6 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkModel__set_state
   __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_FFNetworkModel__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -35382,7 +34205,6 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkFuncModel__set_s
   int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -35399,9 +34221,9 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkFuncModel__set_s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_5model_MLModel))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_5model_MLModel))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->body);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->body));
@@ -35411,10 +34233,7 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkFuncModel__set_s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.grad, 0);
   __pyx_v___pyx_result->__pyx_base.grad = __pyx_t_2;
   __pyx_t_2.memview = NULL;
@@ -35423,10 +34242,7 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkFuncModel__set_s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.grad_x, 0);
   __pyx_v___pyx_result->__pyx_base.grad_x = __pyx_t_2;
   __pyx_t_2.memview = NULL;
@@ -35435,9 +34251,9 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkFuncModel__set_s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_6mlgrad_5model_Model))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3), __pyx_ptype_6mlgrad_5model_Model))))) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 3);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->head);
   __Pyx_DECREF(((PyObject *)__pyx_v___pyx_result->head));
@@ -35447,28 +34263,19 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkFuncModel__set_s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.n_input = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __pyx_v___pyx_result->__pyx_base.n_param = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 6), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.param, 0);
   __pyx_v___pyx_result->__pyx_base.param = __pyx_t_2;
   __pyx_t_2.memview = NULL;
@@ -35511,21 +34318,18 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkFuncModel__set_s
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_9 = NULL;
+    __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_9)) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_7)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 7)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 7));
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -35555,7 +34359,6 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_FFNetworkFuncModel__set_s
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_FFNetworkFuncModel__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -35840,16 +34643,15 @@ static PyObject *__pyx_pf_6mlgrad_5model_48__pyx_unpickle_SquaredModel(CYTHON_UN
 static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SquaredModel__set_state(struct __pyx_obj_6mlgrad_5model_SquaredModel *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
   int __pyx_t_5;
   int __pyx_t_6;
-  int __pyx_t_7;
+  PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -35866,80 +34668,59 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SquaredModel__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.grad, 0);
-  __pyx_v___pyx_result->__pyx_base.grad = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.grad = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.grad_x, 0);
-  __pyx_v___pyx_result->__pyx_base.grad_x = __pyx_t_2;
-  __pyx_t_2.memview = NULL;
-  __pyx_t_2.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.grad_x = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->matrix, 0);
-  __pyx_v___pyx_result->matrix = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->matrix_grad, 0);
-  __pyx_v___pyx_result->matrix_grad = __pyx_t_3;
-  __pyx_t_3.memview = NULL;
-  __pyx_t_3.data = NULL;
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->__pyx_base.n_input = __pyx_t_4;
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->__pyx_base.n_param = __pyx_t_4;
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(2, 12, __pyx_L1_error)
-  }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.param, 0);
-  __pyx_v___pyx_result->__pyx_base.param = __pyx_t_2;
+  __pyx_v___pyx_result->matrix = __pyx_t_2;
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3), PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->matrix_grad, 0);
+  __pyx_v___pyx_result->matrix_grad = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.n_input = __pyx_t_3;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->__pyx_base.n_param = __pyx_t_3;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 6), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.param, 0);
+  __pyx_v___pyx_result->__pyx_base.param = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_SquaredModel__set_state(SquaredModel __pyx_result, tuple __pyx_state):
@@ -35951,18 +34732,18 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SquaredModel__set_state(s
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
-  __pyx_t_4 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_6 = ((__pyx_t_4 > 7) != 0);
-  if (__pyx_t_6) {
+  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_5 = ((__pyx_t_3 > 7) != 0);
+  if (__pyx_t_5) {
   } else {
-    __pyx_t_5 = __pyx_t_6;
+    __pyx_t_4 = __pyx_t_5;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_6 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_7 = (__pyx_t_6 != 0);
-  __pyx_t_5 = __pyx_t_7;
+  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_6 = (__pyx_t_5 != 0);
+  __pyx_t_4 = __pyx_t_6;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_5) {
+  if (__pyx_t_4) {
 
     /* "(tree fragment)":14
  *     __pyx_result.grad = __pyx_state[0]; __pyx_result.grad_x = __pyx_state[1]; __pyx_result.matrix = __pyx_state[2]; __pyx_result.matrix_grad = __pyx_state[3]; __pyx_result.n_input = __pyx_state[4]; __pyx_result.n_param = __pyx_state[5]; __pyx_result.param = __pyx_state[6]
@@ -35978,25 +34759,22 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SquaredModel__set_state(s
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_10 = NULL;
+    __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
-      __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_9);
-      if (likely(__pyx_t_10)) {
+      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_9);
+      if (likely(__pyx_t_8)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
-        __Pyx_INCREF(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_8);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_9, function);
       }
     }
-    __pyx_t_1 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_10, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_8);
-    __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_7 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 7)) : __Pyx_PyObject_CallOneArg(__pyx_t_9, PyTuple_GET_ITEM(__pyx_v___pyx_state, 7));
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_SquaredModel__set_state(SquaredModel __pyx_result, tuple __pyx_state):
@@ -36018,12 +34796,11 @@ static PyObject *__pyx_f_6mlgrad_5model___pyx_unpickle_SquaredModel__set_state(s
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
+  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
   __Pyx_AddTraceback("mlgrad.model.__pyx_unpickle_SquaredModel__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -36095,11 +34872,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
   int __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  int __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_9;
   __Pyx_RefNannySetupContext("matrix_dot", 0);
 
   /* "mlgrad/model.pxd":57
@@ -36154,30 +34927,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
  */
       __pyx_t_7 = __pyx_v_j;
       __pyx_t_8 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_7 < 0) {
-        __pyx_t_7 += __pyx_v_A.shape[0];
-        if (unlikely(__pyx_t_7 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_7 >= __pyx_v_A.shape[0])) __pyx_t_9 = 0;
-      if (__pyx_t_8 < 0) {
-        __pyx_t_8 += __pyx_v_A.shape[1];
-        if (unlikely(__pyx_t_8 < 0)) __pyx_t_9 = 1;
-      } else if (unlikely(__pyx_t_8 >= __pyx_v_A.shape[1])) __pyx_t_9 = 1;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(0, 63, __pyx_L1_error)
-      }
-      __pyx_t_10 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_10 < 0) {
-        __pyx_t_10 += __pyx_v_x.shape[0];
-        if (unlikely(__pyx_t_10 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_10 >= __pyx_v_x.shape[0])) __pyx_t_9 = 0;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(0, 63, __pyx_L1_error)
-      }
-      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_10)) )))));
+      __pyx_t_9 = __pyx_v_i;
+      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) )))));
     }
 
     /* "mlgrad/model.pxd":64
@@ -36187,17 +34938,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
  * 
  * cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
  */
-    __pyx_t_10 = __pyx_v_j;
-    __pyx_t_4 = -1;
-    if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_v_y.shape[0];
-      if (unlikely(__pyx_t_10 < 0)) __pyx_t_4 = 0;
-    } else if (unlikely(__pyx_t_10 >= __pyx_v_y.shape[0])) __pyx_t_4 = 0;
-    if (unlikely(__pyx_t_4 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_4);
-      __PYX_ERR(0, 64, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_10)) )) = __pyx_v_v;
+    __pyx_t_9 = __pyx_v_j;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_9)) )) = __pyx_v_v;
   }
 
   /* "mlgrad/model.pxd":56
@@ -36209,10 +34951,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot(__Pyx_memviewslice _
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.matrix_dot", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -36239,11 +34977,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot_t(__Pyx_memviewslice
   int __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  int __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
+  Py_ssize_t __pyx_t_9;
   __Pyx_RefNannySetupContext("matrix_dot_t", 0);
 
   /* "mlgrad/model.pxd":67
@@ -36298,30 +35032,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot_t(__Pyx_memviewslice
  */
       __pyx_t_7 = __pyx_v_j;
       __pyx_t_8 = __pyx_v_i;
-      __pyx_t_9 = -1;
-      if (__pyx_t_7 < 0) {
-        __pyx_t_7 += __pyx_v_A.shape[0];
-        if (unlikely(__pyx_t_7 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_7 >= __pyx_v_A.shape[0])) __pyx_t_9 = 0;
-      if (__pyx_t_8 < 0) {
-        __pyx_t_8 += __pyx_v_A.shape[1];
-        if (unlikely(__pyx_t_8 < 0)) __pyx_t_9 = 1;
-      } else if (unlikely(__pyx_t_8 >= __pyx_v_A.shape[1])) __pyx_t_9 = 1;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(0, 73, __pyx_L1_error)
-      }
-      __pyx_t_10 = __pyx_v_j;
-      __pyx_t_9 = -1;
-      if (__pyx_t_10 < 0) {
-        __pyx_t_10 += __pyx_v_x.shape[0];
-        if (unlikely(__pyx_t_10 < 0)) __pyx_t_9 = 0;
-      } else if (unlikely(__pyx_t_10 >= __pyx_v_x.shape[0])) __pyx_t_9 = 0;
-      if (unlikely(__pyx_t_9 != -1)) {
-        __Pyx_RaiseBufferIndexError(__pyx_t_9);
-        __PYX_ERR(0, 73, __pyx_L1_error)
-      }
-      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_10)) )))));
+      __pyx_t_9 = __pyx_v_j;
+      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) )))));
     }
 
     /* "mlgrad/model.pxd":74
@@ -36331,17 +35043,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot_t(__Pyx_memviewslice
  * 
  * cdef class Model(object):
  */
-    __pyx_t_10 = __pyx_v_i;
-    __pyx_t_4 = -1;
-    if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_v_y.shape[0];
-      if (unlikely(__pyx_t_10 < 0)) __pyx_t_4 = 0;
-    } else if (unlikely(__pyx_t_10 >= __pyx_v_y.shape[0])) __pyx_t_4 = 0;
-    if (unlikely(__pyx_t_4 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_4);
-      __PYX_ERR(0, 74, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_10)) )) = __pyx_v_v;
+    __pyx_t_9 = __pyx_v_i;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_9)) )) = __pyx_v_v;
   }
 
   /* "mlgrad/model.pxd":66
@@ -36353,10 +35056,6 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5model_matrix_dot_t(__Pyx_memviewslice
  */
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.model.matrix_dot_t", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
@@ -40726,7 +39425,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  * 
  */
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_result, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 498, __pyx_L5_except_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_result, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 498, __pyx_L5_except_error)
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_r = __pyx_t_1;
         __pyx_t_1 = 0;
@@ -49281,7 +47980,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->name);
@@ -49326,7 +48025,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
@@ -53729,113 +52428,113 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_6mlgrad_4func_Func) __PYX_ERR(3, 6, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_4func_Func = (struct __pyx_vtabstruct_6mlgrad_4func_Func*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Func->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Func)) __PYX_ERR(3, 6, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Comp = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Comp", sizeof(struct __pyx_obj_6mlgrad_4func_Comp), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Comp) __PYX_ERR(3, 19, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Comp = (struct __pyx_vtabstruct_6mlgrad_4func_Comp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Comp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Comp)) __PYX_ERR(3, 19, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Comp) __PYX_ERR(3, 16, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Comp = (struct __pyx_vtabstruct_6mlgrad_4func_Comp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Comp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Comp)) __PYX_ERR(3, 16, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_ZeroOnPositive = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "ZeroOnPositive", sizeof(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_ZeroOnPositive) __PYX_ERR(3, 25, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_ZeroOnPositive = (struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ZeroOnPositive->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ZeroOnPositive)) __PYX_ERR(3, 25, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_ZeroOnPositive) __PYX_ERR(3, 22, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_ZeroOnPositive = (struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ZeroOnPositive->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ZeroOnPositive)) __PYX_ERR(3, 22, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_FuncExp = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "FuncExp", sizeof(struct __pyx_obj_6mlgrad_4func_FuncExp), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_FuncExp) __PYX_ERR(3, 30, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_FuncExp = (struct __pyx_vtabstruct_6mlgrad_4func_FuncExp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_FuncExp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_FuncExp)) __PYX_ERR(3, 30, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_FuncExp) __PYX_ERR(3, 27, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_FuncExp = (struct __pyx_vtabstruct_6mlgrad_4func_FuncExp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_FuncExp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_FuncExp)) __PYX_ERR(3, 27, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Id = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Id", sizeof(struct __pyx_obj_6mlgrad_4func_Id), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Id) __PYX_ERR(3, 34, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Id = (struct __pyx_vtabstruct_6mlgrad_4func_Id*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Id->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Id)) __PYX_ERR(3, 34, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Id) __PYX_ERR(3, 31, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Id = (struct __pyx_vtabstruct_6mlgrad_4func_Id*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Id->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Id)) __PYX_ERR(3, 31, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Neg = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Neg", sizeof(struct __pyx_obj_6mlgrad_4func_Neg), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Neg) __PYX_ERR(3, 39, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Neg = (struct __pyx_vtabstruct_6mlgrad_4func_Neg*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Neg->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Neg)) __PYX_ERR(3, 39, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Neg) __PYX_ERR(3, 36, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Neg = (struct __pyx_vtabstruct_6mlgrad_4func_Neg*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Neg->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Neg)) __PYX_ERR(3, 36, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Arctang = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Arctang", sizeof(struct __pyx_obj_6mlgrad_4func_Arctang), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Arctang) __PYX_ERR(3, 44, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Arctang = (struct __pyx_vtabstruct_6mlgrad_4func_Arctang*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Arctang->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Arctang)) __PYX_ERR(3, 44, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Arctang) __PYX_ERR(3, 41, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Arctang = (struct __pyx_vtabstruct_6mlgrad_4func_Arctang*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Arctang->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Arctang)) __PYX_ERR(3, 41, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Sigmoidal = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Sigmoidal", sizeof(struct __pyx_obj_6mlgrad_4func_Sigmoidal), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Sigmoidal) __PYX_ERR(3, 48, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Sigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sigmoidal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sigmoidal)) __PYX_ERR(3, 48, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Sigmoidal) __PYX_ERR(3, 45, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Sigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sigmoidal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sigmoidal)) __PYX_ERR(3, 45, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_ModSigmoidal = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "ModSigmoidal", sizeof(struct __pyx_obj_6mlgrad_4func_ModSigmoidal), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_ModSigmoidal) __PYX_ERR(3, 52, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_ModSigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ModSigmoidal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ModSigmoidal)) __PYX_ERR(3, 52, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_ModSigmoidal) __PYX_ERR(3, 49, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_ModSigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ModSigmoidal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ModSigmoidal)) __PYX_ERR(3, 49, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Softplus = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Softplus", sizeof(struct __pyx_obj_6mlgrad_4func_Softplus), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Softplus) __PYX_ERR(3, 56, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Softplus = (struct __pyx_vtabstruct_6mlgrad_4func_Softplus*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Softplus->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Softplus)) __PYX_ERR(3, 56, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Softplus) __PYX_ERR(3, 53, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Softplus = (struct __pyx_vtabstruct_6mlgrad_4func_Softplus*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Softplus->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Softplus)) __PYX_ERR(3, 53, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Threshold = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Threshold", sizeof(struct __pyx_obj_6mlgrad_4func_Threshold), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Threshold) __PYX_ERR(3, 61, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Threshold = (struct __pyx_vtabstruct_6mlgrad_4func_Threshold*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Threshold->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Threshold)) __PYX_ERR(3, 61, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Threshold) __PYX_ERR(3, 58, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Threshold = (struct __pyx_vtabstruct_6mlgrad_4func_Threshold*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Threshold->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Threshold)) __PYX_ERR(3, 58, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Sign = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Sign", sizeof(struct __pyx_obj_6mlgrad_4func_Sign), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Sign) __PYX_ERR(3, 65, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Sign = (struct __pyx_vtabstruct_6mlgrad_4func_Sign*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sign->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sign)) __PYX_ERR(3, 65, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Sign) __PYX_ERR(3, 62, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Sign = (struct __pyx_vtabstruct_6mlgrad_4func_Sign*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sign->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sign)) __PYX_ERR(3, 62, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Quantile = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Quantile", sizeof(struct __pyx_obj_6mlgrad_4func_Quantile), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Quantile) __PYX_ERR(3, 69, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Quantile = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile)) __PYX_ERR(3, 69, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Quantile) __PYX_ERR(3, 66, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Quantile = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile)) __PYX_ERR(3, 66, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_QuantileFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "QuantileFunc", sizeof(struct __pyx_obj_6mlgrad_4func_QuantileFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_QuantileFunc) __PYX_ERR(3, 75, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_QuantileFunc = (struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_QuantileFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_QuantileFunc)) __PYX_ERR(3, 75, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_QuantileFunc) __PYX_ERR(3, 72, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_QuantileFunc = (struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_QuantileFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_QuantileFunc)) __PYX_ERR(3, 72, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Expectile = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Expectile", sizeof(struct __pyx_obj_6mlgrad_4func_Expectile), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Expectile) __PYX_ERR(3, 80, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Expectile = (struct __pyx_vtabstruct_6mlgrad_4func_Expectile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Expectile->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Expectile)) __PYX_ERR(3, 80, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Expectile) __PYX_ERR(3, 77, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Expectile = (struct __pyx_vtabstruct_6mlgrad_4func_Expectile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Expectile->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Expectile)) __PYX_ERR(3, 77, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Power = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Power", sizeof(struct __pyx_obj_6mlgrad_4func_Power), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Power) __PYX_ERR(3, 86, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Power = (struct __pyx_vtabstruct_6mlgrad_4func_Power*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Power->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Power)) __PYX_ERR(3, 86, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Power) __PYX_ERR(3, 83, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Power = (struct __pyx_vtabstruct_6mlgrad_4func_Power*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Power->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Power)) __PYX_ERR(3, 83, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Square = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Square", sizeof(struct __pyx_obj_6mlgrad_4func_Square), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Square) __PYX_ERR(3, 92, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Square = (struct __pyx_vtabstruct_6mlgrad_4func_Square*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Square->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Square)) __PYX_ERR(3, 92, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Square) __PYX_ERR(3, 89, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Square = (struct __pyx_vtabstruct_6mlgrad_4func_Square*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Square->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Square)) __PYX_ERR(3, 89, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_SquareSigned = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "SquareSigned", sizeof(struct __pyx_obj_6mlgrad_4func_SquareSigned), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_SquareSigned) __PYX_ERR(3, 97, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SquareSigned = (struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SquareSigned->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SquareSigned)) __PYX_ERR(3, 97, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_SquareSigned) __PYX_ERR(3, 94, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_SquareSigned = (struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SquareSigned->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SquareSigned)) __PYX_ERR(3, 94, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Absolute = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Absolute", sizeof(struct __pyx_obj_6mlgrad_4func_Absolute), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Absolute) __PYX_ERR(3, 102, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Absolute = (struct __pyx_vtabstruct_6mlgrad_4func_Absolute*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Absolute->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Absolute)) __PYX_ERR(3, 102, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Absolute) __PYX_ERR(3, 99, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Absolute = (struct __pyx_vtabstruct_6mlgrad_4func_Absolute*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Absolute->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Absolute)) __PYX_ERR(3, 99, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Quantile_AlphaLog = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Quantile_AlphaLog", sizeof(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog) __PYX_ERR(3, 107, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog)) __PYX_ERR(3, 107, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog) __PYX_ERR(3, 104, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog)) __PYX_ERR(3, 104, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_SoftAbs = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "SoftAbs", sizeof(struct __pyx_obj_6mlgrad_4func_SoftAbs), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_SoftAbs) __PYX_ERR(3, 114, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SoftAbs = (struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftAbs->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftAbs)) __PYX_ERR(3, 114, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_SoftAbs) __PYX_ERR(3, 111, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_SoftAbs = (struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftAbs->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftAbs)) __PYX_ERR(3, 111, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Sqrt = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Sqrt", sizeof(struct __pyx_obj_6mlgrad_4func_Sqrt), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Sqrt) __PYX_ERR(3, 119, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sqrt)) __PYX_ERR(3, 119, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Sqrt) __PYX_ERR(3, 116, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sqrt)) __PYX_ERR(3, 116, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Quantile_Sqrt = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Quantile_Sqrt", sizeof(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Quantile_Sqrt) __PYX_ERR(3, 126, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_Sqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt)) __PYX_ERR(3, 126, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Quantile_Sqrt) __PYX_ERR(3, 124, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_Sqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt)) __PYX_ERR(3, 124, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Logistic = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Logistic", sizeof(struct __pyx_obj_6mlgrad_4func_Logistic), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Logistic) __PYX_ERR(3, 134, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Logistic = (struct __pyx_vtabstruct_6mlgrad_4func_Logistic*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Logistic->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Logistic)) __PYX_ERR(3, 134, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Logistic) __PYX_ERR(3, 132, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Logistic = (struct __pyx_vtabstruct_6mlgrad_4func_Logistic*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Logistic->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Logistic)) __PYX_ERR(3, 132, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Huber = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Huber", sizeof(struct __pyx_obj_6mlgrad_4func_Huber), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Huber) __PYX_ERR(3, 140, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Huber = (struct __pyx_vtabstruct_6mlgrad_4func_Huber*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Huber->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Huber)) __PYX_ERR(3, 140, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Huber) __PYX_ERR(3, 138, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Huber = (struct __pyx_vtabstruct_6mlgrad_4func_Huber*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Huber->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Huber)) __PYX_ERR(3, 138, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_TM = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "TM", sizeof(struct __pyx_obj_6mlgrad_4func_TM), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_TM) __PYX_ERR(3, 146, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_TM = (struct __pyx_vtabstruct_6mlgrad_4func_TM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_TM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_TM)) __PYX_ERR(3, 146, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_TM) __PYX_ERR(3, 144, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_TM = (struct __pyx_vtabstruct_6mlgrad_4func_TM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_TM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_TM)) __PYX_ERR(3, 144, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_LogSquare = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "LogSquare", sizeof(struct __pyx_obj_6mlgrad_4func_LogSquare), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_LogSquare) __PYX_ERR(3, 151, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_LogSquare = (struct __pyx_vtabstruct_6mlgrad_4func_LogSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_LogSquare->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_LogSquare)) __PYX_ERR(3, 151, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_LogSquare) __PYX_ERR(3, 149, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_LogSquare = (struct __pyx_vtabstruct_6mlgrad_4func_LogSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_LogSquare->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_LogSquare)) __PYX_ERR(3, 149, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Tukey = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Tukey", sizeof(struct __pyx_obj_6mlgrad_4func_Tukey), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Tukey) __PYX_ERR(3, 157, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Tukey = (struct __pyx_vtabstruct_6mlgrad_4func_Tukey*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Tukey->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Tukey)) __PYX_ERR(3, 157, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Tukey) __PYX_ERR(3, 155, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Tukey = (struct __pyx_vtabstruct_6mlgrad_4func_Tukey*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Tukey->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Tukey)) __PYX_ERR(3, 155, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Hinge = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Hinge", sizeof(struct __pyx_obj_6mlgrad_4func_Hinge), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Hinge) __PYX_ERR(3, 164, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Hinge = (struct __pyx_vtabstruct_6mlgrad_4func_Hinge*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Hinge->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Hinge)) __PYX_ERR(3, 164, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Hinge) __PYX_ERR(3, 162, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Hinge = (struct __pyx_vtabstruct_6mlgrad_4func_Hinge*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Hinge->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Hinge)) __PYX_ERR(3, 162, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_HingeSqrt = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "HingeSqrt", sizeof(struct __pyx_obj_6mlgrad_4func_HingeSqrt), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_HingeSqrt) __PYX_ERR(3, 170, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_HingeSqrt = (struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_HingeSqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_HingeSqrt)) __PYX_ERR(3, 170, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_HingeSqrt) __PYX_ERR(3, 168, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_HingeSqrt = (struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_HingeSqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_HingeSqrt)) __PYX_ERR(3, 168, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Exp = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Exp", sizeof(struct __pyx_obj_6mlgrad_4func_Exp), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Exp) __PYX_ERR(3, 177, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Exp = (struct __pyx_vtabstruct_6mlgrad_4func_Exp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Exp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Exp)) __PYX_ERR(3, 177, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Exp) __PYX_ERR(3, 175, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Exp = (struct __pyx_vtabstruct_6mlgrad_4func_Exp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Exp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Exp)) __PYX_ERR(3, 175, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Log = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Log", sizeof(struct __pyx_obj_6mlgrad_4func_Log), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Log) __PYX_ERR(3, 182, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Log = (struct __pyx_vtabstruct_6mlgrad_4func_Log*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Log->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Log)) __PYX_ERR(3, 182, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Log) __PYX_ERR(3, 180, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Log = (struct __pyx_vtabstruct_6mlgrad_4func_Log*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Log->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Log)) __PYX_ERR(3, 180, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_KMinSquare = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "KMinSquare", sizeof(struct __pyx_obj_6mlgrad_4func_KMinSquare), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_KMinSquare) __PYX_ERR(3, 187, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_KMinSquare = (struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_KMinSquare->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_KMinSquare)) __PYX_ERR(3, 187, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_KMinSquare) __PYX_ERR(3, 185, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_KMinSquare = (struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_KMinSquare->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_KMinSquare)) __PYX_ERR(3, 185, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_ParameterizedFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "ParameterizedFunc", sizeof(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_ParameterizedFunc) __PYX_ERR(3, 192, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_ParameterizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ParameterizedFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc)) __PYX_ERR(3, 192, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_ParameterizedFunc) __PYX_ERR(3, 190, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_ParameterizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ParameterizedFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc)) __PYX_ERR(3, 190, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_WinsorizedFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "WinsorizedFunc", sizeof(struct __pyx_obj_6mlgrad_4func_WinsorizedFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_WinsorizedFunc) __PYX_ERR(3, 201, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_WinsorizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedFunc)) __PYX_ERR(3, 201, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_WinsorizedFunc) __PYX_ERR(3, 199, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_WinsorizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedFunc)) __PYX_ERR(3, 199, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "WinsorizedSmoothFunc", sizeof(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc) __PYX_ERR(3, 205, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc)) __PYX_ERR(3, 205, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc) __PYX_ERR(3, 203, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc)) __PYX_ERR(3, 203, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_SoftMinFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "SoftMinFunc", sizeof(struct __pyx_obj_6mlgrad_4func_SoftMinFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_SoftMinFunc) __PYX_ERR(3, 208, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SoftMinFunc = (struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftMinFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftMinFunc)) __PYX_ERR(3, 208, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_SoftMinFunc) __PYX_ERR(3, 206, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_SoftMinFunc = (struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftMinFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftMinFunc)) __PYX_ERR(3, 206, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -54892,23 +53591,6 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
 #endif
     }
     return result;
-}
-
-/* BufferIndexError */
-static void __Pyx_RaiseBufferIndexError(int axis) {
-  PyErr_Format(PyExc_IndexError,
-     "Out of bounds on buffer access (axis %d)", axis);
-}
-
-/* BufferIndexErrorNogil */
-static void __Pyx_RaiseBufferIndexErrorNogil(int axis) {
-    #ifdef WITH_THREAD
-    PyGILState_STATE gilstate = PyGILState_Ensure();
-    #endif
-    __Pyx_RaiseBufferIndexError(axis);
-    #ifdef WITH_THREAD
-    PyGILState_Release(gilstate);
-    #endif
 }
 
 /* PyErrFetchRestore */

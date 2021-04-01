@@ -7,11 +7,8 @@ cdef class Func(object):
     cdef public unicode label
     #
     cdef double evaluate(self, const double x) nogil
-    #
     cdef double derivative(self, const double x) nogil
-    #
     cdef double derivative2(self, const double x) nogil
-    #
     cdef double derivative_div_x(self, const double x) nogil
     #
 
@@ -122,6 +119,7 @@ cdef class Sqrt(Func):
     cdef double eps2
     cdef double alpha
     #
+    
 @cython.final
 cdef class Quantile_Sqrt(Func):
     #

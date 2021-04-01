@@ -1,11 +1,11 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=True
-# cython: wraparound=True
-# cython: nonecheck=True
+# cython: boundscheck=False
+# cython: wraparound=False
+# cython: nonecheck=False
 # cython: embedsignature=True
-# cython: initializedcheck=True
+# cython: initializedcheck=False
 # cython: unraisable_tracebacks=True
 
 # The MIT License (MIT)
@@ -67,11 +67,11 @@ cdef class PenaltyAverage(Penalty):
     def __init__(self, Func func):
         self.func = func
     #
-#     @cython.cdivision(True)
+    @cython.cdivision(True)
     @cython.final
     cdef double evaluate(self, double[::1] Y, double u):
         cdef Py_ssize_t N = Y.shape[0]
-#         cdef double *YY = &Y[0]
+        cdef double *YY = &Y[0]
         cdef Py_ssize_t k
         cdef double S, v
         cdef Func func = self.func
@@ -80,15 +80,15 @@ cdef class PenaltyAverage(Penalty):
         S = 0
         for k in prange(N, nogil=True, num_threads=num_procs):
 #         for k in range(N):
-            S += func_evaluate(func, Y[k] - u)
+            S += func_evaluate(func, YY[k] - u)
        
         return S / N
     # 
-#     @cython.cdivision(True)
+    @cython.cdivision(True)
     @cython.final
     cdef double derivative(self, double[::1] Y, double u):
         cdef Py_ssize_t k, N = Y.shape[0]
-#         cdef double *YY = &Y[0]
+        cdef double *YY = &Y[0]
         cdef double S
         cdef Func func = self.func
         cdef FuncDerivative func_derivative = func.derivative
@@ -96,15 +96,15 @@ cdef class PenaltyAverage(Penalty):
         S = 0
         for k in prange(N, nogil=True, num_threads=num_procs):
 #         for k in range(N):
-            S += func_derivative(func, Y[k] - u)                        
+            S += func_derivative(func, YY[k] - u)                        
     
         return -S / N
     #
-#     @cython.cdivision(True)
+    @cython.cdivision(True)
     @cython.final
     cdef double iterative_next(self, double[::1] Y, double u):
         cdef Py_ssize_t k, N = Y.shape[0]
-#         cdef double *YY = &Y[0]
+        cdef double *YY = &Y[0]
         cdef double S, V, v, yk
         cdef Func func = self.func
         cdef FuncDerivativeDivX func_derivative_div_x = func.derivative_div_x
@@ -113,32 +113,32 @@ cdef class PenaltyAverage(Penalty):
         V = 0
         for k in prange(N, nogil=True, num_threads=num_procs):
 #         for k in range(N):
-            yk = Y[k]
+            yk = YY[k]
             v = func_derivative_div_x(func, yk - u)
             V += v
             S += v * yk
         
         return S / V
     #
-#     @cython.cdivision(True)
+    @cython.cdivision(True)
     @cython.final
     cdef void gradient(self, double[::1] Y, double u, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
-#         cdef double *YY = &Y[0]
+        cdef double *YY = &Y[0]
         cdef double v, S
-#         cdef double *GG = &grad[0]
+        cdef double *GG = &grad[0]
         cdef Func func = self.func
         cdef FuncDerivative2 func_derivative2 = func.derivative2
         
         S = 0
         for k in prange(N, nogil=True, num_threads=num_procs):
 #         for k in range(N):
-            grad[k] = v = func_derivative2(func, Y[k] - u)
+            GG[k] = v = func_derivative2(func, Y[k] - u)
             S += v
                 
         for k in prange(N, nogil=True, num_threads=num_procs):
 #         for k in range(N):
-                grad[k] /= S
+            GG[k] /= S
 
 cdef class PenaltyScale(Penalty):
     #
@@ -276,6 +276,7 @@ cdef class Average(object):
     cdef gradient(self, double[::1] Y, double[::1] grad):
         self.penalty.gradient(Y, self.u, grad)
     #
+    @cython.cdivision(True)
     cdef bint stop_condition(self):
         cdef double p, pmin, prev
         #
@@ -313,13 +314,14 @@ cdef class ParameterizedAverage(Average):
         self.avr = avr
     #
     @cython.final
+    @cython.cdivision(True)
     cpdef fit(self, double[::1] Y, u0=None):
         cdef Py_ssize_t k
         cdef Py_ssize_t N = Y.shape[0], M
         cdef double c
         cdef double u = 0
-        cdef double u1,u2,u3,u4
-        cdef double v1,v2,v3,v4
+#         cdef double u1,u2,u3,u4
+#         cdef double v1,v2,v3,v4
         cdef double *YY = &Y[0]
         cdef ParameterizedFunc func = self.func
         
@@ -332,12 +334,13 @@ cdef class ParameterizedAverage(Average):
 
         self.u = u / N
     #
+    @cython.cdivision(True)
     @cython.final
     cdef gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k
         cdef Py_ssize_t N = Y.shape[0], M
         cdef double c
-        cdef double N1 = 1/N
+        cdef double N1 = 1.0/N
         cdef double H
         cdef double *YY = &Y[0]
         cdef double *GG = &grad[0]
@@ -365,6 +368,7 @@ cdef class WMAverage(Average):
         self.avr = avr
         self.u = 0
     #
+    @cython.cdivision(True)
     @cython.final
     cpdef fit(self, double[::1] Y, u0=None):
         cdef double u, v, yk, avr_u
@@ -385,11 +389,12 @@ cdef class WMAverage(Average):
         self.u_best = self.u
         self.K = self.avr.K
     #
+    @cython.cdivision(True)
     @cython.final
     cdef gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, m, m4, N = Y.shape[0], M
         cdef double u, v, yk
-        cdef double N1 = 1/N
+        cdef double N1 = 1.0/N
         cdef double *YY = &Y[0]
         cdef double *GG = &grad[0]
 
@@ -524,6 +529,7 @@ cdef class HMAverage(Average):
         self.n_iter = n_iter
         self.tol = tol
     #
+    @cython.cdivision(True)
     cpdef fit(self, double[::1] Y, u0=None):
         cdef double v, w, yk, avr_z
         cdef double u, u_prev
@@ -582,6 +588,7 @@ cdef class HMAverage(Average):
         self.u = u
         self.u_best = self.u
     #
+    @cython.cdivision(True)
     cdef gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double u, v, w, N1, yk
@@ -615,6 +622,7 @@ cdef class HMAverage(Average):
     
 cdef class ArithMean(Average):
     #
+    @cython.cdivision(True)
     cpdef fit(self, double[::1] Y, u0=None):
         cdef double u
         cdef Py_ssize_t k, N = Y.shape[0]
@@ -627,6 +635,7 @@ cdef class ArithMean(Average):
         self.u = u / N
         self.u_best = self.u
     #
+    @cython.cdivision(True)
     cdef gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double N1
