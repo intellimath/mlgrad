@@ -118,6 +118,7 @@ cdef class Sqrt(Func):
     cdef double eps
     cdef double eps2
     cdef double alpha
+    cdef double zero
     #
     
 @cython.final

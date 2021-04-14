@@ -113,7 +113,7 @@ def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None
     alg = fg(er, h=h, tol=tol, n_iter=n_iter,
              averager=averager, callback=callback, stop_condition=stop_condition)
     for i in range(n_restart):
-        print('step:', i+1)
+#         print('step:', i+1)
         alg.fit(warm=(i>0))
         K += alg.K
         if alg.completed:

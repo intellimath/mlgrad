@@ -335,42 +335,32 @@ cdef class LinearModel(Model):
     def __getnewargs__(self):
         return (self.n_input,)
     #
-#     cdef normalize(self):
-#         cdef int i, n_param = self.n_param
-#         cdef double v, u
-
-#         v = 0
-#         for i in range(1, n_param):
-#             u = self.param[i]
-#             v += u * u
-#         v = sqrt(v)
-#         for i in range(1, n_param):
-#             self.param[i] /= v        
-    #
     cdef double evaluate(self, double[::1] X):
-        cdef Py_ssize_t i, n_param = self.n_param
+        cdef Py_ssize_t i, n = self.n_input
         cdef double v
-        cdef double[::1] param = self.param
+#         cdef double[::1] param = self.param
+        cdef double  *ptr = &self.param[1]
 
-        #print("LM: %s %s %s" % (self.n_param, tuple(self.param), X))
-        v = param[0]
-        for i in range(1, n_param):
-            v += param[i] * X[i-1]
+        v = self.param[0]
+        for i in range(n):
+            v += ptr[i] * X[i]
         return v
     #
     cdef void gradient(self, double[::1] X, double[::1] grad):
-        cdef int i, n_param = self.n_param
+#         cdef Py_ssize_t i, n_param = self.n_param
         
-        grad[0] = 1
-        for i in range(1, n_param):
-            grad[i] = X[i-1]
+        grad[0] = 1.
+        memcpy(&grad[1], &X[0], cython.sizeof(double)*self.n_input)
+#         for i in range(1, n_param):
+#             grad[i] = X[i-1]
     #
     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
-        cdef int i, n_input = self.n_input
-        cdef double[::1] param = self.param
+#         cdef Py_ssize_t i, n_input = self.n_input
+#         cdef double[::1] param = self.param
 
-        for i in range(n_input):
-            grad_x[i] = param[i+1]
+        memcpy(&grad_x[0], &self.param[1], cython.sizeof(double)*self.n_input)
+#         for i in range(n_input):
+#             grad_x[i] = param[i+1]
     #
     cpdef Model copy(self, bint share=1):
         cdef LinearModel mod = LinearModel(self.n_input)

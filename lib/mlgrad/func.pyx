@@ -906,14 +906,14 @@ cdef class SoftAbs(Func):
     
 cdef class Sqrt(Func):
     #
-    def __init__(self, eps=1.0):
+    def __init__(self, eps=1.0, zero=False):
         self.eps = eps
         self.eps2 = eps*eps
+        self.zero = 0. if zero else eps
 #         self.alpha = alpha
     #
     cdef double evaluate(self, const double x) nogil:
-        cdef double xx = x*x
-        return sqrt(self.eps2 + xx) - self.eps
+        return sqrt(self.eps2 + x*x) - self.eps
     #
     @cython.cdivision(True)
     @cython.final
@@ -925,13 +925,12 @@ cdef class Sqrt(Func):
     @cython.final
     cdef double derivative2(self, const double x) nogil:
         cdef double v = self.eps2 + x*x
-        return self.eps2 / (v * sqrt(v)) + self.alpha
+        return self.eps2 / (v * sqrt(v))
     #
     @cython.cdivision(True)
     @cython.final
     cdef double derivative_div_x(self, const double x) nogil:
-        cdef double v = self.eps2 + x*x
-        return 1 / sqrt(v)
+        return 1. / sqrt(self.eps2 + x*x)
     #
     def _repr_latex_(self):
         return r"$p(x)=\sqrt{\varepsilon^2+x^2}$"
@@ -960,7 +959,7 @@ cdef class Quantile_Sqrt(Func):
         if x >= 0:
             return self.alpha * x / sqrt(v)
         else:
-            return (1-self.alpha) * x / sqrt(v)
+            return (1.-self.alpha) * x / sqrt(v)
     #
     @cython.cdivision(True)
     cdef double derivative2(self, const double x) nogil:
@@ -968,7 +967,7 @@ cdef class Quantile_Sqrt(Func):
         if x >= 0:
             return self.alpha * self.eps2 / (v * sqrt(v))
         else:
-            return (1-self.alpha) * self.eps2 / (v * sqrt(v))
+            return (1.-self.alpha) * self.eps2 / (v * sqrt(v))
     #
     @cython.cdivision(True)
     cdef double derivative_div_x(self, const double x) nogil:
@@ -976,7 +975,7 @@ cdef class Quantile_Sqrt(Func):
         if x >= 0:
             return self.alpha / sqrt(v)
         else:
-            return (1-self.alpha) / sqrt(v)
+            return (1.-self.alpha) / sqrt(v)
     #
     def _repr_latex_(self):
         return r"$p(x)=(\sqrt{\varepsilon^2+x^2}-\varepsilon)_\alpha$"
@@ -1073,17 +1072,17 @@ cdef class SoftMinFunc(ParameterizedFunc):
     @cython.cdivision(True)
     cdef double evaluate(self, const double x, const double u) nogil:
         if u < x:
-            return u - log(1 + exp(-self.a*(x-u))) / self.a
+            return u - log(1. + exp(-self.a*(x-u))) / self.a
         else:
-            return x - log(1 + exp(-self.a*(u-x))) / self.a
+            return x - log(1. + exp(-self.a*(u-x))) / self.a
     #
     @cython.cdivision(True)
     cdef double derivative(self, const double x, const double u) nogil:
-        return 1 / (1+exp(-self.a*(u-x)))
+        return 1. / (1. + exp(-self.a*(u-x)))
     #
     @cython.cdivision(True)
     cdef double derivative_u(self, const double x, const double u) nogil:
-        return 1 / (1+exp(-self.a*(x-u)))
+        return 1. / (1. + exp(-self.a*(x-u)))
         
 cdef class  WinsorizedSmoothFunc(ParameterizedFunc):
     # 
@@ -1094,10 +1093,10 @@ cdef class  WinsorizedSmoothFunc(ParameterizedFunc):
         return 0.5 * (x + u - self.f.evaluate(x - u))
     #
     cdef double derivative(self, const double x, const double u) nogil:
-        return 0.5 * (1 - self.f.derivative(x - u))
+        return 0.5 * (1. - self.f.derivative(x - u))
     #
     cdef double derivative_u(self, const double x, const double u) nogil:
-        return 0.5 * (1 + self.f.derivative(x - u))
+        return 0.5 * (1. + self.f.derivative(x - u))
 
 cdef class KMinSquare(Func):
     #
