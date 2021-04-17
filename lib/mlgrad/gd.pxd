@@ -5,7 +5,7 @@ cimport cython
 from mlgrad.model cimport Model
 from mlgrad.func cimport Func, Square
 from mlgrad.loss cimport Loss
-from mlgrad.regular cimport FuncMulti
+from mlgrad.regnorm cimport FuncMulti
 from mlgrad.averager cimport ArrayAverager, ArraySave
 from mlgrad.avragg cimport Average, ArithMean
 from mlgrad.weights cimport Weights

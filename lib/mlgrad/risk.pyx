@@ -34,7 +34,7 @@ from mlgrad.model cimport Model, MLModel
 from mlgrad.func cimport Func, Square
 from mlgrad.loss cimport Loss, ErrorLoss
 from mlgrad.distance cimport Distance
-from mlgrad.regular cimport FuncMulti
+from mlgrad.regnorm cimport FuncMulti, SquareNorm
 from mlgrad.avragg cimport Average, ArithMean
 # from mlgrad.averager cimport ArrayAdaM1
 # from mlgrad.weights cimport Weights, ConstantWeights, ArrayWeights
@@ -70,7 +70,7 @@ cdef class Functional:
 cdef class SimpleFunctional(Functional):
     #
     def __init__(self, FuncMulti func, double[::1] param=None):
-        self.regular = func
+        self.regnorm = func
         if self.param is None:
             raise RuntimeError("Param is not specified")
         self.param = param
@@ -80,11 +80,11 @@ cdef class SimpleFunctional(Functional):
         self.n_sample = 0
     #
     cdef double evaluate(self):
-        self.lval = self.regular.evaluate(self.param)
+        self.lval = self.regnorm.evaluate(self.param)
         return self.lval
     #
     cdef void gradient(self):
-        self.regular.gradient(self.param, self.grad_average)
+        self.regnorm.gradient(self.param, self.grad_average)
         
         
 cdef class Risk(Functional):
@@ -105,7 +105,7 @@ cdef class MRisk(Risk):
     #
     def __init__(self, double[:,::1] X not None, double[::1] Y not None, Model model not None, 
                        Loss loss=None, Average avg=None,
-                       FuncMulti regular=None, Batch batch=None, tau=1.0e-3):
+                       FuncMulti regnorm=None, Batch batch=None, tau=1.0e-3):
         self.model = model
         self.param = model.param
         self.n_param = model.n_param
@@ -126,8 +126,8 @@ cdef class MRisk(Risk):
         else:
             self.avg = avg
 
-        self.regular = regular
-        if regular is not None:
+        self.regnorm = regnorm
+        if regnorm is not None:
             self.grad_r = np.zeros(self.n_param, 'd')
 
         self.grad = np.zeros(self.n_param, 'd')
@@ -177,8 +177,8 @@ cdef class MRisk(Risk):
             yk = _model.evaluate(X[k])
             lval_all[j] = _loss.evaluate(yk, Y[k])
             
-        if self.regular is not None:
-            v = self.tau * self.regular.evaluate(_model.param) / size
+        if self.regnorm is not None:
+            v = self.tau * self.regnorm.evaluate(_model.param) / size
             for j in range(size):
                 lval_all[j] += v
     #
@@ -231,8 +231,8 @@ cdef class MRisk(Risk):
             for i in range(n_param):
                 self.grad_average[i] += vv * grad[i]
 
-        if self.regular is not None:
-            self.regular.gradient(self.model.param, self.grad_r)
+        if self.regnorm is not None:
+            self.regnorm.gradient(self.model.param, self.grad_r)
             for i in range(n_param):
                 self.grad_average[i] += self.tau * self.grad_r[i]
 
@@ -243,7 +243,7 @@ cdef class ED(Risk):
         self.distfunc = distfunc
         self.param = None
         self.weights = None
-        self.regular = None
+        self.regnorm = None
         self.grad = None
         self.grad_average = None
         self.weights = None
@@ -318,7 +318,7 @@ cdef class ED(Risk):
 cdef class ERisk(Risk):
     #
     def __init__(self, double[:,::1] X not None, double[::1] Y not None, Model model not None, 
-                 Loss loss=None, FuncMulti regular=None, Batch batch=None, tau=1.0e-3):
+                 Loss loss=None, FuncMulti regnorm=None, Batch batch=None, tau=0.001):
 
         self.model = model
         self.param = model.param
@@ -336,8 +336,8 @@ cdef class ERisk(Risk):
         else:
             self.loss = loss
 
-        self.regular = regular
-        if self.regular is not None:
+        self.regnorm = regnorm
+        if self.regnorm is not None:
             self.grad_r = np.zeros(n_param, 'd')
 
         self.grad = np.zeros(n_param, 'd')
@@ -414,8 +414,8 @@ cdef class ERisk(Risk):
             y = _model.evaluate(X[k])
             S += weights[j] * _loss.evaluate(y, Y[k]) 
                     
-        if self.regular is not None:
-            S += self.tau * self.regular.evaluate(_model.param)                
+        if self.regnorm is not None:
+            S += self.tau * self.regnorm.evaluate(_model.param)                
 
         self.lval = S
         return S
@@ -481,8 +481,8 @@ cdef class ERisk(Risk):
             for i in range(n_param):
                 self.grad_average[i] += vv * grad[i]
 
-        if self.regular is not None:
-            self.regular.gradient(self.model.param, self.grad_r)
+        if self.regnorm is not None:
+            self.regnorm.gradient(self.model.param, self.grad_r)
             for i in range(n_param):
                 self.grad_average[i] += self.tau * self.grad_r[i]
 
@@ -490,7 +490,7 @@ cdef class AER(ERisk):
     #
     def __init__(self, double[:,::1] X, double[::1] Y, 
                  Model model, Loss loss, Average loss_averager=None,
-                 FuncMulti regular=None, Batch batch=None, tau=1.0e-3):
+                 FuncMulti regnorm=None, Batch batch=None, tau=1.0e-3):
         self.X = X
         self.Y = Y
         self.n_sample = len(Y)
@@ -498,7 +498,7 @@ cdef class AER(ERisk):
         self.param = model.param
         self.loss = loss
         self.loss_averager = loss_averager
-        self.regular = regular
+        self.regnorm = regnorm
         self.weights = None
         self.grad = None
         self.grad_r = None
@@ -550,8 +550,8 @@ cdef class AER(ERisk):
         self.loss_averager.fit(self.lval_all)
         self.lval = self.loss_averager.u
                     
-        if self.regular is not None:
-            self.lval += self.tau * self.regular.evaluate(_model.param)                
+        if self.regnorm is not None:
+            self.lval += self.tau * self.regnorm.evaluate(_model.param)                
 
         return self.lval
     
@@ -589,19 +589,19 @@ cdef class AER(ERisk):
             for i in range(n_param):
                 grad_average[i] += lval_dy * grad[i]
                 
-        if self.regular is not None:
-            self.regular.gradient(self.model.param, self.grad_r)
+        if self.regnorm is not None:
+            self.regnorm.gradient(self.model.param, self.grad_r)
             for i in range(n_param):
                 self.grad_average[i] += self.tau * self.grad_r[i]    
     
 cdef class ER2(Risk):
     #
     def __init__(self, double[:,::1] X, double[:,::1] Y, MLModel model, MultLoss loss,
-                       FuncMulti regular=None, Batch batch=None, tau=1.0e-3):
+                       FuncMulti regnorm=None, Batch batch=None, tau=1.0e-3):
         self.model = model
         self.param = model.param
         self.loss = loss
-        self.regular = regular
+        self.regnorm = regnorm
         self.weights = None
         self.grad = None
         self.grad_u = None
@@ -638,7 +638,7 @@ cdef class ER2(Risk):
         if self.grad_average is None:
             self.grad_average = np.zeros(n_param, dtype='d')
 
-        if self.regular:
+        if self.regnorm:
             if self.grad_r is None:
                 self.grad_r = np.zeros(n_param, dtype='d')
                 
@@ -691,8 +691,8 @@ cdef class ER2(Risk):
             _model.forward(X[k])
             lval_all[k] = _loss.evaluate(output, Y[k])
 
-        #if self.regular is not None:
-        #    v = self.tau * self.regular.evaluate(self.model.param) / N
+        #if self.regnorm is not None:
+        #    v = self.tau * self.regnorm.evaluate(self.model.param) / N
         #    for k in range(N):
         #        lval_all[k] += v
     #
@@ -718,8 +718,8 @@ cdef class ER2(Risk):
             lval = _loss.evaluate(output, Y[k])
             S += weights[k] * lval
                     
-        if self.regular is not None:
-            S += self.tau * self.regular.evaluate(self.model.param)
+        if self.regnorm is not None:
+            S += self.tau * self.regnorm.evaluate(self.model.param)
 
         self.lval = S
         return S
@@ -759,8 +759,8 @@ cdef class ER2(Risk):
             for i in range(n_param):
                 grad_average[i] += wk * grad[i]
                 
-        if self.regular is not None:
-            self.regular.gradient(self.model.param, self.grad_r)
+        if self.regnorm is not None:
+            self.regnorm.gradient(self.model.param, self.grad_r)
             for i in range(n_param):
                 grad_average[i] += self.tau * self.grad_r[i]
 

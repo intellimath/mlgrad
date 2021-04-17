@@ -34,7 +34,7 @@
  
 from mlgrad.model cimport Model
 from mlgrad.func cimport Func
-from mlgrad.regular cimport FuncMulti
+from mlgrad.regnorm cimport FuncMulti
 from mlgrad.avragg cimport Average, ArithMean
 from mlgrad.averager cimport ArrayAdaM1
 from mlgrad.weights cimport Weights, ConstantWeights, ArrayWeights

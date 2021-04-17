@@ -47,7 +47,7 @@ cdef class FuncMulti:
         x1d = as_array_1d(param)
         return self.evaluate(x1d)
 
-cdef class Power(FuncMulti):
+cdef class PowerNorm(FuncMulti):
     
     def __init__(self, p=2.0):
         self.p = p
@@ -88,9 +88,7 @@ cdef class Power(FuncMulti):
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_{%s}^{%s}=\sum_{i=0}^n w_i^{%s}$" % (self.p, self.p, self.p)
 
-cdef class Square(FuncMulti):
-    def __init__(self, c=0):
-        self.c = c
+cdef class SquareNorm(FuncMulti):
 
     cdef double evaluate(self, double[::1] param):
         cdef int i, m
@@ -104,7 +102,7 @@ cdef class Square(FuncMulti):
             s += v * v
 
         s /= 2.
-        return s - self.c
+        return s
 
     cdef void gradient(self, double[::1] param, double[::1] grad):
         cdef int i, m
@@ -123,7 +121,7 @@ cdef class Square(FuncMulti):
         return r"$||\mathbf{w}||_2^2=\sum_{i=0}^n w_i^2$"
         
 
-cdef class Absolute(FuncMulti):
+cdef class AbsoluteNorm(FuncMulti):
 
     cdef double evaluate(self, double[::1] param):
         cdef int i, m

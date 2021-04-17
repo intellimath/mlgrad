@@ -1,12 +1,12 @@
-#
-import mlgrad.model as model
 import mlgrad.loss as loss
 import mlgrad.func as func
 import mlgrad.avragg as avragg
 import mlgrad.gd as gd
-import mlgrad.regular as regular
 import mlgrad.weights as weights
 from mlgrad.utils import array_exclude_outliers
+
+from mlgrad.regnorm import SquareNorm
+from mlgrad.loss import SquareErrorLoss
 
 from mlgrad import averager_it, averager_fg, fg, erm_fg, sg, erm_sg, irgd, erm_irgd, erisk, mrisk
 
@@ -41,59 +41,37 @@ def averaging_function(kind, **kw):
         raise ValueError('Invalid argument value: %s' % kind)
     return avg
 
-def regression(Xs, Y, mod, lossfunc=None, h=0.001, tol=1.0e-9, n_iter=1000, verbose=0, n_restart=1):
-    _lossfunc = lossfunc
-    if lossfunc is None:
-        _lossfunc = loss.SquareErrorLoss()
-    er = erisk(Xs, Y, mod, _lossfunc)
+def regression(Xs, Y, mod, lossfunc=SquareErrorLoss(), regnorm=SquareNorm(), 
+               h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
+
+    er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, n_restart=n_restart)
     return alg
 
-def m_regression(Xs, Y, mod, lossfunc=None, avrfunc=None, h=0.001, tol=1.0e-9, n_iter=1000, verbose=0, n_restart=1):
-    _lossfunc = lossfunc
-    if lossfunc is None:
-        _lossfunc = loss.SquareErrorLoss()
+def m_regression(Xs, Y, mod, lossfunc=SquareErrorLoss(), avrfunc=averaging_function('WM'), regnorm=SquareNorm(), 
+                 h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
         
-    _avrfunc = avrfunc
-    if avrfunc is None:
-        _avrfunc = averager_it(func.Quantile_Sqrt(0.5, 0.001))
-        _avrfunc = avragg.WMAverage(_avrfunc)
-
-    er = mrisk(Xs, Y, mod, _lossfunc, _avrfunc)
+    er = mrisk(Xs, Y, mod, lossfunc, avrfunc, regnorm=regnorm, tau=tau)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, n_restart=n_restart)
     return alg
 
 def m_regression_irls(Xs, Y, mod, 
-                      lossfunc=None, avrfunc=None, h=0.001, 
-                      tol=1.0e-9, n_iter=1000, tol2=1.0e-5, n_iter2=21):
-    _lossfunc = lossfunc
-    if lossfunc is None:
-        _lossfunc = loss.SquareErrorLoss()
+                      lossfunc=SquareErrorLoss(), avrfunc=averaging_function('WM'), regnorm=SquareNorm(), 
+                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=21, verbose=0):
 
-    er = erisk(Xs, Y, mod, _lossfunc)
+    er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
     alg = fg(er, h=h, tol=tol, n_iter=n_iter)
 
-    _avrfunc = avrfunc
-    if avrfunc is None:
-        _avrfunc = averager_it(func.Quantile_Sqrt(0.5, 0.001))
-        _avrfunc = avragg.WMAverage(_avrfunc)
-
-    wt = weights.MWeights(_avrfunc, er)
-    irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2)
+    wt = weights.MWeights(avrfunc, er)
+    irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
         
     return irgd
 
-def r_regression_irls(Xs, Y, mod, lossfunc=None, rhofunc=None, 
-                      h=0.001, tol=1.0e-9, n_iter=1000, tol2=1.0e-5, n_iter2=21, verbose=0):
-    _lossfunc = lossfunc
-    if lossfunc is None:
-        _lossfunc = loss.SquareErrorLoss()
+def r_regression_irls(Xs, Y, mod, lossfunc=SquareErrorLoss(), rhofunc=func.Sqrt(1.0), regnorm=SquareNorm(), 
+                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=21, verbose=0):
 
-    _rhofunc = rhofunc
-    if rhofunc is None:
-        _rhofunc = func.Sqrt(1.0)
-    er = erisk(Xs, Y, mod, _lossfunc)
+    er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
     alg = fg(er, h=h, n_iter=n_iter, tol=tol)
-    wt = weights.RWeights(_rhofunc, er)
+    wt = weights.RWeights(rhofunc, er)
     irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
     return irgd

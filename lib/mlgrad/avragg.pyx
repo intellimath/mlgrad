@@ -221,6 +221,9 @@ cdef class Average(object):
         self.u_best = self.u        
         
         self.m = 0
+        
+        if self.h < 0:
+            self.h = 0.1
     #
     def __call__(self, double[::1] Y): 
         self.fit(Y)
@@ -234,6 +237,7 @@ cdef class Average(object):
     cpdef fit(self, double[::1] Y, u0=None):
         cdef int j, K, n_iter = self.n_iter
         cdef Penalty penalty = self.penalty
+        cdef double h = self.h, h1 = 1-h
         
         self.init(Y, u0)
         self.pval = penalty.evaluate(Y, self.u)
@@ -250,19 +254,13 @@ cdef class Average(object):
             self.fit_epoch(Y)
 
             self.pval = penalty.evaluate(Y, self.u)
-#             if self.pval > self.pval_prev:
-#                 for j in range(10):
-#                     if self.pval <= self.pval_prev:
-#                         break
-#                     self.u = 0.5 * (self.u + self.u_prev)
-#                     self.pval = penalty.evaluate(Y, self.u)
             #
             if self.pval < self.pmin:
                 self.pmin = self.pval
                 self.u_best = self.u
                 self.m = 0
             elif self.pval > self.pval_prev:
-                self.u = 0.9 * self.u_prev + 0.1 * self.u
+                self.u = h1 * self.u_prev + h * self.u
             #
             if self.stop_condition():
                 break
@@ -280,11 +278,11 @@ cdef class Average(object):
     #
     @cython.cdivision(True)
     cdef bint stop_condition(self):
-        cdef double p, pmin, prev
-        #
-        pval = self.pval
-        pmin = self.pmin
-        prev = self.pval_prev
+#         cdef double p, pmin, prev
+#         #
+#         pval = self.pval
+#         pmin = self.pmin
+#         prev = self.pval_prev
         
 #         if pval < pmin:
 #             pmin = self.pmin = pval
@@ -294,7 +292,7 @@ cdef class Average(object):
 #             if self.u < self.u_best:
 #                 self.u_best = self.u
         #
-        if fabs(pval - prev) / (1. + fabs(pmin)) < self.tol:
+        if fabs(self.pval - self.pval_prev) / (1. + fabs(self.pmin)) < self.tol:
             return 1
             
         if self.m > self.m_iter:

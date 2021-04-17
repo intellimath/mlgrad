@@ -29,7 +29,7 @@ __averager_scalar_dict = {
     'AdaM2':ScalarAdaM2,
 }
 
-def drisk(X, distfunc, regular=None, weights=None, tau=0.001):
+def drisk(X, distfunc, regnorm=None, weights=None, tau=0.001):
     er = ED(X, distfunc)
     if weights is not None:
         er.use_weights(weights)
@@ -39,24 +39,24 @@ def sfunc(func):
     f = SimpleFunctional(func)
     return f
 
-def erisk(X, Y, mod, loss_func, regular=None, weights=None, tau=0.001, batch=None):
-    er = ERisk(X, Y, mod, loss_func, regular=regular, tau=tau, batch=batch)
+def erisk(X, Y, mod, loss_func, regnorm=None, weights=None, tau=0.001, batch=None):
+    er = ERisk(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
     if weights is not None:
         er.use_weights(weights)
     return er
 
-def mrisk(X, Y, mod, loss_func, avg, regular=None, weights=None, tau=0.001, batch=None):
-    mr = MRisk(X, Y, mod, loss_func, avg, regular=regular, tau=tau, batch=batch)
+def mrisk(X, Y, mod, loss_func, avg, regnorm=None, weights=None, tau=0.001, batch=None):
+    mr = MRisk(X, Y, mod, loss_func, avg, regnorm=regnorm, tau=tau, batch=batch)
     if weights is not None:
         mr.use_weights(weights)
     return mr
 
-def aerisk(X, Y, mod, loss_func, avr=None, regular=None, tau=0.001, batch=None):
-    er = AER(X, Y, mod, loss_func, avr, regular=regular, tau=tau, batch=batch)
+def aerisk(X, Y, mod, loss_func, avr=None, regnorm=None, tau=0.001, batch=None):
+    er = AER(X, Y, mod, loss_func, avr, regnorm=regnorm, tau=tau, batch=batch)
     return er
 
-def erisk2(X, Y, mod, loss_func, regular=None, weights=None, tau=0.001, batch=None):
-    er = ER2(X, Y, mod, loss_func, regular=regular, tau=tau, batch=batch)
+def erisk2(X, Y, mod, loss_func, regnorm=None, weights=None, tau=0.001, batch=None):
+    er = ER2(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
     if weights is not None:
         er.use_weights(weights)
     return er

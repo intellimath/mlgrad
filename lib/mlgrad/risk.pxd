@@ -6,7 +6,7 @@ from mlgrad.model cimport Model, MLModel
 from mlgrad.func cimport Func
 from mlgrad.distance cimport Distance
 from mlgrad.loss cimport Loss, MultLoss
-from mlgrad.regular cimport FuncMulti
+from mlgrad.regnorm cimport FuncMulti
 from mlgrad.batch cimport Batch, WholeBatch
 #from mlgrad.averager cimport ArrayAverager
 from mlgrad.avragg cimport Average, ArithMean
@@ -50,7 +50,7 @@ cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
     memcpy(&Y[0], &X[0], m*cython.sizeof(double))    
 
 cdef class Functional:
-    cdef readonly FuncMulti regular
+    cdef readonly FuncMulti regnorm
     cdef readonly double[::1] param
     cdef readonly double[::1] grad_average
     cdef readonly double lval

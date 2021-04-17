@@ -35,17 +35,17 @@ cdef class FuncMulti:
     cdef void gradient(self, double[::1] param, double[::1] grad)
 
 @cython.final
-cdef class Power(FuncMulti):
+cdef class PowerNorm(FuncMulti):
     #
     cdef double p
     #
 
 @cython.final
-cdef class Square(FuncMulti):
-    cdef double c
+cdef class SquareNorm(FuncMulti):
+    pass
 
 @cython.final
-cdef class Absolute(FuncMulti):
+cdef class AbsoluteNorm(FuncMulti):
     pass
 
 @cython.final

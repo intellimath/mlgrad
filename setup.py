@@ -78,8 +78,8 @@ ext_modules = [
         extra_link_args = extra_link_args,
     ),
     Extension(
-        "mlgrad.regular",
-        ["lib/mlgrad/regular.pyx"],
+        "mlgrad.regnorm",
+        ["lib/mlgrad/regnorm.pyx"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
