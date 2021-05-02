@@ -31,10 +31,19 @@ ctypedef void (*ModelGradient)(Model, double[::1], double[::1])
 ctypedef double (*LossEvaluate)(Loss, double, double)
 ctypedef double (*LossDerivative)(Loss, double, double)
 
-cdef inline void fill_memoryview(double[::1] X, double c):
+cdef inline void clear_memoryview(double[::1] X):
     cdef int m = X.shape[0]
     memset(&X[0], 0, m*cython.sizeof(double))    
 
+cdef inline void fill_memoryview(double[::1] X, double c):
+    cdef Py_ssize_t i, m = X.shape[0]
+    for i in range(m):
+        X[i] = c
+
+cdef inline void clear_memoryview2(double[:, ::1] X):
+    cdef int m = X.shape[0], n = X.shape[1]
+    memset(&X[0,0], 0, m*n*cython.sizeof(double))    
+        
 cdef inline void fill_memoryview2(double[:,::1] X, double c):
     cdef int i, j
     cdef int m = X.shape[0], n = X.shape[1]
@@ -57,6 +66,7 @@ cdef class Functional:
     cdef readonly Batch batch
     cdef readonly Py_ssize_t n_sample
     cdef readonly Py_ssize_t n_param
+    cdef readonly Py_ssize_t n_input
 
     cpdef init(self)
     cdef public double evaluate(self)

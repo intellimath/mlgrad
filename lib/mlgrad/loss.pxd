@@ -62,8 +62,10 @@ cdef class MarginMultLoss(MultLoss):
     cdef public Func func
 
 cdef class MinLoss:
-    cdef public Loss loss
+    cdef public Loss lossfunc
     cdef double val_min
+    cdef double[::1] vals
+    cdef Py_ssize_t q
 
     cdef double evaluate(self, double[::1] y, double yk) nogil
     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil

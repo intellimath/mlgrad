@@ -109,6 +109,8 @@ cdef class MRisk(Risk):
         self.model = model
         self.param = model.param
         self.n_param = model.n_param
+        self.n_input = model.n_input
+        
 
         if self.model.grad is None:
             self.model.grad = np.zeros(self.n_param, 'd')
@@ -132,6 +134,9 @@ cdef class MRisk(Risk):
 
         self.grad = np.zeros(self.n_param, 'd')
         self.grad_average = np.zeros(self.n_param, 'd')
+        
+        if X.shape[1] != self.n_input:
+            raise ValueError('X.shape[1] != model.n_input')
 
         self.X = X
         self.Y = Y
@@ -196,7 +201,7 @@ cdef class MRisk(Risk):
         cdef Model _model = self.model
         cdef Loss _loss = self.loss
 
-        cdef Py_ssize_t i, j, k, n_param = self.model.n_param, N = self.n_sample
+        cdef Py_ssize_t i, j, k, n_param = self.n_param
         cdef double y, yk, lval_dy, wk, lval, vv
         
         cdef double[:, ::1] X = self.X
@@ -215,7 +220,7 @@ cdef class MRisk(Risk):
 #         self.eval_losses(self.lval_all)
         self.avg.gradient(self.lval_all, self.weights)
 
-        fill_memoryview(self.grad_average, 0.)
+        clear_memoryview(self.grad_average)
 
         for j in range(size):
             k = indices[j]
@@ -323,13 +328,13 @@ cdef class ERisk(Risk):
         self.model = model
         self.param = model.param
         
-        n_param = model.n_param
-        n_input = model.n_input
+        self.n_param = model.n_param
+        self.n_input = model.n_input
         if self.model.grad is None:
-            self.model.grad = np.zeros(n_param, 'd')
+            self.model.grad = np.zeros(self.n_param, 'd')
 
         if self.model.grad_x is None:
-            self.model.grad_x = np.zeros(n_input, 'd')
+            self.model.grad_x = np.zeros(self.n_input, 'd')
 
         if loss is None:
             self.loss = ErrorLoss(Square())
@@ -338,10 +343,10 @@ cdef class ERisk(Risk):
 
         self.regnorm = regnorm
         if self.regnorm is not None:
-            self.grad_r = np.zeros(n_param, 'd')
+            self.grad_r = np.zeros(self.n_param, 'd')
 
-        self.grad = np.zeros(n_param, 'd')
-        self.grad_average = np.zeros(n_param, 'd')
+        self.grad = np.zeros(self.n_param, 'd')
+        self.grad_average = np.zeros(self.n_param, 'd')
 
         self.X = X
         self.Y = Y
@@ -445,7 +450,7 @@ cdef class ERisk(Risk):
         cdef Model _model = self.model
         cdef Loss _loss = self.loss
 
-        cdef Py_ssize_t i, j, k, n_param = self.model.n_param, N = self.n_sample
+        cdef Py_ssize_t i, j, k, n_param = self.n_param, N = self.n_sample
         cdef double y, lval_dy, wk, lval, vv
         
         cdef double[:, ::1] X = self.X
@@ -465,7 +470,7 @@ cdef class ERisk(Risk):
 #             self.weights = np.full(size, 1./size, 'd')
 #             weights = self.weights
         
-        fill_memoryview(self.grad_average, 0.)
+        clear_memoryview(self.grad_average)
 
         for j in range(size):
             k = indices[j]
@@ -623,24 +628,25 @@ cdef class ER2(Risk):
     #
     cpdef init(self):
         N = self.n_sample    
-        n_param = self.model.n_param
-        n_output = self.model.n_output
+        self.n_param = self.model.n_param
+        self.n_input = self.model.n_input
+        self.n_output = self.model.n_output
 
         # if self.model.grad is None:
         #     self.model.grad = np.zeros((n_param,), 'd')
             
         if self.grad is None:
-            self.grad = np.zeros(n_param, dtype='d')
+            self.grad = np.zeros(self.n_param, dtype='d')
 
         if self.grad_u is None:
-            self.grad_u = np.zeros(n_output, dtype='d')
+            self.grad_u = np.zeros(self.n_output, dtype='d')
 
         if self.grad_average is None:
-            self.grad_average = np.zeros(n_param, dtype='d')
+            self.grad_average = np.zeros(self.n_param, dtype='d')
 
         if self.regnorm:
             if self.grad_r is None:
-                self.grad_r = np.zeros(n_param, dtype='d')
+                self.grad_r = np.zeros(self.n_param, dtype='d')
                 
         if self.weights is None:
             self.weights = np.full((N,), 1./N, 'd')

@@ -41,14 +41,14 @@ def averaging_function(kind, **kw):
         raise ValueError('Invalid argument value: %s' % kind)
     return avg
 
-def regression(Xs, Y, mod, lossfunc=SquareErrorLoss(), regnorm=SquareNorm(), 
+def regression(Xs, Y, mod, lossfunc=SquareErrorLoss(), regnorm=None, 
                h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
 
     er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, n_restart=n_restart)
     return alg
 
-def m_regression(Xs, Y, mod, lossfunc=SquareErrorLoss(), avrfunc=averaging_function('WM'), regnorm=SquareNorm(), 
+def m_regression(Xs, Y, mod, lossfunc=SquareErrorLoss(), avrfunc=averaging_function('WM'), regnorm=None, 
                  h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
         
     er = mrisk(Xs, Y, mod, lossfunc, avrfunc, regnorm=regnorm, tau=tau)
@@ -56,7 +56,7 @@ def m_regression(Xs, Y, mod, lossfunc=SquareErrorLoss(), avrfunc=averaging_funct
     return alg
 
 def m_regression_irls(Xs, Y, mod, 
-                      lossfunc=SquareErrorLoss(), avrfunc=averaging_function('WM'), regnorm=SquareNorm(), 
+                      lossfunc=SquareErrorLoss(), avrfunc=averaging_function('WM'), regnorm=None, 
                       h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=21, verbose=0):
 
     er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
@@ -67,7 +67,7 @@ def m_regression_irls(Xs, Y, mod,
         
     return irgd
 
-def r_regression_irls(Xs, Y, mod, lossfunc=SquareErrorLoss(), rhofunc=func.Sqrt(1.0), regnorm=SquareNorm(), 
+def r_regression_irls(Xs, Y, mod, lossfunc=SquareErrorLoss(), rhofunc=func.Sqrt(1.0), regnorm=None, 
                       h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=21, verbose=0):
 
     er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
@@ -75,3 +75,21 @@ def r_regression_irls(Xs, Y, mod, lossfunc=SquareErrorLoss(), rhofunc=func.Sqrt(
     wt = weights.RWeights(rhofunc, er)
     irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
     return irgd
+
+def plot_losses_and_errors(alg, Xs, Y):
+    err = np.abs(Y - alg.risk.model.evaluate_all(Xs))
+    plt.figure(figsize=(16,6))
+    plt.subplot(1,2,1)
+    plt.title('Fit curve')
+    plt.plot(alg.lvals)
+    plt.xlabel('step')
+    plt.ylabel('mean of losses')
+    plt.minorticks_on()
+    plt.subplot(1,2,2)
+    plt.title('Errors')
+    plt.plot(sorted(err), marker='s', markersize='6')
+    plt.minorticks_on()
+    plt.xlabel('error rank')
+    plt.ylabel('error value')
+    plt.show()
+#     return err

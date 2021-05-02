@@ -53,26 +53,6 @@ cdef class ArrayAllocator(Allocator):
 cdef inline Model as_model(object o):
     return <Model>(<PyObject*>o)
 
-cdef inline void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):
-    cdef int i, n=A.shape[0], m=A.shape[1]
-    cdef double v
-    
-    for j in range(n):
-        v = 0
-        for i in range(m):
-            v += A[j,i] * x[i]
-        y[j] = v
-
-cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
-    cdef int i, n=A.shape[0], m=A.shape[1]
-    cdef double v
-    
-    for i in range(m):
-        v = 0
-        for j in range(n):
-            v += A[j,i] * x[j]
-        y[i] = v
-
 cdef class Model(object):
     cdef public Py_ssize_t n_param, n_input
     cdef public double[::1] param

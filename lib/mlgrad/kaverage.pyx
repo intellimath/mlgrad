@@ -9,7 +9,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -32,16 +32,15 @@
 from libc.math cimport fabs, pow, sqrt, fmax, log, exp
 
 cimport cython
-# from cython.parallel cimport parallel, prange
-# #
+from cython.parallel cimport parallel, prange
 
-# from openmp cimport omp_get_num_procs, omp_get_thread_num
+from openmp cimport omp_get_num_procs, omp_get_thread_num
 
-# cdef int num_procs = omp_get_num_procs()
-# if num_procs >= 4:
-#     num_procs /= 2
-# else:
-#     num_procs = 2
+cdef int num_procs = omp_get_num_procs()
+if num_procs >= 4:
+    num_procs /= 2
+else:
+    num_procs = 2
     
 import numpy as np
 
@@ -86,8 +85,8 @@ cdef class KAverage:
         cdef Py_ssize_t j, j_min, k, N = Y.shape[0]
         cdef Py_ssize_t q = self.q
         
-#         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
-        for k in range(N):
+        for k in prange(N, nogil=True, num_threads=num_procs):
+#         for k in range(N):
             y_k = Y[k]
             
             d_min = double_max
@@ -111,8 +110,8 @@ cdef class KAverage:
         cdef Py_ssize_t q = self.q
         cdef double[::1] u = self.u
         
-#         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
-        for k in range(N):
+        for k in prange(N, nogil=True, num_threads=num_procs):
+#         for k in range(N):
             y_k = Y[k]
             
             d_min = double_max
@@ -132,10 +131,11 @@ cdef class KAverage:
         cdef Py_ssize_t j, j_min, k, N = Y.shape[0]
         cdef Py_ssize_t q = self.q
         cdef double[::1] u = self.u
-        cdef double s = 0
+        cdef double s
         
-#         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
-        for k in range(N):
+        s = 0
+        for k in prange(N, nogil=True, num_threads=num_procs):
+#         for k in range(N):
             y_k = Y[k]
             
             d_min = double_max
@@ -192,7 +192,6 @@ cdef class KAverage:
         cdef double qval_prev, qval_min = double_max
             
         self._init_u(Y)
-#         self._evaluate_classes(Y, J)
         self.qval = self._evaluate_qval(Y)
         self._evaluate_classes(Y, J)
         self.qvals = [self.qval]

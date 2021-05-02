@@ -34,6 +34,7 @@ cimport cython
 import numpy as np
 
 from mlgrad.func import func_from_dict
+from mlgrad.func import func_from_dict
 
 from cython.parallel cimport parallel, prange
 
@@ -97,11 +98,31 @@ def as_array_1d(ob):
         arr = ob[:]
     return arr
 
+cdef void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):
+    cdef Py_ssize_t i, j, n=A.shape[0], m=A.shape[1]
+    cdef double xj
+    
+    for j in prange(m, nogil=True, num_threads=min(m, num_procs)):
+        xj = x[j]
+        for i in range(n):
+            y[j] += A[i,j] * xj
+            
+# cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
+#     cdef int i, n=A.shape[0], m=A.shape[1]
+#     cdef double v
+    
+#     for i in range(m):
+#         v = 0
+#         for j in range(n):
+#             v += A[j,i] * x[j]
+#         y[i] = v
+
+
 def matdot(A, x, y):
     matrix_dot(A, x, y)
 
-def matdot_t(A, x, y):
-    matrix_dot_t(A, x, y)
+# def matdot_t(A, x, y):
+#     matrix_dot_t(A, x, y)
     
 # cdef inline double inner_dot(double *a, double *b, Py_ssize_t m) nogil:
 #     cdef double s
@@ -399,7 +420,6 @@ cdef class LinearModel(Model):
     #
     def init_from(self, ob):
         cdef double[::1] param = np.array(ob['param'], 'd')
-#         print(param.base)
         copy_memoryview(self.param, param)
 
 @register_model('linear')
@@ -413,6 +433,7 @@ cdef class SigmaNeuronModel(Model):
     #
     def __init__(self, Func outfunc, o):
         self.outfunc = outfunc
+#         LinearModel.__init__(<LinearModel>self, o)
         if isinstance(o, (int, long)):
             self.n_param = o + 1
             self.n_input = o
@@ -445,44 +466,51 @@ cdef class SigmaNeuronModel(Model):
         return <Model>mod
     #
     cdef double evaluate(self, double[::1] X):
-        cdef int i, n_param = self.n_param
-        cdef double s        
+        cdef Py_ssize_t i
+        cdef double *P = &self.param[1]
+        cdef double *Xp = &X[0]
+        cdef double s
 
         s = self.param[0]
-        for i in range(1, n_param):
-            s += self.param[i] * X[i-1]
+        for i in range(self.n_input):
+            s += P[i] * Xp[i]
         
         s = self.outfunc.evaluate(s)
         return s
     #
     cdef void gradient(self, double[::1] X, double[::1] grad):
-        cdef int i
-        cdef int n_param = self.n_param
+        cdef Py_ssize_t i
+        cdef double *P = &self.param[1]
+        cdef double *Xp = &X[0]
+        cdef double *G = &grad[1]
         cdef double s, sx
         
         s = self.param[0]
-        for i in range(1, n_param):
-            s += self.param[i] * X[i-1]
+        for i in range(self.n_input):
+            s += P[i] * Xp[i]
 
         sx = self.outfunc.derivative(s)
 
         grad[0] = sx
-        for i in range(1, n_param):
-            grad[i] = sx * X[i-1]
+        for i in range(self.n_input):
+            G[i] = sx * Xp[i]
     #
     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
-        cdef int i
-        cdef int n_input = self.n_input
-        cdef int n_param = self.n_param
+        cdef Py_ssize_t i
+        cdef Py_ssize_t n_input = self.n_input
         cdef double s, sx
+        cdef double *Xp = &X[0]
+        cdef double *P = &self.param[1]
+        cdef double *G = &grad_x[0]
                                 
         s = self.param[0]
-        for i in range(1, n_param):
-            s += self.param[i] * X[i-1]
-
-        sx = self.outfunc.derivative(s)            
         for i in range(n_input):
-            grad_x[i] = sx * self.param[i+1]
+            s += P[i] * Xp[i]
+
+        sx = self.outfunc.derivative(s)
+
+        for i in range(n_input):
+            G[i] = sx * P[i]
     #
     def as_dict(self):
         return { 'name': 'sigma_neuron', 
@@ -509,7 +537,7 @@ cdef class ModelLayer:
         pass
     
 cdef class GeneralModelLayer(ModelLayer):
-
+    #
     def __init__(self, n_input):
         self.n_input = n_input
         self.n_output = 0
@@ -567,7 +595,7 @@ cdef class GeneralModelLayer(ModelLayer):
     #
     cdef void forward(self, double[::1] X):
         cdef Model mod
-        cdef int j, n_output = self.n_output
+        cdef Py_ssize_t j, n_output = self.n_output
 
         for j in range(n_output):
             mod = <Model>self.models[j]
@@ -575,28 +603,28 @@ cdef class GeneralModelLayer(ModelLayer):
     #
     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Model mod_j
-        cdef int i, j, offset, n_param
+        cdef Py_ssize_t i, j, n_param
         cdef double val_j
-        cdef int n_output = self.n_output
+        cdef Py_ssize_t n_output = self.n_output
         cdef double[::1] grad_in = self.grad_input
+        cdef double *G = &grad[0]
 
         fill_memoryview(grad_in, 0)
         for j in range(n_output):
             val_j = grad_out[j]
             mod_j = <Model>self.models[j]
 
-            mod_j.gradient_x(X, mod_j.grad_x)
-
             n_param = mod_j.n_param
-            offset = j * n_param
             if n_param > 0:
                 mod_j.gradient(X, mod_j.grad)
                 for i in range(n_param):
-                    grad[offset+i] = mod_j.grad[i] * val_j
+                    G[i] = mod_j.grad[i] * val_j
+                G += n_param
 
-        for j in range(n_output):
-            val_j = grad_out[j]
-            mod_j = <Model>self.models[j]
+#         for j in range(n_output):
+#             val_j = grad_out[j]
+#             mod_j = <Model>self.models[j]
+            mod_j.gradient_x(X, mod_j.grad_x)
             for i in range(self.n_input):
                 grad_in[i] += mod_j.grad_x[i] * val_j                
         #
@@ -616,7 +644,7 @@ def general_layer_from_dict(ob):
     layer = GeneralModelLayer(ob['n_input'])
     models = layer.models
     for mod in ob['models']:
-        models.append( Model.from_dict(mod) )
+        models.append( model_from_dict(mod) )
     return layer
 
 cdef class SigmaNeuronModelLayer(ModelLayer):
@@ -667,6 +695,7 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         cdef double[::1] output = self.output
 #         cdef double *ss = &self.ss[0]
         cdef double *matrix_j
+        cdef double *Xp = &X[0]
         cdef Func func = self.func
         
         cdef FuncEvaluate func_evaluate = func.evaluate
@@ -675,7 +704,7 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
             s = matrix[j,0]
             matrix_j = &matrix[j,1]
             for i in range(n_input):
-                s += matrix_j[i] * X[i]
+                s += matrix_j[i] * Xp[i]
             if func is None:
                 output[j] = s
             else:
@@ -707,6 +736,7 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         cdef Py_ssize_t n_input1 = n_input + 1
         cdef Py_ssize_t n_output = self.n_output
         cdef double val_j, s, sx
+        cdef double *Xp = &X[0]
         cdef double[::1] grad_in = self.grad_input
 
         cdef double[:,::1] matrix = self.matrix
@@ -724,7 +754,7 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
             s = matrix[j,0]
             matrix_j = &matrix[j,1]
             for i in range(n_input):
-                s += matrix_j[i] * X[i]
+                s += matrix_j[i] * Xp[i]
             
 #             val_j = grad_out[j]
             if func is None:
@@ -737,8 +767,9 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
 
             jj = j*n_input1
             grad[jj] = sx
+            jj += 1
             for i in range(n_input):
-                grad[jj+i+1] = sx * X[i]        
+                grad[jj+i] = sx * Xp[i]        
         
 #         cdef Py_ssize_t i, j, jj, offset
 #         cdef Py_ssize_t n_input = self.n_input

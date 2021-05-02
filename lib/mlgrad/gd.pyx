@@ -124,6 +124,7 @@ cdef class GD:
                 self.callback(self)
 
             K += 1
+#             print(K)
 
         self.K += K
         self.finalize()

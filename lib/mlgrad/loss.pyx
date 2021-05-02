@@ -32,6 +32,7 @@
 # THE SOFTWARE.
 
 from libc.math cimport fabs, pow, sqrt, fmax, exp, log
+import numpy as np
 
 cdef class Loss(object):
     #
@@ -135,15 +136,18 @@ cdef class MLoss(Loss):
 
 cdef class MinLoss:
 
-    def __init__(self, Loss loss):
-        self.loss = loss
+    def __init__(self, Loss lossfunc, q):
+        self.lossfunc = lossfunc
+        self.q = q
+        self.vals = np.zeros(q, 'd')
     
     cdef double evaluate(self, double[::1] y, double yk) nogil:
-        cdef Py_ssize_t i, n = y.shape[0]
+        cdef Py_ssize_t i, n = self.q
         cdef double val, val_min = float_min
+        cdef double[::1] vals = self.vals
         
         for i in range(n):
-            val = self.loss.evaluate(y[i], yk)
+            val = vals[i] = self.lossfunc.evaluate(y[i], yk)
             if val < val_min:
                 val_min = val
 
@@ -151,13 +155,14 @@ cdef class MinLoss:
         return val_min
         
     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil:        
-        cdef Py_ssize_t i, n = y.shape[0]
+        cdef Py_ssize_t i, n = self.q
         cdef double val, val_min = self.val_min
+        cdef double[::1] vals = self.vals
         
         for i in range(n):
-            val = self.loss.evaluate(y[i], yk)
+            val = vals[i]
             if val == val_min:
-                grad[i] = 1
+                grad[i] = self.lossfunc.derivative(val, yk)
             else:
                 grad[i] = 0
     

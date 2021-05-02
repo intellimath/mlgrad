@@ -4,7 +4,7 @@
 
 from mlgrad.avragg import PenaltyAverage, Average_Iterative, Average_FG, ArithMean, ParameterizedAverage
 from mlgrad.gd import FG, FG_RUD, SGD
-from mlgrad.risk import ED, MRisk, ERisk, AER, ER2, SimpleFunctional
+from mlgrad.risk import ED, MRisk, ERisk, ER2, SimpleFunctional
 from mlgrad.irgd import IRGD
 from mlgrad.averager import ArraySave, ArrayMOM, ArrayRMSProp, ArrayAMOM, ArrayAdaM1, ArrayAdaM2, ScalarAdaM1, ScalarAdaM2
 from mlgrad.normalizer import LinearModelNormalizer
@@ -113,7 +113,6 @@ def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None
     alg = fg(er, h=h, tol=tol, n_iter=n_iter,
              averager=averager, callback=callback, stop_condition=stop_condition)
     for i in range(n_restart):
-#         print('step:', i+1)
         alg.fit(warm=(i>0))
         K += alg.K
         if alg.completed:
@@ -170,7 +169,6 @@ def erm_irgd(fg, weights, tol=1.0e-4, n_iter=100,
     alg = irgd(fg, weights, tol=tol, n_iter=n_iter, 
                param_averager=param_averager, callback=callback, h_anneal=h_anneal)
     for i in range(n_restart):
-        print('step:', i+1)
         alg.fit()
         if alg.completed:
             break

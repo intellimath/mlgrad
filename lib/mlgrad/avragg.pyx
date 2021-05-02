@@ -76,12 +76,12 @@ cdef class PenaltyAverage(Penalty):
         cdef double S, v
         cdef Func func = self.func
         cdef FuncEvaluate func_evaluate = func.evaluate
-    
+
         S = 0
         for k in prange(N, nogil=True, num_threads=num_procs):
 #         for k in range(N):
             S += func_evaluate(func, YY[k] - u)
-       
+
         return S / N
     # 
     @cython.cdivision(True)

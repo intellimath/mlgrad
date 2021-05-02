@@ -43,6 +43,7 @@ cdef double c_inf = strtod("Inf", NULL)
 cdef dict _func_table = {}
 def register_func(cls, tag):
     _func_table[tag] = cls
+    return cls
 
 def func_from_dict(ob):
     f = _func_table[ob['name']]
@@ -69,7 +70,7 @@ cdef class Func(object):
     #
     cdef double derivative_div_x(self, const double x) nogil:
         return self.derivative(x) / x
-        
+
 cdef class Comp(Func):
     #
     def __init__(self, Func f, Func g):
@@ -93,9 +94,9 @@ cdef class Comp(Func):
         return self.f.derivative(self.g.evaluate(x)) * self.g.derivative_div_x(x)
     
     def to_dict(self):
-        return { 'name':'comp', 
-                 'f':self.f.to_dict(), 
-                 'g':self.g.to_dict() }
+        return { 'name':'comp',
+                'args': (self.f.to_dict(), self.g.to_dict() ) 
+               }
 
 cdef class ZeroOnPositive(Func):
     #
@@ -196,6 +197,12 @@ cdef class QuantileFunc(Func):
     #
     def _repr_latex_(self):
         return '$\mathrm{id}(x)=x$'
+    
+    def to_dict(self):
+        return { 'name':'quantile_func',
+                'args': (self.alpha, self.f.to_dict() ) 
+               }
+    
 
 cdef class Neg(Func):
     #
@@ -264,9 +271,6 @@ cdef class Sigmoidal(Func):
     def to_dict(self):
         return { 'name':'sigmoidal', 
                  'args': (self.p,) }
-
-register_func(Sigmoidal, 'sigmoidal')    
-
     
 cdef class Arctang(Func):
     #
@@ -625,6 +629,10 @@ cdef class Quantile_AlphaLog(Func):
     def _repr_latex_(self):
         return r"$ρ_q(x)=\mathrm{sign}_q(x)(|x| - \alpha\ln(\alpha+|x|)+\alpha\ln\alpha)$"
 
+    def to_dict(self):
+        return { 'name':'quantile_alpha_log', 
+                 'args': (self.alpha, self.q) }
+    
 cdef class Logistic(Func):
 
     def __init__(self, p=1.0):
@@ -1063,6 +1071,11 @@ cdef class WinsorizedFunc(ParameterizedFunc):
             return 1
         else:
             return 0
+        
+    def to_dict(self):
+        return { 'name':'winsorized', 
+                 'args': () }
+        
 
 cdef class SoftMinFunc(ParameterizedFunc):
     #
@@ -1083,7 +1096,11 @@ cdef class SoftMinFunc(ParameterizedFunc):
     @cython.cdivision(True)
     cdef double derivative_u(self, const double x, const double u) nogil:
         return 1. / (1. + exp(-self.a*(x-u)))
-        
+
+    def to_dict(self):
+        return { 'name':'softmin', 
+                 'args': (self.a,) }
+    
 cdef class  WinsorizedSmoothFunc(ParameterizedFunc):
     # 
     def __init__(self, Func f):
@@ -1098,6 +1115,10 @@ cdef class  WinsorizedSmoothFunc(ParameterizedFunc):
     cdef double derivative_u(self, const double x, const double u) nogil:
         return 0.5 * (1. + self.f.derivative(x - u))
 
+    def to_dict(self):
+        return { 'name':'winsorized_soft', 
+                 'args': (self.f.to_dict(),) }
+    
 cdef class KMinSquare(Func):
     #
     def __init__(self, c):
@@ -1131,5 +1152,35 @@ cdef class KMinSquare(Func):
         return r"$\rho(x)=\min_{j=1,\dots,q} (x-c_j)^2/2$"
 
     def to_dict(self):
-        return { 'name':'', 
-                 'c': (self.alpha,) }
+        return { 'name':'kmin_square', 
+                 'args': (self.c.tolist(),) }
+
+    
+register_func(Comp, 'comp')
+register_func(QuantileFunc, 'quantile_func')
+register_func(Sigmoidal, 'sigmoidal')
+register_func(KMinSquare, 'kmin_square')
+register_func(WinsorizedSmoothFunc, 'winsorized_smooth')
+register_func(SoftMinFunc, 'softmin')
+register_func(WinsorizedFunc, 'winsorized')
+register_func(Log, 'log')
+register_func(Exp, 'exp')
+register_func(Quantile_Sqrt, 'quantile_sqrt')
+register_func(Sqrt, 'sqrt')
+register_func(SoftAbs, 'softabs')
+register_func(Tukey, 'tukey')
+register_func(LogSquare, 'log_square')
+register_func(Huber, 'huber')
+register_func(HingeSqrt, 'hinge_sqrt')
+register_func(Hinge, 'hinge')
+register_func(Logistic, 'logistic')
+register_func(Quantile_AlphaLog, 'quantile_alpha_log')
+register_func(Absolute, 'absolute')
+register_func(Square, 'square')
+register_func(Power, 'power')
+register_func(Expectile, 'expectile')
+register_func(Quantile, 'quantile')
+register_func(Sign, 'sign')
+register_func(Threshold, 'threshold')
+register_func(Softplus, 'softplus')
+register_func(Arctang, 'arctg')
