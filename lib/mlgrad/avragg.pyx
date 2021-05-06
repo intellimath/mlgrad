@@ -135,10 +135,11 @@ cdef class PenaltyAverage(Penalty):
 #         for k in range(N):
             GG[k] = v = func_derivative2(func, Y[k] - u)
             S += v
-                
+        
+        v = S
         for k in prange(N, nogil=True, num_threads=num_procs):
 #         for k in range(N):
-            GG[k] /= S
+            GG[k] /= v
 
 cdef class PenaltyScale(Penalty):
     #
@@ -360,9 +361,10 @@ cdef class ParameterizedAverage(Average):
             v = N1 * func.derivative(YY[k], c) +  H * GG[k]
             GG[k] = v
             S += v
-    
+        
+        v = S
         for k in prange(N, nogil=True, num_threads=num_procs):
-            GG[k] /= S
+            GG[k] /= v
     #
 
 @cython.final
@@ -397,7 +399,7 @@ cdef class WMAverage(Average):
     @cython.cdivision(True)
     @cython.final
     cdef gradient(self, double[::1] Y, double[::1] grad):
-        cdef Py_ssize_t k, m, m4, N = Y.shape[0], M
+        cdef Py_ssize_t k, m, mm, N = Y.shape[0], M
         cdef double u, v, gk
         cdef double N1 = 1.0/N
         cdef double *YY = &Y[0]
@@ -412,10 +414,11 @@ cdef class WMAverage(Average):
             if YY[k] > u:
                 m += 1
 
+        mm = m
         for k in prange(N, nogil=True, num_threads=num_procs):
 #         for k in range(N):
             gk = GG[k]
-            v = (1 + m * gk) if YY[k] <= u else (m * gk)
+            v = (1 + mm * gk) if YY[k] <= u else (mm * gk)
             GG[k] = v * N1
     #
 
