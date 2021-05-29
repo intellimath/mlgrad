@@ -5,7 +5,7 @@ cimport cython
 from mlgrad.model cimport Model, MLModel
 from mlgrad.func cimport Func
 from mlgrad.distance cimport Distance
-from mlgrad.loss cimport Loss, MultLoss
+from mlgrad.loss cimport Loss, MultLoss, MultLoss2
 from mlgrad.regnorm cimport FuncMulti
 from mlgrad.batch cimport Batch, WholeBatch
 #from mlgrad.averager cimport ArrayAverager
@@ -124,3 +124,12 @@ cdef class ER2(Risk):
     cdef readonly double[:, ::1] X
     cdef readonly double[:, ::1] Y
     cdef double[::1] grad_u
+    cdef readonly Py_ssize_t n_output
+
+cdef class ER21(Risk):
+    cdef readonly MLModel model
+    cdef readonly MultLoss2 loss
+    cdef readonly double[:, ::1] X
+    cdef readonly double[::1] Y
+    cdef double[::1] grad_u
+    cdef readonly Py_ssize_t n_output

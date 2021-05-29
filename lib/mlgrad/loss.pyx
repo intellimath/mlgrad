@@ -1,11 +1,11 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
+# cython: boundscheck=True
+# cython: wraparound=True
+# cython: nonecheck=True
 # cython: embedsignature=True
-# cython: initializedcheck=False
+# cython: initializedcheck=True
 # cython: unraisable_tracebacks=True  
 
 
@@ -34,6 +34,9 @@
 from libc.math cimport fabs, pow, sqrt, fmax, exp, log
 import numpy as np
 
+cdef double float_max = PyFloat_GetMax()
+cdef double float_min = PyFloat_GetMin()
+
 cdef class Loss(object):
     #
     cdef double evaluate(self, const double y, const double yk) nogil:
@@ -52,7 +55,7 @@ cdef class SquareErrorLoss(Loss):
         return r * r
     #
     cdef double derivative(self, const double y, const double yk) nogil:
-        cdef double r = y - yk
+#         cdef double r = y - yk
         return 2 * (y - yk)
     #
     cdef double difference(self, const double y, const double yk) nogil:
@@ -78,6 +81,20 @@ cdef class ErrorLoss(Loss):
     def _repr_latex_(self):
         return r"$\ell(y - \tilde y)$" 
 
+cdef class IdErrorLoss(Loss):
+    #
+    cdef double evaluate(self, const double y, const double yk) nogil:
+        return (y - yk)
+    #
+    cdef double derivative(self, const double y, const double yk) nogil:
+        return 1
+    #
+    cdef double difference(self, const double y, const double yk) nogil:
+        return fabs(y-yk)
+    #
+    def _repr_latex_(self):
+        return r"$(y - \tilde y)$" 
+    
 cdef class RelativeErrorLoss(Loss):
     #
     def __init__(self, Func func):
@@ -134,7 +151,15 @@ cdef class MLoss(Loss):
     cdef double derivative(self, const double y, const double yk) nogil:
         return self.rho.derivative(self.loss.evaluate(y, yk)) * self.loss.derivative(y, yk)
 
-cdef class MinLoss:
+cdef class MultLoss2:
+
+    cdef double evaluate(self, double[::1] y, double yk) nogil:
+        return 0
+        
+    cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil:
+        pass
+    
+cdef class SoftMinLoss2(MultLoss2):
 
     def __init__(self, Loss lossfunc, q):
         self.lossfunc = lossfunc
@@ -143,28 +168,41 @@ cdef class MinLoss:
     
     cdef double evaluate(self, double[::1] y, double yk) nogil:
         cdef Py_ssize_t i, n = self.q
-        cdef double val, val_min = float_min
+        cdef double val, val_min = float_max
+        cdef double S
         cdef double[::1] vals = self.vals
         
         for i in range(n):
             val = vals[i] = self.lossfunc.evaluate(y[i], yk)
             if val < val_min:
                 val_min = val
+                
+        S = 0
+        for i in range(n):
+            S += exp(val_min - vals[i])
+        S = log(S)
+        S = val_min - S
 
-        self.val_min = val_min
-        return val_min
+        return S
         
     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil:        
         cdef Py_ssize_t i, n = self.q
-        cdef double val, val_min = self.val_min
+        cdef double val, val_min = float_max
+        cdef double S
         cdef double[::1] vals = self.vals
-        
+
         for i in range(n):
-            val = vals[i]
-            if val == val_min:
-                grad[i] = self.lossfunc.derivative(val, yk)
-            else:
-                grad[i] = 0
+            val = vals[i] = self.lossfunc.evaluate(y[i], yk)
+            if val < val_min:
+                val_min = val
+
+        S = 0
+        for i in range(n):
+            vals[i] = val = exp(val_min - vals[i])
+            S += val
+                
+        for i in range(n):
+            grad[i] = vals[i] * self.lossfunc.derivative(y[i], yk) / S
     
 cdef class MultLoss:
 

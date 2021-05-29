@@ -10,7 +10,8 @@ cdef extern from "Python.h":
     double PyFloat_GetMax()
     double PyFloat_GetMin()
     
-cdef double float_min = PyFloat_GetMax()
+cdef double float_max
+cdef double float_min
 
 cdef class Loss(object):
     #
@@ -33,6 +34,11 @@ cdef class ErrorLoss(Loss):
     cdef public Func func
     #
 
+@cython.final
+cdef class IdErrorLoss(Loss):
+    pass
+    #
+    
 @cython.final
 cdef class RelativeErrorLoss(Loss):
     cdef public Func func
@@ -60,12 +66,19 @@ cdef class ErrorMultLoss(MultLoss):
 @cython.final
 cdef class MarginMultLoss(MultLoss):
     cdef public Func func
-
-cdef class MinLoss:
-    cdef public Loss lossfunc
-    cdef double val_min
-    cdef double[::1] vals
-    cdef Py_ssize_t q
-
+    
+cdef class MultLoss2:
+    #
     cdef double evaluate(self, double[::1] y, double yk) nogil
     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil
+    
+
+@cython.final
+cdef class SoftMinLoss2(MultLoss2):
+    cdef public Loss lossfunc
+#     cdef public double val_min
+    cdef public double[::1] vals
+    cdef Py_ssize_t q
+
+#     cdef double evaluate(self, double[::1] y, double yk) nogil
+#     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil

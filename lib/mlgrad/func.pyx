@@ -98,6 +98,32 @@ cdef class Comp(Func):
                 'args': (self.f.to_dict(), self.g.to_dict() ) 
                }
 
+cdef class CompSqrt(Func):
+    #
+    def __init__(self, Func f):
+        self.f = f
+    #
+    cdef double evaluate(self, const double x) nogil:
+        return self.f.evaluate(sqrt(x))
+    #
+    cdef double derivative(self, const double x) nogil:
+        return 0.5 * self.f.derivative(sqrt(x)) / sqrt(x)
+    #
+    cdef double derivative2(self, const double x) nogil:
+        cdef double dg = 0.5 / sqrt(x)
+        cdef double y = sqrt(x)
+        
+        return self.f.derivative2(y) * dg * dg + \
+               -0.25 * self.f.derivative(y) / (x*y)
+    #
+    cdef double derivative_div_x(self, const double x) nogil:
+        return 0.5 * self.f.derivative(sqrt(x)) / (x*sqrt(x))
+    
+    def to_dict(self):
+        return { 'name':'compsqrt',
+                'args': (self.f.to_dict(), self.g.to_dict() ) 
+               }
+
 cdef class ZeroOnPositive(Func):
     #
     def __init__(self, Func f):

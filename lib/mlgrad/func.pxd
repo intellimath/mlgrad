@@ -19,6 +19,12 @@ cdef class Comp(Func):
     #
 
 @cython.final
+cdef class CompSqrt(Func):
+    #
+    cdef public Func f, g
+    #
+
+@cython.final
 cdef class ZeroOnPositive(Func):
     #
     cdef public Func f

@@ -1,11 +1,11 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
+# cython: boundscheck=True
+# cython: wraparound=True
+# cython: nonecheck=True
 # cython: embedsignature=False
-# cython: initializedcheck=False
+# cython: initializedcheck=True
 # cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
@@ -271,11 +271,15 @@ cdef class Model(object):
         else:
             if param is None:
                 if random:
-                    self.param[:] = np.random.random(self.n_param)
+                    r = np.random.random(self.n_param)
+#                     print(np.array(self.param), r)
+                    copy_memoryview(self.param, r)
+#                     print('**')
                 else:
-                    self.param[:] = np.zeros(self.n_param)
+                    self.param[:] = np.zeros(self.n_param, 'd')
             else:
                 self.param[:] = param
+        print(np.array(self.param), self.n_param)
     #
     cdef double evaluate(self, double[::1] X):
         return 0
@@ -554,9 +558,10 @@ cdef class GeneralModelLayer(ModelLayer):
                 mod.param = None
                 continue
 
-            mod._allocate(allocator)
-            mod.grad = np.zeros(mod.n_param)
-            mod.grad_x = np.zeros(mod.n_input)
+            mod_allocator = allocator.suballocator()
+            mod._allocate(mod_allocator)
+#             mod.grad = np.zeros(mod.n_param)
+#             mod.grad_x = np.zeros(mod.n_input)
 
         self.param = allocator.get_allocated()
         self.n_param = len(self.param)
@@ -565,6 +570,10 @@ cdef class GeneralModelLayer(ModelLayer):
 
         self.output = np.zeros(self.n_output, 'd')
         self.grad_input = np.zeros(self.n_input, 'd')
+    #
+    def init(self):
+        for mod in self.models:
+            mod.init()
     #
     cpdef ModelLayer copy(self, bint share=1):
         cdef GeneralModelLayer layer = GeneralModelLayer(self.n_input)
@@ -581,8 +590,12 @@ cdef class GeneralModelLayer(ModelLayer):
         layer.grad_input = np.zeros((self.n_input,), 'd')
         return <ModelLayer>layer
     #
-    def append(self, Model mod):
+    def add(self, Model mod):
+        if self.n_input != mod.n_input:
+            raise ValueError("layer.n_input: %s != model.n_input: %s" % (self.n_input, mod.n_input))
         self.models.append(mod)
+        self.n_param += mod.n_param
+        self.n_output += 1
     #
     def __getitem__(self, i):
         return self.models[i]
@@ -610,6 +623,7 @@ cdef class GeneralModelLayer(ModelLayer):
         cdef double *G = &grad[0]
 
         fill_memoryview(grad_in, 0)
+#         print(np.array(grad_out))
         for j in range(n_output):
             val_j = grad_out[j]
             mod_j = <Model>self.models[j]
@@ -617,6 +631,7 @@ cdef class GeneralModelLayer(ModelLayer):
             n_param = mod_j.n_param
             if n_param > 0:
                 mod_j.gradient(X, mod_j.grad)
+#                 print(j, np.array(mod_j.grad))
                 for i in range(n_param):
                     G[i] = mod_j.grad[i] * val_j
                 G += n_param
@@ -626,7 +641,8 @@ cdef class GeneralModelLayer(ModelLayer):
 #             mod_j = <Model>self.models[j]
             mod_j.gradient_x(X, mod_j.grad_x)
             for i in range(self.n_input):
-                grad_in[i] += mod_j.grad_x[i] * val_j                
+                grad_in[i] += mod_j.grad_x[i] * val_j
+#         print(np.array(grad))
         #
     def as_dict(self):
         models = []
@@ -658,6 +674,10 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         self.param = None
         self.grad_input = None
         self.output = None
+    #
+    def init(self):
+        if self.n_param > 0 and self.param is not None:
+            self.param = np.random.random(self.n_param)
     #
     def _allocate(self, allocator):
         """Allocate matrix"""
@@ -840,6 +860,10 @@ cdef class MLModel(ComplexModel):
 
     cpdef MLModel copy(self, bint share=1):
         pass
+    #
+    def init(self):
+        for layer in self.layers:
+            layer.init()
     #
     def __call__(self, x):
         cdef double[::1] x1d

@@ -1,11 +1,11 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
+# cython: boundscheck=True
+# cython: wraparound=True
+# cython: nonecheck=True
 # cython: embedsignature=True
-# cython: initializedcheck=False
+# cython: initializedcheck=True
 # cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
@@ -770,4 +770,184 @@ cdef class ER2(Risk):
             for i in range(n_param):
                 grad_average[i] += self.tau * self.grad_r[i]
 
+cdef class ER21(Risk):
+    #
+    def __init__(self, double[:,::1] X, double[::1] Y, MLModel model, MultLoss2 loss,
+                       FuncMulti regnorm=None, Batch batch=None, tau=1.0e-3):
+        self.model = model
+        self.param = model.param
+        self.loss = loss
+        self.regnorm = regnorm
+        self.weights = None
+        self.grad = None
+        self.grad_u = None
+        self.grad_r = None
+        self.grad_average = None
+        self.X = X
+        self.Y = Y
+        self.n_sample = len(Y)
+        if batch is None:
+            self.batch = WholeBatch(self.n_sample)
+        else:
+            self.batch = batch
+            
+        self.init()
+    #
+    def use_weights(self, weights):
+        self.weights = weights
+    #
+    #cdef object get_loss(self):
+    #    return self.loss
+    # 
+    cpdef init(self):
+        N = self.n_sample    
+        self.n_param = self.model.n_param
+        self.n_input = self.model.n_input
+        self.n_output = self.model.n_output 
+
+        # if self.model.grad is None:
+        #     self.model.grad = np.zeros((n_param,), 'd')
+            
+        if self.grad is None:
+            self.grad = np.zeros(self.n_param, dtype='d')
+
+        if self.grad_u is None:
+            self.grad_u = np.zeros(self.n_output, dtype='d')
+
+        if self.grad_average is None:
+            self.grad_average = np.zeros(self.n_param, dtype='d')
+
+        if self.regnorm:
+            if self.grad_r is None:
+                self.grad_r = np.zeros(self.n_param, dtype='d')
+                
+        if self.weights is None:
+            self.weights = np.full((N,), 1./N, 'd')
+        
+        self.lval = 0
+    #
+#     cdef double eval_loss(self, int k):
+#         self.model.forward(self.X[k])
+#         return self.loss.evaluate(self.model.output, self.Y[k])
+    #
+#     cdef void gradient_loss(self, int k):
+#         cdef MLModel _model = self.model
+#         cdef MultLoss _loss = self.loss
+#         cdef double[::1] Xk, Yk
+#         cdef Py_ssize_t j
+#         cdef double wk = self.weights[k]
+#         cdef double[::1] grad_u = self.grad_u
+        
+#         Xk = self.X[k]
+#         Yk = self.Y[k]
+
+#         _model.forward(Xk)
+#         #lval = _loss.evaluate(_model.output, Yk)
+#         _loss.gradient(_model.output, Yk, self.grad_u)
+        
+#         for j in range(_model.n_output):
+#             grad_u[j] *= wk
+
+#         _model.backward(Xk, grad_u, self.grad)
+
+#         #self.lval += lval
+    #
+    cdef void eval_losses(self, double[::1] lval_all):
+        cdef Py_ssize_t j, k, N = self.n_sample
+        cdef MLModel _model = self.model
+        cdef MultLoss2 _loss = self.loss
+        #cdef double v
+        cdef double[:, ::1] X = self.X
+        cdef double[::1] Y = self.Y
+        cdef double[::1] output = _model.output
+
+        cdef Py_ssize_t size = self.batch.size 
+        cdef Py_ssize_t[::1] indices = self.batch.indices
+
+#         for j in prange(size, nogil=True, num_threads=num_procs):
+        for j in range(size):
+            k = indices[j]
+            _model.forward(X[k])
+            lval_all[k] = _loss.evaluate(output, Y[k])
+
+        #if self.regnorm is not None:
+        #    v = self.tau * self.regnorm.evaluate(self.model.param) / N
+        #    for k in range(N):
+        #        lval_all[k] += v
+    #
+    cdef double evaluate(self):
+        cdef Py_ssize_t j, k, N = self.n_sample
+        cdef double y, lval, S
+
+        cdef MLModel _model = self.model
+        cdef MultLoss2 _loss = self.loss
+
+        cdef double[:, ::1] X = self.X
+        cdef double[::1] Y = self.Y
+        cdef double[::1] output = _model.output
+        cdef double[::1] weights = self.weights
+
+        cdef Py_ssize_t size = self.batch.size 
+        cdef Py_ssize_t[::1] indices = self.batch.indices
+
+        S = 0
+        for j in range(size):
+            k = indices[j]
+            _model.forward(X[k])
+#             print(np.array(output), Y[k])
+            lval = _loss.evaluate(output, Y[k])
+#             print(lval)
+            S += weights[k] * lval
+                    
+        if self.regnorm is not None:
+            S += self.tau * self.regnorm.evaluate(self.model.param)
+
+        self.lval = S
+        return S
+    #
+    cdef void gradient(self):
+        cdef Py_ssize_t j, k, n_param = self.model.n_param, N = self.n_sample
+        cdef double y, yk, wk, S
+
+        cdef MLModel _model = self.model
+        cdef MultLoss2 _loss = self.loss
+        cdef double[:, ::1] X = self.X
+        cdef double[::1] Y = self.Y
+        cdef double[::1] output = _model.output
+        cdef double[::1] weights = self.weights      
+        cdef double[::1] Xk 
+        cdef double[::1] grad = self.grad
+        cdef double[::1] grad_u = self.grad_u
+        cdef double[::1] grad_average = self.grad_average
+
+        cdef Py_ssize_t size = self.batch.size 
+        cdef Py_ssize_t[::1] indices = self.batch.indices
+        
+#         print(len(self.grad), len(self.grad_u), self.n_param, self.n_input)
+
+        fill_memoryview(grad_average, 0)
+                
+        #S = 0
+        for j in range(size):
+            k = indices[j]
+            Xk = X[k]
+            yk = Y[k]
+
+            _model.forward(Xk)
+#             print(j, np.array(output))
+            _loss.gradient(output, yk, grad_u)
+#             print(j, np.array(output), yk, np.array(grad_u))
+            _model.backward(Xk, grad_u, grad)
+            
+            wk = weights[k]
+            
+            for i in range(n_param):
+                grad_average[i] += wk * grad[i]
+                
+        if self.regnorm is not None:
+            self.regnorm.gradient(self.model.param, self.grad_r)
+            for i in range(n_param):
+                grad_average[i] += self.tau * self.grad_r[i]
+                
+#         print(np.array(grad))
     
