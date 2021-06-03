@@ -109,7 +109,7 @@ def r_regression_irls(Xs, Y, mod, rhofunc=func.Sqrt(1.0), regnorm=None,
     
     
 
-def plot_losses_and_errors(alg, Xs, Y):
+def plot_losses_and_errors(alg, Xs, Y, fname=None):
     import numpy as np
     import matplotlib.pyplot as plt
 
@@ -128,4 +128,6 @@ def plot_losses_and_errors(alg, Xs, Y):
     plt.xlabel('error rank')
     plt.ylabel('error value')
     plt.tight_layout()
+    if fname:
+        plt.savefig(fname)
     plt.show()
