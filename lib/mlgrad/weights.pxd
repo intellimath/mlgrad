@@ -5,6 +5,7 @@ cimport cython
 from mlgrad.func cimport Func
 from mlgrad.risk cimport ERisk, Risk, Functional
 from mlgrad.avragg cimport Average
+from mlgrad.model cimport Model
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()

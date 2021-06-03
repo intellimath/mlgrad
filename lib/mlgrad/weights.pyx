@@ -32,6 +32,7 @@
 
 import numpy as np
 from libc.math cimport sqrt #, fabs, fmax, exp, log, atan
+from mlgrad.func cimport CompSqrt
 
 cdef class Weights(object):
     #
@@ -91,15 +92,16 @@ cdef class RWeights(Weights):
         cdef Py_ssize_t j, k
         cdef Py_ssize_t[::1] indices = risk.batch.indices
         cdef double[::1] weights = self.weights
-        cdef double[::1] lval_all = self.lval_all
+        cdef Model mod = self.risk.model
+        cdef double[:,::1] X = self.risk.X
+        cdef double[::1] Y = self.risk.Y
+        cdef Func func = self.func
         cdef double val
-
-        risk.eval_losses(self.lval_all)
 
         for j in range(N):
             k = indices[j]
-            val = sqrt(lval_all[k])
-            weights[j] = 0.5 * self.func.derivative_div_x(val)
+            val = mod.evaluate(X[k])
+            weights[j] = func.derivative_div_x(val - Y[k])
         
         if self.normalize:
             normalize_memoryview(weights)
@@ -109,14 +111,17 @@ cdef class RWeights(Weights):
         cdef Py_ssize_t j, k
         cdef Py_ssize_t N = self.risk.batch.size
         cdef Py_ssize_t[::1] indices = self.risk.batch.indices
-        cdef double[::1] lval_all = self.lval_all
-        
-        self.risk.eval_losses(lval_all)
+        cdef Model mod = self.risk.model
+        cdef double[:,::1] X = self.risk.X
+        cdef double[::1] Y = self.risk.Y
+        cdef Func func = self.func
+        cdef double val
         
         qval = 0
         for j in range(N):
             k = indices[j]
-            qval += self.func.evaluate(sqrt(lval_all[k]))
+            val = mod.evaluate(X[k])
+            qval += func.evaluate(val - Y[k])
         qval /= N 
         return qval
     #

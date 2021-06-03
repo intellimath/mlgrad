@@ -6148,139 +6148,112 @@ static double __pyx_f_6mlgrad_4func_8CompSqrt_evaluate(struct __pyx_obj_6mlgrad_
  *         return self.f.evaluate(sqrt(x))
  *     #
  *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return 0.5 * self.f.derivative(sqrt(x)) / sqrt(x)
- *     #
+ *         cdef double v = sqrt(x)
+ *         return 0.5 * self.f.derivative_div_x(v)
  */
 
 static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x) {
+  double __pyx_v_v;
   double __pyx_r;
-  double __pyx_t_1;
-  double __pyx_t_2;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
 
   /* "mlgrad/func.pyx":110
  *     #
  *     cdef double derivative(self, const double x) nogil:
- *         return 0.5 * self.f.derivative(sqrt(x)) / sqrt(x)             # <<<<<<<<<<<<<<
+ *         cdef double v = sqrt(x)             # <<<<<<<<<<<<<<
+ *         return 0.5 * self.f.derivative_div_x(v)
+ *     #
+ */
+  __pyx_v_v = sqrt(__pyx_v_x);
+
+  /* "mlgrad/func.pyx":111
+ *     cdef double derivative(self, const double x) nogil:
+ *         cdef double v = sqrt(x)
+ *         return 0.5 * self.f.derivative_div_x(v)             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  */
-  __pyx_t_1 = (0.5 * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, sqrt(__pyx_v_x)));
-  __pyx_t_2 = sqrt(__pyx_v_x);
-  if (unlikely(__pyx_t_2 == 0)) {
-    #ifdef WITH_THREAD
-    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-    #endif
-    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    #ifdef WITH_THREAD
-    __Pyx_PyGILState_Release(__pyx_gilstate_save);
-    #endif
-    __PYX_ERR(0, 110, __pyx_L1_error)
-  }
-  __pyx_r = (__pyx_t_1 / __pyx_t_2);
+  __pyx_r = (0.5 * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative_div_x(__pyx_v_self->f, __pyx_v_v));
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":109
  *         return self.f.evaluate(sqrt(x))
  *     #
  *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return 0.5 * self.f.derivative(sqrt(x)) / sqrt(x)
- *     #
+ *         cdef double v = sqrt(x)
+ *         return 0.5 * self.f.derivative_div_x(v)
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.func.CompSqrt.derivative", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
-  __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":112
- *         return 0.5 * self.f.derivative(sqrt(x)) / sqrt(x)
+/* "mlgrad/func.pyx":113
+ *         return 0.5 * self.f.derivative_div_x(v)
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         cdef double dg = 0.5 / sqrt(x)
  *         cdef double y = sqrt(x)
+ * 
  */
 
 static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative2(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x) {
-  double __pyx_v_dg;
   double __pyx_v_y;
   double __pyx_r;
   double __pyx_t_1;
   double __pyx_t_2;
+  double __pyx_t_3;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/func.pyx":113
+  /* "mlgrad/func.pyx":114
  *     #
  *     cdef double derivative2(self, const double x) nogil:
- *         cdef double dg = 0.5 / sqrt(x)             # <<<<<<<<<<<<<<
- *         cdef double y = sqrt(x)
- * 
- */
-  __pyx_t_1 = sqrt(__pyx_v_x);
-  if (unlikely(__pyx_t_1 == 0)) {
-    #ifdef WITH_THREAD
-    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-    #endif
-    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    #ifdef WITH_THREAD
-    __Pyx_PyGILState_Release(__pyx_gilstate_save);
-    #endif
-    __PYX_ERR(0, 113, __pyx_L1_error)
-  }
-  __pyx_v_dg = (0.5 / __pyx_t_1);
-
-  /* "mlgrad/func.pyx":114
- *     cdef double derivative2(self, const double x) nogil:
- *         cdef double dg = 0.5 / sqrt(x)
  *         cdef double y = sqrt(x)             # <<<<<<<<<<<<<<
  * 
- *         return self.f.derivative2(y) * dg * dg + \
+ *         return 0.25 * (self.f.derivative2(y) / x - self.f.derivative(y) / (x*y))
  */
   __pyx_v_y = sqrt(__pyx_v_x);
-
-  /* "mlgrad/func.pyx":117
- * 
- *         return self.f.derivative2(y) * dg * dg + \
- *                -0.25 * self.f.derivative(y) / (x*y)             # <<<<<<<<<<<<<<
- *     #
- *     cdef double derivative_div_x(self, const double x) nogil:
- */
-  __pyx_t_1 = (-0.25 * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, __pyx_v_y));
-  __pyx_t_2 = (__pyx_v_x * __pyx_v_y);
-  if (unlikely(__pyx_t_2 == 0)) {
-    #ifdef WITH_THREAD
-    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-    #endif
-    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    #ifdef WITH_THREAD
-    __Pyx_PyGILState_Release(__pyx_gilstate_save);
-    #endif
-    __PYX_ERR(0, 117, __pyx_L1_error)
-  }
 
   /* "mlgrad/func.pyx":116
  *         cdef double y = sqrt(x)
  * 
- *         return self.f.derivative2(y) * dg * dg + \             # <<<<<<<<<<<<<<
- *                -0.25 * self.f.derivative(y) / (x*y)
+ *         return 0.25 * (self.f.derivative2(y) / x - self.f.derivative(y) / (x*y))             # <<<<<<<<<<<<<<
  *     #
+ *     cdef double derivative_div_x(self, const double x) nogil:
  */
-  __pyx_r = (((((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative2(__pyx_v_self->f, __pyx_v_y) * __pyx_v_dg) * __pyx_v_dg) + (__pyx_t_1 / __pyx_t_2));
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative2(__pyx_v_self->f, __pyx_v_y);
+  if (unlikely(__pyx_v_x == 0)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 116, __pyx_L1_error)
+  }
+  __pyx_t_2 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, __pyx_v_y);
+  __pyx_t_3 = (__pyx_v_x * __pyx_v_y);
+  if (unlikely(__pyx_t_3 == 0)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 116, __pyx_L1_error)
+  }
+  __pyx_r = (0.25 * ((__pyx_t_1 / ((double)__pyx_v_x)) - (__pyx_t_2 / __pyx_t_3)));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":112
- *         return 0.5 * self.f.derivative(sqrt(x)) / sqrt(x)
+  /* "mlgrad/func.pyx":113
+ *         return 0.5 * self.f.derivative_div_x(v)
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         cdef double dg = 0.5 / sqrt(x)
  *         cdef double y = sqrt(x)
+ * 
  */
 
   /* function exit code */
@@ -6291,32 +6264,40 @@ static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative2(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":119
- *                -0.25 * self.f.derivative(y) / (x*y)
+/* "mlgrad/func.pyx":118
+ *         return 0.25 * (self.f.derivative2(y) / x - self.f.derivative(y) / (x*y))
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return 0.5 * self.f.derivative(sqrt(x)) / (x*sqrt(x))
- * 
+ *         cdef double v = sqrt(x)
+ *         return 0.5 * self.f.derivative_div_x(v) / x
  */
 
 static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative_div_x(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x) {
+  double __pyx_v_v;
   double __pyx_r;
   double __pyx_t_1;
-  double __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/func.pyx":120
+  /* "mlgrad/func.pyx":119
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:
- *         return 0.5 * self.f.derivative(sqrt(x)) / (x*sqrt(x))             # <<<<<<<<<<<<<<
+ *         cdef double v = sqrt(x)             # <<<<<<<<<<<<<<
+ *         return 0.5 * self.f.derivative_div_x(v) / x
+ * 
+ */
+  __pyx_v_v = sqrt(__pyx_v_x);
+
+  /* "mlgrad/func.pyx":120
+ *     cdef double derivative_div_x(self, const double x) nogil:
+ *         cdef double v = sqrt(x)
+ *         return 0.5 * self.f.derivative_div_x(v) / x             # <<<<<<<<<<<<<<
  * 
  *     def to_dict(self):
  */
-  __pyx_t_1 = (0.5 * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, sqrt(__pyx_v_x)));
-  __pyx_t_2 = (__pyx_v_x * sqrt(__pyx_v_x));
-  if (unlikely(__pyx_t_2 == 0)) {
+  __pyx_t_1 = (0.5 * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative_div_x(__pyx_v_self->f, __pyx_v_v));
+  if (unlikely(__pyx_v_x == 0)) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
     #endif
@@ -6326,15 +6307,15 @@ static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative_div_x(struct __pyx_obj_
     #endif
     __PYX_ERR(0, 120, __pyx_L1_error)
   }
-  __pyx_r = (__pyx_t_1 / __pyx_t_2);
+  __pyx_r = (__pyx_t_1 / ((double)__pyx_v_x));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":119
- *                -0.25 * self.f.derivative(y) / (x*y)
+  /* "mlgrad/func.pyx":118
+ *         return 0.25 * (self.f.derivative2(y) / x - self.f.derivative(y) / (x*y))
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return 0.5 * self.f.derivative(sqrt(x)) / (x*sqrt(x))
- * 
+ *         cdef double v = sqrt(x)
+ *         return 0.5 * self.f.derivative_div_x(v) / x
  */
 
   /* function exit code */
@@ -6346,7 +6327,7 @@ static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative_div_x(struct __pyx_obj_
 }
 
 /* "mlgrad/func.pyx":122
- *         return 0.5 * self.f.derivative(sqrt(x)) / (x*sqrt(x))
+ *         return 0.5 * self.f.derivative_div_x(v) / x
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
  *         return { 'name':'compsqrt',
@@ -6448,7 +6429,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8CompSqrt_2to_dict(struct __pyx_obj_6mlg
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":122
- *         return 0.5 * self.f.derivative(sqrt(x)) / (x*sqrt(x))
+ *         return 0.5 * self.f.derivative_div_x(v) / x
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
  *         return { 'name':'compsqrt',

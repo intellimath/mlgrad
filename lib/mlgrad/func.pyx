@@ -107,17 +107,17 @@ cdef class CompSqrt(Func):
         return self.f.evaluate(sqrt(x))
     #
     cdef double derivative(self, const double x) nogil:
-        return 0.5 * self.f.derivative(sqrt(x)) / sqrt(x)
+        cdef double v = sqrt(x)
+        return 0.5 * self.f.derivative_div_x(v)
     #
     cdef double derivative2(self, const double x) nogil:
-        cdef double dg = 0.5 / sqrt(x)
         cdef double y = sqrt(x)
         
-        return self.f.derivative2(y) * dg * dg + \
-               -0.25 * self.f.derivative(y) / (x*y)
+        return 0.25 * (self.f.derivative2(y) / x - self.f.derivative(y) / (x*y))
     #
     cdef double derivative_div_x(self, const double x) nogil:
-        return 0.5 * self.f.derivative(sqrt(x)) / (x*sqrt(x))
+        cdef double v = sqrt(x)
+        return 0.5 * self.f.derivative_div_x(v) / x
     
     def to_dict(self):
         return { 'name':'compsqrt',
