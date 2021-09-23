@@ -79,6 +79,7 @@ cdef class SoftMinLoss2(MultLoss2):
 #     cdef public double val_min
     cdef public double[::1] vals
     cdef Py_ssize_t q
+    cdef double a
 
 #     cdef double evaluate(self, double[::1] y, double yk) nogil
 #     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil

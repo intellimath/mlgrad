@@ -5,7 +5,7 @@ cimport cython
 from mlgrad.func cimport Func, ParameterizedFunc
 from mlgrad.averager cimport ScalarAverager
 
-from mlgrad.miscfuncs cimport init_rand, rand, fill
+# from mlgrad.miscfuncs cimport init_rand, rand, fill
 
 from libc.math cimport fabs, pow, sqrt, fmax, log, exp
 

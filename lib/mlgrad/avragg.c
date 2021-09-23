@@ -606,8 +606,8 @@ static CYTHON_INLINE float __PYX_NAN() {
 #define __PYX_HAVE_API__mlgrad__avragg
 /* Early includes */
 #include <string.h>
-#include "pymath.h"
 #include <math.h>
+#include "pymath.h"
 #include <omp.h>
 #include "pythread.h"
 #include <stdlib.h>
@@ -1726,8 +1726,8 @@ struct __pyx_obj_6mlgrad_4func_SoftMinFunc {
 };
 
 
-/* "mlgrad/averager.pxd":29
- *     #    Y_ptr[i] = X_ptr[i]
+/* "mlgrad/averager.pxd":26
+ *     memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(double))
  * 
  * cdef class ScalarAverager:             # <<<<<<<<<<<<<<
  *     #
@@ -1739,7 +1739,7 @@ struct __pyx_obj_6mlgrad_8averager_ScalarAverager {
 };
 
 
-/* "mlgrad/averager.pxd":36
+/* "mlgrad/averager.pxd":33
  * 
  * @cython.final
  * cdef class ScalarAdaM2(ScalarAverager):             # <<<<<<<<<<<<<<
@@ -1758,7 +1758,7 @@ struct __pyx_obj_6mlgrad_8averager_ScalarAdaM2 {
 };
 
 
-/* "mlgrad/averager.pxd":42
+/* "mlgrad/averager.pxd":39
  * 
  * @cython.final
  * cdef class ScalarAdaM1(ScalarAverager):             # <<<<<<<<<<<<<<
@@ -1777,7 +1777,7 @@ struct __pyx_obj_6mlgrad_8averager_ScalarAdaM1 {
 };
 
 
-/* "mlgrad/averager.pxd":48
+/* "mlgrad/averager.pxd":45
  * 
  * @cython.final
  * cdef class ScalarExponentialAverager(ScalarAverager):             # <<<<<<<<<<<<<<
@@ -1792,7 +1792,7 @@ struct __pyx_obj_6mlgrad_8averager_ScalarExponentialAverager {
 };
 
 
-/* "mlgrad/averager.pxd":54
+/* "mlgrad/averager.pxd":51
  * 
  * @cython.final
  * cdef class ScalarWindowAverager(ScalarAverager):             # <<<<<<<<<<<<<<
@@ -1809,7 +1809,7 @@ struct __pyx_obj_6mlgrad_8averager_ScalarWindowAverager {
 };
 
 
-/* "mlgrad/averager.pxd":63
+/* "mlgrad/averager.pxd":60
  * ###########################################################
  * 
  * cdef class ArrayAverager:             # <<<<<<<<<<<<<<
@@ -1823,7 +1823,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAverager {
 };
 
 
-/* "mlgrad/averager.pxd":75
+/* "mlgrad/averager.pxd":72
  *     cdef void update(self, double[::1] x, double h)
  * 
  * cdef class ArraySave(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -1835,7 +1835,7 @@ struct __pyx_obj_6mlgrad_8averager_ArraySave {
 };
 
 
-/* "mlgrad/averager.pxd":79
+/* "mlgrad/averager.pxd":76
  * 
  * @cython.final
  * cdef class ArrayMOM(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -1851,7 +1851,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayMOM {
 };
 
 
-/* "mlgrad/averager.pxd":95
+/* "mlgrad/averager.pxd":92
  * 
  * @cython.final
  * cdef class ArrayAMOM(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -1867,7 +1867,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAMOM {
 };
 
 
-/* "mlgrad/averager.pxd":111
+/* "mlgrad/averager.pxd":108
  * 
  * @cython.final
  * cdef class ArrayRMSProp(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -1883,7 +1883,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp {
 };
 
 
-/* "mlgrad/averager.pxd":118
+/* "mlgrad/averager.pxd":115
  * 
  * @cython.final
  * cdef class ArrayAdaM2(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -1902,7 +1902,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2 {
 };
 
 
-/* "mlgrad/averager.pxd":125
+/* "mlgrad/averager.pxd":122
  * 
  * @cython.final
  * cdef class ArrayAdaM1(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -1921,7 +1921,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1 {
 };
 
 
-/* "mlgrad/averager.pxd":139
+/* "mlgrad/averager.pxd":136
  * 
  * @cython.final
  * cdef class ArraySimpleAverager(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -1935,7 +1935,7 @@ struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager {
 };
 
 
-/* "mlgrad/averager.pxd":146
+/* "mlgrad/averager.pxd":143
  * 
  * @cython.final
  * cdef class ArrayCyclicAverager(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -1950,7 +1950,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager {
 };
 
 
-/* "mlgrad/averager.pxd":153
+/* "mlgrad/averager.pxd":150
  * 
  * @cython.final
  * cdef class ArrayTAverager(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -2818,8 +2818,8 @@ struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc {
 static struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc *__pyx_vtabptr_6mlgrad_4func_SoftMinFunc;
 
 
-/* "mlgrad/averager.pxd":29
- *     #    Y_ptr[i] = X_ptr[i]
+/* "mlgrad/averager.pxd":26
+ *     memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(double))
  * 
  * cdef class ScalarAverager:             # <<<<<<<<<<<<<<
  *     #
@@ -2833,7 +2833,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAverager {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAverager *__pyx_vtabptr_6mlgrad_8averager_ScalarAverager;
 
 
-/* "mlgrad/averager.pxd":36
+/* "mlgrad/averager.pxd":33
  * 
  * @cython.final
  * cdef class ScalarAdaM2(ScalarAverager):             # <<<<<<<<<<<<<<
@@ -2847,7 +2847,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM2 {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM2 *__pyx_vtabptr_6mlgrad_8averager_ScalarAdaM2;
 
 
-/* "mlgrad/averager.pxd":42
+/* "mlgrad/averager.pxd":39
  * 
  * @cython.final
  * cdef class ScalarAdaM1(ScalarAverager):             # <<<<<<<<<<<<<<
@@ -2861,7 +2861,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM1 {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM1 *__pyx_vtabptr_6mlgrad_8averager_ScalarAdaM1;
 
 
-/* "mlgrad/averager.pxd":48
+/* "mlgrad/averager.pxd":45
  * 
  * @cython.final
  * cdef class ScalarExponentialAverager(ScalarAverager):             # <<<<<<<<<<<<<<
@@ -2875,7 +2875,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ScalarExponentialAverager {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ScalarExponentialAverager *__pyx_vtabptr_6mlgrad_8averager_ScalarExponentialAverager;
 
 
-/* "mlgrad/averager.pxd":54
+/* "mlgrad/averager.pxd":51
  * 
  * @cython.final
  * cdef class ScalarWindowAverager(ScalarAverager):             # <<<<<<<<<<<<<<
@@ -2889,7 +2889,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ScalarWindowAverager {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ScalarWindowAverager *__pyx_vtabptr_6mlgrad_8averager_ScalarWindowAverager;
 
 
-/* "mlgrad/averager.pxd":63
+/* "mlgrad/averager.pxd":60
  * ###########################################################
  * 
  * cdef class ArrayAverager:             # <<<<<<<<<<<<<<
@@ -2906,7 +2906,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager *__pyx_vtabptr_6mlgrad_8averager_ArrayAverager;
 
 
-/* "mlgrad/averager.pxd":75
+/* "mlgrad/averager.pxd":72
  *     cdef void update(self, double[::1] x, double h)
  * 
  * cdef class ArraySave(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -2920,7 +2920,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArraySave {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArraySave *__pyx_vtabptr_6mlgrad_8averager_ArraySave;
 
 
-/* "mlgrad/averager.pxd":79
+/* "mlgrad/averager.pxd":76
  * 
  * @cython.final
  * cdef class ArrayMOM(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -2934,7 +2934,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayMOM {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayMOM *__pyx_vtabptr_6mlgrad_8averager_ArrayMOM;
 
 
-/* "mlgrad/averager.pxd":95
+/* "mlgrad/averager.pxd":92
  * 
  * @cython.final
  * cdef class ArrayAMOM(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -2948,7 +2948,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAMOM {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAMOM *__pyx_vtabptr_6mlgrad_8averager_ArrayAMOM;
 
 
-/* "mlgrad/averager.pxd":111
+/* "mlgrad/averager.pxd":108
  * 
  * @cython.final
  * cdef class ArrayRMSProp(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -2962,7 +2962,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayRMSProp {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayRMSProp *__pyx_vtabptr_6mlgrad_8averager_ArrayRMSProp;
 
 
-/* "mlgrad/averager.pxd":118
+/* "mlgrad/averager.pxd":115
  * 
  * @cython.final
  * cdef class ArrayAdaM2(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -2976,7 +2976,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM2 {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM2 *__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2;
 
 
-/* "mlgrad/averager.pxd":125
+/* "mlgrad/averager.pxd":122
  * 
  * @cython.final
  * cdef class ArrayAdaM1(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -2990,7 +2990,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1 {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1 *__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1;
 
 
-/* "mlgrad/averager.pxd":139
+/* "mlgrad/averager.pxd":136
  * 
  * @cython.final
  * cdef class ArraySimpleAverager(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -3004,7 +3004,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArraySimpleAverager {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArraySimpleAverager *__pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager;
 
 
-/* "mlgrad/averager.pxd":146
+/* "mlgrad/averager.pxd":143
  * 
  * @cython.final
  * cdef class ArrayCyclicAverager(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -3018,7 +3018,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayCyclicAverager {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayCyclicAverager *__pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager;
 
 
-/* "mlgrad/averager.pxd":153
+/* "mlgrad/averager.pxd":150
  * 
  * @cython.final
  * cdef class ArrayTAverager(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -3949,9 +3949,6 @@ static CYTHON_INLINE char __Pyx_PyInt_As_char(PyObject *);
 /* CheckBinaryVersion.proto */
 static int __Pyx_check_binary_version(void);
 
-/* FunctionImport.proto */
-static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**f)(void), const char *sig);
-
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
@@ -4069,11 +4066,6 @@ static PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayAdaM1 = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayTAverager = 0;
-
-/* Module declarations from 'mlgrad.miscfuncs' */
-static void (*__pyx_f_6mlgrad_9miscfuncs_init_rand)(void); /*proto*/
-static long (*__pyx_f_6mlgrad_9miscfuncs_rand)(long); /*proto*/
-static void (*__pyx_f_6mlgrad_9miscfuncs_fill)(__Pyx_memviewslice, double); /*proto*/
 
 /* Module declarations from 'libc.math' */
 
@@ -31091,219 +31083,198 @@ static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_SoftMinimal__set_state(s
  * from libc.string cimport memcpy
  * 
  * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
- *     cdef int i, m = X.shape[0]
- *     for i in range(m):
+ *     cdef Py_ssize_t i, m = X.shape[0]
+ *     cdef double *XX = &X[0]
  */
 
 static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview(__Pyx_memviewslice __pyx_v_X, double __pyx_v_c) {
-  int __pyx_v_i;
-  int __pyx_v_m;
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_m;
+  CYTHON_UNUSED double *__pyx_v_XX;
   __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_t_3;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
   __Pyx_RefNannySetupContext("fill_memoryview", 0);
 
   /* "mlgrad/averager.pxd":7
  * 
  * cdef inline void fill_memoryview(double[::1] X, double c):
- *     cdef int i, m = X.shape[0]             # <<<<<<<<<<<<<<
- *     for i in range(m):
- *         X[i] = c
+ *     cdef Py_ssize_t i, m = X.shape[0]             # <<<<<<<<<<<<<<
+ *     cdef double *XX = &X[0]
+ * 
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
 
   /* "mlgrad/averager.pxd":8
  * cdef inline void fill_memoryview(double[::1] X, double c):
- *     cdef int i, m = X.shape[0]
+ *     cdef Py_ssize_t i, m = X.shape[0]
+ *     cdef double *XX = &X[0]             # <<<<<<<<<<<<<<
+ * 
+ *     for i in range(m):
+ */
+  __pyx_t_1 = 0;
+  __pyx_v_XX = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) ))));
+
+  /* "mlgrad/averager.pxd":10
+ *     cdef double *XX = &X[0]
+ * 
  *     for i in range(m):             # <<<<<<<<<<<<<<
  *         X[i] = c
  * 
  */
-  __pyx_t_1 = __pyx_v_m;
-  __pyx_t_2 = __pyx_t_1;
-  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
-    __pyx_v_i = __pyx_t_3;
+  __pyx_t_2 = __pyx_v_m;
+  __pyx_t_3 = __pyx_t_2;
+  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
+    __pyx_v_i = __pyx_t_4;
 
-    /* "mlgrad/averager.pxd":9
- *     cdef int i, m = X.shape[0]
+    /* "mlgrad/averager.pxd":11
+ * 
  *     for i in range(m):
  *         X[i] = c             # <<<<<<<<<<<<<<
  * 
  * cdef inline void fill_memoryview2(double[:,::1] X, double c):
  */
-    __pyx_t_4 = __pyx_v_i;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )) = __pyx_v_c;
+    __pyx_t_1 = __pyx_v_i;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) )) = __pyx_v_c;
   }
 
   /* "mlgrad/averager.pxd":6
  * from libc.string cimport memcpy
  * 
  * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
- *     cdef int i, m = X.shape[0]
- *     for i in range(m):
+ *     cdef Py_ssize_t i, m = X.shape[0]
+ *     cdef double *XX = &X[0]
  */
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/averager.pxd":11
+/* "mlgrad/averager.pxd":13
  *         X[i] = c
  * 
  * cdef inline void fill_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
- *     cdef int i, j
- *     cdef int m = X.shape[0], n = X.shape[1]
+ *     cdef Py_ssize_t i
+ *     cdef Py_ssize_t m = X.shape[0] * X.shape[1]
  */
 
 static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview2(__Pyx_memviewslice __pyx_v_X, double __pyx_v_c) {
-  int __pyx_v_i;
-  int __pyx_v_j;
-  int __pyx_v_m;
-  int __pyx_v_n;
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_m;
+  double *__pyx_v_XX;
   __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  int __pyx_t_2;
-  int __pyx_t_3;
-  int __pyx_t_4;
-  int __pyx_t_5;
-  int __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
   __Pyx_RefNannySetupContext("fill_memoryview2", 0);
 
-  /* "mlgrad/averager.pxd":13
+  /* "mlgrad/averager.pxd":15
  * cdef inline void fill_memoryview2(double[:,::1] X, double c):
- *     cdef int i, j
- *     cdef int m = X.shape[0], n = X.shape[1]             # <<<<<<<<<<<<<<
- *     for i in range(m):
- *         for j in range(n):
- */
-  __pyx_v_m = (__pyx_v_X.shape[0]);
-  __pyx_v_n = (__pyx_v_X.shape[1]);
-
-  /* "mlgrad/averager.pxd":14
- *     cdef int i, j
- *     cdef int m = X.shape[0], n = X.shape[1]
- *     for i in range(m):             # <<<<<<<<<<<<<<
- *         for j in range(n):
- *             X[i,j] = c
- */
-  __pyx_t_1 = __pyx_v_m;
-  __pyx_t_2 = __pyx_t_1;
-  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
-    __pyx_v_i = __pyx_t_3;
-
-    /* "mlgrad/averager.pxd":15
- *     cdef int m = X.shape[0], n = X.shape[1]
- *     for i in range(m):
- *         for j in range(n):             # <<<<<<<<<<<<<<
- *             X[i,j] = c
+ *     cdef Py_ssize_t i
+ *     cdef Py_ssize_t m = X.shape[0] * X.shape[1]             # <<<<<<<<<<<<<<
+ *     cdef double *XX = &X[0,0]
  * 
  */
-    __pyx_t_4 = __pyx_v_n;
-    __pyx_t_5 = __pyx_t_4;
-    for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
-      __pyx_v_j = __pyx_t_6;
+  __pyx_v_m = ((__pyx_v_X.shape[0]) * (__pyx_v_X.shape[1]));
 
-      /* "mlgrad/averager.pxd":16
+  /* "mlgrad/averager.pxd":16
+ *     cdef Py_ssize_t i
+ *     cdef Py_ssize_t m = X.shape[0] * X.shape[1]
+ *     cdef double *XX = &X[0,0]             # <<<<<<<<<<<<<<
+ * 
  *     for i in range(m):
- *         for j in range(n):
- *             X[i,j] = c             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_1 = 0;
+  __pyx_t_2 = 0;
+  __pyx_v_XX = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_1 * __pyx_v_X.strides[0]) )) + __pyx_t_2)) ))));
+
+  /* "mlgrad/averager.pxd":18
+ *     cdef double *XX = &X[0,0]
+ * 
+ *     for i in range(m):             # <<<<<<<<<<<<<<
+ *         XX[i] = c
+ * 
+ */
+  __pyx_t_3 = __pyx_v_m;
+  __pyx_t_4 = __pyx_t_3;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_i = __pyx_t_5;
+
+    /* "mlgrad/averager.pxd":19
+ * 
+ *     for i in range(m):
+ *         XX[i] = c             # <<<<<<<<<<<<<<
  * 
  * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
  */
-      __pyx_t_7 = __pyx_v_i;
-      __pyx_t_8 = __pyx_v_j;
-      *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_7 * __pyx_v_X.strides[0]) )) + __pyx_t_8)) )) = __pyx_v_c;
-    }
+    (__pyx_v_XX[__pyx_v_i]) = __pyx_v_c;
   }
 
-  /* "mlgrad/averager.pxd":11
+  /* "mlgrad/averager.pxd":13
  *         X[i] = c
  * 
  * cdef inline void fill_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
- *     cdef int i, j
- *     cdef int m = X.shape[0], n = X.shape[1]
+ *     cdef Py_ssize_t i
+ *     cdef Py_ssize_t m = X.shape[0] * X.shape[1]
  */
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/averager.pxd":18
- *             X[i,j] = c
+/* "mlgrad/averager.pxd":21
+ *         XX[i] = c
  * 
  * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):             # <<<<<<<<<<<<<<
- *     cdef int i, m = X.shape[0], n = Y.shape[0]
- *     #cdef double* X_ptr = &X[0]
+ *     cdef Py_ssize_t m = X.shape[0], n = Y.shape[0]
+ * 
  */
 
 static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_copy_memoryview(__Pyx_memviewslice __pyx_v_Y, __Pyx_memviewslice __pyx_v_X) {
-  int __pyx_v_m;
-  int __pyx_v_n;
+  Py_ssize_t __pyx_v_m;
+  Py_ssize_t __pyx_v_n;
   __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
+  Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   __Pyx_RefNannySetupContext("copy_memoryview", 0);
 
-  /* "mlgrad/averager.pxd":19
+  /* "mlgrad/averager.pxd":22
  * 
  * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
- *     cdef int i, m = X.shape[0], n = Y.shape[0]             # <<<<<<<<<<<<<<
- *     #cdef double* X_ptr = &X[0]
- *     #cdef double* Y_ptr = &Y[0]
+ *     cdef Py_ssize_t m = X.shape[0], n = Y.shape[0]             # <<<<<<<<<<<<<<
+ * 
+ *     memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(double))
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
   __pyx_v_n = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/averager.pxd":23
- *     #cdef double* Y_ptr = &Y[0]
+  /* "mlgrad/averager.pxd":24
+ *     cdef Py_ssize_t m = X.shape[0], n = Y.shape[0]
  * 
- *     if n < m:             # <<<<<<<<<<<<<<
- *         m = n
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
- */
-  __pyx_t_1 = ((__pyx_v_n < __pyx_v_m) != 0);
-  if (__pyx_t_1) {
-
-    /* "mlgrad/averager.pxd":24
+ *     memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(double))             # <<<<<<<<<<<<<<
  * 
- *     if n < m:
- *         m = n             # <<<<<<<<<<<<<<
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
- *     #for i in range(m):
+ * cdef class ScalarAverager:
  */
-    __pyx_v_m = __pyx_v_n;
-
-    /* "mlgrad/averager.pxd":23
- *     #cdef double* Y_ptr = &Y[0]
- * 
- *     if n < m:             # <<<<<<<<<<<<<<
- *         m = n
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
- */
-  }
-
-  /* "mlgrad/averager.pxd":25
- *     if n < m:
- *         m = n
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))             # <<<<<<<<<<<<<<
- *     #for i in range(m):
- *     #    Y_ptr[i] = X_ptr[i]
- */
+  __pyx_t_1 = 0;
   __pyx_t_2 = 0;
-  __pyx_t_3 = 0;
-  (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_3)) )))), (__pyx_v_m * (sizeof(double)))));
+  if (((__pyx_v_n < __pyx_v_m) != 0)) {
+    __pyx_t_3 = __pyx_v_n;
+  } else {
+    __pyx_t_3 = __pyx_v_m;
+  }
+  (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_2)) )))), (__pyx_t_3 * (sizeof(double)))));
 
-  /* "mlgrad/averager.pxd":18
- *             X[i,j] = c
+  /* "mlgrad/averager.pxd":21
+ *         XX[i] = c
  * 
  * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):             # <<<<<<<<<<<<<<
- *     cdef int i, m = X.shape[0], n = Y.shape[0]
- *     #cdef double* X_ptr = &X[0]
+ *     cdef Py_ssize_t m = X.shape[0], n = Y.shape[0]
+ * 
  */
 
   /* function exit code */
@@ -48421,53 +48392,53 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_6mlgrad_4func_SoftMinFunc) __PYX_ERR(5, 213, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_4func_SoftMinFunc = (struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftMinFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftMinFunc)) __PYX_ERR(5, 213, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.averager"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 29, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.averager"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_8averager_ScalarAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ScalarAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ScalarAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ScalarAverager) __PYX_ERR(6, 29, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ScalarAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarAverager)) __PYX_ERR(6, 29, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ScalarAverager) __PYX_ERR(6, 26, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ScalarAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarAverager)) __PYX_ERR(6, 26, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ScalarAdaM2 = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ScalarAdaM2", sizeof(struct __pyx_obj_6mlgrad_8averager_ScalarAdaM2), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ScalarAdaM2) __PYX_ERR(6, 36, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ScalarAdaM2 = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarAdaM2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarAdaM2)) __PYX_ERR(6, 36, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ScalarAdaM2) __PYX_ERR(6, 33, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ScalarAdaM2 = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarAdaM2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarAdaM2)) __PYX_ERR(6, 33, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ScalarAdaM1 = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ScalarAdaM1", sizeof(struct __pyx_obj_6mlgrad_8averager_ScalarAdaM1), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ScalarAdaM1) __PYX_ERR(6, 42, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ScalarAdaM1 = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM1*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarAdaM1->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarAdaM1)) __PYX_ERR(6, 42, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ScalarAdaM1) __PYX_ERR(6, 39, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ScalarAdaM1 = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM1*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarAdaM1->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarAdaM1)) __PYX_ERR(6, 39, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ScalarExponentialAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ScalarExponentialAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ScalarExponentialAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ScalarExponentialAverager) __PYX_ERR(6, 48, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ScalarExponentialAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarExponentialAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarExponentialAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarExponentialAverager)) __PYX_ERR(6, 48, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ScalarExponentialAverager) __PYX_ERR(6, 45, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ScalarExponentialAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarExponentialAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarExponentialAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarExponentialAverager)) __PYX_ERR(6, 45, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ScalarWindowAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ScalarWindowAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ScalarWindowAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ScalarWindowAverager) __PYX_ERR(6, 54, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ScalarWindowAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarWindowAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarWindowAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarWindowAverager)) __PYX_ERR(6, 54, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ScalarWindowAverager) __PYX_ERR(6, 51, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ScalarWindowAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ScalarWindowAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ScalarWindowAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ScalarWindowAverager)) __PYX_ERR(6, 51, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayAverager) __PYX_ERR(6, 63, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAverager)) __PYX_ERR(6, 63, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayAverager) __PYX_ERR(6, 60, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAverager)) __PYX_ERR(6, 60, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArraySave = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArraySave", sizeof(struct __pyx_obj_6mlgrad_8averager_ArraySave), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArraySave) __PYX_ERR(6, 75, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArraySave = (struct __pyx_vtabstruct_6mlgrad_8averager_ArraySave*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArraySave->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArraySave)) __PYX_ERR(6, 75, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArraySave) __PYX_ERR(6, 72, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArraySave = (struct __pyx_vtabstruct_6mlgrad_8averager_ArraySave*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArraySave->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArraySave)) __PYX_ERR(6, 72, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayMOM = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayMOM", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayMOM), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayMOM) __PYX_ERR(6, 79, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayMOM = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayMOM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayMOM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayMOM)) __PYX_ERR(6, 79, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayMOM) __PYX_ERR(6, 76, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayMOM = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayMOM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayMOM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayMOM)) __PYX_ERR(6, 76, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayAMOM = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayAMOM", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayAMOM), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayAMOM) __PYX_ERR(6, 95, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayAMOM = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAMOM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAMOM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAMOM)) __PYX_ERR(6, 95, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayAMOM) __PYX_ERR(6, 92, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayAMOM = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAMOM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAMOM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAMOM)) __PYX_ERR(6, 92, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayRMSProp = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayRMSProp", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayRMSProp) __PYX_ERR(6, 111, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayRMSProp = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayRMSProp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayRMSProp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayRMSProp)) __PYX_ERR(6, 111, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayRMSProp) __PYX_ERR(6, 108, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayRMSProp = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayRMSProp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayRMSProp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayRMSProp)) __PYX_ERR(6, 108, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayAdaM2 = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayAdaM2", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayAdaM2) __PYX_ERR(6, 118, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2 = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAdaM2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2)) __PYX_ERR(6, 118, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayAdaM2) __PYX_ERR(6, 115, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2 = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAdaM2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2)) __PYX_ERR(6, 115, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayAdaM1 = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayAdaM1", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayAdaM1) __PYX_ERR(6, 125, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1 = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAdaM1->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1)) __PYX_ERR(6, 125, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayAdaM1) __PYX_ERR(6, 122, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1 = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAdaM1->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1)) __PYX_ERR(6, 122, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArraySimpleAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArraySimpleAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager) __PYX_ERR(6, 139, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArraySimpleAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager)) __PYX_ERR(6, 139, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager) __PYX_ERR(6, 136, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArraySimpleAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager)) __PYX_ERR(6, 136, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayCyclicAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager) __PYX_ERR(6, 146, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayCyclicAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager)) __PYX_ERR(6, 146, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager) __PYX_ERR(6, 143, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayCyclicAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager)) __PYX_ERR(6, 143, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayTAverager = __Pyx_ImportType(__pyx_t_1, "mlgrad.averager", "ArrayTAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayTAverager), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_8averager_ArrayTAverager) __PYX_ERR(6, 153, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8averager_ArrayTAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayTAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayTAverager)) __PYX_ERR(6, 153, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_8averager_ArrayTAverager) __PYX_ERR(6, 150, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayTAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayTAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayTAverager)) __PYX_ERR(6, 150, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -48487,24 +48458,10 @@ static int __Pyx_modinit_variable_import_code(void) {
 
 static int __Pyx_modinit_function_import_code(void) {
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_function_import_code", 0);
   /*--- Function import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.miscfuncs"); if (!__pyx_t_1) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_ImportFunction(__pyx_t_1, "init_rand", (void (**)(void))&__pyx_f_6mlgrad_9miscfuncs_init_rand, "void (void)") < 0) __PYX_ERR(2, 1, __pyx_L1_error)
-  if (__Pyx_ImportFunction(__pyx_t_1, "rand", (void (**)(void))&__pyx_f_6mlgrad_9miscfuncs_rand, "long (long)") < 0) __PYX_ERR(2, 1, __pyx_L1_error)
-  if (__Pyx_ImportFunction(__pyx_t_1, "fill", (void (**)(void))&__pyx_f_6mlgrad_9miscfuncs_fill, "void (__Pyx_memviewslice, double)") < 0) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_RefNannyFinishContext();
-  return -1;
 }
 
 
@@ -48705,7 +48662,7 @@ if (!__Pyx_RefNanny) {
   if (unlikely(__Pyx_modinit_type_init_code() < 0)) __PYX_ERR(2, 1, __pyx_L1_error)
   if (unlikely(__Pyx_modinit_type_import_code() < 0)) __PYX_ERR(2, 1, __pyx_L1_error)
   (void)__Pyx_modinit_variable_import_code();
-  if (unlikely(__Pyx_modinit_function_import_code() < 0)) __PYX_ERR(2, 1, __pyx_L1_error)
+  (void)__Pyx_modinit_function_import_code();
   /*--- Execution code ---*/
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(2, 1, __pyx_L1_error)
@@ -52980,60 +52937,6 @@ raise_neg_overflow:
     }
     return 0;
 }
-
-/* FunctionImport */
-  #ifndef __PYX_HAVE_RT_ImportFunction
-#define __PYX_HAVE_RT_ImportFunction
-static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**f)(void), const char *sig) {
-    PyObject *d = 0;
-    PyObject *cobj = 0;
-    union {
-        void (*fp)(void);
-        void *p;
-    } tmp;
-    d = PyObject_GetAttrString(module, (char *)"__pyx_capi__");
-    if (!d)
-        goto bad;
-    cobj = PyDict_GetItemString(d, funcname);
-    if (!cobj) {
-        PyErr_Format(PyExc_ImportError,
-            "%.200s does not export expected C function %.200s",
-                PyModule_GetName(module), funcname);
-        goto bad;
-    }
-#if PY_VERSION_HEX >= 0x02070000
-    if (!PyCapsule_IsValid(cobj, sig)) {
-        PyErr_Format(PyExc_TypeError,
-            "C function %.200s.%.200s has wrong signature (expected %.500s, got %.500s)",
-             PyModule_GetName(module), funcname, sig, PyCapsule_GetName(cobj));
-        goto bad;
-    }
-    tmp.p = PyCapsule_GetPointer(cobj, sig);
-#else
-    {const char *desc, *s1, *s2;
-    desc = (const char *)PyCObject_GetDesc(cobj);
-    if (!desc)
-        goto bad;
-    s1 = desc; s2 = sig;
-    while (*s1 != '\0' && *s1 == *s2) { s1++; s2++; }
-    if (*s1 != *s2) {
-        PyErr_Format(PyExc_TypeError,
-            "C function %.200s.%.200s has wrong signature (expected %.500s, got %.500s)",
-             PyModule_GetName(module), funcname, sig, desc);
-        goto bad;
-    }
-    tmp.p = PyCObject_AsVoidPtr(cobj);}
-#endif
-    *f = tmp.fp;
-    if (!(*f))
-        goto bad;
-    Py_DECREF(d);
-    return 0;
-bad:
-    Py_XDECREF(d);
-    return -1;
-}
-#endif
 
 /* InitStrings */
   static int __Pyx_InitStrings(__Pyx_StringTabEntry *t) {

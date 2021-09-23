@@ -161,15 +161,16 @@ cdef class MultLoss2:
     
 cdef class SoftMinLoss2(MultLoss2):
 
-    def __init__(self, Loss lossfunc, q):
+    def __init__(self, Loss lossfunc, q, a=1):
         self.lossfunc = lossfunc
         self.q = q
+        self.a = a
         self.vals = np.zeros(q, 'd')
     
     cdef double evaluate(self, double[::1] y, double yk) nogil:
         cdef Py_ssize_t i, n = self.q
         cdef double val, val_min = float_max
-        cdef double S
+        cdef double S, a = self.a
         cdef double[::1] vals = self.vals
         
         for i in range(n):
@@ -179,7 +180,7 @@ cdef class SoftMinLoss2(MultLoss2):
                 
         S = 0
         for i in range(n):
-            S += exp(val_min - vals[i])
+            S += exp(a*(val_min - vals[i]))
         S = log(S)
         S = val_min - S
 
@@ -188,7 +189,7 @@ cdef class SoftMinLoss2(MultLoss2):
     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil:        
         cdef Py_ssize_t i, n = self.q
         cdef double val, val_min = float_max
-        cdef double S
+        cdef double S, a = self.a
         cdef double[::1] vals = self.vals
 
         for i in range(n):
@@ -198,7 +199,7 @@ cdef class SoftMinLoss2(MultLoss2):
 
         S = 0
         for i in range(n):
-            vals[i] = val = exp(val_min - vals[i])
+            vals[i] = val = exp(a*(val_min - vals[i]))
             S += val
                 
         for i in range(n):

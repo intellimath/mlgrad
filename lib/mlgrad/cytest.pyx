@@ -17,7 +17,7 @@ cdef void fill(float *X, float v, int n):
         X[i] = v
 
 cdef double conv_parallel(double[::1] A, double[::1] B) nogil:
-    cdef int i, n = A.shape[0]
+    cdef Py_ssize_t i, n = A.shape[0]
     cdef double c
 
     c = 0

@@ -451,7 +451,7 @@ cdef class ERisk(Risk):
         cdef Loss _loss = self.loss
 
         cdef Py_ssize_t i, j, k, n_param = self.n_param, N = self.n_sample
-        cdef double y, lval_dy, wk, lval, vv
+        cdef double y, vv
         
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
@@ -474,13 +474,9 @@ cdef class ERisk(Risk):
 
         for j in range(size):
             k = indices[j]
-#             yk = Y[k]
 
             y = _model.evaluate(X[k])
             _model.gradient(X[k], grad)
-
-#             lval_dy = loss_derivative(_loss, y, Y[k])
-#             wk = weights[j]
 
             vv = _loss.derivative(y, Y[k]) * weights[j]
             for i in range(n_param):

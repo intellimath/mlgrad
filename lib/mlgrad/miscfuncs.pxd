@@ -9,10 +9,10 @@ cdef extern from "pymath.h" nogil:
     bint Py_IS_NAN(double x)
     bint copysign(double x, double x)
 
-cdef double absmax_1d(double[:] X)
+cdef double absmax_1d(double[::1] X)
 
 #cdef double[:] as_memoryview_1d(object X)
 
-cdef void multiply_scalar(double[:] X, double c)
+cdef void multiply_scalar(double[::1] X, double c)
 
-cdef void fill(double[:] X, double c)
+cdef void fill(double[::1] X, double c)

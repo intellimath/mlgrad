@@ -70,7 +70,7 @@ def m_regression(Xs, Y, mod,
 def m_regression_irls(Xs, Y, mod, 
                       lossfunc=SquareErrorLoss(),
                       avrfunc=averaging_function('WM'), regnorm=None, 
-                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=44, verbose=0):
+                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, verbose=0):
     """\
     Поиск параметров модели `mod` при помощи принципа минимизации агрегирующей функции потерь от ошибок. 
     Параметр `avrfunc` задает усредняющую агрегирующую функцию.
@@ -86,7 +86,7 @@ def m_regression_irls(Xs, Y, mod,
     return irgd
 
 def r_regression_irls(Xs, Y, mod, rhofunc=func.Sqrt(1.0), regnorm=None, 
-                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=44, verbose=0):
+                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, verbose=0):
     """\
     Поиск параметров модели `mod` при помощи классического методо R-регрессии. 
     Параметр `rhofunc` задает функцию от ошибки.
@@ -123,7 +123,7 @@ def plot_losses_and_errors(alg, Xs, Y, fname=None):
     plt.minorticks_on()
     plt.subplot(1,2,2)
     plt.title('Errors')
-    plt.plot(sorted(err), marker='o', markersize='6')
+    plt.plot(sorted(err), marker='o', markersize='4')
     plt.minorticks_on()
     plt.xlabel('error rank')
     plt.ylabel('error value')
@@ -131,3 +131,24 @@ def plot_losses_and_errors(alg, Xs, Y, fname=None):
     if fname:
         plt.savefig(fname)
     plt.show()
+
+def plot_yy(Xs, Y, mod, label, b=0.1):
+    import numpy as np 
+    import matplotlib.pyplot as plt
+
+    Yp = mod.evaluate_all(Xs)
+    E = np.abs(Y - Yp) / np.abs(Y)
+    c = sum(E < b) / len(E) * 100
+    ymax, ymin = np.max(Y), np.min(Y)
+    ypmax, ypmin = np.max(Yp), np.min(Yp)
+    ymax = max(ymax, ypmax)
+    ymin = min(ymin, ypmin)
+    plt.plot([ymin, ymax], [ymin, ymax], color='k', linewidth=0.66)
+    plt.fill_between([ymin, ymax], [ymin-b, ymax-b], [ymin+b, ymax+b], color='LightGray')
+    plt.scatter(Y, Yp, c='k', s=12, label=r'$\{|err|<%.2f\}\ \to\ %s$ %%' % (b, int(c)))
+    plt.title(label)
+    plt.ylim(ymin, ymax)
+    plt.xlim(ymin, ymax)
+    plt.xlabel("original")
+    plt.ylabel("predicted")
+    plt.legend()

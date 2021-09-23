@@ -4,27 +4,23 @@ cimport cython
 from libc.string cimport memcpy
 
 cdef inline void fill_memoryview(double[::1] X, double c):
-    cdef int i, m = X.shape[0]
-    for i in range(m):
+    cdef Py_ssize_t i
+    cdef double *XX = &X[0]
+
+    for i in range(X.shape[0]):
         X[i] = c
 
 cdef inline void fill_memoryview2(double[:,::1] X, double c):
-    cdef int i, j
-    cdef int m = X.shape[0], n = X.shape[1]
-    for i in range(m):
-        for j in range(n):
-            X[i,j] = c
+    cdef Py_ssize_t i
+    cdef double *XX = &X[0,0]
+
+    for i in range(X.shape[0] * X.shape[1]):
+        XX[i] = c
 
 cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
-    cdef int i, m = X.shape[0], n = Y.shape[0]
-    #cdef double* X_ptr = &X[0]
-    #cdef double* Y_ptr = &Y[0]
+    cdef Py_ssize_t m = X.shape[0], n = Y.shape[0]
 
-    if n < m:
-        m = n
-    memcpy(&Y[0], &X[0], m*cython.sizeof(double))
-    #for i in range(m):
-    #    Y_ptr[i] = X_ptr[i]
+    memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(double))
 
 cdef class ScalarAverager:
     #
@@ -52,8 +48,8 @@ cdef class ScalarExponentialAverager(ScalarAverager):
 
 @cython.final    
 cdef class ScalarWindowAverager(ScalarAverager):
-    cdef int size
-    cdef int idx
+    cdef Py_ssize_t size
+    cdef Py_ssize_t idx
     cdef double[::1] buffer
     cdef double buffer_sum
     cdef bint first
@@ -145,7 +141,7 @@ cdef class ArraySimpleAverager(ArrayAverager):
 @cython.final
 cdef class ArrayCyclicAverager(ArrayAverager):
     #
-    cdef int i, size
+    cdef Py_ssize_t i, size
     cdef double[:, ::1] array_all
     #
 

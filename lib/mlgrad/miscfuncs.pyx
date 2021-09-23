@@ -95,17 +95,17 @@ ctypedef long[:] array1d_long
 #     return 1
 #
 
-cdef void  multiply_scalar(double[:] X, double c):
-    cdef int i, m
-    m = X.shape[0]
-    for i in range(m):
-        X[i] *= c
+cdef void  multiply_scalar(double[::1] X, double c):
+    cdef Py_ssize_t i
+    cdef double *XX = &X[0]
+    for i in range(X.shape[0]):
+        XX[i] *= c
 
-cdef void fill(double[:] X, double c):
-    cdef int i, m
-    m = len(X)
-    for i in range(m):
-        X[i] = c
+cdef void fill(double[::1] X, double c):
+    cdef Py_ssize_t i
+    cdef double *XX = &X[0]
+    for i in range(X.shape[0]):
+        XX[i] = c
 
 #
 # def add_inplace(X, Y):
@@ -149,14 +149,14 @@ cdef void fill(double[:] X, double c):
 #             s = X[i]
 #     return s
 
-cdef double absmax_1d(double[:] X):
-    cdef int i, N
+cdef double absmax_1d(double[::1] X):
+    cdef Py_ssize_t i
     cdef double s, v
+    cdef double *XX = &X[0]
     
-    N = len(X.shape)
-    s = X[0]
-    for i in range(N):
-        v = X[i]
+    s = XX[0]
+    for i in range(X.shape[0]):
+        v = XX[i]
         if v < 0:
             v = -v
         if v > s:
