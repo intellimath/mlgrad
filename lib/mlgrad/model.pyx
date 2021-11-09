@@ -210,6 +210,9 @@ cdef class ArrayAllocator(Allocator):
         return ar2
     #
     cpdef double[::1] get_allocated(self):
+        cdef Py_ssize_t i, n = self.allocated - self.start
+        for i in range(n):
+            self.buf[self.start + i] = 0
         return self.buf[self.start:self.allocated]
     #
     cpdef Allocator suballocator(self):
@@ -245,7 +248,7 @@ cdef class Model(object):
         param = allocator.allocate(self.n_param)
 
         if self.param is not None:
-            if param.shape[0] != self.param.shape[0]:
+            if param.shape[0] < self.param.shape[0]:
                 raise TypeError("The shapes are not equal: %s != %s" % (param.base.shape, self.param.base.shape))
             copy_memoryview(param, self.param)
 
@@ -560,11 +563,17 @@ cdef class GeneralModelLayer(ModelLayer):
 
             mod_allocator = allocator.suballocator()
             mod._allocate(mod_allocator)
-#             mod.grad = np.zeros(mod.n_param)
-#             mod.grad_x = np.zeros(mod.n_input)
 
-        self.param = allocator.get_allocated()
-        self.n_param = len(self.param)
+        param = allocator.get_allocated()
+
+        n_param0 = len(self.param)
+        n_param1 = len(param)
+        if n_param0 > 0:
+            if n_param0 <= n_param1:
+                for i in range(n_param0):
+                    param[i] = self.param[i]
+        self.param = param
+        self.n_param = len(param)
 
         self.n_output = len(self.models)
 
@@ -623,7 +632,6 @@ cdef class GeneralModelLayer(ModelLayer):
         cdef double *G = &grad[0]
 
         fill_memoryview(grad_in, 0)
-#         print(np.array(grad_out))
         for j in range(n_output):
             val_j = grad_out[j]
             mod_j = <Model>self.models[j]
@@ -631,18 +639,13 @@ cdef class GeneralModelLayer(ModelLayer):
             n_param = mod_j.n_param
             if n_param > 0:
                 mod_j.gradient(X, mod_j.grad)
-#                 print(j, np.array(mod_j.grad))
                 for i in range(n_param):
                     G[i] = mod_j.grad[i] * val_j
                 G += n_param
 
-#         for j in range(n_output):
-#             val_j = grad_out[j]
-#             mod_j = <Model>self.models[j]
             mod_j.gradient_x(X, mod_j.grad_x)
             for i in range(self.n_input):
                 grad_in[i] += mod_j.grad_x[i] * val_j
-#         print(np.array(grad))
         #
     def as_dict(self):
         models = []
