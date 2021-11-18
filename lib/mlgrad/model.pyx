@@ -40,6 +40,13 @@ from cython.parallel cimport parallel, prange
 
 from openmp cimport omp_get_num_procs, omp_get_thread_num
 
+cdef extern from "c/inventory.h" nogil:
+    double dconv(const double*, const double*, const int)
+    void dcopy(double*, const double*, const int)
+    double dsum(const double*, const int)
+    void dfill(double*, const double, const int)
+    void dmatdot(double*, double*, const double*, const int, const int)
+
 cdef int num_procs = omp_get_num_procs()
 if num_procs > 4:
     num_procs /= 2
@@ -305,28 +312,28 @@ cdef class Model(object):
     cpdef Model copy(self, bint share=1):
         return <Model>self
 
-cdef class ConstModel(Model):
-    __doc__ = """Constant"""
-    #
-    def __init__(self, val=0):
-        self.param = np.empty(1, 'd')
-        self.param[0] = val
-        self.grad = np.zeros(1, 'd')
-        self.grad_x = np.zeros(1, 'd')
-        self.n_param = 1
-        self.n_input = 1
-    #
-    def _allocate(self, allocator):
-        pass
-    #
-    cdef double evaluate(self, double[::1] X):
-        return self.param[0]
-    #
-    cdef void gradient(self, double[::1] X, double[::1] grad):
-        grad[0] = 1
-    #   
-    cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
-        grad_x[0] = 0
+# cdef class ConstModel(Model):
+#     __doc__ = """Constant"""
+#     #
+#     def __init__(self, val=0):
+#         self.param = np.empty(1, 'd')
+#         self.param[0] = val
+#         self.grad = np.zeros(1, 'd')
+#         self.grad_x = np.zeros(1, 'd')
+#         self.n_param = 1
+#         self.n_input = 1
+#     #
+#     def _allocate(self, allocator):
+#         pass
+#     #
+#     cdef double evaluate(self, double[::1] X):
+#         return self.param[0]
+#     #
+#     cdef void gradient(self, double[::1] X, double[::1] grad):
+#         grad[0] = 1
+#     #   
+#     cdef void gradient_x(self, double[::1] X, double[::1] grad_x):
+#         grad_x[0] = 0
         
 cdef class LinearModel(Model):
     __doc__ = """LinearModel(param)"""
@@ -364,21 +371,23 @@ cdef class LinearModel(Model):
         return (self.n_input,)
     #
     cdef double evaluate(self, double[::1] X):
-        cdef Py_ssize_t i, n = self.n_input
-        cdef double v
-#         cdef double[::1] param = self.param
-        cdef double  *ptr = &self.param[1]
+        # cdef Py_ssize_t i, n = self.n_input
+        # cdef double v
+        # cdef double  *ptr = &self.param[1]
+        # cdef double *X_ptr = &X[0]
 
-        v = self.param[0]
-        for i in range(n):
-            v += ptr[i] * X[i]
-        return v
+        # v = self.param[0] + dconv(&X[0], &self.param[1], self.n_input)
+        # for i in range(n):
+        #     v += ptr[i] * X_ptr[i]
+        cdef double *param = &self.param[0]
+        return param[0] + dconv(&X[0], &param[1], self.n_input)
     #
     cdef void gradient(self, double[::1] X, double[::1] grad):
 #         cdef Py_ssize_t i, n_param = self.n_param
         
         grad[0] = 1.
-        memcpy(&grad[1], &X[0], cython.sizeof(double)*self.n_input)
+        dcopy(&grad[1], &X[0], self.n_input)
+        # memcpy(&grad[1], &X[0], cython.sizeof(double)*self.n_input)
 #         for i in range(1, n_param):
 #             grad[i] = X[i-1]
     #
@@ -386,7 +395,8 @@ cdef class LinearModel(Model):
 #         cdef Py_ssize_t i, n_input = self.n_input
 #         cdef double[::1] param = self.param
 
-        memcpy(&grad_x[0], &self.param[1], cython.sizeof(double)*self.n_input)
+        # memcpy(&grad_x[0], &self.param[1], cython.sizeof(double)*self.n_input)
+        dcopy(&grad_x[1], &self.param[1], self.n_input)
 #         for i in range(n_input):
 #             grad_x[i] = param[i+1]
     #
@@ -716,7 +726,6 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         cdef double s
         cdef double[:,::1] matrix = self.matrix
         cdef double[::1] output = self.output
-#         cdef double *ss = &self.ss[0]
         cdef double *matrix_j
         cdef double *Xp = &X[0]
         cdef Func func = self.func
@@ -728,30 +737,10 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
             matrix_j = &matrix[j,1]
             for i in range(n_input):
                 s += matrix_j[i] * Xp[i]
-            if func is None:
-                output[j] = s
-            else:
+            if func is not None:
                 output[j] = func_evaluate(func, s)
-#             ss[j] = s        
-#         cdef Py_ssize_t n_input = self.n_input
-#         cdef Py_ssize_t n_output = self.n_output
-#         cdef Py_ssize_t i, j, size
-#         cdef double s1, s2, s
-#         cdef double[:,::1] matrix = self.matrix
-#         cdef double[::1] output = self.output
-#         cdef Func func = self.func
-        
-#         cdef FuncEvaluate func_evaluate = func.evaluate
-
-# #         for j in prange(n_output, nogil=True, num_threads=num_procs):
-#         for j in range(n_output): 
-#             s1 = matrix[j,0]
-#             s2 = inner_dot(&matrix[j,1], &X[0], n_input)
-#             s = s1 + s2
-#             if func is None:
-#                 output[j] = s
-#             else:
-#                 output[j] = func_evaluate(func, s)
+            else:
+                output[j] = s
     #
     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Py_ssize_t i, j, jj, offset
@@ -772,19 +761,20 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         
 #         fill_memoryview(grad_in, 0)
         memset(&grad_in[0], 0, n_input*cython.sizeof(double))        
-        for j in range(n_output):
-            
+        for j in range(n_output):            
             s = matrix[j,0]
             matrix_j = &matrix[j,1]
             for i in range(n_input):
                 s += matrix_j[i] * Xp[i]
+                
+            # s = output[j]
             
-#             val_j = grad_out[j]
             if func is None:
-                sx = grad_out[j]
+                sx = grad_out[j] * s
             else:
                 sx = grad_out[j] * func_derivative(func, s)
 
+            matrix_j = &matrix[j,1]
             for i in range(n_input):
                 grad_in[i] += sx * matrix_j[i]
 
@@ -849,7 +839,61 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
 def sigma_neuron_layer_from_dict(ob):
     layer = SigmaNeuronModelLayer(ob['n_input'], ob['n_output'])
     return layer
-    
+
+
+cdef class LinearFuncModel(Model):
+    #
+    def __init__(self, body):
+        self.body = body
+        self.head = LinearModel(body.n_output)
+        self.n_param = self.head.n_param + self.body.n_param
+        self.n_input = self.body.n_input
+        self.grad = None
+        self.grad_x = None
+    #
+    def _allocate(self, allocator):
+        self.head._allocate(allocator)
+        body_allocator = allocator.suballocator()
+        
+        self.body._allocate(body_allocator)
+        
+        self.param = allocator.get_allocated()
+        self.n_param = len(self.param)
+        #print("NN", allocator)
+    #
+    def allocate(self):
+        allocator = ArrayAllocator(self.n_param)
+        self._allocate(allocator)
+    #
+    cpdef Model copy(self, bint share=1):
+        cdef LinearFuncModel mod = LinearFuncModel(self.head.copy(share), self.body.copy(share))
+        
+        mod.param = self.param
+        
+        return <Model>mod
+    #
+    cdef double evaluate(self, double[::1] X):
+        self.body.forward(X)
+        return self.head.evaluate(self.body.output)
+    #
+    cdef void gradient(self, double[::1] X, double[::1] grad):
+        cdef int i, j, n
+        
+        self.head.gradient(self.body.output, grad[:self.head.n_param])
+        self.head.gradient_x(self.body.output, self.head.grad_x)
+        self.body.backward(X, self.head.grad_x, grad[self.head.n_param:])
+    #
+    def as_dict(self):
+        d = {}
+        d['body'] = self.body.as_json()
+        d['head'] = self.head.as_json()
+        return d
+    #
+    def init_from(self, ob):
+        self.head.init_from(ob['head'])
+        self.body.init_from(ob['body'])
+    #
+
 cdef class ComplexModel(object):
 
     cdef void forward(self, double[::1] X):
@@ -1066,7 +1110,8 @@ def ff_ml_network_func_from_dict(ob):
     body = Model.from_dict(ob['body'])
     nn = FFNetworkFuncModel(head, body)
     return nn
-    
+
+
 # cdef class Polynomial(Model):
 #     #
 #     def __init__(self, param):

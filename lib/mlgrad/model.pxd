@@ -66,9 +66,9 @@ cdef class Model(object):
     cpdef Model copy(self, bint share=*)
     #
 
-@cython.final
-cdef class ConstModel(Model):
-    pass
+# @cython.final
+# cdef class ConstModel(Model):
+#     pass
     
 @cython.final
 cdef class LinearModel(Model):

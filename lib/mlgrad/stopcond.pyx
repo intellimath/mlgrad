@@ -25,9 +25,6 @@ cdef class DiffL1StopCondition(StopCondition):
     def __init__(self, GD gd):
         self.gd = gd
     #
-#     cdef init(self):
-#         self.lval_min = PyFloat_GetMax() / 2
-    #
     cdef bint verify(self):
         cdef GD gd = self.gd
         
@@ -38,13 +35,7 @@ cdef class DiffL1StopCondition(StopCondition):
             return 1
         
         return 0
-    #
-#     cdef void finalize(self):
-#         cdef GD gd = self.gd
-#         cdef Functional risk = gd.risk
-        
-#         copy_memoryview(risk.param, gd.param_min)
-            
+    #            
         
 cdef class DiffL2StopCondition(StopCondition):
     #

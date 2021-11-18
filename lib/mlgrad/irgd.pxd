@@ -4,7 +4,7 @@ cimport cython
 
 from mlgrad.func cimport Func
 from mlgrad.model cimport Model
-from mlgrad.regular cimport FuncMulti
+from mlgrad.regnorm cimport FuncMulti
 
 from mlgrad.avragg cimport Average
 from mlgrad.gd cimport GD
