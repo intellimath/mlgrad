@@ -36,6 +36,7 @@ ctypedef double (*FuncDerivative)(Func, double) nogil
 ctypedef double (*FuncDerivative2)(Func, double) nogil
 ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
 
+from mlgrad.list_double cimport list_double, zeros_list_double
 
 cdef class Allocator:
     #

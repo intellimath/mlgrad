@@ -22,6 +22,12 @@ extra_link_args_openmp = ["-Ofast", "-march=native", ("-fopenmp" if not WIN32 el
 
 ext_modules = [
     Extension(
+        "mlgrad.list_double",
+        ["lib/mlgrad/list_double.pyx"],
+        extra_compile_args = extra_compile_args,
+        extra_link_args = extra_link_args,
+    ),
+    Extension(
         "mlgrad.func",
         ["lib/mlgrad/func.pyx"],
         extra_compile_args = extra_compile_args,

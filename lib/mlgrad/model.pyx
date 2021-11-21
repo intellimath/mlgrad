@@ -609,7 +609,7 @@ cdef class GeneralModelLayer(ModelLayer):
         layer.grad_input = np.zeros((self.n_input,), 'd')
         return <ModelLayer>layer
     #
-    def add(self, Model mod):
+    def append(self, Model mod):
         if self.n_input != mod.n_input:
             raise ValueError("layer.n_input: %s != model.n_input: %s" % (self.n_input, mod.n_input))
         self.models.append(mod)
@@ -841,7 +841,7 @@ def sigma_neuron_layer_from_dict(ob):
     return layer
 
 
-cdef class LinearFuncModel(Model):
+cdef class LinearFuncModel:
     #
     def __init__(self, body):
         self.body = body
@@ -850,6 +850,16 @@ cdef class LinearFuncModel(Model):
         self.n_input = self.body.n_input
         self.grad = None
         self.grad_x = None
+        
+        # self.models = []
+        # self.weights = list_double([])
+        # self.n_input = n_input
+        # self.n_output = 0
+    #
+    def add(self, Model mod, weight=1.0):
+        self.models.append(mod)
+        self.weights.append(weight)
+        self.n_output += 1
     #
     def _allocate(self, allocator):
         self.head._allocate(allocator)
