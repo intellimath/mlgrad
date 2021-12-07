@@ -41,7 +41,7 @@ cdef extern from "c/inventory.h" nogil:
     void dmove(float*, const float*, const int)
     float dsum(const float*, const int)
     void dfill(float*, const float, const int)
-    void dmatdot(float*, float*, const float*, const size_t, const size_t)
+    # void dmatdot(float*, float*, const float*, const size_t, const size_t)
     void dmatdot2(float*, float*, const float*, const size_t, const size_t)
     void dmult_add_arrays(float *a, const float *b, const float *ss, const size_t n_input, const size_t n_output)
     void dmult_grad(float *grad, const float *X, const float *ss, const size_t n_input, const size_t n_output)

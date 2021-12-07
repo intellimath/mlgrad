@@ -36,18 +36,18 @@ cdef void fa_mul_add_array(float *a, const float *b, float c, const size_t n) no
     for i in range(n):
         a[i] += c * b[i]
 
-cdef void fa_matdot(float *output, float *M, const float *X, 
-                    const size_t n_input, const size_t n_output) nogil:
-    cdef size_t i, j
-    cdef double s
-    cdef float *Mj = M
+# cdef void fa_matdot(float *output, float *M, const float *X, 
+#                     const size_t n_input, const size_t n_output) nogil:
+#     cdef size_t i, j
+#     cdef double s
+#     cdef float *Mj = M
 
-    for j in range(n_output):
-        s = 0
-        for i in range(n_input):
-            s += Mj[i] * X[i];
-        output[j] = s
-        Mj += n_input
+#     for j in range(n_output):
+#         s = 0
+#         for i in range(n_input):
+#             s += Mj[i] * X[i];
+#         output[j] = s
+#         Mj += n_input
 
 cdef void fa_matdot2(float *output, float *M, const float *X, 
                     const size_t n_input, const size_t n_output) nogil:
@@ -65,10 +65,9 @@ cdef void fa_matdot2(float *output, float *M, const float *X,
 
 cdef void fa_mul_add_arrays(float *a, float *M, const float *ss, const size_t n_input, const size_t n_output) nogil:
     cdef size_t i, j
-    cdef float *Mj
+    cdef float *Mj = M;
     cdef double sx
 
-    Mj = M
     for j in range(n_output):
         Mj += 1
         sx = ss[j]

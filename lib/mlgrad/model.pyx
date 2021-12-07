@@ -760,11 +760,8 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         cdef Func func = self.func
         cdef bint is_func = (func is not None)
         
-        # cdef FuncDerivative func_derivative = func.derivative
-        
 #         fill_memoryview(grad_in, 0)
         inventory.fa_fill(&grad_in[0], 0, n_input)
-        # memset(&grad_in[0], 0, n_input*cython.sizeof(float))
         if self.first_time:
             inventory.fa_matdot2(&ss[0], &matrix[0,0], &X[0], n_input, n_output)
             # s = matrix[j,0]
