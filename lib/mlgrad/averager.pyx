@@ -30,7 +30,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from libc.math cimport fabs, pow, sqrt, fmax
+from libc.math cimport fabsf, powf, sqrtf, fmaxf
 
 import numpy as np
 

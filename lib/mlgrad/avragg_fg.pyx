@@ -18,14 +18,14 @@ cdef class Average_FG(Average):
     def use_deriv_averager(self, averager):
         self.deriv_averager = averager
     #
-    cdef init(self, double[::1] Y, u0=None):
+    cdef init(self, float[::1] Y, u0=None):
         if self.deriv_averager is not None:
             self.deriv_averager.init()
         Average.init(self, Y, u0)
 
     #
-    cdef fit_epoch(self, double[::1] Y):
-        cdef double g
+    cdef fit_epoch(self, float[::1] Y):
+        cdef float g
                         
         g = self.penalty.derivative(Y, self.u)
                 
@@ -34,8 +34,8 @@ cdef class Average_FG(Average):
 
         self.u -= self.h * g
     #
-#     cdef fit_epoch_s(self, double[::1] Y):
-#         cdef double grad
+#     cdef fit_epoch_s(self, float[::1] Y):
+#         cdef float grad
 
 #         grad = self.penalty.derivative_s(Y, self.u, self.s)
         

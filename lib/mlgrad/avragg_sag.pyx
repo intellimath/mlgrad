@@ -13,11 +13,11 @@ cdef class Average_SAG(Average):
         self.h = h
         self.ls = ls
     #
-    cpdef evaluate(self, double_1d Y):
+    cpdef evaluate(self, float_1d Y):
         self.fit(Y)
         return self.y
     #
-    cdef fit_init(self, double_1d Y, object y=None, object sigma=None):
+    cdef fit_init(self, float_1d Y, object y=None, object sigma=None):
         cdef int N = Y.shape[0]
         
         Average.fit_init(self, Y, y, sigma)
@@ -36,11 +36,11 @@ cdef class Average_SAG(Average):
         
         self.fill_tables_u(Y)        
     #
-    cdef fill_tables(self, double_1d Y):
+    cdef fill_tables(self, float_1d Y):
         cdef int N = len(Y)
         cdef int k
-        cdef double g, y
-        cdef double Nd = N
+        cdef float g, y
+        cdef float Nd = N
         
         for k in range(N):
             y = Y[k]
@@ -52,16 +52,16 @@ cdef class Average_SAG(Average):
             # сохраняем в таблице производных
             self.G_all[k] = g
     #    
-    cdef object fit_epoch_u(self, double_1d Y):
+    cdef object fit_epoch_u(self, float_1d Y):
         cdef bint stop
         cdef int N = len(Y)
         cdef int j, k
-        cdef double Nd = N
-        cdef double yk, v, y_prev
-        cdef double g
-        cdef double h, h_min
-        cdef double G_mean
-        cdef double y_sum, y2_sum
+        cdef float Nd = N
+        cdef float yk, v, y_prev
+        cdef float g
+        cdef float h, h_min
+        cdef float G_mean
+        cdef float y_sum, y2_sum
         
         self.y_prev = self.y
         
@@ -104,10 +104,10 @@ cdef class Average_SAG(Average):
         #self.y2_mean += y2_sum / Nd
             
     #
-    cdef double line_search(self, double xk, double G, double G2, double h):
+    cdef float line_search(self, float xk, float G, float G2, float h):
         cdef int j
-        cdef double lval0, lval
-        cdef double a=0.5, b=0.24
+        cdef float lval0, lval
+        cdef float a=0.5, b=0.24
                             
         lval0 = self.func.evaluate(xk - self.y)
         self.y -= h * G

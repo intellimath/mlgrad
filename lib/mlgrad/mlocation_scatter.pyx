@@ -47,11 +47,11 @@ if num_procs > 4:
 else:
     num_procs = 2
 
-cdef double max_float = PyFloat_GetMax()
+cdef float max_float = PyFloat_GetMax()
     
-cdef void arithmetic_mean(double[:, ::1] X, double[::1] loc):
+cdef void arithmetic_mean(float[:, ::1] X, float[::1] loc):
     cdef int i, n = X.shape[1], N = X.shape[0]
-    cdef double v
+    cdef float v
 
     for i in range(n):
         v = 0
@@ -59,10 +59,10 @@ cdef void arithmetic_mean(double[:, ::1] X, double[::1] loc):
             v += X[k,i]
         loc[i] = v / N
 
-cdef void covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S):
+cdef void covariance_matrix(float[:, ::1] X, float[::1] loc, float[:,::1] S):
     cdef int i, j
     cdef int n = X.shape[1], N = X.shape[0]
-    cdef double s, loc_i, loc_j
+    cdef float s, loc_i, loc_j
     #
     for i in range(n):
         loc_i = loc[i]
@@ -75,23 +75,23 @@ cdef void covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S):
 
 def standard_location(X):
     n = X.shape[1]
-    loc = np.zeros(n, 'd')
+    loc = np.zeros(n, 'f')
     arithmetic_mean(X, loc)
     return loc
 
 def standard_covariance(X, loc, normalize=False):
     n = X.shape[1]
-    S = np.zeros((n,n), 'd')
+    S = np.zeros((n,n), 'f')
     covariance_matrix(X, loc, S)
     if normalize:
         scale_matrix(S)
     return S
 
-cdef void _scale_matrix(double[:,::1] S, double to=1.0):
+cdef void _scale_matrix(float[:,::1] S, float to=1.0):
     cdef int n = S.shape[0], n2 = n*n
-    cdef double vol
+    cdef float vol
     cdef Py_ssize_t i
-    cdef double *ptr
+    cdef float *ptr
 
     vol = linalg.det(np.asarray(S)) / to
     vol = pow(vol, 1.0/n)
@@ -103,7 +103,7 @@ cdef void _scale_matrix(double[:,::1] S, double to=1.0):
 def scale_matrix(S, to=1.0):
     _scale_matrix(S, to=1.0)
 
-cdef void _calc_distances(double[::1] D, Distance distfunc, double[:,::1] X, double[::1] loc, double logdet):
+cdef void _calc_distances(float[::1] D, Distance distfunc, float[:,::1] X, float[::1] loc, float logdet):
         cdef Py_ssize_t k, N = X.shape[0]
         cdef Py_ssize_t n = loc.shape[0]
 
@@ -111,9 +111,9 @@ cdef void _calc_distances(double[::1] D, Distance distfunc, double[:,::1] X, dou
         for k in range(N):
             D[k] = distfunc._evaluate(&X[k,0], &loc[0], n) + logdet
     
-# cdef void _update_loc(double[:,::1] X, double[::1] weights, double[::1] loc, double h):
+# cdef void _update_loc(float[:,::1] X, float[::1] weights, float[::1] loc, float h):
 #     cdef Py_ssize_t i, k, n=loc.shape[0], N=X.shape[0]
-#     cdef double v
+#     cdef float v
 
 #     for i in range(n):
 #         v = 0
@@ -121,9 +121,9 @@ cdef void _calc_distances(double[::1] D, Distance distfunc, double[:,::1] X, dou
 #             v += weights[k] * X[k,i]
 #         loc[i] = loc[i] * (1-h) + h * v
     
-# cdef double sum_array(double[::1] weights):    
+# cdef float sum_array(float[::1] weights):    
 #     cdef Py_ssize_t k, N = weights.shape[0]
-#     cdef double W
+#     cdef float W
 
 #     W = 0
 # #     for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
@@ -131,9 +131,9 @@ cdef void _calc_distances(double[::1] D, Distance distfunc, double[:,::1] X, dou
 #         W += weights[k]
 #     return W
 
-# cdef void meanify_array(double[::1] weights):    
+# cdef void meanify_array(float[::1] weights):    
 #     cdef Py_ssize_t k, N = weights.shape[0]
-#     cdef double W
+#     cdef float W
 
 #     W = 0
 # #     for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
@@ -147,20 +147,20 @@ cdef class MLSE:
     cpdef _calc_distances(self):
         _calc_distances(self.D, self.distfunc, self.X, self.loc, self.logdet)
         
-    def calc_distances(self, double[:,::1] X):
-        D = np.zeros(X.shape[0], 'd')
+    def calc_distances(self, float[:,::1] X):
+        D = np.zeros(X.shape[0], 'f')
         _calc_distances(D, self.distfunc, X, self.loc, self.logdet)
         return D
 
     cpdef get_weights(self):
         cdef int k, N = self.X.shape[0]
-        cdef double W
+        cdef float W
 
         self._calc_distances()
 
         self.avg.fit(self.D)
 
-        weights = np.zeros(len(self.D), 'd')
+        weights = np.zeros(len(self.D), 'f')
         self.avg.gradient(self.D, weights)
 
         W = 0
@@ -171,8 +171,8 @@ cdef class MLSE:
         
         return weights        
         
-    cpdef double Q(self):
-        cdef double dval, d
+    cpdef float Q(self):
+        cdef float dval, d
 
         self._calc_distances()
         self.avg.fit(self.D)
@@ -181,7 +181,7 @@ cdef class MLSE:
         return dval
     
     cpdef update_distfunc(self, S):
-        cdef double[:,::1] S1
+        cdef float[:,::1] S1
 
         S1 = np.linalg.pinv(S)
         if self.distfunc is None:
@@ -192,7 +192,7 @@ cdef class MLSE:
     
 cdef class MLocationEstimator(MLSE):
 
-    def __init__(self, Average avg, double[:,::1] S=None, Func reg=None, tol=1.0e-5, n_iter=1000, tau=0.001, h=0.1):
+    def __init__(self, Average avg, float[:,::1] S=None, Func reg=None, tol=1.0e-5, n_iter=1000, tau=0.001, h=0.1):
         self.avg = avg
         self.X = None
         self.S = S
@@ -208,8 +208,8 @@ cdef class MLocationEstimator(MLSE):
         self.dvals = None
         self.h = h
 
-#     cpdef double Q(self):
-#         cdef double dval
+#     cpdef float Q(self):
+#         cdef float dval
 
 #         self._calc_distances()
 # #         _calc_distances(self.D, self.distfunc, self.X, self.loc)
@@ -219,34 +219,34 @@ cdef class MLocationEstimator(MLSE):
 
 #         return dval
         
-    def init(self, double[:,::1] X, double[::1] loc=None):
+    def init(self, float[:,::1] X, float[::1] loc=None):
         cdef int i, j, k, N, n 
-        cdef double v
+        cdef float v
 
         self.X = X
         N, n = self.X.shape[0], self.X.shape[1]
 
         if loc is None:
-            self.loc = np.zeros(n, 'd')
+            self.loc = np.zeros(n, 'f')
             arithmetic_mean(X, self.loc)
         else:
             self.loc = loc
 
         if self.loc_min is None:
-            self.loc_min = np.zeros(n, 'd')
+            self.loc_min = np.zeros(n, 'f')
         copy_memoryview(self.loc_min, self.loc)
 
         if self.S is None:
-            self.S = np.identity(n, 'd')
+            self.S = np.identity(n, 'f')
         self.logdet = np.log(np.linalg.det(self.S))
 
         self.update_distfunc(self.S)
 
         if self.weights is None:
-            self.weights = np.full(N, 1./N, 'd')
+            self.weights = np.full(N, 1./N, 'f')
 
         if self.D is None:
-            self.D  = np.zeros(N, 'd')
+            self.D  = np.zeros(N, 'f')
         
         self._calc_distances()
         self.avg.fit(self.D)
@@ -259,7 +259,7 @@ cdef class MLocationEstimator(MLSE):
             
         self.hh = 1
 
-    def fit(self, double[:,::1] X, double[::1] loc=None):
+    def fit(self, float[:,::1] X, float[::1] loc=None):
         cdef int i, n, N
 
         self.init(X, loc)
@@ -285,14 +285,14 @@ cdef class MLocationEstimator(MLSE):
     cpdef fit_step(self):
         cdef Py_ssize_t n = self.X.shape[1], N = self.X.shape[0]
         cdef Py_ssize_t i, k
-        cdef double[:,::1] X = self.X
-        cdef double[::1] weights = self.weights
-        cdef double[::1] loc = self.loc
-        cdef double[::1] D = self.D
-        cdef double W, tau = self.tau
+        cdef float[:,::1] X = self.X
+        cdef float[::1] weights = self.weights
+        cdef float[::1] loc = self.loc
+        cdef float[::1] D = self.D
+        cdef float W, tau = self.tau
         cdef Func reg = self.reg
-        cdef double v, z
-        cdef double h = self.h
+        cdef float v, z
+        cdef float h = self.h
 
         self._calc_distances()
         self.avg.fit(D)
@@ -319,7 +319,7 @@ cdef class MLocationEstimator(MLSE):
 
 cdef class MScatterEstimator(MLSE):
 
-    def __init__(self, Average avg, double[::1] loc = None, Func reg=None, tol=1.0e-5, n_iter=1000, tau=0.001, h=0.1, normalize=0):
+    def __init__(self, Average avg, float[::1] loc = None, Func reg=None, tol=1.0e-5, n_iter=1000, tau=0.001, h=0.1, normalize=0):
         self.avg = avg
         self.X = None
         self.S = None
@@ -336,19 +336,19 @@ cdef class MScatterEstimator(MLSE):
         self.h = h
         self.normalize=normalize
     
-    def init(self, double[:,::1] X, double[:,::1] S=None):
+    def init(self, float[:,::1] X, float[:,::1] S=None):
         cdef int i, j, k, N, n 
-        cdef double vol
+        cdef float vol
 
         self.X = X
         N, n = self.X.shape[0], self.X.shape[1]
         
         if self.loc is None:
-            self.loc = np.zeros(n, 'd')
+            self.loc = np.zeros(n, 'f')
             arithmetic_mean(X, self.loc)        
 
         if S is None:
-            self.S = np.identity(n, 'd')
+            self.S = np.identity(n, 'f')
         else:
             self.S = S 
 
@@ -358,14 +358,14 @@ cdef class MScatterEstimator(MLSE):
         self.update_distfunc(self.S)
         
         if self.S_min is None:
-            self.S_min = np.zeros((n,n), 'd')
+            self.S_min = np.zeros((n,n), 'f')
         copy_memoryview2(self.S_min, self.S)
 
         if self.weights is None:
-            self.weights = np.full(N, 1./N, 'd')
+            self.weights = np.full(N, 1./N, 'f')
 
         if self.D is None:
-            self.D  = np.empty(N, 'd')
+            self.D  = np.empty(N, 'f')
 
         self._calc_distances()
         self.avg.fit(self.D)
@@ -376,7 +376,7 @@ cdef class MScatterEstimator(MLSE):
         if self.dvals is None:
             self.dvals = [self.dval]
 
-    def fit(self, double[:,::1] X, double[:,::1] S):
+    def fit(self, float[:,::1] X, float[:,::1] S):
         self.init(X, S)
         self.K = 1
         
@@ -401,17 +401,17 @@ cdef class MScatterEstimator(MLSE):
     cpdef fit_step(self):
         cdef Py_ssize_t i, j, k
         cdef Py_ssize_t n = self.X.shape[1], N = self.X.shape[0]
-        cdef double v, s
-        cdef double loc_i, loc_j
-        cdef double vol
-        cdef double[:,::1] X = self.X
-        cdef double[:,::1] S = self.S
-        cdef double[::1] weights = self.weights
-        cdef double[::1] loc = self.loc
-        cdef double W
+        cdef float v, s
+        cdef float loc_i, loc_j
+        cdef float vol
+        cdef float[:,::1] X = self.X
+        cdef float[:,::1] S = self.S
+        cdef float[::1] weights = self.weights
+        cdef float[::1] loc = self.loc
+        cdef float W
         cdef tau = self.tau
         cdef Func reg = self.reg
-        cdef double h = self.h
+        cdef float h = self.h
 
         self._calc_distances()
         self.avg.fit(self.D)
@@ -460,18 +460,18 @@ cdef class MLocationScatterEstimator(MLSE):
         self.tau = tau
         self.normalize_S = normalize_S
         
-    def init(self, double[:,::1] X):
+    def init(self, float[:,::1] X):
         n = X.shape[1]
         N = X.shape[0]
         self.X = X
 
-        self.loc = np.zeros(n, 'd')
+        self.loc = np.zeros(n, 'f')
         arithmetic_mean(X, self.loc)
-        self.loc_min = np.zeros(n, 'd')
+        self.loc_min = np.zeros(n, 'f')
 
-        self.S = np.identity(n, 'd')
+        self.S = np.identity(n, 'f')
 
-        self.S_min = np.zeros((n,n), 'd')
+        self.S_min = np.zeros((n,n), 'f')
         
         self.mlocation = MLocationEstimator(self.avg, self.S, tol=self.tol, n_iter=self.n_iter, h=self.h, reg=self.reg)
         self.mscatter = MScatterEstimator(self.avg, self.loc, tol=self.tol, n_iter=self.n_iter, h=self.h, reg=self.reg, normalize=self.normalize_S)
@@ -482,17 +482,17 @@ cdef class MLocationScatterEstimator(MLSE):
         self.distfunc = self.mscatter.distfunc
 #         self.mlocation.distfunc = self.mscatter.distfunc
 
-        self.D  = np.zeros(N, 'd')
+        self.D  = np.zeros(N, 'f')
         
         self.dval_prev = self.dval_min = self.dval = PyFloat_GetMax()
         self.dvals = []
 
-#     def fit_location(self, double[:,::1] X):
+#     def fit_location(self, float[:,::1] X):
 #         self.K = 1
 #         self.init(X)
 #         self.mlocation.fit(X, self.loc)
         
-    def fit(self, double[:,::1] X):
+    def fit(self, float[:,::1] X):
         self.K = 1
         self.init(X)
         
@@ -524,9 +524,9 @@ cdef class MLocationScatterEstimator(MLSE):
             return 0
         return 1
 
-# cdef double euclid_distance2(double[::1] x, double[::1] y):
+# cdef float euclid_distance2(float[::1] x, float[::1] y):
 #     cdef int i, n = x.shape[0]
-#     cdef double dist, v
+#     cdef float dist, v
 
 #     dist = 0
 #     for i in range(n):
@@ -547,14 +547,14 @@ cdef class MLocationScatterEstimator(MLSE):
 #         m = indices[j]
 #         copy_memoryview(locs[j], X[m])
 
-# def  init_scatters(double[:,:,::1] scatters):
+# def  init_scatters(float[:,:,::1] scatters):
 #     cdef int i, n, n_locs
-#     cdef double[:,::1] S
+#     cdef float[:,::1] S
 
 #     n_locs = scatters.shape[0]
 #     n = scatters.shape[1]
 
 #     for i in range(n_locs):
-#         S = np.identity(n, 'd')
+#         S = np.identity(n, 'f')
 #         copy_memoryview2(scatters[i], S)
     

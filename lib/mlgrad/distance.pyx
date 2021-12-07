@@ -36,22 +36,22 @@ from libc.math cimport fabs, pow, sqrt, fmax, log
 
 import numpy as np
 
-# cdef inline double sign(double x):
+# cdef inline float sign(float x):
 #     if x >= 0:
 #         return x
 #     else:
 #         return -x
 
 cdef class Distance:
-    cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
+    cdef float evaluate(self, float[::1] x, float[::1] y) nogil:
         return 0
-    cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:
+    cdef float _evaluate(self, float *x, float *y, Py_ssize_t n) nogil:
         return 0
-    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
+    cdef void gradient(self, float[::1] x, float[::1] y, float[::1] grad) nogil:
         pass
-    def __call__(self, double[::1] x, double[::1] y):
+    def __call__(self, float[::1] x, float[::1] y):
         return self.evaluate(x, y)
-    def grad(self, double[::1] x, double[::1] y):
+    def grad(self, float[::1] x, float[::1] y):
         g = np.zeros(x.shape[0], 'd')
         self.gradient(x, y, g)
         return g
@@ -63,18 +63,18 @@ cdef class DistanceWithScale(Distance):
     
 cdef class AbsoluteDistance(Distance):
 
-    cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
+    cdef float evaluate(self, float[::1] x, float[::1] y) nogil:
         cdef int i, m = x.shape[0]
-        cdef double s
+        cdef float s
 
         s = 0
         for i in range(m):
             s += fabs(x[i] - y[i])
         return s
 
-    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
+    cdef void gradient(self, float[::1] x, float[::1] y, float[::1] grad) nogil:
         cdef int i, m = grad.shape[0]
-        cdef double v
+        cdef float v
 
         for i in range(m):
             v = x[i] - y[i]
@@ -87,9 +87,9 @@ cdef class AbsoluteDistance(Distance):
 
 cdef class EuclidDistance(Distance):
 
-    cdef double _evaluate(self, double *x, double *y, Py_ssize_t m) nogil:
+    cdef float _evaluate(self, float *x, float *y, Py_ssize_t m) nogil:
         cdef Py_ssize_t i
-        cdef double s, v
+        cdef float s, v
         
         s = 0
         for i in range(m):
@@ -97,9 +97,9 @@ cdef class EuclidDistance(Distance):
             s += v * v
         return s
     
-    cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
+    cdef float evaluate(self, float[::1] x, float[::1] y) nogil:
         cdef Py_ssize_t i, m = x.shape[0]
-        cdef double s, v
+        cdef float s, v
         
         s = 0
         for i in range(m):
@@ -107,24 +107,24 @@ cdef class EuclidDistance(Distance):
             s += v * v
         return s
 
-    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
+    cdef void gradient(self, float[::1] x, float[::1] y, float[::1] grad) nogil:
         cdef Py_ssize_t i, m = grad.shape[0]
-        cdef double v
+        cdef float v
     
         for i in range(m):
             grad[i] = 2 * (x[i] - y[i])
 
 cdef class MahalanobisDistance(DistanceWithScale):
     
-    def __init__(self, double[:,::1] S):
+    def __init__(self, float[:,::1] S):
         self.S = S
 
-    cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:
-        cdef double[:,::1] S = self.S
-        cdef double xy1, xy2
+    cdef float _evaluate(self, float *x, float *y, Py_ssize_t n) nogil:
+        cdef float[:,::1] S = self.S
+        cdef float xy1, xy2
         cdef Py_ssize_t i, j
-        cdef double s, vi, vj, sj
-        cdef double *S_i
+        cdef float s, vi, vj, sj
+        cdef float *S_i
         
         if n == 2:
             xy1 = x[0] - y[0]
@@ -144,13 +144,13 @@ cdef class MahalanobisDistance(DistanceWithScale):
             s += 2 * vi * sj
         return s
         
-    cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
+    cdef float evaluate(self, float[::1] x, float[::1] y) nogil:
         return self._evaluate(&x[0], &y[0], x.shape[0])
 
-    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
-        cdef double *S_i
+    cdef void gradient(self, float[::1] x, float[::1] y, float[::1] grad) nogil:
+        cdef float *S_i
         cdef Py_ssize_t i, j, m = grad.shape[0]
-        cdef double s, xi
+        cdef float s, xi
     
         for i in range(m):
             S_i = &self.S[i,0]
@@ -170,9 +170,9 @@ cdef class PowerDistance(Distance):
     def __init__(self, p):
         self.p = p
         
-    cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
+    cdef float evaluate(self, float[::1] x, float[::1] y) nogil:
         cdef int i, m = x.shape[0]
-        cdef double s, v
+        cdef float s, v
         
         s = 0.0
         for i in range(m):
@@ -183,9 +183,9 @@ cdef class PowerDistance(Distance):
                 s += pow(-v, self.p)
         return s / self.p
 
-    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
+    cdef void gradient(self, float[::1] x, float[::1] y, float[::1] grad) nogil:
         cdef int i, m = grad.shape[0]
-        cdef double v
+        cdef float v
     
         for i in range(m):
             v = x[i] - y[i]

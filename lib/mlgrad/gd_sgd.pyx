@@ -29,9 +29,9 @@ cdef class SGD(GD):
         
         cdef int i, j, k, K
         
-        cdef double[::1] grad_average
+        cdef float[::1] grad_average
         
-        cdef double h
+        cdef float h
         
         self.risk.lval = 0
         K = (self.K-1) * N + 1

@@ -22,8 +22,14 @@ extra_link_args_openmp = ["-Ofast", "-march=native", ("-fopenmp" if not WIN32 el
 
 ext_modules = [
     Extension(
-        "mlgrad.list_double",
-        ["lib/mlgrad/list_double.pyx"],
+        "mlgrad.inventory",
+        ["lib/mlgrad/inventory.pyx"],
+        extra_compile_args = extra_compile_args,
+        extra_link_args = extra_link_args,
+    ),
+    Extension(
+        "mlgrad.list_values",
+        ["lib/mlgrad/list_values.pyx"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
@@ -124,14 +130,6 @@ ext_modules = [
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
-    # Extension(
-    #     "mlgrad.pbsag",
-    #     ["lib/mlgrad/pbsag.pyx"],
-    # ),
-    # Extension(
-    #     "mlgrad.irls",
-    #     ["lib/mlgrad/irls.pyx"],
-    # ),
     Extension(
         "mlgrad.irgd",
         ["lib/mlgrad/irgd.pyx"],
@@ -144,11 +142,6 @@ ext_modules = [
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
-    #Extension(
-    #    "mlgrad.kagg",
-    #    ["lib/mlgrad/kagg.pyx"],
-    #    extra_compile_args = extra_compile_args,
-    #),
     Extension(
         "mlgrad.mlocation_scatter",
         ["lib/mlgrad/mlocation_scatter.pyx"],

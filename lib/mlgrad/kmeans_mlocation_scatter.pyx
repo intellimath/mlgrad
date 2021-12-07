@@ -37,9 +37,9 @@ import mlgrad.distance as distance
 
 from cython.parallel cimport parallel, prange
 
-cdef void arithmetic_mean(double[:, ::1] X, double[::1] loc):
+cdef void arithmetic_mean(float[:, ::1] X, float[::1] loc):
     cdef int i, n = X.shape[1], N = X.shape[0]
-    cdef double v
+    cdef float v
 
     for i in range(n):
         v = 0
@@ -47,11 +47,11 @@ cdef void arithmetic_mean(double[:, ::1] X, double[::1] loc):
             v += X[k,i]
         loc[i] = v / N
 
-cdef multiply_matrix(double[:,::1] A, double[:,::1] B, double[:,::1] C):
+cdef multiply_matrix(float[:,::1] A, float[:,::1] B, float[:,::1] C):
     cdef Py_ssize_t n = A.shape[0]
     cdef Py_ssize_t i, j, k
-    cdef double s
-    cdef double *Ai, *Bk
+    cdef float s
+    cdef float *Ai, *Bk
     
     for i in range(n):
         Ai = &A[i,0]
@@ -62,11 +62,11 @@ cdef multiply_matrix(double[:,::1] A, double[:,::1] B, double[:,::1] C):
                 s += Ai[k] * Bk[j]
             C[i,j] = s
         
-cdef void covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S):
+cdef void covariance_matrix(float[:, ::1] X, float[::1] loc, float[:,::1] S):
     cdef Py_ssize_t i, j
     cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
-    cdef double s, loc_i, loc_j
-    cdef double *Xk
+    cdef float s, loc_i, loc_j
+    cdef float *Xk
 
     for i in range(n):
         loc_i = loc[i]
@@ -78,23 +78,23 @@ cdef void covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S):
                 s += (Xk[i] - loc_i) * (Xk[j] - loc_j)
             S[i,j] = s / N
             
-cdef double max_val = PyFloat_GetMax()
+cdef float max_val = PyFloat_GetMax()
 
 def standard_location(X):
     n = X.shape[1]
-    loc = np.zeros(n, 'd')
+    loc = np.zeros(n, 'f')
     arithmetic_mean(X, loc)
     return loc
     
 def standard_covariance(X, loc):
     n = X.shape[1]
-    S = np.zeros((n,n), 'd')
+    S = np.zeros((n,n), 'f')
     covariance_matrix(X, loc, S)
     return S
 
-cdef void _scale_matrix(double[:,::1] S, double to=1.0):
+cdef void _scale_matrix(float[:,::1] S, float to=1.0):
     cdef int n = S.shape[0]
-    cdef double vol
+    cdef float vol
     cdef int i, j
 
     vol = linalg.det(S)
@@ -113,12 +113,12 @@ cdef class KMeans_MLSE:
         cdef Py_ssize_t j, k, j_min
         cdef Py_ssize_t n = self.X.shape[0], N = self.X.shape[0]
         cdef int n_cluster = self.n_cluster
-        cdef double d_min, d
-        cdef double[:,::1] X = self.X
-        cdef double[::1] Xk
-        cdef double[::1] loc
-        cdef double[::1] D
-        cdef double[::1] D_min = self.D_min
+        cdef float d_min, d
+        cdef float[:,::1] X = self.X
+        cdef float[::1] Xk
+        cdef float[::1] loc
+        cdef float[::1] D
+        cdef float[::1] D_min = self.D_min
         cdef int count[::1] = self.count
 
         for j in range(n_cluster):
@@ -129,7 +129,7 @@ cdef class KMeans_MLSE:
             j_min = 0
             Xk = self.X[k]
             for j in range(n_cluster):
-                loc = <double[::1]>self.loc[j]
+                loc = <float[::1]>self.loc[j]
                 D[j, k] = d = self.distfunc.evaluate(X[k], loc)
                 if d < d_min:
                     d_min = d
@@ -141,8 +141,8 @@ cdef class KMeans_MLSE:
 #         self.avg.init(self.D)
 #         self.avg.fit(self.D)
     
-    cpdef double Q(self):
-        cdef double dval
+    cpdef float Q(self):
+        cdef float dval
         
         self.calc_distances()
 
@@ -163,7 +163,7 @@ cdef class KMeans_MLSE:
     
 cdef class KMeans_MLocationEstimator(KMeans_MLSE):
 
-    def __init__(self, int n_cluster, Average avg, double[:,:,::1] S, tol=1.0e-6, h=0.01, n_iter=1000):
+    def __init__(self, int n_cluster, Average avg, float[:,:,::1] S, tol=1.0e-6, h=0.01, n_iter=1000):
         self.avg = avg
         self.n_cluster = n_cluster
         self.X = None
@@ -176,24 +176,24 @@ cdef class KMeans_MLocationEstimator(KMeans_MLSE):
         if n_cluster != S.shape[0]:
             raise ValueError("n_cluster != S.shape[0]")
         
-    cpdef double Q(self):
-        cdef double dval
+    cpdef float Q(self):
+        cdef float dval
 
         self.calc_distances()
         dval = self.avg.u
 
         return dval
 
-    def init(self, double[:,::1] X, double[:,::1] loc=None):
+    def init(self, float[:,::1] X, float[:,::1] loc=None):
         cdef int i, j, k, N, n 
-        cdef double v
+        cdef float v
 
         self.X = X
         N, n = self.X.shape[0], self.X.shape[1]
         n_cluster = self.n_cluster
 
         if loc is None:
-            self.loc = np.zeros((n_cluster, n), 'd')
+            self.loc = np.zeros((n_cluster, n), 'f')
             indexes = np.random.randint(0, N-1, n_cluster, 'i')
             for j in range(n_cluster):
                 k = indexes[j]
@@ -202,7 +202,7 @@ cdef class KMeans_MLocationEstimator(KMeans_MLSE):
         else:
             self.loc = loc
 
-        self.loc_min = np.zeros((n_cluster, n), 'd')
+        self.loc_min = np.zeros((n_cluster, n), 'f')
         copy_memoryview2(self.loc_min, self.loc)
 
         if self.distfunc is None:
@@ -210,16 +210,16 @@ cdef class KMeans_MLocationEstimator(KMeans_MLSE):
             for j in range(n_cluster):
                 self.distfunc[j] = Distance(np.linalg.inv(self.S[j]))
 
-        self.weights = np.full(N, 1./N, 'd')
+        self.weights = np.full(N, 1./N, 'f')
 
-        self.D  = np.zeros((n_cluster, N), 'd')
-        self.D_min  = np.zeros(N, 'd')
+        self.D  = np.zeros((n_cluster, N), 'f')
+        self.D_min  = np.zeros(N, 'f')
         self.count  = np.zeros(n_cluster, 'i')
         self.dval_min = self.dval = self.calc_Q()
         self.dval_prev = PyFloat_GetMax()
         self.dvals = []
 
-    def fit(self, double[:,::1] X, double[::1] loc=None):
+    def fit(self, float[:,::1] X, float[::1] loc=None):
         cdef int i, n, N
 
         self.init(X, loc)
@@ -245,11 +245,11 @@ cdef class KMeans_MLocationEstimator(KMeans_MLSE):
     def fit_step(self):
         cdef Py_ssize_t n = self.X.shape[1], N = self.X.shape[0]
         cdef Py_ssize_t i, j, k, t
-        cdef double v
-        cdef double[:,::1] X = self.X
-        cdef double[::1] weights
-        cdef double[::1] loc
-        cdef double W
+        cdef float v
+        cdef float[:,::1] X = self.X
+        cdef float[::1] weights
+        cdef float[::1] loc
+        cdef float W
         cdef int[::1] K_j
 
         W = 0
@@ -258,7 +258,7 @@ cdef class KMeans_MLocationEstimator(KMeans_MLSE):
 
         for j in range(self.n_cluster):
             N_j = self.count[j]
-            D_j = np.empty(N_j, 'd')
+            D_j = np.empty(N_j, 'f')
             K_j = np.empty(N_j, 'i')
 
             t = 0
@@ -271,7 +271,7 @@ cdef class KMeans_MLocationEstimator(KMeans_MLSE):
             self.avg.init(D_j)
             self.avg.fit(D_j)
 
-            weights = np.empty(N_j, 'd')
+            weights = np.empty(N_j, 'f')
             self.avg.gradient(D_j, weights)
             
             loc = self.loc[j]
@@ -289,7 +289,7 @@ cdef class KMeans_MLocationEstimator(KMeans_MLSE):
 
 cdef class KMeans_MScatterEstimator(KMeans_MLSE):
 
-    def __init__(self, Average avg, double[:,::1] loc, tol=1.0e-6, h=0.001, n_iter=1000):
+    def __init__(self, Average avg, float[:,::1] loc, tol=1.0e-6, h=0.001, n_iter=1000):
         self.avg = avg
         self.X = None
         self.S = None
@@ -299,34 +299,34 @@ cdef class KMeans_MScatterEstimator(KMeans_MLSE):
         self.n_iter = n_iter
         self.h = h
     
-    def init(self, double[:,::1] X, double[:,::1] S=None):
+    def init(self, float[:,::1] X, float[:,::1] S=None):
         cdef int i, j, k, N, n 
-        cdef double vol
+        cdef float vol
 
         self.X = X
         N, n = self.X.shape[0], self.X.shape[1]
 
         if S is None:
-            self.S = np.zeros((self.n_cluster, n, n), 'd')
+            self.S = np.zeros((self.n_cluster, n, n), 'f')
             covariance_matrix(X, self.loc, self.S)
             self.S = np.linalg.inv(self.S)
         else:
             self.S = S            
 #         scale_matrix(self.S)
 
-#         self.V = np.zeros((n,n), 'd')
+#         self.V = np.zeros((n,n), 'f')
             
-        self.S_min = np.zeros((n,n), 'd')
+        self.S_min = np.zeros((n,n), 'f')
 
         self.update_distfunc(self.S)
 
-        self.weights = np.full(N, 1./N, 'd')
+        self.weights = np.full(N, 1./N, 'f')
 
-        self.D  = np.empty(N, 'd')
+        self.D  = np.empty(N, 'f')
         self.dval_prev = self.dval_min = self.dval  = PyFloat_GetMax()
         self.dvals = []
 
-    def fit(self, double[:,::1] X, double[:,::1] S):
+    def fit(self, float[:,::1] X, float[:,::1] S):
         self.init(X, S)
         self.K = 1
         
@@ -350,14 +350,14 @@ cdef class KMeans_MScatterEstimator(KMeans_MLSE):
 
     def fit_step(self):
         cdef Py_ssize_t i, j, k, n = self.X.shape[1], N = self.X.shape[0]
-        cdef double v, s
-        cdef double loc_i, loc_j
-        cdef double vol
-        cdef double[:,::1] X = self.X
-        cdef double[:,::1] S = self.S
-        cdef double[::1] weights = self.weights
-        cdef double W
-        cdef double *Xk
+        cdef float v, s
+        cdef float loc_i, loc_j
+        cdef float vol
+        cdef float[:,::1] X = self.X
+        cdef float[:,::1] S = self.S
+        cdef float[::1] weights = self.weights
+        cdef float W
+        cdef float *Xk
 
         self.avg.gradient(self.D, self.weights)
 
@@ -397,21 +397,21 @@ cdef class KMeans_MLocationScatterEstimator(KMeans_MLSE):
         self.n_iter = n_iter
         self.h = h
 
-    def init(self, double[:,::1] X):
+    def init(self, float[:,::1] X):
         n = X.shape[1]
         N = X.shape[0]
         self.X = X
 
-        self.loc = np.zeros(n, 'd')
+        self.loc = np.zeros(n, 'f')
         arithmetic_mean(X, self.loc)
-        self.loc_min = np.zeros(n, 'd')
+        self.loc_min = np.zeros(n, 'f')
 
-        self.S = np.identity(n, 'd')
-#         self.S = np.zeros((n,n), 'd')
+        self.S = np.identity(n, 'f')
+#         self.S = np.zeros((n,n), 'f')
 #         covariance_matrix(X, self.loc, self.S)
 #         self.scale_S()
 
-        self.S_min = np.zeros((n,n), 'd')
+        self.S_min = np.zeros((n,n), 'f')
         
         self.mlocation = MLocationEstimator(self.avg, self.S, h=self.h)
         self.mscatter = MScatterEstimator(self.avg, self.loc, h=self.h)
@@ -419,17 +419,17 @@ cdef class KMeans_MLocationScatterEstimator(KMeans_MLSE):
         self.distfunc = self.mscatter.distfunc
         self.mlocation.distfunc = self.mscatter.distfunc
 
-        self.D  = np.zeros(N, 'd')
+        self.D  = np.zeros(N, 'f')
         
         self.dval_prev = self.dval_min = self.dval = PyFloat_GetMax()
         self.dvals = []
 
-    def fit_location(self, double[:,::1] X):
+    def fit_location(self, float[:,::1] X):
         self.K = 1
         self.init(X)
         self.mlocation.fit(X, self.loc)
         
-    def fit(self, double[:,::1] X):
+    def fit(self, float[:,::1] X):
         self.K = 1
         self.init(X)
         

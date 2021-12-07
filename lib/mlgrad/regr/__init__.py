@@ -118,6 +118,7 @@ def plot_losses_and_errors(alg, Xs, Y, fname=None):
     plt.subplot(1,2,1)
     plt.title('Fit curve')
     plt.plot(alg.lvals)
+    plt.gca().set_yscale('log')
     plt.xlabel('step')
     plt.ylabel('mean of losses')
     plt.minorticks_on()

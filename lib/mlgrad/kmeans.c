@@ -622,6 +622,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 
     #define D_PTR(p) (*(p))
     
+#include "c/inventory.h"
 #include "pythread.h"
 #include <stdlib.h>
 #include "pystate.h"
@@ -845,6 +846,7 @@ static const char *__pyx_f[] = {
   "lib/mlgrad/func.pxd",
   "lib/mlgrad/distance.pxd",
   "type.pxd",
+  "lib/mlgrad/list_values.pxd",
   "lib/mlgrad/model.pxd",
   "lib/mlgrad/loss.pxd",
   "lib/mlgrad/batch.pxd",
@@ -1006,6 +1008,7 @@ struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance;
 struct __pyx_obj_6mlgrad_8distance_EuclidDistance;
 struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance;
 struct __pyx_obj_6mlgrad_8distance_PowerDistance;
+struct __pyx_obj_6mlgrad_11list_values_list_values;
 struct __pyx_obj_6mlgrad_5model_Allocator;
 struct __pyx_obj_6mlgrad_5model_ArrayAllocator;
 struct __pyx_obj_6mlgrad_5model_Model;
@@ -1113,76 +1116,90 @@ struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
 struct __pyx_memoryviewslice_obj;
+struct __pyx_opt_args_6mlgrad_5model_5Model_init_param;
 struct __pyx_opt_args_6mlgrad_5model_5Model_copy;
 struct __pyx_opt_args_6mlgrad_5model_10ModelLayer_copy;
 struct __pyx_opt_args_6mlgrad_5model_7MLModel_copy;
 
 /* "mlgrad/model.pxd":29
- *     double PyFloat_GetMin()
+ *     float PyFloat_GetMin()
  * 
- * ctypedef double[::1] double_array             # <<<<<<<<<<<<<<
+ * ctypedef float[::1] float_array             # <<<<<<<<<<<<<<
  * 
- * ctypedef double (*ModelEvaluate)(Model, double[::1])
+ * ctypedef float (*ModelEvaluate)(Model, float[::1])
  */
-typedef __Pyx_memviewslice __pyx_t_6mlgrad_5model_double_array;
+typedef __Pyx_memviewslice __pyx_t_6mlgrad_5model_float_array;
 
 /* "mlgrad/model.pxd":31
- * ctypedef double[::1] double_array
+ * ctypedef float[::1] float_array
  * 
- * ctypedef double (*ModelEvaluate)(Model, double[::1])             # <<<<<<<<<<<<<<
- * ctypedef void (*ModelGradient)(Model, double[::1], double[::1])
+ * ctypedef float (*ModelEvaluate)(Model, float[::1])             # <<<<<<<<<<<<<<
+ * ctypedef void (*ModelGradient)(Model, float[::1], float[::1])
  * 
  */
-typedef double (*__pyx_t_6mlgrad_5model_ModelEvaluate)(struct __pyx_obj_6mlgrad_5model_Model *, __Pyx_memviewslice);
+typedef float (*__pyx_t_6mlgrad_5model_ModelEvaluate)(struct __pyx_obj_6mlgrad_5model_Model *, __Pyx_memviewslice);
 
 /* "mlgrad/model.pxd":32
  * 
- * ctypedef double (*ModelEvaluate)(Model, double[::1])
- * ctypedef void (*ModelGradient)(Model, double[::1], double[::1])             # <<<<<<<<<<<<<<
+ * ctypedef float (*ModelEvaluate)(Model, float[::1])
+ * ctypedef void (*ModelGradient)(Model, float[::1], float[::1])             # <<<<<<<<<<<<<<
  * 
- * ctypedef double (*FuncEvaluate)(Func, double) nogil
+ * ctypedef float (*FuncEvaluate)(Func, float) nogil
  */
 typedef void (*__pyx_t_6mlgrad_5model_ModelGradient)(struct __pyx_obj_6mlgrad_5model_Model *, __Pyx_memviewslice, __Pyx_memviewslice);
 
 /* "mlgrad/model.pxd":34
- * ctypedef void (*ModelGradient)(Model, double[::1], double[::1])
+ * ctypedef void (*ModelGradient)(Model, float[::1], float[::1])
  * 
- * ctypedef double (*FuncEvaluate)(Func, double) nogil             # <<<<<<<<<<<<<<
- * ctypedef double (*FuncDerivative)(Func, double) nogil
- * ctypedef double (*FuncDerivative2)(Func, double) nogil
+ * ctypedef float (*FuncEvaluate)(Func, float) nogil             # <<<<<<<<<<<<<<
+ * ctypedef float (*FuncDerivative)(Func, float) nogil
+ * ctypedef float (*FuncDerivative2)(Func, float) nogil
  */
-typedef double (*__pyx_t_6mlgrad_5model_FuncEvaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef float (*__pyx_t_6mlgrad_5model_FuncEvaluate)(struct __pyx_obj_6mlgrad_4func_Func *, float);
 
 /* "mlgrad/model.pxd":35
  * 
- * ctypedef double (*FuncEvaluate)(Func, double) nogil
- * ctypedef double (*FuncDerivative)(Func, double) nogil             # <<<<<<<<<<<<<<
- * ctypedef double (*FuncDerivative2)(Func, double) nogil
- * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
+ * ctypedef float (*FuncEvaluate)(Func, float) nogil
+ * ctypedef float (*FuncDerivative)(Func, float) nogil             # <<<<<<<<<<<<<<
+ * ctypedef float (*FuncDerivative2)(Func, float) nogil
+ * ctypedef float (*FuncDerivativeDivX)(Func, float) nogil
  */
-typedef double (*__pyx_t_6mlgrad_5model_FuncDerivative)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef float (*__pyx_t_6mlgrad_5model_FuncDerivative)(struct __pyx_obj_6mlgrad_4func_Func *, float);
 
 /* "mlgrad/model.pxd":36
- * ctypedef double (*FuncEvaluate)(Func, double) nogil
- * ctypedef double (*FuncDerivative)(Func, double) nogil
- * ctypedef double (*FuncDerivative2)(Func, double) nogil             # <<<<<<<<<<<<<<
- * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
+ * ctypedef float (*FuncEvaluate)(Func, float) nogil
+ * ctypedef float (*FuncDerivative)(Func, float) nogil
+ * ctypedef float (*FuncDerivative2)(Func, float) nogil             # <<<<<<<<<<<<<<
+ * ctypedef float (*FuncDerivativeDivX)(Func, float) nogil
  * 
  */
-typedef double (*__pyx_t_6mlgrad_5model_FuncDerivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef float (*__pyx_t_6mlgrad_5model_FuncDerivative2)(struct __pyx_obj_6mlgrad_4func_Func *, float);
 
 /* "mlgrad/model.pxd":37
- * ctypedef double (*FuncDerivative)(Func, double) nogil
- * ctypedef double (*FuncDerivative2)(Func, double) nogil
- * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil             # <<<<<<<<<<<<<<
+ * ctypedef float (*FuncDerivative)(Func, float) nogil
+ * ctypedef float (*FuncDerivative2)(Func, float) nogil
+ * ctypedef float (*FuncDerivativeDivX)(Func, float) nogil             # <<<<<<<<<<<<<<
  * 
- * 
+ * cdef extern from "c/inventory.h" nogil:
  */
-typedef double (*__pyx_t_6mlgrad_5model_FuncDerivativeDivX)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef float (*__pyx_t_6mlgrad_5model_FuncDerivativeDivX)(struct __pyx_obj_6mlgrad_4func_Func *, float);
 
-/* "mlgrad/model.pxd":66
- *     cdef void gradient(self, double[::1] X, double[::1] grad)
- *     cdef void gradient_x(self, double[::1] X, double[::1] grad)
+/* "mlgrad/model.pxd":75
+ *     cdef public float[::1] grad_x
+ * 
+ *     cpdef init_param(self, param=*, bint random=*)             # <<<<<<<<<<<<<<
+ *     cdef float evaluate(self, float[::1] X)
+ *     cdef void gradient(self, float[::1] X, float[::1] grad)
+ */
+struct __pyx_opt_args_6mlgrad_5model_5Model_init_param {
+  int __pyx_n;
+  PyObject *param;
+  int random;
+};
+
+/* "mlgrad/model.pxd":79
+ *     cdef void gradient(self, float[::1] X, float[::1] grad)
+ *     cdef void gradient_x(self, float[::1] X, float[::1] grad)
  *     cpdef Model copy(self, bint share=*)             # <<<<<<<<<<<<<<
  *     #
  * 
@@ -1192,9 +1209,9 @@ struct __pyx_opt_args_6mlgrad_5model_5Model_copy {
   int share;
 };
 
-/* "mlgrad/model.pxd":97
- *     cdef void forward(self, double[::1] X)
- *     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad)
+/* "mlgrad/model.pxd":110
+ *     cdef void forward(self, float[::1] X)
+ *     cdef void backward(self, float[::1] X, float[::1] grad_out, float[::1] grad)
  *     cpdef ModelLayer copy(self, bint share=*)             # <<<<<<<<<<<<<<
  * 
  * cdef class SigmaNeuronModelLayer(ModelLayer):
@@ -1204,9 +1221,9 @@ struct __pyx_opt_args_6mlgrad_5model_10ModelLayer_copy {
   int share;
 };
 
-/* "mlgrad/model.pxd":122
- * #     cdef void forward(self, double[::1] X)
- * #     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
+/* "mlgrad/model.pxd":135
+ * #     cdef void forward(self, float[::1] X)
+ * #     cdef void backward(self, float[::1] X, float[::1] grad_u, float[::1] grad)
  *     cpdef MLModel copy(self, bint share=*)             # <<<<<<<<<<<<<<
  * 
  * @cython.final
@@ -1218,60 +1235,60 @@ struct __pyx_opt_args_6mlgrad_5model_7MLModel_copy {
 struct __pyx_opt_args_6mlgrad_6avragg_7Average_init;
 struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit;
 
-/* "mlgrad/avragg.pxd":12
- * from libc.math cimport fabs, pow, sqrt, fmax, log, exp
- * 
- * ctypedef double (*FuncEvaluate)(Func, double) nogil             # <<<<<<<<<<<<<<
- * ctypedef double (*FuncDerivative)(Func, double) nogil
- * ctypedef double (*FuncDerivative2)(Func, double) nogil
- */
-typedef double (*__pyx_t_6mlgrad_6avragg_FuncEvaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double);
-
 /* "mlgrad/avragg.pxd":13
+ * from libc.math cimport fabsf, powf, sqrtf, fmaxf, logf, expf
  * 
- * ctypedef double (*FuncEvaluate)(Func, double) nogil
- * ctypedef double (*FuncDerivative)(Func, double) nogil             # <<<<<<<<<<<<<<
- * ctypedef double (*FuncDerivative2)(Func, double) nogil
- * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
+ * ctypedef float (*FuncEvaluate)(Func, float) nogil             # <<<<<<<<<<<<<<
+ * ctypedef float (*FuncDerivative)(Func, float) nogil
+ * ctypedef float (*FuncDerivative2)(Func, float) nogil
  */
-typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef float (*__pyx_t_6mlgrad_6avragg_FuncEvaluate)(struct __pyx_obj_6mlgrad_4func_Func *, float);
 
 /* "mlgrad/avragg.pxd":14
- * ctypedef double (*FuncEvaluate)(Func, double) nogil
- * ctypedef double (*FuncDerivative)(Func, double) nogil
- * ctypedef double (*FuncDerivative2)(Func, double) nogil             # <<<<<<<<<<<<<<
- * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
  * 
+ * ctypedef float (*FuncEvaluate)(Func, float) nogil
+ * ctypedef float (*FuncDerivative)(Func, float) nogil             # <<<<<<<<<<<<<<
+ * ctypedef float (*FuncDerivative2)(Func, float) nogil
+ * ctypedef float (*FuncDerivativeDivX)(Func, float) nogil
  */
-typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef float (*__pyx_t_6mlgrad_6avragg_FuncDerivative)(struct __pyx_obj_6mlgrad_4func_Func *, float);
 
 /* "mlgrad/avragg.pxd":15
- * ctypedef double (*FuncDerivative)(Func, double) nogil
- * ctypedef double (*FuncDerivative2)(Func, double) nogil
- * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil             # <<<<<<<<<<<<<<
+ * ctypedef float (*FuncEvaluate)(Func, float) nogil
+ * ctypedef float (*FuncDerivative)(Func, float) nogil
+ * ctypedef float (*FuncDerivative2)(Func, float) nogil             # <<<<<<<<<<<<<<
+ * ctypedef float (*FuncDerivativeDivX)(Func, float) nogil
+ * 
+ */
+typedef float (*__pyx_t_6mlgrad_6avragg_FuncDerivative2)(struct __pyx_obj_6mlgrad_4func_Func *, float);
+
+/* "mlgrad/avragg.pxd":16
+ * ctypedef float (*FuncDerivative)(Func, float) nogil
+ * ctypedef float (*FuncDerivative2)(Func, float) nogil
+ * ctypedef float (*FuncDerivativeDivX)(Func, float) nogil             # <<<<<<<<<<<<<<
  * 
  * ctypedef fused number:
  */
-typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivativeDivX)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef float (*__pyx_t_6mlgrad_6avragg_FuncDerivativeDivX)(struct __pyx_obj_6mlgrad_4func_Func *, float);
 
-/* "mlgrad/avragg.pxd":98
- *     cdef gradient(self, double[::1] Y, double[::1] grad)
+/* "mlgrad/avragg.pxd":101
+ *     cdef gradient(self, float[::1] Y, float[::1] grad)
  *     #
- *     cdef init(self, double[::1] Y, u0=*)             # <<<<<<<<<<<<<<
+ *     cdef init(self, float[::1] Y, u0=*)             # <<<<<<<<<<<<<<
  *     #
- *     cpdef fit(self, double[::1] Y, u0=*)
+ *     cpdef fit(self, float[::1] Y, u0=*)
  */
 struct __pyx_opt_args_6mlgrad_6avragg_7Average_init {
   int __pyx_n;
   PyObject *u0;
 };
 
-/* "mlgrad/avragg.pxd":100
- *     cdef init(self, double[::1] Y, u0=*)
+/* "mlgrad/avragg.pxd":103
+ *     cdef init(self, float[::1] Y, u0=*)
  *     #
- *     cpdef fit(self, double[::1] Y, u0=*)             # <<<<<<<<<<<<<<
+ *     cpdef fit(self, float[::1] Y, u0=*)             # <<<<<<<<<<<<<<
  *     #
- *     #cdef c_fit(self, double[::1] Y)
+ *     #cdef c_fit(self, float[::1] Y)
  */
 struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit {
   int __pyx_n;
@@ -1281,38 +1298,38 @@ struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit {
 /* "mlgrad/risk.pxd":29
  *     int PyList_GET_SIZE(PyObject* list) nogil
  * 
- * ctypedef double (*ModelEvaluate)(Model, double[::1])             # <<<<<<<<<<<<<<
- * ctypedef void (*ModelGradient)(Model, double[::1], double[::1])
- * ctypedef double (*LossEvaluate)(Loss, double, double)
+ * ctypedef float (*ModelEvaluate)(Model, float[::1])             # <<<<<<<<<<<<<<
+ * ctypedef void (*ModelGradient)(Model, float[::1], float[::1])
+ * ctypedef float (*LossEvaluate)(Loss, float, float)
  */
-typedef double (*__pyx_t_6mlgrad_4risk_ModelEvaluate)(struct __pyx_obj_6mlgrad_5model_Model *, __Pyx_memviewslice);
+typedef float (*__pyx_t_6mlgrad_4risk_ModelEvaluate)(struct __pyx_obj_6mlgrad_5model_Model *, __Pyx_memviewslice);
 
 /* "mlgrad/risk.pxd":30
  * 
- * ctypedef double (*ModelEvaluate)(Model, double[::1])
- * ctypedef void (*ModelGradient)(Model, double[::1], double[::1])             # <<<<<<<<<<<<<<
- * ctypedef double (*LossEvaluate)(Loss, double, double)
- * ctypedef double (*LossDerivative)(Loss, double, double)
+ * ctypedef float (*ModelEvaluate)(Model, float[::1])
+ * ctypedef void (*ModelGradient)(Model, float[::1], float[::1])             # <<<<<<<<<<<<<<
+ * ctypedef float (*LossEvaluate)(Loss, float, float)
+ * ctypedef float (*LossDerivative)(Loss, float, float)
  */
 typedef void (*__pyx_t_6mlgrad_4risk_ModelGradient)(struct __pyx_obj_6mlgrad_5model_Model *, __Pyx_memviewslice, __Pyx_memviewslice);
 
 /* "mlgrad/risk.pxd":31
- * ctypedef double (*ModelEvaluate)(Model, double[::1])
- * ctypedef void (*ModelGradient)(Model, double[::1], double[::1])
- * ctypedef double (*LossEvaluate)(Loss, double, double)             # <<<<<<<<<<<<<<
- * ctypedef double (*LossDerivative)(Loss, double, double)
+ * ctypedef float (*ModelEvaluate)(Model, float[::1])
+ * ctypedef void (*ModelGradient)(Model, float[::1], float[::1])
+ * ctypedef float (*LossEvaluate)(Loss, float, float)             # <<<<<<<<<<<<<<
+ * ctypedef float (*LossDerivative)(Loss, float, float)
  * 
  */
-typedef double (*__pyx_t_6mlgrad_4risk_LossEvaluate)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double);
+typedef float (*__pyx_t_6mlgrad_4risk_LossEvaluate)(struct __pyx_obj_6mlgrad_4loss_Loss *, float, float);
 
 /* "mlgrad/risk.pxd":32
- * ctypedef void (*ModelGradient)(Model, double[::1], double[::1])
- * ctypedef double (*LossEvaluate)(Loss, double, double)
- * ctypedef double (*LossDerivative)(Loss, double, double)             # <<<<<<<<<<<<<<
+ * ctypedef void (*ModelGradient)(Model, float[::1], float[::1])
+ * ctypedef float (*LossEvaluate)(Loss, float, float)
+ * ctypedef float (*LossDerivative)(Loss, float, float)             # <<<<<<<<<<<<<<
  * 
- * cdef inline void clear_memoryview(double[::1] X):
+ * cdef inline void clear_memoryview(float[::1] X):
  */
-typedef double (*__pyx_t_6mlgrad_4risk_LossDerivative)(struct __pyx_obj_6mlgrad_4loss_Loss *, double, double);
+typedef float (*__pyx_t_6mlgrad_4risk_LossDerivative)(struct __pyx_obj_6mlgrad_4loss_Loss *, float, float);
 
 /* "mlgrad/func.pxd":6
  * cimport cython
@@ -1328,7 +1345,7 @@ struct __pyx_obj_6mlgrad_4func_Func {
 };
 
 
-/* "mlgrad/func.pxd":16
+/* "mlgrad/func.pxd":20
  * 
  * @cython.final
  * cdef class Comp(Func):             # <<<<<<<<<<<<<<
@@ -1342,7 +1359,7 @@ struct __pyx_obj_6mlgrad_4func_Comp {
 };
 
 
-/* "mlgrad/func.pxd":22
+/* "mlgrad/func.pxd":26
  * 
  * @cython.final
  * cdef class CompSqrt(Func):             # <<<<<<<<<<<<<<
@@ -1356,7 +1373,7 @@ struct __pyx_obj_6mlgrad_4func_CompSqrt {
 };
 
 
-/* "mlgrad/func.pxd":28
+/* "mlgrad/func.pxd":32
  * 
  * @cython.final
  * cdef class ZeroOnPositive(Func):             # <<<<<<<<<<<<<<
@@ -1369,7 +1386,7 @@ struct __pyx_obj_6mlgrad_4func_ZeroOnPositive {
 };
 
 
-/* "mlgrad/func.pxd":33
+/* "mlgrad/func.pxd":37
  * 
  * @cython.final
  * cdef class FuncExp(Func):             # <<<<<<<<<<<<<<
@@ -1382,7 +1399,7 @@ struct __pyx_obj_6mlgrad_4func_FuncExp {
 };
 
 
-/* "mlgrad/func.pxd":37
+/* "mlgrad/func.pxd":41
  * 
  * @cython.final
  * cdef class Id(Func):             # <<<<<<<<<<<<<<
@@ -1394,7 +1411,7 @@ struct __pyx_obj_6mlgrad_4func_Id {
 };
 
 
-/* "mlgrad/func.pxd":42
+/* "mlgrad/func.pxd":46
  * 
  * @cython.final
  * cdef class Neg(Func):             # <<<<<<<<<<<<<<
@@ -1406,141 +1423,141 @@ struct __pyx_obj_6mlgrad_4func_Neg {
 };
 
 
-/* "mlgrad/func.pxd":47
+/* "mlgrad/func.pxd":51
  * 
  * @cython.final
  * cdef class Arctang(Func):             # <<<<<<<<<<<<<<
- *     cdef public double a
+ *     cdef public float a
  * 
  */
 struct __pyx_obj_6mlgrad_4func_Arctang {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double a;
-};
-
-
-/* "mlgrad/func.pxd":51
- * 
- * @cython.final
- * cdef class Sigmoidal(Func):             # <<<<<<<<<<<<<<
- *     cdef public double p
- * 
- */
-struct __pyx_obj_6mlgrad_4func_Sigmoidal {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double p;
+  float a;
 };
 
 
 /* "mlgrad/func.pxd":55
  * 
  * @cython.final
- * cdef class ModSigmoidal(Func):             # <<<<<<<<<<<<<<
- *     cdef public double a
+ * cdef class Sigmoidal(Func):             # <<<<<<<<<<<<<<
+ *     cdef public float p
  * 
  */
-struct __pyx_obj_6mlgrad_4func_ModSigmoidal {
+struct __pyx_obj_6mlgrad_4func_Sigmoidal {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double a;
+  float p;
 };
 
 
 /* "mlgrad/func.pxd":59
  * 
  * @cython.final
- * cdef class Softplus(Func):             # <<<<<<<<<<<<<<
- *     cdef public double a
- *     cdef double log_a
+ * cdef class ModSigmoidal(Func):             # <<<<<<<<<<<<<<
+ *     cdef public float a
+ * 
  */
-struct __pyx_obj_6mlgrad_4func_Softplus {
+struct __pyx_obj_6mlgrad_4func_ModSigmoidal {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double a;
-  double log_a;
+  float a;
 };
 
 
-/* "mlgrad/func.pxd":64
+/* "mlgrad/func.pxd":63
  * 
  * @cython.final
- * cdef class Threshold(Func):             # <<<<<<<<<<<<<<
- *     cdef public double theta
- * 
+ * cdef class Softplus(Func):             # <<<<<<<<<<<<<<
+ *     cdef public float a
+ *     cdef float log_a
  */
-struct __pyx_obj_6mlgrad_4func_Threshold {
+struct __pyx_obj_6mlgrad_4func_Softplus {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double theta;
+  float a;
+  float log_a;
 };
 
 
 /* "mlgrad/func.pxd":68
  * 
  * @cython.final
- * cdef class Sign(Func):             # <<<<<<<<<<<<<<
- *     cdef public double theta
+ * cdef class Threshold(Func):             # <<<<<<<<<<<<<<
+ *     cdef public float theta
  * 
  */
-struct __pyx_obj_6mlgrad_4func_Sign {
+struct __pyx_obj_6mlgrad_4func_Threshold {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double theta;
+  float theta;
 };
 
 
 /* "mlgrad/func.pxd":72
  * 
  * @cython.final
- * cdef class Quantile(Func):             # <<<<<<<<<<<<<<
- *     #
- *     cdef public double alpha
+ * cdef class Sign(Func):             # <<<<<<<<<<<<<<
+ *     cdef public float theta
+ * 
  */
-struct __pyx_obj_6mlgrad_4func_Quantile {
+struct __pyx_obj_6mlgrad_4func_Sign {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double alpha;
+  float theta;
 };
 
 
-/* "mlgrad/func.pxd":78
+/* "mlgrad/func.pxd":76
+ * 
+ * @cython.final
+ * cdef class Quantile(Func):             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef public float alpha
+ */
+struct __pyx_obj_6mlgrad_4func_Quantile {
+  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+  float alpha;
+};
+
+
+/* "mlgrad/func.pxd":82
  * 
  * @cython.final
  * cdef class QuantileFunc(Func):             # <<<<<<<<<<<<<<
- *     cdef public double alpha
+ *     cdef public float alpha
  *     cdef public Func f
  */
 struct __pyx_obj_6mlgrad_4func_QuantileFunc {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double alpha;
+  float alpha;
   struct __pyx_obj_6mlgrad_4func_Func *f;
 };
 
 
-/* "mlgrad/func.pxd":83
+/* "mlgrad/func.pxd":87
  * 
  * @cython.final
  * cdef class Expectile(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public float alpha
  */
 struct __pyx_obj_6mlgrad_4func_Expectile {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double alpha;
+  float alpha;
 };
 
 
-/* "mlgrad/func.pxd":89
+/* "mlgrad/func.pxd":93
  * 
  * @cython.final
  * cdef class Power(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha, p, alpha_p
+ *     cdef public float alpha, p, alpha_p
  */
 struct __pyx_obj_6mlgrad_4func_Power {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double alpha;
-  double p;
-  double alpha_p;
+  float alpha;
+  float p;
+  float alpha_p;
 };
 
 
-/* "mlgrad/func.pxd":95
+/* "mlgrad/func.pxd":99
  * 
  * @cython.final
  * cdef class Square(Func):             # <<<<<<<<<<<<<<
@@ -1552,7 +1569,7 @@ struct __pyx_obj_6mlgrad_4func_Square {
 };
 
 
-/* "mlgrad/func.pxd":100
+/* "mlgrad/func.pxd":104
  * 
  * @cython.final
  * cdef class SquareSigned(Func):             # <<<<<<<<<<<<<<
@@ -1564,7 +1581,7 @@ struct __pyx_obj_6mlgrad_4func_SquareSigned {
 };
 
 
-/* "mlgrad/func.pxd":105
+/* "mlgrad/func.pxd":109
  * 
  * @cython.final
  * cdef class Absolute(Func):             # <<<<<<<<<<<<<<
@@ -1576,191 +1593,191 @@ struct __pyx_obj_6mlgrad_4func_Absolute {
 };
 
 
-/* "mlgrad/func.pxd":110
+/* "mlgrad/func.pxd":114
  * 
  * @cython.final
  * cdef class Quantile_AlphaLog(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public float alpha
  */
 struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double alpha;
-  double alpha2;
-  double q;
+  float alpha;
+  float alpha2;
+  float q;
 };
 
 
-/* "mlgrad/func.pxd":117
+/* "mlgrad/func.pxd":121
  * 
  * @cython.final
  * cdef class SoftAbs(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double eps
+ *     cdef float eps
  */
 struct __pyx_obj_6mlgrad_4func_SoftAbs {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double eps;
+  float eps;
 };
 
 
-/* "mlgrad/func.pxd":122
+/* "mlgrad/func.pxd":126
  * 
  * @cython.final
  * cdef class Sqrt(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double eps
+ *     cdef float eps
  */
 struct __pyx_obj_6mlgrad_4func_Sqrt {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double eps;
-  double eps2;
-  double alpha;
-  double zero;
+  float eps;
+  float eps2;
+  float alpha;
+  float zero;
 };
 
 
-/* "mlgrad/func.pxd":131
+/* "mlgrad/func.pxd":135
  * 
  * @cython.final
  * cdef class Quantile_Sqrt(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double eps
+ *     cdef float eps
  */
 struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double eps;
-  double eps2;
-  double alpha;
+  float eps;
+  float eps2;
+  float alpha;
 };
 
 
-/* "mlgrad/func.pxd":139
+/* "mlgrad/func.pxd":143
  * 
  * @cython.final
  * cdef class Logistic(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double p
+ *     cdef public float p
  */
 struct __pyx_obj_6mlgrad_4func_Logistic {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double p;
+  float p;
 };
 
 
-/* "mlgrad/func.pxd":145
+/* "mlgrad/func.pxd":149
  * 
  * @cython.final
  * cdef class Huber(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double C
+ *     cdef public float C
  */
 struct __pyx_obj_6mlgrad_4func_Huber {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double C;
+  float C;
 };
 
 
-/* "mlgrad/func.pxd":151
+/* "mlgrad/func.pxd":155
  * 
  * @cython.final
  * cdef class TM(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double a
+ *     cdef public float a
  */
 struct __pyx_obj_6mlgrad_4func_TM {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double a;
+  float a;
 };
 
 
-/* "mlgrad/func.pxd":156
+/* "mlgrad/func.pxd":160
  * 
  * @cython.final
  * cdef class LogSquare(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double a
+ *     cdef public float a
  */
 struct __pyx_obj_6mlgrad_4func_LogSquare {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double a;
-  double a2;
+  float a;
+  float a2;
 };
 
 
-/* "mlgrad/func.pxd":162
+/* "mlgrad/func.pxd":166
  * 
  * @cython.final
  * cdef class Tukey(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double C
+ *     cdef public float C
  */
 struct __pyx_obj_6mlgrad_4func_Tukey {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double C;
-  double C2;
+  float C;
+  float C2;
 };
 
 
-/* "mlgrad/func.pxd":169
+/* "mlgrad/func.pxd":173
  * 
  * @cython.final
  * cdef class Hinge(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double C
+ *     cdef public float C
  */
 struct __pyx_obj_6mlgrad_4func_Hinge {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double C;
+  float C;
 };
 
 
-/* "mlgrad/func.pxd":175
+/* "mlgrad/func.pxd":179
  * 
  * @cython.final
  * cdef class HingeSqrt(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public float alpha
  */
 struct __pyx_obj_6mlgrad_4func_HingeSqrt {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double alpha;
-  double alpha2;
+  float alpha;
+  float alpha2;
 };
 
 
-/* "mlgrad/func.pxd":182
+/* "mlgrad/func.pxd":186
  * 
  * @cython.final
  * cdef class  Exp(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public float alpha
  */
 struct __pyx_obj_6mlgrad_4func_Exp {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double alpha;
+  float alpha;
 };
 
 
-/* "mlgrad/func.pxd":187
+/* "mlgrad/func.pxd":191
  * 
  * @cython.final
  * cdef class  Log(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public float alpha
  */
 struct __pyx_obj_6mlgrad_4func_Log {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  double alpha;
+  float alpha;
 };
 
 
-/* "mlgrad/func.pxd":192
+/* "mlgrad/func.pxd":196
  * 
  * @cython.final
  * cdef class KMinSquare(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] c
+ *     cdef float[::1] c
  */
 struct __pyx_obj_6mlgrad_4func_KMinSquare {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
@@ -1770,12 +1787,12 @@ struct __pyx_obj_6mlgrad_4func_KMinSquare {
 };
 
 
-/* "mlgrad/func.pxd":197
+/* "mlgrad/func.pxd":201
  *     cdef int n_dim, j_min
  * 
  * cdef class ParameterizedFunc:             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double x, double u) nogil
+ *     cdef float evaluate(self, float x, float u) nogil
  */
 struct __pyx_obj_6mlgrad_4func_ParameterizedFunc {
   PyObject_HEAD
@@ -1783,7 +1800,7 @@ struct __pyx_obj_6mlgrad_4func_ParameterizedFunc {
 };
 
 
-/* "mlgrad/func.pxd":206
+/* "mlgrad/func.pxd":210
  * 
  * @cython.final
  * cdef class WinsorizedFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -1795,7 +1812,7 @@ struct __pyx_obj_6mlgrad_4func_WinsorizedFunc {
 };
 
 
-/* "mlgrad/func.pxd":210
+/* "mlgrad/func.pxd":214
  * 
  * @cython.final
  * cdef class WinsorizedSmoothFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -1808,16 +1825,16 @@ struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc {
 };
 
 
-/* "mlgrad/func.pxd":213
+/* "mlgrad/func.pxd":217
  *     cdef Func f
  * 
  * cdef class SoftMinFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
- *     cdef double a
+ *     cdef float a
  * 
  */
 struct __pyx_obj_6mlgrad_4func_SoftMinFunc {
   struct __pyx_obj_6mlgrad_4func_ParameterizedFunc __pyx_base;
-  double a;
+  float a;
 };
 
 
@@ -1825,8 +1842,8 @@ struct __pyx_obj_6mlgrad_4func_SoftMinFunc {
  * cimport cython
  * 
  * cdef class Distance:             # <<<<<<<<<<<<<<
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil
- *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil
+ *     cdef float _evaluate(self, float *x, float *y, Py_ssize_t n) nogil
+ *     cdef float evaluate(self, float[::1] x, float[::1] y) nogil
  */
 struct __pyx_obj_6mlgrad_8distance_Distance {
   PyObject_HEAD
@@ -1838,13 +1855,13 @@ struct __pyx_obj_6mlgrad_8distance_Distance {
  *     cdef set_param(self, name, val)
  * 
  * cdef class DistanceWithScale(Distance):             # <<<<<<<<<<<<<<
- *     cdef public double[:,::1] S
- *     cdef public double sigma
+ *     cdef public float[:,::1] S
+ *     cdef public float sigma
  */
 struct __pyx_obj_6mlgrad_8distance_DistanceWithScale {
   struct __pyx_obj_6mlgrad_8distance_Distance __pyx_base;
   __Pyx_memviewslice S;
-  double sigma;
+  float sigma;
 };
 
 
@@ -1888,21 +1905,37 @@ struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance {
  * 
  * @cython.final
  * cdef class PowerDistance(Distance):             # <<<<<<<<<<<<<<
- *     cdef double p
+ *     cdef float p
  * 
  */
 struct __pyx_obj_6mlgrad_8distance_PowerDistance {
   struct __pyx_obj_6mlgrad_8distance_Distance __pyx_base;
-  double p;
+  float p;
 };
 
 
-/* "mlgrad/model.pxd":40
+/* "mlgrad/list_values.pxd":66
  * 
+ * @cython.no_gc
+ * cdef class list_values:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t size
+ *     cdef Py_ssize_t allocated
+ */
+struct __pyx_obj_6mlgrad_11list_values_list_values {
+  PyObject_HEAD
+  struct __pyx_vtabstruct_6mlgrad_11list_values_list_values *__pyx_vtab;
+  Py_ssize_t size;
+  Py_ssize_t allocated;
+  void *data;
+};
+
+
+/* "mlgrad/model.pxd":53
+ * cimport mlgrad.inventory as inventory
  * 
  * cdef class Allocator:             # <<<<<<<<<<<<<<
  *     #
- *     cpdef double[::1] allocate(self, int n)
+ *     cpdef float[::1] allocate(self, int n)
  */
 struct __pyx_obj_6mlgrad_5model_Allocator {
   PyObject_HEAD
@@ -1910,7 +1943,7 @@ struct __pyx_obj_6mlgrad_5model_Allocator {
 };
 
 
-/* "mlgrad/model.pxd":48
+/* "mlgrad/model.pxd":61
  * 
  * @cython.final
  * cdef class ArrayAllocator(Allocator):             # <<<<<<<<<<<<<<
@@ -1927,12 +1960,12 @@ struct __pyx_obj_6mlgrad_5model_ArrayAllocator {
 };
 
 
-/* "mlgrad/model.pxd":56
+/* "mlgrad/model.pxd":69
  *     return <Model>(<PyObject*>o)
  * 
  * cdef class Model(object):             # <<<<<<<<<<<<<<
  *     cdef public Py_ssize_t n_param, n_input
- *     cdef public double[::1] param
+ *     cdef public float[::1] param
  */
 struct __pyx_obj_6mlgrad_5model_Model {
   PyObject_HEAD
@@ -1945,7 +1978,7 @@ struct __pyx_obj_6mlgrad_5model_Model {
 };
 
 
-/* "mlgrad/model.pxd":74
+/* "mlgrad/model.pxd":87
  * 
  * @cython.final
  * cdef class LinearModel(Model):             # <<<<<<<<<<<<<<
@@ -1957,7 +1990,7 @@ struct __pyx_obj_6mlgrad_5model_LinearModel {
 };
 
 
-/* "mlgrad/model.pxd":78
+/* "mlgrad/model.pxd":91
  * 
  * @cython.final
  * cdef class SigmaNeuronModel(Model):             # <<<<<<<<<<<<<<
@@ -1970,7 +2003,7 @@ struct __pyx_obj_6mlgrad_5model_SigmaNeuronModel {
 };
 
 
-/* "mlgrad/model.pxd":82
+/* "mlgrad/model.pxd":95
  * 
  * @cython.final
  * cdef class WinnerModel(Model):             # <<<<<<<<<<<<<<
@@ -1983,7 +2016,7 @@ struct __pyx_obj_6mlgrad_5model_WinnerModel {
 };
 
 
-/* "mlgrad/model.pxd":86
+/* "mlgrad/model.pxd":99
  * 
  * @cython.final
  * cdef class PolynomialModel(Model):             # <<<<<<<<<<<<<<
@@ -1995,12 +2028,12 @@ struct __pyx_obj_6mlgrad_5model_PolynomialModel {
 };
 
 
-/* "mlgrad/model.pxd":89
+/* "mlgrad/model.pxd":102
  *     pass
  * 
  * cdef class ModelLayer:             # <<<<<<<<<<<<<<
  *     cdef public Py_ssize_t n_param, n_input, n_output
- *     cdef public double[::1] param
+ *     cdef public float[::1] param
  */
 struct __pyx_obj_6mlgrad_5model_ModelLayer {
   PyObject_HEAD
@@ -2014,22 +2047,24 @@ struct __pyx_obj_6mlgrad_5model_ModelLayer {
 };
 
 
-/* "mlgrad/model.pxd":99
+/* "mlgrad/model.pxd":112
  *     cpdef ModelLayer copy(self, bint share=*)
  * 
  * cdef class SigmaNeuronModelLayer(ModelLayer):             # <<<<<<<<<<<<<<
  *     cdef public Func func
- *     cdef public double[:,::1] matrix
+ *     cdef public float[:,::1] matrix
  */
 struct __pyx_obj_6mlgrad_5model_SigmaNeuronModelLayer {
   struct __pyx_obj_6mlgrad_5model_ModelLayer __pyx_base;
   struct __pyx_obj_6mlgrad_4func_Func *func;
   __Pyx_memviewslice matrix;
+  __Pyx_memviewslice ss;
+  int first_time;
 };
 
 
-/* "mlgrad/model.pxd":105
- * #     cdef double[:,::1] X
+/* "mlgrad/model.pxd":118
+ *     cdef bint first_time
  * 
  * cdef class GeneralModelLayer(ModelLayer):             # <<<<<<<<<<<<<<
  *     cdef public list models
@@ -2041,7 +2076,7 @@ struct __pyx_obj_6mlgrad_5model_GeneralModelLayer {
 };
 
 
-/* "mlgrad/model.pxd":108
+/* "mlgrad/model.pxd":121
  *     cdef public list models
  * 
  * cdef class ComplexModel(object):             # <<<<<<<<<<<<<<
@@ -2059,8 +2094,8 @@ struct __pyx_obj_6mlgrad_5model_ComplexModel {
 };
 
 
-/* "mlgrad/model.pxd":117
- *     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
+/* "mlgrad/model.pxd":130
+ *     cdef void backward(self, float[::1] X, float[::1] grad_u, float[::1] grad)
  * 
  * cdef class MLModel(ComplexModel):             # <<<<<<<<<<<<<<
  *     cdef public list layers
@@ -2072,7 +2107,7 @@ struct __pyx_obj_6mlgrad_5model_MLModel {
 };
 
 
-/* "mlgrad/model.pxd":125
+/* "mlgrad/model.pxd":138
  * 
  * @cython.final
  * cdef class FFNetworkModel(MLModel):             # <<<<<<<<<<<<<<
@@ -2084,7 +2119,7 @@ struct __pyx_obj_6mlgrad_5model_FFNetworkModel {
 };
 
 
-/* "mlgrad/model.pxd":129
+/* "mlgrad/model.pxd":142
  * 
  * @cython.final
  * cdef class FFNetworkFuncModel(Model):             # <<<<<<<<<<<<<<
@@ -2098,12 +2133,12 @@ struct __pyx_obj_6mlgrad_5model_FFNetworkFuncModel {
 };
 
 
-/* "mlgrad/model.pxd":135
+/* "mlgrad/model.pxd":148
  * 
  * @cython.final
  * cdef class SquaredModel(Model):             # <<<<<<<<<<<<<<
- *     cdef double[:,::1] matrix
- *     cdef double[:,::1] matrix_grad
+ *     cdef float[:,::1] matrix
+ *     cdef float[:,::1] matrix_grad
  */
 struct __pyx_obj_6mlgrad_5model_SquaredModel {
   struct __pyx_obj_6mlgrad_5model_Model __pyx_base;
@@ -2112,7 +2147,7 @@ struct __pyx_obj_6mlgrad_5model_SquaredModel {
 };
 
 
-/* "mlgrad/model.pxd":140
+/* "mlgrad/model.pxd":153
  * 
  * 
  * cdef class MultiModel:             # <<<<<<<<<<<<<<
@@ -2128,11 +2163,11 @@ struct __pyx_obj_6mlgrad_5model_MultiModel {
 
 
 /* "mlgrad/loss.pxd":16
- * cdef double float_min
+ * cdef float float_min
  * 
  * cdef class Loss(object):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x, const double y) nogil
+ *     cdef float evaluate(self, const float x, const float y) nogil
  */
 struct __pyx_obj_6mlgrad_4loss_Loss {
   PyObject_HEAD
@@ -2221,8 +2256,8 @@ struct __pyx_obj_6mlgrad_4loss_MLoss {
  * 
  * 
  * cdef class MultLoss(object):             # <<<<<<<<<<<<<<
- *     cdef double evaluate(self, double[::1] y, double[::1] yk) nogil
- *     cdef void gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil
+ *     cdef float evaluate(self, float[::1] y, float[::1] yk) nogil
+ *     cdef void gradient(self, float[::1] y, float[::1] yk, float[::1] grad) nogil
  */
 struct __pyx_obj_6mlgrad_4loss_MultLoss {
   PyObject_HEAD
@@ -2261,7 +2296,7 @@ struct __pyx_obj_6mlgrad_4loss_MarginMultLoss {
  * 
  * cdef class MultLoss2:             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double[::1] y, double yk) nogil
+ *     cdef float evaluate(self, float[::1] y, float yk) nogil
  */
 struct __pyx_obj_6mlgrad_4loss_MultLoss2 {
   PyObject_HEAD
@@ -2274,14 +2309,14 @@ struct __pyx_obj_6mlgrad_4loss_MultLoss2 {
  * @cython.final
  * cdef class SoftMinLoss2(MultLoss2):             # <<<<<<<<<<<<<<
  *     cdef public Loss lossfunc
- * #     cdef public double val_min
+ * #     cdef public float val_min
  */
 struct __pyx_obj_6mlgrad_4loss_SoftMinLoss2 {
   struct __pyx_obj_6mlgrad_4loss_MultLoss2 __pyx_base;
   struct __pyx_obj_6mlgrad_4loss_Loss *lossfunc;
   __Pyx_memviewslice vals;
   Py_ssize_t q;
-  double a;
+  float a;
 };
 
 
@@ -2290,7 +2325,7 @@ struct __pyx_obj_6mlgrad_4loss_SoftMinLoss2 {
  * 
  * cdef class FuncMulti:             # <<<<<<<<<<<<<<
  *     #cdef bint all
- *     cdef double evaluate(self, double[::1] param)
+ *     cdef float evaluate(self, float[::1] param)
  */
 struct __pyx_obj_6mlgrad_7regnorm_FuncMulti {
   PyObject_HEAD
@@ -2303,11 +2338,11 @@ struct __pyx_obj_6mlgrad_7regnorm_FuncMulti {
  * @cython.final
  * cdef class PowerNorm(FuncMulti):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double p
+ *     cdef float p
  */
 struct __pyx_obj_6mlgrad_7regnorm_PowerNorm {
   struct __pyx_obj_6mlgrad_7regnorm_FuncMulti __pyx_base;
-  double p;
+  float p;
 };
 
 
@@ -2339,7 +2374,7 @@ struct __pyx_obj_6mlgrad_7regnorm_AbsoluteNorm {
  * 
  * @cython.final
  * cdef class SquareForm(FuncMulti):             # <<<<<<<<<<<<<<
- *     cdef double[:,::1] matrix
+ *     cdef float[:,::1] matrix
  * 
  */
 struct __pyx_obj_6mlgrad_7regnorm_SquareForm {
@@ -2423,7 +2458,7 @@ struct __pyx_obj_6mlgrad_5batch_WholeBatch {
 
 
 /* "mlgrad/averager.pxd":25
- *     memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(float))
  * 
  * cdef class ScalarAverager:             # <<<<<<<<<<<<<<
  *     #
@@ -2440,17 +2475,17 @@ struct __pyx_obj_6mlgrad_8averager_ScalarAverager {
  * @cython.final
  * cdef class ScalarAdaM2(ScalarAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double m, v, beta1, beta2, beta1_k, beta2_k, epsilon
+ *     cdef float m, v, beta1, beta2, beta1_k, beta2_k, epsilon
  */
 struct __pyx_obj_6mlgrad_8averager_ScalarAdaM2 {
   struct __pyx_obj_6mlgrad_8averager_ScalarAverager __pyx_base;
-  double m;
-  double v;
-  double beta1;
-  double beta2;
-  double beta1_k;
-  double beta2_k;
-  double epsilon;
+  float m;
+  float v;
+  float beta1;
+  float beta2;
+  float beta1_k;
+  float beta2_k;
+  float epsilon;
 };
 
 
@@ -2459,17 +2494,17 @@ struct __pyx_obj_6mlgrad_8averager_ScalarAdaM2 {
  * @cython.final
  * cdef class ScalarAdaM1(ScalarAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double m, v, beta1, beta2, beta1_k, beta2_k, epsilon
+ *     cdef float m, v, beta1, beta2, beta1_k, beta2_k, epsilon
  */
 struct __pyx_obj_6mlgrad_8averager_ScalarAdaM1 {
   struct __pyx_obj_6mlgrad_8averager_ScalarAverager __pyx_base;
-  double m;
-  double v;
-  double beta1;
-  double beta2;
-  double beta1_k;
-  double beta2_k;
-  double epsilon;
+  float m;
+  float v;
+  float beta1;
+  float beta2;
+  float beta1_k;
+  float beta2_k;
+  float epsilon;
 };
 
 
@@ -2478,13 +2513,13 @@ struct __pyx_obj_6mlgrad_8averager_ScalarAdaM1 {
  * @cython.final
  * cdef class ScalarExponentialAverager(ScalarAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double m, beta, beta_k
+ *     cdef float m, beta, beta_k
  */
 struct __pyx_obj_6mlgrad_8averager_ScalarExponentialAverager {
   struct __pyx_obj_6mlgrad_8averager_ScalarAverager __pyx_base;
-  double m;
-  double beta;
-  double beta_k;
+  float m;
+  float beta;
+  float beta_k;
 };
 
 
@@ -2500,7 +2535,7 @@ struct __pyx_obj_6mlgrad_8averager_ScalarWindowAverager {
   Py_ssize_t size;
   Py_ssize_t idx;
   __Pyx_memviewslice buffer;
-  double buffer_sum;
+  float buffer_sum;
   int first;
 };
 
@@ -2510,7 +2545,7 @@ struct __pyx_obj_6mlgrad_8averager_ScalarWindowAverager {
  * 
  * cdef class ArrayAverager:             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] array_average
+ *     cdef float[::1] array_average
  */
 struct __pyx_obj_6mlgrad_8averager_ArrayAverager {
   PyObject_HEAD
@@ -2520,7 +2555,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAverager {
 
 
 /* "mlgrad/averager.pxd":71
- *     cdef void update(self, double[::1] x, double h)
+ *     cdef void update(self, float[::1] x, float h)
  * 
  * cdef class ArraySave(ArrayAverager):             # <<<<<<<<<<<<<<
  *     pass
@@ -2536,13 +2571,13 @@ struct __pyx_obj_6mlgrad_8averager_ArraySave {
  * @cython.final
  * cdef class ArrayMOM(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] mgrad
+ *     cdef float[::1] mgrad
  */
 struct __pyx_obj_6mlgrad_8averager_ArrayMOM {
   struct __pyx_obj_6mlgrad_8averager_ArrayAverager __pyx_base;
   __Pyx_memviewslice mgrad;
-  double beta;
-  double M;
+  float beta;
+  float M;
   int normalize;
 };
 
@@ -2552,13 +2587,13 @@ struct __pyx_obj_6mlgrad_8averager_ArrayMOM {
  * @cython.final
  * cdef class ArrayAMOM(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] mgrad
+ *     cdef float[::1] mgrad
  */
 struct __pyx_obj_6mlgrad_8averager_ArrayAMOM {
   struct __pyx_obj_6mlgrad_8averager_ArrayAverager __pyx_base;
   __Pyx_memviewslice mgrad;
-  double beta;
-  double M;
+  float beta;
+  float M;
   int normalize;
 };
 
@@ -2568,14 +2603,14 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAMOM {
  * @cython.final
  * cdef class ArrayRMSProp(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] vgrad
+ *     cdef float[::1] vgrad
  */
 struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp {
   struct __pyx_obj_6mlgrad_8averager_ArrayAverager __pyx_base;
   __Pyx_memviewslice vgrad;
-  double beta;
-  double M;
-  double epsilon;
+  float beta;
+  float M;
+  float epsilon;
 };
 
 
@@ -2584,17 +2619,17 @@ struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp {
  * @cython.final
  * cdef class ArrayAdaM2(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] mgrad, vgrad
+ *     cdef float[::1] mgrad, vgrad
  */
 struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2 {
   struct __pyx_obj_6mlgrad_8averager_ArrayAverager __pyx_base;
   __Pyx_memviewslice mgrad;
   __Pyx_memviewslice vgrad;
-  double beta1;
-  double beta2;
-  double beta1_k;
-  double beta2_k;
-  double epsilon;
+  float beta1;
+  float beta2;
+  float beta1_k;
+  float beta2_k;
+  float epsilon;
 };
 
 
@@ -2603,17 +2638,17 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2 {
  * @cython.final
  * cdef class ArrayAdaM1(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] mgrad, vgrad
+ *     cdef float[::1] mgrad, vgrad
  */
 struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1 {
   struct __pyx_obj_6mlgrad_8averager_ArrayAverager __pyx_base;
   __Pyx_memviewslice mgrad;
   __Pyx_memviewslice vgrad;
-  double beta1;
-  double beta2;
-  double beta1_k;
-  double beta2_k;
-  double epsilon;
+  float beta1;
+  float beta2;
+  float beta1_k;
+  float beta2_k;
+  float epsilon;
 };
 
 
@@ -2622,12 +2657,12 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1 {
  * @cython.final
  * cdef class ArraySimpleAverager(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] array_sum
+ *     cdef float[::1] array_sum
  */
 struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager {
   struct __pyx_obj_6mlgrad_8averager_ArrayAverager __pyx_base;
   __Pyx_memviewslice array_sum;
-  double T;
+  float T;
 };
 
 
@@ -2651,16 +2686,16 @@ struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager {
  * @cython.final
  * cdef class ArrayTAverager(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] array_sum
+ *     cdef float[::1] array_sum
  */
 struct __pyx_obj_6mlgrad_8averager_ArrayTAverager {
   struct __pyx_obj_6mlgrad_8averager_ArrayAverager __pyx_base;
   __Pyx_memviewslice array_sum;
-  double T;
+  float T;
 };
 
 
-/* "mlgrad/avragg.pxd":59
+/* "mlgrad/avragg.pxd":60
  *         arr[i] += v
  * 
  * cdef class Penalty:             # <<<<<<<<<<<<<<
@@ -2674,61 +2709,63 @@ struct __pyx_obj_6mlgrad_6avragg_Penalty {
 };
 
 
-/* "mlgrad/avragg.pxd":69
+/* "mlgrad/avragg.pxd":70
  * 
  * @cython.final
  * cdef class PenaltyAverage(Penalty):             # <<<<<<<<<<<<<<
- *     pass
+ *     cdef float *temp
  * 
  */
 struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage {
   struct __pyx_obj_6mlgrad_6avragg_Penalty __pyx_base;
+  float *temp;
 };
 
 
-/* "mlgrad/avragg.pxd":73
+/* "mlgrad/avragg.pxd":75
  * 
  * @cython.final
  * cdef class PenaltyScale(Penalty):             # <<<<<<<<<<<<<<
- *     pass
+ *     cdef float *temp
  * 
  */
 struct __pyx_obj_6mlgrad_6avragg_PenaltyScale {
   struct __pyx_obj_6mlgrad_6avragg_Penalty __pyx_base;
+  float *temp;
 };
 
 
-/* "mlgrad/avragg.pxd":78
+/* "mlgrad/avragg.pxd":81
  * #############################################################
  * 
  * cdef class Average:             # <<<<<<<<<<<<<<
  *     cdef readonly Penalty penalty
- *     cdef readonly double tol
+ *     cdef readonly float tol
  */
 struct __pyx_obj_6mlgrad_6avragg_Average {
   PyObject_HEAD
   struct __pyx_vtabstruct_6mlgrad_6avragg_Average *__pyx_vtab;
   struct __pyx_obj_6mlgrad_6avragg_Penalty *penalty;
-  double tol;
+  float tol;
   int n_iter;
   int K;
   int m_iter;
   int L;
-  double h;
+  float h;
   int success;
-  double u_best;
-  double pmin;
-  double u;
-  double pval;
+  float u_best;
+  float pmin;
+  float u;
+  float pval;
   int m;
   int M;
-  double u_prev;
-  double pval_prev;
+  float u_prev;
+  float pval_prev;
   int first;
 };
 
 
-/* "mlgrad/avragg.pxd":109
+/* "mlgrad/avragg.pxd":112
  * 
  * @cython.final
  * cdef class Average_Iterative(Average):             # <<<<<<<<<<<<<<
@@ -2740,7 +2777,7 @@ struct __pyx_obj_6mlgrad_6avragg_Average_Iterative {
 };
 
 
-/* "mlgrad/avragg.pxd":113
+/* "mlgrad/avragg.pxd":116
  * 
  * @cython.final
  * cdef class MAverage_Iterative(Average):             # <<<<<<<<<<<<<<
@@ -2753,7 +2790,7 @@ struct __pyx_obj_6mlgrad_6avragg_MAverage_Iterative {
 };
 
 
-/* "mlgrad/avragg.pxd":117
+/* "mlgrad/avragg.pxd":120
  * 
  * @cython.final
  * cdef class Average_FG(Average):             # <<<<<<<<<<<<<<
@@ -2766,7 +2803,7 @@ struct __pyx_obj_6mlgrad_6avragg_Average_FG {
 };
 
 
-/* "mlgrad/avragg.pxd":122
+/* "mlgrad/avragg.pxd":125
  * 
  * @cython.final
  * cdef class ParameterizedAverage(Average):             # <<<<<<<<<<<<<<
@@ -2780,7 +2817,7 @@ struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":127
+/* "mlgrad/avragg.pxd":130
  * 
  * @cython.final
  * cdef class WMAverage(Average):             # <<<<<<<<<<<<<<
@@ -2794,21 +2831,21 @@ struct __pyx_obj_6mlgrad_6avragg_WMAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":132
+/* "mlgrad/avragg.pxd":135
  * 
  * @cython.final
  * cdef class WMAverageMixed(Average):             # <<<<<<<<<<<<<<
  *     cdef Average avr
- *     cdef double gamma
+ *     cdef float gamma
  */
 struct __pyx_obj_6mlgrad_6avragg_WMAverageMixed {
   struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
   struct __pyx_obj_6mlgrad_6avragg_Average *avr;
-  double gamma;
+  float gamma;
 };
 
 
-/* "mlgrad/avragg.pxd":137
+/* "mlgrad/avragg.pxd":140
  * 
  * @cython.final
  * cdef class TMAverage(Average):             # <<<<<<<<<<<<<<
@@ -2821,12 +2858,12 @@ struct __pyx_obj_6mlgrad_6avragg_TMAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":141
+/* "mlgrad/avragg.pxd":144
  * 
  * @cython.final
  * cdef class HMAverage(Average):             # <<<<<<<<<<<<<<
  *     cdef Average avr
- *     cdef double[::1] Z
+ *     cdef float[::1] Z
  */
 struct __pyx_obj_6mlgrad_6avragg_HMAverage {
   struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
@@ -2835,7 +2872,7 @@ struct __pyx_obj_6mlgrad_6avragg_HMAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":146
+/* "mlgrad/avragg.pxd":149
  * 
  * @cython.final
  * cdef class ArithMean(Average):             # <<<<<<<<<<<<<<
@@ -2847,35 +2884,35 @@ struct __pyx_obj_6mlgrad_6avragg_ArithMean {
 };
 
 
-/* "mlgrad/avragg.pxd":150
+/* "mlgrad/avragg.pxd":153
  * 
  * @cython.final
  * cdef class KolmogorovMean(Average):             # <<<<<<<<<<<<<<
  *     cdef Func func, invfunc
- *     cdef double uu
+ *     cdef float uu
  */
 struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean {
   struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
   struct __pyx_obj_6mlgrad_4func_Func *func;
   struct __pyx_obj_6mlgrad_4func_Func *invfunc;
-  double uu;
+  float uu;
 };
 
 
-/* "mlgrad/avragg.pxd":155
+/* "mlgrad/avragg.pxd":158
  * 
  * @cython.final
  * cdef class SoftMinimal(Average):             # <<<<<<<<<<<<<<
- *     cdef double a
+ *     cdef float a
  * 
  */
 struct __pyx_obj_6mlgrad_6avragg_SoftMinimal {
   struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
-  double a;
+  float a;
 };
 
 
-/* "mlgrad/avragg.pxd":159
+/* "mlgrad/avragg.pxd":162
  * 
  * @cython.final
  * cdef class Minimal(Average):             # <<<<<<<<<<<<<<
@@ -2887,7 +2924,7 @@ struct __pyx_obj_6mlgrad_6avragg_Minimal {
 };
 
 
-/* "mlgrad/avragg.pxd":163
+/* "mlgrad/avragg.pxd":166
  * 
  * @cython.final
  * cdef class Maximal(Average):             # <<<<<<<<<<<<<<
@@ -2900,11 +2937,11 @@ struct __pyx_obj_6mlgrad_6avragg_Maximal {
 
 
 /* "mlgrad/risk.pxd":61
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  * 
  * cdef class Functional:             # <<<<<<<<<<<<<<
  *     cdef readonly FuncMulti regnorm
- *     cdef readonly double[::1] param
+ *     cdef readonly float[::1] param
  */
 struct __pyx_obj_6mlgrad_4risk_Functional {
   PyObject_HEAD
@@ -2912,7 +2949,7 @@ struct __pyx_obj_6mlgrad_4risk_Functional {
   struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *regnorm;
   __Pyx_memviewslice param;
   __Pyx_memviewslice grad_average;
-  double lval;
+  float lval;
   struct __pyx_obj_6mlgrad_5batch_Batch *batch;
   Py_ssize_t n_sample;
   Py_ssize_t n_param;
@@ -2937,14 +2974,14 @@ struct __pyx_obj_6mlgrad_4risk_SimpleFunctional {
  * 
  * cdef class Risk(Functional):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] grad
+ *     cdef float[::1] grad
  */
 struct __pyx_obj_6mlgrad_4risk_Risk {
   struct __pyx_obj_6mlgrad_4risk_Functional __pyx_base;
   __Pyx_memviewslice grad;
   __Pyx_memviewslice grad_r;
   __Pyx_memviewslice weights;
-  double tau;
+  float tau;
 };
 
 
@@ -2966,7 +3003,7 @@ struct __pyx_obj_6mlgrad_4risk_ERisk {
 
 
 /* "mlgrad/risk.pxd":98
- *     cdef readonly double[::1] Yp
+ *     cdef readonly float[::1] Yp
  * 
  * cdef class MRisk(Risk):             # <<<<<<<<<<<<<<
  *     cdef readonly Model model
@@ -2989,7 +3026,7 @@ struct __pyx_obj_6mlgrad_4risk_MRisk {
  *     cdef bint first
  * 
  * cdef class ED(Risk):             # <<<<<<<<<<<<<<
- *     cdef readonly double[:, ::1] X
+ *     cdef readonly float[:, ::1] X
  *     cdef readonly Distance distfunc
  */
 struct __pyx_obj_6mlgrad_4risk_ED {
@@ -3004,7 +3041,7 @@ struct __pyx_obj_6mlgrad_4risk_ED {
  * 
  * cdef class AER(ERisk):             # <<<<<<<<<<<<<<
  *     cdef Average loss_averager
- *     cdef double[::1] lval_all
+ *     cdef float[::1] lval_all
  */
 struct __pyx_obj_6mlgrad_4risk_AER {
   struct __pyx_obj_6mlgrad_4risk_ERisk __pyx_base;
@@ -3055,7 +3092,7 @@ struct __pyx_obj_6mlgrad_4risk_ER21 {
  * 
  * cdef class Weights(object):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double[::1] weights
+ *     cdef public float[::1] weights
  */
 struct __pyx_obj_6mlgrad_7weights_Weights {
   PyObject_HEAD
@@ -3092,7 +3129,7 @@ struct __pyx_obj_6mlgrad_7weights_ConstantWeights {
  * 
  * @cython.final
  * cdef class RWeights(Weights):             # <<<<<<<<<<<<<<
- *     cdef readonly double[::1] lval_all
+ *     cdef readonly float[::1] lval_all
  *     cdef public Func func
  */
 struct __pyx_obj_6mlgrad_7weights_RWeights {
@@ -3108,13 +3145,13 @@ struct __pyx_obj_6mlgrad_7weights_RWeights {
  * 
  * @cython.final
  * cdef class MWeights(Weights):             # <<<<<<<<<<<<<<
- *     cdef readonly double[::1] lval_all
- *     cdef double best_u
+ *     cdef readonly float[::1] lval_all
+ *     cdef float best_u
  */
 struct __pyx_obj_6mlgrad_7weights_MWeights {
   struct __pyx_obj_6mlgrad_7weights_Weights __pyx_base;
   __Pyx_memviewslice lval_all;
-  double best_u;
+  float best_u;
   struct __pyx_obj_6mlgrad_6avragg_Average *average;
   struct __pyx_obj_6mlgrad_4risk_Risk *risk;
   int first_time;
@@ -3128,7 +3165,7 @@ struct __pyx_obj_6mlgrad_7weights_MWeights {
  * cimport cython
  * 
  * cdef class Normalizer:             # <<<<<<<<<<<<<<
- *     cdef normalize(self, double[::1] param)
+ *     cdef normalize(self, float[::1] param)
  * 
  */
 struct __pyx_obj_6mlgrad_10normalizer_Normalizer {
@@ -3148,7 +3185,7 @@ struct __pyx_obj_6mlgrad_10normalizer_LinearModelNormalizer {
 };
 
 
-/* "mlgrad/gd.pxd":51
+/* "mlgrad/gd.pxd":52
  * #     cpdef fit(self)
  * 
  * cdef class GD:             # <<<<<<<<<<<<<<
@@ -3162,64 +3199,64 @@ struct __pyx_obj_6mlgrad_2gd_GD {
   struct __pyx_obj_6mlgrad_2gd_StopCondition *stop_condition;
   struct __pyx_obj_6mlgrad_2gd_ParamRate *h_rate;
   struct __pyx_obj_6mlgrad_10normalizer_Normalizer *normalizer;
-  double tol;
+  float tol;
   int n_iter;
   int K;
   int M;
   int m;
   int completed;
-  double h;
+  float h;
   PyObject *lvals;
   __Pyx_memviewslice param_min;
-  double lval;
-  double lval_prev;
-  double lval_min;
+  float lval;
+  float lval_prev;
+  float lval_min;
   struct __pyx_obj_6mlgrad_8averager_ArrayAverager *grad_averager;
   PyObject *callback;
 };
 
 
-/* "mlgrad/gd.pxd":83
+/* "mlgrad/gd.pxd":84
  * 
  * @cython.final
  * cdef class FG(GD):             # <<<<<<<<<<<<<<
- *     cdef double gamma
+ *     cdef float gamma
  *     #
  */
 struct __pyx_obj_6mlgrad_2gd_FG {
   struct __pyx_obj_6mlgrad_2gd_GD __pyx_base;
-  double gamma;
+  float gamma;
 };
 
 
-/* "mlgrad/gd.pxd":89
+/* "mlgrad/gd.pxd":90
  * 
  * @cython.final
  * cdef class FG_RUD(GD):             # <<<<<<<<<<<<<<
- *     cdef double[::1] param_prev
- *     cdef double gamma
+ *     cdef float[::1] param_prev
+ *     cdef float gamma
  */
 struct __pyx_obj_6mlgrad_2gd_FG_RUD {
   struct __pyx_obj_6mlgrad_2gd_GD __pyx_base;
   __Pyx_memviewslice param_prev;
-  double gamma;
+  float gamma;
 };
 
 
-/* "mlgrad/gd.pxd":120
+/* "mlgrad/gd.pxd":121
  * #     cdef adamize(self)
  * 
  * cdef class SGD(GD):             # <<<<<<<<<<<<<<
- *     cdef double h0
+ *     cdef float h0
  * 
  */
 struct __pyx_obj_6mlgrad_2gd_SGD {
   struct __pyx_obj_6mlgrad_2gd_GD __pyx_base;
-  double h0;
+  float h0;
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":24
+/* "lib/mlgrad/stopcond.pxd":25
  * cpdef StopCondition get_stop_condition(object)
  * 
  * cdef class StopCondition:             # <<<<<<<<<<<<<<
@@ -3232,41 +3269,41 @@ struct __pyx_obj_6mlgrad_2gd_StopCondition {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":33
+/* "lib/mlgrad/stopcond.pxd":34
  * 
  * @cython.final
  * cdef class DiffL1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
  *     cdef GD gd
- * #     cdef double lval
+ * #     cdef float lval
  */
 struct __pyx_obj_6mlgrad_2gd_DiffL1StopCondition {
   struct __pyx_obj_6mlgrad_2gd_StopCondition __pyx_base;
   struct __pyx_obj_6mlgrad_2gd_GD *gd;
-  double lval_min;
+  float lval_min;
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":39
+/* "lib/mlgrad/stopcond.pxd":40
  * 
  * @cython.final
  * cdef class DiffL2StopCondition(StopCondition):             # <<<<<<<<<<<<<<
  *     cdef GD gd
- *     cdef double lval1, lval2
+ *     cdef float lval1, lval2
  */
 struct __pyx_obj_6mlgrad_2gd_DiffL2StopCondition {
   struct __pyx_obj_6mlgrad_2gd_StopCondition __pyx_base;
   struct __pyx_obj_6mlgrad_2gd_GD *gd;
-  double lval1;
-  double lval2;
+  float lval1;
+  float lval2;
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":44
+/* "lib/mlgrad/stopcond.pxd":45
  * 
  * @cython.final
  * cdef class DiffG1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
  *     cdef GD gd
- *     cdef double[::1] grad
+ *     cdef float[::1] grad
  */
 struct __pyx_obj_6mlgrad_2gd_DiffG1StopCondition {
   struct __pyx_obj_6mlgrad_2gd_StopCondition __pyx_base;
@@ -3275,12 +3312,12 @@ struct __pyx_obj_6mlgrad_2gd_DiffG1StopCondition {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":49
+/* "lib/mlgrad/stopcond.pxd":50
  * 
  * @cython.final
  * cdef class DiffP1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
  *     cdef GD gd
- *     cdef double[::1] param
+ *     cdef float[::1] param
  */
 struct __pyx_obj_6mlgrad_2gd_DiffP1StopCondition {
   struct __pyx_obj_6mlgrad_2gd_StopCondition __pyx_base;
@@ -3292,19 +3329,19 @@ struct __pyx_obj_6mlgrad_2gd_DiffP1StopCondition {
 /* "lib/mlgrad/paramrate.pxd":2
  * 
  * cdef class ParamRate:             # <<<<<<<<<<<<<<
- *     cdef public double h
+ *     cdef public float h
  *     cdef public int K
  */
 struct __pyx_obj_6mlgrad_2gd_ParamRate {
   PyObject_HEAD
   struct __pyx_vtabstruct_6mlgrad_2gd_ParamRate *__pyx_vtab;
-  double h;
+  float h;
   int K;
 };
 
 
 /* "lib/mlgrad/paramrate.pxd":9
- *     cdef double get_rate(self)
+ *     cdef float get_rate(self)
  * 
  * cdef class ConstantParamRate(ParamRate):             # <<<<<<<<<<<<<<
  *     pass
@@ -3319,31 +3356,31 @@ struct __pyx_obj_6mlgrad_2gd_ConstantParamRate {
  *     pass
  * 
  * cdef class ExponentParamRate(ParamRate):             # <<<<<<<<<<<<<<
- *     cdef public double curr_h
- *     cdef public double p
+ *     cdef public float curr_h
+ *     cdef public float p
  */
 struct __pyx_obj_6mlgrad_2gd_ExponentParamRate {
   struct __pyx_obj_6mlgrad_2gd_ParamRate __pyx_base;
-  double curr_h;
-  double p;
+  float curr_h;
+  float p;
 };
 
 
 /* "lib/mlgrad/paramrate.pxd":16
- *     cdef public double p
+ *     cdef public float p
  * 
  * cdef class PowerParamRate(ParamRate):             # <<<<<<<<<<<<<<
- *     cdef public double p
+ *     cdef public float p
  * 
  */
 struct __pyx_obj_6mlgrad_2gd_PowerParamRate {
   struct __pyx_obj_6mlgrad_2gd_ParamRate __pyx_base;
-  double p;
+  float p;
 };
 
 
 /* "mlgrad/kmeans.pxd":51
- * #cpdef double[:, ::1] init_centers2(double[:,::1] X, int n_class)
+ * #cpdef float[:, ::1] init_centers2(float[:,::1] X, int n_class)
  * 
  * cdef class HCD:             # <<<<<<<<<<<<<<
  *     cdef public int n_class, n_param, n_sample
@@ -3363,7 +3400,7 @@ struct __pyx_obj_6mlgrad_6kmeans_HCD {
   __Pyx_memviewslice prev_params;
   int n_iter;
   int K;
-  double tol;
+  float tol;
 };
 
 
@@ -3390,7 +3427,7 @@ struct __pyx_obj_6mlgrad_6kmeans_HCD_M1 {
   __Pyx_memviewslice prev_params;
   int n_iter;
   int K;
-  double tol;
+  float tol;
 };
 
 
@@ -3418,7 +3455,7 @@ struct __pyx_obj_6mlgrad_6kmeans_HCD_M2 {
   __Pyx_memviewslice prev_params;
   int n_iter;
   int K;
-  double tol;
+  float tol;
 };
 
 
@@ -3509,15 +3546,19 @@ struct __pyx_memoryviewslice_obj {
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Func {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
-  double (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
-  double (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
-  double (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  float (*evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, float const );
+  float (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, float const );
+  float (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, float const );
+  float (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, float const );
+  float (*evaluate_array)(struct __pyx_obj_6mlgrad_4func_Func *, float const *, float *, Py_ssize_t const );
+  float (*derivative_array)(struct __pyx_obj_6mlgrad_4func_Func *, float const *, float *, Py_ssize_t const );
+  float (*derivative2_array)(struct __pyx_obj_6mlgrad_4func_Func *, float const *, float *, Py_ssize_t const );
+  float (*derivative_div_x_array)(struct __pyx_obj_6mlgrad_4func_Func *, float const *, float *, Py_ssize_t const );
 };
 static struct __pyx_vtabstruct_6mlgrad_4func_Func *__pyx_vtabptr_6mlgrad_4func_Func;
 
 
-/* "mlgrad/func.pxd":16
+/* "mlgrad/func.pxd":20
  * 
  * @cython.final
  * cdef class Comp(Func):             # <<<<<<<<<<<<<<
@@ -3531,7 +3572,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Comp {
 static struct __pyx_vtabstruct_6mlgrad_4func_Comp *__pyx_vtabptr_6mlgrad_4func_Comp;
 
 
-/* "mlgrad/func.pxd":22
+/* "mlgrad/func.pxd":26
  * 
  * @cython.final
  * cdef class CompSqrt(Func):             # <<<<<<<<<<<<<<
@@ -3545,7 +3586,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_CompSqrt {
 static struct __pyx_vtabstruct_6mlgrad_4func_CompSqrt *__pyx_vtabptr_6mlgrad_4func_CompSqrt;
 
 
-/* "mlgrad/func.pxd":28
+/* "mlgrad/func.pxd":32
  * 
  * @cython.final
  * cdef class ZeroOnPositive(Func):             # <<<<<<<<<<<<<<
@@ -3559,7 +3600,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive {
 static struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive *__pyx_vtabptr_6mlgrad_4func_ZeroOnPositive;
 
 
-/* "mlgrad/func.pxd":33
+/* "mlgrad/func.pxd":37
  * 
  * @cython.final
  * cdef class FuncExp(Func):             # <<<<<<<<<<<<<<
@@ -3573,7 +3614,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_FuncExp {
 static struct __pyx_vtabstruct_6mlgrad_4func_FuncExp *__pyx_vtabptr_6mlgrad_4func_FuncExp;
 
 
-/* "mlgrad/func.pxd":37
+/* "mlgrad/func.pxd":41
  * 
  * @cython.final
  * cdef class Id(Func):             # <<<<<<<<<<<<<<
@@ -3587,7 +3628,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Id {
 static struct __pyx_vtabstruct_6mlgrad_4func_Id *__pyx_vtabptr_6mlgrad_4func_Id;
 
 
-/* "mlgrad/func.pxd":42
+/* "mlgrad/func.pxd":46
  * 
  * @cython.final
  * cdef class Neg(Func):             # <<<<<<<<<<<<<<
@@ -3601,11 +3642,11 @@ struct __pyx_vtabstruct_6mlgrad_4func_Neg {
 static struct __pyx_vtabstruct_6mlgrad_4func_Neg *__pyx_vtabptr_6mlgrad_4func_Neg;
 
 
-/* "mlgrad/func.pxd":47
+/* "mlgrad/func.pxd":51
  * 
  * @cython.final
  * cdef class Arctang(Func):             # <<<<<<<<<<<<<<
- *     cdef public double a
+ *     cdef public float a
  * 
  */
 
@@ -3615,11 +3656,11 @@ struct __pyx_vtabstruct_6mlgrad_4func_Arctang {
 static struct __pyx_vtabstruct_6mlgrad_4func_Arctang *__pyx_vtabptr_6mlgrad_4func_Arctang;
 
 
-/* "mlgrad/func.pxd":51
+/* "mlgrad/func.pxd":55
  * 
  * @cython.final
  * cdef class Sigmoidal(Func):             # <<<<<<<<<<<<<<
- *     cdef public double p
+ *     cdef public float p
  * 
  */
 
@@ -3629,11 +3670,11 @@ struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal {
 static struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal *__pyx_vtabptr_6mlgrad_4func_Sigmoidal;
 
 
-/* "mlgrad/func.pxd":55
+/* "mlgrad/func.pxd":59
  * 
  * @cython.final
  * cdef class ModSigmoidal(Func):             # <<<<<<<<<<<<<<
- *     cdef public double a
+ *     cdef public float a
  * 
  */
 
@@ -3643,12 +3684,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal {
 static struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal *__pyx_vtabptr_6mlgrad_4func_ModSigmoidal;
 
 
-/* "mlgrad/func.pxd":59
+/* "mlgrad/func.pxd":63
  * 
  * @cython.final
  * cdef class Softplus(Func):             # <<<<<<<<<<<<<<
- *     cdef public double a
- *     cdef double log_a
+ *     cdef public float a
+ *     cdef float log_a
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Softplus {
@@ -3657,11 +3698,11 @@ struct __pyx_vtabstruct_6mlgrad_4func_Softplus {
 static struct __pyx_vtabstruct_6mlgrad_4func_Softplus *__pyx_vtabptr_6mlgrad_4func_Softplus;
 
 
-/* "mlgrad/func.pxd":64
+/* "mlgrad/func.pxd":68
  * 
  * @cython.final
  * cdef class Threshold(Func):             # <<<<<<<<<<<<<<
- *     cdef public double theta
+ *     cdef public float theta
  * 
  */
 
@@ -3671,11 +3712,11 @@ struct __pyx_vtabstruct_6mlgrad_4func_Threshold {
 static struct __pyx_vtabstruct_6mlgrad_4func_Threshold *__pyx_vtabptr_6mlgrad_4func_Threshold;
 
 
-/* "mlgrad/func.pxd":68
+/* "mlgrad/func.pxd":72
  * 
  * @cython.final
  * cdef class Sign(Func):             # <<<<<<<<<<<<<<
- *     cdef public double theta
+ *     cdef public float theta
  * 
  */
 
@@ -3685,12 +3726,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Sign {
 static struct __pyx_vtabstruct_6mlgrad_4func_Sign *__pyx_vtabptr_6mlgrad_4func_Sign;
 
 
-/* "mlgrad/func.pxd":72
+/* "mlgrad/func.pxd":76
  * 
  * @cython.final
  * cdef class Quantile(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public float alpha
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Quantile {
@@ -3699,11 +3740,11 @@ struct __pyx_vtabstruct_6mlgrad_4func_Quantile {
 static struct __pyx_vtabstruct_6mlgrad_4func_Quantile *__pyx_vtabptr_6mlgrad_4func_Quantile;
 
 
-/* "mlgrad/func.pxd":78
+/* "mlgrad/func.pxd":82
  * 
  * @cython.final
  * cdef class QuantileFunc(Func):             # <<<<<<<<<<<<<<
- *     cdef public double alpha
+ *     cdef public float alpha
  *     cdef public Func f
  */
 
@@ -3713,12 +3754,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc {
 static struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc *__pyx_vtabptr_6mlgrad_4func_QuantileFunc;
 
 
-/* "mlgrad/func.pxd":83
+/* "mlgrad/func.pxd":87
  * 
  * @cython.final
  * cdef class Expectile(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public float alpha
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Expectile {
@@ -3727,12 +3768,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Expectile {
 static struct __pyx_vtabstruct_6mlgrad_4func_Expectile *__pyx_vtabptr_6mlgrad_4func_Expectile;
 
 
-/* "mlgrad/func.pxd":89
+/* "mlgrad/func.pxd":93
  * 
  * @cython.final
  * cdef class Power(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha, p, alpha_p
+ *     cdef public float alpha, p, alpha_p
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Power {
@@ -3741,7 +3782,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Power {
 static struct __pyx_vtabstruct_6mlgrad_4func_Power *__pyx_vtabptr_6mlgrad_4func_Power;
 
 
-/* "mlgrad/func.pxd":95
+/* "mlgrad/func.pxd":99
  * 
  * @cython.final
  * cdef class Square(Func):             # <<<<<<<<<<<<<<
@@ -3755,7 +3796,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Square {
 static struct __pyx_vtabstruct_6mlgrad_4func_Square *__pyx_vtabptr_6mlgrad_4func_Square;
 
 
-/* "mlgrad/func.pxd":100
+/* "mlgrad/func.pxd":104
  * 
  * @cython.final
  * cdef class SquareSigned(Func):             # <<<<<<<<<<<<<<
@@ -3769,7 +3810,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned {
 static struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned *__pyx_vtabptr_6mlgrad_4func_SquareSigned;
 
 
-/* "mlgrad/func.pxd":105
+/* "mlgrad/func.pxd":109
  * 
  * @cython.final
  * cdef class Absolute(Func):             # <<<<<<<<<<<<<<
@@ -3783,12 +3824,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Absolute {
 static struct __pyx_vtabstruct_6mlgrad_4func_Absolute *__pyx_vtabptr_6mlgrad_4func_Absolute;
 
 
-/* "mlgrad/func.pxd":110
+/* "mlgrad/func.pxd":114
  * 
  * @cython.final
  * cdef class Quantile_AlphaLog(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public float alpha
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog {
@@ -3797,12 +3838,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog {
 static struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog *__pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog;
 
 
-/* "mlgrad/func.pxd":117
+/* "mlgrad/func.pxd":121
  * 
  * @cython.final
  * cdef class SoftAbs(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double eps
+ *     cdef float eps
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs {
@@ -3811,12 +3852,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs {
 static struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs *__pyx_vtabptr_6mlgrad_4func_SoftAbs;
 
 
-/* "mlgrad/func.pxd":122
+/* "mlgrad/func.pxd":126
  * 
  * @cython.final
  * cdef class Sqrt(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double eps
+ *     cdef float eps
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Sqrt {
@@ -3825,12 +3866,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Sqrt {
 static struct __pyx_vtabstruct_6mlgrad_4func_Sqrt *__pyx_vtabptr_6mlgrad_4func_Sqrt;
 
 
-/* "mlgrad/func.pxd":131
+/* "mlgrad/func.pxd":135
  * 
  * @cython.final
  * cdef class Quantile_Sqrt(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double eps
+ *     cdef float eps
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt {
@@ -3839,12 +3880,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt {
 static struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt *__pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt;
 
 
-/* "mlgrad/func.pxd":139
+/* "mlgrad/func.pxd":143
  * 
  * @cython.final
  * cdef class Logistic(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double p
+ *     cdef public float p
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Logistic {
@@ -3853,12 +3894,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Logistic {
 static struct __pyx_vtabstruct_6mlgrad_4func_Logistic *__pyx_vtabptr_6mlgrad_4func_Logistic;
 
 
-/* "mlgrad/func.pxd":145
+/* "mlgrad/func.pxd":149
  * 
  * @cython.final
  * cdef class Huber(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double C
+ *     cdef public float C
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Huber {
@@ -3867,12 +3908,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Huber {
 static struct __pyx_vtabstruct_6mlgrad_4func_Huber *__pyx_vtabptr_6mlgrad_4func_Huber;
 
 
-/* "mlgrad/func.pxd":151
+/* "mlgrad/func.pxd":155
  * 
  * @cython.final
  * cdef class TM(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double a
+ *     cdef public float a
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_TM {
@@ -3881,12 +3922,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_TM {
 static struct __pyx_vtabstruct_6mlgrad_4func_TM *__pyx_vtabptr_6mlgrad_4func_TM;
 
 
-/* "mlgrad/func.pxd":156
+/* "mlgrad/func.pxd":160
  * 
  * @cython.final
  * cdef class LogSquare(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double a
+ *     cdef public float a
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_LogSquare {
@@ -3895,12 +3936,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_LogSquare {
 static struct __pyx_vtabstruct_6mlgrad_4func_LogSquare *__pyx_vtabptr_6mlgrad_4func_LogSquare;
 
 
-/* "mlgrad/func.pxd":162
+/* "mlgrad/func.pxd":166
  * 
  * @cython.final
  * cdef class Tukey(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double C
+ *     cdef public float C
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Tukey {
@@ -3909,12 +3950,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Tukey {
 static struct __pyx_vtabstruct_6mlgrad_4func_Tukey *__pyx_vtabptr_6mlgrad_4func_Tukey;
 
 
-/* "mlgrad/func.pxd":169
+/* "mlgrad/func.pxd":173
  * 
  * @cython.final
  * cdef class Hinge(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double C
+ *     cdef public float C
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Hinge {
@@ -3923,12 +3964,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Hinge {
 static struct __pyx_vtabstruct_6mlgrad_4func_Hinge *__pyx_vtabptr_6mlgrad_4func_Hinge;
 
 
-/* "mlgrad/func.pxd":175
+/* "mlgrad/func.pxd":179
  * 
  * @cython.final
  * cdef class HingeSqrt(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public float alpha
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt {
@@ -3937,12 +3978,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt {
 static struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt *__pyx_vtabptr_6mlgrad_4func_HingeSqrt;
 
 
-/* "mlgrad/func.pxd":182
+/* "mlgrad/func.pxd":186
  * 
  * @cython.final
  * cdef class  Exp(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public float alpha
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Exp {
@@ -3951,12 +3992,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Exp {
 static struct __pyx_vtabstruct_6mlgrad_4func_Exp *__pyx_vtabptr_6mlgrad_4func_Exp;
 
 
-/* "mlgrad/func.pxd":187
+/* "mlgrad/func.pxd":191
  * 
  * @cython.final
  * cdef class  Log(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public float alpha
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Log {
@@ -3965,12 +4006,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Log {
 static struct __pyx_vtabstruct_6mlgrad_4func_Log *__pyx_vtabptr_6mlgrad_4func_Log;
 
 
-/* "mlgrad/func.pxd":192
+/* "mlgrad/func.pxd":196
  * 
  * @cython.final
  * cdef class KMinSquare(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] c
+ *     cdef float[::1] c
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare {
@@ -3979,23 +4020,23 @@ struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare {
 static struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare *__pyx_vtabptr_6mlgrad_4func_KMinSquare;
 
 
-/* "mlgrad/func.pxd":197
+/* "mlgrad/func.pxd":201
  *     cdef int n_dim, j_min
  * 
  * cdef class ParameterizedFunc:             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double x, double u) nogil
+ *     cdef float evaluate(self, float x, float u) nogil
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
-  double (*derivative)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
-  double (*derivative_u)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
+  float (*evaluate)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, float, float);
+  float (*derivative)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, float, float);
+  float (*derivative_u)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, float, float);
 };
 static struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc;
 
 
-/* "mlgrad/func.pxd":206
+/* "mlgrad/func.pxd":210
  * 
  * @cython.final
  * cdef class WinsorizedFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -4009,7 +4050,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc {
 static struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc *__pyx_vtabptr_6mlgrad_4func_WinsorizedFunc;
 
 
-/* "mlgrad/func.pxd":210
+/* "mlgrad/func.pxd":214
  * 
  * @cython.final
  * cdef class WinsorizedSmoothFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -4023,11 +4064,11 @@ struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc {
 static struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc;
 
 
-/* "mlgrad/func.pxd":213
+/* "mlgrad/func.pxd":217
  *     cdef Func f
  * 
  * cdef class SoftMinFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
- *     cdef double a
+ *     cdef float a
  * 
  */
 
@@ -4041,13 +4082,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc *__pyx_vtabptr_6mlgrad_
  * cimport cython
  * 
  * cdef class Distance:             # <<<<<<<<<<<<<<
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil
- *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil
+ *     cdef float _evaluate(self, float *x, float *y, Py_ssize_t n) nogil
+ *     cdef float evaluate(self, float[::1] x, float[::1] y) nogil
  */
 
 struct __pyx_vtabstruct_6mlgrad_8distance_Distance {
-  double (*_evaluate)(struct __pyx_obj_6mlgrad_8distance_Distance *, double *, double *, Py_ssize_t);
-  double (*evaluate)(struct __pyx_obj_6mlgrad_8distance_Distance *, __Pyx_memviewslice, __Pyx_memviewslice);
+  float (*_evaluate)(struct __pyx_obj_6mlgrad_8distance_Distance *, float *, float *, Py_ssize_t);
+  float (*evaluate)(struct __pyx_obj_6mlgrad_8distance_Distance *, __Pyx_memviewslice, __Pyx_memviewslice);
   void (*gradient)(struct __pyx_obj_6mlgrad_8distance_Distance *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice);
   PyObject *(*set_param)(struct __pyx_obj_6mlgrad_8distance_Distance *, PyObject *, PyObject *);
 };
@@ -4058,8 +4099,8 @@ static struct __pyx_vtabstruct_6mlgrad_8distance_Distance *__pyx_vtabptr_6mlgrad
  *     cdef set_param(self, name, val)
  * 
  * cdef class DistanceWithScale(Distance):             # <<<<<<<<<<<<<<
- *     cdef public double[:,::1] S
- *     cdef public double sigma
+ *     cdef public float[:,::1] S
+ *     cdef public float sigma
  */
 
 struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale {
@@ -4114,7 +4155,7 @@ static struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance *__pyx_vtab
  * 
  * @cython.final
  * cdef class PowerDistance(Distance):             # <<<<<<<<<<<<<<
- *     cdef double p
+ *     cdef float p
  * 
  */
 
@@ -4124,12 +4165,35 @@ struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance *__pyx_vtabptr_6mlgrad_8distance_PowerDistance;
 
 
-/* "mlgrad/model.pxd":40
+/* "mlgrad/list_values.pxd":66
  * 
+ * @cython.no_gc
+ * cdef class list_values:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t size
+ *     cdef Py_ssize_t allocated
+ */
+
+struct __pyx_vtabstruct_6mlgrad_11list_values_list_values {
+  float *(*as_float_array)(struct __pyx_obj_6mlgrad_11list_values_list_values *);
+  float **(*as_pfloat_array)(struct __pyx_obj_6mlgrad_11list_values_list_values *);
+  float (*_get_float)(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t);
+  float *(*_get_pfloat)(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t);
+  void (*_set_float)(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t, float);
+  void (*_set_pfloat)(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t, float *);
+  void (*_append_float)(struct __pyx_obj_6mlgrad_11list_values_list_values *, float);
+  void (*_append_pfloat)(struct __pyx_obj_6mlgrad_11list_values_list_values *, float *);
+  void (*_extend_float)(struct __pyx_obj_6mlgrad_11list_values_list_values *, float *, Py_ssize_t);
+  void (*_extend_pfloat)(struct __pyx_obj_6mlgrad_11list_values_list_values *, float **, Py_ssize_t);
+};
+static struct __pyx_vtabstruct_6mlgrad_11list_values_list_values *__pyx_vtabptr_6mlgrad_11list_values_list_values;
+
+
+/* "mlgrad/model.pxd":53
+ * cimport mlgrad.inventory as inventory
  * 
  * cdef class Allocator:             # <<<<<<<<<<<<<<
  *     #
- *     cpdef double[::1] allocate(self, int n)
+ *     cpdef float[::1] allocate(self, int n)
  */
 
 struct __pyx_vtabstruct_6mlgrad_5model_Allocator {
@@ -4141,7 +4205,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_Allocator {
 static struct __pyx_vtabstruct_6mlgrad_5model_Allocator *__pyx_vtabptr_6mlgrad_5model_Allocator;
 
 
-/* "mlgrad/model.pxd":48
+/* "mlgrad/model.pxd":61
  * 
  * @cython.final
  * cdef class ArrayAllocator(Allocator):             # <<<<<<<<<<<<<<
@@ -4155,16 +4219,17 @@ struct __pyx_vtabstruct_6mlgrad_5model_ArrayAllocator {
 static struct __pyx_vtabstruct_6mlgrad_5model_ArrayAllocator *__pyx_vtabptr_6mlgrad_5model_ArrayAllocator;
 
 
-/* "mlgrad/model.pxd":56
+/* "mlgrad/model.pxd":69
  *     return <Model>(<PyObject*>o)
  * 
  * cdef class Model(object):             # <<<<<<<<<<<<<<
  *     cdef public Py_ssize_t n_param, n_input
- *     cdef public double[::1] param
+ *     cdef public float[::1] param
  */
 
 struct __pyx_vtabstruct_6mlgrad_5model_Model {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_5model_Model *, __Pyx_memviewslice);
+  PyObject *(*init_param)(struct __pyx_obj_6mlgrad_5model_Model *, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_5model_5Model_init_param *__pyx_optional_args);
+  float (*evaluate)(struct __pyx_obj_6mlgrad_5model_Model *, __Pyx_memviewslice);
   void (*gradient)(struct __pyx_obj_6mlgrad_5model_Model *, __Pyx_memviewslice, __Pyx_memviewslice);
   void (*gradient_x)(struct __pyx_obj_6mlgrad_5model_Model *, __Pyx_memviewslice, __Pyx_memviewslice);
   struct __pyx_obj_6mlgrad_5model_Model *(*copy)(struct __pyx_obj_6mlgrad_5model_Model *, int __pyx_skip_dispatch, struct __pyx_opt_args_6mlgrad_5model_5Model_copy *__pyx_optional_args);
@@ -4172,7 +4237,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_Model {
 static struct __pyx_vtabstruct_6mlgrad_5model_Model *__pyx_vtabptr_6mlgrad_5model_Model;
 
 
-/* "mlgrad/model.pxd":74
+/* "mlgrad/model.pxd":87
  * 
  * @cython.final
  * cdef class LinearModel(Model):             # <<<<<<<<<<<<<<
@@ -4186,7 +4251,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_LinearModel {
 static struct __pyx_vtabstruct_6mlgrad_5model_LinearModel *__pyx_vtabptr_6mlgrad_5model_LinearModel;
 
 
-/* "mlgrad/model.pxd":78
+/* "mlgrad/model.pxd":91
  * 
  * @cython.final
  * cdef class SigmaNeuronModel(Model):             # <<<<<<<<<<<<<<
@@ -4200,7 +4265,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModel {
 static struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModel *__pyx_vtabptr_6mlgrad_5model_SigmaNeuronModel;
 
 
-/* "mlgrad/model.pxd":82
+/* "mlgrad/model.pxd":95
  * 
  * @cython.final
  * cdef class WinnerModel(Model):             # <<<<<<<<<<<<<<
@@ -4214,7 +4279,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_WinnerModel {
 static struct __pyx_vtabstruct_6mlgrad_5model_WinnerModel *__pyx_vtabptr_6mlgrad_5model_WinnerModel;
 
 
-/* "mlgrad/model.pxd":86
+/* "mlgrad/model.pxd":99
  * 
  * @cython.final
  * cdef class PolynomialModel(Model):             # <<<<<<<<<<<<<<
@@ -4228,12 +4293,12 @@ struct __pyx_vtabstruct_6mlgrad_5model_PolynomialModel {
 static struct __pyx_vtabstruct_6mlgrad_5model_PolynomialModel *__pyx_vtabptr_6mlgrad_5model_PolynomialModel;
 
 
-/* "mlgrad/model.pxd":89
+/* "mlgrad/model.pxd":102
  *     pass
  * 
  * cdef class ModelLayer:             # <<<<<<<<<<<<<<
  *     cdef public Py_ssize_t n_param, n_input, n_output
- *     cdef public double[::1] param
+ *     cdef public float[::1] param
  */
 
 struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer {
@@ -4244,12 +4309,12 @@ struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer {
 static struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer *__pyx_vtabptr_6mlgrad_5model_ModelLayer;
 
 
-/* "mlgrad/model.pxd":99
+/* "mlgrad/model.pxd":112
  *     cpdef ModelLayer copy(self, bint share=*)
  * 
  * cdef class SigmaNeuronModelLayer(ModelLayer):             # <<<<<<<<<<<<<<
  *     cdef public Func func
- *     cdef public double[:,::1] matrix
+ *     cdef public float[:,::1] matrix
  */
 
 struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModelLayer {
@@ -4258,8 +4323,8 @@ struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModelLayer {
 static struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModelLayer *__pyx_vtabptr_6mlgrad_5model_SigmaNeuronModelLayer;
 
 
-/* "mlgrad/model.pxd":105
- * #     cdef double[:,::1] X
+/* "mlgrad/model.pxd":118
+ *     cdef bint first_time
  * 
  * cdef class GeneralModelLayer(ModelLayer):             # <<<<<<<<<<<<<<
  *     cdef public list models
@@ -4272,7 +4337,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_GeneralModelLayer {
 static struct __pyx_vtabstruct_6mlgrad_5model_GeneralModelLayer *__pyx_vtabptr_6mlgrad_5model_GeneralModelLayer;
 
 
-/* "mlgrad/model.pxd":108
+/* "mlgrad/model.pxd":121
  *     cdef public list models
  * 
  * cdef class ComplexModel(object):             # <<<<<<<<<<<<<<
@@ -4287,8 +4352,8 @@ struct __pyx_vtabstruct_6mlgrad_5model_ComplexModel {
 static struct __pyx_vtabstruct_6mlgrad_5model_ComplexModel *__pyx_vtabptr_6mlgrad_5model_ComplexModel;
 
 
-/* "mlgrad/model.pxd":117
- *     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
+/* "mlgrad/model.pxd":130
+ *     cdef void backward(self, float[::1] X, float[::1] grad_u, float[::1] grad)
  * 
  * cdef class MLModel(ComplexModel):             # <<<<<<<<<<<<<<
  *     cdef public list layers
@@ -4302,7 +4367,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_MLModel {
 static struct __pyx_vtabstruct_6mlgrad_5model_MLModel *__pyx_vtabptr_6mlgrad_5model_MLModel;
 
 
-/* "mlgrad/model.pxd":125
+/* "mlgrad/model.pxd":138
  * 
  * @cython.final
  * cdef class FFNetworkModel(MLModel):             # <<<<<<<<<<<<<<
@@ -4316,7 +4381,7 @@ struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkModel {
 static struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkModel *__pyx_vtabptr_6mlgrad_5model_FFNetworkModel;
 
 
-/* "mlgrad/model.pxd":129
+/* "mlgrad/model.pxd":142
  * 
  * @cython.final
  * cdef class FFNetworkFuncModel(Model):             # <<<<<<<<<<<<<<
@@ -4330,12 +4395,12 @@ struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkFuncModel {
 static struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkFuncModel *__pyx_vtabptr_6mlgrad_5model_FFNetworkFuncModel;
 
 
-/* "mlgrad/model.pxd":135
+/* "mlgrad/model.pxd":148
  * 
  * @cython.final
  * cdef class SquaredModel(Model):             # <<<<<<<<<<<<<<
- *     cdef double[:,::1] matrix
- *     cdef double[:,::1] matrix_grad
+ *     cdef float[:,::1] matrix
+ *     cdef float[:,::1] matrix_grad
  */
 
 struct __pyx_vtabstruct_6mlgrad_5model_SquaredModel {
@@ -4345,17 +4410,17 @@ static struct __pyx_vtabstruct_6mlgrad_5model_SquaredModel *__pyx_vtabptr_6mlgra
 
 
 /* "mlgrad/loss.pxd":16
- * cdef double float_min
+ * cdef float float_min
  * 
  * cdef class Loss(object):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x, const double y) nogil
+ *     cdef float evaluate(self, const float x, const float y) nogil
  */
 
 struct __pyx_vtabstruct_6mlgrad_4loss_Loss {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const );
-  double (*derivative)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const );
-  double (*difference)(struct __pyx_obj_6mlgrad_4loss_Loss *, double const , double const );
+  float (*evaluate)(struct __pyx_obj_6mlgrad_4loss_Loss *, float const , float const );
+  float (*derivative)(struct __pyx_obj_6mlgrad_4loss_Loss *, float const , float const );
+  float (*difference)(struct __pyx_obj_6mlgrad_4loss_Loss *, float const , float const );
 };
 static struct __pyx_vtabstruct_6mlgrad_4loss_Loss *__pyx_vtabptr_6mlgrad_4loss_Loss;
 
@@ -4448,12 +4513,12 @@ static struct __pyx_vtabstruct_6mlgrad_4loss_MLoss *__pyx_vtabptr_6mlgrad_4loss_
  * 
  * 
  * cdef class MultLoss(object):             # <<<<<<<<<<<<<<
- *     cdef double evaluate(self, double[::1] y, double[::1] yk) nogil
- *     cdef void gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil
+ *     cdef float evaluate(self, float[::1] y, float[::1] yk) nogil
+ *     cdef void gradient(self, float[::1] y, float[::1] yk, float[::1] grad) nogil
  */
 
 struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_4loss_MultLoss *, __Pyx_memviewslice, __Pyx_memviewslice);
+  float (*evaluate)(struct __pyx_obj_6mlgrad_4loss_MultLoss *, __Pyx_memviewslice, __Pyx_memviewslice);
   void (*gradient)(struct __pyx_obj_6mlgrad_4loss_MultLoss *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice);
 };
 static struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss *__pyx_vtabptr_6mlgrad_4loss_MultLoss;
@@ -4492,12 +4557,12 @@ static struct __pyx_vtabstruct_6mlgrad_4loss_MarginMultLoss *__pyx_vtabptr_6mlgr
  * 
  * cdef class MultLoss2:             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double[::1] y, double yk) nogil
+ *     cdef float evaluate(self, float[::1] y, float yk) nogil
  */
 
 struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss2 {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_4loss_MultLoss2 *, __Pyx_memviewslice, double);
-  void (*gradient)(struct __pyx_obj_6mlgrad_4loss_MultLoss2 *, __Pyx_memviewslice, double, __Pyx_memviewslice);
+  float (*evaluate)(struct __pyx_obj_6mlgrad_4loss_MultLoss2 *, __Pyx_memviewslice, float);
+  void (*gradient)(struct __pyx_obj_6mlgrad_4loss_MultLoss2 *, __Pyx_memviewslice, float, __Pyx_memviewslice);
 };
 static struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss2 *__pyx_vtabptr_6mlgrad_4loss_MultLoss2;
 
@@ -4507,7 +4572,7 @@ static struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss2 *__pyx_vtabptr_6mlgrad_4l
  * @cython.final
  * cdef class SoftMinLoss2(MultLoss2):             # <<<<<<<<<<<<<<
  *     cdef public Loss lossfunc
- * #     cdef public double val_min
+ * #     cdef public float val_min
  */
 
 struct __pyx_vtabstruct_6mlgrad_4loss_SoftMinLoss2 {
@@ -4521,11 +4586,11 @@ static struct __pyx_vtabstruct_6mlgrad_4loss_SoftMinLoss2 *__pyx_vtabptr_6mlgrad
  * 
  * cdef class FuncMulti:             # <<<<<<<<<<<<<<
  *     #cdef bint all
- *     cdef double evaluate(self, double[::1] param)
+ *     cdef float evaluate(self, float[::1] param)
  */
 
 struct __pyx_vtabstruct_6mlgrad_7regnorm_FuncMulti {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice);
+  float (*evaluate)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice);
   void (*gradient)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice);
 };
 static struct __pyx_vtabstruct_6mlgrad_7regnorm_FuncMulti *__pyx_vtabptr_6mlgrad_7regnorm_FuncMulti;
@@ -4536,7 +4601,7 @@ static struct __pyx_vtabstruct_6mlgrad_7regnorm_FuncMulti *__pyx_vtabptr_6mlgrad
  * @cython.final
  * cdef class PowerNorm(FuncMulti):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double p
+ *     cdef float p
  */
 
 struct __pyx_vtabstruct_6mlgrad_7regnorm_PowerNorm {
@@ -4577,7 +4642,7 @@ static struct __pyx_vtabstruct_6mlgrad_7regnorm_AbsoluteNorm *__pyx_vtabptr_6mlg
  * 
  * @cython.final
  * cdef class SquareForm(FuncMulti):             # <<<<<<<<<<<<<<
- *     cdef double[:,::1] matrix
+ *     cdef float[:,::1] matrix
  * 
  */
 
@@ -4671,7 +4736,7 @@ static struct __pyx_vtabstruct_6mlgrad_5batch_WholeBatch *__pyx_vtabptr_6mlgrad_
 
 
 /* "mlgrad/averager.pxd":25
- *     memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(float))
  * 
  * cdef class ScalarAverager:             # <<<<<<<<<<<<<<
  *     #
@@ -4680,7 +4745,7 @@ static struct __pyx_vtabstruct_6mlgrad_5batch_WholeBatch *__pyx_vtabptr_6mlgrad_
 
 struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAverager {
   PyObject *(*init)(struct __pyx_obj_6mlgrad_8averager_ScalarAverager *);
-  double (*update)(struct __pyx_obj_6mlgrad_8averager_ScalarAverager *, double const );
+  float (*update)(struct __pyx_obj_6mlgrad_8averager_ScalarAverager *, float const );
 };
 static struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAverager *__pyx_vtabptr_6mlgrad_8averager_ScalarAverager;
 
@@ -4690,7 +4755,7 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAverager *__pyx_vtabptr_6
  * @cython.final
  * cdef class ScalarAdaM2(ScalarAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double m, v, beta1, beta2, beta1_k, beta2_k, epsilon
+ *     cdef float m, v, beta1, beta2, beta1_k, beta2_k, epsilon
  */
 
 struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM2 {
@@ -4704,7 +4769,7 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM2 *__pyx_vtabptr_6mlg
  * @cython.final
  * cdef class ScalarAdaM1(ScalarAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double m, v, beta1, beta2, beta1_k, beta2_k, epsilon
+ *     cdef float m, v, beta1, beta2, beta1_k, beta2_k, epsilon
  */
 
 struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM1 {
@@ -4718,7 +4783,7 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ScalarAdaM1 *__pyx_vtabptr_6mlg
  * @cython.final
  * cdef class ScalarExponentialAverager(ScalarAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double m, beta, beta_k
+ *     cdef float m, beta, beta_k
  */
 
 struct __pyx_vtabstruct_6mlgrad_8averager_ScalarExponentialAverager {
@@ -4746,20 +4811,20 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ScalarWindowAverager *__pyx_vta
  * 
  * cdef class ArrayAverager:             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] array_average
+ *     cdef float[::1] array_average
  */
 
 struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager {
   PyObject *(*init)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *);
-  void (*set_param1)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, double);
-  void (*set_param2)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, double);
-  void (*update)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double);
+  void (*set_param1)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, float);
+  void (*set_param2)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, float);
+  void (*update)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, float);
 };
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager *__pyx_vtabptr_6mlgrad_8averager_ArrayAverager;
 
 
 /* "mlgrad/averager.pxd":71
- *     cdef void update(self, double[::1] x, double h)
+ *     cdef void update(self, float[::1] x, float h)
  * 
  * cdef class ArraySave(ArrayAverager):             # <<<<<<<<<<<<<<
  *     pass
@@ -4777,7 +4842,7 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ArraySave *__pyx_vtabptr_6mlgra
  * @cython.final
  * cdef class ArrayMOM(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] mgrad
+ *     cdef float[::1] mgrad
  */
 
 struct __pyx_vtabstruct_6mlgrad_8averager_ArrayMOM {
@@ -4791,7 +4856,7 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayMOM *__pyx_vtabptr_6mlgrad
  * @cython.final
  * cdef class ArrayAMOM(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] mgrad
+ *     cdef float[::1] mgrad
  */
 
 struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAMOM {
@@ -4805,7 +4870,7 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAMOM *__pyx_vtabptr_6mlgra
  * @cython.final
  * cdef class ArrayRMSProp(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] vgrad
+ *     cdef float[::1] vgrad
  */
 
 struct __pyx_vtabstruct_6mlgrad_8averager_ArrayRMSProp {
@@ -4819,7 +4884,7 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayRMSProp *__pyx_vtabptr_6ml
  * @cython.final
  * cdef class ArrayAdaM2(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] mgrad, vgrad
+ *     cdef float[::1] mgrad, vgrad
  */
 
 struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM2 {
@@ -4833,7 +4898,7 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM2 *__pyx_vtabptr_6mlgr
  * @cython.final
  * cdef class ArrayAdaM1(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] mgrad, vgrad
+ *     cdef float[::1] mgrad, vgrad
  */
 
 struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1 {
@@ -4847,7 +4912,7 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1 *__pyx_vtabptr_6mlgr
  * @cython.final
  * cdef class ArraySimpleAverager(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] array_sum
+ *     cdef float[::1] array_sum
  */
 
 struct __pyx_vtabstruct_6mlgrad_8averager_ArraySimpleAverager {
@@ -4875,7 +4940,7 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayCyclicAverager *__pyx_vtab
  * @cython.final
  * cdef class ArrayTAverager(ArrayAverager):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] array_sum
+ *     cdef float[::1] array_sum
  */
 
 struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager {
@@ -4884,7 +4949,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager *__pyx_vtabptr_6mlgrad_8averager_ArrayTAverager;
 
 
-/* "mlgrad/avragg.pxd":59
+/* "mlgrad/avragg.pxd":60
  *         arr[i] += v
  * 
  * cdef class Penalty:             # <<<<<<<<<<<<<<
@@ -4893,19 +4958,19 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager *__pyx_vtabptr_6
  */
 
 struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double);
-  double (*derivative)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double);
-  void (*gradient)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double, __Pyx_memviewslice);
-  double (*iterative_next)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, double);
+  float (*evaluate)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, float);
+  float (*derivative)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, float);
+  void (*gradient)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, float, __Pyx_memviewslice);
+  float (*iterative_next)(struct __pyx_obj_6mlgrad_6avragg_Penalty *, __Pyx_memviewslice, float);
 };
 static struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty *__pyx_vtabptr_6mlgrad_6avragg_Penalty;
 
 
-/* "mlgrad/avragg.pxd":69
+/* "mlgrad/avragg.pxd":70
  * 
  * @cython.final
  * cdef class PenaltyAverage(Penalty):             # <<<<<<<<<<<<<<
- *     pass
+ *     cdef float *temp
  * 
  */
 
@@ -4915,11 +4980,11 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage *__pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage;
 
 
-/* "mlgrad/avragg.pxd":73
+/* "mlgrad/avragg.pxd":75
  * 
  * @cython.final
  * cdef class PenaltyScale(Penalty):             # <<<<<<<<<<<<<<
- *     pass
+ *     cdef float *temp
  * 
  */
 
@@ -4929,12 +4994,12 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyScale {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyScale *__pyx_vtabptr_6mlgrad_6avragg_PenaltyScale;
 
 
-/* "mlgrad/avragg.pxd":78
+/* "mlgrad/avragg.pxd":81
  * #############################################################
  * 
  * cdef class Average:             # <<<<<<<<<<<<<<
  *     cdef readonly Penalty penalty
- *     cdef readonly double tol
+ *     cdef readonly float tol
  */
 
 struct __pyx_vtabstruct_6mlgrad_6avragg_Average {
@@ -4947,7 +5012,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_Average {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_Average *__pyx_vtabptr_6mlgrad_6avragg_Average;
 
 
-/* "mlgrad/avragg.pxd":109
+/* "mlgrad/avragg.pxd":112
  * 
  * @cython.final
  * cdef class Average_Iterative(Average):             # <<<<<<<<<<<<<<
@@ -4961,7 +5026,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_Average_Iterative {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_Average_Iterative *__pyx_vtabptr_6mlgrad_6avragg_Average_Iterative;
 
 
-/* "mlgrad/avragg.pxd":113
+/* "mlgrad/avragg.pxd":116
  * 
  * @cython.final
  * cdef class MAverage_Iterative(Average):             # <<<<<<<<<<<<<<
@@ -4975,7 +5040,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_MAverage_Iterative {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_MAverage_Iterative *__pyx_vtabptr_6mlgrad_6avragg_MAverage_Iterative;
 
 
-/* "mlgrad/avragg.pxd":117
+/* "mlgrad/avragg.pxd":120
  * 
  * @cython.final
  * cdef class Average_FG(Average):             # <<<<<<<<<<<<<<
@@ -4989,7 +5054,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_Average_FG {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_Average_FG *__pyx_vtabptr_6mlgrad_6avragg_Average_FG;
 
 
-/* "mlgrad/avragg.pxd":122
+/* "mlgrad/avragg.pxd":125
  * 
  * @cython.final
  * cdef class ParameterizedAverage(Average):             # <<<<<<<<<<<<<<
@@ -5003,7 +5068,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_ParameterizedAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_ParameterizedAverage *__pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage;
 
 
-/* "mlgrad/avragg.pxd":127
+/* "mlgrad/avragg.pxd":130
  * 
  * @cython.final
  * cdef class WMAverage(Average):             # <<<<<<<<<<<<<<
@@ -5017,12 +5082,12 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverage *__pyx_vtabptr_6mlgrad_6avragg_WMAverage;
 
 
-/* "mlgrad/avragg.pxd":132
+/* "mlgrad/avragg.pxd":135
  * 
  * @cython.final
  * cdef class WMAverageMixed(Average):             # <<<<<<<<<<<<<<
  *     cdef Average avr
- *     cdef double gamma
+ *     cdef float gamma
  */
 
 struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverageMixed {
@@ -5031,7 +5096,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverageMixed {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverageMixed *__pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed;
 
 
-/* "mlgrad/avragg.pxd":137
+/* "mlgrad/avragg.pxd":140
  * 
  * @cython.final
  * cdef class TMAverage(Average):             # <<<<<<<<<<<<<<
@@ -5045,12 +5110,12 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage *__pyx_vtabptr_6mlgrad_6avragg_TMAverage;
 
 
-/* "mlgrad/avragg.pxd":141
+/* "mlgrad/avragg.pxd":144
  * 
  * @cython.final
  * cdef class HMAverage(Average):             # <<<<<<<<<<<<<<
  *     cdef Average avr
- *     cdef double[::1] Z
+ *     cdef float[::1] Z
  */
 
 struct __pyx_vtabstruct_6mlgrad_6avragg_HMAverage {
@@ -5059,7 +5124,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_HMAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_HMAverage *__pyx_vtabptr_6mlgrad_6avragg_HMAverage;
 
 
-/* "mlgrad/avragg.pxd":146
+/* "mlgrad/avragg.pxd":149
  * 
  * @cython.final
  * cdef class ArithMean(Average):             # <<<<<<<<<<<<<<
@@ -5073,12 +5138,12 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean *__pyx_vtabptr_6mlgrad_6avragg_ArithMean;
 
 
-/* "mlgrad/avragg.pxd":150
+/* "mlgrad/avragg.pxd":153
  * 
  * @cython.final
  * cdef class KolmogorovMean(Average):             # <<<<<<<<<<<<<<
  *     cdef Func func, invfunc
- *     cdef double uu
+ *     cdef float uu
  */
 
 struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean {
@@ -5087,11 +5152,11 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean *__pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean;
 
 
-/* "mlgrad/avragg.pxd":155
+/* "mlgrad/avragg.pxd":158
  * 
  * @cython.final
  * cdef class SoftMinimal(Average):             # <<<<<<<<<<<<<<
- *     cdef double a
+ *     cdef float a
  * 
  */
 
@@ -5101,7 +5166,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal *__pyx_vtabptr_6mlgrad_6avragg_SoftMinimal;
 
 
-/* "mlgrad/avragg.pxd":159
+/* "mlgrad/avragg.pxd":162
  * 
  * @cython.final
  * cdef class Minimal(Average):             # <<<<<<<<<<<<<<
@@ -5115,7 +5180,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal *__pyx_vtabptr_6mlgrad_6avragg_Minimal;
 
 
-/* "mlgrad/avragg.pxd":163
+/* "mlgrad/avragg.pxd":166
  * 
  * @cython.final
  * cdef class Maximal(Average):             # <<<<<<<<<<<<<<
@@ -5130,16 +5195,16 @@ static struct __pyx_vtabstruct_6mlgrad_6avragg_Maximal *__pyx_vtabptr_6mlgrad_6a
 
 
 /* "mlgrad/risk.pxd":61
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  * 
  * cdef class Functional:             # <<<<<<<<<<<<<<
  *     cdef readonly FuncMulti regnorm
- *     cdef readonly double[::1] param
+ *     cdef readonly float[::1] param
  */
 
 struct __pyx_vtabstruct_6mlgrad_4risk_Functional {
   PyObject *(*init)(struct __pyx_obj_6mlgrad_4risk_Functional *, int __pyx_skip_dispatch);
-  double (*evaluate)(struct __pyx_obj_6mlgrad_4risk_Functional *);
+  float (*evaluate)(struct __pyx_obj_6mlgrad_4risk_Functional *);
   void (*gradient)(struct __pyx_obj_6mlgrad_4risk_Functional *);
 };
 static struct __pyx_vtabstruct_6mlgrad_4risk_Functional *__pyx_vtabptr_6mlgrad_4risk_Functional;
@@ -5164,7 +5229,7 @@ static struct __pyx_vtabstruct_6mlgrad_4risk_SimpleFunctional *__pyx_vtabptr_6ml
  * 
  * cdef class Risk(Functional):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] grad
+ *     cdef float[::1] grad
  */
 
 struct __pyx_vtabstruct_6mlgrad_4risk_Risk {
@@ -5189,7 +5254,7 @@ static struct __pyx_vtabstruct_6mlgrad_4risk_ERisk *__pyx_vtabptr_6mlgrad_4risk_
 
 
 /* "mlgrad/risk.pxd":98
- *     cdef readonly double[::1] Yp
+ *     cdef readonly float[::1] Yp
  * 
  * cdef class MRisk(Risk):             # <<<<<<<<<<<<<<
  *     cdef readonly Model model
@@ -5206,7 +5271,7 @@ static struct __pyx_vtabstruct_6mlgrad_4risk_MRisk *__pyx_vtabptr_6mlgrad_4risk_
  *     cdef bint first
  * 
  * cdef class ED(Risk):             # <<<<<<<<<<<<<<
- *     cdef readonly double[:, ::1] X
+ *     cdef readonly float[:, ::1] X
  *     cdef readonly Distance distfunc
  */
 
@@ -5221,7 +5286,7 @@ static struct __pyx_vtabstruct_6mlgrad_4risk_ED *__pyx_vtabptr_6mlgrad_4risk_ED;
  * 
  * cdef class AER(ERisk):             # <<<<<<<<<<<<<<
  *     cdef Average loss_averager
- *     cdef double[::1] lval_all
+ *     cdef float[::1] lval_all
  */
 
 struct __pyx_vtabstruct_6mlgrad_4risk_AER {
@@ -5264,14 +5329,14 @@ static struct __pyx_vtabstruct_6mlgrad_4risk_ER21 *__pyx_vtabptr_6mlgrad_4risk_E
  * 
  * cdef class Weights(object):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double[::1] weights
+ *     cdef public float[::1] weights
  */
 
 struct __pyx_vtabstruct_6mlgrad_7weights_Weights {
   PyObject *(*init)(struct __pyx_obj_6mlgrad_7weights_Weights *);
   PyObject *(*eval_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *);
   __Pyx_memviewslice (*get_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  double (*get_qvalue)(struct __pyx_obj_6mlgrad_7weights_Weights *);
+  float (*get_qvalue)(struct __pyx_obj_6mlgrad_7weights_Weights *);
   PyObject *(*set_param)(struct __pyx_obj_6mlgrad_7weights_Weights *, PyObject *, PyObject *);
 };
 static struct __pyx_vtabstruct_6mlgrad_7weights_Weights *__pyx_vtabptr_6mlgrad_7weights_Weights;
@@ -5309,7 +5374,7 @@ static struct __pyx_vtabstruct_6mlgrad_7weights_ConstantWeights *__pyx_vtabptr_6
  * 
  * @cython.final
  * cdef class RWeights(Weights):             # <<<<<<<<<<<<<<
- *     cdef readonly double[::1] lval_all
+ *     cdef readonly float[::1] lval_all
  *     cdef public Func func
  */
 
@@ -5323,8 +5388,8 @@ static struct __pyx_vtabstruct_6mlgrad_7weights_RWeights *__pyx_vtabptr_6mlgrad_
  * 
  * @cython.final
  * cdef class MWeights(Weights):             # <<<<<<<<<<<<<<
- *     cdef readonly double[::1] lval_all
- *     cdef double best_u
+ *     cdef readonly float[::1] lval_all
+ *     cdef float best_u
  */
 
 struct __pyx_vtabstruct_6mlgrad_7weights_MWeights {
@@ -5337,7 +5402,7 @@ static struct __pyx_vtabstruct_6mlgrad_7weights_MWeights *__pyx_vtabptr_6mlgrad_
  * cimport cython
  * 
  * cdef class Normalizer:             # <<<<<<<<<<<<<<
- *     cdef normalize(self, double[::1] param)
+ *     cdef normalize(self, float[::1] param)
  * 
  */
 
@@ -5360,7 +5425,7 @@ struct __pyx_vtabstruct_6mlgrad_10normalizer_LinearModelNormalizer {
 static struct __pyx_vtabstruct_6mlgrad_10normalizer_LinearModelNormalizer *__pyx_vtabptr_6mlgrad_10normalizer_LinearModelNormalizer;
 
 
-/* "mlgrad/gd.pxd":51
+/* "mlgrad/gd.pxd":52
  * #     cpdef fit(self)
  * 
  * cdef class GD:             # <<<<<<<<<<<<<<
@@ -5377,11 +5442,11 @@ struct __pyx_vtabstruct_6mlgrad_2gd_GD {
 static struct __pyx_vtabstruct_6mlgrad_2gd_GD *__pyx_vtabptr_6mlgrad_2gd_GD;
 
 
-/* "mlgrad/gd.pxd":83
+/* "mlgrad/gd.pxd":84
  * 
  * @cython.final
  * cdef class FG(GD):             # <<<<<<<<<<<<<<
- *     cdef double gamma
+ *     cdef float gamma
  *     #
  */
 
@@ -5391,12 +5456,12 @@ struct __pyx_vtabstruct_6mlgrad_2gd_FG {
 static struct __pyx_vtabstruct_6mlgrad_2gd_FG *__pyx_vtabptr_6mlgrad_2gd_FG;
 
 
-/* "mlgrad/gd.pxd":89
+/* "mlgrad/gd.pxd":90
  * 
  * @cython.final
  * cdef class FG_RUD(GD):             # <<<<<<<<<<<<<<
- *     cdef double[::1] param_prev
- *     cdef double gamma
+ *     cdef float[::1] param_prev
+ *     cdef float gamma
  */
 
 struct __pyx_vtabstruct_6mlgrad_2gd_FG_RUD {
@@ -5405,11 +5470,11 @@ struct __pyx_vtabstruct_6mlgrad_2gd_FG_RUD {
 static struct __pyx_vtabstruct_6mlgrad_2gd_FG_RUD *__pyx_vtabptr_6mlgrad_2gd_FG_RUD;
 
 
-/* "mlgrad/gd.pxd":120
+/* "mlgrad/gd.pxd":121
  * #     cdef adamize(self)
  * 
  * cdef class SGD(GD):             # <<<<<<<<<<<<<<
- *     cdef double h0
+ *     cdef float h0
  * 
  */
 
@@ -5419,7 +5484,7 @@ struct __pyx_vtabstruct_6mlgrad_2gd_SGD {
 static struct __pyx_vtabstruct_6mlgrad_2gd_SGD *__pyx_vtabptr_6mlgrad_2gd_SGD;
 
 
-/* "lib/mlgrad/stopcond.pxd":24
+/* "lib/mlgrad/stopcond.pxd":25
  * cpdef StopCondition get_stop_condition(object)
  * 
  * cdef class StopCondition:             # <<<<<<<<<<<<<<
@@ -5434,12 +5499,12 @@ struct __pyx_vtabstruct_6mlgrad_2gd_StopCondition {
 static struct __pyx_vtabstruct_6mlgrad_2gd_StopCondition *__pyx_vtabptr_6mlgrad_2gd_StopCondition;
 
 
-/* "lib/mlgrad/stopcond.pxd":33
+/* "lib/mlgrad/stopcond.pxd":34
  * 
  * @cython.final
  * cdef class DiffL1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
  *     cdef GD gd
- * #     cdef double lval
+ * #     cdef float lval
  */
 
 struct __pyx_vtabstruct_6mlgrad_2gd_DiffL1StopCondition {
@@ -5448,12 +5513,12 @@ struct __pyx_vtabstruct_6mlgrad_2gd_DiffL1StopCondition {
 static struct __pyx_vtabstruct_6mlgrad_2gd_DiffL1StopCondition *__pyx_vtabptr_6mlgrad_2gd_DiffL1StopCondition;
 
 
-/* "lib/mlgrad/stopcond.pxd":39
+/* "lib/mlgrad/stopcond.pxd":40
  * 
  * @cython.final
  * cdef class DiffL2StopCondition(StopCondition):             # <<<<<<<<<<<<<<
  *     cdef GD gd
- *     cdef double lval1, lval2
+ *     cdef float lval1, lval2
  */
 
 struct __pyx_vtabstruct_6mlgrad_2gd_DiffL2StopCondition {
@@ -5462,12 +5527,12 @@ struct __pyx_vtabstruct_6mlgrad_2gd_DiffL2StopCondition {
 static struct __pyx_vtabstruct_6mlgrad_2gd_DiffL2StopCondition *__pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition;
 
 
-/* "lib/mlgrad/stopcond.pxd":44
+/* "lib/mlgrad/stopcond.pxd":45
  * 
  * @cython.final
  * cdef class DiffG1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
  *     cdef GD gd
- *     cdef double[::1] grad
+ *     cdef float[::1] grad
  */
 
 struct __pyx_vtabstruct_6mlgrad_2gd_DiffG1StopCondition {
@@ -5476,12 +5541,12 @@ struct __pyx_vtabstruct_6mlgrad_2gd_DiffG1StopCondition {
 static struct __pyx_vtabstruct_6mlgrad_2gd_DiffG1StopCondition *__pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition;
 
 
-/* "lib/mlgrad/stopcond.pxd":49
+/* "lib/mlgrad/stopcond.pxd":50
  * 
  * @cython.final
  * cdef class DiffP1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
  *     cdef GD gd
- *     cdef double[::1] param
+ *     cdef float[::1] param
  */
 
 struct __pyx_vtabstruct_6mlgrad_2gd_DiffP1StopCondition {
@@ -5493,19 +5558,19 @@ static struct __pyx_vtabstruct_6mlgrad_2gd_DiffP1StopCondition *__pyx_vtabptr_6m
 /* "lib/mlgrad/paramrate.pxd":2
  * 
  * cdef class ParamRate:             # <<<<<<<<<<<<<<
- *     cdef public double h
+ *     cdef public float h
  *     cdef public int K
  */
 
 struct __pyx_vtabstruct_6mlgrad_2gd_ParamRate {
   PyObject *(*init)(struct __pyx_obj_6mlgrad_2gd_ParamRate *, int __pyx_skip_dispatch);
-  double (*get_rate)(struct __pyx_obj_6mlgrad_2gd_ParamRate *);
+  float (*get_rate)(struct __pyx_obj_6mlgrad_2gd_ParamRate *);
 };
 static struct __pyx_vtabstruct_6mlgrad_2gd_ParamRate *__pyx_vtabptr_6mlgrad_2gd_ParamRate;
 
 
 /* "lib/mlgrad/paramrate.pxd":9
- *     cdef double get_rate(self)
+ *     cdef float get_rate(self)
  * 
  * cdef class ConstantParamRate(ParamRate):             # <<<<<<<<<<<<<<
  *     pass
@@ -5522,8 +5587,8 @@ static struct __pyx_vtabstruct_6mlgrad_2gd_ConstantParamRate *__pyx_vtabptr_6mlg
  *     pass
  * 
  * cdef class ExponentParamRate(ParamRate):             # <<<<<<<<<<<<<<
- *     cdef public double curr_h
- *     cdef public double p
+ *     cdef public float curr_h
+ *     cdef public float p
  */
 
 struct __pyx_vtabstruct_6mlgrad_2gd_ExponentParamRate {
@@ -5533,10 +5598,10 @@ static struct __pyx_vtabstruct_6mlgrad_2gd_ExponentParamRate *__pyx_vtabptr_6mlg
 
 
 /* "lib/mlgrad/paramrate.pxd":16
- *     cdef public double p
+ *     cdef public float p
  * 
  * cdef class PowerParamRate(ParamRate):             # <<<<<<<<<<<<<<
- *     cdef public double p
+ *     cdef public float p
  * 
  */
 
@@ -5551,7 +5616,7 @@ static struct __pyx_vtabstruct_6mlgrad_2gd_PowerParamRate *__pyx_vtabptr_6mlgrad
  * 
  * cdef class HCD:             # <<<<<<<<<<<<<<
  * 
- *     def __init__(self, Func func, double[:,::1] X, int n_class,
+ *     def __init__(self, Func func, float[:,::1] X, int n_class,
  */
 
 struct __pyx_vtabstruct_6mlgrad_6kmeans_HCD {
@@ -5566,7 +5631,7 @@ static struct __pyx_vtabstruct_6mlgrad_6kmeans_HCD *__pyx_vtabptr_6mlgrad_6kmean
  * 
  * cdef class HCD_M1:             # <<<<<<<<<<<<<<
  * 
- *     def __init__(self, Average avrfunc, double[:,::1] X, int n_class,
+ *     def __init__(self, Average avrfunc, float[:,::1] X, int n_class,
  */
 
 struct __pyx_vtabstruct_6mlgrad_6kmeans_HCD_M1 {
@@ -5581,7 +5646,7 @@ static struct __pyx_vtabstruct_6mlgrad_6kmeans_HCD_M1 *__pyx_vtabptr_6mlgrad_6km
  * 
  * cdef class HCD_M2:             # <<<<<<<<<<<<<<
  * 
- *     def __init__(self, Average avrfunc, Average minfunc, double[:,::1] X, int n_class,
+ *     def __init__(self, Average avrfunc, Average minfunc, float[:,::1] X, int n_class,
  */
 
 struct __pyx_vtabstruct_6mlgrad_6kmeans_HCD_M2 {
@@ -6235,8 +6300,8 @@ static CYTHON_INLINE PyObject *__pyx_capsule_create(void *p, const char *sig);
 #endif
 
 /* MemviewDtypeToObject.proto */
-static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp);
-static CYTHON_INLINE int __pyx_memview_set_double(const char *itemp, PyObject *obj);
+static CYTHON_INLINE PyObject *__pyx_memview_get_float(const char *itemp);
+static CYTHON_INLINE int __pyx_memview_set_float(const char *itemp, PyObject *obj);
 
 /* IsLittleEndian.proto */
 static CYTHON_INLINE int __Pyx_Is_Little_Endian(void);
@@ -6262,7 +6327,7 @@ static int __Pyx_ValidateAndInit_memviewslice(
                 PyObject *original_obj);
 
 /* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *, int writable_flag);
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(PyObject *, int writable_flag);
 
 /* MemviewDtypeToObject.proto */
 static CYTHON_INLINE PyObject *__pyx_memview_get_int(const char *itemp);
@@ -6272,7 +6337,7 @@ static CYTHON_INLINE int __pyx_memview_set_int(const char *itemp, PyObject *obj)
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_int(PyObject *, int writable_flag);
 
 /* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *, int writable_flag);
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_float(PyObject *, int writable_flag);
 
 /* MemviewSliceCopyTemplate.proto */
 static __Pyx_memviewslice
@@ -6334,7 +6399,7 @@ static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memo
 /* Module declarations from 'mlgrad.miscfuncs' */
 static void (*__pyx_f_6mlgrad_9miscfuncs_init_rand)(void); /*proto*/
 static long (*__pyx_f_6mlgrad_9miscfuncs_rand)(long); /*proto*/
-static void (*__pyx_f_6mlgrad_9miscfuncs_fill)(__Pyx_memviewslice, double); /*proto*/
+static void (*__pyx_f_6mlgrad_9miscfuncs_fill)(__Pyx_memviewslice, float); /*proto*/
 
 /* Module declarations from 'libc.string' */
 
@@ -6397,6 +6462,19 @@ static PyTypeObject *__pyx_ptype_7cpython_4type_type = 0;
 
 /* Module declarations from 'cpython.object' */
 
+/* Module declarations from 'cpython.sequence' */
+
+/* Module declarations from 'cpython.mem' */
+
+/* Module declarations from 'cpython.slice' */
+
+/* Module declarations from 'cpython.float' */
+
+/* Module declarations from 'mlgrad.list_values' */
+static PyTypeObject *__pyx_ptype_6mlgrad_11list_values_list_values = 0;
+
+/* Module declarations from 'mlgrad.inventory' */
+
 /* Module declarations from 'mlgrad.model' */
 static PyTypeObject *__pyx_ptype_6mlgrad_5model_Allocator = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_5model_ArrayAllocator = 0;
@@ -6428,9 +6506,9 @@ static PyTypeObject *__pyx_ptype_6mlgrad_4loss_ErrorMultLoss = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4loss_MarginMultLoss = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4loss_MultLoss2 = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4loss_SoftMinLoss2 = 0;
-static double *__pyx_vp_6mlgrad_4loss_float_max = 0;
+static float *__pyx_vp_6mlgrad_4loss_float_max = 0;
 #define __pyx_v_6mlgrad_4loss_float_max (*__pyx_vp_6mlgrad_4loss_float_max)
-static double *__pyx_vp_6mlgrad_4loss_float_min = 0;
+static float *__pyx_vp_6mlgrad_4loss_float_min = 0;
 #define __pyx_v_6mlgrad_4loss_float_min (*__pyx_vp_6mlgrad_4loss_float_min)
 
 /* Module declarations from 'mlgrad.regnorm' */
@@ -6536,11 +6614,11 @@ static PyObject *contiguous = 0;
 static PyObject *indirect_contiguous = 0;
 static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
-static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview2(__Pyx_memviewslice, double); /*proto*/
+static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview2(__Pyx_memviewslice, float); /*proto*/
 static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_copy_memoryview(__Pyx_memviewslice, __Pyx_memviewslice); /*proto*/
 static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_copy_memoryview2(__Pyx_memviewslice, __Pyx_memviewslice); /*proto*/
 static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
-static CYTHON_INLINE double __pyx_f_6mlgrad_6kmeans_euclid_distance2(__Pyx_memviewslice, __Pyx_memviewslice); /*proto*/
+static CYTHON_INLINE float __pyx_f_6mlgrad_6kmeans_euclid_distance2(__Pyx_memviewslice, __Pyx_memviewslice); /*proto*/
 static PyObject *__pyx_f_6mlgrad_6kmeans_find_classes(__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
 static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers(__Pyx_memviewslice, int, int __pyx_skip_dispatch); /*proto*/
 static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers2(__Pyx_memviewslice, int, int __pyx_skip_dispatch); /*proto*/
@@ -6584,7 +6662,7 @@ static void __pyx_memoryview_refcount_objects_in_slice(char *, Py_ssize_t *, Py_
 static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *, int, size_t, void *, int); /*proto*/
 static void __pyx_memoryview__slice_assign_scalar(char *, Py_ssize_t *, Py_ssize_t *, int, size_t, void *); /*proto*/
 static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, PyObject *); /*proto*/
-static __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
+static __Pyx_TypeInfo __Pyx_TypeInfo_float = { "float", NULL, sizeof(float), { 0 }, 0, 'R', 0, 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_int = { "int", NULL, sizeof(int), { 0 }, 0, IS_UNSIGNED(int) ? 'U' : 'I', IS_UNSIGNED(int), 0 };
 #define __Pyx_MODULE_NAME "mlgrad.kmeans"
 extern int __pyx_module_is_main_mlgrad__kmeans;
@@ -6606,7 +6684,7 @@ static const char __pyx_k_O[] = "O";
 static const char __pyx_k_X[] = "X";
 static const char __pyx_k_Y[] = "Y";
 static const char __pyx_k_c[] = "c";
-static const char __pyx_k_d[] = "d";
+static const char __pyx_k_f[] = "f";
 static const char __pyx_k_i[] = "i";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_np[] = "np";
@@ -6765,12 +6843,12 @@ static PyObject *__pyx_n_s_class;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_kp_s_contiguous_and_direct;
 static PyObject *__pyx_kp_s_contiguous_and_indirect;
-static PyObject *__pyx_n_u_d;
 static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_s_dtype_is_object;
 static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_enumerate;
 static PyObject *__pyx_n_s_error;
+static PyObject *__pyx_n_u_f;
 static PyObject *__pyx_n_s_flags;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_fortran;
@@ -6847,7 +6925,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_find_centers(CYTHON_UNUSED PyObject *_
 static PyObject *__pyx_pf_6mlgrad_6kmeans_2find_classes(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_params, __Pyx_memviewslice __pyx_v_Y); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_4init_centers(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_6init_centers2(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class); /* proto */
-static int __pyx_pf_6mlgrad_6kmeans_3HCD___init__(struct __pyx_obj_6mlgrad_6kmeans_HCD *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, double __pyx_v_tol, int __pyx_v_n_iter); /* proto */
+static int __pyx_pf_6mlgrad_6kmeans_3HCD___init__(struct __pyx_obj_6mlgrad_6kmeans_HCD *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, float __pyx_v_tol, int __pyx_v_n_iter); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_2init(struct __pyx_obj_6mlgrad_6kmeans_HCD *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_4fit(struct __pyx_obj_6mlgrad_6kmeans_HCD *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_7n_class___get__(struct __pyx_obj_6mlgrad_6kmeans_HCD *__pyx_v_self); /* proto */
@@ -6875,7 +6953,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_3tol___get__(struct __pyx_obj_6ml
 static int __pyx_pf_6mlgrad_6kmeans_3HCD_3tol_2__set__(struct __pyx_obj_6mlgrad_6kmeans_HCD *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_6__reduce_cython__(struct __pyx_obj_6mlgrad_6kmeans_HCD *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_8__setstate_cython__(struct __pyx_obj_6mlgrad_6kmeans_HCD *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1___init__(struct __pyx_obj_6mlgrad_6kmeans_HCD_M1 *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avrfunc, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, double __pyx_v_tol, int __pyx_v_n_iter); /* proto */
+static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1___init__(struct __pyx_obj_6mlgrad_6kmeans_HCD_M1 *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avrfunc, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, float __pyx_v_tol, int __pyx_v_n_iter); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_2init(struct __pyx_obj_6mlgrad_6kmeans_HCD_M1 *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_4fit(struct __pyx_obj_6mlgrad_6kmeans_HCD_M1 *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_7n_class___get__(struct __pyx_obj_6mlgrad_6kmeans_HCD_M1 *__pyx_v_self); /* proto */
@@ -6911,7 +6989,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_8find_centers2(CYTHON_UNUSED PyObject 
 static PyObject *__pyx_pf_6mlgrad_6kmeans_10calc_distance_matrix(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_params, __Pyx_memviewslice __pyx_v_D); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_12calc_Y(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_D, __Pyx_memviewslice __pyx_v_Y, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_minfunc); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_14calc_weights_and_Y(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_D, __Pyx_memviewslice __pyx_v_Y, __Pyx_memviewslice __pyx_v_weights, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avrfunc, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_minfunc); /* proto */
-static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2___init__(struct __pyx_obj_6mlgrad_6kmeans_HCD_M2 *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avrfunc, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_minfunc, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, double __pyx_v_tol, int __pyx_v_n_iter); /* proto */
+static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2___init__(struct __pyx_obj_6mlgrad_6kmeans_HCD_M2 *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avrfunc, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_minfunc, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, float __pyx_v_tol, int __pyx_v_n_iter); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_2init(struct __pyx_obj_6mlgrad_6kmeans_HCD_M2 *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4fit(struct __pyx_obj_6mlgrad_6kmeans_HCD_M2 *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6mlgrad_6kmeans_HCD_M2 *__pyx_v_self, __Pyx_memviewslice __pyx_v_X); /* proto */
@@ -7043,7 +7121,7 @@ static PyObject *__pyx_codeobj__32;
 /* "mlgrad/kmeans.pyx":47
  * #         return arr
  * 
- * cpdef find_centers(double[:, ::1] X, int[::1] Y, double[::1] weights, double[:,::1] params):             # <<<<<<<<<<<<<<
+ * cpdef find_centers(float[:, ::1] X, int[::1] Y, float[::1] weights, float[:,::1] params):             # <<<<<<<<<<<<<<
  *     cdef int i, j, k, N_j
  *     cdef int n_sample = X.shape[0]
  */
@@ -7056,10 +7134,10 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
   int __pyx_v_n_sample;
   int __pyx_v_n_class;
   int __pyx_v_n_param;
-  double __pyx_v_wk;
-  double __pyx_v_wj;
+  float __pyx_v_wk;
+  float __pyx_v_wj;
   __Pyx_memviewslice __pyx_v_W_sum = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double *__pyx_v_Xk;
+  float *__pyx_v_Xk;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7083,7 +7161,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
   __Pyx_RefNannySetupContext("find_centers", 0);
 
   /* "mlgrad/kmeans.pyx":49
- * cpdef find_centers(double[:, ::1] X, int[::1] Y, double[::1] weights, double[:,::1] params):
+ * cpdef find_centers(float[:, ::1] X, int[::1] Y, float[::1] weights, float[:,::1] params):
  *     cdef int i, j, k, N_j
  *     cdef int n_sample = X.shape[0]             # <<<<<<<<<<<<<<
  *     cdef int n_class = params.shape[0]
@@ -7100,7 +7178,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
  *     cdef int n_sample = X.shape[0]
  *     cdef int n_class = params.shape[0]             # <<<<<<<<<<<<<<
  *     cdef int n_param = params.shape[1]
- *     cdef double wk, wj
+ *     cdef float wk, wj
  */
   if (unlikely(((PyObject *) __pyx_v_params.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -7112,8 +7190,8 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
  *     cdef int n_sample = X.shape[0]
  *     cdef int n_class = params.shape[0]
  *     cdef int n_param = params.shape[1]             # <<<<<<<<<<<<<<
- *     cdef double wk, wj
- *     cdef double[::1] W_sum
+ *     cdef float wk, wj
+ *     cdef float[::1] W_sum
  */
   if (unlikely(((PyObject *) __pyx_v_params.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -7122,10 +7200,10 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
   __pyx_v_n_param = (__pyx_v_params.shape[1]);
 
   /* "mlgrad/kmeans.pyx":56
- *     cdef double *Xk
+ *     cdef float *Xk
  * 
  *     fill_memoryview2(params, 0)             # <<<<<<<<<<<<<<
- *     W_sum = np.zeros(n_class, 'd')
+ *     W_sum = np.zeros(n_class, 'f')
  * 
  */
   __pyx_f_6mlgrad_6kmeans_fill_memoryview2(__pyx_v_params, 0.0);
@@ -7133,7 +7211,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
   /* "mlgrad/kmeans.pyx":57
  * 
  *     fill_memoryview2(params, 0)
- *     W_sum = np.zeros(n_class, 'd')             # <<<<<<<<<<<<<<
+ *     W_sum = np.zeros(n_class, 'f')             # <<<<<<<<<<<<<<
  * 
  *     for k in range(n_sample):
  */
@@ -7158,7 +7236,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -7167,7 +7245,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -7182,23 +7260,23 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
     }
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_t_2);
-    __Pyx_INCREF(__pyx_n_u_d);
-    __Pyx_GIVEREF(__pyx_n_u_d);
-    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_u_d);
+    __Pyx_INCREF(__pyx_n_u_f);
+    __Pyx_GIVEREF(__pyx_n_u_f);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_u_f);
     __pyx_t_2 = 0;
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_W_sum = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
   /* "mlgrad/kmeans.pyx":59
- *     W_sum = np.zeros(n_class, 'd')
+ *     W_sum = np.zeros(n_class, 'f')
  * 
  *     for k in range(n_sample):             # <<<<<<<<<<<<<<
  *         j = Y[k]
@@ -7258,7 +7336,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
       __Pyx_RaiseBufferIndexError(__pyx_t_11);
       __PYX_ERR(0, 61, __pyx_L1_error)
     }
-    __pyx_v_Xk = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_10 * __pyx_v_X.strides[0]) )) + __pyx_t_12)) ))));
+    __pyx_v_Xk = (&(*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_10 * __pyx_v_X.strides[0]) )) + __pyx_t_12)) ))));
 
     /* "mlgrad/kmeans.pyx":62
  *         j = Y[k]
@@ -7281,7 +7359,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
       __Pyx_RaiseBufferIndexError(__pyx_t_11);
       __PYX_ERR(0, 62, __pyx_L1_error)
     }
-    __pyx_v_wk = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_12)) )));
+    __pyx_v_wk = (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_weights.data) + __pyx_t_12)) )));
 
     /* "mlgrad/kmeans.pyx":63
  *         Xk = &X[k,0]
@@ -7304,7 +7382,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
       __Pyx_RaiseBufferIndexError(__pyx_t_11);
       __PYX_ERR(0, 63, __pyx_L1_error)
     }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W_sum.data) + __pyx_t_12)) )) += __pyx_v_wk;
+    *((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_W_sum.data) + __pyx_t_12)) )) += __pyx_v_wk;
 
     /* "mlgrad/kmeans.pyx":64
  *         wk = weights[k]
@@ -7344,7 +7422,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
         __Pyx_RaiseBufferIndexError(__pyx_t_15);
         __PYX_ERR(0, 65, __pyx_L1_error)
       }
-      *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_params.data + __pyx_t_12 * __pyx_v_params.strides[0]) )) + __pyx_t_10)) )) += (__pyx_v_wk * (__pyx_v_Xk[__pyx_v_i]));
+      *((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_params.data + __pyx_t_12 * __pyx_v_params.strides[0]) )) + __pyx_t_10)) )) += (__pyx_v_wk * (__pyx_v_Xk[__pyx_v_i]));
     }
   }
 
@@ -7381,7 +7459,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
       __Pyx_RaiseBufferIndexError(__pyx_t_11);
       __PYX_ERR(0, 68, __pyx_L1_error)
     }
-    __pyx_v_wj = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W_sum.data) + __pyx_t_10)) )));
+    __pyx_v_wj = (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_W_sum.data) + __pyx_t_10)) )));
 
     /* "mlgrad/kmeans.pyx":69
  *     for j in range(n_class):
@@ -7400,7 +7478,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
  *         for i in range(n_param):
  *             params[j,i] /= wj             # <<<<<<<<<<<<<<
  * 
- * cdef inline double euclid_distance2(double[::1] x, double[::1] y) nogil:
+ * cdef inline float euclid_distance2(float[::1] x, float[::1] y) nogil:
  */
       if (unlikely(((PyObject *) __pyx_v_params.memview) == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
@@ -7421,14 +7499,14 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
         __Pyx_RaiseBufferIndexError(__pyx_t_15);
         __PYX_ERR(0, 70, __pyx_L1_error)
       }
-      *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_params.data + __pyx_t_10 * __pyx_v_params.strides[0]) )) + __pyx_t_12)) )) /= __pyx_v_wj;
+      *((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_params.data + __pyx_t_10 * __pyx_v_params.strides[0]) )) + __pyx_t_12)) )) /= __pyx_v_wj;
     }
   }
 
   /* "mlgrad/kmeans.pyx":47
  * #         return arr
  * 
- * cpdef find_centers(double[:, ::1] X, int[::1] Y, double[::1] weights, double[:,::1] params):             # <<<<<<<<<<<<<<
+ * cpdef find_centers(float[:, ::1] X, int[::1] Y, float[::1] weights, float[:,::1] params):             # <<<<<<<<<<<<<<
  *     cdef int i, j, k, N_j
  *     cdef int n_sample = X.shape[0]
  */
@@ -7454,7 +7532,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers(__Pyx_memviewslice __pyx_v
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6mlgrad_6kmeans_1find_centers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6mlgrad_6kmeans_find_centers[] = "find_centers(double[:, ::1] X, int[::1] Y, double[::1] weights, double[:, ::1] params)";
+static char __pyx_doc_6mlgrad_6kmeans_find_centers[] = "find_centers(float[:, ::1] X, int[::1] Y, float[::1] weights, float[:, ::1] params)";
 static PyObject *__pyx_pw_6mlgrad_6kmeans_1find_centers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_Y = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -7519,10 +7597,10 @@ static PyObject *__pyx_pw_6mlgrad_6kmeans_1find_centers(PyObject *__pyx_self, Py
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 47, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 47, __pyx_L3_error)
     __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_int(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(0, 47, __pyx_L3_error)
-    __pyx_v_weights = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_weights.memview)) __PYX_ERR(0, 47, __pyx_L3_error)
-    __pyx_v_params = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[3], PyBUF_WRITABLE); if (unlikely(!__pyx_v_params.memview)) __PYX_ERR(0, 47, __pyx_L3_error)
+    __pyx_v_weights = __Pyx_PyObject_to_MemoryviewSlice_dc_float(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_weights.memview)) __PYX_ERR(0, 47, __pyx_L3_error)
+    __pyx_v_params = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[3], PyBUF_WRITABLE); if (unlikely(!__pyx_v_params.memview)) __PYX_ERR(0, 47, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -7576,17 +7654,17 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_find_centers(CYTHON_UNUSED PyObject *_
 /* "mlgrad/kmeans.pyx":72
  *             params[j,i] /= wj
  * 
- * cdef inline double euclid_distance2(double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
+ * cdef inline float euclid_distance2(float[::1] x, float[::1] y) nogil:             # <<<<<<<<<<<<<<
  *     cdef int i, n = x.shape[0]
- *     cdef double dist, v
+ *     cdef float dist, v
  */
 
-static CYTHON_INLINE double __pyx_f_6mlgrad_6kmeans_euclid_distance2(__Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
+static CYTHON_INLINE float __pyx_f_6mlgrad_6kmeans_euclid_distance2(__Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
   int __pyx_v_i;
   int __pyx_v_n;
-  double __pyx_v_dist;
-  double __pyx_v_v;
-  double __pyx_r;
+  float __pyx_v_dist;
+  float __pyx_v_v;
+  float __pyx_r;
   int __pyx_t_1;
   int __pyx_t_2;
   int __pyx_t_3;
@@ -7599,9 +7677,9 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6kmeans_euclid_distance2(__Pyx_memvi
 
   /* "mlgrad/kmeans.pyx":73
  * 
- * cdef inline double euclid_distance2(double[::1] x, double[::1] y) nogil:
+ * cdef inline float euclid_distance2(float[::1] x, float[::1] y) nogil:
  *     cdef int i, n = x.shape[0]             # <<<<<<<<<<<<<<
- *     cdef double dist, v
+ *     cdef float dist, v
  * 
  */
   if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
@@ -7617,7 +7695,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6kmeans_euclid_distance2(__Pyx_memvi
   __pyx_v_n = (__pyx_v_x.shape[0]);
 
   /* "mlgrad/kmeans.pyx":76
- *     cdef double dist, v
+ *     cdef float dist, v
  * 
  *     dist = 0             # <<<<<<<<<<<<<<
  *     for i in range(n):
@@ -7684,7 +7762,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6kmeans_euclid_distance2(__Pyx_memvi
       __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
       __PYX_ERR(0, 78, __pyx_L1_error)
     }
-    __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_6)) ))));
+    __pyx_v_v = ((*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_y.data) + __pyx_t_6)) ))));
 
     /* "mlgrad/kmeans.pyx":79
  *     for i in range(n):
@@ -7701,7 +7779,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6kmeans_euclid_distance2(__Pyx_memvi
  *         dist += v*v
  *     return dist             # <<<<<<<<<<<<<<
  * 
- * cpdef find_classes(double[:, ::1] X, double[:,::1] params, int[::1] Y):
+ * cpdef find_classes(float[:, ::1] X, float[:,::1] params, int[::1] Y):
  */
   __pyx_r = __pyx_v_dist;
   goto __pyx_L0;
@@ -7709,9 +7787,9 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6kmeans_euclid_distance2(__Pyx_memvi
   /* "mlgrad/kmeans.pyx":72
  *             params[j,i] /= wj
  * 
- * cdef inline double euclid_distance2(double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
+ * cdef inline float euclid_distance2(float[::1] x, float[::1] y) nogil:             # <<<<<<<<<<<<<<
  *     cdef int i, n = x.shape[0]
- *     cdef double dist, v
+ *     cdef float dist, v
  */
 
   /* function exit code */
@@ -7725,7 +7803,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6kmeans_euclid_distance2(__Pyx_memvi
 /* "mlgrad/kmeans.pyx":82
  *     return dist
  * 
- * cpdef find_classes(double[:, ::1] X, double[:,::1] params, int[::1] Y):             # <<<<<<<<<<<<<<
+ * cpdef find_classes(float[:, ::1] X, float[:,::1] params, int[::1] Y):             # <<<<<<<<<<<<<<
  *     cdef int i, j, k
  *     cdef int n_sample = X.shape[0]
  */
@@ -7737,9 +7815,9 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_classes(__Pyx_memviewslice __pyx_v
   int __pyx_v_n_sample;
   int __pyx_v_n_class;
   CYTHON_UNUSED int __pyx_v_n_param;
-  double __pyx_v_fmax;
-  double __pyx_v_d;
-  double __pyx_v_dist_min;
+  float __pyx_v_fmax;
+  float __pyx_v_d;
+  float __pyx_v_dist_min;
   int __pyx_v_j_min;
   PyObject *__pyx_v_J = NULL;
   PyObject *__pyx_r = NULL;
@@ -7765,7 +7843,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_classes(__Pyx_memviewslice __pyx_v
   __Pyx_RefNannySetupContext("find_classes", 0);
 
   /* "mlgrad/kmeans.pyx":84
- * cpdef find_classes(double[:, ::1] X, double[:,::1] params, int[::1] Y):
+ * cpdef find_classes(float[:, ::1] X, float[:,::1] params, int[::1] Y):
  *     cdef int i, j, k
  *     cdef int n_sample = X.shape[0]             # <<<<<<<<<<<<<<
  *     cdef int n_class = params.shape[0]
@@ -7782,7 +7860,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_classes(__Pyx_memviewslice __pyx_v
  *     cdef int n_sample = X.shape[0]
  *     cdef int n_class = params.shape[0]             # <<<<<<<<<<<<<<
  *     cdef int n_param = params.shape[1]
- *     cdef double fmax = PyFloat_GetMax()
+ *     cdef float fmax = PyFloat_GetMax()
  */
   if (unlikely(((PyObject *) __pyx_v_params.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -7794,8 +7872,8 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_classes(__Pyx_memviewslice __pyx_v
  *     cdef int n_sample = X.shape[0]
  *     cdef int n_class = params.shape[0]
  *     cdef int n_param = params.shape[1]             # <<<<<<<<<<<<<<
- *     cdef double fmax = PyFloat_GetMax()
- *     cdef double d, dist_min
+ *     cdef float fmax = PyFloat_GetMax()
+ *     cdef float d, dist_min
  */
   if (unlikely(((PyObject *) __pyx_v_params.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -7806,8 +7884,8 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_classes(__Pyx_memviewslice __pyx_v
   /* "mlgrad/kmeans.pyx":87
  *     cdef int n_class = params.shape[0]
  *     cdef int n_param = params.shape[1]
- *     cdef double fmax = PyFloat_GetMax()             # <<<<<<<<<<<<<<
- *     cdef double d, dist_min
+ *     cdef float fmax = PyFloat_GetMax()             # <<<<<<<<<<<<<<
+ *     cdef float d, dist_min
  *     cdef int j_min
  */
   __pyx_v_fmax = PyFloat_GetMax();
@@ -8032,7 +8110,7 @@ __pyx_v_d = __pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_7, __pyx_t_8);
  *         print(J)
  *         raise RuntimeError("One of the clusters is empty")
  */
-    __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_v_params, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_v_params, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_base); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
@@ -8058,7 +8136,7 @@ __pyx_v_d = __pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_7, __pyx_t_8);
  *         print(J)
  *         raise RuntimeError("One of the clusters is empty")             # <<<<<<<<<<<<<<
  * 
- * cpdef double[:, ::1] init_centers(double[:,::1] X, int n_class):
+ * cpdef float[:, ::1] init_centers(float[:,::1] X, int n_class):
  */
     __pyx_t_11 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 106, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
@@ -8078,7 +8156,7 @@ __pyx_v_d = __pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_7, __pyx_t_8);
   /* "mlgrad/kmeans.pyx":82
  *     return dist
  * 
- * cpdef find_classes(double[:, ::1] X, double[:,::1] params, int[::1] Y):             # <<<<<<<<<<<<<<
+ * cpdef find_classes(float[:, ::1] X, float[:,::1] params, int[::1] Y):             # <<<<<<<<<<<<<<
  *     cdef int i, j, k
  *     cdef int n_sample = X.shape[0]
  */
@@ -8104,7 +8182,7 @@ __pyx_v_d = __pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_7, __pyx_t_8);
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6mlgrad_6kmeans_3find_classes(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6mlgrad_6kmeans_2find_classes[] = "find_classes(double[:, ::1] X, double[:, ::1] params, int[::1] Y)";
+static char __pyx_doc_6mlgrad_6kmeans_2find_classes[] = "find_classes(float[:, ::1] X, float[:, ::1] params, int[::1] Y)";
 static PyObject *__pyx_pw_6mlgrad_6kmeans_3find_classes(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_params = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -8159,8 +8237,8 @@ static PyObject *__pyx_pw_6mlgrad_6kmeans_3find_classes(PyObject *__pyx_self, Py
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 82, __pyx_L3_error)
-    __pyx_v_params = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_params.memview)) __PYX_ERR(0, 82, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 82, __pyx_L3_error)
+    __pyx_v_params = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_params.memview)) __PYX_ERR(0, 82, __pyx_L3_error)
     __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_dc_int(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(0, 82, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
@@ -8213,8 +8291,8 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_2find_classes(CYTHON_UNUSED PyObject *
 /* "mlgrad/kmeans.pyx":108
  *         raise RuntimeError("One of the clusters is empty")
  * 
- * cpdef double[:, ::1] init_centers(double[:,::1] X, int n_class):             # <<<<<<<<<<<<<<
- *     cdef double[:, ::1] params
+ * cpdef float[:, ::1] init_centers(float[:,::1] X, int n_class):             # <<<<<<<<<<<<<<
+ *     cdef float[:, ::1] params
  *     cdef int i, k
  */
 
@@ -8267,7 +8345,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers(__Pyx_memviewslic
  *     n_sample = X.shape[0]
  *     n_param = X.shape[1]             # <<<<<<<<<<<<<<
  * 
- *     params = np.zeros((n_class, n_param), 'd')
+ *     params = np.zeros((n_class, n_param), 'f')
  */
   if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -8278,7 +8356,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers(__Pyx_memviewslic
   /* "mlgrad/kmeans.pyx":115
  *     n_param = X.shape[1]
  * 
- *     params = np.zeros((n_class, n_param), 'd')             # <<<<<<<<<<<<<<
+ *     params = np.zeros((n_class, n_param), 'f')             # <<<<<<<<<<<<<<
  *     indexes = np.random.randint(0, n_sample-1, n_class, 'i')
  *     for i in range(n_class):
  */
@@ -8313,7 +8391,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers(__Pyx_memviewslic
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -8322,7 +8400,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers(__Pyx_memviewslic
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -8337,16 +8415,16 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers(__Pyx_memviewslic
     }
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_6, __pyx_t_5);
-    __Pyx_INCREF(__pyx_n_u_d);
-    __Pyx_GIVEREF(__pyx_n_u_d);
-    PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_6, __pyx_n_u_d);
+    __Pyx_INCREF(__pyx_n_u_f);
+    __Pyx_GIVEREF(__pyx_n_u_f);
+    PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_6, __pyx_n_u_f);
     __pyx_t_5 = 0;
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 115, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_params = __pyx_t_7;
   __pyx_t_7.memview = NULL;
@@ -8354,7 +8432,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers(__Pyx_memviewslic
 
   /* "mlgrad/kmeans.pyx":116
  * 
- *     params = np.zeros((n_class, n_param), 'd')
+ *     params = np.zeros((n_class, n_param), 'f')
  *     indexes = np.random.randint(0, n_sample-1, n_class, 'i')             # <<<<<<<<<<<<<<
  *     for i in range(n_class):
  *         k = indexes[i]
@@ -8430,7 +8508,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers(__Pyx_memviewslic
   __pyx_t_1 = 0;
 
   /* "mlgrad/kmeans.pyx":117
- *     params = np.zeros((n_class, n_param), 'd')
+ *     params = np.zeros((n_class, n_param), 'f')
  *     indexes = np.random.randint(0, n_sample-1, n_class, 'i')
  *     for i in range(n_class):             # <<<<<<<<<<<<<<
  *         k = indexes[i]
@@ -8529,7 +8607,7 @@ __pyx_f_6mlgrad_6kmeans_copy_memoryview(__pyx_t_12, __pyx_t_13);
  *         copy_memoryview(params[i], X[k])
  *     return params             # <<<<<<<<<<<<<<
  * 
- * cpdef double[:, ::1] init_centers2(double[:,::1] X, int n_class):
+ * cpdef float[:, ::1] init_centers2(float[:,::1] X, int n_class):
  */
   __PYX_INC_MEMVIEW(&__pyx_v_params, 0);
   __pyx_r = __pyx_v_params;
@@ -8538,8 +8616,8 @@ __pyx_f_6mlgrad_6kmeans_copy_memoryview(__pyx_t_12, __pyx_t_13);
   /* "mlgrad/kmeans.pyx":108
  *         raise RuntimeError("One of the clusters is empty")
  * 
- * cpdef double[:, ::1] init_centers(double[:,::1] X, int n_class):             # <<<<<<<<<<<<<<
- *     cdef double[:, ::1] params
+ * cpdef float[:, ::1] init_centers(float[:,::1] X, int n_class):             # <<<<<<<<<<<<<<
+ *     cdef float[:, ::1] params
  *     cdef int i, k
  */
 
@@ -8572,7 +8650,7 @@ __pyx_f_6mlgrad_6kmeans_copy_memoryview(__pyx_t_12, __pyx_t_13);
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6mlgrad_6kmeans_5init_centers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6mlgrad_6kmeans_4init_centers[] = "init_centers(double[:, ::1] X, int n_class) -> double[:, ::1]";
+static char __pyx_doc_6mlgrad_6kmeans_4init_centers[] = "init_centers(float[:, ::1] X, int n_class) -> float[:, ::1]";
 static PyObject *__pyx_pw_6mlgrad_6kmeans_5init_centers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_n_class;
@@ -8617,7 +8695,7 @@ static PyObject *__pyx_pw_6mlgrad_6kmeans_5init_centers(PyObject *__pyx_self, Py
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 108, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 108, __pyx_L3_error)
     __pyx_v_n_class = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n_class == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 108, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
@@ -8647,7 +8725,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_4init_centers(CYTHON_UNUSED PyObject *
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(!__pyx_v_X.memview)) { __Pyx_RaiseUnboundLocalError("X"); __PYX_ERR(0, 108, __pyx_L1_error) }
   __pyx_t_1 = __pyx_f_6mlgrad_6kmeans_init_centers(__pyx_v_X, __pyx_v_n_class, 0); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 108, __pyx_L1_error)
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __pyx_t_1.memview = NULL;
@@ -8672,8 +8750,8 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_4init_centers(CYTHON_UNUSED PyObject *
 /* "mlgrad/kmeans.pyx":122
  *     return params
  * 
- * cpdef double[:, ::1] init_centers2(double[:,::1] X, int n_class):             # <<<<<<<<<<<<<<
- *     cdef double[:, ::1] params
+ * cpdef float[:, ::1] init_centers2(float[:,::1] X, int n_class):             # <<<<<<<<<<<<<<
+ *     cdef float[:, ::1] params
  *     cdef int[::1] indices
  */
 
@@ -8681,10 +8759,10 @@ static PyObject *__pyx_pw_6mlgrad_6kmeans_7init_centers2(PyObject *__pyx_self, P
 static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers2(__Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, CYTHON_UNUSED int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_v_params = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_indices = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_v_d;
-  double __pyx_v_d_max_min;
-  double __pyx_v_d_min;
-  double __pyx_v_f_max;
+  float __pyx_v_d;
+  float __pyx_v_d_max_min;
+  float __pyx_v_d_min;
+  float __pyx_v_f_max;
   int __pyx_v_j;
   int __pyx_v_k;
   int __pyx_v_k_max;
@@ -8719,15 +8797,15 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers2(__Pyx_memviewsli
 
   /* "mlgrad/kmeans.pyx":126
  *     cdef int[::1] indices
- *     cdef double d, d_max_min, d_min
- *     cdef double f_max = PyFloat_GetMax()             # <<<<<<<<<<<<<<
+ *     cdef float d, d_max_min, d_min
+ *     cdef float f_max = PyFloat_GetMax()             # <<<<<<<<<<<<<<
  *     cdef int j, k, k_max, j_min
  *     cdef int n_sample = X.shape[0]
  */
   __pyx_v_f_max = PyFloat_GetMax();
 
   /* "mlgrad/kmeans.pyx":128
- *     cdef double f_max = PyFloat_GetMax()
+ *     cdef float f_max = PyFloat_GetMax()
  *     cdef int j, k, k_max, j_min
  *     cdef int n_sample = X.shape[0]             # <<<<<<<<<<<<<<
  *     cdef int n_param = X.shape[1]
@@ -8755,7 +8833,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers2(__Pyx_memviewsli
   /* "mlgrad/kmeans.pyx":132
  *     cdef int n_center
  * 
- *     params = np.zeros((n_class, n_param), 'd')             # <<<<<<<<<<<<<<
+ *     params = np.zeros((n_class, n_param), 'f')             # <<<<<<<<<<<<<<
  *     indices = np.zeros((n_class,), 'i')
  * 
  */
@@ -8790,7 +8868,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers2(__Pyx_memviewsli
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -8799,7 +8877,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers2(__Pyx_memviewsli
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -8814,16 +8892,16 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers2(__Pyx_memviewsli
     }
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_6, __pyx_t_5);
-    __Pyx_INCREF(__pyx_n_u_d);
-    __Pyx_GIVEREF(__pyx_n_u_d);
-    PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_6, __pyx_n_u_d);
+    __Pyx_INCREF(__pyx_n_u_f);
+    __Pyx_GIVEREF(__pyx_n_u_f);
+    PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_6, __pyx_n_u_f);
     __pyx_t_5 = 0;
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_params = __pyx_t_7;
   __pyx_t_7.memview = NULL;
@@ -8831,7 +8909,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_6kmeans_init_centers2(__Pyx_memviewsli
 
   /* "mlgrad/kmeans.pyx":133
  * 
- *     params = np.zeros((n_class, n_param), 'd')
+ *     params = np.zeros((n_class, n_param), 'f')
  *     indices = np.zeros((n_class,), 'i')             # <<<<<<<<<<<<<<
  * 
  *     k = rand(n_sample)
@@ -9412,8 +9490,8 @@ __pyx_f_6mlgrad_6kmeans_copy_memoryview(__pyx_t_9, __pyx_t_10);
   /* "mlgrad/kmeans.pyx":122
  *     return params
  * 
- * cpdef double[:, ::1] init_centers2(double[:,::1] X, int n_class):             # <<<<<<<<<<<<<<
- *     cdef double[:, ::1] params
+ * cpdef float[:, ::1] init_centers2(float[:,::1] X, int n_class):             # <<<<<<<<<<<<<<
+ *     cdef float[:, ::1] params
  *     cdef int[::1] indices
  */
 
@@ -9445,7 +9523,7 @@ __pyx_f_6mlgrad_6kmeans_copy_memoryview(__pyx_t_9, __pyx_t_10);
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6mlgrad_6kmeans_7init_centers2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6mlgrad_6kmeans_6init_centers2[] = "init_centers2(double[:, ::1] X, int n_class) -> double[:, ::1]";
+static char __pyx_doc_6mlgrad_6kmeans_6init_centers2[] = "init_centers2(float[:, ::1] X, int n_class) -> float[:, ::1]";
 static PyObject *__pyx_pw_6mlgrad_6kmeans_7init_centers2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_n_class;
@@ -9490,7 +9568,7 @@ static PyObject *__pyx_pw_6mlgrad_6kmeans_7init_centers2(PyObject *__pyx_self, P
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 122, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 122, __pyx_L3_error)
     __pyx_v_n_class = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n_class == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
@@ -9520,7 +9598,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6init_centers2(CYTHON_UNUSED PyObject 
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(!__pyx_v_X.memview)) { __Pyx_RaiseUnboundLocalError("X"); __PYX_ERR(0, 122, __pyx_L1_error) }
   __pyx_t_1 = __pyx_f_6mlgrad_6kmeans_init_centers2(__pyx_v_X, __pyx_v_n_class, 0); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 122, __pyx_L1_error)
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __pyx_t_1.memview = NULL;
@@ -9545,8 +9623,8 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6init_centers2(CYTHON_UNUSED PyObject 
 /* "mlgrad/kmeans.pyx":168
  * cdef class HCD:
  * 
- *     def __init__(self, Func func, double[:,::1] X, int n_class,             # <<<<<<<<<<<<<<
- *                  double tol=1.0e-3, int n_iter=100):
+ *     def __init__(self, Func func, float[:,::1] X, int n_class,             # <<<<<<<<<<<<<<
+ *                  float tol=1.0e-3, int n_iter=100):
  * 
  */
 
@@ -9556,7 +9634,7 @@ static int __pyx_pw_6mlgrad_6kmeans_3HCD_1__init__(PyObject *__pyx_v_self, PyObj
   struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_n_class;
-  double __pyx_v_tol;
+  float __pyx_v_tol;
   int __pyx_v_n_iter;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -9631,12 +9709,12 @@ static int __pyx_pw_6mlgrad_6kmeans_3HCD_1__init__(PyObject *__pyx_v_self, PyObj
       }
     }
     __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)values[0]);
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 168, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 168, __pyx_L3_error)
     __pyx_v_n_class = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_n_class == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 168, __pyx_L3_error)
     if (values[3]) {
-      __pyx_v_tol = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_tol == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 169, __pyx_L3_error)
+      __pyx_v_tol = __pyx_PyFloat_AsFloat(values[3]); if (unlikely((__pyx_v_tol == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 169, __pyx_L3_error)
     } else {
-      __pyx_v_tol = ((double)1.0e-3);
+      __pyx_v_tol = ((float)1.0e-3);
     }
     if (values[4]) {
       __pyx_v_n_iter = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_n_iter == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 169, __pyx_L3_error)
@@ -9664,7 +9742,7 @@ static int __pyx_pw_6mlgrad_6kmeans_3HCD_1__init__(PyObject *__pyx_v_self, PyObj
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_6kmeans_3HCD___init__(struct __pyx_obj_6mlgrad_6kmeans_HCD *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, double __pyx_v_tol, int __pyx_v_n_iter) {
+static int __pyx_pf_6mlgrad_6kmeans_3HCD___init__(struct __pyx_obj_6mlgrad_6kmeans_HCD *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, float __pyx_v_tol, int __pyx_v_n_iter) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -9677,7 +9755,7 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD___init__(struct __pyx_obj_6mlgrad_6kmea
   __Pyx_RefNannySetupContext("__init__", 0);
 
   /* "mlgrad/kmeans.pyx":171
- *                  double tol=1.0e-3, int n_iter=100):
+ *                  float tol=1.0e-3, int n_iter=100):
  * 
  *         self.n_class = n_class             # <<<<<<<<<<<<<<
  *         self.n_sample = X.shape[0]
@@ -9779,7 +9857,7 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD___init__(struct __pyx_obj_6mlgrad_6kmea
  *         self.params = None
  *         self.prev_params = None
  */
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 179, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
     __PYX_ERR(0, 179, __pyx_L1_error)
@@ -9796,7 +9874,7 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD___init__(struct __pyx_obj_6mlgrad_6kmea
  *         self.prev_params = None
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(0, 180, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
     __PYX_ERR(0, 180, __pyx_L1_error)
@@ -9813,7 +9891,7 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD___init__(struct __pyx_obj_6mlgrad_6kmea
  * 
  *         self.tol = tol
  */
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(0, 181, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
     __PYX_ERR(0, 181, __pyx_L1_error)
@@ -9867,8 +9945,8 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD___init__(struct __pyx_obj_6mlgrad_6kmea
   /* "mlgrad/kmeans.pyx":168
  * cdef class HCD:
  * 
- *     def __init__(self, Func func, double[:,::1] X, int n_class,             # <<<<<<<<<<<<<<
- *                  double tol=1.0e-3, int n_iter=100):
+ *     def __init__(self, Func func, float[:,::1] X, int n_class,             # <<<<<<<<<<<<<<
+ *                  float tol=1.0e-3, int n_iter=100):
  * 
  */
 
@@ -9892,7 +9970,7 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD___init__(struct __pyx_obj_6mlgrad_6kmea
  *         self.init()
  *     #
  *     cpdef init(self):             # <<<<<<<<<<<<<<
- *         #cdef double[::1] Xk
+ *         #cdef float[::1] Xk
  *         #cdef int k, N = len(self.X)
  */
 
@@ -9974,7 +10052,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
  *         init_rand()
  * 
  *         if self.weights is None:             # <<<<<<<<<<<<<<
- *             self.weights = np.zeros(self.n_sample, 'd')
+ *             self.weights = np.zeros(self.n_sample, 'f')
  * 
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -9988,7 +10066,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
     /* "mlgrad/kmeans.pyx":195
  * 
  *         if self.weights is None:
- *             self.weights = np.zeros(self.n_sample, 'd')             # <<<<<<<<<<<<<<
+ *             self.weights = np.zeros(self.n_sample, 'f')             # <<<<<<<<<<<<<<
  * 
  *         if self.Y is None:
  */
@@ -10017,7 +10095,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
     }
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_f};
       __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
@@ -10026,7 +10104,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_f};
       __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
@@ -10041,16 +10119,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
       }
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_6, __pyx_t_2);
-      __Pyx_INCREF(__pyx_n_u_d);
-      __Pyx_GIVEREF(__pyx_n_u_d);
-      PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_d);
+      __Pyx_INCREF(__pyx_n_u_f);
+      __Pyx_GIVEREF(__pyx_n_u_f);
+      PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_f);
       __pyx_t_2 = 0;
       __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 195, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 195, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
@@ -10065,13 +10143,13 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
  *         init_rand()
  * 
  *         if self.weights is None:             # <<<<<<<<<<<<<<
- *             self.weights = np.zeros(self.n_sample, 'd')
+ *             self.weights = np.zeros(self.n_sample, 'f')
  * 
  */
   }
 
   /* "mlgrad/kmeans.pyx":197
- *             self.weights = np.zeros(self.n_sample, 'd')
+ *             self.weights = np.zeros(self.n_sample, 'f')
  * 
  *         if self.Y is None:             # <<<<<<<<<<<<<<
  *             self.Y = np.zeros(self.n_sample, 'i')
@@ -10162,7 +10240,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
     __pyx_t_9.data = NULL;
 
     /* "mlgrad/kmeans.pyx":197
- *             self.weights = np.zeros(self.n_sample, 'd')
+ *             self.weights = np.zeros(self.n_sample, 'f')
  * 
  *         if self.Y is None:             # <<<<<<<<<<<<<<
  *             self.Y = np.zeros(self.n_sample, 'i')
@@ -10175,7 +10253,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
  * 
  *         if self.params is None:             # <<<<<<<<<<<<<<
  *             self.params = init_centers2(self.X, self.n_class)
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
@@ -10189,7 +10267,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
  * 
  *         if self.params is None:
  *             self.params = init_centers2(self.X, self.n_class)             # <<<<<<<<<<<<<<
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  *     #
  */
     if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -10216,14 +10294,14 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
  * 
  *         if self.params is None:             # <<<<<<<<<<<<<<
  *             self.params = init_centers2(self.X, self.n_class)
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  */
   }
 
   /* "mlgrad/kmeans.pyx":202
  *         if self.params is None:
  *             self.params = init_centers2(self.X, self.n_class)
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')             # <<<<<<<<<<<<<<
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')             # <<<<<<<<<<<<<<
  *     #
  *     def fit(self):
  */
@@ -10266,7 +10344,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_4)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_2, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_2, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -10275,7 +10353,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_2, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_2, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -10290,16 +10368,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
     }
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_6, __pyx_t_2);
-    __Pyx_INCREF(__pyx_n_u_d);
-    __Pyx_GIVEREF(__pyx_n_u_d);
-    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_d);
+    __Pyx_INCREF(__pyx_n_u_f);
+    __Pyx_GIVEREF(__pyx_n_u_f);
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_f);
     __pyx_t_2 = 0;
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
@@ -10314,7 +10392,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_3HCD_init(struct __pyx_obj_6mlgrad_6kme
  *         self.init()
  *     #
  *     cpdef init(self):             # <<<<<<<<<<<<<<
- *         #cdef double[::1] Xk
+ *         #cdef float[::1] Xk
  *         #cdef int k, N = len(self.X)
  */
 
@@ -10379,11 +10457,11 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_2init(struct __pyx_obj_6mlgrad_6k
 }
 
 /* "mlgrad/kmeans.pyx":204
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  *     #
  *     def fit(self):             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
  */
 
 /* Python wrapper */
@@ -10411,7 +10489,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_4fit(struct __pyx_obj_6mlgrad_6km
   int __pyx_v_n_sample;
   CYTHON_UNUSED int __pyx_v_n_class;
   CYTHON_UNUSED int __pyx_v_n_param;
-  double __pyx_v_dist;
+  float __pyx_v_dist;
   CYTHON_UNUSED int __pyx_v_is_complete;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -10435,9 +10513,9 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_4fit(struct __pyx_obj_6mlgrad_6km
   /* "mlgrad/kmeans.pyx":205
  *     #
  *     def fit(self):
- *         cdef double[:, ::1] params = self.params             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double[:, ::1] X = self.X
+ *         cdef float[:, ::1] params = self.params             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] X = self.X
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
@@ -10452,10 +10530,10 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_4fit(struct __pyx_obj_6mlgrad_6km
 
   /* "mlgrad/kmeans.pyx":206
  *     def fit(self):
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] X = self.X
- *         cdef double[::1] weights = self.weights
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] X = self.X
+ *         cdef float[::1] weights = self.weights
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
@@ -10469,10 +10547,10 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_4fit(struct __pyx_obj_6mlgrad_6km
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/kmeans.pyx":207
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double[:, ::1] X = self.X             # <<<<<<<<<<<<<<
- *         cdef double[::1] weights = self.weights
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] X = self.X             # <<<<<<<<<<<<<<
+ *         cdef float[::1] weights = self.weights
  *         cdef int[::1] Y = self.Y
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -10487,9 +10565,9 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_4fit(struct __pyx_obj_6mlgrad_6km
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/kmeans.pyx":208
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double[:, ::1] X = self.X
- *         cdef double[::1] weights = self.weights             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] X = self.X
+ *         cdef float[::1] weights = self.weights             # <<<<<<<<<<<<<<
  *         cdef int[::1] Y = self.Y
  *         cdef int i, j, k
  */
@@ -10505,8 +10583,8 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_4fit(struct __pyx_obj_6mlgrad_6km
   __pyx_t_2.data = NULL;
 
   /* "mlgrad/kmeans.pyx":209
- *         cdef double[:, ::1] X = self.X
- *         cdef double[::1] weights = self.weights
+ *         cdef float[:, ::1] X = self.X
+ *         cdef float[::1] weights = self.weights
  *         cdef int[::1] Y = self.Y             # <<<<<<<<<<<<<<
  *         cdef int i, j, k
  *         cdef int n_sample = self.n_sample
@@ -10541,7 +10619,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_4fit(struct __pyx_obj_6mlgrad_6km
  *         cdef int n_sample = self.n_sample
  *         cdef int n_class = self.n_class             # <<<<<<<<<<<<<<
  *         cdef int n_param = self.n_param
- *         cdef double dist
+ *         cdef float dist
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "n_class");
@@ -10554,7 +10632,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_4fit(struct __pyx_obj_6mlgrad_6km
  *         cdef int n_sample = self.n_sample
  *         cdef int n_class = self.n_class
  *         cdef int n_param = self.n_param             # <<<<<<<<<<<<<<
- *         cdef double dist
+ *         cdef float dist
  *         cdef bint is_complete = 0
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -10566,7 +10644,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_4fit(struct __pyx_obj_6mlgrad_6km
 
   /* "mlgrad/kmeans.pyx":215
  *         cdef int n_param = self.n_param
- *         cdef double dist
+ *         cdef float dist
  *         cdef bint is_complete = 0             # <<<<<<<<<<<<<<
  * 
  *         #print(self.params.base)
@@ -10745,7 +10823,7 @@ __pyx_v_dist = __pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_2, __pyx_t_11);
         __Pyx_RaiseBufferIndexError(__pyx_t_10);
         __PYX_ERR(0, 226, __pyx_L1_error)
       }
-      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_9)) )) = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->derivative(__pyx_v_self->func, __pyx_v_dist);
+      *((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_weights.data) + __pyx_t_9)) )) = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->derivative(__pyx_v_self->func, __pyx_v_dist);
     }
 
     /* "mlgrad/kmeans.pyx":228
@@ -10836,11 +10914,11 @@ __pyx_v_dist = __pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_2, __pyx_t_11);
   __pyx_L4_break:;
 
   /* "mlgrad/kmeans.pyx":204
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  *     #
  *     def fit(self):             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
  */
 
   /* function exit code */
@@ -10870,14 +10948,14 @@ __pyx_v_dist = __pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_2, __pyx_t_11);
  *             self.K += 1
  *     #
  *     cdef bint stop_condition(self):             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
  */
 
 static int __pyx_f_6mlgrad_6kmeans_3HCD_stop_condition(struct __pyx_obj_6mlgrad_6kmeans_HCD *__pyx_v_self) {
   __Pyx_memviewslice __pyx_v_params = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_prev_params = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_v_dist;
+  float __pyx_v_dist;
   int __pyx_v_i;
   int __pyx_v_n_class;
   CYTHON_UNUSED int __pyx_v_n_param;
@@ -10898,9 +10976,9 @@ static int __pyx_f_6mlgrad_6kmeans_3HCD_stop_condition(struct __pyx_obj_6mlgrad_
   /* "mlgrad/kmeans.pyx":239
  *     #
  *     cdef bint stop_condition(self):
- *         cdef double[:, ::1] params = self.params             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double dist
+ *         cdef float[:, ::1] params = self.params             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float dist
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
@@ -10915,9 +10993,9 @@ static int __pyx_f_6mlgrad_6kmeans_3HCD_stop_condition(struct __pyx_obj_6mlgrad_
 
   /* "mlgrad/kmeans.pyx":240
  *     cdef bint stop_condition(self):
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params             # <<<<<<<<<<<<<<
- *         cdef double dist
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params             # <<<<<<<<<<<<<<
+ *         cdef float dist
  *         cdef int i, n_class = self.n_class
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -10932,8 +11010,8 @@ static int __pyx_f_6mlgrad_6kmeans_3HCD_stop_condition(struct __pyx_obj_6mlgrad_
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/kmeans.pyx":242
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double dist
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float dist
  *         cdef int i, n_class = self.n_class             # <<<<<<<<<<<<<<
  *         cdef int n_param = params.shape[1]
  * 
@@ -10946,7 +11024,7 @@ static int __pyx_f_6mlgrad_6kmeans_3HCD_stop_condition(struct __pyx_obj_6mlgrad_
   __pyx_v_n_class = __pyx_t_2;
 
   /* "mlgrad/kmeans.pyx":243
- *         cdef double dist
+ *         cdef float dist
  *         cdef int i, n_class = self.n_class
  *         cdef int n_param = params.shape[1]             # <<<<<<<<<<<<<<
  * 
@@ -11083,8 +11161,8 @@ __pyx_v_dist = sqrt(__pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_5, __pyx_t_
  *             self.K += 1
  *     #
  *     cdef bint stop_condition(self):             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
  */
 
   /* function exit code */
@@ -11106,7 +11184,7 @@ __pyx_v_dist = sqrt(__pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_5, __pyx_t_
  * cdef class HCD:
  *     cdef public int n_class, n_param, n_sample             # <<<<<<<<<<<<<<
  *     cdef public Func func
- *     cdef public double[:,::1] X
+ *     cdef public float[:,::1] X
  */
 
 /* Python wrapper */
@@ -11359,7 +11437,7 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD_8n_sample_2__set__(struct __pyx_obj_6ml
  * cdef class HCD:
  *     cdef public int n_class, n_param, n_sample
  *     cdef public Func func             # <<<<<<<<<<<<<<
- *     cdef public double[:,::1] X
+ *     cdef public float[:,::1] X
  *     cdef public int[::1] Y
  */
 
@@ -11492,9 +11570,9 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD_4func_4__del__(struct __pyx_obj_6mlgrad
 /* "mlgrad/kmeans.pxd":54
  *     cdef public int n_class, n_param, n_sample
  *     cdef public Func func
- *     cdef public double[:,::1] X             # <<<<<<<<<<<<<<
+ *     cdef public float[:,::1] X             # <<<<<<<<<<<<<<
  *     cdef public int[::1] Y
- *     cdef public double[::1] weights
+ *     cdef public float[::1] weights
  */
 
 /* Python wrapper */
@@ -11524,7 +11602,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_1X___get__(struct __pyx_obj_6mlgr
     __PYX_ERR(1, 54, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->X.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 54, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 54, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -11562,7 +11640,7 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD_1X_2__set__(struct __pyx_obj_6mlgrad_6k
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 54, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 54, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "X");
     __PYX_ERR(1, 54, __pyx_L1_error)
@@ -11586,9 +11664,9 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD_1X_2__set__(struct __pyx_obj_6mlgrad_6k
 
 /* "mlgrad/kmeans.pxd":55
  *     cdef public Func func
- *     cdef public double[:,::1] X
+ *     cdef public float[:,::1] X
  *     cdef public int[::1] Y             # <<<<<<<<<<<<<<
- *     cdef public double[::1] weights
+ *     cdef public float[::1] weights
  * 
  */
 
@@ -11680,11 +11758,11 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD_1Y_2__set__(struct __pyx_obj_6mlgrad_6k
 }
 
 /* "mlgrad/kmeans.pxd":56
- *     cdef public double[:,::1] X
+ *     cdef public float[:,::1] X
  *     cdef public int[::1] Y
- *     cdef public double[::1] weights             # <<<<<<<<<<<<<<
+ *     cdef public float[::1] weights             # <<<<<<<<<<<<<<
  * 
- *     cdef public double[:,::1] params
+ *     cdef public float[:,::1] params
  */
 
 /* Python wrapper */
@@ -11714,7 +11792,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_7weights___get__(struct __pyx_obj
     __PYX_ERR(1, 56, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 56, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 56, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -11752,7 +11830,7 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD_7weights_2__set__(struct __pyx_obj_6mlg
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 56, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 56, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
     __PYX_ERR(1, 56, __pyx_L1_error)
@@ -11775,10 +11853,10 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD_7weights_2__set__(struct __pyx_obj_6mlg
 }
 
 /* "mlgrad/kmeans.pxd":58
- *     cdef public double[::1] weights
+ *     cdef public float[::1] weights
  * 
- *     cdef public double[:,::1] params             # <<<<<<<<<<<<<<
- *     cdef double[:,::1] prev_params
+ *     cdef public float[:,::1] params             # <<<<<<<<<<<<<<
+ *     cdef float[:,::1] prev_params
  * 
  */
 
@@ -11809,7 +11887,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_6params___get__(struct __pyx_obj_
     __PYX_ERR(1, 58, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->params.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 58, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->params, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 58, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->params, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -11847,7 +11925,7 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD_6params_2__set__(struct __pyx_obj_6mlgr
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 58, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 58, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
     __PYX_ERR(1, 58, __pyx_L1_error)
@@ -11870,10 +11948,10 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD_6params_2__set__(struct __pyx_obj_6mlgr
 }
 
 /* "mlgrad/kmeans.pxd":61
- *     cdef double[:,::1] prev_params
+ *     cdef float[:,::1] prev_params
  * 
  *     cdef public int n_iter, K             # <<<<<<<<<<<<<<
- *     cdef public double tol
+ *     cdef public float tol
  * 
  */
 
@@ -12044,7 +12122,7 @@ static int __pyx_pf_6mlgrad_6kmeans_3HCD_1K_2__set__(struct __pyx_obj_6mlgrad_6k
 /* "mlgrad/kmeans.pxd":62
  * 
  *     cdef public int n_iter, K
- *     cdef public double tol             # <<<<<<<<<<<<<<
+ *     cdef public float tol             # <<<<<<<<<<<<<<
  * 
  *     cpdef init(self)
  */
@@ -12108,12 +12186,12 @@ static int __pyx_pw_6mlgrad_6kmeans_3HCD_3tol_3__set__(PyObject *__pyx_v_self, P
 static int __pyx_pf_6mlgrad_6kmeans_3HCD_3tol_2__set__(struct __pyx_obj_6mlgrad_6kmeans_HCD *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  double __pyx_t_1;
+  float __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 62, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(1, 62, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "tol");
     __PYX_ERR(1, 62, __pyx_L1_error)
@@ -12194,7 +12272,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_6__reduce_cython__(struct __pyx_o
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->X.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "Y");
@@ -12236,14 +12314,14 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_6__reduce_cython__(struct __pyx_o
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->params.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_v_self->params, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_8 = __pyx_memoryview_fromslice(__pyx_v_self->params, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->prev_params.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_9 = __pyx_memoryview_fromslice(__pyx_v_self->prev_params, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_9 = __pyx_memoryview_fromslice(__pyx_v_self->prev_params, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "tol");
@@ -12256,7 +12334,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_6__reduce_cython__(struct __pyx_o
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __pyx_t_12 = PyTuple_New(12); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
@@ -12559,8 +12637,8 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_3HCD_8__setstate_cython__(struct __pyx
 /* "mlgrad/kmeans.pyx":253
  * cdef class HCD_M1:
  * 
- *     def __init__(self, Average avrfunc, double[:,::1] X, int n_class,             # <<<<<<<<<<<<<<
- *                  double tol=1.0e-4, int n_iter=100):
+ *     def __init__(self, Average avrfunc, float[:,::1] X, int n_class,             # <<<<<<<<<<<<<<
+ *                  float tol=1.0e-4, int n_iter=100):
  * 
  */
 
@@ -12570,7 +12648,7 @@ static int __pyx_pw_6mlgrad_6kmeans_6HCD_M1_1__init__(PyObject *__pyx_v_self, Py
   struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avrfunc = 0;
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_n_class;
-  double __pyx_v_tol;
+  float __pyx_v_tol;
   int __pyx_v_n_iter;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -12645,12 +12723,12 @@ static int __pyx_pw_6mlgrad_6kmeans_6HCD_M1_1__init__(PyObject *__pyx_v_self, Py
       }
     }
     __pyx_v_avrfunc = ((struct __pyx_obj_6mlgrad_6avragg_Average *)values[0]);
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 253, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 253, __pyx_L3_error)
     __pyx_v_n_class = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_n_class == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 253, __pyx_L3_error)
     if (values[3]) {
-      __pyx_v_tol = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_tol == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 254, __pyx_L3_error)
+      __pyx_v_tol = __pyx_PyFloat_AsFloat(values[3]); if (unlikely((__pyx_v_tol == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 254, __pyx_L3_error)
     } else {
-      __pyx_v_tol = ((double)1.0e-4);
+      __pyx_v_tol = ((float)1.0e-4);
     }
     if (values[4]) {
       __pyx_v_n_iter = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_n_iter == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 254, __pyx_L3_error)
@@ -12678,7 +12756,7 @@ static int __pyx_pw_6mlgrad_6kmeans_6HCD_M1_1__init__(PyObject *__pyx_v_self, Py
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1___init__(struct __pyx_obj_6mlgrad_6kmeans_HCD_M1 *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avrfunc, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, double __pyx_v_tol, int __pyx_v_n_iter) {
+static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1___init__(struct __pyx_obj_6mlgrad_6kmeans_HCD_M1 *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avrfunc, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, float __pyx_v_tol, int __pyx_v_n_iter) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -12691,7 +12769,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1___init__(struct __pyx_obj_6mlgrad_6k
   __Pyx_RefNannySetupContext("__init__", 0);
 
   /* "mlgrad/kmeans.pyx":256
- *                  double tol=1.0e-4, int n_iter=100):
+ *                  float tol=1.0e-4, int n_iter=100):
  * 
  *         self.n_class = n_class             # <<<<<<<<<<<<<<
  *         self.n_sample = X.shape[0]
@@ -12793,7 +12871,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1___init__(struct __pyx_obj_6mlgrad_6k
  *         self.dist = None
  *         self.params = None
  */
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 264, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 264, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
     __PYX_ERR(0, 264, __pyx_L1_error)
@@ -12810,7 +12888,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1___init__(struct __pyx_obj_6mlgrad_6k
  *         self.params = None
  *         self.prev_params = None
  */
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 265, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "dist");
     __PYX_ERR(0, 265, __pyx_L1_error)
@@ -12827,7 +12905,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1___init__(struct __pyx_obj_6mlgrad_6k
  *         self.prev_params = None
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(0, 266, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
     __PYX_ERR(0, 266, __pyx_L1_error)
@@ -12844,7 +12922,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1___init__(struct __pyx_obj_6mlgrad_6k
  * 
  *         self.tol = tol
  */
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(0, 267, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
     __PYX_ERR(0, 267, __pyx_L1_error)
@@ -12898,8 +12976,8 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1___init__(struct __pyx_obj_6mlgrad_6k
   /* "mlgrad/kmeans.pyx":253
  * cdef class HCD_M1:
  * 
- *     def __init__(self, Average avrfunc, double[:,::1] X, int n_class,             # <<<<<<<<<<<<<<
- *                  double tol=1.0e-4, int n_iter=100):
+ *     def __init__(self, Average avrfunc, float[:,::1] X, int n_class,             # <<<<<<<<<<<<<<
+ *                  float tol=1.0e-4, int n_iter=100):
  * 
  */
 
@@ -12923,7 +13001,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1___init__(struct __pyx_obj_6mlgrad_6k
  *         self.init()
  *     #
  *     cpdef init(self):             # <<<<<<<<<<<<<<
- *         #cdef double[::1] Xk
+ *         #cdef float[::1] Xk
  *         #cdef int k, N = len(self.X)
  */
 
@@ -13005,7 +13083,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
  *         init_rand()
  * 
  *         if self.weights is None:             # <<<<<<<<<<<<<<
- *             self.weights = np.zeros(self.n_sample, 'd')
+ *             self.weights = np.zeros(self.n_sample, 'f')
  * 
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -13019,7 +13097,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
     /* "mlgrad/kmeans.pyx":281
  * 
  *         if self.weights is None:
- *             self.weights = np.zeros(self.n_sample, 'd')             # <<<<<<<<<<<<<<
+ *             self.weights = np.zeros(self.n_sample, 'f')             # <<<<<<<<<<<<<<
  * 
  *         if self.dist is None:
  */
@@ -13048,7 +13126,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
     }
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_f};
       __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 281, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
@@ -13057,7 +13135,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_f};
       __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 281, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
@@ -13072,16 +13150,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
       }
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_6, __pyx_t_2);
-      __Pyx_INCREF(__pyx_n_u_d);
-      __Pyx_GIVEREF(__pyx_n_u_d);
-      PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_d);
+      __Pyx_INCREF(__pyx_n_u_f);
+      __Pyx_GIVEREF(__pyx_n_u_f);
+      PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_f);
       __pyx_t_2 = 0;
       __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 281, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 281, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 281, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
@@ -13096,16 +13174,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
  *         init_rand()
  * 
  *         if self.weights is None:             # <<<<<<<<<<<<<<
- *             self.weights = np.zeros(self.n_sample, 'd')
+ *             self.weights = np.zeros(self.n_sample, 'f')
  * 
  */
   }
 
   /* "mlgrad/kmeans.pyx":283
- *             self.weights = np.zeros(self.n_sample, 'd')
+ *             self.weights = np.zeros(self.n_sample, 'f')
  * 
  *         if self.dist is None:             # <<<<<<<<<<<<<<
- *             self.dist = np.zeros(self.n_sample, 'd')
+ *             self.dist = np.zeros(self.n_sample, 'f')
  * 
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -13119,7 +13197,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
     /* "mlgrad/kmeans.pyx":284
  * 
  *         if self.dist is None:
- *             self.dist = np.zeros(self.n_sample, 'd')             # <<<<<<<<<<<<<<
+ *             self.dist = np.zeros(self.n_sample, 'f')             # <<<<<<<<<<<<<<
  * 
  *         if self.Y is None:
  */
@@ -13148,7 +13226,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
     }
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_3, __pyx_n_u_d};
+      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_3, __pyx_n_u_f};
       __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 284, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
@@ -13157,7 +13235,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_3, __pyx_n_u_d};
+      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_3, __pyx_n_u_f};
       __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 284, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
@@ -13172,16 +13250,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
       }
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_6, __pyx_t_3);
-      __Pyx_INCREF(__pyx_n_u_d);
-      __Pyx_GIVEREF(__pyx_n_u_d);
-      PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_6, __pyx_n_u_d);
+      __Pyx_INCREF(__pyx_n_u_f);
+      __Pyx_GIVEREF(__pyx_n_u_f);
+      PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_6, __pyx_n_u_f);
       __pyx_t_3 = 0;
       __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 284, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 284, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 284, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "dist");
@@ -13193,16 +13271,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
     __pyx_t_8.data = NULL;
 
     /* "mlgrad/kmeans.pyx":283
- *             self.weights = np.zeros(self.n_sample, 'd')
+ *             self.weights = np.zeros(self.n_sample, 'f')
  * 
  *         if self.dist is None:             # <<<<<<<<<<<<<<
- *             self.dist = np.zeros(self.n_sample, 'd')
+ *             self.dist = np.zeros(self.n_sample, 'f')
  * 
  */
   }
 
   /* "mlgrad/kmeans.pyx":286
- *             self.dist = np.zeros(self.n_sample, 'd')
+ *             self.dist = np.zeros(self.n_sample, 'f')
  * 
  *         if self.Y is None:             # <<<<<<<<<<<<<<
  *             self.Y = np.zeros(self.n_sample, 'i')
@@ -13293,7 +13371,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
     __pyx_t_9.data = NULL;
 
     /* "mlgrad/kmeans.pyx":286
- *             self.dist = np.zeros(self.n_sample, 'd')
+ *             self.dist = np.zeros(self.n_sample, 'f')
  * 
  *         if self.Y is None:             # <<<<<<<<<<<<<<
  *             self.Y = np.zeros(self.n_sample, 'i')
@@ -13306,7 +13384,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
  * 
  *         if self.params is None:             # <<<<<<<<<<<<<<
  *             self.params = init_centers2(self.X, self.n_class)
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
@@ -13320,7 +13398,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
  * 
  *         if self.params is None:
  *             self.params = init_centers2(self.X, self.n_class)             # <<<<<<<<<<<<<<
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  *     #
  */
     if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -13347,14 +13425,14 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
  * 
  *         if self.params is None:             # <<<<<<<<<<<<<<
  *             self.params = init_centers2(self.X, self.n_class)
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  */
   }
 
   /* "mlgrad/kmeans.pyx":291
  *         if self.params is None:
  *             self.params = init_centers2(self.X, self.n_class)
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')             # <<<<<<<<<<<<<<
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')             # <<<<<<<<<<<<<<
  *     #
  *     def fit(self):
  */
@@ -13397,7 +13475,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_3, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_3, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -13406,7 +13484,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_3, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_3, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -13421,16 +13499,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
     }
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_6, __pyx_t_3);
-    __Pyx_INCREF(__pyx_n_u_d);
-    __Pyx_GIVEREF(__pyx_n_u_d);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_6, __pyx_n_u_d);
+    __Pyx_INCREF(__pyx_n_u_f);
+    __Pyx_GIVEREF(__pyx_n_u_f);
+    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_6, __pyx_n_u_f);
     __pyx_t_3 = 0;
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
@@ -13445,7 +13523,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M1_init(struct __pyx_obj_6mlgrad_6
  *         self.init()
  *     #
  *     cpdef init(self):             # <<<<<<<<<<<<<<
- *         #cdef double[::1] Xk
+ *         #cdef float[::1] Xk
  *         #cdef int k, N = len(self.X)
  */
 
@@ -13510,11 +13588,11 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_2init(struct __pyx_obj_6mlgrad
 }
 
 /* "mlgrad/kmeans.pyx":293
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  *     #
  *     def fit(self):             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
  */
 
 /* Python wrapper */
@@ -13566,9 +13644,9 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_4fit(struct __pyx_obj_6mlgrad_
   /* "mlgrad/kmeans.pyx":294
  *     #
  *     def fit(self):
- *         cdef double[:, ::1] params = self.params             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double[:, ::1] X = self.X
+ *         cdef float[:, ::1] params = self.params             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] X = self.X
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
@@ -13583,10 +13661,10 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_4fit(struct __pyx_obj_6mlgrad_
 
   /* "mlgrad/kmeans.pyx":295
  *     def fit(self):
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] X = self.X
- *         cdef double[::1] Xk
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] X = self.X
+ *         cdef float[::1] Xk
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
@@ -13600,11 +13678,11 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_4fit(struct __pyx_obj_6mlgrad_
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/kmeans.pyx":296
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double[:, ::1] X = self.X             # <<<<<<<<<<<<<<
- *         cdef double[::1] Xk
- *         cdef double[::1] weights = self.weights
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] X = self.X             # <<<<<<<<<<<<<<
+ *         cdef float[::1] Xk
+ *         cdef float[::1] weights = self.weights
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "X");
@@ -13618,9 +13696,9 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_4fit(struct __pyx_obj_6mlgrad_
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/kmeans.pyx":298
- *         cdef double[:, ::1] X = self.X
- *         cdef double[::1] Xk
- *         cdef double[::1] weights = self.weights             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] X = self.X
+ *         cdef float[::1] Xk
+ *         cdef float[::1] weights = self.weights             # <<<<<<<<<<<<<<
  *         cdef int[::1] Y = self.Y
  *         cdef int i, j, k
  */
@@ -13636,8 +13714,8 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_4fit(struct __pyx_obj_6mlgrad_
   __pyx_t_2.data = NULL;
 
   /* "mlgrad/kmeans.pyx":299
- *         cdef double[::1] Xk
- *         cdef double[::1] weights = self.weights
+ *         cdef float[::1] Xk
+ *         cdef float[::1] weights = self.weights
  *         cdef int[::1] Y = self.Y             # <<<<<<<<<<<<<<
  *         cdef int i, j, k
  *         cdef int n_sample = self.n_sample
@@ -13672,7 +13750,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_4fit(struct __pyx_obj_6mlgrad_
  *         cdef int n_sample = self.n_sample
  *         cdef int n_class = self.n_class             # <<<<<<<<<<<<<<
  *         cdef int n_param = self.n_param
- *         cdef double[::1] dist = self.dist
+ *         cdef float[::1] dist = self.dist
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "n_class");
@@ -13685,7 +13763,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_4fit(struct __pyx_obj_6mlgrad_
  *         cdef int n_sample = self.n_sample
  *         cdef int n_class = self.n_class
  *         cdef int n_param = self.n_param             # <<<<<<<<<<<<<<
- *         cdef double[::1] dist = self.dist
+ *         cdef float[::1] dist = self.dist
  *         cdef bint is_complete = 0
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -13698,7 +13776,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_4fit(struct __pyx_obj_6mlgrad_
   /* "mlgrad/kmeans.pyx":304
  *         cdef int n_class = self.n_class
  *         cdef int n_param = self.n_param
- *         cdef double[::1] dist = self.dist             # <<<<<<<<<<<<<<
+ *         cdef float[::1] dist = self.dist             # <<<<<<<<<<<<<<
  *         cdef bint is_complete = 0
  * 
  */
@@ -13715,7 +13793,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_4fit(struct __pyx_obj_6mlgrad_
 
   /* "mlgrad/kmeans.pyx":305
  *         cdef int n_param = self.n_param
- *         cdef double[::1] dist = self.dist
+ *         cdef float[::1] dist = self.dist
  *         cdef bint is_complete = 0             # <<<<<<<<<<<<<<
  * 
  *         #print(self.params.base)
@@ -13871,7 +13949,7 @@ if (unlikely(((PyObject *) __pyx_v_dist.memview) == Py_None)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_10);
         __PYX_ERR(0, 316, __pyx_L1_error)
       }
-      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_dist.data) + __pyx_t_9)) )) = __pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_2, __pyx_t_11);
+      *((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_dist.data) + __pyx_t_9)) )) = __pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_2, __pyx_t_11);
       __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
       __pyx_t_2.memview = NULL;
       __pyx_t_2.data = NULL;
@@ -14006,11 +14084,11 @@ if (unlikely(((PyObject *) __pyx_v_dist.memview) == Py_None)) {
   __pyx_L4_break:;
 
   /* "mlgrad/kmeans.pyx":293
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  *     #
  *     def fit(self):             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
  */
 
   /* function exit code */
@@ -14041,14 +14119,14 @@ if (unlikely(((PyObject *) __pyx_v_dist.memview) == Py_None)) {
  * #                     params[j,i] = 0.5*(params[j,i] + prev_params[j,i])
  *     #
  *     cdef bint stop_condition(self):             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
  */
 
 static int __pyx_f_6mlgrad_6kmeans_6HCD_M1_stop_condition(struct __pyx_obj_6mlgrad_6kmeans_HCD_M1 *__pyx_v_self) {
   __Pyx_memviewslice __pyx_v_params = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_prev_params = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_v_dist;
+  float __pyx_v_dist;
   int __pyx_v_i;
   int __pyx_v_n_class;
   CYTHON_UNUSED int __pyx_v_n_param;
@@ -14069,9 +14147,9 @@ static int __pyx_f_6mlgrad_6kmeans_6HCD_M1_stop_condition(struct __pyx_obj_6mlgr
   /* "mlgrad/kmeans.pyx":336
  *     #
  *     cdef bint stop_condition(self):
- *         cdef double[:, ::1] params = self.params             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double dist
+ *         cdef float[:, ::1] params = self.params             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float dist
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
@@ -14086,9 +14164,9 @@ static int __pyx_f_6mlgrad_6kmeans_6HCD_M1_stop_condition(struct __pyx_obj_6mlgr
 
   /* "mlgrad/kmeans.pyx":337
  *     cdef bint stop_condition(self):
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params             # <<<<<<<<<<<<<<
- *         cdef double dist
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params             # <<<<<<<<<<<<<<
+ *         cdef float dist
  *         cdef int i, n_class = self.n_class
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -14103,8 +14181,8 @@ static int __pyx_f_6mlgrad_6kmeans_6HCD_M1_stop_condition(struct __pyx_obj_6mlgr
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/kmeans.pyx":339
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double dist
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float dist
  *         cdef int i, n_class = self.n_class             # <<<<<<<<<<<<<<
  *         cdef int n_param = params.shape[1]
  * 
@@ -14117,7 +14195,7 @@ static int __pyx_f_6mlgrad_6kmeans_6HCD_M1_stop_condition(struct __pyx_obj_6mlgr
   __pyx_v_n_class = __pyx_t_2;
 
   /* "mlgrad/kmeans.pyx":340
- *         cdef double dist
+ *         cdef float dist
  *         cdef int i, n_class = self.n_class
  *         cdef int n_param = params.shape[1]             # <<<<<<<<<<<<<<
  * 
@@ -14245,7 +14323,7 @@ __pyx_v_dist = sqrt(__pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_5, __pyx_t_
  *                 return 0
  *         return 1             # <<<<<<<<<<<<<<
  * 
- * cpdef find_centers2(double[:, ::1] X, double[:, ::1] Y, double[::1] weights, double[:,::1] params):
+ * cpdef find_centers2(float[:, ::1] X, float[:, ::1] Y, float[::1] weights, float[:,::1] params):
  */
   __pyx_r = 1;
   goto __pyx_L0;
@@ -14254,8 +14332,8 @@ __pyx_v_dist = sqrt(__pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_5, __pyx_t_
  * #                     params[j,i] = 0.5*(params[j,i] + prev_params[j,i])
  *     #
  *     cdef bint stop_condition(self):             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
  */
 
   /* function exit code */
@@ -14277,7 +14355,7 @@ __pyx_v_dist = sqrt(__pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_5, __pyx_t_
  * cdef class HCD_M1:
  *     cdef public int n_class, n_param, n_sample             # <<<<<<<<<<<<<<
  *     cdef public Average avrfunc
- *     cdef public double[:,::1] X
+ *     cdef public float[:,::1] X
  */
 
 /* Python wrapper */
@@ -14530,7 +14608,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_8n_sample_2__set__(struct __pyx_obj_
  * cdef class HCD_M1:
  *     cdef public int n_class, n_param, n_sample
  *     cdef public Average avrfunc             # <<<<<<<<<<<<<<
- *     cdef public double[:,::1] X
+ *     cdef public float[:,::1] X
  *     cdef public int[::1] Y
  */
 
@@ -14663,9 +14741,9 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_7avrfunc_4__del__(struct __pyx_obj_6
 /* "mlgrad/kmeans.pxd":71
  *     cdef public int n_class, n_param, n_sample
  *     cdef public Average avrfunc
- *     cdef public double[:,::1] X             # <<<<<<<<<<<<<<
+ *     cdef public float[:,::1] X             # <<<<<<<<<<<<<<
  *     cdef public int[::1] Y
- *     cdef public double[::1] weights
+ *     cdef public float[::1] weights
  */
 
 /* Python wrapper */
@@ -14695,7 +14773,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_1X___get__(struct __pyx_obj_6m
     __PYX_ERR(1, 71, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->X.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 71, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 71, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -14733,7 +14811,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_1X_2__set__(struct __pyx_obj_6mlgrad
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 71, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 71, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "X");
     __PYX_ERR(1, 71, __pyx_L1_error)
@@ -14757,10 +14835,10 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_1X_2__set__(struct __pyx_obj_6mlgrad
 
 /* "mlgrad/kmeans.pxd":72
  *     cdef public Average avrfunc
- *     cdef public double[:,::1] X
+ *     cdef public float[:,::1] X
  *     cdef public int[::1] Y             # <<<<<<<<<<<<<<
- *     cdef public double[::1] weights
- *     cdef public double[::1] dist
+ *     cdef public float[::1] weights
+ *     cdef public float[::1] dist
  */
 
 /* Python wrapper */
@@ -14851,11 +14929,11 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_1Y_2__set__(struct __pyx_obj_6mlgrad
 }
 
 /* "mlgrad/kmeans.pxd":73
- *     cdef public double[:,::1] X
+ *     cdef public float[:,::1] X
  *     cdef public int[::1] Y
- *     cdef public double[::1] weights             # <<<<<<<<<<<<<<
- *     cdef public double[::1] dist
- *     cdef public double[::1] grad
+ *     cdef public float[::1] weights             # <<<<<<<<<<<<<<
+ *     cdef public float[::1] dist
+ *     cdef public float[::1] grad
  */
 
 /* Python wrapper */
@@ -14885,7 +14963,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_7weights___get__(struct __pyx_
     __PYX_ERR(1, 73, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 73, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 73, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -14923,7 +15001,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_7weights_2__set__(struct __pyx_obj_6
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 73, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 73, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
     __PYX_ERR(1, 73, __pyx_L1_error)
@@ -14947,9 +15025,9 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_7weights_2__set__(struct __pyx_obj_6
 
 /* "mlgrad/kmeans.pxd":74
  *     cdef public int[::1] Y
- *     cdef public double[::1] weights
- *     cdef public double[::1] dist             # <<<<<<<<<<<<<<
- *     cdef public double[::1] grad
+ *     cdef public float[::1] weights
+ *     cdef public float[::1] dist             # <<<<<<<<<<<<<<
+ *     cdef public float[::1] grad
  * 
  */
 
@@ -14980,7 +15058,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_4dist___get__(struct __pyx_obj
     __PYX_ERR(1, 74, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->dist.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 74, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->dist, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 74, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->dist, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -15018,7 +15096,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_4dist_2__set__(struct __pyx_obj_6mlg
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 74, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 74, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "dist");
     __PYX_ERR(1, 74, __pyx_L1_error)
@@ -15041,11 +15119,11 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_4dist_2__set__(struct __pyx_obj_6mlg
 }
 
 /* "mlgrad/kmeans.pxd":75
- *     cdef public double[::1] weights
- *     cdef public double[::1] dist
- *     cdef public double[::1] grad             # <<<<<<<<<<<<<<
+ *     cdef public float[::1] weights
+ *     cdef public float[::1] dist
+ *     cdef public float[::1] grad             # <<<<<<<<<<<<<<
  * 
- *     cdef public double[:,::1] params
+ *     cdef public float[:,::1] params
  */
 
 /* Python wrapper */
@@ -15075,7 +15153,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_4grad___get__(struct __pyx_obj
     __PYX_ERR(1, 75, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 75, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 75, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -15113,7 +15191,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_4grad_2__set__(struct __pyx_obj_6mlg
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 75, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 75, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "grad");
     __PYX_ERR(1, 75, __pyx_L1_error)
@@ -15136,10 +15214,10 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_4grad_2__set__(struct __pyx_obj_6mlg
 }
 
 /* "mlgrad/kmeans.pxd":77
- *     cdef public double[::1] grad
+ *     cdef public float[::1] grad
  * 
- *     cdef public double[:,::1] params             # <<<<<<<<<<<<<<
- *     cdef double[:,::1] prev_params
+ *     cdef public float[:,::1] params             # <<<<<<<<<<<<<<
+ *     cdef float[:,::1] prev_params
  * 
  */
 
@@ -15170,7 +15248,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_6params___get__(struct __pyx_o
     __PYX_ERR(1, 77, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->params.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 77, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->params, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 77, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->params, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -15208,7 +15286,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_6params_2__set__(struct __pyx_obj_6m
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 77, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 77, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
     __PYX_ERR(1, 77, __pyx_L1_error)
@@ -15231,10 +15309,10 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_6params_2__set__(struct __pyx_obj_6m
 }
 
 /* "mlgrad/kmeans.pxd":80
- *     cdef double[:,::1] prev_params
+ *     cdef float[:,::1] prev_params
  * 
  *     cdef public int n_iter, K             # <<<<<<<<<<<<<<
- *     cdef public double tol
+ *     cdef public float tol
  * 
  */
 
@@ -15405,9 +15483,9 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_1K_2__set__(struct __pyx_obj_6mlgrad
 /* "mlgrad/kmeans.pxd":81
  * 
  *     cdef public int n_iter, K
- *     cdef public double tol             # <<<<<<<<<<<<<<
+ *     cdef public float tol             # <<<<<<<<<<<<<<
  * 
- *     #cdef double[::1] dist, grad
+ *     #cdef float[::1] dist, grad
  */
 
 /* Python wrapper */
@@ -15469,12 +15547,12 @@ static int __pyx_pw_6mlgrad_6kmeans_6HCD_M1_3tol_3__set__(PyObject *__pyx_v_self
 static int __pyx_pf_6mlgrad_6kmeans_6HCD_M1_3tol_2__set__(struct __pyx_obj_6mlgrad_6kmeans_HCD_M1 *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  double __pyx_t_1;
+  float __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 81, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(1, 81, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "tol");
     __PYX_ERR(1, 81, __pyx_L1_error)
@@ -15557,7 +15635,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_6__reduce_cython__(struct __py
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->X.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "Y");
@@ -15575,14 +15653,14 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_6__reduce_cython__(struct __py
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->dist.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->dist, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->dist, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "grad");
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "n_class");
@@ -15613,14 +15691,14 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_6__reduce_cython__(struct __py
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->params.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_v_self->params, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_v_self->params, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->prev_params.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_v_self->prev_params, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_v_self->prev_params, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "tol");
@@ -15633,7 +15711,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_6__reduce_cython__(struct __py
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_13 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_13 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __pyx_t_14 = PyTuple_New(14); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
@@ -15944,7 +16022,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M1_8__setstate_cython__(struct __
 /* "mlgrad/kmeans.pyx":348
  *         return 1
  * 
- * cpdef find_centers2(double[:, ::1] X, double[:, ::1] Y, double[::1] weights, double[:,::1] params):             # <<<<<<<<<<<<<<
+ * cpdef find_centers2(float[:, ::1] X, float[:, ::1] Y, float[::1] weights, float[:,::1] params):             # <<<<<<<<<<<<<<
  *     cdef int i, j, k
  *     cdef int n_sample = X.shape[0]
  */
@@ -15957,9 +16035,9 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers2(__Pyx_memviewslice __pyx_
   int __pyx_v_n_sample;
   int __pyx_v_n_class;
   int __pyx_v_n_param;
-  double __pyx_v_wk;
-  double __pyx_v_wkj;
-  double __pyx_v_W;
+  float __pyx_v_wk;
+  float __pyx_v_wkj;
+  float __pyx_v_W;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -15982,7 +16060,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers2(__Pyx_memviewslice __pyx_
   __Pyx_RefNannySetupContext("find_centers2", 0);
 
   /* "mlgrad/kmeans.pyx":350
- * cpdef find_centers2(double[:, ::1] X, double[:, ::1] Y, double[::1] weights, double[:,::1] params):
+ * cpdef find_centers2(float[:, ::1] X, float[:, ::1] Y, float[::1] weights, float[:,::1] params):
  *     cdef int i, j, k
  *     cdef int n_sample = X.shape[0]             # <<<<<<<<<<<<<<
  *     cdef int n_class = params.shape[0]
@@ -15999,7 +16077,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers2(__Pyx_memviewslice __pyx_
  *     cdef int n_sample = X.shape[0]
  *     cdef int n_class = params.shape[0]             # <<<<<<<<<<<<<<
  *     cdef int n_param = params.shape[1]
- *     cdef double wk, wkj, W
+ *     cdef float wk, wkj, W
  */
   if (unlikely(((PyObject *) __pyx_v_params.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -16011,8 +16089,8 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers2(__Pyx_memviewslice __pyx_
  *     cdef int n_sample = X.shape[0]
  *     cdef int n_class = params.shape[0]
  *     cdef int n_param = params.shape[1]             # <<<<<<<<<<<<<<
- *     cdef double wk, wkj, W
- * #     cdef double[::1] Xk
+ *     cdef float wk, wkj, W
+ * #     cdef float[::1] Xk
  */
   if (unlikely(((PyObject *) __pyx_v_params.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -16021,7 +16099,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers2(__Pyx_memviewslice __pyx_
   __pyx_v_n_param = (__pyx_v_params.shape[1]);
 
   /* "mlgrad/kmeans.pyx":356
- * #     cdef double[::1] Xk
+ * #     cdef float[::1] Xk
  * 
  *     fill_memoryview2(params, 0)             # <<<<<<<<<<<<<<
  * 
@@ -16083,7 +16161,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers2(__Pyx_memviewslice __pyx_
         __Pyx_RaiseBufferIndexError(__pyx_t_8);
         __PYX_ERR(0, 361, __pyx_L1_error)
       }
-      __pyx_v_wk = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_weights.data) + __pyx_t_7)) )));
+      __pyx_v_wk = (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_weights.data) + __pyx_t_7)) )));
 
       /* "mlgrad/kmeans.pyx":362
  *         for k in range(n_sample):
@@ -16111,7 +16189,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers2(__Pyx_memviewslice __pyx_
         __Pyx_RaiseBufferIndexError(__pyx_t_8);
         __PYX_ERR(0, 362, __pyx_L1_error)
       }
-      __pyx_v_wkj = (__pyx_v_wk * (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Y.data + __pyx_t_7 * __pyx_v_Y.strides[0]) )) + __pyx_t_9)) ))));
+      __pyx_v_wkj = (__pyx_v_wk * (*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_Y.data + __pyx_t_7 * __pyx_v_Y.strides[0]) )) + __pyx_t_9)) ))));
 
       /* "mlgrad/kmeans.pyx":363
  *             wk = weights[k]
@@ -16179,7 +16257,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers2(__Pyx_memviewslice __pyx_
           __Pyx_RaiseBufferIndexError(__pyx_t_12);
           __PYX_ERR(0, 366, __pyx_L1_error)
         }
-        *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_params.data + __pyx_t_13 * __pyx_v_params.strides[0]) )) + __pyx_t_14)) )) += (__pyx_v_wkj * (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_9 * __pyx_v_X.strides[0]) )) + __pyx_t_7)) ))));
+        *((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_params.data + __pyx_t_13 * __pyx_v_params.strides[0]) )) + __pyx_t_14)) )) += (__pyx_v_wkj * (*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_9 * __pyx_v_X.strides[0]) )) + __pyx_t_7)) ))));
       }
     }
 
@@ -16200,7 +16278,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers2(__Pyx_memviewslice __pyx_
  *         for i in range(n_param):
  *             params[j,i] /= W             # <<<<<<<<<<<<<<
  * 
- * cpdef calc_distance_matrix(double[:, ::1] X, double[:,::1] params, double[:, ::1] D):
+ * cpdef calc_distance_matrix(float[:, ::1] X, float[:,::1] params, float[:, ::1] D):
  */
       if (unlikely(((PyObject *) __pyx_v_params.memview) == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
@@ -16221,14 +16299,14 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers2(__Pyx_memviewslice __pyx_
         __Pyx_RaiseBufferIndexError(__pyx_t_8);
         __PYX_ERR(0, 368, __pyx_L1_error)
       }
-      *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_params.data + __pyx_t_7 * __pyx_v_params.strides[0]) )) + __pyx_t_9)) )) /= __pyx_v_W;
+      *((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_params.data + __pyx_t_7 * __pyx_v_params.strides[0]) )) + __pyx_t_9)) )) /= __pyx_v_W;
     }
   }
 
   /* "mlgrad/kmeans.pyx":348
  *         return 1
  * 
- * cpdef find_centers2(double[:, ::1] X, double[:, ::1] Y, double[::1] weights, double[:,::1] params):             # <<<<<<<<<<<<<<
+ * cpdef find_centers2(float[:, ::1] X, float[:, ::1] Y, float[::1] weights, float[:,::1] params):             # <<<<<<<<<<<<<<
  *     cdef int i, j, k
  *     cdef int n_sample = X.shape[0]
  */
@@ -16247,7 +16325,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_find_centers2(__Pyx_memviewslice __pyx_
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6mlgrad_6kmeans_9find_centers2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6mlgrad_6kmeans_8find_centers2[] = "find_centers2(double[:, ::1] X, double[:, ::1] Y, double[::1] weights, double[:, ::1] params)";
+static char __pyx_doc_6mlgrad_6kmeans_8find_centers2[] = "find_centers2(float[:, ::1] X, float[:, ::1] Y, float[::1] weights, float[:, ::1] params)";
 static PyObject *__pyx_pw_6mlgrad_6kmeans_9find_centers2(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_Y = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -16312,10 +16390,10 @@ static PyObject *__pyx_pw_6mlgrad_6kmeans_9find_centers2(PyObject *__pyx_self, P
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 348, __pyx_L3_error)
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(0, 348, __pyx_L3_error)
-    __pyx_v_weights = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_weights.memview)) __PYX_ERR(0, 348, __pyx_L3_error)
-    __pyx_v_params = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[3], PyBUF_WRITABLE); if (unlikely(!__pyx_v_params.memview)) __PYX_ERR(0, 348, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 348, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(0, 348, __pyx_L3_error)
+    __pyx_v_weights = __Pyx_PyObject_to_MemoryviewSlice_dc_float(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_weights.memview)) __PYX_ERR(0, 348, __pyx_L3_error)
+    __pyx_v_params = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[3], PyBUF_WRITABLE); if (unlikely(!__pyx_v_params.memview)) __PYX_ERR(0, 348, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -16369,7 +16447,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_8find_centers2(CYTHON_UNUSED PyObject 
 /* "mlgrad/kmeans.pyx":370
  *             params[j,i] /= W
  * 
- * cpdef calc_distance_matrix(double[:, ::1] X, double[:,::1] params, double[:, ::1] D):             # <<<<<<<<<<<<<<
+ * cpdef calc_distance_matrix(float[:, ::1] X, float[:,::1] params, float[:, ::1] D):             # <<<<<<<<<<<<<<
  *     cdef int k, j
  *     cdef int n_sample = X.shape[0]
  */
@@ -16400,7 +16478,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_distance_matrix(__Pyx_memviewslice
   __Pyx_RefNannySetupContext("calc_distance_matrix", 0);
 
   /* "mlgrad/kmeans.pyx":372
- * cpdef calc_distance_matrix(double[:, ::1] X, double[:,::1] params, double[:, ::1] D):
+ * cpdef calc_distance_matrix(float[:, ::1] X, float[:,::1] params, float[:, ::1] D):
  *     cdef int k, j
  *     cdef int n_sample = X.shape[0]             # <<<<<<<<<<<<<<
  *     cdef int n_class = params.shape[0]
@@ -16467,7 +16545,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_distance_matrix(__Pyx_memviewslice
  *         for j in range(n_class):
  *             D[k,j] = euclid_distance2(X[k], params[j])             # <<<<<<<<<<<<<<
  * 
- * cpdef calc_Y(double[:, ::1] D, double[:, ::1] Y, Average minfunc):
+ * cpdef calc_Y(float[:, ::1] D, float[:, ::1] Y, Average minfunc):
  */
       if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "Cannot slice None memoryview slice");
@@ -16538,7 +16616,7 @@ if (unlikely(((PyObject *) __pyx_v_D.memview) == Py_None)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_11);
         __PYX_ERR(0, 378, __pyx_L1_error)
       }
-      *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_D.data + __pyx_t_9 * __pyx_v_D.strides[0]) )) + __pyx_t_10)) )) = __pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_7, __pyx_t_8);
+      *((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_D.data + __pyx_t_9 * __pyx_v_D.strides[0]) )) + __pyx_t_10)) )) = __pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_7, __pyx_t_8);
       __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
       __pyx_t_7.memview = NULL;
       __pyx_t_7.data = NULL;
@@ -16551,7 +16629,7 @@ if (unlikely(((PyObject *) __pyx_v_D.memview) == Py_None)) {
   /* "mlgrad/kmeans.pyx":370
  *             params[j,i] /= W
  * 
- * cpdef calc_distance_matrix(double[:, ::1] X, double[:,::1] params, double[:, ::1] D):             # <<<<<<<<<<<<<<
+ * cpdef calc_distance_matrix(float[:, ::1] X, float[:,::1] params, float[:, ::1] D):             # <<<<<<<<<<<<<<
  *     cdef int k, j
  *     cdef int n_sample = X.shape[0]
  */
@@ -16572,7 +16650,7 @@ if (unlikely(((PyObject *) __pyx_v_D.memview) == Py_None)) {
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6mlgrad_6kmeans_11calc_distance_matrix(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6mlgrad_6kmeans_10calc_distance_matrix[] = "calc_distance_matrix(double[:, ::1] X, double[:, ::1] params, double[:, ::1] D)";
+static char __pyx_doc_6mlgrad_6kmeans_10calc_distance_matrix[] = "calc_distance_matrix(float[:, ::1] X, float[:, ::1] params, float[:, ::1] D)";
 static PyObject *__pyx_pw_6mlgrad_6kmeans_11calc_distance_matrix(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_params = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -16627,9 +16705,9 @@ static PyObject *__pyx_pw_6mlgrad_6kmeans_11calc_distance_matrix(PyObject *__pyx
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 370, __pyx_L3_error)
-    __pyx_v_params = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_params.memview)) __PYX_ERR(0, 370, __pyx_L3_error)
-    __pyx_v_D = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_D.memview)) __PYX_ERR(0, 370, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 370, __pyx_L3_error)
+    __pyx_v_params = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_params.memview)) __PYX_ERR(0, 370, __pyx_L3_error)
+    __pyx_v_D = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_D.memview)) __PYX_ERR(0, 370, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -16681,7 +16759,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_10calc_distance_matrix(CYTHON_UNUSED P
 /* "mlgrad/kmeans.pyx":380
  *             D[k,j] = euclid_distance2(X[k], params[j])
  * 
- * cpdef calc_Y(double[:, ::1] D, double[:, ::1] Y, Average minfunc):             # <<<<<<<<<<<<<<
+ * cpdef calc_Y(float[:, ::1] D, float[:, ::1] Y, Average minfunc):             # <<<<<<<<<<<<<<
  *     cdef int n_sample = Y.shape[0]
  *     cdef int n_class = Y.shape[1]
  */
@@ -16691,8 +16769,8 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_Y(__Pyx_memviewslice __pyx_v_D, __
   int __pyx_v_n_sample;
   int __pyx_v_n_class;
   __Pyx_memviewslice __pyx_v_Dk = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_v_d;
-  double __pyx_v_dmin;
+  float __pyx_v_d;
+  float __pyx_v_dmin;
   int __pyx_v_i;
   int __pyx_v_k;
   PyObject *__pyx_r = NULL;
@@ -16717,10 +16795,10 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_Y(__Pyx_memviewslice __pyx_v_D, __
 
   /* "mlgrad/kmeans.pyx":381
  * 
- * cpdef calc_Y(double[:, ::1] D, double[:, ::1] Y, Average minfunc):
+ * cpdef calc_Y(float[:, ::1] D, float[:, ::1] Y, Average minfunc):
  *     cdef int n_sample = Y.shape[0]             # <<<<<<<<<<<<<<
  *     cdef int n_class = Y.shape[1]
- *     cdef double[::1] Dk
+ *     cdef float[::1] Dk
  */
   if (unlikely(((PyObject *) __pyx_v_Y.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -16729,11 +16807,11 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_Y(__Pyx_memviewslice __pyx_v_D, __
   __pyx_v_n_sample = (__pyx_v_Y.shape[0]);
 
   /* "mlgrad/kmeans.pyx":382
- * cpdef calc_Y(double[:, ::1] D, double[:, ::1] Y, Average minfunc):
+ * cpdef calc_Y(float[:, ::1] D, float[:, ::1] Y, Average minfunc):
  *     cdef int n_sample = Y.shape[0]
  *     cdef int n_class = Y.shape[1]             # <<<<<<<<<<<<<<
- *     cdef double[::1] Dk
- *     cdef double d, dmin
+ *     cdef float[::1] Dk
+ *     cdef float d, dmin
  */
   if (unlikely(((PyObject *) __pyx_v_Y.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -16811,7 +16889,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_Dk, 1);
       __Pyx_RaiseBufferIndexError(__pyx_t_6);
       __PYX_ERR(0, 389, __pyx_L1_error)
     }
-    __pyx_v_dmin = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Dk.data) + __pyx_t_5)) )));
+    __pyx_v_dmin = (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_Dk.data) + __pyx_t_5)) )));
 
     /* "mlgrad/kmeans.pyx":390
  *         Dk = D[k]
@@ -16846,7 +16924,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_Dk, 1);
         __Pyx_RaiseBufferIndexError(__pyx_t_9);
         __PYX_ERR(0, 391, __pyx_L1_error)
       }
-      __pyx_v_d = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Dk.data) + __pyx_t_5)) )));
+      __pyx_v_d = (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_Dk.data) + __pyx_t_5)) )));
 
       /* "mlgrad/kmeans.pyx":392
  *         for i in range(n_class):
@@ -16902,7 +16980,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_Dk, 1);
  *         minfunc.fit(Dk, dmin)
  *         minfunc.gradient(Dk, Y[k])             # <<<<<<<<<<<<<<
  * 
- * cpdef calc_weights_and_Y(double[:, ::1] D, double[:, ::1] Y, double[::1] weights, Average avrfunc, Average minfunc):
+ * cpdef calc_weights_and_Y(float[:, ::1] D, float[:, ::1] Y, float[::1] weights, Average avrfunc, Average minfunc):
  */
     if (unlikely(((PyObject *)__pyx_v_minfunc) == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "gradient");
@@ -16944,7 +17022,7 @@ __pyx_t_12 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_minfunc
   /* "mlgrad/kmeans.pyx":380
  *             D[k,j] = euclid_distance2(X[k], params[j])
  * 
- * cpdef calc_Y(double[:, ::1] D, double[:, ::1] Y, Average minfunc):             # <<<<<<<<<<<<<<
+ * cpdef calc_Y(float[:, ::1] D, float[:, ::1] Y, Average minfunc):             # <<<<<<<<<<<<<<
  *     cdef int n_sample = Y.shape[0]
  *     cdef int n_class = Y.shape[1]
  */
@@ -16967,7 +17045,7 @@ __pyx_t_12 = ((struct __pyx_vtabstruct_6mlgrad_6avragg_Average *)__pyx_v_minfunc
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6mlgrad_6kmeans_13calc_Y(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6mlgrad_6kmeans_12calc_Y[] = "calc_Y(double[:, ::1] D, double[:, ::1] Y, Average minfunc)";
+static char __pyx_doc_6mlgrad_6kmeans_12calc_Y[] = "calc_Y(float[:, ::1] D, float[:, ::1] Y, Average minfunc)";
 static PyObject *__pyx_pw_6mlgrad_6kmeans_13calc_Y(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_D = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_Y = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -17022,8 +17100,8 @@ static PyObject *__pyx_pw_6mlgrad_6kmeans_13calc_Y(PyObject *__pyx_self, PyObjec
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_D = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_D.memview)) __PYX_ERR(0, 380, __pyx_L3_error)
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(0, 380, __pyx_L3_error)
+    __pyx_v_D = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_D.memview)) __PYX_ERR(0, 380, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(0, 380, __pyx_L3_error)
     __pyx_v_minfunc = ((struct __pyx_obj_6mlgrad_6avragg_Average *)values[2]);
   }
   goto __pyx_L4_argument_unpacking_done;
@@ -17079,7 +17157,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_12calc_Y(CYTHON_UNUSED PyObject *__pyx
 /* "mlgrad/kmeans.pyx":397
  *         minfunc.gradient(Dk, Y[k])
  * 
- * cpdef calc_weights_and_Y(double[:, ::1] D, double[:, ::1] Y, double[::1] weights, Average avrfunc, Average minfunc):             # <<<<<<<<<<<<<<
+ * cpdef calc_weights_and_Y(float[:, ::1] D, float[:, ::1] Y, float[::1] weights, Average avrfunc, Average minfunc):             # <<<<<<<<<<<<<<
  *     cdef int n_sample = Y.shape[0]
  *     cdef int n_class = Y.shape[1]
  */
@@ -17091,8 +17169,8 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_weights_and_Y(__Pyx_memviewslice _
   __Pyx_memviewslice __pyx_v_DD = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_Dk = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_Yk = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_v_d;
-  double __pyx_v_dmin;
+  float __pyx_v_d;
+  float __pyx_v_dmin;
   int __pyx_v_j;
   int __pyx_v_k;
   PyObject *__pyx_r = NULL;
@@ -17113,7 +17191,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_weights_and_Y(__Pyx_memviewslice _
   int __pyx_t_14;
   int __pyx_t_15;
   struct __pyx_opt_args_6mlgrad_6avragg_7Average_fit __pyx_t_16;
-  double __pyx_t_17;
+  float __pyx_t_17;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -17121,10 +17199,10 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_weights_and_Y(__Pyx_memviewslice _
 
   /* "mlgrad/kmeans.pyx":398
  * 
- * cpdef calc_weights_and_Y(double[:, ::1] D, double[:, ::1] Y, double[::1] weights, Average avrfunc, Average minfunc):
+ * cpdef calc_weights_and_Y(float[:, ::1] D, float[:, ::1] Y, float[::1] weights, Average avrfunc, Average minfunc):
  *     cdef int n_sample = Y.shape[0]             # <<<<<<<<<<<<<<
  *     cdef int n_class = Y.shape[1]
- *     cdef double[::1] DD = np.zeros(n_sample, 'd')
+ *     cdef float[::1] DD = np.zeros(n_sample, 'f')
  */
   if (unlikely(((PyObject *) __pyx_v_Y.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -17133,11 +17211,11 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_weights_and_Y(__Pyx_memviewslice _
   __pyx_v_n_sample = (__pyx_v_Y.shape[0]);
 
   /* "mlgrad/kmeans.pyx":399
- * cpdef calc_weights_and_Y(double[:, ::1] D, double[:, ::1] Y, double[::1] weights, Average avrfunc, Average minfunc):
+ * cpdef calc_weights_and_Y(float[:, ::1] D, float[:, ::1] Y, float[::1] weights, Average avrfunc, Average minfunc):
  *     cdef int n_sample = Y.shape[0]
  *     cdef int n_class = Y.shape[1]             # <<<<<<<<<<<<<<
- *     cdef double[::1] DD = np.zeros(n_sample, 'd')
- *     cdef double[::1] Dk, Yk
+ *     cdef float[::1] DD = np.zeros(n_sample, 'f')
+ *     cdef float[::1] Dk, Yk
  */
   if (unlikely(((PyObject *) __pyx_v_Y.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -17148,9 +17226,9 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_weights_and_Y(__Pyx_memviewslice _
   /* "mlgrad/kmeans.pyx":400
  *     cdef int n_sample = Y.shape[0]
  *     cdef int n_class = Y.shape[1]
- *     cdef double[::1] DD = np.zeros(n_sample, 'd')             # <<<<<<<<<<<<<<
- *     cdef double[::1] Dk, Yk
- *     cdef double d, dmin
+ *     cdef float[::1] DD = np.zeros(n_sample, 'f')             # <<<<<<<<<<<<<<
+ *     cdef float[::1] Dk, Yk
+ *     cdef float d, dmin
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 400, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -17173,7 +17251,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_weights_and_Y(__Pyx_memviewslice _
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -17182,7 +17260,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_weights_and_Y(__Pyx_memviewslice _
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -17197,16 +17275,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_calc_weights_and_Y(__Pyx_memviewslice _
     }
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_t_2);
-    __Pyx_INCREF(__pyx_n_u_d);
-    __Pyx_GIVEREF(__pyx_n_u_d);
-    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_u_d);
+    __Pyx_INCREF(__pyx_n_u_f);
+    __Pyx_GIVEREF(__pyx_n_u_f);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_u_f);
     __pyx_t_2 = 0;
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 400, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 400, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_DD = __pyx_t_7;
   __pyx_t_7.memview = NULL;
@@ -17282,7 +17360,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_Dk, 1);
       __Pyx_RaiseBufferIndexError(__pyx_t_11);
       __PYX_ERR(0, 407, __pyx_L1_error)
     }
-    __pyx_v_dmin = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Dk.data) + __pyx_t_10)) )));
+    __pyx_v_dmin = (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_Dk.data) + __pyx_t_10)) )));
 
     /* "mlgrad/kmeans.pyx":408
  *         Dk = D[k]
@@ -17317,7 +17395,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_Dk, 1);
         __Pyx_RaiseBufferIndexError(__pyx_t_14);
         __PYX_ERR(0, 409, __pyx_L1_error)
       }
-      __pyx_v_d = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Dk.data) + __pyx_t_10)) )));
+      __pyx_v_d = (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_Dk.data) + __pyx_t_10)) )));
 
       /* "mlgrad/kmeans.pyx":410
  *         for j in range(n_class):
@@ -17394,7 +17472,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_Dk, 1);
       __Pyx_RaiseBufferIndexError(__pyx_t_11);
       __PYX_ERR(0, 413, __pyx_L1_error)
     }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_DD.data) + __pyx_t_10)) )) = __pyx_t_17;
+    *((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_DD.data) + __pyx_t_10)) )) = __pyx_t_17;
 
     /* "mlgrad/kmeans.pyx":414
  *         minfunc.fit(Dk, dmin)
@@ -17482,7 +17560,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_Yk, 1);
   /* "mlgrad/kmeans.pyx":397
  *         minfunc.gradient(Dk, Y[k])
  * 
- * cpdef calc_weights_and_Y(double[:, ::1] D, double[:, ::1] Y, double[::1] weights, Average avrfunc, Average minfunc):             # <<<<<<<<<<<<<<
+ * cpdef calc_weights_and_Y(float[:, ::1] D, float[:, ::1] Y, float[::1] weights, Average avrfunc, Average minfunc):             # <<<<<<<<<<<<<<
  *     cdef int n_sample = Y.shape[0]
  *     cdef int n_class = Y.shape[1]
  */
@@ -17510,7 +17588,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_v_Yk, 1);
 
 /* Python wrapper */
 static PyObject *__pyx_pw_6mlgrad_6kmeans_15calc_weights_and_Y(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6mlgrad_6kmeans_14calc_weights_and_Y[] = "calc_weights_and_Y(double[:, ::1] D, double[:, ::1] Y, double[::1] weights, Average avrfunc, Average minfunc)";
+static char __pyx_doc_6mlgrad_6kmeans_14calc_weights_and_Y[] = "calc_weights_and_Y(float[:, ::1] D, float[:, ::1] Y, float[::1] weights, Average avrfunc, Average minfunc)";
 static PyObject *__pyx_pw_6mlgrad_6kmeans_15calc_weights_and_Y(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   __Pyx_memviewslice __pyx_v_D = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_Y = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -17585,9 +17663,9 @@ static PyObject *__pyx_pw_6mlgrad_6kmeans_15calc_weights_and_Y(PyObject *__pyx_s
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
       values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
     }
-    __pyx_v_D = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_D.memview)) __PYX_ERR(0, 397, __pyx_L3_error)
-    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(0, 397, __pyx_L3_error)
-    __pyx_v_weights = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_weights.memview)) __PYX_ERR(0, 397, __pyx_L3_error)
+    __pyx_v_D = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_D.memview)) __PYX_ERR(0, 397, __pyx_L3_error)
+    __pyx_v_Y = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_Y.memview)) __PYX_ERR(0, 397, __pyx_L3_error)
+    __pyx_v_weights = __Pyx_PyObject_to_MemoryviewSlice_dc_float(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_weights.memview)) __PYX_ERR(0, 397, __pyx_L3_error)
     __pyx_v_avrfunc = ((struct __pyx_obj_6mlgrad_6avragg_Average *)values[3]);
     __pyx_v_minfunc = ((struct __pyx_obj_6mlgrad_6avragg_Average *)values[4]);
   }
@@ -17647,8 +17725,8 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_14calc_weights_and_Y(CYTHON_UNUSED PyO
 /* "mlgrad/kmeans.pyx":422
  * cdef class HCD_M2:
  * 
- *     def __init__(self, Average avrfunc, Average minfunc, double[:,::1] X, int n_class,             # <<<<<<<<<<<<<<
- *                  double tol=1.0e-4, int n_iter=100):
+ *     def __init__(self, Average avrfunc, Average minfunc, float[:,::1] X, int n_class,             # <<<<<<<<<<<<<<
+ *                  float tol=1.0e-4, int n_iter=100):
  * 
  */
 
@@ -17659,7 +17737,7 @@ static int __pyx_pw_6mlgrad_6kmeans_6HCD_M2_1__init__(PyObject *__pyx_v_self, Py
   struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_minfunc = 0;
   __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_v_n_class;
-  double __pyx_v_tol;
+  float __pyx_v_tol;
   int __pyx_v_n_iter;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -17744,12 +17822,12 @@ static int __pyx_pw_6mlgrad_6kmeans_6HCD_M2_1__init__(PyObject *__pyx_v_self, Py
     }
     __pyx_v_avrfunc = ((struct __pyx_obj_6mlgrad_6avragg_Average *)values[0]);
     __pyx_v_minfunc = ((struct __pyx_obj_6mlgrad_6avragg_Average *)values[1]);
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 422, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 422, __pyx_L3_error)
     __pyx_v_n_class = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_n_class == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 422, __pyx_L3_error)
     if (values[4]) {
-      __pyx_v_tol = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_tol == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 423, __pyx_L3_error)
+      __pyx_v_tol = __pyx_PyFloat_AsFloat(values[4]); if (unlikely((__pyx_v_tol == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 423, __pyx_L3_error)
     } else {
-      __pyx_v_tol = ((double)1.0e-4);
+      __pyx_v_tol = ((float)1.0e-4);
     }
     if (values[5]) {
       __pyx_v_n_iter = __Pyx_PyInt_As_int(values[5]); if (unlikely((__pyx_v_n_iter == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 423, __pyx_L3_error)
@@ -17778,7 +17856,7 @@ static int __pyx_pw_6mlgrad_6kmeans_6HCD_M2_1__init__(PyObject *__pyx_v_self, Py
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2___init__(struct __pyx_obj_6mlgrad_6kmeans_HCD_M2 *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avrfunc, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_minfunc, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, double __pyx_v_tol, int __pyx_v_n_iter) {
+static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2___init__(struct __pyx_obj_6mlgrad_6kmeans_HCD_M2 *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avrfunc, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_minfunc, __Pyx_memviewslice __pyx_v_X, int __pyx_v_n_class, float __pyx_v_tol, int __pyx_v_n_iter) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -17790,7 +17868,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2___init__(struct __pyx_obj_6mlgrad_6k
   __Pyx_RefNannySetupContext("__init__", 0);
 
   /* "mlgrad/kmeans.pyx":425
- *                  double tol=1.0e-4, int n_iter=100):
+ *                  float tol=1.0e-4, int n_iter=100):
  * 
  *         self.n_class = n_class             # <<<<<<<<<<<<<<
  *         self.n_sample = X.shape[0]
@@ -17858,7 +17936,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2___init__(struct __pyx_obj_6mlgrad_6k
  *         self.D = None
  *         self.avrfunc = avrfunc
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 430, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 430, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "Y");
     __PYX_ERR(0, 430, __pyx_L1_error)
@@ -17875,7 +17953,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2___init__(struct __pyx_obj_6mlgrad_6k
  *         self.avrfunc = avrfunc
  *         self.minfunc = minfunc
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 431, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 431, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "D");
     __PYX_ERR(0, 431, __pyx_L1_error)
@@ -17926,7 +18004,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2___init__(struct __pyx_obj_6mlgrad_6k
  *         self.params = None
  *         self.prev_params = None
  */
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 435, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 435, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
     __PYX_ERR(0, 435, __pyx_L1_error)
@@ -17943,7 +18021,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2___init__(struct __pyx_obj_6mlgrad_6k
  *         self.prev_params = None
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 436, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 436, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
     __PYX_ERR(0, 436, __pyx_L1_error)
@@ -17960,7 +18038,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2___init__(struct __pyx_obj_6mlgrad_6k
  * 
  *         self.tol = tol
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 437, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 437, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
     __PYX_ERR(0, 437, __pyx_L1_error)
@@ -18014,8 +18092,8 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2___init__(struct __pyx_obj_6mlgrad_6k
   /* "mlgrad/kmeans.pyx":422
  * cdef class HCD_M2:
  * 
- *     def __init__(self, Average avrfunc, Average minfunc, double[:,::1] X, int n_class,             # <<<<<<<<<<<<<<
- *                  double tol=1.0e-4, int n_iter=100):
+ *     def __init__(self, Average avrfunc, Average minfunc, float[:,::1] X, int n_class,             # <<<<<<<<<<<<<<
+ *                  float tol=1.0e-4, int n_iter=100):
  * 
  */
 
@@ -18119,7 +18197,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
  *         init_rand()
  * 
  *         if self.weights is None:             # <<<<<<<<<<<<<<
- *             self.weights = np.zeros(self.n_sample, 'd')
+ *             self.weights = np.zeros(self.n_sample, 'f')
  * 
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -18133,7 +18211,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
     /* "mlgrad/kmeans.pyx":448
  * 
  *         if self.weights is None:
- *             self.weights = np.zeros(self.n_sample, 'd')             # <<<<<<<<<<<<<<
+ *             self.weights = np.zeros(self.n_sample, 'f')             # <<<<<<<<<<<<<<
  * 
  *         if self.Y is None:
  */
@@ -18162,7 +18240,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
     }
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_f};
       __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
@@ -18171,7 +18249,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_f};
       __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
@@ -18186,16 +18264,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
       }
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_6, __pyx_t_2);
-      __Pyx_INCREF(__pyx_n_u_d);
-      __Pyx_GIVEREF(__pyx_n_u_d);
-      PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_d);
+      __Pyx_INCREF(__pyx_n_u_f);
+      __Pyx_GIVEREF(__pyx_n_u_f);
+      PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_f);
       __pyx_t_2 = 0;
       __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 448, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 448, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 448, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
@@ -18210,16 +18288,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
  *         init_rand()
  * 
  *         if self.weights is None:             # <<<<<<<<<<<<<<
- *             self.weights = np.zeros(self.n_sample, 'd')
+ *             self.weights = np.zeros(self.n_sample, 'f')
  * 
  */
   }
 
   /* "mlgrad/kmeans.pyx":450
- *             self.weights = np.zeros(self.n_sample, 'd')
+ *             self.weights = np.zeros(self.n_sample, 'f')
  * 
  *         if self.Y is None:             # <<<<<<<<<<<<<<
- *             self.Y = np.zeros((self.n_sample, self.n_class), 'd')
+ *             self.Y = np.zeros((self.n_sample, self.n_class), 'f')
  *         if self.D is None:
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -18233,9 +18311,9 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
     /* "mlgrad/kmeans.pyx":451
  * 
  *         if self.Y is None:
- *             self.Y = np.zeros((self.n_sample, self.n_class), 'd')             # <<<<<<<<<<<<<<
+ *             self.Y = np.zeros((self.n_sample, self.n_class), 'f')             # <<<<<<<<<<<<<<
  *         if self.D is None:
- *             self.D = np.zeros((self.n_sample, self.n_class), 'd')
+ *             self.D = np.zeros((self.n_sample, self.n_class), 'f')
  */
     __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 451, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -18276,7 +18354,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
     }
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_4, __pyx_n_u_d};
+      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_4, __pyx_n_u_f};
       __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 451, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
@@ -18285,7 +18363,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_4, __pyx_n_u_d};
+      PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_4, __pyx_n_u_f};
       __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 451, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
@@ -18300,16 +18378,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
       }
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_6, __pyx_t_4);
-      __Pyx_INCREF(__pyx_n_u_d);
-      __Pyx_GIVEREF(__pyx_n_u_d);
-      PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_6, __pyx_n_u_d);
+      __Pyx_INCREF(__pyx_n_u_f);
+      __Pyx_GIVEREF(__pyx_n_u_f);
+      PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_6, __pyx_n_u_f);
       __pyx_t_4 = 0;
       __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 451, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 451, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 451, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "Y");
@@ -18321,19 +18399,19 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
     __pyx_t_9.data = NULL;
 
     /* "mlgrad/kmeans.pyx":450
- *             self.weights = np.zeros(self.n_sample, 'd')
+ *             self.weights = np.zeros(self.n_sample, 'f')
  * 
  *         if self.Y is None:             # <<<<<<<<<<<<<<
- *             self.Y = np.zeros((self.n_sample, self.n_class), 'd')
+ *             self.Y = np.zeros((self.n_sample, self.n_class), 'f')
  *         if self.D is None:
  */
   }
 
   /* "mlgrad/kmeans.pyx":452
  *         if self.Y is None:
- *             self.Y = np.zeros((self.n_sample, self.n_class), 'd')
+ *             self.Y = np.zeros((self.n_sample, self.n_class), 'f')
  *         if self.D is None:             # <<<<<<<<<<<<<<
- *             self.D = np.zeros((self.n_sample, self.n_class), 'd')
+ *             self.D = np.zeros((self.n_sample, self.n_class), 'f')
  * 
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -18345,9 +18423,9 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
   if (__pyx_t_5) {
 
     /* "mlgrad/kmeans.pyx":453
- *             self.Y = np.zeros((self.n_sample, self.n_class), 'd')
+ *             self.Y = np.zeros((self.n_sample, self.n_class), 'f')
  *         if self.D is None:
- *             self.D = np.zeros((self.n_sample, self.n_class), 'd')             # <<<<<<<<<<<<<<
+ *             self.D = np.zeros((self.n_sample, self.n_class), 'f')             # <<<<<<<<<<<<<<
  * 
  *         if self.params is None:
  */
@@ -18390,7 +18468,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
     }
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_f};
       __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
@@ -18399,7 +18477,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
+      PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_f};
       __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
@@ -18414,16 +18492,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
       }
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_6, __pyx_t_2);
-      __Pyx_INCREF(__pyx_n_u_d);
-      __Pyx_GIVEREF(__pyx_n_u_d);
-      PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_d);
+      __Pyx_INCREF(__pyx_n_u_f);
+      __Pyx_GIVEREF(__pyx_n_u_f);
+      PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_f);
       __pyx_t_2 = 0;
       __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 453, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 453, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "D");
@@ -18436,19 +18514,19 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
 
     /* "mlgrad/kmeans.pyx":452
  *         if self.Y is None:
- *             self.Y = np.zeros((self.n_sample, self.n_class), 'd')
+ *             self.Y = np.zeros((self.n_sample, self.n_class), 'f')
  *         if self.D is None:             # <<<<<<<<<<<<<<
- *             self.D = np.zeros((self.n_sample, self.n_class), 'd')
+ *             self.D = np.zeros((self.n_sample, self.n_class), 'f')
  * 
  */
   }
 
   /* "mlgrad/kmeans.pyx":455
- *             self.D = np.zeros((self.n_sample, self.n_class), 'd')
+ *             self.D = np.zeros((self.n_sample, self.n_class), 'f')
  * 
  *         if self.params is None:             # <<<<<<<<<<<<<<
  *             self.params = init_centers2(self.X, self.n_class)
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
@@ -18462,7 +18540,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
  * 
  *         if self.params is None:
  *             self.params = init_centers2(self.X, self.n_class)             # <<<<<<<<<<<<<<
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  *     #
  */
     if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -18485,18 +18563,18 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
     __pyx_t_9.data = NULL;
 
     /* "mlgrad/kmeans.pyx":455
- *             self.D = np.zeros((self.n_sample, self.n_class), 'd')
+ *             self.D = np.zeros((self.n_sample, self.n_class), 'f')
  * 
  *         if self.params is None:             # <<<<<<<<<<<<<<
  *             self.params = init_centers2(self.X, self.n_class)
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  */
   }
 
   /* "mlgrad/kmeans.pyx":457
  *         if self.params is None:
  *             self.params = init_centers2(self.X, self.n_class)
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')             # <<<<<<<<<<<<<<
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')             # <<<<<<<<<<<<<<
  *     #
  *     def fit(self):
  */
@@ -18539,7 +18617,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_7)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_4, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_4, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 457, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -18548,7 +18626,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_4, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_4, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 457, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -18563,16 +18641,16 @@ static PyObject *__pyx_f_6mlgrad_6kmeans_6HCD_M2_init(struct __pyx_obj_6mlgrad_6
     }
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_6, __pyx_t_4);
-    __Pyx_INCREF(__pyx_n_u_d);
-    __Pyx_GIVEREF(__pyx_n_u_d);
-    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_6, __pyx_n_u_d);
+    __Pyx_INCREF(__pyx_n_u_f);
+    __Pyx_GIVEREF(__pyx_n_u_f);
+    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_6, __pyx_n_u_f);
     __pyx_t_4 = 0;
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 457, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 457, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 457, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
@@ -18651,11 +18729,11 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_2init(struct __pyx_obj_6mlgrad
 }
 
 /* "mlgrad/kmeans.pyx":459
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  *     #
  *     def fit(self):             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
  */
 
 /* Python wrapper */
@@ -18701,9 +18779,9 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4fit(struct __pyx_obj_6mlgrad_
   /* "mlgrad/kmeans.pyx":460
  *     #
  *     def fit(self):
- *         cdef double[:, ::1] params = self.params             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double[:, ::1] X = self.X
+ *         cdef float[:, ::1] params = self.params             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] X = self.X
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
@@ -18718,10 +18796,10 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4fit(struct __pyx_obj_6mlgrad_
 
   /* "mlgrad/kmeans.pyx":461
  *     def fit(self):
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] X = self.X
- *         cdef double[::1] weights = self.weights
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] X = self.X
+ *         cdef float[::1] weights = self.weights
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
@@ -18735,11 +18813,11 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4fit(struct __pyx_obj_6mlgrad_
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/kmeans.pyx":462
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double[:, ::1] X = self.X             # <<<<<<<<<<<<<<
- *         cdef double[::1] weights = self.weights
- *         cdef double[:, ::1] Y = self.Y
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] X = self.X             # <<<<<<<<<<<<<<
+ *         cdef float[::1] weights = self.weights
+ *         cdef float[:, ::1] Y = self.Y
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "X");
@@ -18753,11 +18831,11 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4fit(struct __pyx_obj_6mlgrad_
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/kmeans.pyx":463
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double[:, ::1] X = self.X
- *         cdef double[::1] weights = self.weights             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] Y = self.Y
- *         cdef double[:, ::1] D = self.D
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] X = self.X
+ *         cdef float[::1] weights = self.weights             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] Y = self.Y
+ *         cdef float[:, ::1] D = self.D
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
@@ -18771,10 +18849,10 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4fit(struct __pyx_obj_6mlgrad_
   __pyx_t_2.data = NULL;
 
   /* "mlgrad/kmeans.pyx":464
- *         cdef double[:, ::1] X = self.X
- *         cdef double[::1] weights = self.weights
- *         cdef double[:, ::1] Y = self.Y             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] D = self.D
+ *         cdef float[:, ::1] X = self.X
+ *         cdef float[::1] weights = self.weights
+ *         cdef float[:, ::1] Y = self.Y             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] D = self.D
  *         cdef int i, j, k
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -18789,9 +18867,9 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4fit(struct __pyx_obj_6mlgrad_
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/kmeans.pyx":465
- *         cdef double[::1] weights = self.weights
- *         cdef double[:, ::1] Y = self.Y
- *         cdef double[:, ::1] D = self.D             # <<<<<<<<<<<<<<
+ *         cdef float[::1] weights = self.weights
+ *         cdef float[:, ::1] Y = self.Y
+ *         cdef float[:, ::1] D = self.D             # <<<<<<<<<<<<<<
  *         cdef int i, j, k
  *         cdef int n_sample = self.n_sample
  */
@@ -18807,7 +18885,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4fit(struct __pyx_obj_6mlgrad_
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/kmeans.pyx":467
- *         cdef double[:, ::1] D = self.D
+ *         cdef float[:, ::1] D = self.D
  *         cdef int i, j, k
  *         cdef int n_sample = self.n_sample             # <<<<<<<<<<<<<<
  *         cdef int n_class = self.n_class
@@ -19017,7 +19095,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4fit(struct __pyx_obj_6mlgrad_
  *             self.K += 1
  *         print(self.K, params.base)             # <<<<<<<<<<<<<<
  *     #
- *     def __call__(self, double[:,::1] X):
+ *     def __call__(self, float[:,::1] X):
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "K");
@@ -19025,7 +19103,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4fit(struct __pyx_obj_6mlgrad_
   }
   __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_self->K); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 488, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_params, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 488, __pyx_L1_error)
+  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_params, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 488, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_base); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 488, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
@@ -19044,11 +19122,11 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4fit(struct __pyx_obj_6mlgrad_
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "mlgrad/kmeans.pyx":459
- *         self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+ *         self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
  *     #
  *     def fit(self):             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
  */
 
   /* function exit code */
@@ -19078,7 +19156,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4fit(struct __pyx_obj_6mlgrad_
 /* "mlgrad/kmeans.pyx":490
  *         print(self.K, params.base)
  *     #
- *     def __call__(self, double[:,::1] X):             # <<<<<<<<<<<<<<
+ *     def __call__(self, float[:,::1] X):             # <<<<<<<<<<<<<<
  *         cdef int n_sample = X.shape[0]
  *         cdef int n_param = X.shape[1]
  */
@@ -19119,7 +19197,7 @@ static PyObject *__pyx_pw_6mlgrad_6kmeans_6HCD_M2_7__call__(PyObject *__pyx_v_se
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 490, __pyx_L3_error)
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 490, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -19157,10 +19235,10 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
 
   /* "mlgrad/kmeans.pyx":491
  *     #
- *     def __call__(self, double[:,::1] X):
+ *     def __call__(self, float[:,::1] X):
  *         cdef int n_sample = X.shape[0]             # <<<<<<<<<<<<<<
  *         cdef int n_param = X.shape[1]
- *         cdef double[:,::1] D = np.zeros((n_sample, self.n_class), 'd')
+ *         cdef float[:,::1] D = np.zeros((n_sample, self.n_class), 'f')
  */
   if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -19169,11 +19247,11 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
   __pyx_v_n_sample = (__pyx_v_X.shape[0]);
 
   /* "mlgrad/kmeans.pyx":492
- *     def __call__(self, double[:,::1] X):
+ *     def __call__(self, float[:,::1] X):
  *         cdef int n_sample = X.shape[0]
  *         cdef int n_param = X.shape[1]             # <<<<<<<<<<<<<<
- *         cdef double[:,::1] D = np.zeros((n_sample, self.n_class), 'd')
- *         cdef double[:,::1] Y = np.zeros((n_sample, self.n_class), 'd')
+ *         cdef float[:,::1] D = np.zeros((n_sample, self.n_class), 'f')
+ *         cdef float[:,::1] Y = np.zeros((n_sample, self.n_class), 'f')
  */
   if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
@@ -19184,8 +19262,8 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
   /* "mlgrad/kmeans.pyx":493
  *         cdef int n_sample = X.shape[0]
  *         cdef int n_param = X.shape[1]
- *         cdef double[:,::1] D = np.zeros((n_sample, self.n_class), 'd')             # <<<<<<<<<<<<<<
- *         cdef double[:,::1] Y = np.zeros((n_sample, self.n_class), 'd')
+ *         cdef float[:,::1] D = np.zeros((n_sample, self.n_class), 'f')             # <<<<<<<<<<<<<<
+ *         cdef float[:,::1] Y = np.zeros((n_sample, self.n_class), 'f')
  * 
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 493, __pyx_L1_error)
@@ -19223,7 +19301,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 493, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -19232,7 +19310,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_5, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 493, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -19247,16 +19325,16 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
     }
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_6, __pyx_t_5);
-    __Pyx_INCREF(__pyx_n_u_d);
-    __Pyx_GIVEREF(__pyx_n_u_d);
-    PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_6, __pyx_n_u_d);
+    __Pyx_INCREF(__pyx_n_u_f);
+    __Pyx_GIVEREF(__pyx_n_u_f);
+    PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_6, __pyx_n_u_f);
     __pyx_t_5 = 0;
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 493, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 493, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 493, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_D = __pyx_t_7;
   __pyx_t_7.memview = NULL;
@@ -19264,8 +19342,8 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
 
   /* "mlgrad/kmeans.pyx":494
  *         cdef int n_param = X.shape[1]
- *         cdef double[:,::1] D = np.zeros((n_sample, self.n_class), 'd')
- *         cdef double[:,::1] Y = np.zeros((n_sample, self.n_class), 'd')             # <<<<<<<<<<<<<<
+ *         cdef float[:,::1] D = np.zeros((n_sample, self.n_class), 'f')
+ *         cdef float[:,::1] Y = np.zeros((n_sample, self.n_class), 'f')             # <<<<<<<<<<<<<<
  * 
  *         calc_distance_matrix(X, self.params, D)
  */
@@ -19304,7 +19382,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 494, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -19313,7 +19391,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_n_u_d};
+    PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_4, __pyx_n_u_f};
     __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 494, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_1);
@@ -19328,23 +19406,23 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
     }
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_6, __pyx_t_4);
-    __Pyx_INCREF(__pyx_n_u_d);
-    __Pyx_GIVEREF(__pyx_n_u_d);
-    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_6, __pyx_n_u_d);
+    __Pyx_INCREF(__pyx_n_u_f);
+    __Pyx_GIVEREF(__pyx_n_u_f);
+    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_6, __pyx_n_u_f);
     __pyx_t_4 = 0;
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 494, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 494, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_Y = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
   /* "mlgrad/kmeans.pyx":496
- *         cdef double[:,::1] Y = np.zeros((n_sample, self.n_class), 'd')
+ *         cdef float[:,::1] Y = np.zeros((n_sample, self.n_class), 'f')
  * 
  *         calc_distance_matrix(X, self.params, D)             # <<<<<<<<<<<<<<
  *         calc_Y(D, Y, self.minfunc)
@@ -19385,7 +19463,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
  *     cdef bint stop_condition(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_Y, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 499, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_Y, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 499, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_base); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 499, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -19397,7 +19475,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
   /* "mlgrad/kmeans.pyx":490
  *         print(self.K, params.base)
  *     #
- *     def __call__(self, double[:,::1] X):             # <<<<<<<<<<<<<<
+ *     def __call__(self, float[:,::1] X):             # <<<<<<<<<<<<<<
  *         cdef int n_sample = X.shape[0]
  *         cdef int n_param = X.shape[1]
  */
@@ -19425,14 +19503,14 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6__call__(struct __pyx_obj_6ml
  *         return Y.base
  *     #
  *     cdef bint stop_condition(self):             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
  */
 
 static int __pyx_f_6mlgrad_6kmeans_6HCD_M2_stop_condition(struct __pyx_obj_6mlgrad_6kmeans_HCD_M2 *__pyx_v_self) {
   __Pyx_memviewslice __pyx_v_params = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_prev_params = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_v_dist;
+  float __pyx_v_dist;
   int __pyx_v_i;
   int __pyx_v_n_class;
   CYTHON_UNUSED int __pyx_v_n_param;
@@ -19453,9 +19531,9 @@ static int __pyx_f_6mlgrad_6kmeans_6HCD_M2_stop_condition(struct __pyx_obj_6mlgr
   /* "mlgrad/kmeans.pyx":502
  *     #
  *     cdef bint stop_condition(self):
- *         cdef double[:, ::1] params = self.params             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double dist
+ *         cdef float[:, ::1] params = self.params             # <<<<<<<<<<<<<<
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float dist
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
@@ -19470,9 +19548,9 @@ static int __pyx_f_6mlgrad_6kmeans_6HCD_M2_stop_condition(struct __pyx_obj_6mlgr
 
   /* "mlgrad/kmeans.pyx":503
  *     cdef bint stop_condition(self):
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params             # <<<<<<<<<<<<<<
- *         cdef double dist
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params             # <<<<<<<<<<<<<<
+ *         cdef float dist
  *         cdef int i, n_class = self.n_class
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
@@ -19487,8 +19565,8 @@ static int __pyx_f_6mlgrad_6kmeans_6HCD_M2_stop_condition(struct __pyx_obj_6mlgr
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/kmeans.pyx":505
- *         cdef double[:, ::1] prev_params = self.prev_params
- *         cdef double dist
+ *         cdef float[:, ::1] prev_params = self.prev_params
+ *         cdef float dist
  *         cdef int i, n_class = self.n_class             # <<<<<<<<<<<<<<
  *         cdef int n_param = params.shape[1]
  * 
@@ -19501,7 +19579,7 @@ static int __pyx_f_6mlgrad_6kmeans_6HCD_M2_stop_condition(struct __pyx_obj_6mlgr
   __pyx_v_n_class = __pyx_t_2;
 
   /* "mlgrad/kmeans.pyx":506
- *         cdef double dist
+ *         cdef float dist
  *         cdef int i, n_class = self.n_class
  *         cdef int n_param = params.shape[1]             # <<<<<<<<<<<<<<
  * 
@@ -19638,8 +19716,8 @@ __pyx_v_dist = sqrt(__pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_5, __pyx_t_
  *         return Y.base
  *     #
  *     cdef bint stop_condition(self):             # <<<<<<<<<<<<<<
- *         cdef double[:, ::1] params = self.params
- *         cdef double[:, ::1] prev_params = self.prev_params
+ *         cdef float[:, ::1] params = self.params
+ *         cdef float[:, ::1] prev_params = self.prev_params
  */
 
   /* function exit code */
@@ -19661,7 +19739,7 @@ __pyx_v_dist = sqrt(__pyx_f_6mlgrad_6kmeans_euclid_distance2(__pyx_t_5, __pyx_t_
  * cdef class HCD_M2:
  *     cdef public int n_class, n_param, n_sample             # <<<<<<<<<<<<<<
  *     cdef public Average avrfunc, minfunc
- *     cdef public double[:,::1] X
+ *     cdef public float[:,::1] X
  */
 
 /* Python wrapper */
@@ -19914,8 +19992,8 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_8n_sample_2__set__(struct __pyx_obj_
  * cdef class HCD_M2:
  *     cdef public int n_class, n_param, n_sample
  *     cdef public Average avrfunc, minfunc             # <<<<<<<<<<<<<<
- *     cdef public double[:,::1] X
- *     cdef public double[:, ::1] Y
+ *     cdef public float[:,::1] X
+ *     cdef public float[:, ::1] Y
  */
 
 /* Python wrapper */
@@ -20173,9 +20251,9 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_7minfunc_4__del__(struct __pyx_obj_6
 /* "mlgrad/kmeans.pxd":92
  *     cdef public int n_class, n_param, n_sample
  *     cdef public Average avrfunc, minfunc
- *     cdef public double[:,::1] X             # <<<<<<<<<<<<<<
- *     cdef public double[:, ::1] Y
- *     cdef public double[:, ::1] D
+ *     cdef public float[:,::1] X             # <<<<<<<<<<<<<<
+ *     cdef public float[:, ::1] Y
+ *     cdef public float[:, ::1] D
  */
 
 /* Python wrapper */
@@ -20205,7 +20283,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_1X___get__(struct __pyx_obj_6m
     __PYX_ERR(1, 92, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->X.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 92, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 92, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20243,7 +20321,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_1X_2__set__(struct __pyx_obj_6mlgrad
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 92, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 92, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "X");
     __PYX_ERR(1, 92, __pyx_L1_error)
@@ -20267,10 +20345,10 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_1X_2__set__(struct __pyx_obj_6mlgrad
 
 /* "mlgrad/kmeans.pxd":93
  *     cdef public Average avrfunc, minfunc
- *     cdef public double[:,::1] X
- *     cdef public double[:, ::1] Y             # <<<<<<<<<<<<<<
- *     cdef public double[:, ::1] D
- *     cdef public double[::1] weights
+ *     cdef public float[:,::1] X
+ *     cdef public float[:, ::1] Y             # <<<<<<<<<<<<<<
+ *     cdef public float[:, ::1] D
+ *     cdef public float[::1] weights
  */
 
 /* Python wrapper */
@@ -20300,7 +20378,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_1Y___get__(struct __pyx_obj_6m
     __PYX_ERR(1, 93, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->Y.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 93, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->Y, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 93, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->Y, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 93, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20338,7 +20416,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_1Y_2__set__(struct __pyx_obj_6mlgrad
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 93, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 93, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "Y");
     __PYX_ERR(1, 93, __pyx_L1_error)
@@ -20361,11 +20439,11 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_1Y_2__set__(struct __pyx_obj_6mlgrad
 }
 
 /* "mlgrad/kmeans.pxd":94
- *     cdef public double[:,::1] X
- *     cdef public double[:, ::1] Y
- *     cdef public double[:, ::1] D             # <<<<<<<<<<<<<<
- *     cdef public double[::1] weights
- *     cdef public double[::1] grad
+ *     cdef public float[:,::1] X
+ *     cdef public float[:, ::1] Y
+ *     cdef public float[:, ::1] D             # <<<<<<<<<<<<<<
+ *     cdef public float[::1] weights
+ *     cdef public float[::1] grad
  */
 
 /* Python wrapper */
@@ -20395,7 +20473,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_1D___get__(struct __pyx_obj_6m
     __PYX_ERR(1, 94, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->D.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 94, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->D, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 94, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->D, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20433,7 +20511,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_1D_2__set__(struct __pyx_obj_6mlgrad
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 94, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 94, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "D");
     __PYX_ERR(1, 94, __pyx_L1_error)
@@ -20456,10 +20534,10 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_1D_2__set__(struct __pyx_obj_6mlgrad
 }
 
 /* "mlgrad/kmeans.pxd":95
- *     cdef public double[:, ::1] Y
- *     cdef public double[:, ::1] D
- *     cdef public double[::1] weights             # <<<<<<<<<<<<<<
- *     cdef public double[::1] grad
+ *     cdef public float[:, ::1] Y
+ *     cdef public float[:, ::1] D
+ *     cdef public float[::1] weights             # <<<<<<<<<<<<<<
+ *     cdef public float[::1] grad
  * 
  */
 
@@ -20490,7 +20568,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_7weights___get__(struct __pyx_
     __PYX_ERR(1, 95, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 95, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 95, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20528,7 +20606,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_7weights_2__set__(struct __pyx_obj_6
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 95, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 95, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
     __PYX_ERR(1, 95, __pyx_L1_error)
@@ -20551,11 +20629,11 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_7weights_2__set__(struct __pyx_obj_6
 }
 
 /* "mlgrad/kmeans.pxd":96
- *     cdef public double[:, ::1] D
- *     cdef public double[::1] weights
- *     cdef public double[::1] grad             # <<<<<<<<<<<<<<
+ *     cdef public float[:, ::1] D
+ *     cdef public float[::1] weights
+ *     cdef public float[::1] grad             # <<<<<<<<<<<<<<
  * 
- *     cdef public double[:,::1] params
+ *     cdef public float[:,::1] params
  */
 
 /* Python wrapper */
@@ -20585,7 +20663,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_4grad___get__(struct __pyx_obj
     __PYX_ERR(1, 96, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 96, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 96, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20623,7 +20701,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_4grad_2__set__(struct __pyx_obj_6mlg
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 96, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 96, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "grad");
     __PYX_ERR(1, 96, __pyx_L1_error)
@@ -20646,10 +20724,10 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_4grad_2__set__(struct __pyx_obj_6mlg
 }
 
 /* "mlgrad/kmeans.pxd":98
- *     cdef public double[::1] grad
+ *     cdef public float[::1] grad
  * 
- *     cdef public double[:,::1] params             # <<<<<<<<<<<<<<
- *     cdef double[:,::1] prev_params
+ *     cdef public float[:,::1] params             # <<<<<<<<<<<<<<
+ *     cdef float[:,::1] prev_params
  * 
  */
 
@@ -20680,7 +20758,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_6params___get__(struct __pyx_o
     __PYX_ERR(1, 98, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->params.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 98, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->params, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 98, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->params, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20718,7 +20796,7 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_6params_2__set__(struct __pyx_obj_6m
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 98, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 98, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
     __PYX_ERR(1, 98, __pyx_L1_error)
@@ -20741,10 +20819,10 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_6params_2__set__(struct __pyx_obj_6m
 }
 
 /* "mlgrad/kmeans.pxd":101
- *     cdef double[:,::1] prev_params
+ *     cdef float[:,::1] prev_params
  * 
  *     cdef public int n_iter, K             # <<<<<<<<<<<<<<
- *     cdef public double tol
+ *     cdef public float tol
  * 
  */
 
@@ -20915,9 +20993,9 @@ static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_1K_2__set__(struct __pyx_obj_6mlgrad
 /* "mlgrad/kmeans.pxd":102
  * 
  *     cdef public int n_iter, K
- *     cdef public double tol             # <<<<<<<<<<<<<<
+ *     cdef public float tol             # <<<<<<<<<<<<<<
  * 
- *     #cdef double[::1] dist, grad
+ *     #cdef float[::1] dist, grad
  */
 
 /* Python wrapper */
@@ -20979,12 +21057,12 @@ static int __pyx_pw_6mlgrad_6kmeans_6HCD_M2_3tol_3__set__(PyObject *__pyx_v_self
 static int __pyx_pf_6mlgrad_6kmeans_6HCD_M2_3tol_2__set__(struct __pyx_obj_6mlgrad_6kmeans_HCD_M2 *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  double __pyx_t_1;
+  float __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 102, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsFloat(__pyx_v_value); if (unlikely((__pyx_t_1 == (float)-1) && PyErr_Occurred())) __PYX_ERR(1, 102, __pyx_L1_error)
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "tol");
     __PYX_ERR(1, 102, __pyx_L1_error)
@@ -21062,7 +21140,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_8__reduce_cython__(struct __py
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->D.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->D, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->D, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "K");
@@ -21075,14 +21153,14 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_8__reduce_cython__(struct __py
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->X.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->X, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "Y");
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->Y.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->Y, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_self->Y, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "avrfunc");
@@ -21093,7 +21171,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_8__reduce_cython__(struct __py
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->grad.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_self->grad, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "minfunc");
@@ -21128,14 +21206,14 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_8__reduce_cython__(struct __py
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->params.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_v_self->params, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_10 = __pyx_memoryview_fromslice(__pyx_v_self->params, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->prev_params.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_v_self->prev_params, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_11 = __pyx_memoryview_fromslice(__pyx_v_self->prev_params, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "tol");
@@ -21148,7 +21226,7 @@ static PyObject *__pyx_pf_6mlgrad_6kmeans_6HCD_M2_8__reduce_cython__(struct __py
     __PYX_ERR(2, 5, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
-  __pyx_t_13 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_13 = __pyx_memoryview_fromslice(__pyx_v_self->weights, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __pyx_t_14 = PyTuple_New(15); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
@@ -21754,7 +21832,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD__set_state(struct __
   int __pyx_t_2;
   __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_t_5;
+  float __pyx_t_5;
   __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_t_7;
   Py_ssize_t __pyx_t_8;
@@ -21794,7 +21872,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD__set_state(struct __
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "X");
@@ -21894,7 +21972,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD__set_state(struct __
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
@@ -21910,7 +21988,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD__set_state(struct __
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 9, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
@@ -21926,7 +22004,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD__set_state(struct __
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 10, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_5 == (float)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "tol");
@@ -21939,7 +22017,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD__set_state(struct __
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 11, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
@@ -22324,7 +22402,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M1__set_state(struct
   __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_t_5 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_t_6;
+  float __pyx_t_6;
   int __pyx_t_7;
   Py_ssize_t __pyx_t_8;
   int __pyx_t_9;
@@ -22363,7 +22441,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M1__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "X");
@@ -22411,7 +22489,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M1__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "dist");
@@ -22427,7 +22505,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M1__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "grad");
@@ -22495,7 +22573,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M1__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 10, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
@@ -22511,7 +22589,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M1__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 11, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
@@ -22527,7 +22605,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M1__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 12, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_6 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_6 == (float)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "tol");
@@ -22540,7 +22618,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M1__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 13, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
@@ -22924,7 +23002,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M2__set_state(struct
   __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_t_3;
   __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_t_5;
+  float __pyx_t_5;
   int __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   int __pyx_t_8;
@@ -22950,7 +23028,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M2__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "D");
@@ -22979,7 +23057,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M2__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "X");
@@ -22995,7 +23073,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M2__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "Y");
@@ -23027,7 +23105,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M2__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "grad");
@@ -23111,7 +23189,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M2__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 11, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "params");
@@ -23127,7 +23205,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M2__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 12, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "prev_params");
@@ -23143,7 +23221,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M2__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 13, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_5 == (float)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "tol");
@@ -23156,7 +23234,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M2__set_state(struct
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 14, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "weights");
@@ -23258,7 +23336,7 @@ static PyObject *__pyx_f_6mlgrad_6kmeans___pyx_unpickle_HCD_M2__set_state(struct
   return __pyx_r;
 }
 
-/* "mlgrad/model.pxd":53
+/* "mlgrad/model.pxd":66
  *     cdef public object buf
  * 
  * cdef inline Model as_model(object o):             # <<<<<<<<<<<<<<
@@ -23271,7 +23349,7 @@ static CYTHON_INLINE struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5mod
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("as_model", 0);
 
-  /* "mlgrad/model.pxd":54
+  /* "mlgrad/model.pxd":67
  * 
  * cdef inline Model as_model(object o):
  *     return <Model>(<PyObject*>o)             # <<<<<<<<<<<<<<
@@ -23283,7 +23361,7 @@ static CYTHON_INLINE struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5mod
   __pyx_r = ((struct __pyx_obj_6mlgrad_5model_Model *)((PyObject *)__pyx_v_o));
   goto __pyx_L0;
 
-  /* "mlgrad/model.pxd":53
+  /* "mlgrad/model.pxd":66
  *     cdef public object buf
  * 
  * cdef inline Model as_model(object o):             # <<<<<<<<<<<<<<
@@ -23301,12 +23379,12 @@ static CYTHON_INLINE struct __pyx_obj_6mlgrad_5model_Model *__pyx_f_6mlgrad_5mod
 /* "mlgrad/regnorm.pxd":8
  * from libc.string cimport memcpy, memset
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0]
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_fill_memoryview(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED double __pyx_v_c) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_fill_memoryview(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED float __pyx_v_c) {
   int __pyx_v_m;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
@@ -23318,19 +23396,19 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_fill_memoryview(__Pyx_memview
 
   /* "mlgrad/regnorm.pxd":9
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):
+ * cdef inline void fill_memoryview(float[::1] X, float c):
  *     cdef int m = X.shape[0]             # <<<<<<<<<<<<<<
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  * 
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
 
   /* "mlgrad/regnorm.pxd":10
- * cdef inline void fill_memoryview(double[::1] X, double c):
+ * cdef inline void fill_memoryview(float[::1] X, float c):
  *     cdef int m = X.shape[0]
- *     memset(&X[0], 0, m*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memset(&X[0], 0, m*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):
+ * cdef inline void matrix_dot(float[:,::1] A, float[::1] x, float[::1] y):
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = -1;
@@ -23342,14 +23420,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_fill_memoryview(__Pyx_memview
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(3, 10, __pyx_L1_error)
   }
-  (void)(memset((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(double)))));
+  (void)(memset((&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(float)))));
 
   /* "mlgrad/regnorm.pxd":8
  * from libc.string cimport memcpy, memset
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0]
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  */
 
   /* function exit code */
@@ -23361,18 +23439,18 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_fill_memoryview(__Pyx_memview
 }
 
 /* "mlgrad/regnorm.pxd":12
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  * 
- * cdef inline void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
+ * cdef inline void matrix_dot(float[:,::1] A, float[::1] x, float[::1] y):             # <<<<<<<<<<<<<<
  *     cdef int i, n=A.shape[0], m=A.shape[1]
- *     cdef double v
+ *     cdef float v
  */
 
 static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_matrix_dot(__Pyx_memviewslice __pyx_v_A, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
   int __pyx_v_i;
   int __pyx_v_n;
   int __pyx_v_m;
-  double __pyx_v_v;
+  float __pyx_v_v;
   int __pyx_v_j;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -23392,16 +23470,16 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_matrix_dot(__Pyx_memviewslice
 
   /* "mlgrad/regnorm.pxd":13
  * 
- * cdef inline void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):
+ * cdef inline void matrix_dot(float[:,::1] A, float[::1] x, float[::1] y):
  *     cdef int i, n=A.shape[0], m=A.shape[1]             # <<<<<<<<<<<<<<
- *     cdef double v
+ *     cdef float v
  * 
  */
   __pyx_v_n = (__pyx_v_A.shape[0]);
   __pyx_v_m = (__pyx_v_A.shape[1]);
 
   /* "mlgrad/regnorm.pxd":16
- *     cdef double v
+ *     cdef float v
  * 
  *     for j in range(n):             # <<<<<<<<<<<<<<
  *         v = 0
@@ -23465,7 +23543,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_matrix_dot(__Pyx_memviewslice
         __Pyx_RaiseBufferIndexError(__pyx_t_9);
         __PYX_ERR(3, 19, __pyx_L1_error)
       }
-      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_10)) )))));
+      __pyx_v_v = (__pyx_v_v + ((*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_x.data) + __pyx_t_10)) )))));
     }
 
     /* "mlgrad/regnorm.pxd":20
@@ -23473,7 +23551,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_matrix_dot(__Pyx_memviewslice
  *             v += A[j,i] * x[i]
  *         y[j] = v             # <<<<<<<<<<<<<<
  * 
- * cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
+ * cdef inline void matrix_dot_t(float[:,::1] A, float[::1] x, float[::1] y):
  */
     __pyx_t_10 = __pyx_v_j;
     __pyx_t_4 = -1;
@@ -23485,15 +23563,15 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_matrix_dot(__Pyx_memviewslice
       __Pyx_RaiseBufferIndexError(__pyx_t_4);
       __PYX_ERR(3, 20, __pyx_L1_error)
     }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_10)) )) = __pyx_v_v;
+    *((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_y.data) + __pyx_t_10)) )) = __pyx_v_v;
   }
 
   /* "mlgrad/regnorm.pxd":12
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  * 
- * cdef inline void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
+ * cdef inline void matrix_dot(float[:,::1] A, float[::1] x, float[::1] y):             # <<<<<<<<<<<<<<
  *     cdef int i, n=A.shape[0], m=A.shape[1]
- *     cdef double v
+ *     cdef float v
  */
 
   /* function exit code */
@@ -23507,16 +23585,16 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_matrix_dot(__Pyx_memviewslice
 /* "mlgrad/regnorm.pxd":22
  *         y[j] = v
  * 
- * cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
+ * cdef inline void matrix_dot_t(float[:,::1] A, float[::1] x, float[::1] y):             # <<<<<<<<<<<<<<
  *     cdef int i, n=A.shape[0], m=A.shape[1]
- *     cdef double v
+ *     cdef float v
  */
 
 static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_matrix_dot_t(__Pyx_memviewslice __pyx_v_A, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
   int __pyx_v_i;
   int __pyx_v_n;
   int __pyx_v_m;
-  double __pyx_v_v;
+  float __pyx_v_v;
   int __pyx_v_j;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -23536,16 +23614,16 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_matrix_dot_t(__Pyx_memviewsli
 
   /* "mlgrad/regnorm.pxd":23
  * 
- * cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
+ * cdef inline void matrix_dot_t(float[:,::1] A, float[::1] x, float[::1] y):
  *     cdef int i, n=A.shape[0], m=A.shape[1]             # <<<<<<<<<<<<<<
- *     cdef double v
+ *     cdef float v
  * 
  */
   __pyx_v_n = (__pyx_v_A.shape[0]);
   __pyx_v_m = (__pyx_v_A.shape[1]);
 
   /* "mlgrad/regnorm.pxd":26
- *     cdef double v
+ *     cdef float v
  * 
  *     for i in range(m):             # <<<<<<<<<<<<<<
  *         v = 0
@@ -23609,7 +23687,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_matrix_dot_t(__Pyx_memviewsli
         __Pyx_RaiseBufferIndexError(__pyx_t_9);
         __PYX_ERR(3, 29, __pyx_L1_error)
       }
-      __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_10)) )))));
+      __pyx_v_v = (__pyx_v_v + ((*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_x.data) + __pyx_t_10)) )))));
     }
 
     /* "mlgrad/regnorm.pxd":30
@@ -23629,15 +23707,15 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_matrix_dot_t(__Pyx_memviewsli
       __Pyx_RaiseBufferIndexError(__pyx_t_4);
       __PYX_ERR(3, 30, __pyx_L1_error)
     }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_10)) )) = __pyx_v_v;
+    *((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_y.data) + __pyx_t_10)) )) = __pyx_v_v;
   }
 
   /* "mlgrad/regnorm.pxd":22
  *         y[j] = v
  * 
- * cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
+ * cdef inline void matrix_dot_t(float[:,::1] A, float[::1] x, float[::1] y):             # <<<<<<<<<<<<<<
  *     cdef int i, n=A.shape[0], m=A.shape[1]
- *     cdef double v
+ *     cdef float v
  */
 
   /* function exit code */
@@ -23651,14 +23729,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7regnorm_matrix_dot_t(__Pyx_memviewsli
 /* "mlgrad/averager.pxd":6
  * from libc.string cimport memcpy
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0]
+ *     cdef float *XX = &X[0]
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview(__Pyx_memviewslice __pyx_v_X, double __pyx_v_c) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview(__Pyx_memviewslice __pyx_v_X, float __pyx_v_c) {
   Py_ssize_t __pyx_v_i;
-  CYTHON_UNUSED double *__pyx_v_XX;
+  CYTHON_UNUSED float *__pyx_v_XX;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
@@ -23671,9 +23749,9 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview(__Pyx_memvie
   __Pyx_RefNannySetupContext("fill_memoryview", 0);
 
   /* "mlgrad/averager.pxd":8
- * cdef inline void fill_memoryview(double[::1] X, double c):
+ * cdef inline void fill_memoryview(float[::1] X, float c):
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0]             # <<<<<<<<<<<<<<
+ *     cdef float *XX = &X[0]             # <<<<<<<<<<<<<<
  * 
  *     for i in range(X.shape[0]):
  */
@@ -23687,10 +23765,10 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview(__Pyx_memvie
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(4, 8, __pyx_L1_error)
   }
-  __pyx_v_XX = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) ))));
+  __pyx_v_XX = (&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_1)) ))));
 
   /* "mlgrad/averager.pxd":10
- *     cdef double *XX = &X[0]
+ *     cdef float *XX = &X[0]
  * 
  *     for i in range(X.shape[0]):             # <<<<<<<<<<<<<<
  *         X[i] = c
@@ -23706,7 +23784,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview(__Pyx_memvie
  *     for i in range(X.shape[0]):
  *         X[i] = c             # <<<<<<<<<<<<<<
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):
  */
     __pyx_t_1 = __pyx_v_i;
     __pyx_t_2 = -1;
@@ -23718,15 +23796,15 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview(__Pyx_memvie
       __Pyx_RaiseBufferIndexError(__pyx_t_2);
       __PYX_ERR(4, 11, __pyx_L1_error)
     }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) )) = __pyx_v_c;
+    *((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_1)) )) = __pyx_v_c;
   }
 
   /* "mlgrad/averager.pxd":6
  * from libc.string cimport memcpy
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0]
+ *     cdef float *XX = &X[0]
  */
 
   /* function exit code */
@@ -23740,14 +23818,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview(__Pyx_memvie
 /* "mlgrad/averager.pxd":13
  *         X[i] = c
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0,0]
+ *     cdef float *XX = &X[0,0]
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview2(__Pyx_memviewslice __pyx_v_X, double __pyx_v_c) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview2(__Pyx_memviewslice __pyx_v_X, float __pyx_v_c) {
   Py_ssize_t __pyx_v_i;
-  double *__pyx_v_XX;
+  float *__pyx_v_XX;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -23761,9 +23839,9 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview2(__Pyx_memvi
   __Pyx_RefNannySetupContext("fill_memoryview2", 0);
 
   /* "mlgrad/averager.pxd":15
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0,0]             # <<<<<<<<<<<<<<
+ *     cdef float *XX = &X[0,0]             # <<<<<<<<<<<<<<
  * 
  *     for i in range(X.shape[0] * X.shape[1]):
  */
@@ -23782,10 +23860,10 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview2(__Pyx_memvi
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
     __PYX_ERR(4, 15, __pyx_L1_error)
   }
-  __pyx_v_XX = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_1 * __pyx_v_X.strides[0]) )) + __pyx_t_2)) ))));
+  __pyx_v_XX = (&(*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_1 * __pyx_v_X.strides[0]) )) + __pyx_t_2)) ))));
 
   /* "mlgrad/averager.pxd":17
- *     cdef double *XX = &X[0,0]
+ *     cdef float *XX = &X[0,0]
  * 
  *     for i in range(X.shape[0] * X.shape[1]):             # <<<<<<<<<<<<<<
  *         XX[i] = c
@@ -23801,7 +23879,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview2(__Pyx_memvi
  *     for i in range(X.shape[0] * X.shape[1]):
  *         XX[i] = c             # <<<<<<<<<<<<<<
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):
  */
     (__pyx_v_XX[__pyx_v_i]) = __pyx_v_c;
   }
@@ -23809,9 +23887,9 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview2(__Pyx_memvi
   /* "mlgrad/averager.pxd":13
  *         X[i] = c
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0,0]
+ *     cdef float *XX = &X[0,0]
  */
 
   /* function exit code */
@@ -23825,7 +23903,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_fill_memoryview2(__Pyx_memvi
 /* "mlgrad/averager.pxd":20
  *         XX[i] = c
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t m = X.shape[0], n = Y.shape[0]
  * 
  */
@@ -23845,10 +23923,10 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_copy_memoryview(__Pyx_memvie
 
   /* "mlgrad/averager.pxd":21
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):
  *     cdef Py_ssize_t m = X.shape[0], n = Y.shape[0]             # <<<<<<<<<<<<<<
  * 
- *     memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(float))
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
   __pyx_v_n = (__pyx_v_Y.shape[0]);
@@ -23856,7 +23934,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_copy_memoryview(__Pyx_memvie
   /* "mlgrad/averager.pxd":23
  *     cdef Py_ssize_t m = X.shape[0], n = Y.shape[0]
  * 
- *     memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memcpy(&Y[0], &X[0], (n if n<m else m)*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
  * cdef class ScalarAverager:
  */
@@ -23885,12 +23963,12 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_copy_memoryview(__Pyx_memvie
   } else {
     __pyx_t_4 = __pyx_v_m;
   }
-  (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_3)) )))), (__pyx_t_4 * (sizeof(double)))));
+  (void)(memcpy((&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_Y.data) + __pyx_t_1)) )))), (&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_3)) )))), (__pyx_t_4 * (sizeof(float)))));
 
   /* "mlgrad/averager.pxd":20
  *         XX[i] = c
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t m = X.shape[0], n = Y.shape[0]
  * 
  */
@@ -23903,20 +23981,20 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_copy_memoryview(__Pyx_memvie
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/avragg.pxd":32
- *     bint copysign(double x, double x)
+/* "mlgrad/avragg.pxd":33
+ *     bint copysign(float x, float x)
  * 
- * cdef inline double array_min(double[::1] arr):             # <<<<<<<<<<<<<<
+ * cdef inline float array_min(float[::1] arr):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, N = arr.shape[0]
- *     cdef double v, min_val = arr[0]
+ *     cdef float v, min_val = arr[0]
  */
 
-static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice __pyx_v_arr) {
+static CYTHON_INLINE float __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice __pyx_v_arr) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_N;
-  double __pyx_v_v;
-  double __pyx_v_min_val;
-  double __pyx_r;
+  float __pyx_v_v;
+  float __pyx_v_min_val;
+  float __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
@@ -23929,19 +24007,19 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("array_min", 0);
 
-  /* "mlgrad/avragg.pxd":33
+  /* "mlgrad/avragg.pxd":34
  * 
- * cdef inline double array_min(double[::1] arr):
+ * cdef inline float array_min(float[::1] arr):
  *     cdef Py_ssize_t i, N = arr.shape[0]             # <<<<<<<<<<<<<<
- *     cdef double v, min_val = arr[0]
+ *     cdef float v, min_val = arr[0]
  * 
  */
   __pyx_v_N = (__pyx_v_arr.shape[0]);
 
-  /* "mlgrad/avragg.pxd":34
- * cdef inline double array_min(double[::1] arr):
+  /* "mlgrad/avragg.pxd":35
+ * cdef inline float array_min(float[::1] arr):
  *     cdef Py_ssize_t i, N = arr.shape[0]
- *     cdef double v, min_val = arr[0]             # <<<<<<<<<<<<<<
+ *     cdef float v, min_val = arr[0]             # <<<<<<<<<<<<<<
  * 
  *     for i in range(N):
  */
@@ -23953,12 +24031,12 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   } else if (unlikely(__pyx_t_1 >= __pyx_v_arr.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(5, 34, __pyx_L1_error)
+    __PYX_ERR(5, 35, __pyx_L1_error)
   }
-  __pyx_v_min_val = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) )));
+  __pyx_v_min_val = (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_arr.data) + __pyx_t_1)) )));
 
-  /* "mlgrad/avragg.pxd":36
- *     cdef double v, min_val = arr[0]
+  /* "mlgrad/avragg.pxd":37
+ *     cdef float v, min_val = arr[0]
  * 
  *     for i in range(N):             # <<<<<<<<<<<<<<
  *         v = arr[i]
@@ -23969,7 +24047,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "mlgrad/avragg.pxd":37
+    /* "mlgrad/avragg.pxd":38
  * 
  *     for i in range(N):
  *         v = arr[i]             # <<<<<<<<<<<<<<
@@ -23984,11 +24062,11 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
     } else if (unlikely(__pyx_t_1 >= __pyx_v_arr.shape[0])) __pyx_t_2 = 0;
     if (unlikely(__pyx_t_2 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_2);
-      __PYX_ERR(5, 37, __pyx_L1_error)
+      __PYX_ERR(5, 38, __pyx_L1_error)
     }
-    __pyx_v_v = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) )));
+    __pyx_v_v = (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_arr.data) + __pyx_t_1)) )));
 
-    /* "mlgrad/avragg.pxd":38
+    /* "mlgrad/avragg.pxd":39
  *     for i in range(N):
  *         v = arr[i]
  *         if v < min_val:             # <<<<<<<<<<<<<<
@@ -23998,7 +24076,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
     __pyx_t_6 = ((__pyx_v_v < __pyx_v_min_val) != 0);
     if (__pyx_t_6) {
 
-      /* "mlgrad/avragg.pxd":39
+      /* "mlgrad/avragg.pxd":40
  *         v = arr[i]
  *         if v < min_val:
  *             min_val = v             # <<<<<<<<<<<<<<
@@ -24007,7 +24085,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
  */
       __pyx_v_min_val = __pyx_v_v;
 
-      /* "mlgrad/avragg.pxd":38
+      /* "mlgrad/avragg.pxd":39
  *     for i in range(N):
  *         v = arr[i]
  *         if v < min_val:             # <<<<<<<<<<<<<<
@@ -24017,22 +24095,22 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
     }
   }
 
-  /* "mlgrad/avragg.pxd":41
+  /* "mlgrad/avragg.pxd":42
  *             min_val = v
  * 
  *     return min_val             # <<<<<<<<<<<<<<
  * 
- * cdef inline double array_mean(double[::1] arr):
+ * cdef inline float array_mean(float[::1] arr):
  */
   __pyx_r = __pyx_v_min_val;
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pxd":32
- *     bint copysign(double x, double x)
+  /* "mlgrad/avragg.pxd":33
+ *     bint copysign(float x, float x)
  * 
- * cdef inline double array_min(double[::1] arr):             # <<<<<<<<<<<<<<
+ * cdef inline float array_min(float[::1] arr):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, N = arr.shape[0]
- *     cdef double v, min_val = arr[0]
+ *     cdef float v, min_val = arr[0]
  */
 
   /* function exit code */
@@ -24044,19 +24122,19 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":43
+/* "mlgrad/avragg.pxd":44
  *     return min_val
  * 
- * cdef inline double array_mean(double[::1] arr):             # <<<<<<<<<<<<<<
+ * cdef inline float array_mean(float[::1] arr):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, N = arr.shape[0]
- *     cdef double v
+ *     cdef float v
  */
 
-static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslice __pyx_v_arr) {
+static CYTHON_INLINE float __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslice __pyx_v_arr) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_N;
-  double __pyx_v_v;
-  double __pyx_r;
+  float __pyx_v_v;
+  float __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -24068,17 +24146,17 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("array_mean", 0);
 
-  /* "mlgrad/avragg.pxd":44
+  /* "mlgrad/avragg.pxd":45
  * 
- * cdef inline double array_mean(double[::1] arr):
+ * cdef inline float array_mean(float[::1] arr):
  *     cdef Py_ssize_t i, N = arr.shape[0]             # <<<<<<<<<<<<<<
- *     cdef double v
+ *     cdef float v
  * 
  */
   __pyx_v_N = (__pyx_v_arr.shape[0]);
 
-  /* "mlgrad/avragg.pxd":47
- *     cdef double v
+  /* "mlgrad/avragg.pxd":48
+ *     cdef float v
  * 
  *     v = 0             # <<<<<<<<<<<<<<
  *     for i in range(N):
@@ -24086,7 +24164,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
  */
   __pyx_v_v = 0.0;
 
-  /* "mlgrad/avragg.pxd":48
+  /* "mlgrad/avragg.pxd":49
  * 
  *     v = 0
  *     for i in range(N):             # <<<<<<<<<<<<<<
@@ -24098,7 +24176,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/avragg.pxd":49
+    /* "mlgrad/avragg.pxd":50
  *     v = 0
  *     for i in range(N):
  *         v += arr[i]             # <<<<<<<<<<<<<<
@@ -24113,31 +24191,31 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
     } else if (unlikely(__pyx_t_4 >= __pyx_v_arr.shape[0])) __pyx_t_5 = 0;
     if (unlikely(__pyx_t_5 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(5, 49, __pyx_L1_error)
+      __PYX_ERR(5, 50, __pyx_L1_error)
     }
-    __pyx_v_v = (__pyx_v_v + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_4)) ))));
+    __pyx_v_v = (__pyx_v_v + (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_arr.data) + __pyx_t_4)) ))));
   }
 
-  /* "mlgrad/avragg.pxd":51
+  /* "mlgrad/avragg.pxd":52
  *         v += arr[i]
  * 
  *     return v / N             # <<<<<<<<<<<<<<
  * 
- * cdef inline void array_add_scalar(double[::1] arr, double v):
+ * cdef inline void array_add_scalar(float[::1] arr, const float v):
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(5, 51, __pyx_L1_error)
+    __PYX_ERR(5, 52, __pyx_L1_error)
   }
-  __pyx_r = (__pyx_v_v / ((double)__pyx_v_N));
+  __pyx_r = (__pyx_v_v / ((float)__pyx_v_N));
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pxd":43
+  /* "mlgrad/avragg.pxd":44
  *     return min_val
  * 
- * cdef inline double array_mean(double[::1] arr):             # <<<<<<<<<<<<<<
+ * cdef inline float array_mean(float[::1] arr):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, N = arr.shape[0]
- *     cdef double v
+ *     cdef float v
  */
 
   /* function exit code */
@@ -24149,15 +24227,15 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":53
+/* "mlgrad/avragg.pxd":54
  *     return v / N
  * 
- * cdef inline void array_add_scalar(double[::1] arr, double v):             # <<<<<<<<<<<<<<
+ * cdef inline void array_add_scalar(float[::1] arr, const float v):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, N = arr.shape[0]
  * 
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memviewslice __pyx_v_arr, double __pyx_v_v) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memviewslice __pyx_v_arr, float const __pyx_v_v) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_N;
   __Pyx_RefNannyDeclarations
@@ -24171,16 +24249,16 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("array_add_scalar", 0);
 
-  /* "mlgrad/avragg.pxd":54
+  /* "mlgrad/avragg.pxd":55
  * 
- * cdef inline void array_add_scalar(double[::1] arr, double v):
+ * cdef inline void array_add_scalar(float[::1] arr, const float v):
  *     cdef Py_ssize_t i, N = arr.shape[0]             # <<<<<<<<<<<<<<
  * 
  *     for i in range(N):
  */
   __pyx_v_N = (__pyx_v_arr.shape[0]);
 
-  /* "mlgrad/avragg.pxd":56
+  /* "mlgrad/avragg.pxd":57
  *     cdef Py_ssize_t i, N = arr.shape[0]
  * 
  *     for i in range(N):             # <<<<<<<<<<<<<<
@@ -24192,7 +24270,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/avragg.pxd":57
+    /* "mlgrad/avragg.pxd":58
  * 
  *     for i in range(N):
  *         arr[i] += v             # <<<<<<<<<<<<<<
@@ -24207,15 +24285,15 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
     } else if (unlikely(__pyx_t_4 >= __pyx_v_arr.shape[0])) __pyx_t_5 = 0;
     if (unlikely(__pyx_t_5 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(5, 57, __pyx_L1_error)
+      __PYX_ERR(5, 58, __pyx_L1_error)
     }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_4)) )) += __pyx_v_v;
+    *((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_arr.data) + __pyx_t_4)) )) += __pyx_v_v;
   }
 
-  /* "mlgrad/avragg.pxd":53
+  /* "mlgrad/avragg.pxd":54
  *     return v / N
  * 
- * cdef inline void array_add_scalar(double[::1] arr, double v):             # <<<<<<<<<<<<<<
+ * cdef inline void array_add_scalar(float[::1] arr, const float v):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, N = arr.shape[0]
  * 
  */
@@ -24229,11 +24307,11 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
 }
 
 /* "mlgrad/risk.pxd":34
- * ctypedef double (*LossDerivative)(Loss, double, double)
+ * ctypedef float (*LossDerivative)(Loss, float, float)
  * 
- * cdef inline void clear_memoryview(double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void clear_memoryview(float[::1] X):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0]
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  */
 
 static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_clear_memoryview(__Pyx_memviewslice __pyx_v_X) {
@@ -24248,19 +24326,19 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_clear_memoryview(__Pyx_memviewsl
 
   /* "mlgrad/risk.pxd":35
  * 
- * cdef inline void clear_memoryview(double[::1] X):
+ * cdef inline void clear_memoryview(float[::1] X):
  *     cdef int m = X.shape[0]             # <<<<<<<<<<<<<<
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  * 
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
 
   /* "mlgrad/risk.pxd":36
- * cdef inline void clear_memoryview(double[::1] X):
+ * cdef inline void clear_memoryview(float[::1] X):
  *     cdef int m = X.shape[0]
- *     memset(&X[0], 0, m*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memset(&X[0], 0, m*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):
+ * cdef inline void fill_memoryview(float[::1] X, float c):
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = -1;
@@ -24272,14 +24350,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_clear_memoryview(__Pyx_memviewsl
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(6, 36, __pyx_L1_error)
   }
-  (void)(memset((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(double)))));
+  (void)(memset((&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(float)))));
 
   /* "mlgrad/risk.pxd":34
- * ctypedef double (*LossDerivative)(Loss, double, double)
+ * ctypedef float (*LossDerivative)(Loss, float, float)
  * 
- * cdef inline void clear_memoryview(double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void clear_memoryview(float[::1] X):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0]
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  */
 
   /* function exit code */
@@ -24291,14 +24369,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_clear_memoryview(__Pyx_memviewsl
 }
 
 /* "mlgrad/risk.pxd":38
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, m = X.shape[0]
  *     for i in range(m):
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview(__Pyx_memviewslice __pyx_v_X, double __pyx_v_c) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview(__Pyx_memviewslice __pyx_v_X, float __pyx_v_c) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   __Pyx_RefNannyDeclarations
@@ -24314,7 +24392,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview(__Pyx_memviewsli
 
   /* "mlgrad/risk.pxd":39
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):
+ * cdef inline void fill_memoryview(float[::1] X, float c):
  *     cdef Py_ssize_t i, m = X.shape[0]             # <<<<<<<<<<<<<<
  *     for i in range(m):
  *         X[i] = c
@@ -24322,7 +24400,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview(__Pyx_memviewsli
   __pyx_v_m = (__pyx_v_X.shape[0]);
 
   /* "mlgrad/risk.pxd":40
- * cdef inline void fill_memoryview(double[::1] X, double c):
+ * cdef inline void fill_memoryview(float[::1] X, float c):
  *     cdef Py_ssize_t i, m = X.shape[0]
  *     for i in range(m):             # <<<<<<<<<<<<<<
  *         X[i] = c
@@ -24338,7 +24416,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview(__Pyx_memviewsli
  *     for i in range(m):
  *         X[i] = c             # <<<<<<<<<<<<<<
  * 
- * cdef inline void clear_memoryview2(double[:, ::1] X):
+ * cdef inline void clear_memoryview2(float[:, ::1] X):
  */
     __pyx_t_4 = __pyx_v_i;
     __pyx_t_5 = -1;
@@ -24350,13 +24428,13 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview(__Pyx_memviewsli
       __Pyx_RaiseBufferIndexError(__pyx_t_5);
       __PYX_ERR(6, 41, __pyx_L1_error)
     }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )) = __pyx_v_c;
+    *((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_4)) )) = __pyx_v_c;
   }
 
   /* "mlgrad/risk.pxd":38
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, m = X.shape[0]
  *     for i in range(m):
  */
@@ -24372,9 +24450,9 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview(__Pyx_memviewsli
 /* "mlgrad/risk.pxd":43
  *         X[i] = c
  * 
- * cdef inline void clear_memoryview2(double[:, ::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void clear_memoryview2(float[:, ::1] X):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = X.shape[1]
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))
  */
 
 static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_clear_memoryview2(__Pyx_memviewslice __pyx_v_X) {
@@ -24391,20 +24469,20 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_clear_memoryview2(__Pyx_memviews
 
   /* "mlgrad/risk.pxd":44
  * 
- * cdef inline void clear_memoryview2(double[:, ::1] X):
+ * cdef inline void clear_memoryview2(float[:, ::1] X):
  *     cdef int m = X.shape[0], n = X.shape[1]             # <<<<<<<<<<<<<<
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))
  * 
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
   __pyx_v_n = (__pyx_v_X.shape[1]);
 
   /* "mlgrad/risk.pxd":45
- * cdef inline void clear_memoryview2(double[:, ::1] X):
+ * cdef inline void clear_memoryview2(float[:, ::1] X):
  *     cdef int m = X.shape[0], n = X.shape[1]
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
@@ -24421,14 +24499,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_clear_memoryview2(__Pyx_memviews
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
     __PYX_ERR(6, 45, __pyx_L1_error)
   }
-  (void)(memset((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_1 * __pyx_v_X.strides[0]) )) + __pyx_t_2)) )))), 0, ((__pyx_v_m * __pyx_v_n) * (sizeof(double)))));
+  (void)(memset((&(*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_1 * __pyx_v_X.strides[0]) )) + __pyx_t_2)) )))), 0, ((__pyx_v_m * __pyx_v_n) * (sizeof(float)))));
 
   /* "mlgrad/risk.pxd":43
  *         X[i] = c
  * 
- * cdef inline void clear_memoryview2(double[:, ::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void clear_memoryview2(float[:, ::1] X):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = X.shape[1]
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))
  */
 
   /* function exit code */
@@ -24440,14 +24518,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_clear_memoryview2(__Pyx_memviews
 }
 
 /* "mlgrad/risk.pxd":47
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview2(__Pyx_memviewslice __pyx_v_X, double __pyx_v_c) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview2(__Pyx_memviewslice __pyx_v_X, float __pyx_v_c) {
   int __pyx_v_i;
   int __pyx_v_j;
   int __pyx_v_m;
@@ -24468,7 +24546,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview2(__Pyx_memviewsl
   __Pyx_RefNannySetupContext("fill_memoryview2", 0);
 
   /* "mlgrad/risk.pxd":49
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]             # <<<<<<<<<<<<<<
  *     for i in range(m):
@@ -24506,7 +24584,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview2(__Pyx_memviewsl
  *         for j in range(n):
  *             X[i,j] = c             # <<<<<<<<<<<<<<
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):
  */
       __pyx_t_7 = __pyx_v_i;
       __pyx_t_8 = __pyx_v_j;
@@ -24523,14 +24601,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview2(__Pyx_memviewsl
         __Pyx_RaiseBufferIndexError(__pyx_t_9);
         __PYX_ERR(6, 52, __pyx_L1_error)
       }
-      *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_7 * __pyx_v_X.strides[0]) )) + __pyx_t_8)) )) = __pyx_v_c;
+      *((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_7 * __pyx_v_X.strides[0]) )) + __pyx_t_8)) )) = __pyx_v_c;
     }
   }
 
   /* "mlgrad/risk.pxd":47
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  */
@@ -24546,7 +24624,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_fill_memoryview2(__Pyx_memviewsl
 /* "mlgrad/risk.pxd":54
  *             X[i,j] = c
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = Y.shape[0]
  * 
  */
@@ -24566,7 +24644,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_copy_memoryview(__Pyx_memviewsli
 
   /* "mlgrad/risk.pxd":55
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):
  *     cdef int m = X.shape[0], n = Y.shape[0]             # <<<<<<<<<<<<<<
  * 
  *     if n < m:
@@ -24579,7 +24657,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_copy_memoryview(__Pyx_memviewsli
  * 
  *     if n < m:             # <<<<<<<<<<<<<<
  *         m = n
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  */
   __pyx_t_1 = ((__pyx_v_n < __pyx_v_m) != 0);
   if (__pyx_t_1) {
@@ -24588,7 +24666,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_copy_memoryview(__Pyx_memviewsli
  * 
  *     if n < m:
  *         m = n             # <<<<<<<<<<<<<<
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  * 
  */
     __pyx_v_m = __pyx_v_n;
@@ -24598,14 +24676,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_copy_memoryview(__Pyx_memviewsli
  * 
  *     if n < m:             # <<<<<<<<<<<<<<
  *         m = n
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  */
   }
 
   /* "mlgrad/risk.pxd":59
  *     if n < m:
  *         m = n
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
  * cdef class Functional:
  */
@@ -24629,12 +24707,12 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_copy_memoryview(__Pyx_memviewsli
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
     __PYX_ERR(6, 59, __pyx_L1_error)
   }
-  (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )))), (__pyx_v_m * (sizeof(double)))));
+  (void)(memcpy((&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_4)) )))), (__pyx_v_m * (sizeof(float)))));
 
   /* "mlgrad/risk.pxd":54
  *             X[i,j] = c
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = Y.shape[0]
  * 
  */
@@ -24648,19 +24726,19 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_4risk_copy_memoryview(__Pyx_memviewsli
 }
 
 /* "mlgrad/weights.pxd":14
- *     double PyFloat_GetMin()
+ *     float PyFloat_GetMin()
  * 
- * cdef inline double array_min(double[::1] arr):             # <<<<<<<<<<<<<<
+ * cdef inline float array_min(float[::1] arr):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, N = arr.shape[0]
- *     cdef double v, min_val = arr[0]
+ *     cdef float v, min_val = arr[0]
  */
 
-static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_array_min(__Pyx_memviewslice __pyx_v_arr) {
+static CYTHON_INLINE float __pyx_f_6mlgrad_7weights_array_min(__Pyx_memviewslice __pyx_v_arr) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_N;
-  double __pyx_v_v;
-  double __pyx_v_min_val;
-  double __pyx_r;
+  float __pyx_v_v;
+  float __pyx_v_min_val;
+  float __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
@@ -24675,17 +24753,17 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_array_min(__Pyx_memviewslic
 
   /* "mlgrad/weights.pxd":15
  * 
- * cdef inline double array_min(double[::1] arr):
+ * cdef inline float array_min(float[::1] arr):
  *     cdef Py_ssize_t i, N = arr.shape[0]             # <<<<<<<<<<<<<<
- *     cdef double v, min_val = arr[0]
+ *     cdef float v, min_val = arr[0]
  * 
  */
   __pyx_v_N = (__pyx_v_arr.shape[0]);
 
   /* "mlgrad/weights.pxd":16
- * cdef inline double array_min(double[::1] arr):
+ * cdef inline float array_min(float[::1] arr):
  *     cdef Py_ssize_t i, N = arr.shape[0]
- *     cdef double v, min_val = arr[0]             # <<<<<<<<<<<<<<
+ *     cdef float v, min_val = arr[0]             # <<<<<<<<<<<<<<
  * 
  *     for i in range(N):
  */
@@ -24699,10 +24777,10 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_array_min(__Pyx_memviewslic
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(7, 16, __pyx_L1_error)
   }
-  __pyx_v_min_val = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) )));
+  __pyx_v_min_val = (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_arr.data) + __pyx_t_1)) )));
 
   /* "mlgrad/weights.pxd":18
- *     cdef double v, min_val = arr[0]
+ *     cdef float v, min_val = arr[0]
  * 
  *     for i in range(N):             # <<<<<<<<<<<<<<
  *         v = arr[i]
@@ -24730,7 +24808,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_array_min(__Pyx_memviewslic
       __Pyx_RaiseBufferIndexError(__pyx_t_2);
       __PYX_ERR(7, 19, __pyx_L1_error)
     }
-    __pyx_v_v = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) )));
+    __pyx_v_v = (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_arr.data) + __pyx_t_1)) )));
 
     /* "mlgrad/weights.pxd":20
  *     for i in range(N):
@@ -24766,17 +24844,17 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_array_min(__Pyx_memviewslic
  * 
  *     return min_val             # <<<<<<<<<<<<<<
  * 
- * cdef inline double sum_memoryview(double[::1] X):
+ * cdef inline float sum_memoryview(float[::1] X):
  */
   __pyx_r = __pyx_v_min_val;
   goto __pyx_L0;
 
   /* "mlgrad/weights.pxd":14
- *     double PyFloat_GetMin()
+ *     float PyFloat_GetMin()
  * 
- * cdef inline double array_min(double[::1] arr):             # <<<<<<<<<<<<<<
+ * cdef inline float array_min(float[::1] arr):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, N = arr.shape[0]
- *     cdef double v, min_val = arr[0]
+ *     cdef float v, min_val = arr[0]
  */
 
   /* function exit code */
@@ -24791,16 +24869,16 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_array_min(__Pyx_memviewslic
 /* "mlgrad/weights.pxd":25
  *     return min_val
  * 
- * cdef inline double sum_memoryview(double[::1] X):             # <<<<<<<<<<<<<<
- *     cdef double S
+ * cdef inline float sum_memoryview(float[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef float S
  *     cdef Py_ssize_t i, m = X.shape[0]
  */
 
-static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_sum_memoryview(__Pyx_memviewslice __pyx_v_X) {
-  double __pyx_v_S;
+static CYTHON_INLINE float __pyx_f_6mlgrad_7weights_sum_memoryview(__Pyx_memviewslice __pyx_v_X) {
+  float __pyx_v_S;
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
-  double __pyx_r;
+  float __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -24813,8 +24891,8 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_sum_memoryview(__Pyx_memvie
   __Pyx_RefNannySetupContext("sum_memoryview", 0);
 
   /* "mlgrad/weights.pxd":27
- * cdef inline double sum_memoryview(double[::1] X):
- *     cdef double S
+ * cdef inline float sum_memoryview(float[::1] X):
+ *     cdef float S
  *     cdef Py_ssize_t i, m = X.shape[0]             # <<<<<<<<<<<<<<
  * 
  *     S = 0
@@ -24859,7 +24937,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_sum_memoryview(__Pyx_memvie
       __Pyx_RaiseBufferIndexError(__pyx_t_5);
       __PYX_ERR(7, 31, __pyx_L1_error)
     }
-    __pyx_v_S = (__pyx_v_S + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) ))));
+    __pyx_v_S = (__pyx_v_S + (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_4)) ))));
   }
 
   /* "mlgrad/weights.pxd":32
@@ -24867,7 +24945,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_sum_memoryview(__Pyx_memvie
  *         S += X[i]
  *     return S             # <<<<<<<<<<<<<<
  * 
- * cdef inline void mult_scalar_memoryview(double[::1] X, double c):
+ * cdef inline void mult_scalar_memoryview(float[::1] X, float c):
  */
   __pyx_r = __pyx_v_S;
   goto __pyx_L0;
@@ -24875,8 +24953,8 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_sum_memoryview(__Pyx_memvie
   /* "mlgrad/weights.pxd":25
  *     return min_val
  * 
- * cdef inline double sum_memoryview(double[::1] X):             # <<<<<<<<<<<<<<
- *     cdef double S
+ * cdef inline float sum_memoryview(float[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef float S
  *     cdef Py_ssize_t i, m = X.shape[0]
  */
 
@@ -24892,12 +24970,12 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_7weights_sum_memoryview(__Pyx_memvie
 /* "mlgrad/weights.pxd":34
  *     return S
  * 
- * cdef inline void mult_scalar_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void mult_scalar_memoryview(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, m = X.shape[0]
  * 
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_mult_scalar_memoryview(__Pyx_memviewslice __pyx_v_X, double __pyx_v_c) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_mult_scalar_memoryview(__Pyx_memviewslice __pyx_v_X, float __pyx_v_c) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   __Pyx_RefNannyDeclarations
@@ -24913,7 +24991,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_mult_scalar_memoryview(__Pyx_
 
   /* "mlgrad/weights.pxd":35
  * 
- * cdef inline void mult_scalar_memoryview(double[::1] X, double c):
+ * cdef inline void mult_scalar_memoryview(float[::1] X, float c):
  *     cdef Py_ssize_t i, m = X.shape[0]             # <<<<<<<<<<<<<<
  * 
  *     for i in range(m):
@@ -24937,7 +25015,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_mult_scalar_memoryview(__Pyx_
  *     for i in range(m):
  *         X[i] *= c             # <<<<<<<<<<<<<<
  * 
- * cdef inline void normalize_memoryview(double[::1] X):
+ * cdef inline void normalize_memoryview(float[::1] X):
  */
     __pyx_t_4 = __pyx_v_i;
     __pyx_t_5 = -1;
@@ -24949,13 +25027,13 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_mult_scalar_memoryview(__Pyx_
       __Pyx_RaiseBufferIndexError(__pyx_t_5);
       __PYX_ERR(7, 38, __pyx_L1_error)
     }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )) *= __pyx_v_c;
+    *((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_4)) )) *= __pyx_v_c;
   }
 
   /* "mlgrad/weights.pxd":34
  *     return S
  * 
- * cdef inline void mult_scalar_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void mult_scalar_memoryview(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, m = X.shape[0]
  * 
  */
@@ -24971,14 +25049,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_mult_scalar_memoryview(__Pyx_
 /* "mlgrad/weights.pxd":40
  *         X[i] *= c
  * 
- * cdef inline void normalize_memoryview(double[::1] X):             # <<<<<<<<<<<<<<
- *     cdef double S, c
+ * cdef inline void normalize_memoryview(float[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef float S, c
  *     cdef Py_ssize_t i, m = X.shape[0]
  */
 
 static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_normalize_memoryview(__Pyx_memviewslice __pyx_v_X) {
-  double __pyx_v_S;
-  double __pyx_v_c;
+  float __pyx_v_S;
+  float __pyx_v_c;
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   __Pyx_RefNannyDeclarations
@@ -24993,8 +25071,8 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_normalize_memoryview(__Pyx_me
   __Pyx_RefNannySetupContext("normalize_memoryview", 0);
 
   /* "mlgrad/weights.pxd":42
- * cdef inline void normalize_memoryview(double[::1] X):
- *     cdef double S, c
+ * cdef inline void normalize_memoryview(float[::1] X):
+ *     cdef float S, c
  *     cdef Py_ssize_t i, m = X.shape[0]             # <<<<<<<<<<<<<<
  * 
  *     S = 0
@@ -25039,7 +25117,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_normalize_memoryview(__Pyx_me
       __Pyx_RaiseBufferIndexError(__pyx_t_5);
       __PYX_ERR(7, 46, __pyx_L1_error)
     }
-    __pyx_v_S = (__pyx_v_S + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) ))));
+    __pyx_v_S = (__pyx_v_S + (*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_4)) ))));
   }
 
   /* "mlgrad/weights.pxd":47
@@ -25084,14 +25162,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_normalize_memoryview(__Pyx_me
       __Pyx_RaiseBufferIndexError(__pyx_t_5);
       __PYX_ERR(7, 50, __pyx_L1_error)
     }
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )) *= __pyx_v_c;
+    *((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_4)) )) *= __pyx_v_c;
   }
 
   /* "mlgrad/weights.pxd":40
  *         X[i] *= c
  * 
- * cdef inline void normalize_memoryview(double[::1] X):             # <<<<<<<<<<<<<<
- *     cdef double S, c
+ * cdef inline void normalize_memoryview(float[::1] X):             # <<<<<<<<<<<<<<
+ *     cdef float S, c
  *     cdef Py_ssize_t i, m = X.shape[0]
  */
 
@@ -25103,15 +25181,15 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_7weights_normalize_memoryview(__Pyx_me
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/gd.pxd":26
- *     double PyFloat_GetMin()
+/* "mlgrad/gd.pxd":27
+ *     float PyFloat_GetMin()
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0]
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_fill_memoryview(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED double __pyx_v_c) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_fill_memoryview(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED float __pyx_v_c) {
   int __pyx_v_m;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
@@ -25121,21 +25199,21 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_fill_memoryview(__Pyx_memviewslice
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fill_memoryview", 0);
 
-  /* "mlgrad/gd.pxd":27
+  /* "mlgrad/gd.pxd":28
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):
+ * cdef inline void fill_memoryview(float[::1] X, float c):
  *     cdef int m = X.shape[0]             # <<<<<<<<<<<<<<
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  * 
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
 
-  /* "mlgrad/gd.pxd":28
- * cdef inline void fill_memoryview(double[::1] X, double c):
+  /* "mlgrad/gd.pxd":29
+ * cdef inline void fill_memoryview(float[::1] X, float c):
  *     cdef int m = X.shape[0]
- *     memset(&X[0], 0, m*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memset(&X[0], 0, m*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = -1;
@@ -25145,16 +25223,16 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_fill_memoryview(__Pyx_memviewslice
   } else if (unlikely(__pyx_t_1 >= __pyx_v_X.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(8, 28, __pyx_L1_error)
+    __PYX_ERR(8, 29, __pyx_L1_error)
   }
-  (void)(memset((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(double)))));
+  (void)(memset((&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(float)))));
 
-  /* "mlgrad/gd.pxd":26
- *     double PyFloat_GetMin()
+  /* "mlgrad/gd.pxd":27
+ *     float PyFloat_GetMin()
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0]
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  */
 
   /* function exit code */
@@ -25165,15 +25243,15 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_fill_memoryview(__Pyx_memviewslice
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/gd.pxd":30
- *     memset(&X[0], 0, m*cython.sizeof(double))
+/* "mlgrad/gd.pxd":31
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_fill_memoryview2(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED double __pyx_v_c) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_fill_memoryview2(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED float __pyx_v_c) {
   int __pyx_v_m;
   int __pyx_v_n;
   __Pyx_RefNannyDeclarations
@@ -25185,22 +25263,22 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_fill_memoryview2(__Pyx_memviewslic
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fill_memoryview2", 0);
 
-  /* "mlgrad/gd.pxd":32
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):
+  /* "mlgrad/gd.pxd":33
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]             # <<<<<<<<<<<<<<
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))
  * 
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
   __pyx_v_n = (__pyx_v_X.shape[1]);
 
-  /* "mlgrad/gd.pxd":33
+  /* "mlgrad/gd.pxd":34
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
@@ -25215,14 +25293,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_fill_memoryview2(__Pyx_memviewslic
   } else if (unlikely(__pyx_t_2 >= __pyx_v_X.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(8, 33, __pyx_L1_error)
+    __PYX_ERR(8, 34, __pyx_L1_error)
   }
-  (void)(memset((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_1 * __pyx_v_X.strides[0]) )) + __pyx_t_2)) )))), 0, ((__pyx_v_m * __pyx_v_n) * (sizeof(double)))));
+  (void)(memset((&(*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_1 * __pyx_v_X.strides[0]) )) + __pyx_t_2)) )))), 0, ((__pyx_v_m * __pyx_v_n) * (sizeof(float)))));
 
-  /* "mlgrad/gd.pxd":30
- *     memset(&X[0], 0, m*cython.sizeof(double))
+  /* "mlgrad/gd.pxd":31
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  */
@@ -25235,10 +25313,10 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_fill_memoryview2(__Pyx_memviewslic
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/gd.pxd":35
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
+/* "mlgrad/gd.pxd":36
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = Y.shape[0]
  * 
  */
@@ -25256,9 +25334,9 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_copy_memoryview(__Pyx_memviewslice
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("copy_memoryview", 0);
 
-  /* "mlgrad/gd.pxd":36
+  /* "mlgrad/gd.pxd":37
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):
  *     cdef int m = X.shape[0], n = Y.shape[0]             # <<<<<<<<<<<<<<
  * 
  *     if n < m:
@@ -25266,40 +25344,40 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_copy_memoryview(__Pyx_memviewslice
   __pyx_v_m = (__pyx_v_X.shape[0]);
   __pyx_v_n = (__pyx_v_Y.shape[0]);
 
-  /* "mlgrad/gd.pxd":38
+  /* "mlgrad/gd.pxd":39
  *     cdef int m = X.shape[0], n = Y.shape[0]
  * 
  *     if n < m:             # <<<<<<<<<<<<<<
  *         m = n
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  */
   __pyx_t_1 = ((__pyx_v_n < __pyx_v_m) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/gd.pxd":39
+    /* "mlgrad/gd.pxd":40
  * 
  *     if n < m:
  *         m = n             # <<<<<<<<<<<<<<
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  * 
  */
     __pyx_v_m = __pyx_v_n;
 
-    /* "mlgrad/gd.pxd":38
+    /* "mlgrad/gd.pxd":39
  *     cdef int m = X.shape[0], n = Y.shape[0]
  * 
  *     if n < m:             # <<<<<<<<<<<<<<
  *         m = n
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  */
   }
 
-  /* "mlgrad/gd.pxd":40
+  /* "mlgrad/gd.pxd":41
  *     if n < m:
  *         m = n
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
+ * cdef inline void copy_memoryview2(float[:,::1] Y, float[:,::1] X):
  */
   __pyx_t_2 = 0;
   __pyx_t_3 = -1;
@@ -25309,7 +25387,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_copy_memoryview(__Pyx_memviewslice
   } else if (unlikely(__pyx_t_2 >= __pyx_v_Y.shape[0])) __pyx_t_3 = 0;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(8, 40, __pyx_L1_error)
+    __PYX_ERR(8, 41, __pyx_L1_error)
   }
   __pyx_t_4 = 0;
   __pyx_t_3 = -1;
@@ -25319,14 +25397,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_copy_memoryview(__Pyx_memviewslice
   } else if (unlikely(__pyx_t_4 >= __pyx_v_X.shape[0])) __pyx_t_3 = 0;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(8, 40, __pyx_L1_error)
+    __PYX_ERR(8, 41, __pyx_L1_error)
   }
-  (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )))), (__pyx_v_m * (sizeof(double)))));
+  (void)(memcpy((&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_4)) )))), (__pyx_v_m * (sizeof(float)))));
 
-  /* "mlgrad/gd.pxd":35
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
+  /* "mlgrad/gd.pxd":36
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = Y.shape[0]
  * 
  */
@@ -25339,10 +25417,10 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_copy_memoryview(__Pyx_memviewslice
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/gd.pxd":42
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+/* "mlgrad/gd.pxd":43
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  * 
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview2(float[:,::1] Y, float[:,::1] X):             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  */
@@ -25361,20 +25439,20 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_copy_memoryview2(__Pyx_memviewslic
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("copy_memoryview2", 0);
 
-  /* "mlgrad/gd.pxd":44
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
+  /* "mlgrad/gd.pxd":45
+ * cdef inline void copy_memoryview2(float[:,::1] Y, float[:,::1] X):
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]             # <<<<<<<<<<<<<<
- *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))
+ *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(float))
  * 
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
   __pyx_v_n = (__pyx_v_X.shape[1]);
 
-  /* "mlgrad/gd.pxd":45
+  /* "mlgrad/gd.pxd":46
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
- *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
  * # cdef class Fittable(object):
  */
@@ -25391,7 +25469,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_copy_memoryview2(__Pyx_memviewslic
   } else if (unlikely(__pyx_t_2 >= __pyx_v_Y.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(8, 45, __pyx_L1_error)
+    __PYX_ERR(8, 46, __pyx_L1_error)
   }
   __pyx_t_4 = 0;
   __pyx_t_5 = 0;
@@ -25406,14 +25484,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_copy_memoryview2(__Pyx_memviewslic
   } else if (unlikely(__pyx_t_5 >= __pyx_v_X.shape[1])) __pyx_t_3 = 1;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(8, 45, __pyx_L1_error)
+    __PYX_ERR(8, 46, __pyx_L1_error)
   }
-  (void)(memcpy((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Y.data + __pyx_t_1 * __pyx_v_Y.strides[0]) )) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_4 * __pyx_v_X.strides[0]) )) + __pyx_t_5)) )))), ((__pyx_v_n * __pyx_v_m) * (sizeof(double)))));
+  (void)(memcpy((&(*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_Y.data + __pyx_t_1 * __pyx_v_Y.strides[0]) )) + __pyx_t_2)) )))), (&(*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_4 * __pyx_v_X.strides[0]) )) + __pyx_t_5)) )))), ((__pyx_v_n * __pyx_v_m) * (sizeof(float)))));
 
-  /* "mlgrad/gd.pxd":42
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+  /* "mlgrad/gd.pxd":43
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  * 
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview2(float[:,::1] Y, float[:,::1] X):             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  */
@@ -25426,33 +25504,33 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_copy_memoryview2(__Pyx_memviewslic
   __Pyx_RefNannyFinishContext();
 }
 
-/* "lib/mlgrad/stopcond.pxd":14
- *     double PyFloat_GetMin()
+/* "lib/mlgrad/stopcond.pxd":15
+ *     float PyFloat_GetMin()
  * 
- * cdef inline double min3(const double v1, const double v2, const double v3):             # <<<<<<<<<<<<<<
- *     cdef double vmin = v1
+ * cdef inline float min3(const float v1, const float v2, const float v3):             # <<<<<<<<<<<<<<
+ *     cdef float vmin = v1
  *     if v2 < vmin:
  */
 
-static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, double const __pyx_v_v2, double const __pyx_v_v3) {
-  double __pyx_v_vmin;
-  double __pyx_r;
+static CYTHON_INLINE float __pyx_f_6mlgrad_2gd_min3(float const __pyx_v_v1, float const __pyx_v_v2, float const __pyx_v_v3) {
+  float __pyx_v_vmin;
+  float __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("min3", 0);
 
-  /* "lib/mlgrad/stopcond.pxd":15
+  /* "lib/mlgrad/stopcond.pxd":16
  * 
- * cdef inline double min3(const double v1, const double v2, const double v3):
- *     cdef double vmin = v1             # <<<<<<<<<<<<<<
+ * cdef inline float min3(const float v1, const float v2, const float v3):
+ *     cdef float vmin = v1             # <<<<<<<<<<<<<<
  *     if v2 < vmin:
  *         vmin = v2
  */
   __pyx_v_vmin = __pyx_v_v1;
 
-  /* "lib/mlgrad/stopcond.pxd":16
- * cdef inline double min3(const double v1, const double v2, const double v3):
- *     cdef double vmin = v1
+  /* "lib/mlgrad/stopcond.pxd":17
+ * cdef inline float min3(const float v1, const float v2, const float v3):
+ *     cdef float vmin = v1
  *     if v2 < vmin:             # <<<<<<<<<<<<<<
  *         vmin = v2
  *     if v3 < vmin:
@@ -25460,8 +25538,8 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
   __pyx_t_1 = ((__pyx_v_v2 < __pyx_v_vmin) != 0);
   if (__pyx_t_1) {
 
-    /* "lib/mlgrad/stopcond.pxd":17
- *     cdef double vmin = v1
+    /* "lib/mlgrad/stopcond.pxd":18
+ *     cdef float vmin = v1
  *     if v2 < vmin:
  *         vmin = v2             # <<<<<<<<<<<<<<
  *     if v3 < vmin:
@@ -25469,16 +25547,16 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
     __pyx_v_vmin = __pyx_v_v2;
 
-    /* "lib/mlgrad/stopcond.pxd":16
- * cdef inline double min3(const double v1, const double v2, const double v3):
- *     cdef double vmin = v1
+    /* "lib/mlgrad/stopcond.pxd":17
+ * cdef inline float min3(const float v1, const float v2, const float v3):
+ *     cdef float vmin = v1
  *     if v2 < vmin:             # <<<<<<<<<<<<<<
  *         vmin = v2
  *     if v3 < vmin:
  */
   }
 
-  /* "lib/mlgrad/stopcond.pxd":18
+  /* "lib/mlgrad/stopcond.pxd":19
  *     if v2 < vmin:
  *         vmin = v2
  *     if v3 < vmin:             # <<<<<<<<<<<<<<
@@ -25488,7 +25566,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
   __pyx_t_1 = ((__pyx_v_v3 < __pyx_v_vmin) != 0);
   if (__pyx_t_1) {
 
-    /* "lib/mlgrad/stopcond.pxd":19
+    /* "lib/mlgrad/stopcond.pxd":20
  *         vmin = v2
  *     if v3 < vmin:
  *         vmin = v3             # <<<<<<<<<<<<<<
@@ -25497,7 +25575,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
     __pyx_v_vmin = __pyx_v_v3;
 
-    /* "lib/mlgrad/stopcond.pxd":18
+    /* "lib/mlgrad/stopcond.pxd":19
  *     if v2 < vmin:
  *         vmin = v2
  *     if v3 < vmin:             # <<<<<<<<<<<<<<
@@ -25506,7 +25584,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
   }
 
-  /* "lib/mlgrad/stopcond.pxd":20
+  /* "lib/mlgrad/stopcond.pxd":21
  *     if v3 < vmin:
  *         vmin = v3
  *     return vmin             # <<<<<<<<<<<<<<
@@ -25516,11 +25594,11 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
   __pyx_r = __pyx_v_vmin;
   goto __pyx_L0;
 
-  /* "lib/mlgrad/stopcond.pxd":14
- *     double PyFloat_GetMin()
+  /* "lib/mlgrad/stopcond.pxd":15
+ *     float PyFloat_GetMin()
  * 
- * cdef inline double min3(const double v1, const double v2, const double v3):             # <<<<<<<<<<<<<<
- *     cdef double vmin = v1
+ * cdef inline float min3(const float v1, const float v2, const float v3):             # <<<<<<<<<<<<<<
+ *     cdef float vmin = v1
  *     if v2 < vmin:
  */
 
@@ -25531,14 +25609,14 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
 }
 
 /* "mlgrad/kmeans.pxd":19
- *     double PyFloat_GetMin()
+ *     float PyFloat_GetMin()
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0]
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED double __pyx_v_c) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED float __pyx_v_c) {
   int __pyx_v_m;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
@@ -25550,17 +25628,17 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview(__Pyx_memviews
 
   /* "mlgrad/kmeans.pxd":20
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):
+ * cdef inline void fill_memoryview(float[::1] X, float c):
  *     cdef int m = X.shape[0]             # <<<<<<<<<<<<<<
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  * 
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
 
   /* "mlgrad/kmeans.pxd":21
- * cdef inline void fill_memoryview(double[::1] X, double c):
+ * cdef inline void fill_memoryview(float[::1] X, float c):
  *     cdef int m = X.shape[0]
- *     memset(&X[0], 0, m*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memset(&X[0], 0, m*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
  * cdef inline void fill_memoryview_int(int[::1] X, int c):
  */
@@ -25574,14 +25652,14 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview(__Pyx_memviews
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(1, 21, __pyx_L1_error)
   }
-  (void)(memset((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(double)))));
+  (void)(memset((&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(float)))));
 
   /* "mlgrad/kmeans.pxd":19
- *     double PyFloat_GetMin()
+ *     float PyFloat_GetMin()
  * 
- * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0]
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  */
 
   /* function exit code */
@@ -25593,7 +25671,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview(__Pyx_memviews
 }
 
 /* "mlgrad/kmeans.pxd":23
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  * 
  * cdef inline void fill_memoryview_int(int[::1] X, int c):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0]
@@ -25624,7 +25702,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview_int(__Pyx_memv
  *     cdef int m = X.shape[0]
  *     memset(&X[0], 0, m*cython.sizeof(int))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = -1;
@@ -25639,7 +25717,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview_int(__Pyx_memv
   (void)(memset((&(*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(int)))));
 
   /* "mlgrad/kmeans.pxd":23
- *     memset(&X[0], 0, m*cython.sizeof(double))
+ *     memset(&X[0], 0, m*cython.sizeof(float))
  * 
  * cdef inline void fill_memoryview_int(int[::1] X, int c):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0]
@@ -25657,12 +25735,12 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview_int(__Pyx_memv
 /* "mlgrad/kmeans.pxd":27
  *     memset(&X[0], 0, m*cython.sizeof(int))
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview2(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED double __pyx_v_c) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview2(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED float __pyx_v_c) {
   int __pyx_v_m;
   int __pyx_v_n;
   __Pyx_RefNannyDeclarations
@@ -25675,10 +25753,10 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview2(__Pyx_memview
   __Pyx_RefNannySetupContext("fill_memoryview2", 0);
 
   /* "mlgrad/kmeans.pxd":29
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]             # <<<<<<<<<<<<<<
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))
  * 
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
@@ -25687,9 +25765,9 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview2(__Pyx_memview
   /* "mlgrad/kmeans.pxd":30
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
@@ -25706,12 +25784,12 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview2(__Pyx_memview
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
     __PYX_ERR(1, 30, __pyx_L1_error)
   }
-  (void)(memset((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_1 * __pyx_v_X.strides[0]) )) + __pyx_t_2)) )))), 0, ((__pyx_v_m * __pyx_v_n) * (sizeof(double)))));
+  (void)(memset((&(*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_1 * __pyx_v_X.strides[0]) )) + __pyx_t_2)) )))), 0, ((__pyx_v_m * __pyx_v_n) * (sizeof(float)))));
 
   /* "mlgrad/kmeans.pxd":27
  *     memset(&X[0], 0, m*cython.sizeof(int))
  * 
- * cdef inline void fill_memoryview2(double[:,::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef inline void fill_memoryview2(float[:,::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  */
@@ -25725,9 +25803,9 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_fill_memoryview2(__Pyx_memview
 }
 
 /* "mlgrad/kmeans.pxd":32
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = Y.shape[0]
  * 
  */
@@ -25747,7 +25825,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_copy_memoryview(__Pyx_memviews
 
   /* "mlgrad/kmeans.pxd":33
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):
  *     cdef int m = X.shape[0], n = Y.shape[0]             # <<<<<<<<<<<<<<
  * 
  *     if n < m:
@@ -25760,7 +25838,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_copy_memoryview(__Pyx_memviews
  * 
  *     if n < m:             # <<<<<<<<<<<<<<
  *         m = n
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  */
   __pyx_t_1 = ((__pyx_v_n < __pyx_v_m) != 0);
   if (__pyx_t_1) {
@@ -25769,7 +25847,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_copy_memoryview(__Pyx_memviews
  * 
  *     if n < m:
  *         m = n             # <<<<<<<<<<<<<<
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  * 
  */
     __pyx_v_m = __pyx_v_n;
@@ -25779,16 +25857,16 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_copy_memoryview(__Pyx_memviews
  * 
  *     if n < m:             # <<<<<<<<<<<<<<
  *         m = n
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  */
   }
 
   /* "mlgrad/kmeans.pxd":37
  *     if n < m:
  *         m = n
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
+ * cdef inline void copy_memoryview2(float[:,::1] Y, float[:,::1] X):
  */
   __pyx_t_2 = 0;
   __pyx_t_3 = -1;
@@ -25810,12 +25888,12 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_copy_memoryview(__Pyx_memviews
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
     __PYX_ERR(1, 37, __pyx_L1_error)
   }
-  (void)(memcpy((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_4)) )))), (__pyx_v_m * (sizeof(double)))));
+  (void)(memcpy((&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_Y.data) + __pyx_t_2)) )))), (&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_4)) )))), (__pyx_v_m * (sizeof(float)))));
 
   /* "mlgrad/kmeans.pxd":32
- *     memset(&X[0,0], 0, m*n*cython.sizeof(double))
+ *     memset(&X[0,0], 0, m*n*cython.sizeof(float))
  * 
- * cdef inline void copy_memoryview(double[::1] Y, double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview(float[::1] Y, float[::1] X):             # <<<<<<<<<<<<<<
  *     cdef int m = X.shape[0], n = Y.shape[0]
  * 
  */
@@ -25829,9 +25907,9 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_copy_memoryview(__Pyx_memviews
 }
 
 /* "mlgrad/kmeans.pxd":39
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  * 
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview2(float[:,::1] Y, float[:,::1] X):             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  */
@@ -25851,10 +25929,10 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_copy_memoryview2(__Pyx_memview
   __Pyx_RefNannySetupContext("copy_memoryview2", 0);
 
   /* "mlgrad/kmeans.pxd":41
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
+ * cdef inline void copy_memoryview2(float[:,::1] Y, float[:,::1] X):
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]             # <<<<<<<<<<<<<<
- *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))
+ *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(float))
  * 
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
@@ -25863,7 +25941,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_copy_memoryview2(__Pyx_memview
   /* "mlgrad/kmeans.pxd":42
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
- *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))             # <<<<<<<<<<<<<<
+ *     memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(float))             # <<<<<<<<<<<<<<
  * 
  * # @cython.final
  */
@@ -25897,12 +25975,12 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6kmeans_copy_memoryview2(__Pyx_memview
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
     __PYX_ERR(1, 42, __pyx_L1_error)
   }
-  (void)(memcpy((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_Y.data + __pyx_t_1 * __pyx_v_Y.strides[0]) )) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_4 * __pyx_v_X.strides[0]) )) + __pyx_t_5)) )))), ((__pyx_v_n * __pyx_v_m) * (sizeof(double)))));
+  (void)(memcpy((&(*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_Y.data + __pyx_t_1 * __pyx_v_Y.strides[0]) )) + __pyx_t_2)) )))), (&(*((float *) ( /* dim=1 */ ((char *) (((float *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_4 * __pyx_v_X.strides[0]) )) + __pyx_t_5)) )))), ((__pyx_v_n * __pyx_v_m) * (sizeof(float)))));
 
   /* "mlgrad/kmeans.pxd":39
- *     memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+ *     memcpy(&Y[0], &X[0], m*cython.sizeof(float))
  * 
- * cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):             # <<<<<<<<<<<<<<
+ * cdef inline void copy_memoryview2(float[:,::1] Y, float[:,::1] X):             # <<<<<<<<<<<<<<
  *     cdef int i, j
  *     cdef int m = X.shape[0], n = X.shape[1]
  */
@@ -39160,13 +39238,13 @@ static struct PyGetSetDef __pyx_getsets_6mlgrad_6kmeans_HCD[] = {
   {(char *)"n_param", __pyx_getprop_6mlgrad_6kmeans_3HCD_n_param, __pyx_setprop_6mlgrad_6kmeans_3HCD_n_param, (char *)"n_param: 'int'", 0},
   {(char *)"n_sample", __pyx_getprop_6mlgrad_6kmeans_3HCD_n_sample, __pyx_setprop_6mlgrad_6kmeans_3HCD_n_sample, (char *)"n_sample: 'int'", 0},
   {(char *)"func", __pyx_getprop_6mlgrad_6kmeans_3HCD_func, __pyx_setprop_6mlgrad_6kmeans_3HCD_func, (char *)"func: mlgrad.func.Func", 0},
-  {(char *)"X", __pyx_getprop_6mlgrad_6kmeans_3HCD_X, __pyx_setprop_6mlgrad_6kmeans_3HCD_X, (char *)"X: 'double[:, ::1]'", 0},
+  {(char *)"X", __pyx_getprop_6mlgrad_6kmeans_3HCD_X, __pyx_setprop_6mlgrad_6kmeans_3HCD_X, (char *)"X: 'float[:, ::1]'", 0},
   {(char *)"Y", __pyx_getprop_6mlgrad_6kmeans_3HCD_Y, __pyx_setprop_6mlgrad_6kmeans_3HCD_Y, (char *)"Y: 'int[::1]'", 0},
-  {(char *)"weights", __pyx_getprop_6mlgrad_6kmeans_3HCD_weights, __pyx_setprop_6mlgrad_6kmeans_3HCD_weights, (char *)"weights: 'double[::1]'", 0},
-  {(char *)"params", __pyx_getprop_6mlgrad_6kmeans_3HCD_params, __pyx_setprop_6mlgrad_6kmeans_3HCD_params, (char *)"params: 'double[:, ::1]'", 0},
+  {(char *)"weights", __pyx_getprop_6mlgrad_6kmeans_3HCD_weights, __pyx_setprop_6mlgrad_6kmeans_3HCD_weights, (char *)"weights: 'float[::1]'", 0},
+  {(char *)"params", __pyx_getprop_6mlgrad_6kmeans_3HCD_params, __pyx_setprop_6mlgrad_6kmeans_3HCD_params, (char *)"params: 'float[:, ::1]'", 0},
   {(char *)"n_iter", __pyx_getprop_6mlgrad_6kmeans_3HCD_n_iter, __pyx_setprop_6mlgrad_6kmeans_3HCD_n_iter, (char *)"n_iter: 'int'", 0},
   {(char *)"K", __pyx_getprop_6mlgrad_6kmeans_3HCD_K, __pyx_setprop_6mlgrad_6kmeans_3HCD_K, (char *)"K: 'int'", 0},
-  {(char *)"tol", __pyx_getprop_6mlgrad_6kmeans_3HCD_tol, __pyx_setprop_6mlgrad_6kmeans_3HCD_tol, (char *)"tol: 'double'", 0},
+  {(char *)"tol", __pyx_getprop_6mlgrad_6kmeans_3HCD_tol, __pyx_setprop_6mlgrad_6kmeans_3HCD_tol, (char *)"tol: 'float'", 0},
   {0, 0, 0, 0, 0}
 };
 
@@ -39201,7 +39279,7 @@ static PyTypeObject __pyx_type_6mlgrad_6kmeans_HCD = {
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  "HCD(Func func, double[:, ::1] X, int n_class, double tol=1.0e-3, int n_iter=100)", /*tp_doc*/
+  "HCD(Func func, float[:, ::1] X, int n_class, float tol=1.0e-3, int n_iter=100)", /*tp_doc*/
   __pyx_tp_traverse_6mlgrad_6kmeans_HCD, /*tp_traverse*/
   __pyx_tp_clear_6mlgrad_6kmeans_HCD, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -39500,15 +39578,15 @@ static struct PyGetSetDef __pyx_getsets_6mlgrad_6kmeans_HCD_M1[] = {
   {(char *)"n_param", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_n_param, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_n_param, (char *)"n_param: 'int'", 0},
   {(char *)"n_sample", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_n_sample, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_n_sample, (char *)"n_sample: 'int'", 0},
   {(char *)"avrfunc", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_avrfunc, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_avrfunc, (char *)"avrfunc: mlgrad.avragg.Average", 0},
-  {(char *)"X", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_X, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_X, (char *)"X: 'double[:, ::1]'", 0},
+  {(char *)"X", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_X, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_X, (char *)"X: 'float[:, ::1]'", 0},
   {(char *)"Y", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_Y, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_Y, (char *)"Y: 'int[::1]'", 0},
-  {(char *)"weights", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_weights, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_weights, (char *)"weights: 'double[::1]'", 0},
-  {(char *)"dist", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_dist, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_dist, (char *)"dist: 'double[::1]'", 0},
-  {(char *)"grad", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_grad, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_grad, (char *)"grad: 'double[::1]'", 0},
-  {(char *)"params", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_params, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_params, (char *)"params: 'double[:, ::1]'", 0},
+  {(char *)"weights", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_weights, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_weights, (char *)"weights: 'float[::1]'", 0},
+  {(char *)"dist", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_dist, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_dist, (char *)"dist: 'float[::1]'", 0},
+  {(char *)"grad", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_grad, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_grad, (char *)"grad: 'float[::1]'", 0},
+  {(char *)"params", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_params, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_params, (char *)"params: 'float[:, ::1]'", 0},
   {(char *)"n_iter", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_n_iter, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_n_iter, (char *)"n_iter: 'int'", 0},
   {(char *)"K", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_K, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_K, (char *)"K: 'int'", 0},
-  {(char *)"tol", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_tol, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_tol, (char *)"tol: 'double'", 0},
+  {(char *)"tol", __pyx_getprop_6mlgrad_6kmeans_6HCD_M1_tol, __pyx_setprop_6mlgrad_6kmeans_6HCD_M1_tol, (char *)"tol: 'float'", 0},
   {0, 0, 0, 0, 0}
 };
 
@@ -39543,7 +39621,7 @@ static PyTypeObject __pyx_type_6mlgrad_6kmeans_HCD_M1 = {
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  "HCD_M1(Average avrfunc, double[:, ::1] X, int n_class, double tol=1.0e-4, int n_iter=100)", /*tp_doc*/
+  "HCD_M1(Average avrfunc, float[:, ::1] X, int n_class, float tol=1.0e-4, int n_iter=100)", /*tp_doc*/
   __pyx_tp_traverse_6mlgrad_6kmeans_HCD_M1, /*tp_traverse*/
   __pyx_tp_clear_6mlgrad_6kmeans_HCD_M1, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -39864,15 +39942,15 @@ static struct PyGetSetDef __pyx_getsets_6mlgrad_6kmeans_HCD_M2[] = {
   {(char *)"n_sample", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_n_sample, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_n_sample, (char *)"n_sample: 'int'", 0},
   {(char *)"avrfunc", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_avrfunc, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_avrfunc, (char *)"avrfunc: mlgrad.avragg.Average", 0},
   {(char *)"minfunc", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_minfunc, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_minfunc, (char *)"minfunc: mlgrad.avragg.Average", 0},
-  {(char *)"X", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_X, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_X, (char *)"X: 'double[:, ::1]'", 0},
-  {(char *)"Y", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_Y, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_Y, (char *)"Y: 'double[:, ::1]'", 0},
-  {(char *)"D", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_D, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_D, (char *)"D: 'double[:, ::1]'", 0},
-  {(char *)"weights", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_weights, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_weights, (char *)"weights: 'double[::1]'", 0},
-  {(char *)"grad", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_grad, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_grad, (char *)"grad: 'double[::1]'", 0},
-  {(char *)"params", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_params, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_params, (char *)"params: 'double[:, ::1]'", 0},
+  {(char *)"X", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_X, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_X, (char *)"X: 'float[:, ::1]'", 0},
+  {(char *)"Y", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_Y, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_Y, (char *)"Y: 'float[:, ::1]'", 0},
+  {(char *)"D", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_D, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_D, (char *)"D: 'float[:, ::1]'", 0},
+  {(char *)"weights", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_weights, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_weights, (char *)"weights: 'float[::1]'", 0},
+  {(char *)"grad", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_grad, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_grad, (char *)"grad: 'float[::1]'", 0},
+  {(char *)"params", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_params, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_params, (char *)"params: 'float[:, ::1]'", 0},
   {(char *)"n_iter", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_n_iter, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_n_iter, (char *)"n_iter: 'int'", 0},
   {(char *)"K", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_K, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_K, (char *)"K: 'int'", 0},
-  {(char *)"tol", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_tol, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_tol, (char *)"tol: 'double'", 0},
+  {(char *)"tol", __pyx_getprop_6mlgrad_6kmeans_6HCD_M2_tol, __pyx_setprop_6mlgrad_6kmeans_6HCD_M2_tol, (char *)"tol: 'float'", 0},
   {0, 0, 0, 0, 0}
 };
 
@@ -39907,7 +39985,7 @@ static PyTypeObject __pyx_type_6mlgrad_6kmeans_HCD_M2 = {
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  "HCD_M2(Average avrfunc, Average minfunc, double[:, ::1] X, int n_class, double tol=1.0e-4, int n_iter=100)", /*tp_doc*/
+  "HCD_M2(Average avrfunc, Average minfunc, float[:, ::1] X, int n_class, float tol=1.0e-4, int n_iter=100)", /*tp_doc*/
   __pyx_tp_traverse_6mlgrad_6kmeans_HCD_M2, /*tp_traverse*/
   __pyx_tp_clear_6mlgrad_6kmeans_HCD_M2, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -40758,12 +40836,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_kp_s_contiguous_and_direct, __pyx_k_contiguous_and_direct, sizeof(__pyx_k_contiguous_and_direct), 0, 0, 1, 0},
   {&__pyx_kp_s_contiguous_and_indirect, __pyx_k_contiguous_and_indirect, sizeof(__pyx_k_contiguous_and_indirect), 0, 0, 1, 0},
-  {&__pyx_n_u_d, __pyx_k_d, sizeof(__pyx_k_d), 0, 1, 0, 1},
   {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
   {&__pyx_n_s_dtype_is_object, __pyx_k_dtype_is_object, sizeof(__pyx_k_dtype_is_object), 0, 0, 1, 1},
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
   {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
+  {&__pyx_n_u_f, __pyx_k_f, sizeof(__pyx_k_f), 0, 1, 0, 1},
   {&__pyx_n_s_flags, __pyx_k_flags, sizeof(__pyx_k_flags), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 0, 1, 1},
@@ -40863,7 +40941,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         print(J)
  *         raise RuntimeError("One of the clusters is empty")             # <<<<<<<<<<<<<<
  * 
- * cpdef double[:, ::1] init_centers(double[:,::1] X, int n_class):
+ * cpdef float[:, ::1] init_centers(float[:,::1] X, int n_class):
  */
   __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_One_of_the_clusters_is_empty); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 106, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
@@ -41322,116 +41400,116 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_6mlgrad_4func_Func) __PYX_ERR(9, 6, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_4func_Func = (struct __pyx_vtabstruct_6mlgrad_4func_Func*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Func->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Func)) __PYX_ERR(9, 6, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Comp = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Comp", sizeof(struct __pyx_obj_6mlgrad_4func_Comp), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Comp) __PYX_ERR(9, 16, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Comp = (struct __pyx_vtabstruct_6mlgrad_4func_Comp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Comp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Comp)) __PYX_ERR(9, 16, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Comp) __PYX_ERR(9, 20, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Comp = (struct __pyx_vtabstruct_6mlgrad_4func_Comp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Comp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Comp)) __PYX_ERR(9, 20, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_CompSqrt = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "CompSqrt", sizeof(struct __pyx_obj_6mlgrad_4func_CompSqrt), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_CompSqrt) __PYX_ERR(9, 22, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_CompSqrt = (struct __pyx_vtabstruct_6mlgrad_4func_CompSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_CompSqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_CompSqrt)) __PYX_ERR(9, 22, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_CompSqrt) __PYX_ERR(9, 26, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_CompSqrt = (struct __pyx_vtabstruct_6mlgrad_4func_CompSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_CompSqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_CompSqrt)) __PYX_ERR(9, 26, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_ZeroOnPositive = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "ZeroOnPositive", sizeof(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_ZeroOnPositive) __PYX_ERR(9, 28, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_ZeroOnPositive = (struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ZeroOnPositive->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ZeroOnPositive)) __PYX_ERR(9, 28, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_ZeroOnPositive) __PYX_ERR(9, 32, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_ZeroOnPositive = (struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ZeroOnPositive->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ZeroOnPositive)) __PYX_ERR(9, 32, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_FuncExp = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "FuncExp", sizeof(struct __pyx_obj_6mlgrad_4func_FuncExp), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_FuncExp) __PYX_ERR(9, 33, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_FuncExp = (struct __pyx_vtabstruct_6mlgrad_4func_FuncExp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_FuncExp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_FuncExp)) __PYX_ERR(9, 33, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_FuncExp) __PYX_ERR(9, 37, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_FuncExp = (struct __pyx_vtabstruct_6mlgrad_4func_FuncExp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_FuncExp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_FuncExp)) __PYX_ERR(9, 37, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Id = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Id", sizeof(struct __pyx_obj_6mlgrad_4func_Id), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Id) __PYX_ERR(9, 37, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Id = (struct __pyx_vtabstruct_6mlgrad_4func_Id*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Id->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Id)) __PYX_ERR(9, 37, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Id) __PYX_ERR(9, 41, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Id = (struct __pyx_vtabstruct_6mlgrad_4func_Id*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Id->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Id)) __PYX_ERR(9, 41, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Neg = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Neg", sizeof(struct __pyx_obj_6mlgrad_4func_Neg), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Neg) __PYX_ERR(9, 42, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Neg = (struct __pyx_vtabstruct_6mlgrad_4func_Neg*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Neg->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Neg)) __PYX_ERR(9, 42, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Neg) __PYX_ERR(9, 46, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Neg = (struct __pyx_vtabstruct_6mlgrad_4func_Neg*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Neg->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Neg)) __PYX_ERR(9, 46, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Arctang = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Arctang", sizeof(struct __pyx_obj_6mlgrad_4func_Arctang), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Arctang) __PYX_ERR(9, 47, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Arctang = (struct __pyx_vtabstruct_6mlgrad_4func_Arctang*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Arctang->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Arctang)) __PYX_ERR(9, 47, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Arctang) __PYX_ERR(9, 51, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Arctang = (struct __pyx_vtabstruct_6mlgrad_4func_Arctang*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Arctang->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Arctang)) __PYX_ERR(9, 51, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Sigmoidal = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Sigmoidal", sizeof(struct __pyx_obj_6mlgrad_4func_Sigmoidal), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Sigmoidal) __PYX_ERR(9, 51, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Sigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sigmoidal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sigmoidal)) __PYX_ERR(9, 51, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Sigmoidal) __PYX_ERR(9, 55, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Sigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sigmoidal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sigmoidal)) __PYX_ERR(9, 55, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_ModSigmoidal = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "ModSigmoidal", sizeof(struct __pyx_obj_6mlgrad_4func_ModSigmoidal), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_ModSigmoidal) __PYX_ERR(9, 55, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_ModSigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ModSigmoidal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ModSigmoidal)) __PYX_ERR(9, 55, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_ModSigmoidal) __PYX_ERR(9, 59, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_ModSigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ModSigmoidal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ModSigmoidal)) __PYX_ERR(9, 59, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Softplus = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Softplus", sizeof(struct __pyx_obj_6mlgrad_4func_Softplus), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Softplus) __PYX_ERR(9, 59, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Softplus = (struct __pyx_vtabstruct_6mlgrad_4func_Softplus*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Softplus->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Softplus)) __PYX_ERR(9, 59, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Softplus) __PYX_ERR(9, 63, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Softplus = (struct __pyx_vtabstruct_6mlgrad_4func_Softplus*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Softplus->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Softplus)) __PYX_ERR(9, 63, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Threshold = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Threshold", sizeof(struct __pyx_obj_6mlgrad_4func_Threshold), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Threshold) __PYX_ERR(9, 64, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Threshold = (struct __pyx_vtabstruct_6mlgrad_4func_Threshold*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Threshold->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Threshold)) __PYX_ERR(9, 64, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Threshold) __PYX_ERR(9, 68, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Threshold = (struct __pyx_vtabstruct_6mlgrad_4func_Threshold*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Threshold->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Threshold)) __PYX_ERR(9, 68, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Sign = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Sign", sizeof(struct __pyx_obj_6mlgrad_4func_Sign), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Sign) __PYX_ERR(9, 68, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Sign = (struct __pyx_vtabstruct_6mlgrad_4func_Sign*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sign->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sign)) __PYX_ERR(9, 68, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Sign) __PYX_ERR(9, 72, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Sign = (struct __pyx_vtabstruct_6mlgrad_4func_Sign*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sign->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sign)) __PYX_ERR(9, 72, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Quantile = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Quantile", sizeof(struct __pyx_obj_6mlgrad_4func_Quantile), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Quantile) __PYX_ERR(9, 72, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Quantile = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile)) __PYX_ERR(9, 72, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Quantile) __PYX_ERR(9, 76, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Quantile = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile)) __PYX_ERR(9, 76, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_QuantileFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "QuantileFunc", sizeof(struct __pyx_obj_6mlgrad_4func_QuantileFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_QuantileFunc) __PYX_ERR(9, 78, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_QuantileFunc = (struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_QuantileFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_QuantileFunc)) __PYX_ERR(9, 78, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_QuantileFunc) __PYX_ERR(9, 82, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_QuantileFunc = (struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_QuantileFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_QuantileFunc)) __PYX_ERR(9, 82, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Expectile = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Expectile", sizeof(struct __pyx_obj_6mlgrad_4func_Expectile), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Expectile) __PYX_ERR(9, 83, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Expectile = (struct __pyx_vtabstruct_6mlgrad_4func_Expectile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Expectile->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Expectile)) __PYX_ERR(9, 83, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Expectile) __PYX_ERR(9, 87, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Expectile = (struct __pyx_vtabstruct_6mlgrad_4func_Expectile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Expectile->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Expectile)) __PYX_ERR(9, 87, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Power = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Power", sizeof(struct __pyx_obj_6mlgrad_4func_Power), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Power) __PYX_ERR(9, 89, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Power = (struct __pyx_vtabstruct_6mlgrad_4func_Power*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Power->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Power)) __PYX_ERR(9, 89, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Power) __PYX_ERR(9, 93, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Power = (struct __pyx_vtabstruct_6mlgrad_4func_Power*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Power->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Power)) __PYX_ERR(9, 93, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Square = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Square", sizeof(struct __pyx_obj_6mlgrad_4func_Square), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Square) __PYX_ERR(9, 95, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Square = (struct __pyx_vtabstruct_6mlgrad_4func_Square*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Square->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Square)) __PYX_ERR(9, 95, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Square) __PYX_ERR(9, 99, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Square = (struct __pyx_vtabstruct_6mlgrad_4func_Square*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Square->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Square)) __PYX_ERR(9, 99, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_SquareSigned = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "SquareSigned", sizeof(struct __pyx_obj_6mlgrad_4func_SquareSigned), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_SquareSigned) __PYX_ERR(9, 100, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SquareSigned = (struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SquareSigned->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SquareSigned)) __PYX_ERR(9, 100, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_SquareSigned) __PYX_ERR(9, 104, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_SquareSigned = (struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SquareSigned->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SquareSigned)) __PYX_ERR(9, 104, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Absolute = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Absolute", sizeof(struct __pyx_obj_6mlgrad_4func_Absolute), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Absolute) __PYX_ERR(9, 105, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Absolute = (struct __pyx_vtabstruct_6mlgrad_4func_Absolute*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Absolute->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Absolute)) __PYX_ERR(9, 105, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Absolute) __PYX_ERR(9, 109, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Absolute = (struct __pyx_vtabstruct_6mlgrad_4func_Absolute*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Absolute->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Absolute)) __PYX_ERR(9, 109, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Quantile_AlphaLog = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Quantile_AlphaLog", sizeof(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog) __PYX_ERR(9, 110, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog)) __PYX_ERR(9, 110, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog) __PYX_ERR(9, 114, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog)) __PYX_ERR(9, 114, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_SoftAbs = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "SoftAbs", sizeof(struct __pyx_obj_6mlgrad_4func_SoftAbs), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_SoftAbs) __PYX_ERR(9, 117, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SoftAbs = (struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftAbs->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftAbs)) __PYX_ERR(9, 117, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_SoftAbs) __PYX_ERR(9, 121, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_SoftAbs = (struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftAbs->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftAbs)) __PYX_ERR(9, 121, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Sqrt = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Sqrt", sizeof(struct __pyx_obj_6mlgrad_4func_Sqrt), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Sqrt) __PYX_ERR(9, 122, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sqrt)) __PYX_ERR(9, 122, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Sqrt) __PYX_ERR(9, 126, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sqrt)) __PYX_ERR(9, 126, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Quantile_Sqrt = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Quantile_Sqrt", sizeof(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Quantile_Sqrt) __PYX_ERR(9, 131, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_Sqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt)) __PYX_ERR(9, 131, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Quantile_Sqrt) __PYX_ERR(9, 135, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_Sqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt)) __PYX_ERR(9, 135, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Logistic = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Logistic", sizeof(struct __pyx_obj_6mlgrad_4func_Logistic), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Logistic) __PYX_ERR(9, 139, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Logistic = (struct __pyx_vtabstruct_6mlgrad_4func_Logistic*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Logistic->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Logistic)) __PYX_ERR(9, 139, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Logistic) __PYX_ERR(9, 143, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Logistic = (struct __pyx_vtabstruct_6mlgrad_4func_Logistic*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Logistic->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Logistic)) __PYX_ERR(9, 143, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Huber = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Huber", sizeof(struct __pyx_obj_6mlgrad_4func_Huber), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Huber) __PYX_ERR(9, 145, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Huber = (struct __pyx_vtabstruct_6mlgrad_4func_Huber*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Huber->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Huber)) __PYX_ERR(9, 145, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Huber) __PYX_ERR(9, 149, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Huber = (struct __pyx_vtabstruct_6mlgrad_4func_Huber*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Huber->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Huber)) __PYX_ERR(9, 149, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_TM = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "TM", sizeof(struct __pyx_obj_6mlgrad_4func_TM), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_TM) __PYX_ERR(9, 151, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_TM = (struct __pyx_vtabstruct_6mlgrad_4func_TM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_TM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_TM)) __PYX_ERR(9, 151, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_TM) __PYX_ERR(9, 155, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_TM = (struct __pyx_vtabstruct_6mlgrad_4func_TM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_TM->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_TM)) __PYX_ERR(9, 155, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_LogSquare = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "LogSquare", sizeof(struct __pyx_obj_6mlgrad_4func_LogSquare), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_LogSquare) __PYX_ERR(9, 156, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_LogSquare = (struct __pyx_vtabstruct_6mlgrad_4func_LogSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_LogSquare->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_LogSquare)) __PYX_ERR(9, 156, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_LogSquare) __PYX_ERR(9, 160, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_LogSquare = (struct __pyx_vtabstruct_6mlgrad_4func_LogSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_LogSquare->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_LogSquare)) __PYX_ERR(9, 160, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Tukey = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Tukey", sizeof(struct __pyx_obj_6mlgrad_4func_Tukey), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Tukey) __PYX_ERR(9, 162, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Tukey = (struct __pyx_vtabstruct_6mlgrad_4func_Tukey*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Tukey->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Tukey)) __PYX_ERR(9, 162, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Tukey) __PYX_ERR(9, 166, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Tukey = (struct __pyx_vtabstruct_6mlgrad_4func_Tukey*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Tukey->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Tukey)) __PYX_ERR(9, 166, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Hinge = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Hinge", sizeof(struct __pyx_obj_6mlgrad_4func_Hinge), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Hinge) __PYX_ERR(9, 169, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Hinge = (struct __pyx_vtabstruct_6mlgrad_4func_Hinge*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Hinge->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Hinge)) __PYX_ERR(9, 169, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Hinge) __PYX_ERR(9, 173, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Hinge = (struct __pyx_vtabstruct_6mlgrad_4func_Hinge*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Hinge->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Hinge)) __PYX_ERR(9, 173, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_HingeSqrt = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "HingeSqrt", sizeof(struct __pyx_obj_6mlgrad_4func_HingeSqrt), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_HingeSqrt) __PYX_ERR(9, 175, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_HingeSqrt = (struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_HingeSqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_HingeSqrt)) __PYX_ERR(9, 175, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_HingeSqrt) __PYX_ERR(9, 179, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_HingeSqrt = (struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_HingeSqrt->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_HingeSqrt)) __PYX_ERR(9, 179, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Exp = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Exp", sizeof(struct __pyx_obj_6mlgrad_4func_Exp), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Exp) __PYX_ERR(9, 182, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Exp = (struct __pyx_vtabstruct_6mlgrad_4func_Exp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Exp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Exp)) __PYX_ERR(9, 182, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Exp) __PYX_ERR(9, 186, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Exp = (struct __pyx_vtabstruct_6mlgrad_4func_Exp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Exp->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Exp)) __PYX_ERR(9, 186, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Log = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "Log", sizeof(struct __pyx_obj_6mlgrad_4func_Log), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_Log) __PYX_ERR(9, 187, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Log = (struct __pyx_vtabstruct_6mlgrad_4func_Log*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Log->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Log)) __PYX_ERR(9, 187, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_Log) __PYX_ERR(9, 191, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_Log = (struct __pyx_vtabstruct_6mlgrad_4func_Log*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Log->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Log)) __PYX_ERR(9, 191, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_KMinSquare = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "KMinSquare", sizeof(struct __pyx_obj_6mlgrad_4func_KMinSquare), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_KMinSquare) __PYX_ERR(9, 192, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_KMinSquare = (struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_KMinSquare->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_KMinSquare)) __PYX_ERR(9, 192, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_KMinSquare) __PYX_ERR(9, 196, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_KMinSquare = (struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_KMinSquare->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_KMinSquare)) __PYX_ERR(9, 196, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_ParameterizedFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "ParameterizedFunc", sizeof(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_ParameterizedFunc) __PYX_ERR(9, 197, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_ParameterizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ParameterizedFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc)) __PYX_ERR(9, 197, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_ParameterizedFunc) __PYX_ERR(9, 201, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_ParameterizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ParameterizedFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc)) __PYX_ERR(9, 201, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_WinsorizedFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "WinsorizedFunc", sizeof(struct __pyx_obj_6mlgrad_4func_WinsorizedFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_WinsorizedFunc) __PYX_ERR(9, 206, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_WinsorizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedFunc)) __PYX_ERR(9, 206, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_WinsorizedFunc) __PYX_ERR(9, 210, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_WinsorizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedFunc)) __PYX_ERR(9, 210, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "WinsorizedSmoothFunc", sizeof(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc) __PYX_ERR(9, 210, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc)) __PYX_ERR(9, 210, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc) __PYX_ERR(9, 214, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc)) __PYX_ERR(9, 214, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_SoftMinFunc = __Pyx_ImportType(__pyx_t_1, "mlgrad.func", "SoftMinFunc", sizeof(struct __pyx_obj_6mlgrad_4func_SoftMinFunc), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4func_SoftMinFunc) __PYX_ERR(9, 213, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SoftMinFunc = (struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftMinFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftMinFunc)) __PYX_ERR(9, 213, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4func_SoftMinFunc) __PYX_ERR(9, 217, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_SoftMinFunc = (struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftMinFunc->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftMinFunc)) __PYX_ERR(9, 217, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("mlgrad.distance"); if (unlikely(!__pyx_t_1)) __PYX_ERR(10, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -41465,94 +41543,100 @@ static int __Pyx_modinit_type_import_code(void) {
   __Pyx_ImportType_CheckSize_Warn);
    if (!__pyx_ptype_7cpython_4type_type) __PYX_ERR(11, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.model"); if (unlikely(!__pyx_t_1)) __PYX_ERR(12, 40, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.list_values"); if (unlikely(!__pyx_t_1)) __PYX_ERR(12, 66, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_ptype_6mlgrad_11list_values_list_values = __Pyx_ImportType(__pyx_t_1, "mlgrad.list_values", "list_values", sizeof(struct __pyx_obj_6mlgrad_11list_values_list_values), __Pyx_ImportType_CheckSize_Warn);
+   if (!__pyx_ptype_6mlgrad_11list_values_list_values) __PYX_ERR(12, 66, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_11list_values_list_values = (struct __pyx_vtabstruct_6mlgrad_11list_values_list_values*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_11list_values_list_values->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_11list_values_list_values)) __PYX_ERR(12, 66, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.model"); if (unlikely(!__pyx_t_1)) __PYX_ERR(13, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_5model_Allocator = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "Allocator", sizeof(struct __pyx_obj_6mlgrad_5model_Allocator), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_Allocator) __PYX_ERR(12, 40, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_Allocator = (struct __pyx_vtabstruct_6mlgrad_5model_Allocator*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_Allocator->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_Allocator)) __PYX_ERR(12, 40, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_Allocator) __PYX_ERR(13, 53, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_Allocator = (struct __pyx_vtabstruct_6mlgrad_5model_Allocator*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_Allocator->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_Allocator)) __PYX_ERR(13, 53, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_ArrayAllocator = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "ArrayAllocator", sizeof(struct __pyx_obj_6mlgrad_5model_ArrayAllocator), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_ArrayAllocator) __PYX_ERR(12, 48, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_ArrayAllocator = (struct __pyx_vtabstruct_6mlgrad_5model_ArrayAllocator*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ArrayAllocator->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ArrayAllocator)) __PYX_ERR(12, 48, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_ArrayAllocator) __PYX_ERR(13, 61, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_ArrayAllocator = (struct __pyx_vtabstruct_6mlgrad_5model_ArrayAllocator*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ArrayAllocator->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ArrayAllocator)) __PYX_ERR(13, 61, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_Model = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "Model", sizeof(struct __pyx_obj_6mlgrad_5model_Model), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_Model) __PYX_ERR(12, 56, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_Model = (struct __pyx_vtabstruct_6mlgrad_5model_Model*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_Model->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_Model)) __PYX_ERR(12, 56, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_Model) __PYX_ERR(13, 69, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_Model = (struct __pyx_vtabstruct_6mlgrad_5model_Model*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_Model->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_Model)) __PYX_ERR(13, 69, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_LinearModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "LinearModel", sizeof(struct __pyx_obj_6mlgrad_5model_LinearModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_LinearModel) __PYX_ERR(12, 74, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_LinearModel = (struct __pyx_vtabstruct_6mlgrad_5model_LinearModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_LinearModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_LinearModel)) __PYX_ERR(12, 74, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_LinearModel) __PYX_ERR(13, 87, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_LinearModel = (struct __pyx_vtabstruct_6mlgrad_5model_LinearModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_LinearModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_LinearModel)) __PYX_ERR(13, 87, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_SigmaNeuronModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "SigmaNeuronModel", sizeof(struct __pyx_obj_6mlgrad_5model_SigmaNeuronModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_SigmaNeuronModel) __PYX_ERR(12, 78, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_SigmaNeuronModel = (struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SigmaNeuronModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SigmaNeuronModel)) __PYX_ERR(12, 78, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_SigmaNeuronModel) __PYX_ERR(13, 91, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_SigmaNeuronModel = (struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SigmaNeuronModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SigmaNeuronModel)) __PYX_ERR(13, 91, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_WinnerModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "WinnerModel", sizeof(struct __pyx_obj_6mlgrad_5model_WinnerModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_WinnerModel) __PYX_ERR(12, 82, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_WinnerModel = (struct __pyx_vtabstruct_6mlgrad_5model_WinnerModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_WinnerModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_WinnerModel)) __PYX_ERR(12, 82, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_WinnerModel) __PYX_ERR(13, 95, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_WinnerModel = (struct __pyx_vtabstruct_6mlgrad_5model_WinnerModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_WinnerModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_WinnerModel)) __PYX_ERR(13, 95, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_PolynomialModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "PolynomialModel", sizeof(struct __pyx_obj_6mlgrad_5model_PolynomialModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_PolynomialModel) __PYX_ERR(12, 86, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_PolynomialModel = (struct __pyx_vtabstruct_6mlgrad_5model_PolynomialModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_PolynomialModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_PolynomialModel)) __PYX_ERR(12, 86, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_PolynomialModel) __PYX_ERR(13, 99, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_PolynomialModel = (struct __pyx_vtabstruct_6mlgrad_5model_PolynomialModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_PolynomialModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_PolynomialModel)) __PYX_ERR(13, 99, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_ModelLayer = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "ModelLayer", sizeof(struct __pyx_obj_6mlgrad_5model_ModelLayer), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_ModelLayer) __PYX_ERR(12, 89, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_ModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ModelLayer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ModelLayer)) __PYX_ERR(12, 89, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_ModelLayer) __PYX_ERR(13, 102, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_ModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ModelLayer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ModelLayer)) __PYX_ERR(13, 102, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "SigmaNeuronModelLayer", sizeof(struct __pyx_obj_6mlgrad_5model_SigmaNeuronModelLayer), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer) __PYX_ERR(12, 99, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_SigmaNeuronModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SigmaNeuronModelLayer)) __PYX_ERR(12, 99, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer) __PYX_ERR(13, 112, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_SigmaNeuronModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SigmaNeuronModelLayer)) __PYX_ERR(13, 112, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_GeneralModelLayer = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "GeneralModelLayer", sizeof(struct __pyx_obj_6mlgrad_5model_GeneralModelLayer), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_GeneralModelLayer) __PYX_ERR(12, 105, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_GeneralModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_GeneralModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_GeneralModelLayer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_GeneralModelLayer)) __PYX_ERR(12, 105, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_GeneralModelLayer) __PYX_ERR(13, 118, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_GeneralModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_GeneralModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_GeneralModelLayer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_GeneralModelLayer)) __PYX_ERR(13, 118, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_ComplexModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "ComplexModel", sizeof(struct __pyx_obj_6mlgrad_5model_ComplexModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_ComplexModel) __PYX_ERR(12, 108, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_ComplexModel = (struct __pyx_vtabstruct_6mlgrad_5model_ComplexModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ComplexModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ComplexModel)) __PYX_ERR(12, 108, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_ComplexModel) __PYX_ERR(13, 121, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_ComplexModel = (struct __pyx_vtabstruct_6mlgrad_5model_ComplexModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ComplexModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ComplexModel)) __PYX_ERR(13, 121, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_MLModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "MLModel", sizeof(struct __pyx_obj_6mlgrad_5model_MLModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_MLModel) __PYX_ERR(12, 117, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_MLModel = (struct __pyx_vtabstruct_6mlgrad_5model_MLModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_MLModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_MLModel)) __PYX_ERR(12, 117, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_MLModel) __PYX_ERR(13, 130, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_MLModel = (struct __pyx_vtabstruct_6mlgrad_5model_MLModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_MLModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_MLModel)) __PYX_ERR(13, 130, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_FFNetworkModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "FFNetworkModel", sizeof(struct __pyx_obj_6mlgrad_5model_FFNetworkModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_FFNetworkModel) __PYX_ERR(12, 125, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_FFNetworkModel = (struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_FFNetworkModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_FFNetworkModel)) __PYX_ERR(12, 125, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_FFNetworkModel) __PYX_ERR(13, 138, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_FFNetworkModel = (struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_FFNetworkModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_FFNetworkModel)) __PYX_ERR(13, 138, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_FFNetworkFuncModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "FFNetworkFuncModel", sizeof(struct __pyx_obj_6mlgrad_5model_FFNetworkFuncModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_FFNetworkFuncModel) __PYX_ERR(12, 129, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_FFNetworkFuncModel = (struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkFuncModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_FFNetworkFuncModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_FFNetworkFuncModel)) __PYX_ERR(12, 129, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_FFNetworkFuncModel) __PYX_ERR(13, 142, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_FFNetworkFuncModel = (struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkFuncModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_FFNetworkFuncModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_FFNetworkFuncModel)) __PYX_ERR(13, 142, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_SquaredModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "SquaredModel", sizeof(struct __pyx_obj_6mlgrad_5model_SquaredModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_SquaredModel) __PYX_ERR(12, 135, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_SquaredModel = (struct __pyx_vtabstruct_6mlgrad_5model_SquaredModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SquaredModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SquaredModel)) __PYX_ERR(12, 135, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_SquaredModel) __PYX_ERR(13, 148, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_SquaredModel = (struct __pyx_vtabstruct_6mlgrad_5model_SquaredModel*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SquaredModel->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SquaredModel)) __PYX_ERR(13, 148, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_MultiModel = __Pyx_ImportType(__pyx_t_1, "mlgrad.model", "MultiModel", sizeof(struct __pyx_obj_6mlgrad_5model_MultiModel), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5model_MultiModel) __PYX_ERR(12, 140, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5model_MultiModel) __PYX_ERR(13, 153, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.loss"); if (unlikely(!__pyx_t_1)) __PYX_ERR(13, 16, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.loss"); if (unlikely(!__pyx_t_1)) __PYX_ERR(14, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_4loss_Loss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "Loss", sizeof(struct __pyx_obj_6mlgrad_4loss_Loss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_Loss) __PYX_ERR(13, 16, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_Loss = (struct __pyx_vtabstruct_6mlgrad_4loss_Loss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_Loss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_Loss)) __PYX_ERR(13, 16, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_Loss) __PYX_ERR(14, 16, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_Loss = (struct __pyx_vtabstruct_6mlgrad_4loss_Loss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_Loss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_Loss)) __PYX_ERR(14, 16, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_SquareErrorLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "SquareErrorLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_SquareErrorLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_SquareErrorLoss) __PYX_ERR(13, 28, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_SquareErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_SquareErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_SquareErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_SquareErrorLoss)) __PYX_ERR(13, 28, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_SquareErrorLoss) __PYX_ERR(14, 28, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_SquareErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_SquareErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_SquareErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_SquareErrorLoss)) __PYX_ERR(14, 28, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_ErrorLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "ErrorLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_ErrorLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_ErrorLoss) __PYX_ERR(13, 33, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_ErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_ErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_ErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_ErrorLoss)) __PYX_ERR(13, 33, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_ErrorLoss) __PYX_ERR(14, 33, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_ErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_ErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_ErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_ErrorLoss)) __PYX_ERR(14, 33, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_IdErrorLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "IdErrorLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_IdErrorLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_IdErrorLoss) __PYX_ERR(13, 38, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_IdErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_IdErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_IdErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_IdErrorLoss)) __PYX_ERR(13, 38, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_IdErrorLoss) __PYX_ERR(14, 38, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_IdErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_IdErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_IdErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_IdErrorLoss)) __PYX_ERR(14, 38, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_RelativeErrorLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "RelativeErrorLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_RelativeErrorLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_RelativeErrorLoss) __PYX_ERR(13, 43, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_RelativeErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_RelativeErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss)) __PYX_ERR(13, 43, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_RelativeErrorLoss) __PYX_ERR(14, 43, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_RelativeErrorLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_RelativeErrorLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_RelativeErrorLoss)) __PYX_ERR(14, 43, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MarginLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MarginLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MarginLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MarginLoss) __PYX_ERR(13, 48, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MarginLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MarginLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MarginLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MarginLoss)) __PYX_ERR(13, 48, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MarginLoss) __PYX_ERR(14, 48, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MarginLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MarginLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MarginLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MarginLoss)) __PYX_ERR(14, 48, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MLoss) __PYX_ERR(13, 53, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MLoss)) __PYX_ERR(13, 53, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MLoss) __PYX_ERR(14, 53, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MLoss)) __PYX_ERR(14, 53, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MultLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MultLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MultLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MultLoss) __PYX_ERR(13, 58, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MultLoss)) __PYX_ERR(13, 58, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MultLoss) __PYX_ERR(14, 58, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MultLoss)) __PYX_ERR(14, 58, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_ErrorMultLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "ErrorMultLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_ErrorMultLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_ErrorMultLoss) __PYX_ERR(13, 63, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_ErrorMultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_ErrorMultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss)) __PYX_ERR(13, 63, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_ErrorMultLoss) __PYX_ERR(14, 63, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_ErrorMultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_ErrorMultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_ErrorMultLoss)) __PYX_ERR(14, 63, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MarginMultLoss = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MarginMultLoss", sizeof(struct __pyx_obj_6mlgrad_4loss_MarginMultLoss), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MarginMultLoss) __PYX_ERR(13, 67, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MarginMultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MarginMultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MarginMultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MarginMultLoss)) __PYX_ERR(13, 67, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MarginMultLoss) __PYX_ERR(14, 67, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MarginMultLoss = (struct __pyx_vtabstruct_6mlgrad_4loss_MarginMultLoss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MarginMultLoss->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MarginMultLoss)) __PYX_ERR(14, 67, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_MultLoss2 = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "MultLoss2", sizeof(struct __pyx_obj_6mlgrad_4loss_MultLoss2), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_MultLoss2) __PYX_ERR(13, 70, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_MultLoss2 = (struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MultLoss2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MultLoss2)) __PYX_ERR(13, 70, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_MultLoss2) __PYX_ERR(14, 70, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_MultLoss2 = (struct __pyx_vtabstruct_6mlgrad_4loss_MultLoss2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_MultLoss2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_MultLoss2)) __PYX_ERR(14, 70, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4loss_SoftMinLoss2 = __Pyx_ImportType(__pyx_t_1, "mlgrad.loss", "SoftMinLoss2", sizeof(struct __pyx_obj_6mlgrad_4loss_SoftMinLoss2), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_4loss_SoftMinLoss2) __PYX_ERR(13, 77, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4loss_SoftMinLoss2 = (struct __pyx_vtabstruct_6mlgrad_4loss_SoftMinLoss2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_SoftMinLoss2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_SoftMinLoss2)) __PYX_ERR(13, 77, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_4loss_SoftMinLoss2) __PYX_ERR(14, 77, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4loss_SoftMinLoss2 = (struct __pyx_vtabstruct_6mlgrad_4loss_SoftMinLoss2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4loss_SoftMinLoss2->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_4loss_SoftMinLoss2)) __PYX_ERR(14, 77, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("mlgrad.regnorm"); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -41578,20 +41662,20 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_6mlgrad_7regnorm_Himmelblau) __PYX_ERR(3, 60, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_7regnorm_Himmelblau = (struct __pyx_vtabstruct_6mlgrad_7regnorm_Himmelblau*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7regnorm_Himmelblau->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7regnorm_Himmelblau)) __PYX_ERR(3, 60, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.batch"); if (unlikely(!__pyx_t_1)) __PYX_ERR(14, 5, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.batch"); if (unlikely(!__pyx_t_1)) __PYX_ERR(15, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_5batch_Batch = __Pyx_ImportType(__pyx_t_1, "mlgrad.batch", "Batch", sizeof(struct __pyx_obj_6mlgrad_5batch_Batch), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5batch_Batch) __PYX_ERR(14, 5, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5batch_Batch = (struct __pyx_vtabstruct_6mlgrad_5batch_Batch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_Batch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_Batch)) __PYX_ERR(14, 5, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5batch_Batch) __PYX_ERR(15, 5, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5batch_Batch = (struct __pyx_vtabstruct_6mlgrad_5batch_Batch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_Batch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_Batch)) __PYX_ERR(15, 5, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5batch_RandomBatch = __Pyx_ImportType(__pyx_t_1, "mlgrad.batch", "RandomBatch", sizeof(struct __pyx_obj_6mlgrad_5batch_RandomBatch), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5batch_RandomBatch) __PYX_ERR(14, 13, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5batch_RandomBatch = (struct __pyx_vtabstruct_6mlgrad_5batch_RandomBatch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_RandomBatch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_RandomBatch)) __PYX_ERR(14, 13, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5batch_RandomBatch) __PYX_ERR(15, 13, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5batch_RandomBatch = (struct __pyx_vtabstruct_6mlgrad_5batch_RandomBatch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_RandomBatch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_RandomBatch)) __PYX_ERR(15, 13, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5batch_FixedBatch = __Pyx_ImportType(__pyx_t_1, "mlgrad.batch", "FixedBatch", sizeof(struct __pyx_obj_6mlgrad_5batch_FixedBatch), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5batch_FixedBatch) __PYX_ERR(14, 16, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5batch_FixedBatch = (struct __pyx_vtabstruct_6mlgrad_5batch_FixedBatch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_FixedBatch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_FixedBatch)) __PYX_ERR(14, 16, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5batch_FixedBatch) __PYX_ERR(15, 16, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5batch_FixedBatch = (struct __pyx_vtabstruct_6mlgrad_5batch_FixedBatch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_FixedBatch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_FixedBatch)) __PYX_ERR(15, 16, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5batch_WholeBatch = __Pyx_ImportType(__pyx_t_1, "mlgrad.batch", "WholeBatch", sizeof(struct __pyx_obj_6mlgrad_5batch_WholeBatch), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_5batch_WholeBatch) __PYX_ERR(14, 19, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5batch_WholeBatch = (struct __pyx_vtabstruct_6mlgrad_5batch_WholeBatch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_WholeBatch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_WholeBatch)) __PYX_ERR(14, 19, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_5batch_WholeBatch) __PYX_ERR(15, 19, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5batch_WholeBatch = (struct __pyx_vtabstruct_6mlgrad_5batch_WholeBatch*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5batch_WholeBatch->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_5batch_WholeBatch)) __PYX_ERR(15, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("mlgrad.averager"); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -41641,59 +41725,59 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_6mlgrad_8averager_ArrayTAverager) __PYX_ERR(4, 149, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_8averager_ArrayTAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayTAverager->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayTAverager)) __PYX_ERR(4, 149, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.avragg"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 59, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.avragg"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_6avragg_Penalty = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "Penalty", sizeof(struct __pyx_obj_6mlgrad_6avragg_Penalty), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_Penalty) __PYX_ERR(5, 59, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Penalty = (struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Penalty->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Penalty)) __PYX_ERR(5, 59, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_Penalty) __PYX_ERR(5, 60, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Penalty = (struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Penalty->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Penalty)) __PYX_ERR(5, 60, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_PenaltyAverage = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "PenaltyAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_PenaltyAverage) __PYX_ERR(5, 69, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage)) __PYX_ERR(5, 69, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_PenaltyAverage) __PYX_ERR(5, 70, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage)) __PYX_ERR(5, 70, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_PenaltyScale = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "PenaltyScale", sizeof(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_PenaltyScale) __PYX_ERR(5, 73, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_PenaltyScale = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyScale*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyScale->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyScale)) __PYX_ERR(5, 73, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_PenaltyScale) __PYX_ERR(5, 75, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_PenaltyScale = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyScale*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyScale->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyScale)) __PYX_ERR(5, 75, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Average = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "Average", sizeof(struct __pyx_obj_6mlgrad_6avragg_Average), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_Average) __PYX_ERR(5, 78, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Average = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average)) __PYX_ERR(5, 78, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_Average) __PYX_ERR(5, 81, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Average = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average)) __PYX_ERR(5, 81, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Average_Iterative = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "Average_Iterative", sizeof(struct __pyx_obj_6mlgrad_6avragg_Average_Iterative), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_Average_Iterative) __PYX_ERR(5, 109, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Average_Iterative = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average_Iterative*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average_Iterative->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average_Iterative)) __PYX_ERR(5, 109, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_Average_Iterative) __PYX_ERR(5, 112, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Average_Iterative = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average_Iterative*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average_Iterative->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average_Iterative)) __PYX_ERR(5, 112, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_MAverage_Iterative = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "MAverage_Iterative", sizeof(struct __pyx_obj_6mlgrad_6avragg_MAverage_Iterative), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_MAverage_Iterative) __PYX_ERR(5, 113, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_MAverage_Iterative = (struct __pyx_vtabstruct_6mlgrad_6avragg_MAverage_Iterative*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_MAverage_Iterative->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_MAverage_Iterative)) __PYX_ERR(5, 113, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_MAverage_Iterative) __PYX_ERR(5, 116, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_MAverage_Iterative = (struct __pyx_vtabstruct_6mlgrad_6avragg_MAverage_Iterative*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_MAverage_Iterative->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_MAverage_Iterative)) __PYX_ERR(5, 116, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Average_FG = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "Average_FG", sizeof(struct __pyx_obj_6mlgrad_6avragg_Average_FG), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_Average_FG) __PYX_ERR(5, 117, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Average_FG = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average_FG*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average_FG->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average_FG)) __PYX_ERR(5, 117, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_Average_FG) __PYX_ERR(5, 120, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Average_FG = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average_FG*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average_FG->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average_FG)) __PYX_ERR(5, 120, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_ParameterizedAverage = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "ParameterizedAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_ParameterizedAverage) __PYX_ERR(5, 122, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_ParameterizedAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_ParameterizedAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage)) __PYX_ERR(5, 122, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_ParameterizedAverage) __PYX_ERR(5, 125, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_ParameterizedAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_ParameterizedAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage)) __PYX_ERR(5, 125, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_WMAverage = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "WMAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_WMAverage), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_WMAverage) __PYX_ERR(5, 127, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_WMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WMAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WMAverage)) __PYX_ERR(5, 127, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_WMAverage) __PYX_ERR(5, 130, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_WMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WMAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WMAverage)) __PYX_ERR(5, 130, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_WMAverageMixed = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "WMAverageMixed", sizeof(struct __pyx_obj_6mlgrad_6avragg_WMAverageMixed), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_WMAverageMixed) __PYX_ERR(5, 132, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed = (struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverageMixed*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WMAverageMixed->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed)) __PYX_ERR(5, 132, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_WMAverageMixed) __PYX_ERR(5, 135, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed = (struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverageMixed*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WMAverageMixed->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WMAverageMixed)) __PYX_ERR(5, 135, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_TMAverage = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "TMAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_TMAverage), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_TMAverage) __PYX_ERR(5, 137, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_TMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_TMAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_TMAverage)) __PYX_ERR(5, 137, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_TMAverage) __PYX_ERR(5, 140, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_TMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_TMAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_TMAverage)) __PYX_ERR(5, 140, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_HMAverage = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "HMAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_HMAverage), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_HMAverage) __PYX_ERR(5, 141, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_HMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_HMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_HMAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_HMAverage)) __PYX_ERR(5, 141, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_HMAverage) __PYX_ERR(5, 144, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_HMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_HMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_HMAverage->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_HMAverage)) __PYX_ERR(5, 144, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_ArithMean = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "ArithMean", sizeof(struct __pyx_obj_6mlgrad_6avragg_ArithMean), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_ArithMean) __PYX_ERR(5, 146, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_ArithMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_ArithMean->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_ArithMean)) __PYX_ERR(5, 146, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_ArithMean) __PYX_ERR(5, 149, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_ArithMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_ArithMean->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_ArithMean)) __PYX_ERR(5, 149, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_KolmogorovMean = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "KolmogorovMean", sizeof(struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_KolmogorovMean) __PYX_ERR(5, 150, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_KolmogorovMean->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean)) __PYX_ERR(5, 150, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_KolmogorovMean) __PYX_ERR(5, 153, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_KolmogorovMean->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean)) __PYX_ERR(5, 153, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_SoftMinimal = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "SoftMinimal", sizeof(struct __pyx_obj_6mlgrad_6avragg_SoftMinimal), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_SoftMinimal) __PYX_ERR(5, 155, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_SoftMinimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_SoftMinimal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_SoftMinimal)) __PYX_ERR(5, 155, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_SoftMinimal) __PYX_ERR(5, 158, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_SoftMinimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_SoftMinimal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_SoftMinimal)) __PYX_ERR(5, 158, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Minimal = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "Minimal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Minimal), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_Minimal) __PYX_ERR(5, 159, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Minimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Minimal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Minimal)) __PYX_ERR(5, 159, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_Minimal) __PYX_ERR(5, 162, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Minimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Minimal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Minimal)) __PYX_ERR(5, 162, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_Maximal = __Pyx_ImportType(__pyx_t_1, "mlgrad.avragg", "Maximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Maximal), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_6avragg_Maximal) __PYX_ERR(5, 163, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Maximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Maximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Maximal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Maximal)) __PYX_ERR(5, 163, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_6avragg_Maximal) __PYX_ERR(5, 166, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Maximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Maximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Maximal->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Maximal)) __PYX_ERR(5, 166, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("mlgrad.risk"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -41743,56 +41827,56 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_6mlgrad_7weights_MWeights) __PYX_ERR(7, 78, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_7weights_MWeights = (struct __pyx_vtabstruct_6mlgrad_7weights_MWeights*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_7weights_MWeights->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_7weights_MWeights)) __PYX_ERR(7, 78, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.normalizer"); if (unlikely(!__pyx_t_1)) __PYX_ERR(15, 7, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.normalizer"); if (unlikely(!__pyx_t_1)) __PYX_ERR(16, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_10normalizer_Normalizer = __Pyx_ImportType(__pyx_t_1, "mlgrad.normalizer", "Normalizer", sizeof(struct __pyx_obj_6mlgrad_10normalizer_Normalizer), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_10normalizer_Normalizer) __PYX_ERR(15, 7, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_10normalizer_Normalizer = (struct __pyx_vtabstruct_6mlgrad_10normalizer_Normalizer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_10normalizer_Normalizer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_10normalizer_Normalizer)) __PYX_ERR(15, 7, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_10normalizer_Normalizer) __PYX_ERR(16, 7, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_10normalizer_Normalizer = (struct __pyx_vtabstruct_6mlgrad_10normalizer_Normalizer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_10normalizer_Normalizer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_10normalizer_Normalizer)) __PYX_ERR(16, 7, __pyx_L1_error)
   __pyx_ptype_6mlgrad_10normalizer_LinearModelNormalizer = __Pyx_ImportType(__pyx_t_1, "mlgrad.normalizer", "LinearModelNormalizer", sizeof(struct __pyx_obj_6mlgrad_10normalizer_LinearModelNormalizer), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_10normalizer_LinearModelNormalizer) __PYX_ERR(15, 11, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_10normalizer_LinearModelNormalizer = (struct __pyx_vtabstruct_6mlgrad_10normalizer_LinearModelNormalizer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_10normalizer_LinearModelNormalizer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_10normalizer_LinearModelNormalizer)) __PYX_ERR(15, 11, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_10normalizer_LinearModelNormalizer) __PYX_ERR(16, 11, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_10normalizer_LinearModelNormalizer = (struct __pyx_vtabstruct_6mlgrad_10normalizer_LinearModelNormalizer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_10normalizer_LinearModelNormalizer->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_10normalizer_LinearModelNormalizer)) __PYX_ERR(16, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.gd"); if (unlikely(!__pyx_t_1)) __PYX_ERR(8, 51, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.gd"); if (unlikely(!__pyx_t_1)) __PYX_ERR(8, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_2gd_GD = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "GD", sizeof(struct __pyx_obj_6mlgrad_2gd_GD), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_GD) __PYX_ERR(8, 51, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_GD = (struct __pyx_vtabstruct_6mlgrad_2gd_GD*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_GD->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_GD)) __PYX_ERR(8, 51, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_GD) __PYX_ERR(8, 52, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_GD = (struct __pyx_vtabstruct_6mlgrad_2gd_GD*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_GD->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_GD)) __PYX_ERR(8, 52, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_FG = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "FG", sizeof(struct __pyx_obj_6mlgrad_2gd_FG), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_FG) __PYX_ERR(8, 83, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_FG = (struct __pyx_vtabstruct_6mlgrad_2gd_FG*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_FG->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_FG)) __PYX_ERR(8, 83, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_FG) __PYX_ERR(8, 84, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_FG = (struct __pyx_vtabstruct_6mlgrad_2gd_FG*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_FG->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_FG)) __PYX_ERR(8, 84, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_FG_RUD = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "FG_RUD", sizeof(struct __pyx_obj_6mlgrad_2gd_FG_RUD), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_FG_RUD) __PYX_ERR(8, 89, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_FG_RUD = (struct __pyx_vtabstruct_6mlgrad_2gd_FG_RUD*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_FG_RUD->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_FG_RUD)) __PYX_ERR(8, 89, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_FG_RUD) __PYX_ERR(8, 90, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_FG_RUD = (struct __pyx_vtabstruct_6mlgrad_2gd_FG_RUD*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_FG_RUD->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_FG_RUD)) __PYX_ERR(8, 90, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_SGD = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "SGD", sizeof(struct __pyx_obj_6mlgrad_2gd_SGD), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_SGD) __PYX_ERR(8, 120, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_SGD = (struct __pyx_vtabstruct_6mlgrad_2gd_SGD*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_SGD->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_SGD)) __PYX_ERR(8, 120, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_SGD) __PYX_ERR(8, 121, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_SGD = (struct __pyx_vtabstruct_6mlgrad_2gd_SGD*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_SGD->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_SGD)) __PYX_ERR(8, 121, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_StopCondition = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "StopCondition", sizeof(struct __pyx_obj_6mlgrad_2gd_StopCondition), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_StopCondition) __PYX_ERR(16, 24, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_StopCondition)) __PYX_ERR(16, 24, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_StopCondition) __PYX_ERR(17, 25, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_StopCondition)) __PYX_ERR(17, 25, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_DiffL1StopCondition = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "DiffL1StopCondition", sizeof(struct __pyx_obj_6mlgrad_2gd_DiffL1StopCondition), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_DiffL1StopCondition) __PYX_ERR(16, 33, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_DiffL1StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffL1StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffL1StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffL1StopCondition)) __PYX_ERR(16, 33, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_DiffL1StopCondition) __PYX_ERR(17, 34, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_DiffL1StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffL1StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffL1StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffL1StopCondition)) __PYX_ERR(17, 34, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_DiffL2StopCondition = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "DiffL2StopCondition", sizeof(struct __pyx_obj_6mlgrad_2gd_DiffL2StopCondition), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_DiffL2StopCondition) __PYX_ERR(16, 39, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffL2StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffL2StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition)) __PYX_ERR(16, 39, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_DiffL2StopCondition) __PYX_ERR(17, 40, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffL2StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffL2StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition)) __PYX_ERR(17, 40, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_DiffG1StopCondition = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "DiffG1StopCondition", sizeof(struct __pyx_obj_6mlgrad_2gd_DiffG1StopCondition), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_DiffG1StopCondition) __PYX_ERR(16, 44, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffG1StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffG1StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition)) __PYX_ERR(16, 44, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_DiffG1StopCondition) __PYX_ERR(17, 45, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffG1StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffG1StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition)) __PYX_ERR(17, 45, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_DiffP1StopCondition = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "DiffP1StopCondition", sizeof(struct __pyx_obj_6mlgrad_2gd_DiffP1StopCondition), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_DiffP1StopCondition) __PYX_ERR(16, 49, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_DiffP1StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffP1StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffP1StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffP1StopCondition)) __PYX_ERR(16, 49, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_DiffP1StopCondition) __PYX_ERR(17, 50, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_DiffP1StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffP1StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffP1StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffP1StopCondition)) __PYX_ERR(17, 50, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_ParamRate = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "ParamRate", sizeof(struct __pyx_obj_6mlgrad_2gd_ParamRate), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_ParamRate) __PYX_ERR(17, 2, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_ParamRate = (struct __pyx_vtabstruct_6mlgrad_2gd_ParamRate*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_ParamRate->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_ParamRate)) __PYX_ERR(17, 2, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_ParamRate) __PYX_ERR(18, 2, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_ParamRate = (struct __pyx_vtabstruct_6mlgrad_2gd_ParamRate*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_ParamRate->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_ParamRate)) __PYX_ERR(18, 2, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_ConstantParamRate = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "ConstantParamRate", sizeof(struct __pyx_obj_6mlgrad_2gd_ConstantParamRate), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_ConstantParamRate) __PYX_ERR(17, 9, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_ConstantParamRate = (struct __pyx_vtabstruct_6mlgrad_2gd_ConstantParamRate*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_ConstantParamRate->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_ConstantParamRate)) __PYX_ERR(17, 9, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_ConstantParamRate) __PYX_ERR(18, 9, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_ConstantParamRate = (struct __pyx_vtabstruct_6mlgrad_2gd_ConstantParamRate*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_ConstantParamRate->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_ConstantParamRate)) __PYX_ERR(18, 9, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_ExponentParamRate = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "ExponentParamRate", sizeof(struct __pyx_obj_6mlgrad_2gd_ExponentParamRate), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_ExponentParamRate) __PYX_ERR(17, 12, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_ExponentParamRate = (struct __pyx_vtabstruct_6mlgrad_2gd_ExponentParamRate*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_ExponentParamRate->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_ExponentParamRate)) __PYX_ERR(17, 12, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_ExponentParamRate) __PYX_ERR(18, 12, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_ExponentParamRate = (struct __pyx_vtabstruct_6mlgrad_2gd_ExponentParamRate*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_ExponentParamRate->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_ExponentParamRate)) __PYX_ERR(18, 12, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_PowerParamRate = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "PowerParamRate", sizeof(struct __pyx_obj_6mlgrad_2gd_PowerParamRate), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_PowerParamRate) __PYX_ERR(17, 16, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_PowerParamRate = (struct __pyx_vtabstruct_6mlgrad_2gd_PowerParamRate*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_PowerParamRate->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_PowerParamRate)) __PYX_ERR(17, 16, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_PowerParamRate) __PYX_ERR(18, 16, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_PowerParamRate = (struct __pyx_vtabstruct_6mlgrad_2gd_PowerParamRate*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_PowerParamRate->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_PowerParamRate)) __PYX_ERR(18, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -41812,8 +41896,8 @@ static int __Pyx_modinit_variable_import_code(void) {
   /*--- Variable import code ---*/
   __pyx_t_1 = PyImport_ImportModule("mlgrad.loss"); if (!__pyx_t_1) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_ImportVoidPtr(__pyx_t_1, "float_max", (void **)&__pyx_vp_6mlgrad_4loss_float_max, "double") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ImportVoidPtr(__pyx_t_1, "float_min", (void **)&__pyx_vp_6mlgrad_4loss_float_min, "double") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportVoidPtr(__pyx_t_1, "float_max", (void **)&__pyx_vp_6mlgrad_4loss_float_max, "float") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportVoidPtr(__pyx_t_1, "float_min", (void **)&__pyx_vp_6mlgrad_4loss_float_min, "float") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -41835,7 +41919,7 @@ static int __Pyx_modinit_function_import_code(void) {
   __Pyx_GOTREF(__pyx_t_1);
   if (__Pyx_ImportFunction(__pyx_t_1, "init_rand", (void (**)(void))&__pyx_f_6mlgrad_9miscfuncs_init_rand, "void (void)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ImportFunction(__pyx_t_1, "rand", (void (**)(void))&__pyx_f_6mlgrad_9miscfuncs_rand, "long (long)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ImportFunction(__pyx_t_1, "fill", (void (**)(void))&__pyx_f_6mlgrad_9miscfuncs_fill, "void (__Pyx_memviewslice, double)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "fill", (void (**)(void))&__pyx_f_6mlgrad_9miscfuncs_fill, "void (__Pyx_memviewslice, float)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -44856,14 +44940,14 @@ __pyx_capsule_create(void *p, CYTHON_UNUSED const char *sig)
     }
 
 /* MemviewDtypeToObject */
-static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp) {
-    return (PyObject *) PyFloat_FromDouble(*(double *) itemp);
+static CYTHON_INLINE PyObject *__pyx_memview_get_float(const char *itemp) {
+    return (PyObject *) PyFloat_FromDouble(*(float *) itemp);
 }
-static CYTHON_INLINE int __pyx_memview_set_double(const char *itemp, PyObject *obj) {
-    double value = __pyx_PyFloat_AsDouble(obj);
-    if ((value == (double)-1) && PyErr_Occurred())
+static CYTHON_INLINE int __pyx_memview_set_float(const char *itemp, PyObject *obj) {
+    float value = __pyx_PyFloat_AsFloat(obj);
+    if ((value == (float)-1) && PyErr_Occurred())
         return 0;
-    *(double *) itemp = value;
+    *(float *) itemp = value;
     return 1;
 }
 
@@ -45603,7 +45687,7 @@ no_fail:
 }
 
 /* ObjectToMemviewSlice */
-  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *obj, int writable_flag) {
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_float(PyObject *obj, int writable_flag) {
     __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
     __Pyx_BufFmt_StackElem stack[1];
     int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_FOLLOW), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
@@ -45614,7 +45698,7 @@ no_fail:
     }
     retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
                                                  (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 2,
-                                                 &__Pyx_TypeInfo_double, stack,
+                                                 &__Pyx_TypeInfo_float, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))
         goto __pyx_fail;
@@ -45661,7 +45745,7 @@ __pyx_fail:
 }
 
 /* ObjectToMemviewSlice */
-  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *obj, int writable_flag) {
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_float(PyObject *obj, int writable_flag) {
     __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
     __Pyx_BufFmt_StackElem stack[1];
     int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
@@ -45672,7 +45756,7 @@ __pyx_fail:
     }
     retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
                                                  (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 1,
-                                                 &__Pyx_TypeInfo_double, stack,
+                                                 &__Pyx_TypeInfo_float, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))
         goto __pyx_fail;

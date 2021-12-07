@@ -953,7 +953,7 @@ struct __pyx_memoryviewslice_obj;
  * cimport cython
  * 
  * cdef class Normalizer:             # <<<<<<<<<<<<<<
- *     cdef normalize(self, double[::1] param)
+ *     cdef normalize(self, float[::1] param)
  * 
  */
 struct __pyx_obj_6mlgrad_10normalizer_Normalizer {
@@ -1055,7 +1055,7 @@ struct __pyx_memoryviewslice_obj {
  * from libc.math cimport fabs, pow, sqrt, fmax
  * 
  * cdef class Normalizer:             # <<<<<<<<<<<<<<
- *     cdef normalize(self, double[::1] param):
+ *     cdef normalize(self, float[::1] param):
  *         pass
  */
 
@@ -1070,7 +1070,7 @@ static struct __pyx_vtabstruct_6mlgrad_10normalizer_Normalizer *__pyx_vtabptr_6m
  * 
  * cdef class LinearModelNormalizer(Normalizer):             # <<<<<<<<<<<<<<
  * 
- *     cdef normalize(self, double[::1] param):
+ *     cdef normalize(self, float[::1] param):
  */
 
 struct __pyx_vtabstruct_6mlgrad_10normalizer_LinearModelNormalizer {
@@ -2066,7 +2066,7 @@ static PyObject *__pyx_codeobj__29;
 /* "mlgrad/normalizer.pyx":35
  * 
  * cdef class Normalizer:
- *     cdef normalize(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef normalize(self, float[::1] param):             # <<<<<<<<<<<<<<
  *         pass
  * 
  */
@@ -2375,15 +2375,15 @@ static PyObject *__pyx_pf_6mlgrad_10normalizer_10Normalizer_2__setstate_cython__
 /* "mlgrad/normalizer.pyx":40
  * cdef class LinearModelNormalizer(Normalizer):
  * 
- *     cdef normalize(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef normalize(self, float[::1] param):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, n = param.shape[0]
- *         cdef double u, s
+ *         cdef float u, s
  */
 
 static PyObject *__pyx_f_6mlgrad_10normalizer_21LinearModelNormalizer_normalize(CYTHON_UNUSED struct __pyx_obj_6mlgrad_10normalizer_LinearModelNormalizer *__pyx_v_self, __Pyx_memviewslice __pyx_v_param) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_n;
-  double __pyx_v_s;
+  float __pyx_v_s;
   PyObject *__pyx_v_v = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2394,7 +2394,7 @@ static PyObject *__pyx_f_6mlgrad_10normalizer_21LinearModelNormalizer_normalize(
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
-  double __pyx_t_8;
+  float __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2402,15 +2402,15 @@ static PyObject *__pyx_f_6mlgrad_10normalizer_21LinearModelNormalizer_normalize(
 
   /* "mlgrad/normalizer.pyx":41
  * 
- *     cdef normalize(self, double[::1] param):
+ *     cdef normalize(self, float[::1] param):
  *         cdef Py_ssize_t i, n = param.shape[0]             # <<<<<<<<<<<<<<
- *         cdef double u, s
+ *         cdef float u, s
  * 
  */
   __pyx_v_n = (__pyx_v_param.shape[0]);
 
   /* "mlgrad/normalizer.pyx":44
- *         cdef double u, s
+ *         cdef float u, s
  * 
  *         s = 0             # <<<<<<<<<<<<<<
  *         for i in range(1,n):
@@ -2438,7 +2438,7 @@ static PyObject *__pyx_f_6mlgrad_10normalizer_21LinearModelNormalizer_normalize(
  *         s = sqrt(s)
  */
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_4)) )))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 46, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble((*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_param.data) + __pyx_t_4)) )))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_5);
     __pyx_t_5 = 0;
@@ -2458,7 +2458,7 @@ static PyObject *__pyx_f_6mlgrad_10normalizer_21LinearModelNormalizer_normalize(
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_8 = __pyx_PyFloat_AsFloat(__pyx_t_7); if (unlikely((__pyx_t_8 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_v_s = __pyx_t_8;
   }
@@ -2489,15 +2489,15 @@ static PyObject *__pyx_f_6mlgrad_10normalizer_21LinearModelNormalizer_normalize(
  *             param[i] /= s             # <<<<<<<<<<<<<<
  */
     __pyx_t_4 = __pyx_v_i;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_4)) )) /= __pyx_v_s;
+    *((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_param.data) + __pyx_t_4)) )) /= __pyx_v_s;
   }
 
   /* "mlgrad/normalizer.pyx":40
  * cdef class LinearModelNormalizer(Normalizer):
  * 
- *     cdef normalize(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef normalize(self, float[::1] param):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, n = param.shape[0]
- *         cdef double u, s
+ *         cdef float u, s
  */
 
   /* function exit code */

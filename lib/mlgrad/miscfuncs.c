@@ -953,27 +953,27 @@ struct __pyx_memoryviewslice_obj;
 /* "mlgrad/miscfuncs.pyx":57
  *     return stdlib_rand() % N
  * 
- * ctypedef double[:] array1d             # <<<<<<<<<<<<<<
- * ctypedef double[:,::1] array2d
+ * ctypedef float[:] array1d             # <<<<<<<<<<<<<<
+ * ctypedef float[:,::1] array2d
  * ctypedef long[:] array1d_long
  */
 typedef __Pyx_memviewslice __pyx_t_6mlgrad_9miscfuncs_array1d;
 
 /* "mlgrad/miscfuncs.pyx":58
  * 
- * ctypedef double[:] array1d
- * ctypedef double[:,::1] array2d             # <<<<<<<<<<<<<<
+ * ctypedef float[:] array1d
+ * ctypedef float[:,::1] array2d             # <<<<<<<<<<<<<<
  * ctypedef long[:] array1d_long
  * 
  */
 typedef __Pyx_memviewslice __pyx_t_6mlgrad_9miscfuncs_array2d;
 
 /* "mlgrad/miscfuncs.pyx":59
- * ctypedef double[:] array1d
- * ctypedef double[:,::1] array2d
+ * ctypedef float[:] array1d
+ * ctypedef float[:,::1] array2d
  * ctypedef long[:] array1d_long             # <<<<<<<<<<<<<<
  * 
- * # cdef double[:] as_memoryview_1d(object X):
+ * # cdef float[:] as_memoryview_1d(object X):
  */
 typedef __Pyx_memviewslice __pyx_t_6mlgrad_9miscfuncs_array1d_long;
 
@@ -2082,7 +2082,7 @@ static long __pyx_f_6mlgrad_9miscfuncs_rand(long __pyx_v_N) {
  * cdef long rand(long N):
  *     return stdlib_rand() % N             # <<<<<<<<<<<<<<
  * 
- * ctypedef double[:] array1d
+ * ctypedef float[:] array1d
  */
   __pyx_t_1 = rand();
   if (unlikely(__pyx_v_N == 0)) {
@@ -2112,14 +2112,14 @@ static long __pyx_f_6mlgrad_9miscfuncs_rand(long __pyx_v_N) {
 /* "mlgrad/miscfuncs.pyx":98
  * #
  * 
- * cdef void  multiply_scalar(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef void  multiply_scalar(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0]
+ *     cdef float *XX = &X[0]
  */
 
-static void __pyx_f_6mlgrad_9miscfuncs_multiply_scalar(__Pyx_memviewslice __pyx_v_X, double __pyx_v_c) {
+static void __pyx_f_6mlgrad_9miscfuncs_multiply_scalar(__Pyx_memviewslice __pyx_v_X, float __pyx_v_c) {
   Py_ssize_t __pyx_v_i;
-  double *__pyx_v_XX;
+  float *__pyx_v_XX;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -2129,18 +2129,18 @@ static void __pyx_f_6mlgrad_9miscfuncs_multiply_scalar(__Pyx_memviewslice __pyx_
   __Pyx_RefNannySetupContext("multiply_scalar", 0);
 
   /* "mlgrad/miscfuncs.pyx":100
- * cdef void  multiply_scalar(double[::1] X, double c):
+ * cdef void  multiply_scalar(float[::1] X, float c):
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0]             # <<<<<<<<<<<<<<
+ *     cdef float *XX = &X[0]             # <<<<<<<<<<<<<<
  *     for i in range(X.shape[0]):
  *         XX[i] *= c
  */
   __pyx_t_1 = 0;
-  __pyx_v_XX = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) ))));
+  __pyx_v_XX = (&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_1)) ))));
 
   /* "mlgrad/miscfuncs.pyx":101
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0]
+ *     cdef float *XX = &X[0]
  *     for i in range(X.shape[0]):             # <<<<<<<<<<<<<<
  *         XX[i] *= c
  * 
@@ -2151,11 +2151,11 @@ static void __pyx_f_6mlgrad_9miscfuncs_multiply_scalar(__Pyx_memviewslice __pyx_
     __pyx_v_i = __pyx_t_4;
 
     /* "mlgrad/miscfuncs.pyx":102
- *     cdef double *XX = &X[0]
+ *     cdef float *XX = &X[0]
  *     for i in range(X.shape[0]):
  *         XX[i] *= c             # <<<<<<<<<<<<<<
  * 
- * cdef void fill(double[::1] X, double c):
+ * cdef void fill(float[::1] X, float c):
  */
     __pyx_t_5 = __pyx_v_i;
     (__pyx_v_XX[__pyx_t_5]) = ((__pyx_v_XX[__pyx_t_5]) * __pyx_v_c);
@@ -2164,9 +2164,9 @@ static void __pyx_f_6mlgrad_9miscfuncs_multiply_scalar(__Pyx_memviewslice __pyx_
   /* "mlgrad/miscfuncs.pyx":98
  * #
  * 
- * cdef void  multiply_scalar(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef void  multiply_scalar(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0]
+ *     cdef float *XX = &X[0]
  */
 
   /* function exit code */
@@ -2176,14 +2176,14 @@ static void __pyx_f_6mlgrad_9miscfuncs_multiply_scalar(__Pyx_memviewslice __pyx_
 /* "mlgrad/miscfuncs.pyx":104
  *         XX[i] *= c
  * 
- * cdef void fill(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef void fill(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0]
+ *     cdef float *XX = &X[0]
  */
 
-static void __pyx_f_6mlgrad_9miscfuncs_fill(__Pyx_memviewslice __pyx_v_X, double __pyx_v_c) {
+static void __pyx_f_6mlgrad_9miscfuncs_fill(__Pyx_memviewslice __pyx_v_X, float __pyx_v_c) {
   Py_ssize_t __pyx_v_i;
-  double *__pyx_v_XX;
+  float *__pyx_v_XX;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -2192,18 +2192,18 @@ static void __pyx_f_6mlgrad_9miscfuncs_fill(__Pyx_memviewslice __pyx_v_X, double
   __Pyx_RefNannySetupContext("fill", 0);
 
   /* "mlgrad/miscfuncs.pyx":106
- * cdef void fill(double[::1] X, double c):
+ * cdef void fill(float[::1] X, float c):
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0]             # <<<<<<<<<<<<<<
+ *     cdef float *XX = &X[0]             # <<<<<<<<<<<<<<
  *     for i in range(X.shape[0]):
  *         XX[i] = c
  */
   __pyx_t_1 = 0;
-  __pyx_v_XX = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) ))));
+  __pyx_v_XX = (&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_1)) ))));
 
   /* "mlgrad/miscfuncs.pyx":107
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0]
+ *     cdef float *XX = &X[0]
  *     for i in range(X.shape[0]):             # <<<<<<<<<<<<<<
  *         XX[i] = c
  * 
@@ -2214,7 +2214,7 @@ static void __pyx_f_6mlgrad_9miscfuncs_fill(__Pyx_memviewslice __pyx_v_X, double
     __pyx_v_i = __pyx_t_4;
 
     /* "mlgrad/miscfuncs.pyx":108
- *     cdef double *XX = &X[0]
+ *     cdef float *XX = &X[0]
  *     for i in range(X.shape[0]):
  *         XX[i] = c             # <<<<<<<<<<<<<<
  * 
@@ -2226,9 +2226,9 @@ static void __pyx_f_6mlgrad_9miscfuncs_fill(__Pyx_memviewslice __pyx_v_X, double
   /* "mlgrad/miscfuncs.pyx":104
  *         XX[i] *= c
  * 
- * cdef void fill(double[::1] X, double c):             # <<<<<<<<<<<<<<
+ * cdef void fill(float[::1] X, float c):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
- *     cdef double *XX = &X[0]
+ *     cdef float *XX = &X[0]
  */
 
   /* function exit code */
@@ -2238,17 +2238,17 @@ static void __pyx_f_6mlgrad_9miscfuncs_fill(__Pyx_memviewslice __pyx_v_X, double
 /* "mlgrad/miscfuncs.pyx":152
  * #     return s
  * 
- * cdef double absmax_1d(double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef float absmax_1d(float[::1] X):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
- *     cdef double s, v
+ *     cdef float s, v
  */
 
-static double __pyx_f_6mlgrad_9miscfuncs_absmax_1d(__Pyx_memviewslice __pyx_v_X) {
+static float __pyx_f_6mlgrad_9miscfuncs_absmax_1d(__Pyx_memviewslice __pyx_v_X) {
   Py_ssize_t __pyx_v_i;
-  double __pyx_v_s;
-  double __pyx_v_v;
-  double *__pyx_v_XX;
-  double __pyx_r;
+  float __pyx_v_s;
+  float __pyx_v_v;
+  float *__pyx_v_XX;
+  float __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -2259,16 +2259,16 @@ static double __pyx_f_6mlgrad_9miscfuncs_absmax_1d(__Pyx_memviewslice __pyx_v_X)
 
   /* "mlgrad/miscfuncs.pyx":155
  *     cdef Py_ssize_t i
- *     cdef double s, v
- *     cdef double *XX = &X[0]             # <<<<<<<<<<<<<<
+ *     cdef float s, v
+ *     cdef float *XX = &X[0]             # <<<<<<<<<<<<<<
  * 
  *     s = XX[0]
  */
   __pyx_t_1 = 0;
-  __pyx_v_XX = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) ))));
+  __pyx_v_XX = (&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_X.data) + __pyx_t_1)) ))));
 
   /* "mlgrad/miscfuncs.pyx":157
- *     cdef double *XX = &X[0]
+ *     cdef float *XX = &X[0]
  * 
  *     s = XX[0]             # <<<<<<<<<<<<<<
  *     for i in range(X.shape[0]):
@@ -2367,9 +2367,9 @@ static double __pyx_f_6mlgrad_9miscfuncs_absmax_1d(__Pyx_memviewslice __pyx_v_X)
   /* "mlgrad/miscfuncs.pyx":152
  * #     return s
  * 
- * cdef double absmax_1d(double[::1] X):             # <<<<<<<<<<<<<<
+ * cdef float absmax_1d(float[::1] X):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
- *     cdef double s, v
+ *     cdef float s, v
  */
 
   /* function exit code */
@@ -16575,9 +16575,9 @@ static int __Pyx_modinit_function_export_code(void) {
   /*--- Function export code ---*/
   if (__Pyx_ExportFunction("init_rand", (void (*)(void))__pyx_f_6mlgrad_9miscfuncs_init_rand, "void (void)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("rand", (void (*)(void))__pyx_f_6mlgrad_9miscfuncs_rand, "long (long)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("absmax_1d", (void (*)(void))__pyx_f_6mlgrad_9miscfuncs_absmax_1d, "double (__Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("multiply_scalar", (void (*)(void))__pyx_f_6mlgrad_9miscfuncs_multiply_scalar, "void (__Pyx_memviewslice, double)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("fill", (void (*)(void))__pyx_f_6mlgrad_9miscfuncs_fill, "void (__Pyx_memviewslice, double)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("absmax_1d", (void (*)(void))__pyx_f_6mlgrad_9miscfuncs_absmax_1d, "float (__Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("multiply_scalar", (void (*)(void))__pyx_f_6mlgrad_9miscfuncs_multiply_scalar, "void (__Pyx_memviewslice, float)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("fill", (void (*)(void))__pyx_f_6mlgrad_9miscfuncs_fill, "void (__Pyx_memviewslice, float)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

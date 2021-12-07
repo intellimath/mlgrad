@@ -36,25 +36,25 @@ from mlgrad.abc import Fittable
 
 # cdef class ArrayRef:
 #     #
-#     def __init__(self, double[::1] data):
+#     def __init__(self, float[::1] data):
 #         self.data = data
         
-# cdef object new_arrayref(double[::1] data):
+# cdef object new_arrayref(float[::1] data):
 #         cdef ArrayRef arr = ArrayRef.__new__(ArrayRef)
 #         arr.data = data
 #         return arr
 
-cpdef find_centers(double[:, ::1] X, int[::1] Y, double[::1] weights, double[:,::1] params):
+cpdef find_centers(float[:, ::1] X, int[::1] Y, float[::1] weights, float[:,::1] params):
     cdef int i, j, k, N_j
     cdef int n_sample = X.shape[0]
     cdef int n_class = params.shape[0]
     cdef int n_param = params.shape[1]
-    cdef double wk, wj
-    cdef double[::1] W_sum
-    cdef double *Xk
+    cdef float wk, wj
+    cdef float[::1] W_sum
+    cdef float *Xk
 
     fill_memoryview2(params, 0)
-    W_sum = np.zeros(n_class, 'd')
+    W_sum = np.zeros(n_class, 'f')
         
     for k in range(n_sample):
         j = Y[k]
@@ -69,9 +69,9 @@ cpdef find_centers(double[:, ::1] X, int[::1] Y, double[::1] weights, double[:,:
         for i in range(n_param):
             params[j,i] /= wj
             
-cdef inline double euclid_distance2(double[::1] x, double[::1] y) nogil:
+cdef inline float euclid_distance2(float[::1] x, float[::1] y) nogil:
     cdef int i, n = x.shape[0]
-    cdef double dist, v
+    cdef float dist, v
 
     dist = 0
     for i in range(n):
@@ -79,13 +79,13 @@ cdef inline double euclid_distance2(double[::1] x, double[::1] y) nogil:
         dist += v*v
     return dist
 
-cpdef find_classes(double[:, ::1] X, double[:,::1] params, int[::1] Y):
+cpdef find_classes(float[:, ::1] X, float[:,::1] params, int[::1] Y):
     cdef int i, j, k
     cdef int n_sample = X.shape[0]
     cdef int n_class = params.shape[0]
     cdef int n_param = params.shape[1]
-    cdef double fmax = PyFloat_GetMax()
-    cdef double d, dist_min
+    cdef float fmax = PyFloat_GetMax()
+    cdef float d, dist_min
     cdef int j_min
     
     for k in range(n_sample):
@@ -105,31 +105,31 @@ cpdef find_classes(double[:, ::1] X, double[:,::1] params, int[::1] Y):
         print(J)
         raise RuntimeError("One of the clusters is empty")
 
-cpdef double[:, ::1] init_centers(double[:,::1] X, int n_class):
-    cdef double[:, ::1] params
+cpdef float[:, ::1] init_centers(float[:,::1] X, int n_class):
+    cdef float[:, ::1] params
     cdef int i, k
 
     n_sample = X.shape[0]
     n_param = X.shape[1]
 
-    params = np.zeros((n_class, n_param), 'd')
+    params = np.zeros((n_class, n_param), 'f')
     indexes = np.random.randint(0, n_sample-1, n_class, 'i')
     for i in range(n_class):
         k = indexes[i]
         copy_memoryview(params[i], X[k])
     return params
 
-cpdef double[:, ::1] init_centers2(double[:,::1] X, int n_class):
-    cdef double[:, ::1] params
+cpdef float[:, ::1] init_centers2(float[:,::1] X, int n_class):
+    cdef float[:, ::1] params
     cdef int[::1] indices
-    cdef double d, d_max_min, d_min
-    cdef double f_max = PyFloat_GetMax()
+    cdef float d, d_max_min, d_min
+    cdef float f_max = PyFloat_GetMax()
     cdef int j, k, k_max, j_min
     cdef int n_sample = X.shape[0]
     cdef int n_param = X.shape[1]
     cdef int n_center
     
-    params = np.zeros((n_class, n_param), 'd')
+    params = np.zeros((n_class, n_param), 'f')
     indices = np.zeros((n_class,), 'i')
     
     k = rand(n_sample)
@@ -165,8 +165,8 @@ cpdef double[:, ::1] init_centers2(double[:,::1] X, int n_class):
 
 cdef class HCD:
 
-    def __init__(self, Func func, double[:,::1] X, int n_class, 
-                 double tol=1.0e-3, int n_iter=100):
+    def __init__(self, Func func, float[:,::1] X, int n_class, 
+                 float tol=1.0e-3, int n_iter=100):
         
         self.n_class = n_class
         self.n_sample = X.shape[0]
@@ -186,32 +186,32 @@ cdef class HCD:
         self.init()
     #
     cpdef init(self):
-        #cdef double[::1] Xk
+        #cdef float[::1] Xk
         #cdef int k, N = len(self.X)
         
         init_rand()
         
         if self.weights is None:
-            self.weights = np.zeros(self.n_sample, 'd')
+            self.weights = np.zeros(self.n_sample, 'f')
 
         if self.Y is None:
             self.Y = np.zeros(self.n_sample, 'i')
         
         if self.params is None:
             self.params = init_centers2(self.X, self.n_class)
-        self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+        self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
     #
     def fit(self):
-        cdef double[:, ::1] params = self.params
-        cdef double[:, ::1] prev_params = self.prev_params
-        cdef double[:, ::1] X = self.X
-        cdef double[::1] weights = self.weights
+        cdef float[:, ::1] params = self.params
+        cdef float[:, ::1] prev_params = self.prev_params
+        cdef float[:, ::1] X = self.X
+        cdef float[::1] weights = self.weights
         cdef int[::1] Y = self.Y
         cdef int i, j, k
         cdef int n_sample = self.n_sample
         cdef int n_class = self.n_class
         cdef int n_param = self.n_param
-        cdef double dist
+        cdef float dist
         cdef bint is_complete = 0
         
         #print(self.params.base)
@@ -236,9 +236,9 @@ cdef class HCD:
             self.K += 1
     #
     cdef bint stop_condition(self):
-        cdef double[:, ::1] params = self.params
-        cdef double[:, ::1] prev_params = self.prev_params
-        cdef double dist
+        cdef float[:, ::1] params = self.params
+        cdef float[:, ::1] prev_params = self.prev_params
+        cdef float dist
         cdef int i, n_class = self.n_class
         cdef int n_param = params.shape[1]
         
@@ -250,8 +250,8 @@ cdef class HCD:
 
 cdef class HCD_M1:
 
-    def __init__(self, Average avrfunc, double[:,::1] X, int n_class, 
-                 double tol=1.0e-4, int n_iter=100):
+    def __init__(self, Average avrfunc, float[:,::1] X, int n_class, 
+                 float tol=1.0e-4, int n_iter=100):
 
         self.n_class = n_class
         self.n_sample = X.shape[0]
@@ -272,36 +272,36 @@ cdef class HCD_M1:
         self.init()
     #
     cpdef init(self):
-        #cdef double[::1] Xk
+        #cdef float[::1] Xk
         #cdef int k, N = len(self.X)
 
         init_rand()
 
         if self.weights is None:
-            self.weights = np.zeros(self.n_sample, 'd')
+            self.weights = np.zeros(self.n_sample, 'f')
 
         if self.dist is None:
-            self.dist = np.zeros(self.n_sample, 'd')
+            self.dist = np.zeros(self.n_sample, 'f')
 
         if self.Y is None:
             self.Y = np.zeros(self.n_sample, 'i')
 
         if self.params is None:
             self.params = init_centers2(self.X, self.n_class)
-        self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+        self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
     #
     def fit(self):
-        cdef double[:, ::1] params = self.params
-        cdef double[:, ::1] prev_params = self.prev_params
-        cdef double[:, ::1] X = self.X
-        cdef double[::1] Xk
-        cdef double[::1] weights = self.weights
+        cdef float[:, ::1] params = self.params
+        cdef float[:, ::1] prev_params = self.prev_params
+        cdef float[:, ::1] X = self.X
+        cdef float[::1] Xk
+        cdef float[::1] weights = self.weights
         cdef int[::1] Y = self.Y
         cdef int i, j, k
         cdef int n_sample = self.n_sample
         cdef int n_class = self.n_class
         cdef int n_param = self.n_param
-        cdef double[::1] dist = self.dist
+        cdef float[::1] dist = self.dist
         cdef bint is_complete = 0
 
         #print(self.params.base)
@@ -333,9 +333,9 @@ cdef class HCD_M1:
 #                     params[j,i] = 0.5*(params[j,i] + prev_params[j,i])
     #
     cdef bint stop_condition(self):
-        cdef double[:, ::1] params = self.params
-        cdef double[:, ::1] prev_params = self.prev_params
-        cdef double dist
+        cdef float[:, ::1] params = self.params
+        cdef float[:, ::1] prev_params = self.prev_params
+        cdef float dist
         cdef int i, n_class = self.n_class
         cdef int n_param = params.shape[1]
         
@@ -345,13 +345,13 @@ cdef class HCD_M1:
                 return 0
         return 1
 
-cpdef find_centers2(double[:, ::1] X, double[:, ::1] Y, double[::1] weights, double[:,::1] params):
+cpdef find_centers2(float[:, ::1] X, float[:, ::1] Y, float[::1] weights, float[:,::1] params):
     cdef int i, j, k
     cdef int n_sample = X.shape[0]
     cdef int n_class = params.shape[0]
     cdef int n_param = params.shape[1]
-    cdef double wk, wkj, W
-#     cdef double[::1] Xk
+    cdef float wk, wkj, W
+#     cdef float[::1] Xk
 
     fill_memoryview2(params, 0)
     
@@ -367,7 +367,7 @@ cpdef find_centers2(double[:, ::1] X, double[:, ::1] Y, double[::1] weights, dou
         for i in range(n_param):
             params[j,i] /= W
 
-cpdef calc_distance_matrix(double[:, ::1] X, double[:,::1] params, double[:, ::1] D):
+cpdef calc_distance_matrix(float[:, ::1] X, float[:,::1] params, float[:, ::1] D):
     cdef int k, j
     cdef int n_sample = X.shape[0]
     cdef int n_class = params.shape[0]
@@ -377,11 +377,11 @@ cpdef calc_distance_matrix(double[:, ::1] X, double[:,::1] params, double[:, ::1
         for j in range(n_class):
             D[k,j] = euclid_distance2(X[k], params[j])
 
-cpdef calc_Y(double[:, ::1] D, double[:, ::1] Y, Average minfunc):
+cpdef calc_Y(float[:, ::1] D, float[:, ::1] Y, Average minfunc):
     cdef int n_sample = Y.shape[0]
     cdef int n_class = Y.shape[1]
-    cdef double[::1] Dk
-    cdef double d, dmin
+    cdef float[::1] Dk
+    cdef float d, dmin
     cdef int i, k
 
     for k in range(n_sample):
@@ -394,12 +394,12 @@ cpdef calc_Y(double[:, ::1] D, double[:, ::1] Y, Average minfunc):
         minfunc.fit(Dk, dmin)
         minfunc.gradient(Dk, Y[k])
             
-cpdef calc_weights_and_Y(double[:, ::1] D, double[:, ::1] Y, double[::1] weights, Average avrfunc, Average minfunc):
+cpdef calc_weights_and_Y(float[:, ::1] D, float[:, ::1] Y, float[::1] weights, Average avrfunc, Average minfunc):
     cdef int n_sample = Y.shape[0]
     cdef int n_class = Y.shape[1]
-    cdef double[::1] DD = np.zeros(n_sample, 'd')
-    cdef double[::1] Dk, Yk
-    cdef double d, dmin
+    cdef float[::1] DD = np.zeros(n_sample, 'f')
+    cdef float[::1] Dk, Yk
+    cdef float d, dmin
     cdef int j, k
 
     for k in range(n_sample):
@@ -419,8 +419,8 @@ cpdef calc_weights_and_Y(double[:, ::1] D, double[:, ::1] Y, double[::1] weights
     
 cdef class HCD_M2:
 
-    def __init__(self, Average avrfunc, Average minfunc, double[:,::1] X, int n_class, 
-                 double tol=1.0e-4, int n_iter=100):
+    def __init__(self, Average avrfunc, Average minfunc, float[:,::1] X, int n_class, 
+                 float tol=1.0e-4, int n_iter=100):
 
         self.n_class = n_class
         self.n_sample = X.shape[0]
@@ -445,24 +445,24 @@ cdef class HCD_M2:
         init_rand()
 
         if self.weights is None:
-            self.weights = np.zeros(self.n_sample, 'd')
+            self.weights = np.zeros(self.n_sample, 'f')
 
         if self.Y is None:
-            self.Y = np.zeros((self.n_sample, self.n_class), 'd')
+            self.Y = np.zeros((self.n_sample, self.n_class), 'f')
         if self.D is None:
-            self.D = np.zeros((self.n_sample, self.n_class), 'd')
+            self.D = np.zeros((self.n_sample, self.n_class), 'f')
 
         if self.params is None:
             self.params = init_centers2(self.X, self.n_class)
-        self.prev_params = np.zeros((self.n_class, self.n_param), 'd')
+        self.prev_params = np.zeros((self.n_class, self.n_param), 'f')
     #
     def fit(self):
-        cdef double[:, ::1] params = self.params
-        cdef double[:, ::1] prev_params = self.prev_params
-        cdef double[:, ::1] X = self.X
-        cdef double[::1] weights = self.weights
-        cdef double[:, ::1] Y = self.Y
-        cdef double[:, ::1] D = self.D
+        cdef float[:, ::1] params = self.params
+        cdef float[:, ::1] prev_params = self.prev_params
+        cdef float[:, ::1] X = self.X
+        cdef float[::1] weights = self.weights
+        cdef float[:, ::1] Y = self.Y
+        cdef float[:, ::1] D = self.D
         cdef int i, j, k
         cdef int n_sample = self.n_sample
         cdef int n_class = self.n_class
@@ -487,11 +487,11 @@ cdef class HCD_M2:
             self.K += 1
         print(self.K, params.base)
     #
-    def __call__(self, double[:,::1] X):
+    def __call__(self, float[:,::1] X):
         cdef int n_sample = X.shape[0]
         cdef int n_param = X.shape[1]
-        cdef double[:,::1] D = np.zeros((n_sample, self.n_class), 'd')
-        cdef double[:,::1] Y = np.zeros((n_sample, self.n_class), 'd')
+        cdef float[:,::1] D = np.zeros((n_sample, self.n_class), 'f')
+        cdef float[:,::1] Y = np.zeros((n_sample, self.n_class), 'f')
 
         calc_distance_matrix(X, self.params, D)
         calc_Y(D, Y, self.minfunc)
@@ -499,9 +499,9 @@ cdef class HCD_M2:
         return Y.base
     #
     cdef bint stop_condition(self):
-        cdef double[:, ::1] params = self.params
-        cdef double[:, ::1] prev_params = self.prev_params
-        cdef double dist
+        cdef float[:, ::1] params = self.params
+        cdef float[:, ::1] prev_params = self.prev_params
+        cdef float dist
         cdef int i, n_class = self.n_class
         cdef int n_param = params.shape[1]
         

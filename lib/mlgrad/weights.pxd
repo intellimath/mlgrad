@@ -8,12 +8,12 @@ from mlgrad.avragg cimport Average
 from mlgrad.model cimport Model
 
 cdef extern from "Python.h":
-    double PyFloat_GetMax()
-    double PyFloat_GetMin()
+    float PyFloat_GetMax()
+    float PyFloat_GetMin()
 
-cdef inline double array_min(double[::1] arr):
+cdef inline float array_min(float[::1] arr):
     cdef Py_ssize_t i, N = arr.shape[0]
-    cdef double v, min_val = arr[0]
+    cdef float v, min_val = arr[0]
 
     for i in range(N):
         v = arr[i]
@@ -22,8 +22,8 @@ cdef inline double array_min(double[::1] arr):
 
     return min_val
 
-cdef inline double sum_memoryview(double[::1] X):
-    cdef double S
+cdef inline float sum_memoryview(float[::1] X):
+    cdef float S
     cdef Py_ssize_t i, m = X.shape[0]
     
     S = 0
@@ -31,14 +31,14 @@ cdef inline double sum_memoryview(double[::1] X):
         S += X[i]
     return S
 
-cdef inline void mult_scalar_memoryview(double[::1] X, double c):
+cdef inline void mult_scalar_memoryview(float[::1] X, float c):
     cdef Py_ssize_t i, m = X.shape[0]
 
     for i in range(m):
         X[i] *= c
         
-cdef inline void normalize_memoryview(double[::1] X):
-    cdef double S, c
+cdef inline void normalize_memoryview(float[::1] X):
+    cdef float S, c
     cdef Py_ssize_t i, m = X.shape[0]
 
     S = 0
@@ -51,12 +51,12 @@ cdef inline void normalize_memoryview(double[::1] X):
 
 cdef class Weights(object):
     #
-    cdef public double[::1] weights
+    cdef public float[::1] weights
     #
     cdef init(self)
     cdef eval_weights(self)
-    cdef double[::1] get_weights(self)
-    cdef double get_qvalue(self)
+    cdef float[::1] get_weights(self)
+    cdef float get_qvalue(self)
     cdef set_param(self, name, val)
 
 @cython.final   
@@ -69,29 +69,29 @@ cdef class ConstantWeights(Weights):
 
 @cython.final
 cdef class RWeights(Weights):
-    cdef readonly double[::1] lval_all
+    cdef readonly float[::1] lval_all
     cdef public Func func
     cdef public Risk risk
     cdef bint normalize
 
 @cython.final
 cdef class MWeights(Weights):
-    cdef readonly double[::1] lval_all
-    cdef double best_u
+    cdef readonly float[::1] lval_all
+    cdef float best_u
     cdef public Average average
     cdef public Risk risk
     cdef bint first_time, normalize, u_only, use_best_u
 
 # @cython.final
 # cdef class SWMWeights(Weights):
-#     cdef double[::1] lval_all
+#     cdef float[::1] lval_all
 #     cdef public Average average
 #     cdef public Risk risk
 #     cdef bint first_time, normalize, u_only
 
 # @cython.final
 # cdef class WMWeights(Weights):
-#     cdef double[::1] lval_all
+#     cdef float[::1] lval_all
 #     cdef public Average average
 #     cdef public Risk risk
 #     cdef bint first_time, normalize, u_only

@@ -14,7 +14,7 @@ cdef class Average_Iterative(Average):
         self.first = 1
         self.h = h
     #
-    cdef fit_epoch(self, double[::1] Y):
+    cdef fit_epoch(self, float[::1] Y):
         self.u = self.penalty.iterative_next(Y, self.u)
 
 cdef class MAverage_Iterative(Average):
@@ -32,5 +32,5 @@ cdef class MAverage_Iterative(Average):
         self.first = 1
         self.h = h
     #
-    cdef fit_epoch(self, double[::1] Y):
+    cdef fit_epoch(self, float[::1] Y):
         self.u = self.penalty.iterative_next(Y, self.u)

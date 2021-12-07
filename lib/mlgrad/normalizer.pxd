@@ -5,7 +5,7 @@
 cimport cython
 
 cdef class Normalizer:
-    cdef normalize(self, double[::1] param)
+    cdef normalize(self, float[::1] param)
 
 @cython.final
 cdef class LinearModelNormalizer(Normalizer):

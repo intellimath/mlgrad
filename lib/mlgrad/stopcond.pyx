@@ -48,7 +48,7 @@ cdef class DiffL2StopCondition(StopCondition):
     cdef bint verify(self):
         cdef GD gd = self.gd
         cdef Functional risk = gd.risk
-        cdef double lval_min
+        cdef float lval_min
 
         #self.lval = risk.evaluate()
 
@@ -85,7 +85,7 @@ cdef class DiffG1StopCondition(StopCondition):
     #
     cdef bint verify(self):
         cdef GD gd = self.gd
-        cdef double[::1] grad_average = gd.risk.grad_average
+        cdef float[::1] grad_average = gd.risk.grad_average
         cdef double dg
         cdef int i, m = len(grad_average)
 
@@ -95,7 +95,7 @@ cdef class DiffG1StopCondition(StopCondition):
 
         dg = 0
         for i in range(m):
-            dg += abs(self.grad[i] - grad_average[i])
+            dg += fabs(self.grad[i] - grad_average[i])
         copy_memoryview(self.grad, grad_average)
 
         if dg < gd.tol:
@@ -114,7 +114,7 @@ cdef class DiffP1StopCondition(StopCondition):
     #
     cdef bint verify(self):
         cdef GD gd = self.gd
-        cdef double[::1] param = gd.risk.param
+        cdef float[::1] param = gd.risk.param
         cdef double dp
         cdef int i, m = len(param)
 
@@ -124,7 +124,7 @@ cdef class DiffP1StopCondition(StopCondition):
 
         dp = 0
         for i in range(m):
-            dp += abs(self.param[i] - param[i])
+            dp += fabs(self.param[i] - param[i])
         copy_memoryview(self.param, param)
 
         if dp < gd.tol:

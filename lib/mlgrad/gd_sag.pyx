@@ -37,7 +37,7 @@ cdef class SAG(GD):
         N = Y.shape[0]
         
         if self.grad_all is None:
-            self.grad_all = np.zeros((N, m), dtype='d')
+            self.grad_all = np.zeros((N, m), dtype='f')
         else:
             fill_memoryview2(self.grad_all, 0)
                     

@@ -18,31 +18,43 @@ cdef extern from *:
     """
     #define D_PTR(p) (*(p))
     """
-    double D_PTR(double* p) nogil
+    float D_PTR(float* p) nogil
     PyObject* PyList_GET_ITEM(PyObject* list, Py_ssize_t i) nogil
     int PyList_GET_SIZE(PyObject* list) nogil
  
 cdef extern from "Python.h":
-    double PyFloat_GetMax()
-    double PyFloat_GetMin()
+    float PyFloat_GetMax()
+    float PyFloat_GetMin()
 
-ctypedef double[::1] double_array
+ctypedef float[::1] float_array
 
-ctypedef double (*ModelEvaluate)(Model, double[::1])
-ctypedef void (*ModelGradient)(Model, double[::1], double[::1])
+ctypedef float (*ModelEvaluate)(Model, float[::1])
+ctypedef void (*ModelGradient)(Model, float[::1], float[::1])
 
-ctypedef double (*FuncEvaluate)(Func, double) nogil
-ctypedef double (*FuncDerivative)(Func, double) nogil
-ctypedef double (*FuncDerivative2)(Func, double) nogil
-ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
+ctypedef float (*FuncEvaluate)(Func, float) nogil
+ctypedef float (*FuncDerivative)(Func, float) nogil
+ctypedef float (*FuncDerivative2)(Func, float) nogil
+ctypedef float (*FuncDerivativeDivX)(Func, float) nogil
 
-from mlgrad.list_double cimport list_double, zeros_list_double
+cdef extern from "c/inventory.h" nogil:
+    float dconv(const float*, const float*, const int)
+    void dmove(float*, const float*, const int)
+    float dsum(const float*, const int)
+    void dfill(float*, const float, const int)
+    void dmatdot(float*, float*, const float*, const size_t, const size_t)
+    void dmatdot2(float*, float*, const float*, const size_t, const size_t)
+    void dmult_add_arrays(float *a, const float *b, const float *ss, const size_t n_input, const size_t n_output)
+    void dmult_grad(float *grad, const float *X, const float *ss, const size_t n_input, const size_t n_output)
+
+from mlgrad.list_values cimport list_values
+
+cimport mlgrad.inventory as inventory
 
 cdef class Allocator:
     #
-    cpdef double[::1] allocate(self, int n)
-    cpdef double[:,::1] allocate2(self, int n, int m)
-    cpdef double[::1] get_allocated(self)
+    cpdef float[::1] allocate(self, int n)
+    cpdef float[:,::1] allocate2(self, int n, int m)
+    cpdef float[::1] get_allocated(self)
     cpdef Allocator suballocator(self)
 
 @cython.final
@@ -56,14 +68,14 @@ cdef inline Model as_model(object o):
 
 cdef class Model(object):
     cdef public Py_ssize_t n_param, n_input
-    cdef public double[::1] param
-    cdef public double[::1] grad
-    cdef public double[::1] grad_x
+    cdef public float[::1] param
+    cdef public float[::1] grad
+    cdef public float[::1] grad_x
 
-    #cdef void init_param(self, double[::1] param=*, bint random=*)
-    cdef double evaluate(self, double[::1] X)
-    cdef void gradient(self, double[::1] X, double[::1] grad)
-    cdef void gradient_x(self, double[::1] X, double[::1] grad)
+    cpdef init_param(self, param=*, bint random=*)
+    cdef float evaluate(self, float[::1] X)
+    cdef void gradient(self, float[::1] X, float[::1] grad)
+    cdef void gradient_x(self, float[::1] X, float[::1] grad)
     cpdef Model copy(self, bint share=*)
     #
 
@@ -87,21 +99,26 @@ cdef class WinnerModel(Model):
 cdef class PolynomialModel(Model):
     pass
 
+cdef class ModelAdd(Model):
+    cdef Model main
+    cdef Model base
+    cdef float alpha
+
 cdef class ModelLayer:
     cdef public Py_ssize_t n_param, n_input, n_output
-    cdef public double[::1] param
-    cdef public double[::1] output
-    cdef public double[::1] grad_input
+    cdef public float[::1] param
+    cdef public float[::1] output
+    cdef public float[::1] grad_input
     
-    cdef void forward(self, double[::1] X)
-    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad)
+    cdef void forward(self, float[::1] X)
+    cdef void backward(self, float[::1] X, float[::1] grad_out, float[::1] grad)
     cpdef ModelLayer copy(self, bint share=*)
     
 cdef class SigmaNeuronModelLayer(ModelLayer):
     cdef public Func func
-    cdef public double[:,::1] matrix
-#     cdef double[::1] ss
-#     cdef double[:,::1] X
+    cdef public float[:,::1] matrix
+    cdef float[::1] ss
+    cdef bint first_time
     
 cdef class GeneralModelLayer(ModelLayer):
     cdef public list models
@@ -109,17 +126,17 @@ cdef class GeneralModelLayer(ModelLayer):
 cdef class ComplexModel(object):
     cdef public Py_ssize_t n_param
     cdef public Py_ssize_t n_input, n_output
-    cdef public double[::1] param
-    cdef public double[::1] output
+    cdef public float[::1] param
+    cdef public float[::1] output
     
-    cdef void forward(self, double[::1] X)
-    cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
+    cdef void forward(self, float[::1] X)
+    cdef void backward(self, float[::1] X, float[::1] grad_u, float[::1] grad)
     
 cdef class MLModel(ComplexModel):
     cdef public list layers
 
-#     cdef void forward(self, double[::1] X)
-#     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
+#     cdef void forward(self, float[::1] X)
+#     cdef void backward(self, float[::1] X, float[::1] grad_u, float[::1] grad)
     cpdef MLModel copy(self, bint share=*)
 
 @cython.final
@@ -134,11 +151,12 @@ cdef class FFNetworkFuncModel(Model):
 
 @cython.final
 cdef class SquaredModel(Model):
-    cdef double[:,::1] matrix
-    cdef double[:,::1] matrix_grad
+    cdef float[:,::1] matrix
+    cdef float[:,::1] matrix_grad
          
 
 cdef class MultiModel:
     cdef Model[::1] models
     cdef Py_ssize_t n_model
-    cdef double[::1] vals
+    cdef float[::1] vals
+                                                                    
