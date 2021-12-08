@@ -52,8 +52,8 @@ import numpy as np
 
 from mlgrad.abc import Fittable
 
-cdef float float_max = PyFloat_GetMax()
-cdef float float_min = PyFloat_GetMin()
+cdef double double_max = PyFloat_GetMax()
+cdef double double_min = PyFloat_GetMin()
 
 cdef class GD: 
 
@@ -65,9 +65,9 @@ cdef class GD:
         n_param = len(self.risk.param)
         
 #         if self.param_prev is None:
-#             self.param_prev = np.zeros((n_param,), dtype='f')
+#             self.param_prev = np.zeros((n_param,), dtype='d')
         if self.param_min is None:
-            self.param_min = np.array(self.risk.param, dtype='f', copy=True)
+            self.param_min = np.array(self.risk.param, dtype='d', copy=True)
 #         print(self.param_min.base)
         
         if self.stop_condition is None:
@@ -87,7 +87,7 @@ cdef class GD:
 
         self.risk.batch.init()
         self.init()
-        self.lval = self.lval_min = float_max / 2 #self.risk.evaluate()
+        self.lval = self.lval_min = double_max / 2 #self.risk.evaluate()
         self.lvals = []   
         self.K = 0
     
@@ -135,9 +135,9 @@ cdef class GD:
     cpdef fit_epoch(self):
         cdef Functional risk = self.risk
         cdef Py_ssize_t i, n_param = len(risk.param)
-        cdef float[::1] grad_average
-        cdef float[::1] param = risk.param
-        cdef float h
+        cdef double[::1] grad_average
+        cdef double[::1] param = risk.param
+        cdef double h
 
         h = self.h = self.h_rate.get_rate()
         

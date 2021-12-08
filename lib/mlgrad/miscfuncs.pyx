@@ -40,10 +40,10 @@ from libc.time cimport time
 
 
 #cdef extern from "math.h":
-#    bint isnan(float x)
-#    bint isinf(float x)
-#    bint signbit(float x)
-#    bint isfinite(float x)
+#    bint isnan(double x)
+#    bint isinf(double x)
+#    bint signbit(double x)
+#    bint isfinite(double x)
     
 #cdef extern from "sys/time.h":
 #    cdef long time(long*)
@@ -54,11 +54,11 @@ cdef void init_rand():
 cdef long rand(long N):
     return stdlib_rand() % N
 
-ctypedef float[:] array1d
-ctypedef float[:,::1] array2d
+ctypedef double[:] array1d
+ctypedef double[:,::1] array2d
 ctypedef long[:] array1d_long    
 
-# cdef float[:] as_memoryview_1d(object X):
+# cdef double[:] as_memoryview_1d(object X):
 #     cdef arraybuffer_dsc dsc
 #     tp = type(X)
 #     if tp is list:
@@ -95,15 +95,15 @@ ctypedef long[:] array1d_long
 #     return 1
 #
 
-cdef void  multiply_scalar(float[::1] X, float c):
+cdef void  multiply_scalar(double[::1] X, double c):
     cdef Py_ssize_t i
-    cdef float *XX = &X[0]
+    cdef double *XX = &X[0]
     for i in range(X.shape[0]):
         XX[i] *= c
 
-cdef void fill(float[::1] X, float c):
+cdef void fill(double[::1] X, double c):
     cdef Py_ssize_t i
-    cdef float *XX = &X[0]
+    cdef double *XX = &X[0]
     for i in range(X.shape[0]):
         XX[i] = c
 
@@ -149,10 +149,10 @@ cdef void fill(float[::1] X, float c):
 #             s = X[i]
 #     return s
 
-cdef float absmax_1d(float[::1] X):
+cdef double absmax_1d(double[::1] X):
     cdef Py_ssize_t i
-    cdef float s, v
-    cdef float *XX = &X[0]
+    cdef double s, v
+    cdef double *XX = &X[0]
     
     s = XX[0]
     for i in range(X.shape[0]):
@@ -166,7 +166,7 @@ cdef float absmax_1d(float[::1] X):
 # def mean2d(X):
 #     N = X.shape[0]
 #     m = X.shape[1]
-#     Y = np.zeros((m,), np.float)
+#     Y = np.zeros((m,), np.double)
 #     for j in range(m):
 #         s = 0.0
 #         for i in range(N):
@@ -177,7 +177,7 @@ cdef float absmax_1d(float[::1] X):
 # def sum2d(X):
 #     N = X.shape[0]
 #     m = X.shape[1]
-#     Y = np.zeros((m,), np.float)
+#     Y = np.zeros((m,), np.double)
 #     for j in range(m):
 #         s = 0.0
 #         for i in range(N):

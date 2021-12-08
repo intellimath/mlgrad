@@ -46,10 +46,10 @@ cdef class Weights(object):
     cdef eval_weights(self):
         pass
     #
-    cdef float[::1] get_weights(self):
+    cdef double[::1] get_weights(self):
         return None
     
-    cdef float get_qvalue(self):
+    cdef double get_qvalue(self):
         return 0
     #
     cdef set_param(self, name, val):
@@ -60,18 +60,18 @@ cdef class ArrayWeights(Weights):
     def __init__(self, weights):
         self.weights = np.asarray(weights)
     #
-    cdef float[::1] get_weights(self):
+    cdef double[::1] get_weights(self):
         return self.weights
 
 cdef class ConstantWeights(Weights):
     #
     def __init__(self, N):
-        self.weights = np.full((N,), 1.0/N, 'f')
+        self.weights = np.full((N,), 1.0/N, 'd')
     #
     cdef eval_weights(self):
         pass
     #
-    cdef float[::1] get_weights(self):
+    cdef double[::1] get_weights(self):
         return self.weights
     
 cdef class RWeights(Weights):
@@ -83,20 +83,20 @@ cdef class RWeights(Weights):
         self.lval_all = None
         self.normalize = normalize
         N = risk.batch.size
-        self.lval_all = np.zeros(N, 'f')
-        self.weights = np.zeros(N, 'f')
+        self.lval_all = np.zeros(N, 'd')
+        self.weights = np.zeros(N, 'd')
     #
     cdef eval_weights(self):
         cdef Risk risk = self.risk
         cdef Py_ssize_t N = risk.batch.size
         cdef Py_ssize_t j, k
         cdef Py_ssize_t[::1] indices = risk.batch.indices
-        cdef float[::1] weights = self.weights
+        cdef double[::1] weights = self.weights
         cdef Model mod = self.risk.model
-        cdef float[:,::1] X = self.risk.X
-        cdef float[::1] Y = self.risk.Y
+        cdef double[:,::1] X = self.risk.X
+        cdef double[::1] Y = self.risk.Y
         cdef Func func = self.func
-        cdef float val
+        cdef double val
 
         for j in range(N):
             k = indices[j]
@@ -106,16 +106,16 @@ cdef class RWeights(Weights):
         if self.normalize:
             normalize_memoryview(weights)
     #
-    cdef float get_qvalue(self):
-        cdef float qval
+    cdef double get_qvalue(self):
+        cdef double qval
         cdef Py_ssize_t j, k
         cdef Py_ssize_t N = self.risk.batch.size
         cdef Py_ssize_t[::1] indices = self.risk.batch.indices
         cdef Model mod = self.risk.model
-        cdef float[:,::1] X = self.risk.X
-        cdef float[::1] Y = self.risk.Y
+        cdef double[:,::1] X = self.risk.X
+        cdef double[::1] Y = self.risk.Y
         cdef Func func = self.func
-        cdef float val
+        cdef double val
         
         qval = 0
         for j in range(N):
@@ -125,7 +125,7 @@ cdef class RWeights(Weights):
         qval /= N 
         return qval
     #
-    cdef float[::1] get_weights(self):
+    cdef double[::1] get_weights(self):
         return self.weights
 
 cdef class MWeights(Weights):
@@ -140,8 +140,8 @@ cdef class MWeights(Weights):
         self.best_u = PyFloat_GetMax()
         self.use_best_u = use_best_u
         N = len(risk.batch)
-        self.weights = np.zeros(N, 'f')
-        self.lval_all = np.zeros(N, 'f')
+        self.weights = np.zeros(N, 'd')
+        self.lval_all = np.zeros(N, 'd')
     #
     cdef init(self):
         self.first_time = 1
@@ -170,10 +170,10 @@ cdef class MWeights(Weights):
         if self.normalize:
             normalize_memoryview(self.weights)
     #
-    cdef float get_qvalue(self):
+    cdef double get_qvalue(self):
         return self.average.u
     #
-    cdef float[::1] get_weights(self):
+    cdef double[::1] get_weights(self):
         return self.weights
 
 # cdef class SWMWeights(Weights):
@@ -192,18 +192,18 @@ cdef class MWeights(Weights):
 #         cdef Py_ssize_t N = risk.batch.size
 # #         cdef int[::1] indices = risk.batch.indices
 #         cdef Py_ssize_t j, k
-#         cdef float v, Nv, u
+#         cdef double v, Nv, u
 #         cdef Func func = self.average.penalty.func
-#         cdef float[::1] weights
-#         cdef float[::1] lval_all
+#         cdef double[::1] weights
+#         cdef double[::1] lval_all
 
 #         if self.lval_all is None:
-#             self.lval_all = np.empty((N,), 'f')
+#             self.lval_all = np.empty((N,), 'd')
 
 #         risk.eval_losses(self.lval_all)
         
 #         if self.weights is None:
-#             self.weights = np.empty((N,), 'f')
+#             self.weights = np.empty((N,), 'd')
 
 #         if self.first_time:
 #             self.average.u = array_min(self.lval_all)
@@ -226,14 +226,14 @@ cdef class MWeights(Weights):
 #         if self.normalize:
 #             normalize_memoryview(self.weights)
 #     #
-#     cdef float get_qvalue(self):
+#     cdef double get_qvalue(self):
 #         cdef int N = self.risk.batch.size
 #         cdef int j, k
-#         cdef float[::1] lval_all = self.lval_all
+#         cdef double[::1] lval_all = self.lval_all
 
 #         cdef Func func = self.average.penalty.func
-#         cdef float u = self.average.u
-#         cdef float qval = 0
+#         cdef double u = self.average.u
+#         cdef double qval = 0
         
 
 #         for j in range(N):
@@ -242,7 +242,7 @@ cdef class MWeights(Weights):
 #         qval /= N
 #         return qval        
 #     #
-#     cdef float[::1] get_weights(self):
+#     cdef double[::1] get_weights(self):
 #         return self.weights
 
 
@@ -260,17 +260,17 @@ cdef class MWeights(Weights):
 #         cdef Risk risk = self.risk
 #         cdef Py_ssize_t N = risk.batch.size
 #         cdef Py_ssize_t k, m
-#         cdef float v, Nv, Nv2, u
-#         cdef float[::1] weights
-#         cdef float[::1] lval_all
+#         cdef double v, Nv, Nv2, u
+#         cdef double[::1] weights
+#         cdef double[::1] lval_all
 
 #         if self.lval_all is None:
-#             self.lval_all = np.empty((N,), 'f')
+#             self.lval_all = np.empty((N,), 'd')
 
 #         risk.eval_losses(self.lval_all)
 
 #         if self.weights is None:
-#             self.weights = np.empty((N,), 'f')
+#             self.weights = np.empty((N,), 'd')
 
 #         if self.first_time:
 #             self.average.u = array_min(self.lval_all)
@@ -301,13 +301,13 @@ cdef class MWeights(Weights):
 #         if self.normalize:
 #             normalize_memoryview(self.weights)
 #     #
-#     cdef float get_qvalue(self):
+#     cdef double get_qvalue(self):
 #         cdef Py_ssize_t N = self.risk.batch.size
 #         cdef Py_ssize_t k
-#         cdef float u
-#         cdef float qval
-#         cdef float[::1] weights
-#         cdef float[::1] lval_all = self.lval_all
+#         cdef double u
+#         cdef double qval
+#         cdef double[::1] weights
+#         cdef double[::1] lval_all = self.lval_all
         
 #         u = self.average.u
 #         qval = 0
@@ -320,6 +320,6 @@ cdef class MWeights(Weights):
 #         qval /= N
 #         return qval        
 #     #
-#     cdef float[::1] get_weights(self):
+#     cdef double[::1] get_weights(self):
 #         return self.weights
 

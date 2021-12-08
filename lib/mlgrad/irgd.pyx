@@ -50,8 +50,8 @@ cdef class IRGD(object):
         self.M = M
         self.m = 0
 
-        self.param_best = np.zeros(len(self.gd.risk.param), dtype='f')
-#         self.param_prev = np.zeros((m,), dtype='f')
+        self.param_best = np.zeros(len(self.gd.risk.param), dtype='d')
+#         self.param_prev = np.zeros((m,), dtype='d')
         
         self.h_anneal = h_anneal
         
@@ -135,7 +135,7 @@ cdef class IRGD(object):
         copy_memoryview(risk.param, self.param_best)
     #
     cdef bint stop_condition(self):
-#         cdef float lval_min
+#         cdef double lval_min
         
         if fabs(self.lval - self.lval_best) / (1 + fabs(self.lval_best)) < self.tol:
             return 1

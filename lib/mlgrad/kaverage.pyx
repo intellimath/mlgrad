@@ -44,12 +44,12 @@ else:
     
 import numpy as np
 
-cdef float float_max = PyFloat_GetMax()
-cdef float float_min = PyFloat_GetMin()
+cdef double double_max = PyFloat_GetMax()
+cdef double double_min = PyFloat_GetMin()
 cdef Func square_func = Square()
 
-cdef float max_l1_distance(float *a, float *b, Py_ssize_t n):
-    cdef float val, max_val = 0
+cdef double max_l1_distance(double *a, double *b, Py_ssize_t n):
+    cdef double val, max_val = 0
     cdef Py_ssize_t i
     
     for i in range(n):
@@ -58,8 +58,8 @@ cdef float max_l1_distance(float *a, float *b, Py_ssize_t n):
             max_val = val
     return max_val
 
-cdef float maxabs_array(float *a, Py_ssize_t n):
-    cdef float val, max_val = 0
+cdef double maxabs_array(double *a, Py_ssize_t n):
+    cdef double val, max_val = 0
     cdef Py_ssize_t i
     
     for i in range(n):
@@ -73,15 +73,15 @@ cdef class KAverage:
     def __init__(self, q, Func func = square_func, tol=1.0e-6, n_iter=1000):
         self.func = func
         self.q = q
-        self.u = np.zeros(q, 'f')
-        self.u_prev = np.zeros(q, 'f')
-        self.u_min = np.zeros(q, 'f')
+        self.u = np.zeros(q, 'd')
+        self.u_prev = np.zeros(q, 'd')
+        self.u_min = np.zeros(q, 'd')
         self.tol = tol
         self.n_iter = n_iter
     #
-    cdef _evaluate_classes(self, float[::1] Y, Py_ssize_t[::1] J):
-        cdef float d, d_min, y_k
-        cdef float[::1] u = self.u
+    cdef _evaluate_classes(self, double[::1] Y, Py_ssize_t[::1] J):
+        cdef double d, d_min, y_k
+        cdef double[::1] u = self.u
         cdef Py_ssize_t j, j_min, k, N = Y.shape[0]
         cdef Py_ssize_t q = self.q
         
@@ -89,7 +89,7 @@ cdef class KAverage:
 #         for k in range(N):
             y_k = Y[k]
             
-            d_min = float_max
+            d_min = double_max
             j_min = 0
             for j in range(q):
                 d = fabs(y_k - u[j])
@@ -99,22 +99,22 @@ cdef class KAverage:
                     
             J[k] = j_min
     #
-    def evaluate_classes(self, float[::1] Y):
+    def evaluate_classes(self, double[::1] Y):
         cdef Py_ssize_t[::1] J = np.zeros(Y.shape[0], 'l')
         self._evaluate_classes(Y, J)
         return np.asarray(J)
     #
-    cdef _evaluate_distances(self, float[::1] Y, float[::1] D):
-        cdef float d, d_min, y_k
+    cdef _evaluate_distances(self, double[::1] Y, double[::1] D):
+        cdef double d, d_min, y_k
         cdef Py_ssize_t j, k, N = Y.shape[0]
         cdef Py_ssize_t q = self.q
-        cdef float[::1] u = self.u
+        cdef double[::1] u = self.u
         
         for k in prange(N, nogil=True, num_threads=num_procs):
 #         for k in range(N):
             y_k = Y[k]
             
-            d_min = float_max
+            d_min = double_max
 #             j_min = 0
             for j in range(q):
                 d = fabs(y_k - u[j])
@@ -126,19 +126,19 @@ cdef class KAverage:
 
         return D
     #
-    cdef float _evaluate_qval(self, float[::1] Y):
-        cdef float d, d_min, y_k
+    cdef double _evaluate_qval(self, double[::1] Y):
+        cdef double d, d_min, y_k
         cdef Py_ssize_t j, j_min, k, N = Y.shape[0]
         cdef Py_ssize_t q = self.q
-        cdef float[::1] u = self.u
-        cdef float s
+        cdef double[::1] u = self.u
+        cdef double s
         
         s = 0
         for k in prange(N, nogil=True, num_threads=num_procs):
 #         for k in range(N):
             y_k = Y[k]
             
-            d_min = float_max
+            d_min = double_max
             for j in range(q):
                 d = self.func.evaluate(y_k - u[j])
                 if d < d_min:
@@ -148,22 +148,22 @@ cdef class KAverage:
 
         return s / N
     #    
-    def evaluate_distances(self, float[::1] Y):
-        cdef float[::1] D = np.zeros(Y.shape[0], 'f')
+    def evaluate_distances(self, double[::1] Y):
+        cdef double[::1] D = np.zeros(Y.shape[0], 'd')
         self._evaluate_distances(Y, D)
         return np.asarray(D)
     #
-    cdef _init_u(self, float[::1] Y):
-        cdef float y, y_k, y_min, y_max, dy
+    cdef _init_u(self, double[::1] Y):
+        cdef double y, y_k, y_min, y_max, dy
         cdef Py_ssize_t j, k, N = Y.shape[0]
         
         if self.u is None or self.u.shape[0] != self.q:
-            self.u = np.zeros(self.q, 'f')            
-            self.u_prev = np.zeros(self.q, 'f')        
-            self.u_min = np.zeros(self.q, 'f')        
+            self.u = np.zeros(self.q, 'd')            
+            self.u_prev = np.zeros(self.q, 'd')        
+            self.u_min = np.zeros(self.q, 'd')        
         
-        y_min = float_max
-        y_max = float_min
+        y_min = double_max
+        y_max = double_min
         for k in range(N):
             y_k = Y[k]
             if y_k < y_min:
@@ -177,19 +177,19 @@ cdef class KAverage:
             self.u_min[j] = self.u_prev[j] = self.u[j] = y + 0.5*dy
             y += dy
     #
-    cdef _fit(self, float[::1] Y):
+    cdef _fit(self, double[::1] Y):
         cdef Py_ssize_t j, k, N = Y.shape[0]
         cdef Py_ssize_t q = self.q
-        cdef float y, y_k, w_j
+        cdef double y, y_k, w_j
         cdef Py_ssize_t[::1] J = np.zeros(N, 'l')
-        cdef float[::1] D = np.zeros(N, 'f')
-        cdef float[::1] W = np.zeros(q, 'f')
-        cdef float[::1] u = self.u
-        cdef float[::1] u_prev = self.u_prev
-        cdef float[::1] u_min = self.u_min
-        cdef float tol = self.tol
-        cdef size_t qd_size = q * cython.sizeof(float)
-        cdef float qval_prev, qval_min = float_max
+        cdef double[::1] D = np.zeros(N, 'd')
+        cdef double[::1] W = np.zeros(q, 'd')
+        cdef double[::1] u = self.u
+        cdef double[::1] u_prev = self.u_prev
+        cdef double[::1] u_min = self.u_min
+        cdef double tol = self.tol
+        cdef size_t qd_size = q * cython.sizeof(double)
+        cdef double qval_prev, qval_min = double_max
             
         self._init_u(Y)
         self.qval = self._evaluate_qval(Y)
@@ -234,6 +234,6 @@ cdef class KAverage:
         memcpy(&u[0], &u_min[0], qd_size)
                 
     def fit(self, Y):
-        cdef float[::1] YY = np.ascontiguousarray(Y, 'f')
+        cdef double[::1] YY = np.ascontiguousarray(Y, 'd')
         self._fit(YY)
 

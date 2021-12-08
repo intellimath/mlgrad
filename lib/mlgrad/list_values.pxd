@@ -57,8 +57,8 @@ cdef extern from "Python.h":
 # cdef list_values empty_list_values(Py_ssize_t size)
 # cdef list_values zeros_list_values(Py_ssize_t size)
 
-# cdef public object sizeof_float
-# cdef public object sizeof_pfloat
+# cdef public object sizeof_double
+# cdef public object sizeof_pdouble
 # cdef public object sizeof_int
 # cdef public object sizeof_pint
 
@@ -68,19 +68,19 @@ cdef class list_values:
     cdef Py_ssize_t allocated
     cdef void *data
     
-    cdef inline float* as_float_array(self)
-    cdef inline float** as_pfloat_array(self)
+    cdef inline double* as_double_array(self)
+    cdef inline double** as_pdouble_array(self)
 
-    cdef inline float  _get_float(self, Py_ssize_t i)
-    cdef inline float* _get_pfloat(self, Py_ssize_t i)
-    cdef inline void _set_float(self, Py_ssize_t i, float p)
-    cdef inline void _set_pfloat(self, Py_ssize_t i, float *p)
+    cdef inline double  _get_double(self, Py_ssize_t i)
+    cdef inline double* _get_pdouble(self, Py_ssize_t i)
+    cdef inline void _set_double(self, Py_ssize_t i, double p)
+    cdef inline void _set_pdouble(self, Py_ssize_t i, double *p)
     
-    cdef inline void _append_float(self, float op)
-    cdef inline void _append_pfloat(self, float *op)
+    cdef inline void _append_double(self, double op)
+    cdef inline void _append_pdouble(self, double *op)
     
-    cdef void _extend_float(self, float *op, Py_ssize_t n)
-    cdef void _extend_pfloat(self, float **op, Py_ssize_t n)
+    cdef void _extend_double(self, double *op, Py_ssize_t n)
+    cdef void _extend_pdouble(self, double **op, Py_ssize_t n)
     
 # cdef class list_values_iter:
 #     cdef list_values op

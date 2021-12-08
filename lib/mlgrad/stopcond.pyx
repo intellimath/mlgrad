@@ -48,7 +48,7 @@ cdef class DiffL2StopCondition(StopCondition):
     cdef bint verify(self):
         cdef GD gd = self.gd
         cdef Functional risk = gd.risk
-        cdef float lval_min
+        cdef double lval_min
 
         #self.lval = risk.evaluate()
 
@@ -85,7 +85,7 @@ cdef class DiffG1StopCondition(StopCondition):
     #
     cdef bint verify(self):
         cdef GD gd = self.gd
-        cdef float[::1] grad_average = gd.risk.grad_average
+        cdef double[::1] grad_average = gd.risk.grad_average
         cdef double dg
         cdef int i, m = len(grad_average)
 
@@ -114,7 +114,7 @@ cdef class DiffP1StopCondition(StopCondition):
     #
     cdef bint verify(self):
         cdef GD gd = self.gd
-        cdef float[::1] param = gd.risk.param
+        cdef double[::1] param = gd.risk.param
         cdef double dp
         cdef int i, m = len(param)
 

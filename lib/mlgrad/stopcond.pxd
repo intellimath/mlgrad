@@ -9,11 +9,11 @@ from libc.math cimport fabsf, pow, sqrt, fmax
 from libc.string cimport memcpy, memset
 
 cdef extern from "Python.h":
-    float PyFloat_GetMax()
-    float PyFloat_GetMin()
+    double PyFloat_GetMax()
+    double PyFloat_GetMin()
 
-cdef inline float min3(const float v1, const float v2, const float v3):
-    cdef float vmin = v1
+cdef inline double min3(const double v1, const double v2, const double v3):
+    cdef double vmin = v1
     if v2 < vmin:
         vmin = v2
     if v3 < vmin:
@@ -33,20 +33,20 @@ cdef class StopCondition:
 @cython.final
 cdef class DiffL1StopCondition(StopCondition):
     cdef GD gd
-#     cdef float lval
-    cdef float lval_min
+#     cdef double lval
+    cdef double lval_min
     
 @cython.final
 cdef class DiffL2StopCondition(StopCondition):
     cdef GD gd
-    cdef float lval1, lval2
+    cdef double lval1, lval2
 
 @cython.final
 cdef class DiffG1StopCondition(StopCondition):
     cdef GD gd
-    cdef float[::1] grad
+    cdef double[::1] grad
 
 @cython.final
 cdef class DiffP1StopCondition(StopCondition):
     cdef GD gd
-    cdef float[::1] param
+    cdef double[::1] param

@@ -7,7 +7,7 @@
 #cython: embedsignature=True
 #cython: initializedcheck=False
 
-# The MIT License (MIT)
+# The MIT License (MIT)f
 #
 # Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
 #
@@ -45,13 +45,13 @@ cdef class ArrayAverager:
     cdef init(self, ndim):
         pass
     #
-    cdef void set_param1(self, float val):
+    cdef void set_param1(self, double val):
         pass
     #
-    cdef void set_param2(self, float val):
+    cdef void set_param2(self, double val):
         pass
     #
-    cdef void update(self, const float[::1] x, const float h):
+    cdef void update(self, const double[::1] x, const double h):
         pass
 
 cdef class ArraySave(ArrayAverager):
@@ -61,13 +61,13 @@ cdef class ArraySave(ArrayAverager):
     #
     cdef init(self, ndim):
         if self.array_average is None:
-            self.array_average = np.zeros(ndim, dtype='f')
+            self.array_average = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.array_average, 0)
     #
-    cdef void update(self, const float[::1] x, const float h):
+    cdef void update(self, const double[::1] x, const double h):
         cdef Py_ssize_t i, m = x.shape[0]
-        cdef float[::1] array_average = self.array_average 
+        cdef double[::1] array_average = self.array_average 
         
 #         for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
         for i in range(m):
@@ -85,23 +85,23 @@ cdef class ArrayMOM(ArrayAverager):
         self.M = 0
         
         if self.mgrad is None:
-            self.mgrad = np.zeros(ndim, dtype='f')
+            self.mgrad = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.mgrad, 0)
             
         if self.array_average is None:
-            self.array_average = np.zeros(ndim, dtype='f')
+            self.array_average = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.array_average, 0)
     #
-    cdef void set_param1(self, float val):
+    cdef void set_param1(self, double val):
         self.beta = val
     #
-    cdef void update(self, const float[::1] x, const float h):
+    cdef void update(self, const double[::1] x, const double h):
         cdef Py_ssize_t i, m = self.mgrad.shape[0]
-        cdef float beta = self.beta
-        cdef float[::1] mgrad = self.mgrad
-        cdef float[::1] array_average = self.array_average
+        cdef double beta = self.beta
+        cdef double[::1] mgrad = self.mgrad
+        cdef double[::1] array_average = self.array_average
     
         for i in range(m):
             mgrad[i] = beta * mgrad[i] + x[i]
@@ -123,28 +123,28 @@ cdef class ArrayRMSProp(ArrayAverager):
         self.vgrad = None
         self.array_average = None
     #
-    cdef void set_param1(self, float val):
+    cdef void set_param1(self, double val):
         self.beta = val
     #
     cdef init(self, ndim):
         self.M = 0
                     
         if self.vgrad is None:
-            self.vgrad = np.zeros(ndim, dtype='f')
+            self.vgrad = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.vgrad, 0)
             
         if self.array_average is None:
-            self.array_average = np.zeros(ndim, dtype='f')
+            self.array_average = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.array_average, 0)
     #
-    cdef void update(self, const float[::1] x, const float h):
+    cdef void update(self, const double[::1] x, const double h):
         cdef Py_ssize_t i, m = self.vgrad.shape[0]
-        cdef float v, mv, vv
-        cdef float beta = self.beta
-        cdef float[::1] vgrad = self.vgrad
-        cdef float[::1] array_average = self.array_average
+        cdef double v, mv, vv
+        cdef double beta = self.beta
+        cdef double[::1] vgrad = self.vgrad
+        cdef double[::1] array_average = self.array_average
     
         self.M *= beta
         self.M += 1-beta
@@ -164,29 +164,29 @@ cdef class ArrayAdaM2(ArrayAverager):
         self.vgrad = None
         self.array_average = None
     #
-    cdef void set_param1(self, float val):
+    cdef void set_param1(self, double val):
         self.beta1 = val
     #
-    cdef void set_param2(self, float val):
+    cdef void set_param2(self, double val):
         self.beta2 = val
     #
     cdef init(self, ndim):
         self.beta1_k = 1.
         self.beta2_k = 1.
         
-        self.mgrad = np.zeros(ndim, dtype='f')    
-        self.vgrad = np.zeros(ndim, dtype='f')    
-        self.array_average = np.zeros(ndim, dtype='f')
+        self.mgrad = np.zeros(ndim, dtype='d')    
+        self.vgrad = np.zeros(ndim, dtype='d')    
+        self.array_average = np.zeros(ndim, dtype='d')
     #
-    cdef void update(self, const float[::1] x, const float h):
+    cdef void update(self, const double[::1] x, const double h):
         cdef Py_ssize_t i, m = self.mgrad.shape[0]
-        cdef float v, v2, mv, vv
-        cdef float beta1 = self.beta1, beta2 = self.beta2 
-        cdef float *mgrad = &self.mgrad[0]
-        cdef float *vgrad = &self.vgrad[0]
-        cdef float *array_average = &self.array_average[0]
-        cdef float beta1_k, beta2_k
-        cdef float epsilon = self.epsilon
+        cdef double v, v2, mv, vv
+        cdef double beta1 = self.beta1, beta2 = self.beta2 
+        cdef double *mgrad = &self.mgrad[0]
+        cdef double *vgrad = &self.vgrad[0]
+        cdef double *array_average = &self.array_average[0]
+        cdef double beta1_k, beta2_k
+        cdef double epsilon = self.epsilon
     
         self.beta1_k *= beta1
         self.beta2_k *= beta2
@@ -216,10 +216,10 @@ cdef class ArrayAdaM1(ArrayAverager):
         self.vgrad = None
         self.array_average = None
     #
-    cdef void set_param1(self, float val):
+    cdef void set_param1(self, double val):
         self.beta1 = val
     #
-    cdef void set_param2(self, float val):
+    cdef void set_param2(self, double val):
         self.beta2 = val
     #
     cdef init(self, ndim):
@@ -227,28 +227,28 @@ cdef class ArrayAdaM1(ArrayAverager):
         self.beta2_k = 1.
 
         if self.mgrad is None:
-            self.mgrad = np.zeros(ndim, dtype='f')
+            self.mgrad = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.mgrad, 0)
         
         if self.vgrad is None:
-            self.vgrad = np.zeros(ndim, dtype='f')
+            self.vgrad = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.vgrad, 0)
 
         if self.array_average is None:
-            self.array_average = np.zeros(ndim, dtype='f')
+            self.array_average = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.array_average, 0)
     #
-    cdef void update(self, const float[::1] x, const float h):
+    cdef void update(self, const double[::1] x, const double h):
         cdef Py_ssize_t i, m = self.mgrad.shape[0]
-        cdef float v, v2, mv, vv
-        cdef float beta1 = self.beta1, beta2 = self.beta2
-        cdef float *mgrad = &self.mgrad[0]
-        cdef float *vgrad = &self.vgrad[0]
-        cdef float *array_average = &self.array_average[0]
-        cdef float epsilon = self.epsilon
+        cdef double v, v2, mv, vv
+        cdef double beta1 = self.beta1, beta2 = self.beta2
+        cdef double *mgrad = &self.mgrad[0]
+        cdef double *vgrad = &self.vgrad[0]
+        cdef double *array_average = &self.array_average[0]
+        cdef double epsilon = self.epsilon
     
         self.beta1_k *= beta1
         self.beta2_k *= beta2
@@ -275,22 +275,22 @@ cdef class ArrayAdaM1(ArrayAverager):
 #         self.beta_k = 1.
         
 #         if self.mgrad is None:
-#             self.mgrad = np.zeros(ndim, dtype='f')
+#             self.mgrad = np.zeros(ndim, dtype='d')
 #         else:
 #             fill_memoryview(self.mgrad, 0)
 
 #         if self.array_average is None:
-#             self.array_average = np.zeros(ndim, dtype='f')
+#             self.array_average = np.zeros(ndim, dtype='d')
 #         else:
 #             fill_memoryview(self.array_average, 0)
 #     #
-#     cdef float[::1] update(self, float[::1] x):
+#     cdef double[::1] update(self, double[::1] x):
 #         cdef int i, m = self.mgrad.shape[0]
-#         cdef float mn, v, mv
-#         cdef float beta = self.beta
-#         cdef float[::1] mgrad = self.mgrad
-#         #cdef float[::1] vgrad = self.vgrad
-#         cdef float[::1] array_average = self.array_average
+#         cdef double mn, v, mv
+#         cdef double beta = self.beta
+#         cdef double[::1] mgrad = self.mgrad
+#         #cdef double[::1] vgrad = self.vgrad
+#         cdef double[::1] array_average = self.array_average
     
 #         self.beta_k *= beta
 #         mn = 0.
@@ -317,19 +317,19 @@ cdef class ArrayTAverager(ArrayAverager):
     cdef init(self, ndim):
         self.T = 1.
         if self.array_average is None:
-            self.array_average = np.zeros(ndim, dtype='f')
+            self.array_average = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.array_average, 0)
         if self.array_sum is None:
-            self.array_sum = np.zeros(ndim, dtype='f')
+            self.array_sum = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.array_sum, 0)
     #
-    cdef void update(self, const float[::1] x, const float h):
+    cdef void update(self, const double[::1] x, const double h):
         cdef Py_ssize_t i, m = self.array_sum.shape[0]
-        cdef float T = self.T
-        cdef float[::1] array_average = self.array_average
-        cdef float[::1] array_sum = self.array_sum
+        cdef double T = self.T
+        cdef double[::1] array_average = self.array_average
+        cdef double[::1] array_sum = self.array_sum
     
         for i in range(m):
             array_sum[i] += h * x[i] * T
@@ -346,19 +346,19 @@ cdef class ArrayTAverager(ArrayAverager):
 #     cdef init(self, ndim):
 #         self.beta_k = 1.0
 #         if self.array_average is None:
-#             self.array_average = np.zeros(ndim, dtype='f')
+#             self.array_average = np.zeros(ndim, dtype='d')
 #         else:
 #             fill_memoryview(self.array_average, 0)
 #         if self.array_sum is None:
-#             self.array_sum = np.zeros(ndim, dtype='f')
+#             self.array_sum = np.zeros(ndim, dtype='d')
 #         else:
 #             fill_memoryview(self.array_sum, 0)
 #     #
-#     cdef float[::1] update(self, float[::1] x):
+#     cdef double[::1] update(self, double[::1] x):
 #         cdef int i, m = self.array_sum.shape[0]
-#         cdef float beta = self.beta
-#         cdef float[::1] array_average = self.array_average
-#         cdef float[::1] array_sum = self.array_sum
+#         cdef double beta = self.beta
+#         cdef double[::1] array_average = self.array_average
+#         cdef double[::1] array_sum = self.array_sum
     
 #         self.beta_k *= beta
 #         for i in range(m):
@@ -375,19 +375,19 @@ cdef class ArraySimpleAverager(ArrayAverager):
     cdef init(self, ndim):
         self.T = 1.
         if self.array_average is None:
-            self.array_average = np.zeros(ndim, dtype='f')
+            self.array_average = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.array_average, 0)
         if self.array_sum is None:
-            self.array_sum = np.zeros(ndim, dtype='f')
+            self.array_sum = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.array_sum, 0)
     #
-    cdef void update(self, const float[::1] x, const float h):
+    cdef void update(self, const double[::1] x, const double h):
         cdef Py_ssize_t i, m = self.array_sum.shape[0]
-        cdef float T = self.T
-        cdef float[::1] array_average = self.array_average
-        cdef float[::1] array_sum = self.array_sum
+        cdef double T = self.T
+        cdef double[::1] array_average = self.array_average
+        cdef double[::1] array_sum = self.array_sum
         
         for i in range(m):
             array_sum[i] += h * x[i]
@@ -404,22 +404,22 @@ cdef class ArrayCyclicAverager(ArrayAverager):
     cdef init(self, ndim):
         self.i = 0
         if self.array_all is None:
-            self.array_all = np.zeros((self.size, ndim,), dtype='f')
+            self.array_all = np.zeros((self.size, ndim,), dtype='d')
         else:
             fill_memoryview2(self.array_all, 0)
         if self.array_average is None:
-            self.array_average = np.zeros(ndim, dtype='f')
+            self.array_average = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.array_average, 0)
         if self.array_sum is None:
-            self.array_sum = np.zeros(ndim, dtype='f')
+            self.array_sum = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.array_sum, 0)
     #
-    cdef void update(self, const float[::1] x, const float h):
+    cdef void update(self, const double[::1] x, const double h):
         cdef Py_ssize_t j, n, m = self.array_average.shape[0]
-        cdef float[::1] array_average = self.array_average
-        cdef float[:,::1] array_all = self.array_all
+        cdef double[::1] array_average = self.array_average
+        cdef double[:,::1] array_all = self.array_all
     
         j = self.i % self.size
         if self.i >= self.size:
@@ -437,7 +437,7 @@ cdef class SArrayAverager:
     cdef init(self, ndim, N):
         pass
     #
-    cdef void update(self, float[::1] x, int k):
+    cdef void update(self, double[::1] x, int k):
         pass
 
 cdef class ArrayStochasticAverager(SArrayAverager):
@@ -448,20 +448,20 @@ cdef class ArrayStochasticAverager(SArrayAverager):
     #
     cdef init(self, m, N):            
         if self.array_average is None:
-            self.array_average = np.zeros(m, dtype='f')
+            self.array_average = np.zeros(m, dtype='d')
         else:
             fill_memoryview(self.array_average, 0)
 
         if self.array_table is None:
-            self.array_table = np.zeros((N, m), dtype='f')
+            self.array_table = np.zeros((N, m), dtype='d')
         else:
             fill_memoryview2(self.array_table, 0)
     #
-    cdef void update(self, const float[::1] x, const int k):
+    cdef void update(self, const double[::1] x, const int k):
         cdef Py_ssize_t i, N = self.array_table.shape[0], m = self.array_average.shape[0]
-        cdef float Nd = N
-        cdef float[::1] array_average = self.array_average
-        cdef float[:,::1] array_table = self.array_table
+        cdef double Nd = N
+        cdef double[::1] array_average = self.array_average
+        cdef double[:,::1] array_table = self.array_table
         
         for i in range(m):
             xi = self.array_table[k,i]

@@ -1083,12 +1083,12 @@ struct __pyx_obj_6mlgrad_4func_Neg {
  * 
  * @cython.final
  * cdef class Arctang(Func):             # <<<<<<<<<<<<<<
- *     cdef public float a
+ *     cdef public double a
  * 
  */
 struct __pyx_obj_6mlgrad_4func_Arctang {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float a;
+  double a;
 };
 
 
@@ -1096,12 +1096,12 @@ struct __pyx_obj_6mlgrad_4func_Arctang {
  * 
  * @cython.final
  * cdef class Sigmoidal(Func):             # <<<<<<<<<<<<<<
- *     cdef public float p
+ *     cdef public double p
  * 
  */
 struct __pyx_obj_6mlgrad_4func_Sigmoidal {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float p;
+  double p;
 };
 
 
@@ -1109,12 +1109,12 @@ struct __pyx_obj_6mlgrad_4func_Sigmoidal {
  * 
  * @cython.final
  * cdef class ModSigmoidal(Func):             # <<<<<<<<<<<<<<
- *     cdef public float a
+ *     cdef public double a
  * 
  */
 struct __pyx_obj_6mlgrad_4func_ModSigmoidal {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float a;
+  double a;
 };
 
 
@@ -1122,13 +1122,13 @@ struct __pyx_obj_6mlgrad_4func_ModSigmoidal {
  * 
  * @cython.final
  * cdef class Softplus(Func):             # <<<<<<<<<<<<<<
- *     cdef public float a
- *     cdef float log_a
+ *     cdef public double a
+ *     cdef double log_a
  */
 struct __pyx_obj_6mlgrad_4func_Softplus {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float a;
-  float log_a;
+  double a;
+  double log_a;
 };
 
 
@@ -1136,12 +1136,12 @@ struct __pyx_obj_6mlgrad_4func_Softplus {
  * 
  * @cython.final
  * cdef class Threshold(Func):             # <<<<<<<<<<<<<<
- *     cdef public float theta
+ *     cdef public double theta
  * 
  */
 struct __pyx_obj_6mlgrad_4func_Threshold {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float theta;
+  double theta;
 };
 
 
@@ -1149,12 +1149,12 @@ struct __pyx_obj_6mlgrad_4func_Threshold {
  * 
  * @cython.final
  * cdef class Sign(Func):             # <<<<<<<<<<<<<<
- *     cdef public float theta
+ *     cdef public double theta
  * 
  */
 struct __pyx_obj_6mlgrad_4func_Sign {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float theta;
+  double theta;
 };
 
 
@@ -1163,11 +1163,11 @@ struct __pyx_obj_6mlgrad_4func_Sign {
  * @cython.final
  * cdef class Quantile(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha
+ *     cdef public double alpha
  */
 struct __pyx_obj_6mlgrad_4func_Quantile {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float alpha;
+  double alpha;
 };
 
 
@@ -1175,12 +1175,12 @@ struct __pyx_obj_6mlgrad_4func_Quantile {
  * 
  * @cython.final
  * cdef class QuantileFunc(Func):             # <<<<<<<<<<<<<<
- *     cdef public float alpha
+ *     cdef public double alpha
  *     cdef public Func f
  */
 struct __pyx_obj_6mlgrad_4func_QuantileFunc {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float alpha;
+  double alpha;
   struct __pyx_obj_6mlgrad_4func_Func *f;
 };
 
@@ -1190,11 +1190,11 @@ struct __pyx_obj_6mlgrad_4func_QuantileFunc {
  * @cython.final
  * cdef class Expectile(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha
+ *     cdef public double alpha
  */
 struct __pyx_obj_6mlgrad_4func_Expectile {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float alpha;
+  double alpha;
 };
 
 
@@ -1203,13 +1203,13 @@ struct __pyx_obj_6mlgrad_4func_Expectile {
  * @cython.final
  * cdef class Power(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha, p, alpha_p
+ *     cdef public double alpha, p, alpha_p
  */
 struct __pyx_obj_6mlgrad_4func_Power {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float alpha;
-  float p;
-  float alpha_p;
+  double alpha;
+  double p;
+  double alpha_p;
 };
 
 
@@ -1254,13 +1254,13 @@ struct __pyx_obj_6mlgrad_4func_Absolute {
  * @cython.final
  * cdef class Quantile_AlphaLog(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha
+ *     cdef public double alpha
  */
 struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float alpha;
-  float alpha2;
-  float q;
+  double alpha;
+  double alpha2;
+  double q;
 };
 
 
@@ -1269,11 +1269,11 @@ struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog {
  * @cython.final
  * cdef class SoftAbs(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef float eps
+ *     cdef double eps
  */
 struct __pyx_obj_6mlgrad_4func_SoftAbs {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float eps;
+  double eps;
 };
 
 
@@ -1282,14 +1282,14 @@ struct __pyx_obj_6mlgrad_4func_SoftAbs {
  * @cython.final
  * cdef class Sqrt(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef float eps
+ *     cdef double eps
  */
 struct __pyx_obj_6mlgrad_4func_Sqrt {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float eps;
-  float eps2;
-  float alpha;
-  float zero;
+  double eps;
+  double eps2;
+  double alpha;
+  double zero;
 };
 
 
@@ -1298,13 +1298,13 @@ struct __pyx_obj_6mlgrad_4func_Sqrt {
  * @cython.final
  * cdef class Quantile_Sqrt(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef float eps
+ *     cdef double eps
  */
 struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float eps;
-  float eps2;
-  float alpha;
+  double eps;
+  double eps2;
+  double alpha;
 };
 
 
@@ -1313,11 +1313,11 @@ struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt {
  * @cython.final
  * cdef class Logistic(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float p
+ *     cdef public double p
  */
 struct __pyx_obj_6mlgrad_4func_Logistic {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float p;
+  double p;
 };
 
 
@@ -1326,11 +1326,11 @@ struct __pyx_obj_6mlgrad_4func_Logistic {
  * @cython.final
  * cdef class Huber(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float C
+ *     cdef public double C
  */
 struct __pyx_obj_6mlgrad_4func_Huber {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float C;
+  double C;
 };
 
 
@@ -1339,11 +1339,11 @@ struct __pyx_obj_6mlgrad_4func_Huber {
  * @cython.final
  * cdef class TM(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float a
+ *     cdef public double a
  */
 struct __pyx_obj_6mlgrad_4func_TM {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float a;
+  double a;
 };
 
 
@@ -1352,12 +1352,12 @@ struct __pyx_obj_6mlgrad_4func_TM {
  * @cython.final
  * cdef class LogSquare(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float a
+ *     cdef public double a
  */
 struct __pyx_obj_6mlgrad_4func_LogSquare {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float a;
-  float a2;
+  double a;
+  double a2;
 };
 
 
@@ -1366,12 +1366,12 @@ struct __pyx_obj_6mlgrad_4func_LogSquare {
  * @cython.final
  * cdef class Tukey(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float C
+ *     cdef public double C
  */
 struct __pyx_obj_6mlgrad_4func_Tukey {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float C;
-  float C2;
+  double C;
+  double C2;
 };
 
 
@@ -1380,11 +1380,11 @@ struct __pyx_obj_6mlgrad_4func_Tukey {
  * @cython.final
  * cdef class Hinge(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float C
+ *     cdef public double C
  */
 struct __pyx_obj_6mlgrad_4func_Hinge {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float C;
+  double C;
 };
 
 
@@ -1393,12 +1393,12 @@ struct __pyx_obj_6mlgrad_4func_Hinge {
  * @cython.final
  * cdef class HingeSqrt(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha
+ *     cdef public double alpha
  */
 struct __pyx_obj_6mlgrad_4func_HingeSqrt {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float alpha;
-  float alpha2;
+  double alpha;
+  double alpha2;
 };
 
 
@@ -1407,11 +1407,11 @@ struct __pyx_obj_6mlgrad_4func_HingeSqrt {
  * @cython.final
  * cdef class  Exp(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha
+ *     cdef public double alpha
  */
 struct __pyx_obj_6mlgrad_4func_Exp {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float alpha;
+  double alpha;
 };
 
 
@@ -1420,11 +1420,11 @@ struct __pyx_obj_6mlgrad_4func_Exp {
  * @cython.final
  * cdef class  Log(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha
+ *     cdef public double alpha
  */
 struct __pyx_obj_6mlgrad_4func_Log {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  float alpha;
+  double alpha;
 };
 
 
@@ -1433,7 +1433,7 @@ struct __pyx_obj_6mlgrad_4func_Log {
  * @cython.final
  * cdef class KMinSquare(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef float[::1] c
+ *     cdef double[::1] c
  */
 struct __pyx_obj_6mlgrad_4func_KMinSquare {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
@@ -1448,7 +1448,7 @@ struct __pyx_obj_6mlgrad_4func_KMinSquare {
  * 
  * cdef class ParameterizedFunc:             # <<<<<<<<<<<<<<
  *     #
- *     cdef float evaluate(self, float x, float u) nogil
+ *     cdef double evaluate(self, double x, double u) nogil
  */
 struct __pyx_obj_6mlgrad_4func_ParameterizedFunc {
   PyObject_HEAD
@@ -1485,12 +1485,12 @@ struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc {
  *     cdef Func f
  * 
  * cdef class SoftMinFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
- *     cdef float a
+ *     cdef double a
  * 
  */
 struct __pyx_obj_6mlgrad_4func_SoftMinFunc {
   struct __pyx_obj_6mlgrad_4func_ParameterizedFunc __pyx_base;
-  float a;
+  double a;
 };
 
 
@@ -1596,14 +1596,14 @@ struct __pyx_memoryviewslice_obj {
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Func {
-  float (*evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, float const );
-  float (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, float const );
-  float (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, float const );
-  float (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, float const );
-  float (*evaluate_array)(struct __pyx_obj_6mlgrad_4func_Func *, float const *, float *, Py_ssize_t const );
-  float (*derivative_array)(struct __pyx_obj_6mlgrad_4func_Func *, float const *, float *, Py_ssize_t const );
-  float (*derivative2_array)(struct __pyx_obj_6mlgrad_4func_Func *, float const *, float *, Py_ssize_t const );
-  float (*derivative_div_x_array)(struct __pyx_obj_6mlgrad_4func_Func *, float const *, float *, Py_ssize_t const );
+  double (*evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*evaluate_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  double (*derivative_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  double (*derivative2_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  double (*derivative_div_x_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
 };
 static struct __pyx_vtabstruct_6mlgrad_4func_Func *__pyx_vtabptr_6mlgrad_4func_Func;
 
@@ -1696,7 +1696,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Neg *__pyx_vtabptr_6mlgrad_4func_Ne
  * 
  * @cython.final
  * cdef class Arctang(Func):             # <<<<<<<<<<<<<<
- *     cdef public float a
+ *     cdef public double a
  * 
  */
 
@@ -1710,7 +1710,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Arctang *__pyx_vtabptr_6mlgrad_4fun
  * 
  * @cython.final
  * cdef class Sigmoidal(Func):             # <<<<<<<<<<<<<<
- *     cdef public float p
+ *     cdef public double p
  * 
  */
 
@@ -1724,7 +1724,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal *__pyx_vtabptr_6mlgrad_4f
  * 
  * @cython.final
  * cdef class ModSigmoidal(Func):             # <<<<<<<<<<<<<<
- *     cdef public float a
+ *     cdef public double a
  * 
  */
 
@@ -1738,8 +1738,8 @@ static struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal *__pyx_vtabptr_6mlgrad
  * 
  * @cython.final
  * cdef class Softplus(Func):             # <<<<<<<<<<<<<<
- *     cdef public float a
- *     cdef float log_a
+ *     cdef public double a
+ *     cdef double log_a
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Softplus {
@@ -1752,7 +1752,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Softplus *__pyx_vtabptr_6mlgrad_4fu
  * 
  * @cython.final
  * cdef class Threshold(Func):             # <<<<<<<<<<<<<<
- *     cdef public float theta
+ *     cdef public double theta
  * 
  */
 
@@ -1766,7 +1766,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Threshold *__pyx_vtabptr_6mlgrad_4f
  * 
  * @cython.final
  * cdef class Sign(Func):             # <<<<<<<<<<<<<<
- *     cdef public float theta
+ *     cdef public double theta
  * 
  */
 
@@ -1781,7 +1781,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Sign *__pyx_vtabptr_6mlgrad_4func_S
  * @cython.final
  * cdef class Quantile(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha
+ *     cdef public double alpha
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Quantile {
@@ -1794,7 +1794,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Quantile *__pyx_vtabptr_6mlgrad_4fu
  * 
  * @cython.final
  * cdef class QuantileFunc(Func):             # <<<<<<<<<<<<<<
- *     cdef public float alpha
+ *     cdef public double alpha
  *     cdef public Func f
  */
 
@@ -1809,7 +1809,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc *__pyx_vtabptr_6mlgrad
  * @cython.final
  * cdef class Expectile(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha
+ *     cdef public double alpha
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Expectile {
@@ -1823,7 +1823,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Expectile *__pyx_vtabptr_6mlgrad_4f
  * @cython.final
  * cdef class Power(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha, p, alpha_p
+ *     cdef public double alpha, p, alpha_p
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Power {
@@ -1879,7 +1879,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Absolute *__pyx_vtabptr_6mlgrad_4fu
  * @cython.final
  * cdef class Quantile_AlphaLog(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha
+ *     cdef public double alpha
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog {
@@ -1893,7 +1893,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog *__pyx_vtabptr_6m
  * @cython.final
  * cdef class SoftAbs(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef float eps
+ *     cdef double eps
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs {
@@ -1907,7 +1907,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs *__pyx_vtabptr_6mlgrad_4fun
  * @cython.final
  * cdef class Sqrt(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef float eps
+ *     cdef double eps
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Sqrt {
@@ -1921,7 +1921,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Sqrt *__pyx_vtabptr_6mlgrad_4func_S
  * @cython.final
  * cdef class Quantile_Sqrt(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef float eps
+ *     cdef double eps
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt {
@@ -1935,7 +1935,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt *__pyx_vtabptr_6mlgra
  * @cython.final
  * cdef class Logistic(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float p
+ *     cdef public double p
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Logistic {
@@ -1949,7 +1949,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Logistic *__pyx_vtabptr_6mlgrad_4fu
  * @cython.final
  * cdef class Huber(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float C
+ *     cdef public double C
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Huber {
@@ -1963,7 +1963,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Huber *__pyx_vtabptr_6mlgrad_4func_
  * @cython.final
  * cdef class TM(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float a
+ *     cdef public double a
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_TM {
@@ -1977,7 +1977,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_TM *__pyx_vtabptr_6mlgrad_4func_TM;
  * @cython.final
  * cdef class LogSquare(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float a
+ *     cdef public double a
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_LogSquare {
@@ -1991,7 +1991,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_LogSquare *__pyx_vtabptr_6mlgrad_4f
  * @cython.final
  * cdef class Tukey(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float C
+ *     cdef public double C
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Tukey {
@@ -2005,7 +2005,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Tukey *__pyx_vtabptr_6mlgrad_4func_
  * @cython.final
  * cdef class Hinge(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float C
+ *     cdef public double C
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Hinge {
@@ -2019,7 +2019,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Hinge *__pyx_vtabptr_6mlgrad_4func_
  * @cython.final
  * cdef class HingeSqrt(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha
+ *     cdef public double alpha
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt {
@@ -2033,7 +2033,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt *__pyx_vtabptr_6mlgrad_4f
  * @cython.final
  * cdef class  Exp(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha
+ *     cdef public double alpha
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Exp {
@@ -2047,7 +2047,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Exp *__pyx_vtabptr_6mlgrad_4func_Ex
  * @cython.final
  * cdef class  Log(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public float alpha
+ *     cdef public double alpha
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Log {
@@ -2061,7 +2061,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Log *__pyx_vtabptr_6mlgrad_4func_Lo
  * @cython.final
  * cdef class KMinSquare(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef float[::1] c
+ *     cdef double[::1] c
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare {
@@ -2075,13 +2075,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare *__pyx_vtabptr_6mlgrad_4
  * 
  * cdef class ParameterizedFunc:             # <<<<<<<<<<<<<<
  *     #
- *     cdef float evaluate(self, float x, float u) nogil
+ *     cdef double evaluate(self, double x, double u) nogil
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc {
-  float (*evaluate)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, float, float);
-  float (*derivative)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, float, float);
-  float (*derivative_u)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, float, float);
+  double (*evaluate)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
+  double (*derivative)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
+  double (*derivative_u)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
 };
 static struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc;
 
@@ -2118,7 +2118,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_vtabptr
  *     cdef Func f
  * 
  * cdef class SoftMinFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
- *     cdef float a
+ *     cdef double a
  * 
  */
 

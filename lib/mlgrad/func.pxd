@@ -6,14 +6,14 @@ cimport cython
 cdef class Func(object):
     cdef public unicode label
     #
-    cdef float evaluate(self, const float x) nogil
-    cdef float derivative(self, const float x) nogil
-    cdef float derivative2(self, const float x) nogil
-    cdef float derivative_div_x(self, const float x) nogil
-    cdef float evaluate_array(self, const float *x, float *y, const Py_ssize_t n) nogil
-    cdef float derivative_array(self, const float *x, float *y, const Py_ssize_t n) nogil
-    cdef float derivative2_array(self, const float *x, float *y, const Py_ssize_t n) nogil
-    cdef float derivative_div_x_array(self, const float *x, float *y, const Py_ssize_t n) nogil
+    cdef double evaluate(self, const double x) nogil
+    cdef double derivative(self, const double x) nogil
+    cdef double derivative2(self, const double x) nogil
+    cdef double derivative_div_x(self, const double x) nogil
+    cdef double evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil
+    cdef double derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil
+    cdef double derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil
+    cdef double derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil
     #
 
 @cython.final
@@ -49,50 +49,50 @@ cdef class Neg(Func):
 
 @cython.final
 cdef class Arctang(Func):
-    cdef public float a
+    cdef public double a
 
 @cython.final
 cdef class Sigmoidal(Func):
-    cdef public float p
+    cdef public double p
 
 @cython.final
 cdef class ModSigmoidal(Func):
-    cdef public float a
+    cdef public double a
 
 @cython.final
 cdef class Softplus(Func):
-    cdef public float a
-    cdef float log_a
+    cdef public double a
+    cdef double log_a
 
 @cython.final
 cdef class Threshold(Func):
-    cdef public float theta
+    cdef public double theta
 
 @cython.final
 cdef class Sign(Func):
-    cdef public float theta
+    cdef public double theta
 
 @cython.final
 cdef class Quantile(Func):
     #
-    cdef public float alpha
+    cdef public double alpha
     #
 
 @cython.final
 cdef class QuantileFunc(Func):
-    cdef public float alpha
+    cdef public double alpha
     cdef public Func f
     
 @cython.final
 cdef class Expectile(Func):
     #
-    cdef public float alpha
+    cdef public double alpha
     #
 
 @cython.final
 cdef class Power(Func):
     #
-    cdef public float alpha, p, alpha_p
+    cdef public double alpha, p, alpha_p
     #
 
 @cython.final
@@ -113,98 +113,98 @@ cdef class Absolute(Func):
 @cython.final
 cdef class Quantile_AlphaLog(Func):
     #
-    cdef public float alpha
-    cdef float alpha2, q
+    cdef public double alpha
+    cdef double alpha2, q
     #
     
 @cython.final
 cdef class SoftAbs(Func):
     #
-    cdef float eps
+    cdef double eps
     
 @cython.final
 cdef class Sqrt(Func):
     #
-    cdef float eps
-    cdef float eps2
-    cdef float alpha
-    cdef float zero
+    cdef double eps
+    cdef double eps2
+    cdef double alpha
+    cdef double zero
     #
     
 @cython.final
 cdef class Quantile_Sqrt(Func):
     #
-    cdef float eps
-    cdef float eps2
-    cdef float alpha
+    cdef double eps
+    cdef double eps2
+    cdef double alpha
     #
 
 @cython.final
 cdef class Logistic(Func):
     #
-    cdef public float p
+    cdef public double p
     #
 
 @cython.final
 cdef class Huber(Func):
     #
-    cdef public float C
+    cdef public double C
     #
 
 @cython.final
 cdef class TM(Func):
     #
-    cdef public float a
+    cdef public double a
 
 @cython.final
 cdef class LogSquare(Func):
     #
-    cdef public float a
-    cdef public float a2
+    cdef public double a
+    cdef public double a2
     
 @cython.final
 cdef class Tukey(Func):
     #
-    cdef public float C
-    cdef float C2
+    cdef public double C
+    cdef double C2
     #
 
 @cython.final
 cdef class Hinge(Func):
     #
-    cdef public float C
+    cdef public double C
     #
 
 @cython.final
 cdef class HingeSqrt(Func):
     #
-    cdef public float alpha
-    cdef float alpha2
+    cdef public double alpha
+    cdef double alpha2
     #
 
 @cython.final
 cdef class  Exp(Func):
     #
-    cdef public float alpha
+    cdef public double alpha
 
 @cython.final
 cdef class  Log(Func):
     #
-    cdef public float alpha
+    cdef public double alpha
     
 @cython.final
 cdef class KMinSquare(Func):
     #
-    cdef float[::1] c
+    cdef double[::1] c
     cdef int n_dim, j_min
     
 cdef class ParameterizedFunc:
     #
-    cdef float evaluate(self, float x, float u) nogil
+    cdef double evaluate(self, double x, double u) nogil
     #
-    cdef float derivative(self, float x, float u) nogil
+    cdef double derivative(self, double x, double u) nogil
     #
-    cdef float derivative_u(self, float x, float u) nogil
+    cdef double derivative_u(self, double x, double u) nogil
 
 @cython.final
 cdef class WinsorizedFunc(ParameterizedFunc):
@@ -215,6 +215,6 @@ cdef class WinsorizedSmoothFunc(ParameterizedFunc):
     cdef Func f
 
 cdef class SoftMinFunc(ParameterizedFunc):
-    cdef float a
+    cdef double a
 
     
