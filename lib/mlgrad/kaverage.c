@@ -4256,7 +4256,7 @@ static PyObject *__pyx_f_6mlgrad_8kaverage_8KAverage__evaluate_classes(struct __
                             goto __pyx_L13;
                             __pyx_L13:;
                             #ifdef _OPENMP
-                            #pragma omp critical(__pyx_parallel_lastprivates9)
+                            #pragma omp critical(__pyx_parallel_lastprivates0)
                             #endif /* _OPENMP */
                             {
                                 __pyx_parallel_temp0 = __pyx_v_d;
@@ -4867,7 +4867,7 @@ static PyObject *__pyx_f_6mlgrad_8kaverage_8KAverage__evaluate_distances(struct 
                             goto __pyx_L13;
                             __pyx_L13:;
                             #ifdef _OPENMP
-                            #pragma omp critical(__pyx_parallel_lastprivates10)
+                            #pragma omp critical(__pyx_parallel_lastprivates1)
                             #endif /* _OPENMP */
                             {
                                 __pyx_parallel_temp0 = __pyx_v_d;
@@ -5301,7 +5301,7 @@ static double __pyx_f_6mlgrad_8kaverage_8KAverage__evaluate_qval(struct __pyx_ob
                             goto __pyx_L13;
                             __pyx_L13:;
                             #ifdef _OPENMP
-                            #pragma omp critical(__pyx_parallel_lastprivates11)
+                            #pragma omp critical(__pyx_parallel_lastprivates2)
                             #endif /* _OPENMP */
                             {
                                 __pyx_parallel_temp0 = __pyx_v_d;

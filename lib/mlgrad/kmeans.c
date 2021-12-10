@@ -622,7 +622,6 @@ static CYTHON_INLINE float __PYX_NAN() {
 
     #define D_PTR(p) (*(p))
     
-#include "c/inventory.h"
 #include "pythread.h"
 #include <stdlib.h>
 #include "pystate.h"
@@ -1181,7 +1180,7 @@ typedef double (*__pyx_t_6mlgrad_5model_FuncDerivative2)(struct __pyx_obj_6mlgra
  * ctypedef double (*FuncDerivative2)(Func, double) nogil
  * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil             # <<<<<<<<<<<<<<
  * 
- * cdef extern from "c/inventory.h" nogil:
+ * # cdef extern from "c/inventory.h" nogil:
  */
 typedef double (*__pyx_t_6mlgrad_5model_FuncDerivativeDivX)(struct __pyx_obj_6mlgrad_4func_Func *, double);
 
