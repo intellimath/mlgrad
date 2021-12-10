@@ -36,15 +36,15 @@ ctypedef double (*FuncDerivative)(Func, double) nogil
 ctypedef double (*FuncDerivative2)(Func, double) nogil
 ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
 
-cdef extern from "c/inventory.h" nogil:
-    double dconv(const double*, const double*, const int)
-    void dmove(double*, const double*, const int)
-    double dsum(const double*, const int)
-    void dfill(double*, const double, const int)
-    # void dmatdot(double*, double*, const double*, const size_t, const size_t)
-    void dmatdot2(double*, double*, const double*, const size_t, const size_t)
-    void dmult_add_arrays(double *a, const double *b, const double *ss, const size_t n_input, const size_t n_output)
-    void dmult_grad(double *grad, const double *X, const double *ss, const size_t n_input, const size_t n_output)
+# cdef extern from "c/inventory.h" nogil:
+#     double dconv(const double*, const double*, const int)
+#     void dmove(double*, const double*, const int)
+#     double dsum(const double*, const int)
+#     void dfill(double*, const double, const int)
+#     # void dmatdot(double*, double*, const double*, const size_t, const size_t)
+#     void dmatdot2(double*, double*, const double*, const size_t, const size_t)
+#     void dmult_add_arrays(double *a, const double *b, const double *ss, const size_t n_input, const size_t n_output)
+#     void dmult_grad(double *grad, const double *X, const double *ss, const size_t n_input, const size_t n_output)
 
 from mlgrad.list_values cimport list_values
 
