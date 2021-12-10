@@ -7,7 +7,7 @@ from mlgrad.func cimport Func
 from mlgrad.distance cimport Distance
 from mlgrad.loss cimport Loss, MultLoss, MultLoss2
 from mlgrad.regnorm cimport FuncMulti
-from mlgrad.batch cimport Batch, WholeBatch
+from mlgrad.batch cimport Batch, WholeBatch, RandomBatch
 #from mlgrad.averager cimport ArrayAverager
 from mlgrad.avragg cimport Average, ArithMean
 #from mlgrad.weights cimport Weights

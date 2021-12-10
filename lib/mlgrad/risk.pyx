@@ -38,7 +38,7 @@ from mlgrad.regnorm cimport FuncMulti, SquareNorm
 from mlgrad.avragg cimport Average, ArithMean
 # from mlgrad.averager cimport ArrayAdaM1
 # from mlgrad.weights cimport Weights, ConstantWeights, ArrayWeights
-from mlgrad.batch import make_batch
+from mlgrad.batch import make_batch, WholeBatch
 
 import numpy as np
 
@@ -85,7 +85,6 @@ cdef class SimpleFunctional(Functional):
     #
     cdef void gradient(self):
         self.regnorm.gradient(self.param, self.grad_average)
-        
         
 cdef class Risk(Functional):
     #
@@ -158,8 +157,7 @@ cdef class MRisk(Risk):
         self.batch = batch
     #
     cpdef init(self):
-        pass
-#         self.batch.init()
+        self.batch.init()
     #
     cdef void eval_losses(self, double[::1] lval_all):
         cdef Model _model = self.model
@@ -177,20 +175,20 @@ cdef class MRisk(Risk):
             k = indices[j]
             yk = _model.evaluate(X[k])
             lval_all[j] = _loss.evaluate(yk, Y[k])
-            
-        if self.regnorm is not None:
-            v = self.tau * self.regnorm.evaluate(_model.param) / size
-            for j in range(size):
-                lval_all[j] += v
     #
     cdef double evaluate(self):        
         self.eval_losses(self.lval_all)
         if self.first:
-            self.avg.fit(self.lval_all, self.lval_all[0])
+            self.avg.fit(self.lval_all, None)
             self.first = 0
         else:
-            self.avg.fit(self.lval_all, self.lval)
+            self.avg.fit(self.lval_all, None)
         self.lval = self.avg.u
+        
+        if self.regnorm is not None:
+            v = self.tau * self.regnorm.evaluate(self.model.param)
+            self.lval += v
+        
         return self.lval
     #
     cdef void gradient(self):
@@ -246,7 +244,7 @@ cdef class ED(Risk):
         self.weights = None
         self.n_sample = X.shape[0]
         self.n_param = X.shape[1]
-        self.batch = WholeBatch(self.n_sample)        
+        self.batch = WholeBatch(self.n_sample)
     #
     cpdef init(self):
         n_sample = self.n_sample    

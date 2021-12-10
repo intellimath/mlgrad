@@ -51,7 +51,7 @@ cdef class RandomBatch(Batch):
             self.size = self.n_samples
         else:
             self.size = size
-        self.indices = np.zeros(self.size, dtype='i')
+        self.indices = np.zeros(self.size, dtype=np.intp)
     #
     cdef void init(self):
         init_rand()
@@ -78,7 +78,7 @@ cdef class WholeBatch(Batch):
     def __init__(self, n_samples):
         self.size = int(n_samples)
         self.n_samples = self.size
-        self.indices = np.arange(n_samples, dtype='l')
+        self.indices = np.array(range(self.n_samples), dtype=np.intp)
     #
 
 def make_batch(n_samples, size=None):

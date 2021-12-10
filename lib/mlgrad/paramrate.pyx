@@ -4,7 +4,7 @@ cdef class ParamRate:
     cpdef init(self):
         self.K = 1
                 
-    cdef float get_rate(self):
+    cdef double get_rate(self):
         return 1.0
         
 cdef class ConstantParamRate(ParamRate):
@@ -12,7 +12,7 @@ cdef class ConstantParamRate(ParamRate):
     def __init__(self, h):
         self.h = h
         
-    cdef float get_rate(self):
+    cdef double get_rate(self):
         self.K += 1
         return self.h
 
@@ -27,8 +27,8 @@ cdef class ExponentParamRate(ParamRate):
         self.curr_h = self.h
         self.K = 1
 
-    cdef float get_rate(self):
-        cdef float h = self.curr_h
+    cdef double get_rate(self):
+        cdef double h = self.curr_h
         self.curr_h *= self.p
         self.K += 1
         return h
@@ -39,9 +39,9 @@ cdef class PowerParamRate(ParamRate):
         self.h = h
         self.p = p
 
-    cdef float get_rate(self):
-        cdef float t = self.K
-        cdef float h = self.h / pow(t, self.p)
+    cdef double get_rate(self):
+        cdef double t = self.K
+        cdef double h = self.h / pow(t, self.p)
         self.K += 1
         return h
 

@@ -36,11 +36,12 @@ cdef void fa_fill(double *to, const double c, const size_t n) nogil:
     for i in range(n):
         to[i] = c
 
+        
 cdef void fa_move(double *to, const double *src, const size_t n) nogil:
     cdef size_t i
     for i in range(n):
         to[i] = src[i]
-
+        
 cdef double fa_conv(const double *a, const double *b, const size_t n) nogil:
     cdef size_t i
     cdef double s = 0
@@ -96,7 +97,8 @@ cdef void fa_matdot2(double *output, double *M, const double *X,
         output[j] = s
         Mj += n_input
 
-cdef void fa_mul_add_arrays(double *a, double *M, const double *ss, const size_t n_input, const size_t n_output) nogil:
+cdef void fa_mul_add_arrays(double *a, double *M, const double *ss, 
+                            const size_t n_input, const size_t n_output) nogil:
     cdef size_t i, j
     cdef double *Mj = M;
     cdef double sx
@@ -108,7 +110,8 @@ cdef void fa_mul_add_arrays(double *a, double *M, const double *ss, const size_t
             a[i] += sx * Mj[i]
         Mj += n_input
 
-cdef void fa_mul_grad(double *grad, const double *X, const double *ss, const size_t n_input, const size_t n_output) nogil:
+cdef void fa_mul_grad(double *grad, const double *X, const double *ss, 
+                      const size_t n_input, const size_t n_output) nogil:
     cdef size_t i, j
     cdef double *G = grad
     cdef double sx

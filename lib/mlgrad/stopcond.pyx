@@ -28,9 +28,6 @@ cdef class DiffL1StopCondition(StopCondition):
     cdef bint verify(self):
         cdef GD gd = self.gd
         
-        if gd.K <= 2:
-            return 0
-
         if fabs(gd.lval - gd.lval_min) / (1.0 + fabs(gd.lval_min)) < gd.tol:
             return 1
         
@@ -51,10 +48,6 @@ cdef class DiffL2StopCondition(StopCondition):
         cdef double lval_min
 
         #self.lval = risk.evaluate()
-
-        if gd.K <= 3:
-            self.lval1, self.lval2 = gd.lval, self.lval1
-            return 0
 
         lval_min = min3(gd.lval, self.lval1, self.lval2)
 

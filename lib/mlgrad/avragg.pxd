@@ -99,8 +99,6 @@ cdef class Average:
     #
     cpdef fit(self, double[::1] Y, u0=*)
     #
-    #cdef c_fit(self, double[::1] Y)
-    #
     cdef fit_epoch(self, double[::1] Y)
     #
     cdef bint stop_condition(self)

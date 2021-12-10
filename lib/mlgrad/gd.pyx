@@ -87,7 +87,7 @@ cdef class GD:
 
         self.risk.batch.init()
         self.init()
-        self.lval = self.lval_min = double_max / 2 #self.risk.evaluate()
+        self.lval = self.lval_min = self.risk.evaluate()
         self.lvals = []   
         self.K = 0
     
@@ -106,7 +106,7 @@ cdef class GD:
             self.lval = risk.lval = risk.evaluate()
             self.lvals.append(self.lval)
                 
-            if self.stop_condition.verify():
+            if K > 0 and self.stop_condition.verify():
                 self.completed = 1
 
             if self.lval < self.lval_min:

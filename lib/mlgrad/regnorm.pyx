@@ -54,7 +54,7 @@ cdef class PowerNorm(FuncMulti):
 #         self.all = all
 
     cdef double evaluate(self, double[::1] param):
-        cdef int i, m
+        cdef Py_ssize_t i, m
         cdef double s
         cdef double* param_ptr = &param[0]
         
@@ -68,7 +68,7 @@ cdef class PowerNorm(FuncMulti):
         return s
 
     cdef void gradient(self, double[::1] param, double[::1] grad):
-        cdef int i, m
+        cdef Py_ssize_t i, m
         cdef double v
         cdef double* param_ptr = &param[0]
         cdef double* grad_ptr
@@ -91,7 +91,7 @@ cdef class PowerNorm(FuncMulti):
 cdef class SquareNorm(FuncMulti):
 
     cdef double evaluate(self, double[::1] param):
-        cdef int i, m
+        cdef Py_ssize_t i, m
         cdef double s, v
         cdef double* param_ptr = &param[0]
 
@@ -105,7 +105,7 @@ cdef class SquareNorm(FuncMulti):
         return s
 
     cdef void gradient(self, double[::1] param, double[::1] grad):
-        cdef int i, m
+        cdef Py_ssize_t i, m
         cdef double* param_ptr = &param[0]
         cdef double* grad_ptr
 
@@ -124,7 +124,7 @@ cdef class SquareNorm(FuncMulti):
 cdef class AbsoluteNorm(FuncMulti):
 
     cdef double evaluate(self, double[::1] param):
-        cdef int i, m
+        cdef Py_ssize_t i, m
         cdef double s
         cdef double* param_ptr = &param[0]
 
@@ -165,10 +165,10 @@ cdef class SquareForm(FuncMulti):
     #
     cdef double evaluate(self, double[::1] x):
         cdef double[:,::1] mat = self.matrix
-        cdef int n_row = mat.shape[0]
-        cdef int n_col = mat.shape[1]
+        cdef Py_ssize_t n_row = mat.shape[0]
+        cdef Py_ssize_t n_col = mat.shape[1]
         cdef double s, val
-        cdef int i, j
+        cdef Py_ssize_t i, j
         
         val = 0
         for j in range(n_row):
@@ -180,10 +180,10 @@ cdef class SquareForm(FuncMulti):
 
     cdef void gradient(self, double[::1] x, double[::1] y):
         cdef double[:,::1] mat = self.matrix
-        cdef int n_row = mat.shape[0]
-        cdef int n_col = mat.shape[1]
+        cdef Py_ssize_t n_row = mat.shape[0]
+        cdef Py_ssize_t n_col = mat.shape[1]
         cdef double s
-        cdef int i, j
+        cdef Py_ssize_t i, j
         
         n_row = mat.shape[0]
         n_col = mat.shape[1]

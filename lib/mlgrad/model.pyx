@@ -49,17 +49,6 @@ else:
 format_double = r"%.2f"
 display_precision = 0.005
 
-# cdef double[::1] as_double_array(o):
-#     cdef double[::1] ret
-#
-#     otype = type(o)
-#     if otype is list or otype is tuple:
-#         ret = np.asarray(o, 'd')
-#     else:
-#         ret = o
-#
-#     return ret
-
 cdef inline void fill_memoryview(double[::1] X, double c) nogil:
     cdef int m = X.shape[0]
     memset(&X[0], 0, m*cython.sizeof(double))    
@@ -264,7 +253,14 @@ cdef class Model(object):
         return 0
     #
     def evaluate_all(self, X):
-        return np.array([self.evaluate(Xk) for Xk in X], 'd')
+        cdef Py_ssize_t k, N = len(X)
+        cdef double[::1] Y
+        
+        A = np.empty(N, 'd')
+        Y = A
+        for k in range(N):
+            Y[k] = self.evaluate(X[k])
+        return A
     #
     cdef void gradient(self, double[::1] X, double[::1] grad):
         pass
@@ -730,6 +726,9 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         if func is not None:
             for j in range(n_output):
                 output[j] = func.evaluate(ss[j])
+        else:
+            for j in range(n_output):
+                output[j] = ss[j]
  
         # for j in range(n_output):
         #     s = matrix[j,0]
@@ -748,20 +747,20 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         cdef Py_ssize_t n_input1 = n_input + 1
         cdef Py_ssize_t n_output = self.n_output
         cdef double val_j, s, sx
-        cdef double *Xp = &X[0]
+        # cdef double *Xp = &X[0]
         cdef double[::1] grad_in = self.grad_input
 
         cdef double[:,::1] matrix = self.matrix
         cdef double[::1] output = self.output
         cdef double *ss = &self.ss[0]
-        cdef double *matrix_j
+        # cdef double *matrix_j
         cdef Func func = self.func
         cdef bint is_func = (func is not None)
         
 #         fill_memoryview(grad_in, 0)
         inventory.fa_fill(&grad_in[0], 0, n_input)
-        if self.first_time:
-            inventory.fa_matdot2(&ss[0], &matrix[0,0], &X[0], n_input, n_output)
+        # if self.first_time:
+        inventory.fa_matdot2(&ss[0], &matrix[0,0], &X[0], n_input, n_output)
             # s = matrix[j,0]
             # matrix_j = &matrix[j,1]
             # for i in range(n_input):
