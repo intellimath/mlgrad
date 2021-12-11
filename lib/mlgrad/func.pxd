@@ -125,9 +125,8 @@ cdef class SoftAbs(Func):
 @cython.final
 cdef class Sqrt(Func):
     #
-    cdef double eps
+    cdef public double eps
     cdef double eps2
-    cdef double alpha
     cdef double zero
     #
     

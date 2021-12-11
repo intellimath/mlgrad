@@ -202,6 +202,12 @@ cdef class Id(Func):
     def _repr_latex_(self):
         return '$\mathrm{id}(x)=x$'
 
+def quantile_func(alpha, func):
+    if type(func) is Sqrt:
+        return Quantile_Sqrt(alpha, func.eps)
+    else:
+        return QuantileFunc(func, alpha)
+    
 cdef class QuantileFunc(Func):
     #
     def __init__(self, alpha, Func func):
@@ -959,11 +965,9 @@ cdef class SoftAbs(Func):
     
 cdef class Sqrt(Func):
     #
-    def __init__(self, eps=1.0, zero=False):
+    def __init__(self, eps=1.0):
         self.eps = eps
         self.eps2 = eps*eps
-        self.zero = 0. if zero else eps
-#         self.alpha = alpha
     #
     cdef double evaluate(self, const double x) nogil:
         return sqrt(self.eps2 + x*x) - self.eps

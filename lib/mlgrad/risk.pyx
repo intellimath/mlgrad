@@ -182,7 +182,7 @@ cdef class MRisk(Risk):
             self.avg.fit(self.lval_all, None)
             self.first = 0
         else:
-            self.avg.fit(self.lval_all, None)
+            self.avg.fit(self.lval_all, self.avg.u)
         self.lval = self.avg.u
         
         if self.regnorm is not None:

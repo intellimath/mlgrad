@@ -102,6 +102,11 @@ cdef class Average:
     cdef fit_epoch(self, double[::1] Y)
     #
     cdef bint stop_condition(self)
+    
+@cython.final
+cdef class MAverage(Average):
+    cdef Func func
+    cdef double gamma
 
 @cython.final
 cdef class Average_Iterative(Average):

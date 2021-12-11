@@ -162,10 +162,10 @@ cdef class MWeights(Weights):
         if self.use_best_u and self.average.u < self.best_u:
             self.best_u = self.average.u
         
-        if self.use_best_u:
-            self.average.penalty.gradient(self.lval_all, self.best_u, self.weights)
-        else:
-            self.average.gradient(self.lval_all, self.weights)
+        # if self.use_best_u:
+        #     self.average.penalty.gradient(self.lval_all, self.best_u, self.weights)
+        # else:
+        self.average.gradient(self.lval_all, self.weights)
 
         if self.normalize:
             normalize_memoryview(self.weights)

@@ -1,3 +1,6 @@
+# coding: utf-8 
+
+# cython: language_level=3
 
 cdef void fa_fill(double *to, const double c, const size_t n) nogil
 cdef double fa_conv(const double*, const double*, const size_t) nogil
