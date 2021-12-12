@@ -91,6 +91,10 @@ cdef class Risk(Functional):
     cdef void eval_losses(self, double[::1] lval_all):
         pass
     #
+    def evaluate_losses(self, X):
+        lval_array = np.zeros(len(X), 'd')
+        self.eval_losses(lval_array)
+        return lval_array
 
 # cdef class SRisk(Risk):
 #     #
