@@ -28,16 +28,16 @@
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-
-from libc.math cimport fabsf, powf, sqrtf, fmaxf
+# THE SOFTWARE. 
+ 
+from libc.math cimport fabs, pow, sqrt, fmax
 
 import numpy as np
 
 DEF Beta = 0.9
 DEF Beta1 = 0.99
 DEF Beta2 = 0.9999
-DEF Epsilon = 1.0e-10
+DEF Epsilon = 1.0e-9
 
 include "averager_scalar.pyx"
 include "averager_array.pyx"

@@ -132,8 +132,8 @@ cdef class PenaltyAverage(Penalty):
             GG[k] = v = func.derivative2(YY[k] - u)
             S += v
         
-        # for k in prange(N, nogil=True, num_threads=num_procs):
-        for k in range(N):
+        for k in prange(N, nogil=True, num_threads=num_procs):
+        # for k in range(N):
             GG[k] /= S
 
 @cython.final
@@ -151,8 +151,8 @@ cdef class PenaltyScale(Penalty):
         cdef double v
 
         S = 0
-        # for k in prange(N, nogil=True, num_threads=num_procs):
-        for k in range(N):
+        for k in prange(N, nogil=True, num_threads=num_procs):
+        # for k in range(N):
             v = Y[k]    
             S += func.evaluate(v / s)
     
@@ -166,8 +166,8 @@ cdef class PenaltyScale(Penalty):
         cdef Func func = self.func
         
         S = 0
-        # for k in prange(N, nogil=True, num_threads=num_procs):
-        for k in range(N):
+        for k in prange(N, nogil=True, num_threads=num_procs):
+        # for k in range(N):
             v = Y[k] / s
             S += func.derivative(v) * v
             
@@ -181,8 +181,8 @@ cdef class PenaltyScale(Penalty):
         cdef Func func = self.func
         
         S = 0
-        # for k in prange(N, nogil=True, num_threads=num_procs):
-        for k in range(N):
+        for k in prange(N, nogil=True, num_threads=num_procs):
+        # for k in range(N):
             y_k = Y[k]
             S += func.derivative_div_x(y_k / s) * y_k * y_k
         
@@ -196,8 +196,8 @@ cdef class PenaltyScale(Penalty):
         cdef Func func = self.func
         
         S = 0
-        # for k in prange(N, nogil=True, num_threads=num_procs):
-        for k in range(N):
+        for k in prange(N, nogil=True, num_threads=num_procs):
+        # for k in range(N):
             v = Y[k] / s
             S += func.derivative2(v) * v * v
         S += N
@@ -309,11 +309,11 @@ include "avragg_fg.pyx"
 @cython.final
 cdef class MAverage(Average):
     #
-    def __init__(self, Func func, tol=1.0e-9, n_iter=1000, gamma=0.1):
+    def __init__(self, Func func, tol=1.0e-9, n_iter=1000): #, gamma=0.1):
         self.func = func
         self.n_iter = n_iter
         self.tol = tol
-        self.gamma = gamma
+        # self.gamma = gamma
     #
     @cython.cdivision(True)
     @cython.final
@@ -328,7 +328,8 @@ cdef class MAverage(Average):
         cdef bint finish = 0
         
         if u0 is None:
-            u = array_mean(Y)
+            u = (YY[0] + YY[N//2] + YY[N-1]) / 3
+            # u = array_mean(Y)
         else:
             u = u0
         
@@ -348,7 +349,6 @@ cdef class MAverage(Average):
                 Z += func.evaluate(yk - u)
 
             u = S / V
-            # u = self.gamma * u + (1-self.gamma) * uu
             z = Z / N
 
             if K > 0 and fabs(z - z_min) / (1 + fabs(z_min)) < tol:
@@ -382,7 +382,6 @@ cdef class MAverage(Average):
         # for k in prange(N, nogil=True, num_threads=num_procs):
         for k in range(N):
             GG[k] /= V
-
      
 @cython.final
 cdef class ParameterizedAverage(Average):
@@ -463,8 +462,8 @@ cdef class WMAverage(Average):
         avr_u = self.avr.u
 
         S = 0
-        # for k in prange(N, nogil=True, num_threads=num_procs):
-        for k in range(N):
+        for k in prange(N, nogil=True, num_threads=num_procs):
+        # for k in range(N):
             yk = YY[k]
             v = yk if yk <= avr_u else avr_u
             S += v
@@ -491,8 +490,8 @@ cdef class WMAverage(Average):
             if YY[k] > u:
                 m += 1
 
-        # for k in prange(N, nogil=True, num_threads=num_procs):
-        for k in range(N):
+        for k in prange(N, nogil=True, num_threads=num_procs):
+        # for k in range(N):
             gk = GG[k]
             v = (1 + m * gk) if YY[k] <= u else (m * gk)
             GG[k] = v * N1

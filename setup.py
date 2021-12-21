@@ -176,7 +176,7 @@ setup(
     ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
-    packages = ['mlgrad', 'mlgrad.regr', 'mlgrad.clsfy', 'mlgrad.test'],
+    packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.clsfy', 'mlgrad.test'],
     package_data = {'': ['*.pxd']},
     url = 'https://bitbucket.org/intellimath/mlgrad',
     download_url = 'https://bitbucket.org/intellimath/mlgrad',

@@ -766,7 +766,7 @@ cdef class HingeSqrt(Func):
     #
     @cython.cdivision(True)
     cdef double derivative2(self, const double x) nogil:
-        return 1./sqrt(self.alpha2 + x*x)
+        return self.alpha2/sqrt(self.alpha2 + x*x)
     #
     def _repr_latex_(self):
         return r"$ρ(x)=-x + \sqrt{c^2+x^2}$"

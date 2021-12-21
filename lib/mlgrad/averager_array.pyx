@@ -32,13 +32,13 @@
 from cython.parallel cimport parallel, prange
 #
 
-from openmp cimport omp_get_num_procs
+# from openmp cimport omp_get_num_procs
 
-cdef int num_procs = omp_get_num_procs()
-if num_procs >= 4:
-    num_procs /= 2
-else:
-    num_procs = 2
+cdef int num_procs # = omp_get_num_procs()
+# if num_procs >= 4:
+#     num_procs /= 2
+# else:
+num_procs = 2
 
 cdef class ArrayAverager:
     #
@@ -152,7 +152,7 @@ cdef class ArrayRMSProp(ArrayAverager):
             v = x[i]
             vgrad[i] = beta * vgrad[i] + (1-beta) * v*v
             vv = vgrad[i] / self.M
-            array_average[i] = h * v / (sqrtf(vv) + self.epsilon)
+            array_average[i] = h * v / (sqrt(vv) + self.epsilon)
 
 cdef class ArrayAdaM2(ArrayAverager):
 
@@ -194,16 +194,16 @@ cdef class ArrayAdaM2(ArrayAverager):
         self.beta2_k += 1
         beta1_k = self.beta1_k
         beta2_k = self.beta2_k
-#         for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
+        # for i in prange(m, nogil=True, num_threads=num_procs):
         for i in range(m):
             v = x[i]
-            mgrad[i] = beta1 * mgrad[i] + v 
+            mgrad[i] = beta1 * mgrad[i] + v
             mv = mgrad[i] / beta1_k
 
             vgrad[i] = beta2 * vgrad[i] + v*v
             vv = vgrad[i] / beta2_k
-            v2 = sqrtf(vv)
-#             array_average[i] = h * mv * ((1 + v2) / (v2 * (1 + v2) + 1)) #/ (sqrtf(vv) + epsilon))
+            v2 = sqrt(vv)
+#             array_average[i] = h * mv * ((1 + v2) / (v2 * (1 + v2) + 1)) #/ (sqrt(vv) + epsilon))
             array_average[i] = h * (mv / (v2 + epsilon))
 
 cdef class ArrayAdaM1(ArrayAverager):
@@ -252,14 +252,15 @@ cdef class ArrayAdaM1(ArrayAverager):
     
         self.beta1_k *= beta1
         self.beta2_k *= beta2
-        for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
+        # for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
+        for i in range(m):
             v = x[i]
             mgrad[i] = beta1 * mgrad[i] + (1.0 - beta1) * v 
             mv = mgrad[i] / (1.0 - self.beta1_k)
 
-            vgrad[i] = beta2 * vgrad[i] + (1.0 - beta2) * fabsf(v)
+            vgrad[i] = beta2 * vgrad[i] + (1.0 - beta2) * fabs(v)
             vv = vgrad[i] / (1.0 - self.beta2_k)
-            v2 = fabsf(vv)
+            v2 = fabs(vv)
 #             array_average[i] = h * mv * ((1 + v2) / (v2 * (1 + v2) + 1)) # self.epsilon)
             array_average[i] = h * (mv / (v2 + epsilon))
 
@@ -297,7 +298,7 @@ cdef class ArrayAdaM1(ArrayAverager):
 #         for i in range(m):
 #             v = x[i]
 #             mn += v*v
-#         mn = sqrtf(mn)
+#         mn = sqrt(mn)
             
 #         for i in range(m):
 #             v = x[i] / mn

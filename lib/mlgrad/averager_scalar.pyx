@@ -63,7 +63,7 @@ cdef class ScalarAdaM2(ScalarAverager):
         self.beta2_k *= beta2
         v_tilde = self.v / (1.0 - self.beta2_k)
 
-        return m_tilde / (sqrtf(v_tilde) + self.epsilon)        
+        return m_tilde / (sqrt(v_tilde) + self.epsilon)        
 
 cdef class ScalarAdaM1(ScalarAverager):
 
@@ -86,7 +86,7 @@ cdef class ScalarAdaM1(ScalarAverager):
         self.beta1_k *= beta1
         m_tilde = self.m  / (1.0 - self.beta1_k)
 
-        self.v = (1.0 - beta2) * fabsf(x) + beta2 * self.v
+        self.v = (1.0 - beta2) * fabs(x) + beta2 * self.v
         self.beta2_k *= beta2
         v_tilde = self.v / (1.0 - self.beta2_k)
 

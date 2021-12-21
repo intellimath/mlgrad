@@ -23524,7 +23524,7 @@ static double __pyx_f_6mlgrad_4func_9HingeSqrt_derivative(struct __pyx_obj_6mlgr
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return 1./sqrt(self.alpha2 + x*x)
+ *         return self.alpha2/sqrt(self.alpha2 + x*x)
  *     #
  */
 
@@ -23534,18 +23534,18 @@ static double __pyx_f_6mlgrad_4func_9HingeSqrt_derivative2(struct __pyx_obj_6mlg
   /* "mlgrad/func.pyx":769
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:
- *         return 1./sqrt(self.alpha2 + x*x)             # <<<<<<<<<<<<<<
+ *         return self.alpha2/sqrt(self.alpha2 + x*x)             # <<<<<<<<<<<<<<
  *     #
  *     def _repr_latex_(self):
  */
-  __pyx_r = (1. / sqrt((__pyx_v_self->alpha2 + (__pyx_v_x * __pyx_v_x))));
+  __pyx_r = (__pyx_v_self->alpha2 / sqrt((__pyx_v_self->alpha2 + (__pyx_v_x * __pyx_v_x))));
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":768
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return 1./sqrt(self.alpha2 + x*x)
+ *         return self.alpha2/sqrt(self.alpha2 + x*x)
  *     #
  */
 
@@ -23555,7 +23555,7 @@ static double __pyx_f_6mlgrad_4func_9HingeSqrt_derivative2(struct __pyx_obj_6mlg
 }
 
 /* "mlgrad/func.pyx":771
- *         return 1./sqrt(self.alpha2 + x*x)
+ *         return self.alpha2/sqrt(self.alpha2 + x*x)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return r"$(x)=-x + \sqrt{c^2+x^2}$"
@@ -23594,7 +23594,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9HingeSqrt_2_repr_latex_(CYTHON_UNUSED s
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":771
- *         return 1./sqrt(self.alpha2 + x*x)
+ *         return self.alpha2/sqrt(self.alpha2 + x*x)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return r"$(x)=-x + \sqrt{c^2+x^2}$"

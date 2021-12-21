@@ -106,7 +106,7 @@ cdef class Average:
 @cython.final
 cdef class MAverage(Average):
     cdef Func func
-    cdef double gamma
+    # cdef double gamma
 
 @cython.final
 cdef class Average_Iterative(Average):

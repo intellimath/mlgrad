@@ -12,7 +12,7 @@ from mlgrad.loss import SquareErrorLoss, ErrorLoss
 
 from mlgrad import fg, erm_fg, erm_irgd, erisk, mrisk
 
-from mlgrad.regr import averaging_function
+from mlgrad.af import averaging_function
 
 def classification_as_regr(Xs, Y, mod, lossfunc=loss.MarginLoss(func.Hinge(0)), regnorm=None, 
                h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
@@ -59,9 +59,9 @@ def plot_losses_and_errors(alg, Xs, Y, fname=None, logscale=True):
     plt.ylabel('mean of losses')
     plt.minorticks_on()
     plt.subplot(1,2,2)
-    err_rat = 1 - sum((1 if y<=1 else 0) for y in err)/len(err)
-    plt.title('Errors %.2f' % err_rat)
-    plt.plot(err, marker='o', markersize='4')
+    # err_rat = 1 - sum((1 if y<=1 else 0) for y in err)/len(err)
+    # plt.title('Errors %.2f' % err_rat)
+    plt.plot(sorted(Y*alg.risk.model.evaluate_all(Xs)), marker='o', markersize='5')
     plt.hlines(0, 0, len(err), color='LightGray')
     plt.minorticks_on()
     plt.grid(1)
