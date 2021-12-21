@@ -2,7 +2,7 @@
 
 cimport cython
 
-from libc.math cimport fabsf, powf, sqrtf, fmaxf
+# from libc.math cimport fabs, pow, sqrt, fmax
 
 from mlgrad.func cimport Func, ParameterizedFunc
 

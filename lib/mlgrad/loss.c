@@ -3197,8 +3197,6 @@ static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memo
 
 /* Module declarations from 'cython' */
 
-/* Module declarations from 'libc.math' */
-
 /* Module declarations from 'mlgrad.func' */
 static PyTypeObject *__pyx_ptype_6mlgrad_4func_Func = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4func_Comp = 0;
@@ -3238,6 +3236,8 @@ static PyTypeObject *__pyx_ptype_6mlgrad_4func_ParameterizedFunc = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4func_WinsorizedFunc = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4func_SoftMinFunc = 0;
+
+/* Module declarations from 'libc.math' */
 
 /* Module declarations from 'mlgrad.loss' */
 static PyTypeObject *__pyx_ptype_6mlgrad_4loss_Loss = 0;
@@ -4252,7 +4252,7 @@ static double __pyx_f_6mlgrad_4loss_15SquareErrorLoss_derivative(CYTHON_UNUSED s
  *         return 2 * (y - yk)
  *     #
  *     cdef double difference(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
- *         return fabsf(y-yk)
+ *         return fabs(y-yk)
  *     #
  */
 
@@ -4262,18 +4262,18 @@ static double __pyx_f_6mlgrad_4loss_15SquareErrorLoss_difference(CYTHON_UNUSED s
   /* "mlgrad/loss.pyx":62
  *     #
  *     cdef double difference(self, const double y, const double yk) nogil:
- *         return fabsf(y-yk)             # <<<<<<<<<<<<<<
+ *         return fabs(y-yk)             # <<<<<<<<<<<<<<
  *     #
  *     def _repr_latex_(self):
  */
-  __pyx_r = fabsf((__pyx_v_y - __pyx_v_yk));
+  __pyx_r = fabs((__pyx_v_y - __pyx_v_yk));
   goto __pyx_L0;
 
   /* "mlgrad/loss.pyx":61
  *         return 2 * (y - yk)
  *     #
  *     cdef double difference(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
- *         return fabsf(y-yk)
+ *         return fabs(y-yk)
  *     #
  */
 
@@ -4283,7 +4283,7 @@ static double __pyx_f_6mlgrad_4loss_15SquareErrorLoss_difference(CYTHON_UNUSED s
 }
 
 /* "mlgrad/loss.pyx":64
- *         return fabsf(y-yk)
+ *         return fabs(y-yk)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return r"$(y - \tilde y)^2$"
@@ -4322,7 +4322,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_15SquareErrorLoss__repr_latex_(CYTHON_UN
   goto __pyx_L0;
 
   /* "mlgrad/loss.pyx":64
- *         return fabsf(y-yk)
+ *         return fabs(y-yk)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return r"$(y - \tilde y)^2$"
@@ -4795,7 +4795,7 @@ static double __pyx_f_6mlgrad_4loss_9ErrorLoss_derivative(struct __pyx_obj_6mlgr
  *         return self.func.derivative(y-yk)
  *     #
  *     cdef double difference(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
- *         return fabsf(y-yk)
+ *         return fabs(y-yk)
  *     #
  */
 
@@ -4805,18 +4805,18 @@ static double __pyx_f_6mlgrad_4loss_9ErrorLoss_difference(CYTHON_UNUSED struct _
   /* "mlgrad/loss.pyx":79
  *     #
  *     cdef double difference(self, const double y, const double yk) nogil:
- *         return fabsf(y-yk)             # <<<<<<<<<<<<<<
+ *         return fabs(y-yk)             # <<<<<<<<<<<<<<
  *     #
  *     def _repr_latex_(self):
  */
-  __pyx_r = fabsf((__pyx_v_y - __pyx_v_yk));
+  __pyx_r = fabs((__pyx_v_y - __pyx_v_yk));
   goto __pyx_L0;
 
   /* "mlgrad/loss.pyx":78
  *         return self.func.derivative(y-yk)
  *     #
  *     cdef double difference(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
- *         return fabsf(y-yk)
+ *         return fabs(y-yk)
  *     #
  */
 
@@ -4826,7 +4826,7 @@ static double __pyx_f_6mlgrad_4loss_9ErrorLoss_difference(CYTHON_UNUSED struct _
 }
 
 /* "mlgrad/loss.pyx":81
- *         return fabsf(y-yk)
+ *         return fabs(y-yk)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return r"$\ell(y - \tilde y)$"
@@ -4865,7 +4865,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_9ErrorLoss_2_repr_latex_(CYTHON_UNUSED s
   goto __pyx_L0;
 
   /* "mlgrad/loss.pyx":81
- *         return fabsf(y-yk)
+ *         return fabs(y-yk)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return r"$\ell(y - \tilde y)$"
@@ -5354,7 +5354,7 @@ static double __pyx_f_6mlgrad_4loss_11IdErrorLoss_derivative(CYTHON_UNUSED struc
  *         return 1
  *     #
  *     cdef double difference(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
- *         return fabsf(y-yk)
+ *         return fabs(y-yk)
  *     #
  */
 
@@ -5364,18 +5364,18 @@ static double __pyx_f_6mlgrad_4loss_11IdErrorLoss_difference(CYTHON_UNUSED struc
   /* "mlgrad/loss.pyx":93
  *     #
  *     cdef double difference(self, const double y, const double yk) nogil:
- *         return fabsf(y-yk)             # <<<<<<<<<<<<<<
+ *         return fabs(y-yk)             # <<<<<<<<<<<<<<
  *     #
  *     def _repr_latex_(self):
  */
-  __pyx_r = fabsf((__pyx_v_y - __pyx_v_yk));
+  __pyx_r = fabs((__pyx_v_y - __pyx_v_yk));
   goto __pyx_L0;
 
   /* "mlgrad/loss.pyx":92
  *         return 1
  *     #
  *     cdef double difference(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
- *         return fabsf(y-yk)
+ *         return fabs(y-yk)
  *     #
  */
 
@@ -5385,7 +5385,7 @@ static double __pyx_f_6mlgrad_4loss_11IdErrorLoss_difference(CYTHON_UNUSED struc
 }
 
 /* "mlgrad/loss.pyx":95
- *         return fabsf(y-yk)
+ *         return fabs(y-yk)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return r"$(y - \tilde y)$"
@@ -5424,7 +5424,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_11IdErrorLoss__repr_latex_(CYTHON_UNUSED
   goto __pyx_L0;
 
   /* "mlgrad/loss.pyx":95
- *         return fabsf(y-yk)
+ *         return fabs(y-yk)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return r"$(y - \tilde y)$"
@@ -5829,7 +5829,7 @@ static int __pyx_pf_6mlgrad_4loss_17RelativeErrorLoss___init__(struct __pyx_obj_
  *         self.func = func
  *     #
  *     cdef double evaluate(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
- *         cdef double v = fabsf(yk) + 1
+ *         cdef double v = fabs(yk) + 1
  *         cdef double b = v / (v + yk*yk)
  */
 
@@ -5845,15 +5845,15 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_evaluate(struct __pyx_ob
   /* "mlgrad/loss.pyx":104
  *     #
  *     cdef double evaluate(self, const double y, const double yk) nogil:
- *         cdef double v = fabsf(yk) + 1             # <<<<<<<<<<<<<<
+ *         cdef double v = fabs(yk) + 1             # <<<<<<<<<<<<<<
  *         cdef double b = v / (v + yk*yk)
  * 
  */
-  __pyx_v_v = (fabsf(__pyx_v_yk) + 1.0);
+  __pyx_v_v = (fabs(__pyx_v_yk) + 1.0);
 
   /* "mlgrad/loss.pyx":105
  *     cdef double evaluate(self, const double y, const double yk) nogil:
- *         cdef double v = fabsf(yk) + 1
+ *         cdef double v = fabs(yk) + 1
  *         cdef double b = v / (v + yk*yk)             # <<<<<<<<<<<<<<
  * 
  *         return self.func.evaluate(b * (y - yk))
@@ -5885,7 +5885,7 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_evaluate(struct __pyx_ob
  *         self.func = func
  *     #
  *     cdef double evaluate(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
- *         cdef double v = fabsf(yk) + 1
+ *         cdef double v = fabs(yk) + 1
  *         cdef double b = v / (v + yk*yk)
  */
 
@@ -5901,7 +5901,7 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_evaluate(struct __pyx_ob
  *         return self.func.evaluate(b * (y - yk))
  *     #
  *     cdef double derivative(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
- *         cdef double v = fabsf(yk) + 1
+ *         cdef double v = fabs(yk) + 1
  *         cdef double b = v / (v + yk*yk)
  */
 
@@ -5917,15 +5917,15 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_derivative(struct __pyx_
   /* "mlgrad/loss.pyx":110
  *     #
  *     cdef double derivative(self, const double y, const double yk) nogil:
- *         cdef double v = fabsf(yk) + 1             # <<<<<<<<<<<<<<
+ *         cdef double v = fabs(yk) + 1             # <<<<<<<<<<<<<<
  *         cdef double b = v / (v + yk*yk)
  * 
  */
-  __pyx_v_v = (fabsf(__pyx_v_yk) + 1.0);
+  __pyx_v_v = (fabs(__pyx_v_yk) + 1.0);
 
   /* "mlgrad/loss.pyx":111
  *     cdef double derivative(self, const double y, const double yk) nogil:
- *         cdef double v = fabsf(yk) + 1
+ *         cdef double v = fabs(yk) + 1
  *         cdef double b = v / (v + yk*yk)             # <<<<<<<<<<<<<<
  * 
  *         return b * self.func.derivative(b * (y - yk))
@@ -5957,7 +5957,7 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_derivative(struct __pyx_
  *         return self.func.evaluate(b * (y - yk))
  *     #
  *     cdef double derivative(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
- *         cdef double v = fabsf(yk) + 1
+ *         cdef double v = fabs(yk) + 1
  *         cdef double b = v / (v + yk*yk)
  */
 
@@ -5973,7 +5973,7 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_derivative(struct __pyx_
  *         return b * self.func.derivative(b * (y - yk))
  *     #
  *     cdef double difference(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
- *         cdef double v = fabsf(yk) + 1
+ *         cdef double v = fabs(yk) + 1
  *         cdef double b = v / (v + yk*yk)
  */
 
@@ -5989,18 +5989,18 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_difference(CYTHON_UNUSED
   /* "mlgrad/loss.pyx":116
  *     #
  *     cdef double difference(self, const double y, const double yk) nogil:
- *         cdef double v = fabsf(yk) + 1             # <<<<<<<<<<<<<<
+ *         cdef double v = fabs(yk) + 1             # <<<<<<<<<<<<<<
  *         cdef double b = v / (v + yk*yk)
  * 
  */
-  __pyx_v_v = (fabsf(__pyx_v_yk) + 1.0);
+  __pyx_v_v = (fabs(__pyx_v_yk) + 1.0);
 
   /* "mlgrad/loss.pyx":117
  *     cdef double difference(self, const double y, const double yk) nogil:
- *         cdef double v = fabsf(yk) + 1
+ *         cdef double v = fabs(yk) + 1
  *         cdef double b = v / (v + yk*yk)             # <<<<<<<<<<<<<<
  * 
- *         return b * fabsf(y - yk)
+ *         return b * fabs(y - yk)
  */
   __pyx_t_1 = (__pyx_v_v + (__pyx_v_yk * __pyx_v_yk));
   if (unlikely(__pyx_t_1 == 0)) {
@@ -6018,18 +6018,18 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_difference(CYTHON_UNUSED
   /* "mlgrad/loss.pyx":119
  *         cdef double b = v / (v + yk*yk)
  * 
- *         return b * fabsf(y - yk)             # <<<<<<<<<<<<<<
+ *         return b * fabs(y - yk)             # <<<<<<<<<<<<<<
  *     #
  *     def _repr_latex_(self):
  */
-  __pyx_r = (__pyx_v_b * fabsf((__pyx_v_y - __pyx_v_yk)));
+  __pyx_r = (__pyx_v_b * fabs((__pyx_v_y - __pyx_v_yk)));
   goto __pyx_L0;
 
   /* "mlgrad/loss.pyx":115
  *         return b * self.func.derivative(b * (y - yk))
  *     #
  *     cdef double difference(self, const double y, const double yk) nogil:             # <<<<<<<<<<<<<<
- *         cdef double v = fabsf(yk) + 1
+ *         cdef double v = fabs(yk) + 1
  *         cdef double b = v / (v + yk*yk)
  */
 
@@ -6042,7 +6042,7 @@ static double __pyx_f_6mlgrad_4loss_17RelativeErrorLoss_difference(CYTHON_UNUSED
 }
 
 /* "mlgrad/loss.pyx":121
- *         return b * fabsf(y - yk)
+ *         return b * fabs(y - yk)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return r"$\ell(y - \tilde y)$"
@@ -6081,7 +6081,7 @@ static PyObject *__pyx_pf_6mlgrad_4loss_17RelativeErrorLoss_2_repr_latex_(CYTHON
   goto __pyx_L0;
 
   /* "mlgrad/loss.pyx":121
- *         return b * fabsf(y - yk)
+ *         return b * fabs(y - yk)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return r"$\ell(y - \tilde y)$"
@@ -8562,7 +8562,7 @@ static double __pyx_f_6mlgrad_4loss_12SoftMinLoss2_evaluate(struct __pyx_obj_6ml
  * 
  *         S = 0             # <<<<<<<<<<<<<<
  *         for i in range(n):
- *             S += expf(a*(val_min - vals[i]))
+ *             S += exp(a*(val_min - vals[i]))
  */
   __pyx_v_S = 0.0;
 
@@ -8570,8 +8570,8 @@ static double __pyx_f_6mlgrad_4loss_12SoftMinLoss2_evaluate(struct __pyx_obj_6ml
  * 
  *         S = 0
  *         for i in range(n):             # <<<<<<<<<<<<<<
- *             S += expf(a*(val_min - vals[i]))
- *         S = logf(S)
+ *             S += exp(a*(val_min - vals[i]))
+ *         S = log(S)
  */
   __pyx_t_1 = __pyx_v_n;
   __pyx_t_4 = __pyx_t_1;
@@ -8581,26 +8581,26 @@ static double __pyx_f_6mlgrad_4loss_12SoftMinLoss2_evaluate(struct __pyx_obj_6ml
     /* "mlgrad/loss.pyx":183
  *         S = 0
  *         for i in range(n):
- *             S += expf(a*(val_min - vals[i]))             # <<<<<<<<<<<<<<
- *         S = logf(S)
+ *             S += exp(a*(val_min - vals[i]))             # <<<<<<<<<<<<<<
+ *         S = log(S)
  *         S = val_min - S
  */
     __pyx_t_6 = __pyx_v_i;
-    __pyx_v_S = (__pyx_v_S + expf((__pyx_v_a * (__pyx_v_val_min - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vals.data) + __pyx_t_6)) )))))));
+    __pyx_v_S = (__pyx_v_S + exp((__pyx_v_a * (__pyx_v_val_min - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vals.data) + __pyx_t_6)) )))))));
   }
 
   /* "mlgrad/loss.pyx":184
  *         for i in range(n):
- *             S += expf(a*(val_min - vals[i]))
- *         S = logf(S)             # <<<<<<<<<<<<<<
+ *             S += exp(a*(val_min - vals[i]))
+ *         S = log(S)             # <<<<<<<<<<<<<<
  *         S = val_min - S
  * 
  */
-  __pyx_v_S = logf(__pyx_v_S);
+  __pyx_v_S = log(__pyx_v_S);
 
   /* "mlgrad/loss.pyx":185
- *             S += expf(a*(val_min - vals[i]))
- *         S = logf(S)
+ *             S += exp(a*(val_min - vals[i]))
+ *         S = log(S)
  *         S = val_min - S             # <<<<<<<<<<<<<<
  * 
  *         return S
@@ -8654,8 +8654,7 @@ static void __pyx_f_6mlgrad_4loss_12SoftMinLoss2_gradient(struct __pyx_obj_6mlgr
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
   int __pyx_t_7;
-  float __pyx_t_8;
-  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_8;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -8761,7 +8760,7 @@ static void __pyx_f_6mlgrad_4loss_12SoftMinLoss2_gradient(struct __pyx_obj_6mlgr
  * 
  *         S = 0             # <<<<<<<<<<<<<<
  *         for i in range(n):
- *             vals[i] = val = expf(a*(val_min - vals[i]))
+ *             vals[i] = val = exp(a*(val_min - vals[i]))
  */
   __pyx_v_S = 0.0;
 
@@ -8769,7 +8768,7 @@ static void __pyx_f_6mlgrad_4loss_12SoftMinLoss2_gradient(struct __pyx_obj_6mlgr
  * 
  *         S = 0
  *         for i in range(n):             # <<<<<<<<<<<<<<
- *             vals[i] = val = expf(a*(val_min - vals[i]))
+ *             vals[i] = val = exp(a*(val_min - vals[i]))
  *             S += val
  */
   __pyx_t_1 = __pyx_v_n;
@@ -8780,19 +8779,19 @@ static void __pyx_f_6mlgrad_4loss_12SoftMinLoss2_gradient(struct __pyx_obj_6mlgr
     /* "mlgrad/loss.pyx":202
  *         S = 0
  *         for i in range(n):
- *             vals[i] = val = expf(a*(val_min - vals[i]))             # <<<<<<<<<<<<<<
+ *             vals[i] = val = exp(a*(val_min - vals[i]))             # <<<<<<<<<<<<<<
  *             S += val
  * 
  */
     __pyx_t_6 = __pyx_v_i;
-    __pyx_t_8 = expf((__pyx_v_a * (__pyx_v_val_min - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vals.data) + __pyx_t_6)) ))))));
+    __pyx_t_2 = exp((__pyx_v_a * (__pyx_v_val_min - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vals.data) + __pyx_t_6)) ))))));
     __pyx_t_6 = __pyx_v_i;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vals.data) + __pyx_t_6)) )) = __pyx_t_8;
-    __pyx_v_val = __pyx_t_8;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vals.data) + __pyx_t_6)) )) = __pyx_t_2;
+    __pyx_v_val = __pyx_t_2;
 
     /* "mlgrad/loss.pyx":203
  *         for i in range(n):
- *             vals[i] = val = expf(a*(val_min - vals[i]))
+ *             vals[i] = val = exp(a*(val_min - vals[i]))
  *             S += val             # <<<<<<<<<<<<<<
  * 
  *         for i in range(n):
@@ -8820,8 +8819,8 @@ static void __pyx_f_6mlgrad_4loss_12SoftMinLoss2_gradient(struct __pyx_obj_6mlgr
  * cdef class MultLoss:
  */
     __pyx_t_6 = __pyx_v_i;
-    __pyx_t_9 = __pyx_v_i;
-    __pyx_t_2 = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vals.data) + __pyx_t_6)) ))) * ((struct __pyx_vtabstruct_6mlgrad_4loss_Loss *)__pyx_v_self->lossfunc->__pyx_vtab)->derivative(__pyx_v_self->lossfunc, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_9)) ))), __pyx_v_yk));
+    __pyx_t_8 = __pyx_v_i;
+    __pyx_t_2 = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_vals.data) + __pyx_t_6)) ))) * ((struct __pyx_vtabstruct_6mlgrad_4loss_Loss *)__pyx_v_self->lossfunc->__pyx_vtab)->derivative(__pyx_v_self->lossfunc, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_8)) ))), __pyx_v_yk));
     if (unlikely(__pyx_v_S == 0)) {
       #ifdef WITH_THREAD
       PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -8832,8 +8831,8 @@ static void __pyx_f_6mlgrad_4loss_12SoftMinLoss2_gradient(struct __pyx_obj_6mlgr
       #endif
       __PYX_ERR(0, 206, __pyx_L1_error)
     }
-    __pyx_t_9 = __pyx_v_i;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_9)) )) = (__pyx_t_2 / __pyx_v_S);
+    __pyx_t_8 = __pyx_v_i;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_8)) )) = (__pyx_t_2 / __pyx_v_S);
   }
 
   /* "mlgrad/loss.pyx":189
@@ -32141,7 +32140,7 @@ if (!__Pyx_RefNanny) {
 
   /* "mlgrad/loss.pyx":35
  * 
- * from libc.math cimport fabsf, powf, sqrtf, fmaxf, expf, logf
+ * from libc.math cimport fabs, pow, sqrt, fmax, exp, log
  * import numpy as np             # <<<<<<<<<<<<<<
  * 
  * cdef double double_max = PyFloat_GetMax()

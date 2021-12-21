@@ -31,7 +31,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from libc.math cimport fabsf, powf, sqrtf, fmaxf, expf, logf
+from libc.math cimport fabs, pow, sqrt, fmax, exp, log
 import numpy as np
 
 cdef double double_max = PyFloat_GetMax()
@@ -59,7 +59,7 @@ cdef class SquareErrorLoss(Loss):
         return 2 * (y - yk)
     #
     cdef double difference(self, const double y, const double yk) nogil:
-        return fabsf(y-yk)
+        return fabs(y-yk)
     #
     def _repr_latex_(self):
         return r"$(y - \tilde y)^2$" 
@@ -76,7 +76,7 @@ cdef class ErrorLoss(Loss):
         return self.func.derivative(y-yk)
     #
     cdef double difference(self, const double y, const double yk) nogil:
-        return fabsf(y-yk)
+        return fabs(y-yk)
     #
     def _repr_latex_(self):
         return r"$\ell(y - \tilde y)$" 
@@ -90,7 +90,7 @@ cdef class IdErrorLoss(Loss):
         return 1
     #
     cdef double difference(self, const double y, const double yk) nogil:
-        return fabsf(y-yk)
+        return fabs(y-yk)
     #
     def _repr_latex_(self):
         return r"$(y - \tilde y)$" 
@@ -101,22 +101,22 @@ cdef class RelativeErrorLoss(Loss):
         self.func = func
     #
     cdef double evaluate(self, const double y, const double yk) nogil:
-        cdef double v = fabsf(yk) + 1
+        cdef double v = fabs(yk) + 1
         cdef double b = v / (v + yk*yk)
 
         return self.func.evaluate(b * (y - yk))
     #
     cdef double derivative(self, const double y, const double yk) nogil:
-        cdef double v = fabsf(yk) + 1
+        cdef double v = fabs(yk) + 1
         cdef double b = v / (v + yk*yk)
 
         return b * self.func.derivative(b * (y - yk))
     #
     cdef double difference(self, const double y, const double yk) nogil:
-        cdef double v = fabsf(yk) + 1
+        cdef double v = fabs(yk) + 1
         cdef double b = v / (v + yk*yk)
 
-        return b * fabsf(y - yk)
+        return b * fabs(y - yk)
     #
     def _repr_latex_(self):
         return r"$\ell(y - \tilde y)$" 
@@ -180,8 +180,8 @@ cdef class SoftMinLoss2(MultLoss2):
                 
         S = 0
         for i in range(n):
-            S += expf(a*(val_min - vals[i]))
-        S = logf(S)
+            S += exp(a*(val_min - vals[i]))
+        S = log(S)
         S = val_min - S
 
         return S
@@ -199,7 +199,7 @@ cdef class SoftMinLoss2(MultLoss2):
 
         S = 0
         for i in range(n):
-            vals[i] = val = expf(a*(val_min - vals[i]))
+            vals[i] = val = exp(a*(val_min - vals[i]))
             S += val
                 
         for i in range(n):
