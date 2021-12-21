@@ -4,8 +4,7 @@ from mlgrad.gd cimport GD
 
 from mlgrad.risk cimport Risk, Functional
 
-from libc.math cimport fabsf, pow, sqrt, fmax
-# from libc.math cimport fabsff, powf, sqrtf, fmaxf
+from libc.math cimport fabs, pow, sqrt, fmax
 from libc.string cimport memcpy, memset
 
 cdef extern from "Python.h":

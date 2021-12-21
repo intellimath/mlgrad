@@ -3283,7 +3283,7 @@ struct __pyx_obj_6mlgrad_2gd_SGD {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":25
+/* "lib/mlgrad/stopcond.pxd":24
  * cpdef StopCondition get_stop_condition(object)
  * 
  * cdef class StopCondition:             # <<<<<<<<<<<<<<
@@ -3296,7 +3296,7 @@ struct __pyx_obj_6mlgrad_2gd_StopCondition {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":34
+/* "lib/mlgrad/stopcond.pxd":33
  * 
  * @cython.final
  * cdef class DiffL1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -3310,7 +3310,7 @@ struct __pyx_obj_6mlgrad_2gd_DiffL1StopCondition {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":40
+/* "lib/mlgrad/stopcond.pxd":39
  * 
  * @cython.final
  * cdef class DiffL2StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -3325,7 +3325,7 @@ struct __pyx_obj_6mlgrad_2gd_DiffL2StopCondition {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":45
+/* "lib/mlgrad/stopcond.pxd":44
  * 
  * @cython.final
  * cdef class DiffG1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -3339,7 +3339,7 @@ struct __pyx_obj_6mlgrad_2gd_DiffG1StopCondition {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":50
+/* "lib/mlgrad/stopcond.pxd":49
  * 
  * @cython.final
  * cdef class DiffP1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -26542,7 +26542,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_copy_memoryview2(__Pyx_memviewslic
   __Pyx_RefNannyFinishContext();
 }
 
-/* "lib/mlgrad/stopcond.pxd":15
+/* "lib/mlgrad/stopcond.pxd":14
  *     double PyFloat_GetMin()
  * 
  * cdef inline double min3(const double v1, const double v2, const double v3):             # <<<<<<<<<<<<<<
@@ -26557,7 +26557,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("min3", 0);
 
-  /* "lib/mlgrad/stopcond.pxd":16
+  /* "lib/mlgrad/stopcond.pxd":15
  * 
  * cdef inline double min3(const double v1, const double v2, const double v3):
  *     cdef double vmin = v1             # <<<<<<<<<<<<<<
@@ -26566,7 +26566,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
   __pyx_v_vmin = __pyx_v_v1;
 
-  /* "lib/mlgrad/stopcond.pxd":17
+  /* "lib/mlgrad/stopcond.pxd":16
  * cdef inline double min3(const double v1, const double v2, const double v3):
  *     cdef double vmin = v1
  *     if v2 < vmin:             # <<<<<<<<<<<<<<
@@ -26576,7 +26576,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
   __pyx_t_1 = ((__pyx_v_v2 < __pyx_v_vmin) != 0);
   if (__pyx_t_1) {
 
-    /* "lib/mlgrad/stopcond.pxd":18
+    /* "lib/mlgrad/stopcond.pxd":17
  *     cdef double vmin = v1
  *     if v2 < vmin:
  *         vmin = v2             # <<<<<<<<<<<<<<
@@ -26585,7 +26585,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
     __pyx_v_vmin = __pyx_v_v2;
 
-    /* "lib/mlgrad/stopcond.pxd":17
+    /* "lib/mlgrad/stopcond.pxd":16
  * cdef inline double min3(const double v1, const double v2, const double v3):
  *     cdef double vmin = v1
  *     if v2 < vmin:             # <<<<<<<<<<<<<<
@@ -26594,7 +26594,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
   }
 
-  /* "lib/mlgrad/stopcond.pxd":19
+  /* "lib/mlgrad/stopcond.pxd":18
  *     if v2 < vmin:
  *         vmin = v2
  *     if v3 < vmin:             # <<<<<<<<<<<<<<
@@ -26604,7 +26604,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
   __pyx_t_1 = ((__pyx_v_v3 < __pyx_v_vmin) != 0);
   if (__pyx_t_1) {
 
-    /* "lib/mlgrad/stopcond.pxd":20
+    /* "lib/mlgrad/stopcond.pxd":19
  *         vmin = v2
  *     if v3 < vmin:
  *         vmin = v3             # <<<<<<<<<<<<<<
@@ -26613,7 +26613,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
     __pyx_v_vmin = __pyx_v_v3;
 
-    /* "lib/mlgrad/stopcond.pxd":19
+    /* "lib/mlgrad/stopcond.pxd":18
  *     if v2 < vmin:
  *         vmin = v2
  *     if v3 < vmin:             # <<<<<<<<<<<<<<
@@ -26622,7 +26622,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
   }
 
-  /* "lib/mlgrad/stopcond.pxd":21
+  /* "lib/mlgrad/stopcond.pxd":20
  *     if v3 < vmin:
  *         vmin = v3
  *     return vmin             # <<<<<<<<<<<<<<
@@ -26632,7 +26632,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
   __pyx_r = __pyx_v_vmin;
   goto __pyx_L0;
 
-  /* "lib/mlgrad/stopcond.pxd":15
+  /* "lib/mlgrad/stopcond.pxd":14
  *     double PyFloat_GetMin()
  * 
  * cdef inline double min3(const double v1, const double v2, const double v3):             # <<<<<<<<<<<<<<

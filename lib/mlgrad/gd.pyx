@@ -8,7 +8,7 @@
 # cython: initializedcheck=False
 # cython: unraisable_tracebacks=True  
 
-# The MIT License (MIT)
+# The MIT License (MIT) 
 #
 # Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
 #
