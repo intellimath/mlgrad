@@ -2754,11 +2754,12 @@ struct __pyx_obj_6mlgrad_6avragg_Average {
  * @cython.final
  * cdef class MAverage(Average):             # <<<<<<<<<<<<<<
  *     cdef Func func
- *     # cdef double gamma
+ *     cdef double gamma
  */
 struct __pyx_obj_6mlgrad_6avragg_MAverage {
   struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
   struct __pyx_obj_6mlgrad_4func_Func *func;
+  double gamma;
 };
 
 
@@ -4656,7 +4657,7 @@ static struct __pyx_vtabstruct_6mlgrad_6avragg_Average *__pyx_vtabptr_6mlgrad_6a
  * @cython.final
  * cdef class MAverage(Average):             # <<<<<<<<<<<<<<
  *     cdef Func func
- *     # cdef double gamma
+ *     cdef double gamma
  */
 
 struct __pyx_vtabstruct_6mlgrad_6avragg_MAverage {

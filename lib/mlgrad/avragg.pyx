@@ -259,9 +259,9 @@ cdef class Average(object):
                 self.pmin = self.pval
                 self.u_best = self.u
                 self.m = 0
-            # elif self.pval > self.pval_prev:
-            #     self.u = h1 * self.u_prev + h * self.u
-            #
+            elif self.pval > self.pval_prev:
+                self.u = h1 * self.u_prev + h * self.u
+            
             if self.stop_condition():
                 break
             #
@@ -309,11 +309,11 @@ include "avragg_fg.pyx"
 @cython.final
 cdef class MAverage(Average):
     #
-    def __init__(self, Func func, tol=1.0e-9, n_iter=1000): #, gamma=0.1):
+    def __init__(self, Func func, tol=1.0e-9, n_iter=1000, gamma=0.1):
         self.func = func
         self.n_iter = n_iter
         self.tol = tol
-        # self.gamma = gamma
+        self.gamma = gamma
     #
     @cython.cdivision(True)
     @cython.final
@@ -322,33 +322,42 @@ cdef class MAverage(Average):
         cdef double *YY = &Y[0]
         cdef double yk, v, S, V, Z
         cdef double u, u_min, z, z_min
+        cdef double u_prev, z_prev
         cdef double tol = self.tol
         cdef Func func = self.func
         cdef int K
         cdef bint finish = 0
+        cdef double gamma = self.gamma
         
         if u0 is None:
             u = (YY[0] + YY[N//2] + YY[N-1]) / 3
-            # u = array_mean(Y)
+            ## u = array_mean(Y)
         else:
             u = u0
         
         u_min = u
-        z_min = max_double
+        z_min = z = max_double / 2
 
         for K in range(self.n_iter):
+            # z_prev = z
+            # u_prev = u
+
             S = 0
             V = 0
-            Z = 0
             for k in prange(N, nogil=True, num_threads=num_procs):
             # for k in range(N):
                 yk = YY[k]
                 v = func.derivative_div_x(yk - u)
                 S += v * yk
                 V += v
-                Z += func.evaluate(yk - u)
 
             u = S / V
+            
+            Z = 0
+            for k in prange(N, nogil=True, num_threads=num_procs):
+            # for k in range(N):
+                Z += func.evaluate(YY[k] - u)
+            
             z = Z / N
 
             if K > 0 and fabs(z - z_min) / (1 + fabs(z_min)) < tol:
@@ -357,6 +366,8 @@ cdef class MAverage(Average):
             if z < z_min:
                 z_min = z
                 u_min = u
+            # elif z > z_prev:
+            #     u = (1-gamma) * u_prev + gamma * u
                 
             if finish:
                 break
