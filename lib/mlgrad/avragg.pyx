@@ -32,7 +32,7 @@
 
 cimport cython
 from mlgrad.func cimport Func, ParameterizedFunc
-from libc.math cimport fabs, pow, sqrtf, fmax, log, exp
+from libc.math cimport fabs, pow, sqrt, fmax, log, exp
 
 from cython.parallel cimport parallel, prange
  
@@ -50,16 +50,16 @@ import numpy as np
 
 cdef class Penalty(object):
     #
-    cdef double evaluate(self, double[::1] Y, double u):
+    cdef double evaluate(self, double[::1] Y, const double u):
         return 0
     #
-    cdef double derivative(self, double[::1] Y, double u):
+    cdef double derivative(self, double[::1] Y, const double u):
         return 0
     #
-    cdef void gradient(self, double[::1] Y, double u, double[::1] grad):
+    cdef void gradient(self, double[::1] Y, const double u, double[::1] grad):
         pass
     #
-    cdef double iterative_next(self, double[::1] Y, double u):
+    cdef double iterative_next(self, double[::1] Y, const double u):
         return 0
 
 @cython.final
@@ -70,9 +70,9 @@ cdef class PenaltyAverage(Penalty):
     #
     @cython.cdivision(True)
     @cython.final
-    cdef double evaluate(self, double[::1] Y, double u):
+    cdef double evaluate(self, double[::1] Y, const double u):
         cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double *YY = &Y[0]
+        cdef const double *YY = &Y[0]
         cdef double S
         cdef Func func = self.func
 
@@ -85,9 +85,9 @@ cdef class PenaltyAverage(Penalty):
     # 
     @cython.cdivision(True)
     @cython.final
-    cdef double derivative(self, double[::1] Y, double u):
+    cdef double derivative(self, double[::1] Y, const double u):
         cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double *YY = &Y[0]
+        cdef const double *YY = &Y[0]
         cdef double S
         cdef Func func = self.func
         
@@ -100,9 +100,9 @@ cdef class PenaltyAverage(Penalty):
     #
     @cython.cdivision(True)
     @cython.final
-    cdef double iterative_next(self, double[::1] Y, double u):
+    cdef double iterative_next(self, double[::1] Y, const double u):
         cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double *YY = &Y[0]
+        cdef const double *YY = &Y[0]
         cdef double S, V, v, yk
         cdef Func func = self.func
 
@@ -119,9 +119,9 @@ cdef class PenaltyAverage(Penalty):
     #
     @cython.cdivision(True)
     @cython.final
-    cdef void gradient(self, double[::1] Y, double u, double[::1] grad):
+    cdef void gradient(self, double[::1] Y, const double u, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double *YY = &Y[0]
+        cdef const double *YY = &Y[0]
         cdef double v, S
         cdef double *GG = &grad[0]
         cdef Func func = self.func
@@ -144,7 +144,7 @@ cdef class PenaltyScale(Penalty):
     #
     @cython.cdivision(True)
     @cython.final
-    cdef double evaluate(self, double[::1] Y, double s):
+    cdef double evaluate(self, double[::1] Y, const double s):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef Func func = self.func
         cdef double S
@@ -160,7 +160,7 @@ cdef class PenaltyScale(Penalty):
     #
     @cython.cdivision(True)
     @cython.final
-    cdef double derivative(self, double[::1] Y, double s):
+    cdef double derivative(self, double[::1] Y, const double s):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double S, v
         cdef Func func = self.func
@@ -175,7 +175,7 @@ cdef class PenaltyScale(Penalty):
     #
     @cython.cdivision(True)
     @cython.final
-    cdef double iterative_next(self, double[::1] Y, double s):
+    cdef double iterative_next(self, double[::1] Y, const double s):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double S, v, y_k
         cdef Func func = self.func
@@ -186,11 +186,11 @@ cdef class PenaltyScale(Penalty):
             y_k = Y[k]
             S += func.derivative_div_x(y_k / s) * y_k * y_k
         
-        return sqrtf(S / N)
+        return sqrt(S / N)
     #
     @cython.cdivision(True)
     @cython.final
-    cdef void gradient(self, double[::1] Y, double s, double[::1] grad):
+    cdef void gradient(self, double[::1] Y, const double s, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double S, v
         cdef Func func = self.func
@@ -327,7 +327,7 @@ cdef class MAverage(Average):
         cdef Func func = self.func
         cdef int K
         cdef bint finish = 0
-        cdef double gamma = self.gamma
+        # cdef double gamma = self.gamma
         
         if u0 is None:
             u = (YY[0] + YY[N//2] + YY[N-1]) / 3
@@ -654,7 +654,7 @@ cdef class HMAverage(Average):
                 Z[k] = w * w
 
             self.avr.fit(Z)
-            avr_z = sqrtf(self.avr.u)
+            avr_z = sqrt(self.avr.u)
             self.avr.gradient(Z, grad)
             
             m = 0
@@ -695,7 +695,7 @@ cdef class HMAverage(Average):
             Z[k] = w * w
 
         self.avr.fit(Z)
-        avr_z = sqrtf(self.avr.u)
+        avr_z = sqrt(self.avr.u)
         self.avr.gradient(Z, grad)
 
         m = 0
@@ -886,150 +886,3 @@ cdef inline Py_ssize_t nearest_index(double[::1] u, double y):
             j_min = j
     return j_min
 
-# cdef class KPenaltyAverage(Penalty):
-#     #
-#     def __init__(self, Func func):
-#         self.func = func
-#     #
-#     cdef double evaluate(self, double[::1] Y, double[::1] u):
-#         cdef Py_ssize_t j, jmin, k, N = Y.shape[0], K = u.shape[0]
-#         cdef double psum, y
-    
-#         psum = 0
-# #         for k in prange(N, nogil=True, num_threads=num_procs):
-#         for k in range(N):
-#             y = nearest_value(u, Y[k])
-#             psum += self.func.evaluate(y)
-        
-#         return psum / N
-#     #
-#     cdef void gradient_u(self, double[::1] Y, double[::1] u, double[::1] grad):
-#         cdef Py_ssize_t k, j, N = Y.shape[0]
-#         cdef double y
-        
-#         fill_memoryview(grad, 0)
-# #         for k in prange(N, nogil=True, num_threads=num_procs):
-#         for k in range(N):
-#             y = Y[k]
-#             j = nearest_index(u, y)
-#             grad[j] += self.func.derivative(y - u[j])                        
-        
-#         for j in range(u.shape[0]):
-#             grad[j] /= N
-#     #
-#     cdef double iterative_next(self, double[::1] Y, double u):
-#         cdef Py_ssize_t k, N = Y.shape[0]
-#         cdef Func func = self.func
-#         cdef double gsum, G, v, y
-        
-#         gsum = 0
-#         G = 0
-# #         for k in prange(N, nogil=True, num_threads=num_procs):
-#         for k in range(N):
-#             y = nearest_value(u, Y[k])
-#             v = self.func.derivative_div_x(y)
-#             G += v
-#             gsum += v * y
-        
-#         return gsum / G
-#     #
-#     cdef void gradient(self, double[::1] Y, double u, double[::1] grad):
-#         cdef Py_ssize_t k, N = Y.shape[0]
-#         cdef Func func = self.func
-#         cdef double v, S
-        
-#         S = 0
-#         for k in prange(N, nogil=True, num_threads=num_procs):
-# #         for k in range(N):
-#             v = func.derivative2(Y[k] - u)
-#             S += v
-#             grad[k] = v
-                
-#         for k in prange(N, nogil=True, num_threads=num_procs):
-# #         for k in range(N):
-#             grad[k] /= S
-
-            
-# cdef class KAverages(object):
-#     #
-#     def use_deriv_averager(self, averager):
-#         self.deriv_averager = averager
-#     #
-#     cdef init(self, double[::1] Y, u0=None):
-#         if self.deriv_averager is not None:
-#             self.deriv_averager.init()
-        
-#         self.pmin = PyFloat_GetMax()
-
-#         if u0 is not None:
-#             self.u = u0
-#         elif self.first:
-#             self.u = 0
-            
-#         self.first = 0
-
-#         self.u_best = self.u        
-        
-#         self.m = 0
-#     #
-#     def __call__(self, double[::1] Y): 
-#         self.fit(Y)
-#         return self.u
-#     #
-#     cpdef fit(self, double[::1] Y, u0=None):
-#         cdef int j, K, n_iter = self.n_iter
-#         cdef Penalty penalty = self.penalty
-        
-#         self.init(Y, u0)
-#         self.pval = penalty.evaluate(Y, self.u)
-
-#         K = 1
-#         #
-#         while K < n_iter:                
-#             #
-#             self.u_prev = self.u
-#             self.pval_prev = self.pval
-#             self.fit_epoch(Y)
-
-#             self.pval = penalty.evaluate(Y, self.u)
-#             if self.pval > self.pval_prev:
-#                 for j in range(10):
-#                     if self.pval <= self.pval_prev:
-#                         break
-#                     self.u = 0.5 * (self.u + self.u_prev)
-#                     self.pval = penalty.evaluate(Y, self.u)
-#             #
-#             if self.stop_condition():
-#                 break
-#             #
-#             K += 1
-
-#         self.K = K
-#         self.u = self.u_best
-#     ##
-#     cdef fit_epoch(self, double[::1] Y):
-#         return None
-#     #
-#     cdef gradient(self, double[::1] Y, double[::1] grad):
-#         self.penalty.gradient(Y, self.u, grad)
-#     #
-#     cdef bint stop_condition(self):
-#         cdef double p, pmin
-
-#         pval = self.pval
-#         pmin = self.pmin
-        
-#         if pval < pmin:
-#             self.pmin = pval
-#             self.u_best = self.u
-#             self.m = 0
-
-#         if fabs(pval - pmin) / (1 + fabs(pval)) < self.tol:
-#             return 1
-            
-#         if self.m > self.m_iter:
-#             return 1
-
-#         self.m += 1
-                
-#         return 0

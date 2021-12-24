@@ -20,8 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from mlgrad.test.test_sag import *
-from mlgrad.test.test_sagagg import *
+# from mlgrad.test.test_sag import *
+# from mlgrad.test.test_sagagg import *
 
 __version__ = '0.1'
 

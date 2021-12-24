@@ -12,10 +12,8 @@ import platform
 WIN32 = (platform.system() == 'Windows')
 
 extra_compile_args = ["-Ofast", "-march=native"] 
-# extra_compile_args = ["-O3", "-march=native", "-mavx2", "-mfma", "-msse2",  "-fopt-info-vec-optimized"] 
 extra_link_args = ["-Ofast", "-march=native", "-lm"]
 extra_compile_args_openmp = ["-Ofast", "-march=native", ("-fopenmp" if not WIN32 else "/openmp")]
-# extra_compile_args_openmp = ["-O3", "-march=native", "-mavx2", "-mfma", "-msse2", "-fopt-info-vec-optimized", ("-fopenmp" if not WIN32 else "/openmp")]
 extra_link_args_openmp = ["-Ofast", "-march=native", ("-fopenmp" if not WIN32 else "/openmp"), "-lm"]
 
 # cython_compile_time_env = {"USE_OPENMP":1}
@@ -176,7 +174,7 @@ setup(
     ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
-    packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.clsfy', 'mlgrad.test'],
+    packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.cls', 'mlgrad.test'],
     package_data = {'': ['*.pxd']},
     url = 'https://bitbucket.org/intellimath/mlgrad',
     download_url = 'https://bitbucket.org/intellimath/mlgrad',
