@@ -34,8 +34,8 @@ ext_modules = [
     Extension(
         "mlgrad.func",
         ["lib/mlgrad/func.pyx"],
-        extra_compile_args = extra_compile_args,
-        extra_link_args = extra_link_args,
+        extra_compile_args = extra_compile_args_openmp,
+        extra_link_args = extra_link_args_openmp,
     ),
     Extension(
         "mlgrad.model",

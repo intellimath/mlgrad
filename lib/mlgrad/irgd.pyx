@@ -1,11 +1,11 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
+# cython: boundscheck=True
+# cython: wraparound=True
+# cython: nonecheck=True
 # cython: embedsignature=True
-# cython: initializedcheck=False
+# cython: initializedcheck=True
 # cython: unraisable_tracebacks=True  
 
 
@@ -40,7 +40,7 @@ from mlgrad.risk import Risk, Functional
 
 cdef class IRGD(object):
     #
-    def __init__(self, GD gd, Weights weights=None, tol=1.0e-4, n_iter=100, h_anneal=1.0, M=40, callback=None):
+    def __init__(self, GD gd, Weights weights=None, tol=1.0e-5, n_iter=100, h_anneal=0.95, M=40, callback=None):
         """
         """
         self.gd = gd
@@ -61,7 +61,7 @@ cdef class IRGD(object):
         
         self.lval = self.lval1 = self.lval2 = 0
         
-        self.is_warm_start = False
+        # self.is_warm_start = False
         self.completed = False
         
         self.K = 0
@@ -87,7 +87,7 @@ cdef class IRGD(object):
 
 #         if not self.is_warm_start:
         self.lval_best = self.weights.get_qvalue()
-        copy_memoryview(self.param_best, risk.param)
+        self.param_best[:] = risk.param
         
         if self.callback is not None:
             self.callback(self)
@@ -108,20 +108,23 @@ cdef class IRGD(object):
             risk.use_weights(self.weights.weights)
             
             self.lval = self.weights.get_qvalue()
-            self.lvals.append(self.lval)
                 
             if self.stop_condition():
                 self.completed = 1
 
             if self.lval < self.lval_best:
-                copy_memoryview(self.param_best, risk.param)
+                self.param_best[:] = risk.param
                 self.lval_best = self.lval
-                
+
+            if K > 11 and self.lval > self.lvals[-1]:
+                self.gd.h_rate.h *= self.h_anneal
+                self.gd.h_rate.init()
+
+            self.lvals.append(self.lval)
+
             if self.completed:
                 break
-                
-            self.gd.h_rate.h *= self.h_anneal
-            self.gd.h_rate.init()
+            
 
             K += 1            
         #
@@ -132,7 +135,7 @@ cdef class IRGD(object):
     cdef finalize(self):
         cdef Functional risk = self.gd.risk
 
-        copy_memoryview(risk.param, self.param_best)
+        risk.param[:] = self.param_best
     #
     cdef bint stop_condition(self):
 #         cdef double lval_min

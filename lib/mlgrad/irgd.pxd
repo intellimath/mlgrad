@@ -77,13 +77,13 @@ cdef class IRGD(object):
         
     #cdef public double[::1] param_best
     cdef public double lval, lval1, lval2
-    cdef int m, M
-    cdef bint u_only, is_warm_start
+    cdef public int m, M
+    # cdef bint u_only, is_warm_start
     cdef public bint completed
     
     cdef double[::1] param_prev
-    cdef double[::1] param_best
-    cdef double lval_best
+    cdef public double[::1] param_best
+    cdef public double lval_best
     #cdef double u_prev
     #
     cdef public object callback

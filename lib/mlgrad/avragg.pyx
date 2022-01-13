@@ -244,11 +244,9 @@ cdef class Average(object):
         if self.pval < self.pmin:
             self.pmin = self.pval
             self.u_best = self.u
-
-        K = 1
         #
+        K = 1
         while K < n_iter:                
-            #
             self.u_prev = self.u
             self.pval_prev = self.pval
             self.fit_epoch(Y)
@@ -261,7 +259,7 @@ cdef class Average(object):
                 self.m = 0
             elif self.pval > self.pval_prev:
                 self.u = h1 * self.u_prev + h * self.u
-            
+
             if self.stop_condition():
                 break
             #
@@ -269,7 +267,7 @@ cdef class Average(object):
 
         self.K = K
         self.u = self.u_best
-    ##
+    #
     cdef fit_epoch(self, double[::1] Y):
         return None
     #
@@ -278,33 +276,18 @@ cdef class Average(object):
     #
     @cython.cdivision(True)
     cdef bint stop_condition(self):
-#         cdef double p, pmin, prev
-#         #
-#         pval = self.pval
-#         pmin = self.pmin
-#         prev = self.pval_prev
-        
-#         if pval < pmin:
-#             pmin = self.pmin = pval
-#             self.u_best = self.u
-#             self.m = 0
-#         elif pval == pmin:
-#             if self.u < self.u_best:
-#                 self.u_best = self.u
-        #
         if fabs(self.pval - self.pmin) / (1. + fabs(self.pmin)) < self.tol:
             return 1
-            
+
         if self.m > self.m_iter:
             return 1
 
         self.m += 1
-                
+
         return 0
 
 include "avragg_it.pyx"
 include "avragg_fg.pyx"
-
 
 @cython.final
 cdef class MAverage(Average):
@@ -322,12 +305,10 @@ cdef class MAverage(Average):
         cdef double *YY = &Y[0]
         cdef double yk, v, S, V, Z
         cdef double u, u_min, z, z_min
-        cdef double u_prev, z_prev
         cdef double tol = self.tol
         cdef Func func = self.func
         cdef int K
         cdef bint finish = 0
-        # cdef double gamma = self.gamma
         
         if u0 is None:
             u = (YY[0] + YY[N//2] + YY[N-1]) / 3
@@ -339,12 +320,10 @@ cdef class MAverage(Average):
         z_min = z = max_double / 2
 
         for K in range(self.n_iter):
-            # z_prev = z
-            # u_prev = u
 
             S = 0
             V = 0
-            for k in prange(N, nogil=True, num_threads=num_procs):
+            for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
             # for k in range(N):
                 yk = YY[k]
                 v = func.derivative_div_x(yk - u)
@@ -354,7 +333,7 @@ cdef class MAverage(Average):
             u = S / V
             
             Z = 0
-            for k in prange(N, nogil=True, num_threads=num_procs):
+            for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
             # for k in range(N):
                 Z += func.evaluate(YY[k] - u)
             
@@ -366,8 +345,6 @@ cdef class MAverage(Average):
             if z < z_min:
                 z_min = z
                 u_min = u
-            # elif z > z_prev:
-            #     u = (1-gamma) * u_prev + gamma * u
                 
             if finish:
                 break
@@ -385,13 +362,13 @@ cdef class MAverage(Average):
         cdef Func func = self.func
         
         V = 0
-        for k in prange(N, nogil=True, num_threads=num_procs):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
         # for k in range(N):
             GG[k] = v = func.derivative2(YY[k] - u)
             V += v
             
-        # for k in prange(N, nogil=True, num_threads=num_procs):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
+        # for k in range(N):
             GG[k] /= V
      
 @cython.final
@@ -408,8 +385,6 @@ cdef class ParameterizedAverage(Average):
         cdef Py_ssize_t N = Y.shape[0], M
         cdef double c
         cdef double S = 0
-#         cdef double u1,u2,u3,u4
-#         cdef double v1,v2,v3,v4
         cdef double *YY = &Y[0]
         cdef ParameterizedFunc func = self.func
         

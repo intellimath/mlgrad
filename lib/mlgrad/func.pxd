@@ -10,10 +10,10 @@ cdef class Func(object):
     cdef double derivative(self, const double x) nogil
     cdef double derivative2(self, const double x) nogil
     cdef double derivative_div_x(self, const double x) nogil
-    cdef double evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil
-    cdef double derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil
-    cdef double derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil
-    cdef double derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil
+    cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil
+    cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil
+    cdef void derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil
+    cdef void derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil
     #
 
 @cython.final

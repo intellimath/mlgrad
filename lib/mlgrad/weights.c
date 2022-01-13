@@ -3150,7 +3150,7 @@ struct __pyx_obj_6mlgrad_7weights_RWeights {
  * @cython.final
  * cdef class MWeights(Weights):             # <<<<<<<<<<<<<<
  *     cdef readonly double[::1] lval_all
- *     cdef double best_u
+ *     cdef public double best_u
  */
 struct __pyx_obj_6mlgrad_7weights_MWeights {
   struct __pyx_obj_6mlgrad_7weights_Weights __pyx_base;
@@ -3256,10 +3256,10 @@ struct __pyx_vtabstruct_6mlgrad_4func_Func {
   double (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   double (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   double (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
-  double (*evaluate_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  double (*derivative_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  double (*derivative2_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  double (*derivative_div_x_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  void (*evaluate_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  void (*derivative_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  void (*derivative2_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  void (*derivative_div_x_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
 };
 static struct __pyx_vtabstruct_6mlgrad_4func_Func *__pyx_vtabptr_6mlgrad_4func_Func;
 
@@ -5067,11 +5067,11 @@ static struct __pyx_vtabstruct_6mlgrad_4risk_ER21 *__pyx_vtabptr_6mlgrad_4risk_E
  */
 
 struct __pyx_vtabstruct_6mlgrad_7weights_Weights {
-  PyObject *(*init)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  PyObject *(*eval_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  __Pyx_memviewslice (*get_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  double (*get_qvalue)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  PyObject *(*set_param)(struct __pyx_obj_6mlgrad_7weights_Weights *, PyObject *, PyObject *);
+  PyObject *(*init)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch);
+  PyObject *(*eval_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch);
+  __Pyx_memviewslice (*get_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch);
+  double (*get_qvalue)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch);
+  PyObject *(*set_param)(struct __pyx_obj_6mlgrad_7weights_Weights *, PyObject *, PyObject *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_6mlgrad_7weights_Weights *__pyx_vtabptr_6mlgrad_7weights_Weights;
 
@@ -5253,6 +5253,84 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
+/* PyDictVersioning.proto */
+#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+#define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
+#define __PYX_GET_DICT_VERSION(dict)  (((PyDictObject*)(dict))->ma_version_tag)
+#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)\
+    (version_var) = __PYX_GET_DICT_VERSION(dict);\
+    (cache_var) = (value);
+#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP) {\
+    static PY_UINT64_T __pyx_dict_version = 0;\
+    static PyObject *__pyx_dict_cached_value = NULL;\
+    if (likely(__PYX_GET_DICT_VERSION(DICT) == __pyx_dict_version)) {\
+        (VAR) = __pyx_dict_cached_value;\
+    } else {\
+        (VAR) = __pyx_dict_cached_value = (LOOKUP);\
+        __pyx_dict_version = __PYX_GET_DICT_VERSION(DICT);\
+    }\
+}
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj);
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj);
+static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version);
+#else
+#define __PYX_GET_DICT_VERSION(dict)  (0)
+#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)
+#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP)  (VAR) = (LOOKUP);
+#endif
+
+/* PyFunctionFastCall.proto */
+#if CYTHON_FAST_PYCALL
+#define __Pyx_PyFunction_FastCall(func, args, nargs)\
+    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
+#else
+#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
+#endif
+#define __Pyx_BUILD_ASSERT_EXPR(cond)\
+    (sizeof(char [1 - 2*!(cond)]) - 1)
+#ifndef Py_MEMBER_SIZE
+#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
+#endif
+  static size_t __pyx_pyframe_localsplus_offset = 0;
+  #include "frameobject.h"
+  #define __Pxy_PyFrame_Initialize_Offsets()\
+    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
+     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
+  #define __Pyx_PyFrame_GetLocalsplus(frame)\
+    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
+#endif
+
+/* PyObjectCall.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
+#else
+#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
+#endif
+
+/* PyObjectCallMethO.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
+#endif
+
+/* PyObjectCallNoArg.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
+#else
+#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
+#endif
+
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
+
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
 /* MemviewSliceInit.proto */
 #define __Pyx_BUF_MAX_NDIMS %(BUF_MAX_NDIMS)d
 #define __Pyx_MEMVIEW_DIRECT   1
@@ -5278,14 +5356,6 @@ static CYTHON_INLINE int __pyx_sub_acquisition_count_locked(
 #define __PYX_XDEC_MEMVIEW(slice, have_gil) __Pyx_XDEC_MEMVIEW(slice, have_gil, __LINE__)
 static CYTHON_INLINE void __Pyx_INC_MEMVIEW(__Pyx_memviewslice *, int, int);
 static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *, int, int);
-
-/* PyErrExceptionMatches.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_PyErr_ExceptionMatches(err) __Pyx_PyErr_ExceptionMatchesInState(__pyx_tstate, err)
-static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err);
-#else
-#define __Pyx_PyErr_ExceptionMatches(err)  PyErr_ExceptionMatches(err)
-#endif
 
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -5323,37 +5393,36 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 #define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
 #endif
 
+/* WriteUnraisableException.proto */
+static void __Pyx_WriteUnraisable(const char *name, int clineno,
+                                  int lineno, const char *filename,
+                                  int full_traceback, int nogil);
+
+/* RaiseArgTupleInvalid.proto */
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
+
+/* RaiseDoubleKeywords.proto */
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+/* ParseKeywords.proto */
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
+    const char* function_name);
+
+/* PyErrExceptionMatches.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_PyErr_ExceptionMatches(err) __Pyx_PyErr_ExceptionMatchesInState(__pyx_tstate, err)
+static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err);
+#else
+#define __Pyx_PyErr_ExceptionMatches(err)  PyErr_ExceptionMatches(err)
+#endif
+
 /* GetAttr.proto */
 static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *, PyObject *);
 
 /* GetAttr3.proto */
 static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *, PyObject *, PyObject *);
-
-/* PyDictVersioning.proto */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
-#define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
-#define __PYX_GET_DICT_VERSION(dict)  (((PyDictObject*)(dict))->ma_version_tag)
-#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)\
-    (version_var) = __PYX_GET_DICT_VERSION(dict);\
-    (cache_var) = (value);
-#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP) {\
-    static PY_UINT64_T __pyx_dict_version = 0;\
-    static PyObject *__pyx_dict_cached_value = NULL;\
-    if (likely(__PYX_GET_DICT_VERSION(DICT) == __pyx_dict_version)) {\
-        (VAR) = __pyx_dict_cached_value;\
-    } else {\
-        (VAR) = __pyx_dict_cached_value = (LOOKUP);\
-        __pyx_dict_version = __PYX_GET_DICT_VERSION(DICT);\
-    }\
-}
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj);
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj);
-static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version);
-#else
-#define __PYX_GET_DICT_VERSION(dict)  (0)
-#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)
-#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP)  (VAR) = (LOOKUP);
-#endif
 
 /* GetModuleGlobalName.proto */
 #if CYTHON_USE_DICT_VERSIONS
@@ -5376,65 +5445,8 @@ static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_ve
 static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 #endif
 
-/* RaiseDoubleKeywords.proto */
-static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
-
-/* ParseKeywords.proto */
-static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
-    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
-    const char* function_name);
-
-/* RaiseArgTupleInvalid.proto */
-static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
-    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
-
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
-#else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
-#endif
-
-/* PyFunctionFastCall.proto */
-#if CYTHON_FAST_PYCALL
-#define __Pyx_PyFunction_FastCall(func, args, nargs)\
-    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, Py_ssize_t nargs, PyObject *kwargs);
-#else
-#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
-#endif
-#define __Pyx_BUILD_ASSERT_EXPR(cond)\
-    (sizeof(char [1 - 2*!(cond)]) - 1)
-#ifndef Py_MEMBER_SIZE
-#define Py_MEMBER_SIZE(type, member) sizeof(((type *)0)->member)
-#endif
-  static size_t __pyx_pyframe_localsplus_offset = 0;
-  #include "frameobject.h"
-  #define __Pxy_PyFrame_Initialize_Offsets()\
-    ((void)__Pyx_BUILD_ASSERT_EXPR(sizeof(PyFrameObject) == offsetof(PyFrameObject, f_localsplus) + Py_MEMBER_SIZE(PyFrameObject, f_localsplus)),\
-     (void)(__pyx_pyframe_localsplus_offset = ((size_t)PyFrame_Type.tp_basicsize) - Py_MEMBER_SIZE(PyFrameObject, f_localsplus)))
-  #define __Pyx_PyFrame_GetLocalsplus(frame)\
-    (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
-#endif
-
-/* PyObjectCall.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
-#else
-#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
-#endif
-
 /* PyObjectCall2Args.proto */
 static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
-
-/* PyObjectCallMethO.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
-#endif
-
-/* PyObjectCallOneArg.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
 /* PyFloatBinop.proto */
 #if !CYTHON_COMPILING_IN_PYPY
@@ -5452,11 +5464,6 @@ static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *nam
 
 /* ExtTypeTest.proto */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
-
-/* WriteUnraisableException.proto */
-static void __Pyx_WriteUnraisable(const char *name, int clineno,
-                                  int lineno, const char *filename,
-                                  int full_traceback, int nogil);
 
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
@@ -5835,21 +5842,21 @@ static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static PyObject *__pyx_f_6mlgrad_7weights_7Weights_init(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self); /* proto*/
-static PyObject *__pyx_f_6mlgrad_7weights_7Weights_eval_weights(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self); /* proto*/
-static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_7Weights_get_weights(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self); /* proto*/
-static double __pyx_f_6mlgrad_7weights_7Weights_get_qvalue(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self); /* proto*/
-static PyObject *__pyx_f_6mlgrad_7weights_7Weights_set_param(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_name, CYTHON_UNUSED PyObject *__pyx_v_val); /* proto*/
-static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self); /* proto*/
-static PyObject *__pyx_f_6mlgrad_7weights_15ConstantWeights_eval_weights(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self); /* proto*/
-static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self); /* proto*/
-static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self); /* proto*/
-static double __pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self); /* proto*/
-static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8RWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self); /* proto*/
-static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_init(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto*/
-static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto*/
-static double __pyx_f_6mlgrad_7weights_8MWeights_get_qvalue(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto*/
-static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8MWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_7Weights_init(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_7Weights_eval_weights(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_7Weights_get_weights(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static double __pyx_f_6mlgrad_7weights_7Weights_get_qvalue(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_7Weights_set_param(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_name, CYTHON_UNUSED PyObject *__pyx_v_val, int __pyx_skip_dispatch); /* proto*/
+static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_15ConstantWeights_eval_weights(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch); /* proto*/
+static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch); /* proto*/
+static double __pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch); /* proto*/
+static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8RWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_init(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch); /* proto*/
+static double __pyx_f_6mlgrad_7weights_8MWeights_get_qvalue(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch); /* proto*/
+static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8MWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj); /* proto*/
@@ -6126,10 +6133,12 @@ static const char __pyx_k_id[] = "id";
 static const char __pyx_k_np[] = "np";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
+static const char __pyx_k_val[] = "val";
 static const char __pyx_k_base[] = "base";
 static const char __pyx_k_dict[] = "__dict__";
 static const char __pyx_k_full[] = "full";
 static const char __pyx_k_func[] = "func";
+static const char __pyx_k_init[] = "init";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_mode[] = "mode";
 static const char __pyx_k_name[] = "name";
@@ -6177,14 +6186,18 @@ static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_normalize[] = "normalize";
 static const char __pyx_k_pyx_state[] = "__pyx_state";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
+static const char __pyx_k_set_param[] = "set_param";
 static const char __pyx_k_IndexError[] = "IndexError";
 static const char __pyx_k_ValueError[] = "ValueError";
+static const char __pyx_k_get_qvalue[] = "get_qvalue";
 static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_use_best_u[] = "use_best_u";
 static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_PickleError[] = "PickleError";
+static const char __pyx_k_get_weights[] = "get_weights";
 static const char __pyx_k_ArrayWeights[] = "ArrayWeights";
+static const char __pyx_k_eval_weights[] = "eval_weights";
 static const char __pyx_k_pyx_checksum[] = "__pyx_checksum";
 static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_pyx_getbuffer[] = "__pyx_getbuffer";
@@ -6280,16 +6293,20 @@ static PyObject *__pyx_n_s_dtype_is_object;
 static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_enumerate;
 static PyObject *__pyx_n_s_error;
+static PyObject *__pyx_n_s_eval_weights;
 static PyObject *__pyx_n_s_flags;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_fortran;
 static PyObject *__pyx_n_u_fortran;
 static PyObject *__pyx_n_s_full;
 static PyObject *__pyx_n_s_func;
+static PyObject *__pyx_n_s_get_qvalue;
+static PyObject *__pyx_n_s_get_weights;
 static PyObject *__pyx_n_s_getstate;
 static PyObject *__pyx_kp_s_got_differing_extents_in_dimensi;
 static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_import;
+static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
 static PyObject *__pyx_n_s_main;
@@ -6326,6 +6343,7 @@ static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
 static PyObject *__pyx_n_s_reduce_ex;
 static PyObject *__pyx_n_s_risk;
+static PyObject *__pyx_n_s_set_param;
 static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_shape;
@@ -6344,20 +6362,32 @@ static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
 static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_use_best_u;
+static PyObject *__pyx_n_s_val;
 static PyObject *__pyx_n_s_weights;
 static PyObject *__pyx_n_s_zeros;
 static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_4qval___get__(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_init(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_2eval_weights(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_4get_weights(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_6get_qvalue(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_8set_param(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_val); /* proto */
 static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_7weights___get__(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self); /* proto */
 static int __pyx_pf_6mlgrad_7weights_7Weights_7weights_2__set__(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_6mlgrad_7weights_7Weights___reduce_cython__(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_2__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_10__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_12__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_6mlgrad_7weights_12ArrayWeights___init__(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self, PyObject *__pyx_v_weights); /* proto */
-static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_2__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_4__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_2get_weights(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_4__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_6__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_6mlgrad_7weights_15ConstantWeights___init__(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self, PyObject *__pyx_v_N); /* proto */
-static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_2__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_4__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_2eval_weights(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_4get_weights(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_6__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_8__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_6mlgrad_7weights_8RWeights___init__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, struct __pyx_obj_6mlgrad_4risk_Functional *__pyx_v_risk, PyObject *__pyx_v_normalize); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_2eval_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_4get_qvalue(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_6get_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_8lval_all___get__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_4func___get__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self); /* proto */
 static int __pyx_pf_6mlgrad_7weights_8RWeights_4func_2__set__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
@@ -6365,18 +6395,24 @@ static int __pyx_pf_6mlgrad_7weights_8RWeights_4func_4__del__(struct __pyx_obj_6
 static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_4risk___get__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self); /* proto */
 static int __pyx_pf_6mlgrad_7weights_8RWeights_4risk_2__set__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_6mlgrad_7weights_8RWeights_4risk_4__del__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_2__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_4__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_8__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_10__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_6mlgrad_7weights_8MWeights___init__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_average, struct __pyx_obj_6mlgrad_4risk_Functional *__pyx_v_risk, PyObject *__pyx_v_normalize, PyObject *__pyx_v_use_best_u); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_2init(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_4eval_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_6get_qvalue(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_8get_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_8lval_all___get__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_6best_u___get__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto */
+static int __pyx_pf_6mlgrad_7weights_8MWeights_6best_u_2__set__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_7average___get__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto */
 static int __pyx_pf_6mlgrad_7weights_8MWeights_7average_2__set__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_6mlgrad_7weights_8MWeights_7average_4__del__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_4risk___get__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto */
 static int __pyx_pf_6mlgrad_7weights_8MWeights_4risk_2__set__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_6mlgrad_7weights_8MWeights_4risk_4__del__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_2__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_4__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_10__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_12__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_7weights___pyx_unpickle_Weights(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_7weights_2__pyx_unpickle_ArrayWeights(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_7weights_4__pyx_unpickle_ConstantWeights(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
@@ -6513,10 +6549,10 @@ static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_4qval___get__(struct __pyx_o
  *     def qval(self):
  *         return self.get_qvalue()             # <<<<<<<<<<<<<<
  *     #
- *     cdef init(self):
+ *     cpdef init(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_7weights_Weights *)__pyx_v_self->__pyx_vtab)->get_qvalue(__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 41, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_7weights_Weights *)__pyx_v_self->__pyx_vtab)->get_qvalue(__pyx_v_self, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6544,18 +6580,137 @@ static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_4qval___get__(struct __pyx_o
 /* "mlgrad/weights.pyx":43
  *         return self.get_qvalue()
  *     #
- *     cdef init(self):             # <<<<<<<<<<<<<<
+ *     cpdef init(self):             # <<<<<<<<<<<<<<
  *         pass
  *     #
  */
 
-static PyObject *__pyx_f_6mlgrad_7weights_7Weights_init(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_1init(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_7Weights_init(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, int __pyx_skip_dispatch) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 43, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_7weights_7Weights_1init)) {
+        __Pyx_XDECREF(__pyx_r);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 43, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_r = __pyx_t_2;
+        __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "mlgrad/weights.pyx":44
+ *     #
+ *     cpdef init(self):
+ *         pass             # <<<<<<<<<<<<<<
+ *     #
+ *     cpdef eval_weights(self):
+ */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("mlgrad.weights.Weights.init", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "mlgrad/weights.pyx":43
+ *         return self.get_qvalue()
+ *     #
+ *     cpdef init(self):             # <<<<<<<<<<<<<<
+ *         pass
+ *     #
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_1init(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_7Weights_init[] = "Weights.init(self)";
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_1init(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("init (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_7Weights_init(((struct __pyx_obj_6mlgrad_7weights_Weights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_init(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("init", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_7weights_7Weights_init(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 43, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.weights.Weights.init", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -6564,18 +6719,137 @@ static PyObject *__pyx_f_6mlgrad_7weights_7Weights_init(CYTHON_UNUSED struct __p
 /* "mlgrad/weights.pyx":46
  *         pass
  *     #
- *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef eval_weights(self):             # <<<<<<<<<<<<<<
  *         pass
  *     #
  */
 
-static PyObject *__pyx_f_6mlgrad_7weights_7Weights_eval_weights(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_3eval_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_7Weights_eval_weights(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, int __pyx_skip_dispatch) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("eval_weights", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_eval_weights); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 46, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_7weights_7Weights_3eval_weights)) {
+        __Pyx_XDECREF(__pyx_r);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 46, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_r = __pyx_t_2;
+        __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "mlgrad/weights.pyx":47
+ *     #
+ *     cpdef eval_weights(self):
+ *         pass             # <<<<<<<<<<<<<<
+ *     #
+ *     cpdef double[::1] get_weights(self):
+ */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("mlgrad.weights.Weights.eval_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "mlgrad/weights.pyx":46
+ *         pass
+ *     #
+ *     cpdef eval_weights(self):             # <<<<<<<<<<<<<<
+ *         pass
+ *     #
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_3eval_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_7Weights_2eval_weights[] = "Weights.eval_weights(self)";
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_3eval_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("eval_weights (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_7Weights_2eval_weights(((struct __pyx_obj_6mlgrad_7weights_Weights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_2eval_weights(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("eval_weights", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_7weights_7Weights_eval_weights(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 46, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.weights.Weights.eval_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -6584,44 +6858,101 @@ static PyObject *__pyx_f_6mlgrad_7weights_7Weights_eval_weights(CYTHON_UNUSED st
 /* "mlgrad/weights.pyx":49
  *         pass
  *     #
- *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
  *         return None
  * 
  */
 
-static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_7Weights_get_weights(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_5get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_7Weights_get_weights(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
-  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_memviewslice __pyx_t_5 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_weights", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_weights); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 49, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_7weights_7Weights_5get_weights)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 49, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 49, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_5;
+        __pyx_t_5.memview = NULL;
+        __pyx_t_5.data = NULL;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
 
   /* "mlgrad/weights.pyx":50
  *     #
- *     cdef double[::1] get_weights(self):
+ *     cpdef double[::1] get_weights(self):
  *         return None             # <<<<<<<<<<<<<<
  * 
- *     cdef double get_qvalue(self):
+ *     cpdef double get_qvalue(self):
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 50, __pyx_L1_error)
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1.memview = NULL;
-  __pyx_t_1.data = NULL;
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(1, 50, __pyx_L1_error)
+  __pyx_r = __pyx_t_5;
+  __pyx_t_5.memview = NULL;
+  __pyx_t_5.data = NULL;
   goto __pyx_L0;
 
   /* "mlgrad/weights.pyx":49
  *         pass
  *     #
- *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
  *         return None
  * 
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
   __pyx_r.data = NULL;
   __pyx_r.memview = NULL;
   __Pyx_AddTraceback("mlgrad.weights.Weights.get_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -6635,25 +6966,126 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_7Weights_get_weights(CYTHON_U
   return __pyx_r;
 }
 
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_5get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_7Weights_4get_weights[] = "Weights.get_weights(self) -> double[::1]";
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_5get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_weights (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_7Weights_4get_weights(((struct __pyx_obj_6mlgrad_7weights_Weights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_4get_weights(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("get_weights", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_7weights_7Weights_get_weights(__pyx_v_self, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 49, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 49, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("mlgrad.weights.Weights.get_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "mlgrad/weights.pyx":52
  *         return None
  * 
- *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
+ *     cpdef double get_qvalue(self):             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
 
-static double __pyx_f_6mlgrad_7weights_7Weights_get_qvalue(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_7get_qvalue(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static double __pyx_f_6mlgrad_7weights_7Weights_get_qvalue(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, int __pyx_skip_dispatch) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  double __pyx_t_5;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_qvalue", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_qvalue); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 52, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_7weights_7Weights_7get_qvalue)) {
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 52, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 52, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __pyx_r = __pyx_t_5;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
 
   /* "mlgrad/weights.pyx":53
  * 
- *     cdef double get_qvalue(self):
+ *     cpdef double get_qvalue(self):
  *         return 0             # <<<<<<<<<<<<<<
  *     #
- *     cdef set_param(self, name, val):
+ *     cpdef set_param(self, name, val):
  */
   __pyx_r = 0.0;
   goto __pyx_L0;
@@ -6661,13 +7093,60 @@ static double __pyx_f_6mlgrad_7weights_7Weights_get_qvalue(CYTHON_UNUSED struct 
   /* "mlgrad/weights.pyx":52
  *         return None
  * 
- *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
+ *     cpdef double get_qvalue(self):             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
 
   /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_WriteUnraisable("mlgrad.weights.Weights.get_qvalue", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
   __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_7get_qvalue(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_7Weights_6get_qvalue[] = "Weights.get_qvalue(self) -> double";
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_7get_qvalue(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_qvalue (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_7Weights_6get_qvalue(((struct __pyx_obj_6mlgrad_7weights_Weights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_6get_qvalue(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("get_qvalue", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_6mlgrad_7weights_7Weights_get_qvalue(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.weights.Weights.get_qvalue", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6675,18 +7154,221 @@ static double __pyx_f_6mlgrad_7weights_7Weights_get_qvalue(CYTHON_UNUSED struct 
 /* "mlgrad/weights.pyx":55
  *         return 0
  *     #
- *     cdef set_param(self, name, val):             # <<<<<<<<<<<<<<
+ *     cpdef set_param(self, name, val):             # <<<<<<<<<<<<<<
  *         pass
  * 
  */
 
-static PyObject *__pyx_f_6mlgrad_7weights_7Weights_set_param(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_name, CYTHON_UNUSED PyObject *__pyx_v_val) {
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_9set_param(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_7Weights_set_param(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_name, CYTHON_UNUSED PyObject *__pyx_v_val, int __pyx_skip_dispatch) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_param", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_set_param); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 55, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_6mlgrad_7weights_7Weights_9set_param)) {
+        __Pyx_XDECREF(__pyx_r);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        __pyx_t_5 = 0;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+            __pyx_t_5 = 1;
+          }
+        }
+        #if CYTHON_FAST_PYCALL
+        if (PyFunction_Check(__pyx_t_3)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_name, __pyx_v_val};
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 55, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_GOTREF(__pyx_t_2);
+        } else
+        #endif
+        #if CYTHON_FAST_PYCCALL
+        if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_name, __pyx_v_val};
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 55, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_GOTREF(__pyx_t_2);
+        } else
+        #endif
+        {
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 55, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          if (__pyx_t_4) {
+            __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
+          }
+          __Pyx_INCREF(__pyx_v_name);
+          __Pyx_GIVEREF(__pyx_v_name);
+          PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, __pyx_v_name);
+          __Pyx_INCREF(__pyx_v_val);
+          __Pyx_GIVEREF(__pyx_v_val);
+          PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_val);
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 55, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_r = __pyx_t_2;
+        __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "mlgrad/weights.pyx":56
+ *     #
+ *     cpdef set_param(self, name, val):
+ *         pass             # <<<<<<<<<<<<<<
+ * 
+ * cdef class ArrayWeights(Weights):
+ */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("mlgrad.weights.Weights.set_param", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "mlgrad/weights.pyx":55
+ *         return 0
+ *     #
+ *     cpdef set_param(self, name, val):             # <<<<<<<<<<<<<<
+ *         pass
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_9set_param(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_7Weights_8set_param[] = "Weights.set_param(self, name, val)";
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_9set_param(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_name = 0;
+  PyObject *__pyx_v_val = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("set_param (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_name,&__pyx_n_s_val,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_val)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("set_param", 1, 2, 2, 1); __PYX_ERR(1, 55, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_param") < 0)) __PYX_ERR(1, 55, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_name = values[0];
+    __pyx_v_val = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("set_param", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 55, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("mlgrad.weights.Weights.set_param", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6mlgrad_7weights_7Weights_8set_param(((struct __pyx_obj_6mlgrad_7weights_Weights *)__pyx_v_self), __pyx_v_name, __pyx_v_val);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_8set_param(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_val) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("set_param", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_7weights_7Weights_set_param(__pyx_v_self, __pyx_v_name, __pyx_v_val, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.weights.Weights.set_param", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -6697,7 +7379,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_7Weights_set_param(CYTHON_UNUSED struc
  *     #
  *     cdef public double[::1] weights             # <<<<<<<<<<<<<<
  *     #
- *     cdef init(self)
+ *     cpdef init(self)
  */
 
 /* Python wrapper */
@@ -6785,20 +7467,20 @@ static int __pyx_pf_6mlgrad_7weights_7Weights_7weights_2__set__(struct __pyx_obj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_1__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_7weights_7Weights___reduce_cython__[] = "Weights.__reduce_cython__(self)";
-static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_1__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_11__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_7Weights_10__reduce_cython__[] = "Weights.__reduce_cython__(self)";
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_11__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_7weights_7Weights___reduce_cython__(((struct __pyx_obj_6mlgrad_7weights_Weights *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_7weights_7Weights_10__reduce_cython__(((struct __pyx_obj_6mlgrad_7weights_Weights *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_7weights_7Weights___reduce_cython__(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_10__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -7022,20 +7704,20 @@ static PyObject *__pyx_pf_6mlgrad_7weights_7Weights___reduce_cython__(struct __p
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_3__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static char __pyx_doc_6mlgrad_7weights_7Weights_2__setstate_cython__[] = "Weights.__setstate_cython__(self, __pyx_state)";
-static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_3__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_13__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_7Weights_12__setstate_cython__[] = "Weights.__setstate_cython__(self, __pyx_state)";
+static PyObject *__pyx_pw_6mlgrad_7weights_7Weights_13__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_7weights_7Weights_2__setstate_cython__(((struct __pyx_obj_6mlgrad_7weights_Weights *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_6mlgrad_7weights_7Weights_12__setstate_cython__(((struct __pyx_obj_6mlgrad_7weights_Weights *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_2__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6mlgrad_7weights_7Weights_12__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_Weights *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7152,7 +7834,7 @@ static int __pyx_pf_6mlgrad_7weights_12ArrayWeights___init__(struct __pyx_obj_6m
  *     def __init__(self, weights):
  *         self.weights = np.asarray(weights)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] get_weights(self):
+ *     cpdef double[::1] get_weights(self):
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -7207,19 +7889,20 @@ static int __pyx_pf_6mlgrad_7weights_12ArrayWeights___init__(struct __pyx_obj_6m
 /* "mlgrad/weights.pyx":63
  *         self.weights = np.asarray(weights)
  *     #
- *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
  *         return self.weights
  * 
  */
 
-static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_12ArrayWeights_3get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_weights", 0);
 
   /* "mlgrad/weights.pyx":64
  *     #
- *     cdef double[::1] get_weights(self):
+ *     cpdef double[::1] get_weights(self):
  *         return self.weights             # <<<<<<<<<<<<<<
  * 
  * cdef class ConstantWeights(Weights):
@@ -7231,7 +7914,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights(st
   /* "mlgrad/weights.pyx":63
  *         self.weights = np.asarray(weights)
  *     #
- *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
  *         return self.weights
  * 
  */
@@ -7245,6 +7928,52 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights(st
   return __pyx_r;
 }
 
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_12ArrayWeights_3get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_12ArrayWeights_2get_weights[] = "ArrayWeights.get_weights(self) -> double[::1]";
+static PyObject *__pyx_pw_6mlgrad_7weights_12ArrayWeights_3get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_weights (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_12ArrayWeights_2get_weights(((struct __pyx_obj_6mlgrad_7weights_ArrayWeights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_2get_weights(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("get_weights", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights(__pyx_v_self, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 63, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("mlgrad.weights.ArrayWeights.get_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     cdef tuple state
@@ -7252,20 +7981,20 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights(st
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_7weights_12ArrayWeights_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_7weights_12ArrayWeights_2__reduce_cython__[] = "ArrayWeights.__reduce_cython__(self)";
-static PyObject *__pyx_pw_6mlgrad_7weights_12ArrayWeights_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_7weights_12ArrayWeights_5__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_12ArrayWeights_4__reduce_cython__[] = "ArrayWeights.__reduce_cython__(self)";
+static PyObject *__pyx_pw_6mlgrad_7weights_12ArrayWeights_5__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_7weights_12ArrayWeights_2__reduce_cython__(((struct __pyx_obj_6mlgrad_7weights_ArrayWeights *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_7weights_12ArrayWeights_4__reduce_cython__(((struct __pyx_obj_6mlgrad_7weights_ArrayWeights *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_2__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_4__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -7489,20 +8218,20 @@ static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_2__reduce_cython__(str
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_7weights_12ArrayWeights_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static char __pyx_doc_6mlgrad_7weights_12ArrayWeights_4__setstate_cython__[] = "ArrayWeights.__setstate_cython__(self, __pyx_state)";
-static PyObject *__pyx_pw_6mlgrad_7weights_12ArrayWeights_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_6mlgrad_7weights_12ArrayWeights_7__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_12ArrayWeights_6__setstate_cython__[] = "ArrayWeights.__setstate_cython__(self, __pyx_state)";
+static PyObject *__pyx_pw_6mlgrad_7weights_12ArrayWeights_7__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_7weights_12ArrayWeights_4__setstate_cython__(((struct __pyx_obj_6mlgrad_7weights_ArrayWeights *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_6mlgrad_7weights_12ArrayWeights_6__setstate_cython__(((struct __pyx_obj_6mlgrad_7weights_ArrayWeights *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_4__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6mlgrad_7weights_12ArrayWeights_6__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_ArrayWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7623,7 +8352,7 @@ static int __pyx_pf_6mlgrad_7weights_15ConstantWeights___init__(struct __pyx_obj
  *     def __init__(self, N):
  *         self.weights = np.full((N,), 1.0/N, 'd')             # <<<<<<<<<<<<<<
  *     #
- *     cdef eval_weights(self):
+ *     cpdef eval_weights(self):
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -7725,12 +8454,13 @@ static int __pyx_pf_6mlgrad_7weights_15ConstantWeights___init__(struct __pyx_obj
 /* "mlgrad/weights.pyx":71
  *         self.weights = np.full((N,), 1.0/N, 'd')
  *     #
- *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef eval_weights(self):             # <<<<<<<<<<<<<<
  *         pass
  *     #
  */
 
-static PyObject *__pyx_f_6mlgrad_7weights_15ConstantWeights_eval_weights(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_3eval_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_15ConstantWeights_eval_weights(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("eval_weights", 0);
@@ -7742,22 +8472,63 @@ static PyObject *__pyx_f_6mlgrad_7weights_15ConstantWeights_eval_weights(CYTHON_
   return __pyx_r;
 }
 
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_3eval_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_15ConstantWeights_2eval_weights[] = "ConstantWeights.eval_weights(self)";
+static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_3eval_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("eval_weights (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_15ConstantWeights_2eval_weights(((struct __pyx_obj_6mlgrad_7weights_ConstantWeights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_2eval_weights(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("eval_weights", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_7weights_15ConstantWeights_eval_weights(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 71, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.weights.ConstantWeights.eval_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "mlgrad/weights.pyx":74
  *         pass
  *     #
- *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
  *         return self.weights
  * 
  */
 
-static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_5get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_weights", 0);
 
   /* "mlgrad/weights.pyx":75
  *     #
- *     cdef double[::1] get_weights(self):
+ *     cpdef double[::1] get_weights(self):
  *         return self.weights             # <<<<<<<<<<<<<<
  * 
  * cdef class RWeights(Weights):
@@ -7769,7 +8540,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights
   /* "mlgrad/weights.pyx":74
  *         pass
  *     #
- *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
  *         return self.weights
  * 
  */
@@ -7783,6 +8554,52 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights
   return __pyx_r;
 }
 
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_5get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_15ConstantWeights_4get_weights[] = "ConstantWeights.get_weights(self) -> double[::1]";
+static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_5get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_weights (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_15ConstantWeights_4get_weights(((struct __pyx_obj_6mlgrad_7weights_ConstantWeights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_4get_weights(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("get_weights", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights(__pyx_v_self, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 74, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 74, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("mlgrad.weights.ConstantWeights.get_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     cdef tuple state
@@ -7790,20 +8607,20 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_7weights_15ConstantWeights_2__reduce_cython__[] = "ConstantWeights.__reduce_cython__(self)";
-static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_15ConstantWeights_6__reduce_cython__[] = "ConstantWeights.__reduce_cython__(self)";
+static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_7weights_15ConstantWeights_2__reduce_cython__(((struct __pyx_obj_6mlgrad_7weights_ConstantWeights *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_7weights_15ConstantWeights_6__reduce_cython__(((struct __pyx_obj_6mlgrad_7weights_ConstantWeights *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_2__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_6__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -8027,20 +8844,20 @@ static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_2__reduce_cython__(
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static char __pyx_doc_6mlgrad_7weights_15ConstantWeights_4__setstate_cython__[] = "ConstantWeights.__setstate_cython__(self, __pyx_state)";
-static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_15ConstantWeights_8__setstate_cython__[] = "ConstantWeights.__setstate_cython__(self, __pyx_state)";
+static PyObject *__pyx_pw_6mlgrad_7weights_15ConstantWeights_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_7weights_15ConstantWeights_4__setstate_cython__(((struct __pyx_obj_6mlgrad_7weights_ConstantWeights *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_6mlgrad_7weights_15ConstantWeights_8__setstate_cython__(((struct __pyx_obj_6mlgrad_7weights_ConstantWeights *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_4__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6mlgrad_7weights_15ConstantWeights_8__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_ConstantWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8338,7 +9155,7 @@ static int __pyx_pf_6mlgrad_7weights_8RWeights___init__(struct __pyx_obj_6mlgrad
  *         self.lval_all = np.zeros(N, 'd')
  *         self.weights = np.zeros(N, 'd')             # <<<<<<<<<<<<<<
  *     #
- *     cdef eval_weights(self):
+ *     cpdef eval_weights(self):
  */
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
@@ -8429,12 +9246,13 @@ static int __pyx_pf_6mlgrad_7weights_8RWeights___init__(struct __pyx_obj_6mlgrad
 /* "mlgrad/weights.pyx":89
  *         self.weights = np.zeros(N, 'd')
  *     #
- *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef eval_weights(self):             # <<<<<<<<<<<<<<
  *         cdef Risk risk = self.risk
  *         cdef Py_ssize_t N = risk.batch.size
  */
 
-static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_3eval_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch) {
   struct __pyx_obj_6mlgrad_4risk_Risk *__pyx_v_risk = 0;
   Py_ssize_t __pyx_v_N;
   Py_ssize_t __pyx_v_j;
@@ -8465,7 +9283,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
 
   /* "mlgrad/weights.pyx":90
  *     #
- *     cdef eval_weights(self):
+ *     cpdef eval_weights(self):
  *         cdef Risk risk = self.risk             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t N = risk.batch.size
  *         cdef Py_ssize_t j, k
@@ -8476,7 +9294,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8RWeights_eval_weights(struct __pyx_ob
   __pyx_t_1 = 0;
 
   /* "mlgrad/weights.pyx":91
- *     cdef eval_weights(self):
+ *     cpdef eval_weights(self):
  *         cdef Risk risk = self.risk
  *         cdef Py_ssize_t N = risk.batch.size             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t j, k
@@ -8640,7 +9458,7 @@ __pyx_v_val = ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_mod->__py
  *         if self.normalize:
  *             normalize_memoryview(weights)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double get_qvalue(self):
+ *     cpdef double get_qvalue(self):
  */
     __pyx_f_6mlgrad_7weights_normalize_memoryview(__pyx_v_weights);
 
@@ -8656,7 +9474,7 @@ __pyx_v_val = ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_mod->__py
   /* "mlgrad/weights.pyx":89
  *         self.weights = np.zeros(N, 'd')
  *     #
- *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef eval_weights(self):             # <<<<<<<<<<<<<<
  *         cdef Risk risk = self.risk
  *         cdef Py_ssize_t N = risk.batch.size
  */
@@ -8684,15 +9502,56 @@ __pyx_v_val = ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_mod->__py
   return __pyx_r;
 }
 
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_3eval_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_8RWeights_2eval_weights[] = "RWeights.eval_weights(self)";
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_3eval_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("eval_weights (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8RWeights_2eval_weights(((struct __pyx_obj_6mlgrad_7weights_RWeights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_2eval_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("eval_weights", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_7weights_8RWeights_eval_weights(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 89, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.weights.RWeights.eval_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "mlgrad/weights.pyx":109
  *             normalize_memoryview(weights)
  *     #
- *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
+ *     cpdef double get_qvalue(self):             # <<<<<<<<<<<<<<
  *         cdef double qval
  *         cdef Py_ssize_t j, k
  */
 
-static double __pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_5get_qvalue(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static double __pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch) {
   double __pyx_v_qval;
   Py_ssize_t __pyx_v_j;
   Py_ssize_t __pyx_v_k;
@@ -8881,7 +9740,7 @@ __pyx_v_val = ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_mod->__py
  *         qval /= N
  *         return qval             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] get_weights(self):
+ *     cpdef double[::1] get_weights(self):
  */
   __pyx_r = __pyx_v_qval;
   goto __pyx_L0;
@@ -8889,7 +9748,7 @@ __pyx_v_val = ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_mod->__py
   /* "mlgrad/weights.pyx":109
  *             normalize_memoryview(weights)
  *     #
- *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
+ *     cpdef double get_qvalue(self):             # <<<<<<<<<<<<<<
  *         cdef double qval
  *         cdef Py_ssize_t j, k
  */
@@ -8912,22 +9771,63 @@ __pyx_v_val = ((struct __pyx_vtabstruct_6mlgrad_5model_Model *)__pyx_v_mod->__py
   return __pyx_r;
 }
 
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_5get_qvalue(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_8RWeights_4get_qvalue[] = "RWeights.get_qvalue(self) -> double";
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_5get_qvalue(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_qvalue (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8RWeights_4get_qvalue(((struct __pyx_obj_6mlgrad_7weights_RWeights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_4get_qvalue(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("get_qvalue", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_6mlgrad_7weights_8RWeights_get_qvalue(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 109, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.weights.RWeights.get_qvalue", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "mlgrad/weights.pyx":128
  *         return qval
  *     #
- *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
  *         return self.weights
  * 
  */
 
-static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8RWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_7get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8RWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_weights", 0);
 
   /* "mlgrad/weights.pyx":129
  *     #
- *     cdef double[::1] get_weights(self):
+ *     cpdef double[::1] get_weights(self):
  *         return self.weights             # <<<<<<<<<<<<<<
  * 
  * cdef class MWeights(Weights):
@@ -8939,7 +9839,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8RWeights_get_weights(struct 
   /* "mlgrad/weights.pyx":128
  *         return qval
  *     #
- *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
  *         return self.weights
  * 
  */
@@ -8949,6 +9849,52 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8RWeights_get_weights(struct 
   if (unlikely(!__pyx_r.memview)) {
     PyErr_SetString(PyExc_TypeError, "Memoryview return value is not initialized");
   }
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_7get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_8RWeights_6get_weights[] = "RWeights.get_weights(self) -> double[::1]";
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_7get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_weights (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8RWeights_6get_weights(((struct __pyx_obj_6mlgrad_7weights_RWeights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_6get_weights(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("get_weights", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_7weights_8RWeights_get_weights(__pyx_v_self, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 128, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 128, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("mlgrad.weights.RWeights.get_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9223,20 +10169,20 @@ static int __pyx_pf_6mlgrad_7weights_8RWeights_4risk_4__del__(struct __pyx_obj_6
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_7weights_8RWeights_2__reduce_cython__[] = "RWeights.__reduce_cython__(self)";
-static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_8RWeights_8__reduce_cython__[] = "RWeights.__reduce_cython__(self)";
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_7weights_8RWeights_2__reduce_cython__(((struct __pyx_obj_6mlgrad_7weights_RWeights *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8RWeights_8__reduce_cython__(((struct __pyx_obj_6mlgrad_7weights_RWeights *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_2__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_8__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -9490,20 +10436,20 @@ static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_2__reduce_cython__(struct _
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static char __pyx_doc_6mlgrad_7weights_8RWeights_4__setstate_cython__[] = "RWeights.__setstate_cython__(self, __pyx_state)";
-static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_8RWeights_10__setstate_cython__[] = "RWeights.__setstate_cython__(self, __pyx_state)";
+static PyObject *__pyx_pw_6mlgrad_7weights_8RWeights_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_7weights_8RWeights_4__setstate_cython__(((struct __pyx_obj_6mlgrad_7weights_RWeights *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8RWeights_10__setstate_cython__(((struct __pyx_obj_6mlgrad_7weights_RWeights *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_4__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6mlgrad_7weights_8RWeights_10__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_RWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -9845,7 +10791,7 @@ static int __pyx_pf_6mlgrad_7weights_8MWeights___init__(struct __pyx_obj_6mlgrad
  *         self.weights = np.zeros(N, 'd')
  *         self.lval_all = np.zeros(N, 'd')             # <<<<<<<<<<<<<<
  *     #
- *     cdef init(self):
+ *     cpdef init(self):
  */
   __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
@@ -9936,29 +10882,30 @@ static int __pyx_pf_6mlgrad_7weights_8MWeights___init__(struct __pyx_obj_6mlgrad
 /* "mlgrad/weights.pyx":146
  *         self.lval_all = np.zeros(N, 'd')
  *     #
- *     cdef init(self):             # <<<<<<<<<<<<<<
+ *     cpdef init(self):             # <<<<<<<<<<<<<<
  *         self.first_time = 1
  *     #
  */
 
-static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_init(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_3init(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_init(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("init", 0);
 
   /* "mlgrad/weights.pyx":147
  *     #
- *     cdef init(self):
+ *     cpdef init(self):
  *         self.first_time = 1             # <<<<<<<<<<<<<<
  *     #
- *     cdef eval_weights(self):
+ *     cpdef eval_weights(self):
  */
   __pyx_v_self->first_time = 1;
 
   /* "mlgrad/weights.pyx":146
  *         self.lval_all = np.zeros(N, 'd')
  *     #
- *     cdef init(self):             # <<<<<<<<<<<<<<
+ *     cpdef init(self):             # <<<<<<<<<<<<<<
  *         self.first_time = 1
  *     #
  */
@@ -9970,15 +10917,56 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_init(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_3init(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_8MWeights_2init[] = "MWeights.init(self)";
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_3init(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("init (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8MWeights_2init(((struct __pyx_obj_6mlgrad_7weights_MWeights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_2init(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("init", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_7weights_8MWeights_init(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 146, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.weights.MWeights.init", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "mlgrad/weights.pyx":149
  *         self.first_time = 1
  *     #
- *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef eval_weights(self):             # <<<<<<<<<<<<<<
  *         cdef Risk risk = <Risk>self.risk
  *         cdef Py_ssize_t N = risk.batch.size
  */
 
-static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_5eval_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch) {
   struct __pyx_obj_6mlgrad_4risk_Risk *__pyx_v_risk = 0;
   CYTHON_UNUSED Py_ssize_t __pyx_v_N;
   PyObject *__pyx_v_u0 = NULL;
@@ -9997,7 +10985,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
 
   /* "mlgrad/weights.pyx":150
  *     #
- *     cdef eval_weights(self):
+ *     cpdef eval_weights(self):
  *         cdef Risk risk = <Risk>self.risk             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t N = risk.batch.size
  * 
@@ -10008,7 +10996,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
   __pyx_t_1 = 0;
 
   /* "mlgrad/weights.pyx":151
- *     cdef eval_weights(self):
+ *     cpdef eval_weights(self):
  *         cdef Risk risk = <Risk>self.risk
  *         cdef Py_ssize_t N = risk.batch.size             # <<<<<<<<<<<<<<
  * 
@@ -10156,7 +11144,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
  *         if self.normalize:
  *             normalize_memoryview(self.weights)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double get_qvalue(self):
+ *     cpdef double get_qvalue(self):
  */
     __pyx_f_6mlgrad_7weights_normalize_memoryview(__pyx_v_self->__pyx_base.weights);
 
@@ -10172,7 +11160,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
   /* "mlgrad/weights.pyx":149
  *         self.first_time = 1
  *     #
- *     cdef eval_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef eval_weights(self):             # <<<<<<<<<<<<<<
  *         cdef Risk risk = <Risk>self.risk
  *         cdef Py_ssize_t N = risk.batch.size
  */
@@ -10192,25 +11180,66 @@ static PyObject *__pyx_f_6mlgrad_7weights_8MWeights_eval_weights(struct __pyx_ob
   return __pyx_r;
 }
 
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_5eval_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_8MWeights_4eval_weights[] = "MWeights.eval_weights(self)";
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_5eval_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("eval_weights (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8MWeights_4eval_weights(((struct __pyx_obj_6mlgrad_7weights_MWeights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_4eval_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("eval_weights", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_7weights_8MWeights_eval_weights(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 149, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.weights.MWeights.eval_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "mlgrad/weights.pyx":173
  *             normalize_memoryview(self.weights)
  *     #
- *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
+ *     cpdef double get_qvalue(self):             # <<<<<<<<<<<<<<
  *         return self.average.u
  *     #
  */
 
-static double __pyx_f_6mlgrad_7weights_8MWeights_get_qvalue(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_7get_qvalue(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static double __pyx_f_6mlgrad_7weights_8MWeights_get_qvalue(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_qvalue", 0);
 
   /* "mlgrad/weights.pyx":174
  *     #
- *     cdef double get_qvalue(self):
+ *     cpdef double get_qvalue(self):
  *         return self.average.u             # <<<<<<<<<<<<<<
  *     #
- *     cdef double[::1] get_weights(self):
+ *     cpdef double[::1] get_weights(self):
  */
   __pyx_r = __pyx_v_self->average->u;
   goto __pyx_L0;
@@ -10218,7 +11247,7 @@ static double __pyx_f_6mlgrad_7weights_8MWeights_get_qvalue(struct __pyx_obj_6ml
   /* "mlgrad/weights.pyx":173
  *             normalize_memoryview(self.weights)
  *     #
- *     cdef double get_qvalue(self):             # <<<<<<<<<<<<<<
+ *     cpdef double get_qvalue(self):             # <<<<<<<<<<<<<<
  *         return self.average.u
  *     #
  */
@@ -10229,25 +11258,65 @@ static double __pyx_f_6mlgrad_7weights_8MWeights_get_qvalue(struct __pyx_obj_6ml
   return __pyx_r;
 }
 
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_7get_qvalue(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_8MWeights_6get_qvalue[] = "MWeights.get_qvalue(self) -> double";
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_7get_qvalue(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_qvalue (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8MWeights_6get_qvalue(((struct __pyx_obj_6mlgrad_7weights_MWeights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_6get_qvalue(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("get_qvalue", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_6mlgrad_7weights_8MWeights_get_qvalue(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 173, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.weights.MWeights.get_qvalue", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "mlgrad/weights.pyx":176
  *         return self.average.u
  *     #
- *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
  *         return self.weights
  * 
  */
 
-static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8MWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_9get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8MWeights_get_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, CYTHON_UNUSED int __pyx_skip_dispatch) {
   __Pyx_memviewslice __pyx_r = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_weights", 0);
 
   /* "mlgrad/weights.pyx":177
  *     #
- *     cdef double[::1] get_weights(self):
+ *     cpdef double[::1] get_weights(self):
  *         return self.weights             # <<<<<<<<<<<<<<
  * 
- * # cdef class SWMWeights(Weights):
  */
   __PYX_INC_MEMVIEW(&__pyx_v_self->__pyx_base.weights, 0);
   __pyx_r = __pyx_v_self->__pyx_base.weights;
@@ -10256,7 +11325,7 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8MWeights_get_weights(struct 
   /* "mlgrad/weights.pyx":176
  *         return self.average.u
  *     #
- *     cdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
+ *     cpdef double[::1] get_weights(self):             # <<<<<<<<<<<<<<
  *         return self.weights
  * 
  */
@@ -10270,11 +11339,57 @@ static __Pyx_memviewslice __pyx_f_6mlgrad_7weights_8MWeights_get_weights(struct 
   return __pyx_r;
 }
 
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_9get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_8MWeights_8get_weights[] = "MWeights.get_weights(self) -> double[::1]";
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_9get_weights(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_weights (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8MWeights_8get_weights(((struct __pyx_obj_6mlgrad_7weights_MWeights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_8get_weights(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("get_weights", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_6mlgrad_7weights_8MWeights_get_weights(__pyx_v_self, 1); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 176, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_1, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 176, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("mlgrad.weights.MWeights.get_weights", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "mlgrad/weights.pxd":79
  * @cython.final
  * cdef class MWeights(Weights):
  *     cdef readonly double[::1] lval_all             # <<<<<<<<<<<<<<
- *     cdef double best_u
+ *     cdef public double best_u
  *     cdef public Average average
  */
 
@@ -10317,9 +11432,91 @@ static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_8lval_all___get__(struct __
   return __pyx_r;
 }
 
+/* "mlgrad/weights.pxd":80
+ * cdef class MWeights(Weights):
+ *     cdef readonly double[::1] lval_all
+ *     cdef public double best_u             # <<<<<<<<<<<<<<
+ *     cdef public Average average
+ *     cdef public Risk risk
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_6best_u_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_6best_u_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8MWeights_6best_u___get__(((struct __pyx_obj_6mlgrad_7weights_MWeights *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_6best_u___get__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->best_u); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.weights.MWeights.best_u.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_6mlgrad_7weights_8MWeights_6best_u_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_6mlgrad_7weights_8MWeights_6best_u_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8MWeights_6best_u_2__set__(((struct __pyx_obj_6mlgrad_7weights_MWeights *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_6mlgrad_7weights_8MWeights_6best_u_2__set__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  double __pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_v_self->best_u = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("mlgrad.weights.MWeights.best_u.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "mlgrad/weights.pxd":81
  *     cdef readonly double[::1] lval_all
- *     cdef double best_u
+ *     cdef public double best_u
  *     cdef public Average average             # <<<<<<<<<<<<<<
  *     cdef public Risk risk
  *     cdef bint first_time, normalize, u_only, use_best_u
@@ -10426,7 +11623,7 @@ static int __pyx_pf_6mlgrad_7weights_8MWeights_7average_4__del__(struct __pyx_ob
 }
 
 /* "mlgrad/weights.pxd":82
- *     cdef double best_u
+ *     cdef public double best_u
  *     cdef public Average average
  *     cdef public Risk risk             # <<<<<<<<<<<<<<
  *     cdef bint first_time, normalize, u_only, use_best_u
@@ -10540,20 +11737,20 @@ static int __pyx_pf_6mlgrad_7weights_8MWeights_4risk_4__del__(struct __pyx_obj_6
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_7weights_8MWeights_2__reduce_cython__[] = "MWeights.__reduce_cython__(self)";
-static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_11__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_8MWeights_10__reduce_cython__[] = "MWeights.__reduce_cython__(self)";
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_11__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_7weights_8MWeights_2__reduce_cython__(((struct __pyx_obj_6mlgrad_7weights_MWeights *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8MWeights_10__reduce_cython__(((struct __pyx_obj_6mlgrad_7weights_MWeights *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_2__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_10__reduce_cython__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -10835,20 +12032,20 @@ static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_2__reduce_cython__(struct _
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static char __pyx_doc_6mlgrad_7weights_8MWeights_4__setstate_cython__[] = "MWeights.__setstate_cython__(self, __pyx_state)";
-static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_13__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static char __pyx_doc_6mlgrad_7weights_8MWeights_12__setstate_cython__[] = "MWeights.__setstate_cython__(self, __pyx_state)";
+static PyObject *__pyx_pw_6mlgrad_7weights_8MWeights_13__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_7weights_8MWeights_4__setstate_cython__(((struct __pyx_obj_6mlgrad_7weights_MWeights *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_6mlgrad_7weights_8MWeights_12__setstate_cython__(((struct __pyx_obj_6mlgrad_7weights_MWeights *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_4__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6mlgrad_7weights_8MWeights_12__setstate_cython__(struct __pyx_obj_6mlgrad_7weights_MWeights *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -27466,8 +28663,13 @@ static int __pyx_setprop_6mlgrad_7weights_7Weights_weights(PyObject *o, PyObject
 }
 
 static PyMethodDef __pyx_methods_6mlgrad_7weights_Weights[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_7Weights_1__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_7weights_7Weights___reduce_cython__},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_7Weights_3__setstate_cython__, METH_O, __pyx_doc_6mlgrad_7weights_7Weights_2__setstate_cython__},
+  {"init", (PyCFunction)__pyx_pw_6mlgrad_7weights_7Weights_1init, METH_NOARGS, __pyx_doc_6mlgrad_7weights_7Weights_init},
+  {"eval_weights", (PyCFunction)__pyx_pw_6mlgrad_7weights_7Weights_3eval_weights, METH_NOARGS, __pyx_doc_6mlgrad_7weights_7Weights_2eval_weights},
+  {"get_weights", (PyCFunction)__pyx_pw_6mlgrad_7weights_7Weights_5get_weights, METH_NOARGS, __pyx_doc_6mlgrad_7weights_7Weights_4get_weights},
+  {"get_qvalue", (PyCFunction)__pyx_pw_6mlgrad_7weights_7Weights_7get_qvalue, METH_NOARGS, __pyx_doc_6mlgrad_7weights_7Weights_6get_qvalue},
+  {"set_param", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6mlgrad_7weights_7Weights_9set_param, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6mlgrad_7weights_7Weights_8set_param},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_7Weights_11__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_7weights_7Weights_10__reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_7Weights_13__setstate_cython__, METH_O, __pyx_doc_6mlgrad_7weights_7Weights_12__setstate_cython__},
   {0, 0, 0, 0}
 };
 
@@ -27557,8 +28759,9 @@ static PyObject *__pyx_tp_new_6mlgrad_7weights_ArrayWeights(PyTypeObject *t, PyO
 }
 
 static PyMethodDef __pyx_methods_6mlgrad_7weights_ArrayWeights[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_12ArrayWeights_3__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_7weights_12ArrayWeights_2__reduce_cython__},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_12ArrayWeights_5__setstate_cython__, METH_O, __pyx_doc_6mlgrad_7weights_12ArrayWeights_4__setstate_cython__},
+  {"get_weights", (PyCFunction)__pyx_pw_6mlgrad_7weights_12ArrayWeights_3get_weights, METH_NOARGS, __pyx_doc_6mlgrad_7weights_12ArrayWeights_2get_weights},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_12ArrayWeights_5__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_7weights_12ArrayWeights_4__reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_12ArrayWeights_7__setstate_cython__, METH_O, __pyx_doc_6mlgrad_7weights_12ArrayWeights_6__setstate_cython__},
   {0, 0, 0, 0}
 };
 
@@ -27642,8 +28845,10 @@ static PyObject *__pyx_tp_new_6mlgrad_7weights_ConstantWeights(PyTypeObject *t, 
 }
 
 static PyMethodDef __pyx_methods_6mlgrad_7weights_ConstantWeights[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_15ConstantWeights_3__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_7weights_15ConstantWeights_2__reduce_cython__},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_15ConstantWeights_5__setstate_cython__, METH_O, __pyx_doc_6mlgrad_7weights_15ConstantWeights_4__setstate_cython__},
+  {"eval_weights", (PyCFunction)__pyx_pw_6mlgrad_7weights_15ConstantWeights_3eval_weights, METH_NOARGS, __pyx_doc_6mlgrad_7weights_15ConstantWeights_2eval_weights},
+  {"get_weights", (PyCFunction)__pyx_pw_6mlgrad_7weights_15ConstantWeights_5get_weights, METH_NOARGS, __pyx_doc_6mlgrad_7weights_15ConstantWeights_4get_weights},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_15ConstantWeights_7__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_7weights_15ConstantWeights_6__reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_15ConstantWeights_9__setstate_cython__, METH_O, __pyx_doc_6mlgrad_7weights_15ConstantWeights_8__setstate_cython__},
   {0, 0, 0, 0}
 };
 
@@ -27800,8 +29005,11 @@ static int __pyx_setprop_6mlgrad_7weights_8RWeights_risk(PyObject *o, PyObject *
 }
 
 static PyMethodDef __pyx_methods_6mlgrad_7weights_RWeights[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_8RWeights_3__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_7weights_8RWeights_2__reduce_cython__},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_8RWeights_5__setstate_cython__, METH_O, __pyx_doc_6mlgrad_7weights_8RWeights_4__setstate_cython__},
+  {"eval_weights", (PyCFunction)__pyx_pw_6mlgrad_7weights_8RWeights_3eval_weights, METH_NOARGS, __pyx_doc_6mlgrad_7weights_8RWeights_2eval_weights},
+  {"get_qvalue", (PyCFunction)__pyx_pw_6mlgrad_7weights_8RWeights_5get_qvalue, METH_NOARGS, __pyx_doc_6mlgrad_7weights_8RWeights_4get_qvalue},
+  {"get_weights", (PyCFunction)__pyx_pw_6mlgrad_7weights_8RWeights_7get_weights, METH_NOARGS, __pyx_doc_6mlgrad_7weights_8RWeights_6get_weights},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_8RWeights_9__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_7weights_8RWeights_8__reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_8RWeights_11__setstate_cython__, METH_O, __pyx_doc_6mlgrad_7weights_8RWeights_10__setstate_cython__},
   {0, 0, 0, 0}
 };
 
@@ -27938,6 +29146,20 @@ static PyObject *__pyx_getprop_6mlgrad_7weights_8MWeights_lval_all(PyObject *o, 
   return __pyx_pw_6mlgrad_7weights_8MWeights_8lval_all_1__get__(o);
 }
 
+static PyObject *__pyx_getprop_6mlgrad_7weights_8MWeights_best_u(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6mlgrad_7weights_8MWeights_6best_u_1__get__(o);
+}
+
+static int __pyx_setprop_6mlgrad_7weights_8MWeights_best_u(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_6mlgrad_7weights_8MWeights_6best_u_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
 static PyObject *__pyx_getprop_6mlgrad_7weights_8MWeights_average(PyObject *o, CYTHON_UNUSED void *x) {
   return __pyx_pw_6mlgrad_7weights_8MWeights_7average_1__get__(o);
 }
@@ -27965,13 +29187,18 @@ static int __pyx_setprop_6mlgrad_7weights_8MWeights_risk(PyObject *o, PyObject *
 }
 
 static PyMethodDef __pyx_methods_6mlgrad_7weights_MWeights[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_8MWeights_3__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_7weights_8MWeights_2__reduce_cython__},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_8MWeights_5__setstate_cython__, METH_O, __pyx_doc_6mlgrad_7weights_8MWeights_4__setstate_cython__},
+  {"init", (PyCFunction)__pyx_pw_6mlgrad_7weights_8MWeights_3init, METH_NOARGS, __pyx_doc_6mlgrad_7weights_8MWeights_2init},
+  {"eval_weights", (PyCFunction)__pyx_pw_6mlgrad_7weights_8MWeights_5eval_weights, METH_NOARGS, __pyx_doc_6mlgrad_7weights_8MWeights_4eval_weights},
+  {"get_qvalue", (PyCFunction)__pyx_pw_6mlgrad_7weights_8MWeights_7get_qvalue, METH_NOARGS, __pyx_doc_6mlgrad_7weights_8MWeights_6get_qvalue},
+  {"get_weights", (PyCFunction)__pyx_pw_6mlgrad_7weights_8MWeights_9get_weights, METH_NOARGS, __pyx_doc_6mlgrad_7weights_8MWeights_8get_weights},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_8MWeights_11__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_7weights_8MWeights_10__reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_7weights_8MWeights_13__setstate_cython__, METH_O, __pyx_doc_6mlgrad_7weights_8MWeights_12__setstate_cython__},
   {0, 0, 0, 0}
 };
 
 static struct PyGetSetDef __pyx_getsets_6mlgrad_7weights_MWeights[] = {
   {(char *)"lval_all", __pyx_getprop_6mlgrad_7weights_8MWeights_lval_all, 0, (char *)0, 0},
+  {(char *)"best_u", __pyx_getprop_6mlgrad_7weights_8MWeights_best_u, __pyx_setprop_6mlgrad_7weights_8MWeights_best_u, (char *)"best_u: 'double'", 0},
   {(char *)"average", __pyx_getprop_6mlgrad_7weights_8MWeights_average, __pyx_setprop_6mlgrad_7weights_8MWeights_average, (char *)"average: mlgrad.avragg.Average", 0},
   {(char *)"risk", __pyx_getprop_6mlgrad_7weights_8MWeights_risk, __pyx_setprop_6mlgrad_7weights_8MWeights_risk, (char *)"risk: mlgrad.risk.Risk", 0},
   {0, 0, 0, 0, 0}
@@ -28857,16 +30084,20 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
   {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
+  {&__pyx_n_s_eval_weights, __pyx_k_eval_weights, sizeof(__pyx_k_eval_weights), 0, 0, 1, 1},
   {&__pyx_n_s_flags, __pyx_k_flags, sizeof(__pyx_k_flags), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 0, 1, 1},
   {&__pyx_n_u_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
   {&__pyx_n_s_full, __pyx_k_full, sizeof(__pyx_k_full), 0, 0, 1, 1},
   {&__pyx_n_s_func, __pyx_k_func, sizeof(__pyx_k_func), 0, 0, 1, 1},
+  {&__pyx_n_s_get_qvalue, __pyx_k_get_qvalue, sizeof(__pyx_k_get_qvalue), 0, 0, 1, 1},
+  {&__pyx_n_s_get_weights, __pyx_k_get_weights, sizeof(__pyx_k_get_weights), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
   {&__pyx_kp_s_got_differing_extents_in_dimensi, __pyx_k_got_differing_extents_in_dimensi, sizeof(__pyx_k_got_differing_extents_in_dimensi), 0, 0, 1, 0},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
+  {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
@@ -28903,6 +30134,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
   {&__pyx_n_s_risk, __pyx_k_risk, sizeof(__pyx_k_risk), 0, 0, 1, 1},
+  {&__pyx_n_s_set_param, __pyx_k_set_param, sizeof(__pyx_k_set_param), 0, 0, 1, 1},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
   {&__pyx_n_s_shape, __pyx_k_shape, sizeof(__pyx_k_shape), 0, 0, 1, 1},
@@ -28921,6 +30153,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_unpack, __pyx_k_unpack, sizeof(__pyx_k_unpack), 0, 0, 1, 1},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {&__pyx_n_s_use_best_u, __pyx_k_use_best_u, sizeof(__pyx_k_use_best_u), 0, 0, 1, 1},
+  {&__pyx_n_s_val, __pyx_k_val, sizeof(__pyx_k_val), 0, 0, 1, 1},
   {&__pyx_n_s_weights, __pyx_k_weights, sizeof(__pyx_k_weights), 0, 0, 1, 1},
   {&__pyx_n_s_zeros, __pyx_k_zeros, sizeof(__pyx_k_zeros), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
@@ -29292,11 +30525,11 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
   __pyx_vtabptr_6mlgrad_7weights_Weights = &__pyx_vtable_6mlgrad_7weights_Weights;
-  __pyx_vtable_6mlgrad_7weights_Weights.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_7Weights_init;
-  __pyx_vtable_6mlgrad_7weights_Weights.eval_weights = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_7Weights_eval_weights;
-  __pyx_vtable_6mlgrad_7weights_Weights.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_7Weights_get_weights;
-  __pyx_vtable_6mlgrad_7weights_Weights.get_qvalue = (double (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_7Weights_get_qvalue;
-  __pyx_vtable_6mlgrad_7weights_Weights.set_param = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *, PyObject *, PyObject *))__pyx_f_6mlgrad_7weights_7Weights_set_param;
+  __pyx_vtable_6mlgrad_7weights_Weights.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_7Weights_init;
+  __pyx_vtable_6mlgrad_7weights_Weights.eval_weights = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_7Weights_eval_weights;
+  __pyx_vtable_6mlgrad_7weights_Weights.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_7Weights_get_weights;
+  __pyx_vtable_6mlgrad_7weights_Weights.get_qvalue = (double (*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_7Weights_get_qvalue;
+  __pyx_vtable_6mlgrad_7weights_Weights.set_param = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_7Weights_set_param;
   if (PyType_Ready(&__pyx_type_6mlgrad_7weights_Weights) < 0) __PYX_ERR(1, 37, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_7weights_Weights.tp_print = 0;
@@ -29310,7 +30543,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_7weights_Weights = &__pyx_type_6mlgrad_7weights_Weights;
   __pyx_vtabptr_6mlgrad_7weights_ArrayWeights = &__pyx_vtable_6mlgrad_7weights_ArrayWeights;
   __pyx_vtable_6mlgrad_7weights_ArrayWeights.__pyx_base = *__pyx_vtabptr_6mlgrad_7weights_Weights;
-  __pyx_vtable_6mlgrad_7weights_ArrayWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights;
+  __pyx_vtable_6mlgrad_7weights_ArrayWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_12ArrayWeights_get_weights;
   __pyx_type_6mlgrad_7weights_ArrayWeights.tp_base = __pyx_ptype_6mlgrad_7weights_Weights;
   if (PyType_Ready(&__pyx_type_6mlgrad_7weights_ArrayWeights) < 0) __PYX_ERR(1, 58, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -29325,8 +30558,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_7weights_ArrayWeights = &__pyx_type_6mlgrad_7weights_ArrayWeights;
   __pyx_vtabptr_6mlgrad_7weights_ConstantWeights = &__pyx_vtable_6mlgrad_7weights_ConstantWeights;
   __pyx_vtable_6mlgrad_7weights_ConstantWeights.__pyx_base = *__pyx_vtabptr_6mlgrad_7weights_Weights;
-  __pyx_vtable_6mlgrad_7weights_ConstantWeights.__pyx_base.eval_weights = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_15ConstantWeights_eval_weights;
-  __pyx_vtable_6mlgrad_7weights_ConstantWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights;
+  __pyx_vtable_6mlgrad_7weights_ConstantWeights.__pyx_base.eval_weights = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_15ConstantWeights_eval_weights;
+  __pyx_vtable_6mlgrad_7weights_ConstantWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_15ConstantWeights_get_weights;
   __pyx_type_6mlgrad_7weights_ConstantWeights.tp_base = __pyx_ptype_6mlgrad_7weights_Weights;
   if (PyType_Ready(&__pyx_type_6mlgrad_7weights_ConstantWeights) < 0) __PYX_ERR(1, 66, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -29341,9 +30574,9 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_7weights_ConstantWeights = &__pyx_type_6mlgrad_7weights_ConstantWeights;
   __pyx_vtabptr_6mlgrad_7weights_RWeights = &__pyx_vtable_6mlgrad_7weights_RWeights;
   __pyx_vtable_6mlgrad_7weights_RWeights.__pyx_base = *__pyx_vtabptr_6mlgrad_7weights_Weights;
-  __pyx_vtable_6mlgrad_7weights_RWeights.__pyx_base.eval_weights = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_8RWeights_eval_weights;
-  __pyx_vtable_6mlgrad_7weights_RWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_8RWeights_get_weights;
-  __pyx_vtable_6mlgrad_7weights_RWeights.__pyx_base.get_qvalue = (double (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_8RWeights_get_qvalue;
+  __pyx_vtable_6mlgrad_7weights_RWeights.__pyx_base.eval_weights = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_8RWeights_eval_weights;
+  __pyx_vtable_6mlgrad_7weights_RWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_8RWeights_get_weights;
+  __pyx_vtable_6mlgrad_7weights_RWeights.__pyx_base.get_qvalue = (double (*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_8RWeights_get_qvalue;
   __pyx_type_6mlgrad_7weights_RWeights.tp_base = __pyx_ptype_6mlgrad_7weights_Weights;
   if (PyType_Ready(&__pyx_type_6mlgrad_7weights_RWeights) < 0) __PYX_ERR(1, 77, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -29358,10 +30591,10 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_7weights_RWeights = &__pyx_type_6mlgrad_7weights_RWeights;
   __pyx_vtabptr_6mlgrad_7weights_MWeights = &__pyx_vtable_6mlgrad_7weights_MWeights;
   __pyx_vtable_6mlgrad_7weights_MWeights.__pyx_base = *__pyx_vtabptr_6mlgrad_7weights_Weights;
-  __pyx_vtable_6mlgrad_7weights_MWeights.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_8MWeights_init;
-  __pyx_vtable_6mlgrad_7weights_MWeights.__pyx_base.eval_weights = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_8MWeights_eval_weights;
-  __pyx_vtable_6mlgrad_7weights_MWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_8MWeights_get_weights;
-  __pyx_vtable_6mlgrad_7weights_MWeights.__pyx_base.get_qvalue = (double (*)(struct __pyx_obj_6mlgrad_7weights_Weights *))__pyx_f_6mlgrad_7weights_8MWeights_get_qvalue;
+  __pyx_vtable_6mlgrad_7weights_MWeights.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_8MWeights_init;
+  __pyx_vtable_6mlgrad_7weights_MWeights.__pyx_base.eval_weights = (PyObject *(*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_8MWeights_eval_weights;
+  __pyx_vtable_6mlgrad_7weights_MWeights.__pyx_base.get_weights = (__Pyx_memviewslice (*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_8MWeights_get_weights;
+  __pyx_vtable_6mlgrad_7weights_MWeights.__pyx_base.get_qvalue = (double (*)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch))__pyx_f_6mlgrad_7weights_8MWeights_get_qvalue;
   __pyx_type_6mlgrad_7weights_MWeights.tp_base = __pyx_ptype_6mlgrad_7weights_Weights;
   if (PyType_Ready(&__pyx_type_6mlgrad_7weights_MWeights) < 0) __PYX_ERR(1, 131, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -30412,215 +31645,6 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
     return result;
 }
 
-/* MemviewSliceInit */
-static int
-__Pyx_init_memviewslice(struct __pyx_memoryview_obj *memview,
-                        int ndim,
-                        __Pyx_memviewslice *memviewslice,
-                        int memview_is_new_reference)
-{
-    __Pyx_RefNannyDeclarations
-    int i, retval=-1;
-    Py_buffer *buf = &memview->view;
-    __Pyx_RefNannySetupContext("init_memviewslice", 0);
-    if (unlikely(memviewslice->memview || memviewslice->data)) {
-        PyErr_SetString(PyExc_ValueError,
-            "memviewslice is already initialized!");
-        goto fail;
-    }
-    if (buf->strides) {
-        for (i = 0; i < ndim; i++) {
-            memviewslice->strides[i] = buf->strides[i];
-        }
-    } else {
-        Py_ssize_t stride = buf->itemsize;
-        for (i = ndim - 1; i >= 0; i--) {
-            memviewslice->strides[i] = stride;
-            stride *= buf->shape[i];
-        }
-    }
-    for (i = 0; i < ndim; i++) {
-        memviewslice->shape[i]   = buf->shape[i];
-        if (buf->suboffsets) {
-            memviewslice->suboffsets[i] = buf->suboffsets[i];
-        } else {
-            memviewslice->suboffsets[i] = -1;
-        }
-    }
-    memviewslice->memview = memview;
-    memviewslice->data = (char *)buf->buf;
-    if (__pyx_add_acquisition_count(memview) == 0 && !memview_is_new_reference) {
-        Py_INCREF(memview);
-    }
-    retval = 0;
-    goto no_fail;
-fail:
-    memviewslice->memview = 0;
-    memviewslice->data = 0;
-    retval = -1;
-no_fail:
-    __Pyx_RefNannyFinishContext();
-    return retval;
-}
-#ifndef Py_NO_RETURN
-#define Py_NO_RETURN
-#endif
-static void __pyx_fatalerror(const char *fmt, ...) Py_NO_RETURN {
-    va_list vargs;
-    char msg[200];
-#ifdef HAVE_STDARG_PROTOTYPES
-    va_start(vargs, fmt);
-#else
-    va_start(vargs);
-#endif
-    vsnprintf(msg, 200, fmt, vargs);
-    va_end(vargs);
-    Py_FatalError(msg);
-}
-static CYTHON_INLINE int
-__pyx_add_acquisition_count_locked(__pyx_atomic_int *acquisition_count,
-                                   PyThread_type_lock lock)
-{
-    int result;
-    PyThread_acquire_lock(lock, 1);
-    result = (*acquisition_count)++;
-    PyThread_release_lock(lock);
-    return result;
-}
-static CYTHON_INLINE int
-__pyx_sub_acquisition_count_locked(__pyx_atomic_int *acquisition_count,
-                                   PyThread_type_lock lock)
-{
-    int result;
-    PyThread_acquire_lock(lock, 1);
-    result = (*acquisition_count)--;
-    PyThread_release_lock(lock);
-    return result;
-}
-static CYTHON_INLINE void
-__Pyx_INC_MEMVIEW(__Pyx_memviewslice *memslice, int have_gil, int lineno)
-{
-    int first_time;
-    struct __pyx_memoryview_obj *memview = memslice->memview;
-    if (unlikely(!memview || (PyObject *) memview == Py_None))
-        return;
-    if (unlikely(__pyx_get_slice_count(memview) < 0))
-        __pyx_fatalerror("Acquisition count is %d (line %d)",
-                         __pyx_get_slice_count(memview), lineno);
-    first_time = __pyx_add_acquisition_count(memview) == 0;
-    if (unlikely(first_time)) {
-        if (have_gil) {
-            Py_INCREF((PyObject *) memview);
-        } else {
-            PyGILState_STATE _gilstate = PyGILState_Ensure();
-            Py_INCREF((PyObject *) memview);
-            PyGILState_Release(_gilstate);
-        }
-    }
-}
-static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *memslice,
-                                             int have_gil, int lineno) {
-    int last_time;
-    struct __pyx_memoryview_obj *memview = memslice->memview;
-    if (unlikely(!memview || (PyObject *) memview == Py_None)) {
-        memslice->memview = NULL;
-        return;
-    }
-    if (unlikely(__pyx_get_slice_count(memview) <= 0))
-        __pyx_fatalerror("Acquisition count is %d (line %d)",
-                         __pyx_get_slice_count(memview), lineno);
-    last_time = __pyx_sub_acquisition_count(memview) == 1;
-    memslice->data = NULL;
-    if (unlikely(last_time)) {
-        if (have_gil) {
-            Py_CLEAR(memslice->memview);
-        } else {
-            PyGILState_STATE _gilstate = PyGILState_Ensure();
-            Py_CLEAR(memslice->memview);
-            PyGILState_Release(_gilstate);
-        }
-    } else {
-        memslice->memview = NULL;
-    }
-}
-
-/* PyErrExceptionMatches */
-#if CYTHON_FAST_THREAD_STATE
-static int __Pyx_PyErr_ExceptionMatchesTuple(PyObject *exc_type, PyObject *tuple) {
-    Py_ssize_t i, n;
-    n = PyTuple_GET_SIZE(tuple);
-#if PY_MAJOR_VERSION >= 3
-    for (i=0; i<n; i++) {
-        if (exc_type == PyTuple_GET_ITEM(tuple, i)) return 1;
-    }
-#endif
-    for (i=0; i<n; i++) {
-        if (__Pyx_PyErr_GivenExceptionMatches(exc_type, PyTuple_GET_ITEM(tuple, i))) return 1;
-    }
-    return 0;
-}
-static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err) {
-    PyObject *exc_type = tstate->curexc_type;
-    if (exc_type == err) return 1;
-    if (unlikely(!exc_type)) return 0;
-    if (unlikely(PyTuple_Check(err)))
-        return __Pyx_PyErr_ExceptionMatchesTuple(exc_type, err);
-    return __Pyx_PyErr_GivenExceptionMatches(exc_type, err);
-}
-#endif
-
-/* PyErrFetchRestore */
-#if CYTHON_FAST_THREAD_STATE
-static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
-    PyObject *tmp_type, *tmp_value, *tmp_tb;
-    tmp_type = tstate->curexc_type;
-    tmp_value = tstate->curexc_value;
-    tmp_tb = tstate->curexc_traceback;
-    tstate->curexc_type = type;
-    tstate->curexc_value = value;
-    tstate->curexc_traceback = tb;
-    Py_XDECREF(tmp_type);
-    Py_XDECREF(tmp_value);
-    Py_XDECREF(tmp_tb);
-}
-static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
-    *type = tstate->curexc_type;
-    *value = tstate->curexc_value;
-    *tb = tstate->curexc_traceback;
-    tstate->curexc_type = 0;
-    tstate->curexc_value = 0;
-    tstate->curexc_traceback = 0;
-}
-#endif
-
-/* GetAttr */
-static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
-#if CYTHON_USE_TYPE_SLOTS
-#if PY_MAJOR_VERSION >= 3
-    if (likely(PyUnicode_Check(n)))
-#else
-    if (likely(PyString_Check(n)))
-#endif
-        return __Pyx_PyObject_GetAttrStr(o, n);
-#endif
-    return PyObject_GetAttr(o, n);
-}
-
-/* GetAttr3 */
-static PyObject *__Pyx_GetAttr3Default(PyObject *d) {
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    if (unlikely(!__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
-        return NULL;
-    __Pyx_PyErr_Clear();
-    Py_INCREF(d);
-    return d;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject *d) {
-    PyObject *r = __Pyx_GetAttr(o, n);
-    return (likely(r)) ? r : __Pyx_GetAttr3Default(d);
-}
-
 /* PyDictVersioning */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
 static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
@@ -30644,206 +31668,6 @@ static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UIN
     if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
         return 0;
     return obj_dict_version == __Pyx_get_object_dict_version(obj);
-}
-#endif
-
-/* GetModuleGlobalName */
-#if CYTHON_USE_DICT_VERSIONS
-static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
-#else
-static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
-#endif
-{
-    PyObject *result;
-#if !CYTHON_AVOID_BORROWED_REFS
-#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
-    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    } else if (unlikely(PyErr_Occurred())) {
-        return NULL;
-    }
-#else
-    result = PyDict_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-#endif
-#else
-    result = PyObject_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-    PyErr_Clear();
-#endif
-    return __Pyx_GetBuiltinName(name);
-}
-
-/* RaiseDoubleKeywords */
-static void __Pyx_RaiseDoubleKeywordsError(
-    const char* func_name,
-    PyObject* kw_name)
-{
-    PyErr_Format(PyExc_TypeError,
-        #if PY_MAJOR_VERSION >= 3
-        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
-        #else
-        "%s() got multiple values for keyword argument '%s'", func_name,
-        PyString_AsString(kw_name));
-        #endif
-}
-
-/* ParseKeywords */
-static int __Pyx_ParseOptionalKeywords(
-    PyObject *kwds,
-    PyObject **argnames[],
-    PyObject *kwds2,
-    PyObject *values[],
-    Py_ssize_t num_pos_args,
-    const char* function_name)
-{
-    PyObject *key = 0, *value = 0;
-    Py_ssize_t pos = 0;
-    PyObject*** name;
-    PyObject*** first_kw_arg = argnames + num_pos_args;
-    while (PyDict_Next(kwds, &pos, &key, &value)) {
-        name = first_kw_arg;
-        while (*name && (**name != key)) name++;
-        if (*name) {
-            values[name-argnames] = value;
-            continue;
-        }
-        name = first_kw_arg;
-        #if PY_MAJOR_VERSION < 3
-        if (likely(PyString_Check(key))) {
-            while (*name) {
-                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
-                        && _PyString_Eq(**name, key)) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    if ((**argname == key) || (
-                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
-                             && _PyString_Eq(**argname, key))) {
-                        goto arg_passed_twice;
-                    }
-                    argname++;
-                }
-            }
-        } else
-        #endif
-        if (likely(PyUnicode_Check(key))) {
-            while (*name) {
-                int cmp = (**name == key) ? 0 :
-                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                    (__Pyx_PyUnicode_GET_LENGTH(**name) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
-                #endif
-                    PyUnicode_Compare(**name, key);
-                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                if (cmp == 0) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    int cmp = (**argname == key) ? 0 :
-                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                        (__Pyx_PyUnicode_GET_LENGTH(**argname) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
-                    #endif
-                        PyUnicode_Compare(**argname, key);
-                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                    if (cmp == 0) goto arg_passed_twice;
-                    argname++;
-                }
-            }
-        } else
-            goto invalid_keyword_type;
-        if (kwds2) {
-            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
-        } else {
-            goto invalid_keyword;
-        }
-    }
-    return 0;
-arg_passed_twice:
-    __Pyx_RaiseDoubleKeywordsError(function_name, key);
-    goto bad;
-invalid_keyword_type:
-    PyErr_Format(PyExc_TypeError,
-        "%.200s() keywords must be strings", function_name);
-    goto bad;
-invalid_keyword:
-    PyErr_Format(PyExc_TypeError,
-    #if PY_MAJOR_VERSION < 3
-        "%.200s() got an unexpected keyword argument '%.200s'",
-        function_name, PyString_AsString(key));
-    #else
-        "%s() got an unexpected keyword argument '%U'",
-        function_name, key);
-    #endif
-bad:
-    return -1;
-}
-
-/* RaiseArgTupleInvalid */
-static void __Pyx_RaiseArgtupleInvalid(
-    const char* func_name,
-    int exact,
-    Py_ssize_t num_min,
-    Py_ssize_t num_max,
-    Py_ssize_t num_found)
-{
-    Py_ssize_t num_expected;
-    const char *more_or_less;
-    if (num_found < num_min) {
-        num_expected = num_min;
-        more_or_less = "at least";
-    } else {
-        num_expected = num_max;
-        more_or_less = "at most";
-    }
-    if (exact) {
-        more_or_less = "exactly";
-    }
-    PyErr_Format(PyExc_TypeError,
-                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
-                 func_name, more_or_less, num_expected,
-                 (num_expected == 1) ? "" : "s", num_found);
-}
-
-/* PyCFunctionFastCall */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
-    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
-    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
-    PyObject *self = PyCFunction_GET_SELF(func);
-    int flags = PyCFunction_GET_FLAGS(func);
-    assert(PyCFunction_Check(func));
-    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    /* _PyCFunction_FastCallDict() must not be called with an exception set,
-       because it may clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!PyErr_Occurred());
-    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
-        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
-    } else {
-        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
-    }
 }
 #endif
 
@@ -30986,35 +31810,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 }
 #endif
 
-/* PyObjectCall2Args */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
-    PyObject *args, *result = NULL;
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyFunction_FastCall(function, args, 2);
-    }
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyCFunction_FastCall(function, args, 2);
-    }
-    #endif
-    args = PyTuple_New(2);
-    if (unlikely(!args)) goto done;
-    Py_INCREF(arg1);
-    PyTuple_SET_ITEM(args, 0, arg1);
-    Py_INCREF(arg2);
-    PyTuple_SET_ITEM(args, 1, arg2);
-    Py_INCREF(function);
-    result = __Pyx_PyObject_Call(function, args, NULL);
-    Py_DECREF(args);
-    Py_DECREF(function);
-done:
-    return result;
-}
-
 /* PyObjectCallMethO */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
@@ -31032,6 +31827,51 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
             "NULL result without error in PyObject_Call");
     }
     return result;
+}
+#endif
+
+/* PyObjectCallNoArg */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, NULL, 0);
+    }
+#endif
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
+#else
+    if (likely(PyCFunction_Check(func)))
+#endif
+    {
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
+            return __Pyx_PyObject_CallMethO(func, NULL);
+        }
+    }
+    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
+}
+#endif
+
+/* PyCFunctionFastCall */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    int flags = PyCFunction_GET_FLAGS(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
+        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
+    } else {
+        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
+    }
 }
 #endif
 
@@ -31074,6 +31914,463 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
     return result;
 }
 #endif
+
+/* MemviewSliceInit */
+static int
+__Pyx_init_memviewslice(struct __pyx_memoryview_obj *memview,
+                        int ndim,
+                        __Pyx_memviewslice *memviewslice,
+                        int memview_is_new_reference)
+{
+    __Pyx_RefNannyDeclarations
+    int i, retval=-1;
+    Py_buffer *buf = &memview->view;
+    __Pyx_RefNannySetupContext("init_memviewslice", 0);
+    if (unlikely(memviewslice->memview || memviewslice->data)) {
+        PyErr_SetString(PyExc_ValueError,
+            "memviewslice is already initialized!");
+        goto fail;
+    }
+    if (buf->strides) {
+        for (i = 0; i < ndim; i++) {
+            memviewslice->strides[i] = buf->strides[i];
+        }
+    } else {
+        Py_ssize_t stride = buf->itemsize;
+        for (i = ndim - 1; i >= 0; i--) {
+            memviewslice->strides[i] = stride;
+            stride *= buf->shape[i];
+        }
+    }
+    for (i = 0; i < ndim; i++) {
+        memviewslice->shape[i]   = buf->shape[i];
+        if (buf->suboffsets) {
+            memviewslice->suboffsets[i] = buf->suboffsets[i];
+        } else {
+            memviewslice->suboffsets[i] = -1;
+        }
+    }
+    memviewslice->memview = memview;
+    memviewslice->data = (char *)buf->buf;
+    if (__pyx_add_acquisition_count(memview) == 0 && !memview_is_new_reference) {
+        Py_INCREF(memview);
+    }
+    retval = 0;
+    goto no_fail;
+fail:
+    memviewslice->memview = 0;
+    memviewslice->data = 0;
+    retval = -1;
+no_fail:
+    __Pyx_RefNannyFinishContext();
+    return retval;
+}
+#ifndef Py_NO_RETURN
+#define Py_NO_RETURN
+#endif
+static void __pyx_fatalerror(const char *fmt, ...) Py_NO_RETURN {
+    va_list vargs;
+    char msg[200];
+#ifdef HAVE_STDARG_PROTOTYPES
+    va_start(vargs, fmt);
+#else
+    va_start(vargs);
+#endif
+    vsnprintf(msg, 200, fmt, vargs);
+    va_end(vargs);
+    Py_FatalError(msg);
+}
+static CYTHON_INLINE int
+__pyx_add_acquisition_count_locked(__pyx_atomic_int *acquisition_count,
+                                   PyThread_type_lock lock)
+{
+    int result;
+    PyThread_acquire_lock(lock, 1);
+    result = (*acquisition_count)++;
+    PyThread_release_lock(lock);
+    return result;
+}
+static CYTHON_INLINE int
+__pyx_sub_acquisition_count_locked(__pyx_atomic_int *acquisition_count,
+                                   PyThread_type_lock lock)
+{
+    int result;
+    PyThread_acquire_lock(lock, 1);
+    result = (*acquisition_count)--;
+    PyThread_release_lock(lock);
+    return result;
+}
+static CYTHON_INLINE void
+__Pyx_INC_MEMVIEW(__Pyx_memviewslice *memslice, int have_gil, int lineno)
+{
+    int first_time;
+    struct __pyx_memoryview_obj *memview = memslice->memview;
+    if (unlikely(!memview || (PyObject *) memview == Py_None))
+        return;
+    if (unlikely(__pyx_get_slice_count(memview) < 0))
+        __pyx_fatalerror("Acquisition count is %d (line %d)",
+                         __pyx_get_slice_count(memview), lineno);
+    first_time = __pyx_add_acquisition_count(memview) == 0;
+    if (unlikely(first_time)) {
+        if (have_gil) {
+            Py_INCREF((PyObject *) memview);
+        } else {
+            PyGILState_STATE _gilstate = PyGILState_Ensure();
+            Py_INCREF((PyObject *) memview);
+            PyGILState_Release(_gilstate);
+        }
+    }
+}
+static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *memslice,
+                                             int have_gil, int lineno) {
+    int last_time;
+    struct __pyx_memoryview_obj *memview = memslice->memview;
+    if (unlikely(!memview || (PyObject *) memview == Py_None)) {
+        memslice->memview = NULL;
+        return;
+    }
+    if (unlikely(__pyx_get_slice_count(memview) <= 0))
+        __pyx_fatalerror("Acquisition count is %d (line %d)",
+                         __pyx_get_slice_count(memview), lineno);
+    last_time = __pyx_sub_acquisition_count(memview) == 1;
+    memslice->data = NULL;
+    if (unlikely(last_time)) {
+        if (have_gil) {
+            Py_CLEAR(memslice->memview);
+        } else {
+            PyGILState_STATE _gilstate = PyGILState_Ensure();
+            Py_CLEAR(memslice->memview);
+            PyGILState_Release(_gilstate);
+        }
+    } else {
+        memslice->memview = NULL;
+    }
+}
+
+/* PyErrFetchRestore */
+#if CYTHON_FAST_THREAD_STATE
+static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    tmp_type = tstate->curexc_type;
+    tmp_value = tstate->curexc_value;
+    tmp_tb = tstate->curexc_traceback;
+    tstate->curexc_type = type;
+    tstate->curexc_value = value;
+    tstate->curexc_traceback = tb;
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+}
+static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
+    *type = tstate->curexc_type;
+    *value = tstate->curexc_value;
+    *tb = tstate->curexc_traceback;
+    tstate->curexc_type = 0;
+    tstate->curexc_value = 0;
+    tstate->curexc_traceback = 0;
+}
+#endif
+
+/* WriteUnraisableException */
+static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
+                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
+                                  int full_traceback, CYTHON_UNUSED int nogil) {
+    PyObject *old_exc, *old_val, *old_tb;
+    PyObject *ctx;
+    __Pyx_PyThreadState_declare
+#ifdef WITH_THREAD
+    PyGILState_STATE state;
+    if (nogil)
+        state = PyGILState_Ensure();
+#ifdef _MSC_VER
+    else state = (PyGILState_STATE)-1;
+#endif
+#endif
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
+    if (full_traceback) {
+        Py_XINCREF(old_exc);
+        Py_XINCREF(old_val);
+        Py_XINCREF(old_tb);
+        __Pyx_ErrRestore(old_exc, old_val, old_tb);
+        PyErr_PrintEx(1);
+    }
+    #if PY_MAJOR_VERSION < 3
+    ctx = PyString_FromString(name);
+    #else
+    ctx = PyUnicode_FromString(name);
+    #endif
+    __Pyx_ErrRestore(old_exc, old_val, old_tb);
+    if (!ctx) {
+        PyErr_WriteUnraisable(Py_None);
+    } else {
+        PyErr_WriteUnraisable(ctx);
+        Py_DECREF(ctx);
+    }
+#ifdef WITH_THREAD
+    if (nogil)
+        PyGILState_Release(state);
+#endif
+}
+
+/* RaiseArgTupleInvalid */
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
+    } else {
+        num_expected = num_max;
+        more_or_less = "at most";
+    }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
+}
+
+/* RaiseDoubleKeywords */
+static void __Pyx_RaiseDoubleKeywordsError(
+    const char* func_name,
+    PyObject* kw_name)
+{
+    PyErr_Format(PyExc_TypeError,
+        #if PY_MAJOR_VERSION >= 3
+        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
+        #else
+        "%s() got multiple values for keyword argument '%s'", func_name,
+        PyString_AsString(kw_name));
+        #endif
+}
+
+/* ParseKeywords */
+static int __Pyx_ParseOptionalKeywords(
+    PyObject *kwds,
+    PyObject **argnames[],
+    PyObject *kwds2,
+    PyObject *values[],
+    Py_ssize_t num_pos_args,
+    const char* function_name)
+{
+    PyObject *key = 0, *value = 0;
+    Py_ssize_t pos = 0;
+    PyObject*** name;
+    PyObject*** first_kw_arg = argnames + num_pos_args;
+    while (PyDict_Next(kwds, &pos, &key, &value)) {
+        name = first_kw_arg;
+        while (*name && (**name != key)) name++;
+        if (*name) {
+            values[name-argnames] = value;
+            continue;
+        }
+        name = first_kw_arg;
+        #if PY_MAJOR_VERSION < 3
+        if (likely(PyString_Check(key))) {
+            while (*name) {
+                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
+                        && _PyString_Eq(**name, key)) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    if ((**argname == key) || (
+                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
+                             && _PyString_Eq(**argname, key))) {
+                        goto arg_passed_twice;
+                    }
+                    argname++;
+                }
+            }
+        } else
+        #endif
+        if (likely(PyUnicode_Check(key))) {
+            while (*name) {
+                int cmp = (**name == key) ? 0 :
+                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                    (__Pyx_PyUnicode_GET_LENGTH(**name) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
+                #endif
+                    PyUnicode_Compare(**name, key);
+                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                if (cmp == 0) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    int cmp = (**argname == key) ? 0 :
+                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                        (__Pyx_PyUnicode_GET_LENGTH(**argname) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
+                    #endif
+                        PyUnicode_Compare(**argname, key);
+                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                    if (cmp == 0) goto arg_passed_twice;
+                    argname++;
+                }
+            }
+        } else
+            goto invalid_keyword_type;
+        if (kwds2) {
+            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
+        } else {
+            goto invalid_keyword;
+        }
+    }
+    return 0;
+arg_passed_twice:
+    __Pyx_RaiseDoubleKeywordsError(function_name, key);
+    goto bad;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    goto bad;
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+bad:
+    return -1;
+}
+
+/* PyErrExceptionMatches */
+#if CYTHON_FAST_THREAD_STATE
+static int __Pyx_PyErr_ExceptionMatchesTuple(PyObject *exc_type, PyObject *tuple) {
+    Py_ssize_t i, n;
+    n = PyTuple_GET_SIZE(tuple);
+#if PY_MAJOR_VERSION >= 3
+    for (i=0; i<n; i++) {
+        if (exc_type == PyTuple_GET_ITEM(tuple, i)) return 1;
+    }
+#endif
+    for (i=0; i<n; i++) {
+        if (__Pyx_PyErr_GivenExceptionMatches(exc_type, PyTuple_GET_ITEM(tuple, i))) return 1;
+    }
+    return 0;
+}
+static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err) {
+    PyObject *exc_type = tstate->curexc_type;
+    if (exc_type == err) return 1;
+    if (unlikely(!exc_type)) return 0;
+    if (unlikely(PyTuple_Check(err)))
+        return __Pyx_PyErr_ExceptionMatchesTuple(exc_type, err);
+    return __Pyx_PyErr_GivenExceptionMatches(exc_type, err);
+}
+#endif
+
+/* GetAttr */
+static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
+#if CYTHON_USE_TYPE_SLOTS
+#if PY_MAJOR_VERSION >= 3
+    if (likely(PyUnicode_Check(n)))
+#else
+    if (likely(PyString_Check(n)))
+#endif
+        return __Pyx_PyObject_GetAttrStr(o, n);
+#endif
+    return PyObject_GetAttr(o, n);
+}
+
+/* GetAttr3 */
+static PyObject *__Pyx_GetAttr3Default(PyObject *d) {
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    if (unlikely(!__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
+        return NULL;
+    __Pyx_PyErr_Clear();
+    Py_INCREF(d);
+    return d;
+}
+static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject *d) {
+    PyObject *r = __Pyx_GetAttr(o, n);
+    return (likely(r)) ? r : __Pyx_GetAttr3Default(d);
+}
+
+/* GetModuleGlobalName */
+#if CYTHON_USE_DICT_VERSIONS
+static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
+#else
+static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
+#endif
+{
+    PyObject *result;
+#if !CYTHON_AVOID_BORROWED_REFS
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
+    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    } else if (unlikely(PyErr_Occurred())) {
+        return NULL;
+    }
+#else
+    result = PyDict_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+#endif
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+    PyErr_Clear();
+#endif
+    return __Pyx_GetBuiltinName(name);
+}
+
+/* PyObjectCall2Args */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
+    PyObject *args, *result = NULL;
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyFunction_FastCall(function, args, 2);
+    }
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyCFunction_FastCall(function, args, 2);
+    }
+    #endif
+    args = PyTuple_New(2);
+    if (unlikely(!args)) goto done;
+    Py_INCREF(arg1);
+    PyTuple_SET_ITEM(args, 0, arg1);
+    Py_INCREF(arg2);
+    PyTuple_SET_ITEM(args, 1, arg2);
+    Py_INCREF(function);
+    result = __Pyx_PyObject_Call(function, args, NULL);
+    Py_DECREF(args);
+    Py_DECREF(function);
+done:
+    return result;
+}
 
 /* PyFloatBinop */
 #if !CYTHON_COMPILING_IN_PYPY
@@ -31188,48 +32485,6 @@ static PyObject* __Pyx_PyFloat_TrueDivideCObj(PyObject *op1, PyObject *op2, doub
     PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
                  Py_TYPE(obj)->tp_name, type->tp_name);
     return 0;
-}
-
-/* WriteUnraisableException */
-  static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
-                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
-                                  int full_traceback, CYTHON_UNUSED int nogil) {
-    PyObject *old_exc, *old_val, *old_tb;
-    PyObject *ctx;
-    __Pyx_PyThreadState_declare
-#ifdef WITH_THREAD
-    PyGILState_STATE state;
-    if (nogil)
-        state = PyGILState_Ensure();
-#ifdef _MSC_VER
-    else state = (PyGILState_STATE)-1;
-#endif
-#endif
-    __Pyx_PyThreadState_assign
-    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
-    if (full_traceback) {
-        Py_XINCREF(old_exc);
-        Py_XINCREF(old_val);
-        Py_XINCREF(old_tb);
-        __Pyx_ErrRestore(old_exc, old_val, old_tb);
-        PyErr_PrintEx(1);
-    }
-    #if PY_MAJOR_VERSION < 3
-    ctx = PyString_FromString(name);
-    #else
-    ctx = PyUnicode_FromString(name);
-    #endif
-    __Pyx_ErrRestore(old_exc, old_val, old_tb);
-    if (!ctx) {
-        PyErr_WriteUnraisable(Py_None);
-    } else {
-        PyErr_WriteUnraisable(ctx);
-        Py_DECREF(ctx);
-    }
-#ifdef WITH_THREAD
-    if (nogil)
-        PyGILState_Release(state);
-#endif
 }
 
 /* Import */

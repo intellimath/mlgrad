@@ -3173,7 +3173,7 @@ struct __pyx_obj_6mlgrad_7weights_RWeights {
  * @cython.final
  * cdef class MWeights(Weights):             # <<<<<<<<<<<<<<
  *     cdef readonly double[::1] lval_all
- *     cdef double best_u
+ *     cdef public double best_u
  */
 struct __pyx_obj_6mlgrad_7weights_MWeights {
   struct __pyx_obj_6mlgrad_7weights_Weights __pyx_base;
@@ -3497,10 +3497,10 @@ struct __pyx_vtabstruct_6mlgrad_4func_Func {
   double (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   double (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   double (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
-  double (*evaluate_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  double (*derivative_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  double (*derivative2_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  double (*derivative_div_x_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  void (*evaluate_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  void (*derivative_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  void (*derivative2_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  void (*derivative_div_x_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
 };
 static struct __pyx_vtabstruct_6mlgrad_4func_Func *__pyx_vtabptr_6mlgrad_4func_Func;
 
@@ -5308,11 +5308,11 @@ static struct __pyx_vtabstruct_6mlgrad_4risk_ER21 *__pyx_vtabptr_6mlgrad_4risk_E
  */
 
 struct __pyx_vtabstruct_6mlgrad_7weights_Weights {
-  PyObject *(*init)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  PyObject *(*eval_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  __Pyx_memviewslice (*get_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  double (*get_qvalue)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  PyObject *(*set_param)(struct __pyx_obj_6mlgrad_7weights_Weights *, PyObject *, PyObject *);
+  PyObject *(*init)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch);
+  PyObject *(*eval_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch);
+  __Pyx_memviewslice (*get_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch);
+  double (*get_qvalue)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch);
+  PyObject *(*set_param)(struct __pyx_obj_6mlgrad_7weights_Weights *, PyObject *, PyObject *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_6mlgrad_7weights_Weights *__pyx_vtabptr_6mlgrad_7weights_Weights;
 
@@ -5364,7 +5364,7 @@ static struct __pyx_vtabstruct_6mlgrad_7weights_RWeights *__pyx_vtabptr_6mlgrad_
  * @cython.final
  * cdef class MWeights(Weights):             # <<<<<<<<<<<<<<
  *     cdef readonly double[::1] lval_all
- *     cdef double best_u
+ *     cdef public double best_u
  */
 
 struct __pyx_vtabstruct_6mlgrad_7weights_MWeights {

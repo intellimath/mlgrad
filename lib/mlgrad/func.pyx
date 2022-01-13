@@ -33,6 +33,16 @@ from libc.math cimport fabs, pow, sqrt, fmax, exp, log, atan
 from libc.math cimport isnan, isinf
 from libc.stdlib cimport strtod
 
+from cython.parallel cimport parallel, prange
+ 
+from openmp cimport omp_get_num_procs
+ 
+cdef int num_procs = 2 #omp_get_num_procs()
+# if num_procs >= 4:
+#     num_procs /= 2
+# else:
+#     num_procs = 2
+
 import numpy as np
 
 cimport cython
@@ -71,23 +81,25 @@ cdef class Func(object):
     cdef double derivative_div_x(self, const double x) nogil:
         return self.derivative(x) / x
     #
-    cdef double evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
+    cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
         cdef Py_ssize_t i
         for i in range(n):
             y[i] = self.evaluate(x[i])
-    cdef double derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
+    #
+    cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
         cdef Py_ssize_t i
         for i in range(n):
             y[i] = self.derivative(x[i])
-    cdef double derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
+    #
+    cdef void derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
         cdef Py_ssize_t i
         for i in range(n):
             y[i] = self.derivative2(x[i])
-    cdef double derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
+    #
+    cdef void derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
         cdef Py_ssize_t i
         for i in range(n):
             y[i] = self.derivative_div_x(x[i])
-    
 
 cdef class Comp(Func):
     #
@@ -475,49 +487,49 @@ cdef class Quantile(Func):
         return { 'name':'quantile', 
                  'args': (self.alpha,) }
 
-cdef class Expectile(Func):
-    #
-    def __init__(self, alpha=0.5):
-        self.alpha = alpha
-    #
-    cdef double evaluate(self, const double x) nogil:
-        if x < 0:
-            return 0.5 * (1. - self.alpha) * x * x
-        elif x > 0:
-            return 0.5 * self.alpha * x * x
-        else:
-            return 0
-    #
-    cdef double derivative(self, const double x) nogil:
-        if x < 0:
-            return (1.0 - self.alpha) * x
-        elif x > 0:
-            return self.alpha * x
-        else:
-            return 0
-    #
-    cdef double derivative2(self, const double x) nogil:
-        if x < 0:
-            return (1.0 - self.alpha)
-        elif x > 0:
-            return self.alpha
-        else:
-            return 0.5
-    #
-    cdef double derivative_div_x(self, const double x) nogil:
-        if x < 0:
-            return (1.0 - self.alpha)
-        elif x > 0:
-            return self.alpha
-        else:
-            return 0.5
-    #
-    def _repr_latex_(self):
-        return r"$ρ(x)=(\alpha - [x < 0])x|x|$"
+# cdef class Expectile(Func):
+#     #
+#     def __init__(self, alpha=0.5):
+#         self.alpha = alpha
+#     #
+#     cdef double evaluate(self, const double x) nogil:
+#         if x < 0:
+#             return 0.5 * (1. - self.alpha) * x * x
+#         elif x > 0:
+#             return 0.5 * self.alpha * x * x
+#         else:
+#             return 0
+#     #
+#     cdef double derivative(self, const double x) nogil:
+#         if x < 0:
+#             return (1.0 - self.alpha) * x
+#         elif x > 0:
+#             return self.alpha * x
+#         else:
+#             return 0
+#     #
+#     cdef double derivative2(self, const double x) nogil:
+#         if x < 0:
+#             return (1.0 - self.alpha)
+#         elif x > 0:
+#             return self.alpha
+#         else:
+#             return 0.5
+#     #
+#     cdef double derivative_div_x(self, const double x) nogil:
+#         if x < 0:
+#             return (1.0 - self.alpha)
+#         elif x > 0:
+#             return self.alpha
+#         else:
+#             return 0.5
+#     #
+#     def _repr_latex_(self):
+#         return r"$ρ(x)=(\alpha - [x < 0])x|x|$"
 
-    def to_dict(self):
-        return { 'name':'expectile', 
-                 'args': (self.alpha,) }
+#     def to_dict(self):
+#         return { 'name':'expectile', 
+#                  'args': (self.alpha,) }
 
 cdef class Power(Func):
     #
@@ -969,8 +981,20 @@ cdef class Sqrt(Func):
         self.eps = eps
         self.eps2 = eps*eps
     #
+    @cython.cdivision(True)
+    @cython.final
     cdef double evaluate(self, const double x) nogil:
         return sqrt(self.eps2 + x*x) - self.eps
+    #
+    @cython.cdivision(True)
+    @cython.final
+    cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
+        cdef Py_ssize_t i
+        cdef double v, eps = self.eps, eps2 = self.eps2
+        
+        for i in prange(n, nogil=True, num_threads=num_procs):
+            v = x[i]
+            y[i] = sqrt(eps2 + v*v) - eps
     #
     @cython.cdivision(True)
     @cython.final
@@ -980,14 +1004,45 @@ cdef class Sqrt(Func):
     #
     @cython.cdivision(True)
     @cython.final
+    cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
+        cdef Py_ssize_t i
+        cdef double v, eps = self.eps, eps2 = self.eps2
+        
+        for i in prange(n, nogil=True, num_threads=num_procs):
+            v = x[i]
+            y[i] = v / sqrt(eps2 + v*v)
+    #
+    @cython.cdivision(True)
+    @cython.final
     cdef double derivative2(self, const double x) nogil:
         cdef double v = self.eps2 + x*x
         return self.eps2 / (v * sqrt(v))
     #
     @cython.cdivision(True)
     @cython.final
+    cdef void derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
+        cdef Py_ssize_t i
+        cdef double v, v2, eps = self.eps, eps2 = self.eps2
+        
+        for i in prange(n, nogil=True, num_threads=num_procs):
+            v = x[i]
+            v2 = eps2 + v*v
+            y[i] = eps2 / (v * sqrt(v))
+    #
+    @cython.cdivision(True)
+    @cython.final
     cdef double derivative_div_x(self, const double x) nogil:
         return 1. / sqrt(self.eps2 + x*x)
+    #
+    @cython.cdivision(True)
+    @cython.final
+    cdef void derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
+        cdef Py_ssize_t i
+        cdef double v, v2, eps = self.eps, eps2 = self.eps2
+        
+        for i in prange(n, nogil=True, num_threads=num_procs):
+            v = x[i]
+            y[i] = 1. / sqrt(eps2 + v*v)
     #
     def _repr_latex_(self):
         return r"$p(x)=\sqrt{\varepsilon^2+x^2}$"
@@ -1035,7 +1090,7 @@ cdef class Quantile_Sqrt(Func):
             return (1.-self.alpha) / sqrt(v)
     #
     @cython.cdivision(True)
-    cdef double evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
+    cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
         cdef Py_ssize_t i
         cdef double u, v
         for i in range(n):
@@ -1047,7 +1102,7 @@ cdef class Quantile_Sqrt(Func):
                 y[i] = (sqrt(u) - self.eps) * (1-self.alpha)
     #
     @cython.cdivision(True)
-    cdef double derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
+    cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
         cdef Py_ssize_t i
         cdef double u, v
         for i in range(n):
@@ -1059,7 +1114,7 @@ cdef class Quantile_Sqrt(Func):
                 y[i] = (1.-self.alpha) * v / sqrt(u)
     #
     @cython.cdivision(True)
-    cdef double derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
+    cdef void derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
         cdef Py_ssize_t i
         cdef double u, v
         for i in range(n):
@@ -1071,7 +1126,7 @@ cdef class Quantile_Sqrt(Func):
                 y[i] = (1.-self.alpha) * self.eps2 / (u * sqrt(u))
     #
     @cython.cdivision(True)
-    cdef double derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
+    cdef void derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
         cdef Py_ssize_t i
         cdef double u, v
         for i in range(n):
@@ -1090,7 +1145,7 @@ cdef class Quantile_Sqrt(Func):
                  'args': (self.alpha, self.eps) }
     
     
-cdef class Exp(Func):
+cdef class Expectile(Func):
     #
     def __init__(self, alpha=1.0):
         self.alpha = alpha

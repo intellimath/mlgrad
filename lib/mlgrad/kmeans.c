@@ -3173,7 +3173,7 @@ struct __pyx_obj_6mlgrad_7weights_RWeights {
  * @cython.final
  * cdef class MWeights(Weights):             # <<<<<<<<<<<<<<
  *     cdef readonly double[::1] lval_all
- *     cdef double best_u
+ *     cdef public double best_u
  */
 struct __pyx_obj_6mlgrad_7weights_MWeights {
   struct __pyx_obj_6mlgrad_7weights_Weights __pyx_base;
@@ -3283,7 +3283,7 @@ struct __pyx_obj_6mlgrad_2gd_SGD {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":25
+/* "lib/mlgrad/stopcond.pxd":24
  * cpdef StopCondition get_stop_condition(object)
  * 
  * cdef class StopCondition:             # <<<<<<<<<<<<<<
@@ -3296,7 +3296,7 @@ struct __pyx_obj_6mlgrad_2gd_StopCondition {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":34
+/* "lib/mlgrad/stopcond.pxd":33
  * 
  * @cython.final
  * cdef class DiffL1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -3310,7 +3310,7 @@ struct __pyx_obj_6mlgrad_2gd_DiffL1StopCondition {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":40
+/* "lib/mlgrad/stopcond.pxd":39
  * 
  * @cython.final
  * cdef class DiffL2StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -3325,7 +3325,7 @@ struct __pyx_obj_6mlgrad_2gd_DiffL2StopCondition {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":45
+/* "lib/mlgrad/stopcond.pxd":44
  * 
  * @cython.final
  * cdef class DiffG1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -3339,7 +3339,7 @@ struct __pyx_obj_6mlgrad_2gd_DiffG1StopCondition {
 };
 
 
-/* "lib/mlgrad/stopcond.pxd":50
+/* "lib/mlgrad/stopcond.pxd":49
  * 
  * @cython.final
  * cdef class DiffP1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -3577,10 +3577,10 @@ struct __pyx_vtabstruct_6mlgrad_4func_Func {
   double (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   double (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   double (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
-  double (*evaluate_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  double (*derivative_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  double (*derivative2_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  double (*derivative_div_x_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  void (*evaluate_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  void (*derivative_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  void (*derivative2_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+  void (*derivative_div_x_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
 };
 static struct __pyx_vtabstruct_6mlgrad_4func_Func *__pyx_vtabptr_6mlgrad_4func_Func;
 
@@ -5388,11 +5388,11 @@ static struct __pyx_vtabstruct_6mlgrad_4risk_ER21 *__pyx_vtabptr_6mlgrad_4risk_E
  */
 
 struct __pyx_vtabstruct_6mlgrad_7weights_Weights {
-  PyObject *(*init)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  PyObject *(*eval_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  __Pyx_memviewslice (*get_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  double (*get_qvalue)(struct __pyx_obj_6mlgrad_7weights_Weights *);
-  PyObject *(*set_param)(struct __pyx_obj_6mlgrad_7weights_Weights *, PyObject *, PyObject *);
+  PyObject *(*init)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch);
+  PyObject *(*eval_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch);
+  __Pyx_memviewslice (*get_weights)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch);
+  double (*get_qvalue)(struct __pyx_obj_6mlgrad_7weights_Weights *, int __pyx_skip_dispatch);
+  PyObject *(*set_param)(struct __pyx_obj_6mlgrad_7weights_Weights *, PyObject *, PyObject *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_6mlgrad_7weights_Weights *__pyx_vtabptr_6mlgrad_7weights_Weights;
 
@@ -5444,7 +5444,7 @@ static struct __pyx_vtabstruct_6mlgrad_7weights_RWeights *__pyx_vtabptr_6mlgrad_
  * @cython.final
  * cdef class MWeights(Weights):             # <<<<<<<<<<<<<<
  *     cdef readonly double[::1] lval_all
- *     cdef double best_u
+ *     cdef public double best_u
  */
 
 struct __pyx_vtabstruct_6mlgrad_7weights_MWeights {
@@ -5539,7 +5539,7 @@ struct __pyx_vtabstruct_6mlgrad_2gd_SGD {
 static struct __pyx_vtabstruct_6mlgrad_2gd_SGD *__pyx_vtabptr_6mlgrad_2gd_SGD;
 
 
-/* "lib/mlgrad/stopcond.pxd":25
+/* "lib/mlgrad/stopcond.pxd":24
  * cpdef StopCondition get_stop_condition(object)
  * 
  * cdef class StopCondition:             # <<<<<<<<<<<<<<
@@ -5554,7 +5554,7 @@ struct __pyx_vtabstruct_6mlgrad_2gd_StopCondition {
 static struct __pyx_vtabstruct_6mlgrad_2gd_StopCondition *__pyx_vtabptr_6mlgrad_2gd_StopCondition;
 
 
-/* "lib/mlgrad/stopcond.pxd":34
+/* "lib/mlgrad/stopcond.pxd":33
  * 
  * @cython.final
  * cdef class DiffL1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -5568,7 +5568,7 @@ struct __pyx_vtabstruct_6mlgrad_2gd_DiffL1StopCondition {
 static struct __pyx_vtabstruct_6mlgrad_2gd_DiffL1StopCondition *__pyx_vtabptr_6mlgrad_2gd_DiffL1StopCondition;
 
 
-/* "lib/mlgrad/stopcond.pxd":40
+/* "lib/mlgrad/stopcond.pxd":39
  * 
  * @cython.final
  * cdef class DiffL2StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -5582,7 +5582,7 @@ struct __pyx_vtabstruct_6mlgrad_2gd_DiffL2StopCondition {
 static struct __pyx_vtabstruct_6mlgrad_2gd_DiffL2StopCondition *__pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition;
 
 
-/* "lib/mlgrad/stopcond.pxd":45
+/* "lib/mlgrad/stopcond.pxd":44
  * 
  * @cython.final
  * cdef class DiffG1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -5596,7 +5596,7 @@ struct __pyx_vtabstruct_6mlgrad_2gd_DiffG1StopCondition {
 static struct __pyx_vtabstruct_6mlgrad_2gd_DiffG1StopCondition *__pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition;
 
 
-/* "lib/mlgrad/stopcond.pxd":50
+/* "lib/mlgrad/stopcond.pxd":49
  * 
  * @cython.final
  * cdef class DiffP1StopCondition(StopCondition):             # <<<<<<<<<<<<<<
@@ -25561,7 +25561,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_2gd_copy_memoryview2(__Pyx_memviewslic
   __Pyx_RefNannyFinishContext();
 }
 
-/* "lib/mlgrad/stopcond.pxd":15
+/* "lib/mlgrad/stopcond.pxd":14
  *     double PyFloat_GetMin()
  * 
  * cdef inline double min3(const double v1, const double v2, const double v3):             # <<<<<<<<<<<<<<
@@ -25576,7 +25576,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("min3", 0);
 
-  /* "lib/mlgrad/stopcond.pxd":16
+  /* "lib/mlgrad/stopcond.pxd":15
  * 
  * cdef inline double min3(const double v1, const double v2, const double v3):
  *     cdef double vmin = v1             # <<<<<<<<<<<<<<
@@ -25585,7 +25585,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
   __pyx_v_vmin = __pyx_v_v1;
 
-  /* "lib/mlgrad/stopcond.pxd":17
+  /* "lib/mlgrad/stopcond.pxd":16
  * cdef inline double min3(const double v1, const double v2, const double v3):
  *     cdef double vmin = v1
  *     if v2 < vmin:             # <<<<<<<<<<<<<<
@@ -25595,7 +25595,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
   __pyx_t_1 = ((__pyx_v_v2 < __pyx_v_vmin) != 0);
   if (__pyx_t_1) {
 
-    /* "lib/mlgrad/stopcond.pxd":18
+    /* "lib/mlgrad/stopcond.pxd":17
  *     cdef double vmin = v1
  *     if v2 < vmin:
  *         vmin = v2             # <<<<<<<<<<<<<<
@@ -25604,7 +25604,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
     __pyx_v_vmin = __pyx_v_v2;
 
-    /* "lib/mlgrad/stopcond.pxd":17
+    /* "lib/mlgrad/stopcond.pxd":16
  * cdef inline double min3(const double v1, const double v2, const double v3):
  *     cdef double vmin = v1
  *     if v2 < vmin:             # <<<<<<<<<<<<<<
@@ -25613,7 +25613,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
   }
 
-  /* "lib/mlgrad/stopcond.pxd":19
+  /* "lib/mlgrad/stopcond.pxd":18
  *     if v2 < vmin:
  *         vmin = v2
  *     if v3 < vmin:             # <<<<<<<<<<<<<<
@@ -25623,7 +25623,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
   __pyx_t_1 = ((__pyx_v_v3 < __pyx_v_vmin) != 0);
   if (__pyx_t_1) {
 
-    /* "lib/mlgrad/stopcond.pxd":20
+    /* "lib/mlgrad/stopcond.pxd":19
  *         vmin = v2
  *     if v3 < vmin:
  *         vmin = v3             # <<<<<<<<<<<<<<
@@ -25632,7 +25632,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
     __pyx_v_vmin = __pyx_v_v3;
 
-    /* "lib/mlgrad/stopcond.pxd":19
+    /* "lib/mlgrad/stopcond.pxd":18
  *     if v2 < vmin:
  *         vmin = v2
  *     if v3 < vmin:             # <<<<<<<<<<<<<<
@@ -25641,7 +25641,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
  */
   }
 
-  /* "lib/mlgrad/stopcond.pxd":21
+  /* "lib/mlgrad/stopcond.pxd":20
  *     if v3 < vmin:
  *         vmin = v3
  *     return vmin             # <<<<<<<<<<<<<<
@@ -25651,7 +25651,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_2gd_min3(double const __pyx_v_v1, do
   __pyx_r = __pyx_v_vmin;
   goto __pyx_L0;
 
-  /* "lib/mlgrad/stopcond.pxd":15
+  /* "lib/mlgrad/stopcond.pxd":14
  *     double PyFloat_GetMin()
  * 
  * cdef inline double min3(const double v1, const double v2, const double v3):             # <<<<<<<<<<<<<<
@@ -41914,20 +41914,20 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_6mlgrad_2gd_SGD) __PYX_ERR(8, 121, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_2gd_SGD = (struct __pyx_vtabstruct_6mlgrad_2gd_SGD*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_SGD->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_SGD)) __PYX_ERR(8, 121, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_StopCondition = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "StopCondition", sizeof(struct __pyx_obj_6mlgrad_2gd_StopCondition), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_StopCondition) __PYX_ERR(17, 25, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_StopCondition)) __PYX_ERR(17, 25, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_StopCondition) __PYX_ERR(17, 24, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_StopCondition)) __PYX_ERR(17, 24, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_DiffL1StopCondition = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "DiffL1StopCondition", sizeof(struct __pyx_obj_6mlgrad_2gd_DiffL1StopCondition), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_DiffL1StopCondition) __PYX_ERR(17, 34, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_DiffL1StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffL1StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffL1StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffL1StopCondition)) __PYX_ERR(17, 34, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_DiffL1StopCondition) __PYX_ERR(17, 33, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_DiffL1StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffL1StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffL1StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffL1StopCondition)) __PYX_ERR(17, 33, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_DiffL2StopCondition = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "DiffL2StopCondition", sizeof(struct __pyx_obj_6mlgrad_2gd_DiffL2StopCondition), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_DiffL2StopCondition) __PYX_ERR(17, 40, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffL2StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffL2StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition)) __PYX_ERR(17, 40, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_DiffL2StopCondition) __PYX_ERR(17, 39, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffL2StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffL2StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffL2StopCondition)) __PYX_ERR(17, 39, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_DiffG1StopCondition = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "DiffG1StopCondition", sizeof(struct __pyx_obj_6mlgrad_2gd_DiffG1StopCondition), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_DiffG1StopCondition) __PYX_ERR(17, 45, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffG1StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffG1StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition)) __PYX_ERR(17, 45, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_DiffG1StopCondition) __PYX_ERR(17, 44, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffG1StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffG1StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffG1StopCondition)) __PYX_ERR(17, 44, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_DiffP1StopCondition = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "DiffP1StopCondition", sizeof(struct __pyx_obj_6mlgrad_2gd_DiffP1StopCondition), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_2gd_DiffP1StopCondition) __PYX_ERR(17, 50, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_DiffP1StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffP1StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffP1StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffP1StopCondition)) __PYX_ERR(17, 50, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_2gd_DiffP1StopCondition) __PYX_ERR(17, 49, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_DiffP1StopCondition = (struct __pyx_vtabstruct_6mlgrad_2gd_DiffP1StopCondition*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_DiffP1StopCondition->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_DiffP1StopCondition)) __PYX_ERR(17, 49, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_ParamRate = __Pyx_ImportType(__pyx_t_1, "mlgrad.gd", "ParamRate", sizeof(struct __pyx_obj_6mlgrad_2gd_ParamRate), __Pyx_ImportType_CheckSize_Warn);
    if (!__pyx_ptype_6mlgrad_2gd_ParamRate) __PYX_ERR(18, 2, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_2gd_ParamRate = (struct __pyx_vtabstruct_6mlgrad_2gd_ParamRate*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_ParamRate->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_ParamRate)) __PYX_ERR(18, 2, __pyx_L1_error)

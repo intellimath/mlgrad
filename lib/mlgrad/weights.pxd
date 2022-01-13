@@ -53,11 +53,11 @@ cdef class Weights(object):
     #
     cdef public double[::1] weights
     #
-    cdef init(self)
-    cdef eval_weights(self)
-    cdef double[::1] get_weights(self)
-    cdef double get_qvalue(self)
-    cdef set_param(self, name, val)
+    cpdef init(self)
+    cpdef eval_weights(self)
+    cpdef double[::1] get_weights(self)
+    cpdef double get_qvalue(self)
+    cpdef set_param(self, name, val)
 
 @cython.final   
 cdef class ArrayWeights(Weights):
@@ -77,7 +77,7 @@ cdef class RWeights(Weights):
 @cython.final
 cdef class MWeights(Weights):
     cdef readonly double[::1] lval_all
-    cdef double best_u
+    cdef public double best_u
     cdef public Average average
     cdef public Risk risk
     cdef bint first_time, normalize, u_only, use_best_u
