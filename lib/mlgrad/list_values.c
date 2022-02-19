@@ -942,25 +942,25 @@ typedef struct {
 
 
 /*--- Type declarations ---*/
-struct __pyx_obj_6mlgrad_11list_values_list_values;
+struct __pyx_obj_6mlgrad_11list_values_list_doubles;
 struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
 struct __pyx_memoryviewslice_obj;
 
-/* "mlgrad/list_values.pxd":66
+/* "mlgrad/list_values.pxd":90
  * 
  * @cython.no_gc
- * cdef class list_values:             # <<<<<<<<<<<<<<
+ * cdef class list_doubles:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t size
  *     cdef Py_ssize_t allocated
  */
-struct __pyx_obj_6mlgrad_11list_values_list_values {
+struct __pyx_obj_6mlgrad_11list_values_list_doubles {
   PyObject_HEAD
-  struct __pyx_vtabstruct_6mlgrad_11list_values_list_values *__pyx_vtab;
+  struct __pyx_vtabstruct_6mlgrad_11list_values_list_doubles *__pyx_vtab;
   Py_ssize_t size;
   Py_ssize_t allocated;
-  void *data;
+  double *data;
 };
 
 
@@ -1042,35 +1042,23 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "mlgrad/list_values.pyx":73
+/* "mlgrad/list_values.pyx":196
  * 
  * @cython.no_gc
- * cdef class list_values:             # <<<<<<<<<<<<<<
+ * cdef class list_doubles:             # <<<<<<<<<<<<<<
  * 
- *     def __cinit__(self, Py_ssize_t itemsize, Py_ssize_t size=0):
+ *     def __cinit__(self, size=0):
  */
 
-struct __pyx_vtabstruct_6mlgrad_11list_values_list_values {
-  double *(*as_double_array)(struct __pyx_obj_6mlgrad_11list_values_list_values *);
-  double **(*as_pdouble_array)(struct __pyx_obj_6mlgrad_11list_values_list_values *);
-  double (*_get_double)(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t);
-  double *(*_get_pdouble)(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t);
-  void (*_set_double)(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t, double);
-  void (*_set_pdouble)(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t, double *);
-  void (*_append_double)(struct __pyx_obj_6mlgrad_11list_values_list_values *, double);
-  void (*_append_pdouble)(struct __pyx_obj_6mlgrad_11list_values_list_values *, double *);
-  void (*_extend_double)(struct __pyx_obj_6mlgrad_11list_values_list_values *, double *, Py_ssize_t);
-  void (*_extend_pdouble)(struct __pyx_obj_6mlgrad_11list_values_list_values *, double **, Py_ssize_t);
+struct __pyx_vtabstruct_6mlgrad_11list_values_list_doubles {
+  double (*_get)(struct __pyx_obj_6mlgrad_11list_values_list_doubles *, Py_ssize_t);
+  void (*_set)(struct __pyx_obj_6mlgrad_11list_values_list_doubles *, Py_ssize_t, double);
+  void (*_append)(struct __pyx_obj_6mlgrad_11list_values_list_doubles *, double);
+  void (*_extend)(struct __pyx_obj_6mlgrad_11list_values_list_doubles *, double *, Py_ssize_t);
 };
-static struct __pyx_vtabstruct_6mlgrad_11list_values_list_values *__pyx_vtabptr_6mlgrad_11list_values_list_values;
-static CYTHON_INLINE double *__pyx_f_6mlgrad_11list_values_11list_values_as_double_array(struct __pyx_obj_6mlgrad_11list_values_list_values *);
-static CYTHON_INLINE double **__pyx_f_6mlgrad_11list_values_11list_values_as_pdouble_array(struct __pyx_obj_6mlgrad_11list_values_list_values *);
-static CYTHON_INLINE double __pyx_f_6mlgrad_11list_values_11list_values__get_double(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t);
-static CYTHON_INLINE double *__pyx_f_6mlgrad_11list_values_11list_values__get_pdouble(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t);
-static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__set_double(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t, double);
-static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__set_pdouble(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t, double *);
-static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__append_double(struct __pyx_obj_6mlgrad_11list_values_list_values *, double);
-static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__append_pdouble(struct __pyx_obj_6mlgrad_11list_values_list_values *, double *);
+static struct __pyx_vtabstruct_6mlgrad_11list_values_list_doubles *__pyx_vtabptr_6mlgrad_11list_values_list_doubles;
+static CYTHON_INLINE double __pyx_f_6mlgrad_11list_values_12list_doubles__get(struct __pyx_obj_6mlgrad_11list_values_list_doubles *, Py_ssize_t);
+static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_12list_doubles__set(struct __pyx_obj_6mlgrad_11list_values_list_doubles *, Py_ssize_t, double);
 
 
 /* "View.MemoryView":105
@@ -1745,16 +1733,10 @@ static int __Pyx_check_binary_version(void);
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static CYTHON_INLINE double *__pyx_f_6mlgrad_11list_values_11list_values_as_double_array(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self); /* proto*/
-static CYTHON_INLINE double **__pyx_f_6mlgrad_11list_values_11list_values_as_pdouble_array(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self); /* proto*/
-static CYTHON_INLINE double __pyx_f_6mlgrad_11list_values_11list_values__get_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, Py_ssize_t __pyx_v_i); /* proto*/
-static CYTHON_INLINE double *__pyx_f_6mlgrad_11list_values_11list_values__get_pdouble(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, Py_ssize_t __pyx_v_i); /* proto*/
-static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__set_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, Py_ssize_t __pyx_v_i, double __pyx_v_p); /* proto*/
-static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__set_pdouble(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, Py_ssize_t __pyx_v_i, double *__pyx_v_p); /* proto*/
-static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__append_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, double __pyx_v_op); /* proto*/
-static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__append_pdouble(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, double *__pyx_v_op); /* proto*/
-static void __pyx_f_6mlgrad_11list_values_11list_values__extend_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, double *__pyx_v_op, Py_ssize_t __pyx_v_n); /* proto*/
-static void __pyx_f_6mlgrad_11list_values_11list_values__extend_pdouble(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, double **__pyx_v_op, Py_ssize_t __pyx_v_n); /* proto*/
+static CYTHON_INLINE double __pyx_f_6mlgrad_11list_values_12list_doubles__get(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, Py_ssize_t __pyx_v_i); /* proto*/
+static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_12list_doubles__set(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, Py_ssize_t __pyx_v_i, double __pyx_v_v); /* proto*/
+static void __pyx_f_6mlgrad_11list_values_12list_doubles__append(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, double __pyx_v_op); /* proto*/
+static void __pyx_f_6mlgrad_11list_values_12list_doubles__extend(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, double *__pyx_v_op, Py_ssize_t __pyx_v_n); /* proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj); /* proto*/
@@ -1792,7 +1774,7 @@ static PyTypeObject *__pyx_ptype_7cpython_4type_type = 0;
 /* Module declarations from 'cpython.float' */
 
 /* Module declarations from 'mlgrad.list_values' */
-static PyTypeObject *__pyx_ptype_6mlgrad_11list_values_list_values = 0;
+static PyTypeObject *__pyx_ptype_6mlgrad_11list_values_list_doubles = 0;
 static PyTypeObject *__pyx_array_type = 0;
 static PyTypeObject *__pyx_MemviewEnum_type = 0;
 static PyTypeObject *__pyx_memoryview_type = 0;
@@ -1855,8 +1837,6 @@ static PyObject *__pyx_builtin_id;
 static const char __pyx_k_O[] = "O";
 static const char __pyx_k_c[] = "c";
 static const char __pyx_k_d[] = "d";
-static const char __pyx_k_i[] = "i";
-static const char __pyx_k_v[] = "v";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_np[] = "np";
 static const char __pyx_k_new[] = "__new__";
@@ -1906,21 +1886,17 @@ static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_get_double[] = "get_double";
 static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
-static const char __pyx_k_sizeof_int[] = "sizeof_int";
 static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_PickleError[] = "PickleError";
-static const char __pyx_k_list_values[] = "list_values";
-static const char __pyx_k_sizeof_pint[] = "sizeof_pint";
+static const char __pyx_k_list_doubles[] = "list_doubles";
 static const char __pyx_k_pyx_checksum[] = "__pyx_checksum";
 static const char __pyx_k_stringsource[] = "stringsource";
-static const char __pyx_k_invalid_index[] = "invalid index ";
 static const char __pyx_k_pyx_getbuffer[] = "__pyx_getbuffer";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
-static const char __pyx_k_sizeof_double[] = "sizeof_double";
-static const char __pyx_k_sizeof_pdouble[] = "sizeof_pdouble";
 static const char __pyx_k_View_MemoryView[] = "View.MemoryView";
 static const char __pyx_k_allocate_buffer[] = "allocate_buffer";
 static const char __pyx_k_dtype_is_object[] = "dtype_is_object";
+static const char __pyx_k_invalid_index_s[] = "invalid index %s";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_pyx_unpickle_Enum[] = "__pyx_unpickle_Enum";
@@ -1994,13 +1970,12 @@ static PyObject *__pyx_n_u_fortran;
 static PyObject *__pyx_n_s_get_double;
 static PyObject *__pyx_n_s_getstate;
 static PyObject *__pyx_kp_s_got_differing_extents_in_dimensi;
-static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_import;
-static PyObject *__pyx_kp_u_invalid_index;
+static PyObject *__pyx_kp_u_invalid_index_s;
 static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
-static PyObject *__pyx_n_s_list_values;
+static PyObject *__pyx_n_s_list_doubles;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_memview;
 static PyObject *__pyx_n_s_mode;
@@ -2030,10 +2005,6 @@ static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_shape;
 static PyObject *__pyx_n_s_size;
-static PyObject *__pyx_n_s_sizeof_double;
-static PyObject *__pyx_n_s_sizeof_int;
-static PyObject *__pyx_n_s_sizeof_pdouble;
-static PyObject *__pyx_n_s_sizeof_pint;
 static PyObject *__pyx_n_s_start;
 static PyObject *__pyx_n_s_step;
 static PyObject *__pyx_n_s_stop;
@@ -2047,19 +2018,19 @@ static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
 static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
 static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
-static PyObject *__pyx_n_s_v;
-static int __pyx_pf_6mlgrad_11list_values_11list_values___cinit__(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, CYTHON_UNUSED Py_ssize_t __pyx_v_itemsize, Py_ssize_t __pyx_v_size); /* proto */
-static void __pyx_pf_6mlgrad_11list_values_11list_values_2__dealloc__(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self); /* proto */
-static Py_ssize_t __pyx_pf_6mlgrad_11list_values_11list_values_4__len__(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_6get_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, PyObject *__pyx_v_i); /* proto */
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_8set_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, PyObject *__pyx_v_i, PyObject *__pyx_v_v); /* proto */
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_10append_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, PyObject *__pyx_v_v); /* proto */
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_12extend_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, PyObject *__pyx_v_ops); /* proto */
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_14as_list_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_18as_memview_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_20__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_22__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static int __pyx_pf_6mlgrad_11list_values_12list_doubles___cinit__(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, PyObject *__pyx_v_size); /* proto */
+static void __pyx_pf_6mlgrad_11list_values_12list_doubles_2__dealloc__(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self); /* proto */
+static Py_ssize_t __pyx_pf_6mlgrad_11list_values_12list_doubles_4__len__(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_6__getitem__(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, PyObject *__pyx_v_i); /* proto */
+static int __pyx_pf_6mlgrad_11list_values_12list_doubles_8__setitem__(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, PyObject *__pyx_v_i, PyObject *__pyx_v_v); /* proto */
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_10append(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, PyObject *__pyx_v_v); /* proto */
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_12extend(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, PyObject *__pyx_v_ops); /* proto */
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_14copy(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_16as_list(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_18as_nparray(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_20as_memview_double(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_22__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_24__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -2102,7 +2073,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_16_memoryviewslice_4base___get__
 static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUSED struct __pyx_memoryviewslice_obj *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_tp_new_6mlgrad_11list_values_list_values(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_6mlgrad_11list_values_list_doubles(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -2209,19 +2180,18 @@ static CYTHON_INLINE Py_ssize_t __pyx_f_6mlgrad_11list_values_resize(Py_ssize_t 
   return __pyx_r;
 }
 
-/* "mlgrad/list_values.pyx":75
- * cdef class list_values:
+/* "mlgrad/list_values.pyx":198
+ * cdef class list_doubles:
  * 
- *     def __cinit__(self, Py_ssize_t itemsize, Py_ssize_t size=0):             # <<<<<<<<<<<<<<
+ *     def __cinit__(self, size=0):             # <<<<<<<<<<<<<<
+ *         cdef Py_ssize_t _size = size
  * 
- *         self.data = data = <double*>PyMem_Malloc(size*sizeof(itemsize))
  */
 
 /* Python wrapper */
-static int __pyx_pw_6mlgrad_11list_values_11list_values_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_6mlgrad_11list_values_11list_values_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  CYTHON_UNUSED Py_ssize_t __pyx_v_itemsize;
-  Py_ssize_t __pyx_v_size;
+static int __pyx_pw_6mlgrad_11list_values_12list_doubles_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_6mlgrad_11list_values_12list_doubles_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_size = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2229,14 +2199,13 @@ static int __pyx_pw_6mlgrad_11list_values_11list_values_1__cinit__(PyObject *__p
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_itemsize,&__pyx_n_s_size,0};
-    PyObject* values[2] = {0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_size,0};
+    PyObject* values[1] = {0};
+    values[0] = ((PyObject *)__pyx_int_0);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
         CYTHON_FALLTHROUGH;
         case  0: break;
@@ -2245,93 +2214,103 @@ static int __pyx_pw_6mlgrad_11list_values_11list_values_1__cinit__(PyObject *__p
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_itemsize)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
         if (kw_args > 0) {
           PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_size);
-          if (value) { values[1] = value; kw_args--; }
+          if (value) { values[0] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 75, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 198, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        break;
+        CYTHON_FALLTHROUGH;
+        case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_itemsize = __Pyx_PyIndex_AsSsize_t(values[0]); if (unlikely((__pyx_v_itemsize == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L3_error)
-    if (values[1]) {
-      __pyx_v_size = __Pyx_PyIndex_AsSsize_t(values[1]); if (unlikely((__pyx_v_size == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L3_error)
-    } else {
-      __pyx_v_size = ((Py_ssize_t)0);
-    }
+    __pyx_v_size = values[0];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 75, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 198, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("mlgrad.list_values.list_values.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.list_values.list_doubles.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6mlgrad_11list_values_11list_values___cinit__(((struct __pyx_obj_6mlgrad_11list_values_list_values *)__pyx_v_self), __pyx_v_itemsize, __pyx_v_size);
+  __pyx_r = __pyx_pf_6mlgrad_11list_values_12list_doubles___cinit__(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self), __pyx_v_size);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_11list_values_11list_values___cinit__(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, CYTHON_UNUSED Py_ssize_t __pyx_v_itemsize, Py_ssize_t __pyx_v_size) {
+static int __pyx_pf_6mlgrad_11list_values_12list_doubles___cinit__(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, PyObject *__pyx_v_size) {
+  Py_ssize_t __pyx_v__size;
   CYTHON_UNUSED double *__pyx_v_data;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  double *__pyx_t_1;
+  Py_ssize_t __pyx_t_1;
+  double *__pyx_t_2;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "mlgrad/list_values.pyx":77
- *     def __cinit__(self, Py_ssize_t itemsize, Py_ssize_t size=0):
+  /* "mlgrad/list_values.pyx":199
  * 
- *         self.data = data = <double*>PyMem_Malloc(size*sizeof(itemsize))             # <<<<<<<<<<<<<<
- *         self.size = self.allocated = size
+ *     def __cinit__(self, size=0):
+ *         cdef Py_ssize_t _size = size             # <<<<<<<<<<<<<<
+ * 
+ *         self.data = data = <double*>PyMem_Malloc(_size*sizeof(double))
+ */
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_size); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_v__size = __pyx_t_1;
+
+  /* "mlgrad/list_values.pyx":201
+ *         cdef Py_ssize_t _size = size
+ * 
+ *         self.data = data = <double*>PyMem_Malloc(_size*sizeof(double))             # <<<<<<<<<<<<<<
+ *         self.size = self.allocated = _size
  * 
  */
-  __pyx_t_1 = ((double *)PyMem_Malloc((__pyx_v_size * (sizeof(__pyx_v_itemsize)))));
-  __pyx_v_self->data = __pyx_t_1;
-  __pyx_v_data = __pyx_t_1;
+  __pyx_t_2 = ((double *)PyMem_Malloc((__pyx_v__size * (sizeof(double)))));
+  __pyx_v_self->data = __pyx_t_2;
+  __pyx_v_data = __pyx_t_2;
 
-  /* "mlgrad/list_values.pyx":78
+  /* "mlgrad/list_values.pyx":202
  * 
- *         self.data = data = <double*>PyMem_Malloc(size*sizeof(itemsize))
- *         self.size = self.allocated = size             # <<<<<<<<<<<<<<
+ *         self.data = data = <double*>PyMem_Malloc(_size*sizeof(double))
+ *         self.size = self.allocated = _size             # <<<<<<<<<<<<<<
  * 
  *     def __dealloc__(self):
  */
-  __pyx_v_self->size = __pyx_v_size;
-  __pyx_v_self->allocated = __pyx_v_size;
+  __pyx_v_self->size = __pyx_v__size;
+  __pyx_v_self->allocated = __pyx_v__size;
 
-  /* "mlgrad/list_values.pyx":75
- * cdef class list_values:
+  /* "mlgrad/list_values.pyx":198
+ * cdef class list_doubles:
  * 
- *     def __cinit__(self, Py_ssize_t itemsize, Py_ssize_t size=0):             # <<<<<<<<<<<<<<
+ *     def __cinit__(self, size=0):             # <<<<<<<<<<<<<<
+ *         cdef Py_ssize_t _size = size
  * 
- *         self.data = data = <double*>PyMem_Malloc(size*sizeof(itemsize))
  */
 
   /* function exit code */
   __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("mlgrad.list_values.list_doubles.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "mlgrad/list_values.pyx":80
- *         self.size = self.allocated = size
+/* "mlgrad/list_values.pyx":204
+ *         self.size = self.allocated = _size
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
  *         PyMem_Free(self.data)
@@ -2339,21 +2318,21 @@ static int __pyx_pf_6mlgrad_11list_values_11list_values___cinit__(struct __pyx_o
  */
 
 /* Python wrapper */
-static void __pyx_pw_6mlgrad_11list_values_11list_values_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
-static void __pyx_pw_6mlgrad_11list_values_11list_values_3__dealloc__(PyObject *__pyx_v_self) {
+static void __pyx_pw_6mlgrad_11list_values_12list_doubles_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
+static void __pyx_pw_6mlgrad_11list_values_12list_doubles_3__dealloc__(PyObject *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__ (wrapper)", 0);
-  __pyx_pf_6mlgrad_11list_values_11list_values_2__dealloc__(((struct __pyx_obj_6mlgrad_11list_values_list_values *)__pyx_v_self));
+  __pyx_pf_6mlgrad_11list_values_12list_doubles_2__dealloc__(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
 }
 
-static void __pyx_pf_6mlgrad_11list_values_11list_values_2__dealloc__(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self) {
+static void __pyx_pf_6mlgrad_11list_values_12list_doubles_2__dealloc__(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "mlgrad/list_values.pyx":81
+  /* "mlgrad/list_values.pyx":205
  * 
  *     def __dealloc__(self):
  *         PyMem_Free(self.data)             # <<<<<<<<<<<<<<
@@ -2362,8 +2341,8 @@ static void __pyx_pf_6mlgrad_11list_values_11list_values_2__dealloc__(struct __p
  */
   PyMem_Free(__pyx_v_self->data);
 
-  /* "mlgrad/list_values.pyx":80
- *         self.size = self.allocated = size
+  /* "mlgrad/list_values.pyx":204
+ *         self.size = self.allocated = _size
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
  *         PyMem_Free(self.data)
@@ -2374,7 +2353,7 @@ static void __pyx_pf_6mlgrad_11list_values_11list_values_2__dealloc__(struct __p
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/list_values.pyx":83
+/* "mlgrad/list_values.pyx":207
  *         PyMem_Free(self.data)
  * 
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -2383,34 +2362,34 @@ static void __pyx_pf_6mlgrad_11list_values_11list_values_2__dealloc__(struct __p
  */
 
 /* Python wrapper */
-static Py_ssize_t __pyx_pw_6mlgrad_11list_values_11list_values_5__len__(PyObject *__pyx_v_self); /*proto*/
-static Py_ssize_t __pyx_pw_6mlgrad_11list_values_11list_values_5__len__(PyObject *__pyx_v_self) {
+static Py_ssize_t __pyx_pw_6mlgrad_11list_values_12list_doubles_5__len__(PyObject *__pyx_v_self); /*proto*/
+static Py_ssize_t __pyx_pw_6mlgrad_11list_values_12list_doubles_5__len__(PyObject *__pyx_v_self) {
   Py_ssize_t __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__len__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_11list_values_11list_values_4__len__(((struct __pyx_obj_6mlgrad_11list_values_list_values *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_11list_values_12list_doubles_4__len__(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static Py_ssize_t __pyx_pf_6mlgrad_11list_values_11list_values_4__len__(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self) {
+static Py_ssize_t __pyx_pf_6mlgrad_11list_values_12list_doubles_4__len__(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self) {
   Py_ssize_t __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__len__", 0);
 
-  /* "mlgrad/list_values.pyx":84
+  /* "mlgrad/list_values.pyx":208
  * 
  *     def __len__(self):
  *         return self.size             # <<<<<<<<<<<<<<
  * 
- *     cdef inline double* as_double_array(self):
+ *     cdef inline double _get(self, Py_ssize_t i):
  */
   __pyx_r = __pyx_v_self->size;
   goto __pyx_L0;
 
-  /* "mlgrad/list_values.pyx":83
+  /* "mlgrad/list_values.pyx":207
  *         PyMem_Free(self.data)
  * 
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -2424,108 +2403,34 @@ static Py_ssize_t __pyx_pf_6mlgrad_11list_values_11list_values_4__len__(struct _
   return __pyx_r;
 }
 
-/* "mlgrad/list_values.pyx":86
+/* "mlgrad/list_values.pyx":210
  *         return self.size
  * 
- *     cdef inline double* as_double_array(self):             # <<<<<<<<<<<<<<
- *         return <double*>self.data
+ *     cdef inline double _get(self, Py_ssize_t i):             # <<<<<<<<<<<<<<
+ *         return self.data[i]
  * 
  */
 
-static CYTHON_INLINE double *__pyx_f_6mlgrad_11list_values_11list_values_as_double_array(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self) {
-  double *__pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("as_double_array", 0);
-
-  /* "mlgrad/list_values.pyx":87
- * 
- *     cdef inline double* as_double_array(self):
- *         return <double*>self.data             # <<<<<<<<<<<<<<
- * 
- *     cdef inline double** as_pdouble_array(self):
- */
-  __pyx_r = ((double *)__pyx_v_self->data);
-  goto __pyx_L0;
-
-  /* "mlgrad/list_values.pyx":86
- *         return self.size
- * 
- *     cdef inline double* as_double_array(self):             # <<<<<<<<<<<<<<
- *         return <double*>self.data
- * 
- */
-
-  /* function exit code */
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "mlgrad/list_values.pyx":89
- *         return <double*>self.data
- * 
- *     cdef inline double** as_pdouble_array(self):             # <<<<<<<<<<<<<<
- *         return <double**>self.data
- * 
- */
-
-static CYTHON_INLINE double **__pyx_f_6mlgrad_11list_values_11list_values_as_pdouble_array(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self) {
-  double **__pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("as_pdouble_array", 0);
-
-  /* "mlgrad/list_values.pyx":90
- * 
- *     cdef inline double** as_pdouble_array(self):
- *         return <double**>self.data             # <<<<<<<<<<<<<<
- * 
- *     cdef inline double _get_double(self, Py_ssize_t i):
- */
-  __pyx_r = ((double **)__pyx_v_self->data);
-  goto __pyx_L0;
-
-  /* "mlgrad/list_values.pyx":89
- *         return <double*>self.data
- * 
- *     cdef inline double** as_pdouble_array(self):             # <<<<<<<<<<<<<<
- *         return <double**>self.data
- * 
- */
-
-  /* function exit code */
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "mlgrad/list_values.pyx":92
- *         return <double**>self.data
- * 
- *     cdef inline double _get_double(self, Py_ssize_t i):             # <<<<<<<<<<<<<<
- *         return (<double*>self.data)[i]
- * 
- */
-
-static CYTHON_INLINE double __pyx_f_6mlgrad_11list_values_11list_values__get_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, Py_ssize_t __pyx_v_i) {
+static CYTHON_INLINE double __pyx_f_6mlgrad_11list_values_12list_doubles__get(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, Py_ssize_t __pyx_v_i) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_get_double", 0);
+  __Pyx_RefNannySetupContext("_get", 0);
 
-  /* "mlgrad/list_values.pyx":93
+  /* "mlgrad/list_values.pyx":211
  * 
- *     cdef inline double _get_double(self, Py_ssize_t i):
- *         return (<double*>self.data)[i]             # <<<<<<<<<<<<<<
+ *     cdef inline double _get(self, Py_ssize_t i):
+ *         return self.data[i]             # <<<<<<<<<<<<<<
  * 
- *     cdef inline double* _get_pdouble(self, Py_ssize_t i):
+ *     cdef inline void _set(self, Py_ssize_t i, double v):
  */
-  __pyx_r = (((double *)__pyx_v_self->data)[__pyx_v_i]);
+  __pyx_r = (__pyx_v_self->data[__pyx_v_i]);
   goto __pyx_L0;
 
-  /* "mlgrad/list_values.pyx":92
- *         return <double**>self.data
+  /* "mlgrad/list_values.pyx":210
+ *         return self.size
  * 
- *     cdef inline double _get_double(self, Py_ssize_t i):             # <<<<<<<<<<<<<<
- *         return (<double*>self.data)[i]
+ *     cdef inline double _get(self, Py_ssize_t i):             # <<<<<<<<<<<<<<
+ *         return self.data[i]
  * 
  */
 
@@ -2535,69 +2440,32 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_11list_values_11list_values__get_dou
   return __pyx_r;
 }
 
-/* "mlgrad/list_values.pyx":95
- *         return (<double*>self.data)[i]
+/* "mlgrad/list_values.pyx":213
+ *         return self.data[i]
  * 
- *     cdef inline double* _get_pdouble(self, Py_ssize_t i):             # <<<<<<<<<<<<<<
- *         return (<double**>self.data)[i]
+ *     cdef inline void _set(self, Py_ssize_t i, double v):             # <<<<<<<<<<<<<<
+ *         self.data[i] = v
  * 
  */
 
-static CYTHON_INLINE double *__pyx_f_6mlgrad_11list_values_11list_values__get_pdouble(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, Py_ssize_t __pyx_v_i) {
-  double *__pyx_r;
+static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_12list_doubles__set(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, Py_ssize_t __pyx_v_i, double __pyx_v_v) {
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_get_pdouble", 0);
+  __Pyx_RefNannySetupContext("_set", 0);
 
-  /* "mlgrad/list_values.pyx":96
+  /* "mlgrad/list_values.pyx":214
  * 
- *     cdef inline double* _get_pdouble(self, Py_ssize_t i):
- *         return (<double**>self.data)[i]             # <<<<<<<<<<<<<<
+ *     cdef inline void _set(self, Py_ssize_t i, double v):
+ *         self.data[i] = v             # <<<<<<<<<<<<<<
  * 
- *     cdef inline void _set_double(self, Py_ssize_t i, double p):
+ *     def __getitem__(self, i):
  */
-  __pyx_r = (((double **)__pyx_v_self->data)[__pyx_v_i]);
-  goto __pyx_L0;
+  (__pyx_v_self->data[__pyx_v_i]) = __pyx_v_v;
 
-  /* "mlgrad/list_values.pyx":95
- *         return (<double*>self.data)[i]
+  /* "mlgrad/list_values.pyx":213
+ *         return self.data[i]
  * 
- *     cdef inline double* _get_pdouble(self, Py_ssize_t i):             # <<<<<<<<<<<<<<
- *         return (<double**>self.data)[i]
- * 
- */
-
-  /* function exit code */
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "mlgrad/list_values.pyx":98
- *         return (<double**>self.data)[i]
- * 
- *     cdef inline void _set_double(self, Py_ssize_t i, double p):             # <<<<<<<<<<<<<<
- *         (<double*>self.data)[i] = p
- * 
- */
-
-static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__set_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, Py_ssize_t __pyx_v_i, double __pyx_v_p) {
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_set_double", 0);
-
-  /* "mlgrad/list_values.pyx":99
- * 
- *     cdef inline void _set_double(self, Py_ssize_t i, double p):
- *         (<double*>self.data)[i] = p             # <<<<<<<<<<<<<<
- * 
- *     cdef inline void _set_pdouble(self, Py_ssize_t i, double *p):
- */
-  (((double *)__pyx_v_self->data)[__pyx_v_i]) = __pyx_v_p;
-
-  /* "mlgrad/list_values.pyx":98
- *         return (<double**>self.data)[i]
- * 
- *     cdef inline void _set_double(self, Py_ssize_t i, double p):             # <<<<<<<<<<<<<<
- *         (<double*>self.data)[i] = p
+ *     cdef inline void _set(self, Py_ssize_t i, double v):             # <<<<<<<<<<<<<<
+ *         self.data[i] = v
  * 
  */
 
@@ -2605,146 +2473,147 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__set_doubl
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/list_values.pyx":101
- *         (<double*>self.data)[i] = p
+/* "mlgrad/list_values.pyx":216
+ *         self.data[i] = v
  * 
- *     cdef inline void _set_pdouble(self, Py_ssize_t i, double *p):             # <<<<<<<<<<<<<<
- *         (<double**>self.data)[i] = p
+ *     def __getitem__(self, i):             # <<<<<<<<<<<<<<
+ *         cdef Py_ssize_t ii = i
  * 
- */
-
-static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__set_pdouble(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, Py_ssize_t __pyx_v_i, double *__pyx_v_p) {
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_set_pdouble", 0);
-
-  /* "mlgrad/list_values.pyx":102
- * 
- *     cdef inline void _set_pdouble(self, Py_ssize_t i, double *p):
- *         (<double**>self.data)[i] = p             # <<<<<<<<<<<<<<
- * 
- *     def get_double(self, i):
- */
-  (((double **)__pyx_v_self->data)[__pyx_v_i]) = __pyx_v_p;
-
-  /* "mlgrad/list_values.pyx":101
- *         (<double*>self.data)[i] = p
- * 
- *     cdef inline void _set_pdouble(self, Py_ssize_t i, double *p):             # <<<<<<<<<<<<<<
- *         (<double**>self.data)[i] = p
- * 
- */
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-}
-
-/* "mlgrad/list_values.pyx":104
- *         (<double**>self.data)[i] = p
- * 
- *     def get_double(self, i):             # <<<<<<<<<<<<<<
- *         if i < self.size:
- *             return self._get_double(i)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_7get_double(PyObject *__pyx_v_self, PyObject *__pyx_v_i); /*proto*/
-static char __pyx_doc_6mlgrad_11list_values_11list_values_6get_double[] = "list_values.get_double(self, i)";
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_7get_double(PyObject *__pyx_v_self, PyObject *__pyx_v_i) {
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_7__getitem__(PyObject *__pyx_v_self, PyObject *__pyx_v_i); /*proto*/
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_7__getitem__(PyObject *__pyx_v_self, PyObject *__pyx_v_i) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("get_double (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_11list_values_11list_values_6get_double(((struct __pyx_obj_6mlgrad_11list_values_list_values *)__pyx_v_self), ((PyObject *)__pyx_v_i));
+  __Pyx_RefNannySetupContext("__getitem__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_11list_values_12list_doubles_6__getitem__(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self), ((PyObject *)__pyx_v_i));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_6get_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, PyObject *__pyx_v_i) {
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_6__getitem__(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, PyObject *__pyx_v_i) {
+  Py_ssize_t __pyx_v_ii;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
+  Py_ssize_t __pyx_t_1;
+  int __pyx_t_2;
   int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("get_double", 0);
+  __Pyx_RefNannySetupContext("__getitem__", 0);
 
-  /* "mlgrad/list_values.pyx":105
+  /* "mlgrad/list_values.pyx":217
  * 
- *     def get_double(self, i):
- *         if i < self.size:             # <<<<<<<<<<<<<<
- *             return self._get_double(i)
+ *     def __getitem__(self, i):
+ *         cdef Py_ssize_t ii = i             # <<<<<<<<<<<<<<
+ * 
+ *         if ii < 0:
+ */
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_v_ii = __pyx_t_1;
+
+  /* "mlgrad/list_values.pyx":219
+ *         cdef Py_ssize_t ii = i
+ * 
+ *         if ii < 0:             # <<<<<<<<<<<<<<
+ *             ii = self.size + ii
+ *         if 0 <= ii < self.size:
+ */
+  __pyx_t_2 = ((__pyx_v_ii < 0) != 0);
+  if (__pyx_t_2) {
+
+    /* "mlgrad/list_values.pyx":220
+ * 
+ *         if ii < 0:
+ *             ii = self.size + ii             # <<<<<<<<<<<<<<
+ *         if 0 <= ii < self.size:
+ *             return self._get(ii)
+ */
+    __pyx_v_ii = (__pyx_v_self->size + __pyx_v_ii);
+
+    /* "mlgrad/list_values.pyx":219
+ *         cdef Py_ssize_t ii = i
+ * 
+ *         if ii < 0:             # <<<<<<<<<<<<<<
+ *             ii = self.size + ii
+ *         if 0 <= ii < self.size:
+ */
+  }
+
+  /* "mlgrad/list_values.pyx":221
+ *         if ii < 0:
+ *             ii = self.size + ii
+ *         if 0 <= ii < self.size:             # <<<<<<<<<<<<<<
+ *             return self._get(ii)
  *         else:
  */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_RichCompare(__pyx_v_i, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 105, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 105, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = (0 <= __pyx_v_ii);
+  if (__pyx_t_2) {
+    __pyx_t_2 = (__pyx_v_ii < __pyx_v_self->size);
+  }
+  __pyx_t_3 = (__pyx_t_2 != 0);
   if (likely(__pyx_t_3)) {
 
-    /* "mlgrad/list_values.pyx":106
- *     def get_double(self, i):
- *         if i < self.size:
- *             return self._get_double(i)             # <<<<<<<<<<<<<<
+    /* "mlgrad/list_values.pyx":222
+ *             ii = self.size + ii
+ *         if 0 <= ii < self.size:
+ *             return self._get(ii)             # <<<<<<<<<<<<<<
  *         else:
- *             raise IndexError("invalid index " + str(i))
+ *             raise IndexError('invalid index %s' % i)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 106, __pyx_L1_error)
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_f_6mlgrad_11list_values_11list_values__get_double(__pyx_v_self, __pyx_t_4)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_r = __pyx_t_2;
-    __pyx_t_2 = 0;
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_f_6mlgrad_11list_values_12list_doubles__get(__pyx_v_self, __pyx_v_ii)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 222, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_r = __pyx_t_4;
+    __pyx_t_4 = 0;
     goto __pyx_L0;
 
-    /* "mlgrad/list_values.pyx":105
- * 
- *     def get_double(self, i):
- *         if i < self.size:             # <<<<<<<<<<<<<<
- *             return self._get_double(i)
+    /* "mlgrad/list_values.pyx":221
+ *         if ii < 0:
+ *             ii = self.size + ii
+ *         if 0 <= ii < self.size:             # <<<<<<<<<<<<<<
+ *             return self._get(ii)
  *         else:
  */
   }
 
-  /* "mlgrad/list_values.pyx":108
- *             return self._get_double(i)
+  /* "mlgrad/list_values.pyx":224
+ *             return self._get(ii)
  *         else:
- *             raise IndexError("invalid index " + str(i))             # <<<<<<<<<<<<<<
+ *             raise IndexError('invalid index %s' % i)             # <<<<<<<<<<<<<<
  * 
- *     def set_double(self, i, v):
+ *     def __setitem__(self, i, v):
  */
   /*else*/ {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyUnicode_Type)), __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyUnicode_Concat(__pyx_kp_u_invalid_index, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_IndexError, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 108, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_invalid_index_s, __pyx_v_i); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 224, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_IndexError, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 224, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_Raise(__pyx_t_5, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __PYX_ERR(0, 224, __pyx_L1_error)
   }
 
-  /* "mlgrad/list_values.pyx":104
- *         (<double**>self.data)[i] = p
+  /* "mlgrad/list_values.pyx":216
+ *         self.data[i] = v
  * 
- *     def get_double(self, i):             # <<<<<<<<<<<<<<
- *         if i < self.size:
- *             return self._get_double(i)
+ *     def __getitem__(self, i):             # <<<<<<<<<<<<<<
+ *         cdef Py_ssize_t ii = i
+ * 
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("mlgrad.list_values.list_values.get_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_AddTraceback("mlgrad.list_values.list_doubles.__getitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2752,142 +2621,182 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_6get_double(struct
   return __pyx_r;
 }
 
-/* "mlgrad/list_values.pyx":110
- *             raise IndexError("invalid index " + str(i))
+/* "mlgrad/list_values.pyx":226
+ *             raise IndexError('invalid index %s' % i)
  * 
- *     def set_double(self, i, v):             # <<<<<<<<<<<<<<
- *         return self._set_double(i, v)
- * 
+ *     def __setitem__(self, i, v):             # <<<<<<<<<<<<<<
+ *         cdef Py_ssize_t ii = i
+ *         cdef double vv = v
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_9set_double(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6mlgrad_11list_values_11list_values_8set_double[] = "list_values.set_double(self, i, v)";
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_9set_double(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_i = 0;
-  PyObject *__pyx_v_v = 0;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
+static int __pyx_pw_6mlgrad_11list_values_12list_doubles_9__setitem__(PyObject *__pyx_v_self, PyObject *__pyx_v_i, PyObject *__pyx_v_v); /*proto*/
+static int __pyx_pw_6mlgrad_11list_values_12list_doubles_9__setitem__(PyObject *__pyx_v_self, PyObject *__pyx_v_i, PyObject *__pyx_v_v) {
+  int __pyx_r;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("set_double (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_i,&__pyx_n_s_v,0};
-    PyObject* values[2] = {0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        CYTHON_FALLTHROUGH;
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_i)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_v)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("set_double", 1, 2, 2, 1); __PYX_ERR(0, 110, __pyx_L3_error)
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_double") < 0)) __PYX_ERR(0, 110, __pyx_L3_error)
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-    }
-    __pyx_v_i = values[0];
-    __pyx_v_v = values[1];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set_double", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 110, __pyx_L3_error)
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("mlgrad.list_values.list_values.set_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6mlgrad_11list_values_11list_values_8set_double(((struct __pyx_obj_6mlgrad_11list_values_list_values *)__pyx_v_self), __pyx_v_i, __pyx_v_v);
+  __Pyx_RefNannySetupContext("__setitem__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_11list_values_12list_doubles_8__setitem__(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self), ((PyObject *)__pyx_v_i), ((PyObject *)__pyx_v_v));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_8set_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, PyObject *__pyx_v_i, PyObject *__pyx_v_v) {
-  PyObject *__pyx_r = NULL;
+static int __pyx_pf_6mlgrad_11list_values_12list_doubles_8__setitem__(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, PyObject *__pyx_v_i, PyObject *__pyx_v_v) {
+  Py_ssize_t __pyx_v_ii;
+  double __pyx_v_vv;
+  int __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   double __pyx_t_2;
-  PyObject *__pyx_t_3 = NULL;
+  int __pyx_t_3;
+  int __pyx_t_4;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("set_double", 0);
+  __Pyx_RefNannySetupContext("__setitem__", 0);
 
-  /* "mlgrad/list_values.pyx":111
+  /* "mlgrad/list_values.pyx":227
  * 
- *     def set_double(self, i, v):
- *         return self._set_double(i, v)             # <<<<<<<<<<<<<<
+ *     def __setitem__(self, i, v):
+ *         cdef Py_ssize_t ii = i             # <<<<<<<<<<<<<<
+ *         cdef double vv = v
  * 
- *     cdef void _append_double(self, double op):
  */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L1_error)
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_v); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_void_to_None(__pyx_f_6mlgrad_11list_values_11list_values__set_double(__pyx_v_self, __pyx_t_1, __pyx_t_2)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_r = __pyx_t_3;
-  __pyx_t_3 = 0;
-  goto __pyx_L0;
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_v_ii = __pyx_t_1;
 
-  /* "mlgrad/list_values.pyx":110
- *             raise IndexError("invalid index " + str(i))
+  /* "mlgrad/list_values.pyx":228
+ *     def __setitem__(self, i, v):
+ *         cdef Py_ssize_t ii = i
+ *         cdef double vv = v             # <<<<<<<<<<<<<<
  * 
- *     def set_double(self, i, v):             # <<<<<<<<<<<<<<
- *         return self._set_double(i, v)
+ *         if ii < 0:
+ */
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_v); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_v_vv = __pyx_t_2;
+
+  /* "mlgrad/list_values.pyx":230
+ *         cdef double vv = v
  * 
+ *         if ii < 0:             # <<<<<<<<<<<<<<
+ *             ii = self.size + ii
+ *         if 0 <= ii < self.size:
+ */
+  __pyx_t_3 = ((__pyx_v_ii < 0) != 0);
+  if (__pyx_t_3) {
+
+    /* "mlgrad/list_values.pyx":231
+ * 
+ *         if ii < 0:
+ *             ii = self.size + ii             # <<<<<<<<<<<<<<
+ *         if 0 <= ii < self.size:
+ *             self._set(i, vv)
+ */
+    __pyx_v_ii = (__pyx_v_self->size + __pyx_v_ii);
+
+    /* "mlgrad/list_values.pyx":230
+ *         cdef double vv = v
+ * 
+ *         if ii < 0:             # <<<<<<<<<<<<<<
+ *             ii = self.size + ii
+ *         if 0 <= ii < self.size:
+ */
+  }
+
+  /* "mlgrad/list_values.pyx":232
+ *         if ii < 0:
+ *             ii = self.size + ii
+ *         if 0 <= ii < self.size:             # <<<<<<<<<<<<<<
+ *             self._set(i, vv)
+ *         else:
+ */
+  __pyx_t_3 = (0 <= __pyx_v_ii);
+  if (__pyx_t_3) {
+    __pyx_t_3 = (__pyx_v_ii < __pyx_v_self->size);
+  }
+  __pyx_t_4 = (__pyx_t_3 != 0);
+  if (likely(__pyx_t_4)) {
+
+    /* "mlgrad/list_values.pyx":233
+ *             ii = self.size + ii
+ *         if 0 <= ii < self.size:
+ *             self._set(i, vv)             # <<<<<<<<<<<<<<
+ *         else:
+ *             raise IndexError('invalid index %s' % i)
+ */
+    __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 233, __pyx_L1_error)
+    __pyx_f_6mlgrad_11list_values_12list_doubles__set(__pyx_v_self, __pyx_t_1, __pyx_v_vv);
+
+    /* "mlgrad/list_values.pyx":232
+ *         if ii < 0:
+ *             ii = self.size + ii
+ *         if 0 <= ii < self.size:             # <<<<<<<<<<<<<<
+ *             self._set(i, vv)
+ *         else:
+ */
+    goto __pyx_L4;
+  }
+
+  /* "mlgrad/list_values.pyx":235
+ *             self._set(i, vv)
+ *         else:
+ *             raise IndexError('invalid index %s' % i)             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _append(self, double op):
+ */
+  /*else*/ {
+    __pyx_t_5 = __Pyx_PyUnicode_FormatSafe(__pyx_kp_u_invalid_index_s, __pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_IndexError, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_Raise(__pyx_t_6, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __PYX_ERR(0, 235, __pyx_L1_error)
+  }
+  __pyx_L4:;
+
+  /* "mlgrad/list_values.pyx":226
+ *             raise IndexError('invalid index %s' % i)
+ * 
+ *     def __setitem__(self, i, v):             # <<<<<<<<<<<<<<
+ *         cdef Py_ssize_t ii = i
+ *         cdef double vv = v
  */
 
   /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("mlgrad.list_values.list_values.set_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("mlgrad.list_values.list_doubles.__setitem__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "mlgrad/list_values.pyx":113
- *         return self._set_double(i, v)
+/* "mlgrad/list_values.pyx":237
+ *             raise IndexError('invalid index %s' % i)
  * 
- *     cdef void _append_double(self, double op):             # <<<<<<<<<<<<<<
+ *     cdef void _append(self, double op):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t size, newsize
  * 
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__append_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, double __pyx_v_op) {
+static void __pyx_f_6mlgrad_11list_values_12list_doubles__append(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, double __pyx_v_op) {
   Py_ssize_t __pyx_v_size;
   Py_ssize_t __pyx_v_newsize;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
-  __Pyx_RefNannySetupContext("_append_double", 0);
+  __Pyx_RefNannySetupContext("_append", 0);
 
-  /* "mlgrad/list_values.pyx":116
+  /* "mlgrad/list_values.pyx":240
  *         cdef Py_ssize_t size, newsize
  * 
  *         size = self.size             # <<<<<<<<<<<<<<
@@ -2897,74 +2806,74 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__append_do
   __pyx_t_1 = __pyx_v_self->size;
   __pyx_v_size = __pyx_t_1;
 
-  /* "mlgrad/list_values.pyx":117
+  /* "mlgrad/list_values.pyx":241
  * 
  *         size = self.size
  *         if size >= self.allocated:             # <<<<<<<<<<<<<<
  *             newsize = resize(size + 1)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))
+ *             self.data = <double*>PyMem_Realloc(self.data, newsize*sizeof(double))
  */
   __pyx_t_2 = ((__pyx_v_size >= __pyx_v_self->allocated) != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/list_values.pyx":118
+    /* "mlgrad/list_values.pyx":242
  *         size = self.size
  *         if size >= self.allocated:
  *             newsize = resize(size + 1)             # <<<<<<<<<<<<<<
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))
+ *             self.data = <double*>PyMem_Realloc(self.data, newsize*sizeof(double))
  *             self.allocated = newsize
  */
     __pyx_v_newsize = __pyx_f_6mlgrad_11list_values_resize((__pyx_v_size + 1));
 
-    /* "mlgrad/list_values.pyx":119
+    /* "mlgrad/list_values.pyx":243
  *         if size >= self.allocated:
  *             newsize = resize(size + 1)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))             # <<<<<<<<<<<<<<
+ *             self.data = <double*>PyMem_Realloc(self.data, newsize*sizeof(double))             # <<<<<<<<<<<<<<
  *             self.allocated = newsize
- *         (<double*>self.data)[size] = op;
+ *         self.data[size] = op;
  */
-    __pyx_v_self->data = ((void *)PyMem_Realloc(__pyx_v_self->data, (__pyx_v_newsize * (sizeof(double)))));
+    __pyx_v_self->data = ((double *)PyMem_Realloc(__pyx_v_self->data, (__pyx_v_newsize * (sizeof(double)))));
 
-    /* "mlgrad/list_values.pyx":120
+    /* "mlgrad/list_values.pyx":244
  *             newsize = resize(size + 1)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))
+ *             self.data = <double*>PyMem_Realloc(self.data, newsize*sizeof(double))
  *             self.allocated = newsize             # <<<<<<<<<<<<<<
- *         (<double*>self.data)[size] = op;
+ *         self.data[size] = op;
  *         self.size += 1
  */
     __pyx_v_self->allocated = __pyx_v_newsize;
 
-    /* "mlgrad/list_values.pyx":117
+    /* "mlgrad/list_values.pyx":241
  * 
  *         size = self.size
  *         if size >= self.allocated:             # <<<<<<<<<<<<<<
  *             newsize = resize(size + 1)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))
+ *             self.data = <double*>PyMem_Realloc(self.data, newsize*sizeof(double))
  */
   }
 
-  /* "mlgrad/list_values.pyx":121
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))
+  /* "mlgrad/list_values.pyx":245
+ *             self.data = <double*>PyMem_Realloc(self.data, newsize*sizeof(double))
  *             self.allocated = newsize
- *         (<double*>self.data)[size] = op;             # <<<<<<<<<<<<<<
+ *         self.data[size] = op;             # <<<<<<<<<<<<<<
  *         self.size += 1
  * 
  */
-  (((double *)__pyx_v_self->data)[__pyx_v_size]) = __pyx_v_op;
+  (__pyx_v_self->data[__pyx_v_size]) = __pyx_v_op;
 
-  /* "mlgrad/list_values.pyx":122
+  /* "mlgrad/list_values.pyx":246
  *             self.allocated = newsize
- *         (<double*>self.data)[size] = op;
+ *         self.data[size] = op;
  *         self.size += 1             # <<<<<<<<<<<<<<
  * 
- *     cdef void _append_pdouble(self, double *op):
+ *     def append(self, v):
  */
   __pyx_v_self->size = (__pyx_v_self->size + 1);
 
-  /* "mlgrad/list_values.pyx":113
- *         return self._set_double(i, v)
+  /* "mlgrad/list_values.pyx":237
+ *             raise IndexError('invalid index %s' % i)
  * 
- *     cdef void _append_double(self, double op):             # <<<<<<<<<<<<<<
+ *     cdef void _append(self, double op):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t size, newsize
  * 
  */
@@ -2973,162 +2882,70 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__append_do
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/list_values.pyx":124
+/* "mlgrad/list_values.pyx":248
  *         self.size += 1
  * 
- *     cdef void _append_pdouble(self, double *op):             # <<<<<<<<<<<<<<
- *         cdef Py_ssize_t size, newsize
- * 
- */
-
-static CYTHON_INLINE void __pyx_f_6mlgrad_11list_values_11list_values__append_pdouble(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, double *__pyx_v_op) {
-  Py_ssize_t __pyx_v_size;
-  Py_ssize_t __pyx_v_newsize;
-  __Pyx_RefNannyDeclarations
-  Py_ssize_t __pyx_t_1;
-  int __pyx_t_2;
-  __Pyx_RefNannySetupContext("_append_pdouble", 0);
-
-  /* "mlgrad/list_values.pyx":127
- *         cdef Py_ssize_t size, newsize
- * 
- *         size = self.size             # <<<<<<<<<<<<<<
- *         if size >= self.allocated:
- *             newsize = resize(size + 1)
- */
-  __pyx_t_1 = __pyx_v_self->size;
-  __pyx_v_size = __pyx_t_1;
-
-  /* "mlgrad/list_values.pyx":128
- * 
- *         size = self.size
- *         if size >= self.allocated:             # <<<<<<<<<<<<<<
- *             newsize = resize(size + 1)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))
- */
-  __pyx_t_2 = ((__pyx_v_size >= __pyx_v_self->allocated) != 0);
-  if (__pyx_t_2) {
-
-    /* "mlgrad/list_values.pyx":129
- *         size = self.size
- *         if size >= self.allocated:
- *             newsize = resize(size + 1)             # <<<<<<<<<<<<<<
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))
- *             self.allocated = newsize
- */
-    __pyx_v_newsize = __pyx_f_6mlgrad_11list_values_resize((__pyx_v_size + 1));
-
-    /* "mlgrad/list_values.pyx":130
- *         if size >= self.allocated:
- *             newsize = resize(size + 1)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))             # <<<<<<<<<<<<<<
- *             self.allocated = newsize
- *         (<double**>self.data)[size] = op;
- */
-    __pyx_v_self->data = ((void *)PyMem_Realloc(__pyx_v_self->data, (__pyx_v_newsize * (sizeof(double *)))));
-
-    /* "mlgrad/list_values.pyx":131
- *             newsize = resize(size + 1)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))
- *             self.allocated = newsize             # <<<<<<<<<<<<<<
- *         (<double**>self.data)[size] = op;
- *         self.size += 1
- */
-    __pyx_v_self->allocated = __pyx_v_newsize;
-
-    /* "mlgrad/list_values.pyx":128
- * 
- *         size = self.size
- *         if size >= self.allocated:             # <<<<<<<<<<<<<<
- *             newsize = resize(size + 1)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))
- */
-  }
-
-  /* "mlgrad/list_values.pyx":132
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))
- *             self.allocated = newsize
- *         (<double**>self.data)[size] = op;             # <<<<<<<<<<<<<<
- *         self.size += 1
- * 
- */
-  (((double **)__pyx_v_self->data)[__pyx_v_size]) = __pyx_v_op;
-
-  /* "mlgrad/list_values.pyx":133
- *             self.allocated = newsize
- *         (<double**>self.data)[size] = op;
- *         self.size += 1             # <<<<<<<<<<<<<<
- * 
- *     def append_double(self, v):
- */
-  __pyx_v_self->size = (__pyx_v_self->size + 1);
-
-  /* "mlgrad/list_values.pyx":124
- *         self.size += 1
- * 
- *     cdef void _append_pdouble(self, double *op):             # <<<<<<<<<<<<<<
- *         cdef Py_ssize_t size, newsize
- * 
- */
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-}
-
-/* "mlgrad/list_values.pyx":135
- *         self.size += 1
- * 
- *     def append_double(self, v):             # <<<<<<<<<<<<<<
- *         self._append_double(v)
- * 
+ *     def append(self, v):             # <<<<<<<<<<<<<<
+ *         cdef double vv = v
+ *         self._append(vv)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_11append_double(PyObject *__pyx_v_self, PyObject *__pyx_v_v); /*proto*/
-static char __pyx_doc_6mlgrad_11list_values_11list_values_10append_double[] = "list_values.append_double(self, v)";
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_11append_double(PyObject *__pyx_v_self, PyObject *__pyx_v_v) {
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_11append(PyObject *__pyx_v_self, PyObject *__pyx_v_v); /*proto*/
+static char __pyx_doc_6mlgrad_11list_values_12list_doubles_10append[] = "list_doubles.append(self, v)";
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_11append(PyObject *__pyx_v_self, PyObject *__pyx_v_v) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("append_double (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_11list_values_11list_values_10append_double(((struct __pyx_obj_6mlgrad_11list_values_list_values *)__pyx_v_self), ((PyObject *)__pyx_v_v));
+  __Pyx_RefNannySetupContext("append (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_11list_values_12list_doubles_10append(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self), ((PyObject *)__pyx_v_v));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_10append_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, PyObject *__pyx_v_v) {
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_10append(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, PyObject *__pyx_v_v) {
+  double __pyx_v_vv;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("append_double", 0);
+  __Pyx_RefNannySetupContext("append", 0);
 
-  /* "mlgrad/list_values.pyx":136
+  /* "mlgrad/list_values.pyx":249
  * 
- *     def append_double(self, v):
- *         self._append_double(v)             # <<<<<<<<<<<<<<
+ *     def append(self, v):
+ *         cdef double vv = v             # <<<<<<<<<<<<<<
+ *         self._append(vv)
  * 
- *     cdef void _extend_double(self, double *op, Py_ssize_t n):
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_v); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 136, __pyx_L1_error)
-  __pyx_f_6mlgrad_11list_values_11list_values__append_double(__pyx_v_self, __pyx_t_1);
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_v); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_v_vv = __pyx_t_1;
 
-  /* "mlgrad/list_values.pyx":135
+  /* "mlgrad/list_values.pyx":250
+ *     def append(self, v):
+ *         cdef double vv = v
+ *         self._append(vv)             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _extend(self, double *op, Py_ssize_t n):
+ */
+  ((struct __pyx_vtabstruct_6mlgrad_11list_values_list_doubles *)__pyx_v_self->__pyx_vtab)->_append(__pyx_v_self, __pyx_v_vv);
+
+  /* "mlgrad/list_values.pyx":248
  *         self.size += 1
  * 
- *     def append_double(self, v):             # <<<<<<<<<<<<<<
- *         self._append_double(v)
- * 
+ *     def append(self, v):             # <<<<<<<<<<<<<<
+ *         cdef double vv = v
+ *         self._append(vv)
  */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.list_values.list_values.append_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.list_values.list_doubles.append", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3136,15 +2953,15 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_10append_double(st
   return __pyx_r;
 }
 
-/* "mlgrad/list_values.pyx":138
- *         self._append_double(v)
+/* "mlgrad/list_values.pyx":252
+ *         self._append(vv)
  * 
- *     cdef void _extend_double(self, double *op, Py_ssize_t n):             # <<<<<<<<<<<<<<
+ *     cdef void _extend(self, double *op, Py_ssize_t n):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, newsize, size
  * 
  */
 
-static void __pyx_f_6mlgrad_11list_values_11list_values__extend_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, double *__pyx_v_op, Py_ssize_t __pyx_v_n) {
+static void __pyx_f_6mlgrad_11list_values_12list_doubles__extend(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, double *__pyx_v_op, Py_ssize_t __pyx_v_n) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_newsize;
   Py_ssize_t __pyx_v_size;
@@ -3153,9 +2970,9 @@ static void __pyx_f_6mlgrad_11list_values_11list_values__extend_double(struct __
   int __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  __Pyx_RefNannySetupContext("_extend_double", 0);
+  __Pyx_RefNannySetupContext("_extend", 0);
 
-  /* "mlgrad/list_values.pyx":141
+  /* "mlgrad/list_values.pyx":255
  *         cdef Py_ssize_t i, newsize, size
  * 
  *         size = self.size             # <<<<<<<<<<<<<<
@@ -3165,57 +2982,57 @@ static void __pyx_f_6mlgrad_11list_values_11list_values__extend_double(struct __
   __pyx_t_1 = __pyx_v_self->size;
   __pyx_v_size = __pyx_t_1;
 
-  /* "mlgrad/list_values.pyx":142
+  /* "mlgrad/list_values.pyx":256
  * 
  *         size = self.size
  *         if size + n >= self.allocated:             # <<<<<<<<<<<<<<
  *             newsize = resize(size + n)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))
+ *             self.data = <double*>PyMem_Realloc(self.data, newsize*sizeof(double))
  */
   __pyx_t_2 = (((__pyx_v_size + __pyx_v_n) >= __pyx_v_self->allocated) != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/list_values.pyx":143
+    /* "mlgrad/list_values.pyx":257
  *         size = self.size
  *         if size + n >= self.allocated:
  *             newsize = resize(size + n)             # <<<<<<<<<<<<<<
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))
+ *             self.data = <double*>PyMem_Realloc(self.data, newsize*sizeof(double))
  *             self.allocated = newsize
  */
     __pyx_v_newsize = __pyx_f_6mlgrad_11list_values_resize((__pyx_v_size + __pyx_v_n));
 
-    /* "mlgrad/list_values.pyx":144
+    /* "mlgrad/list_values.pyx":258
  *         if size + n >= self.allocated:
  *             newsize = resize(size + n)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))             # <<<<<<<<<<<<<<
+ *             self.data = <double*>PyMem_Realloc(self.data, newsize*sizeof(double))             # <<<<<<<<<<<<<<
  *             self.allocated = newsize
  *         for i in range(n):
  */
-    __pyx_v_self->data = ((void *)PyMem_Realloc(__pyx_v_self->data, (__pyx_v_newsize * (sizeof(double)))));
+    __pyx_v_self->data = ((double *)PyMem_Realloc(__pyx_v_self->data, (__pyx_v_newsize * (sizeof(double)))));
 
-    /* "mlgrad/list_values.pyx":145
+    /* "mlgrad/list_values.pyx":259
  *             newsize = resize(size + n)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))
+ *             self.data = <double*>PyMem_Realloc(self.data, newsize*sizeof(double))
  *             self.allocated = newsize             # <<<<<<<<<<<<<<
  *         for i in range(n):
- *             (<double*>self.data)[size + i] = op[i]
+ *             self.data[size + i] = op[i]
  */
     __pyx_v_self->allocated = __pyx_v_newsize;
 
-    /* "mlgrad/list_values.pyx":142
+    /* "mlgrad/list_values.pyx":256
  * 
  *         size = self.size
  *         if size + n >= self.allocated:             # <<<<<<<<<<<<<<
  *             newsize = resize(size + n)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))
+ *             self.data = <double*>PyMem_Realloc(self.data, newsize*sizeof(double))
  */
   }
 
-  /* "mlgrad/list_values.pyx":146
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))
+  /* "mlgrad/list_values.pyx":260
+ *             self.data = <double*>PyMem_Realloc(self.data, newsize*sizeof(double))
  *             self.allocated = newsize
  *         for i in range(n):             # <<<<<<<<<<<<<<
- *             (<double*>self.data)[size + i] = op[i]
+ *             self.data[size + i] = op[i]
  *         self.size += n
  */
   __pyx_t_1 = __pyx_v_n;
@@ -3223,29 +3040,29 @@ static void __pyx_f_6mlgrad_11list_values_11list_values__extend_double(struct __
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "mlgrad/list_values.pyx":147
+    /* "mlgrad/list_values.pyx":261
  *             self.allocated = newsize
  *         for i in range(n):
- *             (<double*>self.data)[size + i] = op[i]             # <<<<<<<<<<<<<<
+ *             self.data[size + i] = op[i]             # <<<<<<<<<<<<<<
  *         self.size += n
  * 
  */
-    (((double *)__pyx_v_self->data)[(__pyx_v_size + __pyx_v_i)]) = (__pyx_v_op[__pyx_v_i]);
+    (__pyx_v_self->data[(__pyx_v_size + __pyx_v_i)]) = (__pyx_v_op[__pyx_v_i]);
   }
 
-  /* "mlgrad/list_values.pyx":148
+  /* "mlgrad/list_values.pyx":262
  *         for i in range(n):
- *             (<double*>self.data)[size + i] = op[i]
+ *             self.data[size + i] = op[i]
  *         self.size += n             # <<<<<<<<<<<<<<
  * 
- *     cdef void _extend_pdouble(self, double **op, Py_ssize_t n):
+ *     def extend(self, ops):
  */
   __pyx_v_self->size = (__pyx_v_self->size + __pyx_v_n);
 
-  /* "mlgrad/list_values.pyx":138
- *         self._append_double(v)
+  /* "mlgrad/list_values.pyx":252
+ *         self._append(vv)
  * 
- *     cdef void _extend_double(self, double *op, Py_ssize_t n):             # <<<<<<<<<<<<<<
+ *     cdef void _extend(self, double *op, Py_ssize_t n):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, newsize, size
  * 
  */
@@ -3254,147 +3071,30 @@ static void __pyx_f_6mlgrad_11list_values_11list_values__extend_double(struct __
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/list_values.pyx":150
+/* "mlgrad/list_values.pyx":264
  *         self.size += n
  * 
- *     cdef void _extend_pdouble(self, double **op, Py_ssize_t n):             # <<<<<<<<<<<<<<
- *         cdef Py_ssize_t i, newsize, size
- * 
- */
-
-static void __pyx_f_6mlgrad_11list_values_11list_values__extend_pdouble(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, double **__pyx_v_op, Py_ssize_t __pyx_v_n) {
-  Py_ssize_t __pyx_v_i;
-  Py_ssize_t __pyx_v_newsize;
-  Py_ssize_t __pyx_v_size;
-  __Pyx_RefNannyDeclarations
-  Py_ssize_t __pyx_t_1;
-  int __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  __Pyx_RefNannySetupContext("_extend_pdouble", 0);
-
-  /* "mlgrad/list_values.pyx":153
- *         cdef Py_ssize_t i, newsize, size
- * 
- *         size = self.size             # <<<<<<<<<<<<<<
- *         if size + n >= self.allocated:
- *             newsize = resize(size + n)
- */
-  __pyx_t_1 = __pyx_v_self->size;
-  __pyx_v_size = __pyx_t_1;
-
-  /* "mlgrad/list_values.pyx":154
- * 
- *         size = self.size
- *         if size + n >= self.allocated:             # <<<<<<<<<<<<<<
- *             newsize = resize(size + n)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))
- */
-  __pyx_t_2 = (((__pyx_v_size + __pyx_v_n) >= __pyx_v_self->allocated) != 0);
-  if (__pyx_t_2) {
-
-    /* "mlgrad/list_values.pyx":155
- *         size = self.size
- *         if size + n >= self.allocated:
- *             newsize = resize(size + n)             # <<<<<<<<<<<<<<
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))
- *             self.allocated = newsize
- */
-    __pyx_v_newsize = __pyx_f_6mlgrad_11list_values_resize((__pyx_v_size + __pyx_v_n));
-
-    /* "mlgrad/list_values.pyx":156
- *         if size + n >= self.allocated:
- *             newsize = resize(size + n)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))             # <<<<<<<<<<<<<<
- *             self.allocated = newsize
- *         for i in range(n):
- */
-    __pyx_v_self->data = ((void *)PyMem_Realloc(__pyx_v_self->data, (__pyx_v_newsize * (sizeof(double *)))));
-
-    /* "mlgrad/list_values.pyx":157
- *             newsize = resize(size + n)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))
- *             self.allocated = newsize             # <<<<<<<<<<<<<<
- *         for i in range(n):
- *             (<double**>self.data)[size + i] = op[i]
- */
-    __pyx_v_self->allocated = __pyx_v_newsize;
-
-    /* "mlgrad/list_values.pyx":154
- * 
- *         size = self.size
- *         if size + n >= self.allocated:             # <<<<<<<<<<<<<<
- *             newsize = resize(size + n)
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))
- */
-  }
-
-  /* "mlgrad/list_values.pyx":158
- *             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))
- *             self.allocated = newsize
- *         for i in range(n):             # <<<<<<<<<<<<<<
- *             (<double**>self.data)[size + i] = op[i]
- *         self.size += n
- */
-  __pyx_t_1 = __pyx_v_n;
-  __pyx_t_3 = __pyx_t_1;
-  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
-    __pyx_v_i = __pyx_t_4;
-
-    /* "mlgrad/list_values.pyx":159
- *             self.allocated = newsize
- *         for i in range(n):
- *             (<double**>self.data)[size + i] = op[i]             # <<<<<<<<<<<<<<
- *         self.size += n
- * 
- */
-    (((double **)__pyx_v_self->data)[(__pyx_v_size + __pyx_v_i)]) = (__pyx_v_op[__pyx_v_i]);
-  }
-
-  /* "mlgrad/list_values.pyx":160
- *         for i in range(n):
- *             (<double**>self.data)[size + i] = op[i]
- *         self.size += n             # <<<<<<<<<<<<<<
- * 
- *     def extend_double(self, ops):
- */
-  __pyx_v_self->size = (__pyx_v_self->size + __pyx_v_n);
-
-  /* "mlgrad/list_values.pyx":150
- *         self.size += n
- * 
- *     cdef void _extend_pdouble(self, double **op, Py_ssize_t n):             # <<<<<<<<<<<<<<
- *         cdef Py_ssize_t i, newsize, size
- * 
- */
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-}
-
-/* "mlgrad/list_values.pyx":162
- *         self.size += n
- * 
- *     def extend_double(self, ops):             # <<<<<<<<<<<<<<
+ *     def extend(self, ops):             # <<<<<<<<<<<<<<
+ *         cdef double vv
  *         for v in ops:
- *             self._append_double(v)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_13extend_double(PyObject *__pyx_v_self, PyObject *__pyx_v_ops); /*proto*/
-static char __pyx_doc_6mlgrad_11list_values_11list_values_12extend_double[] = "list_values.extend_double(self, ops)";
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_13extend_double(PyObject *__pyx_v_self, PyObject *__pyx_v_ops) {
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_13extend(PyObject *__pyx_v_self, PyObject *__pyx_v_ops); /*proto*/
+static char __pyx_doc_6mlgrad_11list_values_12list_doubles_12extend[] = "list_doubles.extend(self, ops)";
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_13extend(PyObject *__pyx_v_self, PyObject *__pyx_v_ops) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("extend_double (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_11list_values_11list_values_12extend_double(((struct __pyx_obj_6mlgrad_11list_values_list_values *)__pyx_v_self), ((PyObject *)__pyx_v_ops));
+  __Pyx_RefNannySetupContext("extend (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_11list_values_12list_doubles_12extend(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self), ((PyObject *)__pyx_v_ops));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_12extend_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, PyObject *__pyx_v_ops) {
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_12extend(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, PyObject *__pyx_v_ops) {
+  CYTHON_UNUSED double __pyx_v_vv;
   PyObject *__pyx_v_v = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -3406,39 +3106,39 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_12extend_double(st
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("extend_double", 0);
+  __Pyx_RefNannySetupContext("extend", 0);
 
-  /* "mlgrad/list_values.pyx":163
- * 
- *     def extend_double(self, ops):
+  /* "mlgrad/list_values.pyx":266
+ *     def extend(self, ops):
+ *         cdef double vv
  *         for v in ops:             # <<<<<<<<<<<<<<
- *             self._append_double(v)
- * 
+ *             vv = v
+ *             self._append(v)
  */
   if (likely(PyList_CheckExact(__pyx_v_ops)) || PyTuple_CheckExact(__pyx_v_ops)) {
     __pyx_t_1 = __pyx_v_ops; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_ops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_ops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 266, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 266, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 163, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 266, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 163, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 163, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 266, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 163, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -3448,7 +3148,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_12extend_double(st
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 163, __pyx_L1_error)
+          else __PYX_ERR(0, 266, __pyx_L1_error)
         }
         break;
       }
@@ -3457,32 +3157,42 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_12extend_double(st
     __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "mlgrad/list_values.pyx":164
- *     def extend_double(self, ops):
+    /* "mlgrad/list_values.pyx":267
+ *         cdef double vv
  *         for v in ops:
- *             self._append_double(v)             # <<<<<<<<<<<<<<
+ *             vv = v             # <<<<<<<<<<<<<<
+ *             self._append(v)
  * 
- *     def as_list_double(self):
  */
-    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_v); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 164, __pyx_L1_error)
-    __pyx_f_6mlgrad_11list_values_11list_values__append_double(__pyx_v_self, __pyx_t_5);
+    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_v); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_v_vv = __pyx_t_5;
 
-    /* "mlgrad/list_values.pyx":163
+    /* "mlgrad/list_values.pyx":268
+ *         for v in ops:
+ *             vv = v
+ *             self._append(v)             # <<<<<<<<<<<<<<
  * 
- *     def extend_double(self, ops):
+ *     def copy(self):
+ */
+    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_v_v); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 268, __pyx_L1_error)
+    ((struct __pyx_vtabstruct_6mlgrad_11list_values_list_doubles *)__pyx_v_self->__pyx_vtab)->_append(__pyx_v_self, __pyx_t_5);
+
+    /* "mlgrad/list_values.pyx":266
+ *     def extend(self, ops):
+ *         cdef double vv
  *         for v in ops:             # <<<<<<<<<<<<<<
- *             self._append_double(v)
- * 
+ *             vv = v
+ *             self._append(v)
  */
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/list_values.pyx":162
+  /* "mlgrad/list_values.pyx":264
  *         self.size += n
  * 
- *     def extend_double(self, ops):             # <<<<<<<<<<<<<<
+ *     def extend(self, ops):             # <<<<<<<<<<<<<<
+ *         cdef double vv
  *         for v in ops:
- *             self._append_double(v)
  */
 
   /* function exit code */
@@ -3491,7 +3201,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_12extend_double(st
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("mlgrad.list_values.list_values.extend_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.list_values.list_doubles.extend", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_v);
@@ -3500,29 +3210,147 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_12extend_double(st
   return __pyx_r;
 }
 
-/* "mlgrad/list_values.pyx":166
- *             self._append_double(v)
+/* "mlgrad/list_values.pyx":270
+ *             self._append(v)
  * 
- *     def as_list_double(self):             # <<<<<<<<<<<<<<
+ *     def copy(self):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, size = self.size
- *         cdef list res = []
+ *         cdef list_doubles cp = list_doubles(size)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_15as_list_double(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_11list_values_11list_values_14as_list_double[] = "list_values.as_list_double(self)";
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_15as_list_double(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_15copy(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_11list_values_12list_doubles_14copy[] = "list_doubles.copy(self)";
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_15copy(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("as_list_double (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_11list_values_11list_values_14as_list_double(((struct __pyx_obj_6mlgrad_11list_values_list_values *)__pyx_v_self));
+  __Pyx_RefNannySetupContext("copy (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_11list_values_12list_doubles_14copy(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_14as_list_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_14copy(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self) {
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_size;
+  struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_cp = 0;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("copy", 0);
+
+  /* "mlgrad/list_values.pyx":271
+ * 
+ *     def copy(self):
+ *         cdef Py_ssize_t i, size = self.size             # <<<<<<<<<<<<<<
+ *         cdef list_doubles cp = list_doubles(size)
+ * 
+ */
+  __pyx_t_1 = __pyx_v_self->size;
+  __pyx_v_size = __pyx_t_1;
+
+  /* "mlgrad/list_values.pyx":272
+ *     def copy(self):
+ *         cdef Py_ssize_t i, size = self.size
+ *         cdef list_doubles cp = list_doubles(size)             # <<<<<<<<<<<<<<
+ * 
+ *         for i in range(size):
+ */
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 272, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6mlgrad_11list_values_list_doubles), __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 272, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_cp = ((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "mlgrad/list_values.pyx":274
+ *         cdef list_doubles cp = list_doubles(size)
+ * 
+ *         for i in range(size):             # <<<<<<<<<<<<<<
+ *             cp._set(i, self._get(i))
+ * 
+ */
+  __pyx_t_1 = __pyx_v_size;
+  __pyx_t_4 = __pyx_t_1;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_i = __pyx_t_5;
+
+    /* "mlgrad/list_values.pyx":275
+ * 
+ *         for i in range(size):
+ *             cp._set(i, self._get(i))             # <<<<<<<<<<<<<<
+ * 
+ *         return cp
+ */
+    __pyx_f_6mlgrad_11list_values_12list_doubles__set(__pyx_v_cp, __pyx_v_i, __pyx_f_6mlgrad_11list_values_12list_doubles__get(__pyx_v_self, __pyx_v_i));
+  }
+
+  /* "mlgrad/list_values.pyx":277
+ *             cp._set(i, self._get(i))
+ * 
+ *         return cp             # <<<<<<<<<<<<<<
+ * 
+ *     def as_list(self):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(((PyObject *)__pyx_v_cp));
+  __pyx_r = ((PyObject *)__pyx_v_cp);
+  goto __pyx_L0;
+
+  /* "mlgrad/list_values.pyx":270
+ *             self._append(v)
+ * 
+ *     def copy(self):             # <<<<<<<<<<<<<<
+ *         cdef Py_ssize_t i, size = self.size
+ *         cdef list_doubles cp = list_doubles(size)
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("mlgrad.list_values.list_doubles.copy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_cp);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "mlgrad/list_values.pyx":279
+ *         return cp
+ * 
+ *     def as_list(self):             # <<<<<<<<<<<<<<
+ *         cdef Py_ssize_t i, size = self.size
+ *         cdef list res = []
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_17as_list(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_11list_values_12list_doubles_16as_list[] = "list_doubles.as_list(self)";
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_17as_list(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("as_list (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_11list_values_12list_doubles_16as_list(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_16as_list(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_size;
   PyObject *__pyx_v_res = 0;
@@ -3539,11 +3367,11 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_14as_list_double(s
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("as_list_double", 0);
+  __Pyx_RefNannySetupContext("as_list", 0);
 
-  /* "mlgrad/list_values.pyx":167
+  /* "mlgrad/list_values.pyx":280
  * 
- *     def as_list_double(self):
+ *     def as_list(self):
  *         cdef Py_ssize_t i, size = self.size             # <<<<<<<<<<<<<<
  *         cdef list res = []
  * 
@@ -3551,19 +3379,19 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_14as_list_double(s
   __pyx_t_1 = __pyx_v_self->size;
   __pyx_v_size = __pyx_t_1;
 
-  /* "mlgrad/list_values.pyx":168
- *     def as_list_double(self):
+  /* "mlgrad/list_values.pyx":281
+ *     def as_list(self):
  *         cdef Py_ssize_t i, size = self.size
  *         cdef list res = []             # <<<<<<<<<<<<<<
  * 
  *         for i in range(size):
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 168, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_res = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "mlgrad/list_values.pyx":170
+  /* "mlgrad/list_values.pyx":283
  *         cdef list res = []
  * 
  *         for i in range(size):             # <<<<<<<<<<<<<<
@@ -3575,16 +3403,16 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_14as_list_double(s
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "mlgrad/list_values.pyx":171
+    /* "mlgrad/list_values.pyx":284
  * 
  *         for i in range(size):
  *             res.append(self.get_double(i))             # <<<<<<<<<<<<<<
  *         return res
  * 
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_double); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_double); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 284, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 284, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -3599,29 +3427,29 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_14as_list_double(s
     __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_7, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 284, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_res, __pyx_t_2); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_res, __pyx_t_2); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 284, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
 
-  /* "mlgrad/list_values.pyx":172
+  /* "mlgrad/list_values.pyx":285
  *         for i in range(size):
  *             res.append(self.get_double(i))
  *         return res             # <<<<<<<<<<<<<<
  * 
- *     def as_nparray_double(self):
+ *     def as_nparray(self):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_res);
   __pyx_r = __pyx_v_res;
   goto __pyx_L0;
 
-  /* "mlgrad/list_values.pyx":166
- *             self._append_double(v)
+  /* "mlgrad/list_values.pyx":279
+ *         return cp
  * 
- *     def as_list_double(self):             # <<<<<<<<<<<<<<
+ *     def as_list(self):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, size = self.size
  *         cdef list res = []
  */
@@ -3632,7 +3460,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_14as_list_double(s
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("mlgrad.list_values.list_values.as_list_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.list_values.list_doubles.as_list", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_res);
@@ -3641,29 +3469,29 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_14as_list_double(s
   return __pyx_r;
 }
 
-/* "mlgrad/list_values.pyx":174
+/* "mlgrad/list_values.pyx":287
  *         return res
  * 
- *     def as_nparray_double(self):             # <<<<<<<<<<<<<<
+ *     def as_nparray(self):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, size = self.size
  *         cdef double[::1] data
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_17as_nparray_double(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_11list_values_11list_values_16as_nparray_double[] = "list_values.as_nparray_double(self)";
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_17as_nparray_double(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_19as_nparray(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_11list_values_12list_doubles_18as_nparray[] = "list_doubles.as_nparray(self)";
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_19as_nparray(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("as_nparray_double (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_double(((struct __pyx_obj_6mlgrad_11list_values_list_values *)__pyx_v_self));
+  __Pyx_RefNannySetupContext("as_nparray (wrapper)", 0);
+  __pyx_r = __pyx_pf_6mlgrad_11list_values_12list_doubles_18as_nparray(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_18as_nparray(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_size;
   __Pyx_memviewslice __pyx_v_data = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -3684,11 +3512,11 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_doubl
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("as_nparray_double", 0);
+  __Pyx_RefNannySetupContext("as_nparray", 0);
 
-  /* "mlgrad/list_values.pyx":175
+  /* "mlgrad/list_values.pyx":288
  * 
- *     def as_nparray_double(self):
+ *     def as_nparray(self):
  *         cdef Py_ssize_t i, size = self.size             # <<<<<<<<<<<<<<
  *         cdef double[::1] data
  * 
@@ -3696,19 +3524,19 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_doubl
   __pyx_t_1 = __pyx_v_self->size;
   __pyx_v_size = __pyx_t_1;
 
-  /* "mlgrad/list_values.pyx":178
+  /* "mlgrad/list_values.pyx":291
  *         cdef double[::1] data
  * 
  *         res = np.empty(size, 'd')             # <<<<<<<<<<<<<<
  *         data = res
  *         for i in range(size):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_empty); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_empty); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -3725,7 +3553,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_doubl
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_n_u_d};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 178, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3734,14 +3562,14 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_doubl
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_n_u_d};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 178, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 178, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 291, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -3752,7 +3580,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_doubl
     __Pyx_GIVEREF(__pyx_n_u_d);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_d);
     __pyx_t_3 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 178, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -3760,23 +3588,23 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_doubl
   __pyx_v_res = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "mlgrad/list_values.pyx":179
+  /* "mlgrad/list_values.pyx":292
  * 
  *         res = np.empty(size, 'd')
  *         data = res             # <<<<<<<<<<<<<<
  *         for i in range(size):
- *             data[i] = self._get_double(i)
+ *             data[i] = self._get(i)
  */
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_res, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_res, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 292, __pyx_L1_error)
   __pyx_v_data = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "mlgrad/list_values.pyx":180
+  /* "mlgrad/list_values.pyx":293
  *         res = np.empty(size, 'd')
  *         data = res
  *         for i in range(size):             # <<<<<<<<<<<<<<
- *             data[i] = self._get_double(i)
+ *             data[i] = self._get(i)
  *         return res
  */
   __pyx_t_1 = __pyx_v_size;
@@ -3784,20 +3612,20 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_doubl
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "mlgrad/list_values.pyx":181
+    /* "mlgrad/list_values.pyx":294
  *         data = res
  *         for i in range(size):
- *             data[i] = self._get_double(i)             # <<<<<<<<<<<<<<
+ *             data[i] = self._get(i)             # <<<<<<<<<<<<<<
  *         return res
  * 
  */
     __pyx_t_11 = __pyx_v_i;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_data.data) + __pyx_t_11)) )) = __pyx_f_6mlgrad_11list_values_11list_values__get_double(__pyx_v_self, __pyx_v_i);
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_data.data) + __pyx_t_11)) )) = __pyx_f_6mlgrad_11list_values_12list_doubles__get(__pyx_v_self, __pyx_v_i);
   }
 
-  /* "mlgrad/list_values.pyx":182
+  /* "mlgrad/list_values.pyx":295
  *         for i in range(size):
- *             data[i] = self._get_double(i)
+ *             data[i] = self._get(i)
  *         return res             # <<<<<<<<<<<<<<
  * 
  *     def as_memview_double(self):
@@ -3807,10 +3635,10 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_doubl
   __pyx_r = __pyx_v_res;
   goto __pyx_L0;
 
-  /* "mlgrad/list_values.pyx":174
+  /* "mlgrad/list_values.pyx":287
  *         return res
  * 
- *     def as_nparray_double(self):             # <<<<<<<<<<<<<<
+ *     def as_nparray(self):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, size = self.size
  *         cdef double[::1] data
  */
@@ -3823,7 +3651,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_doubl
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7);
   __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
-  __Pyx_AddTraceback("mlgrad.list_values.list_values.as_nparray_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.list_values.list_doubles.as_nparray", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_data, 1);
@@ -3833,7 +3661,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_doubl
   return __pyx_r;
 }
 
-/* "mlgrad/list_values.pyx":184
+/* "mlgrad/list_values.pyx":297
  *         return res
  * 
  *     def as_memview_double(self):             # <<<<<<<<<<<<<<
@@ -3842,20 +3670,20 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_16as_nparray_doubl
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_19as_memview_double(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_11list_values_11list_values_18as_memview_double[] = "list_values.as_memview_double(self)";
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_19as_memview_double(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_21as_memview_double(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_11list_values_12list_doubles_20as_memview_double[] = "list_doubles.as_memview_double(self)";
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_21as_memview_double(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("as_memview_double (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_11list_values_11list_values_18as_memview_double(((struct __pyx_obj_6mlgrad_11list_values_list_values *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_11list_values_12list_doubles_20as_memview_double(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_18as_memview_double(struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_20as_memview_double(struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_size;
   __Pyx_memviewslice __pyx_v_data = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -3878,7 +3706,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_18as_memview_doubl
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("as_memview_double", 0);
 
-  /* "mlgrad/list_values.pyx":185
+  /* "mlgrad/list_values.pyx":298
  * 
  *     def as_memview_double(self):
  *         cdef Py_ssize_t i, size = self.size             # <<<<<<<<<<<<<<
@@ -3888,19 +3716,19 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_18as_memview_doubl
   __pyx_t_1 = __pyx_v_self->size;
   __pyx_v_size = __pyx_t_1;
 
-  /* "mlgrad/list_values.pyx":188
+  /* "mlgrad/list_values.pyx":301
  *         cdef double[::1] data
  * 
  *         res = np.empty(size, 'd')             # <<<<<<<<<<<<<<
  *         data = res
  *         for i in range(size):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 301, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_empty); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_empty); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 301, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_size); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 301, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -3917,7 +3745,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_18as_memview_doubl
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_n_u_d};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 188, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 301, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3926,14 +3754,14 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_18as_memview_doubl
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_3, __pyx_n_u_d};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 188, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 301, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 188, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 301, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_5) {
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -3944,7 +3772,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_18as_memview_doubl
     __Pyx_GIVEREF(__pyx_n_u_d);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_n_u_d);
     __pyx_t_3 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 188, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 301, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -3952,23 +3780,23 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_18as_memview_doubl
   __pyx_v_res = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "mlgrad/list_values.pyx":189
+  /* "mlgrad/list_values.pyx":302
  * 
  *         res = np.empty(size, 'd')
  *         data = res             # <<<<<<<<<<<<<<
  *         for i in range(size):
- *             data[i] = self._get_double(i)
+ *             data[i] = self._get(i)
  */
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_res, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_res, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 302, __pyx_L1_error)
   __pyx_v_data = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "mlgrad/list_values.pyx":190
+  /* "mlgrad/list_values.pyx":303
  *         res = np.empty(size, 'd')
  *         data = res
  *         for i in range(size):             # <<<<<<<<<<<<<<
- *             data[i] = self._get_double(i)
+ *             data[i] = self._get(i)
  *         return data
  */
   __pyx_t_1 = __pyx_v_size;
@@ -3976,32 +3804,29 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_18as_memview_doubl
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "mlgrad/list_values.pyx":191
+    /* "mlgrad/list_values.pyx":304
  *         data = res
  *         for i in range(size):
- *             data[i] = self._get_double(i)             # <<<<<<<<<<<<<<
+ *             data[i] = self._get(i)             # <<<<<<<<<<<<<<
  *         return data
- * 
  */
     __pyx_t_11 = __pyx_v_i;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_data.data) + __pyx_t_11)) )) = __pyx_f_6mlgrad_11list_values_11list_values__get_double(__pyx_v_self, __pyx_v_i);
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_data.data) + __pyx_t_11)) )) = __pyx_f_6mlgrad_11list_values_12list_doubles__get(__pyx_v_self, __pyx_v_i);
   }
 
-  /* "mlgrad/list_values.pyx":192
+  /* "mlgrad/list_values.pyx":305
  *         for i in range(size):
- *             data[i] = self._get_double(i)
+ *             data[i] = self._get(i)
  *         return data             # <<<<<<<<<<<<<<
- * 
- * #     def __getitem__(self, index):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_data, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_data, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/list_values.pyx":184
+  /* "mlgrad/list_values.pyx":297
  *         return res
  * 
  *     def as_memview_double(self):             # <<<<<<<<<<<<<<
@@ -4017,7 +3842,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_18as_memview_doubl
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7);
   __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
-  __Pyx_AddTraceback("mlgrad.list_values.list_values.as_memview_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.list_values.list_doubles.as_memview_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_data, 1);
@@ -4034,20 +3859,20 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_18as_memview_doubl
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_21__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_11list_values_11list_values_20__reduce_cython__[] = "list_values.__reduce_cython__(self)";
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_21__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_23__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_11list_values_12list_doubles_22__reduce_cython__[] = "list_doubles.__reduce_cython__(self)";
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_23__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_11list_values_11list_values_20__reduce_cython__(((struct __pyx_obj_6mlgrad_11list_values_list_values *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_11list_values_12list_doubles_22__reduce_cython__(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_20__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_22__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4077,7 +3902,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_20__reduce_cython_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("mlgrad.list_values.list_values.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.list_values.list_doubles.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -4092,20 +3917,20 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_20__reduce_cython_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_23__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static char __pyx_doc_6mlgrad_11list_values_11list_values_22__setstate_cython__[] = "list_values.__setstate_cython__(self, __pyx_state)";
-static PyObject *__pyx_pw_6mlgrad_11list_values_11list_values_23__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_25__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static char __pyx_doc_6mlgrad_11list_values_12list_doubles_24__setstate_cython__[] = "list_doubles.__setstate_cython__(self, __pyx_state)";
+static PyObject *__pyx_pw_6mlgrad_11list_values_12list_doubles_25__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_11list_values_11list_values_22__setstate_cython__(((struct __pyx_obj_6mlgrad_11list_values_list_values *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_6mlgrad_11list_values_12list_doubles_24__setstate_cython__(((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_22__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6mlgrad_11list_values_list_values *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6mlgrad_11list_values_12list_doubles_24__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_6mlgrad_11list_values_list_doubles *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4135,7 +3960,7 @@ static PyObject *__pyx_pf_6mlgrad_11list_values_11list_values_22__setstate_cytho
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("mlgrad.list_values.list_values.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.list_values.list_doubles.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -17159,10 +16984,10 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static struct __pyx_vtabstruct_6mlgrad_11list_values_list_values __pyx_vtable_6mlgrad_11list_values_list_values;
+static struct __pyx_vtabstruct_6mlgrad_11list_values_list_doubles __pyx_vtable_6mlgrad_11list_values_list_doubles;
 
-static PyObject *__pyx_tp_new_6mlgrad_11list_values_list_values(PyTypeObject *t, PyObject *a, PyObject *k) {
-  struct __pyx_obj_6mlgrad_11list_values_list_values *p;
+static PyObject *__pyx_tp_new_6mlgrad_11list_values_list_doubles(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_6mlgrad_11list_values_list_doubles *p;
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -17170,16 +16995,16 @@ static PyObject *__pyx_tp_new_6mlgrad_11list_values_list_values(PyTypeObject *t,
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_6mlgrad_11list_values_list_values *)o);
-  p->__pyx_vtab = __pyx_vtabptr_6mlgrad_11list_values_list_values;
-  if (unlikely(__pyx_pw_6mlgrad_11list_values_11list_values_1__cinit__(o, a, k) < 0)) goto bad;
+  p = ((struct __pyx_obj_6mlgrad_11list_values_list_doubles *)o);
+  p->__pyx_vtab = __pyx_vtabptr_6mlgrad_11list_values_list_doubles;
+  if (unlikely(__pyx_pw_6mlgrad_11list_values_12list_doubles_1__cinit__(o, a, k) < 0)) goto bad;
   return o;
   bad:
   Py_DECREF(o); o = 0;
   return NULL;
 }
 
-static void __pyx_tp_dealloc_6mlgrad_11list_values_list_values(PyObject *o) {
+static void __pyx_tp_dealloc_6mlgrad_11list_values_list_doubles(PyObject *o) {
   #if CYTHON_USE_TP_FINALIZE
   if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -17189,31 +17014,48 @@ static void __pyx_tp_dealloc_6mlgrad_11list_values_list_values(PyObject *o) {
     PyObject *etype, *eval, *etb;
     PyErr_Fetch(&etype, &eval, &etb);
     __Pyx_SET_REFCNT(o, Py_REFCNT(o) + 1);
-    __pyx_pw_6mlgrad_11list_values_11list_values_3__dealloc__(o);
+    __pyx_pw_6mlgrad_11list_values_12list_doubles_3__dealloc__(o);
     __Pyx_SET_REFCNT(o, Py_REFCNT(o) - 1);
     PyErr_Restore(etype, eval, etb);
   }
   (*Py_TYPE(o)->tp_free)(o);
 }
+static PyObject *__pyx_sq_item_6mlgrad_11list_values_list_doubles(PyObject *o, Py_ssize_t i) {
+  PyObject *r;
+  PyObject *x = PyInt_FromSsize_t(i); if(!x) return 0;
+  r = Py_TYPE(o)->tp_as_mapping->mp_subscript(o, x);
+  Py_DECREF(x);
+  return r;
+}
 
-static PyMethodDef __pyx_methods_6mlgrad_11list_values_list_values[] = {
-  {"get_double", (PyCFunction)__pyx_pw_6mlgrad_11list_values_11list_values_7get_double, METH_O, __pyx_doc_6mlgrad_11list_values_11list_values_6get_double},
-  {"set_double", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6mlgrad_11list_values_11list_values_9set_double, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6mlgrad_11list_values_11list_values_8set_double},
-  {"append_double", (PyCFunction)__pyx_pw_6mlgrad_11list_values_11list_values_11append_double, METH_O, __pyx_doc_6mlgrad_11list_values_11list_values_10append_double},
-  {"extend_double", (PyCFunction)__pyx_pw_6mlgrad_11list_values_11list_values_13extend_double, METH_O, __pyx_doc_6mlgrad_11list_values_11list_values_12extend_double},
-  {"as_list_double", (PyCFunction)__pyx_pw_6mlgrad_11list_values_11list_values_15as_list_double, METH_NOARGS, __pyx_doc_6mlgrad_11list_values_11list_values_14as_list_double},
-  {"as_nparray_double", (PyCFunction)__pyx_pw_6mlgrad_11list_values_11list_values_17as_nparray_double, METH_NOARGS, __pyx_doc_6mlgrad_11list_values_11list_values_16as_nparray_double},
-  {"as_memview_double", (PyCFunction)__pyx_pw_6mlgrad_11list_values_11list_values_19as_memview_double, METH_NOARGS, __pyx_doc_6mlgrad_11list_values_11list_values_18as_memview_double},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_11list_values_11list_values_21__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_11list_values_11list_values_20__reduce_cython__},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_11list_values_11list_values_23__setstate_cython__, METH_O, __pyx_doc_6mlgrad_11list_values_11list_values_22__setstate_cython__},
+static int __pyx_mp_ass_subscript_6mlgrad_11list_values_list_doubles(PyObject *o, PyObject *i, PyObject *v) {
+  if (v) {
+    return __pyx_pw_6mlgrad_11list_values_12list_doubles_9__setitem__(o, i, v);
+  }
+  else {
+    PyErr_Format(PyExc_NotImplementedError,
+      "Subscript deletion not supported by %.200s", Py_TYPE(o)->tp_name);
+    return -1;
+  }
+}
+
+static PyMethodDef __pyx_methods_6mlgrad_11list_values_list_doubles[] = {
+  {"append", (PyCFunction)__pyx_pw_6mlgrad_11list_values_12list_doubles_11append, METH_O, __pyx_doc_6mlgrad_11list_values_12list_doubles_10append},
+  {"extend", (PyCFunction)__pyx_pw_6mlgrad_11list_values_12list_doubles_13extend, METH_O, __pyx_doc_6mlgrad_11list_values_12list_doubles_12extend},
+  {"copy", (PyCFunction)__pyx_pw_6mlgrad_11list_values_12list_doubles_15copy, METH_NOARGS, __pyx_doc_6mlgrad_11list_values_12list_doubles_14copy},
+  {"as_list", (PyCFunction)__pyx_pw_6mlgrad_11list_values_12list_doubles_17as_list, METH_NOARGS, __pyx_doc_6mlgrad_11list_values_12list_doubles_16as_list},
+  {"as_nparray", (PyCFunction)__pyx_pw_6mlgrad_11list_values_12list_doubles_19as_nparray, METH_NOARGS, __pyx_doc_6mlgrad_11list_values_12list_doubles_18as_nparray},
+  {"as_memview_double", (PyCFunction)__pyx_pw_6mlgrad_11list_values_12list_doubles_21as_memview_double, METH_NOARGS, __pyx_doc_6mlgrad_11list_values_12list_doubles_20as_memview_double},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_11list_values_12list_doubles_23__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_11list_values_12list_doubles_22__reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_11list_values_12list_doubles_25__setstate_cython__, METH_O, __pyx_doc_6mlgrad_11list_values_12list_doubles_24__setstate_cython__},
   {0, 0, 0, 0}
 };
 
-static PySequenceMethods __pyx_tp_as_sequence_list_values = {
-  __pyx_pw_6mlgrad_11list_values_11list_values_5__len__, /*sq_length*/
+static PySequenceMethods __pyx_tp_as_sequence_list_doubles = {
+  __pyx_pw_6mlgrad_11list_values_12list_doubles_5__len__, /*sq_length*/
   0, /*sq_concat*/
   0, /*sq_repeat*/
-  0, /*sq_item*/
+  __pyx_sq_item_6mlgrad_11list_values_list_doubles, /*sq_item*/
   0, /*sq_slice*/
   0, /*sq_ass_item*/
   0, /*sq_ass_slice*/
@@ -17222,18 +17064,18 @@ static PySequenceMethods __pyx_tp_as_sequence_list_values = {
   0, /*sq_inplace_repeat*/
 };
 
-static PyMappingMethods __pyx_tp_as_mapping_list_values = {
-  __pyx_pw_6mlgrad_11list_values_11list_values_5__len__, /*mp_length*/
-  0, /*mp_subscript*/
-  0, /*mp_ass_subscript*/
+static PyMappingMethods __pyx_tp_as_mapping_list_doubles = {
+  __pyx_pw_6mlgrad_11list_values_12list_doubles_5__len__, /*mp_length*/
+  __pyx_pw_6mlgrad_11list_values_12list_doubles_7__getitem__, /*mp_subscript*/
+  __pyx_mp_ass_subscript_6mlgrad_11list_values_list_doubles, /*mp_ass_subscript*/
 };
 
-static PyTypeObject __pyx_type_6mlgrad_11list_values_list_values = {
+static PyTypeObject __pyx_type_6mlgrad_11list_values_list_doubles = {
   PyVarObject_HEAD_INIT(0, 0)
-  "mlgrad.list_values.list_values", /*tp_name*/
-  sizeof(struct __pyx_obj_6mlgrad_11list_values_list_values), /*tp_basicsize*/
+  "mlgrad.list_values.list_doubles", /*tp_name*/
+  sizeof(struct __pyx_obj_6mlgrad_11list_values_list_doubles), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_6mlgrad_11list_values_list_values, /*tp_dealloc*/
+  __pyx_tp_dealloc_6mlgrad_11list_values_list_doubles, /*tp_dealloc*/
   #if PY_VERSION_HEX < 0x030800b4
   0, /*tp_print*/
   #endif
@@ -17250,8 +17092,8 @@ static PyTypeObject __pyx_type_6mlgrad_11list_values_list_values = {
   #endif
   0, /*tp_repr*/
   0, /*tp_as_number*/
-  &__pyx_tp_as_sequence_list_values, /*tp_as_sequence*/
-  &__pyx_tp_as_mapping_list_values, /*tp_as_mapping*/
+  &__pyx_tp_as_sequence_list_doubles, /*tp_as_sequence*/
+  &__pyx_tp_as_mapping_list_doubles, /*tp_as_mapping*/
   0, /*tp_hash*/
   0, /*tp_call*/
   0, /*tp_str*/
@@ -17266,7 +17108,7 @@ static PyTypeObject __pyx_type_6mlgrad_11list_values_list_values = {
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_6mlgrad_11list_values_list_values, /*tp_methods*/
+  __pyx_methods_6mlgrad_11list_values_list_doubles, /*tp_methods*/
   0, /*tp_members*/
   0, /*tp_getset*/
   0, /*tp_base*/
@@ -17276,7 +17118,7 @@ static PyTypeObject __pyx_type_6mlgrad_11list_values_list_values = {
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_6mlgrad_11list_values_list_values, /*tp_new*/
+  __pyx_tp_new_6mlgrad_11list_values_list_doubles, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -18103,13 +17945,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_get_double, __pyx_k_get_double, sizeof(__pyx_k_get_double), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
   {&__pyx_kp_s_got_differing_extents_in_dimensi, __pyx_k_got_differing_extents_in_dimensi, sizeof(__pyx_k_got_differing_extents_in_dimensi), 0, 0, 1, 0},
-  {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
-  {&__pyx_kp_u_invalid_index, __pyx_k_invalid_index, sizeof(__pyx_k_invalid_index), 0, 1, 0, 0},
+  {&__pyx_kp_u_invalid_index_s, __pyx_k_invalid_index_s, sizeof(__pyx_k_invalid_index_s), 0, 1, 0, 0},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
-  {&__pyx_n_s_list_values, __pyx_k_list_values, sizeof(__pyx_k_list_values), 0, 0, 1, 1},
+  {&__pyx_n_s_list_doubles, __pyx_k_list_doubles, sizeof(__pyx_k_list_doubles), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
@@ -18139,10 +17980,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
   {&__pyx_n_s_shape, __pyx_k_shape, sizeof(__pyx_k_shape), 0, 0, 1, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
-  {&__pyx_n_s_sizeof_double, __pyx_k_sizeof_double, sizeof(__pyx_k_sizeof_double), 0, 0, 1, 1},
-  {&__pyx_n_s_sizeof_int, __pyx_k_sizeof_int, sizeof(__pyx_k_sizeof_int), 0, 0, 1, 1},
-  {&__pyx_n_s_sizeof_pdouble, __pyx_k_sizeof_pdouble, sizeof(__pyx_k_sizeof_pdouble), 0, 0, 1, 1},
-  {&__pyx_n_s_sizeof_pint, __pyx_k_sizeof_pint, sizeof(__pyx_k_sizeof_pint), 0, 0, 1, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
   {&__pyx_n_s_step, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
   {&__pyx_n_s_stop, __pyx_k_stop, sizeof(__pyx_k_stop), 0, 0, 1, 1},
@@ -18156,12 +17993,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
   {&__pyx_n_s_unpack, __pyx_k_unpack, sizeof(__pyx_k_unpack), 0, 0, 1, 1},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
-  {&__pyx_n_s_v, __pyx_k_v, sizeof(__pyx_k_v), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) __PYX_ERR(0, 108, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) __PYX_ERR(0, 224, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 260, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 148, __pyx_L1_error)
@@ -18514,28 +18350,22 @@ static int __Pyx_modinit_type_init_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  __pyx_vtabptr_6mlgrad_11list_values_list_values = &__pyx_vtable_6mlgrad_11list_values_list_values;
-  __pyx_vtable_6mlgrad_11list_values_list_values.as_double_array = (double *(*)(struct __pyx_obj_6mlgrad_11list_values_list_values *))__pyx_f_6mlgrad_11list_values_11list_values_as_double_array;
-  __pyx_vtable_6mlgrad_11list_values_list_values.as_pdouble_array = (double **(*)(struct __pyx_obj_6mlgrad_11list_values_list_values *))__pyx_f_6mlgrad_11list_values_11list_values_as_pdouble_array;
-  __pyx_vtable_6mlgrad_11list_values_list_values._get_double = (double (*)(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t))__pyx_f_6mlgrad_11list_values_11list_values__get_double;
-  __pyx_vtable_6mlgrad_11list_values_list_values._get_pdouble = (double *(*)(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t))__pyx_f_6mlgrad_11list_values_11list_values__get_pdouble;
-  __pyx_vtable_6mlgrad_11list_values_list_values._set_double = (void (*)(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t, double))__pyx_f_6mlgrad_11list_values_11list_values__set_double;
-  __pyx_vtable_6mlgrad_11list_values_list_values._set_pdouble = (void (*)(struct __pyx_obj_6mlgrad_11list_values_list_values *, Py_ssize_t, double *))__pyx_f_6mlgrad_11list_values_11list_values__set_pdouble;
-  __pyx_vtable_6mlgrad_11list_values_list_values._append_double = (void (*)(struct __pyx_obj_6mlgrad_11list_values_list_values *, double))__pyx_f_6mlgrad_11list_values_11list_values__append_double;
-  __pyx_vtable_6mlgrad_11list_values_list_values._append_pdouble = (void (*)(struct __pyx_obj_6mlgrad_11list_values_list_values *, double *))__pyx_f_6mlgrad_11list_values_11list_values__append_pdouble;
-  __pyx_vtable_6mlgrad_11list_values_list_values._extend_double = (void (*)(struct __pyx_obj_6mlgrad_11list_values_list_values *, double *, Py_ssize_t))__pyx_f_6mlgrad_11list_values_11list_values__extend_double;
-  __pyx_vtable_6mlgrad_11list_values_list_values._extend_pdouble = (void (*)(struct __pyx_obj_6mlgrad_11list_values_list_values *, double **, Py_ssize_t))__pyx_f_6mlgrad_11list_values_11list_values__extend_pdouble;
-  if (PyType_Ready(&__pyx_type_6mlgrad_11list_values_list_values) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_11list_values_list_doubles = &__pyx_vtable_6mlgrad_11list_values_list_doubles;
+  __pyx_vtable_6mlgrad_11list_values_list_doubles._get = (double (*)(struct __pyx_obj_6mlgrad_11list_values_list_doubles *, Py_ssize_t))__pyx_f_6mlgrad_11list_values_12list_doubles__get;
+  __pyx_vtable_6mlgrad_11list_values_list_doubles._set = (void (*)(struct __pyx_obj_6mlgrad_11list_values_list_doubles *, Py_ssize_t, double))__pyx_f_6mlgrad_11list_values_12list_doubles__set;
+  __pyx_vtable_6mlgrad_11list_values_list_doubles._append = (void (*)(struct __pyx_obj_6mlgrad_11list_values_list_doubles *, double))__pyx_f_6mlgrad_11list_values_12list_doubles__append;
+  __pyx_vtable_6mlgrad_11list_values_list_doubles._extend = (void (*)(struct __pyx_obj_6mlgrad_11list_values_list_doubles *, double *, Py_ssize_t))__pyx_f_6mlgrad_11list_values_12list_doubles__extend;
+  if (PyType_Ready(&__pyx_type_6mlgrad_11list_values_list_doubles) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_6mlgrad_11list_values_list_values.tp_print = 0;
+  __pyx_type_6mlgrad_11list_values_list_doubles.tp_print = 0;
   #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_11list_values_list_values.tp_dictoffset && __pyx_type_6mlgrad_11list_values_list_values.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_6mlgrad_11list_values_list_values.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_11list_values_list_doubles.tp_dictoffset && __pyx_type_6mlgrad_11list_values_list_doubles.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_6mlgrad_11list_values_list_doubles.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_11list_values_list_values.tp_dict, __pyx_vtabptr_6mlgrad_11list_values_list_values) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_list_values, (PyObject *)&__pyx_type_6mlgrad_11list_values_list_values) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_11list_values_list_values) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_11list_values_list_values = &__pyx_type_6mlgrad_11list_values_list_values;
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_11list_values_list_doubles.tp_dict, __pyx_vtabptr_6mlgrad_11list_values_list_doubles) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_list_doubles, (PyObject *)&__pyx_type_6mlgrad_11list_values_list_doubles) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_11list_values_list_doubles) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_11list_values_list_doubles = &__pyx_type_6mlgrad_11list_values_list_doubles;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
   if (PyType_Ready(&__pyx_type___pyx_array) < 0) __PYX_ERR(1, 105, __pyx_L1_error)
@@ -18848,54 +18678,6 @@ if (!__Pyx_RefNanny) {
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "mlgrad/list_values.pyx":67
- * #     return <list_values>op
- * 
- * sizeof_double = sizeof(double)             # <<<<<<<<<<<<<<
- * sizeof_pdouble = sizeof(double*)
- * sizeof_int = sizeof(int)
- */
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t((sizeof(double))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sizeof_double, __pyx_t_1) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "mlgrad/list_values.pyx":68
- * 
- * sizeof_double = sizeof(double)
- * sizeof_pdouble = sizeof(double*)             # <<<<<<<<<<<<<<
- * sizeof_int = sizeof(int)
- * sizeof_pint = sizeof(int*)
- */
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t((sizeof(double *))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sizeof_pdouble, __pyx_t_1) < 0) __PYX_ERR(0, 68, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "mlgrad/list_values.pyx":69
- * sizeof_double = sizeof(double)
- * sizeof_pdouble = sizeof(double*)
- * sizeof_int = sizeof(int)             # <<<<<<<<<<<<<<
- * sizeof_pint = sizeof(int*)
- * 
- */
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t((sizeof(int))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sizeof_int, __pyx_t_1) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "mlgrad/list_values.pyx":70
- * sizeof_pdouble = sizeof(double*)
- * sizeof_int = sizeof(int)
- * sizeof_pint = sizeof(int*)             # <<<<<<<<<<<<<<
- * 
- * @cython.no_gc
- */
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t((sizeof(int *))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 70, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_sizeof_pint, __pyx_t_1) < 0) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/list_values.pyx":1

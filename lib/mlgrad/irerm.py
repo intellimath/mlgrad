@@ -1,14 +1,5 @@
 # coding: utf-8
 
-# cython: language_level=3
-# cython: boundscheck=True
-# cython: wraparound=True
-# cython: nonecheck=True
-# cython: embedsignature=True
-# cython: initializedcheck=True
-# cython: unraisable_tracebacks=True  
-
-
 # The MIT License (MIT)
 #
 # Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
@@ -31,27 +22,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from sys import float_info
-
 import numpy as np
-from mlgrad.avragg import Average_FG
-from mlgrad.gd import FG
-from mlgrad.risk import Risk, Functional
-
-cdef class IRGD(object):
+class IRERM(object):
     #
-    def __init__(self, GD gd, Weights weights=None, tol=1.0e-5, n_iter=100, h_anneal=0.95, M=40, callback=None):
+    def __init__(self, erm, weights=None, tol=1.0e-5, n_iter=100, h_anneal=0.95, M=40, callback=None):
         """
         """
-        self.gd = gd
+        self.erm = erm
         
         self.tol = tol
         self.n_iter = n_iter
         self.M = M
         self.m = 0
 
-        self.param_best = np.zeros(len(self.gd.risk.param), dtype='d')
-#         self.param_prev = np.zeros((m,), dtype='d')
+        self.param_best = np.zeros(len(erm.risk.param), dtype='d')
         
         self.h_anneal = h_anneal
         
@@ -75,31 +59,33 @@ cdef class IRGD(object):
     #
     @property
     def risk(self):
-        return self.gd.risk
+        return self.erm.risk
     #
     def fit(self):
-        cdef Risk risk = self.gd.risk
+        risk = self.erm.risk
+        weights = self.weights
+        erm = self.erm
                            
-        self.weights.init()
-        self.weights.eval_weights()
-        risk.use_weights(self.risk.weights)
+        weights.init()
+        weights.eval_weights()
+        risk.use_weights(weights.weights)
 
-        self.lval_best = self.weights.get_qvalue()
+        self.lval_best = weights.get_qvalue()
         self.param_best[:] = risk.param
         
         if self.callback is not None:
             self.callback(self)
         
-        for K in range(self.n_iter):         
-            self.gd.fit()
+        for K in range(self.n_iter):
+            erm.fit()
             
-            self.n_iters.append(self.gd.K)
+            self.n_iters.append(self.erm.K)
 
             if self.callback is not None:
                 self.callback(self)
 
-            self.weights.eval_weights()
-            risk.use_weights(self.risk.weights)
+            weights.eval_weights()
+            risk.use_weights(weights.weights)
             
             self.lval = self.weights.get_qvalue()
                 
@@ -111,29 +97,24 @@ cdef class IRGD(object):
                 self.lval_best = self.lval
 
             if K > 11 and self.lval > self.lvals[-1]:
-                self.gd.h_rate.h *= self.h_anneal
-                self.gd.h_rate.init()
+                erm.h_rate.h *= self.h_anneal
+                erm.h_rate.init()
 
             self.lvals.append(self.lval)
 
             if self.completed:
                 break
-            
-
-            K += 1            
         #
         self.K += K
         self.finalize()
 
     #
-    cdef finalize(self):
-        cdef Functional risk = self.gd.risk
-
+    def finalize(self):
         risk.param[:] = self.param_best
+        self.lval = self.lval_best
     #
-    cdef bint stop_condition(self):
-        
-        if fabs(self.lval - self.lval_best) / (1 + fabs(self.lval_best)) < self.tol:
+    def stop_condition(self):
+        if abs(self.lval - self.lval_best) / (1 + abs(self.lval_best)) < self.tol:
             return 1
         
         return 0

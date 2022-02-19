@@ -42,14 +42,6 @@ from mlgrad.risk cimport Risk, Functional
 
 import numpy as np
 
-# cdef class Fittable(object):
-
-#     cpdef init(self):
-#         pass
-
-#     cpdef fit(self):
-#         pass
-
 from mlgrad.abc import Fittable
 
 cdef double double_max = PyFloat_GetMax()
@@ -87,7 +79,7 @@ cdef class GD:
 
         self.risk.batch.init()
         self.init()
-        self.lval = self.lval_min = self.risk.evaluate()
+        self.lval = self.lval_min = self.risk._evaluate()
         self.lvals = []   
         self.K = 0
     
@@ -103,7 +95,7 @@ cdef class GD:
 
             self.lval_prev = self.lval
 
-            self.lval = risk.lval = risk.evaluate()
+            self.lval = risk.lval = risk._evaluate()
             self.lvals.append(self.lval)
                 
             if K > 0 and self.stop_condition.verify():
@@ -130,24 +122,25 @@ cdef class GD:
         self.finalize()
     #
     cpdef gradient(self):
-        self.risk.gradient()
+        cdef Risk risk = self.risk
+        risk._gradient()
     #
     cpdef fit_epoch(self):
         cdef Functional risk = self.risk
-        cdef Py_ssize_t i, n_param = len(risk.param)
+        cdef Py_ssize_t i, n_param = risk.n_param
         cdef double[::1] grad_average
         cdef double[::1] param = risk.param
         cdef double h
 
         h = self.h = self.h_rate.get_rate()
-        
+
         self.gradient()
-        
+
         self.grad_averager.update(risk.grad_average, h)
         grad_average = self.grad_averager.array_average
         for i in range(n_param):
             param[i] -= grad_average[i]
-            
+
 #         if self.param_averager is not None:
 #             self.param_averager.update(risk.param)
 #             copy_memoryview(risk.param, self.param_averager.array_average)

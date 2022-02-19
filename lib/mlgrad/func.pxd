@@ -6,8 +6,8 @@ cimport cython
 cdef class Func(object):
     cdef public unicode label
     #
-    cdef double evaluate(self, const double x) nogil
-    cdef double derivative(self, const double x) nogil
+    cdef double _evaluate(self, const double x) nogil
+    cdef double _derivative(self, const double x) nogil
     cdef double derivative2(self, const double x) nogil
     cdef double derivative_div_x(self, const double x) nogil
     cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil
@@ -60,7 +60,7 @@ cdef class ModSigmoidal(Func):
     cdef public double a
 
 @cython.final
-cdef class Softplus(Func):
+cdef class SoftPlus(Func):
     cdef public double a
     cdef double log_a
 
@@ -199,9 +199,9 @@ cdef class KMinSquare(Func):
     
 cdef class ParameterizedFunc:
     #
-    cdef double evaluate(self, double x, double u) nogil
+    cdef double _evaluate(self, double x, double u) nogil
     #
-    cdef double derivative(self, double x, double u) nogil
+    cdef double _derivative(self, double x, double u) nogil
     #
     cdef double derivative_u(self, double x, double u) nogil
 

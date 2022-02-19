@@ -66,7 +66,7 @@ cdef class ArrayAverager:
     #
     cdef void set_param2(self, double val)
     #
-    cdef void update(self, double[::1] x, double h)
+    cdef update(self, double[::1] x, double h)
 
 cdef class ArraySave(ArrayAverager):
     pass

@@ -1066,7 +1066,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAverager {
 
 
 /* "mlgrad/averager.pxd":71
- *     cdef void update(self, double[::1] x, double h)
+ *     cdef update(self, double[::1] x, double h)
  * 
  * cdef class ArraySave(ArrayAverager):             # <<<<<<<<<<<<<<
  *     pass
@@ -1404,7 +1404,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager {
   PyObject *(*init)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *);
   void (*set_param1)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, double);
   void (*set_param2)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, double);
-  void (*update)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double);
+  PyObject *(*update)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double);
 };
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager *__pyx_vtabptr_6mlgrad_8averager_ArrayAverager;
 
@@ -1559,7 +1559,7 @@ static struct __pyx_vtabstruct_6mlgrad_8averager_ScalarExponentialScalarAverager
 
 struct __pyx_vtabstruct_6mlgrad_8averager_SArrayAverager {
   PyObject *(*init)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, PyObject *, PyObject *);
-  void (*update)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, __Pyx_memviewslice, int);
+  PyObject *(*update)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, __Pyx_memviewslice, int);
 };
 static struct __pyx_vtabstruct_6mlgrad_8averager_SArrayAverager *__pyx_vtabptr_6mlgrad_8averager_SArrayAverager;
 
@@ -2283,33 +2283,33 @@ static double __pyx_f_6mlgrad_8averager_20ScalarWindowAverager_update(struct __p
 static PyObject *__pyx_f_6mlgrad_8averager_13ArrayAverager_init(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8averager_ArrayAverager *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_ndim); /* proto*/
 static void __pyx_f_6mlgrad_8averager_13ArrayAverager_set_param1(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8averager_ArrayAverager *__pyx_v_self, CYTHON_UNUSED double __pyx_v_val); /* proto*/
 static void __pyx_f_6mlgrad_8averager_13ArrayAverager_set_param2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8averager_ArrayAverager *__pyx_v_self, CYTHON_UNUSED double __pyx_v_val); /* proto*/
-static void __pyx_f_6mlgrad_8averager_13ArrayAverager_update(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8averager_ArrayAverager *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED double const __pyx_v_h); /* proto*/
+static PyObject *__pyx_f_6mlgrad_8averager_13ArrayAverager_update(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8averager_ArrayAverager *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED double const __pyx_v_h); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8averager_9ArraySave_init(struct __pyx_obj_6mlgrad_8averager_ArraySave *__pyx_v_self, PyObject *__pyx_v_ndim); /* proto*/
-static void __pyx_f_6mlgrad_8averager_9ArraySave_update(struct __pyx_obj_6mlgrad_8averager_ArraySave *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
+static PyObject *__pyx_f_6mlgrad_8averager_9ArraySave_update(struct __pyx_obj_6mlgrad_8averager_ArraySave *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8averager_8ArrayMOM_init(struct __pyx_obj_6mlgrad_8averager_ArrayMOM *__pyx_v_self, PyObject *__pyx_v_ndim); /* proto*/
 static void __pyx_f_6mlgrad_8averager_8ArrayMOM_set_param1(struct __pyx_obj_6mlgrad_8averager_ArrayMOM *__pyx_v_self, double __pyx_v_val); /* proto*/
-static void __pyx_f_6mlgrad_8averager_8ArrayMOM_update(struct __pyx_obj_6mlgrad_8averager_ArrayMOM *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
+static PyObject *__pyx_f_6mlgrad_8averager_8ArrayMOM_update(struct __pyx_obj_6mlgrad_8averager_ArrayMOM *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
 static void __pyx_f_6mlgrad_8averager_12ArrayRMSProp_set_param1(struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp *__pyx_v_self, double __pyx_v_val); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8averager_12ArrayRMSProp_init(struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp *__pyx_v_self, PyObject *__pyx_v_ndim); /* proto*/
-static void __pyx_f_6mlgrad_8averager_12ArrayRMSProp_update(struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
+static PyObject *__pyx_f_6mlgrad_8averager_12ArrayRMSProp_update(struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
 static void __pyx_f_6mlgrad_8averager_10ArrayAdaM2_set_param1(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2 *__pyx_v_self, double __pyx_v_val); /* proto*/
 static void __pyx_f_6mlgrad_8averager_10ArrayAdaM2_set_param2(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2 *__pyx_v_self, double __pyx_v_val); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM2_init(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2 *__pyx_v_self, PyObject *__pyx_v_ndim); /* proto*/
-static void __pyx_f_6mlgrad_8averager_10ArrayAdaM2_update(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2 *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
+static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM2_update(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2 *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
 static void __pyx_f_6mlgrad_8averager_10ArrayAdaM1_set_param1(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1 *__pyx_v_self, double __pyx_v_val); /* proto*/
 static void __pyx_f_6mlgrad_8averager_10ArrayAdaM1_set_param2(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1 *__pyx_v_self, double __pyx_v_val); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM1_init(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1 *__pyx_v_self, PyObject *__pyx_v_ndim); /* proto*/
-static void __pyx_f_6mlgrad_8averager_10ArrayAdaM1_update(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1 *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
+static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM1_update(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1 *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_init(struct __pyx_obj_6mlgrad_8averager_ArrayTAverager *__pyx_v_self, PyObject *__pyx_v_ndim); /* proto*/
-static void __pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_obj_6mlgrad_8averager_ArrayTAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
+static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_obj_6mlgrad_8averager_ArrayTAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init(struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager *__pyx_v_self, PyObject *__pyx_v_ndim); /* proto*/
-static void __pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
+static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager *__pyx_v_self, PyObject *__pyx_v_ndim); /* proto*/
-static void __pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED double const __pyx_v_h); /* proto*/
+static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED double const __pyx_v_h); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8averager_14SArrayAverager_init(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8averager_SArrayAverager *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_ndim, CYTHON_UNUSED PyObject *__pyx_v_N); /* proto*/
-static void __pyx_f_6mlgrad_8averager_14SArrayAverager_update(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8averager_SArrayAverager *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED int __pyx_v_k); /* proto*/
+static PyObject *__pyx_f_6mlgrad_8averager_14SArrayAverager_update(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8averager_SArrayAverager *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED int __pyx_v_k); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init(struct __pyx_obj_6mlgrad_8averager_ArrayStochasticAverager *__pyx_v_self, PyObject *__pyx_v_m, PyObject *__pyx_v_N); /* proto*/
-static void __pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(struct __pyx_obj_6mlgrad_8averager_ArrayStochasticAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, int const __pyx_v_k); /* proto*/
+static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(struct __pyx_obj_6mlgrad_8averager_ArrayStochasticAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, int const __pyx_v_k); /* proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj); /* proto*/
@@ -6029,17 +6029,21 @@ static void __pyx_f_6mlgrad_8averager_13ArrayAverager_set_param2(CYTHON_UNUSED s
 /* "lib/mlgrad/averager_array.pyx":54
  *         pass
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         pass
  * 
  */
 
-static void __pyx_f_6mlgrad_8averager_13ArrayAverager_update(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8averager_ArrayAverager *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED double const __pyx_v_h) {
+static PyObject *__pyx_f_6mlgrad_8averager_13ArrayAverager_update(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8averager_ArrayAverager *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED double const __pyx_v_h) {
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("update", 0);
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
+  return __pyx_r;
 }
 
 /* "(tree fragment)":1
@@ -6539,7 +6543,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_9ArraySave_init(struct __pyx_obj_6mlg
  *         else:
  *             fill_memoryview(self.array_average, 0)             # <<<<<<<<<<<<<<
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  */
   /*else*/ {
     __pyx_f_6mlgrad_8averager_fill_memoryview(__pyx_v_self->__pyx_base.array_average, 0.0);
@@ -6574,15 +6578,16 @@ static PyObject *__pyx_f_6mlgrad_8averager_9ArraySave_init(struct __pyx_obj_6mlg
 /* "lib/mlgrad/averager_array.pyx":68
  *             fill_memoryview(self.array_average, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = x.shape[0]
  *         cdef double[::1] array_average = self.array_average
  */
 
-static void __pyx_f_6mlgrad_8averager_9ArraySave_update(struct __pyx_obj_6mlgrad_8averager_ArraySave *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
+static PyObject *__pyx_f_6mlgrad_8averager_9ArraySave_update(struct __pyx_obj_6mlgrad_8averager_ArraySave *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   __Pyx_memviewslice __pyx_v_array_average = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_t_2;
@@ -6594,7 +6599,7 @@ static void __pyx_f_6mlgrad_8averager_9ArraySave_update(struct __pyx_obj_6mlgrad
 
   /* "lib/mlgrad/averager_array.pyx":69
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = x.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double[::1] array_average = self.array_average
  * 
@@ -6602,7 +6607,7 @@ static void __pyx_f_6mlgrad_8averager_9ArraySave_update(struct __pyx_obj_6mlgrad
   __pyx_v_m = (__pyx_v_x.shape[0]);
 
   /* "lib/mlgrad/averager_array.pyx":70
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = x.shape[0]
  *         cdef double[::1] array_average = self.array_average             # <<<<<<<<<<<<<<
  * 
@@ -6641,14 +6646,17 @@ static void __pyx_f_6mlgrad_8averager_9ArraySave_update(struct __pyx_obj_6mlgrad
   /* "lib/mlgrad/averager_array.pyx":68
  *             fill_memoryview(self.array_average, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = x.shape[0]
  *         cdef double[::1] array_average = self.array_average
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   __PYX_XDEC_MEMVIEW(&__pyx_v_array_average, 1);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
+  return __pyx_r;
 }
 
 /* "(tree fragment)":1
@@ -7305,7 +7313,7 @@ static void __pyx_f_6mlgrad_8averager_8ArrayMOM_set_param1(struct __pyx_obj_6mlg
  *     cdef void set_param1(self, double val):
  *         self.beta = val             # <<<<<<<<<<<<<<
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  */
   __pyx_v_self->beta = __pyx_v_val;
 
@@ -7324,17 +7332,18 @@ static void __pyx_f_6mlgrad_8averager_8ArrayMOM_set_param1(struct __pyx_obj_6mlg
 /* "lib/mlgrad/averager_array.pyx":100
  *         self.beta = val
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = self.mgrad.shape[0]
  *         cdef double beta = self.beta
  */
 
-static void __pyx_f_6mlgrad_8averager_8ArrayMOM_update(struct __pyx_obj_6mlgrad_8averager_ArrayMOM *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
+static PyObject *__pyx_f_6mlgrad_8averager_8ArrayMOM_update(struct __pyx_obj_6mlgrad_8averager_ArrayMOM *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   double __pyx_v_beta;
   __Pyx_memviewslice __pyx_v_mgrad = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_array_average = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -7352,7 +7361,7 @@ static void __pyx_f_6mlgrad_8averager_8ArrayMOM_update(struct __pyx_obj_6mlgrad_
 
   /* "lib/mlgrad/averager_array.pyx":101
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.mgrad.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double beta = self.beta
  *         cdef double[::1] mgrad = self.mgrad
@@ -7360,7 +7369,7 @@ static void __pyx_f_6mlgrad_8averager_8ArrayMOM_update(struct __pyx_obj_6mlgrad_
   __pyx_v_m = (__pyx_v_self->mgrad.shape[0]);
 
   /* "lib/mlgrad/averager_array.pyx":102
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.mgrad.shape[0]
  *         cdef double beta = self.beta             # <<<<<<<<<<<<<<
  *         cdef double[::1] mgrad = self.mgrad
@@ -7517,20 +7526,24 @@ static void __pyx_f_6mlgrad_8averager_8ArrayMOM_update(struct __pyx_obj_6mlgrad_
   /* "lib/mlgrad/averager_array.pyx":100
  *         self.beta = val
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = self.mgrad.shape[0]
  *         cdef double beta = self.beta
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
-  __Pyx_WriteUnraisable("mlgrad.averager.ArrayMOM.update", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("mlgrad.averager.ArrayMOM.update", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_mgrad, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_array_average, 1);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
+  return __pyx_r;
 }
 
 /* "(tree fragment)":1
@@ -8196,7 +8209,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_12ArrayRMSProp_init(struct __pyx_obj_
  *         else:
  *             fill_memoryview(self.array_average, 0)             # <<<<<<<<<<<<<<
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  */
   /*else*/ {
     __pyx_f_6mlgrad_8averager_fill_memoryview(__pyx_v_self->__pyx_base.array_average, 0.0);
@@ -8231,12 +8244,12 @@ static PyObject *__pyx_f_6mlgrad_8averager_12ArrayRMSProp_init(struct __pyx_obj_
 /* "lib/mlgrad/averager_array.pyx":142
  *             fill_memoryview(self.array_average, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = self.vgrad.shape[0]
  *         cdef double v, mv, vv
  */
 
-static void __pyx_f_6mlgrad_8averager_12ArrayRMSProp_update(struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
+static PyObject *__pyx_f_6mlgrad_8averager_12ArrayRMSProp_update(struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   double __pyx_v_v;
@@ -8244,6 +8257,7 @@ static void __pyx_f_6mlgrad_8averager_12ArrayRMSProp_update(struct __pyx_obj_6ml
   double __pyx_v_beta;
   __Pyx_memviewslice __pyx_v_vgrad = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_array_average = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -8260,7 +8274,7 @@ static void __pyx_f_6mlgrad_8averager_12ArrayRMSProp_update(struct __pyx_obj_6ml
 
   /* "lib/mlgrad/averager_array.pyx":143
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.vgrad.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double v, mv, vv
  *         cdef double beta = self.beta
@@ -8389,20 +8403,24 @@ static void __pyx_f_6mlgrad_8averager_12ArrayRMSProp_update(struct __pyx_obj_6ml
   /* "lib/mlgrad/averager_array.pyx":142
  *             fill_memoryview(self.array_average, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = self.vgrad.shape[0]
  *         cdef double v, mv, vv
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
-  __Pyx_WriteUnraisable("mlgrad.averager.ArrayRMSProp.update", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("mlgrad.averager.ArrayRMSProp.update", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_vgrad, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_array_average, 1);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
+  return __pyx_r;
 }
 
 /* "(tree fragment)":1
@@ -9093,7 +9111,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM2_init(struct __pyx_obj_6m
  *         self.vgrad = np.zeros(ndim, dtype='d')
  *         self.array_average = np.zeros(ndim, dtype='d')             # <<<<<<<<<<<<<<
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 179, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -9148,12 +9166,12 @@ static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM2_init(struct __pyx_obj_6m
 /* "lib/mlgrad/averager_array.pyx":181
  *         self.array_average = np.zeros(ndim, dtype='d')
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = self.mgrad.shape[0]
  *         cdef double v, v2, mv, vv
  */
 
-static void __pyx_f_6mlgrad_8averager_10ArrayAdaM2_update(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2 *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
+static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM2_update(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2 *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   double __pyx_v_v;
@@ -9168,6 +9186,7 @@ static void __pyx_f_6mlgrad_8averager_10ArrayAdaM2_update(struct __pyx_obj_6mlgr
   double __pyx_v_beta1_k;
   double __pyx_v_beta2_k;
   double __pyx_v_epsilon;
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -9181,7 +9200,7 @@ static void __pyx_f_6mlgrad_8averager_10ArrayAdaM2_update(struct __pyx_obj_6mlgr
 
   /* "lib/mlgrad/averager_array.pyx":182
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.mgrad.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double v, v2, mv, vv
  *         cdef double beta1 = self.beta1, beta2 = self.beta2
@@ -9389,17 +9408,21 @@ static void __pyx_f_6mlgrad_8averager_10ArrayAdaM2_update(struct __pyx_obj_6mlgr
   /* "lib/mlgrad/averager_array.pyx":181
  *         self.array_average = np.zeros(ndim, dtype='d')
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = self.mgrad.shape[0]
  *         cdef double v, v2, mv, vv
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.averager.ArrayAdaM2.update", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("mlgrad.averager.ArrayAdaM2.update", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
   __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
+  return __pyx_r;
 }
 
 /* "(tree fragment)":1
@@ -10228,7 +10251,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM1_init(struct __pyx_obj_6m
  *         else:
  *             fill_memoryview(self.array_average, 0)             # <<<<<<<<<<<<<<
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  */
   /*else*/ {
     __pyx_f_6mlgrad_8averager_fill_memoryview(__pyx_v_self->__pyx_base.array_average, 0.0);
@@ -10263,12 +10286,12 @@ static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM1_init(struct __pyx_obj_6m
 /* "lib/mlgrad/averager_array.pyx":244
  *             fill_memoryview(self.array_average, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = self.mgrad.shape[0]
  *         cdef double v, v2, mv, vv
  */
 
-static void __pyx_f_6mlgrad_8averager_10ArrayAdaM1_update(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1 *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
+static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM1_update(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1 *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   double __pyx_v_v;
@@ -10281,6 +10304,7 @@ static void __pyx_f_6mlgrad_8averager_10ArrayAdaM1_update(struct __pyx_obj_6mlgr
   double *__pyx_v_vgrad;
   double *__pyx_v_array_average;
   double __pyx_v_epsilon;
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -10294,7 +10318,7 @@ static void __pyx_f_6mlgrad_8averager_10ArrayAdaM1_update(struct __pyx_obj_6mlgr
 
   /* "lib/mlgrad/averager_array.pyx":245
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.mgrad.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double v, v2, mv, vv
  *         cdef double beta1 = self.beta1, beta2 = self.beta2
@@ -10466,17 +10490,21 @@ static void __pyx_f_6mlgrad_8averager_10ArrayAdaM1_update(struct __pyx_obj_6mlgr
   /* "lib/mlgrad/averager_array.pyx":244
  *             fill_memoryview(self.array_average, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = self.mgrad.shape[0]
  *         cdef double v, v2, mv, vv
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.averager.ArrayAdaM1.update", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("mlgrad.averager.ArrayAdaM1.update", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
   __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
+  return __pyx_r;
 }
 
 /* "(tree fragment)":1
@@ -11053,7 +11081,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_init(struct __pyx_ob
  *         else:
  *             fill_memoryview(self.array_sum, 0)             # <<<<<<<<<<<<<<
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  */
   /*else*/ {
     __pyx_f_6mlgrad_8averager_fill_memoryview(__pyx_v_self->array_sum, 0.0);
@@ -11088,17 +11116,18 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_init(struct __pyx_ob
 /* "lib/mlgrad/averager_array.pyx":329
  *             fill_memoryview(self.array_sum, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]
  *         cdef double T = self.T
  */
 
-static void __pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_obj_6mlgrad_8averager_ArrayTAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
+static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_obj_6mlgrad_8averager_ArrayTAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   double __pyx_v_T;
   __Pyx_memviewslice __pyx_v_array_average = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_array_sum = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -11115,7 +11144,7 @@ static void __pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_obj_6
 
   /* "lib/mlgrad/averager_array.pyx":330
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double T = self.T
  *         cdef double[::1] array_average = self.array_average
@@ -11123,7 +11152,7 @@ static void __pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_obj_6
   __pyx_v_m = (__pyx_v_self->array_sum.shape[0]);
 
   /* "lib/mlgrad/averager_array.pyx":331
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]
  *         cdef double T = self.T             # <<<<<<<<<<<<<<
  *         cdef double[::1] array_average = self.array_average
@@ -11211,20 +11240,24 @@ static void __pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_obj_6
   /* "lib/mlgrad/averager_array.pyx":329
  *             fill_memoryview(self.array_sum, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]
  *         cdef double T = self.T
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
-  __Pyx_WriteUnraisable("mlgrad.averager.ArrayTAverager.update", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("mlgrad.averager.ArrayTAverager.update", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_array_average, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_array_sum, 1);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
+  return __pyx_r;
 }
 
 /* "(tree fragment)":1
@@ -11766,7 +11799,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init(struct __p
  *         else:
  *             fill_memoryview(self.array_sum, 0)             # <<<<<<<<<<<<<<
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  */
   /*else*/ {
     __pyx_f_6mlgrad_8averager_fill_memoryview(__pyx_v_self->array_sum, 0.0);
@@ -11801,17 +11834,18 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init(struct __p
 /* "lib/mlgrad/averager_array.pyx":387
  *             fill_memoryview(self.array_sum, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]
  *         cdef double T = self.T
  */
 
-static void __pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
+static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   double __pyx_v_T;
   __Pyx_memviewslice __pyx_v_array_average = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_array_sum = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -11827,7 +11861,7 @@ static void __pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct __pyx_
 
   /* "lib/mlgrad/averager_array.pyx":388
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double T = self.T
  *         cdef double[::1] array_average = self.array_average
@@ -11835,7 +11869,7 @@ static void __pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct __pyx_
   __pyx_v_m = (__pyx_v_self->array_sum.shape[0]);
 
   /* "lib/mlgrad/averager_array.pyx":389
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]
  *         cdef double T = self.T             # <<<<<<<<<<<<<<
  *         cdef double[::1] array_average = self.array_average
@@ -11922,20 +11956,24 @@ static void __pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct __pyx_
   /* "lib/mlgrad/averager_array.pyx":387
  *             fill_memoryview(self.array_sum, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]
  *         cdef double T = self.T
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
-  __Pyx_WriteUnraisable("mlgrad.averager.ArraySimpleAverager.update", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("mlgrad.averager.ArraySimpleAverager.update", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_array_average, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_array_sum, 1);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
+  return __pyx_r;
 }
 
 /* "(tree fragment)":1
@@ -12603,7 +12641,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
  *         else:
  *             fill_memoryview(self.array_sum, 0)             # <<<<<<<<<<<<<<
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  */
   /*else*/ {
     __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_sum); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 418, __pyx_L1_error)
@@ -12646,18 +12684,19 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
 /* "lib/mlgrad/averager_array.pyx":420
  *             fill_memoryview(self.array_sum, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t j, n, m = self.array_average.shape[0]
  *         cdef double[::1] array_average = self.array_average
  */
 
-static void __pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED double const __pyx_v_h) {
+static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED double const __pyx_v_h) {
   Py_ssize_t __pyx_v_j;
   Py_ssize_t __pyx_v_n;
   Py_ssize_t __pyx_v_m;
   __Pyx_memviewslice __pyx_v_array_average = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_array_all = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -12676,7 +12715,7 @@ static void __pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct __pyx_
 
   /* "lib/mlgrad/averager_array.pyx":421
  *     #
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t j, n, m = self.array_average.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double[::1] array_average = self.array_average
  *         cdef double[:,::1] array_all = self.array_all
@@ -12684,7 +12723,7 @@ static void __pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct __pyx_
   __pyx_v_m = (__pyx_v_self->__pyx_base.array_average.shape[0]);
 
   /* "lib/mlgrad/averager_array.pyx":422
- *     cdef void update(self, const double[::1] x, const double h):
+ *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t j, n, m = self.array_average.shape[0]
  *         cdef double[::1] array_average = self.array_average             # <<<<<<<<<<<<<<
  *         cdef double[:,::1] array_all = self.array_all
@@ -12819,21 +12858,25 @@ static void __pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct __pyx_
   /* "lib/mlgrad/averager_array.pyx":420
  *             fill_memoryview(self.array_sum, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t j, n, m = self.array_average.shape[0]
  *         cdef double[::1] array_average = self.array_average
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
-  __Pyx_WriteUnraisable("mlgrad.averager.ArrayCyclicAverager.update", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("mlgrad.averager.ArrayCyclicAverager.update", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_array_average, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_array_all, 1);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
+  return __pyx_r;
 }
 
 /* "(tree fragment)":1
@@ -13174,17 +13217,21 @@ static PyObject *__pyx_f_6mlgrad_8averager_14SArrayAverager_init(CYTHON_UNUSED s
 /* "lib/mlgrad/averager_array.pyx":441
  *         pass
  *     #
- *     cdef void update(self, double[::1] x, int k):             # <<<<<<<<<<<<<<
+ *     cdef update(self, double[::1] x, int k):             # <<<<<<<<<<<<<<
  *         pass
  * 
  */
 
-static void __pyx_f_6mlgrad_8averager_14SArrayAverager_update(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8averager_SArrayAverager *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED int __pyx_v_k) {
+static PyObject *__pyx_f_6mlgrad_8averager_14SArrayAverager_update(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8averager_SArrayAverager *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED int __pyx_v_k) {
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("update", 0);
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
+  return __pyx_r;
 }
 
 /* "(tree fragment)":1
@@ -13705,7 +13752,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init(struct
  *         else:
  *             fill_memoryview2(self.array_table, 0)             # <<<<<<<<<<<<<<
  *     #
- *     cdef void update(self, const double[::1] x, const int k):
+ *     cdef update(self, const double[::1] x, const int k):
  */
   /*else*/ {
     __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 459, __pyx_L1_error)
@@ -13748,12 +13795,12 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init(struct
 /* "lib/mlgrad/averager_array.pyx":461
  *             fill_memoryview2(self.array_table, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const int k):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const int k):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, N = self.array_table.shape[0], m = self.array_average.shape[0]
  *         cdef double Nd = N
  */
 
-static void __pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(struct __pyx_obj_6mlgrad_8averager_ArrayStochasticAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, int const __pyx_v_k) {
+static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(struct __pyx_obj_6mlgrad_8averager_ArrayStochasticAverager *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, int const __pyx_v_k) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_N;
   Py_ssize_t __pyx_v_m;
@@ -13761,6 +13808,7 @@ static void __pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(struct __
   __Pyx_memviewslice __pyx_v_array_average = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_array_table = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_v_xi = NULL;
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -13782,7 +13830,7 @@ static void __pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(struct __
 
   /* "lib/mlgrad/averager_array.pyx":462
  *     #
- *     cdef void update(self, const double[::1] x, const int k):
+ *     cdef update(self, const double[::1] x, const int k):
  *         cdef Py_ssize_t i, N = self.array_table.shape[0], m = self.array_average.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double Nd = N
  *         cdef double[::1] array_average = self.array_average
@@ -13811,7 +13859,7 @@ static void __pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(struct __
   __pyx_v_m = __pyx_t_3;
 
   /* "lib/mlgrad/averager_array.pyx":463
- *     cdef void update(self, const double[::1] x, const int k):
+ *     cdef update(self, const double[::1] x, const int k):
  *         cdef Py_ssize_t i, N = self.array_table.shape[0], m = self.array_average.shape[0]
  *         cdef double Nd = N             # <<<<<<<<<<<<<<
  *         cdef double[::1] array_average = self.array_average
@@ -13926,12 +13974,13 @@ static void __pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(struct __
   /* "lib/mlgrad/averager_array.pyx":461
  *             fill_memoryview2(self.array_table, 0)
  *     #
- *     cdef void update(self, const double[::1] x, const int k):             # <<<<<<<<<<<<<<
+ *     cdef update(self, const double[::1] x, const int k):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, N = self.array_table.shape[0], m = self.array_average.shape[0]
  *         cdef double Nd = N
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
@@ -13940,12 +13989,15 @@ static void __pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(struct __
   __PYX_XDEC_MEMVIEW(&__pyx_t_5, 1);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_WriteUnraisable("mlgrad.averager.ArrayStochasticAverager.update", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_AddTraceback("mlgrad.averager.ArrayStochasticAverager.update", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_array_average, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_array_table, 1);
   __Pyx_XDECREF(__pyx_v_xi);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
+  return __pyx_r;
 }
 
 /* "(tree fragment)":1
@@ -37005,7 +37057,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_8averager_ArrayAverager.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *))__pyx_f_6mlgrad_8averager_13ArrayAverager_init;
   __pyx_vtable_6mlgrad_8averager_ArrayAverager.set_param1 = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, double))__pyx_f_6mlgrad_8averager_13ArrayAverager_set_param1;
   __pyx_vtable_6mlgrad_8averager_ArrayAverager.set_param2 = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, double))__pyx_f_6mlgrad_8averager_13ArrayAverager_set_param2;
-  __pyx_vtable_6mlgrad_8averager_ArrayAverager.update = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_13ArrayAverager_update;
+  __pyx_vtable_6mlgrad_8averager_ArrayAverager.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_13ArrayAverager_update;
   if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayAverager) < 0) __PYX_ERR(3, 43, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8averager_ArrayAverager.tp_print = 0;
@@ -37020,7 +37072,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtabptr_6mlgrad_8averager_ArraySave = &__pyx_vtable_6mlgrad_8averager_ArraySave;
   __pyx_vtable_6mlgrad_8averager_ArraySave.__pyx_base = *__pyx_vtabptr_6mlgrad_8averager_ArrayAverager;
   __pyx_vtable_6mlgrad_8averager_ArraySave.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *))__pyx_f_6mlgrad_8averager_9ArraySave_init;
-  __pyx_vtable_6mlgrad_8averager_ArraySave.__pyx_base.update = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_9ArraySave_update;
+  __pyx_vtable_6mlgrad_8averager_ArraySave.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_9ArraySave_update;
   __pyx_type_6mlgrad_8averager_ArraySave.tp_base = __pyx_ptype_6mlgrad_8averager_ArrayAverager;
   if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArraySave) < 0) __PYX_ERR(3, 57, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -37037,7 +37089,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_8averager_ArrayMOM.__pyx_base = *__pyx_vtabptr_6mlgrad_8averager_ArrayAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayMOM.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *))__pyx_f_6mlgrad_8averager_8ArrayMOM_init;
   __pyx_vtable_6mlgrad_8averager_ArrayMOM.__pyx_base.set_param1 = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, double))__pyx_f_6mlgrad_8averager_8ArrayMOM_set_param1;
-  __pyx_vtable_6mlgrad_8averager_ArrayMOM.__pyx_base.update = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_8ArrayMOM_update;
+  __pyx_vtable_6mlgrad_8averager_ArrayMOM.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_8ArrayMOM_update;
   __pyx_type_6mlgrad_8averager_ArrayMOM.tp_base = __pyx_ptype_6mlgrad_8averager_ArrayAverager;
   if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayMOM) < 0) __PYX_ERR(3, 76, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -37067,7 +37119,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_8averager_ArrayRMSProp.__pyx_base = *__pyx_vtabptr_6mlgrad_8averager_ArrayAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayRMSProp.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *))__pyx_f_6mlgrad_8averager_12ArrayRMSProp_init;
   __pyx_vtable_6mlgrad_8averager_ArrayRMSProp.__pyx_base.set_param1 = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, double))__pyx_f_6mlgrad_8averager_12ArrayRMSProp_set_param1;
-  __pyx_vtable_6mlgrad_8averager_ArrayRMSProp.__pyx_base.update = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_12ArrayRMSProp_update;
+  __pyx_vtable_6mlgrad_8averager_ArrayRMSProp.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_12ArrayRMSProp_update;
   __pyx_type_6mlgrad_8averager_ArrayRMSProp.tp_base = __pyx_ptype_6mlgrad_8averager_ArrayAverager;
   if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayRMSProp) < 0) __PYX_ERR(3, 118, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -37085,7 +37137,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_8averager_ArrayAdaM2.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *))__pyx_f_6mlgrad_8averager_10ArrayAdaM2_init;
   __pyx_vtable_6mlgrad_8averager_ArrayAdaM2.__pyx_base.set_param1 = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, double))__pyx_f_6mlgrad_8averager_10ArrayAdaM2_set_param1;
   __pyx_vtable_6mlgrad_8averager_ArrayAdaM2.__pyx_base.set_param2 = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, double))__pyx_f_6mlgrad_8averager_10ArrayAdaM2_set_param2;
-  __pyx_vtable_6mlgrad_8averager_ArrayAdaM2.__pyx_base.update = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_10ArrayAdaM2_update;
+  __pyx_vtable_6mlgrad_8averager_ArrayAdaM2.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_10ArrayAdaM2_update;
   __pyx_type_6mlgrad_8averager_ArrayAdaM2.tp_base = __pyx_ptype_6mlgrad_8averager_ArrayAverager;
   if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayAdaM2) < 0) __PYX_ERR(3, 157, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -37103,7 +37155,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_8averager_ArrayAdaM1.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *))__pyx_f_6mlgrad_8averager_10ArrayAdaM1_init;
   __pyx_vtable_6mlgrad_8averager_ArrayAdaM1.__pyx_base.set_param1 = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, double))__pyx_f_6mlgrad_8averager_10ArrayAdaM1_set_param1;
   __pyx_vtable_6mlgrad_8averager_ArrayAdaM1.__pyx_base.set_param2 = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, double))__pyx_f_6mlgrad_8averager_10ArrayAdaM1_set_param2;
-  __pyx_vtable_6mlgrad_8averager_ArrayAdaM1.__pyx_base.update = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_10ArrayAdaM1_update;
+  __pyx_vtable_6mlgrad_8averager_ArrayAdaM1.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_10ArrayAdaM1_update;
   __pyx_type_6mlgrad_8averager_ArrayAdaM1.tp_base = __pyx_ptype_6mlgrad_8averager_ArrayAverager;
   if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayAdaM1) < 0) __PYX_ERR(3, 209, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -37119,7 +37171,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager = &__pyx_vtable_6mlgrad_8averager_ArraySimpleAverager;
   __pyx_vtable_6mlgrad_8averager_ArraySimpleAverager.__pyx_base = *__pyx_vtabptr_6mlgrad_8averager_ArrayAverager;
   __pyx_vtable_6mlgrad_8averager_ArraySimpleAverager.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *))__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init;
-  __pyx_vtable_6mlgrad_8averager_ArraySimpleAverager.__pyx_base.update = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update;
+  __pyx_vtable_6mlgrad_8averager_ArraySimpleAverager.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update;
   __pyx_type_6mlgrad_8averager_ArraySimpleAverager.tp_base = __pyx_ptype_6mlgrad_8averager_ArrayAverager;
   if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArraySimpleAverager) < 0) __PYX_ERR(3, 370, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -37135,7 +37187,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager = &__pyx_vtable_6mlgrad_8averager_ArrayCyclicAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayCyclicAverager.__pyx_base = *__pyx_vtabptr_6mlgrad_8averager_ArrayAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayCyclicAverager.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *))__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init;
-  __pyx_vtable_6mlgrad_8averager_ArrayCyclicAverager.__pyx_base.update = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update;
+  __pyx_vtable_6mlgrad_8averager_ArrayCyclicAverager.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update;
   __pyx_type_6mlgrad_8averager_ArrayCyclicAverager.tp_base = __pyx_ptype_6mlgrad_8averager_ArrayAverager;
   if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayCyclicAverager) < 0) __PYX_ERR(3, 398, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -37151,7 +37203,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtabptr_6mlgrad_8averager_ArrayTAverager = &__pyx_vtable_6mlgrad_8averager_ArrayTAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayTAverager.__pyx_base = *__pyx_vtabptr_6mlgrad_8averager_ArrayAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayTAverager.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *))__pyx_f_6mlgrad_8averager_14ArrayTAverager_init;
-  __pyx_vtable_6mlgrad_8averager_ArrayTAverager.__pyx_base.update = (void (*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_14ArrayTAverager_update;
+  __pyx_vtable_6mlgrad_8averager_ArrayTAverager.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_14ArrayTAverager_update;
   __pyx_type_6mlgrad_8averager_ArrayTAverager.tp_base = __pyx_ptype_6mlgrad_8averager_ArrayAverager;
   if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayTAverager) < 0) __PYX_ERR(3, 312, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -37182,7 +37234,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_8averager_ScalarExponentialScalarAverager = &__pyx_type_6mlgrad_8averager_ScalarExponentialScalarAverager;
   __pyx_vtabptr_6mlgrad_8averager_SArrayAverager = &__pyx_vtable_6mlgrad_8averager_SArrayAverager;
   __pyx_vtable_6mlgrad_8averager_SArrayAverager.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, PyObject *, PyObject *))__pyx_f_6mlgrad_8averager_14SArrayAverager_init;
-  __pyx_vtable_6mlgrad_8averager_SArrayAverager.update = (void (*)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, __Pyx_memviewslice, int))__pyx_f_6mlgrad_8averager_14SArrayAverager_update;
+  __pyx_vtable_6mlgrad_8averager_SArrayAverager.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, __Pyx_memviewslice, int))__pyx_f_6mlgrad_8averager_14SArrayAverager_update;
   if (PyType_Ready(&__pyx_type_6mlgrad_8averager_SArrayAverager) < 0) __PYX_ERR(3, 436, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8averager_SArrayAverager.tp_print = 0;
@@ -37197,7 +37249,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtabptr_6mlgrad_8averager_ArrayStochasticAverager = &__pyx_vtable_6mlgrad_8averager_ArrayStochasticAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayStochasticAverager.__pyx_base = *__pyx_vtabptr_6mlgrad_8averager_SArrayAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayStochasticAverager.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, PyObject *, PyObject *))__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init;
-  __pyx_vtable_6mlgrad_8averager_ArrayStochasticAverager.__pyx_base.update = (void (*)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, __Pyx_memviewslice, int))__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update;
+  __pyx_vtable_6mlgrad_8averager_ArrayStochasticAverager.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, __Pyx_memviewslice, int))__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update;
   __pyx_type_6mlgrad_8averager_ArrayStochasticAverager.tp_base = __pyx_ptype_6mlgrad_8averager_SArrayAverager;
   if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayStochasticAverager) < 0) __PYX_ERR(3, 444, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1

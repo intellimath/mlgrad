@@ -79,7 +79,7 @@ cdef class PenaltyAverage(Penalty):
         S = 0
         for k in prange(N, nogil=True, num_threads=num_procs):
         # for k in range(N):
-            S += func.evaluate(YY[k] - u)
+            S += func._evaluate(YY[k] - u)
 
         return S / N
     # 
@@ -94,7 +94,7 @@ cdef class PenaltyAverage(Penalty):
         S = 0
         for k in prange(N, nogil=True, num_threads=num_procs):
         # for k in range(N):
-            S += func.derivative(YY[k] - u)                        
+            S += func._derivative(YY[k] - u)                        
     
         return -S / N
     #
@@ -154,7 +154,7 @@ cdef class PenaltyScale(Penalty):
         for k in prange(N, nogil=True, num_threads=num_procs):
         # for k in range(N):
             v = Y[k]    
-            S += func.evaluate(v / s)
+            S += func._evaluate(v / s)
     
         return S / N + log(s)
     #
@@ -169,7 +169,7 @@ cdef class PenaltyScale(Penalty):
         for k in prange(N, nogil=True, num_threads=num_procs):
         # for k in range(N):
             v = Y[k] / s
-            S += func.derivative(v) * v
+            S += func._derivative(v) * v
             
         return (1 - (S / N)) / s
     #
@@ -204,7 +204,7 @@ cdef class PenaltyScale(Penalty):
             
         for k in prange(N, nogil=True, num_threads=num_procs):
             v = Y[k] / s
-            grad[k] = func.derivative(v) / S
+            grad[k] = func._derivative(v) / S
         
         
 cdef class Average(object):
@@ -229,15 +229,16 @@ cdef class Average(object):
         self.fit(Y)
         return self.u
     #
-    def nabla(self, double[::1] Y):
+    def gradient(self, double[::1] Y):
         grad = np.zeros(len(Y), 'd')
-        self.gradient(Y, grad)
+        self._gradient(Y, grad)
         return grad
     #
     cpdef fit(self, double[::1] Y, u0=None):
         cdef int j, K, n_iter = self.n_iter
         cdef Penalty penalty = self.penalty
         cdef double h = self.h, h1 = 1-h
+        cdef bint finish = 0
         
         self.init(Y, u0)
         self.pval = penalty.evaluate(Y, self.u)
@@ -252,15 +253,18 @@ cdef class Average(object):
             self.fit_epoch(Y)
 
             self.pval = penalty.evaluate(Y, self.u)
-            #
+
+            if K > 0 and self.stop_condition():
+                finish = 1
+
             if self.pval < self.pmin:
                 self.pmin = self.pval
                 self.u_best = self.u
                 self.m = 0
-            elif self.pval > self.pval_prev:
+            elif not finish and self.pval > self.pval_prev:
                 self.u = h1 * self.u_prev + h * self.u
 
-            if self.stop_condition():
+            if finish:
                 break
             #
             K += 1
@@ -271,8 +275,11 @@ cdef class Average(object):
     cdef fit_epoch(self, double[::1] Y):
         return None
     #
-    cdef gradient(self, double[::1] Y, double[::1] grad):
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
         self.penalty.gradient(Y, self.u, grad)
+    #
+    # def gradient(self, double[::1] Y, double[::1] grad):
+    #     self._gradient(Y, grad)
     #
     @cython.cdivision(True)
     cdef bint stop_condition(self):
@@ -335,7 +342,7 @@ cdef class MAverage(Average):
             Z = 0
             for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
             # for k in range(N):
-                Z += func.evaluate(YY[k] - u)
+                Z += func._evaluate(YY[k] - u)
             
             z = Z / N
 
@@ -354,18 +361,21 @@ cdef class MAverage(Average):
     #
     @cython.cdivision(True)
     @cython.final
-    cdef gradient(self, double[::1] Y, double[::1] grad):
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double *YY = &Y[0]
         cdef double *GG = &grad[0]
-        cdef double v, V, u=self.u
+        cdef double V, u=self.u
         cdef Func func = self.func
         
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
+        # for k in range(N):
+            GG[k] = func.derivative2(YY[k] - u)
+
         V = 0
         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
         # for k in range(N):
-            GG[k] = v = func.derivative2(YY[k] - u)
-            V += v
+            V += GG[k]
             
         for k in prange(N, nogil=True, schedule='static', num_threads=num_procs):
         # for k in range(N):
@@ -393,13 +403,13 @@ cdef class ParameterizedAverage(Average):
 
         for k in prange(N, nogil=True, num_threads=num_procs):
     #         for k in range(N):
-            S += func.evaluate(YY[k], c)
+            S += func._evaluate(YY[k], c)
 
         self.u = S / N
     #
     @cython.cdivision(True)
     @cython.final
-    cdef gradient(self, double[::1] Y, double[::1] grad):
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k
         cdef Py_ssize_t N = Y.shape[0], M
         cdef double c, v
@@ -409,7 +419,7 @@ cdef class ParameterizedAverage(Average):
         cdef double *GG
         cdef ParameterizedFunc func = self.func
         
-        self.avr.gradient(Y, grad)
+        self.avr._gradient(Y, grad)
         c = self.avr.u
         
         H = 0
@@ -420,7 +430,7 @@ cdef class ParameterizedAverage(Average):
         S = 0
         GG = &grad[0]
         for k in prange(N, nogil=True, num_threads=num_procs):
-            v = N1 * func.derivative(YY[k], c) +  H * GG[k]
+            v = N1 * func._derivative(YY[k], c) +  H * GG[k]
             GG[k] = v
             S += v
         
@@ -460,7 +470,7 @@ cdef class WMAverage(Average):
     #
     @cython.cdivision(True)
     @cython.final
-    cdef gradient(self, double[::1] Y, double[::1] grad):
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, m, N = Y.shape[0]
         cdef double u, v, gk
         cdef double N1 = 1.0/N
@@ -468,7 +478,7 @@ cdef class WMAverage(Average):
         cdef double *GG = &grad[0]
 
         # self.avr.fit(Y, self.avr.u)
-        self.avr.gradient(Y, grad)
+        self.avr._gradient(Y, grad)
         u = self.avr.u
 
         m = 0
@@ -516,11 +526,11 @@ cdef class WMAverageMixed(Average):
 
         self.u_best = self.u
     #
-    cdef gradient(self, double[::1] Y, double[::1] grad):
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, m, N = Y.shape[0]
         cdef double v, N1, N2, yk, avr_u
 
-        self.avr.gradient(Y, grad)
+        self.avr._gradient(Y, grad)
         avr_u = self.avr.u
 
         m = 0
@@ -565,11 +575,11 @@ cdef class TMAverage(Average):
         self.u_best = self.u
         self.K = self.avr.K
     #
-    cdef gradient(self, double[::1] Y, double[::1] grad):
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, M, N = Y.shape[0]
         cdef double u, N1, yk
 
-        self.avr.gradient(Y, grad)
+        self.avr._gradient(Y, grad)
         u = self.avr.u
 
         M = 0
@@ -630,7 +640,7 @@ cdef class HMAverage(Average):
 
             self.avr.fit(Z)
             avr_z = sqrt(self.avr.u)
-            self.avr.gradient(Z, grad)
+            self.avr._gradient(Z, grad)
             
             m = 0
             for k in range(N):
@@ -657,7 +667,7 @@ cdef class HMAverage(Average):
         self.u_best = self.u
     #
     @cython.cdivision(True)
-    cdef gradient(self, double[::1] Y, double[::1] grad):
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double u, v, w, N1, yk
         cdef double q, avr_z, S
@@ -671,7 +681,7 @@ cdef class HMAverage(Average):
 
         self.avr.fit(Z)
         avr_z = sqrt(self.avr.u)
-        self.avr.gradient(Z, grad)
+        self.avr._gradient(Z, grad)
 
         m = 0
         for k in range(N):
@@ -704,7 +714,7 @@ cdef class ArithMean(Average):
         self.u_best = self.u
     #
     @cython.cdivision(True)
-    cdef gradient(self, double[::1] Y, double[::1] grad):
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double *GG = &grad[0]
         cdef double v
@@ -728,7 +738,7 @@ cdef class Minimal(Average):
         self.u = y_min
         self.u_best = self.u
     #
-    cdef gradient(self, double[::1] Y, double[::1] grad):
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef int m = 0
         cdef double u = self.u
@@ -759,7 +769,7 @@ cdef class Maximal(Average):
         self.u = y_max
         self.u_best = self.u
     #
-    cdef gradient(self, double[::1] Y, double[::1] grad):
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef int k, N = Y.shape[0]
         cdef int m = 0
                  
@@ -789,20 +799,20 @@ cdef class KolmogorovMean(Average):
 #         for k in prange(N, nogil=True):
         for k in range(N):
             yk = Y[k]
-            u += self.func.evaluate(yk)
+            u += self.func._evaluate(yk)
         u /= N
         self.uu = u
-        self.u = self.invfunc.evaluate(u)
+        self.u = self.invfunc._evaluate(u)
         self.u_best = self.u
     #
-    cdef gradient(self, double[::1] Y, double[::1] grad):
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef int k, N = Y.shape[0]
         cdef double V
         
-        V = self.invfunc.derivative(self.uu)
+        V = self.invfunc._derivative(self.uu)
 #         for k in prange(N, nogil=True):
         for k in range(N):
-            grad[k] = self.func.derivative(Y[k]) * V
+            grad[k] = self.func._derivative(Y[k]) * V
 
 cdef class SoftMinimal(Average):
     #
@@ -823,7 +833,7 @@ cdef class SoftMinimal(Average):
         self.u = - log(u) / a
         self.u_best = self.u
     #
-    cdef gradient(self, double[::1] Y, double[::1] grad):
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef int k, l, N = Y.shape[0]
         cdef double u, yk, yl
         cdef double a = self.a

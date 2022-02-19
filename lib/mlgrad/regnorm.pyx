@@ -35,17 +35,17 @@ from mlgrad.model import as_array_1d
 
 cdef class FuncMulti:
 
-    cdef double evaluate(self, double[::1] param):
+    cdef double _evaluate(self, double[::1] param):
         return 0
     
-    cdef void gradient(self, double[::1] param, double[::1] grad):
+    cdef void _gradient(self, double[::1] param, double[::1] grad):
         pass
     
     def __call__(self, param):
         cdef double[::1] x1d
 
         x1d = as_array_1d(param)
-        return self.evaluate(x1d)
+        return self._evaluate(x1d)
 
 cdef class PowerNorm(FuncMulti):
     
@@ -53,7 +53,7 @@ cdef class PowerNorm(FuncMulti):
         self.p = p
 #         self.all = all
 
-    cdef double evaluate(self, double[::1] param):
+    cdef double _evaluate(self, double[::1] param):
         cdef Py_ssize_t i, m
         cdef double s
         cdef double* param_ptr = &param[0]
@@ -67,7 +67,7 @@ cdef class PowerNorm(FuncMulti):
         s /= self.p
         return s
 
-    cdef void gradient(self, double[::1] param, double[::1] grad):
+    cdef void _gradient(self, double[::1] param, double[::1] grad):
         cdef Py_ssize_t i, m
         cdef double v
         cdef double* param_ptr = &param[0]
@@ -90,7 +90,7 @@ cdef class PowerNorm(FuncMulti):
 
 cdef class SquareNorm(FuncMulti):
 
-    cdef double evaluate(self, double[::1] param):
+    cdef double _evaluate(self, double[::1] param):
         cdef Py_ssize_t i, m
         cdef double s, v
         cdef double* param_ptr = &param[0]
@@ -104,7 +104,7 @@ cdef class SquareNorm(FuncMulti):
         s /= 2.
         return s
 
-    cdef void gradient(self, double[::1] param, double[::1] grad):
+    cdef void _gradient(self, double[::1] param, double[::1] grad):
         cdef Py_ssize_t i, m
         cdef double* param_ptr = &param[0]
         cdef double* grad_ptr
@@ -123,7 +123,7 @@ cdef class SquareNorm(FuncMulti):
 
 cdef class AbsoluteNorm(FuncMulti):
 
-    cdef double evaluate(self, double[::1] param):
+    cdef double _evaluate(self, double[::1] param):
         cdef Py_ssize_t i, m
         cdef double s
         cdef double* param_ptr = &param[0]
@@ -134,7 +134,7 @@ cdef class AbsoluteNorm(FuncMulti):
             s += fabs(param_ptr[i])
         return s
 
-    cdef void gradient(self, double[::1] param, double[::1] grad):
+    cdef void _gradient(self, double[::1] param, double[::1] grad):
         cdef int i, m
         cdef double* param_ptr = &param[0]
         cdef double* grad_ptr
@@ -163,7 +163,7 @@ cdef class SquareForm(FuncMulti):
             raise RuntimeError("Invalid shape: (%s,%s)" % (matrix.shape[0], matrix.shape[1]))
         self.matrix = matrix
     #
-    cdef double evaluate(self, double[::1] x):
+    cdef double _evaluate(self, double[::1] x):
         cdef double[:,::1] mat = self.matrix
         cdef Py_ssize_t n_row = mat.shape[0]
         cdef Py_ssize_t n_col = mat.shape[1]
@@ -178,7 +178,7 @@ cdef class SquareForm(FuncMulti):
             val += s*s
         return 0.5*val
 
-    cdef void gradient(self, double[::1] x, double[::1] y):
+    cdef void _gradient(self, double[::1] x, double[::1] y):
         cdef double[:,::1] mat = self.matrix
         cdef Py_ssize_t n_row = mat.shape[0]
         cdef Py_ssize_t n_col = mat.shape[1]
@@ -199,20 +199,20 @@ cdef class SquareForm(FuncMulti):
 
 cdef class Rosenbrok(FuncMulti):
 
-    cdef double evaluate(self, double[::1] param):
+    cdef double _evaluate(self, double[::1] param):
         return 10. * (param[1] - param[0]**2)**2 + 0.1*(1. - param[0])**2
     
-    cdef void gradient(self, double[::1] param, double[::1] grad):
+    cdef void _gradient(self, double[::1] param, double[::1] grad):
         grad[0] = -40. * (param[1] - param[0]**2) * param[0] - 0.2 * (1. - param[0])
         grad[1] = 20. * (param[1] - param[0]**2)
         
         
 cdef class Himmelblau(FuncMulti):
 
-    cdef double evaluate(self, double[::1] param):
+    cdef double _evaluate(self, double[::1] param):
         return (param[0]**2 + param[1] - 11)**2 + (param[0] + param[1]**2 - 7)**2
     
-    cdef void gradient(self, double[::1] param, double[::1] grad):
+    cdef void _gradient(self, double[::1] param, double[::1] grad):
         grad[0] = 4*(param[0]**2 + param[1] - 11) * param[0] + 2*(param[0] + param[1]**2 - 7)
         grad[1] = 2*(param[0]**2 + param[1] - 11) + 4*(param[0] + param[1]**2 - 7) * param[1]
         

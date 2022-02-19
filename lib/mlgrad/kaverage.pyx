@@ -140,7 +140,7 @@ cdef class KAverage:
             
             d_min = double_max
             for j in range(q):
-                d = self.func.evaluate(y_k - u[j])
+                d = self.func._evaluate(y_k - u[j])
                 if d < d_min:
                     d_min = d
                     

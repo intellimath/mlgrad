@@ -5,6 +5,7 @@ cimport cython
 # from libc.math cimport fabs, pow, sqrt, fmax
 
 from mlgrad.func cimport Func, ParameterizedFunc
+from mlgrad.model cimport Model
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()
@@ -15,9 +16,11 @@ cdef double double_min
 
 cdef class Loss(object):
     #
-    cdef double evaluate(self, const double x, const double y) nogil        
+    cdef double _evaluate(self, const double x, const double y) nogil        
     #
-    cdef double derivative(self, const double x, const double y) nogil
+    cdef double _derivative(self, const double x, const double y) nogil
+    #
+    cdef double _derivative_div(self, const double x, const double y) nogil
     #
     cdef double difference(self, const double x, const double y) nogil
 
@@ -56,7 +59,7 @@ cdef class MLoss(Loss):
 
 
 cdef class MultLoss(object):
-    cdef double evaluate(self, double[::1] y, double[::1] yk) nogil
+    cdef double _evaluate(self, double[::1] y, double[::1] yk) nogil
     cdef void gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil
 
 @cython.final
@@ -69,7 +72,7 @@ cdef class MarginMultLoss(MultLoss):
     
 cdef class MultLoss2:
     #
-    cdef double evaluate(self, double[::1] y, double yk) nogil
+    cdef double _evaluate(self, double[::1] y, double yk) nogil
     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil
     
 

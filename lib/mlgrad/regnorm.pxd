@@ -31,8 +31,8 @@ cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
 
 cdef class FuncMulti:
     #cdef bint all
-    cdef double evaluate(self, double[::1] param)
-    cdef void gradient(self, double[::1] param, double[::1] grad)
+    cdef double _evaluate(self, double[::1] param)
+    cdef void _gradient(self, double[::1] param, double[::1] grad)
 
 @cython.final
 cdef class PowerNorm(FuncMulti):

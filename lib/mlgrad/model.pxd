@@ -46,7 +46,7 @@ ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
 #     void dmult_add_arrays(double *a, const double *b, const double *ss, const size_t n_input, const size_t n_output)
 #     void dmult_grad(double *grad, const double *X, const double *ss, const size_t n_input, const size_t n_output)
 
-from mlgrad.list_values cimport list_values
+from mlgrad.list_values cimport list_doubles
 
 cimport mlgrad.inventory as inventory
 
@@ -66,17 +66,21 @@ cdef class ArrayAllocator(Allocator):
 cdef inline Model as_model(object o):
     return <Model>(<PyObject*>o)
 
-cdef class Model(object):
+cdef class BaseModel(object):
+    cdef double _evaluate(self, double[::1] X)
+    cdef _evaluate_all(self, double[:,::1] X, double[::1] Y)
+    cpdef copy(self, bint share=*)
+
+cdef class Model(BaseModel):
     cdef public Py_ssize_t n_param, n_input
     cdef public double[::1] param
     cdef public double[::1] grad
     cdef public double[::1] grad_x
 
     cpdef init_param(self, param=*, bint random=*)
-    cdef double evaluate(self, double[::1] X)
-    cdef void gradient(self, double[::1] X, double[::1] grad)
-    cdef void gradient_x(self, double[::1] X, double[::1] grad)
-    cpdef Model copy(self, bint share=*)
+    # cdef double evaluate(self, double[::1] X)
+    cdef void _gradient(self, double[::1] X, double[::1] grad)
+    cdef void _gradient_x(self, double[::1] X, double[::1] grad)
     #
 
 # @cython.final
@@ -99,10 +103,10 @@ cdef class WinnerModel(Model):
 cdef class PolynomialModel(Model):
     pass
 
-cdef class ModelAdd(Model):
-    cdef Model main
-    cdef Model base
-    cdef double alpha
+# cdef class ModelAdd(Model):
+#     cdef Model main
+#     cdef Model base
+#     cdef double alpha
 
 cdef class ModelLayer:
     cdef public Py_ssize_t n_param, n_input, n_output
@@ -123,20 +127,25 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
 cdef class GeneralModelLayer(ModelLayer):
     cdef public list models
 
-cdef class ComplexModel(object):
+# cdef class ComplexModel(object):
+#     cdef double evaluate(self, double[::1] X)
+#     cpdef copy(self, bint share=*)
+    
+cdef class LinearFuncModel(BaseModel):
+    cdef public list models
+    cdef public list_doubles weights
+    
+    
+cdef class MLModel:
     cdef public Py_ssize_t n_param
     cdef public Py_ssize_t n_input, n_output
     cdef public double[::1] param
     cdef public double[::1] output
-    
-    cdef void forward(self, double[::1] X)
-    cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
-    
-cdef class MLModel(ComplexModel):
     cdef public list layers
 
-#     cdef void forward(self, double[::1] X)
-#     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)
+    cdef void forward(self, double[::1] X)
+    cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)    
+    cdef void backward2(self, double[::1] X, double[::1] grad_u, double[::1] grad)
     cpdef MLModel copy(self, bint share=*)
 
 @cython.final

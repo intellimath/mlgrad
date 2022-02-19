@@ -70,7 +70,7 @@ cdef class FixedBatch(Batch):
     def __init__(self, indices):
         self.size = len(indices)
         self.n_samples = 0
-        self.indices = indices
+        self.indices = np.array(indices)
     #
 
 cdef class WholeBatch(Batch):
@@ -78,7 +78,7 @@ cdef class WholeBatch(Batch):
     def __init__(self, n_samples):
         self.size = int(n_samples)
         self.n_samples = self.size
-        self.indices = np.array(range(self.n_samples), dtype=np.intp)
+        self.indices = np.arange(self.n_samples)
     #
 
 def make_batch(n_samples, size=None):

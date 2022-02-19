@@ -960,7 +960,7 @@ struct __pyx_memoryviewslice_obj;
  * 
  * cdef class FuncMulti:             # <<<<<<<<<<<<<<
  *     #cdef bint all
- *     cdef double evaluate(self, double[::1] param)
+ *     cdef double _evaluate(self, double[::1] param)
  */
 struct __pyx_obj_6mlgrad_7regnorm_FuncMulti {
   PyObject_HEAD
@@ -1124,18 +1124,18 @@ struct __pyx_memoryviewslice_obj {
  * 
  * cdef class FuncMulti:             # <<<<<<<<<<<<<<
  * 
- *     cdef double evaluate(self, double[::1] param):
+ *     cdef double _evaluate(self, double[::1] param):
  */
 
 struct __pyx_vtabstruct_6mlgrad_7regnorm_FuncMulti {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice);
-  void (*gradient)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice);
+  double (*_evaluate)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice);
+  void (*_gradient)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice);
 };
 static struct __pyx_vtabstruct_6mlgrad_7regnorm_FuncMulti *__pyx_vtabptr_6mlgrad_7regnorm_FuncMulti;
 
 
 /* "mlgrad/regnorm.pyx":50
- *         return self.evaluate(x1d)
+ *         return self._evaluate(x1d)
  * 
  * cdef class PowerNorm(FuncMulti):             # <<<<<<<<<<<<<<
  * 
@@ -1153,7 +1153,7 @@ static struct __pyx_vtabstruct_6mlgrad_7regnorm_PowerNorm *__pyx_vtabptr_6mlgrad
  * 
  * cdef class SquareNorm(FuncMulti):             # <<<<<<<<<<<<<<
  * 
- *     cdef double evaluate(self, double[::1] param):
+ *     cdef double _evaluate(self, double[::1] param):
  */
 
 struct __pyx_vtabstruct_6mlgrad_7regnorm_SquareNorm {
@@ -1167,7 +1167,7 @@ static struct __pyx_vtabstruct_6mlgrad_7regnorm_SquareNorm *__pyx_vtabptr_6mlgra
  * 
  * cdef class AbsoluteNorm(FuncMulti):             # <<<<<<<<<<<<<<
  * 
- *     cdef double evaluate(self, double[::1] param):
+ *     cdef double _evaluate(self, double[::1] param):
  */
 
 struct __pyx_vtabstruct_6mlgrad_7regnorm_AbsoluteNorm {
@@ -1195,7 +1195,7 @@ static struct __pyx_vtabstruct_6mlgrad_7regnorm_SquareForm *__pyx_vtabptr_6mlgra
  * 
  * cdef class Rosenbrok(FuncMulti):             # <<<<<<<<<<<<<<
  * 
- *     cdef double evaluate(self, double[::1] param):
+ *     cdef double _evaluate(self, double[::1] param):
  */
 
 struct __pyx_vtabstruct_6mlgrad_7regnorm_Rosenbrok {
@@ -1209,7 +1209,7 @@ static struct __pyx_vtabstruct_6mlgrad_7regnorm_Rosenbrok *__pyx_vtabptr_6mlgrad
  * 
  * cdef class Himmelblau(FuncMulti):             # <<<<<<<<<<<<<<
  * 
- *     cdef double evaluate(self, double[::1] param):
+ *     cdef double _evaluate(self, double[::1] param):
  */
 
 struct __pyx_vtabstruct_6mlgrad_7regnorm_Himmelblau {
@@ -1902,20 +1902,20 @@ static int __Pyx_check_binary_version(void);
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static double __pyx_f_6mlgrad_7regnorm_9FuncMulti_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_param); /* proto*/
-static void __pyx_f_6mlgrad_7regnorm_9FuncMulti_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_param, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_grad); /* proto*/
-static double __pyx_f_6mlgrad_7regnorm_9PowerNorm_evaluate(struct __pyx_obj_6mlgrad_7regnorm_PowerNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param); /* proto*/
-static void __pyx_f_6mlgrad_7regnorm_9PowerNorm_gradient(struct __pyx_obj_6mlgrad_7regnorm_PowerNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad); /* proto*/
-static double __pyx_f_6mlgrad_7regnorm_10SquareNorm_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_SquareNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param); /* proto*/
-static void __pyx_f_6mlgrad_7regnorm_10SquareNorm_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_SquareNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad); /* proto*/
-static double __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_AbsoluteNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param); /* proto*/
-static void __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_AbsoluteNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad); /* proto*/
-static double __pyx_f_6mlgrad_7regnorm_10SquareForm_evaluate(struct __pyx_obj_6mlgrad_7regnorm_SquareForm *__pyx_v_self, __Pyx_memviewslice __pyx_v_x); /* proto*/
-static void __pyx_f_6mlgrad_7regnorm_10SquareForm_gradient(struct __pyx_obj_6mlgrad_7regnorm_SquareForm *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y); /* proto*/
-static double __pyx_f_6mlgrad_7regnorm_9Rosenbrok_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Rosenbrok *__pyx_v_self, __Pyx_memviewslice __pyx_v_param); /* proto*/
-static void __pyx_f_6mlgrad_7regnorm_9Rosenbrok_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Rosenbrok *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad); /* proto*/
-static double __pyx_f_6mlgrad_7regnorm_10Himmelblau_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Himmelblau *__pyx_v_self, __Pyx_memviewslice __pyx_v_param); /* proto*/
-static void __pyx_f_6mlgrad_7regnorm_10Himmelblau_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Himmelblau *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad); /* proto*/
+static double __pyx_f_6mlgrad_7regnorm_9FuncMulti__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_param); /* proto*/
+static void __pyx_f_6mlgrad_7regnorm_9FuncMulti__gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_param, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_grad); /* proto*/
+static double __pyx_f_6mlgrad_7regnorm_9PowerNorm__evaluate(struct __pyx_obj_6mlgrad_7regnorm_PowerNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param); /* proto*/
+static void __pyx_f_6mlgrad_7regnorm_9PowerNorm__gradient(struct __pyx_obj_6mlgrad_7regnorm_PowerNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad); /* proto*/
+static double __pyx_f_6mlgrad_7regnorm_10SquareNorm__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_SquareNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param); /* proto*/
+static void __pyx_f_6mlgrad_7regnorm_10SquareNorm__gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_SquareNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad); /* proto*/
+static double __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_AbsoluteNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param); /* proto*/
+static void __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm__gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_AbsoluteNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad); /* proto*/
+static double __pyx_f_6mlgrad_7regnorm_10SquareForm__evaluate(struct __pyx_obj_6mlgrad_7regnorm_SquareForm *__pyx_v_self, __Pyx_memviewslice __pyx_v_x); /* proto*/
+static void __pyx_f_6mlgrad_7regnorm_10SquareForm__gradient(struct __pyx_obj_6mlgrad_7regnorm_SquareForm *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y); /* proto*/
+static double __pyx_f_6mlgrad_7regnorm_9Rosenbrok__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Rosenbrok *__pyx_v_self, __Pyx_memviewslice __pyx_v_param); /* proto*/
+static void __pyx_f_6mlgrad_7regnorm_9Rosenbrok__gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Rosenbrok *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad); /* proto*/
+static double __pyx_f_6mlgrad_7regnorm_10Himmelblau__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Himmelblau *__pyx_v_self, __Pyx_memviewslice __pyx_v_param); /* proto*/
+static void __pyx_f_6mlgrad_7regnorm_10Himmelblau__gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Himmelblau *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad); /* proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj); /* proto*/
@@ -2388,22 +2388,22 @@ static PyObject *__pyx_codeobj__43;
 /* "mlgrad/regnorm.pyx":38
  * cdef class FuncMulti:
  * 
- *     cdef double evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
  *         return 0
  * 
  */
 
-static double __pyx_f_6mlgrad_7regnorm_9FuncMulti_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_param) {
+static double __pyx_f_6mlgrad_7regnorm_9FuncMulti__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_param) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("evaluate", 0);
+  __Pyx_RefNannySetupContext("_evaluate", 0);
 
   /* "mlgrad/regnorm.pyx":39
  * 
- *     cdef double evaluate(self, double[::1] param):
+ *     cdef double _evaluate(self, double[::1] param):
  *         return 0             # <<<<<<<<<<<<<<
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):
  */
   __pyx_r = 0.0;
   goto __pyx_L0;
@@ -2411,7 +2411,7 @@ static double __pyx_f_6mlgrad_7regnorm_9FuncMulti_evaluate(CYTHON_UNUSED struct 
   /* "mlgrad/regnorm.pyx":38
  * cdef class FuncMulti:
  * 
- *     cdef double evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
  *         return 0
  * 
  */
@@ -2425,14 +2425,14 @@ static double __pyx_f_6mlgrad_7regnorm_9FuncMulti_evaluate(CYTHON_UNUSED struct 
 /* "mlgrad/regnorm.pyx":41
  *         return 0
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
  *         pass
  * 
  */
 
-static void __pyx_f_6mlgrad_7regnorm_9FuncMulti_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_param, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_grad) {
+static void __pyx_f_6mlgrad_7regnorm_9FuncMulti__gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_param, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_grad) {
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("gradient", 0);
+  __Pyx_RefNannySetupContext("_gradient", 0);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
@@ -2516,7 +2516,7 @@ static PyObject *__pyx_pf_6mlgrad_7regnorm_9FuncMulti___call__(struct __pyx_obj_
  *         cdef double[::1] x1d
  * 
  *         x1d = as_array_1d(param)             # <<<<<<<<<<<<<<
- *         return self.evaluate(x1d)
+ *         return self._evaluate(x1d)
  * 
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_as_array_1d); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 47, __pyx_L1_error)
@@ -2545,12 +2545,12 @@ static PyObject *__pyx_pf_6mlgrad_7regnorm_9FuncMulti___call__(struct __pyx_obj_
   /* "mlgrad/regnorm.pyx":48
  * 
  *         x1d = as_array_1d(param)
- *         return self.evaluate(x1d)             # <<<<<<<<<<<<<<
+ *         return self._evaluate(x1d)             # <<<<<<<<<<<<<<
  * 
  * cdef class PowerNorm(FuncMulti):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_7regnorm_FuncMulti *)__pyx_v_self->__pyx_vtab)->evaluate(__pyx_v_self, __pyx_v_x1d)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 48, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_7regnorm_FuncMulti *)__pyx_v_self->__pyx_vtab)->_evaluate(__pyx_v_self, __pyx_v_x1d)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2976,12 +2976,12 @@ static int __pyx_pf_6mlgrad_7regnorm_9PowerNorm___init__(struct __pyx_obj_6mlgra
 /* "mlgrad/regnorm.pyx":56
  * #         self.all = all
  * 
- *     cdef double evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m
  *         cdef double s
  */
 
-static double __pyx_f_6mlgrad_7regnorm_9PowerNorm_evaluate(struct __pyx_obj_6mlgrad_7regnorm_PowerNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param) {
+static double __pyx_f_6mlgrad_7regnorm_9PowerNorm__evaluate(struct __pyx_obj_6mlgrad_7regnorm_PowerNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   double __pyx_v_s;
@@ -2995,7 +2995,7 @@ static double __pyx_f_6mlgrad_7regnorm_9PowerNorm_evaluate(struct __pyx_obj_6mlg
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("evaluate", 0);
+  __Pyx_RefNannySetupContext("_evaluate", 0);
 
   /* "mlgrad/regnorm.pyx":59
  *         cdef Py_ssize_t i, m
@@ -3065,7 +3065,7 @@ static double __pyx_f_6mlgrad_7regnorm_9PowerNorm_evaluate(struct __pyx_obj_6mlg
  *         s /= self.p
  *         return s             # <<<<<<<<<<<<<<
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):
  */
   __pyx_r = __pyx_v_s;
   goto __pyx_L0;
@@ -3073,14 +3073,14 @@ static double __pyx_f_6mlgrad_7regnorm_9PowerNorm_evaluate(struct __pyx_obj_6mlg
   /* "mlgrad/regnorm.pyx":56
  * #         self.all = all
  * 
- *     cdef double evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m
  *         cdef double s
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.regnorm.PowerNorm.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("mlgrad.regnorm.PowerNorm._evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -3090,12 +3090,12 @@ static double __pyx_f_6mlgrad_7regnorm_9PowerNorm_evaluate(struct __pyx_obj_6mlg
 /* "mlgrad/regnorm.pyx":70
  *         return s
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m
  *         cdef double v
  */
 
-static void __pyx_f_6mlgrad_7regnorm_9PowerNorm_gradient(struct __pyx_obj_6mlgrad_7regnorm_PowerNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad) {
+static void __pyx_f_6mlgrad_7regnorm_9PowerNorm__gradient(struct __pyx_obj_6mlgrad_7regnorm_PowerNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   double __pyx_v_v;
@@ -3107,7 +3107,7 @@ static void __pyx_f_6mlgrad_7regnorm_9PowerNorm_gradient(struct __pyx_obj_6mlgra
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
   int __pyx_t_5;
-  __Pyx_RefNannySetupContext("gradient", 0);
+  __Pyx_RefNannySetupContext("_gradient", 0);
 
   /* "mlgrad/regnorm.pyx":73
  *         cdef Py_ssize_t i, m
@@ -3204,7 +3204,7 @@ static void __pyx_f_6mlgrad_7regnorm_9PowerNorm_gradient(struct __pyx_obj_6mlgra
   /* "mlgrad/regnorm.pyx":70
  *         return s
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m
  *         cdef double v
  */
@@ -3633,12 +3633,12 @@ static PyObject *__pyx_pf_6mlgrad_7regnorm_9PowerNorm_6__setstate_cython__(struc
 /* "mlgrad/regnorm.pyx":93
  * cdef class SquareNorm(FuncMulti):
  * 
- *     cdef double evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m
  *         cdef double s, v
  */
 
-static double __pyx_f_6mlgrad_7regnorm_10SquareNorm_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_SquareNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param) {
+static double __pyx_f_6mlgrad_7regnorm_10SquareNorm__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_SquareNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   double __pyx_v_s;
@@ -3650,7 +3650,7 @@ static double __pyx_f_6mlgrad_7regnorm_10SquareNorm_evaluate(CYTHON_UNUSED struc
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  __Pyx_RefNannySetupContext("evaluate", 0);
+  __Pyx_RefNannySetupContext("_evaluate", 0);
 
   /* "mlgrad/regnorm.pyx":96
  *         cdef Py_ssize_t i, m
@@ -3725,7 +3725,7 @@ static double __pyx_f_6mlgrad_7regnorm_10SquareNorm_evaluate(CYTHON_UNUSED struc
  *         s /= 2.
  *         return s             # <<<<<<<<<<<<<<
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):
  */
   __pyx_r = __pyx_v_s;
   goto __pyx_L0;
@@ -3733,7 +3733,7 @@ static double __pyx_f_6mlgrad_7regnorm_10SquareNorm_evaluate(CYTHON_UNUSED struc
   /* "mlgrad/regnorm.pyx":93
  * cdef class SquareNorm(FuncMulti):
  * 
- *     cdef double evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m
  *         cdef double s, v
  */
@@ -3747,12 +3747,12 @@ static double __pyx_f_6mlgrad_7regnorm_10SquareNorm_evaluate(CYTHON_UNUSED struc
 /* "mlgrad/regnorm.pyx":107
  *         return s
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m
  *         cdef double* param_ptr = &param[0]
  */
 
-static void __pyx_f_6mlgrad_7regnorm_10SquareNorm_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_SquareNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad) {
+static void __pyx_f_6mlgrad_7regnorm_10SquareNorm__gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_SquareNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   double *__pyx_v_param_ptr;
@@ -3762,10 +3762,10 @@ static void __pyx_f_6mlgrad_7regnorm_10SquareNorm_gradient(CYTHON_UNUSED struct 
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  __Pyx_RefNannySetupContext("gradient", 0);
+  __Pyx_RefNannySetupContext("_gradient", 0);
 
   /* "mlgrad/regnorm.pyx":109
- *     cdef void gradient(self, double[::1] param, double[::1] grad):
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):
  *         cdef Py_ssize_t i, m
  *         cdef double* param_ptr = &param[0]             # <<<<<<<<<<<<<<
  *         cdef double* grad_ptr
@@ -3818,7 +3818,7 @@ static void __pyx_f_6mlgrad_7regnorm_10SquareNorm_gradient(CYTHON_UNUSED struct 
   /* "mlgrad/regnorm.pyx":107
  *         return s
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m
  *         cdef double* param_ptr = &param[0]
  */
@@ -4173,12 +4173,12 @@ static PyObject *__pyx_pf_6mlgrad_7regnorm_10SquareNorm_4__setstate_cython__(str
 /* "mlgrad/regnorm.pyx":126
  * cdef class AbsoluteNorm(FuncMulti):
  * 
- *     cdef double evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m
  *         cdef double s
  */
 
-static double __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_AbsoluteNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param) {
+static double __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_AbsoluteNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_m;
   double __pyx_v_s;
@@ -4189,7 +4189,7 @@ static double __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_evaluate(CYTHON_UNUSED str
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  __Pyx_RefNannySetupContext("evaluate", 0);
+  __Pyx_RefNannySetupContext("_evaluate", 0);
 
   /* "mlgrad/regnorm.pyx":129
  *         cdef Py_ssize_t i, m
@@ -4246,7 +4246,7 @@ static double __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_evaluate(CYTHON_UNUSED str
  *             s += fabs(param_ptr[i])
  *         return s             # <<<<<<<<<<<<<<
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):
  */
   __pyx_r = __pyx_v_s;
   goto __pyx_L0;
@@ -4254,7 +4254,7 @@ static double __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_evaluate(CYTHON_UNUSED str
   /* "mlgrad/regnorm.pyx":126
  * cdef class AbsoluteNorm(FuncMulti):
  * 
- *     cdef double evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i, m
  *         cdef double s
  */
@@ -4268,12 +4268,12 @@ static double __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_evaluate(CYTHON_UNUSED str
 /* "mlgrad/regnorm.pyx":137
  *         return s
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef int i, m
  *         cdef double* param_ptr = &param[0]
  */
 
-static void __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_AbsoluteNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad) {
+static void __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm__gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_AbsoluteNorm *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad) {
   int __pyx_v_i;
   int __pyx_v_m;
   double *__pyx_v_param_ptr;
@@ -4293,11 +4293,11 @@ static void __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_gradient(CYTHON_UNUSED struc
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("gradient", 0);
+  __Pyx_RefNannySetupContext("_gradient", 0);
   __PYX_INC_MEMVIEW(&__pyx_v_grad, 1);
 
   /* "mlgrad/regnorm.pyx":139
- *     cdef void gradient(self, double[::1] param, double[::1] grad):
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):
  *         cdef int i, m
  *         cdef double* param_ptr = &param[0]             # <<<<<<<<<<<<<<
  *         cdef double* grad_ptr
@@ -4478,7 +4478,7 @@ static void __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_gradient(CYTHON_UNUSED struc
   /* "mlgrad/regnorm.pyx":137
  *         return s
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
  *         cdef int i, m
  *         cdef double* param_ptr = &param[0]
  */
@@ -4491,7 +4491,7 @@ static void __pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_gradient(CYTHON_UNUSED struc
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
-  __Pyx_WriteUnraisable("mlgrad.regnorm.AbsoluteNorm.gradient", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("mlgrad.regnorm.AbsoluteNorm._gradient", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_grad, 1);
   __Pyx_RefNannyFinishContext();
@@ -4983,7 +4983,7 @@ static int __pyx_pf_6mlgrad_7regnorm_10SquareForm___init__(struct __pyx_obj_6mlg
  *             raise RuntimeError("Invalid shape: (%s,%s)" % (matrix.shape[0], matrix.shape[1]))
  *         self.matrix = matrix             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double[::1] x):
+ *     cdef double _evaluate(self, double[::1] x):
  */
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->matrix, 0);
   __PYX_INC_MEMVIEW(&__pyx_v_matrix, 0);
@@ -5014,12 +5014,12 @@ static int __pyx_pf_6mlgrad_7regnorm_10SquareForm___init__(struct __pyx_obj_6mlg
 /* "mlgrad/regnorm.pyx":166
  *         self.matrix = matrix
  *     #
- *     cdef double evaluate(self, double[::1] x):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] x):             # <<<<<<<<<<<<<<
  *         cdef double[:,::1] mat = self.matrix
  *         cdef Py_ssize_t n_row = mat.shape[0]
  */
 
-static double __pyx_f_6mlgrad_7regnorm_10SquareForm_evaluate(struct __pyx_obj_6mlgrad_7regnorm_SquareForm *__pyx_v_self, __Pyx_memviewslice __pyx_v_x) {
+static double __pyx_f_6mlgrad_7regnorm_10SquareForm__evaluate(struct __pyx_obj_6mlgrad_7regnorm_SquareForm *__pyx_v_self, __Pyx_memviewslice __pyx_v_x) {
   __Pyx_memviewslice __pyx_v_mat = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_v_n_row;
   Py_ssize_t __pyx_v_n_col;
@@ -5039,11 +5039,11 @@ static double __pyx_f_6mlgrad_7regnorm_10SquareForm_evaluate(struct __pyx_obj_6m
   Py_ssize_t __pyx_t_8;
   Py_ssize_t __pyx_t_9;
   Py_ssize_t __pyx_t_10;
-  __Pyx_RefNannySetupContext("evaluate", 0);
+  __Pyx_RefNannySetupContext("_evaluate", 0);
 
   /* "mlgrad/regnorm.pyx":167
  *     #
- *     cdef double evaluate(self, double[::1] x):
+ *     cdef double _evaluate(self, double[::1] x):
  *         cdef double[:,::1] mat = self.matrix             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t n_row = mat.shape[0]
  *         cdef Py_ssize_t n_col = mat.shape[1]
@@ -5055,7 +5055,7 @@ static double __pyx_f_6mlgrad_7regnorm_10SquareForm_evaluate(struct __pyx_obj_6m
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/regnorm.pyx":168
- *     cdef double evaluate(self, double[::1] x):
+ *     cdef double _evaluate(self, double[::1] x):
  *         cdef double[:,::1] mat = self.matrix
  *         cdef Py_ssize_t n_row = mat.shape[0]             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t n_col = mat.shape[1]
@@ -5144,7 +5144,7 @@ static double __pyx_f_6mlgrad_7regnorm_10SquareForm_evaluate(struct __pyx_obj_6m
  *             val += s*s
  *         return 0.5*val             # <<<<<<<<<<<<<<
  * 
- *     cdef void gradient(self, double[::1] x, double[::1] y):
+ *     cdef void _gradient(self, double[::1] x, double[::1] y):
  */
   __pyx_r = (0.5 * __pyx_v_val);
   goto __pyx_L0;
@@ -5152,7 +5152,7 @@ static double __pyx_f_6mlgrad_7regnorm_10SquareForm_evaluate(struct __pyx_obj_6m
   /* "mlgrad/regnorm.pyx":166
  *         self.matrix = matrix
  *     #
- *     cdef double evaluate(self, double[::1] x):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] x):             # <<<<<<<<<<<<<<
  *         cdef double[:,::1] mat = self.matrix
  *         cdef Py_ssize_t n_row = mat.shape[0]
  */
@@ -5167,12 +5167,12 @@ static double __pyx_f_6mlgrad_7regnorm_10SquareForm_evaluate(struct __pyx_obj_6m
 /* "mlgrad/regnorm.pyx":181
  *         return 0.5*val
  * 
- *     cdef void gradient(self, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
  *         cdef double[:,::1] mat = self.matrix
  *         cdef Py_ssize_t n_row = mat.shape[0]
  */
 
-static void __pyx_f_6mlgrad_7regnorm_10SquareForm_gradient(struct __pyx_obj_6mlgrad_7regnorm_SquareForm *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
+static void __pyx_f_6mlgrad_7regnorm_10SquareForm__gradient(struct __pyx_obj_6mlgrad_7regnorm_SquareForm *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
   __Pyx_memviewslice __pyx_v_mat = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_v_n_row;
   Py_ssize_t __pyx_v_n_col;
@@ -5190,11 +5190,11 @@ static void __pyx_f_6mlgrad_7regnorm_10SquareForm_gradient(struct __pyx_obj_6mlg
   Py_ssize_t __pyx_t_8;
   Py_ssize_t __pyx_t_9;
   Py_ssize_t __pyx_t_10;
-  __Pyx_RefNannySetupContext("gradient", 0);
+  __Pyx_RefNannySetupContext("_gradient", 0);
 
   /* "mlgrad/regnorm.pyx":182
  * 
- *     cdef void gradient(self, double[::1] x, double[::1] y):
+ *     cdef void _gradient(self, double[::1] x, double[::1] y):
  *         cdef double[:,::1] mat = self.matrix             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t n_row = mat.shape[0]
  *         cdef Py_ssize_t n_col = mat.shape[1]
@@ -5206,7 +5206,7 @@ static void __pyx_f_6mlgrad_7regnorm_10SquareForm_gradient(struct __pyx_obj_6mlg
   __pyx_t_1.data = NULL;
 
   /* "mlgrad/regnorm.pyx":183
- *     cdef void gradient(self, double[::1] x, double[::1] y):
+ *     cdef void _gradient(self, double[::1] x, double[::1] y):
  *         cdef double[:,::1] mat = self.matrix
  *         cdef Py_ssize_t n_row = mat.shape[0]             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t n_col = mat.shape[1]
@@ -5327,7 +5327,7 @@ static void __pyx_f_6mlgrad_7regnorm_10SquareForm_gradient(struct __pyx_obj_6mlg
   /* "mlgrad/regnorm.pyx":181
  *         return 0.5*val
  * 
- *     cdef void gradient(self, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
  *         cdef double[:,::1] mat = self.matrix
  *         cdef Py_ssize_t n_row = mat.shape[0]
  */
@@ -5636,25 +5636,25 @@ static PyObject *__pyx_pf_6mlgrad_7regnorm_10SquareForm_4__setstate_cython__(str
 /* "mlgrad/regnorm.pyx":202
  * cdef class Rosenbrok(FuncMulti):
  * 
- *     cdef double evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
  *         return 10. * (param[1] - param[0]**2)**2 + 0.1*(1. - param[0])**2
  * 
  */
 
-static double __pyx_f_6mlgrad_7regnorm_9Rosenbrok_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Rosenbrok *__pyx_v_self, __Pyx_memviewslice __pyx_v_param) {
+static double __pyx_f_6mlgrad_7regnorm_9Rosenbrok__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Rosenbrok *__pyx_v_self, __Pyx_memviewslice __pyx_v_param) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
-  __Pyx_RefNannySetupContext("evaluate", 0);
+  __Pyx_RefNannySetupContext("_evaluate", 0);
 
   /* "mlgrad/regnorm.pyx":203
  * 
- *     cdef double evaluate(self, double[::1] param):
+ *     cdef double _evaluate(self, double[::1] param):
  *         return 10. * (param[1] - param[0]**2)**2 + 0.1*(1. - param[0])**2             # <<<<<<<<<<<<<<
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):
  */
   __pyx_t_1 = 1;
   __pyx_t_2 = 0;
@@ -5665,7 +5665,7 @@ static double __pyx_f_6mlgrad_7regnorm_9Rosenbrok_evaluate(CYTHON_UNUSED struct 
   /* "mlgrad/regnorm.pyx":202
  * cdef class Rosenbrok(FuncMulti):
  * 
- *     cdef double evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
  *         return 10. * (param[1] - param[0]**2)**2 + 0.1*(1. - param[0])**2
  * 
  */
@@ -5679,23 +5679,23 @@ static double __pyx_f_6mlgrad_7regnorm_9Rosenbrok_evaluate(CYTHON_UNUSED struct 
 /* "mlgrad/regnorm.pyx":205
  *         return 10. * (param[1] - param[0]**2)**2 + 0.1*(1. - param[0])**2
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
  *         grad[0] = -40. * (param[1] - param[0]**2) * param[0] - 0.2 * (1. - param[0])
  *         grad[1] = 20. * (param[1] - param[0]**2)
  */
 
-static void __pyx_f_6mlgrad_7regnorm_9Rosenbrok_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Rosenbrok *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad) {
+static void __pyx_f_6mlgrad_7regnorm_9Rosenbrok__gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Rosenbrok *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad) {
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
-  __Pyx_RefNannySetupContext("gradient", 0);
+  __Pyx_RefNannySetupContext("_gradient", 0);
 
   /* "mlgrad/regnorm.pyx":206
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):
  *         grad[0] = -40. * (param[1] - param[0]**2) * param[0] - 0.2 * (1. - param[0])             # <<<<<<<<<<<<<<
  *         grad[1] = 20. * (param[1] - param[0]**2)
  * 
@@ -5708,7 +5708,7 @@ static void __pyx_f_6mlgrad_7regnorm_9Rosenbrok_gradient(CYTHON_UNUSED struct __
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = (((-40. * ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_1)) ))) - pow((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_2)) ))), 2.0))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_3)) )))) - (0.2 * (1. - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_4)) ))))));
 
   /* "mlgrad/regnorm.pyx":207
- *     cdef void gradient(self, double[::1] param, double[::1] grad):
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):
  *         grad[0] = -40. * (param[1] - param[0]**2) * param[0] - 0.2 * (1. - param[0])
  *         grad[1] = 20. * (param[1] - param[0]**2)             # <<<<<<<<<<<<<<
  * 
@@ -5722,7 +5722,7 @@ static void __pyx_f_6mlgrad_7regnorm_9Rosenbrok_gradient(CYTHON_UNUSED struct __
   /* "mlgrad/regnorm.pyx":205
  *         return 10. * (param[1] - param[0]**2)**2 + 0.1*(1. - param[0])**2
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
  *         grad[0] = -40. * (param[1] - param[0]**2) * param[0] - 0.2 * (1. - param[0])
  *         grad[1] = 20. * (param[1] - param[0]**2)
  */
@@ -6023,26 +6023,26 @@ static PyObject *__pyx_pf_6mlgrad_7regnorm_9Rosenbrok_2__setstate_cython__(struc
 /* "mlgrad/regnorm.pyx":212
  * cdef class Himmelblau(FuncMulti):
  * 
- *     cdef double evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
  *         return (param[0]**2 + param[1] - 11)**2 + (param[0] + param[1]**2 - 7)**2
  * 
  */
 
-static double __pyx_f_6mlgrad_7regnorm_10Himmelblau_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Himmelblau *__pyx_v_self, __Pyx_memviewslice __pyx_v_param) {
+static double __pyx_f_6mlgrad_7regnorm_10Himmelblau__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Himmelblau *__pyx_v_self, __Pyx_memviewslice __pyx_v_param) {
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  __Pyx_RefNannySetupContext("evaluate", 0);
+  __Pyx_RefNannySetupContext("_evaluate", 0);
 
   /* "mlgrad/regnorm.pyx":213
  * 
- *     cdef double evaluate(self, double[::1] param):
+ *     cdef double _evaluate(self, double[::1] param):
  *         return (param[0]**2 + param[1] - 11)**2 + (param[0] + param[1]**2 - 7)**2             # <<<<<<<<<<<<<<
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):
  */
   __pyx_t_1 = 0;
   __pyx_t_2 = 1;
@@ -6054,7 +6054,7 @@ static double __pyx_f_6mlgrad_7regnorm_10Himmelblau_evaluate(CYTHON_UNUSED struc
   /* "mlgrad/regnorm.pyx":212
  * cdef class Himmelblau(FuncMulti):
  * 
- *     cdef double evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, double[::1] param):             # <<<<<<<<<<<<<<
  *         return (param[0]**2 + param[1] - 11)**2 + (param[0] + param[1]**2 - 7)**2
  * 
  */
@@ -6068,12 +6068,12 @@ static double __pyx_f_6mlgrad_7regnorm_10Himmelblau_evaluate(CYTHON_UNUSED struc
 /* "mlgrad/regnorm.pyx":215
  *         return (param[0]**2 + param[1] - 11)**2 + (param[0] + param[1]**2 - 7)**2
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
  *         grad[0] = 4*(param[0]**2 + param[1] - 11) * param[0] + 2*(param[0] + param[1]**2 - 7)
  *         grad[1] = 2*(param[0]**2 + param[1] - 11) + 4*(param[0] + param[1]**2 - 7) * param[1]
  */
 
-static void __pyx_f_6mlgrad_7regnorm_10Himmelblau_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Himmelblau *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad) {
+static void __pyx_f_6mlgrad_7regnorm_10Himmelblau__gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_7regnorm_Himmelblau *__pyx_v_self, __Pyx_memviewslice __pyx_v_param, __Pyx_memviewslice __pyx_v_grad) {
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -6081,11 +6081,11 @@ static void __pyx_f_6mlgrad_7regnorm_10Himmelblau_gradient(CYTHON_UNUSED struct 
   Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
-  __Pyx_RefNannySetupContext("gradient", 0);
+  __Pyx_RefNannySetupContext("_gradient", 0);
 
   /* "mlgrad/regnorm.pyx":216
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):
  *         grad[0] = 4*(param[0]**2 + param[1] - 11) * param[0] + 2*(param[0] + param[1]**2 - 7)             # <<<<<<<<<<<<<<
  *         grad[1] = 2*(param[0]**2 + param[1] - 11) + 4*(param[0] + param[1]**2 - 7) * param[1]
  * 
@@ -6099,7 +6099,7 @@ static void __pyx_f_6mlgrad_7regnorm_10Himmelblau_gradient(CYTHON_UNUSED struct 
   *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = (((4.0 * ((pow((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_1)) ))), 2.0) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_2)) )))) - 11.0)) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_3)) )))) + (2.0 * (((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_4)) ))) + pow((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_param.data) + __pyx_t_5)) ))), 2.0)) - 7.0)));
 
   /* "mlgrad/regnorm.pyx":217
- *     cdef void gradient(self, double[::1] param, double[::1] grad):
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):
  *         grad[0] = 4*(param[0]**2 + param[1] - 11) * param[0] + 2*(param[0] + param[1]**2 - 7)
  *         grad[1] = 2*(param[0]**2 + param[1] - 11) + 4*(param[0] + param[1]**2 - 7) * param[1]             # <<<<<<<<<<<<<<
  * 
@@ -6116,7 +6116,7 @@ static void __pyx_f_6mlgrad_7regnorm_10Himmelblau_gradient(CYTHON_UNUSED struct 
   /* "mlgrad/regnorm.pyx":215
  *         return (param[0]**2 + param[1] - 11)**2 + (param[0] + param[1]**2 - 7)**2
  * 
- *     cdef void gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
+ *     cdef void _gradient(self, double[::1] param, double[::1] grad):             # <<<<<<<<<<<<<<
  *         grad[0] = 4*(param[0]**2 + param[1] - 11) * param[0] + 2*(param[0] + param[1]**2 - 7)
  *         grad[1] = 2*(param[0]**2 + param[1] - 11) + 4*(param[0] + param[1]**2 - 7) * param[1]
  */
@@ -24246,8 +24246,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
   __pyx_vtabptr_6mlgrad_7regnorm_FuncMulti = &__pyx_vtable_6mlgrad_7regnorm_FuncMulti;
-  __pyx_vtable_6mlgrad_7regnorm_FuncMulti.evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_9FuncMulti_evaluate;
-  __pyx_vtable_6mlgrad_7regnorm_FuncMulti.gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_9FuncMulti_gradient;
+  __pyx_vtable_6mlgrad_7regnorm_FuncMulti._evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_9FuncMulti__evaluate;
+  __pyx_vtable_6mlgrad_7regnorm_FuncMulti._gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_9FuncMulti__gradient;
   if (PyType_Ready(&__pyx_type_6mlgrad_7regnorm_FuncMulti) < 0) __PYX_ERR(1, 36, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_7regnorm_FuncMulti.tp_print = 0;
@@ -24261,8 +24261,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_7regnorm_FuncMulti = &__pyx_type_6mlgrad_7regnorm_FuncMulti;
   __pyx_vtabptr_6mlgrad_7regnorm_PowerNorm = &__pyx_vtable_6mlgrad_7regnorm_PowerNorm;
   __pyx_vtable_6mlgrad_7regnorm_PowerNorm.__pyx_base = *__pyx_vtabptr_6mlgrad_7regnorm_FuncMulti;
-  __pyx_vtable_6mlgrad_7regnorm_PowerNorm.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_9PowerNorm_evaluate;
-  __pyx_vtable_6mlgrad_7regnorm_PowerNorm.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_9PowerNorm_gradient;
+  __pyx_vtable_6mlgrad_7regnorm_PowerNorm.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_9PowerNorm__evaluate;
+  __pyx_vtable_6mlgrad_7regnorm_PowerNorm.__pyx_base._gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_9PowerNorm__gradient;
   __pyx_type_6mlgrad_7regnorm_PowerNorm.tp_base = __pyx_ptype_6mlgrad_7regnorm_FuncMulti;
   if (PyType_Ready(&__pyx_type_6mlgrad_7regnorm_PowerNorm) < 0) __PYX_ERR(1, 50, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -24277,8 +24277,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_7regnorm_PowerNorm = &__pyx_type_6mlgrad_7regnorm_PowerNorm;
   __pyx_vtabptr_6mlgrad_7regnorm_SquareNorm = &__pyx_vtable_6mlgrad_7regnorm_SquareNorm;
   __pyx_vtable_6mlgrad_7regnorm_SquareNorm.__pyx_base = *__pyx_vtabptr_6mlgrad_7regnorm_FuncMulti;
-  __pyx_vtable_6mlgrad_7regnorm_SquareNorm.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_10SquareNorm_evaluate;
-  __pyx_vtable_6mlgrad_7regnorm_SquareNorm.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_10SquareNorm_gradient;
+  __pyx_vtable_6mlgrad_7regnorm_SquareNorm.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_10SquareNorm__evaluate;
+  __pyx_vtable_6mlgrad_7regnorm_SquareNorm.__pyx_base._gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_10SquareNorm__gradient;
   __pyx_type_6mlgrad_7regnorm_SquareNorm.tp_base = __pyx_ptype_6mlgrad_7regnorm_FuncMulti;
   if (PyType_Ready(&__pyx_type_6mlgrad_7regnorm_SquareNorm) < 0) __PYX_ERR(1, 91, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -24293,8 +24293,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_7regnorm_SquareNorm = &__pyx_type_6mlgrad_7regnorm_SquareNorm;
   __pyx_vtabptr_6mlgrad_7regnorm_AbsoluteNorm = &__pyx_vtable_6mlgrad_7regnorm_AbsoluteNorm;
   __pyx_vtable_6mlgrad_7regnorm_AbsoluteNorm.__pyx_base = *__pyx_vtabptr_6mlgrad_7regnorm_FuncMulti;
-  __pyx_vtable_6mlgrad_7regnorm_AbsoluteNorm.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_evaluate;
-  __pyx_vtable_6mlgrad_7regnorm_AbsoluteNorm.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_12AbsoluteNorm_gradient;
+  __pyx_vtable_6mlgrad_7regnorm_AbsoluteNorm.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_12AbsoluteNorm__evaluate;
+  __pyx_vtable_6mlgrad_7regnorm_AbsoluteNorm.__pyx_base._gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_12AbsoluteNorm__gradient;
   __pyx_type_6mlgrad_7regnorm_AbsoluteNorm.tp_base = __pyx_ptype_6mlgrad_7regnorm_FuncMulti;
   if (PyType_Ready(&__pyx_type_6mlgrad_7regnorm_AbsoluteNorm) < 0) __PYX_ERR(1, 124, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -24309,8 +24309,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_7regnorm_AbsoluteNorm = &__pyx_type_6mlgrad_7regnorm_AbsoluteNorm;
   __pyx_vtabptr_6mlgrad_7regnorm_SquareForm = &__pyx_vtable_6mlgrad_7regnorm_SquareForm;
   __pyx_vtable_6mlgrad_7regnorm_SquareForm.__pyx_base = *__pyx_vtabptr_6mlgrad_7regnorm_FuncMulti;
-  __pyx_vtable_6mlgrad_7regnorm_SquareForm.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_10SquareForm_evaluate;
-  __pyx_vtable_6mlgrad_7regnorm_SquareForm.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_10SquareForm_gradient;
+  __pyx_vtable_6mlgrad_7regnorm_SquareForm.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_10SquareForm__evaluate;
+  __pyx_vtable_6mlgrad_7regnorm_SquareForm.__pyx_base._gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_10SquareForm__gradient;
   __pyx_type_6mlgrad_7regnorm_SquareForm.tp_base = __pyx_ptype_6mlgrad_7regnorm_FuncMulti;
   if (PyType_Ready(&__pyx_type_6mlgrad_7regnorm_SquareForm) < 0) __PYX_ERR(1, 159, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -24325,8 +24325,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_7regnorm_SquareForm = &__pyx_type_6mlgrad_7regnorm_SquareForm;
   __pyx_vtabptr_6mlgrad_7regnorm_Rosenbrok = &__pyx_vtable_6mlgrad_7regnorm_Rosenbrok;
   __pyx_vtable_6mlgrad_7regnorm_Rosenbrok.__pyx_base = *__pyx_vtabptr_6mlgrad_7regnorm_FuncMulti;
-  __pyx_vtable_6mlgrad_7regnorm_Rosenbrok.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_9Rosenbrok_evaluate;
-  __pyx_vtable_6mlgrad_7regnorm_Rosenbrok.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_9Rosenbrok_gradient;
+  __pyx_vtable_6mlgrad_7regnorm_Rosenbrok.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_9Rosenbrok__evaluate;
+  __pyx_vtable_6mlgrad_7regnorm_Rosenbrok.__pyx_base._gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_9Rosenbrok__gradient;
   __pyx_type_6mlgrad_7regnorm_Rosenbrok.tp_base = __pyx_ptype_6mlgrad_7regnorm_FuncMulti;
   if (PyType_Ready(&__pyx_type_6mlgrad_7regnorm_Rosenbrok) < 0) __PYX_ERR(1, 200, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -24341,8 +24341,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_7regnorm_Rosenbrok = &__pyx_type_6mlgrad_7regnorm_Rosenbrok;
   __pyx_vtabptr_6mlgrad_7regnorm_Himmelblau = &__pyx_vtable_6mlgrad_7regnorm_Himmelblau;
   __pyx_vtable_6mlgrad_7regnorm_Himmelblau.__pyx_base = *__pyx_vtabptr_6mlgrad_7regnorm_FuncMulti;
-  __pyx_vtable_6mlgrad_7regnorm_Himmelblau.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_10Himmelblau_evaluate;
-  __pyx_vtable_6mlgrad_7regnorm_Himmelblau.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_10Himmelblau_gradient;
+  __pyx_vtable_6mlgrad_7regnorm_Himmelblau.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_10Himmelblau__evaluate;
+  __pyx_vtable_6mlgrad_7regnorm_Himmelblau.__pyx_base._gradient = (void (*)(struct __pyx_obj_6mlgrad_7regnorm_FuncMulti *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_7regnorm_10Himmelblau__gradient;
   __pyx_type_6mlgrad_7regnorm_Himmelblau.tp_base = __pyx_ptype_6mlgrad_7regnorm_FuncMulti;
   if (PyType_Ready(&__pyx_type_6mlgrad_7regnorm_Himmelblau) < 0) __PYX_ERR(1, 210, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1

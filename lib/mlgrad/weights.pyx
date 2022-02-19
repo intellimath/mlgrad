@@ -76,15 +76,15 @@ cdef class ConstantWeights(Weights):
     
 cdef class RWeights(Weights):
     #
-    def __init__(self, Func func, Functional risk, normalize=1):
+    def __init__(self, Func func, Risk risk, normalize=1):
         self.func = func
         self.risk = risk
         self.weights = None
-        self.lval_all = None
+        # self.lval_all = None
         self.normalize = normalize
         N = risk.batch.size
-        self.lval_all = np.zeros(N, 'd')
-        self.weights = np.zeros(N, 'd')
+        # self.lval_all = np.zeros(N, 'd')
+        self.weights = risk.weights
     #
     cpdef eval_weights(self):
         cdef Risk risk = self.risk
@@ -100,7 +100,7 @@ cdef class RWeights(Weights):
 
         for j in range(N):
             k = indices[j]
-            val = mod.evaluate(X[k])
+            val = mod._evaluate(X[k])
             weights[j] = func.derivative_div_x(val - Y[k])
         
         if self.normalize:
@@ -120,8 +120,8 @@ cdef class RWeights(Weights):
         qval = 0
         for j in range(N):
             k = indices[j]
-            val = mod.evaluate(X[k])
-            qval += func.evaluate(val - Y[k])
+            val = mod._evaluate(X[k])
+            qval += func._evaluate(val - Y[k])
         qval /= N 
         return qval
     #
@@ -130,18 +130,18 @@ cdef class RWeights(Weights):
 
 cdef class MWeights(Weights):
     #
-    def __init__(self, Average average, Functional risk, normalize=0, use_best_u=0):
+    def __init__(self, Average average, Risk risk, normalize=0, use_best_u=0):
         self.average = average
         self.risk = risk
-        self.weights = None
-        self.lval_all = None
+        # self.weights = None
+        # self.lval_all = None
         self.first_time = 1
         self.normalize = normalize
         self.best_u = PyFloat_GetMax()
         self.use_best_u = use_best_u
         N = len(risk.batch)
-        self.weights = np.zeros(N, 'd')
-        self.lval_all = np.zeros(N, 'd')
+        self.weights = risk.weights
+        # self.lval_all = risk.L
     #
     cpdef init(self):
         self.first_time = 1
@@ -150,7 +150,8 @@ cdef class MWeights(Weights):
         cdef Risk risk = <Risk>self.risk
         cdef Py_ssize_t N = risk.batch.size
 
-        risk.eval_losses(self.lval_all)
+        risk._evaluate_models()
+        risk._evaluate_losses()
 
         if self.first_time:
             u0 = None
@@ -158,14 +159,14 @@ cdef class MWeights(Weights):
         else:
             u0 = self.average.u
         
-        self.average.fit(self.lval_all, u0)
+        self.average.fit(risk.L, u0)
         if self.use_best_u and self.average.u < self.best_u:
             self.best_u = self.average.u
         
         # if self.use_best_u:
         #     self.average.penalty.gradient(self.lval_all, self.best_u, self.weights)
         # else:
-        self.average.gradient(self.lval_all, self.weights)
+        self.average._gradient(risk.L, self.weights)
 
         if self.normalize:
             normalize_memoryview(self.weights)

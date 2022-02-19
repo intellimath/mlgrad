@@ -2,7 +2,7 @@
 
 cimport cython
 
-from mlgrad.model cimport Model, MLModel
+from mlgrad.model cimport Model, MLModel, BaseModel
 from mlgrad.func cimport Func
 from mlgrad.distance cimport Distance
 from mlgrad.loss cimport Loss, MultLoss, MultLoss2
@@ -64,44 +64,66 @@ cdef class Functional:
     cdef readonly double[::1] grad_average
     cdef readonly double lval
     cdef readonly Batch batch
-    cdef readonly Py_ssize_t n_sample
     cdef readonly Py_ssize_t n_param
     cdef readonly Py_ssize_t n_input
 
     cpdef init(self)
-    cdef public double evaluate(self)
-    cdef public void gradient(self)
+    cdef public double _evaluate(self)
+    cdef public void _gradient(self)
 
 cdef class SimpleFunctional(Functional):
     pass
 
 cdef class Risk(Functional):
     #
+    cdef readonly double[::1] weights
+    cdef readonly double[::1] Yp
+    cdef readonly double[::1] L
+    cdef readonly double[::1] LD
+    #
     cdef double[::1] grad
     cdef double[::1] grad_r
-    cdef readonly double[::1] weights    
+    # cdef public double[::1] H
     cdef readonly double tau
+    cdef readonly Py_ssize_t n_sample
     #
-    cdef public void eval_losses(self, double[::1] lval_all)
+    cdef void _evaluate_models(self)
+    cdef void _evaluate_losses(self)
+    cdef void _evaluate_losses_derivative_div(self)
+    cdef void _evaluate_weights(self)
+    #
     
 # cdef class SRisk(Risk):
 #     cdef public double eval_loss(self, int k)
 #     cdef public void gradient_loss(self, int k)    
 
 cdef class ERisk(Risk):
+    cdef public Model model
+    cdef readonly Loss loss
+    cdef readonly double[:, ::1] X
+    cdef readonly double[::1] Y
+
+cdef class ERiskGB(Risk):
     cdef readonly Model model
     cdef readonly Loss loss
     cdef readonly double[:, ::1] X
     cdef readonly double[::1] Y
-    cdef readonly double[::1] Yp
+    # cdef readonly double[::1] L
+    # cdef readonly double[::1] LD
+    cdef readonly double[::1] H
+    cdef public double alpha
+    
+    cdef double derivative_alpha(self)
     
 cdef class MRisk(Risk):
     cdef readonly Model model
     cdef readonly Loss loss
     cdef readonly double[:, ::1] X
     cdef readonly double[::1] Y
-    cdef readonly double[::1] Yp
-    cdef readonly double[::1] lval_all
+    # cdef readonly double[::1] Yp
+    # cdef readonly double[::1] L
+    # cdef readonly double[::1] LD
+    # cdef readonly double[::1] lval_all
     cdef Average avg
     cdef bint first
     
@@ -110,12 +132,12 @@ cdef class ED(Risk):
     cdef readonly Distance distfunc
     #
     
-cdef class AER(ERisk):
-    cdef Average loss_averager
-    cdef double[::1] lval_all
-    cdef double[::1] mval_all
+# cdef class AER(ERisk):
+#     cdef Average loss_averager
+#     cdef double[::1] lval_all
+#     cdef double[::1] mval_all
     
-    cdef eval_all(self)
+#     cdef eval_all(self)
     
 
 cdef class ER2(Risk):

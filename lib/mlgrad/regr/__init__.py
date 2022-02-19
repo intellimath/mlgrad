@@ -13,29 +13,41 @@ from mlgrad.af import averaging_function
 
 __all__ = 'regression', 'm_regression', 'm_regression_irls', 'r_regression_irls'
 
-def regression(Xs, Y, mod, lossfunc=SquareErrorLoss(), regnorm=None, 
+def regression(Xs, Y, mod, loss_func=None, regnorm=None, 
                h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
     """\
     Поиск параметров модели `mod` при помощи принципа минимизации эмпирического риска. 
-    Параметр `lossfunc` задает функцию потерь.
+    Параметр `loss_func` задает функцию потерь.
     `Xs` и `Y` -- входной двумерный массив и массив ожидаемых значений на выходе.
     """
-    er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
+    if loss_func is None:
+        _loss_func = SquareErrorLoss()
+    else:
+        _loss_func = loss_func
+    er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, n_restart=n_restart)
     return alg
 
 def m_regression(Xs, Y, mod, 
-                 lossfunc=SquareErrorLoss(), 
-                 avrfunc=averaging_function('WM'), regnorm=None, 
+                 loss_func=None, 
+                 agg_func=None, regnorm=None, 
                  h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
         
-    er = mrisk(Xs, Y, mod, lossfunc, avrfunc, regnorm=regnorm, tau=tau)
+    if loss_func is None:
+        _loss_func = SquareErrorLoss()
+    else:
+        _loss_func = loss_func
+    if agg_func is None:
+        _agg_func = averaging_function('WM')
+    else:
+        _agg_func = agg_func
+    er = mrisk(Xs, Y, mod, loss_func, _agg_func, regnorm=regnorm, tau=tau)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, n_restart=n_restart)
     return alg
 
 def m_regression_irls(Xs, Y, mod, 
-                      lossfunc=SquareErrorLoss(),
-                      avrfunc=averaging_function('WM'), regnorm=None, 
+                      loss_func=None,
+                      agg_func=None, regnorm=None, 
                       h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, verbose=0):
     """\
     Поиск параметров модели `mod` при помощи принципа минимизации агрегирующей функции потерь от ошибок. 
@@ -43,25 +55,37 @@ def m_regression_irls(Xs, Y, mod,
     Параметр `lossfunc` задает функцию потерь.
     `Xs` и `Y` -- входной двумерный массив и массив ожидаемых значений на выходе.
     """
-    er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
+    if loss_func is None:
+        _loss_func = SquareErrorLoss()
+    else:
+        _loss_func = loss_func
+    if agg_func is None:
+        _agg_func = averaging_function('WM')
+    else:
+        _agg_func = agg_func
+    er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
     alg = fg(er, h=h, tol=tol, n_iter=n_iter)
 
-    wt = weights.MWeights(avrfunc, er)
+    wt = weights.MWeights(_agg_func, er)
     irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
         
     return irgd
 
-def r_regression_irls(Xs, Y, mod, rhofunc=func.Sqrt(1.0), regnorm=None, 
+def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None, 
                       h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, verbose=0):
     """\
     Поиск параметров модели `mod` при помощи классического методо R-регрессии. 
     Параметр `rhofunc` задает функцию от ошибки.
     `Xs` и `Y` -- входной двумерный массив и массив ожидаемых значений на выходе.
     """
-    lossfunc = SquareErrorLoss()
-    er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
+    loss_func = SquareErrorLoss()
+    if rho_func is None:
+        _rho_func = func.Sqrt(1.0)
+    else:
+        _rho_func = rho_func
+    er = erisk(Xs, Y, mod, loss_func, regnorm=regnorm, tau=tau)
     alg = fg(er, h=h, n_iter=n_iter, tol=tol)
-    wt = weights.RWeights(rhofunc, er)
+    wt = weights.RWeights(_rho_func, er)
     irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
     return irgd
 

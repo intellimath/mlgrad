@@ -954,7 +954,7 @@ struct __pyx_obj_6mlgrad_4func_Neg;
 struct __pyx_obj_6mlgrad_4func_Arctang;
 struct __pyx_obj_6mlgrad_4func_Sigmoidal;
 struct __pyx_obj_6mlgrad_4func_ModSigmoidal;
-struct __pyx_obj_6mlgrad_4func_Softplus;
+struct __pyx_obj_6mlgrad_4func_SoftPlus;
 struct __pyx_obj_6mlgrad_4func_Threshold;
 struct __pyx_obj_6mlgrad_4func_Sign;
 struct __pyx_obj_6mlgrad_4func_Quantile;
@@ -1121,11 +1121,11 @@ struct __pyx_obj_6mlgrad_4func_ModSigmoidal {
 /* "mlgrad/func.pxd":63
  * 
  * @cython.final
- * cdef class Softplus(Func):             # <<<<<<<<<<<<<<
+ * cdef class SoftPlus(Func):             # <<<<<<<<<<<<<<
  *     cdef public double a
  *     cdef double log_a
  */
-struct __pyx_obj_6mlgrad_4func_Softplus {
+struct __pyx_obj_6mlgrad_4func_SoftPlus {
   struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
   double a;
   double log_a;
@@ -1447,7 +1447,7 @@ struct __pyx_obj_6mlgrad_4func_KMinSquare {
  * 
  * cdef class ParameterizedFunc:             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, double x, double u) nogil
+ *     cdef double _evaluate(self, double x, double u) nogil
  */
 struct __pyx_obj_6mlgrad_4func_ParameterizedFunc {
   PyObject_HEAD
@@ -1576,12 +1576,12 @@ struct __pyx_memoryviewslice_obj {
  * 
  * cdef class Func(object):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Func {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
-  double (*derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*_evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
+  double (*_derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   double (*derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   double (*derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
   void (*evaluate_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
@@ -1649,11 +1649,11 @@ static struct __pyx_vtabstruct_6mlgrad_4func_FuncExp *__pyx_vtabptr_6mlgrad_4fun
 
 
 /* "mlgrad/func.pyx":203
- *         return (self.f.derivative(y) + self.f.derivative2(y) * y) * y
+ *         return (self.f._derivative(y) + self.f.derivative2(y) * y) * y
  * 
  * cdef class Id(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Id {
@@ -1667,7 +1667,7 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Id *__pyx_vtabptr_6mlgrad_4func_Id;
  * 
  * cdef class Neg(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Neg {
@@ -1676,7 +1676,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Neg {
 static struct __pyx_vtabstruct_6mlgrad_4func_Neg *__pyx_vtabptr_6mlgrad_4func_Neg;
 
 
-/* "mlgrad/func.pyx":338
+/* "mlgrad/func.pyx":340
  *                  'args': (self.p,) }
  * 
  * cdef class Arctang(Func):             # <<<<<<<<<<<<<<
@@ -1718,21 +1718,21 @@ struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal {
 static struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal *__pyx_vtabptr_6mlgrad_4func_ModSigmoidal;
 
 
-/* "mlgrad/func.pyx":367
+/* "mlgrad/func.pyx":369
  *                  'args': (self.a,) }
  * 
- * cdef class Softplus(Func):             # <<<<<<<<<<<<<<
+ * cdef class SoftPlus(Func):             # <<<<<<<<<<<<<<
  *     #
  *     def __init__(self, a=1):
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Softplus {
+struct __pyx_vtabstruct_6mlgrad_4func_SoftPlus {
   struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Softplus *__pyx_vtabptr_6mlgrad_4func_Softplus;
+static struct __pyx_vtabstruct_6mlgrad_4func_SoftPlus *__pyx_vtabptr_6mlgrad_4func_SoftPlus;
 
 
-/* "mlgrad/func.pyx":398
+/* "mlgrad/func.pyx":400
  *                  'args': (self.a,) }
  * 
  * cdef class Threshold(Func):             # <<<<<<<<<<<<<<
@@ -1746,7 +1746,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Threshold {
 static struct __pyx_vtabstruct_6mlgrad_4func_Threshold *__pyx_vtabptr_6mlgrad_4func_Threshold;
 
 
-/* "mlgrad/func.pyx":426
+/* "mlgrad/func.pyx":428
  *                  'args': (self.theta,) }
  * 
  * cdef class Sign(Func):             # <<<<<<<<<<<<<<
@@ -1760,7 +1760,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Sign {
 static struct __pyx_vtabstruct_6mlgrad_4func_Sign *__pyx_vtabptr_6mlgrad_4func_Sign;
 
 
-/* "mlgrad/func.pyx":456
+/* "mlgrad/func.pyx":458
  *                  'args': (self.theta,) }
  * 
  * cdef class Quantile(Func):             # <<<<<<<<<<<<<<
@@ -1788,7 +1788,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc {
 static struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc *__pyx_vtabptr_6mlgrad_4func_QuantileFunc;
 
 
-/* "mlgrad/func.pyx":1148
+/* "mlgrad/func.pyx":1150
  * 
  * 
  * cdef class Expectile(Func):             # <<<<<<<<<<<<<<
@@ -1802,7 +1802,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Expectile {
 static struct __pyx_vtabstruct_6mlgrad_4func_Expectile *__pyx_vtabptr_6mlgrad_4func_Expectile;
 
 
-/* "mlgrad/func.pyx":534
+/* "mlgrad/func.pyx":536
  * #                  'args': (self.alpha,) }
  * 
  * cdef class Power(Func):             # <<<<<<<<<<<<<<
@@ -1816,12 +1816,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Power {
 static struct __pyx_vtabstruct_6mlgrad_4func_Power *__pyx_vtabptr_6mlgrad_4func_Power;
 
 
-/* "mlgrad/func.pyx":564
+/* "mlgrad/func.pyx":566
  *                  'args': (self.p, self.alpha,) }
  * 
  * cdef class Square(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Square {
@@ -1830,12 +1830,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_Square {
 static struct __pyx_vtabstruct_6mlgrad_4func_Square *__pyx_vtabptr_6mlgrad_4func_Square;
 
 
-/* "mlgrad/func.pyx":585
+/* "mlgrad/func.pyx":587
  *                  'args': () }
  * 
  * cdef class SquareSigned(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned {
@@ -1844,12 +1844,12 @@ struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned {
 static struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned *__pyx_vtabptr_6mlgrad_4func_SquareSigned;
 
 
-/* "mlgrad/func.pyx":608
+/* "mlgrad/func.pyx":610
  *         return r"$(x)=0.5x^2$"
  * 
  * cdef class Absolute(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_Absolute {
@@ -1858,7 +1858,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Absolute {
 static struct __pyx_vtabstruct_6mlgrad_4func_Absolute *__pyx_vtabptr_6mlgrad_4func_Absolute;
 
 
-/* "mlgrad/func.pyx":634
+/* "mlgrad/func.pyx":636
  *                  'args': () }
  * 
  * cdef class Quantile_AlphaLog(Func):             # <<<<<<<<<<<<<<
@@ -1872,7 +1872,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog {
 static struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog *__pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog;
 
 
-/* "mlgrad/func.pyx":945
+/* "mlgrad/func.pyx":947
  *                  'args': (self.C,) }
  * 
  * cdef class SoftAbs(Func):             # <<<<<<<<<<<<<<
@@ -1886,7 +1886,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs {
 static struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs *__pyx_vtabptr_6mlgrad_4func_SoftAbs;
 
 
-/* "mlgrad/func.pyx":978
+/* "mlgrad/func.pyx":980
  * 
  * 
  * cdef class Sqrt(Func):             # <<<<<<<<<<<<<<
@@ -1900,7 +1900,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Sqrt {
 static struct __pyx_vtabstruct_6mlgrad_4func_Sqrt *__pyx_vtabptr_6mlgrad_4func_Sqrt;
 
 
-/* "mlgrad/func.pyx":1054
+/* "mlgrad/func.pyx":1056
  *                  'args': (self.eps) }
  * 
  * cdef class Quantile_Sqrt(Func):             # <<<<<<<<<<<<<<
@@ -1914,7 +1914,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt {
 static struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt *__pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt;
 
 
-/* "mlgrad/func.pyx":699
+/* "mlgrad/func.pyx":701
  *                  'args': (self.alpha, self.q) }
  * 
  * cdef class Logistic(Func):             # <<<<<<<<<<<<<<
@@ -1928,7 +1928,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Logistic {
 static struct __pyx_vtabstruct_6mlgrad_4func_Logistic *__pyx_vtabptr_6mlgrad_4func_Logistic;
 
 
-/* "mlgrad/func.pyx":790
+/* "mlgrad/func.pyx":792
  *                  'args': (self.alpha,) }
  * 
  * cdef class Huber(Func):             # <<<<<<<<<<<<<<
@@ -1942,7 +1942,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Huber {
 static struct __pyx_vtabstruct_6mlgrad_4func_Huber *__pyx_vtabptr_6mlgrad_4func_Huber;
 
 
-/* "mlgrad/func.pyx":836
+/* "mlgrad/func.pyx":838
  *                  'args': (self.C,) }
  * 
  * cdef class TM(Func):             # <<<<<<<<<<<<<<
@@ -1956,7 +1956,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_TM {
 static struct __pyx_vtabstruct_6mlgrad_4func_TM *__pyx_vtabptr_6mlgrad_4func_TM;
 
 
-/* "mlgrad/func.pyx":873
+/* "mlgrad/func.pyx":875
  *         $"""
  * 
  * cdef class LogSquare(Func):             # <<<<<<<<<<<<<<
@@ -1970,7 +1970,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_LogSquare {
 static struct __pyx_vtabstruct_6mlgrad_4func_LogSquare *__pyx_vtabptr_6mlgrad_4func_LogSquare;
 
 
-/* "mlgrad/func.pyx":899
+/* "mlgrad/func.pyx":901
  *                  'args': (self.a,) }
  * 
  * cdef class Tukey(Func):             # <<<<<<<<<<<<<<
@@ -1984,7 +1984,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Tukey {
 static struct __pyx_vtabstruct_6mlgrad_4func_Tukey *__pyx_vtabptr_6mlgrad_4func_Tukey;
 
 
-/* "mlgrad/func.pyx":736
+/* "mlgrad/func.pyx":738
  *                  'args': (self.p,) }
  * 
  * cdef class Hinge(Func):             # <<<<<<<<<<<<<<
@@ -1998,7 +1998,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Hinge {
 static struct __pyx_vtabstruct_6mlgrad_4func_Hinge *__pyx_vtabptr_6mlgrad_4func_Hinge;
 
 
-/* "mlgrad/func.pyx":766
+/* "mlgrad/func.pyx":768
  *                  'args': (self.C,) }
  * 
  * cdef class HingeSqrt(Func):             # <<<<<<<<<<<<<<
@@ -2026,7 +2026,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Exp {
 static struct __pyx_vtabstruct_6mlgrad_4func_Exp *__pyx_vtabptr_6mlgrad_4func_Exp;
 
 
-/* "mlgrad/func.pyx":1169
+/* "mlgrad/func.pyx":1171
  *                  'args': (self.alpha,) }
  * 
  * cdef class Log(Func):             # <<<<<<<<<<<<<<
@@ -2040,7 +2040,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_Log {
 static struct __pyx_vtabstruct_6mlgrad_4func_Log *__pyx_vtabptr_6mlgrad_4func_Log;
 
 
-/* "mlgrad/func.pyx":1274
+/* "mlgrad/func.pyx":1276
  *                  'args': (self.f.to_dict(),) }
  * 
  * cdef class KMinSquare(Func):             # <<<<<<<<<<<<<<
@@ -2054,7 +2054,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare {
 static struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare *__pyx_vtabptr_6mlgrad_4func_KMinSquare;
 
 
-/* "mlgrad/func.pyx":1191
+/* "mlgrad/func.pyx":1193
  *                  'args': (self.alpha,) }
  * 
  * cdef class ParameterizedFunc:             # <<<<<<<<<<<<<<
@@ -2063,19 +2063,19 @@ static struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare *__pyx_vtabptr_6mlgrad_4
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc {
-  double (*evaluate)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
-  double (*derivative)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
+  double (*_evaluate)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
+  double (*_derivative)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
   double (*derivative_u)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
 };
 static struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc;
 
 
-/* "mlgrad/func.pyx":1205
+/* "mlgrad/func.pyx":1207
  *         return 0
  * 
  * cdef class WinsorizedFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:
+ *     cdef double _evaluate(self, const double x, const double u) nogil:
  */
 
 struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc {
@@ -2084,7 +2084,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc {
 static struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc *__pyx_vtabptr_6mlgrad_4func_WinsorizedFunc;
 
 
-/* "mlgrad/func.pyx":1256
+/* "mlgrad/func.pyx":1258
  *                  'args': (self.a,) }
  * 
  * cdef class  WinsorizedSmoothFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -2098,7 +2098,7 @@ struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc {
 static struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc;
 
 
-/* "mlgrad/func.pyx":1232
+/* "mlgrad/func.pyx":1234
  * 
  * 
  * cdef class SoftMinFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -2813,140 +2813,140 @@ static int __Pyx_check_binary_version(void);
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static double __pyx_f_6mlgrad_4func_4Func_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_4Func_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_4Func__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_4Func__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_4Func_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_4Func_derivative_div_x(struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static void __pyx_f_6mlgrad_4func_4Func_evaluate_array(struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, double const *__pyx_v_x, double *__pyx_v_y, Py_ssize_t const __pyx_v_n); /* proto*/
 static void __pyx_f_6mlgrad_4func_4Func_derivative_array(struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, double const *__pyx_v_x, double *__pyx_v_y, Py_ssize_t const __pyx_v_n); /* proto*/
 static void __pyx_f_6mlgrad_4func_4Func_derivative2_array(struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, double const *__pyx_v_x, double *__pyx_v_y, Py_ssize_t const __pyx_v_n); /* proto*/
 static void __pyx_f_6mlgrad_4func_4Func_derivative_div_x_array(struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, double const *__pyx_v_x, double *__pyx_v_y, Py_ssize_t const __pyx_v_n); /* proto*/
-static double __pyx_f_6mlgrad_4func_4Comp_evaluate(struct __pyx_obj_6mlgrad_4func_Comp *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_4Comp_derivative(struct __pyx_obj_6mlgrad_4func_Comp *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_4Comp__evaluate(struct __pyx_obj_6mlgrad_4func_Comp *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_4Comp__derivative(struct __pyx_obj_6mlgrad_4func_Comp *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_4Comp_derivative2(struct __pyx_obj_6mlgrad_4func_Comp *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_4Comp_derivative_div_x(struct __pyx_obj_6mlgrad_4func_Comp *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_8CompSqrt_evaluate(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_8CompSqrt__evaluate(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_8CompSqrt__derivative(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative2(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative_div_x(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_evaluate(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_derivative(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_14ZeroOnPositive__evaluate(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_14ZeroOnPositive__derivative(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_derivative2(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_derivative_div_x(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_7FuncExp_evaluate(struct __pyx_obj_6mlgrad_4func_FuncExp *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_7FuncExp_derivative(struct __pyx_obj_6mlgrad_4func_FuncExp *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_7FuncExp__evaluate(struct __pyx_obj_6mlgrad_4func_FuncExp *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_7FuncExp__derivative(struct __pyx_obj_6mlgrad_4func_FuncExp *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_7FuncExp_derivative2(struct __pyx_obj_6mlgrad_4func_FuncExp *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_2Id_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Id *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_2Id_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Id *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_2Id__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Id *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_2Id__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Id *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_2Id_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Id *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_12QuantileFunc_evaluate(struct __pyx_obj_6mlgrad_4func_QuantileFunc *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_12QuantileFunc_derivative(struct __pyx_obj_6mlgrad_4func_QuantileFunc *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_12QuantileFunc__evaluate(struct __pyx_obj_6mlgrad_4func_QuantileFunc *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_12QuantileFunc__derivative(struct __pyx_obj_6mlgrad_4func_QuantileFunc *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_12QuantileFunc_derivative2(struct __pyx_obj_6mlgrad_4func_QuantileFunc *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_12QuantileFunc_derivative_div_x(struct __pyx_obj_6mlgrad_4func_QuantileFunc *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_3Neg_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Neg *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_3Neg_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Neg *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_3Neg__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Neg *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_3Neg__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Neg *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_3Neg_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Neg *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_12ModSigmoidal_evaluate(struct __pyx_obj_6mlgrad_4func_ModSigmoidal *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_12ModSigmoidal_derivative(struct __pyx_obj_6mlgrad_4func_ModSigmoidal *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_12ModSigmoidal__evaluate(struct __pyx_obj_6mlgrad_4func_ModSigmoidal *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_12ModSigmoidal__derivative(struct __pyx_obj_6mlgrad_4func_ModSigmoidal *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_12ModSigmoidal_derivative2(struct __pyx_obj_6mlgrad_4func_ModSigmoidal *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_9Sigmoidal_evaluate(struct __pyx_obj_6mlgrad_4func_Sigmoidal *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_9Sigmoidal_derivative(struct __pyx_obj_6mlgrad_4func_Sigmoidal *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_9Sigmoidal__evaluate(struct __pyx_obj_6mlgrad_4func_Sigmoidal *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_9Sigmoidal__derivative(struct __pyx_obj_6mlgrad_4func_Sigmoidal *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_9Sigmoidal_derivative2(struct __pyx_obj_6mlgrad_4func_Sigmoidal *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_7Arctang_evaluate(struct __pyx_obj_6mlgrad_4func_Arctang *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_7Arctang_derivative(struct __pyx_obj_6mlgrad_4func_Arctang *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_7Arctang__evaluate(struct __pyx_obj_6mlgrad_4func_Arctang *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_7Arctang__derivative(struct __pyx_obj_6mlgrad_4func_Arctang *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_7Arctang_derivative2(struct __pyx_obj_6mlgrad_4func_Arctang *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_8Softplus_evaluate(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_8Softplus_derivative(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_8Softplus_derivative2(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_9Threshold_evaluate(struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_9Threshold_derivative(struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_8SoftPlus__evaluate(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_8SoftPlus__derivative(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_8SoftPlus_derivative2(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_9Threshold__evaluate(struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_9Threshold__derivative(struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_9Threshold_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_4Sign_evaluate(struct __pyx_obj_6mlgrad_4func_Sign *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_4Sign_derivative(struct __pyx_obj_6mlgrad_4func_Sign *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_4Sign__evaluate(struct __pyx_obj_6mlgrad_4func_Sign *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_4Sign__derivative(struct __pyx_obj_6mlgrad_4func_Sign *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_4Sign_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Sign *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_8Quantile_evaluate(struct __pyx_obj_6mlgrad_4func_Quantile *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_8Quantile_derivative(struct __pyx_obj_6mlgrad_4func_Quantile *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_8Quantile__evaluate(struct __pyx_obj_6mlgrad_4func_Quantile *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_8Quantile__derivative(struct __pyx_obj_6mlgrad_4func_Quantile *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_8Quantile_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Quantile *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_5Power_evaluate(struct __pyx_obj_6mlgrad_4func_Power *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_5Power_derivative(struct __pyx_obj_6mlgrad_4func_Power *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_5Power__evaluate(struct __pyx_obj_6mlgrad_4func_Power *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_5Power__derivative(struct __pyx_obj_6mlgrad_4func_Power *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_5Power_derivative2(struct __pyx_obj_6mlgrad_4func_Power *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_5Power_derivative_div_x(struct __pyx_obj_6mlgrad_4func_Power *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_6Square_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Square *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_6Square_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Square *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_6Square__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Square *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_6Square__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Square *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_6Square_derivative_div_x(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Square *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_6Square_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Square *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_12SquareSigned_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_SquareSigned *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_SquareSigned *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_12SquareSigned__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_SquareSigned *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_12SquareSigned__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_SquareSigned *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_SquareSigned *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_8Absolute_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Absolute *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_8Absolute_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Absolute *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_8Absolute__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Absolute *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_8Absolute__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Absolute *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_8Absolute_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Absolute *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog__evaluate(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog__derivative(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_8Logistic_evaluate(struct __pyx_obj_6mlgrad_4func_Logistic *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_8Logistic_derivative(struct __pyx_obj_6mlgrad_4func_Logistic *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_8Logistic__evaluate(struct __pyx_obj_6mlgrad_4func_Logistic *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_8Logistic__derivative(struct __pyx_obj_6mlgrad_4func_Logistic *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_8Logistic_derivative2(struct __pyx_obj_6mlgrad_4func_Logistic *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_5Hinge_evaluate(struct __pyx_obj_6mlgrad_4func_Hinge *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_5Hinge_derivative(struct __pyx_obj_6mlgrad_4func_Hinge *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_5Hinge__evaluate(struct __pyx_obj_6mlgrad_4func_Hinge *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_5Hinge__derivative(struct __pyx_obj_6mlgrad_4func_Hinge *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_5Hinge_derivative2(struct __pyx_obj_6mlgrad_4func_Hinge *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_9HingeSqrt_evaluate(struct __pyx_obj_6mlgrad_4func_HingeSqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_9HingeSqrt_derivative(struct __pyx_obj_6mlgrad_4func_HingeSqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_9HingeSqrt__evaluate(struct __pyx_obj_6mlgrad_4func_HingeSqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_9HingeSqrt__derivative(struct __pyx_obj_6mlgrad_4func_HingeSqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_9HingeSqrt_derivative2(struct __pyx_obj_6mlgrad_4func_HingeSqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_5Huber_evaluate(struct __pyx_obj_6mlgrad_4func_Huber *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_5Huber_derivative(struct __pyx_obj_6mlgrad_4func_Huber *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_5Huber__evaluate(struct __pyx_obj_6mlgrad_4func_Huber *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_5Huber__derivative(struct __pyx_obj_6mlgrad_4func_Huber *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_5Huber_derivative_div_x(struct __pyx_obj_6mlgrad_4func_Huber *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_2TM_evaluate(struct __pyx_obj_6mlgrad_4func_TM *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_2TM_derivative(struct __pyx_obj_6mlgrad_4func_TM *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_2TM__evaluate(struct __pyx_obj_6mlgrad_4func_TM *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_2TM__derivative(struct __pyx_obj_6mlgrad_4func_TM *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_2TM_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_TM *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_2TM_derivative_div_x(struct __pyx_obj_6mlgrad_4func_TM *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_9LogSquare_evaluate(struct __pyx_obj_6mlgrad_4func_LogSquare *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_9LogSquare_derivative(struct __pyx_obj_6mlgrad_4func_LogSquare *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_9LogSquare__evaluate(struct __pyx_obj_6mlgrad_4func_LogSquare *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_9LogSquare__derivative(struct __pyx_obj_6mlgrad_4func_LogSquare *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_9LogSquare_derivative2(struct __pyx_obj_6mlgrad_4func_LogSquare *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_5Tukey_evaluate(struct __pyx_obj_6mlgrad_4func_Tukey *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_5Tukey_derivative(struct __pyx_obj_6mlgrad_4func_Tukey *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_5Tukey__evaluate(struct __pyx_obj_6mlgrad_4func_Tukey *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_5Tukey__derivative(struct __pyx_obj_6mlgrad_4func_Tukey *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_5Tukey_derivative2(struct __pyx_obj_6mlgrad_4func_Tukey *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_7SoftAbs_evaluate(struct __pyx_obj_6mlgrad_4func_SoftAbs *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative(struct __pyx_obj_6mlgrad_4func_SoftAbs *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_7SoftAbs__evaluate(struct __pyx_obj_6mlgrad_4func_SoftAbs *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_7SoftAbs__derivative(struct __pyx_obj_6mlgrad_4func_SoftAbs *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative2(struct __pyx_obj_6mlgrad_4func_SoftAbs *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative_div_x(struct __pyx_obj_6mlgrad_4func_SoftAbs *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_4Sqrt_evaluate(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_4Sqrt__evaluate(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static void __pyx_f_6mlgrad_4func_4Sqrt_evaluate_array(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const *__pyx_v_x, double *__pyx_v_y, CYTHON_UNUSED Py_ssize_t const __pyx_v_n); /* proto*/
-static double __pyx_f_6mlgrad_4func_4Sqrt_derivative(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_4Sqrt__derivative(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_array(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const *__pyx_v_x, double *__pyx_v_y, CYTHON_UNUSED Py_ssize_t const __pyx_v_n); /* proto*/
 static double __pyx_f_6mlgrad_4func_4Sqrt_derivative2(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static void __pyx_f_6mlgrad_4func_4Sqrt_derivative2_array(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const *__pyx_v_x, double *__pyx_v_y, CYTHON_UNUSED Py_ssize_t const __pyx_v_n); /* proto*/
 static double __pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x_array(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const *__pyx_v_x, double *__pyx_v_y, CYTHON_UNUSED Py_ssize_t const __pyx_v_n); /* proto*/
-static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt__evaluate(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt__derivative(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate_array(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const *__pyx_v_x, double *__pyx_v_y, Py_ssize_t const __pyx_v_n); /* proto*/
 static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_array(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const *__pyx_v_x, double *__pyx_v_y, Py_ssize_t const __pyx_v_n); /* proto*/
 static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2_array(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const *__pyx_v_x, double *__pyx_v_y, Py_ssize_t const __pyx_v_n); /* proto*/
 static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x_array(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const *__pyx_v_x, double *__pyx_v_y, Py_ssize_t const __pyx_v_n); /* proto*/
-static double __pyx_f_6mlgrad_4func_9Expectile_evaluate(struct __pyx_obj_6mlgrad_4func_Expectile *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_9Expectile_derivative(struct __pyx_obj_6mlgrad_4func_Expectile *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_9Expectile__evaluate(struct __pyx_obj_6mlgrad_4func_Expectile *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_9Expectile__derivative(struct __pyx_obj_6mlgrad_4func_Expectile *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_9Expectile_derivative2(struct __pyx_obj_6mlgrad_4func_Expectile *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_3Log_evaluate(struct __pyx_obj_6mlgrad_4func_Log *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_3Log_derivative(struct __pyx_obj_6mlgrad_4func_Log *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_3Log__evaluate(struct __pyx_obj_6mlgrad_4func_Log *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_3Log__derivative(struct __pyx_obj_6mlgrad_4func_Log *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_3Log_derivative2(struct __pyx_obj_6mlgrad_4func_Log *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_17ParameterizedFunc_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x, CYTHON_UNUSED double const __pyx_v_u); /* proto*/
-static double __pyx_f_6mlgrad_4func_17ParameterizedFunc_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x, CYTHON_UNUSED double const __pyx_v_u); /* proto*/
+static double __pyx_f_6mlgrad_4func_17ParameterizedFunc__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x, CYTHON_UNUSED double const __pyx_v_u); /* proto*/
+static double __pyx_f_6mlgrad_4func_17ParameterizedFunc__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x, CYTHON_UNUSED double const __pyx_v_u); /* proto*/
 static double __pyx_f_6mlgrad_4func_17ParameterizedFunc_derivative_u(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x, CYTHON_UNUSED double const __pyx_v_u); /* proto*/
-static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_WinsorizedFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
-static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_WinsorizedFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
+static double __pyx_f_6mlgrad_4func_14WinsorizedFunc__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_WinsorizedFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
+static double __pyx_f_6mlgrad_4func_14WinsorizedFunc__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_WinsorizedFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
 static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative_u(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_WinsorizedFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
-static double __pyx_f_6mlgrad_4func_11SoftMinFunc_evaluate(struct __pyx_obj_6mlgrad_4func_SoftMinFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
-static double __pyx_f_6mlgrad_4func_11SoftMinFunc_derivative(struct __pyx_obj_6mlgrad_4func_SoftMinFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
+static double __pyx_f_6mlgrad_4func_11SoftMinFunc__evaluate(struct __pyx_obj_6mlgrad_4func_SoftMinFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
+static double __pyx_f_6mlgrad_4func_11SoftMinFunc__derivative(struct __pyx_obj_6mlgrad_4func_SoftMinFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
 static double __pyx_f_6mlgrad_4func_11SoftMinFunc_derivative_u(struct __pyx_obj_6mlgrad_4func_SoftMinFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
-static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc_evaluate(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
-static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc_derivative(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
+static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc__evaluate(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
+static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc__derivative(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
 static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc_derivative_u(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u); /* proto*/
-static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgrad_4func_KMinSquare *__pyx_v_self, double const __pyx_v_x); /* proto*/
-static double __pyx_f_6mlgrad_4func_10KMinSquare_derivative(struct __pyx_obj_6mlgrad_4func_KMinSquare *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_10KMinSquare__evaluate(struct __pyx_obj_6mlgrad_4func_KMinSquare *__pyx_v_self, double const __pyx_v_x); /* proto*/
+static double __pyx_f_6mlgrad_4func_10KMinSquare__derivative(struct __pyx_obj_6mlgrad_4func_KMinSquare *__pyx_v_self, double const __pyx_v_x); /* proto*/
 static double __pyx_f_6mlgrad_4func_10KMinSquare_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_KMinSquare *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x); /* proto*/
 static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *__pyx_v_self); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
@@ -2982,7 +2982,7 @@ static PyTypeObject *__pyx_ptype_6mlgrad_4func_Neg = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4func_Arctang = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4func_Sigmoidal = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4func_ModSigmoidal = 0;
-static PyTypeObject *__pyx_ptype_6mlgrad_4func_Softplus = 0;
+static PyTypeObject *__pyx_ptype_6mlgrad_4func_SoftPlus = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4func_Threshold = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4func_Sign = 0;
 static PyTypeObject *__pyx_ptype_6mlgrad_4func_Quantile = 0;
@@ -3036,7 +3036,7 @@ static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Neg__set_state(struct __py
 static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_ModSigmoidal__set_state(struct __pyx_obj_6mlgrad_4func_ModSigmoidal *, PyObject *); /*proto*/
 static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Sigmoidal__set_state(struct __pyx_obj_6mlgrad_4func_Sigmoidal *, PyObject *); /*proto*/
 static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Arctang__set_state(struct __pyx_obj_6mlgrad_4func_Arctang *, PyObject *); /*proto*/
-static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Softplus__set_state(struct __pyx_obj_6mlgrad_4func_Softplus *, PyObject *); /*proto*/
+static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_SoftPlus__set_state(struct __pyx_obj_6mlgrad_4func_SoftPlus *, PyObject *); /*proto*/
 static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Threshold__set_state(struct __pyx_obj_6mlgrad_4func_Threshold *, PyObject *); /*proto*/
 static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Sign__set_state(struct __pyx_obj_6mlgrad_4func_Sign *, PyObject *); /*proto*/
 static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Quantile__set_state(struct __pyx_obj_6mlgrad_4func_Quantile *, PyObject *); /*proto*/
@@ -3204,7 +3204,7 @@ static const char __pyx_k_CompSqrt[] = "CompSqrt";
 static const char __pyx_k_Ellipsis[] = "Ellipsis";
 static const char __pyx_k_Logistic[] = "Logistic";
 static const char __pyx_k_Quantile[] = "Quantile";
-static const char __pyx_k_Softplus[] = "Softplus";
+static const char __pyx_k_SoftPlus[] = "SoftPlus";
 static const char __pyx_k_absolute[] = "absolute";
 static const char __pyx_k_compsqrt[] = "compsqrt";
 static const char __pyx_k_getstate[] = "__getstate__";
@@ -3302,7 +3302,7 @@ static const char __pyx_k_pyx_unpickle_Absolute[] = "__pyx_unpickle_Absolute";
 static const char __pyx_k_pyx_unpickle_CompSqrt[] = "__pyx_unpickle_CompSqrt";
 static const char __pyx_k_pyx_unpickle_Logistic[] = "__pyx_unpickle_Logistic";
 static const char __pyx_k_pyx_unpickle_Quantile[] = "__pyx_unpickle_Quantile";
-static const char __pyx_k_pyx_unpickle_Softplus[] = "__pyx_unpickle_Softplus";
+static const char __pyx_k_pyx_unpickle_SoftPlus[] = "__pyx_unpickle_SoftPlus";
 static const char __pyx_k_MemoryView_of_r_object[] = "<MemoryView of %r object>";
 static const char __pyx_k_pyx_unpickle_Expectile[] = "__pyx_unpickle_Expectile";
 static const char __pyx_k_pyx_unpickle_HingeSqrt[] = "__pyx_unpickle_HingeSqrt";
@@ -3444,7 +3444,7 @@ static PyObject *__pyx_n_s_Sigmoidal;
 static PyObject *__pyx_n_s_Sign;
 static PyObject *__pyx_n_s_SoftAbs;
 static PyObject *__pyx_n_s_SoftMinFunc;
-static PyObject *__pyx_n_s_Softplus;
+static PyObject *__pyx_n_s_SoftPlus;
 static PyObject *__pyx_n_s_Sqrt;
 static PyObject *__pyx_n_s_Square;
 static PyObject *__pyx_n_s_SquareSigned;
@@ -3568,7 +3568,7 @@ static PyObject *__pyx_n_s_pyx_unpickle_Sigmoidal;
 static PyObject *__pyx_n_s_pyx_unpickle_Sign;
 static PyObject *__pyx_n_s_pyx_unpickle_SoftAbs;
 static PyObject *__pyx_n_s_pyx_unpickle_SoftMinFunc;
-static PyObject *__pyx_n_s_pyx_unpickle_Softplus;
+static PyObject *__pyx_n_s_pyx_unpickle_SoftPlus;
 static PyObject *__pyx_n_s_pyx_unpickle_Sqrt;
 static PyObject *__pyx_n_s_pyx_unpickle_Square;
 static PyObject *__pyx_n_s_pyx_unpickle_SquareSigned;
@@ -3717,13 +3717,13 @@ static PyObject *__pyx_pf_6mlgrad_4func_7Arctang_1a___get__(struct __pyx_obj_6ml
 static int __pyx_pf_6mlgrad_4func_7Arctang_1a_2__set__(struct __pyx_obj_6mlgrad_4func_Arctang *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4func_7Arctang_6__reduce_cython__(struct __pyx_obj_6mlgrad_4func_Arctang *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4func_7Arctang_8__setstate_cython__(struct __pyx_obj_6mlgrad_4func_Arctang *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6mlgrad_4func_8Softplus___init__(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self, PyObject *__pyx_v_a); /* proto */
-static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_2_repr_latex_(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_4to_dict(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_1a___get__(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self); /* proto */
-static int __pyx_pf_6mlgrad_4func_8Softplus_1a_2__set__(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_6__reduce_cython__(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_8__setstate_cython__(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static int __pyx_pf_6mlgrad_4func_8SoftPlus___init__(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self, PyObject *__pyx_v_a); /* proto */
+static PyObject *__pyx_pf_6mlgrad_4func_8SoftPlus_2_repr_latex_(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_4func_8SoftPlus_4to_dict(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_4func_8SoftPlus_1a___get__(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self); /* proto */
+static int __pyx_pf_6mlgrad_4func_8SoftPlus_1a_2__set__(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_6mlgrad_4func_8SoftPlus_6__reduce_cython__(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_4func_8SoftPlus_8__setstate_cython__(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_6mlgrad_4func_9Threshold___init__(struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self, PyObject *__pyx_v_theta); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4func_9Threshold_2_repr_latex_(struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4func_9Threshold_4to_dict(struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self); /* proto */
@@ -3885,7 +3885,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_20__pyx_unpickle_Neg(CYTHON_UNUSED PyObj
 static PyObject *__pyx_pf_6mlgrad_4func_22__pyx_unpickle_ModSigmoidal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4func_24__pyx_unpickle_Sigmoidal(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4func_26__pyx_unpickle_Arctang(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_Softplus(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_SoftPlus(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4func_30__pyx_unpickle_Threshold(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4func_32__pyx_unpickle_Sign(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_4func_34__pyx_unpickle_Quantile(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
@@ -3963,7 +3963,7 @@ static PyObject *__pyx_tp_new_6mlgrad_4func_Neg(PyTypeObject *t, PyObject *a, Py
 static PyObject *__pyx_tp_new_6mlgrad_4func_Arctang(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_6mlgrad_4func_Sigmoidal(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_6mlgrad_4func_ModSigmoidal(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_tp_new_6mlgrad_4func_Softplus(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_6mlgrad_4func_SoftPlus(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_6mlgrad_4func_Threshold(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_6mlgrad_4func_Sign(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_6mlgrad_4func_Quantile(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -4356,17 +4356,17 @@ static PyObject *__pyx_pf_6mlgrad_4func_2func_from_dict(CYTHON_UNUSED PyObject *
 /* "mlgrad/func.pyx":64
  * cdef class Func(object):
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return 0.
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_4Func_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_4Func__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
   double __pyx_r;
 
   /* "mlgrad/func.pyx":65
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return 0.             # <<<<<<<<<<<<<<
  *     #
  *     def __call__(self, x):
@@ -4377,7 +4377,7 @@ static double __pyx_f_6mlgrad_4func_4Func_evaluate(CYTHON_UNUSED struct __pyx_ob
   /* "mlgrad/func.pyx":64
  * cdef class Func(object):
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return 0.
  *     #
  */
@@ -4392,7 +4392,7 @@ static double __pyx_f_6mlgrad_4func_4Func_evaluate(CYTHON_UNUSED struct __pyx_ob
  *     #
  *     def __call__(self, x):             # <<<<<<<<<<<<<<
  *         cdef double v = x
- *         return self.evaluate(v)
+ *         return self._evaluate(v)
  */
 
 /* Python wrapper */
@@ -4463,7 +4463,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Func___call__(struct __pyx_obj_6mlgrad_
  *     #
  *     def __call__(self, x):
  *         cdef double v = x             # <<<<<<<<<<<<<<
- *         return self.evaluate(v)
+ *         return self._evaluate(v)
  *     #
  */
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_x); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
@@ -4472,12 +4472,12 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Func___call__(struct __pyx_obj_6mlgrad_
   /* "mlgrad/func.pyx":69
  *     def __call__(self, x):
  *         cdef double v = x
- *         return self.evaluate(v)             # <<<<<<<<<<<<<<
+ *         return self._evaluate(v)             # <<<<<<<<<<<<<<
  *     #
  *     def __getitem__(self, x):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_vtab)->evaluate(__pyx_v_self, __pyx_v_v)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_vtab)->_evaluate(__pyx_v_self, __pyx_v_v)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -4488,7 +4488,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Func___call__(struct __pyx_obj_6mlgrad_
  *     #
  *     def __call__(self, x):             # <<<<<<<<<<<<<<
  *         cdef double v = x
- *         return self.evaluate(v)
+ *         return self._evaluate(v)
  */
 
   /* function exit code */
@@ -4503,11 +4503,11 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Func___call__(struct __pyx_obj_6mlgrad_
 }
 
 /* "mlgrad/func.pyx":71
- *         return self.evaluate(v)
+ *         return self._evaluate(v)
  *     #
  *     def __getitem__(self, x):             # <<<<<<<<<<<<<<
  *         cdef double v = x
- *         return self.derivative(v)
+ *         return self._derivative(v)
  */
 
 /* Python wrapper */
@@ -4538,7 +4538,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Func_2__getitem__(struct __pyx_obj_6mlg
  *     #
  *     def __getitem__(self, x):
  *         cdef double v = x             # <<<<<<<<<<<<<<
- *         return self.derivative(v)
+ *         return self._derivative(v)
  *     #
  */
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_x); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 72, __pyx_L1_error)
@@ -4547,23 +4547,23 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Func_2__getitem__(struct __pyx_obj_6mlg
   /* "mlgrad/func.pyx":73
  *     def __getitem__(self, x):
  *         cdef double v = x
- *         return self.derivative(v)             # <<<<<<<<<<<<<<
+ *         return self._derivative(v)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_vtab)->derivative(__pyx_v_self, __pyx_v_v)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_vtab)->_derivative(__pyx_v_self, __pyx_v_v)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":71
- *         return self.evaluate(v)
+ *         return self._evaluate(v)
  *     #
  *     def __getitem__(self, x):             # <<<<<<<<<<<<<<
  *         cdef double v = x
- *         return self.derivative(v)
+ *         return self._derivative(v)
  */
 
   /* function exit code */
@@ -4578,19 +4578,19 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Func_2__getitem__(struct __pyx_obj_6mlg
 }
 
 /* "mlgrad/func.pyx":75
- *         return self.derivative(v)
+ *         return self._derivative(v)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return 0.
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_4Func_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_4Func__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
   double __pyx_r;
 
   /* "mlgrad/func.pyx":76
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         return 0.             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative2(self, const double x) nogil:
@@ -4599,9 +4599,9 @@ static double __pyx_f_6mlgrad_4func_4Func_derivative(CYTHON_UNUSED struct __pyx_
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":75
- *         return self.derivative(v)
+ *         return self._derivative(v)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return 0.
  *     #
  */
@@ -4649,7 +4649,7 @@ static double __pyx_f_6mlgrad_4func_4Func_derivative2(CYTHON_UNUSED struct __pyx
  *         return 0.
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return self.derivative(x) / x
+ *         return self._derivative(x) / x
  *     #
  */
 
@@ -4663,11 +4663,11 @@ static double __pyx_f_6mlgrad_4func_4Func_derivative_div_x(struct __pyx_obj_6mlg
   /* "mlgrad/func.pyx":82
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:
- *         return self.derivative(x) / x             # <<<<<<<<<<<<<<
+ *         return self._derivative(x) / x             # <<<<<<<<<<<<<<
  *     #
  *     cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_vtab)->derivative(__pyx_v_self, __pyx_v_x);
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_vtab)->_derivative(__pyx_v_self, __pyx_v_x);
   if (unlikely(__pyx_v_x == 0)) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -4685,7 +4685,7 @@ static double __pyx_f_6mlgrad_4func_4Func_derivative_div_x(struct __pyx_obj_6mlg
  *         return 0.
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return self.derivative(x) / x
+ *         return self._derivative(x) / x
  *     #
  */
 
@@ -4698,7 +4698,7 @@ static double __pyx_f_6mlgrad_4func_4Func_derivative_div_x(struct __pyx_obj_6mlg
 }
 
 /* "mlgrad/func.pyx":84
- *         return self.derivative(x) / x
+ *         return self._derivative(x) / x
  *     #
  *     cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i
@@ -4715,7 +4715,7 @@ static void __pyx_f_6mlgrad_4func_4Func_evaluate_array(struct __pyx_obj_6mlgrad_
  *     cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
  *         cdef Py_ssize_t i
  *         for i in range(n):             # <<<<<<<<<<<<<<
- *             y[i] = self.evaluate(x[i])
+ *             y[i] = self._evaluate(x[i])
  *     #
  */
   __pyx_t_1 = __pyx_v_n;
@@ -4726,15 +4726,15 @@ static void __pyx_f_6mlgrad_4func_4Func_evaluate_array(struct __pyx_obj_6mlgrad_
     /* "mlgrad/func.pyx":87
  *         cdef Py_ssize_t i
  *         for i in range(n):
- *             y[i] = self.evaluate(x[i])             # <<<<<<<<<<<<<<
+ *             y[i] = self._evaluate(x[i])             # <<<<<<<<<<<<<<
  *     #
  *     cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
  */
-    (__pyx_v_y[__pyx_v_i]) = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_vtab)->evaluate(__pyx_v_self, (__pyx_v_x[__pyx_v_i]));
+    (__pyx_v_y[__pyx_v_i]) = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_vtab)->_evaluate(__pyx_v_self, (__pyx_v_x[__pyx_v_i]));
   }
 
   /* "mlgrad/func.pyx":84
- *         return self.derivative(x) / x
+ *         return self._derivative(x) / x
  *     #
  *     cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i
@@ -4745,7 +4745,7 @@ static void __pyx_f_6mlgrad_4func_4Func_evaluate_array(struct __pyx_obj_6mlgrad_
 }
 
 /* "mlgrad/func.pyx":89
- *             y[i] = self.evaluate(x[i])
+ *             y[i] = self._evaluate(x[i])
  *     #
  *     cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i
@@ -4762,7 +4762,7 @@ static void __pyx_f_6mlgrad_4func_4Func_derivative_array(struct __pyx_obj_6mlgra
  *     cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
  *         cdef Py_ssize_t i
  *         for i in range(n):             # <<<<<<<<<<<<<<
- *             y[i] = self.derivative(x[i])
+ *             y[i] = self._derivative(x[i])
  *     #
  */
   __pyx_t_1 = __pyx_v_n;
@@ -4773,15 +4773,15 @@ static void __pyx_f_6mlgrad_4func_4Func_derivative_array(struct __pyx_obj_6mlgra
     /* "mlgrad/func.pyx":92
  *         cdef Py_ssize_t i
  *         for i in range(n):
- *             y[i] = self.derivative(x[i])             # <<<<<<<<<<<<<<
+ *             y[i] = self._derivative(x[i])             # <<<<<<<<<<<<<<
  *     #
  *     cdef void derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
  */
-    (__pyx_v_y[__pyx_v_i]) = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_vtab)->derivative(__pyx_v_self, (__pyx_v_x[__pyx_v_i]));
+    (__pyx_v_y[__pyx_v_i]) = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->__pyx_vtab)->_derivative(__pyx_v_self, (__pyx_v_x[__pyx_v_i]));
   }
 
   /* "mlgrad/func.pyx":89
- *             y[i] = self.evaluate(x[i])
+ *             y[i] = self._evaluate(x[i])
  *     #
  *     cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i
@@ -4792,7 +4792,7 @@ static void __pyx_f_6mlgrad_4func_4Func_derivative_array(struct __pyx_obj_6mlgra
 }
 
 /* "mlgrad/func.pyx":94
- *             y[i] = self.derivative(x[i])
+ *             y[i] = self._derivative(x[i])
  *     #
  *     cdef void derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i
@@ -4828,7 +4828,7 @@ static void __pyx_f_6mlgrad_4func_4Func_derivative2_array(struct __pyx_obj_6mlgr
   }
 
   /* "mlgrad/func.pyx":94
- *             y[i] = self.derivative(x[i])
+ *             y[i] = self._derivative(x[i])
  *     #
  *     cdef void derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t i
@@ -4890,7 +4890,7 @@ static void __pyx_f_6mlgrad_4func_4Func_derivative_div_x_array(struct __pyx_obj_
  * cdef class Func(object):
  *     cdef public unicode label             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil
+ *     cdef double _evaluate(self, const double x) nogil
  */
 
 /* Python wrapper */
@@ -5389,7 +5389,7 @@ static int __pyx_pf_6mlgrad_4func_4Comp___init__(struct __pyx_obj_6mlgrad_4func_
  *         self.f = f
  *         self.g = g             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_g));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_g));
@@ -5414,29 +5414,29 @@ static int __pyx_pf_6mlgrad_4func_4Comp___init__(struct __pyx_obj_6mlgrad_4func_
 /* "mlgrad/func.pyx":110
  *         self.g = g
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return self.f.evaluate(self.g.evaluate(x))
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *         return self.f._evaluate(self.g._evaluate(x))
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_4Comp_evaluate(struct __pyx_obj_6mlgrad_4func_Comp *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_4Comp__evaluate(struct __pyx_obj_6mlgrad_4func_Comp *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
   /* "mlgrad/func.pyx":111
  *     #
- *     cdef double evaluate(self, const double x) nogil:
- *         return self.f.evaluate(self.g.evaluate(x))             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:
+ *         return self.f._evaluate(self.g._evaluate(x))             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
-  __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->evaluate(__pyx_v_self->f, ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->evaluate(__pyx_v_self->g, __pyx_v_x));
+  __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_evaluate(__pyx_v_self->f, ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->_evaluate(__pyx_v_self->g, __pyx_v_x));
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":110
  *         self.g = g
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return self.f.evaluate(self.g.evaluate(x))
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *         return self.f._evaluate(self.g._evaluate(x))
  *     #
  */
 
@@ -5446,31 +5446,31 @@ static double __pyx_f_6mlgrad_4func_4Comp_evaluate(struct __pyx_obj_6mlgrad_4fun
 }
 
 /* "mlgrad/func.pyx":113
- *         return self.f.evaluate(self.g.evaluate(x))
+ *         return self.f._evaluate(self.g._evaluate(x))
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return self.f.derivative(self.g.evaluate(x)) * self.g.derivative(x)
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *         return self.f._derivative(self.g._evaluate(x)) * self.g._derivative(x)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_4Comp_derivative(struct __pyx_obj_6mlgrad_4func_Comp *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_4Comp__derivative(struct __pyx_obj_6mlgrad_4func_Comp *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
   /* "mlgrad/func.pyx":114
  *     #
- *     cdef double derivative(self, const double x) nogil:
- *         return self.f.derivative(self.g.evaluate(x)) * self.g.derivative(x)             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:
+ *         return self.f._derivative(self.g._evaluate(x)) * self.g._derivative(x)             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  */
-  __pyx_r = (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->evaluate(__pyx_v_self->g, __pyx_v_x)) * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->derivative(__pyx_v_self->g, __pyx_v_x));
+  __pyx_r = (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_derivative(__pyx_v_self->f, ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->_evaluate(__pyx_v_self->g, __pyx_v_x)) * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->_derivative(__pyx_v_self->g, __pyx_v_x));
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":113
- *         return self.f.evaluate(self.g.evaluate(x))
+ *         return self.f._evaluate(self.g._evaluate(x))
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return self.f.derivative(self.g.evaluate(x)) * self.g.derivative(x)
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *         return self.f._derivative(self.g._evaluate(x)) * self.g._derivative(x)
  *     #
  */
 
@@ -5480,11 +5480,11 @@ static double __pyx_f_6mlgrad_4func_4Comp_derivative(struct __pyx_obj_6mlgrad_4f
 }
 
 /* "mlgrad/func.pyx":116
- *         return self.f.derivative(self.g.evaluate(x)) * self.g.derivative(x)
+ *         return self.f._derivative(self.g._evaluate(x)) * self.g._derivative(x)
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         cdef double dg = self.g.derivative(x)
- *         cdef double y = self.g.evaluate(x)
+ *         cdef double dg = self.g._derivative(x)
+ *         cdef double y = self.g._evaluate(x)
  */
 
 static double __pyx_f_6mlgrad_4func_4Comp_derivative2(struct __pyx_obj_6mlgrad_4func_Comp *__pyx_v_self, double const __pyx_v_x) {
@@ -5495,37 +5495,37 @@ static double __pyx_f_6mlgrad_4func_4Comp_derivative2(struct __pyx_obj_6mlgrad_4
   /* "mlgrad/func.pyx":117
  *     #
  *     cdef double derivative2(self, const double x) nogil:
- *         cdef double dg = self.g.derivative(x)             # <<<<<<<<<<<<<<
- *         cdef double y = self.g.evaluate(x)
+ *         cdef double dg = self.g._derivative(x)             # <<<<<<<<<<<<<<
+ *         cdef double y = self.g._evaluate(x)
  * 
  */
-  __pyx_v_dg = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->derivative(__pyx_v_self->g, __pyx_v_x);
+  __pyx_v_dg = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->_derivative(__pyx_v_self->g, __pyx_v_x);
 
   /* "mlgrad/func.pyx":118
  *     cdef double derivative2(self, const double x) nogil:
- *         cdef double dg = self.g.derivative(x)
- *         cdef double y = self.g.evaluate(x)             # <<<<<<<<<<<<<<
+ *         cdef double dg = self.g._derivative(x)
+ *         cdef double y = self.g._evaluate(x)             # <<<<<<<<<<<<<<
  * 
  *         return self.f.derivative2(y) * dg * dg + \
  */
-  __pyx_v_y = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->evaluate(__pyx_v_self->g, __pyx_v_x);
+  __pyx_v_y = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->_evaluate(__pyx_v_self->g, __pyx_v_x);
 
   /* "mlgrad/func.pyx":120
- *         cdef double y = self.g.evaluate(x)
+ *         cdef double y = self.g._evaluate(x)
  * 
  *         return self.f.derivative2(y) * dg * dg + \             # <<<<<<<<<<<<<<
- *                self.f.derivative(y) * self.g.derivative2(x)
+ *                self.f._derivative(y) * self.g.derivative2(x)
  *     #
  */
-  __pyx_r = (((((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative2(__pyx_v_self->f, __pyx_v_y) * __pyx_v_dg) * __pyx_v_dg) + (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, __pyx_v_y) * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->derivative2(__pyx_v_self->g, __pyx_v_x)));
+  __pyx_r = (((((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative2(__pyx_v_self->f, __pyx_v_y) * __pyx_v_dg) * __pyx_v_dg) + (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_derivative(__pyx_v_self->f, __pyx_v_y) * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->derivative2(__pyx_v_self->g, __pyx_v_x)));
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":116
- *         return self.f.derivative(self.g.evaluate(x)) * self.g.derivative(x)
+ *         return self.f._derivative(self.g._evaluate(x)) * self.g._derivative(x)
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         cdef double dg = self.g.derivative(x)
- *         cdef double y = self.g.evaluate(x)
+ *         cdef double dg = self.g._derivative(x)
+ *         cdef double y = self.g._evaluate(x)
  */
 
   /* function exit code */
@@ -5534,10 +5534,10 @@ static double __pyx_f_6mlgrad_4func_4Comp_derivative2(struct __pyx_obj_6mlgrad_4
 }
 
 /* "mlgrad/func.pyx":123
- *                self.f.derivative(y) * self.g.derivative2(x)
+ *                self.f._derivative(y) * self.g.derivative2(x)
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return self.f.derivative(self.g.evaluate(x)) * self.g.derivative_div_x(x)
+ *         return self.f._derivative(self.g._evaluate(x)) * self.g.derivative_div_x(x)
  * 
  */
 
@@ -5547,18 +5547,18 @@ static double __pyx_f_6mlgrad_4func_4Comp_derivative_div_x(struct __pyx_obj_6mlg
   /* "mlgrad/func.pyx":124
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:
- *         return self.f.derivative(self.g.evaluate(x)) * self.g.derivative_div_x(x)             # <<<<<<<<<<<<<<
+ *         return self.f._derivative(self.g._evaluate(x)) * self.g.derivative_div_x(x)             # <<<<<<<<<<<<<<
  * 
  *     def to_dict(self):
  */
-  __pyx_r = (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->evaluate(__pyx_v_self->g, __pyx_v_x)) * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->derivative_div_x(__pyx_v_self->g, __pyx_v_x));
+  __pyx_r = (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_derivative(__pyx_v_self->f, ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->_evaluate(__pyx_v_self->g, __pyx_v_x)) * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->g->__pyx_vtab)->derivative_div_x(__pyx_v_self->g, __pyx_v_x));
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":123
- *                self.f.derivative(y) * self.g.derivative2(x)
+ *                self.f._derivative(y) * self.g.derivative2(x)
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return self.f.derivative(self.g.evaluate(x)) * self.g.derivative_div_x(x)
+ *         return self.f._derivative(self.g._evaluate(x)) * self.g.derivative_div_x(x)
  * 
  */
 
@@ -5568,7 +5568,7 @@ static double __pyx_f_6mlgrad_4func_4Comp_derivative_div_x(struct __pyx_obj_6mlg
 }
 
 /* "mlgrad/func.pyx":126
- *         return self.f.derivative(self.g.evaluate(x)) * self.g.derivative_div_x(x)
+ *         return self.f._derivative(self.g._evaluate(x)) * self.g.derivative_div_x(x)
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
  *         return { 'name':'comp',
@@ -5670,7 +5670,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Comp_2to_dict(struct __pyx_obj_6mlgrad_
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":126
- *         return self.f.derivative(self.g.evaluate(x)) * self.g.derivative_div_x(x)
+ *         return self.f._derivative(self.g._evaluate(x)) * self.g.derivative_div_x(x)
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
  *         return { 'name':'comp',
@@ -6295,7 +6295,7 @@ static int __pyx_pf_6mlgrad_4func_8CompSqrt___init__(struct __pyx_obj_6mlgrad_4f
  *     def __init__(self, Func f):
  *         self.f = f             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_f));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_f));
@@ -6320,40 +6320,40 @@ static int __pyx_pf_6mlgrad_4func_8CompSqrt___init__(struct __pyx_obj_6mlgrad_4f
 /* "mlgrad/func.pyx":136
  *         self.f = f
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = sqrt(x)
- *         return self.f.evaluate(v)
+ *         return self.f._evaluate(v)
  */
 
-static double __pyx_f_6mlgrad_4func_8CompSqrt_evaluate(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_8CompSqrt__evaluate(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v;
   double __pyx_r;
 
   /* "mlgrad/func.pyx":137
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double v = sqrt(x)             # <<<<<<<<<<<<<<
- *         return self.f.evaluate(v)
+ *         return self.f._evaluate(v)
  *     #
  */
   __pyx_v_v = sqrt(__pyx_v_x);
 
   /* "mlgrad/func.pyx":138
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double v = sqrt(x)
- *         return self.f.evaluate(v)             # <<<<<<<<<<<<<<
+ *         return self.f._evaluate(v)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
-  __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->evaluate(__pyx_v_self->f, __pyx_v_v);
+  __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_evaluate(__pyx_v_self->f, __pyx_v_v);
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":136
  *         self.f = f
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = sqrt(x)
- *         return self.f.evaluate(v)
+ *         return self.f._evaluate(v)
  */
 
   /* function exit code */
@@ -6362,20 +6362,20 @@ static double __pyx_f_6mlgrad_4func_8CompSqrt_evaluate(struct __pyx_obj_6mlgrad_
 }
 
 /* "mlgrad/func.pyx":140
- *         return self.f.evaluate(v)
+ *         return self.f._evaluate(v)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = sqrt(x)
  *         return 0.5 * self.f.derivative_div_x(v)
  */
 
-static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_8CompSqrt__derivative(struct __pyx_obj_6mlgrad_4func_CompSqrt *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v;
   double __pyx_r;
 
   /* "mlgrad/func.pyx":141
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = sqrt(x)             # <<<<<<<<<<<<<<
  *         return 0.5 * self.f.derivative_div_x(v)
  *     #
@@ -6383,7 +6383,7 @@ static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative(struct __pyx_obj_6mlgra
   __pyx_v_v = sqrt(__pyx_v_x);
 
   /* "mlgrad/func.pyx":142
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = sqrt(x)
  *         return 0.5 * self.f.derivative_div_x(v)             # <<<<<<<<<<<<<<
  *     #
@@ -6393,9 +6393,9 @@ static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative(struct __pyx_obj_6mlgra
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":140
- *         return self.f.evaluate(v)
+ *         return self.f._evaluate(v)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = sqrt(x)
  *         return 0.5 * self.f.derivative_div_x(v)
  */
@@ -6428,14 +6428,14 @@ static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative2(struct __pyx_obj_6mlgr
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double y = sqrt(x)             # <<<<<<<<<<<<<<
  * 
- *         return 0.25 * (self.f.derivative2(y) / x - self.f.derivative(y) / (x*y))
+ *         return 0.25 * (self.f.derivative2(y) / x - self.f._derivative(y) / (x*y))
  */
   __pyx_v_y = sqrt(__pyx_v_x);
 
   /* "mlgrad/func.pyx":147
  *         cdef double y = sqrt(x)
  * 
- *         return 0.25 * (self.f.derivative2(y) / x - self.f.derivative(y) / (x*y))             # <<<<<<<<<<<<<<
+ *         return 0.25 * (self.f.derivative2(y) / x - self.f._derivative(y) / (x*y))             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:
  */
@@ -6450,7 +6450,7 @@ static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative2(struct __pyx_obj_6mlgr
     #endif
     __PYX_ERR(0, 147, __pyx_L1_error)
   }
-  __pyx_t_2 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, __pyx_v_y);
+  __pyx_t_2 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_derivative(__pyx_v_self->f, __pyx_v_y);
   __pyx_t_3 = (__pyx_v_x * __pyx_v_y);
   if (unlikely(__pyx_t_3 == 0)) {
     #ifdef WITH_THREAD
@@ -6482,7 +6482,7 @@ static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative2(struct __pyx_obj_6mlgr
 }
 
 /* "mlgrad/func.pyx":149
- *         return 0.25 * (self.f.derivative2(y) / x - self.f.derivative(y) / (x*y))
+ *         return 0.25 * (self.f.derivative2(y) / x - self.f._derivative(y) / (x*y))
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = sqrt(x)
@@ -6528,7 +6528,7 @@ static double __pyx_f_6mlgrad_4func_8CompSqrt_derivative_div_x(struct __pyx_obj_
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":149
- *         return 0.25 * (self.f.derivative2(y) / x - self.f.derivative(y) / (x*y))
+ *         return 0.25 * (self.f.derivative2(y) / x - self.f._derivative(y) / (x*y))
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = sqrt(x)
@@ -7271,7 +7271,7 @@ static int __pyx_pf_6mlgrad_4func_14ZeroOnPositive___init__(struct __pyx_obj_6ml
  *     def __init__(self, Func f):
  *         self.f = f             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_f));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_f));
@@ -7296,18 +7296,18 @@ static int __pyx_pf_6mlgrad_4func_14ZeroOnPositive___init__(struct __pyx_obj_6ml
 /* "mlgrad/func.pyx":163
  *         self.f = f
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
  *             return 0
  */
 
-static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_evaluate(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_14ZeroOnPositive__evaluate(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
   /* "mlgrad/func.pyx":164
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x > 0:             # <<<<<<<<<<<<<<
  *             return 0
  *         else:
@@ -7316,18 +7316,18 @@ static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_evaluate(struct __pyx_obj_6
   if (__pyx_t_1) {
 
     /* "mlgrad/func.pyx":165
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x > 0:
  *             return 0             # <<<<<<<<<<<<<<
  *         else:
- *             return self.f.evaluate(x)
+ *             return self.f._evaluate(x)
  */
     __pyx_r = 0.0;
     goto __pyx_L0;
 
     /* "mlgrad/func.pyx":164
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x > 0:             # <<<<<<<<<<<<<<
  *             return 0
  *         else:
@@ -7337,19 +7337,19 @@ static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_evaluate(struct __pyx_obj_6
   /* "mlgrad/func.pyx":167
  *             return 0
  *         else:
- *             return self.f.evaluate(x)             # <<<<<<<<<<<<<<
+ *             return self.f._evaluate(x)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   /*else*/ {
-    __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->evaluate(__pyx_v_self->f, __pyx_v_x);
+    __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_evaluate(__pyx_v_self->f, __pyx_v_x);
     goto __pyx_L0;
   }
 
   /* "mlgrad/func.pyx":163
  *         self.f = f
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
  *             return 0
  */
@@ -7360,20 +7360,20 @@ static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_evaluate(struct __pyx_obj_6
 }
 
 /* "mlgrad/func.pyx":169
- *             return self.f.evaluate(x)
+ *             return self.f._evaluate(x)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
  *             return 0
  */
 
-static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_derivative(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_14ZeroOnPositive__derivative(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
   /* "mlgrad/func.pyx":170
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x > 0:             # <<<<<<<<<<<<<<
  *             return 0
  *         else:
@@ -7382,18 +7382,18 @@ static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_derivative(struct __pyx_obj
   if (__pyx_t_1) {
 
     /* "mlgrad/func.pyx":171
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x > 0:
  *             return 0             # <<<<<<<<<<<<<<
  *         else:
- *             return self.f.derivative(x)
+ *             return self.f._derivative(x)
  */
     __pyx_r = 0.0;
     goto __pyx_L0;
 
     /* "mlgrad/func.pyx":170
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x > 0:             # <<<<<<<<<<<<<<
  *             return 0
  *         else:
@@ -7403,19 +7403,19 @@ static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_derivative(struct __pyx_obj
   /* "mlgrad/func.pyx":173
  *             return 0
  *         else:
- *             return self.f.derivative(x)             # <<<<<<<<<<<<<<
+ *             return self.f._derivative(x)             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  */
   /*else*/ {
-    __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, __pyx_v_x);
+    __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_derivative(__pyx_v_self->f, __pyx_v_x);
     goto __pyx_L0;
   }
 
   /* "mlgrad/func.pyx":169
- *             return self.f.evaluate(x)
+ *             return self.f._evaluate(x)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
  *             return 0
  */
@@ -7426,7 +7426,7 @@ static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_derivative(struct __pyx_obj
 }
 
 /* "mlgrad/func.pyx":175
- *             return self.f.derivative(x)
+ *             return self.f._derivative(x)
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
@@ -7479,7 +7479,7 @@ static double __pyx_f_6mlgrad_4func_14ZeroOnPositive_derivative2(struct __pyx_ob
   }
 
   /* "mlgrad/func.pyx":175
- *             return self.f.derivative(x)
+ *             return self.f._derivative(x)
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
@@ -8050,7 +8050,7 @@ static int __pyx_pf_6mlgrad_4func_7FuncExp___init__(struct __pyx_obj_6mlgrad_4fu
  *     def __init__ (self, Func f):
  *         self.f = f             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_f));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_f));
@@ -8075,29 +8075,29 @@ static int __pyx_pf_6mlgrad_4func_7FuncExp___init__(struct __pyx_obj_6mlgrad_4fu
 /* "mlgrad/func.pyx":192
  *         self.f = f
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return self.f.evaluate(exp(x))
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *         return self.f._evaluate(exp(x))
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_7FuncExp_evaluate(struct __pyx_obj_6mlgrad_4func_FuncExp *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_7FuncExp__evaluate(struct __pyx_obj_6mlgrad_4func_FuncExp *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
   /* "mlgrad/func.pyx":193
  *     #
- *     cdef double evaluate(self, const double x) nogil:
- *         return self.f.evaluate(exp(x))             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:
+ *         return self.f._evaluate(exp(x))             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
-  __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->evaluate(__pyx_v_self->f, exp(__pyx_v_x));
+  __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_evaluate(__pyx_v_self->f, exp(__pyx_v_x));
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":192
  *         self.f = f
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return self.f.evaluate(exp(x))
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *         return self.f._evaluate(exp(x))
  *     #
  */
 
@@ -8107,42 +8107,42 @@ static double __pyx_f_6mlgrad_4func_7FuncExp_evaluate(struct __pyx_obj_6mlgrad_4
 }
 
 /* "mlgrad/func.pyx":195
- *         return self.f.evaluate(exp(x))
+ *         return self.f._evaluate(exp(x))
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double y = exp(x)
- *         return self.f.derivative(y) * y
+ *         return self.f._derivative(y) * y
  */
 
-static double __pyx_f_6mlgrad_4func_7FuncExp_derivative(struct __pyx_obj_6mlgrad_4func_FuncExp *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_7FuncExp__derivative(struct __pyx_obj_6mlgrad_4func_FuncExp *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_y;
   double __pyx_r;
 
   /* "mlgrad/func.pyx":196
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double y = exp(x)             # <<<<<<<<<<<<<<
- *         return self.f.derivative(y) * y
+ *         return self.f._derivative(y) * y
  *     #
  */
   __pyx_v_y = exp(__pyx_v_x);
 
   /* "mlgrad/func.pyx":197
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double y = exp(x)
- *         return self.f.derivative(y) * y             # <<<<<<<<<<<<<<
+ *         return self.f._derivative(y) * y             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  */
-  __pyx_r = (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, __pyx_v_y) * __pyx_v_y);
+  __pyx_r = (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_derivative(__pyx_v_self->f, __pyx_v_y) * __pyx_v_y);
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":195
- *         return self.f.evaluate(exp(x))
+ *         return self.f._evaluate(exp(x))
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double y = exp(x)
- *         return self.f.derivative(y) * y
+ *         return self.f._derivative(y) * y
  */
 
   /* function exit code */
@@ -8151,11 +8151,11 @@ static double __pyx_f_6mlgrad_4func_7FuncExp_derivative(struct __pyx_obj_6mlgrad
 }
 
 /* "mlgrad/func.pyx":199
- *         return self.f.derivative(y) * y
+ *         return self.f._derivative(y) * y
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double y = exp(x)
- *         return (self.f.derivative(y) + self.f.derivative2(y) * y) * y
+ *         return (self.f._derivative(y) + self.f.derivative2(y) * y) * y
  */
 
 static double __pyx_f_6mlgrad_4func_7FuncExp_derivative2(struct __pyx_obj_6mlgrad_4func_FuncExp *__pyx_v_self, double const __pyx_v_x) {
@@ -8166,7 +8166,7 @@ static double __pyx_f_6mlgrad_4func_7FuncExp_derivative2(struct __pyx_obj_6mlgra
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double y = exp(x)             # <<<<<<<<<<<<<<
- *         return (self.f.derivative(y) + self.f.derivative2(y) * y) * y
+ *         return (self.f._derivative(y) + self.f.derivative2(y) * y) * y
  * 
  */
   __pyx_v_y = exp(__pyx_v_x);
@@ -8174,19 +8174,19 @@ static double __pyx_f_6mlgrad_4func_7FuncExp_derivative2(struct __pyx_obj_6mlgra
   /* "mlgrad/func.pyx":201
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double y = exp(x)
- *         return (self.f.derivative(y) + self.f.derivative2(y) * y) * y             # <<<<<<<<<<<<<<
+ *         return (self.f._derivative(y) + self.f.derivative2(y) * y) * y             # <<<<<<<<<<<<<<
  * 
  * cdef class Id(Func):
  */
-  __pyx_r = ((((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, __pyx_v_y) + (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative2(__pyx_v_self->f, __pyx_v_y) * __pyx_v_y)) * __pyx_v_y);
+  __pyx_r = ((((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_derivative(__pyx_v_self->f, __pyx_v_y) + (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative2(__pyx_v_self->f, __pyx_v_y) * __pyx_v_y)) * __pyx_v_y);
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":199
- *         return self.f.derivative(y) * y
+ *         return self.f._derivative(y) * y
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double y = exp(x)
- *         return (self.f.derivative(y) + self.f.derivative2(y) * y) * y
+ *         return (self.f._derivative(y) + self.f.derivative2(y) * y) * y
  */
 
   /* function exit code */
@@ -8614,20 +8614,20 @@ static PyObject *__pyx_pf_6mlgrad_4func_7FuncExp_4__setstate_cython__(struct __p
 /* "mlgrad/func.pyx":205
  * cdef class Id(Func):
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return x
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_2Id_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Id *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_2Id__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Id *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
   /* "mlgrad/func.pyx":206
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return x             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   __pyx_r = __pyx_v_x;
   goto __pyx_L0;
@@ -8635,7 +8635,7 @@ static double __pyx_f_6mlgrad_4func_2Id_evaluate(CYTHON_UNUSED struct __pyx_obj_
   /* "mlgrad/func.pyx":205
  * cdef class Id(Func):
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return x
  *     #
  */
@@ -8648,17 +8648,17 @@ static double __pyx_f_6mlgrad_4func_2Id_evaluate(CYTHON_UNUSED struct __pyx_obj_
 /* "mlgrad/func.pyx":208
  *         return x
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return 1
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_2Id_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Id *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_2Id__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Id *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
   double __pyx_r;
 
   /* "mlgrad/func.pyx":209
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         return 1             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative2(self, const double x) nogil:
@@ -8669,7 +8669,7 @@ static double __pyx_f_6mlgrad_4func_2Id_derivative(CYTHON_UNUSED struct __pyx_ob
   /* "mlgrad/func.pyx":208
  *         return x
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return 1
  *     #
  */
@@ -9339,7 +9339,7 @@ static int __pyx_pf_6mlgrad_4func_12QuantileFunc___init__(struct __pyx_obj_6mlgr
  *         self.alpha = alpha
  *         self.f = func             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_func));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_func));
@@ -9369,91 +9369,91 @@ static int __pyx_pf_6mlgrad_4func_12QuantileFunc___init__(struct __pyx_obj_6mlgr
 /* "mlgrad/func.pyx":229
  *         self.f = func
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
- *             return self.alpha * self.f.evaluate(x)
+ *             return self.alpha * self.f._evaluate(x)
  */
 
-static double __pyx_f_6mlgrad_4func_12QuantileFunc_evaluate(struct __pyx_obj_6mlgrad_4func_QuantileFunc *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_12QuantileFunc__evaluate(struct __pyx_obj_6mlgrad_4func_QuantileFunc *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
   /* "mlgrad/func.pyx":230
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x > 0:             # <<<<<<<<<<<<<<
- *             return self.alpha * self.f.evaluate(x)
+ *             return self.alpha * self.f._evaluate(x)
  *         elif x < 0:
  */
   __pyx_t_1 = ((__pyx_v_x > 0.0) != 0);
   if (__pyx_t_1) {
 
     /* "mlgrad/func.pyx":231
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x > 0:
- *             return self.alpha * self.f.evaluate(x)             # <<<<<<<<<<<<<<
+ *             return self.alpha * self.f._evaluate(x)             # <<<<<<<<<<<<<<
  *         elif x < 0:
- *             return (1-self.alpha) * self.f.evaluate(x)
+ *             return (1-self.alpha) * self.f._evaluate(x)
  */
-    __pyx_r = (__pyx_v_self->alpha * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->evaluate(__pyx_v_self->f, __pyx_v_x));
+    __pyx_r = (__pyx_v_self->alpha * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_evaluate(__pyx_v_self->f, __pyx_v_x));
     goto __pyx_L0;
 
     /* "mlgrad/func.pyx":230
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x > 0:             # <<<<<<<<<<<<<<
- *             return self.alpha * self.f.evaluate(x)
+ *             return self.alpha * self.f._evaluate(x)
  *         elif x < 0:
  */
   }
 
   /* "mlgrad/func.pyx":232
  *         if x > 0:
- *             return self.alpha * self.f.evaluate(x)
+ *             return self.alpha * self.f._evaluate(x)
  *         elif x < 0:             # <<<<<<<<<<<<<<
- *             return (1-self.alpha) * self.f.evaluate(x)
+ *             return (1-self.alpha) * self.f._evaluate(x)
  *         else:
  */
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
     /* "mlgrad/func.pyx":233
- *             return self.alpha * self.f.evaluate(x)
+ *             return self.alpha * self.f._evaluate(x)
  *         elif x < 0:
- *             return (1-self.alpha) * self.f.evaluate(x)             # <<<<<<<<<<<<<<
+ *             return (1-self.alpha) * self.f._evaluate(x)             # <<<<<<<<<<<<<<
  *         else:
- *             return 0.5 * self.f.evaluate(0)
+ *             return 0.5 * self.f._evaluate(0)
  */
-    __pyx_r = ((1.0 - __pyx_v_self->alpha) * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->evaluate(__pyx_v_self->f, __pyx_v_x));
+    __pyx_r = ((1.0 - __pyx_v_self->alpha) * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_evaluate(__pyx_v_self->f, __pyx_v_x));
     goto __pyx_L0;
 
     /* "mlgrad/func.pyx":232
  *         if x > 0:
- *             return self.alpha * self.f.evaluate(x)
+ *             return self.alpha * self.f._evaluate(x)
  *         elif x < 0:             # <<<<<<<<<<<<<<
- *             return (1-self.alpha) * self.f.evaluate(x)
+ *             return (1-self.alpha) * self.f._evaluate(x)
  *         else:
  */
   }
 
   /* "mlgrad/func.pyx":235
- *             return (1-self.alpha) * self.f.evaluate(x)
+ *             return (1-self.alpha) * self.f._evaluate(x)
  *         else:
- *             return 0.5 * self.f.evaluate(0)             # <<<<<<<<<<<<<<
+ *             return 0.5 * self.f._evaluate(0)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   /*else*/ {
-    __pyx_r = (0.5 * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->evaluate(__pyx_v_self->f, 0.0));
+    __pyx_r = (0.5 * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_evaluate(__pyx_v_self->f, 0.0));
     goto __pyx_L0;
   }
 
   /* "mlgrad/func.pyx":229
  *         self.f = func
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
- *             return self.alpha * self.f.evaluate(x)
+ *             return self.alpha * self.f._evaluate(x)
  */
 
   /* function exit code */
@@ -9462,93 +9462,93 @@ static double __pyx_f_6mlgrad_4func_12QuantileFunc_evaluate(struct __pyx_obj_6ml
 }
 
 /* "mlgrad/func.pyx":237
- *             return 0.5 * self.f.evaluate(0)
+ *             return 0.5 * self.f._evaluate(0)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
- *             return self.alpha * self.f.derivative(x)
+ *             return self.alpha * self.f._derivative(x)
  */
 
-static double __pyx_f_6mlgrad_4func_12QuantileFunc_derivative(struct __pyx_obj_6mlgrad_4func_QuantileFunc *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_12QuantileFunc__derivative(struct __pyx_obj_6mlgrad_4func_QuantileFunc *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
   /* "mlgrad/func.pyx":238
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x > 0:             # <<<<<<<<<<<<<<
- *             return self.alpha * self.f.derivative(x)
+ *             return self.alpha * self.f._derivative(x)
  *         elif x < 0:
  */
   __pyx_t_1 = ((__pyx_v_x > 0.0) != 0);
   if (__pyx_t_1) {
 
     /* "mlgrad/func.pyx":239
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x > 0:
- *             return self.alpha * self.f.derivative(x)             # <<<<<<<<<<<<<<
+ *             return self.alpha * self.f._derivative(x)             # <<<<<<<<<<<<<<
  *         elif x < 0:
- *             return (1-self.alpha) * self.f.derivative(x)
+ *             return (1-self.alpha) * self.f._derivative(x)
  */
-    __pyx_r = (__pyx_v_self->alpha * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, __pyx_v_x));
+    __pyx_r = (__pyx_v_self->alpha * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_derivative(__pyx_v_self->f, __pyx_v_x));
     goto __pyx_L0;
 
     /* "mlgrad/func.pyx":238
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x > 0:             # <<<<<<<<<<<<<<
- *             return self.alpha * self.f.derivative(x)
+ *             return self.alpha * self.f._derivative(x)
  *         elif x < 0:
  */
   }
 
   /* "mlgrad/func.pyx":240
  *         if x > 0:
- *             return self.alpha * self.f.derivative(x)
+ *             return self.alpha * self.f._derivative(x)
  *         elif x < 0:             # <<<<<<<<<<<<<<
- *             return (1-self.alpha) * self.f.derivative(x)
+ *             return (1-self.alpha) * self.f._derivative(x)
  *         else:
  */
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
     /* "mlgrad/func.pyx":241
- *             return self.alpha * self.f.derivative(x)
+ *             return self.alpha * self.f._derivative(x)
  *         elif x < 0:
- *             return (1-self.alpha) * self.f.derivative(x)             # <<<<<<<<<<<<<<
+ *             return (1-self.alpha) * self.f._derivative(x)             # <<<<<<<<<<<<<<
  *         else:
- *             return 0.5 * self.f.derivative(0)
+ *             return 0.5 * self.f._derivative(0)
  */
-    __pyx_r = ((1.0 - __pyx_v_self->alpha) * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, __pyx_v_x));
+    __pyx_r = ((1.0 - __pyx_v_self->alpha) * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_derivative(__pyx_v_self->f, __pyx_v_x));
     goto __pyx_L0;
 
     /* "mlgrad/func.pyx":240
  *         if x > 0:
- *             return self.alpha * self.f.derivative(x)
+ *             return self.alpha * self.f._derivative(x)
  *         elif x < 0:             # <<<<<<<<<<<<<<
- *             return (1-self.alpha) * self.f.derivative(x)
+ *             return (1-self.alpha) * self.f._derivative(x)
  *         else:
  */
   }
 
   /* "mlgrad/func.pyx":243
- *             return (1-self.alpha) * self.f.derivative(x)
+ *             return (1-self.alpha) * self.f._derivative(x)
  *         else:
- *             return 0.5 * self.f.derivative(0)             # <<<<<<<<<<<<<<
+ *             return 0.5 * self.f._derivative(0)             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  */
   /*else*/ {
-    __pyx_r = (0.5 * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, 0.0));
+    __pyx_r = (0.5 * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_derivative(__pyx_v_self->f, 0.0));
     goto __pyx_L0;
   }
 
   /* "mlgrad/func.pyx":237
- *             return 0.5 * self.f.evaluate(0)
+ *             return 0.5 * self.f._evaluate(0)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
- *             return self.alpha * self.f.derivative(x)
+ *             return self.alpha * self.f._derivative(x)
  */
 
   /* function exit code */
@@ -9557,7 +9557,7 @@ static double __pyx_f_6mlgrad_4func_12QuantileFunc_derivative(struct __pyx_obj_6
 }
 
 /* "mlgrad/func.pyx":245
- *             return 0.5 * self.f.derivative(0)
+ *             return 0.5 * self.f._derivative(0)
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
@@ -9639,7 +9639,7 @@ static double __pyx_f_6mlgrad_4func_12QuantileFunc_derivative2(struct __pyx_obj_
   }
 
   /* "mlgrad/func.pyx":245
- *             return 0.5 * self.f.derivative(0)
+ *             return 0.5 * self.f._derivative(0)
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
@@ -10417,20 +10417,20 @@ static PyObject *__pyx_pf_6mlgrad_4func_12QuantileFunc_8__setstate_cython__(stru
 /* "mlgrad/func.pyx":272
  * cdef class Neg(Func):
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return -x
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_3Neg_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Neg *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_3Neg__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Neg *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
   /* "mlgrad/func.pyx":273
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return -x             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   __pyx_r = (-__pyx_v_x);
   goto __pyx_L0;
@@ -10438,7 +10438,7 @@ static double __pyx_f_6mlgrad_4func_3Neg_evaluate(CYTHON_UNUSED struct __pyx_obj
   /* "mlgrad/func.pyx":272
  * cdef class Neg(Func):
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return -x
  *     #
  */
@@ -10451,17 +10451,17 @@ static double __pyx_f_6mlgrad_4func_3Neg_evaluate(CYTHON_UNUSED struct __pyx_obj
 /* "mlgrad/func.pyx":275
  *         return -x
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return -1
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_3Neg_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Neg *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_3Neg__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Neg *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
   double __pyx_r;
 
   /* "mlgrad/func.pyx":276
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         return -1             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative2(self, const double x) nogil:
@@ -10472,7 +10472,7 @@ static double __pyx_f_6mlgrad_4func_3Neg_derivative(CYTHON_UNUSED struct __pyx_o
   /* "mlgrad/func.pyx":275
  *         return -x
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return -1
  *     #
  */
@@ -10959,7 +10959,7 @@ static int __pyx_pf_6mlgrad_4func_12ModSigmoidal___init__(struct __pyx_obj_6mlgr
  *         self.label = u''
  *         self.a = a             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 288, __pyx_L1_error)
   __pyx_v_self->a = __pyx_t_1;
@@ -10986,12 +10986,12 @@ static int __pyx_pf_6mlgrad_4func_12ModSigmoidal___init__(struct __pyx_obj_6mlgr
 /* "mlgrad/func.pyx":290
  *         self.a = a
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return x / (self.a + fabs(x))
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_12ModSigmoidal_evaluate(struct __pyx_obj_6mlgrad_4func_ModSigmoidal *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_12ModSigmoidal__evaluate(struct __pyx_obj_6mlgrad_4func_ModSigmoidal *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   double __pyx_t_1;
   int __pyx_lineno = 0;
@@ -11000,10 +11000,10 @@ static double __pyx_f_6mlgrad_4func_12ModSigmoidal_evaluate(struct __pyx_obj_6ml
 
   /* "mlgrad/func.pyx":291
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return x / (self.a + fabs(x))             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   __pyx_t_1 = (__pyx_v_self->a + fabs(__pyx_v_x));
   if (unlikely(__pyx_t_1 == 0)) {
@@ -11022,14 +11022,14 @@ static double __pyx_f_6mlgrad_4func_12ModSigmoidal_evaluate(struct __pyx_obj_6ml
   /* "mlgrad/func.pyx":290
  *         self.a = a
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return x / (self.a + fabs(x))
  *     #
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.func.ModSigmoidal.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __Pyx_WriteUnraisable("mlgrad.func.ModSigmoidal._evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
   __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
@@ -11038,12 +11038,12 @@ static double __pyx_f_6mlgrad_4func_12ModSigmoidal_evaluate(struct __pyx_obj_6ml
 /* "mlgrad/func.pyx":293
  *         return x / (self.a + fabs(x))
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = (self.a + fabs(x))
  *         return self.a / (v*v)
  */
 
-static double __pyx_f_6mlgrad_4func_12ModSigmoidal_derivative(struct __pyx_obj_6mlgrad_4func_ModSigmoidal *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_12ModSigmoidal__derivative(struct __pyx_obj_6mlgrad_4func_ModSigmoidal *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v;
   double __pyx_r;
   double __pyx_t_1;
@@ -11053,7 +11053,7 @@ static double __pyx_f_6mlgrad_4func_12ModSigmoidal_derivative(struct __pyx_obj_6
 
   /* "mlgrad/func.pyx":294
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = (self.a + fabs(x))             # <<<<<<<<<<<<<<
  *         return self.a / (v*v)
  *     #
@@ -11061,7 +11061,7 @@ static double __pyx_f_6mlgrad_4func_12ModSigmoidal_derivative(struct __pyx_obj_6
   __pyx_v_v = (__pyx_v_self->a + fabs(__pyx_v_x));
 
   /* "mlgrad/func.pyx":295
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = (self.a + fabs(x))
  *         return self.a / (v*v)             # <<<<<<<<<<<<<<
  *     #
@@ -11084,14 +11084,14 @@ static double __pyx_f_6mlgrad_4func_12ModSigmoidal_derivative(struct __pyx_obj_6
   /* "mlgrad/func.pyx":293
  *         return x / (self.a + fabs(x))
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = (self.a + fabs(x))
  *         return self.a / (v*v)
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.func.ModSigmoidal.derivative", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __Pyx_WriteUnraisable("mlgrad.func.ModSigmoidal._derivative", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
   __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
@@ -11798,30 +11798,40 @@ static int __pyx_pf_6mlgrad_4func_9Sigmoidal___init__(struct __pyx_obj_6mlgrad_4
 /* "mlgrad/func.pyx":316
  *     #
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return 1.0/(1.0 + exp(-self.p * x))
- *     #
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *         cdef double p2 = 2 * self.p
+ *         return (1.0 - exp(-p2 * x)) / (1.0 + exp(-p2 * x))
  */
 
-static double __pyx_f_6mlgrad_4func_9Sigmoidal_evaluate(struct __pyx_obj_6mlgrad_4func_Sigmoidal *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_9Sigmoidal__evaluate(struct __pyx_obj_6mlgrad_4func_Sigmoidal *__pyx_v_self, double const __pyx_v_x) {
+  double __pyx_v_p2;
   double __pyx_r;
 
   /* "mlgrad/func.pyx":317
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:
- *         return 1.0/(1.0 + exp(-self.p * x))             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:
+ *         cdef double p2 = 2 * self.p             # <<<<<<<<<<<<<<
+ *         return (1.0 - exp(-p2 * x)) / (1.0 + exp(-p2 * x))
+ *     #
+ */
+  __pyx_v_p2 = (2.0 * __pyx_v_self->p);
+
+  /* "mlgrad/func.pyx":318
+ *     cdef double _evaluate(self, const double x) nogil:
+ *         cdef double p2 = 2 * self.p
+ *         return (1.0 - exp(-p2 * x)) / (1.0 + exp(-p2 * x))             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
  */
-  __pyx_r = (1.0 / (1.0 + exp(((-__pyx_v_self->p) * __pyx_v_x))));
+  __pyx_r = ((1.0 - exp(((-__pyx_v_p2) * __pyx_v_x))) / (1.0 + exp(((-__pyx_v_p2) * __pyx_v_x))));
   goto __pyx_L0;
 
   /* "mlgrad/func.pyx":316
  *     #
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         return 1.0/(1.0 + exp(-self.p * x))
- *     #
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *         cdef double p2 = 2 * self.p
+ *         return (1.0 - exp(-p2 * x)) / (1.0 + exp(-p2 * x))
  */
 
   /* function exit code */
@@ -11829,55 +11839,53 @@ static double __pyx_f_6mlgrad_4func_9Sigmoidal_evaluate(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":320
+/* "mlgrad/func.pyx":321
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         cdef double p = self.p
- *         cdef double v = 1.0/(1.0 + exp(-p * x))
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *         cdef double p2 = 2 * self.p
+ *         cdef double v = exp(-p2 * x)
  */
 
-static double __pyx_f_6mlgrad_4func_9Sigmoidal_derivative(struct __pyx_obj_6mlgrad_4func_Sigmoidal *__pyx_v_self, double const __pyx_v_x) {
-  double __pyx_v_p;
+static double __pyx_f_6mlgrad_4func_9Sigmoidal__derivative(struct __pyx_obj_6mlgrad_4func_Sigmoidal *__pyx_v_self, double const __pyx_v_x) {
+  double __pyx_v_p2;
   double __pyx_v_v;
   double __pyx_r;
-  double __pyx_t_1;
-
-  /* "mlgrad/func.pyx":321
- *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:
- *         cdef double p = self.p             # <<<<<<<<<<<<<<
- *         cdef double v = 1.0/(1.0 + exp(-p * x))
- *         return p * v * (1.0 - v)
- */
-  __pyx_t_1 = __pyx_v_self->p;
-  __pyx_v_p = __pyx_t_1;
 
   /* "mlgrad/func.pyx":322
- *     cdef double derivative(self, const double x) nogil:
- *         cdef double p = self.p
- *         cdef double v = 1.0/(1.0 + exp(-p * x))             # <<<<<<<<<<<<<<
- *         return p * v * (1.0 - v)
- *     #
+ *     @cython.cdivision(True)
+ *     cdef double _derivative(self, const double x) nogil:
+ *         cdef double p2 = 2 * self.p             # <<<<<<<<<<<<<<
+ *         cdef double v = exp(-p2 * x)
+ *         return 2 * p2 * v / ((1 + v) * (1 + v))
  */
-  __pyx_v_v = (1.0 / (1.0 + exp(((-__pyx_v_p) * __pyx_v_x))));
+  __pyx_v_p2 = (2.0 * __pyx_v_self->p);
 
   /* "mlgrad/func.pyx":323
- *         cdef double p = self.p
- *         cdef double v = 1.0/(1.0 + exp(-p * x))
- *         return p * v * (1.0 - v)             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:
+ *         cdef double p2 = 2 * self.p
+ *         cdef double v = exp(-p2 * x)             # <<<<<<<<<<<<<<
+ *         return 2 * p2 * v / ((1 + v) * (1 + v))
+ *     #
+ */
+  __pyx_v_v = exp(((-__pyx_v_p2) * __pyx_v_x));
+
+  /* "mlgrad/func.pyx":324
+ *         cdef double p2 = 2 * self.p
+ *         cdef double v = exp(-p2 * x)
+ *         return 2 * p2 * v / ((1 + v) * (1 + v))             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
  */
-  __pyx_r = ((__pyx_v_p * __pyx_v_v) * (1.0 - __pyx_v_v));
+  __pyx_r = (((2.0 * __pyx_v_p2) * __pyx_v_v) / ((1.0 + __pyx_v_v) * (1.0 + __pyx_v_v)));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":320
+  /* "mlgrad/func.pyx":321
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
- *         cdef double p = self.p
- *         cdef double v = 1.0/(1.0 + exp(-p * x))
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *         cdef double p2 = 2 * self.p
+ *         cdef double v = exp(-p2 * x)
  */
 
   /* function exit code */
@@ -11885,55 +11893,65 @@ static double __pyx_f_6mlgrad_4func_9Sigmoidal_derivative(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":326
+/* "mlgrad/func.pyx":327
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double p = self.p
- *         cdef double v = 1.0/(1.0 + exp(-p * x))
+ *         cdef double p2 = 2 * self.p
  */
 
 static double __pyx_f_6mlgrad_4func_9Sigmoidal_derivative2(struct __pyx_obj_6mlgrad_4func_Sigmoidal *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_p;
+  double __pyx_v_p2;
   double __pyx_v_v;
   double __pyx_r;
   double __pyx_t_1;
 
-  /* "mlgrad/func.pyx":327
+  /* "mlgrad/func.pyx":328
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double p = self.p             # <<<<<<<<<<<<<<
- *         cdef double v = 1.0/(1.0 + exp(-p * x))
- *         return v*(1-v)*(1-2*v)*p*p
+ *         cdef double p2 = 2 * self.p
+ *         cdef double v = (1.0 - exp(-p2 * x)) / (1.0 + exp(-p2 * x))
  */
   __pyx_t_1 = __pyx_v_self->p;
   __pyx_v_p = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":328
+  /* "mlgrad/func.pyx":329
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double p = self.p
- *         cdef double v = 1.0/(1.0 + exp(-p * x))             # <<<<<<<<<<<<<<
- *         return v*(1-v)*(1-2*v)*p*p
+ *         cdef double p2 = 2 * self.p             # <<<<<<<<<<<<<<
+ *         cdef double v = (1.0 - exp(-p2 * x)) / (1.0 + exp(-p2 * x))
+ *         return 2 * p * p * (v*v - 1) * v
+ */
+  __pyx_v_p2 = (2.0 * __pyx_v_self->p);
+
+  /* "mlgrad/func.pyx":330
+ *         cdef double p = self.p
+ *         cdef double p2 = 2 * self.p
+ *         cdef double v = (1.0 - exp(-p2 * x)) / (1.0 + exp(-p2 * x))             # <<<<<<<<<<<<<<
+ *         return 2 * p * p * (v*v - 1) * v
  *     #
  */
-  __pyx_v_v = (1.0 / (1.0 + exp(((-__pyx_v_p) * __pyx_v_x))));
+  __pyx_v_v = ((1.0 - exp(((-__pyx_v_p2) * __pyx_v_x))) / (1.0 + exp(((-__pyx_v_p2) * __pyx_v_x))));
 
-  /* "mlgrad/func.pyx":329
- *         cdef double p = self.p
- *         cdef double v = 1.0/(1.0 + exp(-p * x))
- *         return v*(1-v)*(1-2*v)*p*p             # <<<<<<<<<<<<<<
+  /* "mlgrad/func.pyx":331
+ *         cdef double p2 = 2 * self.p
+ *         cdef double v = (1.0 - exp(-p2 * x)) / (1.0 + exp(-p2 * x))
+ *         return 2 * p * p * (v*v - 1) * v             # <<<<<<<<<<<<<<
  *     #
  *     def _repr_latex_(self):
  */
-  __pyx_r = ((((__pyx_v_v * (1.0 - __pyx_v_v)) * (1.0 - (2.0 * __pyx_v_v))) * __pyx_v_p) * __pyx_v_p);
+  __pyx_r = ((((2.0 * __pyx_v_p) * __pyx_v_p) * ((__pyx_v_v * __pyx_v_v) - 1.0)) * __pyx_v_v);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":326
+  /* "mlgrad/func.pyx":327
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double p = self.p
- *         cdef double v = 1.0/(1.0 + exp(-p * x))
+ *         cdef double p2 = 2 * self.p
  */
 
   /* function exit code */
@@ -11941,8 +11959,8 @@ static double __pyx_f_6mlgrad_4func_9Sigmoidal_derivative2(struct __pyx_obj_6mlg
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":331
- *         return v*(1-v)*(1-2*v)*p*p
+/* "mlgrad/func.pyx":333
+ *         return 2 * p * p * (v*v - 1) * v
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return '$%s(x, p)=\dfrac{1}{1+e^{-px}}$' % self.label
@@ -11972,7 +11990,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Sigmoidal_2_repr_latex_(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":332
+  /* "mlgrad/func.pyx":334
  *     #
  *     def _repr_latex_(self):
  *         return '$%s(x, p)=\dfrac{1}{1+e^{-px}}$' % self.label             # <<<<<<<<<<<<<<
@@ -11980,14 +11998,14 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Sigmoidal_2_repr_latex_(struct __pyx_ob
  *     def to_dict(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_s_x_p_dfrac_1_1_e_px, __pyx_v_self->__pyx_base.label); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 332, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_s_x_p_dfrac_1_1_e_px, __pyx_v_self->__pyx_base.label); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 334, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":331
- *         return v*(1-v)*(1-2*v)*p*p
+  /* "mlgrad/func.pyx":333
+ *         return 2 * p * p * (v*v - 1) * v
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
  *         return '$%s(x, p)=\dfrac{1}{1+e^{-px}}$' % self.label
@@ -12005,7 +12023,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Sigmoidal_2_repr_latex_(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":334
+/* "mlgrad/func.pyx":336
  *         return '$%s(x, p)=\dfrac{1}{1+e^{-px}}$' % self.label
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -12038,7 +12056,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Sigmoidal_4to_dict(struct __pyx_obj_6ml
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":335
+  /* "mlgrad/func.pyx":337
  * 
  *     def to_dict(self):
  *         return { 'name':'sigmoidal',             # <<<<<<<<<<<<<<
@@ -12046,31 +12064,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Sigmoidal_4to_dict(struct __pyx_obj_6ml
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 335, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 337, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_sigmoidal) < 0) __PYX_ERR(0, 335, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_sigmoidal) < 0) __PYX_ERR(0, 337, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":336
+  /* "mlgrad/func.pyx":338
  *     def to_dict(self):
  *         return { 'name':'sigmoidal',
  *                  'args': (self.p,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class Arctang(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->p); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 336, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->p); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 338, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 336, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 338, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 335, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 337, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":334
+  /* "mlgrad/func.pyx":336
  *         return '$%s(x, p)=\dfrac{1}{1+e^{-px}}$' % self.label
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -12473,7 +12491,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Sigmoidal_8__setstate_cython__(struct _
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":340
+/* "mlgrad/func.pyx":342
  * cdef class Arctang(Func):
  *     #
  *     def __init__(self, a=1):             # <<<<<<<<<<<<<<
@@ -12513,7 +12531,7 @@ static int __pyx_pw_6mlgrad_4func_7Arctang_1__init__(PyObject *__pyx_v_self, PyO
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 340, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 342, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -12527,7 +12545,7 @@ static int __pyx_pw_6mlgrad_4func_7Arctang_1__init__(PyObject *__pyx_v_self, PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 340, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 342, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Arctang.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -12549,7 +12567,7 @@ static int __pyx_pf_6mlgrad_4func_7Arctang___init__(struct __pyx_obj_6mlgrad_4fu
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":341
+  /* "mlgrad/func.pyx":343
  *     #
  *     def __init__(self, a=1):
  *         self.label = u''             # <<<<<<<<<<<<<<
@@ -12562,17 +12580,17 @@ static int __pyx_pf_6mlgrad_4func_7Arctang___init__(struct __pyx_obj_6mlgrad_4fu
   __Pyx_DECREF(__pyx_v_self->__pyx_base.label);
   __pyx_v_self->__pyx_base.label = __pyx_n_u_;
 
-  /* "mlgrad/func.pyx":342
+  /* "mlgrad/func.pyx":344
  *     def __init__(self, a=1):
  *         self.label = u''
  *         self.a = a             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 344, __pyx_L1_error)
   __pyx_v_self->a = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":340
+  /* "mlgrad/func.pyx":342
  * cdef class Arctang(Func):
  *     #
  *     def __init__(self, a=1):             # <<<<<<<<<<<<<<
@@ -12591,20 +12609,20 @@ static int __pyx_pf_6mlgrad_4func_7Arctang___init__(struct __pyx_obj_6mlgrad_4fu
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":345
+/* "mlgrad/func.pyx":347
  *     #
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return atan(x/self.a)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_7Arctang_evaluate(struct __pyx_obj_6mlgrad_4func_Arctang *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_7Arctang__evaluate(struct __pyx_obj_6mlgrad_4func_Arctang *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":346
+  /* "mlgrad/func.pyx":348
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return atan(x/self.a)             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
@@ -12612,10 +12630,10 @@ static double __pyx_f_6mlgrad_4func_7Arctang_evaluate(struct __pyx_obj_6mlgrad_4
   __pyx_r = atan((((double)__pyx_v_x) / __pyx_v_self->a));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":345
+  /* "mlgrad/func.pyx":347
  *     #
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return atan(x/self.a)
  *     #
  */
@@ -12625,29 +12643,29 @@ static double __pyx_f_6mlgrad_4func_7Arctang_evaluate(struct __pyx_obj_6mlgrad_4
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":349
+/* "mlgrad/func.pyx":351
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = x/self.a
  *         return 1 / (self.a * (1 + v*v))
  */
 
-static double __pyx_f_6mlgrad_4func_7Arctang_derivative(struct __pyx_obj_6mlgrad_4func_Arctang *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_7Arctang__derivative(struct __pyx_obj_6mlgrad_4func_Arctang *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v;
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":350
+  /* "mlgrad/func.pyx":352
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = x/self.a             # <<<<<<<<<<<<<<
  *         return 1 / (self.a * (1 + v*v))
  *     #
  */
   __pyx_v_v = (((double)__pyx_v_x) / __pyx_v_self->a);
 
-  /* "mlgrad/func.pyx":351
- *     cdef double derivative(self, const double x) nogil:
+  /* "mlgrad/func.pyx":353
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = x/self.a
  *         return 1 / (self.a * (1 + v*v))             # <<<<<<<<<<<<<<
  *     #
@@ -12656,10 +12674,10 @@ static double __pyx_f_6mlgrad_4func_7Arctang_derivative(struct __pyx_obj_6mlgrad
   __pyx_r = (1.0 / (__pyx_v_self->a * (1.0 + (__pyx_v_v * __pyx_v_v))));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":349
+  /* "mlgrad/func.pyx":351
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = x/self.a
  *         return 1 / (self.a * (1 + v*v))
  */
@@ -12669,7 +12687,7 @@ static double __pyx_f_6mlgrad_4func_7Arctang_derivative(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":354
+/* "mlgrad/func.pyx":356
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -12683,7 +12701,7 @@ static double __pyx_f_6mlgrad_4func_7Arctang_derivative2(struct __pyx_obj_6mlgra
   double __pyx_v_u;
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":355
+  /* "mlgrad/func.pyx":357
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v = x /self.a             # <<<<<<<<<<<<<<
@@ -12692,7 +12710,7 @@ static double __pyx_f_6mlgrad_4func_7Arctang_derivative2(struct __pyx_obj_6mlgra
  */
   __pyx_v_v = (((double)__pyx_v_x) / __pyx_v_self->a);
 
-  /* "mlgrad/func.pyx":356
+  /* "mlgrad/func.pyx":358
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v = x /self.a
  *         cdef double a2 = self.a * self.a             # <<<<<<<<<<<<<<
@@ -12701,7 +12719,7 @@ static double __pyx_f_6mlgrad_4func_7Arctang_derivative2(struct __pyx_obj_6mlgra
  */
   __pyx_v_a2 = (__pyx_v_self->a * __pyx_v_self->a);
 
-  /* "mlgrad/func.pyx":357
+  /* "mlgrad/func.pyx":359
  *         cdef double v = x /self.a
  *         cdef double a2 = self.a * self.a
  *         cdef double u = 1 + v*v             # <<<<<<<<<<<<<<
@@ -12710,7 +12728,7 @@ static double __pyx_f_6mlgrad_4func_7Arctang_derivative2(struct __pyx_obj_6mlgra
  */
   __pyx_v_u = (1.0 + (__pyx_v_v * __pyx_v_v));
 
-  /* "mlgrad/func.pyx":358
+  /* "mlgrad/func.pyx":360
  *         cdef double a2 = self.a * self.a
  *         cdef double u = 1 + v*v
  *         return -2*v / (a2 * u*u)             # <<<<<<<<<<<<<<
@@ -12720,7 +12738,7 @@ static double __pyx_f_6mlgrad_4func_7Arctang_derivative2(struct __pyx_obj_6mlgra
   __pyx_r = ((-2.0 * __pyx_v_v) / ((__pyx_v_a2 * __pyx_v_u) * __pyx_v_u));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":354
+  /* "mlgrad/func.pyx":356
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -12733,7 +12751,7 @@ static double __pyx_f_6mlgrad_4func_7Arctang_derivative2(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":360
+/* "mlgrad/func.pyx":362
  *         return -2*v / (a2 * u*u)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -12764,7 +12782,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_7Arctang_2_repr_latex_(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":361
+  /* "mlgrad/func.pyx":363
  *     #
  *     def _repr_latex_(self):
  *         return '$%s(x, p)=\dfrac{1}{1+e^{-px}}$' % self.label             # <<<<<<<<<<<<<<
@@ -12772,13 +12790,13 @@ static PyObject *__pyx_pf_6mlgrad_4func_7Arctang_2_repr_latex_(struct __pyx_obj_
  *     def to_dict(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_s_x_p_dfrac_1_1_e_px, __pyx_v_self->__pyx_base.label); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_s_x_p_dfrac_1_1_e_px, __pyx_v_self->__pyx_base.label); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 363, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":360
+  /* "mlgrad/func.pyx":362
  *         return -2*v / (a2 * u*u)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -12797,7 +12815,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_7Arctang_2_repr_latex_(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":363
+/* "mlgrad/func.pyx":365
  *         return '$%s(x, p)=\dfrac{1}{1+e^{-px}}$' % self.label
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -12830,7 +12848,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_7Arctang_4to_dict(struct __pyx_obj_6mlgr
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":364
+  /* "mlgrad/func.pyx":366
  * 
  *     def to_dict(self):
  *         return { 'name':'arctg',             # <<<<<<<<<<<<<<
@@ -12838,31 +12856,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_7Arctang_4to_dict(struct __pyx_obj_6mlgr
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 364, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 366, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_arctg) < 0) __PYX_ERR(0, 364, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_arctg) < 0) __PYX_ERR(0, 366, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":365
+  /* "mlgrad/func.pyx":367
  *     def to_dict(self):
  *         return { 'name':'arctg',
  *                  'args': (self.a,) }             # <<<<<<<<<<<<<<
  * 
- * cdef class Softplus(Func):
+ * cdef class SoftPlus(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 365, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 367, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 365, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 367, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 364, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 366, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":363
+  /* "mlgrad/func.pyx":365
  *         return '$%s(x, p)=\dfrac{1}{1+e^{-px}}$' % self.label
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -13265,8 +13283,8 @@ static PyObject *__pyx_pf_6mlgrad_4func_7Arctang_8__setstate_cython__(struct __p
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":369
- * cdef class Softplus(Func):
+/* "mlgrad/func.pyx":371
+ * cdef class SoftPlus(Func):
  *     #
  *     def __init__(self, a=1):             # <<<<<<<<<<<<<<
  *         self.label = u'softplus'
@@ -13274,8 +13292,8 @@ static PyObject *__pyx_pf_6mlgrad_4func_7Arctang_8__setstate_cython__(struct __p
  */
 
 /* Python wrapper */
-static int __pyx_pw_6mlgrad_4func_8Softplus_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_6mlgrad_4func_8Softplus_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static int __pyx_pw_6mlgrad_4func_8SoftPlus_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_6mlgrad_4func_8SoftPlus_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_a = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -13305,7 +13323,7 @@ static int __pyx_pw_6mlgrad_4func_8Softplus_1__init__(PyObject *__pyx_v_self, Py
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 369, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 371, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -13319,20 +13337,20 @@ static int __pyx_pw_6mlgrad_4func_8Softplus_1__init__(PyObject *__pyx_v_self, Py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 369, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 371, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("mlgrad.func.Softplus.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.func.SoftPlus.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6mlgrad_4func_8Softplus___init__(((struct __pyx_obj_6mlgrad_4func_Softplus *)__pyx_v_self), __pyx_v_a);
+  __pyx_r = __pyx_pf_6mlgrad_4func_8SoftPlus___init__(((struct __pyx_obj_6mlgrad_4func_SoftPlus *)__pyx_v_self), __pyx_v_a);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_4func_8Softplus___init__(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self, PyObject *__pyx_v_a) {
+static int __pyx_pf_6mlgrad_4func_8SoftPlus___init__(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self, PyObject *__pyx_v_a) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
@@ -13343,7 +13361,7 @@ static int __pyx_pf_6mlgrad_4func_8Softplus___init__(struct __pyx_obj_6mlgrad_4f
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":370
+  /* "mlgrad/func.pyx":372
  *     #
  *     def __init__(self, a=1):
  *         self.label = u'softplus'             # <<<<<<<<<<<<<<
@@ -13356,30 +13374,30 @@ static int __pyx_pf_6mlgrad_4func_8Softplus___init__(struct __pyx_obj_6mlgrad_4f
   __Pyx_DECREF(__pyx_v_self->__pyx_base.label);
   __pyx_v_self->__pyx_base.label = __pyx_n_u_softplus;
 
-  /* "mlgrad/func.pyx":371
+  /* "mlgrad/func.pyx":373
  *     def __init__(self, a=1):
  *         self.label = u'softplus'
  *         self.a = a             # <<<<<<<<<<<<<<
  *         if a == 1:
  *             self.log_a = 0
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 373, __pyx_L1_error)
   __pyx_v_self->a = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":372
+  /* "mlgrad/func.pyx":374
  *         self.label = u'softplus'
  *         self.a = a
  *         if a == 1:             # <<<<<<<<<<<<<<
  *             self.log_a = 0
  *         else:
  */
-  __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_v_a, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 372, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_v_a, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 374, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 372, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 374, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_3) {
 
-    /* "mlgrad/func.pyx":373
+    /* "mlgrad/func.pyx":375
  *         self.a = a
  *         if a == 1:
  *             self.log_a = 0             # <<<<<<<<<<<<<<
@@ -13388,7 +13406,7 @@ static int __pyx_pf_6mlgrad_4func_8Softplus___init__(struct __pyx_obj_6mlgrad_4f
  */
     __pyx_v_self->log_a = 0.0;
 
-    /* "mlgrad/func.pyx":372
+    /* "mlgrad/func.pyx":374
  *         self.label = u'softplus'
  *         self.a = a
  *         if a == 1:             # <<<<<<<<<<<<<<
@@ -13398,21 +13416,21 @@ static int __pyx_pf_6mlgrad_4func_8Softplus___init__(struct __pyx_obj_6mlgrad_4f
     goto __pyx_L3;
   }
 
-  /* "mlgrad/func.pyx":375
+  /* "mlgrad/func.pyx":377
  *             self.log_a = 0
  *         else:
  *             self.log_a = log(a)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
   /*else*/ {
-    __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 375, __pyx_L1_error)
+    __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 377, __pyx_L1_error)
     __pyx_v_self->log_a = log(__pyx_t_1);
   }
   __pyx_L3:;
 
-  /* "mlgrad/func.pyx":369
- * cdef class Softplus(Func):
+  /* "mlgrad/func.pyx":371
+ * cdef class SoftPlus(Func):
  *     #
  *     def __init__(self, a=1):             # <<<<<<<<<<<<<<
  *         self.label = u'softplus'
@@ -13424,27 +13442,27 @@ static int __pyx_pf_6mlgrad_4func_8Softplus___init__(struct __pyx_obj_6mlgrad_4f
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("mlgrad.func.Softplus.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.func.SoftPlus.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":377
+/* "mlgrad/func.pyx":379
  *             self.log_a = log(a)
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return log(self.a + exp(x)) - self.log_a
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_8Softplus_evaluate(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_8SoftPlus__evaluate(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":378
+  /* "mlgrad/func.pyx":380
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return log(self.a + exp(x)) - self.log_a             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
@@ -13452,10 +13470,10 @@ static double __pyx_f_6mlgrad_4func_8Softplus_evaluate(struct __pyx_obj_6mlgrad_
   __pyx_r = (log((__pyx_v_self->a + exp(__pyx_v_x))) - __pyx_v_self->log_a);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":377
+  /* "mlgrad/func.pyx":379
  *             self.log_a = log(a)
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return log(self.a + exp(x)) - self.log_a
  *     #
  */
@@ -13465,29 +13483,29 @@ static double __pyx_f_6mlgrad_4func_8Softplus_evaluate(struct __pyx_obj_6mlgrad_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":381
+/* "mlgrad/func.pyx":383
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = exp(x)
  *         return v / (self.a + v)
  */
 
-static double __pyx_f_6mlgrad_4func_8Softplus_derivative(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_8SoftPlus__derivative(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v;
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":382
+  /* "mlgrad/func.pyx":384
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = exp(x)             # <<<<<<<<<<<<<<
  *         return v / (self.a + v)
  *     #
  */
   __pyx_v_v = exp(__pyx_v_x);
 
-  /* "mlgrad/func.pyx":383
- *     cdef double derivative(self, const double x) nogil:
+  /* "mlgrad/func.pyx":385
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = exp(x)
  *         return v / (self.a + v)             # <<<<<<<<<<<<<<
  *     #
@@ -13496,10 +13514,10 @@ static double __pyx_f_6mlgrad_4func_8Softplus_derivative(struct __pyx_obj_6mlgra
   __pyx_r = (__pyx_v_v / (__pyx_v_self->a + __pyx_v_v));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":381
+  /* "mlgrad/func.pyx":383
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = exp(x)
  *         return v / (self.a + v)
  */
@@ -13509,7 +13527,7 @@ static double __pyx_f_6mlgrad_4func_8Softplus_derivative(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":386
+/* "mlgrad/func.pyx":388
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -13517,12 +13535,12 @@ static double __pyx_f_6mlgrad_4func_8Softplus_derivative(struct __pyx_obj_6mlgra
  *         cdef double v2 = self.a + v1
  */
 
-static double __pyx_f_6mlgrad_4func_8Softplus_derivative2(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_8SoftPlus_derivative2(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v1;
   double __pyx_v_v2;
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":387
+  /* "mlgrad/func.pyx":389
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v1 = exp(x)             # <<<<<<<<<<<<<<
@@ -13531,7 +13549,7 @@ static double __pyx_f_6mlgrad_4func_8Softplus_derivative2(struct __pyx_obj_6mlgr
  */
   __pyx_v_v1 = exp(__pyx_v_x);
 
-  /* "mlgrad/func.pyx":388
+  /* "mlgrad/func.pyx":390
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v1 = exp(x)
  *         cdef double v2 = self.a + v1             # <<<<<<<<<<<<<<
@@ -13540,7 +13558,7 @@ static double __pyx_f_6mlgrad_4func_8Softplus_derivative2(struct __pyx_obj_6mlgr
  */
   __pyx_v_v2 = (__pyx_v_self->a + __pyx_v_v1);
 
-  /* "mlgrad/func.pyx":389
+  /* "mlgrad/func.pyx":391
  *         cdef double v1 = exp(x)
  *         cdef double v2 = self.a + v1
  *         return self.a * v1 / v2*v2             # <<<<<<<<<<<<<<
@@ -13550,7 +13568,7 @@ static double __pyx_f_6mlgrad_4func_8Softplus_derivative2(struct __pyx_obj_6mlgr
   __pyx_r = (((__pyx_v_self->a * __pyx_v_v1) / __pyx_v_v2) * __pyx_v_v2);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":386
+  /* "mlgrad/func.pyx":388
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -13563,7 +13581,7 @@ static double __pyx_f_6mlgrad_4func_8Softplus_derivative2(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":391
+/* "mlgrad/func.pyx":393
  *         return self.a * v1 / v2*v2
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -13572,20 +13590,20 @@ static double __pyx_f_6mlgrad_4func_8Softplus_derivative2(struct __pyx_obj_6mlgr
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_4func_8Softplus_3_repr_latex_(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_4func_8Softplus_2_repr_latex_[] = "Softplus._repr_latex_(self)";
-static PyObject *__pyx_pw_6mlgrad_4func_8Softplus_3_repr_latex_(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_4func_8SoftPlus_3_repr_latex_(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_4func_8SoftPlus_2_repr_latex_[] = "SoftPlus._repr_latex_(self)";
+static PyObject *__pyx_pw_6mlgrad_4func_8SoftPlus_3_repr_latex_(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_4func_8Softplus_2_repr_latex_(((struct __pyx_obj_6mlgrad_4func_Softplus *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_4func_8SoftPlus_2_repr_latex_(((struct __pyx_obj_6mlgrad_4func_SoftPlus *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_2_repr_latex_(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_4func_8SoftPlus_2_repr_latex_(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -13594,7 +13612,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_2_repr_latex_(struct __pyx_obj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":392
+  /* "mlgrad/func.pyx":394
  *     #
  *     def _repr_latex_(self):
  *         return '$%s(x, a)=\ln(a+e^x)$' % self.label             # <<<<<<<<<<<<<<
@@ -13602,13 +13620,13 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_2_repr_latex_(struct __pyx_obj
  *     def to_dict(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_s_x_a_ln_a_e_x, __pyx_v_self->__pyx_base.label); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 392, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_s_x_a_ln_a_e_x, __pyx_v_self->__pyx_base.label); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 394, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":391
+  /* "mlgrad/func.pyx":393
  *         return self.a * v1 / v2*v2
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -13619,7 +13637,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_2_repr_latex_(struct __pyx_obj
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("mlgrad.func.Softplus._repr_latex_", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.func.SoftPlus._repr_latex_", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -13627,7 +13645,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_2_repr_latex_(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":394
+/* "mlgrad/func.pyx":396
  *         return '$%s(x, a)=\ln(a+e^x)$' % self.label
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -13636,20 +13654,20 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_2_repr_latex_(struct __pyx_obj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_4func_8Softplus_5to_dict(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_4func_8Softplus_4to_dict[] = "Softplus.to_dict(self)";
-static PyObject *__pyx_pw_6mlgrad_4func_8Softplus_5to_dict(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_4func_8SoftPlus_5to_dict(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_4func_8SoftPlus_4to_dict[] = "SoftPlus.to_dict(self)";
+static PyObject *__pyx_pw_6mlgrad_4func_8SoftPlus_5to_dict(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("to_dict (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_4func_8Softplus_4to_dict(((struct __pyx_obj_6mlgrad_4func_Softplus *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_4func_8SoftPlus_4to_dict(((struct __pyx_obj_6mlgrad_4func_SoftPlus *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_4to_dict(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_4func_8SoftPlus_4to_dict(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -13660,7 +13678,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_4to_dict(struct __pyx_obj_6mlg
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":395
+  /* "mlgrad/func.pyx":397
  * 
  *     def to_dict(self):
  *         return { 'name':'softplus',             # <<<<<<<<<<<<<<
@@ -13668,31 +13686,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_4to_dict(struct __pyx_obj_6mlg
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 395, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_softplus) < 0) __PYX_ERR(0, 395, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_softplus) < 0) __PYX_ERR(0, 397, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":396
+  /* "mlgrad/func.pyx":398
  *     def to_dict(self):
  *         return { 'name':'softplus',
  *                  'args': (self.a,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class Threshold(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 395, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":394
+  /* "mlgrad/func.pyx":396
  *         return '$%s(x, a)=\ln(a+e^x)$' % self.label
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -13705,7 +13723,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_4to_dict(struct __pyx_obj_6mlg
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("mlgrad.func.Softplus.to_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.func.SoftPlus.to_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -13715,26 +13733,26 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_4to_dict(struct __pyx_obj_6mlg
 
 /* "mlgrad/func.pxd":64
  * @cython.final
- * cdef class Softplus(Func):
+ * cdef class SoftPlus(Func):
  *     cdef public double a             # <<<<<<<<<<<<<<
  *     cdef double log_a
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_4func_8Softplus_1a_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6mlgrad_4func_8Softplus_1a_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_4func_8SoftPlus_1a_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6mlgrad_4func_8SoftPlus_1a_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_4func_8Softplus_1a___get__(((struct __pyx_obj_6mlgrad_4func_Softplus *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_4func_8SoftPlus_1a___get__(((struct __pyx_obj_6mlgrad_4func_SoftPlus *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_1a___get__(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_4func_8SoftPlus_1a___get__(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -13752,7 +13770,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_1a___get__(struct __pyx_obj_6m
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("mlgrad.func.Softplus.a.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.func.SoftPlus.a.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -13761,19 +13779,19 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_1a___get__(struct __pyx_obj_6m
 }
 
 /* Python wrapper */
-static int __pyx_pw_6mlgrad_4func_8Softplus_1a_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_6mlgrad_4func_8Softplus_1a_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_6mlgrad_4func_8SoftPlus_1a_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_6mlgrad_4func_8SoftPlus_1a_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_4func_8Softplus_1a_2__set__(((struct __pyx_obj_6mlgrad_4func_Softplus *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_6mlgrad_4func_8SoftPlus_1a_2__set__(((struct __pyx_obj_6mlgrad_4func_SoftPlus *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_4func_8Softplus_1a_2__set__(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_6mlgrad_4func_8SoftPlus_1a_2__set__(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
@@ -13788,7 +13806,7 @@ static int __pyx_pf_6mlgrad_4func_8Softplus_1a_2__set__(struct __pyx_obj_6mlgrad
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("mlgrad.func.Softplus.a.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.func.SoftPlus.a.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -13802,20 +13820,20 @@ static int __pyx_pf_6mlgrad_4func_8Softplus_1a_2__set__(struct __pyx_obj_6mlgrad
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_4func_8Softplus_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_6mlgrad_4func_8Softplus_6__reduce_cython__[] = "Softplus.__reduce_cython__(self)";
-static PyObject *__pyx_pw_6mlgrad_4func_8Softplus_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_6mlgrad_4func_8SoftPlus_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_6mlgrad_4func_8SoftPlus_6__reduce_cython__[] = "SoftPlus.__reduce_cython__(self)";
+static PyObject *__pyx_pw_6mlgrad_4func_8SoftPlus_7__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_4func_8Softplus_6__reduce_cython__(((struct __pyx_obj_6mlgrad_4func_Softplus *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_4func_8SoftPlus_6__reduce_cython__(((struct __pyx_obj_6mlgrad_4func_SoftPlus *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_6__reduce_cython__(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_4func_8SoftPlus_6__reduce_cython__(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -13921,7 +13939,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_6__reduce_cython__(struct __py
  *     else:
  *         use_setstate = self.label is not None             # <<<<<<<<<<<<<<
  *     if use_setstate:
- *         return __pyx_unpickle_Softplus, (type(self), 0xe911527, None), state
+ *         return __pyx_unpickle_SoftPlus, (type(self), 0xe911527, None), state
  */
   /*else*/ {
     __pyx_t_5 = (__pyx_v_self->__pyx_base.label != ((PyObject*)Py_None));
@@ -13933,7 +13951,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_6__reduce_cython__(struct __py
  *     else:
  *         use_setstate = self.label is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_Softplus, (type(self), 0xe911527, None), state
+ *         return __pyx_unpickle_SoftPlus, (type(self), 0xe911527, None), state
  *     else:
  */
   __pyx_t_5 = (__pyx_v_use_setstate != 0);
@@ -13942,12 +13960,12 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_6__reduce_cython__(struct __py
     /* "(tree fragment)":13
  *         use_setstate = self.label is not None
  *     if use_setstate:
- *         return __pyx_unpickle_Softplus, (type(self), 0xe911527, None), state             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_SoftPlus, (type(self), 0xe911527, None), state             # <<<<<<<<<<<<<<
  *     else:
- *         return __pyx_unpickle_Softplus, (type(self), 0xe911527, state)
+ *         return __pyx_unpickle_SoftPlus, (type(self), 0xe911527, state)
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pyx_unpickle_Softplus); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_pyx_unpickle_SoftPlus); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -13979,21 +13997,21 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_6__reduce_cython__(struct __py
  *     else:
  *         use_setstate = self.label is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_Softplus, (type(self), 0xe911527, None), state
+ *         return __pyx_unpickle_SoftPlus, (type(self), 0xe911527, None), state
  *     else:
  */
   }
 
   /* "(tree fragment)":15
- *         return __pyx_unpickle_Softplus, (type(self), 0xe911527, None), state
+ *         return __pyx_unpickle_SoftPlus, (type(self), 0xe911527, None), state
  *     else:
- *         return __pyx_unpickle_Softplus, (type(self), 0xe911527, state)             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_SoftPlus, (type(self), 0xe911527, state)             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
- *     __pyx_unpickle_Softplus__set_state(self, __pyx_state)
+ *     __pyx_unpickle_SoftPlus__set_state(self, __pyx_state)
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pyx_unpickle_Softplus); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_pyx_unpickle_SoftPlus); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -14030,7 +14048,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_6__reduce_cython__(struct __py
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("mlgrad.func.Softplus.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.func.SoftPlus.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_state);
@@ -14042,26 +14060,26 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_6__reduce_cython__(struct __py
 
 /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Softplus, (type(self), 0xe911527, state)
+ *         return __pyx_unpickle_SoftPlus, (type(self), 0xe911527, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_unpickle_Softplus__set_state(self, __pyx_state)
+ *     __pyx_unpickle_SoftPlus__set_state(self, __pyx_state)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_4func_8Softplus_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static char __pyx_doc_6mlgrad_4func_8Softplus_8__setstate_cython__[] = "Softplus.__setstate_cython__(self, __pyx_state)";
-static PyObject *__pyx_pw_6mlgrad_4func_8Softplus_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_6mlgrad_4func_8SoftPlus_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static char __pyx_doc_6mlgrad_4func_8SoftPlus_8__setstate_cython__[] = "SoftPlus.__setstate_cython__(self, __pyx_state)";
+static PyObject *__pyx_pw_6mlgrad_4func_8SoftPlus_9__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_6mlgrad_4func_8Softplus_8__setstate_cython__(((struct __pyx_obj_6mlgrad_4func_Softplus *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_6mlgrad_4func_8SoftPlus_8__setstate_cython__(((struct __pyx_obj_6mlgrad_4func_SoftPlus *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_8__setstate_cython__(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6mlgrad_4func_8SoftPlus_8__setstate_cython__(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -14071,20 +14089,20 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_8__setstate_cython__(struct __
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
 
   /* "(tree fragment)":17
- *         return __pyx_unpickle_Softplus, (type(self), 0xe911527, state)
+ *         return __pyx_unpickle_SoftPlus, (type(self), 0xe911527, state)
  * def __setstate_cython__(self, __pyx_state):
- *     __pyx_unpickle_Softplus__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
+ *     __pyx_unpickle_SoftPlus__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
   if (!(likely(PyTuple_CheckExact(__pyx_v___pyx_state))||((__pyx_v___pyx_state) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v___pyx_state)->tp_name), 0))) __PYX_ERR(2, 17, __pyx_L1_error)
-  __pyx_t_1 = __pyx_f_6mlgrad_4func___pyx_unpickle_Softplus__set_state(__pyx_v_self, ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 17, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6mlgrad_4func___pyx_unpickle_SoftPlus__set_state(__pyx_v_self, ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_Softplus, (type(self), 0xe911527, state)
+ *         return __pyx_unpickle_SoftPlus, (type(self), 0xe911527, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_unpickle_Softplus__set_state(self, __pyx_state)
+ *     __pyx_unpickle_SoftPlus__set_state(self, __pyx_state)
  */
 
   /* function exit code */
@@ -14092,7 +14110,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_8__setstate_cython__(struct __
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("mlgrad.func.Softplus.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.func.SoftPlus.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -14100,7 +14118,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Softplus_8__setstate_cython__(struct __
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":400
+/* "mlgrad/func.pyx":402
  * cdef class Threshold(Func):
  *     #
  *     def __init__(self, theta=0):             # <<<<<<<<<<<<<<
@@ -14140,7 +14158,7 @@ static int __pyx_pw_6mlgrad_4func_9Threshold_1__init__(PyObject *__pyx_v_self, P
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 400, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 402, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -14154,7 +14172,7 @@ static int __pyx_pw_6mlgrad_4func_9Threshold_1__init__(PyObject *__pyx_v_self, P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 400, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 402, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Threshold.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -14176,7 +14194,7 @@ static int __pyx_pf_6mlgrad_4func_9Threshold___init__(struct __pyx_obj_6mlgrad_4
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":401
+  /* "mlgrad/func.pyx":403
  *     #
  *     def __init__(self, theta=0):
  *         self.label = u'H'             # <<<<<<<<<<<<<<
@@ -14189,17 +14207,17 @@ static int __pyx_pf_6mlgrad_4func_9Threshold___init__(struct __pyx_obj_6mlgrad_4
   __Pyx_DECREF(__pyx_v_self->__pyx_base.label);
   __pyx_v_self->__pyx_base.label = __pyx_n_u_H;
 
-  /* "mlgrad/func.pyx":402
+  /* "mlgrad/func.pyx":404
  *     def __init__(self, theta=0):
  *         self.label = u'H'
  *         self.theta = theta             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_theta); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 402, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_theta); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 404, __pyx_L1_error)
   __pyx_v_self->theta = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":400
+  /* "mlgrad/func.pyx":402
  * cdef class Threshold(Func):
  *     #
  *     def __init__(self, theta=0):             # <<<<<<<<<<<<<<
@@ -14218,21 +14236,21 @@ static int __pyx_pf_6mlgrad_4func_9Threshold___init__(struct __pyx_obj_6mlgrad_4
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":404
+/* "mlgrad/func.pyx":406
  *         self.theta = theta
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x >= self.theta:
  *             return 1
  */
 
-static double __pyx_f_6mlgrad_4func_9Threshold_evaluate(struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_9Threshold__evaluate(struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":405
+  /* "mlgrad/func.pyx":407
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x >= self.theta:             # <<<<<<<<<<<<<<
  *             return 1
  *         else:
@@ -14240,8 +14258,8 @@ static double __pyx_f_6mlgrad_4func_9Threshold_evaluate(struct __pyx_obj_6mlgrad
   __pyx_t_1 = ((__pyx_v_x >= __pyx_v_self->theta) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":406
- *     cdef double evaluate(self, const double x) nogil:
+    /* "mlgrad/func.pyx":408
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x >= self.theta:
  *             return 1             # <<<<<<<<<<<<<<
  *         else:
@@ -14250,31 +14268,31 @@ static double __pyx_f_6mlgrad_4func_9Threshold_evaluate(struct __pyx_obj_6mlgrad
     __pyx_r = 1.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":405
+    /* "mlgrad/func.pyx":407
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x >= self.theta:             # <<<<<<<<<<<<<<
  *             return 1
  *         else:
  */
   }
 
-  /* "mlgrad/func.pyx":408
+  /* "mlgrad/func.pyx":410
  *             return 1
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   /*else*/ {
     __pyx_r = 0.0;
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":404
+  /* "mlgrad/func.pyx":406
  *         self.theta = theta
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x >= self.theta:
  *             return 1
  */
@@ -14284,21 +14302,21 @@ static double __pyx_f_6mlgrad_4func_9Threshold_evaluate(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":410
+/* "mlgrad/func.pyx":412
  *             return 0
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x == self.theta:
  *             return c_inf
  */
 
-static double __pyx_f_6mlgrad_4func_9Threshold_derivative(struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_9Threshold__derivative(struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":411
+  /* "mlgrad/func.pyx":413
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x == self.theta:             # <<<<<<<<<<<<<<
  *             return c_inf
  *         else:
@@ -14306,8 +14324,8 @@ static double __pyx_f_6mlgrad_4func_9Threshold_derivative(struct __pyx_obj_6mlgr
   __pyx_t_1 = ((__pyx_v_x == __pyx_v_self->theta) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":412
- *     cdef double derivative(self, const double x) nogil:
+    /* "mlgrad/func.pyx":414
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x == self.theta:
  *             return c_inf             # <<<<<<<<<<<<<<
  *         else:
@@ -14316,16 +14334,16 @@ static double __pyx_f_6mlgrad_4func_9Threshold_derivative(struct __pyx_obj_6mlgr
     __pyx_r = __pyx_v_6mlgrad_4func_c_inf;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":411
+    /* "mlgrad/func.pyx":413
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x == self.theta:             # <<<<<<<<<<<<<<
  *             return c_inf
  *         else:
  */
   }
 
-  /* "mlgrad/func.pyx":414
+  /* "mlgrad/func.pyx":416
  *             return c_inf
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -14337,10 +14355,10 @@ static double __pyx_f_6mlgrad_4func_9Threshold_derivative(struct __pyx_obj_6mlgr
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":410
+  /* "mlgrad/func.pyx":412
  *             return 0
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x == self.theta:
  *             return c_inf
  */
@@ -14350,7 +14368,7 @@ static double __pyx_f_6mlgrad_4func_9Threshold_derivative(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":416
+/* "mlgrad/func.pyx":418
  *             return 0
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -14361,7 +14379,7 @@ static double __pyx_f_6mlgrad_4func_9Threshold_derivative(struct __pyx_obj_6mlgr
 static double __pyx_f_6mlgrad_4func_9Threshold_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Threshold *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":417
+  /* "mlgrad/func.pyx":419
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         return c_nan             # <<<<<<<<<<<<<<
@@ -14371,7 +14389,7 @@ static double __pyx_f_6mlgrad_4func_9Threshold_derivative2(CYTHON_UNUSED struct 
   __pyx_r = __pyx_v_6mlgrad_4func_c_nan;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":416
+  /* "mlgrad/func.pyx":418
  *             return 0
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -14384,7 +14402,7 @@ static double __pyx_f_6mlgrad_4func_9Threshold_derivative2(CYTHON_UNUSED struct 
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":419
+/* "mlgrad/func.pyx":421
  *         return c_nan
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -14415,7 +14433,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Threshold_2_repr_latex_(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":420
+  /* "mlgrad/func.pyx":422
  *     #
  *     def _repr_latex_(self):
  *         return '$%s(x, \theta)=\cases{1&x\geq\theta\\0&x<0}$' % self.label             # <<<<<<<<<<<<<<
@@ -14423,13 +14441,13 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Threshold_2_repr_latex_(struct __pyx_ob
  *     def to_dict(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_s_x_heta_cases_1_x_geq_heta_0_x, __pyx_v_self->__pyx_base.label); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 420, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_s_x_heta_cases_1_x_geq_heta_0_x, __pyx_v_self->__pyx_base.label); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 422, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":419
+  /* "mlgrad/func.pyx":421
  *         return c_nan
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -14448,7 +14466,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Threshold_2_repr_latex_(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":422
+/* "mlgrad/func.pyx":424
  *         return '$%s(x, \theta)=\cases{1&x\geq\theta\\0&x<0}$' % self.label
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -14481,7 +14499,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Threshold_4to_dict(struct __pyx_obj_6ml
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":423
+  /* "mlgrad/func.pyx":425
  * 
  *     def to_dict(self):
  *         return { 'name':'threshold',             # <<<<<<<<<<<<<<
@@ -14489,31 +14507,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Threshold_4to_dict(struct __pyx_obj_6ml
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 423, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 425, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_threshold) < 0) __PYX_ERR(0, 423, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_threshold) < 0) __PYX_ERR(0, 425, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":424
+  /* "mlgrad/func.pyx":426
  *     def to_dict(self):
  *         return { 'name':'threshold',
  *                  'args': (self.theta,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class Sign(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->theta); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 424, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->theta); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 424, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 423, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 425, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":422
+  /* "mlgrad/func.pyx":424
  *         return '$%s(x, \theta)=\cases{1&x\geq\theta\\0&x<0}$' % self.label
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -14916,7 +14934,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Threshold_8__setstate_cython__(struct _
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":428
+/* "mlgrad/func.pyx":430
  * cdef class Sign(Func):
  *     #
  *     def __init__(self, theta=0):             # <<<<<<<<<<<<<<
@@ -14956,7 +14974,7 @@ static int __pyx_pw_6mlgrad_4func_4Sign_1__init__(PyObject *__pyx_v_self, PyObje
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 428, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 430, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -14970,7 +14988,7 @@ static int __pyx_pw_6mlgrad_4func_4Sign_1__init__(PyObject *__pyx_v_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 428, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 430, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Sign.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -14992,7 +15010,7 @@ static int __pyx_pf_6mlgrad_4func_4Sign___init__(struct __pyx_obj_6mlgrad_4func_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":429
+  /* "mlgrad/func.pyx":431
  *     #
  *     def __init__(self, theta=0):
  *         self.label = u'sign'             # <<<<<<<<<<<<<<
@@ -15005,17 +15023,17 @@ static int __pyx_pf_6mlgrad_4func_4Sign___init__(struct __pyx_obj_6mlgrad_4func_
   __Pyx_DECREF(__pyx_v_self->__pyx_base.label);
   __pyx_v_self->__pyx_base.label = __pyx_n_u_sign;
 
-  /* "mlgrad/func.pyx":430
+  /* "mlgrad/func.pyx":432
  *     def __init__(self, theta=0):
  *         self.label = u'sign'
  *         self.theta = theta             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_theta); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 430, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_theta); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 432, __pyx_L1_error)
   __pyx_v_self->theta = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":428
+  /* "mlgrad/func.pyx":430
  * cdef class Sign(Func):
  *     #
  *     def __init__(self, theta=0):             # <<<<<<<<<<<<<<
@@ -15034,21 +15052,21 @@ static int __pyx_pf_6mlgrad_4func_4Sign___init__(struct __pyx_obj_6mlgrad_4func_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":432
+/* "mlgrad/func.pyx":434
  *         self.theta = theta
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > self.theta:
  *             return 1
  */
 
-static double __pyx_f_6mlgrad_4func_4Sign_evaluate(struct __pyx_obj_6mlgrad_4func_Sign *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_4Sign__evaluate(struct __pyx_obj_6mlgrad_4func_Sign *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":433
+  /* "mlgrad/func.pyx":435
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x > self.theta:             # <<<<<<<<<<<<<<
  *             return 1
  *         elif x < self.theta:
@@ -15056,8 +15074,8 @@ static double __pyx_f_6mlgrad_4func_4Sign_evaluate(struct __pyx_obj_6mlgrad_4fun
   __pyx_t_1 = ((__pyx_v_x > __pyx_v_self->theta) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":434
- *     cdef double evaluate(self, const double x) nogil:
+    /* "mlgrad/func.pyx":436
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x > self.theta:
  *             return 1             # <<<<<<<<<<<<<<
  *         elif x < self.theta:
@@ -15066,16 +15084,16 @@ static double __pyx_f_6mlgrad_4func_4Sign_evaluate(struct __pyx_obj_6mlgrad_4fun
     __pyx_r = 1.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":433
+    /* "mlgrad/func.pyx":435
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x > self.theta:             # <<<<<<<<<<<<<<
  *             return 1
  *         elif x < self.theta:
  */
   }
 
-  /* "mlgrad/func.pyx":435
+  /* "mlgrad/func.pyx":437
  *         if x > self.theta:
  *             return 1
  *         elif x < self.theta:             # <<<<<<<<<<<<<<
@@ -15085,7 +15103,7 @@ static double __pyx_f_6mlgrad_4func_4Sign_evaluate(struct __pyx_obj_6mlgrad_4fun
   __pyx_t_1 = ((__pyx_v_x < __pyx_v_self->theta) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":436
+    /* "mlgrad/func.pyx":438
  *             return 1
  *         elif x < self.theta:
  *             return -1             # <<<<<<<<<<<<<<
@@ -15095,7 +15113,7 @@ static double __pyx_f_6mlgrad_4func_4Sign_evaluate(struct __pyx_obj_6mlgrad_4fun
     __pyx_r = -1.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":435
+    /* "mlgrad/func.pyx":437
  *         if x > self.theta:
  *             return 1
  *         elif x < self.theta:             # <<<<<<<<<<<<<<
@@ -15104,22 +15122,22 @@ static double __pyx_f_6mlgrad_4func_4Sign_evaluate(struct __pyx_obj_6mlgrad_4fun
  */
   }
 
-  /* "mlgrad/func.pyx":438
+  /* "mlgrad/func.pyx":440
  *             return -1
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   /*else*/ {
     __pyx_r = 0.0;
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":432
+  /* "mlgrad/func.pyx":434
  *         self.theta = theta
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > self.theta:
  *             return 1
  */
@@ -15129,21 +15147,21 @@ static double __pyx_f_6mlgrad_4func_4Sign_evaluate(struct __pyx_obj_6mlgrad_4fun
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":440
+/* "mlgrad/func.pyx":442
  *             return 0
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x == self.theta:
  *             return c_inf
  */
 
-static double __pyx_f_6mlgrad_4func_4Sign_derivative(struct __pyx_obj_6mlgrad_4func_Sign *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_4Sign__derivative(struct __pyx_obj_6mlgrad_4func_Sign *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":441
+  /* "mlgrad/func.pyx":443
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x == self.theta:             # <<<<<<<<<<<<<<
  *             return c_inf
  *         else:
@@ -15151,8 +15169,8 @@ static double __pyx_f_6mlgrad_4func_4Sign_derivative(struct __pyx_obj_6mlgrad_4f
   __pyx_t_1 = ((__pyx_v_x == __pyx_v_self->theta) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":442
- *     cdef double derivative(self, const double x) nogil:
+    /* "mlgrad/func.pyx":444
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x == self.theta:
  *             return c_inf             # <<<<<<<<<<<<<<
  *         else:
@@ -15161,16 +15179,16 @@ static double __pyx_f_6mlgrad_4func_4Sign_derivative(struct __pyx_obj_6mlgrad_4f
     __pyx_r = __pyx_v_6mlgrad_4func_c_inf;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":441
+    /* "mlgrad/func.pyx":443
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x == self.theta:             # <<<<<<<<<<<<<<
  *             return c_inf
  *         else:
  */
   }
 
-  /* "mlgrad/func.pyx":444
+  /* "mlgrad/func.pyx":446
  *             return c_inf
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -15182,10 +15200,10 @@ static double __pyx_f_6mlgrad_4func_4Sign_derivative(struct __pyx_obj_6mlgrad_4f
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":440
+  /* "mlgrad/func.pyx":442
  *             return 0
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x == self.theta:
  *             return c_inf
  */
@@ -15195,7 +15213,7 @@ static double __pyx_f_6mlgrad_4func_4Sign_derivative(struct __pyx_obj_6mlgrad_4f
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":446
+/* "mlgrad/func.pyx":448
  *             return 0
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -15206,7 +15224,7 @@ static double __pyx_f_6mlgrad_4func_4Sign_derivative(struct __pyx_obj_6mlgrad_4f
 static double __pyx_f_6mlgrad_4func_4Sign_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Sign *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":447
+  /* "mlgrad/func.pyx":449
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         return c_nan             # <<<<<<<<<<<<<<
@@ -15216,7 +15234,7 @@ static double __pyx_f_6mlgrad_4func_4Sign_derivative2(CYTHON_UNUSED struct __pyx
   __pyx_r = __pyx_v_6mlgrad_4func_c_nan;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":446
+  /* "mlgrad/func.pyx":448
  *             return 0
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -15229,7 +15247,7 @@ static double __pyx_f_6mlgrad_4func_4Sign_derivative2(CYTHON_UNUSED struct __pyx
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":449
+/* "mlgrad/func.pyx":451
  *         return c_nan
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -15260,7 +15278,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Sign_2_repr_latex_(struct __pyx_obj_6ml
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":450
+  /* "mlgrad/func.pyx":452
  *     #
  *     def _repr_latex_(self):
  *         return '$%s(x, \theta)=\cases{1&x\geq\theta\\0&x<0}$' % self.label             # <<<<<<<<<<<<<<
@@ -15268,13 +15286,13 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Sign_2_repr_latex_(struct __pyx_obj_6ml
  *     def to_dict(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_s_x_heta_cases_1_x_geq_heta_0_x, __pyx_v_self->__pyx_base.label); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 450, __pyx_L1_error)
+  __pyx_t_1 = PyUnicode_Format(__pyx_kp_u_s_x_heta_cases_1_x_geq_heta_0_x, __pyx_v_self->__pyx_base.label); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 452, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":449
+  /* "mlgrad/func.pyx":451
  *         return c_nan
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -15293,7 +15311,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Sign_2_repr_latex_(struct __pyx_obj_6ml
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":452
+/* "mlgrad/func.pyx":454
  *         return '$%s(x, \theta)=\cases{1&x\geq\theta\\0&x<0}$' % self.label
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -15326,7 +15344,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Sign_4to_dict(struct __pyx_obj_6mlgrad_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":453
+  /* "mlgrad/func.pyx":455
  * 
  *     def to_dict(self):
  *         return { 'name':'sign',             # <<<<<<<<<<<<<<
@@ -15334,31 +15352,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Sign_4to_dict(struct __pyx_obj_6mlgrad_
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 455, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_sign) < 0) __PYX_ERR(0, 453, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_sign) < 0) __PYX_ERR(0, 455, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":454
+  /* "mlgrad/func.pyx":456
  *     def to_dict(self):
  *         return { 'name':'sign',
  *                  'args': (self.theta,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class Quantile(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->theta); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 454, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->theta); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 456, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 454, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 456, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 453, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 455, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":452
+  /* "mlgrad/func.pyx":454
  *         return '$%s(x, \theta)=\cases{1&x\geq\theta\\0&x<0}$' % self.label
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -15761,7 +15779,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Sign_8__setstate_cython__(struct __pyx_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":458
+/* "mlgrad/func.pyx":460
  * cdef class Quantile(Func):
  *     #
  *     def __init__(self, alpha=0.5):             # <<<<<<<<<<<<<<
@@ -15801,7 +15819,7 @@ static int __pyx_pw_6mlgrad_4func_8Quantile_1__init__(PyObject *__pyx_v_self, Py
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 458, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 460, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -15815,7 +15833,7 @@ static int __pyx_pw_6mlgrad_4func_8Quantile_1__init__(PyObject *__pyx_v_self, Py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 458, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 460, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Quantile.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -15837,17 +15855,17 @@ static int __pyx_pf_6mlgrad_4func_8Quantile___init__(struct __pyx_obj_6mlgrad_4f
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":459
+  /* "mlgrad/func.pyx":461
  *     #
  *     def __init__(self, alpha=0.5):
  *         self.alpha = alpha             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 459, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 461, __pyx_L1_error)
   __pyx_v_self->alpha = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":458
+  /* "mlgrad/func.pyx":460
  * cdef class Quantile(Func):
  *     #
  *     def __init__(self, alpha=0.5):             # <<<<<<<<<<<<<<
@@ -15866,21 +15884,21 @@ static int __pyx_pf_6mlgrad_4func_8Quantile___init__(struct __pyx_obj_6mlgrad_4f
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":461
+/* "mlgrad/func.pyx":463
  *         self.alpha = alpha
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x < 0:
  *             return (self.alpha - 1) * x
  */
 
-static double __pyx_f_6mlgrad_4func_8Quantile_evaluate(struct __pyx_obj_6mlgrad_4func_Quantile *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_8Quantile__evaluate(struct __pyx_obj_6mlgrad_4func_Quantile *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":462
+  /* "mlgrad/func.pyx":464
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x < 0:             # <<<<<<<<<<<<<<
  *             return (self.alpha - 1) * x
  *         elif x > 0:
@@ -15888,8 +15906,8 @@ static double __pyx_f_6mlgrad_4func_8Quantile_evaluate(struct __pyx_obj_6mlgrad_
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":463
- *     cdef double evaluate(self, const double x) nogil:
+    /* "mlgrad/func.pyx":465
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x < 0:
  *             return (self.alpha - 1) * x             # <<<<<<<<<<<<<<
  *         elif x > 0:
@@ -15898,16 +15916,16 @@ static double __pyx_f_6mlgrad_4func_8Quantile_evaluate(struct __pyx_obj_6mlgrad_
     __pyx_r = ((__pyx_v_self->alpha - 1.0) * __pyx_v_x);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":462
+    /* "mlgrad/func.pyx":464
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x < 0:             # <<<<<<<<<<<<<<
  *             return (self.alpha - 1) * x
  *         elif x > 0:
  */
   }
 
-  /* "mlgrad/func.pyx":464
+  /* "mlgrad/func.pyx":466
  *         if x < 0:
  *             return (self.alpha - 1) * x
  *         elif x > 0:             # <<<<<<<<<<<<<<
@@ -15917,7 +15935,7 @@ static double __pyx_f_6mlgrad_4func_8Quantile_evaluate(struct __pyx_obj_6mlgrad_
   __pyx_t_1 = ((__pyx_v_x > 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":465
+    /* "mlgrad/func.pyx":467
  *             return (self.alpha - 1) * x
  *         elif x > 0:
  *             return self.alpha * x             # <<<<<<<<<<<<<<
@@ -15927,7 +15945,7 @@ static double __pyx_f_6mlgrad_4func_8Quantile_evaluate(struct __pyx_obj_6mlgrad_
     __pyx_r = (__pyx_v_self->alpha * __pyx_v_x);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":464
+    /* "mlgrad/func.pyx":466
  *         if x < 0:
  *             return (self.alpha - 1) * x
  *         elif x > 0:             # <<<<<<<<<<<<<<
@@ -15936,22 +15954,22 @@ static double __pyx_f_6mlgrad_4func_8Quantile_evaluate(struct __pyx_obj_6mlgrad_
  */
   }
 
-  /* "mlgrad/func.pyx":467
+  /* "mlgrad/func.pyx":469
  *             return self.alpha * x
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   /*else*/ {
     __pyx_r = 0.0;
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":461
+  /* "mlgrad/func.pyx":463
  *         self.alpha = alpha
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x < 0:
  *             return (self.alpha - 1) * x
  */
@@ -15961,21 +15979,21 @@ static double __pyx_f_6mlgrad_4func_8Quantile_evaluate(struct __pyx_obj_6mlgrad_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":469
+/* "mlgrad/func.pyx":471
  *             return 0
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x < 0:
  *             return self.alpha - 1.0
  */
 
-static double __pyx_f_6mlgrad_4func_8Quantile_derivative(struct __pyx_obj_6mlgrad_4func_Quantile *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_8Quantile__derivative(struct __pyx_obj_6mlgrad_4func_Quantile *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":470
+  /* "mlgrad/func.pyx":472
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x < 0:             # <<<<<<<<<<<<<<
  *             return self.alpha - 1.0
  *         elif x > 0:
@@ -15983,8 +16001,8 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative(struct __pyx_obj_6mlgra
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":471
- *     cdef double derivative(self, const double x) nogil:
+    /* "mlgrad/func.pyx":473
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x < 0:
  *             return self.alpha - 1.0             # <<<<<<<<<<<<<<
  *         elif x > 0:
@@ -15993,16 +16011,16 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative(struct __pyx_obj_6mlgra
     __pyx_r = (__pyx_v_self->alpha - 1.0);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":470
+    /* "mlgrad/func.pyx":472
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x < 0:             # <<<<<<<<<<<<<<
  *             return self.alpha - 1.0
  *         elif x > 0:
  */
   }
 
-  /* "mlgrad/func.pyx":472
+  /* "mlgrad/func.pyx":474
  *         if x < 0:
  *             return self.alpha - 1.0
  *         elif x > 0:             # <<<<<<<<<<<<<<
@@ -16012,7 +16030,7 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative(struct __pyx_obj_6mlgra
   __pyx_t_1 = ((__pyx_v_x > 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":473
+    /* "mlgrad/func.pyx":475
  *             return self.alpha - 1.0
  *         elif x > 0:
  *             return self.alpha             # <<<<<<<<<<<<<<
@@ -16022,7 +16040,7 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative(struct __pyx_obj_6mlgra
     __pyx_r = __pyx_v_self->alpha;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":472
+    /* "mlgrad/func.pyx":474
  *         if x < 0:
  *             return self.alpha - 1.0
  *         elif x > 0:             # <<<<<<<<<<<<<<
@@ -16031,7 +16049,7 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative(struct __pyx_obj_6mlgra
  */
   }
 
-  /* "mlgrad/func.pyx":475
+  /* "mlgrad/func.pyx":477
  *             return self.alpha
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -16043,10 +16061,10 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative(struct __pyx_obj_6mlgra
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":469
+  /* "mlgrad/func.pyx":471
  *             return 0
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x < 0:
  *             return self.alpha - 1.0
  */
@@ -16056,7 +16074,7 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":477
+/* "mlgrad/func.pyx":479
  *             return 0
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -16068,7 +16086,7 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative2(CYTHON_UNUSED struct _
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":478
+  /* "mlgrad/func.pyx":480
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         if x == 0:             # <<<<<<<<<<<<<<
@@ -16078,7 +16096,7 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative2(CYTHON_UNUSED struct _
   __pyx_t_1 = ((__pyx_v_x == 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":479
+    /* "mlgrad/func.pyx":481
  *     cdef double derivative2(self, const double x) nogil:
  *         if x == 0:
  *             return c_inf             # <<<<<<<<<<<<<<
@@ -16088,7 +16106,7 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative2(CYTHON_UNUSED struct _
     __pyx_r = __pyx_v_6mlgrad_4func_c_inf;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":478
+    /* "mlgrad/func.pyx":480
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         if x == 0:             # <<<<<<<<<<<<<<
@@ -16097,7 +16115,7 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative2(CYTHON_UNUSED struct _
  */
   }
 
-  /* "mlgrad/func.pyx":481
+  /* "mlgrad/func.pyx":483
  *             return c_inf
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -16109,7 +16127,7 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative2(CYTHON_UNUSED struct _
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":477
+  /* "mlgrad/func.pyx":479
  *             return 0
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -16122,7 +16140,7 @@ static double __pyx_f_6mlgrad_4func_8Quantile_derivative2(CYTHON_UNUSED struct _
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":483
+/* "mlgrad/func.pyx":485
  *             return 0
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -16149,7 +16167,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Quantile_2_repr_latex_(CYTHON_UNUSED st
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":484
+  /* "mlgrad/func.pyx":486
  *     #
  *     def _repr_latex_(self):
  *         return r"$(x)=(\alpha - [x < 0])x$"             # <<<<<<<<<<<<<<
@@ -16161,7 +16179,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Quantile_2_repr_latex_(CYTHON_UNUSED st
   __pyx_r = __pyx_kp_u_x_alpha_x_0_x;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":483
+  /* "mlgrad/func.pyx":485
  *             return 0
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -16176,7 +16194,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Quantile_2_repr_latex_(CYTHON_UNUSED st
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":486
+/* "mlgrad/func.pyx":488
  *         return r"$(x)=(\alpha - [x < 0])x$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -16209,7 +16227,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Quantile_4to_dict(struct __pyx_obj_6mlg
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":487
+  /* "mlgrad/func.pyx":489
  * 
  *     def to_dict(self):
  *         return { 'name':'quantile',             # <<<<<<<<<<<<<<
@@ -16217,31 +16235,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Quantile_4to_dict(struct __pyx_obj_6mlg
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 487, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 489, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_quantile) < 0) __PYX_ERR(0, 487, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_quantile) < 0) __PYX_ERR(0, 489, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":488
+  /* "mlgrad/func.pyx":490
  *     def to_dict(self):
  *         return { 'name':'quantile',
  *                  'args': (self.alpha,) }             # <<<<<<<<<<<<<<
  * 
  * # cdef class Expectile(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 488, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 490, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 488, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 490, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 487, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 489, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":486
+  /* "mlgrad/func.pyx":488
  *         return r"$(x)=(\alpha - [x < 0])x$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -16644,7 +16662,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Quantile_8__setstate_cython__(struct __
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":536
+/* "mlgrad/func.pyx":538
  * cdef class Power(Func):
  *     #
  *     def __init__(self, p=2.0, alpha=0):             # <<<<<<<<<<<<<<
@@ -16694,7 +16712,7 @@ static int __pyx_pw_6mlgrad_4func_5Power_1__init__(PyObject *__pyx_v_self, PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 536, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 538, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -16711,7 +16729,7 @@ static int __pyx_pw_6mlgrad_4func_5Power_1__init__(PyObject *__pyx_v_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 536, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 538, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Power.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -16733,36 +16751,36 @@ static int __pyx_pf_6mlgrad_4func_5Power___init__(struct __pyx_obj_6mlgrad_4func
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":537
+  /* "mlgrad/func.pyx":539
  *     #
  *     def __init__(self, p=2.0, alpha=0):
  *         self.p = p             # <<<<<<<<<<<<<<
  *         self.alpha = alpha
  *         self.alpha_p = pow(self.alpha, self.p)
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 537, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 539, __pyx_L1_error)
   __pyx_v_self->p = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":538
+  /* "mlgrad/func.pyx":540
  *     def __init__(self, p=2.0, alpha=0):
  *         self.p = p
  *         self.alpha = alpha             # <<<<<<<<<<<<<<
  *         self.alpha_p = pow(self.alpha, self.p)
  *     #
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 538, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 540, __pyx_L1_error)
   __pyx_v_self->alpha = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":539
+  /* "mlgrad/func.pyx":541
  *         self.p = p
  *         self.alpha = alpha
  *         self.alpha_p = pow(self.alpha, self.p)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
   __pyx_v_self->alpha_p = pow(__pyx_v_self->alpha, __pyx_v_self->p);
 
-  /* "mlgrad/func.pyx":536
+  /* "mlgrad/func.pyx":538
  * cdef class Power(Func):
  *     #
  *     def __init__(self, p=2.0, alpha=0):             # <<<<<<<<<<<<<<
@@ -16781,27 +16799,27 @@ static int __pyx_pf_6mlgrad_4func_5Power___init__(struct __pyx_obj_6mlgrad_4func
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":541
+/* "mlgrad/func.pyx":543
  *         self.alpha_p = pow(self.alpha, self.p)
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return pow(fabs(x) + self.alpha, self.p) / self.p
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_5Power_evaluate(struct __pyx_obj_6mlgrad_4func_Power *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_5Power__evaluate(struct __pyx_obj_6mlgrad_4func_Power *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/func.pyx":542
+  /* "mlgrad/func.pyx":544
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return pow(fabs(x) + self.alpha, self.p) / self.p             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   __pyx_t_1 = pow((fabs(__pyx_v_x) + __pyx_v_self->alpha), __pyx_v_self->p);
   if (unlikely(__pyx_v_self->p == 0)) {
@@ -16812,42 +16830,42 @@ static double __pyx_f_6mlgrad_4func_5Power_evaluate(struct __pyx_obj_6mlgrad_4fu
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 542, __pyx_L1_error)
+    __PYX_ERR(0, 544, __pyx_L1_error)
   }
   __pyx_r = (__pyx_t_1 / __pyx_v_self->p);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":541
+  /* "mlgrad/func.pyx":543
  *         self.alpha_p = pow(self.alpha, self.p)
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return pow(fabs(x) + self.alpha, self.p) / self.p
  *     #
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.func.Power.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __Pyx_WriteUnraisable("mlgrad.func.Power._evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
   __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":544
+/* "mlgrad/func.pyx":546
  *         return pow(fabs(x) + self.alpha, self.p) / self.p
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double val
  *         val = pow(fabs(x) + self.alpha, self.p-1)
  */
 
-static double __pyx_f_6mlgrad_4func_5Power_derivative(struct __pyx_obj_6mlgrad_4func_Power *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_5Power__derivative(struct __pyx_obj_6mlgrad_4func_Power *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_val;
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":546
- *     cdef double derivative(self, const double x) nogil:
+  /* "mlgrad/func.pyx":548
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double val
  *         val = pow(fabs(x) + self.alpha, self.p-1)             # <<<<<<<<<<<<<<
  *         if x < 0:
@@ -16855,7 +16873,7 @@ static double __pyx_f_6mlgrad_4func_5Power_derivative(struct __pyx_obj_6mlgrad_4
  */
   __pyx_v_val = pow((fabs(__pyx_v_x) + __pyx_v_self->alpha), (__pyx_v_self->p - 1.0));
 
-  /* "mlgrad/func.pyx":547
+  /* "mlgrad/func.pyx":549
  *         cdef double val
  *         val = pow(fabs(x) + self.alpha, self.p-1)
  *         if x < 0:             # <<<<<<<<<<<<<<
@@ -16865,7 +16883,7 @@ static double __pyx_f_6mlgrad_4func_5Power_derivative(struct __pyx_obj_6mlgrad_4
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":548
+    /* "mlgrad/func.pyx":550
  *         val = pow(fabs(x) + self.alpha, self.p-1)
  *         if x < 0:
  *             val = -val             # <<<<<<<<<<<<<<
@@ -16874,7 +16892,7 @@ static double __pyx_f_6mlgrad_4func_5Power_derivative(struct __pyx_obj_6mlgrad_4
  */
     __pyx_v_val = (-__pyx_v_val);
 
-    /* "mlgrad/func.pyx":547
+    /* "mlgrad/func.pyx":549
  *         cdef double val
  *         val = pow(fabs(x) + self.alpha, self.p-1)
  *         if x < 0:             # <<<<<<<<<<<<<<
@@ -16883,7 +16901,7 @@ static double __pyx_f_6mlgrad_4func_5Power_derivative(struct __pyx_obj_6mlgrad_4
  */
   }
 
-  /* "mlgrad/func.pyx":549
+  /* "mlgrad/func.pyx":551
  *         if x < 0:
  *             val = -val
  *         return val             # <<<<<<<<<<<<<<
@@ -16893,10 +16911,10 @@ static double __pyx_f_6mlgrad_4func_5Power_derivative(struct __pyx_obj_6mlgrad_4
   __pyx_r = __pyx_v_val;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":544
+  /* "mlgrad/func.pyx":546
  *         return pow(fabs(x) + self.alpha, self.p) / self.p
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double val
  *         val = pow(fabs(x) + self.alpha, self.p-1)
  */
@@ -16906,7 +16924,7 @@ static double __pyx_f_6mlgrad_4func_5Power_derivative(struct __pyx_obj_6mlgrad_4
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":551
+/* "mlgrad/func.pyx":553
  *         return val
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -16917,7 +16935,7 @@ static double __pyx_f_6mlgrad_4func_5Power_derivative(struct __pyx_obj_6mlgrad_4
 static double __pyx_f_6mlgrad_4func_5Power_derivative2(struct __pyx_obj_6mlgrad_4func_Power *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":552
+  /* "mlgrad/func.pyx":554
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         return (self.p-1) * pow(fabs(x) + self.alpha, self.p-2)             # <<<<<<<<<<<<<<
@@ -16927,7 +16945,7 @@ static double __pyx_f_6mlgrad_4func_5Power_derivative2(struct __pyx_obj_6mlgrad_
   __pyx_r = ((__pyx_v_self->p - 1.0) * pow((fabs(__pyx_v_x) + __pyx_v_self->alpha), (__pyx_v_self->p - 2.0)));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":551
+  /* "mlgrad/func.pyx":553
  *         return val
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -16940,7 +16958,7 @@ static double __pyx_f_6mlgrad_4func_5Power_derivative2(struct __pyx_obj_6mlgrad_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":554
+/* "mlgrad/func.pyx":556
  *         return (self.p-1) * pow(fabs(x) + self.alpha, self.p-2)
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -16951,7 +16969,7 @@ static double __pyx_f_6mlgrad_4func_5Power_derivative2(struct __pyx_obj_6mlgrad_
 static double __pyx_f_6mlgrad_4func_5Power_derivative_div_x(struct __pyx_obj_6mlgrad_4func_Power *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":555
+  /* "mlgrad/func.pyx":557
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         return pow(fabs(x) + self.alpha, self.p-2)             # <<<<<<<<<<<<<<
@@ -16961,7 +16979,7 @@ static double __pyx_f_6mlgrad_4func_5Power_derivative_div_x(struct __pyx_obj_6ml
   __pyx_r = pow((fabs(__pyx_v_x) + __pyx_v_self->alpha), (__pyx_v_self->p - 2.0));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":554
+  /* "mlgrad/func.pyx":556
  *         return (self.p-1) * pow(fabs(x) + self.alpha, self.p-2)
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -16974,7 +16992,7 @@ static double __pyx_f_6mlgrad_4func_5Power_derivative_div_x(struct __pyx_obj_6ml
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":557
+/* "mlgrad/func.pyx":559
  *         return pow(fabs(x) + self.alpha, self.p-2)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -17001,7 +17019,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Power_2_repr_latex_(CYTHON_UNUSED struc
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":558
+  /* "mlgrad/func.pyx":560
  *     #
  *     def _repr_latex_(self):
  *         return r"$(x)=\frac{1}{p}(|x|+\alpha)^p$"             # <<<<<<<<<<<<<<
@@ -17013,7 +17031,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Power_2_repr_latex_(CYTHON_UNUSED struc
   __pyx_r = __pyx_kp_u_x_frac_1_p_x_alpha_p;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":557
+  /* "mlgrad/func.pyx":559
  *         return pow(fabs(x) + self.alpha, self.p-2)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -17028,7 +17046,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Power_2_repr_latex_(CYTHON_UNUSED struc
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":560
+/* "mlgrad/func.pyx":562
  *         return r"$(x)=\frac{1}{p}(|x|+\alpha)^p$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -17062,7 +17080,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Power_4to_dict(struct __pyx_obj_6mlgrad
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":561
+  /* "mlgrad/func.pyx":563
  * 
  *     def to_dict(self):
  *         return { 'name':'power',             # <<<<<<<<<<<<<<
@@ -17070,22 +17088,22 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Power_4to_dict(struct __pyx_obj_6mlgrad
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 561, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 563, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_power) < 0) __PYX_ERR(0, 561, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_power) < 0) __PYX_ERR(0, 563, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":562
+  /* "mlgrad/func.pyx":564
  *     def to_dict(self):
  *         return { 'name':'power',
  *                  'args': (self.p, self.alpha,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class Square(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->p); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 562, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->p); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 564, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 562, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 564, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 562, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 564, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
@@ -17093,13 +17111,13 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Power_4to_dict(struct __pyx_obj_6mlgrad
   PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_4) < 0) __PYX_ERR(0, 561, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_4) < 0) __PYX_ERR(0, 563, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":560
+  /* "mlgrad/func.pyx":562
  *         return r"$(x)=\frac{1}{p}(|x|+\alpha)^p$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -17663,31 +17681,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Power_8__setstate_cython__(struct __pyx
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":566
+/* "mlgrad/func.pyx":568
  * cdef class Square(Func):
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return 0.5 * x * x
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_6Square_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Square *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_6Square__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Square *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":567
+  /* "mlgrad/func.pyx":569
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return 0.5 * x * x             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   __pyx_r = ((0.5 * __pyx_v_x) * __pyx_v_x);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":566
+  /* "mlgrad/func.pyx":568
  * cdef class Square(Func):
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return 0.5 * x * x
  *     #
  */
@@ -17697,20 +17715,20 @@ static double __pyx_f_6mlgrad_4func_6Square_evaluate(CYTHON_UNUSED struct __pyx_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":569
+/* "mlgrad/func.pyx":571
  *         return 0.5 * x * x
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return x
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_6Square_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Square *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_6Square__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Square *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":570
+  /* "mlgrad/func.pyx":572
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         return x             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:
@@ -17718,10 +17736,10 @@ static double __pyx_f_6mlgrad_4func_6Square_derivative(CYTHON_UNUSED struct __py
   __pyx_r = __pyx_v_x;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":569
+  /* "mlgrad/func.pyx":571
  *         return 0.5 * x * x
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return x
  *     #
  */
@@ -17731,7 +17749,7 @@ static double __pyx_f_6mlgrad_4func_6Square_derivative(CYTHON_UNUSED struct __py
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":572
+/* "mlgrad/func.pyx":574
  *         return x
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -17742,7 +17760,7 @@ static double __pyx_f_6mlgrad_4func_6Square_derivative(CYTHON_UNUSED struct __py
 static double __pyx_f_6mlgrad_4func_6Square_derivative_div_x(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Square *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":573
+  /* "mlgrad/func.pyx":575
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         return 1             # <<<<<<<<<<<<<<
@@ -17752,7 +17770,7 @@ static double __pyx_f_6mlgrad_4func_6Square_derivative_div_x(CYTHON_UNUSED struc
   __pyx_r = 1.0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":572
+  /* "mlgrad/func.pyx":574
  *         return x
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -17765,7 +17783,7 @@ static double __pyx_f_6mlgrad_4func_6Square_derivative_div_x(CYTHON_UNUSED struc
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":575
+/* "mlgrad/func.pyx":577
  *         return 1
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -17776,7 +17794,7 @@ static double __pyx_f_6mlgrad_4func_6Square_derivative_div_x(CYTHON_UNUSED struc
 static double __pyx_f_6mlgrad_4func_6Square_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Square *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":576
+  /* "mlgrad/func.pyx":578
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         return 1             # <<<<<<<<<<<<<<
@@ -17786,7 +17804,7 @@ static double __pyx_f_6mlgrad_4func_6Square_derivative2(CYTHON_UNUSED struct __p
   __pyx_r = 1.0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":575
+  /* "mlgrad/func.pyx":577
  *         return 1
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -17799,7 +17817,7 @@ static double __pyx_f_6mlgrad_4func_6Square_derivative2(CYTHON_UNUSED struct __p
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":578
+/* "mlgrad/func.pyx":580
  *         return 1
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -17826,7 +17844,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_6Square__repr_latex_(CYTHON_UNUSED struc
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":579
+  /* "mlgrad/func.pyx":581
  *     #
  *     def _repr_latex_(self):
  *         return r"$(x)=0.5x^2$"             # <<<<<<<<<<<<<<
@@ -17838,7 +17856,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_6Square__repr_latex_(CYTHON_UNUSED struc
   __pyx_r = __pyx_kp_u_x_0_5x_2;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":578
+  /* "mlgrad/func.pyx":580
  *         return 1
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -17853,7 +17871,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_6Square__repr_latex_(CYTHON_UNUSED struc
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":581
+/* "mlgrad/func.pyx":583
  *         return r"$(x)=0.5x^2$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -17884,7 +17902,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_6Square_2to_dict(CYTHON_UNUSED struct __
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":582
+  /* "mlgrad/func.pyx":584
  * 
  *     def to_dict(self):
  *         return { 'name':'square',             # <<<<<<<<<<<<<<
@@ -17892,23 +17910,23 @@ static PyObject *__pyx_pf_6mlgrad_4func_6Square_2to_dict(CYTHON_UNUSED struct __
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 582, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 584, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_square) < 0) __PYX_ERR(0, 582, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_square) < 0) __PYX_ERR(0, 584, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":583
+  /* "mlgrad/func.pyx":585
  *     def to_dict(self):
  *         return { 'name':'square',
  *                  'args': () }             # <<<<<<<<<<<<<<
  * 
  * cdef class SquareSigned(Func):
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_empty_tuple) < 0) __PYX_ERR(0, 582, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_empty_tuple) < 0) __PYX_ERR(0, 584, __pyx_L1_error)
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":581
+  /* "mlgrad/func.pyx":583
  *         return r"$(x)=0.5x^2$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -18222,30 +18240,30 @@ static PyObject *__pyx_pf_6mlgrad_4func_6Square_6__setstate_cython__(struct __py
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":587
+/* "mlgrad/func.pyx":589
  * cdef class SquareSigned(Func):
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double val = 0.5 * x * x
  *         if x >= 0:
  */
 
-static double __pyx_f_6mlgrad_4func_12SquareSigned_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_SquareSigned *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_12SquareSigned__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_SquareSigned *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_val;
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":588
+  /* "mlgrad/func.pyx":590
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double val = 0.5 * x * x             # <<<<<<<<<<<<<<
  *         if x >= 0:
  *             return val
  */
   __pyx_v_val = ((0.5 * __pyx_v_x) * __pyx_v_x);
 
-  /* "mlgrad/func.pyx":589
- *     cdef double evaluate(self, const double x) nogil:
+  /* "mlgrad/func.pyx":591
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double val = 0.5 * x * x
  *         if x >= 0:             # <<<<<<<<<<<<<<
  *             return val
@@ -18254,7 +18272,7 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_evaluate(CYTHON_UNUSED struct
   __pyx_t_1 = ((__pyx_v_x >= 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":590
+    /* "mlgrad/func.pyx":592
  *         cdef double val = 0.5 * x * x
  *         if x >= 0:
  *             return val             # <<<<<<<<<<<<<<
@@ -18264,8 +18282,8 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_evaluate(CYTHON_UNUSED struct
     __pyx_r = __pyx_v_val;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":589
- *     cdef double evaluate(self, const double x) nogil:
+    /* "mlgrad/func.pyx":591
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double val = 0.5 * x * x
  *         if x >= 0:             # <<<<<<<<<<<<<<
  *             return val
@@ -18273,22 +18291,22 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_evaluate(CYTHON_UNUSED struct
  */
   }
 
-  /* "mlgrad/func.pyx":592
+  /* "mlgrad/func.pyx":594
  *             return val
  *         else:
  *             return -val             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   /*else*/ {
     __pyx_r = (-__pyx_v_val);
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":587
+  /* "mlgrad/func.pyx":589
  * cdef class SquareSigned(Func):
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double val = 0.5 * x * x
  *         if x >= 0:
  */
@@ -18298,20 +18316,20 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_evaluate(CYTHON_UNUSED struct
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":594
+/* "mlgrad/func.pyx":596
  *             return -val
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return fabs(x)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_SquareSigned *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_12SquareSigned__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_SquareSigned *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":595
+  /* "mlgrad/func.pyx":597
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         return fabs(x)             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative2(self, const double x) nogil:
@@ -18319,10 +18337,10 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative(CYTHON_UNUSED stru
   __pyx_r = fabs(__pyx_v_x);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":594
+  /* "mlgrad/func.pyx":596
  *             return -val
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return fabs(x)
  *     #
  */
@@ -18332,7 +18350,7 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative(CYTHON_UNUSED stru
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":597
+/* "mlgrad/func.pyx":599
  *         return fabs(x)
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -18344,7 +18362,7 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative2(CYTHON_UNUSED str
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":598
+  /* "mlgrad/func.pyx":600
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         if x > 0:             # <<<<<<<<<<<<<<
@@ -18354,7 +18372,7 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative2(CYTHON_UNUSED str
   __pyx_t_1 = ((__pyx_v_x > 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":599
+    /* "mlgrad/func.pyx":601
  *     cdef double derivative2(self, const double x) nogil:
  *         if x > 0:
  *             return 1.0             # <<<<<<<<<<<<<<
@@ -18364,7 +18382,7 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative2(CYTHON_UNUSED str
     __pyx_r = 1.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":598
+    /* "mlgrad/func.pyx":600
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         if x > 0:             # <<<<<<<<<<<<<<
@@ -18373,7 +18391,7 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative2(CYTHON_UNUSED str
  */
   }
 
-  /* "mlgrad/func.pyx":600
+  /* "mlgrad/func.pyx":602
  *         if x > 0:
  *             return 1.0
  *         elif x < 0:             # <<<<<<<<<<<<<<
@@ -18383,7 +18401,7 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative2(CYTHON_UNUSED str
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":601
+    /* "mlgrad/func.pyx":603
  *             return 1.0
  *         elif x < 0:
  *             return -1.0             # <<<<<<<<<<<<<<
@@ -18393,7 +18411,7 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative2(CYTHON_UNUSED str
     __pyx_r = -1.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":600
+    /* "mlgrad/func.pyx":602
  *         if x > 0:
  *             return 1.0
  *         elif x < 0:             # <<<<<<<<<<<<<<
@@ -18402,7 +18420,7 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative2(CYTHON_UNUSED str
  */
   }
 
-  /* "mlgrad/func.pyx":603
+  /* "mlgrad/func.pyx":605
  *             return -1.0
  *         else:
  *             return 0.             # <<<<<<<<<<<<<<
@@ -18414,7 +18432,7 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative2(CYTHON_UNUSED str
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":597
+  /* "mlgrad/func.pyx":599
  *         return fabs(x)
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -18427,7 +18445,7 @@ static double __pyx_f_6mlgrad_4func_12SquareSigned_derivative2(CYTHON_UNUSED str
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":605
+/* "mlgrad/func.pyx":607
  *             return 0.
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -18454,7 +18472,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_12SquareSigned__repr_latex_(CYTHON_UNUSE
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":606
+  /* "mlgrad/func.pyx":608
  *     #
  *     def _repr_latex_(self):
  *         return r"$(x)=0.5x^2$"             # <<<<<<<<<<<<<<
@@ -18466,7 +18484,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_12SquareSigned__repr_latex_(CYTHON_UNUSE
   __pyx_r = __pyx_kp_u_x_0_5x_2;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":605
+  /* "mlgrad/func.pyx":607
  *             return 0.
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -18776,31 +18794,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_12SquareSigned_4__setstate_cython__(stru
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":610
+/* "mlgrad/func.pyx":612
  * cdef class Absolute(Func):
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return fabs(x)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_8Absolute_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Absolute *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_8Absolute__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Absolute *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":611
+  /* "mlgrad/func.pyx":613
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return fabs(x)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   __pyx_r = fabs(__pyx_v_x);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":610
+  /* "mlgrad/func.pyx":612
  * cdef class Absolute(Func):
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return fabs(x)
  *     #
  */
@@ -18810,21 +18828,21 @@ static double __pyx_f_6mlgrad_4func_8Absolute_evaluate(CYTHON_UNUSED struct __py
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":613
+/* "mlgrad/func.pyx":615
  *         return fabs(x)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
  *             return 1
  */
 
-static double __pyx_f_6mlgrad_4func_8Absolute_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Absolute *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_8Absolute__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_Absolute *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":614
+  /* "mlgrad/func.pyx":616
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x > 0:             # <<<<<<<<<<<<<<
  *             return 1
  *         elif x < 0:
@@ -18832,8 +18850,8 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative(CYTHON_UNUSED struct __
   __pyx_t_1 = ((__pyx_v_x > 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":615
- *     cdef double derivative(self, const double x) nogil:
+    /* "mlgrad/func.pyx":617
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x > 0:
  *             return 1             # <<<<<<<<<<<<<<
  *         elif x < 0:
@@ -18842,16 +18860,16 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative(CYTHON_UNUSED struct __
     __pyx_r = 1.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":614
+    /* "mlgrad/func.pyx":616
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x > 0:             # <<<<<<<<<<<<<<
  *             return 1
  *         elif x < 0:
  */
   }
 
-  /* "mlgrad/func.pyx":616
+  /* "mlgrad/func.pyx":618
  *         if x > 0:
  *             return 1
  *         elif x < 0:             # <<<<<<<<<<<<<<
@@ -18861,7 +18879,7 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative(CYTHON_UNUSED struct __
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":617
+    /* "mlgrad/func.pyx":619
  *             return 1
  *         elif x < 0:
  *             return -1             # <<<<<<<<<<<<<<
@@ -18871,7 +18889,7 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative(CYTHON_UNUSED struct __
     __pyx_r = -1.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":616
+    /* "mlgrad/func.pyx":618
  *         if x > 0:
  *             return 1
  *         elif x < 0:             # <<<<<<<<<<<<<<
@@ -18880,7 +18898,7 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative(CYTHON_UNUSED struct __
  */
   }
 
-  /* "mlgrad/func.pyx":619
+  /* "mlgrad/func.pyx":621
  *             return -1
  *         else:
  *             0             # <<<<<<<<<<<<<<
@@ -18890,10 +18908,10 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative(CYTHON_UNUSED struct __
   /*else*/ {
   }
 
-  /* "mlgrad/func.pyx":613
+  /* "mlgrad/func.pyx":615
  *         return fabs(x)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x > 0:
  *             return 1
  */
@@ -18904,7 +18922,7 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative(CYTHON_UNUSED struct __
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":621
+/* "mlgrad/func.pyx":623
  *             0
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -18916,7 +18934,7 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative2(CYTHON_UNUSED struct _
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":622
+  /* "mlgrad/func.pyx":624
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         if x == 0:             # <<<<<<<<<<<<<<
@@ -18926,7 +18944,7 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative2(CYTHON_UNUSED struct _
   __pyx_t_1 = ((__pyx_v_x == 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":623
+    /* "mlgrad/func.pyx":625
  *     cdef double derivative2(self, const double x) nogil:
  *         if x == 0:
  *             return c_inf             # <<<<<<<<<<<<<<
@@ -18936,7 +18954,7 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative2(CYTHON_UNUSED struct _
     __pyx_r = __pyx_v_6mlgrad_4func_c_inf;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":622
+    /* "mlgrad/func.pyx":624
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         if x == 0:             # <<<<<<<<<<<<<<
@@ -18945,7 +18963,7 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative2(CYTHON_UNUSED struct _
  */
   }
 
-  /* "mlgrad/func.pyx":625
+  /* "mlgrad/func.pyx":627
  *             return c_inf
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -18957,7 +18975,7 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative2(CYTHON_UNUSED struct _
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":621
+  /* "mlgrad/func.pyx":623
  *             0
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -18970,7 +18988,7 @@ static double __pyx_f_6mlgrad_4func_8Absolute_derivative2(CYTHON_UNUSED struct _
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":627
+/* "mlgrad/func.pyx":629
  *             return 0
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -18997,7 +19015,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Absolute__repr_latex_(CYTHON_UNUSED str
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":628
+  /* "mlgrad/func.pyx":630
  *     #
  *     def _repr_latex_(self):
  *         return r"$(x)=|x|$"             # <<<<<<<<<<<<<<
@@ -19009,7 +19027,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Absolute__repr_latex_(CYTHON_UNUSED str
   __pyx_r = __pyx_kp_u_x_x;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":627
+  /* "mlgrad/func.pyx":629
  *             return 0
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -19024,7 +19042,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Absolute__repr_latex_(CYTHON_UNUSED str
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":630
+/* "mlgrad/func.pyx":632
  *         return r"$(x)=|x|$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -19055,7 +19073,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Absolute_2to_dict(CYTHON_UNUSED struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":631
+  /* "mlgrad/func.pyx":633
  * 
  *     def to_dict(self):
  *         return { 'name':'absolute',             # <<<<<<<<<<<<<<
@@ -19063,23 +19081,23 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Absolute_2to_dict(CYTHON_UNUSED struct 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 631, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 633, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_absolute) < 0) __PYX_ERR(0, 631, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_absolute) < 0) __PYX_ERR(0, 633, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":632
+  /* "mlgrad/func.pyx":634
  *     def to_dict(self):
  *         return { 'name':'absolute',
  *                  'args': () }             # <<<<<<<<<<<<<<
  * 
  * cdef class Quantile_AlphaLog(Func):
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_empty_tuple) < 0) __PYX_ERR(0, 631, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_empty_tuple) < 0) __PYX_ERR(0, 633, __pyx_L1_error)
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":630
+  /* "mlgrad/func.pyx":632
  *         return r"$(x)=|x|$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -19393,7 +19411,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Absolute_6__setstate_cython__(struct __
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":636
+/* "mlgrad/func.pyx":638
  * cdef class Quantile_AlphaLog(Func):
  *     #
  *     def __init__(self, alpha=1.0, q=0.5):             # <<<<<<<<<<<<<<
@@ -19443,7 +19461,7 @@ static int __pyx_pw_6mlgrad_4func_17Quantile_AlphaLog_1__init__(PyObject *__pyx_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 636, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 638, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -19460,7 +19478,7 @@ static int __pyx_pw_6mlgrad_4func_17Quantile_AlphaLog_1__init__(PyObject *__pyx_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 636, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 638, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Quantile_AlphaLog.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -19484,7 +19502,7 @@ static int __pyx_pf_6mlgrad_4func_17Quantile_AlphaLog___init__(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":637
+  /* "mlgrad/func.pyx":639
  *     #
  *     def __init__(self, alpha=1.0, q=0.5):
  *         assert alpha > 0             # <<<<<<<<<<<<<<
@@ -19493,50 +19511,50 @@ static int __pyx_pf_6mlgrad_4func_17Quantile_AlphaLog___init__(struct __pyx_obj_
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_1 = PyObject_RichCompare(__pyx_v_alpha, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 637, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 637, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_v_alpha, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 639, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 639, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(!__pyx_t_2)) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 637, __pyx_L1_error)
+      __PYX_ERR(0, 639, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "mlgrad/func.pyx":638
+  /* "mlgrad/func.pyx":640
  *     def __init__(self, alpha=1.0, q=0.5):
  *         assert alpha > 0
  *         self.alpha = alpha             # <<<<<<<<<<<<<<
  *         self.q = q
  *         if alpha == 0:
  */
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 638, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 640, __pyx_L1_error)
   __pyx_v_self->alpha = __pyx_t_3;
 
-  /* "mlgrad/func.pyx":639
+  /* "mlgrad/func.pyx":641
  *         assert alpha > 0
  *         self.alpha = alpha
  *         self.q = q             # <<<<<<<<<<<<<<
  *         if alpha == 0:
  *             self.alpha2 = 0.
  */
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_q); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 639, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_q); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 641, __pyx_L1_error)
   __pyx_v_self->q = __pyx_t_3;
 
-  /* "mlgrad/func.pyx":640
+  /* "mlgrad/func.pyx":642
  *         self.alpha = alpha
  *         self.q = q
  *         if alpha == 0:             # <<<<<<<<<<<<<<
  *             self.alpha2 = 0.
  *         else:
  */
-  __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_alpha, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 640, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_alpha, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 642, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 640, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 642, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "mlgrad/func.pyx":641
+    /* "mlgrad/func.pyx":643
  *         self.q = q
  *         if alpha == 0:
  *             self.alpha2 = 0.             # <<<<<<<<<<<<<<
@@ -19545,7 +19563,7 @@ static int __pyx_pf_6mlgrad_4func_17Quantile_AlphaLog___init__(struct __pyx_obj_
  */
     __pyx_v_self->alpha2 = 0.;
 
-    /* "mlgrad/func.pyx":640
+    /* "mlgrad/func.pyx":642
  *         self.alpha = alpha
  *         self.q = q
  *         if alpha == 0:             # <<<<<<<<<<<<<<
@@ -19555,19 +19573,19 @@ static int __pyx_pf_6mlgrad_4func_17Quantile_AlphaLog___init__(struct __pyx_obj_
     goto __pyx_L3;
   }
 
-  /* "mlgrad/func.pyx":643
+  /* "mlgrad/func.pyx":645
  *             self.alpha2 = 0.
  *         else:
  *             self.alpha2 = self.alpha*log(self.alpha)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
   /*else*/ {
     __pyx_v_self->alpha2 = (__pyx_v_self->alpha * log(__pyx_v_self->alpha));
   }
   __pyx_L3:;
 
-  /* "mlgrad/func.pyx":636
+  /* "mlgrad/func.pyx":638
  * cdef class Quantile_AlphaLog(Func):
  *     #
  *     def __init__(self, alpha=1.0, q=0.5):             # <<<<<<<<<<<<<<
@@ -19587,21 +19605,21 @@ static int __pyx_pf_6mlgrad_4func_17Quantile_AlphaLog___init__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":645
+/* "mlgrad/func.pyx":647
  *             self.alpha2 = self.alpha*log(self.alpha)
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double val
  *         if x < 0:
  */
 
-static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog__evaluate(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_val;
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":647
- *     cdef double evaluate(self, const double x) nogil:
+  /* "mlgrad/func.pyx":649
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double val
  *         if x < 0:             # <<<<<<<<<<<<<<
  *             val = -x - self.alpha*log(self.alpha - x) + self.alpha2
@@ -19610,7 +19628,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate(struct __pyx_ob
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":648
+    /* "mlgrad/func.pyx":650
  *         cdef double val
  *         if x < 0:
  *             val = -x - self.alpha*log(self.alpha - x) + self.alpha2             # <<<<<<<<<<<<<<
@@ -19619,7 +19637,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate(struct __pyx_ob
  */
     __pyx_v_val = (((-__pyx_v_x) - (__pyx_v_self->alpha * log((__pyx_v_self->alpha - __pyx_v_x)))) + __pyx_v_self->alpha2);
 
-    /* "mlgrad/func.pyx":649
+    /* "mlgrad/func.pyx":651
  *         if x < 0:
  *             val = -x - self.alpha*log(self.alpha - x) + self.alpha2
  *             return (1.0-self.q) * val             # <<<<<<<<<<<<<<
@@ -19629,8 +19647,8 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate(struct __pyx_ob
     __pyx_r = ((1.0 - __pyx_v_self->q) * __pyx_v_val);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":647
- *     cdef double evaluate(self, const double x) nogil:
+    /* "mlgrad/func.pyx":649
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double val
  *         if x < 0:             # <<<<<<<<<<<<<<
  *             val = -x - self.alpha*log(self.alpha - x) + self.alpha2
@@ -19638,7 +19656,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate(struct __pyx_ob
  */
   }
 
-  /* "mlgrad/func.pyx":650
+  /* "mlgrad/func.pyx":652
  *             val = -x - self.alpha*log(self.alpha - x) + self.alpha2
  *             return (1.0-self.q) * val
  *         elif x > 0:             # <<<<<<<<<<<<<<
@@ -19648,7 +19666,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate(struct __pyx_ob
   __pyx_t_1 = ((__pyx_v_x > 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":651
+    /* "mlgrad/func.pyx":653
  *             return (1.0-self.q) * val
  *         elif x > 0:
  *             val = x - self.alpha*log(self.alpha + x) + self.alpha2             # <<<<<<<<<<<<<<
@@ -19657,7 +19675,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate(struct __pyx_ob
  */
     __pyx_v_val = ((__pyx_v_x - (__pyx_v_self->alpha * log((__pyx_v_self->alpha + __pyx_v_x)))) + __pyx_v_self->alpha2);
 
-    /* "mlgrad/func.pyx":652
+    /* "mlgrad/func.pyx":654
  *         elif x > 0:
  *             val = x - self.alpha*log(self.alpha + x) + self.alpha2
  *             return self.q * val             # <<<<<<<<<<<<<<
@@ -19667,7 +19685,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate(struct __pyx_ob
     __pyx_r = (__pyx_v_self->q * __pyx_v_val);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":650
+    /* "mlgrad/func.pyx":652
  *             val = -x - self.alpha*log(self.alpha - x) + self.alpha2
  *             return (1.0-self.q) * val
  *         elif x > 0:             # <<<<<<<<<<<<<<
@@ -19676,7 +19694,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate(struct __pyx_ob
  */
   }
 
-  /* "mlgrad/func.pyx":654
+  /* "mlgrad/func.pyx":656
  *             return self.q * val
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -19688,10 +19706,10 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate(struct __pyx_ob
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":645
+  /* "mlgrad/func.pyx":647
  *             self.alpha2 = self.alpha*log(self.alpha)
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double val
  *         if x < 0:
  */
@@ -19701,21 +19719,21 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":657
+/* "mlgrad/func.pyx":659
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double val
  *         if x < 0:
  */
 
-static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog__derivative(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_val;
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":659
- *     cdef double derivative(self, const double x) nogil:
+  /* "mlgrad/func.pyx":661
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double val
  *         if x < 0:             # <<<<<<<<<<<<<<
  *             val = x / (self.alpha - x)
@@ -19724,7 +19742,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative(struct __pyx_
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":660
+    /* "mlgrad/func.pyx":662
  *         cdef double val
  *         if x < 0:
  *             val = x / (self.alpha - x)             # <<<<<<<<<<<<<<
@@ -19733,7 +19751,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative(struct __pyx_
  */
     __pyx_v_val = (((double)__pyx_v_x) / (__pyx_v_self->alpha - __pyx_v_x));
 
-    /* "mlgrad/func.pyx":661
+    /* "mlgrad/func.pyx":663
  *         if x < 0:
  *             val = x / (self.alpha - x)
  *             return (1-self.q) * val             # <<<<<<<<<<<<<<
@@ -19743,8 +19761,8 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative(struct __pyx_
     __pyx_r = ((1.0 - __pyx_v_self->q) * __pyx_v_val);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":659
- *     cdef double derivative(self, const double x) nogil:
+    /* "mlgrad/func.pyx":661
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double val
  *         if x < 0:             # <<<<<<<<<<<<<<
  *             val = x / (self.alpha - x)
@@ -19752,7 +19770,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative(struct __pyx_
  */
   }
 
-  /* "mlgrad/func.pyx":662
+  /* "mlgrad/func.pyx":664
  *             val = x / (self.alpha - x)
  *             return (1-self.q) * val
  *         elif x > 0:             # <<<<<<<<<<<<<<
@@ -19762,7 +19780,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative(struct __pyx_
   __pyx_t_1 = ((__pyx_v_x > 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":663
+    /* "mlgrad/func.pyx":665
  *             return (1-self.q) * val
  *         elif x > 0:
  *             val = x / (self.alpha + x)             # <<<<<<<<<<<<<<
@@ -19771,7 +19789,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative(struct __pyx_
  */
     __pyx_v_val = (((double)__pyx_v_x) / (__pyx_v_self->alpha + __pyx_v_x));
 
-    /* "mlgrad/func.pyx":664
+    /* "mlgrad/func.pyx":666
  *         elif x > 0:
  *             val = x / (self.alpha + x)
  *             return self.q * val             # <<<<<<<<<<<<<<
@@ -19781,7 +19799,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative(struct __pyx_
     __pyx_r = (__pyx_v_self->q * __pyx_v_val);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":662
+    /* "mlgrad/func.pyx":664
  *             val = x / (self.alpha - x)
  *             return (1-self.q) * val
  *         elif x > 0:             # <<<<<<<<<<<<<<
@@ -19790,7 +19808,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative(struct __pyx_
  */
   }
 
-  /* "mlgrad/func.pyx":666
+  /* "mlgrad/func.pyx":668
  *             return self.q * val
  *         else:
  *             return self.q - 0.5             # <<<<<<<<<<<<<<
@@ -19802,10 +19820,10 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative(struct __pyx_
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":657
+  /* "mlgrad/func.pyx":659
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double val
  *         if x < 0:
  */
@@ -19815,7 +19833,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative(struct __pyx_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":669
+/* "mlgrad/func.pyx":671
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -19828,7 +19846,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2(struct __pyx
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":671
+  /* "mlgrad/func.pyx":673
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v
  *         if x < 0:             # <<<<<<<<<<<<<<
@@ -19838,7 +19856,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2(struct __pyx
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":672
+    /* "mlgrad/func.pyx":674
  *         cdef double v
  *         if x < 0:
  *             v = self.alpha - x             # <<<<<<<<<<<<<<
@@ -19847,7 +19865,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2(struct __pyx
  */
     __pyx_v_v = (__pyx_v_self->alpha - __pyx_v_x);
 
-    /* "mlgrad/func.pyx":673
+    /* "mlgrad/func.pyx":675
  *         if x < 0:
  *             v = self.alpha - x
  *             return (1-self.q)*self.alpha / (v*v)             # <<<<<<<<<<<<<<
@@ -19857,7 +19875,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2(struct __pyx
     __pyx_r = (((1.0 - __pyx_v_self->q) * __pyx_v_self->alpha) / (__pyx_v_v * __pyx_v_v));
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":671
+    /* "mlgrad/func.pyx":673
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v
  *         if x < 0:             # <<<<<<<<<<<<<<
@@ -19866,7 +19884,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2(struct __pyx
  */
   }
 
-  /* "mlgrad/func.pyx":674
+  /* "mlgrad/func.pyx":676
  *             v = self.alpha - x
  *             return (1-self.q)*self.alpha / (v*v)
  *         elif x > 0:             # <<<<<<<<<<<<<<
@@ -19876,7 +19894,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2(struct __pyx
   __pyx_t_1 = ((__pyx_v_x > 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":675
+    /* "mlgrad/func.pyx":677
  *             return (1-self.q)*self.alpha / (v*v)
  *         elif x > 0:
  *             v = self.alpha + x             # <<<<<<<<<<<<<<
@@ -19885,7 +19903,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2(struct __pyx
  */
     __pyx_v_v = (__pyx_v_self->alpha + __pyx_v_x);
 
-    /* "mlgrad/func.pyx":676
+    /* "mlgrad/func.pyx":678
  *         elif x > 0:
  *             v = self.alpha + x
  *             return self.q*self.alpha / (v*v)             # <<<<<<<<<<<<<<
@@ -19895,7 +19913,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2(struct __pyx
     __pyx_r = ((__pyx_v_self->q * __pyx_v_self->alpha) / (__pyx_v_v * __pyx_v_v));
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":674
+    /* "mlgrad/func.pyx":676
  *             v = self.alpha - x
  *             return (1-self.q)*self.alpha / (v*v)
  *         elif x > 0:             # <<<<<<<<<<<<<<
@@ -19904,7 +19922,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2(struct __pyx
  */
   }
 
-  /* "mlgrad/func.pyx":678
+  /* "mlgrad/func.pyx":680
  *             return self.q*self.alpha / (v*v)
  *         else:
  *             return 0.5 / self.alpha             # <<<<<<<<<<<<<<
@@ -19916,7 +19934,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2(struct __pyx
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":669
+  /* "mlgrad/func.pyx":671
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -19929,7 +19947,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2(struct __pyx
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":681
+/* "mlgrad/func.pyx":683
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -19942,7 +19960,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x(struct 
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":683
+  /* "mlgrad/func.pyx":685
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         cdef double val
  *         if x < 0:             # <<<<<<<<<<<<<<
@@ -19952,7 +19970,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x(struct 
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":684
+    /* "mlgrad/func.pyx":686
  *         cdef double val
  *         if x < 0:
  *             val = 1 / (self.alpha - x)             # <<<<<<<<<<<<<<
@@ -19961,7 +19979,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x(struct 
  */
     __pyx_v_val = (1.0 / (__pyx_v_self->alpha - __pyx_v_x));
 
-    /* "mlgrad/func.pyx":685
+    /* "mlgrad/func.pyx":687
  *         if x < 0:
  *             val = 1 / (self.alpha - x)
  *             return (1-self.q) * val             # <<<<<<<<<<<<<<
@@ -19971,7 +19989,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x(struct 
     __pyx_r = ((1.0 - __pyx_v_self->q) * __pyx_v_val);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":683
+    /* "mlgrad/func.pyx":685
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         cdef double val
  *         if x < 0:             # <<<<<<<<<<<<<<
@@ -19980,7 +19998,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x(struct 
  */
   }
 
-  /* "mlgrad/func.pyx":686
+  /* "mlgrad/func.pyx":688
  *             val = 1 / (self.alpha - x)
  *             return (1-self.q) * val
  *         elif x > 0:             # <<<<<<<<<<<<<<
@@ -19990,7 +20008,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x(struct 
   __pyx_t_1 = ((__pyx_v_x > 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":687
+    /* "mlgrad/func.pyx":689
  *             return (1-self.q) * val
  *         elif x > 0:
  *             val = 1 / (self.alpha + x)             # <<<<<<<<<<<<<<
@@ -19999,7 +20017,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x(struct 
  */
     __pyx_v_val = (1.0 / (__pyx_v_self->alpha + __pyx_v_x));
 
-    /* "mlgrad/func.pyx":688
+    /* "mlgrad/func.pyx":690
  *         elif x > 0:
  *             val = 1 / (self.alpha + x)
  *             return self.q * val             # <<<<<<<<<<<<<<
@@ -20009,7 +20027,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x(struct 
     __pyx_r = (__pyx_v_self->q * __pyx_v_val);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":686
+    /* "mlgrad/func.pyx":688
  *             val = 1 / (self.alpha - x)
  *             return (1-self.q) * val
  *         elif x > 0:             # <<<<<<<<<<<<<<
@@ -20018,7 +20036,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x(struct 
  */
   }
 
-  /* "mlgrad/func.pyx":690
+  /* "mlgrad/func.pyx":692
  *             return self.q * val
  *         else:
  *             return (self.q - 0.5) / self.alpha             # <<<<<<<<<<<<<<
@@ -20030,7 +20048,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x(struct 
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":681
+  /* "mlgrad/func.pyx":683
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -20043,7 +20061,7 @@ static double __pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x(struct 
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":692
+/* "mlgrad/func.pyx":694
  *             return (self.q - 0.5) / self.alpha
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -20070,7 +20088,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_17Quantile_AlphaLog_2_repr_latex_(CYTHON
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":693
+  /* "mlgrad/func.pyx":695
  *     #
  *     def _repr_latex_(self):
  *         return r"$_q(x)=\mathrm{sign}_q(x)(|x| - \alpha\ln(\alpha+|x|)+\alpha\ln\alpha)$"             # <<<<<<<<<<<<<<
@@ -20082,7 +20100,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_17Quantile_AlphaLog_2_repr_latex_(CYTHON
   __pyx_r = __pyx_kp_u_q_x_mathrm_sign__q_x_x_alpha_l;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":692
+  /* "mlgrad/func.pyx":694
  *             return (self.q - 0.5) / self.alpha
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -20097,7 +20115,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_17Quantile_AlphaLog_2_repr_latex_(CYTHON
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":695
+/* "mlgrad/func.pyx":697
  *         return r"$_q(x)=\mathrm{sign}_q(x)(|x| - \alpha\ln(\alpha+|x|)+\alpha\ln\alpha)$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -20131,7 +20149,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_17Quantile_AlphaLog_4to_dict(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":696
+  /* "mlgrad/func.pyx":698
  * 
  *     def to_dict(self):
  *         return { 'name':'quantile_alpha_log',             # <<<<<<<<<<<<<<
@@ -20139,22 +20157,22 @@ static PyObject *__pyx_pf_6mlgrad_4func_17Quantile_AlphaLog_4to_dict(struct __py
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 696, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 698, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_quantile_alpha_log) < 0) __PYX_ERR(0, 696, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_quantile_alpha_log) < 0) __PYX_ERR(0, 698, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":697
+  /* "mlgrad/func.pyx":699
  *     def to_dict(self):
  *         return { 'name':'quantile_alpha_log',
  *                  'args': (self.alpha, self.q) }             # <<<<<<<<<<<<<<
  * 
  * cdef class Logistic(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 697, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 699, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->q); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 697, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->q); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 699, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 697, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 699, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
@@ -20162,13 +20180,13 @@ static PyObject *__pyx_pf_6mlgrad_4func_17Quantile_AlphaLog_4to_dict(struct __py
   PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_4) < 0) __PYX_ERR(0, 696, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_4) < 0) __PYX_ERR(0, 698, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":695
+  /* "mlgrad/func.pyx":697
  *         return r"$_q(x)=\mathrm{sign}_q(x)(|x| - \alpha\ln(\alpha+|x|)+\alpha\ln\alpha)$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -20584,7 +20602,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_17Quantile_AlphaLog_8__setstate_cython__
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":701
+/* "mlgrad/func.pyx":703
  * cdef class Logistic(Func):
  * 
  *     def __init__(self, p=1.0):             # <<<<<<<<<<<<<<
@@ -20624,7 +20642,7 @@ static int __pyx_pw_6mlgrad_4func_8Logistic_1__init__(PyObject *__pyx_v_self, Py
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 701, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 703, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -20638,7 +20656,7 @@ static int __pyx_pw_6mlgrad_4func_8Logistic_1__init__(PyObject *__pyx_v_self, Py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 701, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 703, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Logistic.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -20662,7 +20680,7 @@ static int __pyx_pf_6mlgrad_4func_8Logistic___init__(struct __pyx_obj_6mlgrad_4f
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":702
+  /* "mlgrad/func.pyx":704
  * 
  *     def __init__(self, p=1.0):
  *         assert p > 0             # <<<<<<<<<<<<<<
@@ -20671,27 +20689,27 @@ static int __pyx_pf_6mlgrad_4func_8Logistic___init__(struct __pyx_obj_6mlgrad_4f
  */
   #ifndef CYTHON_WITHOUT_ASSERTIONS
   if (unlikely(!Py_OptimizeFlag)) {
-    __pyx_t_1 = PyObject_RichCompare(__pyx_v_p, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 702, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 702, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_v_p, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 704, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 704, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (unlikely(!__pyx_t_2)) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 702, __pyx_L1_error)
+      __PYX_ERR(0, 704, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "mlgrad/func.pyx":703
+  /* "mlgrad/func.pyx":705
  *     def __init__(self, p=1.0):
  *         assert p > 0
  *         self.p = p             # <<<<<<<<<<<<<<
  * 
  *     @cython.cdivision(True)
  */
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 703, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 705, __pyx_L1_error)
   __pyx_v_self->p = __pyx_t_3;
 
-  /* "mlgrad/func.pyx":701
+  /* "mlgrad/func.pyx":703
  * cdef class Logistic(Func):
  * 
  *     def __init__(self, p=1.0):             # <<<<<<<<<<<<<<
@@ -20711,20 +20729,20 @@ static int __pyx_pf_6mlgrad_4func_8Logistic___init__(struct __pyx_obj_6mlgrad_4f
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":706
+/* "mlgrad/func.pyx":708
  * 
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return log(1.0 + exp(fabs(x) / self.p)) - log(2)
  * 
  */
 
-static double __pyx_f_6mlgrad_4func_8Logistic_evaluate(struct __pyx_obj_6mlgrad_4func_Logistic *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_8Logistic__evaluate(struct __pyx_obj_6mlgrad_4func_Logistic *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":707
+  /* "mlgrad/func.pyx":709
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return log(1.0 + exp(fabs(x) / self.p)) - log(2)             # <<<<<<<<<<<<<<
  * 
  *     @cython.cdivision(True)
@@ -20732,10 +20750,10 @@ static double __pyx_f_6mlgrad_4func_8Logistic_evaluate(struct __pyx_obj_6mlgrad_
   __pyx_r = (log((1.0 + exp((fabs(__pyx_v_x) / __pyx_v_self->p)))) - log(2.0));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":706
+  /* "mlgrad/func.pyx":708
  * 
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return log(1.0 + exp(fabs(x) / self.p)) - log(2)
  * 
  */
@@ -20745,30 +20763,30 @@ static double __pyx_f_6mlgrad_4func_8Logistic_evaluate(struct __pyx_obj_6mlgrad_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":710
+/* "mlgrad/func.pyx":712
  * 
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = exp(fabs(x) / self.p)
  *         if x > 0:
  */
 
-static double __pyx_f_6mlgrad_4func_8Logistic_derivative(struct __pyx_obj_6mlgrad_4func_Logistic *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_8Logistic__derivative(struct __pyx_obj_6mlgrad_4func_Logistic *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v;
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":711
+  /* "mlgrad/func.pyx":713
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = exp(fabs(x) / self.p)             # <<<<<<<<<<<<<<
  *         if x > 0:
  *             return v / (1.0 + v) / self.p
  */
   __pyx_v_v = exp((fabs(__pyx_v_x) / __pyx_v_self->p));
 
-  /* "mlgrad/func.pyx":712
- *     cdef double derivative(self, const double x) nogil:
+  /* "mlgrad/func.pyx":714
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = exp(fabs(x) / self.p)
  *         if x > 0:             # <<<<<<<<<<<<<<
  *             return v / (1.0 + v) / self.p
@@ -20777,7 +20795,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative(struct __pyx_obj_6mlgra
   __pyx_t_1 = ((__pyx_v_x > 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":713
+    /* "mlgrad/func.pyx":715
  *         cdef double v = exp(fabs(x) / self.p)
  *         if x > 0:
  *             return v / (1.0 + v) / self.p             # <<<<<<<<<<<<<<
@@ -20787,8 +20805,8 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative(struct __pyx_obj_6mlgra
     __pyx_r = ((__pyx_v_v / (1.0 + __pyx_v_v)) / __pyx_v_self->p);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":712
- *     cdef double derivative(self, const double x) nogil:
+    /* "mlgrad/func.pyx":714
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = exp(fabs(x) / self.p)
  *         if x > 0:             # <<<<<<<<<<<<<<
  *             return v / (1.0 + v) / self.p
@@ -20796,7 +20814,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative(struct __pyx_obj_6mlgra
  */
   }
 
-  /* "mlgrad/func.pyx":714
+  /* "mlgrad/func.pyx":716
  *         if x > 0:
  *             return v / (1.0 + v) / self.p
  *         elif x < 0:             # <<<<<<<<<<<<<<
@@ -20806,7 +20824,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative(struct __pyx_obj_6mlgra
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":715
+    /* "mlgrad/func.pyx":717
  *             return v / (1.0 + v) / self.p
  *         elif x < 0:
  *             return -v / (1.0 + v) / self.p             # <<<<<<<<<<<<<<
@@ -20816,7 +20834,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative(struct __pyx_obj_6mlgra
     __pyx_r = (((-__pyx_v_v) / (1.0 + __pyx_v_v)) / __pyx_v_self->p);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":714
+    /* "mlgrad/func.pyx":716
  *         if x > 0:
  *             return v / (1.0 + v) / self.p
  *         elif x < 0:             # <<<<<<<<<<<<<<
@@ -20825,7 +20843,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative(struct __pyx_obj_6mlgra
  */
   }
 
-  /* "mlgrad/func.pyx":717
+  /* "mlgrad/func.pyx":719
  *             return -v / (1.0 + v) / self.p
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -20837,10 +20855,10 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative(struct __pyx_obj_6mlgra
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":710
+  /* "mlgrad/func.pyx":712
  * 
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = exp(fabs(x) / self.p)
  *         if x > 0:
  */
@@ -20850,7 +20868,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":720
+/* "mlgrad/func.pyx":722
  * 
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -20863,7 +20881,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative2(struct __pyx_obj_6mlgr
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":721
+  /* "mlgrad/func.pyx":723
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v = exp(fabs(x) / self.p)             # <<<<<<<<<<<<<<
@@ -20872,7 +20890,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative2(struct __pyx_obj_6mlgr
  */
   __pyx_v_v = exp((fabs(__pyx_v_x) / __pyx_v_self->p));
 
-  /* "mlgrad/func.pyx":722
+  /* "mlgrad/func.pyx":724
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v = exp(fabs(x) / self.p)
  *         if x > 0:             # <<<<<<<<<<<<<<
@@ -20882,7 +20900,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative2(struct __pyx_obj_6mlgr
   __pyx_t_1 = ((__pyx_v_x > 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":723
+    /* "mlgrad/func.pyx":725
  *         cdef double v = exp(fabs(x) / self.p)
  *         if x > 0:
  *             return 1 / ((1 + v) * (1+v)) / self.p             # <<<<<<<<<<<<<<
@@ -20892,7 +20910,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative2(struct __pyx_obj_6mlgr
     __pyx_r = ((1.0 / ((1.0 + __pyx_v_v) * (1.0 + __pyx_v_v))) / __pyx_v_self->p);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":722
+    /* "mlgrad/func.pyx":724
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v = exp(fabs(x) / self.p)
  *         if x > 0:             # <<<<<<<<<<<<<<
@@ -20901,7 +20919,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative2(struct __pyx_obj_6mlgr
  */
   }
 
-  /* "mlgrad/func.pyx":724
+  /* "mlgrad/func.pyx":726
  *         if x > 0:
  *             return 1 / ((1 + v) * (1+v)) / self.p
  *         elif x < 0:             # <<<<<<<<<<<<<<
@@ -20911,7 +20929,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative2(struct __pyx_obj_6mlgr
   __pyx_t_1 = ((__pyx_v_x < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":725
+    /* "mlgrad/func.pyx":727
  *             return 1 / ((1 + v) * (1+v)) / self.p
  *         elif x < 0:
  *             return -1 / ((1 + v) * (1+v)) / self.p             # <<<<<<<<<<<<<<
@@ -20921,7 +20939,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative2(struct __pyx_obj_6mlgr
     __pyx_r = ((-1.0 / ((1.0 + __pyx_v_v) * (1.0 + __pyx_v_v))) / __pyx_v_self->p);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":724
+    /* "mlgrad/func.pyx":726
  *         if x > 0:
  *             return 1 / ((1 + v) * (1+v)) / self.p
  *         elif x < 0:             # <<<<<<<<<<<<<<
@@ -20930,7 +20948,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative2(struct __pyx_obj_6mlgr
  */
   }
 
-  /* "mlgrad/func.pyx":727
+  /* "mlgrad/func.pyx":729
  *             return -1 / ((1 + v) * (1+v)) / self.p
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -20942,7 +20960,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative2(struct __pyx_obj_6mlgr
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":720
+  /* "mlgrad/func.pyx":722
  * 
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -20955,7 +20973,7 @@ static double __pyx_f_6mlgrad_4func_8Logistic_derivative2(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":729
+/* "mlgrad/func.pyx":731
  *             return 0
  * 
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -20982,7 +21000,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Logistic_2_repr_latex_(CYTHON_UNUSED st
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":730
+  /* "mlgrad/func.pyx":732
  * 
  *     def _repr_latex_(self):
  *         return r"$\ell(y,\tilde y)=\log(1+e^{|y-\tilde y|/p})$"             # <<<<<<<<<<<<<<
@@ -20994,7 +21012,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Logistic_2_repr_latex_(CYTHON_UNUSED st
   __pyx_r = __pyx_kp_u_ell_y_tilde_y_log_1_e_y_tilde_y;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":729
+  /* "mlgrad/func.pyx":731
  *             return 0
  * 
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -21009,7 +21027,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Logistic_2_repr_latex_(CYTHON_UNUSED st
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":732
+/* "mlgrad/func.pyx":734
  *         return r"$\ell(y,\tilde y)=\log(1+e^{|y-\tilde y|/p})$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -21042,7 +21060,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Logistic_4to_dict(struct __pyx_obj_6mlg
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":733
+  /* "mlgrad/func.pyx":735
  * 
  *     def to_dict(self):
  *         return { 'name':'logistic',             # <<<<<<<<<<<<<<
@@ -21050,31 +21068,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Logistic_4to_dict(struct __pyx_obj_6mlg
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 733, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 735, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_logistic) < 0) __PYX_ERR(0, 733, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_logistic) < 0) __PYX_ERR(0, 735, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":734
+  /* "mlgrad/func.pyx":736
  *     def to_dict(self):
  *         return { 'name':'logistic',
  *                  'args': (self.p,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class Hinge(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->p); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 734, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->p); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 736, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 734, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 736, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 733, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 735, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":732
+  /* "mlgrad/func.pyx":734
  *         return r"$\ell(y,\tilde y)=\log(1+e^{|y-\tilde y|/p})$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -21477,7 +21495,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_8Logistic_8__setstate_cython__(struct __
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":738
+/* "mlgrad/func.pyx":740
  * cdef class Hinge(Func):
  *     #
  *     def __init__(self, C=1.0):             # <<<<<<<<<<<<<<
@@ -21517,7 +21535,7 @@ static int __pyx_pw_6mlgrad_4func_5Hinge_1__init__(PyObject *__pyx_v_self, PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 738, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 740, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -21531,7 +21549,7 @@ static int __pyx_pw_6mlgrad_4func_5Hinge_1__init__(PyObject *__pyx_v_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 738, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 740, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Hinge.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -21553,17 +21571,17 @@ static int __pyx_pf_6mlgrad_4func_5Hinge___init__(struct __pyx_obj_6mlgrad_4func
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":739
+  /* "mlgrad/func.pyx":741
  *     #
  *     def __init__(self, C=1.0):
  *         self.C = C             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_C); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 739, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_C); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 741, __pyx_L1_error)
   __pyx_v_self->C = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":738
+  /* "mlgrad/func.pyx":740
  * cdef class Hinge(Func):
  *     #
  *     def __init__(self, C=1.0):             # <<<<<<<<<<<<<<
@@ -21582,21 +21600,21 @@ static int __pyx_pf_6mlgrad_4func_5Hinge___init__(struct __pyx_obj_6mlgrad_4func
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":741
+/* "mlgrad/func.pyx":743
  *         self.C = C
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x >= self.C:
  *             return 0
  */
 
-static double __pyx_f_6mlgrad_4func_5Hinge_evaluate(struct __pyx_obj_6mlgrad_4func_Hinge *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_5Hinge__evaluate(struct __pyx_obj_6mlgrad_4func_Hinge *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":742
+  /* "mlgrad/func.pyx":744
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x >= self.C:             # <<<<<<<<<<<<<<
  *             return 0
  *         else:
@@ -21604,8 +21622,8 @@ static double __pyx_f_6mlgrad_4func_5Hinge_evaluate(struct __pyx_obj_6mlgrad_4fu
   __pyx_t_1 = ((__pyx_v_x >= __pyx_v_self->C) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":743
- *     cdef double evaluate(self, const double x) nogil:
+    /* "mlgrad/func.pyx":745
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x >= self.C:
  *             return 0             # <<<<<<<<<<<<<<
  *         else:
@@ -21614,31 +21632,31 @@ static double __pyx_f_6mlgrad_4func_5Hinge_evaluate(struct __pyx_obj_6mlgrad_4fu
     __pyx_r = 0.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":742
+    /* "mlgrad/func.pyx":744
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x >= self.C:             # <<<<<<<<<<<<<<
  *             return 0
  *         else:
  */
   }
 
-  /* "mlgrad/func.pyx":745
+  /* "mlgrad/func.pyx":747
  *             return 0
  *         else:
  *             return self.C - x             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   /*else*/ {
     __pyx_r = (__pyx_v_self->C - __pyx_v_x);
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":741
+  /* "mlgrad/func.pyx":743
  *         self.C = C
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x >= self.C:
  *             return 0
  */
@@ -21648,21 +21666,21 @@ static double __pyx_f_6mlgrad_4func_5Hinge_evaluate(struct __pyx_obj_6mlgrad_4fu
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":747
+/* "mlgrad/func.pyx":749
  *             return self.C - x
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x >= self.C:
  *             return 0
  */
 
-static double __pyx_f_6mlgrad_4func_5Hinge_derivative(struct __pyx_obj_6mlgrad_4func_Hinge *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_5Hinge__derivative(struct __pyx_obj_6mlgrad_4func_Hinge *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":748
+  /* "mlgrad/func.pyx":750
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x >= self.C:             # <<<<<<<<<<<<<<
  *             return 0
  *         else:
@@ -21670,8 +21688,8 @@ static double __pyx_f_6mlgrad_4func_5Hinge_derivative(struct __pyx_obj_6mlgrad_4
   __pyx_t_1 = ((__pyx_v_x >= __pyx_v_self->C) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":749
- *     cdef double derivative(self, const double x) nogil:
+    /* "mlgrad/func.pyx":751
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x >= self.C:
  *             return 0             # <<<<<<<<<<<<<<
  *         else:
@@ -21680,16 +21698,16 @@ static double __pyx_f_6mlgrad_4func_5Hinge_derivative(struct __pyx_obj_6mlgrad_4
     __pyx_r = 0.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":748
+    /* "mlgrad/func.pyx":750
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x >= self.C:             # <<<<<<<<<<<<<<
  *             return 0
  *         else:
  */
   }
 
-  /* "mlgrad/func.pyx":751
+  /* "mlgrad/func.pyx":753
  *             return 0
  *         else:
  *             return -1             # <<<<<<<<<<<<<<
@@ -21701,10 +21719,10 @@ static double __pyx_f_6mlgrad_4func_5Hinge_derivative(struct __pyx_obj_6mlgrad_4
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":747
+  /* "mlgrad/func.pyx":749
  *             return self.C - x
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x >= self.C:
  *             return 0
  */
@@ -21714,7 +21732,7 @@ static double __pyx_f_6mlgrad_4func_5Hinge_derivative(struct __pyx_obj_6mlgrad_4
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":753
+/* "mlgrad/func.pyx":755
  *             return -1
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -21726,7 +21744,7 @@ static double __pyx_f_6mlgrad_4func_5Hinge_derivative2(struct __pyx_obj_6mlgrad_
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":754
+  /* "mlgrad/func.pyx":756
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         if x >= self.C:             # <<<<<<<<<<<<<<
@@ -21736,7 +21754,7 @@ static double __pyx_f_6mlgrad_4func_5Hinge_derivative2(struct __pyx_obj_6mlgrad_
   __pyx_t_1 = ((__pyx_v_x >= __pyx_v_self->C) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":755
+    /* "mlgrad/func.pyx":757
  *     cdef double derivative2(self, const double x) nogil:
  *         if x >= self.C:
  *             return -c_inf             # <<<<<<<<<<<<<<
@@ -21746,7 +21764,7 @@ static double __pyx_f_6mlgrad_4func_5Hinge_derivative2(struct __pyx_obj_6mlgrad_
     __pyx_r = (-__pyx_v_6mlgrad_4func_c_inf);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":754
+    /* "mlgrad/func.pyx":756
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         if x >= self.C:             # <<<<<<<<<<<<<<
@@ -21755,7 +21773,7 @@ static double __pyx_f_6mlgrad_4func_5Hinge_derivative2(struct __pyx_obj_6mlgrad_
  */
   }
 
-  /* "mlgrad/func.pyx":757
+  /* "mlgrad/func.pyx":759
  *             return -c_inf
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -21767,7 +21785,7 @@ static double __pyx_f_6mlgrad_4func_5Hinge_derivative2(struct __pyx_obj_6mlgrad_
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":753
+  /* "mlgrad/func.pyx":755
  *             return -1
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -21780,7 +21798,7 @@ static double __pyx_f_6mlgrad_4func_5Hinge_derivative2(struct __pyx_obj_6mlgrad_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":759
+/* "mlgrad/func.pyx":761
  *             return 0
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -21807,7 +21825,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Hinge_2_repr_latex_(CYTHON_UNUSED struc
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":760
+  /* "mlgrad/func.pyx":762
  *     #
  *     def _repr_latex_(self):
  *         return r"$(x)=(c-x)_{+}$"             # <<<<<<<<<<<<<<
@@ -21819,7 +21837,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Hinge_2_repr_latex_(CYTHON_UNUSED struc
   __pyx_r = __pyx_kp_u_x_c_x;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":759
+  /* "mlgrad/func.pyx":761
  *             return 0
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -21834,7 +21852,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Hinge_2_repr_latex_(CYTHON_UNUSED struc
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":762
+/* "mlgrad/func.pyx":764
  *         return r"$(x)=(c-x)_{+}$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -21867,7 +21885,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Hinge_4to_dict(struct __pyx_obj_6mlgrad
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":763
+  /* "mlgrad/func.pyx":765
  * 
  *     def to_dict(self):
  *         return { 'name':'hinge',             # <<<<<<<<<<<<<<
@@ -21875,31 +21893,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Hinge_4to_dict(struct __pyx_obj_6mlgrad
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 763, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 765, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_hinge) < 0) __PYX_ERR(0, 763, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_hinge) < 0) __PYX_ERR(0, 765, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":764
+  /* "mlgrad/func.pyx":766
  *     def to_dict(self):
  *         return { 'name':'hinge',
  *                  'args': (self.C,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class HingeSqrt(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->C); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 764, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->C); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 766, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 764, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 766, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 763, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 765, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":762
+  /* "mlgrad/func.pyx":764
  *         return r"$(x)=(c-x)_{+}$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -22302,7 +22320,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Hinge_8__setstate_cython__(struct __pyx
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":768
+/* "mlgrad/func.pyx":770
  * cdef class HingeSqrt(Func):
  *     #
  *     def __init__(self, alpha=1.0):             # <<<<<<<<<<<<<<
@@ -22342,7 +22360,7 @@ static int __pyx_pw_6mlgrad_4func_9HingeSqrt_1__init__(PyObject *__pyx_v_self, P
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 768, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 770, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -22356,7 +22374,7 @@ static int __pyx_pw_6mlgrad_4func_9HingeSqrt_1__init__(PyObject *__pyx_v_self, P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 768, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 770, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.HingeSqrt.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -22379,30 +22397,30 @@ static int __pyx_pf_6mlgrad_4func_9HingeSqrt___init__(struct __pyx_obj_6mlgrad_4
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":769
+  /* "mlgrad/func.pyx":771
  *     #
  *     def __init__(self, alpha=1.0):
  *         self.alpha = alpha             # <<<<<<<<<<<<<<
  *         self.alpha2 = alpha*alpha
  *     #
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 769, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 771, __pyx_L1_error)
   __pyx_v_self->alpha = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":770
+  /* "mlgrad/func.pyx":772
  *     def __init__(self, alpha=1.0):
  *         self.alpha = alpha
  *         self.alpha2 = alpha*alpha             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
-  __pyx_t_2 = PyNumber_Multiply(__pyx_v_alpha, __pyx_v_alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 770, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Multiply(__pyx_v_alpha, __pyx_v_alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 772, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 770, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 772, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_self->alpha2 = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":768
+  /* "mlgrad/func.pyx":770
  * cdef class HingeSqrt(Func):
  *     #
  *     def __init__(self, alpha=1.0):             # <<<<<<<<<<<<<<
@@ -22422,20 +22440,20 @@ static int __pyx_pf_6mlgrad_4func_9HingeSqrt___init__(struct __pyx_obj_6mlgrad_4
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":772
+/* "mlgrad/func.pyx":774
  *         self.alpha2 = alpha*alpha
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return -x + sqrt(self.alpha2 + x*x)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_9HingeSqrt_evaluate(struct __pyx_obj_6mlgrad_4func_HingeSqrt *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_9HingeSqrt__evaluate(struct __pyx_obj_6mlgrad_4func_HingeSqrt *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":773
+  /* "mlgrad/func.pyx":775
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return -x + sqrt(self.alpha2 + x*x)             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
@@ -22443,10 +22461,10 @@ static double __pyx_f_6mlgrad_4func_9HingeSqrt_evaluate(struct __pyx_obj_6mlgrad
   __pyx_r = ((-__pyx_v_x) + sqrt((__pyx_v_self->alpha2 + (__pyx_v_x * __pyx_v_x))));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":772
+  /* "mlgrad/func.pyx":774
  *         self.alpha2 = alpha*alpha
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return -x + sqrt(self.alpha2 + x*x)
  *     #
  */
@@ -22456,20 +22474,20 @@ static double __pyx_f_6mlgrad_4func_9HingeSqrt_evaluate(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":776
+/* "mlgrad/func.pyx":778
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return -1 + x/sqrt(self.alpha2 + x*x)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_9HingeSqrt_derivative(struct __pyx_obj_6mlgrad_4func_HingeSqrt *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_9HingeSqrt__derivative(struct __pyx_obj_6mlgrad_4func_HingeSqrt *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":777
+  /* "mlgrad/func.pyx":779
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         return -1 + x/sqrt(self.alpha2 + x*x)             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
@@ -22477,10 +22495,10 @@ static double __pyx_f_6mlgrad_4func_9HingeSqrt_derivative(struct __pyx_obj_6mlgr
   __pyx_r = (-1.0 + (((double)__pyx_v_x) / sqrt((__pyx_v_self->alpha2 + (__pyx_v_x * __pyx_v_x)))));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":776
+  /* "mlgrad/func.pyx":778
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return -1 + x/sqrt(self.alpha2 + x*x)
  *     #
  */
@@ -22490,7 +22508,7 @@ static double __pyx_f_6mlgrad_4func_9HingeSqrt_derivative(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":780
+/* "mlgrad/func.pyx":782
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -22501,7 +22519,7 @@ static double __pyx_f_6mlgrad_4func_9HingeSqrt_derivative(struct __pyx_obj_6mlgr
 static double __pyx_f_6mlgrad_4func_9HingeSqrt_derivative2(struct __pyx_obj_6mlgrad_4func_HingeSqrt *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":781
+  /* "mlgrad/func.pyx":783
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:
  *         return self.alpha2/sqrt(self.alpha2 + x*x)             # <<<<<<<<<<<<<<
@@ -22511,7 +22529,7 @@ static double __pyx_f_6mlgrad_4func_9HingeSqrt_derivative2(struct __pyx_obj_6mlg
   __pyx_r = (__pyx_v_self->alpha2 / sqrt((__pyx_v_self->alpha2 + (__pyx_v_x * __pyx_v_x))));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":780
+  /* "mlgrad/func.pyx":782
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -22524,7 +22542,7 @@ static double __pyx_f_6mlgrad_4func_9HingeSqrt_derivative2(struct __pyx_obj_6mlg
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":783
+/* "mlgrad/func.pyx":785
  *         return self.alpha2/sqrt(self.alpha2 + x*x)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -22551,7 +22569,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9HingeSqrt_2_repr_latex_(CYTHON_UNUSED s
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":784
+  /* "mlgrad/func.pyx":786
  *     #
  *     def _repr_latex_(self):
  *         return r"$(x)=-x + \sqrt{c^2+x^2}$"             # <<<<<<<<<<<<<<
@@ -22563,7 +22581,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9HingeSqrt_2_repr_latex_(CYTHON_UNUSED s
   __pyx_r = __pyx_kp_u_x_x_sqrt_c_2_x_2;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":783
+  /* "mlgrad/func.pyx":785
  *         return self.alpha2/sqrt(self.alpha2 + x*x)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -22578,7 +22596,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9HingeSqrt_2_repr_latex_(CYTHON_UNUSED s
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":786
+/* "mlgrad/func.pyx":788
  *         return r"$(x)=-x + \sqrt{c^2+x^2}$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -22611,7 +22629,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9HingeSqrt_4to_dict(struct __pyx_obj_6ml
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":787
+  /* "mlgrad/func.pyx":789
  * 
  *     def to_dict(self):
  *         return { 'name':'hinge_sqrt',             # <<<<<<<<<<<<<<
@@ -22619,31 +22637,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_9HingeSqrt_4to_dict(struct __pyx_obj_6ml
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 787, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 789, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_hinge_sqrt) < 0) __PYX_ERR(0, 787, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_hinge_sqrt) < 0) __PYX_ERR(0, 789, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":788
+  /* "mlgrad/func.pyx":790
  *     def to_dict(self):
  *         return { 'name':'hinge_sqrt',
  *                  'args': (self.alpha,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class Huber(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 788, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 790, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 788, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 790, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 787, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 789, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":786
+  /* "mlgrad/func.pyx":788
  *         return r"$(x)=-x + \sqrt{c^2+x^2}$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -23051,7 +23069,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9HingeSqrt_8__setstate_cython__(struct _
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":792
+/* "mlgrad/func.pyx":794
  * cdef class Huber(Func):
  * 
  *     def __init__(self, C=1.345):             # <<<<<<<<<<<<<<
@@ -23091,7 +23109,7 @@ static int __pyx_pw_6mlgrad_4func_5Huber_1__init__(PyObject *__pyx_v_self, PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 792, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 794, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -23105,7 +23123,7 @@ static int __pyx_pw_6mlgrad_4func_5Huber_1__init__(PyObject *__pyx_v_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 792, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 794, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Huber.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -23127,17 +23145,17 @@ static int __pyx_pf_6mlgrad_4func_5Huber___init__(struct __pyx_obj_6mlgrad_4func
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":793
+  /* "mlgrad/func.pyx":795
  * 
  *     def __init__(self, C=1.345):
  *         self.C = C             # <<<<<<<<<<<<<<
  * 
  *     @cython.cdivision(True)
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_C); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 793, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_C); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 795, __pyx_L1_error)
   __pyx_v_self->C = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":792
+  /* "mlgrad/func.pyx":794
  * cdef class Huber(Func):
  * 
  *     def __init__(self, C=1.345):             # <<<<<<<<<<<<<<
@@ -23156,29 +23174,29 @@ static int __pyx_pf_6mlgrad_4func_5Huber___init__(struct __pyx_obj_6mlgrad_4func
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":796
+/* "mlgrad/func.pyx":798
  * 
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double x_abs = fabs(x)
  * 
  */
 
-static double __pyx_f_6mlgrad_4func_5Huber_evaluate(struct __pyx_obj_6mlgrad_4func_Huber *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_5Huber__evaluate(struct __pyx_obj_6mlgrad_4func_Huber *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_x_abs;
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":797
+  /* "mlgrad/func.pyx":799
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double x_abs = fabs(x)             # <<<<<<<<<<<<<<
  * 
  *         if x_abs > self.C:
  */
   __pyx_v_x_abs = fabs(__pyx_v_x);
 
-  /* "mlgrad/func.pyx":799
+  /* "mlgrad/func.pyx":801
  *         cdef double x_abs = fabs(x)
  * 
  *         if x_abs > self.C:             # <<<<<<<<<<<<<<
@@ -23188,7 +23206,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_evaluate(struct __pyx_obj_6mlgrad_4fu
   __pyx_t_1 = ((__pyx_v_x_abs > __pyx_v_self->C) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":800
+    /* "mlgrad/func.pyx":802
  * 
  *         if x_abs > self.C:
  *             return x_abs - 0.5 * self.C             # <<<<<<<<<<<<<<
@@ -23198,7 +23216,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_evaluate(struct __pyx_obj_6mlgrad_4fu
     __pyx_r = (__pyx_v_x_abs - (0.5 * __pyx_v_self->C));
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":799
+    /* "mlgrad/func.pyx":801
  *         cdef double x_abs = fabs(x)
  * 
  *         if x_abs > self.C:             # <<<<<<<<<<<<<<
@@ -23207,7 +23225,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_evaluate(struct __pyx_obj_6mlgrad_4fu
  */
   }
 
-  /* "mlgrad/func.pyx":802
+  /* "mlgrad/func.pyx":804
  *             return x_abs - 0.5 * self.C
  *         else:
  *             return 0.5 * x*x / self.C             # <<<<<<<<<<<<<<
@@ -23219,10 +23237,10 @@ static double __pyx_f_6mlgrad_4func_5Huber_evaluate(struct __pyx_obj_6mlgrad_4fu
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":796
+  /* "mlgrad/func.pyx":798
  * 
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double x_abs = fabs(x)
  * 
  */
@@ -23232,29 +23250,29 @@ static double __pyx_f_6mlgrad_4func_5Huber_evaluate(struct __pyx_obj_6mlgrad_4fu
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":805
+/* "mlgrad/func.pyx":807
  * 
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double x_abs = fabs(x)
  * 
  */
 
-static double __pyx_f_6mlgrad_4func_5Huber_derivative(struct __pyx_obj_6mlgrad_4func_Huber *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_5Huber__derivative(struct __pyx_obj_6mlgrad_4func_Huber *__pyx_v_self, double const __pyx_v_x) {
   CYTHON_UNUSED double __pyx_v_x_abs;
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":806
+  /* "mlgrad/func.pyx":808
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double x_abs = fabs(x)             # <<<<<<<<<<<<<<
  * 
  *         if x > self.C:
  */
   __pyx_v_x_abs = fabs(__pyx_v_x);
 
-  /* "mlgrad/func.pyx":808
+  /* "mlgrad/func.pyx":810
  *         cdef double x_abs = fabs(x)
  * 
  *         if x > self.C:             # <<<<<<<<<<<<<<
@@ -23264,7 +23282,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative(struct __pyx_obj_6mlgrad_4
   __pyx_t_1 = ((__pyx_v_x > __pyx_v_self->C) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":809
+    /* "mlgrad/func.pyx":811
  * 
  *         if x > self.C:
  *             return 1.             # <<<<<<<<<<<<<<
@@ -23274,7 +23292,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative(struct __pyx_obj_6mlgrad_4
     __pyx_r = 1.;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":808
+    /* "mlgrad/func.pyx":810
  *         cdef double x_abs = fabs(x)
  * 
  *         if x > self.C:             # <<<<<<<<<<<<<<
@@ -23283,7 +23301,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative(struct __pyx_obj_6mlgrad_4
  */
   }
 
-  /* "mlgrad/func.pyx":810
+  /* "mlgrad/func.pyx":812
  *         if x > self.C:
  *             return 1.
  *         elif x < -self.C:             # <<<<<<<<<<<<<<
@@ -23293,7 +23311,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative(struct __pyx_obj_6mlgrad_4
   __pyx_t_1 = ((__pyx_v_x < (-__pyx_v_self->C)) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":811
+    /* "mlgrad/func.pyx":813
  *             return 1.
  *         elif x < -self.C:
  *             return -1.             # <<<<<<<<<<<<<<
@@ -23303,7 +23321,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative(struct __pyx_obj_6mlgrad_4
     __pyx_r = -1.;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":810
+    /* "mlgrad/func.pyx":812
  *         if x > self.C:
  *             return 1.
  *         elif x < -self.C:             # <<<<<<<<<<<<<<
@@ -23312,7 +23330,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative(struct __pyx_obj_6mlgrad_4
  */
   }
 
-  /* "mlgrad/func.pyx":813
+  /* "mlgrad/func.pyx":815
  *             return -1.
  *         else:
  *             return x / self.C             # <<<<<<<<<<<<<<
@@ -23324,10 +23342,10 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative(struct __pyx_obj_6mlgrad_4
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":805
+  /* "mlgrad/func.pyx":807
  * 
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double x_abs = fabs(x)
  * 
  */
@@ -23337,7 +23355,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative(struct __pyx_obj_6mlgrad_4
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":816
+/* "mlgrad/func.pyx":818
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -23350,7 +23368,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative_div_x(struct __pyx_obj_6ml
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":817
+  /* "mlgrad/func.pyx":819
  *     @cython.cdivision(True)
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         cdef double x_abs = fabs(x)             # <<<<<<<<<<<<<<
@@ -23359,7 +23377,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative_div_x(struct __pyx_obj_6ml
  */
   __pyx_v_x_abs = fabs(__pyx_v_x);
 
-  /* "mlgrad/func.pyx":819
+  /* "mlgrad/func.pyx":821
  *         cdef double x_abs = fabs(x)
  * 
  *         if x_abs > self.C:             # <<<<<<<<<<<<<<
@@ -23369,7 +23387,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative_div_x(struct __pyx_obj_6ml
   __pyx_t_1 = ((__pyx_v_x_abs > __pyx_v_self->C) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":820
+    /* "mlgrad/func.pyx":822
  * 
  *         if x_abs > self.C:
  *             return 1. / x_abs             # <<<<<<<<<<<<<<
@@ -23379,7 +23397,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative_div_x(struct __pyx_obj_6ml
     __pyx_r = (1. / __pyx_v_x_abs);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":819
+    /* "mlgrad/func.pyx":821
  *         cdef double x_abs = fabs(x)
  * 
  *         if x_abs > self.C:             # <<<<<<<<<<<<<<
@@ -23388,7 +23406,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative_div_x(struct __pyx_obj_6ml
  */
   }
 
-  /* "mlgrad/func.pyx":822
+  /* "mlgrad/func.pyx":824
  *             return 1. / x_abs
  *         else:
  *             return 1. / self.C             # <<<<<<<<<<<<<<
@@ -23400,7 +23418,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative_div_x(struct __pyx_obj_6ml
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":816
+  /* "mlgrad/func.pyx":818
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -23413,7 +23431,7 @@ static double __pyx_f_6mlgrad_4func_5Huber_derivative_div_x(struct __pyx_obj_6ml
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":824
+/* "mlgrad/func.pyx":826
  *             return 1. / self.C
  * 
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -23440,7 +23458,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Huber_2_repr_latex_(CYTHON_UNUSED struc
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":825
+  /* "mlgrad/func.pyx":827
  * 
  *     def _repr_latex_(self):
  *         return r"""$\displaystyle             # <<<<<<<<<<<<<<
@@ -23452,7 +23470,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Huber_2_repr_latex_(CYTHON_UNUSED struc
   __pyx_r = __pyx_kp_u_displaystyle_rho_x_cases_0_5x_2;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":824
+  /* "mlgrad/func.pyx":826
  *             return 1. / self.C
  * 
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -23467,7 +23485,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Huber_2_repr_latex_(CYTHON_UNUSED struc
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":832
+/* "mlgrad/func.pyx":834
  *         $"""
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -23500,7 +23518,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Huber_4to_dict(struct __pyx_obj_6mlgrad
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":833
+  /* "mlgrad/func.pyx":835
  * 
  *     def to_dict(self):
  *         return { 'name':'huber',             # <<<<<<<<<<<<<<
@@ -23508,31 +23526,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Huber_4to_dict(struct __pyx_obj_6mlgrad
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 833, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 835, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_huber) < 0) __PYX_ERR(0, 833, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_huber) < 0) __PYX_ERR(0, 835, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":834
+  /* "mlgrad/func.pyx":836
  *     def to_dict(self):
  *         return { 'name':'huber',
  *                  'args': (self.C,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class TM(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->C); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 834, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->C); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 836, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 834, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 836, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 833, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 835, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":832
+  /* "mlgrad/func.pyx":834
  *         $"""
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -23935,7 +23953,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Huber_8__setstate_cython__(struct __pyx
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":838
+/* "mlgrad/func.pyx":840
  * cdef class TM(Func):
  *     #
  *     def __init__(self, a=1):             # <<<<<<<<<<<<<<
@@ -23975,7 +23993,7 @@ static int __pyx_pw_6mlgrad_4func_2TM_1__init__(PyObject *__pyx_v_self, PyObject
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 838, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 840, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -23989,7 +24007,7 @@ static int __pyx_pw_6mlgrad_4func_2TM_1__init__(PyObject *__pyx_v_self, PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 838, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 840, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.TM.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -24011,17 +24029,17 @@ static int __pyx_pf_6mlgrad_4func_2TM___init__(struct __pyx_obj_6mlgrad_4func_TM
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":839
+  /* "mlgrad/func.pyx":841
  *     #
  *     def __init__(self, a=1):
  *         self.a = a             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 839, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 841, __pyx_L1_error)
   __pyx_v_self->a = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":838
+  /* "mlgrad/func.pyx":840
  * cdef class TM(Func):
  *     #
  *     def __init__(self, a=1):             # <<<<<<<<<<<<<<
@@ -24040,21 +24058,21 @@ static int __pyx_pf_6mlgrad_4func_2TM___init__(struct __pyx_obj_6mlgrad_4func_TM
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":841
+/* "mlgrad/func.pyx":843
  *         self.a = a
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x <= 0:
  *             return x*x/2
  */
 
-static double __pyx_f_6mlgrad_4func_2TM_evaluate(struct __pyx_obj_6mlgrad_4func_TM *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_2TM__evaluate(struct __pyx_obj_6mlgrad_4func_TM *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":842
+  /* "mlgrad/func.pyx":844
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x <= 0:             # <<<<<<<<<<<<<<
  *             return x*x/2
  *         else:
@@ -24062,8 +24080,8 @@ static double __pyx_f_6mlgrad_4func_2TM_evaluate(struct __pyx_obj_6mlgrad_4func_
   __pyx_t_1 = ((__pyx_v_x <= 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":843
- *     cdef double evaluate(self, const double x) nogil:
+    /* "mlgrad/func.pyx":845
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x <= 0:
  *             return x*x/2             # <<<<<<<<<<<<<<
  *         else:
@@ -24072,31 +24090,31 @@ static double __pyx_f_6mlgrad_4func_2TM_evaluate(struct __pyx_obj_6mlgrad_4func_
     __pyx_r = ((__pyx_v_x * __pyx_v_x) / 2.0);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":842
+    /* "mlgrad/func.pyx":844
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         if x <= 0:             # <<<<<<<<<<<<<<
  *             return x*x/2
  *         else:
  */
   }
 
-  /* "mlgrad/func.pyx":845
+  /* "mlgrad/func.pyx":847
  *             return x*x/2
  *         else:
  *             return self.a * x             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   /*else*/ {
     __pyx_r = (__pyx_v_self->a * __pyx_v_x);
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":841
+  /* "mlgrad/func.pyx":843
  *         self.a = a
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x <= 0:
  *             return x*x/2
  */
@@ -24106,21 +24124,21 @@ static double __pyx_f_6mlgrad_4func_2TM_evaluate(struct __pyx_obj_6mlgrad_4func_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":847
+/* "mlgrad/func.pyx":849
  *             return self.a * x
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x <= 0:
  *             return x
  */
 
-static double __pyx_f_6mlgrad_4func_2TM_derivative(struct __pyx_obj_6mlgrad_4func_TM *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_2TM__derivative(struct __pyx_obj_6mlgrad_4func_TM *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":848
+  /* "mlgrad/func.pyx":850
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x <= 0:             # <<<<<<<<<<<<<<
  *             return x
  *         else:
@@ -24128,8 +24146,8 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative(struct __pyx_obj_6mlgrad_4fun
   __pyx_t_1 = ((__pyx_v_x <= 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":849
- *     cdef double derivative(self, const double x) nogil:
+    /* "mlgrad/func.pyx":851
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x <= 0:
  *             return x             # <<<<<<<<<<<<<<
  *         else:
@@ -24138,16 +24156,16 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative(struct __pyx_obj_6mlgrad_4fun
     __pyx_r = __pyx_v_x;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":848
+    /* "mlgrad/func.pyx":850
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         if x <= 0:             # <<<<<<<<<<<<<<
  *             return x
  *         else:
  */
   }
 
-  /* "mlgrad/func.pyx":851
+  /* "mlgrad/func.pyx":853
  *             return x
  *         else:
  *             return self.a             # <<<<<<<<<<<<<<
@@ -24159,10 +24177,10 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative(struct __pyx_obj_6mlgrad_4fun
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":847
+  /* "mlgrad/func.pyx":849
  *             return self.a * x
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         if x <= 0:
  *             return x
  */
@@ -24172,7 +24190,7 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative(struct __pyx_obj_6mlgrad_4fun
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":853
+/* "mlgrad/func.pyx":855
  *             return self.a
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -24184,7 +24202,7 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative2(CYTHON_UNUSED struct __pyx_o
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":854
+  /* "mlgrad/func.pyx":856
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         if x <= 0:             # <<<<<<<<<<<<<<
@@ -24194,7 +24212,7 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative2(CYTHON_UNUSED struct __pyx_o
   __pyx_t_1 = ((__pyx_v_x <= 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":855
+    /* "mlgrad/func.pyx":857
  *     cdef double derivative2(self, const double x) nogil:
  *         if x <= 0:
  *             return 1             # <<<<<<<<<<<<<<
@@ -24204,7 +24222,7 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative2(CYTHON_UNUSED struct __pyx_o
     __pyx_r = 1.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":854
+    /* "mlgrad/func.pyx":856
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         if x <= 0:             # <<<<<<<<<<<<<<
@@ -24213,7 +24231,7 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative2(CYTHON_UNUSED struct __pyx_o
  */
   }
 
-  /* "mlgrad/func.pyx":857
+  /* "mlgrad/func.pyx":859
  *             return 1
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -24225,7 +24243,7 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative2(CYTHON_UNUSED struct __pyx_o
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":853
+  /* "mlgrad/func.pyx":855
  *             return self.a
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -24238,7 +24256,7 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative2(CYTHON_UNUSED struct __pyx_o
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":859
+/* "mlgrad/func.pyx":861
  *             return 0
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -24253,7 +24271,7 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative_div_x(struct __pyx_obj_6mlgra
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/func.pyx":860
+  /* "mlgrad/func.pyx":862
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         if x <= 0:             # <<<<<<<<<<<<<<
@@ -24263,7 +24281,7 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative_div_x(struct __pyx_obj_6mlgra
   __pyx_t_1 = ((__pyx_v_x <= 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":861
+    /* "mlgrad/func.pyx":863
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         if x <= 0:
  *             return 1             # <<<<<<<<<<<<<<
@@ -24273,7 +24291,7 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative_div_x(struct __pyx_obj_6mlgra
     __pyx_r = 1.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":860
+    /* "mlgrad/func.pyx":862
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         if x <= 0:             # <<<<<<<<<<<<<<
@@ -24282,7 +24300,7 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative_div_x(struct __pyx_obj_6mlgra
  */
   }
 
-  /* "mlgrad/func.pyx":863
+  /* "mlgrad/func.pyx":865
  *             return 1
  *         else:
  *             return self.a / x             # <<<<<<<<<<<<<<
@@ -24298,13 +24316,13 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative_div_x(struct __pyx_obj_6mlgra
       #ifdef WITH_THREAD
       __Pyx_PyGILState_Release(__pyx_gilstate_save);
       #endif
-      __PYX_ERR(0, 863, __pyx_L1_error)
+      __PYX_ERR(0, 865, __pyx_L1_error)
     }
     __pyx_r = (__pyx_v_self->a / ((double)__pyx_v_x));
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":859
+  /* "mlgrad/func.pyx":861
  *             return 0
  *     #
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -24320,7 +24338,7 @@ static double __pyx_f_6mlgrad_4func_2TM_derivative_div_x(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":865
+/* "mlgrad/func.pyx":867
  *             return self.a / x
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -24347,7 +24365,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_2TM_2_repr_latex_(CYTHON_UNUSED struct _
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":866
+  /* "mlgrad/func.pyx":868
  *     #
  *     def _repr_latex_(self):
  *         return r"""$\displaystyle             # <<<<<<<<<<<<<<
@@ -24359,7 +24377,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_2TM_2_repr_latex_(CYTHON_UNUSED struct _
   __pyx_r = __pyx_kp_u_displaystyle_rho_x_cases_frac_1;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":865
+  /* "mlgrad/func.pyx":867
  *             return self.a / x
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -24756,7 +24774,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_2TM_6__setstate_cython__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":875
+/* "mlgrad/func.pyx":877
  * cdef class LogSquare(Func):
  * 
  *     def __init__(self, a=1.0):             # <<<<<<<<<<<<<<
@@ -24796,7 +24814,7 @@ static int __pyx_pw_6mlgrad_4func_9LogSquare_1__init__(PyObject *__pyx_v_self, P
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 875, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 877, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -24810,7 +24828,7 @@ static int __pyx_pw_6mlgrad_4func_9LogSquare_1__init__(PyObject *__pyx_v_self, P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 875, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 877, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.LogSquare.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -24833,30 +24851,30 @@ static int __pyx_pf_6mlgrad_4func_9LogSquare___init__(struct __pyx_obj_6mlgrad_4
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":876
+  /* "mlgrad/func.pyx":878
  * 
  *     def __init__(self, a=1.0):
  *         self.a = a             # <<<<<<<<<<<<<<
  *         self.a2 = a * a
  * 
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 876, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 878, __pyx_L1_error)
   __pyx_v_self->a = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":877
+  /* "mlgrad/func.pyx":879
  *     def __init__(self, a=1.0):
  *         self.a = a
  *         self.a2 = a * a             # <<<<<<<<<<<<<<
  * 
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
-  __pyx_t_2 = PyNumber_Multiply(__pyx_v_a, __pyx_v_a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 877, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Multiply(__pyx_v_a, __pyx_v_a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 879, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 877, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 879, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_self->a2 = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":875
+  /* "mlgrad/func.pyx":877
  * cdef class LogSquare(Func):
  * 
  *     def __init__(self, a=1.0):             # <<<<<<<<<<<<<<
@@ -24876,20 +24894,20 @@ static int __pyx_pf_6mlgrad_4func_9LogSquare___init__(struct __pyx_obj_6mlgrad_4
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":879
+/* "mlgrad/func.pyx":881
  *         self.a2 = a * a
  * 
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return log(self.a2 + x*x)
  * 
  */
 
-static double __pyx_f_6mlgrad_4func_9LogSquare_evaluate(struct __pyx_obj_6mlgrad_4func_LogSquare *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_9LogSquare__evaluate(struct __pyx_obj_6mlgrad_4func_LogSquare *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":880
+  /* "mlgrad/func.pyx":882
  * 
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return log(self.a2 + x*x)             # <<<<<<<<<<<<<<
  * 
  *     @cython.cdivision(True)
@@ -24897,10 +24915,10 @@ static double __pyx_f_6mlgrad_4func_9LogSquare_evaluate(struct __pyx_obj_6mlgrad
   __pyx_r = log((__pyx_v_self->a2 + (__pyx_v_x * __pyx_v_x)));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":879
+  /* "mlgrad/func.pyx":881
  *         self.a2 = a * a
  * 
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return log(self.a2 + x*x)
  * 
  */
@@ -24910,20 +24928,20 @@ static double __pyx_f_6mlgrad_4func_9LogSquare_evaluate(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":883
+/* "mlgrad/func.pyx":885
  * 
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return 2 * x / (self.a2 + x*x)
  * 
  */
 
-static double __pyx_f_6mlgrad_4func_9LogSquare_derivative(struct __pyx_obj_6mlgrad_4func_LogSquare *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_9LogSquare__derivative(struct __pyx_obj_6mlgrad_4func_LogSquare *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":884
+  /* "mlgrad/func.pyx":886
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         return 2 * x / (self.a2 + x*x)             # <<<<<<<<<<<<<<
  * 
  *     @cython.cdivision(True)
@@ -24931,10 +24949,10 @@ static double __pyx_f_6mlgrad_4func_9LogSquare_derivative(struct __pyx_obj_6mlgr
   __pyx_r = ((2.0 * __pyx_v_x) / (__pyx_v_self->a2 + (__pyx_v_x * __pyx_v_x)));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":883
+  /* "mlgrad/func.pyx":885
  * 
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return 2 * x / (self.a2 + x*x)
  * 
  */
@@ -24944,7 +24962,7 @@ static double __pyx_f_6mlgrad_4func_9LogSquare_derivative(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":887
+/* "mlgrad/func.pyx":889
  * 
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -24957,7 +24975,7 @@ static double __pyx_f_6mlgrad_4func_9LogSquare_derivative2(struct __pyx_obj_6mlg
   double __pyx_v_xa;
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":888
+  /* "mlgrad/func.pyx":890
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double x2 = x*x             # <<<<<<<<<<<<<<
@@ -24966,7 +24984,7 @@ static double __pyx_f_6mlgrad_4func_9LogSquare_derivative2(struct __pyx_obj_6mlg
  */
   __pyx_v_x2 = (__pyx_v_x * __pyx_v_x);
 
-  /* "mlgrad/func.pyx":889
+  /* "mlgrad/func.pyx":891
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double x2 = x*x
  *         cdef double xa = self.a + x2             # <<<<<<<<<<<<<<
@@ -24975,7 +24993,7 @@ static double __pyx_f_6mlgrad_4func_9LogSquare_derivative2(struct __pyx_obj_6mlg
  */
   __pyx_v_xa = (__pyx_v_self->a + __pyx_v_x2);
 
-  /* "mlgrad/func.pyx":890
+  /* "mlgrad/func.pyx":892
  *         cdef double x2 = x*x
  *         cdef double xa = self.a + x2
  *         return 2 * (self.a2 - x2) / xa * xa             # <<<<<<<<<<<<<<
@@ -24985,7 +25003,7 @@ static double __pyx_f_6mlgrad_4func_9LogSquare_derivative2(struct __pyx_obj_6mlg
   __pyx_r = (((2.0 * (__pyx_v_self->a2 - __pyx_v_x2)) / __pyx_v_xa) * __pyx_v_xa);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":887
+  /* "mlgrad/func.pyx":889
  * 
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -24998,7 +25016,7 @@ static double __pyx_f_6mlgrad_4func_9LogSquare_derivative2(struct __pyx_obj_6mlg
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":892
+/* "mlgrad/func.pyx":894
  *         return 2 * (self.a2 - x2) / xa * xa
  * 
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -25025,7 +25043,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9LogSquare_2_repr_latex_(CYTHON_UNUSED s
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":893
+  /* "mlgrad/func.pyx":895
  * 
  *     def _repr_latex_(self):
  *         return r'$\ln(a^2 + x^2)$'             # <<<<<<<<<<<<<<
@@ -25037,7 +25055,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9LogSquare_2_repr_latex_(CYTHON_UNUSED s
   __pyx_r = __pyx_kp_u_ln_a_2_x_2;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":892
+  /* "mlgrad/func.pyx":894
  *         return 2 * (self.a2 - x2) / xa * xa
  * 
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -25052,7 +25070,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9LogSquare_2_repr_latex_(CYTHON_UNUSED s
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":895
+/* "mlgrad/func.pyx":897
  *         return r'$\ln(a^2 + x^2)$'
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -25085,7 +25103,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9LogSquare_4to_dict(struct __pyx_obj_6ml
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":896
+  /* "mlgrad/func.pyx":898
  * 
  *     def to_dict(self):
  *         return { 'name':'log_square',             # <<<<<<<<<<<<<<
@@ -25093,31 +25111,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_9LogSquare_4to_dict(struct __pyx_obj_6ml
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 896, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 898, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_log_square) < 0) __PYX_ERR(0, 896, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_log_square) < 0) __PYX_ERR(0, 898, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":897
+  /* "mlgrad/func.pyx":899
  *     def to_dict(self):
  *         return { 'name':'log_square',
  *                  'args': (self.a,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class Tukey(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 897, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 899, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 897, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 899, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 896, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 898, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":895
+  /* "mlgrad/func.pyx":897
  *         return r'$\ln(a^2 + x^2)$'
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -25607,7 +25625,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9LogSquare_8__setstate_cython__(struct _
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":901
+/* "mlgrad/func.pyx":903
  * cdef class Tukey(Func):
  * 
  *     def __init__(self, C=4.685):             # <<<<<<<<<<<<<<
@@ -25647,7 +25665,7 @@ static int __pyx_pw_6mlgrad_4func_5Tukey_1__init__(PyObject *__pyx_v_self, PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 901, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 903, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -25661,7 +25679,7 @@ static int __pyx_pw_6mlgrad_4func_5Tukey_1__init__(PyObject *__pyx_v_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 901, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 903, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Tukey.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -25685,33 +25703,33 @@ static int __pyx_pf_6mlgrad_4func_5Tukey___init__(struct __pyx_obj_6mlgrad_4func
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":902
+  /* "mlgrad/func.pyx":904
  * 
  *     def __init__(self, C=4.685):
  *         self.C = C             # <<<<<<<<<<<<<<
  *         self.C2 = C * C / 6.
  * 
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_C); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 902, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_C); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 904, __pyx_L1_error)
   __pyx_v_self->C = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":903
+  /* "mlgrad/func.pyx":905
  *     def __init__(self, C=4.685):
  *         self.C = C
  *         self.C2 = C * C / 6.             # <<<<<<<<<<<<<<
  * 
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
-  __pyx_t_2 = PyNumber_Multiply(__pyx_v_C, __pyx_v_C); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 903, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Multiply(__pyx_v_C, __pyx_v_C); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 905, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyFloat_TrueDivideObjC(__pyx_t_2, __pyx_float_6_, 6., 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 903, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyFloat_TrueDivideObjC(__pyx_t_2, __pyx_float_6_, 6., 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 905, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 903, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 905, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_self->C2 = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":901
+  /* "mlgrad/func.pyx":903
  * cdef class Tukey(Func):
  * 
  *     def __init__(self, C=4.685):             # <<<<<<<<<<<<<<
@@ -25732,15 +25750,15 @@ static int __pyx_pf_6mlgrad_4func_5Tukey___init__(struct __pyx_obj_6mlgrad_4func
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":905
+/* "mlgrad/func.pyx":907
  *         self.C2 = C * C / 6.
  * 
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = x/self.C
  *         cdef double v2 = v*v
  */
 
-static double __pyx_f_6mlgrad_4func_5Tukey_evaluate(struct __pyx_obj_6mlgrad_4func_Tukey *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_5Tukey__evaluate(struct __pyx_obj_6mlgrad_4func_Tukey *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v;
   double __pyx_v_v2;
   double __pyx_v_v3;
@@ -25750,9 +25768,9 @@ static double __pyx_f_6mlgrad_4func_5Tukey_evaluate(struct __pyx_obj_6mlgrad_4fu
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/func.pyx":906
+  /* "mlgrad/func.pyx":908
  * 
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double v = x/self.C             # <<<<<<<<<<<<<<
  *         cdef double v2 = v*v
  *         cdef double v3 = 1 - v2
@@ -25765,12 +25783,12 @@ static double __pyx_f_6mlgrad_4func_5Tukey_evaluate(struct __pyx_obj_6mlgrad_4fu
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 906, __pyx_L1_error)
+    __PYX_ERR(0, 908, __pyx_L1_error)
   }
   __pyx_v_v = (((double)__pyx_v_x) / __pyx_v_self->C);
 
-  /* "mlgrad/func.pyx":907
- *     cdef double evaluate(self, const double x) nogil:
+  /* "mlgrad/func.pyx":909
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double v = x/self.C
  *         cdef double v2 = v*v             # <<<<<<<<<<<<<<
  *         cdef double v3 = 1 - v2
@@ -25778,7 +25796,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_evaluate(struct __pyx_obj_6mlgrad_4fu
  */
   __pyx_v_v2 = (__pyx_v_v * __pyx_v_v);
 
-  /* "mlgrad/func.pyx":908
+  /* "mlgrad/func.pyx":910
  *         cdef double v = x/self.C
  *         cdef double v2 = v*v
  *         cdef double v3 = 1 - v2             # <<<<<<<<<<<<<<
@@ -25787,7 +25805,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_evaluate(struct __pyx_obj_6mlgrad_4fu
  */
   __pyx_v_v3 = (1.0 - __pyx_v_v2);
 
-  /* "mlgrad/func.pyx":910
+  /* "mlgrad/func.pyx":912
  *         cdef double v3 = 1 - v2
  * 
  *         if v <= self.C:             # <<<<<<<<<<<<<<
@@ -25797,7 +25815,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_evaluate(struct __pyx_obj_6mlgrad_4fu
   __pyx_t_1 = ((__pyx_v_v <= __pyx_v_self->C) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":911
+    /* "mlgrad/func.pyx":913
  * 
  *         if v <= self.C:
  *             return self.C2 * (1 - v3*v3*v3)             # <<<<<<<<<<<<<<
@@ -25807,7 +25825,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_evaluate(struct __pyx_obj_6mlgrad_4fu
     __pyx_r = (__pyx_v_self->C2 * (1.0 - ((__pyx_v_v3 * __pyx_v_v3) * __pyx_v_v3)));
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":910
+    /* "mlgrad/func.pyx":912
  *         cdef double v3 = 1 - v2
  * 
  *         if v <= self.C:             # <<<<<<<<<<<<<<
@@ -25816,43 +25834,43 @@ static double __pyx_f_6mlgrad_4func_5Tukey_evaluate(struct __pyx_obj_6mlgrad_4fu
  */
   }
 
-  /* "mlgrad/func.pyx":913
+  /* "mlgrad/func.pyx":915
  *             return self.C2 * (1 - v3*v3*v3)
  *         else:
  *             return self.C2             # <<<<<<<<<<<<<<
  * 
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   /*else*/ {
     __pyx_r = __pyx_v_self->C2;
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":905
+  /* "mlgrad/func.pyx":907
  *         self.C2 = C * C / 6.
  * 
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = x/self.C
  *         cdef double v2 = v*v
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.func.Tukey.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __Pyx_WriteUnraisable("mlgrad.func.Tukey._evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
   __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":915
+/* "mlgrad/func.pyx":917
  *             return self.C2
  * 
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = x/self.C
  *         cdef double v3 = 1 - v*v
  */
 
-static double __pyx_f_6mlgrad_4func_5Tukey_derivative(struct __pyx_obj_6mlgrad_4func_Tukey *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_5Tukey__derivative(struct __pyx_obj_6mlgrad_4func_Tukey *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v;
   double __pyx_v_v3;
   double __pyx_r;
@@ -25861,9 +25879,9 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative(struct __pyx_obj_6mlgrad_4
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/func.pyx":916
+  /* "mlgrad/func.pyx":918
  * 
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = x/self.C             # <<<<<<<<<<<<<<
  *         cdef double v3 = 1 - v*v
  * 
@@ -25876,12 +25894,12 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative(struct __pyx_obj_6mlgrad_4
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 916, __pyx_L1_error)
+    __PYX_ERR(0, 918, __pyx_L1_error)
   }
   __pyx_v_v = (((double)__pyx_v_x) / __pyx_v_self->C);
 
-  /* "mlgrad/func.pyx":917
- *     cdef double derivative(self, const double x) nogil:
+  /* "mlgrad/func.pyx":919
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = x/self.C
  *         cdef double v3 = 1 - v*v             # <<<<<<<<<<<<<<
  * 
@@ -25889,7 +25907,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative(struct __pyx_obj_6mlgrad_4
  */
   __pyx_v_v3 = (1.0 - (__pyx_v_v * __pyx_v_v));
 
-  /* "mlgrad/func.pyx":919
+  /* "mlgrad/func.pyx":921
  *         cdef double v3 = 1 - v*v
  * 
  *         if v <= self.C:             # <<<<<<<<<<<<<<
@@ -25899,7 +25917,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative(struct __pyx_obj_6mlgrad_4
   __pyx_t_1 = ((__pyx_v_v <= __pyx_v_self->C) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":920
+    /* "mlgrad/func.pyx":922
  * 
  *         if v <= self.C:
  *             return x * v3*v3             # <<<<<<<<<<<<<<
@@ -25909,7 +25927,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative(struct __pyx_obj_6mlgrad_4
     __pyx_r = ((__pyx_v_x * __pyx_v_v3) * __pyx_v_v3);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":919
+    /* "mlgrad/func.pyx":921
  *         cdef double v3 = 1 - v*v
  * 
  *         if v <= self.C:             # <<<<<<<<<<<<<<
@@ -25918,7 +25936,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative(struct __pyx_obj_6mlgrad_4
  */
   }
 
-  /* "mlgrad/func.pyx":922
+  /* "mlgrad/func.pyx":924
  *             return x * v3*v3
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -25930,23 +25948,23 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative(struct __pyx_obj_6mlgrad_4
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":915
+  /* "mlgrad/func.pyx":917
  *             return self.C2
  * 
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = x/self.C
  *         cdef double v3 = 1 - v*v
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.func.Tukey.derivative", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __Pyx_WriteUnraisable("mlgrad.func.Tukey._derivative", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
   __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":924
+/* "mlgrad/func.pyx":926
  *             return 0
  * 
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -25963,7 +25981,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative2(struct __pyx_obj_6mlgrad_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/func.pyx":925
+  /* "mlgrad/func.pyx":927
  * 
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v = x/self.C             # <<<<<<<<<<<<<<
@@ -25978,11 +25996,11 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative2(struct __pyx_obj_6mlgrad_
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 925, __pyx_L1_error)
+    __PYX_ERR(0, 927, __pyx_L1_error)
   }
   __pyx_v_v = (((double)__pyx_v_x) / __pyx_v_self->C);
 
-  /* "mlgrad/func.pyx":926
+  /* "mlgrad/func.pyx":928
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v = x/self.C
  *         cdef double v3 = 1 - v*v             # <<<<<<<<<<<<<<
@@ -25991,7 +26009,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative2(struct __pyx_obj_6mlgrad_
  */
   __pyx_v_v3 = (1.0 - (__pyx_v_v * __pyx_v_v));
 
-  /* "mlgrad/func.pyx":928
+  /* "mlgrad/func.pyx":930
  *         cdef double v3 = 1 - v*v
  * 
  *         if v <= self.C:             # <<<<<<<<<<<<<<
@@ -26001,7 +26019,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative2(struct __pyx_obj_6mlgrad_
   __pyx_t_1 = ((__pyx_v_v <= __pyx_v_self->C) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":929
+    /* "mlgrad/func.pyx":931
  * 
  *         if v <= self.C:
  *             return v3*v3 - 4*v3*v*v             # <<<<<<<<<<<<<<
@@ -26011,7 +26029,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative2(struct __pyx_obj_6mlgrad_
     __pyx_r = ((__pyx_v_v3 * __pyx_v_v3) - (((4.0 * __pyx_v_v3) * __pyx_v_v) * __pyx_v_v));
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":928
+    /* "mlgrad/func.pyx":930
  *         cdef double v3 = 1 - v*v
  * 
  *         if v <= self.C:             # <<<<<<<<<<<<<<
@@ -26020,7 +26038,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative2(struct __pyx_obj_6mlgrad_
  */
   }
 
-  /* "mlgrad/func.pyx":931
+  /* "mlgrad/func.pyx":933
  *             return v3*v3 - 4*v3*v*v
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -26032,7 +26050,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative2(struct __pyx_obj_6mlgrad_
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":924
+  /* "mlgrad/func.pyx":926
  *             return 0
  * 
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -26048,7 +26066,7 @@ static double __pyx_f_6mlgrad_4func_5Tukey_derivative2(struct __pyx_obj_6mlgrad_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":933
+/* "mlgrad/func.pyx":935
  *             return 0
  * 
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -26075,7 +26093,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Tukey_2_repr_latex_(CYTHON_UNUSED struc
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":934
+  /* "mlgrad/func.pyx":936
  * 
  *     def _repr_latex_(self):
  *         return r"""$\displaystyle             # <<<<<<<<<<<<<<
@@ -26087,7 +26105,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Tukey_2_repr_latex_(CYTHON_UNUSED struc
   __pyx_r = __pyx_kp_u_displaystyle_pho_x_cases_C_2_6;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":933
+  /* "mlgrad/func.pyx":935
  *             return 0
  * 
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -26102,7 +26120,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Tukey_2_repr_latex_(CYTHON_UNUSED struc
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":941
+/* "mlgrad/func.pyx":943
  *         $"""
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -26135,7 +26153,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Tukey_4to_dict(struct __pyx_obj_6mlgrad
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":942
+  /* "mlgrad/func.pyx":944
  * 
  *     def to_dict(self):
  *         return { 'name':'tukey',             # <<<<<<<<<<<<<<
@@ -26143,31 +26161,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Tukey_4to_dict(struct __pyx_obj_6mlgrad
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 942, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 944, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_tukey) < 0) __PYX_ERR(0, 942, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_tukey) < 0) __PYX_ERR(0, 944, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":943
+  /* "mlgrad/func.pyx":945
  *     def to_dict(self):
  *         return { 'name':'tukey',
  *                  'args': (self.C,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class SoftAbs(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->C); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 943, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->C); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 945, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 943, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 945, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 942, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 944, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":941
+  /* "mlgrad/func.pyx":943
  *         $"""
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -26575,7 +26593,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_5Tukey_8__setstate_cython__(struct __pyx
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":947
+/* "mlgrad/func.pyx":949
  * cdef class SoftAbs(Func):
  *     #
  *     def __init__(self, eps=1.0):             # <<<<<<<<<<<<<<
@@ -26615,7 +26633,7 @@ static int __pyx_pw_6mlgrad_4func_7SoftAbs_1__init__(PyObject *__pyx_v_self, PyO
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 947, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 949, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -26629,7 +26647,7 @@ static int __pyx_pw_6mlgrad_4func_7SoftAbs_1__init__(PyObject *__pyx_v_self, PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 947, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 949, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.SoftAbs.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -26651,17 +26669,17 @@ static int __pyx_pf_6mlgrad_4func_7SoftAbs___init__(struct __pyx_obj_6mlgrad_4fu
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":948
+  /* "mlgrad/func.pyx":950
  *     #
  *     def __init__(self, eps=1.0):
  *         self.eps = eps             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_eps); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 948, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_eps); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 950, __pyx_L1_error)
   __pyx_v_self->eps = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":947
+  /* "mlgrad/func.pyx":949
  * cdef class SoftAbs(Func):
  *     #
  *     def __init__(self, eps=1.0):             # <<<<<<<<<<<<<<
@@ -26680,20 +26698,20 @@ static int __pyx_pf_6mlgrad_4func_7SoftAbs___init__(struct __pyx_obj_6mlgrad_4fu
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":951
+/* "mlgrad/func.pyx":953
  *     #
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return x * x / (self.eps + fabs(x))
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_7SoftAbs_evaluate(struct __pyx_obj_6mlgrad_4func_SoftAbs *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_7SoftAbs__evaluate(struct __pyx_obj_6mlgrad_4func_SoftAbs *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":952
+  /* "mlgrad/func.pyx":954
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return x * x / (self.eps + fabs(x))             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
@@ -26701,10 +26719,10 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_evaluate(struct __pyx_obj_6mlgrad_4
   __pyx_r = ((__pyx_v_x * __pyx_v_x) / (__pyx_v_self->eps + fabs(__pyx_v_x)));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":951
+  /* "mlgrad/func.pyx":953
  *     #
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return x * x / (self.eps + fabs(x))
  *     #
  */
@@ -26714,29 +26732,29 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_evaluate(struct __pyx_obj_6mlgrad_4
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":955
+/* "mlgrad/func.pyx":957
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = self.eps + fabs(x)
  *         return x * (self.eps + v) / (v * v)
  */
 
-static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative(struct __pyx_obj_6mlgrad_4func_SoftAbs *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_7SoftAbs__derivative(struct __pyx_obj_6mlgrad_4func_SoftAbs *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v;
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":956
+  /* "mlgrad/func.pyx":958
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = self.eps + fabs(x)             # <<<<<<<<<<<<<<
  *         return x * (self.eps + v) / (v * v)
  *     #
  */
   __pyx_v_v = (__pyx_v_self->eps + fabs(__pyx_v_x));
 
-  /* "mlgrad/func.pyx":957
- *     cdef double derivative(self, const double x) nogil:
+  /* "mlgrad/func.pyx":959
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = self.eps + fabs(x)
  *         return x * (self.eps + v) / (v * v)             # <<<<<<<<<<<<<<
  *     #
@@ -26745,10 +26763,10 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative(struct __pyx_obj_6mlgrad
   __pyx_r = ((__pyx_v_x * (__pyx_v_self->eps + __pyx_v_v)) / (__pyx_v_v * __pyx_v_v));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":955
+  /* "mlgrad/func.pyx":957
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = self.eps + fabs(x)
  *         return x * (self.eps + v) / (v * v)
  */
@@ -26758,7 +26776,7 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":960
+/* "mlgrad/func.pyx":962
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -26772,7 +26790,7 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative2(struct __pyx_obj_6mlgra
   double __pyx_r;
   double __pyx_t_1;
 
-  /* "mlgrad/func.pyx":961
+  /* "mlgrad/func.pyx":963
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double eps = self.eps             # <<<<<<<<<<<<<<
@@ -26782,7 +26800,7 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative2(struct __pyx_obj_6mlgra
   __pyx_t_1 = __pyx_v_self->eps;
   __pyx_v_eps = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":962
+  /* "mlgrad/func.pyx":964
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double eps = self.eps
  *         cdef double v = eps + fabs(x)             # <<<<<<<<<<<<<<
@@ -26791,7 +26809,7 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative2(struct __pyx_obj_6mlgra
  */
   __pyx_v_v = (__pyx_v_eps + fabs(__pyx_v_x));
 
-  /* "mlgrad/func.pyx":963
+  /* "mlgrad/func.pyx":965
  *         cdef double eps = self.eps
  *         cdef double v = eps + fabs(x)
  *         return 2 * eps * eps / (v * v * v)             # <<<<<<<<<<<<<<
@@ -26801,7 +26819,7 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative2(struct __pyx_obj_6mlgra
   __pyx_r = (((2.0 * __pyx_v_eps) * __pyx_v_eps) / ((__pyx_v_v * __pyx_v_v) * __pyx_v_v));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":960
+  /* "mlgrad/func.pyx":962
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -26814,7 +26832,7 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative2(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":966
+/* "mlgrad/func.pyx":968
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -26826,7 +26844,7 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative_div_x(struct __pyx_obj_6
   double __pyx_v_v;
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":967
+  /* "mlgrad/func.pyx":969
  *     @cython.cdivision(True)
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         cdef double v = self.eps + fabs(x)             # <<<<<<<<<<<<<<
@@ -26835,7 +26853,7 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative_div_x(struct __pyx_obj_6
  */
   __pyx_v_v = (__pyx_v_self->eps + fabs(__pyx_v_x));
 
-  /* "mlgrad/func.pyx":968
+  /* "mlgrad/func.pyx":970
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         cdef double v = self.eps + fabs(x)
  *         return (self.eps + v) / (v * v)             # <<<<<<<<<<<<<<
@@ -26845,7 +26863,7 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative_div_x(struct __pyx_obj_6
   __pyx_r = ((__pyx_v_self->eps + __pyx_v_v) / (__pyx_v_v * __pyx_v_v));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":966
+  /* "mlgrad/func.pyx":968
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -26858,7 +26876,7 @@ static double __pyx_f_6mlgrad_4func_7SoftAbs_derivative_div_x(struct __pyx_obj_6
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":970
+/* "mlgrad/func.pyx":972
  *         return (self.eps + v) / (v * v)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -26885,7 +26903,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_7SoftAbs_2_repr_latex_(CYTHON_UNUSED str
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":971
+  /* "mlgrad/func.pyx":973
  *     #
  *     def _repr_latex_(self):
  *         return r"$p(x)=\frac{x^2}{\varepsilon+|x|}$"             # <<<<<<<<<<<<<<
@@ -26897,7 +26915,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_7SoftAbs_2_repr_latex_(CYTHON_UNUSED str
   __pyx_r = __pyx_kp_u_p_x_frac_x_2_varepsilon_x;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":970
+  /* "mlgrad/func.pyx":972
  *         return (self.eps + v) / (v * v)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -26912,7 +26930,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_7SoftAbs_2_repr_latex_(CYTHON_UNUSED str
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":973
+/* "mlgrad/func.pyx":975
  *         return r"$p(x)=\frac{x^2}{\varepsilon+|x|}$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -26945,7 +26963,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_7SoftAbs_4to_dict(struct __pyx_obj_6mlgr
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":974
+  /* "mlgrad/func.pyx":976
  * 
  *     def to_dict(self):
  *         return { 'name':'softabs',             # <<<<<<<<<<<<<<
@@ -26953,31 +26971,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_7SoftAbs_4to_dict(struct __pyx_obj_6mlgr
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 974, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 976, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_softabs) < 0) __PYX_ERR(0, 974, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_softabs) < 0) __PYX_ERR(0, 976, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":975
+  /* "mlgrad/func.pyx":977
  *     def to_dict(self):
  *         return { 'name':'softabs',
  *                  'args': (self.eps,) }             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->eps); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 975, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->eps); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 977, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 975, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 977, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 974, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 976, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":973
+  /* "mlgrad/func.pyx":975
  *         return r"$p(x)=\frac{x^2}{\varepsilon+|x|}$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -27298,7 +27316,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_7SoftAbs_8__setstate_cython__(struct __p
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":980
+/* "mlgrad/func.pyx":982
  * cdef class Sqrt(Func):
  *     #
  *     def __init__(self, eps=1.0):             # <<<<<<<<<<<<<<
@@ -27338,7 +27356,7 @@ static int __pyx_pw_6mlgrad_4func_4Sqrt_1__init__(PyObject *__pyx_v_self, PyObje
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 980, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 982, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -27352,7 +27370,7 @@ static int __pyx_pw_6mlgrad_4func_4Sqrt_1__init__(PyObject *__pyx_v_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 980, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 982, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Sqrt.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -27375,30 +27393,30 @@ static int __pyx_pf_6mlgrad_4func_4Sqrt___init__(struct __pyx_obj_6mlgrad_4func_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":981
+  /* "mlgrad/func.pyx":983
  *     #
  *     def __init__(self, eps=1.0):
  *         self.eps = eps             # <<<<<<<<<<<<<<
  *         self.eps2 = eps*eps
  *     #
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_eps); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 981, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_eps); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 983, __pyx_L1_error)
   __pyx_v_self->eps = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":982
+  /* "mlgrad/func.pyx":984
  *     def __init__(self, eps=1.0):
  *         self.eps = eps
  *         self.eps2 = eps*eps             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
  */
-  __pyx_t_2 = PyNumber_Multiply(__pyx_v_eps, __pyx_v_eps); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 982, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Multiply(__pyx_v_eps, __pyx_v_eps); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 984, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 982, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 984, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_self->eps2 = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":980
+  /* "mlgrad/func.pyx":982
  * cdef class Sqrt(Func):
  *     #
  *     def __init__(self, eps=1.0):             # <<<<<<<<<<<<<<
@@ -27418,20 +27436,20 @@ static int __pyx_pf_6mlgrad_4func_4Sqrt___init__(struct __pyx_obj_6mlgrad_4func_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":986
+/* "mlgrad/func.pyx":988
  *     @cython.cdivision(True)
  *     @cython.final
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return sqrt(self.eps2 + x*x) - self.eps
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_4Sqrt_evaluate(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_4Sqrt__evaluate(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":987
+  /* "mlgrad/func.pyx":989
  *     @cython.final
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return sqrt(self.eps2 + x*x) - self.eps             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
@@ -27439,10 +27457,10 @@ static double __pyx_f_6mlgrad_4func_4Sqrt_evaluate(struct __pyx_obj_6mlgrad_4fun
   __pyx_r = (sqrt((__pyx_v_self->eps2 + (__pyx_v_x * __pyx_v_x))) - __pyx_v_self->eps);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":986
+  /* "mlgrad/func.pyx":988
  *     @cython.cdivision(True)
  *     @cython.final
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return sqrt(self.eps2 + x*x) - self.eps
  *     #
  */
@@ -27452,7 +27470,7 @@ static double __pyx_f_6mlgrad_4func_4Sqrt_evaluate(struct __pyx_obj_6mlgrad_4fun
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":991
+/* "mlgrad/func.pyx":993
  *     @cython.cdivision(True)
  *     @cython.final
  *     cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -27470,7 +27488,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_evaluate_array(struct __pyx_obj_6mlgrad_
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
 
-  /* "mlgrad/func.pyx":993
+  /* "mlgrad/func.pyx":995
  *     cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
  *         cdef Py_ssize_t i
  *         cdef double v, eps = self.eps, eps2 = self.eps2             # <<<<<<<<<<<<<<
@@ -27482,7 +27500,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_evaluate_array(struct __pyx_obj_6mlgrad_
   __pyx_t_1 = __pyx_v_self->eps2;
   __pyx_v_eps2 = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":995
+  /* "mlgrad/func.pyx":997
  *         cdef double v, eps = self.eps, eps2 = self.eps2
  * 
  *         for i in prange(n, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -27521,7 +27539,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_evaluate_array(struct __pyx_obj_6mlgrad_
                             /* Initialize private variables to invalid values */
                             __pyx_v_v = ((double)__PYX_NAN());
 
-                            /* "mlgrad/func.pyx":996
+                            /* "mlgrad/func.pyx":998
  * 
  *         for i in prange(n, nogil=True, num_threads=num_procs):
  *             v = x[i]             # <<<<<<<<<<<<<<
@@ -27530,7 +27548,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_evaluate_array(struct __pyx_obj_6mlgrad_
  */
                             __pyx_v_v = (__pyx_v_x[__pyx_v_i]);
 
-                            /* "mlgrad/func.pyx":997
+                            /* "mlgrad/func.pyx":999
  *         for i in prange(n, nogil=True, num_threads=num_procs):
  *             v = x[i]
  *             y[i] = sqrt(eps2 + v*v) - eps             # <<<<<<<<<<<<<<
@@ -27551,7 +27569,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_evaluate_array(struct __pyx_obj_6mlgrad_
         #endif
       }
 
-      /* "mlgrad/func.pyx":995
+      /* "mlgrad/func.pyx":997
  *         cdef double v, eps = self.eps, eps2 = self.eps2
  * 
  *         for i in prange(n, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -27570,7 +27588,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_evaluate_array(struct __pyx_obj_6mlgrad_
       }
   }
 
-  /* "mlgrad/func.pyx":991
+  /* "mlgrad/func.pyx":993
  *     @cython.cdivision(True)
  *     @cython.final
  *     cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -27581,29 +27599,29 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_evaluate_array(struct __pyx_obj_6mlgrad_
   /* function exit code */
 }
 
-/* "mlgrad/func.pyx":1001
+/* "mlgrad/func.pyx":1003
  *     @cython.cdivision(True)
  *     @cython.final
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = self.eps2 + x*x
  *         return x / sqrt(v)
  */
 
-static double __pyx_f_6mlgrad_4func_4Sqrt_derivative(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_4Sqrt__derivative(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v;
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1002
+  /* "mlgrad/func.pyx":1004
  *     @cython.final
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x             # <<<<<<<<<<<<<<
  *         return x / sqrt(v)
  *     #
  */
   __pyx_v_v = (__pyx_v_self->eps2 + (__pyx_v_x * __pyx_v_x));
 
-  /* "mlgrad/func.pyx":1003
- *     cdef double derivative(self, const double x) nogil:
+  /* "mlgrad/func.pyx":1005
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x
  *         return x / sqrt(v)             # <<<<<<<<<<<<<<
  *     #
@@ -27612,10 +27630,10 @@ static double __pyx_f_6mlgrad_4func_4Sqrt_derivative(struct __pyx_obj_6mlgrad_4f
   __pyx_r = (((double)__pyx_v_x) / sqrt(__pyx_v_v));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1001
+  /* "mlgrad/func.pyx":1003
  *     @cython.cdivision(True)
  *     @cython.final
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = self.eps2 + x*x
  *         return x / sqrt(v)
  */
@@ -27625,7 +27643,7 @@ static double __pyx_f_6mlgrad_4func_4Sqrt_derivative(struct __pyx_obj_6mlgrad_4f
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1007
+/* "mlgrad/func.pyx":1009
  *     @cython.cdivision(True)
  *     @cython.final
  *     cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -27643,7 +27661,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_array(struct __pyx_obj_6mlgra
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
 
-  /* "mlgrad/func.pyx":1009
+  /* "mlgrad/func.pyx":1011
  *     cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
  *         cdef Py_ssize_t i
  *         cdef double v, eps = self.eps, eps2 = self.eps2             # <<<<<<<<<<<<<<
@@ -27655,7 +27673,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_array(struct __pyx_obj_6mlgra
   __pyx_t_1 = __pyx_v_self->eps2;
   __pyx_v_eps2 = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1011
+  /* "mlgrad/func.pyx":1013
  *         cdef double v, eps = self.eps, eps2 = self.eps2
  * 
  *         for i in prange(n, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -27694,7 +27712,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_array(struct __pyx_obj_6mlgra
                             /* Initialize private variables to invalid values */
                             __pyx_v_v = ((double)__PYX_NAN());
 
-                            /* "mlgrad/func.pyx":1012
+                            /* "mlgrad/func.pyx":1014
  * 
  *         for i in prange(n, nogil=True, num_threads=num_procs):
  *             v = x[i]             # <<<<<<<<<<<<<<
@@ -27703,7 +27721,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_array(struct __pyx_obj_6mlgra
  */
                             __pyx_v_v = (__pyx_v_x[__pyx_v_i]);
 
-                            /* "mlgrad/func.pyx":1013
+                            /* "mlgrad/func.pyx":1015
  *         for i in prange(n, nogil=True, num_threads=num_procs):
  *             v = x[i]
  *             y[i] = v / sqrt(eps2 + v*v)             # <<<<<<<<<<<<<<
@@ -27724,7 +27742,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_array(struct __pyx_obj_6mlgra
         #endif
       }
 
-      /* "mlgrad/func.pyx":1011
+      /* "mlgrad/func.pyx":1013
  *         cdef double v, eps = self.eps, eps2 = self.eps2
  * 
  *         for i in prange(n, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -27743,7 +27761,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_array(struct __pyx_obj_6mlgra
       }
   }
 
-  /* "mlgrad/func.pyx":1007
+  /* "mlgrad/func.pyx":1009
  *     @cython.cdivision(True)
  *     @cython.final
  *     cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -27754,7 +27772,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_array(struct __pyx_obj_6mlgra
   /* function exit code */
 }
 
-/* "mlgrad/func.pyx":1017
+/* "mlgrad/func.pyx":1019
  *     @cython.cdivision(True)
  *     @cython.final
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -27766,7 +27784,7 @@ static double __pyx_f_6mlgrad_4func_4Sqrt_derivative2(struct __pyx_obj_6mlgrad_4
   double __pyx_v_v;
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1018
+  /* "mlgrad/func.pyx":1020
  *     @cython.final
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x             # <<<<<<<<<<<<<<
@@ -27775,7 +27793,7 @@ static double __pyx_f_6mlgrad_4func_4Sqrt_derivative2(struct __pyx_obj_6mlgrad_4
  */
   __pyx_v_v = (__pyx_v_self->eps2 + (__pyx_v_x * __pyx_v_x));
 
-  /* "mlgrad/func.pyx":1019
+  /* "mlgrad/func.pyx":1021
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x
  *         return self.eps2 / (v * sqrt(v))             # <<<<<<<<<<<<<<
@@ -27785,7 +27803,7 @@ static double __pyx_f_6mlgrad_4func_4Sqrt_derivative2(struct __pyx_obj_6mlgrad_4
   __pyx_r = (__pyx_v_self->eps2 / (__pyx_v_v * sqrt(__pyx_v_v)));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1017
+  /* "mlgrad/func.pyx":1019
  *     @cython.cdivision(True)
  *     @cython.final
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -27798,7 +27816,7 @@ static double __pyx_f_6mlgrad_4func_4Sqrt_derivative2(struct __pyx_obj_6mlgrad_4
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1023
+/* "mlgrad/func.pyx":1025
  *     @cython.cdivision(True)
  *     @cython.final
  *     cdef void derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -27817,7 +27835,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative2_array(struct __pyx_obj_6mlgr
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
 
-  /* "mlgrad/func.pyx":1025
+  /* "mlgrad/func.pyx":1027
  *     cdef void derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
  *         cdef Py_ssize_t i
  *         cdef double v, v2, eps = self.eps, eps2 = self.eps2             # <<<<<<<<<<<<<<
@@ -27829,7 +27847,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative2_array(struct __pyx_obj_6mlgr
   __pyx_t_1 = __pyx_v_self->eps2;
   __pyx_v_eps2 = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1027
+  /* "mlgrad/func.pyx":1029
  *         cdef double v, v2, eps = self.eps, eps2 = self.eps2
  * 
  *         for i in prange(n, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -27869,7 +27887,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative2_array(struct __pyx_obj_6mlgr
                             __pyx_v_v = ((double)__PYX_NAN());
                             __pyx_v_v2 = ((double)__PYX_NAN());
 
-                            /* "mlgrad/func.pyx":1028
+                            /* "mlgrad/func.pyx":1030
  * 
  *         for i in prange(n, nogil=True, num_threads=num_procs):
  *             v = x[i]             # <<<<<<<<<<<<<<
@@ -27878,7 +27896,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative2_array(struct __pyx_obj_6mlgr
  */
                             __pyx_v_v = (__pyx_v_x[__pyx_v_i]);
 
-                            /* "mlgrad/func.pyx":1029
+                            /* "mlgrad/func.pyx":1031
  *         for i in prange(n, nogil=True, num_threads=num_procs):
  *             v = x[i]
  *             v2 = eps2 + v*v             # <<<<<<<<<<<<<<
@@ -27887,7 +27905,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative2_array(struct __pyx_obj_6mlgr
  */
                             __pyx_v_v2 = (__pyx_v_eps2 + (__pyx_v_v * __pyx_v_v));
 
-                            /* "mlgrad/func.pyx":1030
+                            /* "mlgrad/func.pyx":1032
  *             v = x[i]
  *             v2 = eps2 + v*v
  *             y[i] = eps2 / (v * sqrt(v))             # <<<<<<<<<<<<<<
@@ -27908,7 +27926,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative2_array(struct __pyx_obj_6mlgr
         #endif
       }
 
-      /* "mlgrad/func.pyx":1027
+      /* "mlgrad/func.pyx":1029
  *         cdef double v, v2, eps = self.eps, eps2 = self.eps2
  * 
  *         for i in prange(n, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -27927,7 +27945,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative2_array(struct __pyx_obj_6mlgr
       }
   }
 
-  /* "mlgrad/func.pyx":1023
+  /* "mlgrad/func.pyx":1025
  *     @cython.cdivision(True)
  *     @cython.final
  *     cdef void derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -27938,7 +27956,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative2_array(struct __pyx_obj_6mlgr
   /* function exit code */
 }
 
-/* "mlgrad/func.pyx":1034
+/* "mlgrad/func.pyx":1036
  *     @cython.cdivision(True)
  *     @cython.final
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -27949,7 +27967,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative2_array(struct __pyx_obj_6mlgr
 static double __pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x(struct __pyx_obj_6mlgrad_4func_Sqrt *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1035
+  /* "mlgrad/func.pyx":1037
  *     @cython.final
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         return 1. / sqrt(self.eps2 + x*x)             # <<<<<<<<<<<<<<
@@ -27959,7 +27977,7 @@ static double __pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x(struct __pyx_obj_6mlg
   __pyx_r = (1. / sqrt((__pyx_v_self->eps2 + (__pyx_v_x * __pyx_v_x))));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1034
+  /* "mlgrad/func.pyx":1036
  *     @cython.cdivision(True)
  *     @cython.final
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -27972,7 +27990,7 @@ static double __pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x(struct __pyx_obj_6mlg
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1039
+/* "mlgrad/func.pyx":1041
  *     @cython.cdivision(True)
  *     @cython.final
  *     cdef void derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -27990,7 +28008,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x_array(struct __pyx_obj_
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
 
-  /* "mlgrad/func.pyx":1041
+  /* "mlgrad/func.pyx":1043
  *     cdef void derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
  *         cdef Py_ssize_t i
  *         cdef double v, v2, eps = self.eps, eps2 = self.eps2             # <<<<<<<<<<<<<<
@@ -28002,7 +28020,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x_array(struct __pyx_obj_
   __pyx_t_1 = __pyx_v_self->eps2;
   __pyx_v_eps2 = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1043
+  /* "mlgrad/func.pyx":1045
  *         cdef double v, v2, eps = self.eps, eps2 = self.eps2
  * 
  *         for i in prange(n, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -28041,7 +28059,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x_array(struct __pyx_obj_
                             /* Initialize private variables to invalid values */
                             __pyx_v_v = ((double)__PYX_NAN());
 
-                            /* "mlgrad/func.pyx":1044
+                            /* "mlgrad/func.pyx":1046
  * 
  *         for i in prange(n, nogil=True, num_threads=num_procs):
  *             v = x[i]             # <<<<<<<<<<<<<<
@@ -28050,7 +28068,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x_array(struct __pyx_obj_
  */
                             __pyx_v_v = (__pyx_v_x[__pyx_v_i]);
 
-                            /* "mlgrad/func.pyx":1045
+                            /* "mlgrad/func.pyx":1047
  *         for i in prange(n, nogil=True, num_threads=num_procs):
  *             v = x[i]
  *             y[i] = 1. / sqrt(eps2 + v*v)             # <<<<<<<<<<<<<<
@@ -28071,7 +28089,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x_array(struct __pyx_obj_
         #endif
       }
 
-      /* "mlgrad/func.pyx":1043
+      /* "mlgrad/func.pyx":1045
  *         cdef double v, v2, eps = self.eps, eps2 = self.eps2
  * 
  *         for i in prange(n, nogil=True, num_threads=num_procs):             # <<<<<<<<<<<<<<
@@ -28090,7 +28108,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x_array(struct __pyx_obj_
       }
   }
 
-  /* "mlgrad/func.pyx":1039
+  /* "mlgrad/func.pyx":1041
  *     @cython.cdivision(True)
  *     @cython.final
  *     cdef void derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -28101,7 +28119,7 @@ static void __pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x_array(struct __pyx_obj_
   /* function exit code */
 }
 
-/* "mlgrad/func.pyx":1047
+/* "mlgrad/func.pyx":1049
  *             y[i] = 1. / sqrt(eps2 + v*v)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -28128,7 +28146,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Sqrt_2_repr_latex_(CYTHON_UNUSED struct
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":1048
+  /* "mlgrad/func.pyx":1050
  *     #
  *     def _repr_latex_(self):
  *         return r"$p(x)=\sqrt{\varepsilon^2+x^2}$"             # <<<<<<<<<<<<<<
@@ -28140,7 +28158,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Sqrt_2_repr_latex_(CYTHON_UNUSED struct
   __pyx_r = __pyx_kp_u_p_x_sqrt_varepsilon_2_x_2;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1047
+  /* "mlgrad/func.pyx":1049
  *             y[i] = 1. / sqrt(eps2 + v*v)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -28155,7 +28173,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Sqrt_2_repr_latex_(CYTHON_UNUSED struct
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1050
+/* "mlgrad/func.pyx":1052
  *         return r"$p(x)=\sqrt{\varepsilon^2+x^2}$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -28187,7 +28205,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Sqrt_4to_dict(struct __pyx_obj_6mlgrad_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":1051
+  /* "mlgrad/func.pyx":1053
  * 
  *     def to_dict(self):
  *         return { 'name':'sqrt',             # <<<<<<<<<<<<<<
@@ -28195,26 +28213,26 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Sqrt_4to_dict(struct __pyx_obj_6mlgrad_
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1051, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1053, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_sqrt) < 0) __PYX_ERR(0, 1051, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_sqrt) < 0) __PYX_ERR(0, 1053, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":1052
+  /* "mlgrad/func.pyx":1054
  *     def to_dict(self):
  *         return { 'name':'sqrt',
  *                  'args': (self.eps) }             # <<<<<<<<<<<<<<
  * 
  * cdef class Quantile_Sqrt(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->eps); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1052, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->eps); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1054, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_2) < 0) __PYX_ERR(0, 1051, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_2) < 0) __PYX_ERR(0, 1053, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1050
+  /* "mlgrad/func.pyx":1052
  *         return r"$p(x)=\sqrt{\varepsilon^2+x^2}$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -28628,7 +28646,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_4Sqrt_8__setstate_cython__(struct __pyx_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1056
+/* "mlgrad/func.pyx":1058
  * cdef class Quantile_Sqrt(Func):
  *     #
  *     def __init__(self, alpha=0.5, eps=1.0):             # <<<<<<<<<<<<<<
@@ -28678,7 +28696,7 @@ static int __pyx_pw_6mlgrad_4func_13Quantile_Sqrt_1__init__(PyObject *__pyx_v_se
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1056, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1058, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -28695,7 +28713,7 @@ static int __pyx_pw_6mlgrad_4func_13Quantile_Sqrt_1__init__(PyObject *__pyx_v_se
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1056, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1058, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Quantile_Sqrt.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -28718,40 +28736,40 @@ static int __pyx_pf_6mlgrad_4func_13Quantile_Sqrt___init__(struct __pyx_obj_6mlg
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":1057
+  /* "mlgrad/func.pyx":1059
  *     #
  *     def __init__(self, alpha=0.5, eps=1.0):
  *         self.alpha = alpha             # <<<<<<<<<<<<<<
  *         self.eps = eps
  *         self.eps2 = eps*eps
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1057, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1059, __pyx_L1_error)
   __pyx_v_self->alpha = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1058
+  /* "mlgrad/func.pyx":1060
  *     def __init__(self, alpha=0.5, eps=1.0):
  *         self.alpha = alpha
  *         self.eps = eps             # <<<<<<<<<<<<<<
  *         self.eps2 = eps*eps
  *     #
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_eps); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1058, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_eps); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1060, __pyx_L1_error)
   __pyx_v_self->eps = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1059
+  /* "mlgrad/func.pyx":1061
  *         self.alpha = alpha
  *         self.eps = eps
  *         self.eps2 = eps*eps             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
-  __pyx_t_2 = PyNumber_Multiply(__pyx_v_eps, __pyx_v_eps); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1059, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Multiply(__pyx_v_eps, __pyx_v_eps); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1061, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1059, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1061, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_self->eps2 = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1056
+  /* "mlgrad/func.pyx":1058
  * cdef class Quantile_Sqrt(Func):
  *     #
  *     def __init__(self, alpha=0.5, eps=1.0):             # <<<<<<<<<<<<<<
@@ -28771,30 +28789,30 @@ static int __pyx_pf_6mlgrad_4func_13Quantile_Sqrt___init__(struct __pyx_obj_6mlg
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1061
+/* "mlgrad/func.pyx":1063
  *         self.eps2 = eps*eps
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:
  */
 
-static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt__evaluate(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v;
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1062
+  /* "mlgrad/func.pyx":1064
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x             # <<<<<<<<<<<<<<
  *         if x >= 0:
  *             return (sqrt(v) - self.eps) * self.alpha
  */
   __pyx_v_v = (__pyx_v_self->eps2 + (__pyx_v_x * __pyx_v_x));
 
-  /* "mlgrad/func.pyx":1063
- *     cdef double evaluate(self, const double x) nogil:
+  /* "mlgrad/func.pyx":1065
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:             # <<<<<<<<<<<<<<
  *             return (sqrt(v) - self.eps) * self.alpha
@@ -28803,7 +28821,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate(struct __pyx_obj_6m
   __pyx_t_1 = ((__pyx_v_x >= 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":1064
+    /* "mlgrad/func.pyx":1066
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:
  *             return (sqrt(v) - self.eps) * self.alpha             # <<<<<<<<<<<<<<
@@ -28813,8 +28831,8 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate(struct __pyx_obj_6m
     __pyx_r = ((sqrt(__pyx_v_v) - __pyx_v_self->eps) * __pyx_v_self->alpha);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":1063
- *     cdef double evaluate(self, const double x) nogil:
+    /* "mlgrad/func.pyx":1065
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:             # <<<<<<<<<<<<<<
  *             return (sqrt(v) - self.eps) * self.alpha
@@ -28822,7 +28840,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate(struct __pyx_obj_6m
  */
   }
 
-  /* "mlgrad/func.pyx":1066
+  /* "mlgrad/func.pyx":1068
  *             return (sqrt(v) - self.eps) * self.alpha
  *         else:
  *             return (sqrt(v) - self.eps) * (1-self.alpha)             # <<<<<<<<<<<<<<
@@ -28834,10 +28852,10 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate(struct __pyx_obj_6m
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":1061
+  /* "mlgrad/func.pyx":1063
  *         self.eps2 = eps*eps
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:
  */
@@ -28847,30 +28865,30 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate(struct __pyx_obj_6m
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1069
+/* "mlgrad/func.pyx":1071
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:
  */
 
-static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt__derivative(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_v_v;
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1070
+  /* "mlgrad/func.pyx":1072
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x             # <<<<<<<<<<<<<<
  *         if x >= 0:
  *             return self.alpha * x / sqrt(v)
  */
   __pyx_v_v = (__pyx_v_self->eps2 + (__pyx_v_x * __pyx_v_x));
 
-  /* "mlgrad/func.pyx":1071
- *     cdef double derivative(self, const double x) nogil:
+  /* "mlgrad/func.pyx":1073
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:             # <<<<<<<<<<<<<<
  *             return self.alpha * x / sqrt(v)
@@ -28879,7 +28897,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative(struct __pyx_obj_
   __pyx_t_1 = ((__pyx_v_x >= 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":1072
+    /* "mlgrad/func.pyx":1074
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:
  *             return self.alpha * x / sqrt(v)             # <<<<<<<<<<<<<<
@@ -28889,8 +28907,8 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative(struct __pyx_obj_
     __pyx_r = ((__pyx_v_self->alpha * __pyx_v_x) / sqrt(__pyx_v_v));
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":1071
- *     cdef double derivative(self, const double x) nogil:
+    /* "mlgrad/func.pyx":1073
+ *     cdef double _derivative(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:             # <<<<<<<<<<<<<<
  *             return self.alpha * x / sqrt(v)
@@ -28898,7 +28916,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative(struct __pyx_obj_
  */
   }
 
-  /* "mlgrad/func.pyx":1074
+  /* "mlgrad/func.pyx":1076
  *             return self.alpha * x / sqrt(v)
  *         else:
  *             return (1.-self.alpha) * x / sqrt(v)             # <<<<<<<<<<<<<<
@@ -28910,10 +28928,10 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative(struct __pyx_obj_
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":1069
+  /* "mlgrad/func.pyx":1071
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:
  */
@@ -28923,7 +28941,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1077
+/* "mlgrad/func.pyx":1079
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -28936,7 +28954,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2(struct __pyx_obj
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1078
+  /* "mlgrad/func.pyx":1080
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x             # <<<<<<<<<<<<<<
@@ -28945,7 +28963,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2(struct __pyx_obj
  */
   __pyx_v_v = (__pyx_v_self->eps2 + (__pyx_v_x * __pyx_v_x));
 
-  /* "mlgrad/func.pyx":1079
+  /* "mlgrad/func.pyx":1081
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:             # <<<<<<<<<<<<<<
@@ -28955,7 +28973,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2(struct __pyx_obj
   __pyx_t_1 = ((__pyx_v_x >= 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":1080
+    /* "mlgrad/func.pyx":1082
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:
  *             return self.alpha * self.eps2 / (v * sqrt(v))             # <<<<<<<<<<<<<<
@@ -28965,7 +28983,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2(struct __pyx_obj
     __pyx_r = ((__pyx_v_self->alpha * __pyx_v_self->eps2) / (__pyx_v_v * sqrt(__pyx_v_v)));
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":1079
+    /* "mlgrad/func.pyx":1081
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:             # <<<<<<<<<<<<<<
@@ -28974,7 +28992,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2(struct __pyx_obj
  */
   }
 
-  /* "mlgrad/func.pyx":1082
+  /* "mlgrad/func.pyx":1084
  *             return self.alpha * self.eps2 / (v * sqrt(v))
  *         else:
  *             return (1.-self.alpha) * self.eps2 / (v * sqrt(v))             # <<<<<<<<<<<<<<
@@ -28986,7 +29004,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2(struct __pyx_obj
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":1077
+  /* "mlgrad/func.pyx":1079
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -28999,7 +29017,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1085
+/* "mlgrad/func.pyx":1087
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -29012,7 +29030,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x(struct __py
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1086
+  /* "mlgrad/func.pyx":1088
  *     @cython.cdivision(True)
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x             # <<<<<<<<<<<<<<
@@ -29021,7 +29039,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x(struct __py
  */
   __pyx_v_v = (__pyx_v_self->eps2 + (__pyx_v_x * __pyx_v_x));
 
-  /* "mlgrad/func.pyx":1087
+  /* "mlgrad/func.pyx":1089
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:             # <<<<<<<<<<<<<<
@@ -29031,7 +29049,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x(struct __py
   __pyx_t_1 = ((__pyx_v_x >= 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":1088
+    /* "mlgrad/func.pyx":1090
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:
  *             return self.alpha / sqrt(v)             # <<<<<<<<<<<<<<
@@ -29041,7 +29059,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x(struct __py
     __pyx_r = (__pyx_v_self->alpha / sqrt(__pyx_v_v));
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":1087
+    /* "mlgrad/func.pyx":1089
  *     cdef double derivative_div_x(self, const double x) nogil:
  *         cdef double v = self.eps2 + x*x
  *         if x >= 0:             # <<<<<<<<<<<<<<
@@ -29050,7 +29068,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x(struct __py
  */
   }
 
-  /* "mlgrad/func.pyx":1090
+  /* "mlgrad/func.pyx":1092
  *             return self.alpha / sqrt(v)
  *         else:
  *             return (1.-self.alpha) / sqrt(v)             # <<<<<<<<<<<<<<
@@ -29062,7 +29080,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x(struct __py
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":1085
+  /* "mlgrad/func.pyx":1087
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative_div_x(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -29075,7 +29093,7 @@ static double __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x(struct __py
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1093
+/* "mlgrad/func.pyx":1095
  *     #
  *     @cython.cdivision(True)
  *     cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -29092,7 +29110,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate_array(struct __pyx_ob
   Py_ssize_t __pyx_t_3;
   int __pyx_t_4;
 
-  /* "mlgrad/func.pyx":1096
+  /* "mlgrad/func.pyx":1098
  *         cdef Py_ssize_t i
  *         cdef double u, v
  *         for i in range(n):             # <<<<<<<<<<<<<<
@@ -29104,7 +29122,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate_array(struct __pyx_ob
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/func.pyx":1097
+    /* "mlgrad/func.pyx":1099
  *         cdef double u, v
  *         for i in range(n):
  *             v = x[i]             # <<<<<<<<<<<<<<
@@ -29113,7 +29131,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate_array(struct __pyx_ob
  */
     __pyx_v_v = (__pyx_v_x[__pyx_v_i]);
 
-    /* "mlgrad/func.pyx":1098
+    /* "mlgrad/func.pyx":1100
  *         for i in range(n):
  *             v = x[i]
  *             u = self.eps2 + v*v             # <<<<<<<<<<<<<<
@@ -29122,7 +29140,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate_array(struct __pyx_ob
  */
     __pyx_v_u = (__pyx_v_self->eps2 + (__pyx_v_v * __pyx_v_v));
 
-    /* "mlgrad/func.pyx":1099
+    /* "mlgrad/func.pyx":1101
  *             v = x[i]
  *             u = self.eps2 + v*v
  *             if v >= 0:             # <<<<<<<<<<<<<<
@@ -29132,7 +29150,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate_array(struct __pyx_ob
     __pyx_t_4 = ((__pyx_v_v >= 0.0) != 0);
     if (__pyx_t_4) {
 
-      /* "mlgrad/func.pyx":1100
+      /* "mlgrad/func.pyx":1102
  *             u = self.eps2 + v*v
  *             if v >= 0:
  *                 y[i] = (sqrt(u) - self.eps) * self.alpha             # <<<<<<<<<<<<<<
@@ -29141,7 +29159,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate_array(struct __pyx_ob
  */
       (__pyx_v_y[__pyx_v_i]) = ((sqrt(__pyx_v_u) - __pyx_v_self->eps) * __pyx_v_self->alpha);
 
-      /* "mlgrad/func.pyx":1099
+      /* "mlgrad/func.pyx":1101
  *             v = x[i]
  *             u = self.eps2 + v*v
  *             if v >= 0:             # <<<<<<<<<<<<<<
@@ -29151,7 +29169,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate_array(struct __pyx_ob
       goto __pyx_L5;
     }
 
-    /* "mlgrad/func.pyx":1102
+    /* "mlgrad/func.pyx":1104
  *                 y[i] = (sqrt(u) - self.eps) * self.alpha
  *             else:
  *                 y[i] = (sqrt(u) - self.eps) * (1-self.alpha)             # <<<<<<<<<<<<<<
@@ -29164,7 +29182,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate_array(struct __pyx_ob
     __pyx_L5:;
   }
 
-  /* "mlgrad/func.pyx":1093
+  /* "mlgrad/func.pyx":1095
  *     #
  *     @cython.cdivision(True)
  *     cdef void evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -29175,7 +29193,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate_array(struct __pyx_ob
   /* function exit code */
 }
 
-/* "mlgrad/func.pyx":1105
+/* "mlgrad/func.pyx":1107
  *     #
  *     @cython.cdivision(True)
  *     cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -29192,7 +29210,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_array(struct __pyx_
   Py_ssize_t __pyx_t_3;
   int __pyx_t_4;
 
-  /* "mlgrad/func.pyx":1108
+  /* "mlgrad/func.pyx":1110
  *         cdef Py_ssize_t i
  *         cdef double u, v
  *         for i in range(n):             # <<<<<<<<<<<<<<
@@ -29204,7 +29222,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_array(struct __pyx_
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/func.pyx":1109
+    /* "mlgrad/func.pyx":1111
  *         cdef double u, v
  *         for i in range(n):
  *             v = x[i]             # <<<<<<<<<<<<<<
@@ -29213,7 +29231,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_array(struct __pyx_
  */
     __pyx_v_v = (__pyx_v_x[__pyx_v_i]);
 
-    /* "mlgrad/func.pyx":1110
+    /* "mlgrad/func.pyx":1112
  *         for i in range(n):
  *             v = x[i]
  *             u = self.eps2 + v*v             # <<<<<<<<<<<<<<
@@ -29222,7 +29240,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_array(struct __pyx_
  */
     __pyx_v_u = (__pyx_v_self->eps2 + (__pyx_v_v * __pyx_v_v));
 
-    /* "mlgrad/func.pyx":1111
+    /* "mlgrad/func.pyx":1113
  *             v = x[i]
  *             u = self.eps2 + v*v
  *             if v >= 0:             # <<<<<<<<<<<<<<
@@ -29232,7 +29250,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_array(struct __pyx_
     __pyx_t_4 = ((__pyx_v_v >= 0.0) != 0);
     if (__pyx_t_4) {
 
-      /* "mlgrad/func.pyx":1112
+      /* "mlgrad/func.pyx":1114
  *             u = self.eps2 + v*v
  *             if v >= 0:
  *                 y[i] = self.alpha * v / sqrt(u)             # <<<<<<<<<<<<<<
@@ -29241,7 +29259,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_array(struct __pyx_
  */
       (__pyx_v_y[__pyx_v_i]) = ((__pyx_v_self->alpha * __pyx_v_v) / sqrt(__pyx_v_u));
 
-      /* "mlgrad/func.pyx":1111
+      /* "mlgrad/func.pyx":1113
  *             v = x[i]
  *             u = self.eps2 + v*v
  *             if v >= 0:             # <<<<<<<<<<<<<<
@@ -29251,7 +29269,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_array(struct __pyx_
       goto __pyx_L5;
     }
 
-    /* "mlgrad/func.pyx":1114
+    /* "mlgrad/func.pyx":1116
  *                 y[i] = self.alpha * v / sqrt(u)
  *             else:
  *                 y[i] = (1.-self.alpha) * v / sqrt(u)             # <<<<<<<<<<<<<<
@@ -29264,7 +29282,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_array(struct __pyx_
     __pyx_L5:;
   }
 
-  /* "mlgrad/func.pyx":1105
+  /* "mlgrad/func.pyx":1107
  *     #
  *     @cython.cdivision(True)
  *     cdef void derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -29275,7 +29293,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_array(struct __pyx_
   /* function exit code */
 }
 
-/* "mlgrad/func.pyx":1117
+/* "mlgrad/func.pyx":1119
  *     #
  *     @cython.cdivision(True)
  *     cdef void derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -29292,7 +29310,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2_array(struct __pyx
   Py_ssize_t __pyx_t_3;
   int __pyx_t_4;
 
-  /* "mlgrad/func.pyx":1120
+  /* "mlgrad/func.pyx":1122
  *         cdef Py_ssize_t i
  *         cdef double u, v
  *         for i in range(n):             # <<<<<<<<<<<<<<
@@ -29304,7 +29322,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2_array(struct __pyx
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/func.pyx":1121
+    /* "mlgrad/func.pyx":1123
  *         cdef double u, v
  *         for i in range(n):
  *             v = x[i]             # <<<<<<<<<<<<<<
@@ -29313,7 +29331,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2_array(struct __pyx
  */
     __pyx_v_v = (__pyx_v_x[__pyx_v_i]);
 
-    /* "mlgrad/func.pyx":1122
+    /* "mlgrad/func.pyx":1124
  *         for i in range(n):
  *             v = x[i]
  *             u = self.eps2 + v*v             # <<<<<<<<<<<<<<
@@ -29322,7 +29340,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2_array(struct __pyx
  */
     __pyx_v_u = (__pyx_v_self->eps2 + (__pyx_v_v * __pyx_v_v));
 
-    /* "mlgrad/func.pyx":1123
+    /* "mlgrad/func.pyx":1125
  *             v = x[i]
  *             u = self.eps2 + v*v
  *             if v >= 0:             # <<<<<<<<<<<<<<
@@ -29332,7 +29350,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2_array(struct __pyx
     __pyx_t_4 = ((__pyx_v_v >= 0.0) != 0);
     if (__pyx_t_4) {
 
-      /* "mlgrad/func.pyx":1124
+      /* "mlgrad/func.pyx":1126
  *             u = self.eps2 + v*v
  *             if v >= 0:
  *                 y[i] = self.alpha * self.eps2 / (u * sqrt(u))             # <<<<<<<<<<<<<<
@@ -29341,7 +29359,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2_array(struct __pyx
  */
       (__pyx_v_y[__pyx_v_i]) = ((__pyx_v_self->alpha * __pyx_v_self->eps2) / (__pyx_v_u * sqrt(__pyx_v_u)));
 
-      /* "mlgrad/func.pyx":1123
+      /* "mlgrad/func.pyx":1125
  *             v = x[i]
  *             u = self.eps2 + v*v
  *             if v >= 0:             # <<<<<<<<<<<<<<
@@ -29351,7 +29369,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2_array(struct __pyx
       goto __pyx_L5;
     }
 
-    /* "mlgrad/func.pyx":1126
+    /* "mlgrad/func.pyx":1128
  *                 y[i] = self.alpha * self.eps2 / (u * sqrt(u))
  *             else:
  *                 y[i] = (1.-self.alpha) * self.eps2 / (u * sqrt(u))             # <<<<<<<<<<<<<<
@@ -29364,7 +29382,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2_array(struct __pyx
     __pyx_L5:;
   }
 
-  /* "mlgrad/func.pyx":1117
+  /* "mlgrad/func.pyx":1119
  *     #
  *     @cython.cdivision(True)
  *     cdef void derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -29375,7 +29393,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2_array(struct __pyx
   /* function exit code */
 }
 
-/* "mlgrad/func.pyx":1129
+/* "mlgrad/func.pyx":1131
  *     #
  *     @cython.cdivision(True)
  *     cdef void derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -29392,7 +29410,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x_array(struct 
   Py_ssize_t __pyx_t_3;
   int __pyx_t_4;
 
-  /* "mlgrad/func.pyx":1132
+  /* "mlgrad/func.pyx":1134
  *         cdef Py_ssize_t i
  *         cdef double u, v
  *         for i in range(n):             # <<<<<<<<<<<<<<
@@ -29404,7 +29422,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x_array(struct 
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/func.pyx":1133
+    /* "mlgrad/func.pyx":1135
  *         cdef double u, v
  *         for i in range(n):
  *             v = x[i]             # <<<<<<<<<<<<<<
@@ -29413,7 +29431,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x_array(struct 
  */
     __pyx_v_v = (__pyx_v_x[__pyx_v_i]);
 
-    /* "mlgrad/func.pyx":1134
+    /* "mlgrad/func.pyx":1136
  *         for i in range(n):
  *             v = x[i]
  *             u = self.eps2 + v*v             # <<<<<<<<<<<<<<
@@ -29422,7 +29440,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x_array(struct 
  */
     __pyx_v_u = (__pyx_v_self->eps2 + (__pyx_v_v * __pyx_v_v));
 
-    /* "mlgrad/func.pyx":1135
+    /* "mlgrad/func.pyx":1137
  *             v = x[i]
  *             u = self.eps2 + v*v
  *             if v >= 0:             # <<<<<<<<<<<<<<
@@ -29432,7 +29450,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x_array(struct 
     __pyx_t_4 = ((__pyx_v_v >= 0.0) != 0);
     if (__pyx_t_4) {
 
-      /* "mlgrad/func.pyx":1136
+      /* "mlgrad/func.pyx":1138
  *             u = self.eps2 + v*v
  *             if v >= 0:
  *                 y[i] = self.alpha / sqrt(u)             # <<<<<<<<<<<<<<
@@ -29441,7 +29459,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x_array(struct 
  */
       (__pyx_v_y[__pyx_v_i]) = (__pyx_v_self->alpha / sqrt(__pyx_v_u));
 
-      /* "mlgrad/func.pyx":1135
+      /* "mlgrad/func.pyx":1137
  *             v = x[i]
  *             u = self.eps2 + v*v
  *             if v >= 0:             # <<<<<<<<<<<<<<
@@ -29451,7 +29469,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x_array(struct 
       goto __pyx_L5;
     }
 
-    /* "mlgrad/func.pyx":1138
+    /* "mlgrad/func.pyx":1140
  *                 y[i] = self.alpha / sqrt(u)
  *             else:
  *                 y[i] = (1.-self.alpha) / sqrt(u)             # <<<<<<<<<<<<<<
@@ -29464,7 +29482,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x_array(struct 
     __pyx_L5:;
   }
 
-  /* "mlgrad/func.pyx":1129
+  /* "mlgrad/func.pyx":1131
  *     #
  *     @cython.cdivision(True)
  *     cdef void derivative_div_x_array(self, const double *x, double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
@@ -29475,7 +29493,7 @@ static void __pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x_array(struct 
   /* function exit code */
 }
 
-/* "mlgrad/func.pyx":1140
+/* "mlgrad/func.pyx":1142
  *                 y[i] = (1.-self.alpha) / sqrt(u)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -29502,7 +29520,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_13Quantile_Sqrt_2_repr_latex_(CYTHON_UNU
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":1141
+  /* "mlgrad/func.pyx":1143
  *     #
  *     def _repr_latex_(self):
  *         return r"$p(x)=(\sqrt{\varepsilon^2+x^2}-\varepsilon)_\alpha$"             # <<<<<<<<<<<<<<
@@ -29514,7 +29532,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_13Quantile_Sqrt_2_repr_latex_(CYTHON_UNU
   __pyx_r = __pyx_kp_u_p_x_sqrt_varepsilon_2_x_2_varep;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1140
+  /* "mlgrad/func.pyx":1142
  *                 y[i] = (1.-self.alpha) / sqrt(u)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -29529,7 +29547,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_13Quantile_Sqrt_2_repr_latex_(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1143
+/* "mlgrad/func.pyx":1145
  *         return r"$p(x)=(\sqrt{\varepsilon^2+x^2}-\varepsilon)_\alpha$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -29563,7 +29581,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_13Quantile_Sqrt_4to_dict(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":1144
+  /* "mlgrad/func.pyx":1146
  * 
  *     def to_dict(self):
  *         return { 'name':'quantile_sqrt',             # <<<<<<<<<<<<<<
@@ -29571,22 +29589,22 @@ static PyObject *__pyx_pf_6mlgrad_4func_13Quantile_Sqrt_4to_dict(struct __pyx_ob
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1144, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1146, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_quantile_sqrt) < 0) __PYX_ERR(0, 1144, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_quantile_sqrt) < 0) __PYX_ERR(0, 1146, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":1145
+  /* "mlgrad/func.pyx":1147
  *     def to_dict(self):
  *         return { 'name':'quantile_sqrt',
  *                  'args': (self.alpha, self.eps) }             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1145, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->eps); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1145, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->eps); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1145, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
@@ -29594,13 +29612,13 @@ static PyObject *__pyx_pf_6mlgrad_4func_13Quantile_Sqrt_4to_dict(struct __pyx_ob
   PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_4) < 0) __PYX_ERR(0, 1144, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_4) < 0) __PYX_ERR(0, 1146, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1143
+  /* "mlgrad/func.pyx":1145
  *         return r"$p(x)=(\sqrt{\varepsilon^2+x^2}-\varepsilon)_\alpha$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -29934,7 +29952,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_13Quantile_Sqrt_8__setstate_cython__(str
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1150
+/* "mlgrad/func.pyx":1152
  * cdef class Expectile(Func):
  *     #
  *     def __init__(self, alpha=1.0):             # <<<<<<<<<<<<<<
@@ -29974,7 +29992,7 @@ static int __pyx_pw_6mlgrad_4func_9Expectile_1__init__(PyObject *__pyx_v_self, P
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1150, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1152, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -29988,7 +30006,7 @@ static int __pyx_pw_6mlgrad_4func_9Expectile_1__init__(PyObject *__pyx_v_self, P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1150, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1152, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Expectile.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -30010,17 +30028,17 @@ static int __pyx_pf_6mlgrad_4func_9Expectile___init__(struct __pyx_obj_6mlgrad_4
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":1151
+  /* "mlgrad/func.pyx":1153
  *     #
  *     def __init__(self, alpha=1.0):
  *         self.alpha = alpha             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1151, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1153, __pyx_L1_error)
   __pyx_v_self->alpha = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1150
+  /* "mlgrad/func.pyx":1152
  * cdef class Expectile(Func):
  *     #
  *     def __init__(self, alpha=1.0):             # <<<<<<<<<<<<<<
@@ -30039,26 +30057,26 @@ static int __pyx_pf_6mlgrad_4func_9Expectile___init__(struct __pyx_obj_6mlgrad_4
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1153
+/* "mlgrad/func.pyx":1155
  *         self.alpha = alpha
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return exp(x/self.alpha)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_9Expectile_evaluate(struct __pyx_obj_6mlgrad_4func_Expectile *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_9Expectile__evaluate(struct __pyx_obj_6mlgrad_4func_Expectile *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/func.pyx":1154
+  /* "mlgrad/func.pyx":1156
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return exp(x/self.alpha)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   if (unlikely(__pyx_v_self->alpha == 0)) {
     #ifdef WITH_THREAD
@@ -30068,45 +30086,45 @@ static double __pyx_f_6mlgrad_4func_9Expectile_evaluate(struct __pyx_obj_6mlgrad
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 1154, __pyx_L1_error)
+    __PYX_ERR(0, 1156, __pyx_L1_error)
   }
   __pyx_r = exp((((double)__pyx_v_x) / __pyx_v_self->alpha));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1153
+  /* "mlgrad/func.pyx":1155
  *         self.alpha = alpha
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return exp(x/self.alpha)
  *     #
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.func.Expectile.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __Pyx_WriteUnraisable("mlgrad.func.Expectile._evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
   __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1156
+/* "mlgrad/func.pyx":1158
  *         return exp(x/self.alpha)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return exp(x/self.alpha)/self.alpha
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_9Expectile_derivative(struct __pyx_obj_6mlgrad_4func_Expectile *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_9Expectile__derivative(struct __pyx_obj_6mlgrad_4func_Expectile *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/func.pyx":1157
+  /* "mlgrad/func.pyx":1159
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         return exp(x/self.alpha)/self.alpha             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative2(self, const double x) nogil:
@@ -30119,7 +30137,7 @@ static double __pyx_f_6mlgrad_4func_9Expectile_derivative(struct __pyx_obj_6mlgr
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 1157, __pyx_L1_error)
+    __PYX_ERR(0, 1159, __pyx_L1_error)
   }
   __pyx_t_1 = exp((((double)__pyx_v_x) / __pyx_v_self->alpha));
   if (unlikely(__pyx_v_self->alpha == 0)) {
@@ -30130,28 +30148,28 @@ static double __pyx_f_6mlgrad_4func_9Expectile_derivative(struct __pyx_obj_6mlgr
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 1157, __pyx_L1_error)
+    __PYX_ERR(0, 1159, __pyx_L1_error)
   }
   __pyx_r = (__pyx_t_1 / __pyx_v_self->alpha);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1156
+  /* "mlgrad/func.pyx":1158
  *         return exp(x/self.alpha)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return exp(x/self.alpha)/self.alpha
  *     #
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.func.Expectile.derivative", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __Pyx_WriteUnraisable("mlgrad.func.Expectile._derivative", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
   __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1159
+/* "mlgrad/func.pyx":1161
  *         return exp(x/self.alpha)/self.alpha
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -30167,7 +30185,7 @@ static double __pyx_f_6mlgrad_4func_9Expectile_derivative2(struct __pyx_obj_6mlg
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/func.pyx":1160
+  /* "mlgrad/func.pyx":1162
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         return exp(x/self.alpha)/self.alpha/self.alpha             # <<<<<<<<<<<<<<
@@ -30182,7 +30200,7 @@ static double __pyx_f_6mlgrad_4func_9Expectile_derivative2(struct __pyx_obj_6mlg
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 1160, __pyx_L1_error)
+    __PYX_ERR(0, 1162, __pyx_L1_error)
   }
   __pyx_t_1 = exp((((double)__pyx_v_x) / __pyx_v_self->alpha));
   if (unlikely(__pyx_v_self->alpha == 0)) {
@@ -30193,7 +30211,7 @@ static double __pyx_f_6mlgrad_4func_9Expectile_derivative2(struct __pyx_obj_6mlg
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 1160, __pyx_L1_error)
+    __PYX_ERR(0, 1162, __pyx_L1_error)
   }
   __pyx_t_2 = (__pyx_t_1 / __pyx_v_self->alpha);
   if (unlikely(__pyx_v_self->alpha == 0)) {
@@ -30204,12 +30222,12 @@ static double __pyx_f_6mlgrad_4func_9Expectile_derivative2(struct __pyx_obj_6mlg
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 1160, __pyx_L1_error)
+    __PYX_ERR(0, 1162, __pyx_L1_error)
   }
   __pyx_r = (__pyx_t_2 / __pyx_v_self->alpha);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1159
+  /* "mlgrad/func.pyx":1161
  *         return exp(x/self.alpha)/self.alpha
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -30225,7 +30243,7 @@ static double __pyx_f_6mlgrad_4func_9Expectile_derivative2(struct __pyx_obj_6mlg
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1162
+/* "mlgrad/func.pyx":1164
  *         return exp(x/self.alpha)/self.alpha/self.alpha
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -30252,7 +30270,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Expectile_2_repr_latex_(CYTHON_UNUSED s
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":1163
+  /* "mlgrad/func.pyx":1165
  *     #
  *     def _repr_latex_(self):
  *         return r"$\rho(x)=\exp{x/\alpha}$"             # <<<<<<<<<<<<<<
@@ -30264,7 +30282,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Expectile_2_repr_latex_(CYTHON_UNUSED s
   __pyx_r = __pyx_kp_u_rho_x_exp_x_alpha;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1162
+  /* "mlgrad/func.pyx":1164
  *         return exp(x/self.alpha)/self.alpha/self.alpha
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -30279,7 +30297,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Expectile_2_repr_latex_(CYTHON_UNUSED s
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1165
+/* "mlgrad/func.pyx":1167
  *         return r"$\rho(x)=\exp{x/\alpha}$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -30312,7 +30330,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Expectile_4to_dict(struct __pyx_obj_6ml
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":1166
+  /* "mlgrad/func.pyx":1168
  * 
  *     def to_dict(self):
  *         return { 'name':'exp',             # <<<<<<<<<<<<<<
@@ -30320,31 +30338,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Expectile_4to_dict(struct __pyx_obj_6ml
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1166, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1168, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_exp) < 0) __PYX_ERR(0, 1166, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_exp) < 0) __PYX_ERR(0, 1168, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":1167
+  /* "mlgrad/func.pyx":1169
  *     def to_dict(self):
  *         return { 'name':'exp',
  *                  'args': (self.alpha,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class Log(Func):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1167, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1167, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 1166, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 1168, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1165
+  /* "mlgrad/func.pyx":1167
  *         return r"$\rho(x)=\exp{x/\alpha}$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -30747,7 +30765,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_9Expectile_8__setstate_cython__(struct _
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1171
+/* "mlgrad/func.pyx":1173
  * cdef class Log(Func):
  *     #
  *     def __init__(self, alpha=1.0):             # <<<<<<<<<<<<<<
@@ -30787,7 +30805,7 @@ static int __pyx_pw_6mlgrad_4func_3Log_1__init__(PyObject *__pyx_v_self, PyObjec
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1171, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1173, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -30801,7 +30819,7 @@ static int __pyx_pw_6mlgrad_4func_3Log_1__init__(PyObject *__pyx_v_self, PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1171, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1173, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.Log.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -30823,17 +30841,17 @@ static int __pyx_pf_6mlgrad_4func_3Log___init__(struct __pyx_obj_6mlgrad_4func_L
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":1172
+  /* "mlgrad/func.pyx":1174
  *     #
  *     def __init__(self, alpha=1.0):
  *         self.alpha = alpha             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1172, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1174, __pyx_L1_error)
   __pyx_v_self->alpha = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1171
+  /* "mlgrad/func.pyx":1173
  * cdef class Log(Func):
  *     #
  *     def __init__(self, alpha=1.0):             # <<<<<<<<<<<<<<
@@ -30852,31 +30870,31 @@ static int __pyx_pf_6mlgrad_4func_3Log___init__(struct __pyx_obj_6mlgrad_4func_L
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1174
+/* "mlgrad/func.pyx":1176
  *         self.alpha = alpha
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return log(self.alpha+x)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_3Log_evaluate(struct __pyx_obj_6mlgrad_4func_Log *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_3Log__evaluate(struct __pyx_obj_6mlgrad_4func_Log *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1175
+  /* "mlgrad/func.pyx":1177
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         return log(self.alpha+x)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   __pyx_r = log((__pyx_v_self->alpha + __pyx_v_x));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1174
+  /* "mlgrad/func.pyx":1176
  *         self.alpha = alpha
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return log(self.alpha+x)
  *     #
  */
@@ -30886,24 +30904,24 @@ static double __pyx_f_6mlgrad_4func_3Log_evaluate(struct __pyx_obj_6mlgrad_4func
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1177
+/* "mlgrad/func.pyx":1179
  *         return log(self.alpha+x)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return 1 / (self.alpha+x)
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_3Log_derivative(struct __pyx_obj_6mlgrad_4func_Log *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_3Log__derivative(struct __pyx_obj_6mlgrad_4func_Log *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   double __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/func.pyx":1178
+  /* "mlgrad/func.pyx":1180
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         return 1 / (self.alpha+x)             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative2(self, const double x) nogil:
@@ -30917,28 +30935,28 @@ static double __pyx_f_6mlgrad_4func_3Log_derivative(struct __pyx_obj_6mlgrad_4fu
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 1178, __pyx_L1_error)
+    __PYX_ERR(0, 1180, __pyx_L1_error)
   }
   __pyx_r = (1.0 / __pyx_t_1);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1177
+  /* "mlgrad/func.pyx":1179
  *         return log(self.alpha+x)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return 1 / (self.alpha+x)
  *     #
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_WriteUnraisable("mlgrad.func.Log.derivative", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __Pyx_WriteUnraisable("mlgrad.func.Log._derivative", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
   __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1180
+/* "mlgrad/func.pyx":1182
  *         return 1 / (self.alpha+x)
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -30954,7 +30972,7 @@ static double __pyx_f_6mlgrad_4func_3Log_derivative2(struct __pyx_obj_6mlgrad_4f
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/func.pyx":1181
+  /* "mlgrad/func.pyx":1183
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double x2 = self.alpha+x             # <<<<<<<<<<<<<<
@@ -30963,7 +30981,7 @@ static double __pyx_f_6mlgrad_4func_3Log_derivative2(struct __pyx_obj_6mlgrad_4f
  */
   __pyx_v_x2 = (__pyx_v_self->alpha + __pyx_v_x);
 
-  /* "mlgrad/func.pyx":1182
+  /* "mlgrad/func.pyx":1184
  *     cdef double derivative2(self, const double x) nogil:
  *         cdef double x2 = self.alpha+x
  *         return -1 / (x2*x2)             # <<<<<<<<<<<<<<
@@ -30979,12 +30997,12 @@ static double __pyx_f_6mlgrad_4func_3Log_derivative2(struct __pyx_obj_6mlgrad_4f
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 1182, __pyx_L1_error)
+    __PYX_ERR(0, 1184, __pyx_L1_error)
   }
   __pyx_r = (-1.0 / __pyx_t_1);
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1180
+  /* "mlgrad/func.pyx":1182
  *         return 1 / (self.alpha+x)
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -31000,7 +31018,7 @@ static double __pyx_f_6mlgrad_4func_3Log_derivative2(struct __pyx_obj_6mlgrad_4f
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1184
+/* "mlgrad/func.pyx":1186
  *         return -1 / (x2*x2)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -31027,7 +31045,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_3Log_2_repr_latex_(CYTHON_UNUSED struct 
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":1185
+  /* "mlgrad/func.pyx":1187
  *     #
  *     def _repr_latex_(self):
  *         return r"$\rho(x)=\ln{\alpha+x}$"             # <<<<<<<<<<<<<<
@@ -31039,7 +31057,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_3Log_2_repr_latex_(CYTHON_UNUSED struct 
   __pyx_r = __pyx_kp_u_rho_x_ln_alpha_x;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1184
+  /* "mlgrad/func.pyx":1186
  *         return -1 / (x2*x2)
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -31054,7 +31072,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_3Log_2_repr_latex_(CYTHON_UNUSED struct 
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1187
+/* "mlgrad/func.pyx":1189
  *         return r"$\rho(x)=\ln{\alpha+x}$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -31087,7 +31105,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_3Log_4to_dict(struct __pyx_obj_6mlgrad_4
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":1188
+  /* "mlgrad/func.pyx":1190
  * 
  *     def to_dict(self):
  *         return { 'name':'log',             # <<<<<<<<<<<<<<
@@ -31095,31 +31113,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_3Log_4to_dict(struct __pyx_obj_6mlgrad_4
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1188, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_log) < 0) __PYX_ERR(0, 1188, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_log) < 0) __PYX_ERR(0, 1190, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":1189
+  /* "mlgrad/func.pyx":1191
  *     def to_dict(self):
  *         return { 'name':'log',
  *                  'args': (self.alpha,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class ParameterizedFunc:
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1189, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->alpha); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1189, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 1188, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 1190, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1187
+  /* "mlgrad/func.pyx":1189
  *         return r"$\rho(x)=\ln{\alpha+x}$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -31522,11 +31540,11 @@ static PyObject *__pyx_pf_6mlgrad_4func_3Log_8__setstate_cython__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1193
+/* "mlgrad/func.pyx":1195
  * cdef class ParameterizedFunc:
  *     #
  *     def __call__(self, x, u):             # <<<<<<<<<<<<<<
- *         return self.evaluate(x, u)
+ *         return self._evaluate(x, u)
  *     #
  */
 
@@ -31564,11 +31582,11 @@ static PyObject *__pyx_pw_6mlgrad_4func_17ParameterizedFunc_1__call__(PyObject *
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_u)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__call__", 1, 2, 2, 1); __PYX_ERR(0, 1193, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__call__", 1, 2, 2, 1); __PYX_ERR(0, 1195, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__call__") < 0)) __PYX_ERR(0, 1193, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__call__") < 0)) __PYX_ERR(0, 1195, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -31581,7 +31599,7 @@ static PyObject *__pyx_pw_6mlgrad_4func_17ParameterizedFunc_1__call__(PyObject *
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__call__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1193, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__call__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1195, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.ParameterizedFunc.__call__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -31605,27 +31623,27 @@ static PyObject *__pyx_pf_6mlgrad_4func_17ParameterizedFunc___call__(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__call__", 0);
 
-  /* "mlgrad/func.pyx":1194
+  /* "mlgrad/func.pyx":1196
  *     #
  *     def __call__(self, x, u):
- *         return self.evaluate(x, u)             # <<<<<<<<<<<<<<
+ *         return self._evaluate(x, u)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:
+ *     cdef double _evaluate(self, const double x, const double u) nogil:
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_x); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1194, __pyx_L1_error)
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_u); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1194, __pyx_L1_error)
-  __pyx_t_3 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_self->__pyx_vtab)->evaluate(__pyx_v_self, __pyx_t_1, __pyx_t_2)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1194, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_x); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1196, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_u); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1196, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_self->__pyx_vtab)->_evaluate(__pyx_v_self, __pyx_t_1, __pyx_t_2)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1193
+  /* "mlgrad/func.pyx":1195
  * cdef class ParameterizedFunc:
  *     #
  *     def __call__(self, x, u):             # <<<<<<<<<<<<<<
- *         return self.evaluate(x, u)
+ *         return self._evaluate(x, u)
  *     #
  */
 
@@ -31640,31 +31658,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_17ParameterizedFunc___call__(struct __py
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1196
- *         return self.evaluate(x, u)
+/* "mlgrad/func.pyx":1198
+ *         return self._evaluate(x, u)
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_17ParameterizedFunc_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x, CYTHON_UNUSED double const __pyx_v_u) {
+static double __pyx_f_6mlgrad_4func_17ParameterizedFunc__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x, CYTHON_UNUSED double const __pyx_v_u) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1197
+  /* "mlgrad/func.pyx":1199
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:
+ *     cdef double _evaluate(self, const double x, const double u) nogil:
  *         return 0             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:
+ *     cdef double _derivative(self, const double x, const double u) nogil:
  */
   __pyx_r = 0.0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1196
- *         return self.evaluate(x, u)
+  /* "mlgrad/func.pyx":1198
+ *         return self._evaluate(x, u)
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
@@ -31674,20 +31692,20 @@ static double __pyx_f_6mlgrad_4func_17ParameterizedFunc_evaluate(CYTHON_UNUSED s
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1199
+/* "mlgrad/func.pyx":1201
  *         return 0
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_17ParameterizedFunc_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x, CYTHON_UNUSED double const __pyx_v_u) {
+static double __pyx_f_6mlgrad_4func_17ParameterizedFunc__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x, CYTHON_UNUSED double const __pyx_v_u) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1200
+  /* "mlgrad/func.pyx":1202
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:
+ *     cdef double _derivative(self, const double x, const double u) nogil:
  *         return 0             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative_u(self, const double x, const double u) nogil:
@@ -31695,10 +31713,10 @@ static double __pyx_f_6mlgrad_4func_17ParameterizedFunc_derivative(CYTHON_UNUSED
   __pyx_r = 0.0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1199
+  /* "mlgrad/func.pyx":1201
  *         return 0
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  *     #
  */
@@ -31708,7 +31726,7 @@ static double __pyx_f_6mlgrad_4func_17ParameterizedFunc_derivative(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1202
+/* "mlgrad/func.pyx":1204
  *         return 0
  *     #
  *     cdef double derivative_u(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
@@ -31719,7 +31737,7 @@ static double __pyx_f_6mlgrad_4func_17ParameterizedFunc_derivative(CYTHON_UNUSED
 static double __pyx_f_6mlgrad_4func_17ParameterizedFunc_derivative_u(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x, CYTHON_UNUSED double const __pyx_v_u) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1203
+  /* "mlgrad/func.pyx":1205
  *     #
  *     cdef double derivative_u(self, const double x, const double u) nogil:
  *         return 0             # <<<<<<<<<<<<<<
@@ -31729,7 +31747,7 @@ static double __pyx_f_6mlgrad_4func_17ParameterizedFunc_derivative_u(CYTHON_UNUS
   __pyx_r = 0.0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1202
+  /* "mlgrad/func.pyx":1204
  *         return 0
  *     #
  *     cdef double derivative_u(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
@@ -32031,21 +32049,21 @@ static PyObject *__pyx_pf_6mlgrad_4func_17ParameterizedFunc_4__setstate_cython__
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1207
+/* "mlgrad/func.pyx":1209
  * cdef class WinsorizedFunc(ParameterizedFunc):
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
  *         if x > u:
  *             return u
  */
 
-static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_WinsorizedFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
+static double __pyx_f_6mlgrad_4func_14WinsorizedFunc__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_WinsorizedFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1208
+  /* "mlgrad/func.pyx":1210
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:
+ *     cdef double _evaluate(self, const double x, const double u) nogil:
  *         if x > u:             # <<<<<<<<<<<<<<
  *             return u
  *         elif x < -u:
@@ -32053,8 +32071,8 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_evaluate(CYTHON_UNUSED stru
   __pyx_t_1 = ((__pyx_v_x > __pyx_v_u) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":1209
- *     cdef double evaluate(self, const double x, const double u) nogil:
+    /* "mlgrad/func.pyx":1211
+ *     cdef double _evaluate(self, const double x, const double u) nogil:
  *         if x > u:
  *             return u             # <<<<<<<<<<<<<<
  *         elif x < -u:
@@ -32063,16 +32081,16 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_evaluate(CYTHON_UNUSED stru
     __pyx_r = __pyx_v_u;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":1208
+    /* "mlgrad/func.pyx":1210
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:
+ *     cdef double _evaluate(self, const double x, const double u) nogil:
  *         if x > u:             # <<<<<<<<<<<<<<
  *             return u
  *         elif x < -u:
  */
   }
 
-  /* "mlgrad/func.pyx":1210
+  /* "mlgrad/func.pyx":1212
  *         if x > u:
  *             return u
  *         elif x < -u:             # <<<<<<<<<<<<<<
@@ -32082,7 +32100,7 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_evaluate(CYTHON_UNUSED stru
   __pyx_t_1 = ((__pyx_v_x < (-__pyx_v_u)) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":1211
+    /* "mlgrad/func.pyx":1213
  *             return u
  *         elif x < -u:
  *             return -u             # <<<<<<<<<<<<<<
@@ -32092,7 +32110,7 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_evaluate(CYTHON_UNUSED stru
     __pyx_r = (-__pyx_v_u);
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":1210
+    /* "mlgrad/func.pyx":1212
  *         if x > u:
  *             return u
  *         elif x < -u:             # <<<<<<<<<<<<<<
@@ -32101,22 +32119,22 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_evaluate(CYTHON_UNUSED stru
  */
   }
 
-  /* "mlgrad/func.pyx":1213
+  /* "mlgrad/func.pyx":1215
  *             return -u
  *         else:
  *             return x             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:
+ *     cdef double _derivative(self, const double x, const double u) nogil:
  */
   /*else*/ {
     __pyx_r = __pyx_v_x;
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":1207
+  /* "mlgrad/func.pyx":1209
  * cdef class WinsorizedFunc(ParameterizedFunc):
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
  *         if x > u:
  *             return u
  */
@@ -32126,22 +32144,22 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_evaluate(CYTHON_UNUSED stru
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1215
+/* "mlgrad/func.pyx":1217
  *             return x
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
  *         if x > u or x < -u:
  *             return 0
  */
 
-static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_WinsorizedFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
+static double __pyx_f_6mlgrad_4func_14WinsorizedFunc__derivative(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_WinsorizedFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
   double __pyx_r;
   int __pyx_t_1;
   int __pyx_t_2;
 
-  /* "mlgrad/func.pyx":1216
+  /* "mlgrad/func.pyx":1218
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:
+ *     cdef double _derivative(self, const double x, const double u) nogil:
  *         if x > u or x < -u:             # <<<<<<<<<<<<<<
  *             return 0
  *         else:
@@ -32157,8 +32175,8 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative(CYTHON_UNUSED st
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":1217
- *     cdef double derivative(self, const double x, const double u) nogil:
+    /* "mlgrad/func.pyx":1219
+ *     cdef double _derivative(self, const double x, const double u) nogil:
  *         if x > u or x < -u:
  *             return 0             # <<<<<<<<<<<<<<
  *         else:
@@ -32167,16 +32185,16 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative(CYTHON_UNUSED st
     __pyx_r = 0.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":1216
+    /* "mlgrad/func.pyx":1218
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:
+ *     cdef double _derivative(self, const double x, const double u) nogil:
  *         if x > u or x < -u:             # <<<<<<<<<<<<<<
  *             return 0
  *         else:
  */
   }
 
-  /* "mlgrad/func.pyx":1219
+  /* "mlgrad/func.pyx":1221
  *             return 0
  *         else:
  *             return 1             # <<<<<<<<<<<<<<
@@ -32188,10 +32206,10 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative(CYTHON_UNUSED st
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":1215
+  /* "mlgrad/func.pyx":1217
  *             return x
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
  *         if x > u or x < -u:
  *             return 0
  */
@@ -32201,7 +32219,7 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative(CYTHON_UNUSED st
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1221
+/* "mlgrad/func.pyx":1223
  *             return 1
  *     #
  *     cdef double derivative_u(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
@@ -32214,7 +32232,7 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative_u(CYTHON_UNUSED 
   int __pyx_t_1;
   int __pyx_t_2;
 
-  /* "mlgrad/func.pyx":1222
+  /* "mlgrad/func.pyx":1224
  *     #
  *     cdef double derivative_u(self, const double x, const double u) nogil:
  *         if x > u or x < -u:             # <<<<<<<<<<<<<<
@@ -32232,7 +32250,7 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative_u(CYTHON_UNUSED 
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":1223
+    /* "mlgrad/func.pyx":1225
  *     cdef double derivative_u(self, const double x, const double u) nogil:
  *         if x > u or x < -u:
  *             return 1             # <<<<<<<<<<<<<<
@@ -32242,7 +32260,7 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative_u(CYTHON_UNUSED 
     __pyx_r = 1.0;
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":1222
+    /* "mlgrad/func.pyx":1224
  *     #
  *     cdef double derivative_u(self, const double x, const double u) nogil:
  *         if x > u or x < -u:             # <<<<<<<<<<<<<<
@@ -32251,7 +32269,7 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative_u(CYTHON_UNUSED 
  */
   }
 
-  /* "mlgrad/func.pyx":1225
+  /* "mlgrad/func.pyx":1227
  *             return 1
  *         else:
  *             return 0             # <<<<<<<<<<<<<<
@@ -32263,7 +32281,7 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative_u(CYTHON_UNUSED 
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":1221
+  /* "mlgrad/func.pyx":1223
  *             return 1
  *     #
  *     cdef double derivative_u(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
@@ -32276,7 +32294,7 @@ static double __pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative_u(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1227
+/* "mlgrad/func.pyx":1229
  *             return 0
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -32307,7 +32325,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_14WinsorizedFunc_to_dict(CYTHON_UNUSED s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":1228
+  /* "mlgrad/func.pyx":1230
  * 
  *     def to_dict(self):
  *         return { 'name':'winsorized',             # <<<<<<<<<<<<<<
@@ -32315,23 +32333,23 @@ static PyObject *__pyx_pf_6mlgrad_4func_14WinsorizedFunc_to_dict(CYTHON_UNUSED s
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1228, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_winsorized) < 0) __PYX_ERR(0, 1228, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_winsorized) < 0) __PYX_ERR(0, 1230, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":1229
+  /* "mlgrad/func.pyx":1231
  *     def to_dict(self):
  *         return { 'name':'winsorized',
  *                  'args': () }             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_empty_tuple) < 0) __PYX_ERR(0, 1228, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_empty_tuple) < 0) __PYX_ERR(0, 1230, __pyx_L1_error)
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1227
+  /* "mlgrad/func.pyx":1229
  *             return 0
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -32639,7 +32657,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_14WinsorizedFunc_4__setstate_cython__(st
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1234
+/* "mlgrad/func.pyx":1236
  * cdef class SoftMinFunc(ParameterizedFunc):
  *     #
  *     def __init__(self, a = 1):             # <<<<<<<<<<<<<<
@@ -32679,7 +32697,7 @@ static int __pyx_pw_6mlgrad_4func_11SoftMinFunc_1__init__(PyObject *__pyx_v_self
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1234, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1236, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -32693,7 +32711,7 @@ static int __pyx_pw_6mlgrad_4func_11SoftMinFunc_1__init__(PyObject *__pyx_v_self
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1234, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1236, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.SoftMinFunc.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -32715,17 +32733,17 @@ static int __pyx_pf_6mlgrad_4func_11SoftMinFunc___init__(struct __pyx_obj_6mlgra
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":1235
+  /* "mlgrad/func.pyx":1237
  *     #
  *     def __init__(self, a = 1):
  *         self.a = a             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1235, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 1237, __pyx_L1_error)
   __pyx_v_self->a = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1234
+  /* "mlgrad/func.pyx":1236
  * cdef class SoftMinFunc(ParameterizedFunc):
  *     #
  *     def __init__(self, a = 1):             # <<<<<<<<<<<<<<
@@ -32744,21 +32762,21 @@ static int __pyx_pf_6mlgrad_4func_11SoftMinFunc___init__(struct __pyx_obj_6mlgra
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1238
+/* "mlgrad/func.pyx":1240
  *     #
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
  *         if u < x:
  *             return u - log(1. + exp(-self.a*(x-u))) / self.a
  */
 
-static double __pyx_f_6mlgrad_4func_11SoftMinFunc_evaluate(struct __pyx_obj_6mlgrad_4func_SoftMinFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
+static double __pyx_f_6mlgrad_4func_11SoftMinFunc__evaluate(struct __pyx_obj_6mlgrad_4func_SoftMinFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1239
+  /* "mlgrad/func.pyx":1241
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x, const double u) nogil:
+ *     cdef double _evaluate(self, const double x, const double u) nogil:
  *         if u < x:             # <<<<<<<<<<<<<<
  *             return u - log(1. + exp(-self.a*(x-u))) / self.a
  *         else:
@@ -32766,8 +32784,8 @@ static double __pyx_f_6mlgrad_4func_11SoftMinFunc_evaluate(struct __pyx_obj_6mlg
   __pyx_t_1 = ((__pyx_v_u < __pyx_v_x) != 0);
   if (__pyx_t_1) {
 
-    /* "mlgrad/func.pyx":1240
- *     cdef double evaluate(self, const double x, const double u) nogil:
+    /* "mlgrad/func.pyx":1242
+ *     cdef double _evaluate(self, const double x, const double u) nogil:
  *         if u < x:
  *             return u - log(1. + exp(-self.a*(x-u))) / self.a             # <<<<<<<<<<<<<<
  *         else:
@@ -32776,16 +32794,16 @@ static double __pyx_f_6mlgrad_4func_11SoftMinFunc_evaluate(struct __pyx_obj_6mlg
     __pyx_r = (__pyx_v_u - (log((1. + exp(((-__pyx_v_self->a) * (__pyx_v_x - __pyx_v_u))))) / __pyx_v_self->a));
     goto __pyx_L0;
 
-    /* "mlgrad/func.pyx":1239
+    /* "mlgrad/func.pyx":1241
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x, const double u) nogil:
+ *     cdef double _evaluate(self, const double x, const double u) nogil:
  *         if u < x:             # <<<<<<<<<<<<<<
  *             return u - log(1. + exp(-self.a*(x-u))) / self.a
  *         else:
  */
   }
 
-  /* "mlgrad/func.pyx":1242
+  /* "mlgrad/func.pyx":1244
  *             return u - log(1. + exp(-self.a*(x-u))) / self.a
  *         else:
  *             return x - log(1. + exp(-self.a*(u-x))) / self.a             # <<<<<<<<<<<<<<
@@ -32797,10 +32815,10 @@ static double __pyx_f_6mlgrad_4func_11SoftMinFunc_evaluate(struct __pyx_obj_6mlg
     goto __pyx_L0;
   }
 
-  /* "mlgrad/func.pyx":1238
+  /* "mlgrad/func.pyx":1240
  *     #
  *     @cython.cdivision(True)
- *     cdef double evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
  *         if u < x:
  *             return u - log(1. + exp(-self.a*(x-u))) / self.a
  */
@@ -32810,20 +32828,20 @@ static double __pyx_f_6mlgrad_4func_11SoftMinFunc_evaluate(struct __pyx_obj_6mlg
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1245
+/* "mlgrad/func.pyx":1247
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
  *         return 1. / (1. + exp(-self.a*(u-x)))
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_11SoftMinFunc_derivative(struct __pyx_obj_6mlgrad_4func_SoftMinFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
+static double __pyx_f_6mlgrad_4func_11SoftMinFunc__derivative(struct __pyx_obj_6mlgrad_4func_SoftMinFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1246
+  /* "mlgrad/func.pyx":1248
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x, const double u) nogil:
+ *     cdef double _derivative(self, const double x, const double u) nogil:
  *         return 1. / (1. + exp(-self.a*(u-x)))             # <<<<<<<<<<<<<<
  *     #
  *     @cython.cdivision(True)
@@ -32831,10 +32849,10 @@ static double __pyx_f_6mlgrad_4func_11SoftMinFunc_derivative(struct __pyx_obj_6m
   __pyx_r = (1. / (1. + exp(((-__pyx_v_self->a) * (__pyx_v_u - __pyx_v_x)))));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1245
+  /* "mlgrad/func.pyx":1247
  *     #
  *     @cython.cdivision(True)
- *     cdef double derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
  *         return 1. / (1. + exp(-self.a*(u-x)))
  *     #
  */
@@ -32844,7 +32862,7 @@ static double __pyx_f_6mlgrad_4func_11SoftMinFunc_derivative(struct __pyx_obj_6m
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1249
+/* "mlgrad/func.pyx":1251
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative_u(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
@@ -32855,7 +32873,7 @@ static double __pyx_f_6mlgrad_4func_11SoftMinFunc_derivative(struct __pyx_obj_6m
 static double __pyx_f_6mlgrad_4func_11SoftMinFunc_derivative_u(struct __pyx_obj_6mlgrad_4func_SoftMinFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1250
+  /* "mlgrad/func.pyx":1252
  *     @cython.cdivision(True)
  *     cdef double derivative_u(self, const double x, const double u) nogil:
  *         return 1. / (1. + exp(-self.a*(x-u)))             # <<<<<<<<<<<<<<
@@ -32865,7 +32883,7 @@ static double __pyx_f_6mlgrad_4func_11SoftMinFunc_derivative_u(struct __pyx_obj_
   __pyx_r = (1. / (1. + exp(((-__pyx_v_self->a) * (__pyx_v_x - __pyx_v_u)))));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1249
+  /* "mlgrad/func.pyx":1251
  *     #
  *     @cython.cdivision(True)
  *     cdef double derivative_u(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
@@ -32878,7 +32896,7 @@ static double __pyx_f_6mlgrad_4func_11SoftMinFunc_derivative_u(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1252
+/* "mlgrad/func.pyx":1254
  *         return 1. / (1. + exp(-self.a*(x-u)))
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -32911,7 +32929,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_11SoftMinFunc_2to_dict(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":1253
+  /* "mlgrad/func.pyx":1255
  * 
  *     def to_dict(self):
  *         return { 'name':'softmin',             # <<<<<<<<<<<<<<
@@ -32919,31 +32937,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_11SoftMinFunc_2to_dict(struct __pyx_obj_
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1253, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_softmin) < 0) __PYX_ERR(0, 1253, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_softmin) < 0) __PYX_ERR(0, 1255, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":1254
+  /* "mlgrad/func.pyx":1256
  *     def to_dict(self):
  *         return { 'name':'softmin',
  *                  'args': (self.a,) }             # <<<<<<<<<<<<<<
  * 
  * cdef class  WinsorizedSmoothFunc(ParameterizedFunc):
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1254, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1256, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1254, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1256, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 1253, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 1255, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1252
+  /* "mlgrad/func.pyx":1254
  *         return 1. / (1. + exp(-self.a*(x-u)))
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -33260,7 +33278,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_11SoftMinFunc_6__setstate_cython__(struc
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1258
+/* "mlgrad/func.pyx":1260
  * cdef class  WinsorizedSmoothFunc(ParameterizedFunc):
  *     #
  *     def __init__(self, Func f):             # <<<<<<<<<<<<<<
@@ -33297,7 +33315,7 @@ static int __pyx_pw_6mlgrad_4func_20WinsorizedSmoothFunc_1__init__(PyObject *__p
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1258, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1260, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -33308,13 +33326,13 @@ static int __pyx_pw_6mlgrad_4func_20WinsorizedSmoothFunc_1__init__(PyObject *__p
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1258, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1260, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.WinsorizedSmoothFunc.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_f), __pyx_ptype_6mlgrad_4func_Func, 1, "f", 0))) __PYX_ERR(0, 1258, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_f), __pyx_ptype_6mlgrad_4func_Func, 1, "f", 0))) __PYX_ERR(0, 1260, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_4func_20WinsorizedSmoothFunc___init__(((struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc *)__pyx_v_self), __pyx_v_f);
 
   /* function exit code */
@@ -33331,12 +33349,12 @@ static int __pyx_pf_6mlgrad_4func_20WinsorizedSmoothFunc___init__(struct __pyx_o
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":1259
+  /* "mlgrad/func.pyx":1261
  *     #
  *     def __init__(self, Func f):
  *         self.f = f             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:
+ *     cdef double _evaluate(self, const double x, const double u) nogil:
  */
   __Pyx_INCREF(((PyObject *)__pyx_v_f));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_f));
@@ -33344,7 +33362,7 @@ static int __pyx_pf_6mlgrad_4func_20WinsorizedSmoothFunc___init__(struct __pyx_o
   __Pyx_DECREF(((PyObject *)__pyx_v_self->f));
   __pyx_v_self->f = __pyx_v_f;
 
-  /* "mlgrad/func.pyx":1258
+  /* "mlgrad/func.pyx":1260
  * cdef class  WinsorizedSmoothFunc(ParameterizedFunc):
  *     #
  *     def __init__(self, Func f):             # <<<<<<<<<<<<<<
@@ -33358,32 +33376,32 @@ static int __pyx_pf_6mlgrad_4func_20WinsorizedSmoothFunc___init__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1261
+/* "mlgrad/func.pyx":1263
  *         self.f = f
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
- *         return 0.5 * (x + u - self.f.evaluate(x - u))
+ *     cdef double _evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *         return 0.5 * (x + u - self.f._evaluate(x - u))
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc_evaluate(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
+static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc__evaluate(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1262
+  /* "mlgrad/func.pyx":1264
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:
- *         return 0.5 * (x + u - self.f.evaluate(x - u))             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x, const double u) nogil:
+ *         return 0.5 * (x + u - self.f._evaluate(x - u))             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:
+ *     cdef double _derivative(self, const double x, const double u) nogil:
  */
-  __pyx_r = (0.5 * ((__pyx_v_x + __pyx_v_u) - ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->evaluate(__pyx_v_self->f, (__pyx_v_x - __pyx_v_u))));
+  __pyx_r = (0.5 * ((__pyx_v_x + __pyx_v_u) - ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_evaluate(__pyx_v_self->f, (__pyx_v_x - __pyx_v_u))));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1261
+  /* "mlgrad/func.pyx":1263
  *         self.f = f
  *     #
- *     cdef double evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
- *         return 0.5 * (x + u - self.f.evaluate(x - u))
+ *     cdef double _evaluate(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *         return 0.5 * (x + u - self.f._evaluate(x - u))
  *     #
  */
 
@@ -33392,32 +33410,32 @@ static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc_evaluate(struct __pyx
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1264
- *         return 0.5 * (x + u - self.f.evaluate(x - u))
+/* "mlgrad/func.pyx":1266
+ *         return 0.5 * (x + u - self.f._evaluate(x - u))
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
- *         return 0.5 * (1. - self.f.derivative(x - u))
+ *     cdef double _derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *         return 0.5 * (1. - self.f._derivative(x - u))
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc_derivative(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
+static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc__derivative(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1265
+  /* "mlgrad/func.pyx":1267
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:
- *         return 0.5 * (1. - self.f.derivative(x - u))             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x, const double u) nogil:
+ *         return 0.5 * (1. - self.f._derivative(x - u))             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative_u(self, const double x, const double u) nogil:
  */
-  __pyx_r = (0.5 * (1. - ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, (__pyx_v_x - __pyx_v_u))));
+  __pyx_r = (0.5 * (1. - ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_derivative(__pyx_v_self->f, (__pyx_v_x - __pyx_v_u))));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1264
- *         return 0.5 * (x + u - self.f.evaluate(x - u))
+  /* "mlgrad/func.pyx":1266
+ *         return 0.5 * (x + u - self.f._evaluate(x - u))
  *     #
- *     cdef double derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
- *         return 0.5 * (1. - self.f.derivative(x - u))
+ *     cdef double _derivative(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
+ *         return 0.5 * (1. - self.f._derivative(x - u))
  *     #
  */
 
@@ -33426,32 +33444,32 @@ static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc_derivative(struct __p
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1267
- *         return 0.5 * (1. - self.f.derivative(x - u))
+/* "mlgrad/func.pyx":1269
+ *         return 0.5 * (1. - self.f._derivative(x - u))
  *     #
  *     cdef double derivative_u(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
- *         return 0.5 * (1. + self.f.derivative(x - u))
+ *         return 0.5 * (1. + self.f._derivative(x - u))
  * 
  */
 
 static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc_derivative_u(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_v_self, double const __pyx_v_x, double const __pyx_v_u) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1268
+  /* "mlgrad/func.pyx":1270
  *     #
  *     cdef double derivative_u(self, const double x, const double u) nogil:
- *         return 0.5 * (1. + self.f.derivative(x - u))             # <<<<<<<<<<<<<<
+ *         return 0.5 * (1. + self.f._derivative(x - u))             # <<<<<<<<<<<<<<
  * 
  *     def to_dict(self):
  */
-  __pyx_r = (0.5 * (1. + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->derivative(__pyx_v_self->f, (__pyx_v_x - __pyx_v_u))));
+  __pyx_r = (0.5 * (1. + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->f->__pyx_vtab)->_derivative(__pyx_v_self->f, (__pyx_v_x - __pyx_v_u))));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1267
- *         return 0.5 * (1. - self.f.derivative(x - u))
+  /* "mlgrad/func.pyx":1269
+ *         return 0.5 * (1. - self.f._derivative(x - u))
  *     #
  *     cdef double derivative_u(self, const double x, const double u) nogil:             # <<<<<<<<<<<<<<
- *         return 0.5 * (1. + self.f.derivative(x - u))
+ *         return 0.5 * (1. + self.f._derivative(x - u))
  * 
  */
 
@@ -33460,8 +33478,8 @@ static double __pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc_derivative_u(struct _
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1270
- *         return 0.5 * (1. + self.f.derivative(x - u))
+/* "mlgrad/func.pyx":1272
+ *         return 0.5 * (1. + self.f._derivative(x - u))
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
  *         return { 'name':'winsorized_soft',
@@ -33494,7 +33512,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_20WinsorizedSmoothFunc_2to_dict(struct _
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":1271
+  /* "mlgrad/func.pyx":1273
  * 
  *     def to_dict(self):
  *         return { 'name':'winsorized_soft',             # <<<<<<<<<<<<<<
@@ -33502,18 +33520,18 @@ static PyObject *__pyx_pf_6mlgrad_4func_20WinsorizedSmoothFunc_2to_dict(struct _
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1271, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1273, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_winsorized_soft) < 0) __PYX_ERR(0, 1271, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_winsorized_soft) < 0) __PYX_ERR(0, 1273, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":1272
+  /* "mlgrad/func.pyx":1274
  *     def to_dict(self):
  *         return { 'name':'winsorized_soft',
  *                  'args': (self.f.to_dict(),) }             # <<<<<<<<<<<<<<
  * 
  * cdef class KMinSquare(Func):
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->f), __pyx_n_s_to_dict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1272, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->f), __pyx_n_s_to_dict); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1274, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -33527,22 +33545,22 @@ static PyObject *__pyx_pf_6mlgrad_4func_20WinsorizedSmoothFunc_2to_dict(struct _
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1272, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1274, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1272, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1274, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 1271, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_3) < 0) __PYX_ERR(0, 1273, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1270
- *         return 0.5 * (1. + self.f.derivative(x - u))
+  /* "mlgrad/func.pyx":1272
+ *         return 0.5 * (1. + self.f._derivative(x - u))
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
  *         return { 'name':'winsorized_soft',
@@ -33858,7 +33876,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_20WinsorizedSmoothFunc_6__setstate_cytho
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1276
+/* "mlgrad/func.pyx":1278
  * cdef class KMinSquare(Func):
  *     #
  *     def __init__(self, c):             # <<<<<<<<<<<<<<
@@ -33895,7 +33913,7 @@ static int __pyx_pw_6mlgrad_4func_10KMinSquare_1__init__(PyObject *__pyx_v_self,
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1276, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1278, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -33906,7 +33924,7 @@ static int __pyx_pw_6mlgrad_4func_10KMinSquare_1__init__(PyObject *__pyx_v_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1276, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1278, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.func.KMinSquare.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -33933,16 +33951,16 @@ static int __pyx_pf_6mlgrad_4func_10KMinSquare___init__(struct __pyx_obj_6mlgrad
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/func.pyx":1277
+  /* "mlgrad/func.pyx":1279
  *     #
  *     def __init__(self, c):
  *         self.c = np.asarray(c, 'd')             # <<<<<<<<<<<<<<
  *         self.n_dim = c.shape[0]
  *         self.j_min = 0
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1277, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1279, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1277, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1279, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -33960,7 +33978,7 @@ static int __pyx_pf_6mlgrad_4func_10KMinSquare___init__(struct __pyx_obj_6mlgrad
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_c, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1277, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1279, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
@@ -33968,13 +33986,13 @@ static int __pyx_pf_6mlgrad_4func_10KMinSquare___init__(struct __pyx_obj_6mlgrad
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_c, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1277, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1279, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
   #endif
   {
-    __pyx_t_5 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1277, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1279, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     if (__pyx_t_2) {
       __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
@@ -33985,44 +34003,44 @@ static int __pyx_pf_6mlgrad_4func_10KMinSquare___init__(struct __pyx_obj_6mlgrad
     __Pyx_INCREF(__pyx_n_u_d);
     __Pyx_GIVEREF(__pyx_n_u_d);
     PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_4, __pyx_n_u_d);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1277, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1279, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 1277, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 1279, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->c, 0);
   __pyx_v_self->c = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "mlgrad/func.pyx":1278
+  /* "mlgrad/func.pyx":1280
  *     def __init__(self, c):
  *         self.c = np.asarray(c, 'd')
  *         self.n_dim = c.shape[0]             # <<<<<<<<<<<<<<
  *         self.j_min = 0
  *     #
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_c, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1278, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_c, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1278, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1278, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1280, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_self->n_dim = __pyx_t_4;
 
-  /* "mlgrad/func.pyx":1279
+  /* "mlgrad/func.pyx":1281
  *         self.c = np.asarray(c, 'd')
  *         self.n_dim = c.shape[0]
  *         self.j_min = 0             # <<<<<<<<<<<<<<
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  */
   __pyx_v_self->j_min = 0;
 
-  /* "mlgrad/func.pyx":1276
+  /* "mlgrad/func.pyx":1278
  * cdef class KMinSquare(Func):
  *     #
  *     def __init__(self, c):             # <<<<<<<<<<<<<<
@@ -34046,15 +34064,15 @@ static int __pyx_pf_6mlgrad_4func_10KMinSquare___init__(struct __pyx_obj_6mlgrad
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1281
+/* "mlgrad/func.pyx":1283
  *         self.j_min = 0
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef int j, j_min, n_dim = self.n_dim
  *         cdef double d, d_min
  */
 
-static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgrad_4func_KMinSquare *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_10KMinSquare__evaluate(struct __pyx_obj_6mlgrad_4func_KMinSquare *__pyx_v_self, double const __pyx_v_x) {
   int __pyx_v_j;
   int __pyx_v_j_min;
   int __pyx_v_n_dim;
@@ -34065,9 +34083,9 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
   Py_ssize_t __pyx_t_2;
   int __pyx_t_3;
 
-  /* "mlgrad/func.pyx":1282
+  /* "mlgrad/func.pyx":1284
  *     #
- *     cdef double evaluate(self, const double x) nogil:
+ *     cdef double _evaluate(self, const double x) nogil:
  *         cdef int j, j_min, n_dim = self.n_dim             # <<<<<<<<<<<<<<
  *         cdef double d, d_min
  * 
@@ -34075,7 +34093,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
   __pyx_t_1 = __pyx_v_self->n_dim;
   __pyx_v_n_dim = __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1285
+  /* "mlgrad/func.pyx":1287
  *         cdef double d, d_min
  * 
  *         d_min = self.c[0]             # <<<<<<<<<<<<<<
@@ -34085,7 +34103,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
   __pyx_t_2 = 0;
   __pyx_v_d_min = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->c.data) + __pyx_t_2)) )));
 
-  /* "mlgrad/func.pyx":1286
+  /* "mlgrad/func.pyx":1288
  * 
  *         d_min = self.c[0]
  *         j_min = 0             # <<<<<<<<<<<<<<
@@ -34094,7 +34112,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
  */
   __pyx_v_j_min = 0;
 
-  /* "mlgrad/func.pyx":1287
+  /* "mlgrad/func.pyx":1289
  *         d_min = self.c[0]
  *         j_min = 0
  *         j = 1             # <<<<<<<<<<<<<<
@@ -34103,7 +34121,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
  */
   __pyx_v_j = 1;
 
-  /* "mlgrad/func.pyx":1288
+  /* "mlgrad/func.pyx":1290
  *         j_min = 0
  *         j = 1
  *         while j < n_dim:             # <<<<<<<<<<<<<<
@@ -34114,7 +34132,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
     __pyx_t_3 = ((__pyx_v_j < __pyx_v_n_dim) != 0);
     if (!__pyx_t_3) break;
 
-    /* "mlgrad/func.pyx":1289
+    /* "mlgrad/func.pyx":1291
  *         j = 1
  *         while j < n_dim:
  *             d = self.c[j]             # <<<<<<<<<<<<<<
@@ -34124,7 +34142,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
     __pyx_t_2 = __pyx_v_j;
     __pyx_v_d = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->c.data) + __pyx_t_2)) )));
 
-    /* "mlgrad/func.pyx":1290
+    /* "mlgrad/func.pyx":1292
  *         while j < n_dim:
  *             d = self.c[j]
  *             if fabs(x - d) < d_min:             # <<<<<<<<<<<<<<
@@ -34134,7 +34152,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
     __pyx_t_3 = ((fabs((__pyx_v_x - __pyx_v_d)) < __pyx_v_d_min) != 0);
     if (__pyx_t_3) {
 
-      /* "mlgrad/func.pyx":1291
+      /* "mlgrad/func.pyx":1293
  *             d = self.c[j]
  *             if fabs(x - d) < d_min:
  *                 j_min = j             # <<<<<<<<<<<<<<
@@ -34143,7 +34161,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
  */
       __pyx_v_j_min = __pyx_v_j;
 
-      /* "mlgrad/func.pyx":1292
+      /* "mlgrad/func.pyx":1294
  *             if fabs(x - d) < d_min:
  *                 j_min = j
  *                 d_min = d             # <<<<<<<<<<<<<<
@@ -34152,7 +34170,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
  */
       __pyx_v_d_min = __pyx_v_d;
 
-      /* "mlgrad/func.pyx":1290
+      /* "mlgrad/func.pyx":1292
  *         while j < n_dim:
  *             d = self.c[j]
  *             if fabs(x - d) < d_min:             # <<<<<<<<<<<<<<
@@ -34161,7 +34179,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
  */
     }
 
-    /* "mlgrad/func.pyx":1293
+    /* "mlgrad/func.pyx":1295
  *                 j_min = j
  *                 d_min = d
  *             j += 1             # <<<<<<<<<<<<<<
@@ -34171,7 +34189,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
     __pyx_v_j = (__pyx_v_j + 1);
   }
 
-  /* "mlgrad/func.pyx":1294
+  /* "mlgrad/func.pyx":1296
  *                 d_min = d
  *             j += 1
  *         self.j_min = j_min             # <<<<<<<<<<<<<<
@@ -34180,20 +34198,20 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
  */
   __pyx_v_self->j_min = __pyx_v_j_min;
 
-  /* "mlgrad/func.pyx":1295
+  /* "mlgrad/func.pyx":1297
  *             j += 1
  *         self.j_min = j_min
  *         return 0.5 * (x - d_min) * (x - d_min)             # <<<<<<<<<<<<<<
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  */
   __pyx_r = ((0.5 * (__pyx_v_x - __pyx_v_d_min)) * (__pyx_v_x - __pyx_v_d_min));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1281
+  /* "mlgrad/func.pyx":1283
  *         self.j_min = 0
  *     #
- *     cdef double evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         cdef int j, j_min, n_dim = self.n_dim
  *         cdef double d, d_min
  */
@@ -34203,21 +34221,21 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_evaluate(struct __pyx_obj_6mlgr
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1297
+/* "mlgrad/func.pyx":1299
  *         return 0.5 * (x - d_min) * (x - d_min)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return x - self.c[self.j_min]
  *     #
  */
 
-static double __pyx_f_6mlgrad_4func_10KMinSquare_derivative(struct __pyx_obj_6mlgrad_4func_KMinSquare *__pyx_v_self, double const __pyx_v_x) {
+static double __pyx_f_6mlgrad_4func_10KMinSquare__derivative(struct __pyx_obj_6mlgrad_4func_KMinSquare *__pyx_v_self, double const __pyx_v_x) {
   double __pyx_r;
   Py_ssize_t __pyx_t_1;
 
-  /* "mlgrad/func.pyx":1298
+  /* "mlgrad/func.pyx":1300
  *     #
- *     cdef double derivative(self, const double x) nogil:
+ *     cdef double _derivative(self, const double x) nogil:
  *         return x - self.c[self.j_min]             # <<<<<<<<<<<<<<
  *     #
  *     cdef double derivative2(self, const double x) nogil:
@@ -34226,10 +34244,10 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_derivative(struct __pyx_obj_6ml
   __pyx_r = (__pyx_v_x - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->c.data) + __pyx_t_1)) ))));
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1297
+  /* "mlgrad/func.pyx":1299
  *         return 0.5 * (x - d_min) * (x - d_min)
  *     #
- *     cdef double derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _derivative(self, const double x) nogil:             # <<<<<<<<<<<<<<
  *         return x - self.c[self.j_min]
  *     #
  */
@@ -34239,7 +34257,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_derivative(struct __pyx_obj_6ml
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1300
+/* "mlgrad/func.pyx":1302
  *         return x - self.c[self.j_min]
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -34250,7 +34268,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_derivative(struct __pyx_obj_6ml
 static double __pyx_f_6mlgrad_4func_10KMinSquare_derivative2(CYTHON_UNUSED struct __pyx_obj_6mlgrad_4func_KMinSquare *__pyx_v_self, CYTHON_UNUSED double const __pyx_v_x) {
   double __pyx_r;
 
-  /* "mlgrad/func.pyx":1301
+  /* "mlgrad/func.pyx":1303
  *     #
  *     cdef double derivative2(self, const double x) nogil:
  *         return 1             # <<<<<<<<<<<<<<
@@ -34260,7 +34278,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_derivative2(CYTHON_UNUSED struc
   __pyx_r = 1.0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1300
+  /* "mlgrad/func.pyx":1302
  *         return x - self.c[self.j_min]
  *     #
  *     cdef double derivative2(self, const double x) nogil:             # <<<<<<<<<<<<<<
@@ -34273,7 +34291,7 @@ static double __pyx_f_6mlgrad_4func_10KMinSquare_derivative2(CYTHON_UNUSED struc
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1303
+/* "mlgrad/func.pyx":1305
  *         return 1
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -34300,7 +34318,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_10KMinSquare_2_repr_latex_(CYTHON_UNUSED
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_repr_latex_", 0);
 
-  /* "mlgrad/func.pyx":1304
+  /* "mlgrad/func.pyx":1306
  *     #
  *     def _repr_latex_(self):
  *         return r"$\rho(x)=\min_{j=1,\dots,q} (x-c_j)^2/2$"             # <<<<<<<<<<<<<<
@@ -34312,7 +34330,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_10KMinSquare_2_repr_latex_(CYTHON_UNUSED
   __pyx_r = __pyx_kp_u_rho_x_min__j_1_dots_q_x_c_j_2_2;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1303
+  /* "mlgrad/func.pyx":1305
  *         return 1
  *     #
  *     def _repr_latex_(self):             # <<<<<<<<<<<<<<
@@ -34327,7 +34345,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_10KMinSquare_2_repr_latex_(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "mlgrad/func.pyx":1306
+/* "mlgrad/func.pyx":1308
  *         return r"$\rho(x)=\min_{j=1,\dots,q} (x-c_j)^2/2$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -34361,7 +34379,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_10KMinSquare_4to_dict(struct __pyx_obj_6
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("to_dict", 0);
 
-  /* "mlgrad/func.pyx":1307
+  /* "mlgrad/func.pyx":1309
  * 
  *     def to_dict(self):
  *         return { 'name':'kmin_square',             # <<<<<<<<<<<<<<
@@ -34369,20 +34387,20 @@ static PyObject *__pyx_pf_6mlgrad_4func_10KMinSquare_4to_dict(struct __pyx_obj_6
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1307, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1309, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_kmin_square) < 0) __PYX_ERR(0, 1307, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_n_u_kmin_square) < 0) __PYX_ERR(0, 1309, __pyx_L1_error)
 
-  /* "mlgrad/func.pyx":1308
+  /* "mlgrad/func.pyx":1310
  *     def to_dict(self):
  *         return { 'name':'kmin_square',
  *                  'args': (self.c.tolist(),) }             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->c, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1308, __pyx_L1_error)
+  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->c, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_tolist); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1308, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_tolist); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -34397,21 +34415,21 @@ static PyObject *__pyx_pf_6mlgrad_4func_10KMinSquare_4to_dict(struct __pyx_obj_6
   }
   __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1308, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1308, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_4) < 0) __PYX_ERR(0, 1307, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_args, __pyx_t_4) < 0) __PYX_ERR(0, 1309, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/func.pyx":1306
+  /* "mlgrad/func.pyx":1308
  *         return r"$\rho(x)=\min_{j=1,\dots,q} (x-c_j)^2/2$"
  * 
  *     def to_dict(self):             # <<<<<<<<<<<<<<
@@ -39192,16 +39210,16 @@ static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Arctang__set_state(struct 
 }
 
 /* "(tree fragment)":1
- * def __pyx_unpickle_Softplus(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
+ * def __pyx_unpickle_SoftPlus(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_4func_29__pyx_unpickle_Softplus(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6mlgrad_4func_28__pyx_unpickle_Softplus[] = "__pyx_unpickle_Softplus(__pyx_type, long __pyx_checksum, __pyx_state)";
-static PyMethodDef __pyx_mdef_6mlgrad_4func_29__pyx_unpickle_Softplus = {"__pyx_unpickle_Softplus", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6mlgrad_4func_29__pyx_unpickle_Softplus, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6mlgrad_4func_28__pyx_unpickle_Softplus};
-static PyObject *__pyx_pw_6mlgrad_4func_29__pyx_unpickle_Softplus(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6mlgrad_4func_29__pyx_unpickle_SoftPlus(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6mlgrad_4func_28__pyx_unpickle_SoftPlus[] = "__pyx_unpickle_SoftPlus(__pyx_type, long __pyx_checksum, __pyx_state)";
+static PyMethodDef __pyx_mdef_6mlgrad_4func_29__pyx_unpickle_SoftPlus = {"__pyx_unpickle_SoftPlus", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6mlgrad_4func_29__pyx_unpickle_SoftPlus, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6mlgrad_4func_28__pyx_unpickle_SoftPlus};
+static PyObject *__pyx_pw_6mlgrad_4func_29__pyx_unpickle_SoftPlus(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -39210,7 +39228,7 @@ static PyObject *__pyx_pw_6mlgrad_4func_29__pyx_unpickle_Softplus(PyObject *__py
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__pyx_unpickle_Softplus (wrapper)", 0);
+  __Pyx_RefNannySetupContext("__pyx_unpickle_SoftPlus (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_pyx_type,&__pyx_n_s_pyx_checksum,&__pyx_n_s_pyx_state,0};
     PyObject* values[3] = {0,0,0};
@@ -39236,17 +39254,17 @@ static PyObject *__pyx_pw_6mlgrad_4func_29__pyx_unpickle_Softplus(PyObject *__py
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_checksum)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_Softplus", 1, 3, 3, 1); __PYX_ERR(2, 1, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_SoftPlus", 1, 3, 3, 1); __PYX_ERR(2, 1, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_pyx_state)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_Softplus", 1, 3, 3, 2); __PYX_ERR(2, 1, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_SoftPlus", 1, 3, 3, 2); __PYX_ERR(2, 1, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__pyx_unpickle_Softplus") < 0)) __PYX_ERR(2, 1, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__pyx_unpickle_SoftPlus") < 0)) __PYX_ERR(2, 1, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -39261,20 +39279,20 @@ static PyObject *__pyx_pw_6mlgrad_4func_29__pyx_unpickle_Softplus(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_Softplus", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 1, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__pyx_unpickle_SoftPlus", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 1, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("mlgrad.func.__pyx_unpickle_Softplus", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.func.__pyx_unpickle_SoftPlus", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6mlgrad_4func_28__pyx_unpickle_Softplus(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_6mlgrad_4func_28__pyx_unpickle_SoftPlus(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_Softplus(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_SoftPlus(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -39288,7 +39306,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_Softplus(CYTHON_UNUSED 
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_unpickle_Softplus", 0);
+  __Pyx_RefNannySetupContext("__pyx_unpickle_SoftPlus", 0);
 
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
@@ -39305,7 +39323,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_Softplus(CYTHON_UNUSED 
  *     if __pyx_checksum != 0xe911527:
  *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
  *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xe911527 = (a, label, log_a))" % __pyx_checksum)
- *     __pyx_result = Softplus.__new__(__pyx_type)
+ *     __pyx_result = SoftPlus.__new__(__pyx_type)
  */
     __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -39326,7 +39344,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_Softplus(CYTHON_UNUSED 
  *     if __pyx_checksum != 0xe911527:
  *         from pickle import PickleError as __pyx_PickleError
  *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xe911527 = (a, label, log_a))" % __pyx_checksum)             # <<<<<<<<<<<<<<
- *     __pyx_result = Softplus.__new__(__pyx_type)
+ *     __pyx_result = SoftPlus.__new__(__pyx_type)
  *     if __pyx_state is not None:
  */
     __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 6, __pyx_L1_error)
@@ -39367,11 +39385,11 @@ static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_Softplus(CYTHON_UNUSED 
   /* "(tree fragment)":7
  *         from pickle import PickleError as __pyx_PickleError
  *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xe911527 = (a, label, log_a))" % __pyx_checksum)
- *     __pyx_result = Softplus.__new__(__pyx_type)             # <<<<<<<<<<<<<<
+ *     __pyx_result = SoftPlus.__new__(__pyx_type)             # <<<<<<<<<<<<<<
  *     if __pyx_state is not None:
- *         __pyx_unpickle_Softplus__set_state(<Softplus> __pyx_result, __pyx_state)
+ *         __pyx_unpickle_SoftPlus__set_state(<SoftPlus> __pyx_result, __pyx_state)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_6mlgrad_4func_Softplus), __pyx_n_s_new); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 7, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_6mlgrad_4func_SoftPlus), __pyx_n_s_new); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -39393,9 +39411,9 @@ static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_Softplus(CYTHON_UNUSED 
 
   /* "(tree fragment)":8
  *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xe911527 = (a, label, log_a))" % __pyx_checksum)
- *     __pyx_result = Softplus.__new__(__pyx_type)
+ *     __pyx_result = SoftPlus.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
- *         __pyx_unpickle_Softplus__set_state(<Softplus> __pyx_result, __pyx_state)
+ *         __pyx_unpickle_SoftPlus__set_state(<SoftPlus> __pyx_result, __pyx_state)
  *     return __pyx_result
  */
   __pyx_t_1 = (__pyx_v___pyx_state != Py_None);
@@ -39403,31 +39421,31 @@ static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_Softplus(CYTHON_UNUSED 
   if (__pyx_t_6) {
 
     /* "(tree fragment)":9
- *     __pyx_result = Softplus.__new__(__pyx_type)
+ *     __pyx_result = SoftPlus.__new__(__pyx_type)
  *     if __pyx_state is not None:
- *         __pyx_unpickle_Softplus__set_state(<Softplus> __pyx_result, __pyx_state)             # <<<<<<<<<<<<<<
+ *         __pyx_unpickle_SoftPlus__set_state(<SoftPlus> __pyx_result, __pyx_state)             # <<<<<<<<<<<<<<
  *     return __pyx_result
- * cdef __pyx_unpickle_Softplus__set_state(Softplus __pyx_result, tuple __pyx_state):
+ * cdef __pyx_unpickle_SoftPlus__set_state(SoftPlus __pyx_result, tuple __pyx_state):
  */
     if (!(likely(PyTuple_CheckExact(__pyx_v___pyx_state))||((__pyx_v___pyx_state) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_v___pyx_state)->tp_name), 0))) __PYX_ERR(2, 9, __pyx_L1_error)
-    __pyx_t_3 = __pyx_f_6mlgrad_4func___pyx_unpickle_Softplus__set_state(((struct __pyx_obj_6mlgrad_4func_Softplus *)__pyx_v___pyx_result), ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 9, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_6mlgrad_4func___pyx_unpickle_SoftPlus__set_state(((struct __pyx_obj_6mlgrad_4func_SoftPlus *)__pyx_v___pyx_result), ((PyObject*)__pyx_v___pyx_state)); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 9, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":8
  *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xe911527 = (a, label, log_a))" % __pyx_checksum)
- *     __pyx_result = Softplus.__new__(__pyx_type)
+ *     __pyx_result = SoftPlus.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
- *         __pyx_unpickle_Softplus__set_state(<Softplus> __pyx_result, __pyx_state)
+ *         __pyx_unpickle_SoftPlus__set_state(<SoftPlus> __pyx_result, __pyx_state)
  *     return __pyx_result
  */
   }
 
   /* "(tree fragment)":10
  *     if __pyx_state is not None:
- *         __pyx_unpickle_Softplus__set_state(<Softplus> __pyx_result, __pyx_state)
+ *         __pyx_unpickle_SoftPlus__set_state(<SoftPlus> __pyx_result, __pyx_state)
  *     return __pyx_result             # <<<<<<<<<<<<<<
- * cdef __pyx_unpickle_Softplus__set_state(Softplus __pyx_result, tuple __pyx_state):
+ * cdef __pyx_unpickle_SoftPlus__set_state(SoftPlus __pyx_result, tuple __pyx_state):
  *     __pyx_result.a = __pyx_state[0]; __pyx_result.label = __pyx_state[1]; __pyx_result.log_a = __pyx_state[2]
  */
   __Pyx_XDECREF(__pyx_r);
@@ -39436,7 +39454,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_Softplus(CYTHON_UNUSED 
   goto __pyx_L0;
 
   /* "(tree fragment)":1
- * def __pyx_unpickle_Softplus(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
+ * def __pyx_unpickle_SoftPlus(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
@@ -39447,7 +39465,7 @@ static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_Softplus(CYTHON_UNUSED 
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("mlgrad.func.__pyx_unpickle_Softplus", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.func.__pyx_unpickle_SoftPlus", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v___pyx_PickleError);
@@ -39458,14 +39476,14 @@ static PyObject *__pyx_pf_6mlgrad_4func_28__pyx_unpickle_Softplus(CYTHON_UNUSED 
 }
 
 /* "(tree fragment)":11
- *         __pyx_unpickle_Softplus__set_state(<Softplus> __pyx_result, __pyx_state)
+ *         __pyx_unpickle_SoftPlus__set_state(<SoftPlus> __pyx_result, __pyx_state)
  *     return __pyx_result
- * cdef __pyx_unpickle_Softplus__set_state(Softplus __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
+ * cdef __pyx_unpickle_SoftPlus__set_state(SoftPlus __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_result.a = __pyx_state[0]; __pyx_result.label = __pyx_state[1]; __pyx_result.log_a = __pyx_state[2]
  *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
  */
 
-static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Softplus__set_state(struct __pyx_obj_6mlgrad_4func_Softplus *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_SoftPlus__set_state(struct __pyx_obj_6mlgrad_4func_SoftPlus *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
@@ -39479,11 +39497,11 @@ static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Softplus__set_state(struct
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_unpickle_Softplus__set_state", 0);
+  __Pyx_RefNannySetupContext("__pyx_unpickle_SoftPlus__set_state", 0);
 
   /* "(tree fragment)":12
  *     return __pyx_result
- * cdef __pyx_unpickle_Softplus__set_state(Softplus __pyx_result, tuple __pyx_state):
+ * cdef __pyx_unpickle_SoftPlus__set_state(SoftPlus __pyx_result, tuple __pyx_state):
  *     __pyx_result.a = __pyx_state[0]; __pyx_result.label = __pyx_state[1]; __pyx_result.log_a = __pyx_state[2]             # <<<<<<<<<<<<<<
  *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
  *         __pyx_result.__dict__.update(__pyx_state[3])
@@ -39514,7 +39532,7 @@ static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Softplus__set_state(struct
   __pyx_v___pyx_result->log_a = __pyx_t_1;
 
   /* "(tree fragment)":13
- * cdef __pyx_unpickle_Softplus__set_state(Softplus __pyx_result, tuple __pyx_state):
+ * cdef __pyx_unpickle_SoftPlus__set_state(SoftPlus __pyx_result, tuple __pyx_state):
  *     __pyx_result.a = __pyx_state[0]; __pyx_result.label = __pyx_state[1]; __pyx_result.log_a = __pyx_state[2]
  *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
  *         __pyx_result.__dict__.update(__pyx_state[3])
@@ -39568,7 +39586,7 @@ static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Softplus__set_state(struct
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "(tree fragment)":13
- * cdef __pyx_unpickle_Softplus__set_state(Softplus __pyx_result, tuple __pyx_state):
+ * cdef __pyx_unpickle_SoftPlus__set_state(SoftPlus __pyx_result, tuple __pyx_state):
  *     __pyx_result.a = __pyx_state[0]; __pyx_result.label = __pyx_state[1]; __pyx_result.log_a = __pyx_state[2]
  *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
  *         __pyx_result.__dict__.update(__pyx_state[3])
@@ -39576,9 +39594,9 @@ static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Softplus__set_state(struct
   }
 
   /* "(tree fragment)":11
- *         __pyx_unpickle_Softplus__set_state(<Softplus> __pyx_result, __pyx_state)
+ *         __pyx_unpickle_SoftPlus__set_state(<SoftPlus> __pyx_result, __pyx_state)
  *     return __pyx_result
- * cdef __pyx_unpickle_Softplus__set_state(Softplus __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
+ * cdef __pyx_unpickle_SoftPlus__set_state(SoftPlus __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_result.a = __pyx_state[0]; __pyx_result.label = __pyx_state[1]; __pyx_result.log_a = __pyx_state[2]
  *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
  */
@@ -39590,7 +39608,7 @@ static PyObject *__pyx_f_6mlgrad_4func___pyx_unpickle_Softplus__set_state(struct
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("mlgrad.func.__pyx_unpickle_Softplus__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.func.__pyx_unpickle_SoftPlus__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -63886,24 +63904,24 @@ static PyTypeObject __pyx_type_6mlgrad_4func_ModSigmoidal = {
   0, /*tp_print*/
   #endif
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Softplus __pyx_vtable_6mlgrad_4func_Softplus;
+static struct __pyx_vtabstruct_6mlgrad_4func_SoftPlus __pyx_vtable_6mlgrad_4func_SoftPlus;
 
-static PyObject *__pyx_tp_new_6mlgrad_4func_Softplus(PyTypeObject *t, PyObject *a, PyObject *k) {
-  struct __pyx_obj_6mlgrad_4func_Softplus *p;
+static PyObject *__pyx_tp_new_6mlgrad_4func_SoftPlus(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_6mlgrad_4func_SoftPlus *p;
   PyObject *o = __pyx_tp_new_6mlgrad_4func_Func(t, a, k);
   if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_6mlgrad_4func_Softplus *)o);
-  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_6mlgrad_4func_Func*)__pyx_vtabptr_6mlgrad_4func_Softplus;
+  p = ((struct __pyx_obj_6mlgrad_4func_SoftPlus *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_6mlgrad_4func_Func*)__pyx_vtabptr_6mlgrad_4func_SoftPlus;
   return o;
 }
 
-static PyObject *__pyx_getprop_6mlgrad_4func_8Softplus_a(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6mlgrad_4func_8Softplus_1a_1__get__(o);
+static PyObject *__pyx_getprop_6mlgrad_4func_8SoftPlus_a(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6mlgrad_4func_8SoftPlus_1a_1__get__(o);
 }
 
-static int __pyx_setprop_6mlgrad_4func_8Softplus_a(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_6mlgrad_4func_8SoftPlus_a(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_6mlgrad_4func_8Softplus_1a_3__set__(o, v);
+    return __pyx_pw_6mlgrad_4func_8SoftPlus_1a_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -63911,23 +63929,23 @@ static int __pyx_setprop_6mlgrad_4func_8Softplus_a(PyObject *o, PyObject *v, CYT
   }
 }
 
-static PyMethodDef __pyx_methods_6mlgrad_4func_Softplus[] = {
-  {"_repr_latex_", (PyCFunction)__pyx_pw_6mlgrad_4func_8Softplus_3_repr_latex_, METH_NOARGS, __pyx_doc_6mlgrad_4func_8Softplus_2_repr_latex_},
-  {"to_dict", (PyCFunction)__pyx_pw_6mlgrad_4func_8Softplus_5to_dict, METH_NOARGS, __pyx_doc_6mlgrad_4func_8Softplus_4to_dict},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_4func_8Softplus_7__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_4func_8Softplus_6__reduce_cython__},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_4func_8Softplus_9__setstate_cython__, METH_O, __pyx_doc_6mlgrad_4func_8Softplus_8__setstate_cython__},
+static PyMethodDef __pyx_methods_6mlgrad_4func_SoftPlus[] = {
+  {"_repr_latex_", (PyCFunction)__pyx_pw_6mlgrad_4func_8SoftPlus_3_repr_latex_, METH_NOARGS, __pyx_doc_6mlgrad_4func_8SoftPlus_2_repr_latex_},
+  {"to_dict", (PyCFunction)__pyx_pw_6mlgrad_4func_8SoftPlus_5to_dict, METH_NOARGS, __pyx_doc_6mlgrad_4func_8SoftPlus_4to_dict},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_6mlgrad_4func_8SoftPlus_7__reduce_cython__, METH_NOARGS, __pyx_doc_6mlgrad_4func_8SoftPlus_6__reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_6mlgrad_4func_8SoftPlus_9__setstate_cython__, METH_O, __pyx_doc_6mlgrad_4func_8SoftPlus_8__setstate_cython__},
   {0, 0, 0, 0}
 };
 
-static struct PyGetSetDef __pyx_getsets_6mlgrad_4func_Softplus[] = {
-  {(char *)"a", __pyx_getprop_6mlgrad_4func_8Softplus_a, __pyx_setprop_6mlgrad_4func_8Softplus_a, (char *)"a: 'double'", 0},
+static struct PyGetSetDef __pyx_getsets_6mlgrad_4func_SoftPlus[] = {
+  {(char *)"a", __pyx_getprop_6mlgrad_4func_8SoftPlus_a, __pyx_setprop_6mlgrad_4func_8SoftPlus_a, (char *)"a: 'double'", 0},
   {0, 0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_6mlgrad_4func_Softplus = {
+static PyTypeObject __pyx_type_6mlgrad_4func_SoftPlus = {
   PyVarObject_HEAD_INIT(0, 0)
-  "mlgrad.func.Softplus", /*tp_name*/
-  sizeof(struct __pyx_obj_6mlgrad_4func_Softplus), /*tp_basicsize*/
+  "mlgrad.func.SoftPlus", /*tp_name*/
+  sizeof(struct __pyx_obj_6mlgrad_4func_SoftPlus), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_6mlgrad_4func_Func, /*tp_dealloc*/
   #if PY_VERSION_HEX < 0x030800b4
@@ -63959,24 +63977,24 @@ static PyTypeObject __pyx_type_6mlgrad_4func_Softplus = {
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER, /*tp_flags*/
-  "Softplus(a=1)", /*tp_doc*/
+  "SoftPlus(a=1)", /*tp_doc*/
   0, /*tp_traverse*/
   0, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_6mlgrad_4func_Softplus, /*tp_methods*/
+  __pyx_methods_6mlgrad_4func_SoftPlus, /*tp_methods*/
   0, /*tp_members*/
-  __pyx_getsets_6mlgrad_4func_Softplus, /*tp_getset*/
+  __pyx_getsets_6mlgrad_4func_SoftPlus, /*tp_getset*/
   0, /*tp_base*/
   0, /*tp_dict*/
   0, /*tp_descr_get*/
   0, /*tp_descr_set*/
   0, /*tp_dictoffset*/
-  __pyx_pw_6mlgrad_4func_8Softplus_1__init__, /*tp_init*/
+  __pyx_pw_6mlgrad_4func_8SoftPlus_1__init__, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_6mlgrad_4func_Softplus, /*tp_new*/
+  __pyx_tp_new_6mlgrad_4func_SoftPlus, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -67717,7 +67735,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Sign, __pyx_k_Sign, sizeof(__pyx_k_Sign), 0, 0, 1, 1},
   {&__pyx_n_s_SoftAbs, __pyx_k_SoftAbs, sizeof(__pyx_k_SoftAbs), 0, 0, 1, 1},
   {&__pyx_n_s_SoftMinFunc, __pyx_k_SoftMinFunc, sizeof(__pyx_k_SoftMinFunc), 0, 0, 1, 1},
-  {&__pyx_n_s_Softplus, __pyx_k_Softplus, sizeof(__pyx_k_Softplus), 0, 0, 1, 1},
+  {&__pyx_n_s_SoftPlus, __pyx_k_SoftPlus, sizeof(__pyx_k_SoftPlus), 0, 0, 1, 1},
   {&__pyx_n_s_Sqrt, __pyx_k_Sqrt, sizeof(__pyx_k_Sqrt), 0, 0, 1, 1},
   {&__pyx_n_s_Square, __pyx_k_Square, sizeof(__pyx_k_Square), 0, 0, 1, 1},
   {&__pyx_n_s_SquareSigned, __pyx_k_SquareSigned, sizeof(__pyx_k_SquareSigned), 0, 0, 1, 1},
@@ -67841,7 +67859,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pyx_unpickle_Sign, __pyx_k_pyx_unpickle_Sign, sizeof(__pyx_k_pyx_unpickle_Sign), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_unpickle_SoftAbs, __pyx_k_pyx_unpickle_SoftAbs, sizeof(__pyx_k_pyx_unpickle_SoftAbs), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_unpickle_SoftMinFunc, __pyx_k_pyx_unpickle_SoftMinFunc, sizeof(__pyx_k_pyx_unpickle_SoftMinFunc), 0, 0, 1, 1},
-  {&__pyx_n_s_pyx_unpickle_Softplus, __pyx_k_pyx_unpickle_Softplus, sizeof(__pyx_k_pyx_unpickle_Softplus), 0, 0, 1, 1},
+  {&__pyx_n_s_pyx_unpickle_SoftPlus, __pyx_k_pyx_unpickle_SoftPlus, sizeof(__pyx_k_pyx_unpickle_SoftPlus), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_unpickle_Sqrt, __pyx_k_pyx_unpickle_Sqrt, sizeof(__pyx_k_pyx_unpickle_Sqrt), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_unpickle_Square, __pyx_k_pyx_unpickle_Square, sizeof(__pyx_k_pyx_unpickle_Square), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_unpickle_SquareSigned, __pyx_k_pyx_unpickle_SquareSigned, sizeof(__pyx_k_pyx_unpickle_SquareSigned), 0, 0, 1, 1},
@@ -68212,7 +68230,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__48 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__48);
   __Pyx_GIVEREF(__pyx_tuple__48);
-  __pyx_codeobj__49 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Softplus, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__49)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__49 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_SoftPlus, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__49)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__50 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__50);
   __Pyx_GIVEREF(__pyx_tuple__50);
@@ -68477,8 +68495,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
   __pyx_vtabptr_6mlgrad_4func_Func = &__pyx_vtable_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Func.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Func_evaluate;
-  __pyx_vtable_6mlgrad_4func_Func.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Func_derivative;
+  __pyx_vtable_6mlgrad_4func_Func._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Func__evaluate;
+  __pyx_vtable_6mlgrad_4func_Func._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Func__derivative;
   __pyx_vtable_6mlgrad_4func_Func.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Func_derivative2;
   __pyx_vtable_6mlgrad_4func_Func.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Func_derivative_div_x;
   __pyx_vtable_6mlgrad_4func_Func.evaluate_array = (void (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const ))__pyx_f_6mlgrad_4func_4Func_evaluate_array;
@@ -68498,8 +68516,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4func_Func = &__pyx_type_6mlgrad_4func_Func;
   __pyx_vtabptr_6mlgrad_4func_Comp = &__pyx_vtable_6mlgrad_4func_Comp;
   __pyx_vtable_6mlgrad_4func_Comp.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Comp.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Comp_evaluate;
-  __pyx_vtable_6mlgrad_4func_Comp.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Comp_derivative;
+  __pyx_vtable_6mlgrad_4func_Comp.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Comp__evaluate;
+  __pyx_vtable_6mlgrad_4func_Comp.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Comp__derivative;
   __pyx_vtable_6mlgrad_4func_Comp.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Comp_derivative2;
   __pyx_vtable_6mlgrad_4func_Comp.__pyx_base.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Comp_derivative_div_x;
   __pyx_type_6mlgrad_4func_Comp.tp_base = __pyx_ptype_6mlgrad_4func_Func;
@@ -68516,8 +68534,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4func_Comp = &__pyx_type_6mlgrad_4func_Comp;
   __pyx_vtabptr_6mlgrad_4func_CompSqrt = &__pyx_vtable_6mlgrad_4func_CompSqrt;
   __pyx_vtable_6mlgrad_4func_CompSqrt.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_CompSqrt.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8CompSqrt_evaluate;
-  __pyx_vtable_6mlgrad_4func_CompSqrt.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8CompSqrt_derivative;
+  __pyx_vtable_6mlgrad_4func_CompSqrt.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8CompSqrt__evaluate;
+  __pyx_vtable_6mlgrad_4func_CompSqrt.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8CompSqrt__derivative;
   __pyx_vtable_6mlgrad_4func_CompSqrt.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8CompSqrt_derivative2;
   __pyx_vtable_6mlgrad_4func_CompSqrt.__pyx_base.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8CompSqrt_derivative_div_x;
   __pyx_type_6mlgrad_4func_CompSqrt.tp_base = __pyx_ptype_6mlgrad_4func_Func;
@@ -68534,8 +68552,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4func_CompSqrt = &__pyx_type_6mlgrad_4func_CompSqrt;
   __pyx_vtabptr_6mlgrad_4func_ZeroOnPositive = &__pyx_vtable_6mlgrad_4func_ZeroOnPositive;
   __pyx_vtable_6mlgrad_4func_ZeroOnPositive.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_ZeroOnPositive.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_14ZeroOnPositive_evaluate;
-  __pyx_vtable_6mlgrad_4func_ZeroOnPositive.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_14ZeroOnPositive_derivative;
+  __pyx_vtable_6mlgrad_4func_ZeroOnPositive.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_14ZeroOnPositive__evaluate;
+  __pyx_vtable_6mlgrad_4func_ZeroOnPositive.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_14ZeroOnPositive__derivative;
   __pyx_vtable_6mlgrad_4func_ZeroOnPositive.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_14ZeroOnPositive_derivative2;
   __pyx_vtable_6mlgrad_4func_ZeroOnPositive.__pyx_base.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_14ZeroOnPositive_derivative_div_x;
   __pyx_type_6mlgrad_4func_ZeroOnPositive.tp_base = __pyx_ptype_6mlgrad_4func_Func;
@@ -68552,8 +68570,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4func_ZeroOnPositive = &__pyx_type_6mlgrad_4func_ZeroOnPositive;
   __pyx_vtabptr_6mlgrad_4func_FuncExp = &__pyx_vtable_6mlgrad_4func_FuncExp;
   __pyx_vtable_6mlgrad_4func_FuncExp.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_FuncExp.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7FuncExp_evaluate;
-  __pyx_vtable_6mlgrad_4func_FuncExp.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7FuncExp_derivative;
+  __pyx_vtable_6mlgrad_4func_FuncExp.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7FuncExp__evaluate;
+  __pyx_vtable_6mlgrad_4func_FuncExp.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7FuncExp__derivative;
   __pyx_vtable_6mlgrad_4func_FuncExp.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7FuncExp_derivative2;
   __pyx_type_6mlgrad_4func_FuncExp.tp_base = __pyx_ptype_6mlgrad_4func_Func;
   if (PyType_Ready(&__pyx_type_6mlgrad_4func_FuncExp) < 0) __PYX_ERR(0, 187, __pyx_L1_error)
@@ -68569,8 +68587,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4func_FuncExp = &__pyx_type_6mlgrad_4func_FuncExp;
   __pyx_vtabptr_6mlgrad_4func_Id = &__pyx_vtable_6mlgrad_4func_Id;
   __pyx_vtable_6mlgrad_4func_Id.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Id.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_2Id_evaluate;
-  __pyx_vtable_6mlgrad_4func_Id.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_2Id_derivative;
+  __pyx_vtable_6mlgrad_4func_Id.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_2Id__evaluate;
+  __pyx_vtable_6mlgrad_4func_Id.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_2Id__derivative;
   __pyx_vtable_6mlgrad_4func_Id.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_2Id_derivative2;
   __pyx_type_6mlgrad_4func_Id.tp_base = __pyx_ptype_6mlgrad_4func_Func;
   if (PyType_Ready(&__pyx_type_6mlgrad_4func_Id) < 0) __PYX_ERR(0, 203, __pyx_L1_error)
@@ -68586,8 +68604,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4func_Id = &__pyx_type_6mlgrad_4func_Id;
   __pyx_vtabptr_6mlgrad_4func_Neg = &__pyx_vtable_6mlgrad_4func_Neg;
   __pyx_vtable_6mlgrad_4func_Neg.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Neg.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_3Neg_evaluate;
-  __pyx_vtable_6mlgrad_4func_Neg.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_3Neg_derivative;
+  __pyx_vtable_6mlgrad_4func_Neg.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_3Neg__evaluate;
+  __pyx_vtable_6mlgrad_4func_Neg.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_3Neg__derivative;
   __pyx_vtable_6mlgrad_4func_Neg.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_3Neg_derivative2;
   __pyx_type_6mlgrad_4func_Neg.tp_base = __pyx_ptype_6mlgrad_4func_Func;
   if (PyType_Ready(&__pyx_type_6mlgrad_4func_Neg) < 0) __PYX_ERR(0, 270, __pyx_L1_error)
@@ -68603,25 +68621,25 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4func_Neg = &__pyx_type_6mlgrad_4func_Neg;
   __pyx_vtabptr_6mlgrad_4func_Arctang = &__pyx_vtable_6mlgrad_4func_Arctang;
   __pyx_vtable_6mlgrad_4func_Arctang.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Arctang.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7Arctang_evaluate;
-  __pyx_vtable_6mlgrad_4func_Arctang.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7Arctang_derivative;
+  __pyx_vtable_6mlgrad_4func_Arctang.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7Arctang__evaluate;
+  __pyx_vtable_6mlgrad_4func_Arctang.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7Arctang__derivative;
   __pyx_vtable_6mlgrad_4func_Arctang.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7Arctang_derivative2;
   __pyx_type_6mlgrad_4func_Arctang.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Arctang) < 0) __PYX_ERR(0, 338, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Arctang) < 0) __PYX_ERR(0, 340, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Arctang.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Arctang.tp_dictoffset && __pyx_type_6mlgrad_4func_Arctang.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Arctang.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Arctang.tp_dict, __pyx_vtabptr_6mlgrad_4func_Arctang) < 0) __PYX_ERR(0, 338, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Arctang, (PyObject *)&__pyx_type_6mlgrad_4func_Arctang) < 0) __PYX_ERR(0, 338, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Arctang) < 0) __PYX_ERR(0, 338, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Arctang.tp_dict, __pyx_vtabptr_6mlgrad_4func_Arctang) < 0) __PYX_ERR(0, 340, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Arctang, (PyObject *)&__pyx_type_6mlgrad_4func_Arctang) < 0) __PYX_ERR(0, 340, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Arctang) < 0) __PYX_ERR(0, 340, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Arctang = &__pyx_type_6mlgrad_4func_Arctang;
   __pyx_vtabptr_6mlgrad_4func_Sigmoidal = &__pyx_vtable_6mlgrad_4func_Sigmoidal;
   __pyx_vtable_6mlgrad_4func_Sigmoidal.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Sigmoidal.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Sigmoidal_evaluate;
-  __pyx_vtable_6mlgrad_4func_Sigmoidal.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Sigmoidal_derivative;
+  __pyx_vtable_6mlgrad_4func_Sigmoidal.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Sigmoidal__evaluate;
+  __pyx_vtable_6mlgrad_4func_Sigmoidal.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Sigmoidal__derivative;
   __pyx_vtable_6mlgrad_4func_Sigmoidal.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Sigmoidal_derivative2;
   __pyx_type_6mlgrad_4func_Sigmoidal.tp_base = __pyx_ptype_6mlgrad_4func_Func;
   if (PyType_Ready(&__pyx_type_6mlgrad_4func_Sigmoidal) < 0) __PYX_ERR(0, 309, __pyx_L1_error)
@@ -68637,8 +68655,8 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4func_Sigmoidal = &__pyx_type_6mlgrad_4func_Sigmoidal;
   __pyx_vtabptr_6mlgrad_4func_ModSigmoidal = &__pyx_vtable_6mlgrad_4func_ModSigmoidal;
   __pyx_vtable_6mlgrad_4func_ModSigmoidal.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_ModSigmoidal.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12ModSigmoidal_evaluate;
-  __pyx_vtable_6mlgrad_4func_ModSigmoidal.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12ModSigmoidal_derivative;
+  __pyx_vtable_6mlgrad_4func_ModSigmoidal.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12ModSigmoidal__evaluate;
+  __pyx_vtable_6mlgrad_4func_ModSigmoidal.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12ModSigmoidal__derivative;
   __pyx_vtable_6mlgrad_4func_ModSigmoidal.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12ModSigmoidal_derivative2;
   __pyx_type_6mlgrad_4func_ModSigmoidal.tp_base = __pyx_ptype_6mlgrad_4func_Func;
   if (PyType_Ready(&__pyx_type_6mlgrad_4func_ModSigmoidal) < 0) __PYX_ERR(0, 284, __pyx_L1_error)
@@ -68652,78 +68670,78 @@ static int __Pyx_modinit_type_init_code(void) {
   if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ModSigmoidal, (PyObject *)&__pyx_type_6mlgrad_4func_ModSigmoidal) < 0) __PYX_ERR(0, 284, __pyx_L1_error)
   if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_ModSigmoidal) < 0) __PYX_ERR(0, 284, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_ModSigmoidal = &__pyx_type_6mlgrad_4func_ModSigmoidal;
-  __pyx_vtabptr_6mlgrad_4func_Softplus = &__pyx_vtable_6mlgrad_4func_Softplus;
-  __pyx_vtable_6mlgrad_4func_Softplus.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Softplus.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Softplus_evaluate;
-  __pyx_vtable_6mlgrad_4func_Softplus.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Softplus_derivative;
-  __pyx_vtable_6mlgrad_4func_Softplus.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Softplus_derivative2;
-  __pyx_type_6mlgrad_4func_Softplus.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Softplus) < 0) __PYX_ERR(0, 367, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_4func_SoftPlus = &__pyx_vtable_6mlgrad_4func_SoftPlus;
+  __pyx_vtable_6mlgrad_4func_SoftPlus.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
+  __pyx_vtable_6mlgrad_4func_SoftPlus.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8SoftPlus__evaluate;
+  __pyx_vtable_6mlgrad_4func_SoftPlus.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8SoftPlus__derivative;
+  __pyx_vtable_6mlgrad_4func_SoftPlus.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8SoftPlus_derivative2;
+  __pyx_type_6mlgrad_4func_SoftPlus.tp_base = __pyx_ptype_6mlgrad_4func_Func;
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_SoftPlus) < 0) __PYX_ERR(0, 369, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_6mlgrad_4func_Softplus.tp_print = 0;
+  __pyx_type_6mlgrad_4func_SoftPlus.tp_print = 0;
   #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Softplus.tp_dictoffset && __pyx_type_6mlgrad_4func_Softplus.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_6mlgrad_4func_Softplus.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_SoftPlus.tp_dictoffset && __pyx_type_6mlgrad_4func_SoftPlus.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_6mlgrad_4func_SoftPlus.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Softplus.tp_dict, __pyx_vtabptr_6mlgrad_4func_Softplus) < 0) __PYX_ERR(0, 367, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Softplus, (PyObject *)&__pyx_type_6mlgrad_4func_Softplus) < 0) __PYX_ERR(0, 367, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Softplus) < 0) __PYX_ERR(0, 367, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Softplus = &__pyx_type_6mlgrad_4func_Softplus;
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_SoftPlus.tp_dict, __pyx_vtabptr_6mlgrad_4func_SoftPlus) < 0) __PYX_ERR(0, 369, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SoftPlus, (PyObject *)&__pyx_type_6mlgrad_4func_SoftPlus) < 0) __PYX_ERR(0, 369, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_SoftPlus) < 0) __PYX_ERR(0, 369, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_4func_SoftPlus = &__pyx_type_6mlgrad_4func_SoftPlus;
   __pyx_vtabptr_6mlgrad_4func_Threshold = &__pyx_vtable_6mlgrad_4func_Threshold;
   __pyx_vtable_6mlgrad_4func_Threshold.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Threshold.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Threshold_evaluate;
-  __pyx_vtable_6mlgrad_4func_Threshold.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Threshold_derivative;
+  __pyx_vtable_6mlgrad_4func_Threshold.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Threshold__evaluate;
+  __pyx_vtable_6mlgrad_4func_Threshold.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Threshold__derivative;
   __pyx_vtable_6mlgrad_4func_Threshold.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Threshold_derivative2;
   __pyx_type_6mlgrad_4func_Threshold.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Threshold) < 0) __PYX_ERR(0, 398, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Threshold) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Threshold.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Threshold.tp_dictoffset && __pyx_type_6mlgrad_4func_Threshold.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Threshold.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Threshold.tp_dict, __pyx_vtabptr_6mlgrad_4func_Threshold) < 0) __PYX_ERR(0, 398, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Threshold, (PyObject *)&__pyx_type_6mlgrad_4func_Threshold) < 0) __PYX_ERR(0, 398, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Threshold) < 0) __PYX_ERR(0, 398, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Threshold.tp_dict, __pyx_vtabptr_6mlgrad_4func_Threshold) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Threshold, (PyObject *)&__pyx_type_6mlgrad_4func_Threshold) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Threshold) < 0) __PYX_ERR(0, 400, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Threshold = &__pyx_type_6mlgrad_4func_Threshold;
   __pyx_vtabptr_6mlgrad_4func_Sign = &__pyx_vtable_6mlgrad_4func_Sign;
   __pyx_vtable_6mlgrad_4func_Sign.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Sign.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Sign_evaluate;
-  __pyx_vtable_6mlgrad_4func_Sign.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Sign_derivative;
+  __pyx_vtable_6mlgrad_4func_Sign.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Sign__evaluate;
+  __pyx_vtable_6mlgrad_4func_Sign.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Sign__derivative;
   __pyx_vtable_6mlgrad_4func_Sign.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Sign_derivative2;
   __pyx_type_6mlgrad_4func_Sign.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Sign) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Sign) < 0) __PYX_ERR(0, 428, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Sign.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Sign.tp_dictoffset && __pyx_type_6mlgrad_4func_Sign.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Sign.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Sign.tp_dict, __pyx_vtabptr_6mlgrad_4func_Sign) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Sign, (PyObject *)&__pyx_type_6mlgrad_4func_Sign) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Sign) < 0) __PYX_ERR(0, 426, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Sign.tp_dict, __pyx_vtabptr_6mlgrad_4func_Sign) < 0) __PYX_ERR(0, 428, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Sign, (PyObject *)&__pyx_type_6mlgrad_4func_Sign) < 0) __PYX_ERR(0, 428, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Sign) < 0) __PYX_ERR(0, 428, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Sign = &__pyx_type_6mlgrad_4func_Sign;
   __pyx_vtabptr_6mlgrad_4func_Quantile = &__pyx_vtable_6mlgrad_4func_Quantile;
   __pyx_vtable_6mlgrad_4func_Quantile.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Quantile.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Quantile_evaluate;
-  __pyx_vtable_6mlgrad_4func_Quantile.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Quantile_derivative;
+  __pyx_vtable_6mlgrad_4func_Quantile.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Quantile__evaluate;
+  __pyx_vtable_6mlgrad_4func_Quantile.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Quantile__derivative;
   __pyx_vtable_6mlgrad_4func_Quantile.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Quantile_derivative2;
   __pyx_type_6mlgrad_4func_Quantile.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Quantile) < 0) __PYX_ERR(0, 456, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Quantile) < 0) __PYX_ERR(0, 458, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Quantile.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Quantile.tp_dictoffset && __pyx_type_6mlgrad_4func_Quantile.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Quantile.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Quantile.tp_dict, __pyx_vtabptr_6mlgrad_4func_Quantile) < 0) __PYX_ERR(0, 456, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Quantile, (PyObject *)&__pyx_type_6mlgrad_4func_Quantile) < 0) __PYX_ERR(0, 456, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Quantile) < 0) __PYX_ERR(0, 456, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Quantile.tp_dict, __pyx_vtabptr_6mlgrad_4func_Quantile) < 0) __PYX_ERR(0, 458, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Quantile, (PyObject *)&__pyx_type_6mlgrad_4func_Quantile) < 0) __PYX_ERR(0, 458, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Quantile) < 0) __PYX_ERR(0, 458, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Quantile = &__pyx_type_6mlgrad_4func_Quantile;
   __pyx_vtabptr_6mlgrad_4func_QuantileFunc = &__pyx_vtable_6mlgrad_4func_QuantileFunc;
   __pyx_vtable_6mlgrad_4func_QuantileFunc.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_QuantileFunc.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12QuantileFunc_evaluate;
-  __pyx_vtable_6mlgrad_4func_QuantileFunc.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12QuantileFunc_derivative;
+  __pyx_vtable_6mlgrad_4func_QuantileFunc.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12QuantileFunc__evaluate;
+  __pyx_vtable_6mlgrad_4func_QuantileFunc.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12QuantileFunc__derivative;
   __pyx_vtable_6mlgrad_4func_QuantileFunc.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12QuantileFunc_derivative2;
   __pyx_vtable_6mlgrad_4func_QuantileFunc.__pyx_base.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12QuantileFunc_derivative_div_x;
   __pyx_type_6mlgrad_4func_QuantileFunc.tp_base = __pyx_ptype_6mlgrad_4func_Func;
@@ -68740,131 +68758,131 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4func_QuantileFunc = &__pyx_type_6mlgrad_4func_QuantileFunc;
   __pyx_vtabptr_6mlgrad_4func_Expectile = &__pyx_vtable_6mlgrad_4func_Expectile;
   __pyx_vtable_6mlgrad_4func_Expectile.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Expectile.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Expectile_evaluate;
-  __pyx_vtable_6mlgrad_4func_Expectile.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Expectile_derivative;
+  __pyx_vtable_6mlgrad_4func_Expectile.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Expectile__evaluate;
+  __pyx_vtable_6mlgrad_4func_Expectile.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Expectile__derivative;
   __pyx_vtable_6mlgrad_4func_Expectile.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9Expectile_derivative2;
   __pyx_type_6mlgrad_4func_Expectile.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Expectile) < 0) __PYX_ERR(0, 1148, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Expectile) < 0) __PYX_ERR(0, 1150, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Expectile.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Expectile.tp_dictoffset && __pyx_type_6mlgrad_4func_Expectile.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Expectile.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Expectile.tp_dict, __pyx_vtabptr_6mlgrad_4func_Expectile) < 0) __PYX_ERR(0, 1148, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Expectile, (PyObject *)&__pyx_type_6mlgrad_4func_Expectile) < 0) __PYX_ERR(0, 1148, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Expectile) < 0) __PYX_ERR(0, 1148, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Expectile.tp_dict, __pyx_vtabptr_6mlgrad_4func_Expectile) < 0) __PYX_ERR(0, 1150, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Expectile, (PyObject *)&__pyx_type_6mlgrad_4func_Expectile) < 0) __PYX_ERR(0, 1150, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Expectile) < 0) __PYX_ERR(0, 1150, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Expectile = &__pyx_type_6mlgrad_4func_Expectile;
   __pyx_vtabptr_6mlgrad_4func_Power = &__pyx_vtable_6mlgrad_4func_Power;
   __pyx_vtable_6mlgrad_4func_Power.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Power.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Power_evaluate;
-  __pyx_vtable_6mlgrad_4func_Power.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Power_derivative;
+  __pyx_vtable_6mlgrad_4func_Power.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Power__evaluate;
+  __pyx_vtable_6mlgrad_4func_Power.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Power__derivative;
   __pyx_vtable_6mlgrad_4func_Power.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Power_derivative2;
   __pyx_vtable_6mlgrad_4func_Power.__pyx_base.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Power_derivative_div_x;
   __pyx_type_6mlgrad_4func_Power.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Power) < 0) __PYX_ERR(0, 534, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Power) < 0) __PYX_ERR(0, 536, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Power.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Power.tp_dictoffset && __pyx_type_6mlgrad_4func_Power.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Power.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Power.tp_dict, __pyx_vtabptr_6mlgrad_4func_Power) < 0) __PYX_ERR(0, 534, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Power, (PyObject *)&__pyx_type_6mlgrad_4func_Power) < 0) __PYX_ERR(0, 534, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Power) < 0) __PYX_ERR(0, 534, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Power.tp_dict, __pyx_vtabptr_6mlgrad_4func_Power) < 0) __PYX_ERR(0, 536, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Power, (PyObject *)&__pyx_type_6mlgrad_4func_Power) < 0) __PYX_ERR(0, 536, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Power) < 0) __PYX_ERR(0, 536, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Power = &__pyx_type_6mlgrad_4func_Power;
   __pyx_vtabptr_6mlgrad_4func_Square = &__pyx_vtable_6mlgrad_4func_Square;
   __pyx_vtable_6mlgrad_4func_Square.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Square.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_6Square_evaluate;
-  __pyx_vtable_6mlgrad_4func_Square.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_6Square_derivative;
+  __pyx_vtable_6mlgrad_4func_Square.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_6Square__evaluate;
+  __pyx_vtable_6mlgrad_4func_Square.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_6Square__derivative;
   __pyx_vtable_6mlgrad_4func_Square.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_6Square_derivative2;
   __pyx_vtable_6mlgrad_4func_Square.__pyx_base.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_6Square_derivative_div_x;
   __pyx_type_6mlgrad_4func_Square.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Square) < 0) __PYX_ERR(0, 564, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Square) < 0) __PYX_ERR(0, 566, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Square.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Square.tp_dictoffset && __pyx_type_6mlgrad_4func_Square.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Square.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Square.tp_dict, __pyx_vtabptr_6mlgrad_4func_Square) < 0) __PYX_ERR(0, 564, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Square, (PyObject *)&__pyx_type_6mlgrad_4func_Square) < 0) __PYX_ERR(0, 564, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Square) < 0) __PYX_ERR(0, 564, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Square.tp_dict, __pyx_vtabptr_6mlgrad_4func_Square) < 0) __PYX_ERR(0, 566, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Square, (PyObject *)&__pyx_type_6mlgrad_4func_Square) < 0) __PYX_ERR(0, 566, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Square) < 0) __PYX_ERR(0, 566, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Square = &__pyx_type_6mlgrad_4func_Square;
   __pyx_vtabptr_6mlgrad_4func_SquareSigned = &__pyx_vtable_6mlgrad_4func_SquareSigned;
   __pyx_vtable_6mlgrad_4func_SquareSigned.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_SquareSigned.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12SquareSigned_evaluate;
-  __pyx_vtable_6mlgrad_4func_SquareSigned.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12SquareSigned_derivative;
+  __pyx_vtable_6mlgrad_4func_SquareSigned.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12SquareSigned__evaluate;
+  __pyx_vtable_6mlgrad_4func_SquareSigned.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12SquareSigned__derivative;
   __pyx_vtable_6mlgrad_4func_SquareSigned.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_12SquareSigned_derivative2;
   __pyx_type_6mlgrad_4func_SquareSigned.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_SquareSigned) < 0) __PYX_ERR(0, 585, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_SquareSigned) < 0) __PYX_ERR(0, 587, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_SquareSigned.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_SquareSigned.tp_dictoffset && __pyx_type_6mlgrad_4func_SquareSigned.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_SquareSigned.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_SquareSigned.tp_dict, __pyx_vtabptr_6mlgrad_4func_SquareSigned) < 0) __PYX_ERR(0, 585, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SquareSigned, (PyObject *)&__pyx_type_6mlgrad_4func_SquareSigned) < 0) __PYX_ERR(0, 585, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_SquareSigned) < 0) __PYX_ERR(0, 585, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_SquareSigned.tp_dict, __pyx_vtabptr_6mlgrad_4func_SquareSigned) < 0) __PYX_ERR(0, 587, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SquareSigned, (PyObject *)&__pyx_type_6mlgrad_4func_SquareSigned) < 0) __PYX_ERR(0, 587, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_SquareSigned) < 0) __PYX_ERR(0, 587, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_SquareSigned = &__pyx_type_6mlgrad_4func_SquareSigned;
   __pyx_vtabptr_6mlgrad_4func_Absolute = &__pyx_vtable_6mlgrad_4func_Absolute;
   __pyx_vtable_6mlgrad_4func_Absolute.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Absolute.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Absolute_evaluate;
-  __pyx_vtable_6mlgrad_4func_Absolute.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Absolute_derivative;
+  __pyx_vtable_6mlgrad_4func_Absolute.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Absolute__evaluate;
+  __pyx_vtable_6mlgrad_4func_Absolute.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Absolute__derivative;
   __pyx_vtable_6mlgrad_4func_Absolute.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Absolute_derivative2;
   __pyx_type_6mlgrad_4func_Absolute.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Absolute) < 0) __PYX_ERR(0, 608, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Absolute) < 0) __PYX_ERR(0, 610, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Absolute.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Absolute.tp_dictoffset && __pyx_type_6mlgrad_4func_Absolute.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Absolute.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Absolute.tp_dict, __pyx_vtabptr_6mlgrad_4func_Absolute) < 0) __PYX_ERR(0, 608, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Absolute, (PyObject *)&__pyx_type_6mlgrad_4func_Absolute) < 0) __PYX_ERR(0, 608, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Absolute) < 0) __PYX_ERR(0, 608, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Absolute.tp_dict, __pyx_vtabptr_6mlgrad_4func_Absolute) < 0) __PYX_ERR(0, 610, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Absolute, (PyObject *)&__pyx_type_6mlgrad_4func_Absolute) < 0) __PYX_ERR(0, 610, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Absolute) < 0) __PYX_ERR(0, 610, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Absolute = &__pyx_type_6mlgrad_4func_Absolute;
   __pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog = &__pyx_vtable_6mlgrad_4func_Quantile_AlphaLog;
   __pyx_vtable_6mlgrad_4func_Quantile_AlphaLog.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Quantile_AlphaLog.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_17Quantile_AlphaLog_evaluate;
-  __pyx_vtable_6mlgrad_4func_Quantile_AlphaLog.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative;
+  __pyx_vtable_6mlgrad_4func_Quantile_AlphaLog.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_17Quantile_AlphaLog__evaluate;
+  __pyx_vtable_6mlgrad_4func_Quantile_AlphaLog.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_17Quantile_AlphaLog__derivative;
   __pyx_vtable_6mlgrad_4func_Quantile_AlphaLog.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative2;
   __pyx_vtable_6mlgrad_4func_Quantile_AlphaLog.__pyx_base.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_17Quantile_AlphaLog_derivative_div_x;
   __pyx_type_6mlgrad_4func_Quantile_AlphaLog.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Quantile_AlphaLog) < 0) __PYX_ERR(0, 634, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Quantile_AlphaLog) < 0) __PYX_ERR(0, 636, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Quantile_AlphaLog.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Quantile_AlphaLog.tp_dictoffset && __pyx_type_6mlgrad_4func_Quantile_AlphaLog.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Quantile_AlphaLog.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Quantile_AlphaLog.tp_dict, __pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog) < 0) __PYX_ERR(0, 634, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Quantile_AlphaLog, (PyObject *)&__pyx_type_6mlgrad_4func_Quantile_AlphaLog) < 0) __PYX_ERR(0, 634, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Quantile_AlphaLog) < 0) __PYX_ERR(0, 634, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Quantile_AlphaLog.tp_dict, __pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog) < 0) __PYX_ERR(0, 636, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Quantile_AlphaLog, (PyObject *)&__pyx_type_6mlgrad_4func_Quantile_AlphaLog) < 0) __PYX_ERR(0, 636, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Quantile_AlphaLog) < 0) __PYX_ERR(0, 636, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Quantile_AlphaLog = &__pyx_type_6mlgrad_4func_Quantile_AlphaLog;
   __pyx_vtabptr_6mlgrad_4func_SoftAbs = &__pyx_vtable_6mlgrad_4func_SoftAbs;
   __pyx_vtable_6mlgrad_4func_SoftAbs.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_SoftAbs.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7SoftAbs_evaluate;
-  __pyx_vtable_6mlgrad_4func_SoftAbs.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7SoftAbs_derivative;
+  __pyx_vtable_6mlgrad_4func_SoftAbs.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7SoftAbs__evaluate;
+  __pyx_vtable_6mlgrad_4func_SoftAbs.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7SoftAbs__derivative;
   __pyx_vtable_6mlgrad_4func_SoftAbs.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7SoftAbs_derivative2;
   __pyx_vtable_6mlgrad_4func_SoftAbs.__pyx_base.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_7SoftAbs_derivative_div_x;
   __pyx_type_6mlgrad_4func_SoftAbs.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_SoftAbs) < 0) __PYX_ERR(0, 945, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_SoftAbs) < 0) __PYX_ERR(0, 947, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_SoftAbs.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_SoftAbs.tp_dictoffset && __pyx_type_6mlgrad_4func_SoftAbs.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_SoftAbs.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_SoftAbs.tp_dict, __pyx_vtabptr_6mlgrad_4func_SoftAbs) < 0) __PYX_ERR(0, 945, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SoftAbs, (PyObject *)&__pyx_type_6mlgrad_4func_SoftAbs) < 0) __PYX_ERR(0, 945, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_SoftAbs) < 0) __PYX_ERR(0, 945, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_SoftAbs.tp_dict, __pyx_vtabptr_6mlgrad_4func_SoftAbs) < 0) __PYX_ERR(0, 947, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SoftAbs, (PyObject *)&__pyx_type_6mlgrad_4func_SoftAbs) < 0) __PYX_ERR(0, 947, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_SoftAbs) < 0) __PYX_ERR(0, 947, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_SoftAbs = &__pyx_type_6mlgrad_4func_SoftAbs;
   __pyx_vtabptr_6mlgrad_4func_Sqrt = &__pyx_vtable_6mlgrad_4func_Sqrt;
   __pyx_vtable_6mlgrad_4func_Sqrt.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Sqrt.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Sqrt_evaluate;
-  __pyx_vtable_6mlgrad_4func_Sqrt.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Sqrt_derivative;
+  __pyx_vtable_6mlgrad_4func_Sqrt.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Sqrt__evaluate;
+  __pyx_vtable_6mlgrad_4func_Sqrt.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Sqrt__derivative;
   __pyx_vtable_6mlgrad_4func_Sqrt.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Sqrt_derivative2;
   __pyx_vtable_6mlgrad_4func_Sqrt.__pyx_base.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x;
   __pyx_vtable_6mlgrad_4func_Sqrt.__pyx_base.evaluate_array = (void (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const ))__pyx_f_6mlgrad_4func_4Sqrt_evaluate_array;
@@ -68872,21 +68890,21 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_4func_Sqrt.__pyx_base.derivative2_array = (void (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const ))__pyx_f_6mlgrad_4func_4Sqrt_derivative2_array;
   __pyx_vtable_6mlgrad_4func_Sqrt.__pyx_base.derivative_div_x_array = (void (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const ))__pyx_f_6mlgrad_4func_4Sqrt_derivative_div_x_array;
   __pyx_type_6mlgrad_4func_Sqrt.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Sqrt) < 0) __PYX_ERR(0, 978, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Sqrt) < 0) __PYX_ERR(0, 980, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Sqrt.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Sqrt.tp_dictoffset && __pyx_type_6mlgrad_4func_Sqrt.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Sqrt.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Sqrt.tp_dict, __pyx_vtabptr_6mlgrad_4func_Sqrt) < 0) __PYX_ERR(0, 978, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Sqrt, (PyObject *)&__pyx_type_6mlgrad_4func_Sqrt) < 0) __PYX_ERR(0, 978, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Sqrt) < 0) __PYX_ERR(0, 978, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Sqrt.tp_dict, __pyx_vtabptr_6mlgrad_4func_Sqrt) < 0) __PYX_ERR(0, 980, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Sqrt, (PyObject *)&__pyx_type_6mlgrad_4func_Sqrt) < 0) __PYX_ERR(0, 980, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Sqrt) < 0) __PYX_ERR(0, 980, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Sqrt = &__pyx_type_6mlgrad_4func_Sqrt;
   __pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt = &__pyx_vtable_6mlgrad_4func_Quantile_Sqrt;
   __pyx_vtable_6mlgrad_4func_Quantile_Sqrt.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Quantile_Sqrt.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate;
-  __pyx_vtable_6mlgrad_4func_Quantile_Sqrt.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative;
+  __pyx_vtable_6mlgrad_4func_Quantile_Sqrt.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_13Quantile_Sqrt__evaluate;
+  __pyx_vtable_6mlgrad_4func_Quantile_Sqrt.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_13Quantile_Sqrt__derivative;
   __pyx_vtable_6mlgrad_4func_Quantile_Sqrt.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2;
   __pyx_vtable_6mlgrad_4func_Quantile_Sqrt.__pyx_base.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x;
   __pyx_vtable_6mlgrad_4func_Quantile_Sqrt.__pyx_base.evaluate_array = (void (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const ))__pyx_f_6mlgrad_4func_13Quantile_Sqrt_evaluate_array;
@@ -68894,136 +68912,136 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_4func_Quantile_Sqrt.__pyx_base.derivative2_array = (void (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const ))__pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative2_array;
   __pyx_vtable_6mlgrad_4func_Quantile_Sqrt.__pyx_base.derivative_div_x_array = (void (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const ))__pyx_f_6mlgrad_4func_13Quantile_Sqrt_derivative_div_x_array;
   __pyx_type_6mlgrad_4func_Quantile_Sqrt.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Quantile_Sqrt) < 0) __PYX_ERR(0, 1054, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Quantile_Sqrt) < 0) __PYX_ERR(0, 1056, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Quantile_Sqrt.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Quantile_Sqrt.tp_dictoffset && __pyx_type_6mlgrad_4func_Quantile_Sqrt.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Quantile_Sqrt.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Quantile_Sqrt.tp_dict, __pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt) < 0) __PYX_ERR(0, 1054, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Quantile_Sqrt, (PyObject *)&__pyx_type_6mlgrad_4func_Quantile_Sqrt) < 0) __PYX_ERR(0, 1054, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Quantile_Sqrt) < 0) __PYX_ERR(0, 1054, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Quantile_Sqrt.tp_dict, __pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt) < 0) __PYX_ERR(0, 1056, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Quantile_Sqrt, (PyObject *)&__pyx_type_6mlgrad_4func_Quantile_Sqrt) < 0) __PYX_ERR(0, 1056, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Quantile_Sqrt) < 0) __PYX_ERR(0, 1056, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Quantile_Sqrt = &__pyx_type_6mlgrad_4func_Quantile_Sqrt;
   __pyx_vtabptr_6mlgrad_4func_Logistic = &__pyx_vtable_6mlgrad_4func_Logistic;
   __pyx_vtable_6mlgrad_4func_Logistic.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Logistic.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Logistic_evaluate;
-  __pyx_vtable_6mlgrad_4func_Logistic.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Logistic_derivative;
+  __pyx_vtable_6mlgrad_4func_Logistic.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Logistic__evaluate;
+  __pyx_vtable_6mlgrad_4func_Logistic.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Logistic__derivative;
   __pyx_vtable_6mlgrad_4func_Logistic.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_8Logistic_derivative2;
   __pyx_type_6mlgrad_4func_Logistic.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Logistic) < 0) __PYX_ERR(0, 699, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Logistic) < 0) __PYX_ERR(0, 701, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Logistic.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Logistic.tp_dictoffset && __pyx_type_6mlgrad_4func_Logistic.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Logistic.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Logistic.tp_dict, __pyx_vtabptr_6mlgrad_4func_Logistic) < 0) __PYX_ERR(0, 699, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Logistic, (PyObject *)&__pyx_type_6mlgrad_4func_Logistic) < 0) __PYX_ERR(0, 699, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Logistic) < 0) __PYX_ERR(0, 699, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Logistic.tp_dict, __pyx_vtabptr_6mlgrad_4func_Logistic) < 0) __PYX_ERR(0, 701, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Logistic, (PyObject *)&__pyx_type_6mlgrad_4func_Logistic) < 0) __PYX_ERR(0, 701, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Logistic) < 0) __PYX_ERR(0, 701, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Logistic = &__pyx_type_6mlgrad_4func_Logistic;
   __pyx_vtabptr_6mlgrad_4func_Huber = &__pyx_vtable_6mlgrad_4func_Huber;
   __pyx_vtable_6mlgrad_4func_Huber.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Huber.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Huber_evaluate;
-  __pyx_vtable_6mlgrad_4func_Huber.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Huber_derivative;
+  __pyx_vtable_6mlgrad_4func_Huber.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Huber__evaluate;
+  __pyx_vtable_6mlgrad_4func_Huber.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Huber__derivative;
   __pyx_vtable_6mlgrad_4func_Huber.__pyx_base.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Huber_derivative_div_x;
   __pyx_type_6mlgrad_4func_Huber.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Huber) < 0) __PYX_ERR(0, 790, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Huber) < 0) __PYX_ERR(0, 792, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Huber.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Huber.tp_dictoffset && __pyx_type_6mlgrad_4func_Huber.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Huber.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Huber.tp_dict, __pyx_vtabptr_6mlgrad_4func_Huber) < 0) __PYX_ERR(0, 790, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Huber, (PyObject *)&__pyx_type_6mlgrad_4func_Huber) < 0) __PYX_ERR(0, 790, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Huber) < 0) __PYX_ERR(0, 790, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Huber.tp_dict, __pyx_vtabptr_6mlgrad_4func_Huber) < 0) __PYX_ERR(0, 792, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Huber, (PyObject *)&__pyx_type_6mlgrad_4func_Huber) < 0) __PYX_ERR(0, 792, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Huber) < 0) __PYX_ERR(0, 792, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Huber = &__pyx_type_6mlgrad_4func_Huber;
   __pyx_vtabptr_6mlgrad_4func_TM = &__pyx_vtable_6mlgrad_4func_TM;
   __pyx_vtable_6mlgrad_4func_TM.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_TM.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_2TM_evaluate;
-  __pyx_vtable_6mlgrad_4func_TM.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_2TM_derivative;
+  __pyx_vtable_6mlgrad_4func_TM.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_2TM__evaluate;
+  __pyx_vtable_6mlgrad_4func_TM.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_2TM__derivative;
   __pyx_vtable_6mlgrad_4func_TM.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_2TM_derivative2;
   __pyx_vtable_6mlgrad_4func_TM.__pyx_base.derivative_div_x = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_2TM_derivative_div_x;
   __pyx_type_6mlgrad_4func_TM.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_TM) < 0) __PYX_ERR(0, 836, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_TM) < 0) __PYX_ERR(0, 838, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_TM.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_TM.tp_dictoffset && __pyx_type_6mlgrad_4func_TM.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_TM.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_TM.tp_dict, __pyx_vtabptr_6mlgrad_4func_TM) < 0) __PYX_ERR(0, 836, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_TM, (PyObject *)&__pyx_type_6mlgrad_4func_TM) < 0) __PYX_ERR(0, 836, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_TM) < 0) __PYX_ERR(0, 836, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_TM.tp_dict, __pyx_vtabptr_6mlgrad_4func_TM) < 0) __PYX_ERR(0, 838, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_TM, (PyObject *)&__pyx_type_6mlgrad_4func_TM) < 0) __PYX_ERR(0, 838, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_TM) < 0) __PYX_ERR(0, 838, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_TM = &__pyx_type_6mlgrad_4func_TM;
   __pyx_vtabptr_6mlgrad_4func_LogSquare = &__pyx_vtable_6mlgrad_4func_LogSquare;
   __pyx_vtable_6mlgrad_4func_LogSquare.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_LogSquare.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9LogSquare_evaluate;
-  __pyx_vtable_6mlgrad_4func_LogSquare.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9LogSquare_derivative;
+  __pyx_vtable_6mlgrad_4func_LogSquare.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9LogSquare__evaluate;
+  __pyx_vtable_6mlgrad_4func_LogSquare.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9LogSquare__derivative;
   __pyx_vtable_6mlgrad_4func_LogSquare.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9LogSquare_derivative2;
   __pyx_type_6mlgrad_4func_LogSquare.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_LogSquare) < 0) __PYX_ERR(0, 873, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_LogSquare) < 0) __PYX_ERR(0, 875, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_LogSquare.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_LogSquare.tp_dictoffset && __pyx_type_6mlgrad_4func_LogSquare.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_LogSquare.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_LogSquare.tp_dict, __pyx_vtabptr_6mlgrad_4func_LogSquare) < 0) __PYX_ERR(0, 873, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_LogSquare, (PyObject *)&__pyx_type_6mlgrad_4func_LogSquare) < 0) __PYX_ERR(0, 873, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_LogSquare) < 0) __PYX_ERR(0, 873, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_LogSquare.tp_dict, __pyx_vtabptr_6mlgrad_4func_LogSquare) < 0) __PYX_ERR(0, 875, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_LogSquare, (PyObject *)&__pyx_type_6mlgrad_4func_LogSquare) < 0) __PYX_ERR(0, 875, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_LogSquare) < 0) __PYX_ERR(0, 875, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_LogSquare = &__pyx_type_6mlgrad_4func_LogSquare;
   __pyx_vtabptr_6mlgrad_4func_Tukey = &__pyx_vtable_6mlgrad_4func_Tukey;
   __pyx_vtable_6mlgrad_4func_Tukey.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Tukey.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Tukey_evaluate;
-  __pyx_vtable_6mlgrad_4func_Tukey.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Tukey_derivative;
+  __pyx_vtable_6mlgrad_4func_Tukey.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Tukey__evaluate;
+  __pyx_vtable_6mlgrad_4func_Tukey.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Tukey__derivative;
   __pyx_vtable_6mlgrad_4func_Tukey.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Tukey_derivative2;
   __pyx_type_6mlgrad_4func_Tukey.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Tukey) < 0) __PYX_ERR(0, 899, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Tukey) < 0) __PYX_ERR(0, 901, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Tukey.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Tukey.tp_dictoffset && __pyx_type_6mlgrad_4func_Tukey.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Tukey.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Tukey.tp_dict, __pyx_vtabptr_6mlgrad_4func_Tukey) < 0) __PYX_ERR(0, 899, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Tukey, (PyObject *)&__pyx_type_6mlgrad_4func_Tukey) < 0) __PYX_ERR(0, 899, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Tukey) < 0) __PYX_ERR(0, 899, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Tukey.tp_dict, __pyx_vtabptr_6mlgrad_4func_Tukey) < 0) __PYX_ERR(0, 901, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Tukey, (PyObject *)&__pyx_type_6mlgrad_4func_Tukey) < 0) __PYX_ERR(0, 901, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Tukey) < 0) __PYX_ERR(0, 901, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Tukey = &__pyx_type_6mlgrad_4func_Tukey;
   __pyx_vtabptr_6mlgrad_4func_Hinge = &__pyx_vtable_6mlgrad_4func_Hinge;
   __pyx_vtable_6mlgrad_4func_Hinge.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Hinge.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Hinge_evaluate;
-  __pyx_vtable_6mlgrad_4func_Hinge.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Hinge_derivative;
+  __pyx_vtable_6mlgrad_4func_Hinge.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Hinge__evaluate;
+  __pyx_vtable_6mlgrad_4func_Hinge.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Hinge__derivative;
   __pyx_vtable_6mlgrad_4func_Hinge.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_5Hinge_derivative2;
   __pyx_type_6mlgrad_4func_Hinge.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Hinge) < 0) __PYX_ERR(0, 736, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Hinge) < 0) __PYX_ERR(0, 738, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Hinge.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Hinge.tp_dictoffset && __pyx_type_6mlgrad_4func_Hinge.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Hinge.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Hinge.tp_dict, __pyx_vtabptr_6mlgrad_4func_Hinge) < 0) __PYX_ERR(0, 736, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Hinge, (PyObject *)&__pyx_type_6mlgrad_4func_Hinge) < 0) __PYX_ERR(0, 736, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Hinge) < 0) __PYX_ERR(0, 736, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Hinge.tp_dict, __pyx_vtabptr_6mlgrad_4func_Hinge) < 0) __PYX_ERR(0, 738, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Hinge, (PyObject *)&__pyx_type_6mlgrad_4func_Hinge) < 0) __PYX_ERR(0, 738, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Hinge) < 0) __PYX_ERR(0, 738, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Hinge = &__pyx_type_6mlgrad_4func_Hinge;
   __pyx_vtabptr_6mlgrad_4func_HingeSqrt = &__pyx_vtable_6mlgrad_4func_HingeSqrt;
   __pyx_vtable_6mlgrad_4func_HingeSqrt.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_HingeSqrt.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9HingeSqrt_evaluate;
-  __pyx_vtable_6mlgrad_4func_HingeSqrt.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9HingeSqrt_derivative;
+  __pyx_vtable_6mlgrad_4func_HingeSqrt.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9HingeSqrt__evaluate;
+  __pyx_vtable_6mlgrad_4func_HingeSqrt.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9HingeSqrt__derivative;
   __pyx_vtable_6mlgrad_4func_HingeSqrt.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_9HingeSqrt_derivative2;
   __pyx_type_6mlgrad_4func_HingeSqrt.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_HingeSqrt) < 0) __PYX_ERR(0, 766, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_HingeSqrt) < 0) __PYX_ERR(0, 768, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_HingeSqrt.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_HingeSqrt.tp_dictoffset && __pyx_type_6mlgrad_4func_HingeSqrt.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_HingeSqrt.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_HingeSqrt.tp_dict, __pyx_vtabptr_6mlgrad_4func_HingeSqrt) < 0) __PYX_ERR(0, 766, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_HingeSqrt, (PyObject *)&__pyx_type_6mlgrad_4func_HingeSqrt) < 0) __PYX_ERR(0, 766, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_HingeSqrt) < 0) __PYX_ERR(0, 766, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_HingeSqrt.tp_dict, __pyx_vtabptr_6mlgrad_4func_HingeSqrt) < 0) __PYX_ERR(0, 768, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_HingeSqrt, (PyObject *)&__pyx_type_6mlgrad_4func_HingeSqrt) < 0) __PYX_ERR(0, 768, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_HingeSqrt) < 0) __PYX_ERR(0, 768, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_HingeSqrt = &__pyx_type_6mlgrad_4func_HingeSqrt;
   __pyx_vtabptr_6mlgrad_4func_Exp = &__pyx_vtable_6mlgrad_4func_Exp;
   __pyx_vtable_6mlgrad_4func_Exp.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
@@ -69040,103 +69058,103 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_4func_Exp = &__pyx_type_6mlgrad_4func_Exp;
   __pyx_vtabptr_6mlgrad_4func_Log = &__pyx_vtable_6mlgrad_4func_Log;
   __pyx_vtable_6mlgrad_4func_Log.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_Log.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_3Log_evaluate;
-  __pyx_vtable_6mlgrad_4func_Log.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_3Log_derivative;
+  __pyx_vtable_6mlgrad_4func_Log.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_3Log__evaluate;
+  __pyx_vtable_6mlgrad_4func_Log.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_3Log__derivative;
   __pyx_vtable_6mlgrad_4func_Log.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_3Log_derivative2;
   __pyx_type_6mlgrad_4func_Log.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Log) < 0) __PYX_ERR(0, 1169, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_Log) < 0) __PYX_ERR(0, 1171, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_Log.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_Log.tp_dictoffset && __pyx_type_6mlgrad_4func_Log.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_Log.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Log.tp_dict, __pyx_vtabptr_6mlgrad_4func_Log) < 0) __PYX_ERR(0, 1169, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Log, (PyObject *)&__pyx_type_6mlgrad_4func_Log) < 0) __PYX_ERR(0, 1169, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Log) < 0) __PYX_ERR(0, 1169, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_Log.tp_dict, __pyx_vtabptr_6mlgrad_4func_Log) < 0) __PYX_ERR(0, 1171, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Log, (PyObject *)&__pyx_type_6mlgrad_4func_Log) < 0) __PYX_ERR(0, 1171, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_Log) < 0) __PYX_ERR(0, 1171, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_Log = &__pyx_type_6mlgrad_4func_Log;
   __pyx_vtabptr_6mlgrad_4func_KMinSquare = &__pyx_vtable_6mlgrad_4func_KMinSquare;
   __pyx_vtable_6mlgrad_4func_KMinSquare.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_Func;
-  __pyx_vtable_6mlgrad_4func_KMinSquare.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_10KMinSquare_evaluate;
-  __pyx_vtable_6mlgrad_4func_KMinSquare.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_10KMinSquare_derivative;
+  __pyx_vtable_6mlgrad_4func_KMinSquare.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_10KMinSquare__evaluate;
+  __pyx_vtable_6mlgrad_4func_KMinSquare.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_10KMinSquare__derivative;
   __pyx_vtable_6mlgrad_4func_KMinSquare.__pyx_base.derivative2 = (double (*)(struct __pyx_obj_6mlgrad_4func_Func *, double const ))__pyx_f_6mlgrad_4func_10KMinSquare_derivative2;
   __pyx_type_6mlgrad_4func_KMinSquare.tp_base = __pyx_ptype_6mlgrad_4func_Func;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_KMinSquare) < 0) __PYX_ERR(0, 1274, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_KMinSquare) < 0) __PYX_ERR(0, 1276, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_KMinSquare.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_KMinSquare.tp_dictoffset && __pyx_type_6mlgrad_4func_KMinSquare.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_KMinSquare.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_KMinSquare.tp_dict, __pyx_vtabptr_6mlgrad_4func_KMinSquare) < 0) __PYX_ERR(0, 1274, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_KMinSquare, (PyObject *)&__pyx_type_6mlgrad_4func_KMinSquare) < 0) __PYX_ERR(0, 1274, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_KMinSquare) < 0) __PYX_ERR(0, 1274, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_KMinSquare.tp_dict, __pyx_vtabptr_6mlgrad_4func_KMinSquare) < 0) __PYX_ERR(0, 1276, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_KMinSquare, (PyObject *)&__pyx_type_6mlgrad_4func_KMinSquare) < 0) __PYX_ERR(0, 1276, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_KMinSquare) < 0) __PYX_ERR(0, 1276, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_KMinSquare = &__pyx_type_6mlgrad_4func_KMinSquare;
   __pyx_vtabptr_6mlgrad_4func_ParameterizedFunc = &__pyx_vtable_6mlgrad_4func_ParameterizedFunc;
-  __pyx_vtable_6mlgrad_4func_ParameterizedFunc.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_17ParameterizedFunc_evaluate;
-  __pyx_vtable_6mlgrad_4func_ParameterizedFunc.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_17ParameterizedFunc_derivative;
+  __pyx_vtable_6mlgrad_4func_ParameterizedFunc._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_17ParameterizedFunc__evaluate;
+  __pyx_vtable_6mlgrad_4func_ParameterizedFunc._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_17ParameterizedFunc__derivative;
   __pyx_vtable_6mlgrad_4func_ParameterizedFunc.derivative_u = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_17ParameterizedFunc_derivative_u;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_ParameterizedFunc) < 0) __PYX_ERR(0, 1191, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_ParameterizedFunc) < 0) __PYX_ERR(0, 1193, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_ParameterizedFunc.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_ParameterizedFunc.tp_dictoffset && __pyx_type_6mlgrad_4func_ParameterizedFunc.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_ParameterizedFunc.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_ParameterizedFunc.tp_dict, __pyx_vtabptr_6mlgrad_4func_ParameterizedFunc) < 0) __PYX_ERR(0, 1191, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ParameterizedFunc, (PyObject *)&__pyx_type_6mlgrad_4func_ParameterizedFunc) < 0) __PYX_ERR(0, 1191, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_ParameterizedFunc) < 0) __PYX_ERR(0, 1191, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_ParameterizedFunc.tp_dict, __pyx_vtabptr_6mlgrad_4func_ParameterizedFunc) < 0) __PYX_ERR(0, 1193, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ParameterizedFunc, (PyObject *)&__pyx_type_6mlgrad_4func_ParameterizedFunc) < 0) __PYX_ERR(0, 1193, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_ParameterizedFunc) < 0) __PYX_ERR(0, 1193, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_ParameterizedFunc = &__pyx_type_6mlgrad_4func_ParameterizedFunc;
   __pyx_vtabptr_6mlgrad_4func_WinsorizedFunc = &__pyx_vtable_6mlgrad_4func_WinsorizedFunc;
   __pyx_vtable_6mlgrad_4func_WinsorizedFunc.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc;
-  __pyx_vtable_6mlgrad_4func_WinsorizedFunc.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_14WinsorizedFunc_evaluate;
-  __pyx_vtable_6mlgrad_4func_WinsorizedFunc.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative;
+  __pyx_vtable_6mlgrad_4func_WinsorizedFunc.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_14WinsorizedFunc__evaluate;
+  __pyx_vtable_6mlgrad_4func_WinsorizedFunc.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_14WinsorizedFunc__derivative;
   __pyx_vtable_6mlgrad_4func_WinsorizedFunc.__pyx_base.derivative_u = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_14WinsorizedFunc_derivative_u;
   __pyx_type_6mlgrad_4func_WinsorizedFunc.tp_base = __pyx_ptype_6mlgrad_4func_ParameterizedFunc;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_WinsorizedFunc) < 0) __PYX_ERR(0, 1205, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_WinsorizedFunc) < 0) __PYX_ERR(0, 1207, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_WinsorizedFunc.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_WinsorizedFunc.tp_dictoffset && __pyx_type_6mlgrad_4func_WinsorizedFunc.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_WinsorizedFunc.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_WinsorizedFunc.tp_dict, __pyx_vtabptr_6mlgrad_4func_WinsorizedFunc) < 0) __PYX_ERR(0, 1205, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WinsorizedFunc, (PyObject *)&__pyx_type_6mlgrad_4func_WinsorizedFunc) < 0) __PYX_ERR(0, 1205, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_WinsorizedFunc) < 0) __PYX_ERR(0, 1205, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_WinsorizedFunc.tp_dict, __pyx_vtabptr_6mlgrad_4func_WinsorizedFunc) < 0) __PYX_ERR(0, 1207, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WinsorizedFunc, (PyObject *)&__pyx_type_6mlgrad_4func_WinsorizedFunc) < 0) __PYX_ERR(0, 1207, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_WinsorizedFunc) < 0) __PYX_ERR(0, 1207, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_WinsorizedFunc = &__pyx_type_6mlgrad_4func_WinsorizedFunc;
   __pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc = &__pyx_vtable_6mlgrad_4func_WinsorizedSmoothFunc;
   __pyx_vtable_6mlgrad_4func_WinsorizedSmoothFunc.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc;
-  __pyx_vtable_6mlgrad_4func_WinsorizedSmoothFunc.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc_evaluate;
-  __pyx_vtable_6mlgrad_4func_WinsorizedSmoothFunc.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc_derivative;
+  __pyx_vtable_6mlgrad_4func_WinsorizedSmoothFunc.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc__evaluate;
+  __pyx_vtable_6mlgrad_4func_WinsorizedSmoothFunc.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc__derivative;
   __pyx_vtable_6mlgrad_4func_WinsorizedSmoothFunc.__pyx_base.derivative_u = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_20WinsorizedSmoothFunc_derivative_u;
   __pyx_type_6mlgrad_4func_WinsorizedSmoothFunc.tp_base = __pyx_ptype_6mlgrad_4func_ParameterizedFunc;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_WinsorizedSmoothFunc) < 0) __PYX_ERR(0, 1256, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_WinsorizedSmoothFunc) < 0) __PYX_ERR(0, 1258, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_WinsorizedSmoothFunc.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_WinsorizedSmoothFunc.tp_dictoffset && __pyx_type_6mlgrad_4func_WinsorizedSmoothFunc.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_WinsorizedSmoothFunc.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_WinsorizedSmoothFunc.tp_dict, __pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc) < 0) __PYX_ERR(0, 1256, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WinsorizedSmoothFunc, (PyObject *)&__pyx_type_6mlgrad_4func_WinsorizedSmoothFunc) < 0) __PYX_ERR(0, 1256, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_WinsorizedSmoothFunc) < 0) __PYX_ERR(0, 1256, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_WinsorizedSmoothFunc.tp_dict, __pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc) < 0) __PYX_ERR(0, 1258, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_WinsorizedSmoothFunc, (PyObject *)&__pyx_type_6mlgrad_4func_WinsorizedSmoothFunc) < 0) __PYX_ERR(0, 1258, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_WinsorizedSmoothFunc) < 0) __PYX_ERR(0, 1258, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc = &__pyx_type_6mlgrad_4func_WinsorizedSmoothFunc;
   __pyx_vtabptr_6mlgrad_4func_SoftMinFunc = &__pyx_vtable_6mlgrad_4func_SoftMinFunc;
   __pyx_vtable_6mlgrad_4func_SoftMinFunc.__pyx_base = *__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc;
-  __pyx_vtable_6mlgrad_4func_SoftMinFunc.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_11SoftMinFunc_evaluate;
-  __pyx_vtable_6mlgrad_4func_SoftMinFunc.__pyx_base.derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_11SoftMinFunc_derivative;
+  __pyx_vtable_6mlgrad_4func_SoftMinFunc.__pyx_base._evaluate = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_11SoftMinFunc__evaluate;
+  __pyx_vtable_6mlgrad_4func_SoftMinFunc.__pyx_base._derivative = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_11SoftMinFunc__derivative;
   __pyx_vtable_6mlgrad_4func_SoftMinFunc.__pyx_base.derivative_u = (double (*)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double))__pyx_f_6mlgrad_4func_11SoftMinFunc_derivative_u;
   __pyx_type_6mlgrad_4func_SoftMinFunc.tp_base = __pyx_ptype_6mlgrad_4func_ParameterizedFunc;
-  if (PyType_Ready(&__pyx_type_6mlgrad_4func_SoftMinFunc) < 0) __PYX_ERR(0, 1232, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_4func_SoftMinFunc) < 0) __PYX_ERR(0, 1234, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_4func_SoftMinFunc.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_4func_SoftMinFunc.tp_dictoffset && __pyx_type_6mlgrad_4func_SoftMinFunc.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_4func_SoftMinFunc.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_SoftMinFunc.tp_dict, __pyx_vtabptr_6mlgrad_4func_SoftMinFunc) < 0) __PYX_ERR(0, 1232, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SoftMinFunc, (PyObject *)&__pyx_type_6mlgrad_4func_SoftMinFunc) < 0) __PYX_ERR(0, 1232, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_SoftMinFunc) < 0) __PYX_ERR(0, 1232, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_4func_SoftMinFunc.tp_dict, __pyx_vtabptr_6mlgrad_4func_SoftMinFunc) < 0) __PYX_ERR(0, 1234, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SoftMinFunc, (PyObject *)&__pyx_type_6mlgrad_4func_SoftMinFunc) < 0) __PYX_ERR(0, 1234, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_4func_SoftMinFunc) < 0) __PYX_ERR(0, 1234, __pyx_L1_error)
   __pyx_ptype_6mlgrad_4func_SoftMinFunc = &__pyx_type_6mlgrad_4func_SoftMinFunc;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -69512,16 +69530,16 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_quantile_func, __pyx_t_1) < 0) __PYX_ERR(0, 217, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/func.pyx":1311
+  /* "mlgrad/func.pyx":1313
  * 
  * 
  * register_func(Comp, 'comp')             # <<<<<<<<<<<<<<
  * register_func(QuantileFunc, 'quantile_func')
  * register_func(Sigmoidal, 'sigmoidal')
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1311, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1313, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1311, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1313, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Comp));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Comp));
@@ -69529,52 +69547,6 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_u_comp);
   __Pyx_GIVEREF(__pyx_n_u_comp);
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_comp);
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1311, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-  /* "mlgrad/func.pyx":1312
- * 
- * register_func(Comp, 'comp')
- * register_func(QuantileFunc, 'quantile_func')             # <<<<<<<<<<<<<<
- * register_func(Sigmoidal, 'sigmoidal')
- * register_func(KMinSquare, 'kmin_square')
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1312, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1312, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_QuantileFunc));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_QuantileFunc));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_QuantileFunc));
-  __Pyx_INCREF(__pyx_n_u_quantile_func);
-  __Pyx_GIVEREF(__pyx_n_u_quantile_func);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_quantile_func);
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1312, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "mlgrad/func.pyx":1313
- * register_func(Comp, 'comp')
- * register_func(QuantileFunc, 'quantile_func')
- * register_func(Sigmoidal, 'sigmoidal')             # <<<<<<<<<<<<<<
- * register_func(KMinSquare, 'kmin_square')
- * register_func(WinsorizedSmoothFunc, 'winsorized_smooth')
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1313, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1313, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Sigmoidal));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Sigmoidal));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Sigmoidal));
-  __Pyx_INCREF(__pyx_n_u_sigmoidal);
-  __Pyx_GIVEREF(__pyx_n_u_sigmoidal);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_sigmoidal);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1313, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -69582,22 +69554,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1314
- * register_func(QuantileFunc, 'quantile_func')
+ * 
+ * register_func(Comp, 'comp')
+ * register_func(QuantileFunc, 'quantile_func')             # <<<<<<<<<<<<<<
  * register_func(Sigmoidal, 'sigmoidal')
- * register_func(KMinSquare, 'kmin_square')             # <<<<<<<<<<<<<<
- * register_func(WinsorizedSmoothFunc, 'winsorized_smooth')
- * register_func(SoftMinFunc, 'softmin')
+ * register_func(KMinSquare, 'kmin_square')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_KMinSquare));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_KMinSquare));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_KMinSquare));
-  __Pyx_INCREF(__pyx_n_u_kmin_square);
-  __Pyx_GIVEREF(__pyx_n_u_kmin_square);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_kmin_square);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_QuantileFunc));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_QuantileFunc));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_QuantileFunc));
+  __Pyx_INCREF(__pyx_n_u_quantile_func);
+  __Pyx_GIVEREF(__pyx_n_u_quantile_func);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_quantile_func);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -69605,22 +69577,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/func.pyx":1315
- * register_func(Sigmoidal, 'sigmoidal')
+ * register_func(Comp, 'comp')
+ * register_func(QuantileFunc, 'quantile_func')
+ * register_func(Sigmoidal, 'sigmoidal')             # <<<<<<<<<<<<<<
  * register_func(KMinSquare, 'kmin_square')
- * register_func(WinsorizedSmoothFunc, 'winsorized_smooth')             # <<<<<<<<<<<<<<
- * register_func(SoftMinFunc, 'softmin')
- * register_func(WinsorizedFunc, 'winsorized')
+ * register_func(WinsorizedSmoothFunc, 'winsorized_smooth')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc));
-  __Pyx_INCREF(__pyx_n_u_winsorized_smooth);
-  __Pyx_GIVEREF(__pyx_n_u_winsorized_smooth);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_winsorized_smooth);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Sigmoidal));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Sigmoidal));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Sigmoidal));
+  __Pyx_INCREF(__pyx_n_u_sigmoidal);
+  __Pyx_GIVEREF(__pyx_n_u_sigmoidal);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_sigmoidal);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -69628,22 +69600,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1316
- * register_func(KMinSquare, 'kmin_square')
+ * register_func(QuantileFunc, 'quantile_func')
+ * register_func(Sigmoidal, 'sigmoidal')
+ * register_func(KMinSquare, 'kmin_square')             # <<<<<<<<<<<<<<
  * register_func(WinsorizedSmoothFunc, 'winsorized_smooth')
- * register_func(SoftMinFunc, 'softmin')             # <<<<<<<<<<<<<<
- * register_func(WinsorizedFunc, 'winsorized')
- * register_func(Log, 'log')
+ * register_func(SoftMinFunc, 'softmin')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_SoftMinFunc));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_SoftMinFunc));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_SoftMinFunc));
-  __Pyx_INCREF(__pyx_n_u_softmin);
-  __Pyx_GIVEREF(__pyx_n_u_softmin);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_softmin);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_KMinSquare));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_KMinSquare));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_KMinSquare));
+  __Pyx_INCREF(__pyx_n_u_kmin_square);
+  __Pyx_GIVEREF(__pyx_n_u_kmin_square);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_kmin_square);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -69651,22 +69623,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/func.pyx":1317
- * register_func(WinsorizedSmoothFunc, 'winsorized_smooth')
+ * register_func(Sigmoidal, 'sigmoidal')
+ * register_func(KMinSquare, 'kmin_square')
+ * register_func(WinsorizedSmoothFunc, 'winsorized_smooth')             # <<<<<<<<<<<<<<
  * register_func(SoftMinFunc, 'softmin')
- * register_func(WinsorizedFunc, 'winsorized')             # <<<<<<<<<<<<<<
- * register_func(Log, 'log')
- * register_func(Exp, 'exp')
+ * register_func(WinsorizedFunc, 'winsorized')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_WinsorizedFunc));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_WinsorizedFunc));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_WinsorizedFunc));
-  __Pyx_INCREF(__pyx_n_u_winsorized);
-  __Pyx_GIVEREF(__pyx_n_u_winsorized);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_winsorized);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc));
+  __Pyx_INCREF(__pyx_n_u_winsorized_smooth);
+  __Pyx_GIVEREF(__pyx_n_u_winsorized_smooth);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_winsorized_smooth);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -69674,22 +69646,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1318
- * register_func(SoftMinFunc, 'softmin')
+ * register_func(KMinSquare, 'kmin_square')
+ * register_func(WinsorizedSmoothFunc, 'winsorized_smooth')
+ * register_func(SoftMinFunc, 'softmin')             # <<<<<<<<<<<<<<
  * register_func(WinsorizedFunc, 'winsorized')
- * register_func(Log, 'log')             # <<<<<<<<<<<<<<
- * register_func(Exp, 'exp')
- * register_func(Quantile_Sqrt, 'quantile_sqrt')
+ * register_func(Log, 'log')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1318, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1318, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Log));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Log));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Log));
-  __Pyx_INCREF(__pyx_n_u_log);
-  __Pyx_GIVEREF(__pyx_n_u_log);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_log);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_SoftMinFunc));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_SoftMinFunc));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_SoftMinFunc));
+  __Pyx_INCREF(__pyx_n_u_softmin);
+  __Pyx_GIVEREF(__pyx_n_u_softmin);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_softmin);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1318, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -69697,22 +69669,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/func.pyx":1319
- * register_func(WinsorizedFunc, 'winsorized')
+ * register_func(WinsorizedSmoothFunc, 'winsorized_smooth')
+ * register_func(SoftMinFunc, 'softmin')
+ * register_func(WinsorizedFunc, 'winsorized')             # <<<<<<<<<<<<<<
  * register_func(Log, 'log')
- * register_func(Exp, 'exp')             # <<<<<<<<<<<<<<
- * register_func(Quantile_Sqrt, 'quantile_sqrt')
- * register_func(Sqrt, 'sqrt')
+ * register_func(Exp, 'exp')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1319, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1319, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Exp));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Exp));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Exp));
-  __Pyx_INCREF(__pyx_n_u_exp);
-  __Pyx_GIVEREF(__pyx_n_u_exp);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_exp);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_WinsorizedFunc));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_WinsorizedFunc));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_WinsorizedFunc));
+  __Pyx_INCREF(__pyx_n_u_winsorized);
+  __Pyx_GIVEREF(__pyx_n_u_winsorized);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_winsorized);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1319, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -69720,22 +69692,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1320
- * register_func(Log, 'log')
+ * register_func(SoftMinFunc, 'softmin')
+ * register_func(WinsorizedFunc, 'winsorized')
+ * register_func(Log, 'log')             # <<<<<<<<<<<<<<
  * register_func(Exp, 'exp')
- * register_func(Quantile_Sqrt, 'quantile_sqrt')             # <<<<<<<<<<<<<<
- * register_func(Sqrt, 'sqrt')
- * register_func(SoftAbs, 'softabs')
+ * register_func(Quantile_Sqrt, 'quantile_sqrt')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1320, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1320, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile_Sqrt));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile_Sqrt));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile_Sqrt));
-  __Pyx_INCREF(__pyx_n_u_quantile_sqrt);
-  __Pyx_GIVEREF(__pyx_n_u_quantile_sqrt);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_quantile_sqrt);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Log));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Log));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Log));
+  __Pyx_INCREF(__pyx_n_u_log);
+  __Pyx_GIVEREF(__pyx_n_u_log);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_log);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1320, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -69743,22 +69715,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/func.pyx":1321
- * register_func(Exp, 'exp')
+ * register_func(WinsorizedFunc, 'winsorized')
+ * register_func(Log, 'log')
+ * register_func(Exp, 'exp')             # <<<<<<<<<<<<<<
  * register_func(Quantile_Sqrt, 'quantile_sqrt')
- * register_func(Sqrt, 'sqrt')             # <<<<<<<<<<<<<<
- * register_func(SoftAbs, 'softabs')
- * register_func(Tukey, 'tukey')
+ * register_func(Sqrt, 'sqrt')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1321, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1321, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Sqrt));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Sqrt));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Sqrt));
-  __Pyx_INCREF(__pyx_n_u_sqrt);
-  __Pyx_GIVEREF(__pyx_n_u_sqrt);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_sqrt);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Exp));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Exp));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Exp));
+  __Pyx_INCREF(__pyx_n_u_exp);
+  __Pyx_GIVEREF(__pyx_n_u_exp);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_exp);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1321, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -69766,22 +69738,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1322
- * register_func(Quantile_Sqrt, 'quantile_sqrt')
+ * register_func(Log, 'log')
+ * register_func(Exp, 'exp')
+ * register_func(Quantile_Sqrt, 'quantile_sqrt')             # <<<<<<<<<<<<<<
  * register_func(Sqrt, 'sqrt')
- * register_func(SoftAbs, 'softabs')             # <<<<<<<<<<<<<<
- * register_func(Tukey, 'tukey')
- * register_func(LogSquare, 'log_square')
+ * register_func(SoftAbs, 'softabs')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_SoftAbs));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_SoftAbs));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_SoftAbs));
-  __Pyx_INCREF(__pyx_n_u_softabs);
-  __Pyx_GIVEREF(__pyx_n_u_softabs);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_softabs);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile_Sqrt));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile_Sqrt));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile_Sqrt));
+  __Pyx_INCREF(__pyx_n_u_quantile_sqrt);
+  __Pyx_GIVEREF(__pyx_n_u_quantile_sqrt);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_quantile_sqrt);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -69789,22 +69761,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/func.pyx":1323
- * register_func(Sqrt, 'sqrt')
+ * register_func(Exp, 'exp')
+ * register_func(Quantile_Sqrt, 'quantile_sqrt')
+ * register_func(Sqrt, 'sqrt')             # <<<<<<<<<<<<<<
  * register_func(SoftAbs, 'softabs')
- * register_func(Tukey, 'tukey')             # <<<<<<<<<<<<<<
- * register_func(LogSquare, 'log_square')
- * register_func(Huber, 'huber')
+ * register_func(Tukey, 'tukey')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Tukey));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Tukey));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Tukey));
-  __Pyx_INCREF(__pyx_n_u_tukey);
-  __Pyx_GIVEREF(__pyx_n_u_tukey);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_tukey);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Sqrt));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Sqrt));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Sqrt));
+  __Pyx_INCREF(__pyx_n_u_sqrt);
+  __Pyx_GIVEREF(__pyx_n_u_sqrt);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_sqrt);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -69812,22 +69784,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1324
- * register_func(SoftAbs, 'softabs')
+ * register_func(Quantile_Sqrt, 'quantile_sqrt')
+ * register_func(Sqrt, 'sqrt')
+ * register_func(SoftAbs, 'softabs')             # <<<<<<<<<<<<<<
  * register_func(Tukey, 'tukey')
- * register_func(LogSquare, 'log_square')             # <<<<<<<<<<<<<<
- * register_func(Huber, 'huber')
- * register_func(HingeSqrt, 'hinge_sqrt')
+ * register_func(LogSquare, 'log_square')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1324, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1324, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_LogSquare));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_LogSquare));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_LogSquare));
-  __Pyx_INCREF(__pyx_n_u_log_square);
-  __Pyx_GIVEREF(__pyx_n_u_log_square);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_log_square);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_SoftAbs));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_SoftAbs));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_SoftAbs));
+  __Pyx_INCREF(__pyx_n_u_softabs);
+  __Pyx_GIVEREF(__pyx_n_u_softabs);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_softabs);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1324, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -69835,22 +69807,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/func.pyx":1325
- * register_func(Tukey, 'tukey')
+ * register_func(Sqrt, 'sqrt')
+ * register_func(SoftAbs, 'softabs')
+ * register_func(Tukey, 'tukey')             # <<<<<<<<<<<<<<
  * register_func(LogSquare, 'log_square')
- * register_func(Huber, 'huber')             # <<<<<<<<<<<<<<
- * register_func(HingeSqrt, 'hinge_sqrt')
- * register_func(Hinge, 'hinge')
+ * register_func(Huber, 'huber')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1325, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1325, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Huber));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Huber));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Huber));
-  __Pyx_INCREF(__pyx_n_u_huber);
-  __Pyx_GIVEREF(__pyx_n_u_huber);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_huber);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Tukey));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Tukey));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Tukey));
+  __Pyx_INCREF(__pyx_n_u_tukey);
+  __Pyx_GIVEREF(__pyx_n_u_tukey);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_tukey);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1325, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -69858,22 +69830,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1326
- * register_func(LogSquare, 'log_square')
+ * register_func(SoftAbs, 'softabs')
+ * register_func(Tukey, 'tukey')
+ * register_func(LogSquare, 'log_square')             # <<<<<<<<<<<<<<
  * register_func(Huber, 'huber')
- * register_func(HingeSqrt, 'hinge_sqrt')             # <<<<<<<<<<<<<<
- * register_func(Hinge, 'hinge')
- * register_func(Logistic, 'logistic')
+ * register_func(HingeSqrt, 'hinge_sqrt')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_HingeSqrt));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_HingeSqrt));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_HingeSqrt));
-  __Pyx_INCREF(__pyx_n_u_hinge_sqrt);
-  __Pyx_GIVEREF(__pyx_n_u_hinge_sqrt);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_hinge_sqrt);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_LogSquare));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_LogSquare));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_LogSquare));
+  __Pyx_INCREF(__pyx_n_u_log_square);
+  __Pyx_GIVEREF(__pyx_n_u_log_square);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_log_square);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1326, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -69881,22 +69853,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/func.pyx":1327
- * register_func(Huber, 'huber')
+ * register_func(Tukey, 'tukey')
+ * register_func(LogSquare, 'log_square')
+ * register_func(Huber, 'huber')             # <<<<<<<<<<<<<<
  * register_func(HingeSqrt, 'hinge_sqrt')
- * register_func(Hinge, 'hinge')             # <<<<<<<<<<<<<<
- * register_func(Logistic, 'logistic')
- * register_func(Quantile_AlphaLog, 'quantile_alpha_log')
+ * register_func(Hinge, 'hinge')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1327, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1327, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Hinge));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Hinge));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Hinge));
-  __Pyx_INCREF(__pyx_n_u_hinge);
-  __Pyx_GIVEREF(__pyx_n_u_hinge);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_hinge);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Huber));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Huber));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Huber));
+  __Pyx_INCREF(__pyx_n_u_huber);
+  __Pyx_GIVEREF(__pyx_n_u_huber);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_huber);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1327, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -69904,22 +69876,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1328
- * register_func(HingeSqrt, 'hinge_sqrt')
+ * register_func(LogSquare, 'log_square')
+ * register_func(Huber, 'huber')
+ * register_func(HingeSqrt, 'hinge_sqrt')             # <<<<<<<<<<<<<<
  * register_func(Hinge, 'hinge')
- * register_func(Logistic, 'logistic')             # <<<<<<<<<<<<<<
- * register_func(Quantile_AlphaLog, 'quantile_alpha_log')
- * register_func(Absolute, 'absolute')
+ * register_func(Logistic, 'logistic')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1328, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1328, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Logistic));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Logistic));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Logistic));
-  __Pyx_INCREF(__pyx_n_u_logistic);
-  __Pyx_GIVEREF(__pyx_n_u_logistic);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_logistic);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_HingeSqrt));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_HingeSqrt));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_HingeSqrt));
+  __Pyx_INCREF(__pyx_n_u_hinge_sqrt);
+  __Pyx_GIVEREF(__pyx_n_u_hinge_sqrt);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_hinge_sqrt);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1328, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -69927,22 +69899,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/func.pyx":1329
- * register_func(Hinge, 'hinge')
+ * register_func(Huber, 'huber')
+ * register_func(HingeSqrt, 'hinge_sqrt')
+ * register_func(Hinge, 'hinge')             # <<<<<<<<<<<<<<
  * register_func(Logistic, 'logistic')
- * register_func(Quantile_AlphaLog, 'quantile_alpha_log')             # <<<<<<<<<<<<<<
- * register_func(Absolute, 'absolute')
- * register_func(Square, 'square')
+ * register_func(Quantile_AlphaLog, 'quantile_alpha_log')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1329, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1329, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog));
-  __Pyx_INCREF(__pyx_n_u_quantile_alpha_log);
-  __Pyx_GIVEREF(__pyx_n_u_quantile_alpha_log);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_quantile_alpha_log);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Hinge));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Hinge));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Hinge));
+  __Pyx_INCREF(__pyx_n_u_hinge);
+  __Pyx_GIVEREF(__pyx_n_u_hinge);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_hinge);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1329, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -69950,22 +69922,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1330
- * register_func(Logistic, 'logistic')
+ * register_func(HingeSqrt, 'hinge_sqrt')
+ * register_func(Hinge, 'hinge')
+ * register_func(Logistic, 'logistic')             # <<<<<<<<<<<<<<
  * register_func(Quantile_AlphaLog, 'quantile_alpha_log')
- * register_func(Absolute, 'absolute')             # <<<<<<<<<<<<<<
- * register_func(Square, 'square')
- * register_func(Power, 'power')
+ * register_func(Absolute, 'absolute')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Absolute));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Absolute));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Absolute));
-  __Pyx_INCREF(__pyx_n_u_absolute);
-  __Pyx_GIVEREF(__pyx_n_u_absolute);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_absolute);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Logistic));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Logistic));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Logistic));
+  __Pyx_INCREF(__pyx_n_u_logistic);
+  __Pyx_GIVEREF(__pyx_n_u_logistic);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_logistic);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -69973,22 +69945,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/func.pyx":1331
- * register_func(Quantile_AlphaLog, 'quantile_alpha_log')
+ * register_func(Hinge, 'hinge')
+ * register_func(Logistic, 'logistic')
+ * register_func(Quantile_AlphaLog, 'quantile_alpha_log')             # <<<<<<<<<<<<<<
  * register_func(Absolute, 'absolute')
- * register_func(Square, 'square')             # <<<<<<<<<<<<<<
- * register_func(Power, 'power')
- * register_func(Expectile, 'expectile')
+ * register_func(Square, 'square')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1331, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1331, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Square));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Square));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Square));
-  __Pyx_INCREF(__pyx_n_u_square);
-  __Pyx_GIVEREF(__pyx_n_u_square);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_square);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog));
+  __Pyx_INCREF(__pyx_n_u_quantile_alpha_log);
+  __Pyx_GIVEREF(__pyx_n_u_quantile_alpha_log);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_quantile_alpha_log);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1331, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -69996,22 +69968,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1332
- * register_func(Absolute, 'absolute')
+ * register_func(Logistic, 'logistic')
+ * register_func(Quantile_AlphaLog, 'quantile_alpha_log')
+ * register_func(Absolute, 'absolute')             # <<<<<<<<<<<<<<
  * register_func(Square, 'square')
- * register_func(Power, 'power')             # <<<<<<<<<<<<<<
- * register_func(Expectile, 'expectile')
- * register_func(Quantile, 'quantile')
+ * register_func(Power, 'power')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Power));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Power));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Power));
-  __Pyx_INCREF(__pyx_n_u_power);
-  __Pyx_GIVEREF(__pyx_n_u_power);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_power);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Absolute));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Absolute));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Absolute));
+  __Pyx_INCREF(__pyx_n_u_absolute);
+  __Pyx_GIVEREF(__pyx_n_u_absolute);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_absolute);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -70019,22 +69991,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/func.pyx":1333
- * register_func(Square, 'square')
+ * register_func(Quantile_AlphaLog, 'quantile_alpha_log')
+ * register_func(Absolute, 'absolute')
+ * register_func(Square, 'square')             # <<<<<<<<<<<<<<
  * register_func(Power, 'power')
- * register_func(Expectile, 'expectile')             # <<<<<<<<<<<<<<
- * register_func(Quantile, 'quantile')
- * register_func(Sign, 'sign')
+ * register_func(Expectile, 'expectile')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1333, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1333, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Expectile));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Expectile));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Expectile));
-  __Pyx_INCREF(__pyx_n_u_expectile);
-  __Pyx_GIVEREF(__pyx_n_u_expectile);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_expectile);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Square));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Square));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Square));
+  __Pyx_INCREF(__pyx_n_u_square);
+  __Pyx_GIVEREF(__pyx_n_u_square);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_square);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1333, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -70042,22 +70014,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1334
- * register_func(Power, 'power')
+ * register_func(Absolute, 'absolute')
+ * register_func(Square, 'square')
+ * register_func(Power, 'power')             # <<<<<<<<<<<<<<
  * register_func(Expectile, 'expectile')
- * register_func(Quantile, 'quantile')             # <<<<<<<<<<<<<<
- * register_func(Sign, 'sign')
- * register_func(Threshold, 'threshold')
+ * register_func(Quantile, 'quantile')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1334, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1334, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile));
-  __Pyx_INCREF(__pyx_n_u_quantile);
-  __Pyx_GIVEREF(__pyx_n_u_quantile);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_quantile);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Power));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Power));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Power));
+  __Pyx_INCREF(__pyx_n_u_power);
+  __Pyx_GIVEREF(__pyx_n_u_power);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_power);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1334, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -70065,22 +70037,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/func.pyx":1335
- * register_func(Expectile, 'expectile')
+ * register_func(Square, 'square')
+ * register_func(Power, 'power')
+ * register_func(Expectile, 'expectile')             # <<<<<<<<<<<<<<
  * register_func(Quantile, 'quantile')
- * register_func(Sign, 'sign')             # <<<<<<<<<<<<<<
- * register_func(Threshold, 'threshold')
- * register_func(Softplus, 'softplus')
+ * register_func(Sign, 'sign')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1335, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1335, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Sign));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Sign));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Sign));
-  __Pyx_INCREF(__pyx_n_u_sign);
-  __Pyx_GIVEREF(__pyx_n_u_sign);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_sign);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Expectile));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Expectile));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Expectile));
+  __Pyx_INCREF(__pyx_n_u_expectile);
+  __Pyx_GIVEREF(__pyx_n_u_expectile);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_expectile);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1335, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -70088,22 +70060,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1336
- * register_func(Quantile, 'quantile')
+ * register_func(Power, 'power')
+ * register_func(Expectile, 'expectile')
+ * register_func(Quantile, 'quantile')             # <<<<<<<<<<<<<<
  * register_func(Sign, 'sign')
- * register_func(Threshold, 'threshold')             # <<<<<<<<<<<<<<
- * register_func(Softplus, 'softplus')
- * register_func(Arctang, 'arctg')
+ * register_func(Threshold, 'threshold')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1336, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1336, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Threshold));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Threshold));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Threshold));
-  __Pyx_INCREF(__pyx_n_u_threshold);
-  __Pyx_GIVEREF(__pyx_n_u_threshold);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_threshold);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Quantile));
+  __Pyx_INCREF(__pyx_n_u_quantile);
+  __Pyx_GIVEREF(__pyx_n_u_quantile);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_quantile);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1336, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -70111,21 +70083,22 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "mlgrad/func.pyx":1337
- * register_func(Sign, 'sign')
+ * register_func(Expectile, 'expectile')
+ * register_func(Quantile, 'quantile')
+ * register_func(Sign, 'sign')             # <<<<<<<<<<<<<<
  * register_func(Threshold, 'threshold')
- * register_func(Softplus, 'softplus')             # <<<<<<<<<<<<<<
- * register_func(Arctang, 'arctg')
+ * register_func(SoftPlus, 'softplus')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1337, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1337, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Softplus));
-  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Softplus));
-  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Softplus));
-  __Pyx_INCREF(__pyx_n_u_softplus);
-  __Pyx_GIVEREF(__pyx_n_u_softplus);
-  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_softplus);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Sign));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Sign));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Sign));
+  __Pyx_INCREF(__pyx_n_u_sign);
+  __Pyx_GIVEREF(__pyx_n_u_sign);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_sign);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1337, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -70133,13 +70106,58 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "mlgrad/func.pyx":1338
- * register_func(Threshold, 'threshold')
- * register_func(Softplus, 'softplus')
- * register_func(Arctang, 'arctg')             # <<<<<<<<<<<<<<
+ * register_func(Quantile, 'quantile')
+ * register_func(Sign, 'sign')
+ * register_func(Threshold, 'threshold')             # <<<<<<<<<<<<<<
+ * register_func(SoftPlus, 'softplus')
+ * register_func(Arctang, 'arctg')
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1338, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1338, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Threshold));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Threshold));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_Threshold));
+  __Pyx_INCREF(__pyx_n_u_threshold);
+  __Pyx_GIVEREF(__pyx_n_u_threshold);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_threshold);
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1338, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "mlgrad/func.pyx":1339
+ * register_func(Sign, 'sign')
+ * register_func(Threshold, 'threshold')
+ * register_func(SoftPlus, 'softplus')             # <<<<<<<<<<<<<<
+ * register_func(Arctang, 'arctg')
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_register_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1339, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1339, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_SoftPlus));
+  __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_SoftPlus));
+  PyTuple_SET_ITEM(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_6mlgrad_4func_SoftPlus));
+  __Pyx_INCREF(__pyx_n_u_softplus);
+  __Pyx_GIVEREF(__pyx_n_u_softplus);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_softplus);
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1339, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "mlgrad/func.pyx":1340
+ * register_func(Threshold, 'threshold')
+ * register_func(SoftPlus, 'softplus')
+ * register_func(Arctang, 'arctg')             # <<<<<<<<<<<<<<
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_register_func); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1340, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1340, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Arctang));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_6mlgrad_4func_Arctang));
@@ -70147,7 +70165,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_INCREF(__pyx_n_u_arctg);
   __Pyx_GIVEREF(__pyx_n_u_arctg);
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_n_u_arctg);
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1338, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1340, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -70280,9 +70298,9 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.a = __pyx_state[0]; __pyx_result.label = __pyx_state[1]
  *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_4func_29__pyx_unpickle_Softplus, NULL, __pyx_n_s_mlgrad_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6mlgrad_4func_29__pyx_unpickle_SoftPlus, NULL, __pyx_n_s_mlgrad_func); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Softplus, __pyx_t_1) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_SoftPlus, __pyx_t_1) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "(tree fragment)":1

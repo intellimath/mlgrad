@@ -52,6 +52,7 @@ cdef inline void normalize_memoryview(double[::1] X):
 cdef class Weights(object):
     #
     cdef public double[::1] weights
+    cdef public Risk risk
     #
     cpdef init(self)
     cpdef eval_weights(self)
@@ -69,17 +70,15 @@ cdef class ConstantWeights(Weights):
 
 @cython.final
 cdef class RWeights(Weights):
-    cdef readonly double[::1] lval_all
+    # cdef readonly double[::1] lval_all
     cdef public Func func
-    cdef public Risk risk
     cdef bint normalize
 
 @cython.final
 cdef class MWeights(Weights):
-    cdef readonly double[::1] lval_all
+    # cdef readonly double[::1] lval_all
     cdef public double best_u
     cdef public Average average
-    cdef public Risk risk
     cdef bint first_time, normalize, u_only, use_best_u
 
 # @cython.final
