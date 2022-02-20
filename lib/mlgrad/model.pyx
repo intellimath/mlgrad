@@ -50,51 +50,42 @@ format_double = r"%.2f"
 display_precision = 0.005
 
 cdef inline void fill_memoryview(double[::1] X, double c) nogil:
-    cdef int m = X.shape[0]
-    memset(&X[0], 0, m*cython.sizeof(double))    
+    memset(&X[0], 0, X.shape[0]*cython.sizeof(double))    
 
 cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:
-    cdef int m = X.shape[0], n = Y.shape[0]
-
-    if n < m:
-        m = n
-    memcpy(&Y[0], &X[0], m*cython.sizeof(double))
+    memcpy(&Y[0], &X[0], X.shape[0]*cython.sizeof(double))
     
 cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
-    cdef int i, j
-    cdef int m = X.shape[0], n = X.shape[1]
-    memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))    
+    memcpy(&Y[0,0], &X[0,0], X.shape[0]*X.shape[1]*cython.sizeof(double))    
     
 cdef inline double ident(x):
     return x
 
-def as_array_2d(ob):
+def as_array2d(ob):
     arr = np.asarray(ob, 'd')
 
     m = len(arr.shape)
     if m == 1:
         return arr.reshape(-1, 1)
+    elif m > 2:
+        raise TypeError('number of axes > 2!')
     else:
         return arr
 
-def as_array_1d(ob):
-    cdef double[::1] arr
-    if type(ob) in (list, tuple):
-        arr = np.array(ob, 'd')
-    elif type(ob) in (int, float):
-        arr = np.array([ob], 'd')
-    else:
-        arr = ob[:]
+def as_array1d(ob):
+    arr = np.asarray(ob, 'd')
+    if len(arr.shape) > 1:
+        arr = arr.ravel()
     return arr
 
-cdef void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):
-    cdef Py_ssize_t i, j, n=A.shape[0], m=A.shape[1]
-    cdef double xj
+# cdef void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):
+#     cdef Py_ssize_t i, j, n=A.shape[0], m=A.shape[1]
+#     cdef double xj
     
-    for j in prange(m, nogil=True, num_threads=min(m, num_procs)):
-        xj = x[j]
-        for i in range(n):
-            y[j] += A[i,j] * xj
+#     for j in prange(m, nogil=True, num_threads=min(m, num_procs)):
+#         xj = x[j]
+#         for i in range(n):
+#             y[j] += A[i,j] * xj
             
 # cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
 #     cdef int i, n=A.shape[0], m=A.shape[1]
@@ -107,8 +98,8 @@ cdef void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):
 #         y[i] = v
 
 
-def matdot(A, x, y):
-    matrix_dot(A, x, y)
+# def matdot(A, x, y):
+#     matrix_dot(A, x, y)
 
 # def matdot_t(A, x, y):
 #     matrix_dot_t(A, x, y)
@@ -281,9 +272,7 @@ cdef class Model(BaseModel):
         pass
     #
     def __call__(self, x):
-        cdef double[::1] x1d
-        
-        x1d = as_array_1d(x)
+        cdef double[::1] x1d = as_array1d(x)        
         return self._evaluate(x1d)
     #
     cpdef Model copy(self, bint share=1):
@@ -348,33 +337,32 @@ cdef class LinearModel(Model):
         return (self.n_input,)
     #
     cdef double _evaluate(self, double[::1] X):
-#         cdef Py_ssize_t i, n = self.n_input
-#         cdef double v
-#         cdef double  *ptr = &self.param[1]
-#         cdef double *X_ptr = &X[0]
-
-#         v = self.param[0]
-#         for i in range(n):
-#             v += ptr[i] * X_ptr[i]
-#         return v
-        cdef double *param = &self.param[0]
-        return param[0] + inventory.fa_conv(&X[0], &param[1], self.n_input)
-    #
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
-#         cdef Py_ssize_t i, n_param = self.n_param
-        
-        grad[0] = 1.
-        inventory.fa_move(&grad[1], &X[0], self.n_input)
-        # for i in range(1, n_param):
-        #     grad[i] = X[i-1]
-    #
-    cdef void _gradient_x(self, double[::1] X, double[::1] grad_x):
-        cdef Py_ssize_t i, n_input = self.n_input
+        cdef Py_ssize_t i, n = self.n_input
+        cdef double v
         cdef double[::1] param = self.param
 
-        inventory.fa_move(&grad_x[0], &self.param[1], self.n_input)
-        # for i in range(n_input):
-        #     grad_x[i] = param[i+1]
+        v = param[0]
+        for i in range(self.n_input):
+            v += param[i+1] * X[i]
+        return v
+        # cdef double *param = &self.param[0]
+        # return param[0] + inventory.fa_conv(&X[0], &param[1], self.n_input)
+    #
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        cdef Py_ssize_t i
+        
+        grad[0] = 1.
+        # inventory.fa_move(&grad[1], &X[0], self.n_input)
+        for i in range(self.n_input):
+            grad[i+1] = X[i]
+    #
+    cdef void _gradient_x(self, double[::1] X, double[::1] grad_x):
+        cdef Py_ssize_t i
+        cdef double[::1] param = self.param
+
+        # inventory.fa_move(&grad_x[0], &self.param[1], self.n_input)
+        for i in range(self.n_input):
+            grad_x[i] = param[i+1]
     #
     cpdef Model copy(self, bint share=1):
         cdef LinearModel mod = LinearModel(self.n_input)
@@ -851,10 +839,8 @@ cdef class MLModel:
             layer.init()
     #
     def __call__(self, x):
-        cdef double[::1] x1d
+        cdef double[::1] x1d = as_array1d(x)
         
-        x1d = as_array_1d(x)
-        #print('__call__', x1d)
         self.forward(x1d)
         return self.output.copy()
     #
@@ -909,7 +895,7 @@ cdef class FFNetworkModel(MLModel):
     cpdef MLModel copy(self, bint share=1):
         cdef FFNetworkModel ml = FFNetworkModel()
         cdef ModelLayer layer
-        cdef int n_layer
+        cdef Py_ssize_t n_layer
         
         ml.param = self.param
         ml.n_param = self.n_param
@@ -925,7 +911,7 @@ cdef class FFNetworkModel(MLModel):
         return <MLModel>ml
     #
     cdef void forward(self, double[::1] X):
-        cdef int i, n_layer
+        cdef Py_ssize_t i, n_layer
         cdef ModelLayer layer
         cdef double[::1] input, output
         cdef list layers = self.layers
@@ -939,8 +925,8 @@ cdef class FFNetworkModel(MLModel):
 #         self.output = layer.output
 
     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
-        cdef int n_layer = PyList_GET_SIZE(<PyObject*>self.layers)
-        cdef int j, l, m, m0
+        cdef Py_ssize_t n_layer = PyList_GET_SIZE(<PyObject*>self.layers)
+        cdef Py_ssize_t j, l, m, m0
         cdef ModelLayer layer, prev_layer
 #         cdef double[::1] grad_in
         cdef double[::1] grad_out, input

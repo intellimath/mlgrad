@@ -31,7 +31,7 @@
 # THE SOFTWARE.
 
 import numpy as np
-from mlgrad.model import as_array_1d
+from mlgrad.model import as_array1d
 
 cdef class FuncMulti:
 
@@ -42,9 +42,7 @@ cdef class FuncMulti:
         pass
     
     def __call__(self, param):
-        cdef double[::1] x1d
-
-        x1d = as_array_1d(param)
+        cdef double[::1] x1d = as_array1d(param)
         return self._evaluate(x1d)
 
 cdef class PowerNorm(FuncMulti):
