@@ -42,6 +42,9 @@ cdef class Batch:
     
     def __len__(self):
         return self.size
+    #
+    def get_samples(self, X):
+        return np.ascontiguousarray(X[self.indices])
 
 cdef class RandomBatch(Batch):
     #
@@ -80,6 +83,8 @@ cdef class WholeBatch(Batch):
         self.n_samples = self.size
         self.indices = np.arange(self.n_samples)
     #
+    def get_samples(self, X):
+        return X
 
 def make_batch(n_samples, size=None):
     if size is None:

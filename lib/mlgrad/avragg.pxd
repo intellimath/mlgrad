@@ -89,7 +89,7 @@ cdef class Average:
     cdef public double pval
     cdef int m, M
     cdef double u_prev, pval_prev
-    cdef bint first
+    cdef bint evaluated
     #cdef double u1, u2, u3, u4    
     #
     cdef _gradient(self, double[::1] Y, double[::1] grad)

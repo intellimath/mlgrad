@@ -10,6 +10,7 @@
 from cython.parallel cimport parallel, prange
 
 import numpy as np
+cimport numpy as np
 
 cdef void fill(float *X, float v, int n):
     cdef int i
@@ -65,3 +66,27 @@ def dot_parallel(double[:,::1] A, double[::1] B, double[::1] C):
             C[i] = conv(A[i], B)
 #             for j in range(m):
 #                 C[i] += A[i,j] * B[j]
+
+
+def test_dot_numpy1(np.ndarray[np.float64_t, ndim=1] A, np.ndarray[np.float64_t, ndim=1] B):
+    cdef Py_ssize_t i
+    for i in range(1_000_000):
+        c = A @ B
+    return c
+
+def test_dot_numpy2(np.ndarray[np.float64_t, ndim=1] A, np.ndarray[np.float64_t, ndim=1] B):
+    cdef Py_ssize_t i
+    for i in range(1_000_000):
+        c = np.dot(A, B)
+    return c
+
+def test_dot_cython(double[::1] A, double[::1] B):
+    cdef Py_ssize_t j, i, n=A.shape[0]
+    # cdef double *AA = &A[0], *BB = &B[0]
+    cdef np.float64_t s
+
+    for j in range(1_000_000):
+        s = 0
+        for i in range(n):
+            s += A[i]*B[i]
+    return s

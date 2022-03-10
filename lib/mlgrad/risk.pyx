@@ -36,8 +36,6 @@ from mlgrad.loss cimport Loss, ErrorLoss
 from mlgrad.distance cimport Distance
 from mlgrad.regnorm cimport FuncMulti, SquareNorm
 from mlgrad.avragg cimport Average, ArithMean
-# from mlgrad.averager cimport ArrayAdaM1
-# from mlgrad.weights cimport Weights, ConstantWeights, ArrayWeights
 from mlgrad.batch import make_batch, WholeBatch
 
 import numpy as np
@@ -74,7 +72,7 @@ cdef class Functional:
     def gradient(self):
         self._gradient()
     #
-    
+
 cdef class SimpleFunctional(Functional):
     #
     def __init__(self, FuncMulti func, double[::1] param=None):
@@ -100,47 +98,41 @@ cdef class Risk(Functional):
         cdef Model _model = self.model
 
         cdef double[:, ::1] X = self.X
-        cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
         
         cdef Py_ssize_t j, k
         cdef double[::1] Yp = self.Yp
 
-        for j in range(size):
+        for j in range(self.batch.size):
             k = indices[j]
             Yp[j] = _model._evaluate(X[k])
     #
     cdef void _evaluate_losses(self):
-        cdef Model _model = self.model
         cdef Loss _loss = self.loss
 
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
         cdef double[::1] L = self.L
         cdef double[::1] Yp = self.Yp
-        cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
         
         cdef Py_ssize_t j, k
-        # cdef double yk, v
 
-        for j in range(size):
+        for j in range(self.batch.size):
             k = indices[j]
             L[j] = _loss._evaluate(Yp[j], Y[k])
     #
     cdef void _evaluate_losses_derivative_div(self):
-        cdef Py_ssize_t j, k, N = self.n_sample
-        cdef Model _model = self.model
+        cdef Py_ssize_t j, k
         cdef Loss _loss = self.loss
 
         cdef double[:, ::1] X = self.X
         cdef double[::1] Yp = self.Yp
         cdef double[::1] Y = self.Y
         cdef double[::1] LD = self.LD
-        cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
 
-        for j in range(size):
+        for j in range(self.batch.size):
             k = indices[j]
             LD[j] = _loss._derivative_div(Yp[j], Y[k])
     #
@@ -156,17 +148,17 @@ cdef class Risk(Functional):
     def evaluate_losses(self):
         # L = np_zeros(self.batch.size, np_double)
         self._evaluate_losses()
-        return self.L
+        return self.L.base
     #
     def evaluate_models(self):
         # Y = np_zeros(self.batch.size, np_double)
         self._evaluate_models()
-        return self.Yp
+        return self.Yp.base
     #
     def evaluate_losses_derivative_div(self):
         # DL = np_zeros(self.batch.size, np_double)
         self._evaluate_losses_derivative_div()
-        return self.LD
+        return self.LD.base
     #
     def use_weights(self, weights):
         if weights is None:
@@ -226,8 +218,7 @@ cdef class MRisk(Risk):
             self.batch = batch
 
         size = self.batch.size 
-        self.weights = np.ones(size, np_double)
-        # self.lval_all = np.zeros(size, np_double)
+        self.weights = np.full(size, 1./size, np_double)
         self.Yp = np.zeros(size, np_double)
         self.L = np.zeros(size, np_double)
         self.LD = np.zeros(size, np_double)
@@ -261,7 +252,7 @@ cdef class MRisk(Risk):
         cdef Model _model = self.model
         cdef Loss _loss = self.loss
 
-        cdef Py_ssize_t i, j, k, n_param = self.n_param
+        cdef Py_ssize_t i, j, k
         cdef double y, lval_dy, lval, vv
         
         cdef double[::1] Xk
@@ -271,7 +262,6 @@ cdef class MRisk(Risk):
         cdef double[::1] grad = self.grad
         cdef double[::1] grad_average = self.grad_average
 
-        cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
         cdef double[::1] Yp = self.Yp
 
@@ -281,22 +271,19 @@ cdef class MRisk(Risk):
 
         clear_memoryview(grad_average)
 
-        for j in range(size):
+        for j in range(self.batch.size):
             k = indices[j]
             Xk = X[k]
             
-            # y = _model._evaluate(Xk)
             _model._gradient(Xk, grad)
 
-            # lval_dy = _loss._derivative(Yp[j], Y[k])
-
             vv = _loss._derivative(Yp[j], Y[k]) * weights[j]
-            for i in range(n_param):
+            for i in range(self.n_param):
                 grad_average[i] += vv * grad[i]
 
         if self.regnorm is not None:
             self.regnorm._gradient(_model.param, self.grad_r)
-            for i in range(n_param):
+            for i in range(self.n_param):
                 grad_average[i] += self.tau * self.grad_r[i]
 
 cdef class ED(Risk):
@@ -350,8 +337,7 @@ cdef class ED(Risk):
         return S
     #
     cdef void _gradient(self):
-        cdef int n_sample = self.n_sample, n_param = self.n_param
-        cdef int i, k
+        cdef Py_ssize_t i, k
         cdef double S, wk
 
         cdef double[:,::1] X = self.X
@@ -362,12 +348,12 @@ cdef class ED(Risk):
         cdef double[::1] Xk
 
         fill_memoryview(self.grad_average, 0.0)
-        for k in range(n_sample):
+        for k in range(self.n_sample):
             Xk = X[k]
             wk = weights[k]
 
             self.distfunc._gradient(Xk, param, grad)
-            for i in range(n_param):
+            for i in range(self.n_param):
                 grad_average[i] -= wk * grad[i]                    
     #
     cdef void _evaluate_models(self):
@@ -441,17 +427,15 @@ cdef class ERisk(Risk):
 
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
-        cdef double[::1] weights = self.weights
-        cdef Py_ssize_t size = self.batch.size 
-        cdef Py_ssize_t[::1] indices = self.batch.indices
         cdef double[::1] L = self.L
+        cdef double[::1] weights = self.weights
+        cdef Py_ssize_t[::1] indices = self.batch.indices
         
         self._evaluate_models()
         self._evaluate_losses()
         
         S = 0
-        for j in range(size):
-            # k = indices[j]
+        for j in range(self.batch.size):
             S += weights[j] * L[j]
                     
         if self.regnorm is not None:
@@ -464,7 +448,7 @@ cdef class ERisk(Risk):
         cdef Model _model = self.model
         cdef Loss _loss = self.loss
 
-        cdef Py_ssize_t i, j, k, n_param = self.n_param, N = self.n_sample
+        cdef Py_ssize_t i, j, k
         cdef double vv
         
         cdef double[:, ::1] X = self.X
@@ -473,7 +457,6 @@ cdef class ERisk(Risk):
         cdef double[::1] grad = self.grad
         cdef double[::1] grad_average = self.grad_average
 
-        cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
         cdef double[::1] Yp = self.Yp
                 
@@ -483,17 +466,17 @@ cdef class ERisk(Risk):
         
         clear_memoryview(self.grad_average)
 
-        for j in range(size):
+        for j in range(self.batch.size):
             k = indices[j]
 
             _model._gradient(X[k], grad)
             vv = weights[j] * _loss._derivative(Yp[j], Y[k])
-            for i in range(n_param):
+            for i in range(self.n_param):
                 self.grad_average[i] += vv * grad[i]
 
         if self.regnorm is not None:
-            self.regnorm._gradient(self.model.param, self.grad_r)
-            for i in range(n_param):
+            self.regnorm._gradient(_model.param, self.grad_r)
+            for i in range(self.n_param):
                 self.grad_average[i] += self.tau * self.grad_r[i]
 
 cdef class ERiskGB(Risk):
@@ -556,89 +539,70 @@ cdef class ERiskGB(Risk):
         self.batch.init()
     #
     cdef void _evaluate_models(self):
-        cdef Py_ssize_t j, k, N = self.n_sample
+        cdef Py_ssize_t j, k
         cdef double y
         cdef Model _model = self.model
         cdef Loss _loss = self.loss
 
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
-        cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
         cdef double alpha = self.alpha
         cdef double[::1] H = self.H
         cdef double[::1] Yp = self.Yp
         
-        for j in range(size):
+        for j in range(self.batch.size):
             k = indices[j]
             Yp[j] = H[k] + alpha * _model._evaluate(X[k])
     #
     cdef void _evaluate_losses(self):
-        cdef Py_ssize_t j, k, N = self.n_sample
+        cdef Py_ssize_t j, k
         cdef double y
-        cdef Model _model = self.model
         cdef Loss _loss = self.loss
 
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
-        cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
-        # cdef double alpha = self.alpha
-        # cdef double[::1] H = self.H
         cdef double[::1] Yp = self.Yp
         cdef double[::1] L = self.L
         
-        for j in range(size):
+        for j in range(self.batch.size):
             k = indices[j]
-            # y = H[k] + alpha * _model._evaluate(X[k])
             L[j] = _loss._evaluate(Yp[j], Y[k])
     #
     cdef void _evaluate_losses_derivative_div(self):
-        cdef Py_ssize_t j, k, N = self.n_sample
+        cdef Py_ssize_t j, k
         cdef double y
-        cdef Model _model = self.model
         cdef Loss _loss = self.loss
 
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
-        cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
 
-        # cdef double alpha = self.alpha
-        # cdef double[::1] H = self.H
         cdef double[::1] Yp = self.Yp
         cdef double[::1] LD = self.LD
         
-        for j in range(size):
+        for j in range(self.batch.size):
             k = indices[j]
-            # y = H[k] + alpha * _model._evaluate(X[k])
             LD[j] = _loss._derivative_div(Yp[j], Y[k])
     #
     cdef double _evaluate(self):
-        cdef Py_ssize_t j, k, N = self.n_sample
+        cdef Py_ssize_t j, k
         cdef double S, y
 
         cdef Model _model = self.model
-        cdef Loss _loss = self.loss
 
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
         cdef double[::1] weights = self.weights
-        cdef Py_ssize_t size = self.batch.size 
-        cdef Py_ssize_t[::1] indices = self.batch.indices
 
-        # cdef double alpha = self.alpha
-        # cdef double[::1] H = self.H
-        # cdef double[::1] Yp = self.Yp
         cdef double[::1] L = self.L
         
         self._evaluate_models()
         self._evaluate_losses()
         
         S = 0
-        for j in range(size):
-            # k = indices[j]
-            # y = H[k] + alpha * _model._evaluate(X[k])
+        for j in range(self.batch.size):
             S += weights[j] * L[j] 
                     
         if self.regnorm is not None:
@@ -651,7 +615,7 @@ cdef class ERiskGB(Risk):
         cdef Model _model = self.model
         cdef Loss _loss = self.loss
 
-        cdef Py_ssize_t i, j, k, n_param = self.n_param, N = self.n_sample
+        cdef Py_ssize_t i, j, k
         cdef double y, vv
         
         cdef double[:, ::1] X = self.X
@@ -660,33 +624,31 @@ cdef class ERiskGB(Risk):
         cdef double[::1] grad = self.grad
         cdef double[::1] grad_average = self.grad_average
 
-        cdef Py_ssize_t size = self.batch.size 
         cdef Py_ssize_t[::1] indices = self.batch.indices
 
         cdef double alpha = self.alpha
-        # cdef double[::1] H = self.H
         cdef double[::1] Yp = self.Yp
         cdef double[::1] L = self.L
         
         clear_memoryview(self.grad_average)
 
-        for j in range(size):
+        for j in range(self.batch.size):
             k = indices[j]
 
             # y = H[j] + alpha * _model._evaluate(X[k])
             _model._gradient(X[k], grad)
 
             vv = alpha * _loss._derivative(Yp[j], Y[k]) * weights[j]
-            for i in range(n_param):
+            for i in range(self.n_param):
                 self.grad_average[i] += vv * grad[i]
 
         if self.regnorm is not None:
-            self.regnorm._gradient(self.model.param, self.grad_r)
-            for i in range(n_param):
+            self.regnorm._gradient(_model.param, self.grad_r)
+            for i in range(self.n_param):
                 self.grad_average[i] += self.tau * self.grad_r[i]
     #
     cdef double derivative_alpha(self):
-        cdef Model _model = self.model
+        # cdef Model _model = self.model
         cdef Loss _loss = self.loss
 
         cdef Py_ssize_t j, k, N = self.n_sample
@@ -711,6 +673,8 @@ cdef class ERiskGB(Risk):
             # v = _model._evaluate(X[k])
             # y = H[k] + alpha * v
             ret += _loss._derivative(Yp[j], Y[k]) * weights[j] * Yp[j]
+            
+        return ret
                 
 # cdef class AER(ERisk):
 #     #

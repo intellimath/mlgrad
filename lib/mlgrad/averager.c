@@ -1218,7 +1218,7 @@ struct __pyx_obj_6mlgrad_8averager_ScalarExponentialScalarAverager {
 };
 
 
-/* "lib/mlgrad/averager_array.pyx":436
+/* "lib/mlgrad/averager_array.pyx":449
  * 
  * 
  * cdef class SArrayAverager:             # <<<<<<<<<<<<<<
@@ -1231,7 +1231,7 @@ struct __pyx_obj_6mlgrad_8averager_SArrayAverager {
 };
 
 
-/* "lib/mlgrad/averager_array.pyx":444
+/* "lib/mlgrad/averager_array.pyx":457
  *         pass
  * 
  * cdef class ArrayStochasticAverager(SArrayAverager):             # <<<<<<<<<<<<<<
@@ -1493,7 +1493,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1 {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1 *__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1;
 
 
-/* "lib/mlgrad/averager_array.pyx":370
+/* "lib/mlgrad/averager_array.pyx":383
  * #         return self.array_average
  * 
  * cdef class ArraySimpleAverager(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -1507,7 +1507,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArraySimpleAverager {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArraySimpleAverager *__pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager;
 
 
-/* "lib/mlgrad/averager_array.pyx":398
+/* "lib/mlgrad/averager_array.pyx":411
  *         self.T += 1.0
  * 
  * cdef class ArrayCyclicAverager(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -1521,7 +1521,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayCyclicAverager {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayCyclicAverager *__pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager;
 
 
-/* "lib/mlgrad/averager_array.pyx":312
+/* "lib/mlgrad/averager_array.pyx":325
  * #         return array_average
  * 
  * cdef class ArrayTAverager(ArrayAverager):             # <<<<<<<<<<<<<<
@@ -1549,7 +1549,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ScalarExponentialScalarAverager {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ScalarExponentialScalarAverager *__pyx_vtabptr_6mlgrad_8averager_ScalarExponentialScalarAverager;
 
 
-/* "lib/mlgrad/averager_array.pyx":436
+/* "lib/mlgrad/averager_array.pyx":449
  * 
  * 
  * cdef class SArrayAverager:             # <<<<<<<<<<<<<<
@@ -1564,7 +1564,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_SArrayAverager {
 static struct __pyx_vtabstruct_6mlgrad_8averager_SArrayAverager *__pyx_vtabptr_6mlgrad_8averager_SArrayAverager;
 
 
-/* "lib/mlgrad/averager_array.pyx":444
+/* "lib/mlgrad/averager_array.pyx":457
  *         pass
  * 
  * cdef class ArrayStochasticAverager(SArrayAverager):             # <<<<<<<<<<<<<<
@@ -6579,13 +6579,12 @@ static PyObject *__pyx_f_6mlgrad_8averager_9ArraySave_init(struct __pyx_obj_6mlg
  *             fill_memoryview(self.array_average, 0)
  *     #
  *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
- *         cdef Py_ssize_t i, m = x.shape[0]
+ *         cdef Py_ssize_t i
  *         cdef double[::1] array_average = self.array_average
  */
 
 static PyObject *__pyx_f_6mlgrad_8averager_9ArraySave_update(struct __pyx_obj_6mlgrad_8averager_ArraySave *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, double const __pyx_v_h) {
   Py_ssize_t __pyx_v_i;
-  Py_ssize_t __pyx_v_m;
   __Pyx_memviewslice __pyx_v_array_average = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -6597,18 +6596,9 @@ static PyObject *__pyx_f_6mlgrad_8averager_9ArraySave_update(struct __pyx_obj_6m
   Py_ssize_t __pyx_t_6;
   __Pyx_RefNannySetupContext("update", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":69
- *     #
- *     cdef update(self, const double[::1] x, const double h):
- *         cdef Py_ssize_t i, m = x.shape[0]             # <<<<<<<<<<<<<<
- *         cdef double[::1] array_average = self.array_average
- * 
- */
-  __pyx_v_m = (__pyx_v_x.shape[0]);
-
   /* "lib/mlgrad/averager_array.pyx":70
  *     cdef update(self, const double[::1] x, const double h):
- *         cdef Py_ssize_t i, m = x.shape[0]
+ *         cdef Py_ssize_t i
  *         cdef double[::1] array_average = self.array_average             # <<<<<<<<<<<<<<
  * 
  * #         for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
@@ -6622,18 +6612,18 @@ static PyObject *__pyx_f_6mlgrad_8averager_9ArraySave_update(struct __pyx_obj_6m
   /* "lib/mlgrad/averager_array.pyx":73
  * 
  * #         for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
- *         for i in range(m):             # <<<<<<<<<<<<<<
+ *         for i in range(x.shape[0]):             # <<<<<<<<<<<<<<
  *             array_average[i] = h * x[i]
  * 
  */
-  __pyx_t_2 = __pyx_v_m;
+  __pyx_t_2 = (__pyx_v_x.shape[0]);
   __pyx_t_3 = __pyx_t_2;
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
     /* "lib/mlgrad/averager_array.pyx":74
  * #         for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
- *         for i in range(m):
+ *         for i in range(x.shape[0]):
  *             array_average[i] = h * x[i]             # <<<<<<<<<<<<<<
  * 
  * cdef class ArrayMOM(ArrayAverager):
@@ -6647,7 +6637,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_9ArraySave_update(struct __pyx_obj_6m
  *             fill_memoryview(self.array_average, 0)
  *     #
  *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
- *         cdef Py_ssize_t i, m = x.shape[0]
+ *         cdef Py_ssize_t i
  *         cdef double[::1] array_average = self.array_average
  */
 
@@ -10303,6 +10293,8 @@ static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM1_update(struct __pyx_obj_
   double *__pyx_v_mgrad;
   double *__pyx_v_vgrad;
   double *__pyx_v_array_average;
+  double __pyx_v_beta1_k;
+  double __pyx_v_beta2_k;
   double __pyx_v_epsilon;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -10352,7 +10344,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM1_update(struct __pyx_obj_
  *         cdef double *mgrad = &self.mgrad[0]
  *         cdef double *vgrad = &self.vgrad[0]             # <<<<<<<<<<<<<<
  *         cdef double *array_average = &self.array_average[0]
- *         cdef double epsilon = self.epsilon
+ *         cdef double beta1_k, beta2_k
  */
   __pyx_t_2 = 0;
   __pyx_v_vgrad = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->vgrad.data) + __pyx_t_2)) ))));
@@ -10361,15 +10353,15 @@ static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM1_update(struct __pyx_obj_
  *         cdef double *mgrad = &self.mgrad[0]
  *         cdef double *vgrad = &self.vgrad[0]
  *         cdef double *array_average = &self.array_average[0]             # <<<<<<<<<<<<<<
+ *         cdef double beta1_k, beta2_k
  *         cdef double epsilon = self.epsilon
- * 
  */
   __pyx_t_2 = 0;
   __pyx_v_array_average = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_self->__pyx_base.array_average.data) + __pyx_t_2)) ))));
 
-  /* "lib/mlgrad/averager_array.pyx":251
- *         cdef double *vgrad = &self.vgrad[0]
+  /* "lib/mlgrad/averager_array.pyx":252
  *         cdef double *array_average = &self.array_average[0]
+ *         cdef double beta1_k, beta2_k
  *         cdef double epsilon = self.epsilon             # <<<<<<<<<<<<<<
  * 
  *         self.beta1_k *= beta1
@@ -10377,112 +10369,148 @@ static PyObject *__pyx_f_6mlgrad_8averager_10ArrayAdaM1_update(struct __pyx_obj_
   __pyx_t_1 = __pyx_v_self->epsilon;
   __pyx_v_epsilon = __pyx_t_1;
 
-  /* "lib/mlgrad/averager_array.pyx":253
+  /* "lib/mlgrad/averager_array.pyx":254
  *         cdef double epsilon = self.epsilon
  * 
  *         self.beta1_k *= beta1             # <<<<<<<<<<<<<<
  *         self.beta2_k *= beta2
- *         # for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
+ *         self.beta1_k += 1
  */
   __pyx_v_self->beta1_k = (__pyx_v_self->beta1_k * __pyx_v_beta1);
 
-  /* "lib/mlgrad/averager_array.pyx":254
+  /* "lib/mlgrad/averager_array.pyx":255
  * 
  *         self.beta1_k *= beta1
  *         self.beta2_k *= beta2             # <<<<<<<<<<<<<<
- *         # for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
- *         for i in range(m):
+ *         self.beta1_k += 1
+ *         self.beta2_k += 1
  */
   __pyx_v_self->beta2_k = (__pyx_v_self->beta2_k * __pyx_v_beta2);
 
   /* "lib/mlgrad/averager_array.pyx":256
+ *         self.beta1_k *= beta1
  *         self.beta2_k *= beta2
+ *         self.beta1_k += 1             # <<<<<<<<<<<<<<
+ *         self.beta2_k += 1
+ *         beta1_k = self.beta1_k
+ */
+  __pyx_v_self->beta1_k = (__pyx_v_self->beta1_k + 1.0);
+
+  /* "lib/mlgrad/averager_array.pyx":257
+ *         self.beta2_k *= beta2
+ *         self.beta1_k += 1
+ *         self.beta2_k += 1             # <<<<<<<<<<<<<<
+ *         beta1_k = self.beta1_k
+ *         beta2_k = self.beta2_k
+ */
+  __pyx_v_self->beta2_k = (__pyx_v_self->beta2_k + 1.0);
+
+  /* "lib/mlgrad/averager_array.pyx":258
+ *         self.beta1_k += 1
+ *         self.beta2_k += 1
+ *         beta1_k = self.beta1_k             # <<<<<<<<<<<<<<
+ *         beta2_k = self.beta2_k
+ *         # for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
+ */
+  __pyx_t_1 = __pyx_v_self->beta1_k;
+  __pyx_v_beta1_k = __pyx_t_1;
+
+  /* "lib/mlgrad/averager_array.pyx":259
+ *         self.beta2_k += 1
+ *         beta1_k = self.beta1_k
+ *         beta2_k = self.beta2_k             # <<<<<<<<<<<<<<
+ *         # for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
+ *         for i in range(m):
+ */
+  __pyx_t_1 = __pyx_v_self->beta2_k;
+  __pyx_v_beta2_k = __pyx_t_1;
+
+  /* "lib/mlgrad/averager_array.pyx":261
+ *         beta2_k = self.beta2_k
  *         # for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
  *         for i in range(m):             # <<<<<<<<<<<<<<
  *             v = x[i]
- *             mgrad[i] = beta1 * mgrad[i] + (1.0 - beta1) * v
+ *             mgrad[i] = beta1 * mgrad[i] + v
  */
   __pyx_t_3 = __pyx_v_m;
   __pyx_t_4 = __pyx_t_3;
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "lib/mlgrad/averager_array.pyx":257
+    /* "lib/mlgrad/averager_array.pyx":262
  *         # for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
  *         for i in range(m):
  *             v = x[i]             # <<<<<<<<<<<<<<
- *             mgrad[i] = beta1 * mgrad[i] + (1.0 - beta1) * v
- *             mv = mgrad[i] / (1.0 - self.beta1_k)
+ *             mgrad[i] = beta1 * mgrad[i] + v
+ *             mv = mgrad[i] / beta1_k
  */
     __pyx_t_2 = __pyx_v_i;
     __pyx_v_v = (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_x.data) + __pyx_t_2)) )));
 
-    /* "lib/mlgrad/averager_array.pyx":258
+    /* "lib/mlgrad/averager_array.pyx":263
  *         for i in range(m):
  *             v = x[i]
- *             mgrad[i] = beta1 * mgrad[i] + (1.0 - beta1) * v             # <<<<<<<<<<<<<<
- *             mv = mgrad[i] / (1.0 - self.beta1_k)
+ *             mgrad[i] = beta1 * mgrad[i] + v             # <<<<<<<<<<<<<<
+ *             mv = mgrad[i] / beta1_k
  * 
  */
-    (__pyx_v_mgrad[__pyx_v_i]) = ((__pyx_v_beta1 * (__pyx_v_mgrad[__pyx_v_i])) + ((1.0 - __pyx_v_beta1) * __pyx_v_v));
+    (__pyx_v_mgrad[__pyx_v_i]) = ((__pyx_v_beta1 * (__pyx_v_mgrad[__pyx_v_i])) + __pyx_v_v);
 
-    /* "lib/mlgrad/averager_array.pyx":259
+    /* "lib/mlgrad/averager_array.pyx":264
  *             v = x[i]
- *             mgrad[i] = beta1 * mgrad[i] + (1.0 - beta1) * v
- *             mv = mgrad[i] / (1.0 - self.beta1_k)             # <<<<<<<<<<<<<<
+ *             mgrad[i] = beta1 * mgrad[i] + v
+ *             mv = mgrad[i] / beta1_k             # <<<<<<<<<<<<<<
  * 
- *             vgrad[i] = beta2 * vgrad[i] + (1.0 - beta2) * fabs(v)
+ *             vgrad[i] = beta2 * vgrad[i] + fabs(v)
  */
-    __pyx_t_1 = (1.0 - __pyx_v_self->beta1_k);
-    if (unlikely(__pyx_t_1 == 0)) {
+    if (unlikely(__pyx_v_beta1_k == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(3, 259, __pyx_L1_error)
+      __PYX_ERR(3, 264, __pyx_L1_error)
     }
-    __pyx_v_mv = ((__pyx_v_mgrad[__pyx_v_i]) / __pyx_t_1);
+    __pyx_v_mv = ((__pyx_v_mgrad[__pyx_v_i]) / __pyx_v_beta1_k);
 
-    /* "lib/mlgrad/averager_array.pyx":261
- *             mv = mgrad[i] / (1.0 - self.beta1_k)
+    /* "lib/mlgrad/averager_array.pyx":266
+ *             mv = mgrad[i] / beta1_k
  * 
- *             vgrad[i] = beta2 * vgrad[i] + (1.0 - beta2) * fabs(v)             # <<<<<<<<<<<<<<
- *             vv = vgrad[i] / (1.0 - self.beta2_k)
+ *             vgrad[i] = beta2 * vgrad[i] + fabs(v)             # <<<<<<<<<<<<<<
+ *             vv = vgrad[i] / beta2_k
  *             v2 = fabs(vv)
  */
-    (__pyx_v_vgrad[__pyx_v_i]) = ((__pyx_v_beta2 * (__pyx_v_vgrad[__pyx_v_i])) + ((1.0 - __pyx_v_beta2) * fabs(__pyx_v_v)));
+    (__pyx_v_vgrad[__pyx_v_i]) = ((__pyx_v_beta2 * (__pyx_v_vgrad[__pyx_v_i])) + fabs(__pyx_v_v));
 
-    /* "lib/mlgrad/averager_array.pyx":262
+    /* "lib/mlgrad/averager_array.pyx":267
  * 
- *             vgrad[i] = beta2 * vgrad[i] + (1.0 - beta2) * fabs(v)
- *             vv = vgrad[i] / (1.0 - self.beta2_k)             # <<<<<<<<<<<<<<
+ *             vgrad[i] = beta2 * vgrad[i] + fabs(v)
+ *             vv = vgrad[i] / beta2_k             # <<<<<<<<<<<<<<
  *             v2 = fabs(vv)
- * #             array_average[i] = h * mv * ((1 + v2) / (v2 * (1 + v2) + 1)) # self.epsilon)
- */
-    __pyx_t_1 = (1.0 - __pyx_v_self->beta2_k);
-    if (unlikely(__pyx_t_1 == 0)) {
-      PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(3, 262, __pyx_L1_error)
-    }
-    __pyx_v_vv = ((__pyx_v_vgrad[__pyx_v_i]) / __pyx_t_1);
-
-    /* "lib/mlgrad/averager_array.pyx":263
- *             vgrad[i] = beta2 * vgrad[i] + (1.0 - beta2) * fabs(v)
- *             vv = vgrad[i] / (1.0 - self.beta2_k)
- *             v2 = fabs(vv)             # <<<<<<<<<<<<<<
- * #             array_average[i] = h * mv * ((1 + v2) / (v2 * (1 + v2) + 1)) # self.epsilon)
  *             array_average[i] = h * (mv / (v2 + epsilon))
+ */
+    if (unlikely(__pyx_v_beta2_k == 0)) {
+      PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+      __PYX_ERR(3, 267, __pyx_L1_error)
+    }
+    __pyx_v_vv = ((__pyx_v_vgrad[__pyx_v_i]) / __pyx_v_beta2_k);
+
+    /* "lib/mlgrad/averager_array.pyx":268
+ *             vgrad[i] = beta2 * vgrad[i] + fabs(v)
+ *             vv = vgrad[i] / beta2_k
+ *             v2 = fabs(vv)             # <<<<<<<<<<<<<<
+ *             array_average[i] = h * (mv / (v2 + epsilon))
+ * 
  */
     __pyx_v_v2 = fabs(__pyx_v_vv);
 
-    /* "lib/mlgrad/averager_array.pyx":265
+    /* "lib/mlgrad/averager_array.pyx":269
+ *             vv = vgrad[i] / beta2_k
  *             v2 = fabs(vv)
- * #             array_average[i] = h * mv * ((1 + v2) / (v2 * (1 + v2) + 1)) # self.epsilon)
  *             array_average[i] = h * (mv / (v2 + epsilon))             # <<<<<<<<<<<<<<
  * 
- * # cdef class ArrayAdaNG(ArrayAverager):
+ * #             v = x[i]
  */
     __pyx_t_1 = (__pyx_v_v2 + __pyx_v_epsilon);
     if (unlikely(__pyx_t_1 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(3, 265, __pyx_L1_error)
+      __PYX_ERR(3, 269, __pyx_L1_error)
     }
     (__pyx_v_array_average[__pyx_v_i]) = (__pyx_v_h * (__pyx_v_mv / __pyx_t_1));
   }
@@ -10850,7 +10878,7 @@ static PyObject *__pyx_pf_6mlgrad_8averager_10ArrayAdaM1_4__setstate_cython__(st
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":314
+/* "lib/mlgrad/averager_array.pyx":327
  * cdef class ArrayTAverager(ArrayAverager):
  *     #
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -10883,33 +10911,33 @@ static int __pyx_pf_6mlgrad_8averager_14ArrayTAverager___init__(struct __pyx_obj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":315
+  /* "lib/mlgrad/averager_array.pyx":328
  *     #
  *     def __init__(self):
  *         self.array_average = None             # <<<<<<<<<<<<<<
  *         self.array_sum = None
  *     #
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(3, 315, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(3, 328, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.array_average, 0);
   __pyx_v_self->__pyx_base.array_average = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":316
+  /* "lib/mlgrad/averager_array.pyx":329
  *     def __init__(self):
  *         self.array_average = None
  *         self.array_sum = None             # <<<<<<<<<<<<<<
  *     #
  *     cdef init(self, ndim):
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(3, 316, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(3, 329, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->array_sum, 0);
   __pyx_v_self->array_sum = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":314
+  /* "lib/mlgrad/averager_array.pyx":327
  * cdef class ArrayTAverager(ArrayAverager):
  *     #
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -10929,7 +10957,7 @@ static int __pyx_pf_6mlgrad_8averager_14ArrayTAverager___init__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":318
+/* "lib/mlgrad/averager_array.pyx":331
  *         self.array_sum = None
  *     #
  *     cdef init(self, ndim):             # <<<<<<<<<<<<<<
@@ -10951,7 +10979,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_init(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":319
+  /* "lib/mlgrad/averager_array.pyx":332
  *     #
  *     cdef init(self, ndim):
  *         self.T = 1.             # <<<<<<<<<<<<<<
@@ -10960,7 +10988,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_init(struct __pyx_ob
  */
   __pyx_v_self->T = 1.;
 
-  /* "lib/mlgrad/averager_array.pyx":320
+  /* "lib/mlgrad/averager_array.pyx":333
  *     cdef init(self, ndim):
  *         self.T = 1.
  *         if self.array_average is None:             # <<<<<<<<<<<<<<
@@ -10970,39 +10998,39 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_init(struct __pyx_ob
   __pyx_t_1 = ((((PyObject *) __pyx_v_self->__pyx_base.array_average.memview) == Py_None) != 0);
   if (__pyx_t_1) {
 
-    /* "lib/mlgrad/averager_array.pyx":321
+    /* "lib/mlgrad/averager_array.pyx":334
  *         self.T = 1.
  *         if self.array_average is None:
  *             self.array_average = np.zeros(ndim, dtype='d')             # <<<<<<<<<<<<<<
  *         else:
  *             fill_memoryview(self.array_average, 0)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 321, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 334, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 321, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 334, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 321, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 334, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_v_ndim);
     __Pyx_GIVEREF(__pyx_v_ndim);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_ndim);
-    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 321, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 334, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 321, __pyx_L1_error)
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 321, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 334, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 334, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(3, 321, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(3, 334, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.array_average, 0);
     __pyx_v_self->__pyx_base.array_average = __pyx_t_6;
     __pyx_t_6.memview = NULL;
     __pyx_t_6.data = NULL;
 
-    /* "lib/mlgrad/averager_array.pyx":320
+    /* "lib/mlgrad/averager_array.pyx":333
  *     cdef init(self, ndim):
  *         self.T = 1.
  *         if self.array_average is None:             # <<<<<<<<<<<<<<
@@ -11012,7 +11040,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_init(struct __pyx_ob
     goto __pyx_L3;
   }
 
-  /* "lib/mlgrad/averager_array.pyx":323
+  /* "lib/mlgrad/averager_array.pyx":336
  *             self.array_average = np.zeros(ndim, dtype='d')
  *         else:
  *             fill_memoryview(self.array_average, 0)             # <<<<<<<<<<<<<<
@@ -11024,7 +11052,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_init(struct __pyx_ob
   }
   __pyx_L3:;
 
-  /* "lib/mlgrad/averager_array.pyx":324
+  /* "lib/mlgrad/averager_array.pyx":337
  *         else:
  *             fill_memoryview(self.array_average, 0)
  *         if self.array_sum is None:             # <<<<<<<<<<<<<<
@@ -11034,39 +11062,39 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_init(struct __pyx_ob
   __pyx_t_1 = ((((PyObject *) __pyx_v_self->array_sum.memview) == Py_None) != 0);
   if (__pyx_t_1) {
 
-    /* "lib/mlgrad/averager_array.pyx":325
+    /* "lib/mlgrad/averager_array.pyx":338
  *             fill_memoryview(self.array_average, 0)
  *         if self.array_sum is None:
  *             self.array_sum = np.zeros(ndim, dtype='d')             # <<<<<<<<<<<<<<
  *         else:
  *             fill_memoryview(self.array_sum, 0)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 325, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 338, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 325, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 338, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 325, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 338, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_INCREF(__pyx_v_ndim);
     __Pyx_GIVEREF(__pyx_v_ndim);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_ndim);
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 325, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 338, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 325, __pyx_L1_error)
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 325, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 338, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 338, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(3, 325, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(3, 338, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->array_sum, 0);
     __pyx_v_self->array_sum = __pyx_t_6;
     __pyx_t_6.memview = NULL;
     __pyx_t_6.data = NULL;
 
-    /* "lib/mlgrad/averager_array.pyx":324
+    /* "lib/mlgrad/averager_array.pyx":337
  *         else:
  *             fill_memoryview(self.array_average, 0)
  *         if self.array_sum is None:             # <<<<<<<<<<<<<<
@@ -11076,7 +11104,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_init(struct __pyx_ob
     goto __pyx_L4;
   }
 
-  /* "lib/mlgrad/averager_array.pyx":327
+  /* "lib/mlgrad/averager_array.pyx":340
  *             self.array_sum = np.zeros(ndim, dtype='d')
  *         else:
  *             fill_memoryview(self.array_sum, 0)             # <<<<<<<<<<<<<<
@@ -11088,7 +11116,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_init(struct __pyx_ob
   }
   __pyx_L4:;
 
-  /* "lib/mlgrad/averager_array.pyx":318
+  /* "lib/mlgrad/averager_array.pyx":331
  *         self.array_sum = None
  *     #
  *     cdef init(self, ndim):             # <<<<<<<<<<<<<<
@@ -11113,7 +11141,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_init(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":329
+/* "lib/mlgrad/averager_array.pyx":342
  *             fill_memoryview(self.array_sum, 0)
  *     #
  *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
@@ -11142,7 +11170,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("update", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":330
+  /* "lib/mlgrad/averager_array.pyx":343
  *     #
  *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]             # <<<<<<<<<<<<<<
@@ -11151,7 +11179,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_
  */
   __pyx_v_m = (__pyx_v_self->array_sum.shape[0]);
 
-  /* "lib/mlgrad/averager_array.pyx":331
+  /* "lib/mlgrad/averager_array.pyx":344
  *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]
  *         cdef double T = self.T             # <<<<<<<<<<<<<<
@@ -11161,7 +11189,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_
   __pyx_t_1 = __pyx_v_self->T;
   __pyx_v_T = __pyx_t_1;
 
-  /* "lib/mlgrad/averager_array.pyx":332
+  /* "lib/mlgrad/averager_array.pyx":345
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]
  *         cdef double T = self.T
  *         cdef double[::1] array_average = self.array_average             # <<<<<<<<<<<<<<
@@ -11174,7 +11202,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":333
+  /* "lib/mlgrad/averager_array.pyx":346
  *         cdef double T = self.T
  *         cdef double[::1] array_average = self.array_average
  *         cdef double[::1] array_sum = self.array_sum             # <<<<<<<<<<<<<<
@@ -11187,7 +11215,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":335
+  /* "lib/mlgrad/averager_array.pyx":348
  *         cdef double[::1] array_sum = self.array_sum
  * 
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -11199,7 +11227,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "lib/mlgrad/averager_array.pyx":336
+    /* "lib/mlgrad/averager_array.pyx":349
  * 
  *         for i in range(m):
  *             array_sum[i] += h * x[i] * T             # <<<<<<<<<<<<<<
@@ -11210,7 +11238,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_
     __pyx_t_7 = __pyx_v_i;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_array_sum.data) + __pyx_t_7)) )) += ((__pyx_v_h * (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_x.data) + __pyx_t_6)) )))) * __pyx_v_T);
 
-    /* "lib/mlgrad/averager_array.pyx":337
+    /* "lib/mlgrad/averager_array.pyx":350
  *         for i in range(m):
  *             array_sum[i] += h * x[i] * T
  *             array_average[i] = 2.0 * array_sum[i] / (T * (T +1.0))             # <<<<<<<<<<<<<<
@@ -11222,12 +11250,12 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_
     __pyx_t_8 = (__pyx_v_T * (__pyx_v_T + 1.0));
     if (unlikely(__pyx_t_8 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(3, 337, __pyx_L1_error)
+      __PYX_ERR(3, 350, __pyx_L1_error)
     }
     __pyx_t_6 = __pyx_v_i;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_array_average.data) + __pyx_t_6)) )) = (__pyx_t_1 / __pyx_t_8);
 
-    /* "lib/mlgrad/averager_array.pyx":338
+    /* "lib/mlgrad/averager_array.pyx":351
  *             array_sum[i] += h * x[i] * T
  *             array_average[i] = 2.0 * array_sum[i] / (T * (T +1.0))
  *             self.T += 1.0             # <<<<<<<<<<<<<<
@@ -11237,7 +11265,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14ArrayTAverager_update(struct __pyx_
     __pyx_v_self->T = (__pyx_v_self->T + 1.0);
   }
 
-  /* "lib/mlgrad/averager_array.pyx":329
+  /* "lib/mlgrad/averager_array.pyx":342
  *             fill_memoryview(self.array_sum, 0)
  *     #
  *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
@@ -11568,7 +11596,7 @@ static PyObject *__pyx_pf_6mlgrad_8averager_14ArrayTAverager_4__setstate_cython_
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":372
+/* "lib/mlgrad/averager_array.pyx":385
  * cdef class ArraySimpleAverager(ArrayAverager):
  *     #
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -11601,33 +11629,33 @@ static int __pyx_pf_6mlgrad_8averager_19ArraySimpleAverager___init__(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":373
+  /* "lib/mlgrad/averager_array.pyx":386
  *     #
  *     def __init__(self):
  *         self.array_average = None             # <<<<<<<<<<<<<<
  *         self.array_sum = None
  *     #
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(3, 373, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(3, 386, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.array_average, 0);
   __pyx_v_self->__pyx_base.array_average = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":374
+  /* "lib/mlgrad/averager_array.pyx":387
  *     def __init__(self):
  *         self.array_average = None
  *         self.array_sum = None             # <<<<<<<<<<<<<<
  *     #
  *     cdef init(self, ndim):
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(3, 374, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(3, 387, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->array_sum, 0);
   __pyx_v_self->array_sum = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":372
+  /* "lib/mlgrad/averager_array.pyx":385
  * cdef class ArraySimpleAverager(ArrayAverager):
  *     #
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -11647,7 +11675,7 @@ static int __pyx_pf_6mlgrad_8averager_19ArraySimpleAverager___init__(struct __py
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":376
+/* "lib/mlgrad/averager_array.pyx":389
  *         self.array_sum = None
  *     #
  *     cdef init(self, ndim):             # <<<<<<<<<<<<<<
@@ -11669,7 +11697,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":377
+  /* "lib/mlgrad/averager_array.pyx":390
  *     #
  *     cdef init(self, ndim):
  *         self.T = 1.             # <<<<<<<<<<<<<<
@@ -11678,7 +11706,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init(struct __p
  */
   __pyx_v_self->T = 1.;
 
-  /* "lib/mlgrad/averager_array.pyx":378
+  /* "lib/mlgrad/averager_array.pyx":391
  *     cdef init(self, ndim):
  *         self.T = 1.
  *         if self.array_average is None:             # <<<<<<<<<<<<<<
@@ -11688,39 +11716,39 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init(struct __p
   __pyx_t_1 = ((((PyObject *) __pyx_v_self->__pyx_base.array_average.memview) == Py_None) != 0);
   if (__pyx_t_1) {
 
-    /* "lib/mlgrad/averager_array.pyx":379
+    /* "lib/mlgrad/averager_array.pyx":392
  *         self.T = 1.
  *         if self.array_average is None:
  *             self.array_average = np.zeros(ndim, dtype='d')             # <<<<<<<<<<<<<<
  *         else:
  *             fill_memoryview(self.array_average, 0)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 379, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 392, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 379, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 392, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 379, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 392, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_v_ndim);
     __Pyx_GIVEREF(__pyx_v_ndim);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_ndim);
-    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 379, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 392, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 379, __pyx_L1_error)
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 379, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 392, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 392, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(3, 379, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(3, 392, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.array_average, 0);
     __pyx_v_self->__pyx_base.array_average = __pyx_t_6;
     __pyx_t_6.memview = NULL;
     __pyx_t_6.data = NULL;
 
-    /* "lib/mlgrad/averager_array.pyx":378
+    /* "lib/mlgrad/averager_array.pyx":391
  *     cdef init(self, ndim):
  *         self.T = 1.
  *         if self.array_average is None:             # <<<<<<<<<<<<<<
@@ -11730,7 +11758,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init(struct __p
     goto __pyx_L3;
   }
 
-  /* "lib/mlgrad/averager_array.pyx":381
+  /* "lib/mlgrad/averager_array.pyx":394
  *             self.array_average = np.zeros(ndim, dtype='d')
  *         else:
  *             fill_memoryview(self.array_average, 0)             # <<<<<<<<<<<<<<
@@ -11742,7 +11770,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init(struct __p
   }
   __pyx_L3:;
 
-  /* "lib/mlgrad/averager_array.pyx":382
+  /* "lib/mlgrad/averager_array.pyx":395
  *         else:
  *             fill_memoryview(self.array_average, 0)
  *         if self.array_sum is None:             # <<<<<<<<<<<<<<
@@ -11752,39 +11780,39 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init(struct __p
   __pyx_t_1 = ((((PyObject *) __pyx_v_self->array_sum.memview) == Py_None) != 0);
   if (__pyx_t_1) {
 
-    /* "lib/mlgrad/averager_array.pyx":383
+    /* "lib/mlgrad/averager_array.pyx":396
  *             fill_memoryview(self.array_average, 0)
  *         if self.array_sum is None:
  *             self.array_sum = np.zeros(ndim, dtype='d')             # <<<<<<<<<<<<<<
  *         else:
  *             fill_memoryview(self.array_sum, 0)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 383, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 396, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 383, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 396, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 383, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 396, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_INCREF(__pyx_v_ndim);
     __Pyx_GIVEREF(__pyx_v_ndim);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_ndim);
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 383, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 396, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 383, __pyx_L1_error)
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 383, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 396, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 396, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(3, 383, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(3, 396, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->array_sum, 0);
     __pyx_v_self->array_sum = __pyx_t_6;
     __pyx_t_6.memview = NULL;
     __pyx_t_6.data = NULL;
 
-    /* "lib/mlgrad/averager_array.pyx":382
+    /* "lib/mlgrad/averager_array.pyx":395
  *         else:
  *             fill_memoryview(self.array_average, 0)
  *         if self.array_sum is None:             # <<<<<<<<<<<<<<
@@ -11794,7 +11822,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init(struct __p
     goto __pyx_L4;
   }
 
-  /* "lib/mlgrad/averager_array.pyx":385
+  /* "lib/mlgrad/averager_array.pyx":398
  *             self.array_sum = np.zeros(ndim, dtype='d')
  *         else:
  *             fill_memoryview(self.array_sum, 0)             # <<<<<<<<<<<<<<
@@ -11806,7 +11834,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init(struct __p
   }
   __pyx_L4:;
 
-  /* "lib/mlgrad/averager_array.pyx":376
+  /* "lib/mlgrad/averager_array.pyx":389
  *         self.array_sum = None
  *     #
  *     cdef init(self, ndim):             # <<<<<<<<<<<<<<
@@ -11831,7 +11859,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init(struct __p
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":387
+/* "lib/mlgrad/averager_array.pyx":400
  *             fill_memoryview(self.array_sum, 0)
  *     #
  *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
@@ -11859,7 +11887,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct _
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("update", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":388
+  /* "lib/mlgrad/averager_array.pyx":401
  *     #
  *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]             # <<<<<<<<<<<<<<
@@ -11868,7 +11896,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct _
  */
   __pyx_v_m = (__pyx_v_self->array_sum.shape[0]);
 
-  /* "lib/mlgrad/averager_array.pyx":389
+  /* "lib/mlgrad/averager_array.pyx":402
  *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]
  *         cdef double T = self.T             # <<<<<<<<<<<<<<
@@ -11878,7 +11906,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct _
   __pyx_t_1 = __pyx_v_self->T;
   __pyx_v_T = __pyx_t_1;
 
-  /* "lib/mlgrad/averager_array.pyx":390
+  /* "lib/mlgrad/averager_array.pyx":403
  *         cdef Py_ssize_t i, m = self.array_sum.shape[0]
  *         cdef double T = self.T
  *         cdef double[::1] array_average = self.array_average             # <<<<<<<<<<<<<<
@@ -11891,7 +11919,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct _
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":391
+  /* "lib/mlgrad/averager_array.pyx":404
  *         cdef double T = self.T
  *         cdef double[::1] array_average = self.array_average
  *         cdef double[::1] array_sum = self.array_sum             # <<<<<<<<<<<<<<
@@ -11904,7 +11932,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct _
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":393
+  /* "lib/mlgrad/averager_array.pyx":406
  *         cdef double[::1] array_sum = self.array_sum
  * 
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -11916,7 +11944,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct _
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "lib/mlgrad/averager_array.pyx":394
+    /* "lib/mlgrad/averager_array.pyx":407
  * 
  *         for i in range(m):
  *             array_sum[i] += h * x[i]             # <<<<<<<<<<<<<<
@@ -11927,7 +11955,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct _
     __pyx_t_7 = __pyx_v_i;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_array_sum.data) + __pyx_t_7)) )) += (__pyx_v_h * (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_x.data) + __pyx_t_6)) ))));
 
-    /* "lib/mlgrad/averager_array.pyx":395
+    /* "lib/mlgrad/averager_array.pyx":408
  *         for i in range(m):
  *             array_sum[i] += h * x[i]
  *             array_average[i] = array_sum[i] / T             # <<<<<<<<<<<<<<
@@ -11938,13 +11966,13 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct _
     __pyx_t_1 = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_array_sum.data) + __pyx_t_6)) )));
     if (unlikely(__pyx_v_T == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(3, 395, __pyx_L1_error)
+      __PYX_ERR(3, 408, __pyx_L1_error)
     }
     __pyx_t_6 = __pyx_v_i;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_array_average.data) + __pyx_t_6)) )) = (__pyx_t_1 / __pyx_v_T);
   }
 
-  /* "lib/mlgrad/averager_array.pyx":396
+  /* "lib/mlgrad/averager_array.pyx":409
  *             array_sum[i] += h * x[i]
  *             array_average[i] = array_sum[i] / T
  *         self.T += 1.0             # <<<<<<<<<<<<<<
@@ -11953,7 +11981,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update(struct _
  */
   __pyx_v_self->T = (__pyx_v_self->T + 1.0);
 
-  /* "lib/mlgrad/averager_array.pyx":387
+  /* "lib/mlgrad/averager_array.pyx":400
  *             fill_memoryview(self.array_sum, 0)
  *     #
  *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
@@ -12284,7 +12312,7 @@ static PyObject *__pyx_pf_6mlgrad_8averager_19ArraySimpleAverager_4__setstate_cy
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":400
+/* "lib/mlgrad/averager_array.pyx":413
  * cdef class ArrayCyclicAverager(ArrayAverager):
  *     #
  *     def __init__(self, size):             # <<<<<<<<<<<<<<
@@ -12321,7 +12349,7 @@ static int __pyx_pw_6mlgrad_8averager_19ArrayCyclicAverager_1__init__(PyObject *
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(3, 400, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(3, 413, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -12332,7 +12360,7 @@ static int __pyx_pw_6mlgrad_8averager_19ArrayCyclicAverager_1__init__(PyObject *
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(3, 400, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(3, 413, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.averager.ArrayCyclicAverager.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -12356,43 +12384,43 @@ static int __pyx_pf_6mlgrad_8averager_19ArrayCyclicAverager___init__(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":401
+  /* "lib/mlgrad/averager_array.pyx":414
  *     #
  *     def __init__(self, size):
  *         self.size = size             # <<<<<<<<<<<<<<
  *         self.array_average = None
  *         self.array_all = None
  */
-  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_size); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(3, 401, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_size); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(3, 414, __pyx_L1_error)
   __pyx_v_self->size = __pyx_t_1;
 
-  /* "lib/mlgrad/averager_array.pyx":402
+  /* "lib/mlgrad/averager_array.pyx":415
  *     def __init__(self, size):
  *         self.size = size
  *         self.array_average = None             # <<<<<<<<<<<<<<
  *         self.array_all = None
  *     #
  */
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(3, 402, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(3, 415, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.array_average, 0);
   __pyx_v_self->__pyx_base.array_average = __pyx_t_2;
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":403
+  /* "lib/mlgrad/averager_array.pyx":416
  *         self.size = size
  *         self.array_average = None
  *         self.array_all = None             # <<<<<<<<<<<<<<
  *     #
  *     cdef init(self, ndim):
  */
-  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(3, 403, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(3, 416, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->array_all, 0);
   __pyx_v_self->array_all = __pyx_t_3;
   __pyx_t_3.memview = NULL;
   __pyx_t_3.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":400
+  /* "lib/mlgrad/averager_array.pyx":413
  * cdef class ArrayCyclicAverager(ArrayAverager):
  *     #
  *     def __init__(self, size):             # <<<<<<<<<<<<<<
@@ -12413,7 +12441,7 @@ static int __pyx_pf_6mlgrad_8averager_19ArrayCyclicAverager___init__(struct __py
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":405
+/* "lib/mlgrad/averager_array.pyx":418
  *         self.array_all = None
  *     #
  *     cdef init(self, ndim):             # <<<<<<<<<<<<<<
@@ -12437,7 +12465,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":406
+  /* "lib/mlgrad/averager_array.pyx":419
  *     #
  *     cdef init(self, ndim):
  *         self.i = 0             # <<<<<<<<<<<<<<
@@ -12446,7 +12474,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
  */
   __pyx_v_self->i = 0;
 
-  /* "lib/mlgrad/averager_array.pyx":407
+  /* "lib/mlgrad/averager_array.pyx":420
  *     cdef init(self, ndim):
  *         self.i = 0
  *         if self.array_all is None:             # <<<<<<<<<<<<<<
@@ -12456,21 +12484,21 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
   __pyx_t_1 = ((((PyObject *) __pyx_v_self->array_all.memview) == Py_None) != 0);
   if (__pyx_t_1) {
 
-    /* "lib/mlgrad/averager_array.pyx":408
+    /* "lib/mlgrad/averager_array.pyx":421
  *         self.i = 0
  *         if self.array_all is None:
  *             self.array_all = np.zeros((self.size, ndim,), dtype='d')             # <<<<<<<<<<<<<<
  *         else:
  *             fill_memoryview2(self.array_all, 0)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 408, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 421, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 408, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 421, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->size); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 408, __pyx_L1_error)
+    __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->size); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 421, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 408, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 421, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
@@ -12478,27 +12506,27 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
     __Pyx_GIVEREF(__pyx_v_ndim);
     PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_ndim);
     __pyx_t_2 = 0;
-    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 408, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 421, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 408, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 421, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 408, __pyx_L1_error)
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 408, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 421, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 421, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(3, 408, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_5, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(3, 421, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->array_all, 0);
     __pyx_v_self->array_all = __pyx_t_6;
     __pyx_t_6.memview = NULL;
     __pyx_t_6.data = NULL;
 
-    /* "lib/mlgrad/averager_array.pyx":407
+    /* "lib/mlgrad/averager_array.pyx":420
  *     cdef init(self, ndim):
  *         self.i = 0
  *         if self.array_all is None:             # <<<<<<<<<<<<<<
@@ -12508,7 +12536,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
     goto __pyx_L3;
   }
 
-  /* "lib/mlgrad/averager_array.pyx":410
+  /* "lib/mlgrad/averager_array.pyx":423
  *             self.array_all = np.zeros((self.size, ndim,), dtype='d')
  *         else:
  *             fill_memoryview2(self.array_all, 0)             # <<<<<<<<<<<<<<
@@ -12520,7 +12548,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
   }
   __pyx_L3:;
 
-  /* "lib/mlgrad/averager_array.pyx":411
+  /* "lib/mlgrad/averager_array.pyx":424
  *         else:
  *             fill_memoryview2(self.array_all, 0)
  *         if self.array_average is None:             # <<<<<<<<<<<<<<
@@ -12530,39 +12558,39 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
   __pyx_t_1 = ((((PyObject *) __pyx_v_self->__pyx_base.array_average.memview) == Py_None) != 0);
   if (__pyx_t_1) {
 
-    /* "lib/mlgrad/averager_array.pyx":412
+    /* "lib/mlgrad/averager_array.pyx":425
  *             fill_memoryview2(self.array_all, 0)
  *         if self.array_average is None:
  *             self.array_average = np.zeros(ndim, dtype='d')             # <<<<<<<<<<<<<<
  *         else:
  *             fill_memoryview(self.array_average, 0)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 412, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 425, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 412, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 425, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 412, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 425, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_INCREF(__pyx_v_ndim);
     __Pyx_GIVEREF(__pyx_v_ndim);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_ndim);
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 412, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 425, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 412, __pyx_L1_error)
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 412, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 425, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 425, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(3, 412, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_3, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(3, 425, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.array_average, 0);
     __pyx_v_self->__pyx_base.array_average = __pyx_t_7;
     __pyx_t_7.memview = NULL;
     __pyx_t_7.data = NULL;
 
-    /* "lib/mlgrad/averager_array.pyx":411
+    /* "lib/mlgrad/averager_array.pyx":424
  *         else:
  *             fill_memoryview2(self.array_all, 0)
  *         if self.array_average is None:             # <<<<<<<<<<<<<<
@@ -12572,7 +12600,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
     goto __pyx_L4;
   }
 
-  /* "lib/mlgrad/averager_array.pyx":414
+  /* "lib/mlgrad/averager_array.pyx":427
  *             self.array_average = np.zeros(ndim, dtype='d')
  *         else:
  *             fill_memoryview(self.array_average, 0)             # <<<<<<<<<<<<<<
@@ -12584,49 +12612,49 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
   }
   __pyx_L4:;
 
-  /* "lib/mlgrad/averager_array.pyx":415
+  /* "lib/mlgrad/averager_array.pyx":428
  *         else:
  *             fill_memoryview(self.array_average, 0)
  *         if self.array_sum is None:             # <<<<<<<<<<<<<<
  *             self.array_sum = np.zeros(ndim, dtype='d')
  *         else:
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_sum); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 415, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_sum); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 428, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_1 = (__pyx_t_3 == Py_None);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_8 = (__pyx_t_1 != 0);
   if (__pyx_t_8) {
 
-    /* "lib/mlgrad/averager_array.pyx":416
+    /* "lib/mlgrad/averager_array.pyx":429
  *             fill_memoryview(self.array_average, 0)
  *         if self.array_sum is None:
  *             self.array_sum = np.zeros(ndim, dtype='d')             # <<<<<<<<<<<<<<
  *         else:
  *             fill_memoryview(self.array_sum, 0)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 416, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 429, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 416, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 429, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 416, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 429, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_v_ndim);
     __Pyx_GIVEREF(__pyx_v_ndim);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_ndim);
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 416, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 429, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 416, __pyx_L1_error)
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 416, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 429, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 429, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_sum, __pyx_t_4) < 0) __PYX_ERR(3, 416, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_sum, __pyx_t_4) < 0) __PYX_ERR(3, 429, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "lib/mlgrad/averager_array.pyx":415
+    /* "lib/mlgrad/averager_array.pyx":428
  *         else:
  *             fill_memoryview(self.array_average, 0)
  *         if self.array_sum is None:             # <<<<<<<<<<<<<<
@@ -12636,7 +12664,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
     goto __pyx_L5;
   }
 
-  /* "lib/mlgrad/averager_array.pyx":418
+  /* "lib/mlgrad/averager_array.pyx":431
  *             self.array_sum = np.zeros(ndim, dtype='d')
  *         else:
  *             fill_memoryview(self.array_sum, 0)             # <<<<<<<<<<<<<<
@@ -12644,9 +12672,9 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
  *     cdef update(self, const double[::1] x, const double h):
  */
   /*else*/ {
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_sum); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 418, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_sum); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 431, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(3, 418, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(3, 431, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_f_6mlgrad_8averager_fill_memoryview(__pyx_t_7, 0.0);
     __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
@@ -12655,7 +12683,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
   }
   __pyx_L5:;
 
-  /* "lib/mlgrad/averager_array.pyx":405
+  /* "lib/mlgrad/averager_array.pyx":418
  *         self.array_all = None
  *     #
  *     cdef init(self, ndim):             # <<<<<<<<<<<<<<
@@ -12681,7 +12709,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init(struct __p
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":420
+/* "lib/mlgrad/averager_array.pyx":433
  *             fill_memoryview(self.array_sum, 0)
  *     #
  *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
@@ -12713,7 +12741,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("update", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":421
+  /* "lib/mlgrad/averager_array.pyx":434
  *     #
  *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t j, n, m = self.array_average.shape[0]             # <<<<<<<<<<<<<<
@@ -12722,7 +12750,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
  */
   __pyx_v_m = (__pyx_v_self->__pyx_base.array_average.shape[0]);
 
-  /* "lib/mlgrad/averager_array.pyx":422
+  /* "lib/mlgrad/averager_array.pyx":435
  *     cdef update(self, const double[::1] x, const double h):
  *         cdef Py_ssize_t j, n, m = self.array_average.shape[0]
  *         cdef double[::1] array_average = self.array_average             # <<<<<<<<<<<<<<
@@ -12735,7 +12763,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":423
+  /* "lib/mlgrad/averager_array.pyx":436
  *         cdef Py_ssize_t j, n, m = self.array_average.shape[0]
  *         cdef double[::1] array_average = self.array_average
  *         cdef double[:,::1] array_all = self.array_all             # <<<<<<<<<<<<<<
@@ -12748,7 +12776,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":425
+  /* "lib/mlgrad/averager_array.pyx":438
  *         cdef double[:,::1] array_all = self.array_all
  * 
  *         j = self.i % self.size             # <<<<<<<<<<<<<<
@@ -12757,11 +12785,11 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
  */
   if (unlikely(__pyx_v_self->size == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-    __PYX_ERR(3, 425, __pyx_L1_error)
+    __PYX_ERR(3, 438, __pyx_L1_error)
   }
   __pyx_v_j = __Pyx_mod_Py_ssize_t(__pyx_v_self->i, __pyx_v_self->size);
 
-  /* "lib/mlgrad/averager_array.pyx":426
+  /* "lib/mlgrad/averager_array.pyx":439
  * 
  *         j = self.i % self.size
  *         if self.i >= self.size:             # <<<<<<<<<<<<<<
@@ -12771,7 +12799,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
   __pyx_t_3 = ((__pyx_v_self->i >= __pyx_v_self->size) != 0);
   if (__pyx_t_3) {
 
-    /* "lib/mlgrad/averager_array.pyx":427
+    /* "lib/mlgrad/averager_array.pyx":440
  *         j = self.i % self.size
  *         if self.i >= self.size:
  *             n = self.size             # <<<<<<<<<<<<<<
@@ -12781,7 +12809,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
     __pyx_t_4 = __pyx_v_self->size;
     __pyx_v_n = __pyx_t_4;
 
-    /* "lib/mlgrad/averager_array.pyx":426
+    /* "lib/mlgrad/averager_array.pyx":439
  * 
  *         j = self.i % self.size
  *         if self.i >= self.size:             # <<<<<<<<<<<<<<
@@ -12791,7 +12819,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
     goto __pyx_L3;
   }
 
-  /* "lib/mlgrad/averager_array.pyx":429
+  /* "lib/mlgrad/averager_array.pyx":442
  *             n = self.size
  *         else:
  *             n = j+1             # <<<<<<<<<<<<<<
@@ -12803,7 +12831,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
   }
   __pyx_L3:;
 
-  /* "lib/mlgrad/averager_array.pyx":430
+  /* "lib/mlgrad/averager_array.pyx":443
  *         else:
  *             n = j+1
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -12815,7 +12843,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
   for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
     __pyx_v_i = __pyx_t_6;
 
-    /* "lib/mlgrad/averager_array.pyx":431
+    /* "lib/mlgrad/averager_array.pyx":444
  *             n = j+1
  *         for i in range(m):
  *             array_average[i] += (x[i] - array_all[j,i]) / n             # <<<<<<<<<<<<<<
@@ -12828,12 +12856,12 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
     __pyx_t_10 = ((*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_x.data) + __pyx_t_7)) ))) - (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_array_all.data + __pyx_t_8 * __pyx_v_array_all.strides[0]) )) + __pyx_t_9)) ))));
     if (unlikely(__pyx_v_n == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(3, 431, __pyx_L1_error)
+      __PYX_ERR(3, 444, __pyx_L1_error)
     }
     __pyx_t_9 = __pyx_v_i;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_array_average.data) + __pyx_t_9)) )) += (__pyx_t_10 / ((double)__pyx_v_n));
 
-    /* "lib/mlgrad/averager_array.pyx":432
+    /* "lib/mlgrad/averager_array.pyx":445
  *         for i in range(m):
  *             array_average[i] += (x[i] - array_all[j,i]) / n
  *             array_all[j,i] = x[i]             # <<<<<<<<<<<<<<
@@ -12846,7 +12874,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
     *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_array_all.data + __pyx_t_8 * __pyx_v_array_all.strides[0]) )) + __pyx_t_7)) )) = (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_x.data) + __pyx_t_9)) )));
   }
 
-  /* "lib/mlgrad/averager_array.pyx":433
+  /* "lib/mlgrad/averager_array.pyx":446
  *             array_average[i] += (x[i] - array_all[j,i]) / n
  *             array_all[j,i] = x[i]
  *         self.i += 1             # <<<<<<<<<<<<<<
@@ -12855,7 +12883,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update(struct _
  */
   __pyx_v_self->i = (__pyx_v_self->i + 1);
 
-  /* "lib/mlgrad/averager_array.pyx":420
+  /* "lib/mlgrad/averager_array.pyx":433
  *             fill_memoryview(self.array_sum, 0)
  *     #
  *     cdef update(self, const double[::1] x, const double h):             # <<<<<<<<<<<<<<
@@ -13194,7 +13222,7 @@ static PyObject *__pyx_pf_6mlgrad_8averager_19ArrayCyclicAverager_4__setstate_cy
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":438
+/* "lib/mlgrad/averager_array.pyx":451
  * cdef class SArrayAverager:
  *     #
  *     cdef init(self, ndim, N):             # <<<<<<<<<<<<<<
@@ -13214,7 +13242,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_14SArrayAverager_init(CYTHON_UNUSED s
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":441
+/* "lib/mlgrad/averager_array.pyx":454
  *         pass
  *     #
  *     cdef update(self, double[::1] x, int k):             # <<<<<<<<<<<<<<
@@ -13523,7 +13551,7 @@ static PyObject *__pyx_pf_6mlgrad_8averager_14SArrayAverager_2__setstate_cython_
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":446
+/* "lib/mlgrad/averager_array.pyx":459
  * cdef class ArrayStochasticAverager(SArrayAverager):
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -13555,25 +13583,25 @@ static int __pyx_pf_6mlgrad_8averager_23ArrayStochasticAverager___init__(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":447
+  /* "lib/mlgrad/averager_array.pyx":460
  * 
  *     def __init__(self):
  *         self.array_average = None             # <<<<<<<<<<<<<<
  *         self.array_table = None
  *     #
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_average, Py_None) < 0) __PYX_ERR(3, 447, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_average, Py_None) < 0) __PYX_ERR(3, 460, __pyx_L1_error)
 
-  /* "lib/mlgrad/averager_array.pyx":448
+  /* "lib/mlgrad/averager_array.pyx":461
  *     def __init__(self):
  *         self.array_average = None
  *         self.array_table = None             # <<<<<<<<<<<<<<
  *     #
  *     cdef init(self, m, N):
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table, Py_None) < 0) __PYX_ERR(3, 448, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table, Py_None) < 0) __PYX_ERR(3, 461, __pyx_L1_error)
 
-  /* "lib/mlgrad/averager_array.pyx":446
+  /* "lib/mlgrad/averager_array.pyx":459
  * cdef class ArrayStochasticAverager(SArrayAverager):
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -13592,7 +13620,7 @@ static int __pyx_pf_6mlgrad_8averager_23ArrayStochasticAverager___init__(struct 
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":450
+/* "lib/mlgrad/averager_array.pyx":463
  *         self.array_table = None
  *     #
  *     cdef init(self, m, N):             # <<<<<<<<<<<<<<
@@ -13616,49 +13644,49 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init(struct
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("init", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":451
+  /* "lib/mlgrad/averager_array.pyx":464
  *     #
  *     cdef init(self, m, N):
  *         if self.array_average is None:             # <<<<<<<<<<<<<<
  *             self.array_average = np.zeros(m, dtype='d')
  *         else:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_average); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 451, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_average); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 464, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = (__pyx_t_1 == Py_None);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "lib/mlgrad/averager_array.pyx":452
+    /* "lib/mlgrad/averager_array.pyx":465
  *     cdef init(self, m, N):
  *         if self.array_average is None:
  *             self.array_average = np.zeros(m, dtype='d')             # <<<<<<<<<<<<<<
  *         else:
  *             fill_memoryview(self.array_average, 0)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 452, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 452, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 452, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_v_m);
     __Pyx_GIVEREF(__pyx_v_m);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_m);
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 452, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 452, __pyx_L1_error)
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 452, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 465, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 465, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_average, __pyx_t_6) < 0) __PYX_ERR(3, 452, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_average, __pyx_t_6) < 0) __PYX_ERR(3, 465, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "lib/mlgrad/averager_array.pyx":451
+    /* "lib/mlgrad/averager_array.pyx":464
  *     #
  *     cdef init(self, m, N):
  *         if self.array_average is None:             # <<<<<<<<<<<<<<
@@ -13668,7 +13696,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init(struct
     goto __pyx_L3;
   }
 
-  /* "lib/mlgrad/averager_array.pyx":454
+  /* "lib/mlgrad/averager_array.pyx":467
  *             self.array_average = np.zeros(m, dtype='d')
  *         else:
  *             fill_memoryview(self.array_average, 0)             # <<<<<<<<<<<<<<
@@ -13676,9 +13704,9 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init(struct
  *         if self.array_table is None:
  */
   /*else*/ {
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_average); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 454, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_average); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 467, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_6, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(3, 454, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_6, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(3, 467, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_f_6mlgrad_8averager_fill_memoryview(__pyx_t_7, 0.0);
     __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
@@ -13687,33 +13715,33 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init(struct
   }
   __pyx_L3:;
 
-  /* "lib/mlgrad/averager_array.pyx":456
+  /* "lib/mlgrad/averager_array.pyx":469
  *             fill_memoryview(self.array_average, 0)
  * 
  *         if self.array_table is None:             # <<<<<<<<<<<<<<
  *             self.array_table = np.zeros((N, m), dtype='d')
  *         else:
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 456, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 469, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_3 = (__pyx_t_6 == Py_None);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_2 = (__pyx_t_3 != 0);
   if (__pyx_t_2) {
 
-    /* "lib/mlgrad/averager_array.pyx":457
+    /* "lib/mlgrad/averager_array.pyx":470
  * 
  *         if self.array_table is None:
  *             self.array_table = np.zeros((N, m), dtype='d')             # <<<<<<<<<<<<<<
  *         else:
  *             fill_memoryview2(self.array_table, 0)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 457, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 470, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 457, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 470, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 457, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 470, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_INCREF(__pyx_v_N);
     __Pyx_GIVEREF(__pyx_v_N);
@@ -13721,23 +13749,23 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init(struct
     __Pyx_INCREF(__pyx_v_m);
     __Pyx_GIVEREF(__pyx_v_m);
     PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_v_m);
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 457, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 470, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_6);
     __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 457, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 470, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 457, __pyx_L1_error)
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 457, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_n_u_d) < 0) __PYX_ERR(3, 470, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 470, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table, __pyx_t_4) < 0) __PYX_ERR(3, 457, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table, __pyx_t_4) < 0) __PYX_ERR(3, 470, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "lib/mlgrad/averager_array.pyx":456
+    /* "lib/mlgrad/averager_array.pyx":469
  *             fill_memoryview(self.array_average, 0)
  * 
  *         if self.array_table is None:             # <<<<<<<<<<<<<<
@@ -13747,7 +13775,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init(struct
     goto __pyx_L4;
   }
 
-  /* "lib/mlgrad/averager_array.pyx":459
+  /* "lib/mlgrad/averager_array.pyx":472
  *             self.array_table = np.zeros((N, m), dtype='d')
  *         else:
  *             fill_memoryview2(self.array_table, 0)             # <<<<<<<<<<<<<<
@@ -13755,9 +13783,9 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init(struct
  *     cdef update(self, const double[::1] x, const int k):
  */
   /*else*/ {
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 459, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 472, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(3, 459, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(3, 472, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_f_6mlgrad_8averager_fill_memoryview2(__pyx_t_8, 0.0);
     __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
@@ -13766,7 +13794,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init(struct
   }
   __pyx_L4:;
 
-  /* "lib/mlgrad/averager_array.pyx":450
+  /* "lib/mlgrad/averager_array.pyx":463
  *         self.array_table = None
  *     #
  *     cdef init(self, m, N):             # <<<<<<<<<<<<<<
@@ -13792,7 +13820,7 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init(struct
   return __pyx_r;
 }
 
-/* "lib/mlgrad/averager_array.pyx":461
+/* "lib/mlgrad/averager_array.pyx":474
  *             fill_memoryview2(self.array_table, 0)
  *     #
  *     cdef update(self, const double[::1] x, const int k):             # <<<<<<<<<<<<<<
@@ -13828,37 +13856,37 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("update", 0);
 
-  /* "lib/mlgrad/averager_array.pyx":462
+  /* "lib/mlgrad/averager_array.pyx":475
  *     #
  *     cdef update(self, const double[::1] x, const int k):
  *         cdef Py_ssize_t i, N = self.array_table.shape[0], m = self.array_average.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double Nd = N
  *         cdef double[::1] array_average = self.array_average
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 462, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 475, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 462, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 475, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 462, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 475, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(3, 462, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(3, 475, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_N = __pyx_t_3;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_average); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 462, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_average); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 475, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 462, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 475, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 462, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 475, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(3, 462, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(3, 475, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_m = __pyx_t_3;
 
-  /* "lib/mlgrad/averager_array.pyx":463
+  /* "lib/mlgrad/averager_array.pyx":476
  *     cdef update(self, const double[::1] x, const int k):
  *         cdef Py_ssize_t i, N = self.array_table.shape[0], m = self.array_average.shape[0]
  *         cdef double Nd = N             # <<<<<<<<<<<<<<
@@ -13867,37 +13895,37 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(stru
  */
   __pyx_v_Nd = __pyx_v_N;
 
-  /* "lib/mlgrad/averager_array.pyx":464
+  /* "lib/mlgrad/averager_array.pyx":477
  *         cdef Py_ssize_t i, N = self.array_table.shape[0], m = self.array_average.shape[0]
  *         cdef double Nd = N
  *         cdef double[::1] array_average = self.array_average             # <<<<<<<<<<<<<<
  *         cdef double[:,::1] array_table = self.array_table
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_average); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 464, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_average); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 477, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(3, 464, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(3, 477, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_array_average = __pyx_t_4;
   __pyx_t_4.memview = NULL;
   __pyx_t_4.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":465
+  /* "lib/mlgrad/averager_array.pyx":478
  *         cdef double Nd = N
  *         cdef double[::1] array_average = self.array_average
  *         cdef double[:,::1] array_table = self.array_table             # <<<<<<<<<<<<<<
  * 
  *         for i in range(m):
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 465, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 478, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(3, 465, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(3, 478, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_array_table = __pyx_t_5;
   __pyx_t_5.memview = NULL;
   __pyx_t_5.data = NULL;
 
-  /* "lib/mlgrad/averager_array.pyx":467
+  /* "lib/mlgrad/averager_array.pyx":480
  *         cdef double[:,::1] array_table = self.array_table
  * 
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -13909,20 +13937,20 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(stru
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "lib/mlgrad/averager_array.pyx":468
+    /* "lib/mlgrad/averager_array.pyx":481
  * 
  *         for i in range(m):
  *             xi = self.array_table[k,i]             # <<<<<<<<<<<<<<
  *             array_table[k,i] = x[i]
  *             array_average[i] += (x[i] - xi) / Nd
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 468, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_array_table); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 481, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_k); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 468, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_k); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 481, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = PyInt_FromSsize_t(__pyx_v_i); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 468, __pyx_L1_error)
+    __pyx_t_8 = PyInt_FromSsize_t(__pyx_v_i); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 481, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(3, 468, __pyx_L1_error)
+    __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(3, 481, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_2);
@@ -13930,14 +13958,14 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(stru
     PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_t_8);
     __pyx_t_2 = 0;
     __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 468, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_t_1, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 481, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_XDECREF_SET(__pyx_v_xi, __pyx_t_8);
     __pyx_t_8 = 0;
 
-    /* "lib/mlgrad/averager_array.pyx":469
+    /* "lib/mlgrad/averager_array.pyx":482
  *         for i in range(m):
  *             xi = self.array_table[k,i]
  *             array_table[k,i] = x[i]             # <<<<<<<<<<<<<<
@@ -13948,30 +13976,30 @@ static PyObject *__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update(stru
     __pyx_t_12 = __pyx_v_i;
     *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_array_table.data + __pyx_t_11 * __pyx_v_array_table.strides[0]) )) + __pyx_t_12)) )) = (*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_x.data) + __pyx_t_10)) )));
 
-    /* "lib/mlgrad/averager_array.pyx":470
+    /* "lib/mlgrad/averager_array.pyx":483
  *             xi = self.array_table[k,i]
  *             array_table[k,i] = x[i]
  *             array_average[i] += (x[i] - xi) / Nd             # <<<<<<<<<<<<<<
  */
     __pyx_t_10 = __pyx_v_i;
-    __pyx_t_8 = PyFloat_FromDouble((*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_x.data) + __pyx_t_10)) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 470, __pyx_L1_error)
+    __pyx_t_8 = PyFloat_FromDouble((*((double const  *) ( /* dim=0 */ ((char *) (((double const  *) __pyx_v_x.data) + __pyx_t_10)) )))); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 483, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = PyNumber_Subtract(__pyx_t_8, __pyx_v_xi); if (unlikely(!__pyx_t_9)) __PYX_ERR(3, 470, __pyx_L1_error)
+    __pyx_t_9 = PyNumber_Subtract(__pyx_t_8, __pyx_v_xi); if (unlikely(!__pyx_t_9)) __PYX_ERR(3, 483, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = PyFloat_FromDouble(__pyx_v_Nd); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 470, __pyx_L1_error)
+    __pyx_t_8 = PyFloat_FromDouble(__pyx_v_Nd); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 483, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 470, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 483, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(3, 470, __pyx_L1_error)
+    __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(3, 483, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_10 = __pyx_v_i;
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_array_average.data) + __pyx_t_10)) )) += __pyx_t_13;
   }
 
-  /* "lib/mlgrad/averager_array.pyx":461
+  /* "lib/mlgrad/averager_array.pyx":474
  *             fill_memoryview2(self.array_table, 0)
  *     #
  *     cdef update(self, const double[::1] x, const int k):             # <<<<<<<<<<<<<<
@@ -37173,48 +37201,48 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_8averager_ArraySimpleAverager.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *))__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_init;
   __pyx_vtable_6mlgrad_8averager_ArraySimpleAverager.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_19ArraySimpleAverager_update;
   __pyx_type_6mlgrad_8averager_ArraySimpleAverager.tp_base = __pyx_ptype_6mlgrad_8averager_ArrayAverager;
-  if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArraySimpleAverager) < 0) __PYX_ERR(3, 370, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArraySimpleAverager) < 0) __PYX_ERR(3, 383, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8averager_ArraySimpleAverager.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_8averager_ArraySimpleAverager.tp_dictoffset && __pyx_type_6mlgrad_8averager_ArraySimpleAverager.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_8averager_ArraySimpleAverager.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8averager_ArraySimpleAverager.tp_dict, __pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager) < 0) __PYX_ERR(3, 370, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArraySimpleAverager, (PyObject *)&__pyx_type_6mlgrad_8averager_ArraySimpleAverager) < 0) __PYX_ERR(3, 370, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8averager_ArraySimpleAverager) < 0) __PYX_ERR(3, 370, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8averager_ArraySimpleAverager.tp_dict, __pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager) < 0) __PYX_ERR(3, 383, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArraySimpleAverager, (PyObject *)&__pyx_type_6mlgrad_8averager_ArraySimpleAverager) < 0) __PYX_ERR(3, 383, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8averager_ArraySimpleAverager) < 0) __PYX_ERR(3, 383, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArraySimpleAverager = &__pyx_type_6mlgrad_8averager_ArraySimpleAverager;
   __pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager = &__pyx_vtable_6mlgrad_8averager_ArrayCyclicAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayCyclicAverager.__pyx_base = *__pyx_vtabptr_6mlgrad_8averager_ArrayAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayCyclicAverager.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *))__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_init;
   __pyx_vtable_6mlgrad_8averager_ArrayCyclicAverager.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_19ArrayCyclicAverager_update;
   __pyx_type_6mlgrad_8averager_ArrayCyclicAverager.tp_base = __pyx_ptype_6mlgrad_8averager_ArrayAverager;
-  if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayCyclicAverager) < 0) __PYX_ERR(3, 398, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayCyclicAverager) < 0) __PYX_ERR(3, 411, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8averager_ArrayCyclicAverager.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_8averager_ArrayCyclicAverager.tp_dictoffset && __pyx_type_6mlgrad_8averager_ArrayCyclicAverager.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_8averager_ArrayCyclicAverager.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8averager_ArrayCyclicAverager.tp_dict, __pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager) < 0) __PYX_ERR(3, 398, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArrayCyclicAverager, (PyObject *)&__pyx_type_6mlgrad_8averager_ArrayCyclicAverager) < 0) __PYX_ERR(3, 398, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8averager_ArrayCyclicAverager) < 0) __PYX_ERR(3, 398, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8averager_ArrayCyclicAverager.tp_dict, __pyx_vtabptr_6mlgrad_8averager_ArrayCyclicAverager) < 0) __PYX_ERR(3, 411, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArrayCyclicAverager, (PyObject *)&__pyx_type_6mlgrad_8averager_ArrayCyclicAverager) < 0) __PYX_ERR(3, 411, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8averager_ArrayCyclicAverager) < 0) __PYX_ERR(3, 411, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager = &__pyx_type_6mlgrad_8averager_ArrayCyclicAverager;
   __pyx_vtabptr_6mlgrad_8averager_ArrayTAverager = &__pyx_vtable_6mlgrad_8averager_ArrayTAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayTAverager.__pyx_base = *__pyx_vtabptr_6mlgrad_8averager_ArrayAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayTAverager.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, PyObject *))__pyx_f_6mlgrad_8averager_14ArrayTAverager_init;
   __pyx_vtable_6mlgrad_8averager_ArrayTAverager.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_ArrayAverager *, __Pyx_memviewslice, double))__pyx_f_6mlgrad_8averager_14ArrayTAverager_update;
   __pyx_type_6mlgrad_8averager_ArrayTAverager.tp_base = __pyx_ptype_6mlgrad_8averager_ArrayAverager;
-  if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayTAverager) < 0) __PYX_ERR(3, 312, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayTAverager) < 0) __PYX_ERR(3, 325, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8averager_ArrayTAverager.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_8averager_ArrayTAverager.tp_dictoffset && __pyx_type_6mlgrad_8averager_ArrayTAverager.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_8averager_ArrayTAverager.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8averager_ArrayTAverager.tp_dict, __pyx_vtabptr_6mlgrad_8averager_ArrayTAverager) < 0) __PYX_ERR(3, 312, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArrayTAverager, (PyObject *)&__pyx_type_6mlgrad_8averager_ArrayTAverager) < 0) __PYX_ERR(3, 312, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8averager_ArrayTAverager) < 0) __PYX_ERR(3, 312, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8averager_ArrayTAverager.tp_dict, __pyx_vtabptr_6mlgrad_8averager_ArrayTAverager) < 0) __PYX_ERR(3, 325, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArrayTAverager, (PyObject *)&__pyx_type_6mlgrad_8averager_ArrayTAverager) < 0) __PYX_ERR(3, 325, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8averager_ArrayTAverager) < 0) __PYX_ERR(3, 325, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayTAverager = &__pyx_type_6mlgrad_8averager_ArrayTAverager;
   __pyx_vtabptr_6mlgrad_8averager_ScalarExponentialScalarAverager = &__pyx_vtable_6mlgrad_8averager_ScalarExponentialScalarAverager;
   __pyx_vtable_6mlgrad_8averager_ScalarExponentialScalarAverager.__pyx_base = *__pyx_vtabptr_6mlgrad_8averager_ScalarAverager;
@@ -37235,32 +37263,32 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtabptr_6mlgrad_8averager_SArrayAverager = &__pyx_vtable_6mlgrad_8averager_SArrayAverager;
   __pyx_vtable_6mlgrad_8averager_SArrayAverager.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, PyObject *, PyObject *))__pyx_f_6mlgrad_8averager_14SArrayAverager_init;
   __pyx_vtable_6mlgrad_8averager_SArrayAverager.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, __Pyx_memviewslice, int))__pyx_f_6mlgrad_8averager_14SArrayAverager_update;
-  if (PyType_Ready(&__pyx_type_6mlgrad_8averager_SArrayAverager) < 0) __PYX_ERR(3, 436, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_8averager_SArrayAverager) < 0) __PYX_ERR(3, 449, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8averager_SArrayAverager.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_8averager_SArrayAverager.tp_dictoffset && __pyx_type_6mlgrad_8averager_SArrayAverager.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_8averager_SArrayAverager.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8averager_SArrayAverager.tp_dict, __pyx_vtabptr_6mlgrad_8averager_SArrayAverager) < 0) __PYX_ERR(3, 436, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SArrayAverager, (PyObject *)&__pyx_type_6mlgrad_8averager_SArrayAverager) < 0) __PYX_ERR(3, 436, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8averager_SArrayAverager) < 0) __PYX_ERR(3, 436, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8averager_SArrayAverager.tp_dict, __pyx_vtabptr_6mlgrad_8averager_SArrayAverager) < 0) __PYX_ERR(3, 449, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SArrayAverager, (PyObject *)&__pyx_type_6mlgrad_8averager_SArrayAverager) < 0) __PYX_ERR(3, 449, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8averager_SArrayAverager) < 0) __PYX_ERR(3, 449, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_SArrayAverager = &__pyx_type_6mlgrad_8averager_SArrayAverager;
   __pyx_vtabptr_6mlgrad_8averager_ArrayStochasticAverager = &__pyx_vtable_6mlgrad_8averager_ArrayStochasticAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayStochasticAverager.__pyx_base = *__pyx_vtabptr_6mlgrad_8averager_SArrayAverager;
   __pyx_vtable_6mlgrad_8averager_ArrayStochasticAverager.__pyx_base.init = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, PyObject *, PyObject *))__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_init;
   __pyx_vtable_6mlgrad_8averager_ArrayStochasticAverager.__pyx_base.update = (PyObject *(*)(struct __pyx_obj_6mlgrad_8averager_SArrayAverager *, __Pyx_memviewslice, int))__pyx_f_6mlgrad_8averager_23ArrayStochasticAverager_update;
   __pyx_type_6mlgrad_8averager_ArrayStochasticAverager.tp_base = __pyx_ptype_6mlgrad_8averager_SArrayAverager;
-  if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayStochasticAverager) < 0) __PYX_ERR(3, 444, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_8averager_ArrayStochasticAverager) < 0) __PYX_ERR(3, 457, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8averager_ArrayStochasticAverager.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_8averager_ArrayStochasticAverager.tp_dictoffset && __pyx_type_6mlgrad_8averager_ArrayStochasticAverager.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_8averager_ArrayStochasticAverager.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8averager_ArrayStochasticAverager.tp_dict, __pyx_vtabptr_6mlgrad_8averager_ArrayStochasticAverager) < 0) __PYX_ERR(3, 444, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArrayStochasticAverager, (PyObject *)&__pyx_type_6mlgrad_8averager_ArrayStochasticAverager) < 0) __PYX_ERR(3, 444, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8averager_ArrayStochasticAverager) < 0) __PYX_ERR(3, 444, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8averager_ArrayStochasticAverager.tp_dict, __pyx_vtabptr_6mlgrad_8averager_ArrayStochasticAverager) < 0) __PYX_ERR(3, 457, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArrayStochasticAverager, (PyObject *)&__pyx_type_6mlgrad_8averager_ArrayStochasticAverager) < 0) __PYX_ERR(3, 457, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8averager_ArrayStochasticAverager) < 0) __PYX_ERR(3, 457, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayStochasticAverager = &__pyx_type_6mlgrad_8averager_ArrayStochasticAverager;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;

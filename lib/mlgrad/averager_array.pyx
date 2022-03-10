@@ -10,7 +10,7 @@
 # The MIT License (MIT)f
 #
 # Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
-#
+#z
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -66,11 +66,11 @@ cdef class ArraySave(ArrayAverager):
             fill_memoryview(self.array_average, 0)
     #
     cdef update(self, const double[::1] x, const double h):
-        cdef Py_ssize_t i, m = x.shape[0]
-        cdef double[::1] array_average = self.array_average 
+        cdef Py_ssize_t i
+        cdef double[::1] array_average = self.array_average
         
 #         for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
-        for i in range(m):
+        for i in range(x.shape[0]):
             array_average[i] = h * x[i]
     
 cdef class ArrayMOM(ArrayAverager):
@@ -248,21 +248,34 @@ cdef class ArrayAdaM1(ArrayAverager):
         cdef double *mgrad = &self.mgrad[0]
         cdef double *vgrad = &self.vgrad[0]
         cdef double *array_average = &self.array_average[0]
+        cdef double beta1_k, beta2_k
         cdef double epsilon = self.epsilon
     
         self.beta1_k *= beta1
         self.beta2_k *= beta2
+        self.beta1_k += 1
+        self.beta2_k += 1
+        beta1_k = self.beta1_k
+        beta2_k = self.beta2_k
         # for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
         for i in range(m):
             v = x[i]
-            mgrad[i] = beta1 * mgrad[i] + (1.0 - beta1) * v 
-            mv = mgrad[i] / (1.0 - self.beta1_k)
+            mgrad[i] = beta1 * mgrad[i] + v
+            mv = mgrad[i] / beta1_k
 
-            vgrad[i] = beta2 * vgrad[i] + (1.0 - beta2) * fabs(v)
-            vv = vgrad[i] / (1.0 - self.beta2_k)
+            vgrad[i] = beta2 * vgrad[i] + fabs(v)
+            vv = vgrad[i] / beta2_k
             v2 = fabs(vv)
-#             array_average[i] = h * mv * ((1 + v2) / (v2 * (1 + v2) + 1)) # self.epsilon)
             array_average[i] = h * (mv / (v2 + epsilon))
+            
+#             v = x[i]
+#             mgrad[i] = beta1 * mgrad[i] + (1.0 - beta1) * v 
+#             mv = mgrad[i] / (1.0 - self.beta1_k)
+
+#             vgrad[i] = beta2 * vgrad[i] + (1.0 - beta2) * fabs(v)
+#             vv = vgrad[i] / (1.0 - self.beta2_k)
+#             v2 = fabs(vv)
+#             array_average[i] = h * (mv / (v2 + epsilon))
 
 # cdef class ArrayAdaNG(ArrayAverager):
 

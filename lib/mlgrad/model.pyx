@@ -38,13 +38,13 @@ from mlgrad.func import func_from_dict
 
 from cython.parallel cimport parallel, prange
 
-from openmp cimport omp_get_num_procs, omp_get_thread_num
+# from openmp cimport omp_get_num_procs, omp_get_thread_num
 
-cdef int num_procs = omp_get_num_procs()
-if num_procs > 4:
-    num_procs /= 2
-else:
-    num_procs = 2
+# cdef int num_procs = omp_get_num_procs()
+# if num_procs > 4:
+#     num_procs /= 2
+# else:
+#     num_procs = 2
 
 format_double = r"%.2f"
 display_precision = 0.005
@@ -77,32 +77,6 @@ def as_array1d(ob):
     if len(arr.shape) > 1:
         arr = arr.ravel()
     return arr
-
-# cdef void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):
-#     cdef Py_ssize_t i, j, n=A.shape[0], m=A.shape[1]
-#     cdef double xj
-    
-#     for j in prange(m, nogil=True, num_threads=min(m, num_procs)):
-#         xj = x[j]
-#         for i in range(n):
-#             y[j] += A[i,j] * xj
-            
-# cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
-#     cdef int i, n=A.shape[0], m=A.shape[1]
-#     cdef double v
-    
-#     for i in range(m):
-#         v = 0
-#         for j in range(n):
-#             v += A[j,i] * x[j]
-#         y[i] = v
-
-
-# def matdot(A, x, y):
-#     matrix_dot(A, x, y)
-
-# def matdot_t(A, x, y):
-#     matrix_dot_t(A, x, y)
 
 cdef class Allocator(object):
     #
@@ -258,9 +232,9 @@ cdef class Model(BaseModel):
             if param is None:
                 if random:
                     r = np.random.random(self.n_param)
-                    inventory.fa_move(&self.param[0], &r[0], self.n_param) 
+                    inventory._move(&self.param[0], &r[0], self.n_param) 
                 else:
-                    inventory.fa_fill(&self.param[0], 0, self.n_param)
+                    inventory._fill(&self.param[0], 0, self.n_param)
             else:
                 self.param[:] = param
         # print(np.array(self.param, 'd'), self.n_param)
@@ -346,13 +320,13 @@ cdef class LinearModel(Model):
             v += param[i+1] * X[i]
         return v
         # cdef double *param = &self.param[0]
-        # return param[0] + inventory.fa_conv(&X[0], &param[1], self.n_input)
+        # return param[0] + inventory._conv(&X[0], &param[1], self.n_input)
     #
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i
         
         grad[0] = 1.
-        # inventory.fa_move(&grad[1], &X[0], self.n_input)
+        # inventory._move(&grad[1], &X[0], self.n_input)
         for i in range(self.n_input):
             grad[i+1] = X[i]
     #
@@ -360,7 +334,7 @@ cdef class LinearModel(Model):
         cdef Py_ssize_t i
         cdef double[::1] param = self.param
 
-        # inventory.fa_move(&grad_x[0], &self.param[1], self.n_input)
+        # inventory._move(&grad_x[0], &self.param[1], self.n_input)
         for i in range(self.n_input):
             grad_x[i] = param[i+1]
     #
@@ -720,11 +694,11 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         cdef bint is_func = (func is not None)
         
         fill_memoryview(grad_in, 0)
-        for j in range(n_output):
-            s = matrix[j,0]
-            for i in range(n_input):
-                s += matrix[j,i+1] * X[i]
-            ss[j] = s
+        # for j in range(n_output):
+        #     s = matrix[j,0]
+        #     for i in range(n_input):
+        #         s += matrix[j,i+1] * X[i]
+        #     ss[j] = s
 
         if is_func:
             for j in range(n_output):            
@@ -851,6 +825,7 @@ cdef class FFNetworkModel(MLModel):
         self.n_param = 0
         self.layers = []
         self.param = None
+        self.is_forward = 0
     #
     def add(self, layer):
         n_layer = len(self.layers)
@@ -923,6 +898,7 @@ cdef class FFNetworkModel(MLModel):
             layer.forward(input)
             input = layer.output
 #         self.output = layer.output
+        self.is_forward = 1
 
     cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
         cdef Py_ssize_t n_layer = PyList_GET_SIZE(<PyObject*>self.layers)
@@ -932,6 +908,8 @@ cdef class FFNetworkModel(MLModel):
         cdef double[::1] grad_out, input
         cdef list layers = self.layers
 
+        if not self.is_forward:
+            self.forward(X)
         m = len(grad)
         l = n_layer-1
         grad_out = grad_u
@@ -950,6 +928,7 @@ cdef class FFNetworkModel(MLModel):
             grad_out = layer.grad_input
             l -= 1
             m = m0
+        self.is_forward = 0
     #
     def as_dict(self):
         layers = []
@@ -1012,7 +991,7 @@ cdef class FFNetworkFuncModel(Model):
         cdef Model head = self.head
         cdef MLModel body = self.body
         
-        body.forward(X) 
+        # body.forward(X) 
         if head.n_param > 0:
             head._gradient(body.output, grad[:head.n_param])
         head._gradient_x(body.output, head.grad_x)

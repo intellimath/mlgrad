@@ -1,5 +1,5 @@
 #
-#
+# Gradient Boosting Regression 
 #
 
 from mlgrad.risk import ERisk, ERiskGB
@@ -33,7 +33,7 @@ class GradientBoosting:
     def find_alpha(self, risk):
         Yh = risk.evaluate_models()
         E = risk.Y.base - Yh
-        alpha = np_dot(E, Yh) / np_dot(Yh, Yh)
+        alpha = (E @ Yh) / (Yh @ Yh)
         risk.alpha = alpha
     #
     def find_param(self, risk):
@@ -112,7 +112,7 @@ class MGradientBoosting:
         Yh = risk.evaluate_models()
         E = risk.Y.base - Yh
         R = W * Yh
-        alpha = np_dot(R, E) / np_dot(R, Yh)
+        alpha = (R @ E) / (R @ Yh)
         risk.alpha = alpha
     #
     def find_param(self, risk, W):
@@ -143,13 +143,14 @@ class MGradientBoosting:
 
             self.find_alpha(risk, W)
 
-            risk.evaluate_models()
-            L = risk.evaluate_losses()
-            self.agg.fit(L)
-            W = self.agg.gradient(L)
-            D = risk.evaluate_losses_derivative_div()
-            W *= D
-            lval = self.agg.u
+            # risk.evaluate_models()
+            # L = risk.evaluate_losses()
+            # self.agg.fit(L)
+            # W = self.agg.gradient(L)
+            # D = risk.evaluate_losses_derivative_div()
+            # W *= D
+            # lval = self.agg.u
+            lval = risk.evaluate()
 
             if j > 0 and abs(lval - lval_min) / (1 + abs(lval_min)) < self.tol:
                 finish = 1

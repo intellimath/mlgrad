@@ -30,62 +30,95 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+from openmp cimport omp_get_num_procs
+ 
+cdef int num_threads = 2 #omp_get_num_procs()
+# if num_procs >= 4:
+#     num_procs /= 2
+# else:
+#     num_procs = 2
+ 
+cdef int get_num_threads() nogil:
+    return num_threads
 
-cdef void fa_fill(double *to, const double c, const size_t n) nogil:
-    cdef size_t i
+cdef void set_num_threads(int num) nogil:
+    num_threads = num
+
+cdef void _fill(double *to, const double c, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
     for i in range(n):
         to[i] = c
 
+cdef void fill(double[::1] to, const double c) nogil:
+    _fill(&to[0], c, <const Py_ssize_t>to.shape[0])
         
-cdef void fa_move(double *to, const double *src, const size_t n) nogil:
-    cdef size_t i
+cdef void _move(double *to, const double *src, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
     for i in range(n):
         to[i] = src[i]
+
+cdef void move(double[::1] to, double[::1] src) nogil:
+    _move(&to[0], &src[0], to.shape[0])
         
-cdef double fa_conv(const double *a, const double *b, const size_t n) nogil:
-    cdef size_t i
+cdef double _conv(const double *a, const double *b, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
     cdef double s = 0
 
     for i in range(n):
         s += a[i] * b[i]
     return s
 
-cdef double fa_sum(const double *a, const size_t n) nogil:
-    cdef size_t i
+cdef double conv(double[::1] a, double[::1] b) nogil:
+    return _conv(&a[0], &b[0], a.shape[0])
+
+cdef double _sum(const double *a, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
     cdef double s = 0
 
     for i in range(n):
         s += a[i]
     return s
 
-cdef void fa_mul_const(double *a, const double c, const size_t n) nogil:
-    cdef size_t i
+cdef double sum(double[::1] a) nogil:
+    return _sum(&a[0], a.shape[0])
+
+cdef void _mul_const(double *a, const double c, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
 
     for i in range(n):
         a[i] *= c
 
-cdef void fa_mul_add_array(double *a, const double *b, double c, const size_t n) nogil:
-    cdef size_t i
+cdef void mul_const(double[::1] a, const double c) nogil:
+    _mul_const(&a[0], c, a.shape[0])
+        
+cdef void _mul_add_array(double *a, const double *b, double c, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
     
     for i in range(n):
         a[i] += c * b[i]
 
-# cdef void fa_matdot(double *output, double *M, const double *X, 
-#                     const size_t n_input, const size_t n_output) nogil:
-#     cdef size_t i, j
-#     cdef double s
-#     cdef double *Mj = M
+cdef void mul_add_array(double[::1] a, double[::1] b, double c) nogil:
+    _mul_add_array(&a[0], &b[0], c, a.shape[0])
+        
+cdef void _matdot(double *output, double *M, const double *X, 
+                    const Py_ssize_t n_input, const Py_ssize_t n_output) nogil:
+    cdef Py_ssize_t i, j
+    cdef double s
+    cdef double *Mj = M
 
-#     for j in range(n_output):
-#         s = 0
-#         for i in range(n_input):
-#             s += Mj[i] * X[i];
-#         output[j] = s
-#         Mj += n_input
+    for j in range(n_output):
+        s = 0
+        for i in range(n_input):
+            s += Mj[i] * X[i];
+        output[j] = s
+        Mj += n_input
 
-cdef void fa_matdot2(double *output, double *M, const double *X, 
-                    const size_t n_input, const size_t n_output) nogil:
-    cdef size_t i, j
+cdef void matdot(double[::1] output, double[:,::1] M, double[::1] X) nogil:
+    _matdot(&output[0], &M[0,0], &X[0], X.shape[0], output.shape[0])
+        
+cdef void _matdot2(double *output, double *M, const double *X, 
+                   const Py_ssize_t n_input, const Py_ssize_t n_output) nogil:
+    cdef Py_ssize_t i, j
     cdef double s
     cdef double *Mj = M;
 
@@ -97,9 +130,12 @@ cdef void fa_matdot2(double *output, double *M, const double *X,
         output[j] = s
         Mj += n_input
 
-cdef void fa_mul_add_arrays(double *a, double *M, const double *ss, 
-                            const size_t n_input, const size_t n_output) nogil:
-    cdef size_t i, j
+cdef void matdot2(double[::1] output, double[:,::1] M, double[::1] X) nogil:
+    _matdot2(&output[0], &M[0,0], &X[0], <const Py_ssize_t>X.shape[0], <const Py_ssize_t>M.shape[0])
+        
+cdef void _mul_add_arrays(double *a, double *M, const double *ss, 
+                          const Py_ssize_t n_input, const Py_ssize_t n_output) nogil:
+    cdef Py_ssize_t i, j
     cdef double *Mj = M;
     cdef double sx
 
@@ -110,9 +146,12 @@ cdef void fa_mul_add_arrays(double *a, double *M, const double *ss,
             a[i] += sx * Mj[i]
         Mj += n_input
 
-cdef void fa_mul_grad(double *grad, const double *X, const double *ss, 
-                      const size_t n_input, const size_t n_output) nogil:
-    cdef size_t i, j
+cdef void mul_add_arrays(double[::1] a, double[:,::1] M, double[::1] ss) nogil:
+    _mul_add_arrays(&a[0], &M[0,0], &ss[0], <const Py_ssize_t>(a.shape[0]), <const Py_ssize_t>(M.shape[0]))
+        
+cdef void _mul_grad(double *grad, const double *X, const double *ss, 
+                    const Py_ssize_t n_input, const Py_ssize_t n_output) nogil:
+    cdef Py_ssize_t i, j
     cdef double *G = grad
     cdef double sx
     
@@ -123,3 +162,6 @@ cdef void fa_mul_grad(double *grad, const double *X, const double *ss,
         for i in range(n_input):
             G[i] = sx * X[i]
         G += n_input
+
+cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) nogil:
+    _mul_grad(&grad[0,0], &X[0], &ss[0], <const Py_ssize_t>X.shape[0], <const Py_ssize_t>grad.shape[0])

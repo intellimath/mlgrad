@@ -1916,7 +1916,7 @@ struct __pyx_obj_6mlgrad_6avragg_Average {
   int M;
   double u_prev;
   double pval_prev;
-  int first;
+  int evaluated;
 };
 
 
