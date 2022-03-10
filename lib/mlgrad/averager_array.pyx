@@ -29,16 +29,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from cython.parallel cimport parallel, prange
-#
+# from cython.parallel cimport parallel, prange
 
-# from openmp cimport omp_get_num_procs
-
-cdef int num_procs # = omp_get_num_procs()
-# if num_procs >= 4:
-#     num_procs /= 2
-# else:
-num_procs = 2
+# cimport mlgrad.inventory as inventory
 
 cdef class ArrayAverager:
     #
@@ -69,7 +62,7 @@ cdef class ArraySave(ArrayAverager):
         cdef Py_ssize_t i
         cdef double[::1] array_average = self.array_average
         
-#         for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
+#         for i in prange(m, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
         for i in range(x.shape[0]):
             array_average[i] = h * x[i]
     
@@ -194,7 +187,7 @@ cdef class ArrayAdaM2(ArrayAverager):
         self.beta2_k += 1
         beta1_k = self.beta1_k
         beta2_k = self.beta2_k
-        # for i in prange(m, nogil=True, num_threads=num_procs):
+        # for i in prange(m, nogil=True, num_threads=inventory.get_num_threads()):
         for i in range(m):
             v = x[i]
             mgrad[i] = beta1 * mgrad[i] + v
@@ -257,7 +250,7 @@ cdef class ArrayAdaM1(ArrayAverager):
         self.beta2_k += 1
         beta1_k = self.beta1_k
         beta2_k = self.beta2_k
-        # for i in prange(m, nogil=True, schedule='static', num_threads=num_procs):
+        # for i in prange(m, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
         for i in range(m):
             v = x[i]
             mgrad[i] = beta1 * mgrad[i] + v

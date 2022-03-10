@@ -46,14 +46,8 @@ cdef object np_zeros = np.zeros
 cdef object np_ones = np.ones
 
 # from cython.parallel cimport parallel, prange
-
-# from openmp cimport omp_get_num_procs, omp_get_thread_num
-
-# cdef int num_procs = omp_get_num_procs()
-# if num_procs > 4:
-#     num_procs /= 2
-# else:
-#     num_procs = 2
+ 
+# cimport mlgrad.inventory as inventory
 
 cdef class Functional:
     #

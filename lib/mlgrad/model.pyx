@@ -36,15 +36,9 @@ import numpy as np
 from mlgrad.func import func_from_dict
 from mlgrad.func import func_from_dict
 
-from cython.parallel cimport parallel, prange
+# from cython.parallel cimport parallel, prange
 
-# from openmp cimport omp_get_num_procs, omp_get_thread_num
-
-# cdef int num_procs = omp_get_num_procs()
-# if num_procs > 4:
-#     num_procs /= 2
-# else:
-#     num_procs = 2
+# cimport mlgrad.inventory as inventory
 
 format_double = r"%.2f"
 display_precision = 0.005
