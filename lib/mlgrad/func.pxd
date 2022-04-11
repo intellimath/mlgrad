@@ -175,6 +175,12 @@ cdef class Hinge(Func):
     #
 
 @cython.final
+cdef class HSquare(Func):
+    #
+    cdef public double C
+    #
+    
+@cython.final
 cdef class HingeSqrt(Func):
     #
     cdef public double alpha

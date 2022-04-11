@@ -14,7 +14,7 @@ from mlgrad.func cimport Func
 cdef extern from "Python.h":
     double PyFloat_GetMax()
     double PyFloat_GetMin()
-    
+
 cdef inline int int_min(int a, int b) nogil:
     if a < b:
         return a
@@ -34,7 +34,7 @@ cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X) nogil:
 cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X) nogil:
     cdef Py_ssize_t m = X.shape[0], n = X.shape[1], l = X.shape[2]
     memcpy(&Y[0,0,0], &X[0,0,0], n*m*l*cython.sizeof(double))
-    
+
 cdef inline void fill_memoryview(double[::1] X, double c) nogil:
     cdef Py_ssize_t m = X.shape[0]
     memset(&X[0], 0, m*cython.sizeof(double))    
@@ -48,7 +48,7 @@ cdef inline void fill_memoryview3(double[:,:,::1] X, double c) nogil:
     cdef Py_ssize_t i, j
     cdef Py_ssize_t m = X.shape[0], n = X.shape[1], l = X.shape[2]
     memset(&X[0,0,0], 0, m*n*l*cython.sizeof(double))     
-    
+
 cdef inline void multiply_memoryview(double[::1] X, double c) nogil:
     cdef Py_ssize_t i
     cdef Py_ssize_t n = X.shape[0]
@@ -56,7 +56,7 @@ cdef inline void multiply_memoryview(double[::1] X, double c) nogil:
 
     for i in range(n):
         ptr[i] *= c
-        
+
 cdef inline void multiply_memoryview2(double[:,::1] X, double c) nogil:
     cdef Py_ssize_t i
     cdef Py_ssize_t mn = X.shape[0] * X.shape[1]
@@ -70,10 +70,10 @@ cdef inline void multiply_memoryview3(double[:,:,::1] X, double c) nogil:
     cdef Py_ssize_t m = X.shape[0], n = X.shape[1], l = X.shape[2]
     cdef Py_ssize_t N = m*n*l
     cdef double *ptr = &X[0,0,0]
-    
+
     for i in range(N):
         ptr[i] *= c
-        
+
 cdef class MLSE2:
     cdef public DistanceWithScale[::1] distfuncs
     cdef public double[:,::1] X
@@ -102,9 +102,8 @@ cdef class MLSE2:
     cpdef calc_weights(self)
     cpdef calc_update_GG(self)
     cpdef double Q(self)
-    cpdef double local_Q(self)
+    # cpdef double local_Q(self)
 #     cpdef get_weights(self)
-
 
 cdef class MLocationsScattersEstimator(MLSE2):
     cdef bint stop_condition(self)

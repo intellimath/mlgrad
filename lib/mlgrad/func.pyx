@@ -6,10 +6,11 @@
 # cython: nonecheck=False
 # cython: embedsignature=True
 # cython: initializedcheck=False
+# cython: unraisable_tracebacks=True
 
 # The MIT License (MIT)
 #
-# Copyright © «2015–2021» <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright © «2015–2022» <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -752,6 +753,12 @@ cdef class Hinge(Func):
         else:
             return -1
     #
+    cdef double derivative_div_x(self, const double x) nogil:
+        if x >= self.C:
+            return 0
+        else:
+            return 1 / (self.C - x)
+    #
     cdef double derivative2(self, const double x) nogil:
         if x >= self.C:
             return -c_inf
@@ -760,6 +767,32 @@ cdef class Hinge(Func):
     #
     def _repr_latex_(self):
         return r"$ρ(x)=(c-x)_{+}$"
+
+    def to_dict(self):
+        return { 'name':'hinge', 
+                 'args': (self.C,) }
+
+cdef class HSquare(Func):
+    #
+    def __init__(self, C=1.0):
+        self.C = C
+    #
+    cdef double _evaluate(self, const double x) nogil:
+        cdef double v = x - self.C
+        return 0.5 * v * v
+    #
+    cdef double _derivative(self, const double x) nogil:
+        cdef double v = x - self.C
+        return v
+    #
+    cdef double derivative_div_x(self, const double x) nogil:
+        return 1
+    #
+    cdef double derivative2(self, const double x) nogil:
+        return 1
+    #
+    def _repr_latex_(self):
+        return r"$ρ(x)=(c-x)^2$"
 
     def to_dict(self):
         return { 'name':'hinge', 
@@ -994,7 +1027,7 @@ cdef class Sqrt(Func):
         cdef Py_ssize_t i
         cdef double v, eps = self.eps, eps2 = self.eps2
         
-        for i in prange(n, nogil=True, num_threads=num_procs):
+        for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
             v = x[i]
             y[i] = sqrt(eps2 + v*v) - eps
     #
@@ -1010,7 +1043,7 @@ cdef class Sqrt(Func):
         cdef Py_ssize_t i
         cdef double v, eps = self.eps, eps2 = self.eps2
         
-        for i in prange(n, nogil=True, num_threads=num_procs):
+        for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
             v = x[i]
             y[i] = v / sqrt(eps2 + v*v)
     #
@@ -1026,10 +1059,10 @@ cdef class Sqrt(Func):
         cdef Py_ssize_t i
         cdef double v, v2, eps = self.eps, eps2 = self.eps2
         
-        for i in prange(n, nogil=True, num_threads=num_procs):
+        for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
             v = x[i]
             v2 = eps2 + v*v
-            y[i] = eps2 / (v * sqrt(v))
+            y[i] = eps2 / (v2 * sqrt(v2))
     #
     @cython.cdivision(True)
     @cython.final
@@ -1042,7 +1075,7 @@ cdef class Sqrt(Func):
         cdef Py_ssize_t i
         cdef double v, v2, eps = self.eps, eps2 = self.eps2
         
-        for i in prange(n, nogil=True, num_threads=num_procs):
+        for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
             v = x[i]
             y[i] = 1. / sqrt(eps2 + v*v)
     #

@@ -23,7 +23,7 @@ cdef class FG(GD):
         else:
             self.h_rate = h_rate
             
-        self.m = 0
+        # self.m = 0
         self.M = M
         
         self.param_min = None

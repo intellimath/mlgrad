@@ -10,6 +10,7 @@ from mlgrad.regnorm cimport FuncMulti
 from mlgrad.batch cimport Batch, WholeBatch, RandomBatch
 #from mlgrad.averager cimport ArrayAverager
 from mlgrad.avragg cimport Average, ArithMean
+cimport mlgrad.inventory as inventory
 
 from mlgrad.miscfuncs cimport init_rand, rand, fill
 
@@ -88,6 +89,8 @@ cdef class Risk(Functional):
     cdef void _evaluate_losses(self)
     cdef void _evaluate_losses_derivative_div(self)
     cdef void _evaluate_weights(self)
+    #
+    # cdef void generate_samples(self, X, Y)z
     #
 
 cdef class ERisk(Risk):

@@ -11,7 +11,7 @@ Options.fast_fail = True
 import platform
 WIN32 = (platform.system() == 'Windows')
 
-Oflag = "-O2"
+Oflag = "-Os"
 extra_compile_args = [Oflag, "-march=native"] 
 extra_link_args = [Oflag, "-march=native", "-lm"]
 extra_compile_args_openmp = [Oflag, "-march=native", ("-fopenmp" if not WIN32 else "/openmp")]
@@ -94,12 +94,12 @@ ext_modules = [
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
-    Extension(
-        "mlgrad.normalizer",
-        ["lib/mlgrad/normalizer.pyx"],
-        extra_compile_args = extra_compile_args,
-        extra_link_args = extra_link_args,
-    ),
+    # Extension(
+    #     "mlgrad.normalizer",
+    #     ["lib/mlgrad/normalizer.pyx"],
+    #     extra_compile_args = extra_compile_args,
+    #     extra_link_args = extra_link_args,
+    # ),
     Extension(
         "mlgrad.risk",
         ["lib/mlgrad/risk.pyx"],

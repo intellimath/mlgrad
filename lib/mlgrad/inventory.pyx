@@ -44,6 +44,22 @@ cdef int get_num_threads() nogil:
 cdef void set_num_threads(int num) nogil:
     num_threads = num
 
+cdef void _clear(double *to, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
+    for i in range(n):
+        to[i] = 0
+
+cdef void clear(double[::1] to) nogil:
+    _clear(&to[0], <const Py_ssize_t>to.shape[0])
+
+cdef void _clear2(double *to, const Py_ssize_t n, const Py_ssize_t m) nogil:
+    cdef Py_ssize_t i
+    for i in range(n*m):
+        to[i] = 0
+    
+cdef void clear2(double[:,::1] to) nogil:
+    _clear2(&to[0,0], <const Py_ssize_t>to.shape[0], <const Py_ssize_t>to.shape[1])
+    
 cdef void _fill(double *to, const double c, const Py_ssize_t n) nogil:
     cdef Py_ssize_t i
     for i in range(n):
@@ -71,6 +87,24 @@ cdef double _conv(const double *a, const double *b, const Py_ssize_t n) nogil:
 cdef double conv(double[::1] a, double[::1] b) nogil:
     return _conv(&a[0], &b[0], a.shape[0])
 
+cdef void _add(double *a, const double *b, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
+
+    for i in range(n):
+        a[i] += b[i]
+
+cdef void add(double[::1] a, double[::1] b) nogil:
+    _add(&a[0], &b[0], a.shape[0])
+
+cdef void _sub(double *a, const double *b, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
+
+    for i in range(n):
+        a[i] -= b[i]
+
+cdef void sub(double[::1] a, double[::1] b) nogil:
+    _sub(&a[0], &b[0], a.shape[0])
+    
 cdef double _sum(const double *a, const Py_ssize_t n) nogil:
     cdef Py_ssize_t i
     cdef double s = 0
@@ -90,15 +124,24 @@ cdef void _mul_const(double *a, const double c, const Py_ssize_t n) nogil:
 
 cdef void mul_const(double[::1] a, const double c) nogil:
     _mul_const(&a[0], c, a.shape[0])
+
+cdef void _mul_const2(double *a, const double c, const Py_ssize_t n, const Py_ssize_t m) nogil:
+    cdef Py_ssize_t i
+
+    for i in range(n*m):
+        a[i] *= c
+
+cdef void mul_const2(double[:,::1] a, const double c) nogil:
+    _mul_const2(&a[0,0], c, a.shape[0], a.shape[1])
         
-cdef void _mul_add_array(double *a, const double *b, double c, const Py_ssize_t n) nogil:
+cdef void _mul_add(double *a, const double *b, double c, const Py_ssize_t n) nogil:
     cdef Py_ssize_t i
     
     for i in range(n):
         a[i] += c * b[i]
 
-cdef void mul_add_array(double[::1] a, double[::1] b, double c) nogil:
-    _mul_add_array(&a[0], &b[0], c, a.shape[0])
+cdef void mul_add(double[::1] a, double[::1] b, double c) nogil:
+    _mul_add(&a[0], &b[0], c, a.shape[0])
         
 cdef void _matdot(double *output, double *M, const double *X, 
                     const Py_ssize_t n_input, const Py_ssize_t n_output) nogil:

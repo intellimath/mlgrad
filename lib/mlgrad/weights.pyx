@@ -1,16 +1,16 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
+# cython: boundscheck=True
+# cython: wraparound=True
+# cython: nonecheck=True
 # cython: embedsignature=True
-# cython: initializedcheck=False
+# cython: initializedcheck=True
 # cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2022> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -148,9 +148,8 @@ cdef class MWeights(Weights):
     #
     cpdef eval_weights(self):
         cdef Risk risk = <Risk>self.risk
-        cdef Py_ssize_t N = risk.batch.size
 
-        risk._evaluate_models()
+        # risk._evaluate_models()
         risk._evaluate_losses()
 
         if self.first_time:
@@ -160,8 +159,8 @@ cdef class MWeights(Weights):
             u0 = self.average.u
         
         self.average.fit(risk.L, u0)
-        if self.use_best_u and self.average.u < self.best_u:
-            self.best_u = self.average.u
+        # if self.use_best_u and self.average.u < self.best_u:
+        #     self.best_u = self.average.u
         
         # if self.use_best_u:
         #     self.average.penalty.gradient(self.lval_all, self.best_u, self.weights)

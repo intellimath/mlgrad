@@ -92,6 +92,7 @@ cdef class Average:
     cdef bint evaluated
     #cdef double u1, u2, u3, u4    
     #
+    cdef double _evaluate(self, double[::1] Y)
     cdef _gradient(self, double[::1] Y, double[::1] grad)
     #    
     cdef init(self, double[::1] Y, u0=*)

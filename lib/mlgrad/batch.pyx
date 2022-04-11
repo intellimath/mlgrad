@@ -1,11 +1,11 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
+# cython: boundscheck=True
+# cython: wraparound=True
+# cython: nonecheck=True
 # cython: embedsignature=True
-# cython: initializedcheck=False
+# cython: initializedcheck=True
 
 
 # The MIT License (MIT)
@@ -30,6 +30,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+cimport cython
+
 import numpy as np
 
 cdef class Batch:
@@ -45,6 +47,23 @@ cdef class Batch:
     #
     def get_samples(self, X):
         return np.ascontiguousarray(X[self.indices])
+    #
+#     cdef void generate_samples2d(self, double[:,::1] X, double[:,::1] XX):
+#         cdef Py_ssize_t k, j, i
+#         cdef Py_ssize_t[::1] indices = self.indices
+        
+#         for j in range(self.size):
+#             k = indices[j]
+#             for i in range(X.shape[1]):
+#                 XX[j,i] = X[k,i]
+#     #
+#     cdef void generate_samples1d(self, double[::1] Y, double[::1] YY):
+#         cdef Py_ssize_t j, k
+#         cdef Py_ssize_t[::1] indices = self.indices
+        
+#         for j in range(self.size):
+#             k = indices[j]
+#             YY[j] = Y[k]
 
 cdef class RandomBatch(Batch):
     #
@@ -67,14 +86,15 @@ cdef class RandomBatch(Batch):
         for i in range(size):
             k = rand(self.n_samples)
             indices[i] = k
+
             
-cdef class FixedBatch(Batch):
-    #
-    def __init__(self, indices):
-        self.size = len(indices)
-        self.n_samples = 0
-        self.indices = np.array(indices)
-    #
+# cdef class FixedBatch(Batch):
+#     #
+#     def __init__(self, indices):
+#         self.size = len(indices)
+#         self.n_samples = 0
+#         self.indices = np.array(indices, dtype=np.intp)
+#     #
 
 cdef class WholeBatch(Batch):
     #
@@ -85,12 +105,17 @@ cdef class WholeBatch(Batch):
     #
     def get_samples(self, X):
         return X
+    #
+    # cdef void generate_samples2d(self, double[:,::1] X, double[:, ::1] XX):
+    #     if &XX[0,0] != &X[0,0]:
+    #         Batch.generate_samples2d(self, X, XX)
+    # #
+    # cdef void generate_samples1d(self, double[::1] Y, double[::1] YY):
+    #     if &YY[0] != &Y[0]:
+    #         Batch.generate_samples1d(self, Y, YY)
 
 def make_batch(n_samples, size=None):
     if size is None:
         return WholeBatch(n_samples)
     else:
         return RandomBatch(n_samples, size)
-
-def make_batch_from(indices):
-    return FixedBatch(indices)

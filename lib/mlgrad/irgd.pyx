@@ -85,12 +85,14 @@ cdef class IRGD(object):
         risk.use_weights(self.risk.weights)
 
         self.lval_best = self.weights.get_qvalue()
+        print(self.lval_best)
         self.param_best[:] = risk.param
         
         if self.callback is not None:
             self.callback(self)
         
-        for K in range(self.n_iter):         
+        for K in range(self.n_iter):     
+            # print(K)
             self.gd.fit()
             
             self.n_iters.append(self.gd.K)
@@ -102,6 +104,7 @@ cdef class IRGD(object):
             risk.use_weights(self.risk.weights)
             
             self.lval = self.weights.get_qvalue()
+            # print(self.lval)
                 
             if self.stop_condition():
                 self.completed = 1

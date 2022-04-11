@@ -71,8 +71,8 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
 
         S = 0
-        for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
+        for k in range(N):
             S += func._evaluate(YY[k] - u)
 
         return S / N
@@ -86,8 +86,8 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
         
         S = 0
-        for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
+        for k in range(N):
             S += func._derivative(YY[k] - u)                        
     
         return -S / N
@@ -102,8 +102,8 @@ cdef class PenaltyAverage(Penalty):
 
         S = 0
         V = 0
-        for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
+        for k in range(N):
             yk = YY[k]
             v = func.derivative_div_x(yk - u)
             V += v
@@ -121,13 +121,13 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
         
         S = 0
-        for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
+        for k in range(N):
             GG[k] = v = func.derivative2(YY[k] - u)
             S += v
         
-        for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
+        for k in range(N):
             GG[k] /= S
 
 @cython.final
@@ -220,7 +220,11 @@ cdef class Average(object):
             self.h = 0.1
     #
     def __call__(self, double[::1] Y): 
-        self._evaluate(Y)
+        self.fit(Y)
+        return self.u
+    #
+    cdef double _evaluate(self, double[::1] Y): 
+        self.fit(Y)
         return self.u
     #
     def gradient(self, double[::1] Y):
@@ -276,9 +280,6 @@ cdef class Average(object):
         self.penalty.gradient(Y, self.u, grad)
         self.evaluated = 0
     #
-    # def gradient(self, double[::1] Y, double[::1] grad):
-    #     self._gradient(Y, grad)
-    #
     @cython.cdivision(True)
     cdef bint stop_condition(self):
         if fabs(self.pval - self.pmin) / (1. + fabs(self.pmin)) < self.tol:
@@ -329,8 +330,8 @@ cdef class MAverage(Average):
 
             S = 0
             V = 0
-            for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
-            # for k in range(N):
+            # for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
+            for k in range(N):
                 yk = YY[k]
                 v = func.derivative_div_x(yk - u)
                 S += v * yk
@@ -339,8 +340,8 @@ cdef class MAverage(Average):
             u = S / V
             
             Z = 0
-            for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
-            # for k in range(N):
+            # for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
+            for k in range(N):
                 Z += func._evaluate(YY[k] - u)
             
             z = Z / N
@@ -372,17 +373,17 @@ cdef class MAverage(Average):
             self.fit(Y)
         u = self.u
         
-        for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
+        for k in range(N):
             GG[k] = func.derivative2(YY[k] - u)
 
         V = 0
-        for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
+        for k in range(N):
             V += GG[k]
             
-        for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
+        for k in range(N):
             GG[k] /= V
 
         self.evaluated = 1
@@ -468,8 +469,8 @@ cdef class WMAverage(Average):
         avr_u = self.avr.u
 
         S = 0
-        for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
+        for k in range(N):
             yk = YY[k]
             v = yk if yk <= avr_u else avr_u
             S += v
@@ -498,8 +499,8 @@ cdef class WMAverage(Average):
             if YY[k] > u:
                 m += 1
 
-        for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
+        for k in range(N):
             gk = GG[k]
             v = (1 + m * gk) if YY[k] <= u else (m * gk)
             GG[k] = v * N1

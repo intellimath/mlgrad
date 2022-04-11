@@ -3,7 +3,8 @@
 #
 
 from mlgrad.risk import ERisk, ERiskGB
-from mlgrad.loss import SquareErrorLoss
+from mlgrad.loss import MarginLoss
+from mlgrad.func import Hinge, HSquare
 from mlgrad.model import LinearFuncModel
 
 from mlgrad import erm_fg, erisk
@@ -15,14 +16,14 @@ np_dot = np.dot
 np_zeros = np.zeros
 np_double = np.double
 
-class GradientBoostingRegression:
+class GradientBoostingClassification:
     
     def __init__(self, complex_model, new_model, loss_func=None, 
                  agg=None, h=0.001, n_iter=100, n_iter2=22, tol=1.0e-9):
         self.complex_model = complex_model
         self.new_model = new_model
         if loss_func is None:
-            self.loss_func = SquareErrorLoss()
+            self.loss_func = MarginLoss(Hinge())
         else:
             self.loss_func = loss_func
         self.h = h
@@ -31,8 +32,8 @@ class GradientBoostingRegression:
         self.tol = tol
     #
     def find_alpha(self, risk):
-        Yh = risk.model.evaluate_all(risk.X)
-        E = risk.Y.base - risk.H.base
+        Yh = risk.evaluate_models() * risk.Y.base
+        E = 1 -  Yh
         alpha = (E @ Yh) / (Yh @ Yh)
         risk.alpha = alpha
     #
@@ -78,7 +79,7 @@ class GradientBoostingRegression:
         for k in range(self.n_iter):
             # print(k)
             mod = self.new_model(n)
-            risk = ERiskGB(X, Y, mod, self.loss_func)
+            risk = ERiskGB(X, Y, mod, MarginLoss(HSquare()))
             risk.H[:] = self.complex_model.evaluate_all(X)
             
             self.find_param_alpha(risk)
@@ -89,18 +90,18 @@ class GradientBoostingRegression:
             self.complex_model.add(mod, risk.alpha)            
 
 
-class MGradientBoostingRegression:
+class MGradientBoostingClassification:
     
     def __init__(self, complex_model, new_model, loss_func=None, agg=None, 
                  h=0.001, n_iter=100, n_iter2=22, tol=1.0e-9):
         self.complex_model = complex_model
         self.new_model = new_model
         if loss_func is None:
-            self.loss_func = SquareErrorLoss()
+            self.loss_func = MarginLoss(Hinge())
         else:
             self.loss_func = loss_func
         if agg is None:
-            self.agg = averaging_function('AM')
+            self.agg = averaging_function('WM')
         else:
             self.agg = agg
         self.h = h
@@ -109,8 +110,8 @@ class MGradientBoostingRegression:
         self.tol = tol
     #
     def find_alpha(self, risk, W):
-        Yh = risk.model.evaluate_all(risk.X)
-        E = risk.Y.base - risk.H.base
+        Yh = risk.evaluate_models() * risk.Y.base
+        E = 1 -  Yh
         R = W * Yh
         alpha = (R @ E) / (R @ Yh)
         risk.alpha = alpha
@@ -125,14 +126,12 @@ class MGradientBoostingRegression:
         n = risk.batch.size
         finish = 0
 
-        # Yp = self.complex_model.evaluate_all(risk.X)
-        # L = self.loss_func.evaluate_all(Yp, risk.Y)
         risk.evaluate_models()
         L = risk.evaluate_losses()
         self.agg.fit(L)
         W = self.agg.gradient(L)
-        # D = risk.evaluate_losses_derivative_div()
-        # W *= D
+        D = risk.evaluate_losses_derivative_div()
+        W *= D
         lval = lval_min = self.agg.u
         
         param_min = risk.model.param.copy()
@@ -145,14 +144,14 @@ class MGradientBoostingRegression:
 
             self.find_alpha(risk, W)
 
-            risk.evaluate_models()
-            L = risk.evaluate_losses()
-            self.agg.fit(L)
-            W = self.agg.gradient(L)
+            # risk.evaluate_models()
+            # L = risk.evaluate_losses()
+            # self.agg.fit(L)
+            # W = self.agg.gradient(L)
             # D = risk.evaluate_losses_derivative_div()
             # W *= D
-            lval = self.agg.u
-            # lval = risk.evaluate()
+            # lval = self.agg.u
+            lval = risk.evaluate()
 
             if j > 0 and abs(lval - lval_min) / (1 + abs(lval_min)) < self.tol:
                 finish = 1
@@ -174,24 +173,21 @@ class MGradientBoostingRegression:
         for k in range(self.n_iter):
             # print(k)
             mod = self.new_model(n)
-            risk = ERiskGB(X, Y, mod, self.loss_func)
+            risk = ERiskGB(X, Y, mod, MarginLoss(HSquare()))
             risk.H[:] = self.complex_model.evaluate_all(X)
     
             self.find_param_alpha(risk)
-            self.complex_model.add(mod, risk.alpha)
-            
-            Yp = self.complex_model.evaluate_all(X)
-            L = self.loss_func.evaluate_all(Yp, Y)
+
+            L = risk.evaluate_losses()
             self.agg.fit(L)
             self.lvals.append(self.agg.u)
-            
+
+            self.complex_model.add(mod, risk.alpha)
 
 def gb_fit(X, Y, new_model, loss_func=None, 
            h=0.001, n_iter=100, n_iter2=10, tol=1.0e-9):
     lfm = LinearFuncModel()
-    if loss_func is None:
-        loss_func = SquareErrorLoss()
-    gb = GradientBoostingRegression(lfm, new_model, loss_func, 
+    gb = GradientBoostingClassification(lfm, new_model, loss_func, 
                           h=h, n_iter=n_iter, n_iter2=n_iter2, tol=tol)
     gb.fit(X, Y)
     return gb
@@ -199,10 +195,8 @@ def gb_fit(X, Y, new_model, loss_func=None,
 def gb_fit_agg(X, Y, new_model, loss_func=None, aggname='WM', 
                alpha=0.5, h=0.001, n_iter=100, n_iter2=10, tol=1.0e-9):
     lfm = LinearFuncModel()
-    if loss_func is None:
-        loss_func = SquareErrorLoss()
     agg = averaging_function(aggname, alpha=alpha)
-    gb = MGradientBoostingRegression(lfm, new_model, loss_func, agg, 
+    gb = MGradientBoostingClassification(lfm, new_model, loss_func, agg, 
                            h=h, n_iter=n_iter, n_iter2=n_iter2, tol=tol)
     gb.fit(X, Y)
     return gb

@@ -9,12 +9,15 @@ cdef class Batch:
     #
     cdef void generate(self)
     cdef void init(self)
+    #
+    # cdef void generate_samples2d(self, double[:,::1] X, double[:,::1] XX)
+    # cdef void generate_samples1d(self, double[::1] Y, double[::1] YY)
 
 cdef class RandomBatch(Batch):
     pass
             
-cdef class FixedBatch(Batch):
-    pass
+# cdef class FixedBatch(Batch):
+#     pass
 
 cdef class WholeBatch(Batch):
     pass

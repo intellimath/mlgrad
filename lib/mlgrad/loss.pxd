@@ -60,7 +60,7 @@ cdef class MLoss(Loss):
 
 cdef class MultLoss(object):
     cdef double _evaluate(self, double[::1] y, double[::1] yk) nogil
-    cdef void gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil
+    cdef void _gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil
 
 @cython.final
 cdef class ErrorMultLoss(MultLoss):
@@ -73,7 +73,7 @@ cdef class MarginMultLoss(MultLoss):
 cdef class MultLoss2:
     #
     cdef double _evaluate(self, double[::1] y, double yk) nogil
-    cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil
+    cdef void _gradient(self, double[::1] y, double yk, double[::1] grad) nogil
     
 
 @cython.final

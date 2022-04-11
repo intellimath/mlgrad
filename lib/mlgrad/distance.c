@@ -1108,7 +1108,7 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "mlgrad/distance.pyx":45
+/* "mlgrad/distance.pyx":44
  * #         return -x
  * 
  * cdef class Distance:             # <<<<<<<<<<<<<<
@@ -1125,7 +1125,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_Distance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_Distance *__pyx_vtabptr_6mlgrad_8distance_Distance;
 
 
-/* "mlgrad/distance.pyx":61
+/* "mlgrad/distance.pyx":60
  *         pass
  * 
  * cdef class DistanceWithScale(Distance):             # <<<<<<<<<<<<<<
@@ -1139,7 +1139,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale {
 static struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale *__pyx_vtabptr_6mlgrad_8distance_DistanceWithScale;
 
 
-/* "mlgrad/distance.pyx":64
+/* "mlgrad/distance.pyx":63
  *     pass
  * 
  * cdef class AbsoluteDistance(Distance):             # <<<<<<<<<<<<<<
@@ -1153,7 +1153,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance *__pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance;
 
 
-/* "mlgrad/distance.pyx":88
+/* "mlgrad/distance.pyx":87
  *                 grad[i] = 0
  * 
  * cdef class EuclidDistance(Distance):             # <<<<<<<<<<<<<<
@@ -1167,7 +1167,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance *__pyx_vtabptr_6mlgrad_8distance_EuclidDistance;
 
 
-/* "mlgrad/distance.pyx":117
+/* "mlgrad/distance.pyx":116
  *             grad[i] = 2 * (x[i] - y[i])
  * 
  * cdef class MahalanobisDistance(DistanceWithScale):             # <<<<<<<<<<<<<<
@@ -1181,7 +1181,7 @@ struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance {
 static struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance *__pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance;
 
 
-/* "mlgrad/distance.pyx":168
+/* "mlgrad/distance.pyx":173
  *             raise NameError("invalid param's name")
  * 
  * cdef class PowerDistance(Distance):             # <<<<<<<<<<<<<<
@@ -1865,7 +1865,7 @@ static int __Pyx_check_binary_version(void);
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 static double __pyx_f_6mlgrad_8distance_8Distance_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_y); /* proto*/
-static double __pyx_f_6mlgrad_8distance_8Distance__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED double *__pyx_v_x, CYTHON_UNUSED double *__pyx_v_y, CYTHON_UNUSED Py_ssize_t __pyx_v_n); /* proto*/
+static double __pyx_f_6mlgrad_8distance_8Distance__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED double const *__pyx_v_x, CYTHON_UNUSED double const *__pyx_v_y, CYTHON_UNUSED Py_ssize_t __pyx_v_n); /* proto*/
 static void __pyx_f_6mlgrad_8distance_8Distance_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_y, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_grad); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8distance_8Distance_set_param(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_name, CYTHON_UNUSED PyObject *__pyx_v_val); /* proto*/
 static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y); /* proto*/
@@ -1873,7 +1873,7 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
 static double __pyx_f_6mlgrad_8distance_14EuclidDistance__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_EuclidDistance *__pyx_v_self, double *__pyx_v_x, double *__pyx_v_y, Py_ssize_t __pyx_v_m); /* proto*/
 static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_EuclidDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y); /* proto*/
 static void __pyx_f_6mlgrad_8distance_14EuclidDistance_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_EuclidDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y, __Pyx_memviewslice __pyx_v_grad); /* proto*/
-static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, double *__pyx_v_x, double *__pyx_v_y, Py_ssize_t __pyx_v_n); /* proto*/
+static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, double const *__pyx_v_x, double const *__pyx_v_y, Py_ssize_t __pyx_v_n); /* proto*/
 static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance_evaluate(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y); /* proto*/
 static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y, __Pyx_memviewslice __pyx_v_grad); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8distance_19MahalanobisDistance_set_param(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_val); /* proto*/
@@ -2316,33 +2316,33 @@ static PyObject *__pyx_codeobj__31;
 static PyObject *__pyx_codeobj__38;
 /* Late includes */
 
-/* "mlgrad/distance.pyx":46
+/* "mlgrad/distance.pyx":45
  * 
  * cdef class Distance:
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
  *         return 0
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
  */
 
 static double __pyx_f_6mlgrad_8distance_8Distance_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_y) {
   double __pyx_r;
 
-  /* "mlgrad/distance.pyx":47
+  /* "mlgrad/distance.pyx":46
  * cdef class Distance:
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
  *         return 0             # <<<<<<<<<<<<<<
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
  *         return 0
  */
   __pyx_r = 0.0;
   goto __pyx_L0;
 
-  /* "mlgrad/distance.pyx":46
+  /* "mlgrad/distance.pyx":45
  * 
  * cdef class Distance:
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
  *         return 0
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
  */
 
   /* function exit code */
@@ -2350,20 +2350,20 @@ static double __pyx_f_6mlgrad_8distance_8Distance_evaluate(CYTHON_UNUSED struct 
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":48
+/* "mlgrad/distance.pyx":47
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
  *         return 0
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  */
 
-static double __pyx_f_6mlgrad_8distance_8Distance__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED double *__pyx_v_x, CYTHON_UNUSED double *__pyx_v_y, CYTHON_UNUSED Py_ssize_t __pyx_v_n) {
+static double __pyx_f_6mlgrad_8distance_8Distance__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED double const *__pyx_v_x, CYTHON_UNUSED double const *__pyx_v_y, CYTHON_UNUSED Py_ssize_t __pyx_v_n) {
   double __pyx_r;
 
-  /* "mlgrad/distance.pyx":49
+  /* "mlgrad/distance.pyx":48
  *         return 0
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
  *         return 0             # <<<<<<<<<<<<<<
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  *         pass
@@ -2371,10 +2371,10 @@ static double __pyx_f_6mlgrad_8distance_8Distance__evaluate(CYTHON_UNUSED struct
   __pyx_r = 0.0;
   goto __pyx_L0;
 
-  /* "mlgrad/distance.pyx":48
+  /* "mlgrad/distance.pyx":47
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
  *         return 0
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  */
@@ -2384,8 +2384,8 @@ static double __pyx_f_6mlgrad_8distance_8Distance__evaluate(CYTHON_UNUSED struct
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":50
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:
+/* "mlgrad/distance.pyx":49
+ *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
  *         return 0
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
  *         pass
@@ -2397,7 +2397,7 @@ static void __pyx_f_6mlgrad_8distance_8Distance_gradient(CYTHON_UNUSED struct __
   /* function exit code */
 }
 
-/* "mlgrad/distance.pyx":52
+/* "mlgrad/distance.pyx":51
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  *         pass
  *     def __call__(self, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
@@ -2439,11 +2439,11 @@ static PyObject *__pyx_pw_6mlgrad_8distance_8Distance_1__call__(PyObject *__pyx_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__call__", 1, 2, 2, 1); __PYX_ERR(0, 52, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__call__", 1, 2, 2, 1); __PYX_ERR(0, 51, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__call__") < 0)) __PYX_ERR(0, 52, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__call__") < 0)) __PYX_ERR(0, 51, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2451,12 +2451,12 @@ static PyObject *__pyx_pw_6mlgrad_8distance_8Distance_1__call__(PyObject *__pyx_
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_x = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_x.memview)) __PYX_ERR(0, 52, __pyx_L3_error)
-    __pyx_v_y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_y.memview)) __PYX_ERR(0, 52, __pyx_L3_error)
+    __pyx_v_x = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_x.memview)) __PYX_ERR(0, 51, __pyx_L3_error)
+    __pyx_v_y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_y.memview)) __PYX_ERR(0, 51, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__call__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 52, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__call__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 51, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.distance.Distance.__call__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2478,7 +2478,7 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance___call__(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__call__", 0);
 
-  /* "mlgrad/distance.pyx":53
+  /* "mlgrad/distance.pyx":52
  *         pass
  *     def __call__(self, double[::1] x, double[::1] y):
  *         return self.evaluate(x, y)             # <<<<<<<<<<<<<<
@@ -2486,13 +2486,13 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance___call__(struct __pyx_obj_
  *         g = np.zeros(x.shape[0], 'd')
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_8distance_Distance *)__pyx_v_self->__pyx_vtab)->evaluate(__pyx_v_self, __pyx_v_x, __pyx_v_y)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_8distance_Distance *)__pyx_v_self->__pyx_vtab)->evaluate(__pyx_v_self, __pyx_v_x, __pyx_v_y)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/distance.pyx":52
+  /* "mlgrad/distance.pyx":51
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  *         pass
  *     def __call__(self, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
@@ -2513,7 +2513,7 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance___call__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":54
+/* "mlgrad/distance.pyx":53
  *     def __call__(self, double[::1] x, double[::1] y):
  *         return self.evaluate(x, y)
  *     def grad(self, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
@@ -2556,11 +2556,11 @@ static PyObject *__pyx_pw_6mlgrad_8distance_8Distance_3grad(PyObject *__pyx_v_se
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("grad", 1, 2, 2, 1); __PYX_ERR(0, 54, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("grad", 1, 2, 2, 1); __PYX_ERR(0, 53, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "grad") < 0)) __PYX_ERR(0, 54, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "grad") < 0)) __PYX_ERR(0, 53, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2568,12 +2568,12 @@ static PyObject *__pyx_pw_6mlgrad_8distance_8Distance_3grad(PyObject *__pyx_v_se
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_x = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_x.memview)) __PYX_ERR(0, 54, __pyx_L3_error)
-    __pyx_v_y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_y.memview)) __PYX_ERR(0, 54, __pyx_L3_error)
+    __pyx_v_x = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_x.memview)) __PYX_ERR(0, 53, __pyx_L3_error)
+    __pyx_v_y = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_y.memview)) __PYX_ERR(0, 53, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("grad", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 54, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("grad", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 53, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.distance.Distance.grad", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2602,19 +2602,19 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance_2grad(struct __pyx_obj_6ml
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("grad", 0);
 
-  /* "mlgrad/distance.pyx":55
+  /* "mlgrad/distance.pyx":54
  *         return self.evaluate(x, y)
  *     def grad(self, double[::1] x, double[::1] y):
  *         g = np.zeros(x.shape[0], 'd')             # <<<<<<<<<<<<<<
  *         self.gradient(x, y, g)
  *         return g
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t((__pyx_v_x.shape[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t((__pyx_v_x.shape[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -2631,7 +2631,7 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance_2grad(struct __pyx_obj_6ml
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2640,14 +2640,14 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance_2grad(struct __pyx_obj_6ml
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_2, __pyx_n_u_d};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -2658,7 +2658,7 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance_2grad(struct __pyx_obj_6ml
     __Pyx_GIVEREF(__pyx_n_u_d);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_n_u_d);
     __pyx_t_2 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
@@ -2666,20 +2666,20 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance_2grad(struct __pyx_obj_6ml
   __pyx_v_g = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "mlgrad/distance.pyx":56
+  /* "mlgrad/distance.pyx":55
  *     def grad(self, double[::1] x, double[::1] y):
  *         g = np.zeros(x.shape[0], 'd')
  *         self.gradient(x, y, g)             # <<<<<<<<<<<<<<
  *         return g
  *     cdef set_param(self, name, val):
  */
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_g, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_g, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 55, __pyx_L1_error)
   ((struct __pyx_vtabstruct_6mlgrad_8distance_Distance *)__pyx_v_self->__pyx_vtab)->gradient(__pyx_v_self, __pyx_v_x, __pyx_v_y, __pyx_t_7);
   __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "mlgrad/distance.pyx":57
+  /* "mlgrad/distance.pyx":56
  *         g = np.zeros(x.shape[0], 'd')
  *         self.gradient(x, y, g)
  *         return g             # <<<<<<<<<<<<<<
@@ -2691,7 +2691,7 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance_2grad(struct __pyx_obj_6ml
   __pyx_r = __pyx_v_g;
   goto __pyx_L0;
 
-  /* "mlgrad/distance.pyx":54
+  /* "mlgrad/distance.pyx":53
  *     def __call__(self, double[::1] x, double[::1] y):
  *         return self.evaluate(x, y)
  *     def grad(self, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
@@ -2718,7 +2718,7 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance_2grad(struct __pyx_obj_6ml
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":58
+/* "mlgrad/distance.pyx":57
  *         self.gradient(x, y, g)
  *         return g
  *     cdef set_param(self, name, val):             # <<<<<<<<<<<<<<
@@ -3496,7 +3496,7 @@ static PyObject *__pyx_pf_6mlgrad_8distance_17DistanceWithScale_2__setstate_cyth
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":66
+/* "mlgrad/distance.pyx":65
  * cdef class AbsoluteDistance(Distance):
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
@@ -3515,7 +3515,7 @@ static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSE
   Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
 
-  /* "mlgrad/distance.pyx":67
+  /* "mlgrad/distance.pyx":66
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
  *         cdef int i, m = x.shape[0]             # <<<<<<<<<<<<<<
@@ -3524,7 +3524,7 @@ static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSE
  */
   __pyx_v_m = (__pyx_v_x.shape[0]);
 
-  /* "mlgrad/distance.pyx":70
+  /* "mlgrad/distance.pyx":69
  *         cdef double s
  * 
  *         s = 0             # <<<<<<<<<<<<<<
@@ -3533,7 +3533,7 @@ static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSE
  */
   __pyx_v_s = 0.0;
 
-  /* "mlgrad/distance.pyx":71
+  /* "mlgrad/distance.pyx":70
  * 
  *         s = 0
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -3545,7 +3545,7 @@ static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSE
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/distance.pyx":72
+    /* "mlgrad/distance.pyx":71
  *         s = 0
  *         for i in range(m):
  *             s += fabs(x[i] - y[i])             # <<<<<<<<<<<<<<
@@ -3557,7 +3557,7 @@ static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSE
     __pyx_v_s = (__pyx_v_s + fabs(((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))))));
   }
 
-  /* "mlgrad/distance.pyx":73
+  /* "mlgrad/distance.pyx":72
  *         for i in range(m):
  *             s += fabs(x[i] - y[i])
  *         return s             # <<<<<<<<<<<<<<
@@ -3567,7 +3567,7 @@ static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSE
   __pyx_r = __pyx_v_s;
   goto __pyx_L0;
 
-  /* "mlgrad/distance.pyx":66
+  /* "mlgrad/distance.pyx":65
  * cdef class AbsoluteDistance(Distance):
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
@@ -3580,7 +3580,7 @@ static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":75
+/* "mlgrad/distance.pyx":74
  *         return s
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -3599,7 +3599,7 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
   Py_ssize_t __pyx_t_5;
   int __pyx_t_6;
 
-  /* "mlgrad/distance.pyx":76
+  /* "mlgrad/distance.pyx":75
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  *         cdef int i, m = grad.shape[0]             # <<<<<<<<<<<<<<
@@ -3608,7 +3608,7 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
  */
   __pyx_v_m = (__pyx_v_grad.shape[0]);
 
-  /* "mlgrad/distance.pyx":79
+  /* "mlgrad/distance.pyx":78
  *         cdef double v
  * 
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -3620,7 +3620,7 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/distance.pyx":80
+    /* "mlgrad/distance.pyx":79
  * 
  *         for i in range(m):
  *             v = x[i] - y[i]             # <<<<<<<<<<<<<<
@@ -3631,7 +3631,7 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
     __pyx_t_5 = __pyx_v_i;
     __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))));
 
-    /* "mlgrad/distance.pyx":81
+    /* "mlgrad/distance.pyx":80
  *         for i in range(m):
  *             v = x[i] - y[i]
  *             if v > 0:             # <<<<<<<<<<<<<<
@@ -3641,7 +3641,7 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
     __pyx_t_6 = ((__pyx_v_v > 0.0) != 0);
     if (__pyx_t_6) {
 
-      /* "mlgrad/distance.pyx":82
+      /* "mlgrad/distance.pyx":81
  *             v = x[i] - y[i]
  *             if v > 0:
  *                 grad[i] = 1             # <<<<<<<<<<<<<<
@@ -3651,7 +3651,7 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
       __pyx_t_5 = __pyx_v_i;
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = 1.0;
 
-      /* "mlgrad/distance.pyx":81
+      /* "mlgrad/distance.pyx":80
  *         for i in range(m):
  *             v = x[i] - y[i]
  *             if v > 0:             # <<<<<<<<<<<<<<
@@ -3661,7 +3661,7 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
       goto __pyx_L5;
     }
 
-    /* "mlgrad/distance.pyx":83
+    /* "mlgrad/distance.pyx":82
  *             if v > 0:
  *                 grad[i] = 1
  *             elif v < 0:             # <<<<<<<<<<<<<<
@@ -3671,7 +3671,7 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
     __pyx_t_6 = ((__pyx_v_v < 0.0) != 0);
     if (__pyx_t_6) {
 
-      /* "mlgrad/distance.pyx":84
+      /* "mlgrad/distance.pyx":83
  *                 grad[i] = 1
  *             elif v < 0:
  *                 grad[i] = -1             # <<<<<<<<<<<<<<
@@ -3681,7 +3681,7 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
       __pyx_t_5 = __pyx_v_i;
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = -1.0;
 
-      /* "mlgrad/distance.pyx":83
+      /* "mlgrad/distance.pyx":82
  *             if v > 0:
  *                 grad[i] = 1
  *             elif v < 0:             # <<<<<<<<<<<<<<
@@ -3691,7 +3691,7 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
       goto __pyx_L5;
     }
 
-    /* "mlgrad/distance.pyx":86
+    /* "mlgrad/distance.pyx":85
  *                 grad[i] = -1
  *             else:
  *                 grad[i] = 0             # <<<<<<<<<<<<<<
@@ -3705,7 +3705,7 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
     __pyx_L5:;
   }
 
-  /* "mlgrad/distance.pyx":75
+  /* "mlgrad/distance.pyx":74
  *         return s
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -4005,7 +4005,7 @@ static PyObject *__pyx_pf_6mlgrad_8distance_16AbsoluteDistance_2__setstate_cytho
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":90
+/* "mlgrad/distance.pyx":89
  * cdef class EuclidDistance(Distance):
  * 
  *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t m) nogil:             # <<<<<<<<<<<<<<
@@ -4022,7 +4022,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance__evaluate(CYTHON_UNUSED
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
 
-  /* "mlgrad/distance.pyx":94
+  /* "mlgrad/distance.pyx":93
  *         cdef double s, v
  * 
  *         s = 0             # <<<<<<<<<<<<<<
@@ -4031,7 +4031,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance__evaluate(CYTHON_UNUSED
  */
   __pyx_v_s = 0.0;
 
-  /* "mlgrad/distance.pyx":95
+  /* "mlgrad/distance.pyx":94
  * 
  *         s = 0
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -4043,7 +4043,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance__evaluate(CYTHON_UNUSED
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/distance.pyx":96
+    /* "mlgrad/distance.pyx":95
  *         s = 0
  *         for i in range(m):
  *             v = x[i] - y[i]             # <<<<<<<<<<<<<<
@@ -4052,7 +4052,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance__evaluate(CYTHON_UNUSED
  */
     __pyx_v_v = ((__pyx_v_x[__pyx_v_i]) - (__pyx_v_y[__pyx_v_i]));
 
-    /* "mlgrad/distance.pyx":97
+    /* "mlgrad/distance.pyx":96
  *         for i in range(m):
  *             v = x[i] - y[i]
  *             s += v * v             # <<<<<<<<<<<<<<
@@ -4062,7 +4062,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance__evaluate(CYTHON_UNUSED
     __pyx_v_s = (__pyx_v_s + (__pyx_v_v * __pyx_v_v));
   }
 
-  /* "mlgrad/distance.pyx":98
+  /* "mlgrad/distance.pyx":97
  *             v = x[i] - y[i]
  *             s += v * v
  *         return s             # <<<<<<<<<<<<<<
@@ -4072,7 +4072,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance__evaluate(CYTHON_UNUSED
   __pyx_r = __pyx_v_s;
   goto __pyx_L0;
 
-  /* "mlgrad/distance.pyx":90
+  /* "mlgrad/distance.pyx":89
  * cdef class EuclidDistance(Distance):
  * 
  *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t m) nogil:             # <<<<<<<<<<<<<<
@@ -4085,7 +4085,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance__evaluate(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":100
+/* "mlgrad/distance.pyx":99
  *         return s
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
@@ -4105,7 +4105,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
   Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
 
-  /* "mlgrad/distance.pyx":101
+  /* "mlgrad/distance.pyx":100
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
  *         cdef Py_ssize_t i, m = x.shape[0]             # <<<<<<<<<<<<<<
@@ -4114,7 +4114,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
  */
   __pyx_v_m = (__pyx_v_x.shape[0]);
 
-  /* "mlgrad/distance.pyx":104
+  /* "mlgrad/distance.pyx":103
  *         cdef double s, v
  * 
  *         s = 0             # <<<<<<<<<<<<<<
@@ -4123,7 +4123,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
  */
   __pyx_v_s = 0.0;
 
-  /* "mlgrad/distance.pyx":105
+  /* "mlgrad/distance.pyx":104
  * 
  *         s = 0
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -4135,7 +4135,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/distance.pyx":106
+    /* "mlgrad/distance.pyx":105
  *         s = 0
  *         for i in range(m):
  *             v = x[i] - y[i]             # <<<<<<<<<<<<<<
@@ -4146,7 +4146,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
     __pyx_t_5 = __pyx_v_i;
     __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))));
 
-    /* "mlgrad/distance.pyx":107
+    /* "mlgrad/distance.pyx":106
  *         for i in range(m):
  *             v = x[i] - y[i]
  *             s += v * v             # <<<<<<<<<<<<<<
@@ -4156,7 +4156,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
     __pyx_v_s = (__pyx_v_s + (__pyx_v_v * __pyx_v_v));
   }
 
-  /* "mlgrad/distance.pyx":108
+  /* "mlgrad/distance.pyx":107
  *             v = x[i] - y[i]
  *             s += v * v
  *         return s             # <<<<<<<<<<<<<<
@@ -4166,7 +4166,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
   __pyx_r = __pyx_v_s;
   goto __pyx_L0;
 
-  /* "mlgrad/distance.pyx":100
+  /* "mlgrad/distance.pyx":99
  *         return s
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
@@ -4179,7 +4179,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":110
+/* "mlgrad/distance.pyx":109
  *         return s
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -4197,7 +4197,7 @@ static void __pyx_f_6mlgrad_8distance_14EuclidDistance_gradient(CYTHON_UNUSED st
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
 
-  /* "mlgrad/distance.pyx":111
+  /* "mlgrad/distance.pyx":110
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  *         cdef Py_ssize_t i, m = grad.shape[0]             # <<<<<<<<<<<<<<
@@ -4206,7 +4206,7 @@ static void __pyx_f_6mlgrad_8distance_14EuclidDistance_gradient(CYTHON_UNUSED st
  */
   __pyx_v_m = (__pyx_v_grad.shape[0]);
 
-  /* "mlgrad/distance.pyx":114
+  /* "mlgrad/distance.pyx":113
  *         cdef double v
  * 
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -4218,7 +4218,7 @@ static void __pyx_f_6mlgrad_8distance_14EuclidDistance_gradient(CYTHON_UNUSED st
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/distance.pyx":115
+    /* "mlgrad/distance.pyx":114
  * 
  *         for i in range(m):
  *             grad[i] = 2 * (x[i] - y[i])             # <<<<<<<<<<<<<<
@@ -4231,7 +4231,7 @@ static void __pyx_f_6mlgrad_8distance_14EuclidDistance_gradient(CYTHON_UNUSED st
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = (2.0 * ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) )))));
   }
 
-  /* "mlgrad/distance.pyx":110
+  /* "mlgrad/distance.pyx":109
  *         return s
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -4531,7 +4531,7 @@ static PyObject *__pyx_pf_6mlgrad_8distance_14EuclidDistance_2__setstate_cython_
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":119
+/* "mlgrad/distance.pyx":118
  * cdef class MahalanobisDistance(DistanceWithScale):
  * 
  *     def __init__(self, double[:,::1] S):             # <<<<<<<<<<<<<<
@@ -4568,18 +4568,18 @@ static int __pyx_pw_6mlgrad_8distance_19MahalanobisDistance_1__init__(PyObject *
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 119, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 118, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_S = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_S.memview)) __PYX_ERR(0, 119, __pyx_L3_error)
+    __pyx_v_S = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_S.memview)) __PYX_ERR(0, 118, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 119, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 118, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.distance.MahalanobisDistance.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4597,18 +4597,18 @@ static int __pyx_pf_6mlgrad_8distance_19MahalanobisDistance___init__(struct __py
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/distance.pyx":120
+  /* "mlgrad/distance.pyx":119
  * 
  *     def __init__(self, double[:,::1] S):
  *         self.S = S             # <<<<<<<<<<<<<<
  * 
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
  */
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.S, 0);
   __PYX_INC_MEMVIEW(&__pyx_v_S, 0);
   __pyx_v_self->__pyx_base.S = __pyx_v_S;
 
-  /* "mlgrad/distance.pyx":119
+  /* "mlgrad/distance.pyx":118
  * cdef class MahalanobisDistance(DistanceWithScale):
  * 
  *     def __init__(self, double[:,::1] S):             # <<<<<<<<<<<<<<
@@ -4623,15 +4623,15 @@ static int __pyx_pf_6mlgrad_8distance_19MahalanobisDistance___init__(struct __py
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":122
+/* "mlgrad/distance.pyx":121
  *         self.S = S
  * 
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         cdef double[:,::1] S = self.S
  *         cdef double xy1, xy2
  */
 
-static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, double *__pyx_v_x, double *__pyx_v_y, Py_ssize_t __pyx_v_n) {
+static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, double const *__pyx_v_x, double const *__pyx_v_y, Py_ssize_t __pyx_v_n) {
   __Pyx_memviewslice __pyx_v_S = { 0, 0, { 0 }, { 0 }, { 0 } };
   double __pyx_v_xy1;
   double __pyx_v_xy2;
@@ -4651,18 +4651,10 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
   Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  Py_ssize_t __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
-  Py_ssize_t __pyx_t_11;
-  Py_ssize_t __pyx_t_12;
-  Py_ssize_t __pyx_t_13;
-  Py_ssize_t __pyx_t_14;
-  Py_ssize_t __pyx_t_15;
-  Py_ssize_t __pyx_t_16;
 
-  /* "mlgrad/distance.pyx":123
+  /* "mlgrad/distance.pyx":122
  * 
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
  *         cdef double[:,::1] S = self.S             # <<<<<<<<<<<<<<
  *         cdef double xy1, xy2
  *         cdef Py_ssize_t i, j
@@ -4673,7 +4665,7 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/distance.pyx":129
+  /* "mlgrad/distance.pyx":128
  *         cdef double *S_i
  * 
  *         if n == 2:             # <<<<<<<<<<<<<<
@@ -4683,30 +4675,30 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
   __pyx_t_2 = ((__pyx_v_n == 2) != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/distance.pyx":130
+    /* "mlgrad/distance.pyx":129
  * 
  *         if n == 2:
  *             xy1 = x[0] - y[0]             # <<<<<<<<<<<<<<
  *             xy2 = x[1] - y[1]
- *             return S[0,0] * xy1 * xy1 + S[1,1] * xy2 * xy2 + (S[0,1] + S[1,0]) * xy1 * xy2
+ *             return S[0,0] * xy1 * xy1 + S[1,1] * xy2 * xy2 + 2 * S[0,1] * xy1 * xy2
  */
     __pyx_v_xy1 = ((__pyx_v_x[0]) - (__pyx_v_y[0]));
 
-    /* "mlgrad/distance.pyx":131
+    /* "mlgrad/distance.pyx":130
  *         if n == 2:
  *             xy1 = x[0] - y[0]
  *             xy2 = x[1] - y[1]             # <<<<<<<<<<<<<<
- *             return S[0,0] * xy1 * xy1 + S[1,1] * xy2 * xy2 + (S[0,1] + S[1,0]) * xy1 * xy2
+ *             return S[0,0] * xy1 * xy1 + S[1,1] * xy2 * xy2 + 2 * S[0,1] * xy1 * xy2
  * 
  */
     __pyx_v_xy2 = ((__pyx_v_x[1]) - (__pyx_v_y[1]));
 
-    /* "mlgrad/distance.pyx":132
+    /* "mlgrad/distance.pyx":131
  *             xy1 = x[0] - y[0]
  *             xy2 = x[1] - y[1]
- *             return S[0,0] * xy1 * xy1 + S[1,1] * xy2 * xy2 + (S[0,1] + S[1,0]) * xy1 * xy2             # <<<<<<<<<<<<<<
+ *             return S[0,0] * xy1 * xy1 + S[1,1] * xy2 * xy2 + 2 * S[0,1] * xy1 * xy2             # <<<<<<<<<<<<<<
  * 
- *         vi = x[0] - y[0]
+ *         i = 0
  */
     __pyx_t_3 = 0;
     __pyx_t_4 = 0;
@@ -4714,12 +4706,10 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
     __pyx_t_6 = 1;
     __pyx_t_7 = 0;
     __pyx_t_8 = 1;
-    __pyx_t_9 = 1;
-    __pyx_t_10 = 0;
-    __pyx_r = (((((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_3 * __pyx_v_S.strides[0]) )) + __pyx_t_4)) ))) * __pyx_v_xy1) * __pyx_v_xy1) + (((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_6)) ))) * __pyx_v_xy2) * __pyx_v_xy2)) + ((((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_7 * __pyx_v_S.strides[0]) )) + __pyx_t_8)) ))) + (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_9 * __pyx_v_S.strides[0]) )) + __pyx_t_10)) )))) * __pyx_v_xy1) * __pyx_v_xy2));
+    __pyx_r = (((((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_3 * __pyx_v_S.strides[0]) )) + __pyx_t_4)) ))) * __pyx_v_xy1) * __pyx_v_xy1) + (((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_6)) ))) * __pyx_v_xy2) * __pyx_v_xy2)) + (((2.0 * (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_7 * __pyx_v_S.strides[0]) )) + __pyx_t_8)) )))) * __pyx_v_xy1) * __pyx_v_xy2));
     goto __pyx_L0;
 
-    /* "mlgrad/distance.pyx":129
+    /* "mlgrad/distance.pyx":128
  *         cdef double *S_i
  * 
  *         if n == 2:             # <<<<<<<<<<<<<<
@@ -4728,120 +4718,143 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
  */
   }
 
-  /* "mlgrad/distance.pyx":134
- *             return S[0,0] * xy1 * xy1 + S[1,1] * xy2 * xy2 + (S[0,1] + S[1,0]) * xy1 * xy2
+  /* "mlgrad/distance.pyx":133
+ *             return S[0,0] * xy1 * xy1 + S[1,1] * xy2 * xy2 + 2 * S[0,1] * xy1 * xy2
  * 
- *         vi = x[0] - y[0]             # <<<<<<<<<<<<<<
- *         s = vi * self.S[0,0] * vi
- *         for i in range(1, n):
+ *         i = 0             # <<<<<<<<<<<<<<
+ *         s = 0
+ *         while i < n:
  */
-  __pyx_v_vi = ((__pyx_v_x[0]) - (__pyx_v_y[0]));
+  __pyx_v_i = 0;
+
+  /* "mlgrad/distance.pyx":134
+ * 
+ *         i = 0
+ *         s = 0             # <<<<<<<<<<<<<<
+ *         while i < n:
+ *             vi = x[i] - y[i]
+ */
+  __pyx_v_s = 0.0;
 
   /* "mlgrad/distance.pyx":135
- * 
- *         vi = x[0] - y[0]
- *         s = vi * self.S[0,0] * vi             # <<<<<<<<<<<<<<
- *         for i in range(1, n):
+ *         i = 0
+ *         s = 0
+ *         while i < n:             # <<<<<<<<<<<<<<
  *             vi = x[i] - y[i]
+ *             S_i = &S[i,i]
  */
-  __pyx_t_10 = 0;
-  __pyx_t_9 = 0;
-  __pyx_v_s = ((__pyx_v_vi * (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->__pyx_base.S.data + __pyx_t_10 * __pyx_v_self->__pyx_base.S.strides[0]) )) + __pyx_t_9)) )))) * __pyx_v_vi);
+  while (1) {
+    __pyx_t_2 = ((__pyx_v_i < __pyx_v_n) != 0);
+    if (!__pyx_t_2) break;
 
-  /* "mlgrad/distance.pyx":136
- *         vi = x[0] - y[0]
- *         s = vi * self.S[0,0] * vi
- *         for i in range(1, n):             # <<<<<<<<<<<<<<
- *             vi = x[i] - y[i]
- *             S_i = &self.S[i,0]
- */
-  __pyx_t_11 = __pyx_v_n;
-  __pyx_t_12 = __pyx_t_11;
-  for (__pyx_t_13 = 1; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
-    __pyx_v_i = __pyx_t_13;
-
-    /* "mlgrad/distance.pyx":137
- *         s = vi * self.S[0,0] * vi
- *         for i in range(1, n):
+    /* "mlgrad/distance.pyx":136
+ *         s = 0
+ *         while i < n:
  *             vi = x[i] - y[i]             # <<<<<<<<<<<<<<
- *             S_i = &self.S[i,0]
+ *             S_i = &S[i,i]
  *             s += vi * S_i[i] * vi
  */
     __pyx_v_vi = ((__pyx_v_x[__pyx_v_i]) - (__pyx_v_y[__pyx_v_i]));
 
-    /* "mlgrad/distance.pyx":138
- *         for i in range(1, n):
+    /* "mlgrad/distance.pyx":137
+ *         while i < n:
  *             vi = x[i] - y[i]
- *             S_i = &self.S[i,0]             # <<<<<<<<<<<<<<
+ *             S_i = &S[i,i]             # <<<<<<<<<<<<<<
  *             s += vi * S_i[i] * vi
- *             sj = 0
+ * 
  */
-    __pyx_t_9 = __pyx_v_i;
-    __pyx_t_10 = 0;
-    __pyx_v_S_i = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->__pyx_base.S.data + __pyx_t_9 * __pyx_v_self->__pyx_base.S.strides[0]) )) + __pyx_t_10)) ))));
+    __pyx_t_8 = __pyx_v_i;
+    __pyx_t_7 = __pyx_v_i;
+    __pyx_v_S_i = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_8 * __pyx_v_S.strides[0]) )) + __pyx_t_7)) ))));
 
-    /* "mlgrad/distance.pyx":139
+    /* "mlgrad/distance.pyx":138
  *             vi = x[i] - y[i]
- *             S_i = &self.S[i,0]
+ *             S_i = &S[i,i]
  *             s += vi * S_i[i] * vi             # <<<<<<<<<<<<<<
+ * 
  *             sj = 0
- *             for j in range(i):
  */
     __pyx_v_s = (__pyx_v_s + ((__pyx_v_vi * (__pyx_v_S_i[__pyx_v_i])) * __pyx_v_vi));
 
     /* "mlgrad/distance.pyx":140
- *             S_i = &self.S[i,0]
  *             s += vi * S_i[i] * vi
+ * 
  *             sj = 0             # <<<<<<<<<<<<<<
- *             for j in range(i):
- *                 vj = x[j] - y[j]
+ *             j = i + 1
+ *             while j < n:
  */
     __pyx_v_sj = 0.0;
 
     /* "mlgrad/distance.pyx":141
- *             s += vi * S_i[i] * vi
+ * 
  *             sj = 0
- *             for j in range(i):             # <<<<<<<<<<<<<<
+ *             j = i + 1             # <<<<<<<<<<<<<<
+ *             while j < n:
+ *                 vj = x[j] - y[j]
+ */
+    __pyx_v_j = (__pyx_v_i + 1);
+
+    /* "mlgrad/distance.pyx":142
+ *             sj = 0
+ *             j = i + 1
+ *             while j < n:             # <<<<<<<<<<<<<<
  *                 vj = x[j] - y[j]
  *                 sj += S_i[j] * vj
  */
-    __pyx_t_14 = __pyx_v_i;
-    __pyx_t_15 = __pyx_t_14;
-    for (__pyx_t_16 = 0; __pyx_t_16 < __pyx_t_15; __pyx_t_16+=1) {
-      __pyx_v_j = __pyx_t_16;
+    while (1) {
+      __pyx_t_2 = ((__pyx_v_j < __pyx_v_n) != 0);
+      if (!__pyx_t_2) break;
 
-      /* "mlgrad/distance.pyx":142
- *             sj = 0
- *             for j in range(i):
+      /* "mlgrad/distance.pyx":143
+ *             j = i + 1
+ *             while j < n:
  *                 vj = x[j] - y[j]             # <<<<<<<<<<<<<<
  *                 sj += S_i[j] * vj
- *             s += 2 * vi * sj
+ *                 j += 1
  */
       __pyx_v_vj = ((__pyx_v_x[__pyx_v_j]) - (__pyx_v_y[__pyx_v_j]));
 
-      /* "mlgrad/distance.pyx":143
- *             for j in range(i):
+      /* "mlgrad/distance.pyx":144
+ *             while j < n:
  *                 vj = x[j] - y[j]
  *                 sj += S_i[j] * vj             # <<<<<<<<<<<<<<
- *             s += 2 * vi * sj
- *         return s
+ *                 j += 1
+ * 
  */
       __pyx_v_sj = (__pyx_v_sj + ((__pyx_v_S_i[__pyx_v_j]) * __pyx_v_vj));
-    }
 
-    /* "mlgrad/distance.pyx":144
+      /* "mlgrad/distance.pyx":145
  *                 vj = x[j] - y[j]
  *                 sj += S_i[j] * vj
+ *                 j += 1             # <<<<<<<<<<<<<<
+ * 
+ *             s += 2 * vi * sj
+ */
+      __pyx_v_j = (__pyx_v_j + 1);
+    }
+
+    /* "mlgrad/distance.pyx":147
+ *                 j += 1
+ * 
  *             s += 2 * vi * sj             # <<<<<<<<<<<<<<
+ *             i += 1
+ *         return s
+ */
+    __pyx_v_s = (__pyx_v_s + ((2.0 * __pyx_v_vi) * __pyx_v_sj));
+
+    /* "mlgrad/distance.pyx":148
+ * 
+ *             s += 2 * vi * sj
+ *             i += 1             # <<<<<<<<<<<<<<
  *         return s
  * 
  */
-    __pyx_v_s = (__pyx_v_s + ((2.0 * __pyx_v_vi) * __pyx_v_sj));
+    __pyx_v_i = (__pyx_v_i + 1);
   }
 
-  /* "mlgrad/distance.pyx":145
- *                 sj += S_i[j] * vj
+  /* "mlgrad/distance.pyx":149
  *             s += 2 * vi * sj
+ *             i += 1
  *         return s             # <<<<<<<<<<<<<<
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
@@ -4849,10 +4862,10 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
   __pyx_r = __pyx_v_s;
   goto __pyx_L0;
 
-  /* "mlgrad/distance.pyx":122
+  /* "mlgrad/distance.pyx":121
  *         self.S = S
  * 
- *     cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         cdef double[:,::1] S = self.S
  *         cdef double xy1, xy2
  */
@@ -4863,7 +4876,7 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":147
+/* "mlgrad/distance.pyx":151
  *         return s
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
@@ -4876,7 +4889,7 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance_evaluate(struct __
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
 
-  /* "mlgrad/distance.pyx":148
+  /* "mlgrad/distance.pyx":152
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
  *         return self._evaluate(&x[0], &y[0], x.shape[0])             # <<<<<<<<<<<<<<
@@ -4888,7 +4901,7 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance_evaluate(struct __
   __pyx_r = __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(((struct __pyx_obj_6mlgrad_8distance_Distance *)__pyx_v_self), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_2)) )))), (__pyx_v_x.shape[0]));
   goto __pyx_L0;
 
-  /* "mlgrad/distance.pyx":147
+  /* "mlgrad/distance.pyx":151
  *         return s
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
@@ -4901,21 +4914,22 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance_evaluate(struct __
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":150
+/* "mlgrad/distance.pyx":154
  *         return self._evaluate(&x[0], &y[0], x.shape[0])
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
+ *         cdef double[:,::1] S = self.S
  *         cdef double *S_i
- *         cdef Py_ssize_t i, j, m = grad.shape[0]
  */
 
 static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y, __Pyx_memviewslice __pyx_v_grad) {
+  __Pyx_memviewslice __pyx_v_S = { 0, 0, { 0 }, { 0 }, { 0 } };
   double *__pyx_v_S_i;
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_j;
   Py_ssize_t __pyx_v_m;
   double __pyx_v_s;
-  Py_ssize_t __pyx_t_1;
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
@@ -4923,9 +4937,23 @@ static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __py
   Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
 
-  /* "mlgrad/distance.pyx":152
+  /* "mlgrad/distance.pyx":155
+ * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
+ *         cdef double[:,::1] S = self.S             # <<<<<<<<<<<<<<
+ *         cdef double *S_i
+ *         cdef Py_ssize_t i, j, m = grad.shape[0]
+ */
+  __pyx_t_1 = __pyx_v_self->__pyx_base.S;
+  __PYX_INC_MEMVIEW(&__pyx_t_1, 0);
+  __pyx_v_S = __pyx_t_1;
+  __pyx_t_1.memview = NULL;
+  __pyx_t_1.data = NULL;
+
+  /* "mlgrad/distance.pyx":157
+ *         cdef double[:,::1] S = self.S
  *         cdef double *S_i
  *         cdef Py_ssize_t i, j, m = grad.shape[0]             # <<<<<<<<<<<<<<
  *         cdef double s, xi
@@ -4933,85 +4961,86 @@ static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __py
  */
   __pyx_v_m = (__pyx_v_grad.shape[0]);
 
-  /* "mlgrad/distance.pyx":155
+  /* "mlgrad/distance.pyx":160
  *         cdef double s, xi
  * 
  *         for i in range(m):             # <<<<<<<<<<<<<<
- *             S_i = &self.S[i,0]
+ *             S_i = &S[i,0]
  *             s = 0
  */
-  __pyx_t_1 = __pyx_v_m;
-  __pyx_t_2 = __pyx_t_1;
-  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
-    __pyx_v_i = __pyx_t_3;
+  __pyx_t_2 = __pyx_v_m;
+  __pyx_t_3 = __pyx_t_2;
+  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
+    __pyx_v_i = __pyx_t_4;
 
-    /* "mlgrad/distance.pyx":156
+    /* "mlgrad/distance.pyx":161
  * 
  *         for i in range(m):
- *             S_i = &self.S[i,0]             # <<<<<<<<<<<<<<
+ *             S_i = &S[i,0]             # <<<<<<<<<<<<<<
  *             s = 0
  *             for j in range(m):
  */
-    __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = 0;
-    __pyx_v_S_i = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->__pyx_base.S.data + __pyx_t_4 * __pyx_v_self->__pyx_base.S.strides[0]) )) + __pyx_t_5)) ))));
+    __pyx_t_5 = __pyx_v_i;
+    __pyx_t_6 = 0;
+    __pyx_v_S_i = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_6)) ))));
 
-    /* "mlgrad/distance.pyx":157
+    /* "mlgrad/distance.pyx":162
  *         for i in range(m):
- *             S_i = &self.S[i,0]
+ *             S_i = &S[i,0]
  *             s = 0             # <<<<<<<<<<<<<<
  *             for j in range(m):
  *                 s += S_i[j] * (x[j] - y[j])
  */
     __pyx_v_s = 0.0;
 
-    /* "mlgrad/distance.pyx":158
- *             S_i = &self.S[i,0]
+    /* "mlgrad/distance.pyx":163
+ *             S_i = &S[i,0]
  *             s = 0
  *             for j in range(m):             # <<<<<<<<<<<<<<
  *                 s += S_i[j] * (x[j] - y[j])
  *             grad[i] = 2*s
  */
-    __pyx_t_6 = __pyx_v_m;
-    __pyx_t_7 = __pyx_t_6;
-    for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-      __pyx_v_j = __pyx_t_8;
+    __pyx_t_7 = __pyx_v_m;
+    __pyx_t_8 = __pyx_t_7;
+    for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+      __pyx_v_j = __pyx_t_9;
 
-      /* "mlgrad/distance.pyx":159
+      /* "mlgrad/distance.pyx":164
  *             s = 0
  *             for j in range(m):
  *                 s += S_i[j] * (x[j] - y[j])             # <<<<<<<<<<<<<<
  *             grad[i] = 2*s
  * 
  */
+      __pyx_t_6 = __pyx_v_j;
       __pyx_t_5 = __pyx_v_j;
-      __pyx_t_4 = __pyx_v_j;
-      __pyx_v_s = (__pyx_v_s + ((__pyx_v_S_i[__pyx_v_j]) * ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_5)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_4)) ))))));
+      __pyx_v_s = (__pyx_v_s + ((__pyx_v_S_i[__pyx_v_j]) * ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_6)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))))));
     }
 
-    /* "mlgrad/distance.pyx":160
+    /* "mlgrad/distance.pyx":165
  *             for j in range(m):
  *                 s += S_i[j] * (x[j] - y[j])
  *             grad[i] = 2*s             # <<<<<<<<<<<<<<
  * 
  *     cdef set_param(self, name, val):
  */
-    __pyx_t_4 = __pyx_v_i;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_4)) )) = (2.0 * __pyx_v_s);
+    __pyx_t_5 = __pyx_v_i;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = (2.0 * __pyx_v_s);
   }
 
-  /* "mlgrad/distance.pyx":150
+  /* "mlgrad/distance.pyx":154
  *         return self._evaluate(&x[0], &y[0], x.shape[0])
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
+ *         cdef double[:,::1] S = self.S
  *         cdef double *S_i
- *         cdef Py_ssize_t i, j, m = grad.shape[0]
  */
 
   /* function exit code */
+  __PYX_XDEC_MEMVIEW(&__pyx_v_S, 0);
 }
 
-/* "mlgrad/distance.pyx":162
+/* "mlgrad/distance.pyx":167
  *             grad[i] = 2*s
  * 
  *     cdef set_param(self, name, val):             # <<<<<<<<<<<<<<
@@ -5030,30 +5059,30 @@ static PyObject *__pyx_f_6mlgrad_8distance_19MahalanobisDistance_set_param(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_param", 0);
 
-  /* "mlgrad/distance.pyx":163
+  /* "mlgrad/distance.pyx":168
  * 
  *     cdef set_param(self, name, val):
  *         if name == "S":             # <<<<<<<<<<<<<<
  *             self.S = val
  *         else:
  */
-  __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_name, __pyx_n_u_S, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyUnicode_Equals(__pyx_v_name, __pyx_n_u_S, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 168, __pyx_L1_error)
   if (likely(__pyx_t_1)) {
 
-    /* "mlgrad/distance.pyx":164
+    /* "mlgrad/distance.pyx":169
  *     cdef set_param(self, name, val):
  *         if name == "S":
  *             self.S = val             # <<<<<<<<<<<<<<
  *         else:
  *             raise NameError("invalid param's name")
  */
-    __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_val, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_val, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 169, __pyx_L1_error)
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.S, 0);
     __pyx_v_self->__pyx_base.S = __pyx_t_2;
     __pyx_t_2.memview = NULL;
     __pyx_t_2.data = NULL;
 
-    /* "mlgrad/distance.pyx":163
+    /* "mlgrad/distance.pyx":168
  * 
  *     cdef set_param(self, name, val):
  *         if name == "S":             # <<<<<<<<<<<<<<
@@ -5063,7 +5092,7 @@ static PyObject *__pyx_f_6mlgrad_8distance_19MahalanobisDistance_set_param(struc
     goto __pyx_L3;
   }
 
-  /* "mlgrad/distance.pyx":166
+  /* "mlgrad/distance.pyx":171
  *             self.S = val
  *         else:
  *             raise NameError("invalid param's name")             # <<<<<<<<<<<<<<
@@ -5071,15 +5100,15 @@ static PyObject *__pyx_f_6mlgrad_8distance_19MahalanobisDistance_set_param(struc
  * cdef class PowerDistance(Distance):
  */
   /*else*/ {
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_NameError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 166, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_NameError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 166, __pyx_L1_error)
+    __PYX_ERR(0, 171, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "mlgrad/distance.pyx":162
+  /* "mlgrad/distance.pyx":167
  *             grad[i] = 2*s
  * 
  *     cdef set_param(self, name, val):             # <<<<<<<<<<<<<<
@@ -5402,7 +5431,7 @@ static PyObject *__pyx_pf_6mlgrad_8distance_19MahalanobisDistance_4__setstate_cy
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":170
+/* "mlgrad/distance.pyx":175
  * cdef class PowerDistance(Distance):
  * 
  *     def __init__(self, p):             # <<<<<<<<<<<<<<
@@ -5439,7 +5468,7 @@ static int __pyx_pw_6mlgrad_8distance_13PowerDistance_1__init__(PyObject *__pyx_
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 170, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 175, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -5450,7 +5479,7 @@ static int __pyx_pw_6mlgrad_8distance_13PowerDistance_1__init__(PyObject *__pyx_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 170, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 175, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("mlgrad.distance.PowerDistance.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5472,17 +5501,17 @@ static int __pyx_pf_6mlgrad_8distance_13PowerDistance___init__(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "mlgrad/distance.pyx":171
+  /* "mlgrad/distance.pyx":176
  * 
  *     def __init__(self, p):
  *         self.p = p             # <<<<<<<<<<<<<<
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 171, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 176, __pyx_L1_error)
   __pyx_v_self->p = __pyx_t_1;
 
-  /* "mlgrad/distance.pyx":170
+  /* "mlgrad/distance.pyx":175
  * cdef class PowerDistance(Distance):
  * 
  *     def __init__(self, p):             # <<<<<<<<<<<<<<
@@ -5501,7 +5530,7 @@ static int __pyx_pf_6mlgrad_8distance_13PowerDistance___init__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":173
+/* "mlgrad/distance.pyx":178
  *         self.p = p
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
@@ -5525,7 +5554,7 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/distance.pyx":174
+  /* "mlgrad/distance.pyx":179
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
  *         cdef int i, m = x.shape[0]             # <<<<<<<<<<<<<<
@@ -5534,7 +5563,7 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
  */
   __pyx_v_m = (__pyx_v_x.shape[0]);
 
-  /* "mlgrad/distance.pyx":177
+  /* "mlgrad/distance.pyx":182
  *         cdef double s, v
  * 
  *         s = 0.0             # <<<<<<<<<<<<<<
@@ -5543,7 +5572,7 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
  */
   __pyx_v_s = 0.0;
 
-  /* "mlgrad/distance.pyx":178
+  /* "mlgrad/distance.pyx":183
  * 
  *         s = 0.0
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -5555,7 +5584,7 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/distance.pyx":179
+    /* "mlgrad/distance.pyx":184
  *         s = 0.0
  *         for i in range(m):
  *             v = x[i]-y[i]             # <<<<<<<<<<<<<<
@@ -5566,7 +5595,7 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
     __pyx_t_5 = __pyx_v_i;
     __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))));
 
-    /* "mlgrad/distance.pyx":180
+    /* "mlgrad/distance.pyx":185
  *         for i in range(m):
  *             v = x[i]-y[i]
  *             if v >= 0:             # <<<<<<<<<<<<<<
@@ -5576,7 +5605,7 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
     __pyx_t_6 = ((__pyx_v_v >= 0.0) != 0);
     if (__pyx_t_6) {
 
-      /* "mlgrad/distance.pyx":181
+      /* "mlgrad/distance.pyx":186
  *             v = x[i]-y[i]
  *             if v >= 0:
  *                 s += pow(v, self.p)             # <<<<<<<<<<<<<<
@@ -5585,7 +5614,7 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
  */
       __pyx_v_s = (__pyx_v_s + pow(__pyx_v_v, __pyx_v_self->p));
 
-      /* "mlgrad/distance.pyx":180
+      /* "mlgrad/distance.pyx":185
  *         for i in range(m):
  *             v = x[i]-y[i]
  *             if v >= 0:             # <<<<<<<<<<<<<<
@@ -5595,7 +5624,7 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
       goto __pyx_L5;
     }
 
-    /* "mlgrad/distance.pyx":183
+    /* "mlgrad/distance.pyx":188
  *                 s += pow(v, self.p)
  *             else:
  *                 s += pow(-v, self.p)             # <<<<<<<<<<<<<<
@@ -5608,7 +5637,7 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
     __pyx_L5:;
   }
 
-  /* "mlgrad/distance.pyx":184
+  /* "mlgrad/distance.pyx":189
  *             else:
  *                 s += pow(-v, self.p)
  *         return s / self.p             # <<<<<<<<<<<<<<
@@ -5623,12 +5652,12 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 184, __pyx_L1_error)
+    __PYX_ERR(0, 189, __pyx_L1_error)
   }
   __pyx_r = (__pyx_v_s / __pyx_v_self->p);
   goto __pyx_L0;
 
-  /* "mlgrad/distance.pyx":173
+  /* "mlgrad/distance.pyx":178
  *         self.p = p
  * 
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
@@ -5644,7 +5673,7 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "mlgrad/distance.pyx":186
+/* "mlgrad/distance.pyx":191
  *         return s / self.p
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -5663,7 +5692,7 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
   Py_ssize_t __pyx_t_5;
   int __pyx_t_6;
 
-  /* "mlgrad/distance.pyx":187
+  /* "mlgrad/distance.pyx":192
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  *         cdef int i, m = grad.shape[0]             # <<<<<<<<<<<<<<
@@ -5672,7 +5701,7 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
  */
   __pyx_v_m = (__pyx_v_grad.shape[0]);
 
-  /* "mlgrad/distance.pyx":190
+  /* "mlgrad/distance.pyx":195
  *         cdef double v
  * 
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -5684,7 +5713,7 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/distance.pyx":191
+    /* "mlgrad/distance.pyx":196
  * 
  *         for i in range(m):
  *             v = x[i] - y[i]             # <<<<<<<<<<<<<<
@@ -5695,7 +5724,7 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
     __pyx_t_5 = __pyx_v_i;
     __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))));
 
-    /* "mlgrad/distance.pyx":192
+    /* "mlgrad/distance.pyx":197
  *         for i in range(m):
  *             v = x[i] - y[i]
  *             if v >= 0:             # <<<<<<<<<<<<<<
@@ -5705,7 +5734,7 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
     __pyx_t_6 = ((__pyx_v_v >= 0.0) != 0);
     if (__pyx_t_6) {
 
-      /* "mlgrad/distance.pyx":193
+      /* "mlgrad/distance.pyx":198
  *             v = x[i] - y[i]
  *             if v >= 0:
  *                 grad[i] = pow(fabs(v), self.p-1.0)             # <<<<<<<<<<<<<<
@@ -5715,7 +5744,7 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
       __pyx_t_5 = __pyx_v_i;
       *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = pow(fabs(__pyx_v_v), (__pyx_v_self->p - 1.0));
 
-      /* "mlgrad/distance.pyx":192
+      /* "mlgrad/distance.pyx":197
  *         for i in range(m):
  *             v = x[i] - y[i]
  *             if v >= 0:             # <<<<<<<<<<<<<<
@@ -5725,7 +5754,7 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
       goto __pyx_L5;
     }
 
-    /* "mlgrad/distance.pyx":195
+    /* "mlgrad/distance.pyx":200
  *                 grad[i] = pow(fabs(v), self.p-1.0)
  *             else:
  *                 grad[i] = -pow(fabs(v), self.p-1.0)             # <<<<<<<<<<<<<<
@@ -5737,7 +5766,7 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
     __pyx_L5:;
   }
 
-  /* "mlgrad/distance.pyx":186
+  /* "mlgrad/distance.pyx":191
  *         return s / self.p
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
@@ -22842,8 +22871,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 71, __pyx_L1_error)
-  __pyx_builtin_NameError = __Pyx_GetBuiltinName(__pyx_n_s_NameError); if (!__pyx_builtin_NameError) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_builtin_NameError = __Pyx_GetBuiltinName(__pyx_n_s_NameError); if (!__pyx_builtin_NameError) __PYX_ERR(0, 171, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 148, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(1, 151, __pyx_L1_error)
@@ -22860,14 +22889,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "mlgrad/distance.pyx":166
+  /* "mlgrad/distance.pyx":171
  *             self.S = val
  *         else:
  *             raise NameError("invalid param's name")             # <<<<<<<<<<<<<<
  * 
  * cdef class PowerDistance(Distance):
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_invalid_param_s_name); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_invalid_param_s_name); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -23227,46 +23256,46 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_8distance_Distance.evaluate = (double (*)(struct __pyx_obj_6mlgrad_8distance_Distance *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_8distance_8Distance_evaluate;
   __pyx_vtable_6mlgrad_8distance_Distance.gradient = (void (*)(struct __pyx_obj_6mlgrad_8distance_Distance *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_8distance_8Distance_gradient;
   __pyx_vtable_6mlgrad_8distance_Distance.set_param = (PyObject *(*)(struct __pyx_obj_6mlgrad_8distance_Distance *, PyObject *, PyObject *))__pyx_f_6mlgrad_8distance_8Distance_set_param;
-  if (PyType_Ready(&__pyx_type_6mlgrad_8distance_Distance) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_8distance_Distance) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8distance_Distance.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_8distance_Distance.tp_dictoffset && __pyx_type_6mlgrad_8distance_Distance.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_8distance_Distance.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8distance_Distance.tp_dict, __pyx_vtabptr_6mlgrad_8distance_Distance) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Distance, (PyObject *)&__pyx_type_6mlgrad_8distance_Distance) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8distance_Distance) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8distance_Distance.tp_dict, __pyx_vtabptr_6mlgrad_8distance_Distance) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Distance, (PyObject *)&__pyx_type_6mlgrad_8distance_Distance) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8distance_Distance) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_Distance = &__pyx_type_6mlgrad_8distance_Distance;
   __pyx_vtabptr_6mlgrad_8distance_DistanceWithScale = &__pyx_vtable_6mlgrad_8distance_DistanceWithScale;
   __pyx_vtable_6mlgrad_8distance_DistanceWithScale.__pyx_base = *__pyx_vtabptr_6mlgrad_8distance_Distance;
   __pyx_type_6mlgrad_8distance_DistanceWithScale.tp_base = __pyx_ptype_6mlgrad_8distance_Distance;
-  if (PyType_Ready(&__pyx_type_6mlgrad_8distance_DistanceWithScale) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_8distance_DistanceWithScale) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8distance_DistanceWithScale.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_8distance_DistanceWithScale.tp_dictoffset && __pyx_type_6mlgrad_8distance_DistanceWithScale.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_8distance_DistanceWithScale.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8distance_DistanceWithScale.tp_dict, __pyx_vtabptr_6mlgrad_8distance_DistanceWithScale) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DistanceWithScale, (PyObject *)&__pyx_type_6mlgrad_8distance_DistanceWithScale) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8distance_DistanceWithScale) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8distance_DistanceWithScale.tp_dict, __pyx_vtabptr_6mlgrad_8distance_DistanceWithScale) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DistanceWithScale, (PyObject *)&__pyx_type_6mlgrad_8distance_DistanceWithScale) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8distance_DistanceWithScale) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_DistanceWithScale = &__pyx_type_6mlgrad_8distance_DistanceWithScale;
   __pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance = &__pyx_vtable_6mlgrad_8distance_AbsoluteDistance;
   __pyx_vtable_6mlgrad_8distance_AbsoluteDistance.__pyx_base = *__pyx_vtabptr_6mlgrad_8distance_Distance;
   __pyx_vtable_6mlgrad_8distance_AbsoluteDistance.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_8distance_Distance *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate;
   __pyx_vtable_6mlgrad_8distance_AbsoluteDistance.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_8distance_Distance *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient;
   __pyx_type_6mlgrad_8distance_AbsoluteDistance.tp_base = __pyx_ptype_6mlgrad_8distance_Distance;
-  if (PyType_Ready(&__pyx_type_6mlgrad_8distance_AbsoluteDistance) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_8distance_AbsoluteDistance) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8distance_AbsoluteDistance.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_8distance_AbsoluteDistance.tp_dictoffset && __pyx_type_6mlgrad_8distance_AbsoluteDistance.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_8distance_AbsoluteDistance.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8distance_AbsoluteDistance.tp_dict, __pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_AbsoluteDistance, (PyObject *)&__pyx_type_6mlgrad_8distance_AbsoluteDistance) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8distance_AbsoluteDistance) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8distance_AbsoluteDistance.tp_dict, __pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_AbsoluteDistance, (PyObject *)&__pyx_type_6mlgrad_8distance_AbsoluteDistance) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8distance_AbsoluteDistance) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_AbsoluteDistance = &__pyx_type_6mlgrad_8distance_AbsoluteDistance;
   __pyx_vtabptr_6mlgrad_8distance_EuclidDistance = &__pyx_vtable_6mlgrad_8distance_EuclidDistance;
   __pyx_vtable_6mlgrad_8distance_EuclidDistance.__pyx_base = *__pyx_vtabptr_6mlgrad_8distance_Distance;
@@ -23274,16 +23303,16 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_8distance_EuclidDistance.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_8distance_Distance *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate;
   __pyx_vtable_6mlgrad_8distance_EuclidDistance.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_8distance_Distance *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_8distance_14EuclidDistance_gradient;
   __pyx_type_6mlgrad_8distance_EuclidDistance.tp_base = __pyx_ptype_6mlgrad_8distance_Distance;
-  if (PyType_Ready(&__pyx_type_6mlgrad_8distance_EuclidDistance) < 0) __PYX_ERR(0, 88, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_8distance_EuclidDistance) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8distance_EuclidDistance.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_8distance_EuclidDistance.tp_dictoffset && __pyx_type_6mlgrad_8distance_EuclidDistance.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_8distance_EuclidDistance.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8distance_EuclidDistance.tp_dict, __pyx_vtabptr_6mlgrad_8distance_EuclidDistance) < 0) __PYX_ERR(0, 88, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_EuclidDistance, (PyObject *)&__pyx_type_6mlgrad_8distance_EuclidDistance) < 0) __PYX_ERR(0, 88, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8distance_EuclidDistance) < 0) __PYX_ERR(0, 88, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8distance_EuclidDistance.tp_dict, __pyx_vtabptr_6mlgrad_8distance_EuclidDistance) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_EuclidDistance, (PyObject *)&__pyx_type_6mlgrad_8distance_EuclidDistance) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8distance_EuclidDistance) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_EuclidDistance = &__pyx_type_6mlgrad_8distance_EuclidDistance;
   __pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance = &__pyx_vtable_6mlgrad_8distance_MahalanobisDistance;
   __pyx_vtable_6mlgrad_8distance_MahalanobisDistance.__pyx_base = *__pyx_vtabptr_6mlgrad_8distance_DistanceWithScale;
@@ -23292,32 +23321,32 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_6mlgrad_8distance_MahalanobisDistance.__pyx_base.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_8distance_Distance *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient;
   __pyx_vtable_6mlgrad_8distance_MahalanobisDistance.__pyx_base.__pyx_base.set_param = (PyObject *(*)(struct __pyx_obj_6mlgrad_8distance_Distance *, PyObject *, PyObject *))__pyx_f_6mlgrad_8distance_19MahalanobisDistance_set_param;
   __pyx_type_6mlgrad_8distance_MahalanobisDistance.tp_base = __pyx_ptype_6mlgrad_8distance_DistanceWithScale;
-  if (PyType_Ready(&__pyx_type_6mlgrad_8distance_MahalanobisDistance) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_8distance_MahalanobisDistance) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8distance_MahalanobisDistance.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_8distance_MahalanobisDistance.tp_dictoffset && __pyx_type_6mlgrad_8distance_MahalanobisDistance.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_8distance_MahalanobisDistance.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8distance_MahalanobisDistance.tp_dict, __pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MahalanobisDistance, (PyObject *)&__pyx_type_6mlgrad_8distance_MahalanobisDistance) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8distance_MahalanobisDistance) < 0) __PYX_ERR(0, 117, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8distance_MahalanobisDistance.tp_dict, __pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_MahalanobisDistance, (PyObject *)&__pyx_type_6mlgrad_8distance_MahalanobisDistance) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8distance_MahalanobisDistance) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_MahalanobisDistance = &__pyx_type_6mlgrad_8distance_MahalanobisDistance;
   __pyx_vtabptr_6mlgrad_8distance_PowerDistance = &__pyx_vtable_6mlgrad_8distance_PowerDistance;
   __pyx_vtable_6mlgrad_8distance_PowerDistance.__pyx_base = *__pyx_vtabptr_6mlgrad_8distance_Distance;
   __pyx_vtable_6mlgrad_8distance_PowerDistance.__pyx_base.evaluate = (double (*)(struct __pyx_obj_6mlgrad_8distance_Distance *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_8distance_13PowerDistance_evaluate;
   __pyx_vtable_6mlgrad_8distance_PowerDistance.__pyx_base.gradient = (void (*)(struct __pyx_obj_6mlgrad_8distance_Distance *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_6mlgrad_8distance_13PowerDistance_gradient;
   __pyx_type_6mlgrad_8distance_PowerDistance.tp_base = __pyx_ptype_6mlgrad_8distance_Distance;
-  if (PyType_Ready(&__pyx_type_6mlgrad_8distance_PowerDistance) < 0) __PYX_ERR(0, 168, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_6mlgrad_8distance_PowerDistance) < 0) __PYX_ERR(0, 173, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_6mlgrad_8distance_PowerDistance.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_6mlgrad_8distance_PowerDistance.tp_dictoffset && __pyx_type_6mlgrad_8distance_PowerDistance.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_6mlgrad_8distance_PowerDistance.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8distance_PowerDistance.tp_dict, __pyx_vtabptr_6mlgrad_8distance_PowerDistance) < 0) __PYX_ERR(0, 168, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PowerDistance, (PyObject *)&__pyx_type_6mlgrad_8distance_PowerDistance) < 0) __PYX_ERR(0, 168, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8distance_PowerDistance) < 0) __PYX_ERR(0, 168, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_6mlgrad_8distance_PowerDistance.tp_dict, __pyx_vtabptr_6mlgrad_8distance_PowerDistance) < 0) __PYX_ERR(0, 173, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PowerDistance, (PyObject *)&__pyx_type_6mlgrad_8distance_PowerDistance) < 0) __PYX_ERR(0, 173, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_6mlgrad_8distance_PowerDistance) < 0) __PYX_ERR(0, 173, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8distance_PowerDistance = &__pyx_type_6mlgrad_8distance_PowerDistance;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -23602,16 +23631,16 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "mlgrad/distance.pyx":37
+  /* "mlgrad/distance.pyx":36
  * from libc.math cimport fabs, pow, sqrt, fmax, log
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
  * 
  * # cdef inline double sign(double x):
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 37, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "(tree fragment)":1

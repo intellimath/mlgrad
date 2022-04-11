@@ -9,7 +9,6 @@
 # cython: unraisable_tracebacks=True  
 
 
-
 # The MIT License (MIT)
 #
 # Copyright (c) <2015-2019> <Shibzukhov Zaur, szport at gmail dot com>
@@ -45,7 +44,7 @@ import numpy as np
 cdef class Distance:
     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
         return 0
-    cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:
+    cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
         return 0
     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
         pass
@@ -119,7 +118,7 @@ cdef class MahalanobisDistance(DistanceWithScale):
     def __init__(self, double[:,::1] S):
         self.S = S
 
-    cdef double _evaluate(self, double *x, double *y, Py_ssize_t n) nogil:
+    cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
         cdef double[:,::1] S = self.S
         cdef double xy1, xy2
         cdef Py_ssize_t i, j
@@ -129,31 +128,37 @@ cdef class MahalanobisDistance(DistanceWithScale):
         if n == 2:
             xy1 = x[0] - y[0]
             xy2 = x[1] - y[1]
-            return S[0,0] * xy1 * xy1 + S[1,1] * xy2 * xy2 + (S[0,1] + S[1,0]) * xy1 * xy2            
+            return S[0,0] * xy1 * xy1 + S[1,1] * xy2 * xy2 + 2 * S[0,1] * xy1 * xy2            
         
-        vi = x[0] - y[0]
-        s = vi * self.S[0,0] * vi
-        for i in range(1, n):
+        i = 0
+        s = 0
+        while i < n:
             vi = x[i] - y[i]
-            S_i = &self.S[i,0]
+            S_i = &S[i,i]
             s += vi * S_i[i] * vi
+            
             sj = 0
-            for j in range(i):
+            j = i + 1
+            while j < n:
                 vj = x[j] - y[j]
                 sj += S_i[j] * vj
+                j += 1
+
             s += 2 * vi * sj
+            i += 1
         return s
         
     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
         return self._evaluate(&x[0], &y[0], x.shape[0])
 
     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
+        cdef double[:,::1] S = self.S
         cdef double *S_i
         cdef Py_ssize_t i, j, m = grad.shape[0]
         cdef double s, xi
     
         for i in range(m):
-            S_i = &self.S[i,0]
+            S_i = &S[i,0]
             s = 0
             for j in range(m):
                 s += S_i[j] * (x[j] - y[j])

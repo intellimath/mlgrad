@@ -1,11 +1,12 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=True
-# cython: wraparound=True
-# cython: nonecheck=True
-# cython: embedsignature=True
-# cython: initializedcheck=True
+# cython: boundscheck=False
+# cython: wraparound=False
+# cython: nonecheck=False
+# cython: embedsignature=False
+# cython: initializedcheck=False
+# cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
 #
@@ -69,7 +70,7 @@ cdef double maxabs_array(double *a, Py_ssize_t n):
     return max_val
 
 cdef class KAverage:
-    
+
     def __init__(self, q, Func func = square_func, tol=1.0e-6, n_iter=1000):
         self.func = func
         self.q = q
@@ -82,11 +83,12 @@ cdef class KAverage:
     cdef _evaluate_classes(self, double[::1] Y, Py_ssize_t[::1] J):
         cdef double d, d_min, y_k
         cdef double[::1] u = self.u
-        cdef Py_ssize_t j, j_min, k, N = Y.shape[0]
+        cdef Py_ssize_t j, j_min, k
         cdef Py_ssize_t q = self.q
+        cdef Py_ssize_t N = Y.shape[0]
         
-        for k in prange(N, nogil=True, num_threads=num_procs):
-#         for k in range(N):
+        # for k in prange(N, nogil=True, num_threads=num_procs):
+        for k in range(N):
             y_k = Y[k]
             
             d_min = double_max
@@ -102,16 +104,17 @@ cdef class KAverage:
     def evaluate_classes(self, double[::1] Y):
         cdef Py_ssize_t[::1] J = np.zeros(Y.shape[0], 'l')
         self._evaluate_classes(Y, J)
-        return np.asarray(J)
+        return J.base
     #
     cdef _evaluate_distances(self, double[::1] Y, double[::1] D):
         cdef double d, d_min, y_k
-        cdef Py_ssize_t j, k, N = Y.shape[0]
-        cdef Py_ssize_t q = self.q
+        cdef Py_ssize_t j, k
         cdef double[::1] u = self.u
+        cdef Py_ssize_t q = self.q
+        cdef Py_ssize_t N = Y.shape[0]
         
-        for k in prange(N, nogil=True, num_threads=num_procs):
-#         for k in range(N):
+        # for k in prange(N, nogil=True, num_threads=num_procs):
+        for k in range(N):
             y_k = Y[k]
             
             d_min = double_max

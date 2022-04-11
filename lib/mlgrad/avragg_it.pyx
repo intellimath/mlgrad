@@ -11,7 +11,7 @@ cdef class Average_Iterative(Average):
         self.m_iter = m_iter
         
         self.u = 0
-        self.first = 1
+        # self.first = 1
         self.h = h
     #
     cdef fit_epoch(self, double[::1] Y):
@@ -29,7 +29,7 @@ cdef class MAverage_Iterative(Average):
         self.m_iter = m_iter
         
         self.u = 0
-        self.first = 1
+        # self.first = 1
         self.h = h
     #
     cdef fit_epoch(self, double[::1] Y):

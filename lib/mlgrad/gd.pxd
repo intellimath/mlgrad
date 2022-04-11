@@ -10,9 +10,6 @@ from mlgrad.averager cimport ArrayAverager, ArraySave
 from mlgrad.avragg cimport Average, ArithMean
 from mlgrad.weights cimport Weights
 from mlgrad.risk cimport Functional, Risk, ERisk
-from mlgrad.normalizer cimport Normalizer
-
-from mlgrad.normalizer cimport LinearModelNormalizer
 
 from mlgrad.miscfuncs cimport init_rand, rand, fill
 
@@ -25,26 +22,17 @@ cdef extern from "Python.h":
     double Pydouble_GetMin()
 
 cdef inline void fill_memoryview(double[::1] X, double c):
-    cdef int m = X.shape[0]
-    memset(&X[0], 0, m*cython.sizeof(double))    
+    memset(&X[0], 0, X.shape[0]*cython.sizeof(double))    
 
 cdef inline void fill_memoryview2(double[:,::1] X, double c):
-    cdef int i, j
-    cdef int m = X.shape[0], n = X.shape[1]
-    memset(&X[0,0], 0, m*n*cython.sizeof(double))    
+    memset(&X[0,0], 0, X.shape[0]*X.shape[1]*cython.sizeof(double))    
 
 cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
-    cdef int m = X.shape[0], n = Y.shape[0]
-
-    if n < m:
-        m = n
-    memcpy(&Y[0], &X[0], m*cython.sizeof(double))    
+    memcpy(&Y[0], &X[0], Y.shape[0]*cython.sizeof(double))    
 
 cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
-    cdef int i, j
-    cdef int m = X.shape[0], n = X.shape[1]
-    memcpy(&Y[0,0], &X[0,0], n*m*cython.sizeof(double))    
-
+    memcpy(&Y[0,0], &X[0,0], X.shape[0]*X.shape[1]*cython.sizeof(double))    
+    
 # cdef class Fittable(object):
 #     #
 #     cpdef fit(self)
@@ -57,7 +45,8 @@ cdef class GD:
     cdef Normalizer normalizer
 
     cdef public double tol
-    cdef public int n_iter, K, M, m
+    cdef public int n_iter, K, M
+    # cdef public int m
     cdef public bint completed
 
     cdef public double h
@@ -140,5 +129,6 @@ cdef class SGD(GD):
 
 include "stopcond.pxd"
 include "paramrate.pxd"
+include "normalizer.pxd"
 
 ##########################################################

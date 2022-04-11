@@ -1,17 +1,16 @@
 # coding: utf-8
 
 # cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
+# cython: boundscheck=True
+# cython: wraparound=True
+# cython: nonecheck=True
 # cython: embedsignature=True
-# cython: initializedcheck=False
+# cython: initializedcheck=True
 # cython: unraisable_tracebacks=True  
-
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2019> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2022> <Shibzukhov Zaur, szport at gmail dot com>
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -174,7 +173,7 @@ cdef class MarginLoss(Loss):
         return yk*self.func.derivative_div_x(u*yk)
     #
     cdef double difference(self, const double u, const double yk) nogil:
-        return -u*yk
+        return u*yk
     #
     def _repr_latex_(self):
         return r"$\ell(u\tilde y)$" 
@@ -197,7 +196,7 @@ cdef class MultLoss2:
     cdef double _evaluate(self, double[::1] y, double yk) nogil:
         return 0
         
-    cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil:
+    cdef void _gradient(self, double[::1] y, double yk, double[::1] grad) nogil:
         pass
     
 cdef class SoftMinLoss2(MultLoss2):
@@ -206,28 +205,28 @@ cdef class SoftMinLoss2(MultLoss2):
         self.lossfunc = lossfunc
         self.q = q
         self.a = a
-        self.vals = np.zeros(q, 'f')
+        self.vals = np.zeros(q, 'd')
     
     cdef double _evaluate(self, double[::1] y, double yk) nogil:
         cdef Py_ssize_t i, n = self.q
         cdef double val, val_min = double_max
         cdef double S, a = self.a
         cdef double[::1] vals = self.vals
-        
+       
         for i in range(n):
             val = vals[i] = self.lossfunc._evaluate(y[i], yk)
             if val < val_min:
                 val_min = val
-                
+
         S = 0
         for i in range(n):
             S += exp(a*(val_min - vals[i]))
         S = log(S)
-        S = val_min - S
+        S -= a*val_min
 
-        return S
-        
-    cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil:        
+        return -S
+
+    cdef void _gradient(self, double[::1] y, double yk, double[::1] grad) nogil:        
         cdef Py_ssize_t i, n = self.q
         cdef double val, val_min = double_max
         cdef double S, a = self.a
@@ -242,16 +241,19 @@ cdef class SoftMinLoss2(MultLoss2):
         for i in range(n):
             vals[i] = val = exp(a*(val_min - vals[i]))
             S += val
-                
+
         for i in range(n):
-            grad[i] = vals[i] * self.lossfunc._derivative(y[i], yk) / S
-    
+            vals[i] /= S
+
+        for i in range(n):
+            grad[i] = a * vals[i] * self.lossfunc._derivative(y[i], yk)
+
 cdef class MultLoss:
 
     cdef double _evaluate(self, double[::1] y, double[::1] yk) nogil:
         return 0
-        
-    cdef void gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:
+
+    cdef void _gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:
         pass
 
 cdef class ErrorMultLoss(MultLoss):
@@ -266,7 +268,7 @@ cdef class ErrorMultLoss(MultLoss):
             s += self.func._evaluate(y[i] - yk[i])
         return s
         
-    cdef void gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:
+    cdef void _gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:
         cdef Py_ssize_t i, n = y.shape[0]
         for i in range(n):
             grad[i] = self.func._derivative(y[i]-yk[i])
@@ -287,7 +289,7 @@ cdef class MarginMultLoss(MultLoss):
             s += self.func._evaluate(u[i]*yk[i])
         return s
         
-    cdef void gradient(self, double[::1] u, double[::1] yk, double[::1] grad) nogil:
+    cdef void _gradient(self, double[::1] u, double[::1] yk, double[::1] grad) nogil:
         cdef Py_ssize_t i, n = u.shape[0]
         for i in range(n):
             grad[i] = yk[i] * self.func._derivative(u[i]*yk[i])

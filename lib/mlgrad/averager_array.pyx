@@ -1,11 +1,11 @@
 # coding: utf-8
 
-#cython: boundscheck=False
-#cython: wraparound=False
-#cython: nonecheck=False
-#cython: language_level=3
-#cython: embedsignature=True
-#cython: initializedcheck=False
+cython: boundscheck=False
+cython: wraparound=False
+cython: nonecheck=False
+cython: language_level=3
+cython: embedsignature=True
+cython: initializedcheck=False
 
 # The MIT License (MIT)f
 #
@@ -175,9 +175,9 @@ cdef class ArrayAdaM2(ArrayAverager):
         cdef Py_ssize_t i, m = self.mgrad.shape[0]
         cdef double v, v2, mv, vv
         cdef double beta1 = self.beta1, beta2 = self.beta2 
-        cdef double *mgrad = &self.mgrad[0]
-        cdef double *vgrad = &self.vgrad[0]
-        cdef double *array_average = &self.array_average[0]
+        cdef double[::1] mgrad = self.mgrad
+        cdef double[::1] vgrad = self.vgrad
+        cdef double[::1] array_average = self.array_average
         cdef double beta1_k, beta2_k
         cdef double epsilon = self.epsilon
     
@@ -238,9 +238,9 @@ cdef class ArrayAdaM1(ArrayAverager):
         cdef Py_ssize_t i, m = self.mgrad.shape[0]
         cdef double v, v2, mv, vv
         cdef double beta1 = self.beta1, beta2 = self.beta2
-        cdef double *mgrad = &self.mgrad[0]
-        cdef double *vgrad = &self.vgrad[0]
-        cdef double *array_average = &self.array_average[0]
+        cdef double[::1] mgrad = self.mgrad
+        cdef double[::1] vgrad = self.vgrad
+        cdef double[::1] array_average = self.array_average
         cdef double beta1_k, beta2_k
         cdef double epsilon = self.epsilon
     

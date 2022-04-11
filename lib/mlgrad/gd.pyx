@@ -7,10 +7,10 @@
 # cython: embedsignature=True
 # cython: initializedcheck=False
 # cython: unraisable_tracebacks=True  
-
+ 
 # The MIT License (MIT) 
 #
-# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2022> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,8 @@
 
 #from cython.parallel cimport parallel, prange
  
+cimport mlgrad.inventory as inventory
+    
 from mlgrad.model cimport Model
 from mlgrad.func cimport Func
 from mlgrad.regnorm cimport FuncMulti
@@ -51,15 +53,15 @@ cdef class GD:
 
     cpdef init(self):
         self.risk.init()
-#         if self.normalizer is not None:
-#             self.normalizer.normalize(self.risk.param)
+        if self.normalizer is not None:
+            self.normalizer.normalize(self.risk.param)
         
         n_param = len(self.risk.param)
         
 #         if self.param_prev is None:
 #             self.param_prev = np.zeros((n_param,), dtype='d')
         if self.param_min is None:
-            self.param_min = np.array(self.risk.param, dtype='d', copy=True)
+            self.param_min = self.risk.param.copy()
 #         print(self.param_min.base)
         
         if self.stop_condition is None:
@@ -85,38 +87,39 @@ cdef class GD:
     
         self.h_rate.init()
 
-        self.m = 0    
+        # self.m = 0    
 
         K = 0
         self.completed = 0
         while K < self.n_iter:
 
             risk.batch.generate()
+            # risk.X = risk.batch.get_samples(X)
+            # risk.Y = risk.batch.get_samples(Y)
 
             self.lval_prev = self.lval
+                
+            self.fit_epoch()
+            if self.normalizer is not None:
+                self.normalizer.normalize(risk.param)
 
             self.lval = risk.lval = risk._evaluate()
             self.lvals.append(self.lval)
                 
-            if K > 0 and self.stop_condition.verify():
+            if self.stop_condition.verify():
                 self.completed = 1
 
             if self.lval < self.lval_min:
                 self.lval_min = self.lval
-                copy_memoryview(self.param_min, risk.param)
+                inventory.move(self.param_min, risk.param)
                 
             if self.completed:
                 break
-                
-            self.fit_epoch()
-#             if self.normalizer is not None:
-#                 self.normalizer.normalize(param)
 
             if self.callback is not None:
                 self.callback(self)
 
             K += 1
-#             print(K)
 
         self.K += K
         self.finalize()
@@ -128,8 +131,8 @@ cdef class GD:
     cpdef fit_epoch(self):
         cdef Functional risk = self.risk
         cdef Py_ssize_t i, n_param = risk.n_param
-        cdef double[::1] grad_average
-        cdef double[::1] param = risk.param
+        # cdef double[::1] grad_average
+        # cdef double[::1] param = risk.param
         cdef double h
 
         h = self.h = self.h_rate.get_rate()
@@ -137,9 +140,10 @@ cdef class GD:
         self.gradient()
 
         self.grad_averager.update(risk.grad_average, h)
-        grad_average = self.grad_averager.array_average
-        for i in range(n_param):
-            param[i] -= grad_average[i]
+        # grad_average = self.grad_averager.array_average
+        inventory.sub(risk.param, self.grad_averager.array_average)
+        # for i in range(n_param):
+        #     param[i] -= grad_average[i]
 
 #         if self.param_averager is not None:
 #             self.param_averager.update(risk.param)
@@ -154,7 +158,7 @@ cdef class GD:
     cpdef finalize(self):
         cdef Functional risk = self.risk
         
-        copy_memoryview(risk.param, self.param_min)
+        inventory.move(risk.param, self.param_min)
         
             
 include "gd_fg.pyx"
@@ -170,3 +174,6 @@ Fittable.register(SGD)
 
 include "stopcond.pyx"
 include "paramrate.pyx"
+include "normalizer.pyx"
+
+
