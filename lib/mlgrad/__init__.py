@@ -4,11 +4,12 @@
 
 from mlgrad.avragg import PenaltyAverage, Average_Iterative, Average_FG, ArithMean, ParameterizedAverage
 from mlgrad.gd import FG, FG_RUD, SGD
-from mlgrad.risk import ED, MRisk, ERisk, ER2, SimpleFunctional
+from mlgrad.risk import ED, MRisk, ERisk, ER2, ER21, SimpleFunctional
 from mlgrad.irgd import IRGD
 from mlgrad.averager import ArraySave, ArrayMOM, ArrayRMSProp, ArrayAMOM, ArrayAdaM1, ArrayAdaM2, ScalarAdaM1, ScalarAdaM2
-from mlgrad.normalizer import LinearModelNormalizer
 import numpy as np
+
+from mlgrad.loss import Loss, MultLoss, MultLoss2
 
 __all__ = ['averager_it', 'average_it', 'ws_average_it', 'averager_fg', 'average_fg', 
            'fg', 'erm_fg', 'erm_fg_rud', 'sg', 'erm_sg',
@@ -40,7 +41,12 @@ def sfunc(func):
     return f
 
 def erisk(X, Y, mod, loss_func, regnorm=None, weights=None, tau=0.001, batch=None):
-    er = ERisk(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
+    if isinstance(loss_func, MultLoss):
+        er = ER21(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
+    elif isinstance(loss_func, MultLoss2):
+        er = ER2(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
+    else:
+        er = ERisk(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
     if weights is not None:
         er.use_weights(weights)
     return er
@@ -93,14 +99,16 @@ def average_fg(Y, penalty_func, h=0.01, tol=1.0e-5, n_iter=1000, verbose=0, aver
         print("K={} u={}".format(alg.K, alg.u))
     return alg
 
-def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, stop_condition='diffL1'):
+def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, stop_condition='diffL1', normalizer=None):
     alg = FG(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition)
     _averager = __averager_dict.get(averager, None)
     if _averager is not None:
         alg.use_gradient_averager(_averager())
+    if normalizer is not None:
+        alg.use_normalizer(normalizer)
     return alg
 
-def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None, stop_condition='diffL1'):
+def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None, stop_condition='diffL1', normalizer=None):
     alg = FG_RUD(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition, gamma=gamma)
     _averager = __averager_dict.get(averager, ArrayMOM)
     if _averager is not None:
@@ -108,10 +116,12 @@ def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', call
     return alg
 
 def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, 
-           stop_condition='diffL1', n_restart=1, verbose=0):
+           stop_condition='diffL1', n_restart=1, verbose=0, normalizer=None):
     K = 0
     alg = fg(er, h=h, tol=tol, n_iter=n_iter,
-             averager=averager, callback=callback, stop_condition=stop_condition)
+             averager=averager, callback=callback, stop_condition=stop_condition, normalizer=normalizer)
+    if normalizer is not None:
+        alg.use_normalizer(normalizer)
     for i in range(n_restart):
         alg.fit(warm=(i>0))
         K += alg.K

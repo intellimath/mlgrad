@@ -34,13 +34,13 @@
 from sys import float_info
 
 import numpy as np
-from mlgrad.avragg import Average_FG
-from mlgrad.gd import FG
-from mlgrad.risk import Risk, Functional
+# from mlgrad.avragg import Average_FG
+# from mlgrad.gd import FG
+# from mlgrad.risk import Risk, Functional
 
-cdef class IRGD(object):
+class IRGD:
     #
-    def __init__(self, GD gd, Weights weights=None, tol=1.0e-5, n_iter=100, h_anneal=0.95, M=40, callback=None):
+    def __init__(self, gd, weights, tol=1.0e-5, n_iter=100, h_anneal=0.96, M=40, callback=None):
         """
         """
         self.gd = gd
@@ -78,14 +78,14 @@ cdef class IRGD(object):
         return self.gd.risk
     #
     def fit(self):
-        cdef Risk risk = self.gd.risk
+        risk = self.gd.risk
                            
         self.weights.init()
         self.weights.eval_weights()
-        risk.use_weights(self.risk.weights)
+        risk.use_weights(self.weights.weights)
 
         self.lval_best = self.weights.get_qvalue()
-        print(self.lval_best)
+        # print(self.lval_best)
         self.param_best[:] = risk.param
         
         if self.callback is not None:
@@ -101,7 +101,7 @@ cdef class IRGD(object):
                 self.callback(self)
 
             self.weights.eval_weights()
-            risk.use_weights(self.risk.weights)
+            risk.use_weights(self.weights.weights)
             
             self.lval = self.weights.get_qvalue()
             # print(self.lval)
@@ -122,22 +122,22 @@ cdef class IRGD(object):
             if self.completed:
                 break
             
-
             K += 1            
         #
         self.K += K
         self.finalize()
 
     #
-    cdef finalize(self):
-        cdef Functional risk = self.gd.risk
+    def finalize(self):
+        risk = self.gd.risk
 
+        print(self.lval_best)
         risk.param[:] = self.param_best
     #
-    cdef bint stop_condition(self):
+    def stop_condition(self):
         
-        if fabs(self.lval - self.lval_best) / (1 + fabs(self.lval_best)) < self.tol:
-            return 1
+        if abs(self.lval - self.lval_best) / (1 + abs(self.lval_best)) < self.tol:
+            return True
         
-        return 0
+        return False
 

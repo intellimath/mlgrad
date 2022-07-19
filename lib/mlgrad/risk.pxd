@@ -4,9 +4,9 @@ cimport cython
 
 from mlgrad.model cimport Model, MLModel, BaseModel
 from mlgrad.func cimport Func
+from mlgrad.func2 cimport Func2
 from mlgrad.distance cimport Distance
 from mlgrad.loss cimport Loss, MultLoss, MultLoss2
-from mlgrad.regnorm cimport FuncMulti
 from mlgrad.batch cimport Batch, WholeBatch, RandomBatch
 #from mlgrad.averager cimport ArrayAverager
 from mlgrad.avragg cimport Average, ArithMean
@@ -31,34 +31,34 @@ cdef extern from *:
 # ctypedef double (*LossEvaluate)(Loss, double, double)
 # ctypedef double (*LossDerivative)(Loss, double, double)
 
-cdef inline void clear_memoryview(double[::1] X):
-    # cdef int m = X.shape[0]
-    memset(&X[0], 0, X.shape[0]*cython.sizeof(double))    
+# cdef inline void clear_memoryview(double[::1] X):
+#     # cdef int m = X.shape[0]
+#     memset(&X[0], 0, X.shape[0]*cython.sizeof(double))    
 
-cdef inline void fill_memoryview(double[::1] X, double c):
-    cdef Py_ssize_t i, m = X.shape[0]
-    for i in range(m):
-        X[i] = c
+# cdef inline void fill_memoryview(double[::1] X, double c):
+#     cdef Py_ssize_t i, m = X.shape[0]
+#     for i in range(m):
+#         X[i] = c
 
-cdef inline void clear_memoryview2(double[:, ::1] X):
-    memset(&X[0,0], 0, X.shape[0]*X.shape[1]*cython.sizeof(double))    
+# cdef inline void clear_memoryview2(double[:, ::1] X):
+#     memset(&X[0,0], 0, X.shape[0]*X.shape[1]*cython.sizeof(double))    
         
-cdef inline void fill_memoryview2(double[:,::1] X, double c):
-    cdef int i, j
-    cdef int m = X.shape[0], n = X.shape[1]
-    for i in range(m):
-        for j in range(n):
-            X[i,j] = c
+# cdef inline void fill_memoryview2(double[:,::1] X, double c):
+#     cdef int i, j
+#     cdef int m = X.shape[0], n = X.shape[1]
+#     for i in range(m):
+#         for j in range(n):
+#             X[i,j] = c
 
-cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
-    cdef int m = X.shape[0], n = Y.shape[0]
+# cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
+#     cdef int m = X.shape[0], n = Y.shape[0]
 
-    if n < m:
-        m = n
-    memcpy(&Y[0], &X[0], m*cython.sizeof(double))    
+#     if n < m:
+#         m = n
+#     memcpy(&Y[0], &X[0], m*cython.sizeof(double))    
 
 cdef class Functional:
-    cdef readonly FuncMulti regnorm
+    cdef readonly Func2 regnorm
     cdef readonly double[::1] param
     cdef readonly double[::1] grad_average
     cdef readonly double lval
@@ -69,6 +69,7 @@ cdef class Functional:
     cpdef init(self)
     cdef public double _evaluate(self)
     cdef public void _gradient(self)
+    cdef update_param(self, double[::1] param)
 
 cdef class SimpleFunctional(Functional):
     pass
@@ -85,10 +86,14 @@ cdef class Risk(Functional):
     cdef readonly double tau
     cdef readonly Py_ssize_t n_sample
     #
-    cdef void _evaluate_models(self)
-    cdef void _evaluate_losses(self)
-    cdef void _evaluate_losses_derivative_div(self)
+    cdef void _evaluate_models_all(self, double[::1] vals)
+    cdef void _evaluate_models_batch(self)
+    cdef void _evaluate_losses_batch(self)
+    cdef void _evaluate_losses_all(self, double[::1] lvals)
+    # cdef void _evaluate_losses_derivative_div_batch(self)
+    cdef void _evaluate_losses_derivative_div_all(self, double[::1] vals)
     cdef void _evaluate_weights(self)
+    #
     #
     # cdef void generate_samples(self, X, Y)z
     #
@@ -132,7 +137,7 @@ cdef class ED(Risk):
 
 cdef class ER2(Risk):
     cdef readonly MLModel model
-    cdef readonly MultLoss loss
+    cdef readonly MultLoss2 loss
     cdef readonly double[:, ::1] X
     cdef readonly double[:, ::1] Y
     cdef double[::1] grad_u
@@ -140,7 +145,7 @@ cdef class ER2(Risk):
 
 cdef class ER21(Risk):
     cdef readonly MLModel model
-    cdef readonly MultLoss2 loss
+    cdef readonly MultLoss loss
     cdef readonly double[:, ::1] X
     cdef readonly double[::1] Y
     cdef double[::1] grad_u

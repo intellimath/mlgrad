@@ -29,6 +29,7 @@ class GradientBoostingRegression:
         self.n_iter = n_iter
         self.n_iter2 = n_iter2
         self.tol = tol
+        self.risk = None
     #
     def find_alpha(self, risk):
         Yh = risk.model.evaluate_all(risk.X)
@@ -64,7 +65,6 @@ class GradientBoostingRegression:
                 
             if finish:
                 break
-
 
         # print(j)
         risk.model.param[:] = param_min
@@ -125,9 +125,7 @@ class MGradientBoostingRegression:
         n = risk.batch.size
         finish = 0
 
-        # Yp = self.complex_model.evaluate_all(risk.X)
-        # L = self.loss_func.evaluate_all(Yp, risk.Y)
-        risk.evaluate_models()
+        # risk.evaluate_models()
         L = risk.evaluate_losses()
         self.agg.fit(L)
         W = self.agg.gradient(L)
@@ -145,7 +143,7 @@ class MGradientBoostingRegression:
 
             self.find_alpha(risk, W)
 
-            risk.evaluate_models()
+            # risk.evaluate_models()
             L = risk.evaluate_losses()
             self.agg.fit(L)
             W = self.agg.gradient(L)

@@ -29,33 +29,33 @@ cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
             v += A[j,i] * x[j]
         y[i] = v
 
-cdef class FuncMulti:
+cdef class Func2:
     #cdef bint all
     cdef double _evaluate(self, double[::1] param)
     cdef void _gradient(self, double[::1] param, double[::1] grad)
 
 @cython.final
-cdef class PowerNorm(FuncMulti):
+cdef class PowerNorm(Func2):
     #
     cdef double p
     #
 
 @cython.final
-cdef class SquareNorm(FuncMulti):
+cdef class SquareNorm(Func2):
     pass
 
 @cython.final
-cdef class AbsoluteNorm(FuncMulti):
+cdef class AbsoluteNorm(Func2):
     pass
 
 @cython.final
-cdef class SquareForm(FuncMulti):
+cdef class SquareForm(Func2):
     cdef double[:,::1] matrix
 
 @cython.final
-cdef class Rosenbrok(FuncMulti):
+cdef class Rosenbrok(Func2):
     pass
 
 @cython.final
-cdef class Himmelblau(FuncMulti):
+cdef class Himmelblau(Func2):
     pass

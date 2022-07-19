@@ -1,13 +1,5 @@
 # coding: utf-8
 
-# cython: language_level=3
-# cython: boundscheck=True
-# cython: wraparound=True
-# cython: nonecheck=True
-# cython: embedsignature=True
-# cython: initializedcheck=True
-# cython: unraisable_tracebacks=True  
-
 # The MIT License (MIT)
 #
 # Copyright (c) <2015-2022> <Shibzukhov Zaur, szport at gmail dot com>
@@ -76,81 +68,65 @@ cdef class ConstantWeights(Weights):
     
 cdef class RWeights(Weights):
     #
-    def __init__(self, Func func, Risk risk, normalize=1):
-        self.func = func
+    def __init__(self, Risk risk, normalize=1):
+        # self.func = func
         self.risk = risk
-        self.weights = None
-        # self.lval_all = None
         self.normalize = normalize
-        N = risk.batch.size
-        # self.lval_all = np.zeros(N, 'd')
-        self.weights = risk.weights
+        self.weights = np.zeros(len(risk.X), 'd')
     #
     cpdef eval_weights(self):
-        cdef Risk risk = self.risk
-        cdef Py_ssize_t N = risk.batch.size
-        cdef Py_ssize_t j, k
-        cdef Py_ssize_t[::1] indices = risk.batch.indices
-        cdef double[::1] weights = self.weights
-        cdef Model mod = self.risk.model
-        cdef double[:,::1] X = self.risk.X
-        cdef double[::1] Y = self.risk.Y
-        cdef Func func = self.func
-        cdef double val
+        # cdef double[:,::1] X = self.risk.X
+        # cdef double[::1] Y = self.risk.Y
+        # cdef Loss lossfunc = self.risk.loss
+        # cdef Model mod = self.risk.model
+        # cdef double[::1] weights = self.weights
+        # cdef double val
+        # cdef Py_ssize_t k, N = X.shape[0]
 
-        for j in range(N):
-            k = indices[j]
-            val = mod._evaluate(X[k])
-            weights[j] = func.derivative_div_x(val - Y[k])
+        self.risk._evaluate_losses_derivative_div_all(self.weights)
+        # for k in range(N):
+        #     # val = mod._evaluate(X[k])
+        #     weights[k] = lossfunc._derivative_div(mod._evaluate(X[k]), Y[k])
         
         if self.normalize:
-            normalize_memoryview(weights)
+            normalize_memoryview(self.weights)
     #
     cpdef double get_qvalue(self):
-        cdef double qval
-        cdef Py_ssize_t j, k
-        cdef Py_ssize_t N = self.risk.batch.size
-        cdef Py_ssize_t[::1] indices = self.risk.batch.indices
-        cdef Model mod = self.risk.model
-        cdef double[:,::1] X = self.risk.X
-        cdef double[::1] Y = self.risk.Y
-        cdef Func func = self.func
-        cdef double val
+        # cdef Model mod = self.risk.model
+        # cdef double[:,::1] X = self.risk.X
+        # cdef double[::1] Y = self.risk.Y
+        # cdef Loss lossfunc = self.risk.loss
+        # cdef double qval
+        # cdef Py_ssize_t k, N = X.shape[0]
         
-        qval = 0
-        for j in range(N):
-            k = indices[j]
-            val = mod._evaluate(X[k])
-            qval += func._evaluate(val - Y[k])
-        qval /= N 
-        return qval
+        return self.risk._evaluate()
+        # qval = 0
+        # for k in range(N):
+        #     # val = mod._evaluate(X[k])
+        #     qval += lossfunc._evaluate(mod._evaluate(X[k]), Y[k])
+        # qval /= N 
+        # return qval
     #
     cpdef double[::1] get_weights(self):
         return self.weights
 
 cdef class MWeights(Weights):
     #
-    def __init__(self, Average average, Risk risk, normalize=0, use_best_u=0):
+    def __init__(self, Average average, Risk risk, normalize=0):
         self.average = average
         self.risk = risk
-        # self.weights = None
-        # self.lval_all = None
         self.first_time = 1
         self.normalize = normalize
-        self.best_u = PyFloat_GetMax()
-        self.use_best_u = use_best_u
-        N = len(risk.batch)
-        self.weights = risk.weights
-        # self.lval_all = risk.L
+        # self.best_u = PyFloat_GetMax()
+        # self.use_best_u = use_best_u
+        self.weights = np.empty(len(risk.X), 'd')
+        self.lvals = np.empty(len(risk.X), 'd')
     #
     cpdef init(self):
         self.first_time = 1
     #
     cpdef eval_weights(self):
-        cdef Risk risk = <Risk>self.risk
-
-        # risk._evaluate_models()
-        risk._evaluate_losses()
+        self.risk._evaluate_losses_all(self.lvals)
 
         if self.first_time:
             u0 = None
@@ -158,14 +134,14 @@ cdef class MWeights(Weights):
         else:
             u0 = self.average.u
         
-        self.average.fit(risk.L, u0)
+        self.average.fit(self.lvals, u0)
         # if self.use_best_u and self.average.u < self.best_u:
         #     self.best_u = self.average.u
         
         # if self.use_best_u:
         #     self.average.penalty.gradient(self.lval_all, self.best_u, self.weights)
         # else:
-        self.average._gradient(risk.L, self.weights)
+        self.average._gradient(self.lvals, self.weights)
 
         if self.normalize:
             normalize_memoryview(self.weights)
@@ -176,3 +152,32 @@ cdef class MWeights(Weights):
     cpdef double[::1] get_weights(self):
         return self.weights
 
+cdef class WeightsCompose(Weights):
+    
+    def __init__(self, Weights weights, Weights weights2, normalize=1):
+        self._weights = weights
+        self._weights2 = weights2
+        self.weights = np.zeros(len(weights.risk.X), 'd')
+        self.normalize = normalize
+        self.risk = self._weights.risk
+    #
+    cpdef init(self):
+        self._weights.init()
+        self._weights2.init()
+    #   
+    cpdef eval_weights(self):
+        self._weights.eval_weights()
+        self._weights2.eval_weights()
+        
+        self.weights[:] = np.dot(self._weights.weights, self._weights2.weights)
+        
+        if self.normalize:
+            normalize_memoryview(self.weights)        
+    #
+    cpdef double[::1] get_weights(self):
+        return self.weights
+    #
+    cpdef double get_qvalue(self):
+        return self._weights.get_qvalue()
+    #
+        

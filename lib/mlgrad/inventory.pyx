@@ -1,13 +1,5 @@
 # coding: utf-8 
 
-# cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
-# cython: embedsignature=False
-# cython: initializedcheck=False
-# cython: unraisable_tracebacks=True  
-
 # The MIT License (MIT)
 #
 # Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
@@ -30,6 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+from cython cimport view
 from openmp cimport omp_get_num_procs
  
 cdef int num_threads = 2 #omp_get_num_procs()
@@ -56,7 +49,7 @@ cdef void _clear2(double *to, const Py_ssize_t n, const Py_ssize_t m) nogil:
     cdef Py_ssize_t i
     for i in range(n*m):
         to[i] = 0
-    
+        
 cdef void clear2(double[:,::1] to) nogil:
     _clear2(&to[0,0], <const Py_ssize_t>to.shape[0], <const Py_ssize_t>to.shape[1])
     
@@ -75,7 +68,15 @@ cdef void _move(double *to, const double *src, const Py_ssize_t n) nogil:
 
 cdef void move(double[::1] to, double[::1] src) nogil:
     _move(&to[0], &src[0], to.shape[0])
-        
+
+cdef void move2(double[:, ::1] to, double[:,::1] src) nogil:
+    _move2(&to[0,0], &src[0,0], to.shape[0], to.shape[1])
+
+cdef void _move2(double *to, const double *src, const Py_ssize_t n, const Py_ssize_t m) nogil:
+    cdef Py_ssize_t i
+    for i in range(n*m):
+        to[i] = src[i]
+    
 cdef double _conv(const double *a, const double *b, const Py_ssize_t n) nogil:
     cdef Py_ssize_t i
     cdef double s = 0
@@ -142,6 +143,24 @@ cdef void _mul_add(double *a, const double *b, double c, const Py_ssize_t n) nog
 
 cdef void mul_add(double[::1] a, double[::1] b, double c) nogil:
     _mul_add(&a[0], &b[0], c, a.shape[0])
+
+cdef void _mul_set(double *a, const double *b, double c, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
+    
+    for i in range(n):
+        a[i] = c * b[i]
+
+cdef void mul_set(double[::1] a, double[::1] b, double c) nogil:
+    _mul_set(&a[0], &b[0], c, a.shape[0])
+        
+cdef void _mul(double *a, const double *b, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
+    
+    for i in range(n):
+        a[i] *= b[i]
+
+cdef void mul(double[::1] a, double[::1] b) nogil:
+    _mul(&a[0], &b[0], a.shape[0])
         
 cdef void _matdot(double *output, double *M, const double *X, 
                     const Py_ssize_t n_input, const Py_ssize_t n_output) nogil:

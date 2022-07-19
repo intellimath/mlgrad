@@ -1,13 +1,5 @@
 # coding: utf-8
 
-# cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
-# cython: embedsignature=True
-# cython: initializedcheck=False
-
-
 # The MIT License (MIT)
 #
 # Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
@@ -33,51 +25,51 @@
 import numpy as np
 from mlgrad.model import as_array1d
 
-cdef class FuncMulti:
+cdef class Func2:
 
-    cdef double _evaluate(self, double[::1] param):
+    cdef double _evaluate(self, double[::1] X):
         return 0
     
-    cdef void _gradient(self, double[::1] param, double[::1] grad):
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
         pass
     
-    def __call__(self, param):
-        cdef double[::1] x1d = as_array1d(param)
+    def __call__(self, X):
+        cdef double[::1] x1d = as_array1d(X)
         return self._evaluate(x1d)
 
-cdef class PowerNorm(FuncMulti):
+cdef class PowerNorm(Func2):
     
     def __init__(self, p=2.0):
         self.p = p
 #         self.all = all
 
-    cdef double _evaluate(self, double[::1] param):
+    cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m
         cdef double s
-        cdef double* param_ptr = &param[0]
+        cdef double* X_ptr = &X[0]
         
-        m = param.shape[0]
+        m = X.shape[0]
         s = 0
         
         for i in range(m):
-            s += pow(fabs(param_ptr[i]), self.p)
+            s += pow(fabs(X_ptr[i]), self.p)
         
         s /= self.p
         return s
 
-    cdef void _gradient(self, double[::1] param, double[::1] grad):
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m
         cdef double v
-        cdef double* param_ptr = &param[0]
+        cdef double* X_ptr = &X[0]
         cdef double* grad_ptr
     
-        m = param.shape[0]
+        m = X.shape[0]
         # if grad is None:
         #     grad = np.empty((m,), dtype='d')
         grad_ptr = &grad[0]
 
         for i in range(m):
-            v = pow(fabs(param_ptr[i]), self.p-1.0)
+            v = pow(fabs(X_ptr[i]), self.p-1.0)
             if v < 0:
                 grad_ptr[i] = -v
             else:
@@ -86,64 +78,64 @@ cdef class PowerNorm(FuncMulti):
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_{%s}^{%s}=\sum_{i=0}^n w_i^{%s}$" % (self.p, self.p, self.p)
 
-cdef class SquareNorm(FuncMulti):
+cdef class SquareNorm(Func2):
 
-    cdef double _evaluate(self, double[::1] param):
+    cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m
         cdef double s, v
-        cdef double* param_ptr = &param[0]
+        cdef double* X_ptr = &X[0]
 
-        m = param.shape[0]
+        m = X.shape[0]
         s = 0
         for i in range(m):
-            v = param_ptr[i]
+            v = X_ptr[i]
             s += v * v
 
         s /= 2.
         return s
 
-    cdef void _gradient(self, double[::1] param, double[::1] grad):
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m
-        cdef double* param_ptr = &param[0]
+        cdef double* X_ptr = &X[0]
         cdef double* grad_ptr
 
-        m = param.shape[0]
+        m = X.shape[0]
         # if grad is None:
         #     grad = np.empty((m,), dtype='d')
         grad_ptr = &grad[0]
 
         for i in range(m):
-            grad_ptr[i] = param_ptr[i]    
+            grad_ptr[i] = X_ptr[i]    
         
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_2^2=\sum_{i=0}^n w_i^2$"
         
 
-cdef class AbsoluteNorm(FuncMulti):
+cdef class AbsoluteNorm(Func2):
 
-    cdef double _evaluate(self, double[::1] param):
+    cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m
         cdef double s
-        cdef double* param_ptr = &param[0]
+        cdef double* X_ptr = &X[0]
 
-        m = param.shape[0]
+        m = X.shape[0]
         s = 0
         for i in range(m):
-            s += fabs(param_ptr[i])
+            s += fabs(X_ptr[i])
         return s
 
-    cdef void _gradient(self, double[::1] param, double[::1] grad):
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef int i, m
-        cdef double* param_ptr = &param[0]
+        cdef double* X_ptr = &X[0]
         cdef double* grad_ptr
 
-        m = param.shape[0]
+        m = X.shape[0]
         if grad is None:
             grad = np.empty((m,), dtype='d')
         grad_ptr = &grad[0]
 
         for i in range(m):
-            v = param_ptr[i]
+            v = X_ptr[i]
             if v > 0:
                 grad_ptr[i] = 1
             elif v < 0:
@@ -154,7 +146,7 @@ cdef class AbsoluteNorm(FuncMulti):
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_1=\sum_{i=0}^n |w_i|$"
 
-cdef class SquareForm(FuncMulti):
+cdef class SquareForm(Func2):
     
     def __init__(self, double[:,::1] matrix):
         if matrix.shape[0] != matrix.shape[1]-1:
@@ -195,32 +187,32 @@ cdef class SquareForm(FuncMulti):
             for i in range(1, n_col):
                 y[i-1] += s*mat[j,i]
 
-cdef class Rosenbrok(FuncMulti):
+cdef class Rosenbrok(Func2):
 
-    cdef double _evaluate(self, double[::1] param):
-        return 10. * (param[1] - param[0]**2)**2 + 0.1*(1. - param[0])**2
+    cdef double _evaluate(self, double[::1] X):
+        return 10. * (X[1] - X[0]**2)**2 + 0.1*(1. - X[0])**2
     
-    cdef void _gradient(self, double[::1] param, double[::1] grad):
-        grad[0] = -40. * (param[1] - param[0]**2) * param[0] - 0.2 * (1. - param[0])
-        grad[1] = 20. * (param[1] - param[0]**2)
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        grad[0] = -40. * (X[1] - X[0]**2) * X[0] - 0.2 * (1. - X[0])
+        grad[1] = 20. * (X[1] - X[0]**2)
         
         
-cdef class Himmelblau(FuncMulti):
+cdef class Himmelblau(Func2):
 
-    cdef double _evaluate(self, double[::1] param):
-        return (param[0]**2 + param[1] - 11)**2 + (param[0] + param[1]**2 - 7)**2
+    cdef double _evaluate(self, double[::1] X):
+        return (X[0]**2 + X[1] - 11)**2 + (X[0] + X[1]**2 - 7)**2
     
-    cdef void _gradient(self, double[::1] param, double[::1] grad):
-        grad[0] = 4*(param[0]**2 + param[1] - 11) * param[0] + 2*(param[0] + param[1]**2 - 7)
-        grad[1] = 2*(param[0]**2 + param[1] - 11) + 4*(param[0] + param[1]**2 - 7) * param[1]
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        grad[0] = 4*(X[0]**2 + X[1] - 11) * X[0] + 2*(X[0] + X[1]**2 - 7)
+        grad[1] = 2*(X[0]**2 + X[1] - 11) + 4*(X[0] + X[1]**2 - 7) * X[1]
         
-# cdef class Func(FuncMulti):
+# cdef class Func(Func2):
     
 #     def __init__(self, Func func, double[::1] Y):
 #         self.Y = Y
 #         self.func = func
         
-#     cdef double evaluate(self, double[::1] param):
+#     cdef double evaluate(self, double[::1] X):
 #         cdef doubel[::1] Y = self.Y
 #         cdef int k, N = Y.shape[0]
 #         cdef Func func = self.func
@@ -229,5 +221,5 @@ cdef class Himmelblau(FuncMulti):
         
 #         s = 0
 #         for k in range(N):
-#             s += func(param[0] - Y[k])
+#             s += func(X[0] - Y[k])
             

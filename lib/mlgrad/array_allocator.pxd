@@ -34,13 +34,13 @@ cimport cython
 
 cdef class Allocator:
     #
-    cpdef double[::1] allocate(self, int n)
-    cpdef double[:,::1] allocate2(self, int n, int m)
-    cpdef double[::1] get_allocated(self)
+    cpdef allocate(self, Py_ssize_t n)
+    cpdef allocate2(self, Py_ssize_t n, Py_ssize_t m)
+    cpdef get_allocated(self)
     cpdef Allocator suballocator(self)
 
 @cython.final
 cdef class ArrayAllocator(Allocator):
     cdef ArrayAllocator base
-    cdef public int size, start, allocated
-    cdef public object buf
+    cdef readonly Py_ssize_t size, start, allocated
+    cdef readonly object buf

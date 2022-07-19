@@ -1,13 +1,5 @@
 # coding: utf-8
 
-# cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
-# cython: embedsignature=True
-# cython: initializedcheck=False
-# cython: unraisable_tracebacks=True  
- 
 # The MIT License (MIT) 
 #
 # Copyright (c) <2015-2022> <Shibzukhov Zaur, szport at gmail dot com>
@@ -36,9 +28,9 @@ cimport mlgrad.inventory as inventory
     
 from mlgrad.model cimport Model
 from mlgrad.func cimport Func
-from mlgrad.regnorm cimport FuncMulti
+from mlgrad.func2 cimport Func2
 from mlgrad.avragg cimport Average, ArithMean
-from mlgrad.averager cimport ArrayAdaM1
+from mlgrad.averager cimport ArrayAverager, ArrayAdaM1
 from mlgrad.weights cimport Weights, ConstantWeights, ArrayWeights
 from mlgrad.risk cimport Risk, Functional
 
@@ -78,22 +70,22 @@ cdef class GD:
     #
     def fit(self, warm=False):
         cdef Risk risk = self.risk
+        cdef Py_ssize_t K
 
         self.risk.batch.init()
         self.init()
         self.lval = self.lval_min = self.risk._evaluate()
         self.lvals = []   
         self.K = 0
-    
+
         self.h_rate.init()
 
-        # self.m = 0    
-
-        K = 0
+        if self.normalizer is not None:
+            self.normalizer.normalize(risk.param)
+        
         self.completed = 0
-        while K < self.n_iter:
+        for K in range(self.n_iter):
 
-            risk.batch.generate()
             # risk.X = risk.batch.get_samples(X)
             # risk.Y = risk.batch.get_samples(Y)
 
@@ -119,8 +111,6 @@ cdef class GD:
             if self.callback is not None:
                 self.callback(self)
 
-            K += 1
-
         self.K += K
         self.finalize()
     #
@@ -129,34 +119,48 @@ cdef class GD:
         risk._gradient()
     #
     cpdef fit_epoch(self):
-        cdef Functional risk = self.risk
-        cdef Py_ssize_t i, n_param = risk.n_param
+        cdef Risk risk = self.risk
+        # cdef Py_ssize_t i, n_param = risk.n_param
         # cdef double[::1] grad_average
         # cdef double[::1] param = risk.param
         cdef double h
+        cdef Py_ssize_t n_repeat = 1
+        
+        if risk.n_sample > 0 and risk.batch is not None and risk.batch.size > 0:
+            n_repeat, m = divmod(risk.n_sample, risk.batch.size)
+            if m > 0:
+                n_repeat += 1
 
-        h = self.h = self.h_rate.get_rate()
+        while n_repeat > 0:
+            risk.batch.generate()
 
-        self.gradient()
+            h = self.h = self.h_rate.get_rate()
 
-        self.grad_averager.update(risk.grad_average, h)
-        # grad_average = self.grad_averager.array_average
-        inventory.sub(risk.param, self.grad_averager.array_average)
-        # for i in range(n_param):
-        #     param[i] -= grad_average[i]
+            self.gradient()
 
-#         if self.param_averager is not None:
-#             self.param_averager.update(risk.param)
-#             copy_memoryview(risk.param, self.param_averager.array_average)
-    #
+            self.grad_averager.update(risk.grad_average, h)
+            # grad_average = self.grad_averager.array_average
+            risk.update_param(self.grad_averager.array_average)
+            # for i in range(n_param):
+            #     param[i] -= grad_average[i]
+
+            # if self.param_averager is not None:
+            #     self.param_averager.update(risk.param)
+            #     copy_memoryview(risk.param, self.param_averager.array_average)
+            
+            n_repeat -= 1
+    # 
     def use_gradient_averager(self, averager):
         self.grad_averager = averager
+    #
+    def use_normalizer(self, Normalizer normalizer):
+        self.normalizer = normalizer
 #
 #     def use_param_averager(self, averager):
 #         self.param_averager = averager
 #
     cpdef finalize(self):
-        cdef Functional risk = self.risk
+        cdef Risk risk = self.risk
         
         inventory.move(risk.param, self.param_min)
         

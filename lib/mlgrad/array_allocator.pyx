@@ -1,13 +1,5 @@
 # coding: utf-8 
 
-# cython: language_level=3
-# cython: boundscheck=True
-# cython: wraparound=True
-# cython: nonecheck=True
-# cython: embedsignature=True
-# cython: initializedcheck=False
-# cython: unraisable_tracebacks=True  
-
 # The MIT License (MIT)
 #
 # Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
@@ -35,11 +27,11 @@ import numpy as np
 
 cdef class Allocator(object):
     #
-    cpdef double[::1] allocate(self, int n):
+    cpdef allocate(self, Py_ssize_t n):
         return None
-    cpdef double[:,::1] allocate2(self, int n, int m):
+    cpdef allocate2(self, Py_ssize_t n, Py_ssize_t m):
         return None
-    cpdef double[::1] get_allocated(self):
+    cpdef get_allocated(self):
         return None
     cpdef Allocator suballocator(self):
         return self
@@ -59,7 +51,7 @@ cdef class ArrayAllocator(Allocator):
             addr = id(self.base)
         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.allocated)
     #
-    cpdef double[::1] allocate(self, int n):
+    cpdef allocate(self, Py_ssize_t n):
         cdef double[::1] ar
         cdef ArrayAllocator aa
 
@@ -79,10 +71,10 @@ cdef class ArrayAllocator(Allocator):
 
         return ar
     #
-    cpdef double[:,::1] allocate2(self, int n, int m):
+    cpdef allocate2(self, Py_ssize_t n, Py_ssize_t m):
         cdef double[:,::1] ar2
         cdef ArrayAllocator aa
-        cdef int nm = n * m
+        cdef Py_ssize_t nm = n * m
        
         if n <= 0 or m <= 0:
             raise RuntimeError('n <= 0 or m <= 0')
@@ -99,7 +91,7 @@ cdef class ArrayAllocator(Allocator):
             aa = aa.base
         return ar2
     #
-    cpdef double[::1] get_allocated(self):
+    cpdef get_allocated(self):
         self.buf[self.start:self.allocated] = 0
         return self.buf[self.start: self.allocated]
     #

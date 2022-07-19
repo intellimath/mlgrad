@@ -4,12 +4,13 @@ cimport cython
 
 from mlgrad.model cimport Model
 from mlgrad.func cimport Func, Square
+from mlgrad.func2 cimport Func2
 from mlgrad.loss cimport Loss
-from mlgrad.regnorm cimport FuncMulti
 from mlgrad.averager cimport ArrayAverager, ArraySave
 from mlgrad.avragg cimport Average, ArithMean
 from mlgrad.weights cimport Weights
 from mlgrad.risk cimport Functional, Risk, ERisk
+# from mlgrad.normalizer cimport Normalizer
 
 from mlgrad.miscfuncs cimport init_rand, rand, fill
 

@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+from mlgrad.test.test_linear_model import *
 # from mlgrad.test.test_sag import *
 # from mlgrad.test.test_sagagg import *
 

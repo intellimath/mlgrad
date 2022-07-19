@@ -1,13 +1,5 @@
 # coding: utf-8
 
-# cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
-# cython: embedsignature=False
-# cython: initializedcheck=False
-# cython: unraisable_tracebacks=True  
-
 # The MIT License (MIT)
 #
 # Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>

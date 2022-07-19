@@ -94,6 +94,7 @@ cdef class Average:
     #
     cdef double _evaluate(self, double[::1] Y)
     cdef _gradient(self, double[::1] Y, double[::1] grad)
+    cdef _weights(self, double[::1] Y, double[::1] weights)
     #    
     cdef init(self, double[::1] Y, u0=*)
     #
@@ -103,10 +104,12 @@ cdef class Average:
     #
     cdef bint stop_condition(self)
     
-@cython.final
+# @cython.final
 cdef class MAverage(Average):
     cdef Func func
     cdef double gamma
+
+    cdef _gradient(self, double[::1] Y, double[::1] grad)
 
 @cython.final
 cdef class Average_Iterative(Average):
@@ -148,6 +151,10 @@ cdef class HMAverage(Average):
 @cython.final
 cdef class ArithMean(Average):
     pass
+
+@cython.final
+cdef class RArithMean(Average):
+    cdef Func func
 
 @cython.final
 cdef class KolmogorovMean(Average):

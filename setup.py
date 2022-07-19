@@ -18,11 +18,26 @@ extra_compile_args_openmp = [Oflag, "-march=native", ("-fopenmp" if not WIN32 el
 extra_link_args_openmp = [Oflag, "-march=native", ("-fopenmp" if not WIN32 else "/openmp"), "-lm"]
 
 # cython_compile_time_env = {"USE_OPENMP":1}
+cython_compiler_directives = dict(
+    language_level='3',
+    boundscheck=False,
+    wraparound=True,
+    nonecheck=True,
+    embedsignature=True,
+    initializedcheck=True,
+    unraisable_tracebacks=True,  
+)
 
 ext_modules = [
     Extension(
         "mlgrad.inventory",
         ["lib/mlgrad/inventory.pyx"],
+        extra_compile_args = extra_compile_args_openmp,
+        extra_link_args = extra_link_args_openmp,
+    ),
+    Extension(
+        "mlgrad.array_allocator",
+        ["lib/mlgrad/array_allocator.pyx"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
     ),
@@ -37,6 +52,12 @@ ext_modules = [
         ["lib/mlgrad/func.pyx"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
+    ),
+    Extension(
+        "mlgrad.func2",
+        ["lib/mlgrad/func2.pyx"],
+        extra_compile_args = extra_compile_args,
+        extra_link_args = extra_link_args,
     ),
     Extension(
         "mlgrad.model",
@@ -58,7 +79,7 @@ ext_modules = [
     ),
     Extension(
         "mlgrad.avragg",
-        ["lib/mlgrad/avragg.pyx"], #"lib/mlgrad/c/_avragg.c"],
+        ["lib/mlgrad/avragg.pyx"],
         extra_compile_args = extra_compile_args_openmp, 
         extra_link_args = extra_link_args_openmp,
 #         cython_compile_time_env = cython_compile_time_env,
@@ -85,12 +106,6 @@ ext_modules = [
    Extension(
         "mlgrad.dissimilarity",
         ["lib/mlgrad/dissimilarity.pyx"],
-        extra_compile_args = extra_compile_args,
-        extra_link_args = extra_link_args,
-    ),
-    Extension(
-        "mlgrad.regnorm",
-        ["lib/mlgrad/regnorm.pyx"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
@@ -129,12 +144,12 @@ ext_modules = [
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
-    Extension(
-        "mlgrad.irgd",
-        ["lib/mlgrad/irgd.pyx"],
-        extra_compile_args = extra_compile_args,
-        extra_link_args = extra_link_args,
-    ),
+    # Extension(
+    #     "mlgrad.irgd",
+    #     ["lib/mlgrad/irgd.pyx"],
+    #     extra_compile_args = extra_compile_args,
+    #     extra_link_args = extra_link_args,
+    # ),
     Extension(
         "mlgrad.kmeans",
         ["lib/mlgrad/kmeans.pyx"],
@@ -166,13 +181,14 @@ ext_modules = [
 
 setup(
     name = 'mlgrad',
-    version = '0.4',
+    version = '0.5',
     description = 'Robust Gradient Methods for Machine Learning & Data Analisys',
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
     license = "MIT License",
-#     ext_modules = cythonize(ext_modules),
-    ext_modules = ext_modules,
+    ext_modules = cythonize(ext_modules, 
+                            compiler_directives=cython_compiler_directives),
+    # ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
     packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost',
@@ -194,6 +210,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Operating System :: OS Independent',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],

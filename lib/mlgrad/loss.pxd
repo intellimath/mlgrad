@@ -4,8 +4,8 @@ cimport cython
 
 # from libc.math cimport fabs, pow, sqrt, fmax
 
-from mlgrad.func cimport Func, ParameterizedFunc
-from mlgrad.model cimport Model
+from mlgrad.func cimport Func, ParameterizedFunc, Square
+from mlgrad.model cimport Model, MLModel
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()
@@ -22,19 +22,22 @@ cdef class Loss(object):
     #
     cdef double _derivative_div(self, const double x, const double y) nogil
     #
-    cdef double difference(self, const double x, const double y) nogil
+    cdef double _residual(self, const double x, const double y) nogil
 
 # cdef class WinsorizedLoss(Loss):
 #     cdef public ParameterizedFunc wins_func
 
+cdef class LossFunc(Loss):
+    cdef Func func
+
 @cython.final
-cdef class SquareErrorLoss(Loss):
+cdef class SquareErrorLoss(LossFunc):
     pass
     #
 
 @cython.final
-cdef class ErrorLoss(Loss):
-    cdef public Func func
+cdef class ErrorLoss(LossFunc):
+    pass
     #
 
 @cython.final
@@ -43,13 +46,13 @@ cdef class IdErrorLoss(Loss):
     #
     
 @cython.final
-cdef class RelativeErrorLoss(Loss):
-    cdef public Func func
+cdef class RelativeErrorLoss(LossFunc):
+    pass
     #
 
 @cython.final
-cdef class MarginLoss(Loss):
-    cdef public Func func
+cdef class MarginLoss(LossFunc):
+    pass
     #
 
 @cython.final
@@ -58,31 +61,37 @@ cdef class MLoss(Loss):
    cdef public Loss loss
 
 
-cdef class MultLoss(object):
+cdef class MultLoss2(object):
     cdef double _evaluate(self, double[::1] y, double[::1] yk) nogil
     cdef void _gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil
 
 @cython.final
-cdef class ErrorMultLoss(MultLoss):
+cdef class ErrorMultLoss2(MultLoss2):
     cdef public Func func
 
 @cython.final
-cdef class MarginMultLoss(MultLoss):
+cdef class MarginMultLoss2(MultLoss2):
     cdef public Func func
     
-cdef class MultLoss2:
+cdef class MultLoss:
     #
     cdef double _evaluate(self, double[::1] y, double yk) nogil
     cdef void _gradient(self, double[::1] y, double yk, double[::1] grad) nogil
     
 
 @cython.final
-cdef class SoftMinLoss2(MultLoss2):
+cdef class SoftMinLoss(MultLoss):
     cdef public Loss lossfunc
-#     cdef public double val_min
     cdef public double[::1] vals
     cdef Py_ssize_t q
     cdef double a
 
-#     cdef double evaluate(self, double[::1] y, double yk) nogil
-#     cdef void gradient(self, double[::1] y, double yk, double[::1] grad) nogil
+
+# cdef class BaseModelLoss:
+#     cdef Loss loss
+
+#     cdef double _evaluate(self, double[::1] x, double y)
+#     cdef _gradient(self, double[::1] x, double y, double[::1] grad)
+    
+# cdef class ModelLoss(BaseModelLoss):
+#     cdef Model model

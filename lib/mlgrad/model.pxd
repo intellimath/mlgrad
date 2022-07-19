@@ -27,31 +27,20 @@ cdef extern from "Python.h":
     double Pydouble_GetMin()
 
 ctypedef double[::1] double_array
+ctypedef Model[::1] ModelArray
 
 ctypedef double (*ModelEvaluate)(Model, double[::1])
 ctypedef void (*ModelGradient)(Model, double[::1], double[::1])
 
-ctypedef double (*FuncEvaluate)(Func, double) nogil
-ctypedef double (*FuncDerivative)(Func, double) nogil
-ctypedef double (*FuncDerivative2)(Func, double) nogil
-ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
+ctypedef double (*ptrfunc)(double) nogil
+# ctypedef double (*FuncDerivative)(Func, double) nogil
+# ctypedef double (*FuncDerivative2)(Func, double) nogil
+# ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
 
 from mlgrad.list_values cimport list_doubles
+from mlgrad.array_allocator cimport Allocator, ArrayAllocator
 
 cimport mlgrad.inventory as inventory
-
-cdef class Allocator:
-    #
-    cpdef double[::1] allocate(self, int n)
-    cpdef double[:,::1] allocate2(self, int n, int m)
-    cpdef double[::1] get_allocated(self)
-    cpdef Allocator suballocator(self)
-
-@cython.final
-cdef class ArrayAllocator(Allocator):
-    cdef ArrayAllocator base
-    cdef public int size, start, allocated
-    cdef public object buf
 
 cdef inline Model as_model(object o):
     return <Model>(<PyObject*>o)
@@ -63,22 +52,30 @@ cdef class BaseModel(object):
 
 cdef class Model(BaseModel):
     cdef public Py_ssize_t n_param, n_input
+    cdef public object ob_param
     cdef public double[::1] param
     cdef public double[::1] grad
     cdef public double[::1] grad_x
 
-    cpdef init_param(self, param=*, bint random=*)
-    # cdef double evaluate(self, double[::1] X)
+    # cpdef init_param(self, param=*, bint random=*)
     cdef void _gradient(self, double[::1] X, double[::1] grad)
     cdef void _gradient_x(self, double[::1] X, double[::1] grad)
     #
+    # cdef update_param(self, double[::1] param)
 
+cdef class ModelView(Model):
+    cdef Model model
+    
 # @cython.final
 # cdef class ConstModel(Model):
 #     pass
     
 @cython.final
 cdef class LinearModel(Model):
+    pass
+
+@cython.final
+cdef class TLinearModel(Model):
     pass
 
 @cython.final
@@ -100,13 +97,21 @@ cdef class PolynomialModel(Model):
 
 cdef class ModelLayer:
     cdef public Py_ssize_t n_param, n_input, n_output
+    cdef object ob_param
     cdef public double[::1] param
     cdef public double[::1] output
+    cdef public double[::1] input
     cdef public double[::1] grad_input
     
+    cdef void _forward(self)
+    cdef void _backward(self, double[::1] grad_out, double[::1] grad)
     cdef void forward(self, double[::1] X)
     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad)
     cpdef ModelLayer copy(self, bint share=*)
+    # cdef double[::1] _evaluate(self, double[::1] X)
+    
+cdef class ScaleLayer(ModelLayer):
+    cdef public Func func    
     
 cdef class SigmaNeuronModelLayer(ModelLayer):
     cdef public Func func
@@ -139,16 +144,26 @@ cdef class MLModel:
     cdef void backward2(self, double[::1] X, double[::1] grad_u, double[::1] grad)
     cpdef MLModel copy(self, bint share=*)
 
-@cython.final
+# @cython.final
 cdef class FFNetworkModel(MLModel):
-    pass
+    cdef void forward(self, double[::1] X)
 
 @cython.final
 cdef class FFNetworkFuncModel(Model):
     #cdef ArrayAllocator allocator_param, allocator_grad
     cdef public Model head
-    cdef public MLModel body
+    cdef public MLModel body    
+    
+cdef class EllipticModel(Model):
+    cdef readonly double[::1] c
+    cdef readonly double[::1] S
+    cdef double[::1] grad_c
+    cdef double[::1] grad_S
+    cdef Py_ssize_t c_size, S_size
 
+    cdef _gradient_c(self, double[::1] X, double[::1] grad)
+    cdef _gradient_S(self, double[::1] X, double[::1] grad)
+    
 @cython.final
 cdef class SquaredModel(Model):
     cdef double[:,::1] matrix

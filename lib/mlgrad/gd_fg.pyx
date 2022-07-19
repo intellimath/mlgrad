@@ -15,7 +15,7 @@ cdef class FG(GD):
         self.h = h
 #         self.param_prev = None
 #         self.gamma = gamma
-#         self.normalizer = normalizer
+        # self.normalizer = normalizer
         
         if h_rate is None:
 #             self.h_rate = ExponentParamRate(h)
