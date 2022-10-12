@@ -2,8 +2,14 @@
 
 cimport cython
 
-from libc.math cimport fabs, pow, sqrt, fmax
+from libc.math cimport fabs, pow, sqrt, fmax, exp, log
 from libc.string cimport memcpy, memset
+
+cdef extern from "Python.h":
+    double PyFloat_GetMax()
+    double PyFloat_GetMin()
+    
+cdef double double_max
 
 cdef inline void fill_memoryview(double[::1] X, double c):
     cdef int m = X.shape[0]
@@ -33,6 +39,7 @@ cdef class Func2:
     #cdef bint all
     cdef double _evaluate(self, double[::1] param)
     cdef void _gradient(self, double[::1] param, double[::1] grad)
+    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j)
 
 @cython.final
 cdef class PowerNorm(Func2):
@@ -59,3 +66,8 @@ cdef class Rosenbrok(Func2):
 @cython.final
 cdef class Himmelblau(Func2):
     pass
+
+@cython.final
+cdef class SoftMin(Func2):
+    cdef double p
+    cdef double[::1] evals

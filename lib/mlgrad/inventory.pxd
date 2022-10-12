@@ -27,6 +27,9 @@ cdef void _matdot(double*, double*, const double*, const Py_ssize_t, const Py_ss
 cdef void _matdot2(double*, double*, const double*, const Py_ssize_t, const Py_ssize_t) nogil
 cdef void _mul_add_arrays(double *a, double *M, const double *ss, const Py_ssize_t n_input, const Py_ssize_t n_output) nogil
 cdef void _mul_grad(double *grad, const double *X, const double *ss, const Py_ssize_t n_input, const Py_ssize_t n_output) nogil
+cdef void _multiply(double *a, const double *b, const double *x, const Py_ssize_t n) nogil
+cdef void _normalize(double *a, const Py_ssize_t n) nogil
+
 
 cdef void clear(double[::1] to) nogil
 cdef void clear2(double[:,::1] to) nogil
@@ -46,4 +49,6 @@ cdef void matdot(double[::1] output, double[:,::1] M, double[::1] X) nogil
 cdef void matdot2(double[::1] output, double[:,::1] M, double[::1] X) nogil
 cdef void mul_add_arrays(double[::1] a, double[:,::1] M, double[::1] ss) nogil
 cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) nogil
+cdef void multiply(double[::1] a, double[::1] b, double[::1] c) nogil
+cdef void normalize(double[::1] a) nogil
 

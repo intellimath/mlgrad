@@ -161,7 +161,16 @@ cdef void _mul(double *a, const double *b, const Py_ssize_t n) nogil:
 
 cdef void mul(double[::1] a, double[::1] b) nogil:
     _mul(&a[0], &b[0], a.shape[0])
-        
+
+cdef void _multiply(double *a, const double *b, const double *c, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
+    
+    for i in range(n):
+        a[i] = b[i] * c[i]
+
+cdef void multiply(double[::1] a, double[::1] b, double[::1] c) nogil:
+    _multiply(&a[0], &b[0], &c[0], a.shape[0])
+    
 cdef void _matdot(double *output, double *M, const double *X, 
                     const Py_ssize_t n_input, const Py_ssize_t n_output) nogil:
     cdef Py_ssize_t i, j
@@ -227,3 +236,16 @@ cdef void _mul_grad(double *grad, const double *X, const double *ss,
 
 cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) nogil:
     _mul_grad(&grad[0,0], &X[0], &ss[0], <const Py_ssize_t>X.shape[0], <const Py_ssize_t>grad.shape[0])
+
+cdef void _normalize(double *a, const Py_ssize_t n) nogil:
+    cdef Py_ssize_t i
+    cdef double S
+
+    S = 0
+    for i in range(n):
+        S += a[i]
+
+    for i in range(n):
+        a[i] /= S
+cdef void normalize(double[::1] a) nogil:
+    _normalize(&a[0], a.shape[0])

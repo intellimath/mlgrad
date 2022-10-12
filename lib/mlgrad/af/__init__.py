@@ -38,6 +38,8 @@ def averaging_function(kind='M', *, rhofunc=func.Sqrt(0.001),
         avg = avragg.HMAverage(avgfunc)
     elif kind == 'AM':
         avg = avragg.ArithMean()
+    # elif kind == 'R':
+    #     avg = avragg.RArithMean(rhofunc)
     else:
         raise ValueError('Invalid argument value: %s' % kind)
     return avg

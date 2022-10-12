@@ -11,6 +11,7 @@ from libc.math cimport fabs, pow, sqrt, fmax
 from libc.string cimport memcpy, memset
 
 from mlgrad.func cimport Func
+from mlgrad.func2 cimport Func2
 
 from cpython.object cimport PyObject
 
@@ -23,8 +24,8 @@ cdef extern from *:
     int PyList_GET_SIZE(PyObject* list) nogil
  
 cdef extern from "Python.h":
-    double Pydouble_GetMax()
-    double Pydouble_GetMin()
+    double PyDouble_GetMax()
+    double PyDouble_GetMin()
 
 ctypedef double[::1] double_array
 ctypedef Model[::1] ModelArray
@@ -55,14 +56,35 @@ cdef class Model(BaseModel):
     cdef public object ob_param
     cdef public double[::1] param
     cdef public double[::1] grad
-    cdef public double[::1] grad_x
+    cdef public double[::1] grad_input
+    # cdef bint is_allocated
 
     # cpdef init_param(self, param=*, bint random=*)
     cdef void _gradient(self, double[::1] X, double[::1] grad)
-    cdef void _gradient_x(self, double[::1] X, double[::1] grad)
+    cdef void _gradient_input(self, double[::1] X, double[::1] grad)
     #
     # cdef update_param(self, double[::1] param)
 
+cdef class SimpleComposition(Model):
+    #
+    cdef Func func
+    cdef Model model
+    
+cdef class ModelComposition(Model):
+    #
+    # cdef Py_ssize_t n_input
+    cdef Func2 func
+    cdef public list models
+    cdef double[::1] ss, sx
+    
+    cdef void _gradient_j(self, double[::1] X, Py_ssize_t j, double[::1] grad)
+    
+cdef class ModelComposition_j(Model):
+    cdef ModelComposition model_comp
+    cdef Model model_j
+    cdef Py_ssize_t j
+    
+    
 cdef class ModelView(Model):
     cdef Model model
     
@@ -95,18 +117,24 @@ cdef class PolynomialModel(Model):
 #     cdef Model base
 #     cdef double alpha
 
-cdef class ModelLayer:
+cdef class Model2:
     cdef public Py_ssize_t n_param, n_input, n_output
     cdef object ob_param
     cdef public double[::1] param
     cdef public double[::1] output
+    #
+    cdef void forward(self, double[::1] X)
+    #
+    cdef void gradient_j(self, Py_ssize_t j, double[::1] X, double[::1] grad)
+    #
+    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad)
+    #
+
+
+cdef class ModelLayer(Model2):
     cdef public double[::1] input
     cdef public double[::1] grad_input
     
-    cdef void _forward(self)
-    cdef void _backward(self, double[::1] grad_out, double[::1] grad)
-    cdef void forward(self, double[::1] X)
-    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad)
     cpdef ModelLayer copy(self, bint share=*)
     # cdef double[::1] _evaluate(self, double[::1] X)
     
@@ -121,32 +149,22 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
     
 cdef class GeneralModelLayer(ModelLayer):
     cdef public list models
-
-# cdef class ComplexModel(object):
-#     cdef double evaluate(self, double[::1] X)
-#     cpdef copy(self, bint share=*)
     
 cdef class LinearFuncModel(BaseModel):
     cdef public list models
     cdef public list_doubles weights
     
     
-cdef class MLModel:
-    cdef public Py_ssize_t n_param
-    cdef public Py_ssize_t n_input, n_output
-    cdef public double[::1] param
-    cdef public double[::1] output
+cdef class MLModel(Model2):
     cdef public list layers
     cdef bint is_forward
 
-    cdef void forward(self, double[::1] X)
-    cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad)    
     cdef void backward2(self, double[::1] X, double[::1] grad_u, double[::1] grad)
     cpdef MLModel copy(self, bint share=*)
 
 # @cython.final
 cdef class FFNetworkModel(MLModel):
-    cdef void forward(self, double[::1] X)
+    pass
 
 @cython.final
 cdef class FFNetworkFuncModel(Model):
@@ -168,10 +186,4 @@ cdef class EllipticModel(Model):
 cdef class SquaredModel(Model):
     cdef double[:,::1] matrix
     cdef double[:,::1] matrix_grad
-         
-
-cdef class MultiModel:
-    cdef Model[::1] models
-    cdef Py_ssize_t n_model
-    cdef double[::1] vals
                                                                     

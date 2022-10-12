@@ -1,14 +1,5 @@
 # coding: utf-8
 
-# cython: language_level=3
-# cython: boundscheck=True
-# cython: wraparound=True
-# cython: nonecheck=True
-# cython: embedsignature=True
-# cython: initializedcheck=True
-# cython: unraisable_tracebacks=True  
-
-
 # The MIT License (MIT)
 #
 # Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
@@ -121,8 +112,6 @@ class IRGD:
 
             if self.completed:
                 break
-            
-            K += 1            
         #
         self.K += K
         self.finalize()

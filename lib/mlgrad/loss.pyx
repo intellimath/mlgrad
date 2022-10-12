@@ -239,10 +239,10 @@ cdef class SoftMinLoss(MultLoss):
         S = 0
         for i in range(n):
             S += exp(a*(val_min - vals[i]))
-        S = log(S)
-        S -= a*val_min
+        S = log(S) /a
+        S -= val_min
 
-        return -S/a
+        return -S
 
     cdef void _gradient(self, double[::1] y, double yk, double[::1] grad) nogil:        
         cdef Py_ssize_t i, n = self.q
@@ -265,78 +265,114 @@ cdef class SoftMinLoss(MultLoss):
 
         for i in range(n):
             grad[i] = vals[i] * self.lossfunc._derivative(y[i], yk)
-
-cdef class MultLoss2:
-
-    cdef double _evaluate(self, double[::1] y, double[::1] yk) nogil:
-        return 0
-
-    cdef void _gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:
-        pass
-
-cdef class ErrorMultLoss2(MultLoss2):
-    def __init__(self, Func func):
-        self.func = func
+            
+cdef class SquareErrorMultiLoss(MultLoss):
     
-    cdef double _evaluate(self, double[::1] y, double[::1] yk) nogil:
+    cdef double _evaluate(self, double[::1] y, double yk) nogil:
         cdef Py_ssize_t i, n = y.shape[0]
-        cdef double s = 0
-        
+        cdef double val, S
+
+        S = 0
         for i in range(n):
-            s += self.func._evaluate(y[i] - yk[i])
-        return s
-        
-    cdef void _gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:
+            val = y[i] - yk
+            S += val * val
+
+        return S/2
+
+    cdef void _gradient(self, double[::1] y, double yk, double[::1] grad) nogil:        
         cdef Py_ssize_t i, n = y.shape[0]
-        for i in range(n):
-            grad[i] = self.func._derivative(y[i]-yk[i])
-        
-    def _repr_latex_(self):
-        return r"$\ell(y - \tilde y)$" 
-
-cdef class MarginMultLoss2(MultLoss2):
-
-    def __init__(self, Func func):
-        self.func = func
-
-    cdef double _evaluate(self, double[::1] u, double[::1] yk) nogil:
-        cdef Py_ssize_t i, n = u.shape[0]
-        cdef double s = 0
 
         for i in range(n):
-            s += self.func._evaluate(u[i]*yk[i])
-        return s
-        
-    cdef void _gradient(self, double[::1] u, double[::1] yk, double[::1] grad) nogil:
-        cdef Py_ssize_t i, n = u.shape[0]
+            grad[i] = y[i] - yk            
+
+cdef class ErrorMultiLoss(MultLoss):
+    
+    def __init__(self, Func, func):
+            self.func = func
+    
+    cdef double _evaluate(self, double[::1] y, double yk) nogil:
+        cdef Py_ssize_t i, n = y.shape[0]
+        cdef double S
+
+        S = 0
         for i in range(n):
-            grad[i] = yk[i] * self.func._derivative(u[i]*yk[i])
+            S += self.func._evaluate(y[i] - yk)
 
-    def _repr_latex_(self):
-        return r"$\ell(u\tilde y)$" 
+        return S
 
-# cdef class BaseModelLoss:
-#     cdef double _evaluate(self, double[::1] x, double y):
+    cdef void _gradient(self, double[::1] y, double yk, double[::1] grad) nogil:        
+        cdef Py_ssize_t i, n = y.shape[0]
+
+        for i in range(n):
+            grad[i] = self.func._derivative(y[i] - yk)
+
+cdef class MarginMultiLoss(MultLoss):
+    
+    def __init__(self, Func, func):
+            self.func = func
+    
+    cdef double _evaluate(self, double[::1] y, double yk) nogil:
+        cdef Py_ssize_t i, n = y.shape[0]
+        cdef double S
+
+        S = 0
+        for i in range(n):
+            S += self.func._evaluate(y[i] * yk)
+
+        return S
+
+    cdef void _gradient(self, double[::1] y, double yk, double[::1] grad) nogil:        
+        cdef Py_ssize_t i, n = y.shape[0]
+
+        for i in range(n):
+            grad[i] = yk * self.func._derivative(y[i] * yk)
+            
+# cdef class MultLoss2:
+
+#     cdef double _evaluate(self, double[::1] y, double[::1] yk) nogil:
 #         return 0
-#     cdef _gradient(self, double[::1] x, double y, double[::1] grad):
+
+#     cdef void _gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:
 #         pass
+
+# cdef class ErrorMultLoss2(MultLoss2):
+#     def __init__(self, Func func):
+#         self.func = func
     
-# cdef class ModelLoss(BaseModelLoss):
-#     #
-#     def __init__(self, loss, model):
-#         self.loss = loss
-#         self.model = model
-#     #
-#     cdef double _evaluate(self, double[::1] x, double y):
-#         return self.loss._evaluate(self.model._evaluate(x), y)
-#     #
-#     cdef _gradient(self, double[::1] x, double y, double[::1] grad):
-#         cdef Py_ssize_t i
+#     cdef double _evaluate(self, double[::1] y, double[::1] yk) nogil:
+#         cdef Py_ssize_t i, n = y.shape[0]
+#         cdef double s = 0
         
-#         cdef double lval_deriv = self.loss._derivative(self.model._evaluate(x), y)
+#         for i in range(n):
+#             s += self.func._evaluate(y[i] - yk[i])
+#         return s
         
-#         self.model.gradient(x, grad)
+#     cdef void _gradient(self, double[::1] y, double[::1] yk, double[::1] grad) nogil:
+#         cdef Py_ssize_t i, n = y.shape[0]
+#         for i in range(n):
+#             grad[i] = self.func._derivative(y[i]-yk[i])
         
-#         for i in range(grad.shape[0]):
-#             grad[i] *= lval_deriv
+#     def _repr_latex_(self):
+#         return r"$\ell(y - \tilde y)$" 
+
+# cdef class MarginMultLoss2(MultLoss2):
+
+#     def __init__(self, Func func):
+#         self.func = func
+
+#     cdef double _evaluate(self, double[::1] u, double[::1] yk) nogil:
+#         cdef Py_ssize_t i, n = u.shape[0]
+#         cdef double s = 0
+
+#         for i in range(n):
+#             s += self.func._evaluate(u[i]*yk[i])
+#         return s
+        
+#     cdef void _gradient(self, double[::1] u, double[::1] yk, double[::1] grad) nogil:
+#         cdef Py_ssize_t i, n = u.shape[0]
+#         for i in range(n):
+#             grad[i] = yk[i] * self.func._derivative(u[i]*yk[i])
+
+#     def _repr_latex_(self):
+#         return r"$\ell(u\tilde y)$" 
 

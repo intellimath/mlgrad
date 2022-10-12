@@ -25,6 +25,8 @@
 import numpy as np
 from mlgrad.model import as_array1d
 
+cdef double double_max = PyFloat_GetMax()
+
 cdef class Func2:
 
     cdef double _evaluate(self, double[::1] X):
@@ -32,7 +34,10 @@ cdef class Func2:
     
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         pass
-    
+    #
+    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
+        return 0
+    #
     def __call__(self, X):
         cdef double[::1] x1d = as_array1d(X)
         return self._evaluate(x1d)
@@ -74,7 +79,14 @@ cdef class PowerNorm(Func2):
                 grad_ptr[i] = -v
             else:
                 grad_ptr[i] = v
+    #
+    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
+        cdef double v = pow(fabs(X[j]), self.p-1.0)
 
+        if v < 0:
+             v = -v
+        return v
+    #
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_{%s}^{%s}=\sum_{i=0}^n w_i^{%s}$" % (self.p, self.p, self.p)
 
@@ -106,7 +118,10 @@ cdef class SquareNorm(Func2):
 
         for i in range(m):
             grad_ptr[i] = X_ptr[i]    
-        
+    #
+    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
+        return X[j]
+    #
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_2^2=\sum_{i=0}^n w_i^2$"
         
@@ -142,7 +157,14 @@ cdef class AbsoluteNorm(Func2):
                 grad_ptr[i] = -1
             else:
                 grad_ptr[i] = 0
-    
+    #
+    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
+        cdef double v = X[j]
+        
+        if v < 0:
+            v = -v
+        return v
+    #    
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_1=\sum_{i=0}^n |w_i|$"
 
@@ -206,20 +228,73 @@ cdef class Himmelblau(Func2):
         grad[0] = 4*(X[0]**2 + X[1] - 11) * X[0] + 2*(X[0] + X[1]**2 - 7)
         grad[1] = 2*(X[0]**2 + X[1] - 11) + 4*(X[0] + X[1]**2 - 7) * X[1]
         
-# cdef class Func(Func2):
+cdef class SoftMin(Func2):
     
-#     def __init__(self, Func func, double[::1] Y):
-#         self.Y = Y
-#         self.func = func
+    def __init__(self, p=1.0):
+        self.p = p
+        self.evals = None
+
+    cdef double _evaluate(self, double[::1] X):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v, v_min
+        cdef double p = self.p
         
-#     cdef double evaluate(self, double[::1] X):
-#         cdef doubel[::1] Y = self.Y
-#         cdef int k, N = Y.shape[0]
-#         cdef Func func = self.func
-#         cdef double s
-#         cdef double[::1]
+        v_min = double_max
+        for i in range(m):
+            v = X[i]
+            if v < v_min:
+                v_min = v
         
-#         s = 0
-#         for k in range(N):
-#             s += func(X[0] - Y[k])
-            
+        s = 0
+        for i in range(m):
+            s += exp(p*(v_min - X[i]))
+
+        s = log(s)
+        s -= p * v_min
+        
+        return -s / p
+
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v, v_min
+        cdef double p = self.p
+        # cdef double* grad_ptr = &grad[0]
+        cdef double[::1] evals = self.evals
+
+        if evals is None or evals.shape[0] != m:
+            evals = self.evals = np.empty(m, 'd')
+        
+        v_min = double_max
+        for i in range(m):
+            v = X[i]
+            if v < v_min:
+                v_min = v
+
+        s = 0
+        for i in range(m):
+            evals[i] = v = exp(p*(v_min - X[i]))
+            s += v
+
+        for i in range(m):
+            grad[i] = evals[i] / s
+    #
+    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v, v_min
+        # cdef double* X_ptr = &X[0]
+        cdef double p = self.p
+
+        v_min = double_max
+        for i in range(m):
+            v = X[i]
+            if v < v_min:
+                v_min = v
+
+        s = 0
+        for i in range(m):
+            s += exp(p*(v_min - X[i]))
+
+        return exp(p*(v_min - X[j])) / s 
+    #
+    def _repr_latex_(self):
+        return r"$||\mathbf{w}||_{%s}^{%s}=\sum_{i=0}^n w_i^{%s}$" % (self.p, self.p, self.p)

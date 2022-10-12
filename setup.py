@@ -12,15 +12,15 @@ import platform
 WIN32 = (platform.system() == 'Windows')
 
 Oflag = "-Os"
-extra_compile_args = [Oflag, "-march=native"] 
-extra_link_args = [Oflag, "-march=native", "-lm"]
-extra_compile_args_openmp = [Oflag, "-march=native", ("-fopenmp" if not WIN32 else "/openmp")]
-extra_link_args_openmp = [Oflag, "-march=native", ("-fopenmp" if not WIN32 else "/openmp"), "-lm"]
+extra_compile_args = [Oflag,] 
+extra_link_args = [Oflag, "-lm"]
+extra_compile_args_openmp = [Oflag, ("-fopenmp" if not WIN32 else "/openmp")]
+extra_link_args_openmp = [Oflag, ("-fopenmp" if not WIN32 else "/openmp"), "-lm"]
 
 # cython_compile_time_env = {"USE_OPENMP":1}
 cython_compiler_directives = dict(
     language_level='3',
-    boundscheck=False,
+    boundscheck=True,
     wraparound=True,
     nonecheck=True,
     embedsignature=True,
@@ -186,13 +186,13 @@ setup(
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
     license = "MIT License",
-    ext_modules = cythonize(ext_modules, 
-                            compiler_directives=cython_compiler_directives),
-    # ext_modules = ext_modules,
+    # ext_modules = cythonize(ext_modules, 
+    #                         compiler_directives=cython_compiler_directives),
+    ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
     packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost',
-                'mlgrad.cls', 'mlgrad.test'],
+                'mlgrad.cls', 'mlgrad.pca', 'mlgrad.test'],
     package_data = {'': ['*.pxd']},
     url = 'https://bitbucket.org/intellimath/mlgrad',
     download_url = 'https://bitbucket.org/intellimath/mlgrad',

@@ -275,6 +275,11 @@ cdef class Average(object):
     cdef _weights(self, double[::1] Y, double[::1] weights):
         self._gradient(Y, weights)
     #
+    def weights(self, double[::1] Y):
+        grad = np.zeros(len(Y), 'd')
+        self._gradient(Y, grad)
+        return grad
+    #
     @cython.cdivision(True)
     cdef bint stop_condition(self):
         if fabs(self.pval - self.pmin) / (1. + fabs(self.pmin)) < self.tol:

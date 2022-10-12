@@ -4,7 +4,7 @@ import mlgrad.gd as gd
 import mlgrad.weights as weights
 from mlgrad.utils import exclude_outliers
 
-from mlgrad.regnorm import SquareNorm
+from mlgrad.func2 import SquareNorm
 from mlgrad.loss import SquareErrorLoss, ErrorLoss
 
 from mlgrad import fg, erm_fg, erm_irgd, erisk, mrisk
@@ -50,7 +50,8 @@ def m_regression_irls(Xs, Y, mod,
                       agg_func=None, regnorm=None, 
                       h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, verbose=0):
     """\
-    Поиск параметров модели `mod` при помощи принципа минимизации агрегирующей функции потерь от ошибок. 
+    Поиск параметров модели `mod` на основе принципа минимизации усредняющей 
+    агрегирующей функции потерь от ошибок. 
     Параметр `avrfunc` задает усредняющую агрегирующую функцию.
     Параметр `lossfunc` задает функцию потерь.
     `Xs` и `Y` -- входной двумерный массив и массив ожидаемых значений на выходе.
@@ -98,10 +99,10 @@ def mr_regression_irls(Xs, Y, mod,
     alg = fg(er2, h=h, tol=tol, n_iter=n_iter)
 
     er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
-    wt1 = weights.MWeights(_agg_func, er, normalize=0)
-    wt2 = weights.RWeights(er, normalize=0)
+    # wt1 = weights.MWeights(_agg_func, er, normalize=0)
+    # wt2 = weights.RWeights(er, normalize=0)
     
-    wt = weights.WeightsCompose(wt1, wt2, normalize=1)
+    wt = weights.WRWeights(_agg_func, er, normalize=1)
 
     irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
         

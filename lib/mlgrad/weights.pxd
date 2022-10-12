@@ -8,6 +8,9 @@ from mlgrad.risk cimport ERisk, Risk, Functional
 from mlgrad.avragg cimport Average
 from mlgrad.model cimport Model
 
+cimport mlgrad.inventory as inventory
+
+
 cdef extern from "Python.h":
     double PyFloat_GetMax()
     double PyFloat_GetMin()
@@ -54,6 +57,7 @@ cdef class Weights(object):
     #
     cdef public double[::1] weights
     cdef public Risk risk
+    cdef bint normalize
     #
     cpdef init(self)
     cpdef eval_weights(self)
@@ -73,17 +77,17 @@ cdef class ConstantWeights(Weights):
 cdef class RWeights(Weights):
     # cdef readonly double[::1] lval_all
     # cdef public Func func
-    cdef bint normalize
+    # cdef bint normalize
+    pass
 
 @cython.final
 cdef class MWeights(Weights):
     cdef readonly double[::1] lvals
     # cdef public double best_u
     cdef public Average average
-    cdef bint first_time, normalize #, u_only, use_best_u
+    cdef bint first_time #, u_only, use_best_u
 
 @cython.final
 cdef class WeightsCompose(Weights):
-    cdef Weights _weights
+    cdef Weights _weights1
     cdef Weights _weights2
-    cdef bint normalize

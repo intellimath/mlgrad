@@ -263,7 +263,7 @@ def quantile_func(alpha, func):
     if type(func) is Sqrt:
         return Quantile_Sqrt(alpha, func.eps)
     else:
-        return QuantileFunc(func, alpha)
+        return QuantileFunc(alpha, func)
     
 cdef class QuantileFunc(Func):
     #

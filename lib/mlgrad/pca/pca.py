@@ -1,9 +1,8 @@
-import numpy as np
-# import matplotlib.pyplot as plt
-# import mlgrad.af as af
-# import mlgrad.func as func
-# import mlgrad.utils as utils
+#
+# PCA
+#
 
+import numpy as np
 
 def find_center(XY):
     return mp.mean(XY, axis=1)
@@ -16,7 +15,7 @@ def find_rob_center(XY, af, n_iter=1000, tol=1.0e-9, verbose=0):
     Z = XY - c
     U = (Z * Z).sum(axis=1)
     af.fit(U, None)
-    G = af.gradient(U)
+    G = af.weights(U)
     S = S_min = af.u
 
     if verbose:
@@ -43,8 +42,20 @@ def find_rob_center(XY, af, n_iter=1000, tol=1.0e-9, verbose=0):
         if K > 0 and abs(S - S_min) < tol:
             break
 
-    return K, c_min
+    if verbose:
+        print(f"K: {K}")
 
+    return c_min
+
+def distance_line(X, a):
+    X2 = (X * X).sum(axis=1)    
+    Z = X @ a
+    return X2 - Z * Z
+
+def distance_center(X, c):
+    Z = X - c
+    Z2 = (Z * Z).sum(axis=1)    
+    return Z2
 
 def find_pc(XY2, a0 = None, n_iter=1000, tol=1.0e-8, verbose=0):
     N, n = XY2.shape
@@ -54,7 +65,7 @@ def find_pc(XY2, a0 = None, n_iter=1000, tol=1.0e-8, verbose=0):
         a = a0
 
     S = XY2.T @ XY2
-    XX = np.sum(XY2*XY2, axis=1)
+    XX = (XY2 * XY2).sum(axis=1)
 
     np_abs = np.abs
     np_sqrt = np.sqrt
@@ -74,20 +85,21 @@ def find_pc(XY2, a0 = None, n_iter=1000, tol=1.0e-8, verbose=0):
         if verbose:
             print(L, S)
 
-    return a, L, Z
+    return a, L
 
 def find_rob_pc(XY, qf, n_iter=1000, tol=1.0e-8, verbose=0):
     N, n = XY.shape
 
     a = a_min = np.random.random(n)
-    XX = np.sum(XY*XY, axis=1)
+    XX = (XY * XY).sum(axis=1)
     print(XX.shape)
 
     Z = XY @ a
     Z = Z_min = XX - Z * Z
     qf.fit(Z, None)
     SZ_min = qf.u
-    G = qf.gradient(Z) * N
+    G = qf.weights(Z) * N
+    L_min = 0
 
     np_abs = np.abs
     np_sqrt = np.sqrt
@@ -118,5 +130,12 @@ def find_rob_pc(XY, qf, n_iter=1000, tol=1.0e-8, verbose=0):
             break
 
         a = a1
+        
+    if verbose:
+        print(f"K: {K}")
 
-    return a_min, L_min, Z_min
+    return a_min, L_min
+
+def project(XY, a):
+    XYa = np.array([(xy @ a) * a for xy in XY])
+    return XY - XYa

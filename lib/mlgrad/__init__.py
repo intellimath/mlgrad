@@ -4,12 +4,12 @@
 
 from mlgrad.avragg import PenaltyAverage, Average_Iterative, Average_FG, ArithMean, ParameterizedAverage
 from mlgrad.gd import FG, FG_RUD, SGD
-from mlgrad.risk import ED, MRisk, ERisk, ER2, ER21, SimpleFunctional
+from mlgrad.risk import ED, MRisk, ERisk, ERisk2, SimpleFunctional
 from mlgrad.irgd import IRGD
 from mlgrad.averager import ArraySave, ArrayMOM, ArrayRMSProp, ArrayAMOM, ArrayAdaM1, ArrayAdaM2, ScalarAdaM1, ScalarAdaM2
 import numpy as np
 
-from mlgrad.loss import Loss, MultLoss, MultLoss2
+from mlgrad.loss import Loss, MultLoss
 
 __all__ = ['averager_it', 'average_it', 'ws_average_it', 'averager_fg', 'average_fg', 
            'fg', 'erm_fg', 'erm_fg_rud', 'sg', 'erm_sg',
@@ -42,9 +42,9 @@ def sfunc(func):
 
 def erisk(X, Y, mod, loss_func, regnorm=None, weights=None, tau=0.001, batch=None):
     if isinstance(loss_func, MultLoss):
-        er = ER21(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
-    elif isinstance(loss_func, MultLoss2):
-        er = ER2(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
+        er = ERisk21(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
+    # elif isinstance(loss_func, MultLoss2):
+    #     er = ERisk2(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
     else:
         er = ERisk(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
     if weights is not None:
@@ -57,12 +57,12 @@ def mrisk(X, Y, mod, loss_func, avg, regnorm=None, weights=None, tau=0.001, batc
         mr.use_weights(weights)
     return mr
 
-def aerisk(X, Y, mod, loss_func, avr=None, regnorm=None, tau=0.001, batch=None):
-    er = AER(X, Y, mod, loss_func, avr, regnorm=regnorm, tau=tau, batch=batch)
-    return er
+# def aerisk(X, Y, mod, loss_func, avr=None, regnorm=None, tau=0.001, batch=None):
+#     er = AER(X, Y, mod, loss_func, avr, regnorm=regnorm, tau=tau, batch=batch)
+#     return er
 
 def erisk2(X, Y, mod, loss_func, regnorm=None, weights=None, tau=0.001, batch=None):
-    er = ER2(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
+    er = ERisk21(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
     if weights is not None:
         er.use_weights(weights)
     return er

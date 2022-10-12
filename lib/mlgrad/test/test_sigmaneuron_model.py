@@ -1,13 +1,5 @@
 # coding: utf-8
 
-# cython: language_level=3
-# cython: boundscheck=True
-# cython: wraparound=True
-# cython: nonecheck=True
-# cython: embedsignature=True
-# cython: initializedcheck=True
-# cython: unraisable_tracebacks=True  
-
 import unittest
 from mlgrad.func import Square, Absolute, PlusId
 from mlgrad.model import SigmaNeuronModel, LinearModel
@@ -73,8 +65,6 @@ class SigmaNeuronModelCase(unittest.TestCase):
         print(alg.K, np.array([1.,2.]), np.asarray(mod.param))
         # plt.loglog(alg.lvals)
         # plt.show()
-        
-        
 
 
 def suite():

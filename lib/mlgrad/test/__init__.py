@@ -21,8 +21,6 @@
 # THE SOFTWARE.
 
 from mlgrad.test.test_linear_model import *
-# from mlgrad.test.test_sag import *
-# from mlgrad.test.test_sagagg import *
 
 __version__ = '0.1'
 
