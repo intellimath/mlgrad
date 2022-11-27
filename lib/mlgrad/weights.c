@@ -1979,7 +1979,7 @@ struct __pyx_obj_6mlgrad_11list_values_list_doubles {
 };
 
 
-/* "mlgrad/array_allocator.pxd":35
+/* "mlgrad/array_allocator.pxd":29
  * cimport cython
  * 
  * cdef class Allocator:             # <<<<<<<<<<<<<<
@@ -1992,7 +1992,7 @@ struct __pyx_obj_6mlgrad_15array_allocator_Allocator {
 };
 
 
-/* "mlgrad/array_allocator.pxd":43
+/* "mlgrad/array_allocator.pxd":37
  * 
  * @cython.final
  * cdef class ArrayAllocator(Allocator):             # <<<<<<<<<<<<<<
@@ -2896,8 +2896,8 @@ struct __pyx_obj_6mlgrad_6avragg_Average {
   int L;
   double h;
   int success;
-  double u_best;
-  double pmin;
+  double u_min;
+  double pval_min;
   double u;
   double pval;
   int m;
@@ -2910,7 +2910,7 @@ struct __pyx_obj_6mlgrad_6avragg_Average {
 
 /* "mlgrad/avragg.pxd":108
  * 
- * # @cython.final
+ * @cython.final
  * cdef class MAverage(Average):             # <<<<<<<<<<<<<<
  *     cdef Func func
  *     cdef double gamma
@@ -4129,7 +4129,7 @@ struct __pyx_vtabstruct_6mlgrad_11list_values_list_doubles {
 static struct __pyx_vtabstruct_6mlgrad_11list_values_list_doubles *__pyx_vtabptr_6mlgrad_11list_values_list_doubles;
 
 
-/* "mlgrad/array_allocator.pxd":35
+/* "mlgrad/array_allocator.pxd":29
  * cimport cython
  * 
  * cdef class Allocator:             # <<<<<<<<<<<<<<
@@ -4146,7 +4146,7 @@ struct __pyx_vtabstruct_6mlgrad_15array_allocator_Allocator {
 static struct __pyx_vtabstruct_6mlgrad_15array_allocator_Allocator *__pyx_vtabptr_6mlgrad_15array_allocator_Allocator;
 
 
-/* "mlgrad/array_allocator.pxd":43
+/* "mlgrad/array_allocator.pxd":37
  * 
  * @cython.final
  * cdef class ArrayAllocator(Allocator):             # <<<<<<<<<<<<<<
@@ -5075,7 +5075,7 @@ static struct __pyx_vtabstruct_6mlgrad_6avragg_Average *__pyx_vtabptr_6mlgrad_6a
 
 /* "mlgrad/avragg.pxd":108
  * 
- * # @cython.final
+ * @cython.final
  * cdef class MAverage(Average):             # <<<<<<<<<<<<<<
  *     cdef Func func
  *     cdef double gamma
@@ -33777,14 +33777,14 @@ static int __Pyx_modinit_type_import_code(void) {
    if (!__pyx_ptype_6mlgrad_11list_values_list_doubles) __PYX_ERR(8, 83, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_11list_values_list_doubles = (struct __pyx_vtabstruct_6mlgrad_11list_values_list_doubles*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_11list_values_list_doubles->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_11list_values_list_doubles)) __PYX_ERR(8, 83, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.array_allocator"); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 35, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.array_allocator"); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_15array_allocator_Allocator = __Pyx_ImportType(__pyx_t_1, "mlgrad.array_allocator", "Allocator", sizeof(struct __pyx_obj_6mlgrad_15array_allocator_Allocator), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_15array_allocator_Allocator) __PYX_ERR(9, 35, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_15array_allocator_Allocator = (struct __pyx_vtabstruct_6mlgrad_15array_allocator_Allocator*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_15array_allocator_Allocator->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_15array_allocator_Allocator)) __PYX_ERR(9, 35, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_15array_allocator_Allocator) __PYX_ERR(9, 29, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_15array_allocator_Allocator = (struct __pyx_vtabstruct_6mlgrad_15array_allocator_Allocator*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_15array_allocator_Allocator->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_15array_allocator_Allocator)) __PYX_ERR(9, 29, __pyx_L1_error)
   __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator = __Pyx_ImportType(__pyx_t_1, "mlgrad.array_allocator", "ArrayAllocator", sizeof(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator) __PYX_ERR(9, 43, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_15array_allocator_ArrayAllocator = (struct __pyx_vtabstruct_6mlgrad_15array_allocator_ArrayAllocator*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_15array_allocator_ArrayAllocator)) __PYX_ERR(9, 43, __pyx_L1_error)
+   if (!__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator) __PYX_ERR(9, 37, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_15array_allocator_ArrayAllocator = (struct __pyx_vtabstruct_6mlgrad_15array_allocator_ArrayAllocator*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator->tp_dict); if (unlikely(!__pyx_vtabptr_6mlgrad_15array_allocator_ArrayAllocator)) __PYX_ERR(9, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("mlgrad.model"); if (unlikely(!__pyx_t_1)) __PYX_ERR(10, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

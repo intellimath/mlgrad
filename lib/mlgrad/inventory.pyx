@@ -247,5 +247,106 @@ cdef void _normalize(double *a, const Py_ssize_t n) nogil:
 
     for i in range(n):
         a[i] /= S
+
 cdef void normalize(double[::1] a) nogil:
     _normalize(&a[0], a.shape[0])
+
+cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) nogil:
+    """
+    Вычисление взвешенной ковариационной матрицы
+    Вход:
+       X: матрица (N,n)
+       W: массив весов (N)
+    Результат:
+       S: матрица (n,n):
+          S = (1/N) (W[0] * outer(X[0,:],X[0,:]) + ... + W[N-1] * outer(X[N-1,:],X[N-1,:]))
+    """
+    cdef:
+        Py_ssize_t N = X.shape[0]
+        Py_ssize_t n = X.shape[1]
+        Py_ssize_t i, j, k
+        double s
+        double *Xk
+        double *ss
+
+    for i in range(n):
+        ss = &S[0,0]
+        for j in range(n):
+            Xk = &X[0,0]
+            s = 0
+            for k in range(N):
+                s += W[k] * Xk[i] * Xk[j]
+                Xk += n
+            ss[j] = s
+        ss += n
+    
+    # for k in range(N):
+    #     wk = W[k]
+    #     Xk = &X[k,0]
+    #     ss = &S[0,0]
+    #     for i in range(n):
+    #         v = wk * Xk[i]
+    #         for j in range(n):
+    #             ss[j] += v * Xk[j]
+    #         ss += n
+
+cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) nogil:
+    """
+    Вычисление ковариационной матрицы
+    Вход:
+       X: матрица (N,n)
+    Результат:
+       S: матрица (n,n):
+          S = (1/N) X.T @ X
+    """
+    cdef:
+        Py_ssize_t N = X.shape[0]
+        Py_ssize_t n = X.shape[1]
+        Py_ssize_t i, j, k
+        double s
+        double *Xk
+        double *ss
+
+    for i in range(n):
+        ss = &S[0,0]
+        for j in range(n):
+            Xk = &X[0,0]
+            s = 0
+            for k in range(N):
+                s += Xk[i] * Xk[j]
+                Xk += n
+            ss[j] = s
+        ss += n
+
+    ss = &S[0,0]
+    for i in range(n):
+        for j in range(n):
+            ss[j] /= N
+        ss += n
+
+cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) nogil:
+    """
+    Взвешенная сумма строк матрицы:
+    Вход:
+       X: матрица (N,n)
+       W: массив весов (N)
+       Y: массив (N) - результат:
+          Y[i] = W[0] * X[0,:] + ... + W[N-1] * X[N-1,:]
+    
+    """
+    cdef:
+        Py_ssize_t N = X.shape[0]
+        Py_ssize_t n = X.shape[1]
+        Py_ssize_t i, k
+        double *Xk
+        double *yy = &Y[0]
+        double wk, y
+    
+    for i in range(n):
+        y = 0
+        Xk = &X[0,0]
+        for k in range(N):
+            wk = W[k]
+            y += wk * Xk[i]
+            Xk += n
+        yy[i] = y

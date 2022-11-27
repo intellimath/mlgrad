@@ -52,3 +52,6 @@ cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) nogil
 cdef void multiply(double[::1] a, double[::1] b, double[::1] c) nogil
 cdef void normalize(double[::1] a) nogil
 
+cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) nogil
+cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) nogil
+cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) nogil

@@ -27,6 +27,15 @@ cython_compiler_directives = dict(
     initializedcheck=True,
     unraisable_tracebacks=True,  
 )
+cython_compiler_directives2 = dict(
+    language_level='3',
+    boundscheck=False,
+    wraparound=False,
+    nonecheck=False,
+    embedsignature=True,
+    initializedcheck=False,
+    unraisable_tracebacks=True,  
+)
 
 ext_modules = [
     Extension(

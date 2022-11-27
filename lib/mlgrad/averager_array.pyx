@@ -196,7 +196,6 @@ cdef class ArrayAdaM2(ArrayAverager):
             vgrad[i] = beta2 * vgrad[i] + v*v
             vv = vgrad[i] / beta2_k
             v2 = sqrt(vv)
-#             array_average[i] = h * mv * ((1 + v2) / (v2 * (1 + v2) + 1)) #/ (sqrt(vv) + epsilon))
             array_average[i] = h * (mv / (v2 + epsilon))
 
 cdef class ArrayAdaM1(ArrayAverager):

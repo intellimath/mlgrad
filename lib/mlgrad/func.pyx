@@ -1,5 +1,5 @@
 # coding: utf-8
- 
+
 # The MIT License (MIT)
 #
 # Copyright © «2015–2022» <Shibzukhov Zaur, szport at gmail dot com>
@@ -27,9 +27,9 @@ from libc.math cimport isnan, isinf
 from libc.stdlib cimport strtod
 
 from cython.parallel cimport parallel, prange
- 
+
 from openmp cimport omp_get_num_procs
- 
+
 cdef int num_procs = 2 #omp_get_num_procs()
 # if num_procs >= 4:
 #     num_procs /= 2
@@ -138,16 +138,16 @@ cdef class Comp(Func):
     cdef double _derivative2(self, const double x) nogil:
         cdef double dg = self.g._derivative(x)
         cdef double y = self.g._evaluate(x)
-        
+
         return self.f._derivative2(y) * dg * dg + \
                self.f._derivative(y) * self.g._derivative2(x)
     #
     cdef double _derivative_div_x(self, const double x) nogil:
         return self.f._derivative(self.g._evaluate(x)) * self.g._derivative_div_x(x)
-    
+
     def to_dict(self):
         return { 'name':'comp',
-                'args': (self.f.to_dict(), self.g.to_dict() ) 
+                'args': (self.f.to_dict(), self.g.to_dict() )
                }
 
 cdef class CompSqrt(Func):
@@ -165,16 +165,16 @@ cdef class CompSqrt(Func):
     #
     cdef double _derivative2(self, const double x) nogil:
         cdef double y = sqrt(x)
-        
+
         return 0.25 * (self.f._derivative2(y) / x - self.f._derivative(y) / (x*y))
     #
     cdef double _derivative_div_x(self, const double x) nogil:
         cdef double v = sqrt(x)
         return 0.5 * self.f._derivative_div_x(v) / x
-    
+
     def to_dict(self):
         return { 'name':'compsqrt',
-                'args': (self.f.to_dict(), self.g.to_dict() ) 
+                'args': (self.f.to_dict(), self.g.to_dict() )
                }
 
 cdef class ZeroOnPositive(Func):
@@ -228,7 +228,7 @@ cdef class PlusId(Func):
             return 0
         else:
             return 1./x
-        
+
 cdef class FuncExp(Func):
     #
     def __init__ (self, Func f):
@@ -244,7 +244,7 @@ cdef class FuncExp(Func):
     cdef double _derivative2(self, const double x) nogil:
         cdef double y = exp(x)
         return (self.f._derivative(y) + self.f._derivative2(y) * y) * y
-        
+
 cdef class Id(Func):
     #
     cdef double _evaluate(self, const double x) nogil:
@@ -264,7 +264,7 @@ def quantile_func(alpha, func):
         return Quantile_Sqrt(alpha, func.eps)
     else:
         return QuantileFunc(alpha, func)
-    
+
 cdef class QuantileFunc(Func):
     #
     def __init__(self, alpha, Func func):
@@ -305,12 +305,12 @@ cdef class QuantileFunc(Func):
     #
     def _repr_latex_(self):
         return '$\mathrm{id}(x)=x$'
-    
+
     def to_dict(self):
         return { 'name':'quantile_func',
-                'args': (self.alpha, self.f.to_dict() ) 
+                'args': (self.alpha, self.f.to_dict() )
                }
-    
+
 
 cdef class Neg(Func):
     #
@@ -343,14 +343,14 @@ cdef class ModSigmoidal(Func):
         cdef double v = (self.a + fabs(x))
         if x > 0:
             return -2.0 * self.a / v*v*v
-        elif x < 0: 
+        elif x < 0:
             return 2.0 * self.a / v*v*v
         else:
             return 0
     #
     def _repr_latex_(self):
         return '$%s(x, a)=\dfrac{x}{a+|x|}$' % self.label
-        
+
 cdef class Sigmoidal(Func):
     #
     def __init__(self, p=1):
@@ -379,7 +379,7 @@ cdef class Sigmoidal(Func):
         return '$%s(x, p)=\dfrac{1}{1+e^{-px}}$' % self.label
 
     def to_dict(self):
-        return { 'name':'sigmoidal', 
+        return { 'name':'sigmoidal',
                  'args': (self.p,) }
 
 cdef class Arctang(Func):
@@ -408,9 +408,9 @@ cdef class Arctang(Func):
         return '$%s(x, p)=\dfrac{1}{1+e^{-px}}$' % self.label
 
     def to_dict(self):
-        return { 'name':'arctg', 
+        return { 'name':'arctg',
                  'args': (self.a,) }
-    
+
 cdef class SoftPlus(Func):
     #
     def __init__(self, a=1):
@@ -437,9 +437,9 @@ cdef class SoftPlus(Func):
     #
     def _repr_latex_(self):
         return '$%s(x, a)=\ln(a+e^x)$' % self.label
-        
+
     def to_dict(self):
-        return { 'name':'softplus', 
+        return { 'name':'softplus',
                  'args': (self.a,) }
 
 cdef class Threshold(Func):
@@ -467,9 +467,9 @@ cdef class Threshold(Func):
         return '$%s(x, \theta)=\cases{1&x\geq\theta\\0&x<0}$' % self.label
 
     def to_dict(self):
-        return { 'name':'threshold', 
+        return { 'name':'threshold',
                  'args': (self.theta,) }
-    
+
 cdef class Sign(Func):
     #
     def __init__(self, theta=0):
@@ -495,9 +495,9 @@ cdef class Sign(Func):
     #
     def _repr_latex_(self):
         return '$%s(x, \theta)=\cases{1&x\geq\theta\\0&x<0}$' % self.label
-        
+
     def to_dict(self):
-        return { 'name':'sign', 
+        return { 'name':'sign',
                  'args': (self.theta,) }
 
 cdef class Quantile(Func):
@@ -524,14 +524,14 @@ cdef class Quantile(Func):
     cdef double _derivative2(self, const double x) nogil:
         if x == 0:
             return c_inf
-        else: 
+        else:
             return 0
     #
     def _repr_latex_(self):
         return r"$ρ(x)=(\alpha - [x < 0])x$"
 
     def to_dict(self):
-        return { 'name':'quantile', 
+        return { 'name':'quantile',
                  'args': (self.alpha,) }
 
 # cdef class Expectile(Func):
@@ -575,7 +575,7 @@ cdef class Quantile(Func):
 #         return r"$ρ(x)=(\alpha - [x < 0])x|x|$"
 
 #     def to_dict(self):
-#         return { 'name':'expectile', 
+#         return { 'name':'expectile',
 #                  'args': (self.alpha,) }
 
 cdef class Power(Func):
@@ -590,7 +590,7 @@ cdef class Power(Func):
     #
     cdef double _derivative(self, const double x) nogil:
         cdef double val
-        val = pow(fabs(x) + self.alpha, self.p-1) 
+        val = pow(fabs(x) + self.alpha, self.p-1)
         if x < 0:
             val = -val
         return val
@@ -605,9 +605,9 @@ cdef class Power(Func):
         return r"$ρ(x)=\frac{1}{p}(|x|+\alpha)^p$"
 
     def to_dict(self):
-        return { 'name':'power', 
+        return { 'name':'power',
                  'args': (self.p, self.alpha,) }
-    
+
 cdef class Square(Func):
     #
     cdef double _evaluate(self, const double x) nogil:
@@ -626,9 +626,9 @@ cdef class Square(Func):
         return r"$ρ(x)=0.5x^2$"
 
     def to_dict(self):
-        return { 'name':'square', 
+        return { 'name':'square',
                  'args': () }
-    
+
 cdef class SquareSigned(Func):
     #
     cdef double _evaluate(self, const double x) nogil:
@@ -675,9 +675,9 @@ cdef class Absolute(Func):
         return r"$ρ(x)=|x|$"
 
     def to_dict(self):
-        return { 'name':'absolute', 
+        return { 'name':'absolute',
                  'args': () }
-    
+
 cdef class Quantile_AlphaLog(Func):
     #
     def __init__(self, alpha=1.0, q=0.5):
@@ -704,10 +704,10 @@ cdef class Quantile_AlphaLog(Func):
     cdef double _derivative(self, const double x) nogil:
         cdef double val
         if x < 0:
-            val = x / (self.alpha - x)            
+            val = x / (self.alpha - x)
             return (1-self.q) * val
         elif x > 0:
-            val = x / (self.alpha + x)            
+            val = x / (self.alpha + x)
             return self.q * val
         else:
             return self.q - 0.5
@@ -740,9 +740,9 @@ cdef class Quantile_AlphaLog(Func):
         return r"$ρ_q(x)=\mathrm{sign}_q(x)(|x| - \alpha\ln(\alpha+|x|)+\alpha\ln\alpha)$"
 
     def to_dict(self):
-        return { 'name':'quantile_alpha_log', 
+        return { 'name':'quantile_alpha_log',
                  'args': (self.alpha, self.q) }
-    
+
 cdef class Logistic(Func):
 
     def __init__(self, p=1.0):
@@ -771,15 +771,15 @@ cdef class Logistic(Func):
         elif x < 0:
             return -1 / ((1 + v) * (1+v)) / self.p
         else:
-            return 0 
+            return 0
 
     def _repr_latex_(self):
         return r"$\ell(y,\tilde y)=\log(1+e^{|y-\tilde y|/p})$"
 
     def to_dict(self):
-        return { 'name':'logistic', 
+        return { 'name':'logistic',
                  'args': (self.p,) }
-    
+
 cdef class Hinge(Func):
     #
     def __init__(self, C=1.0):
@@ -816,7 +816,7 @@ cdef class Hinge(Func):
         return r"$ρ(x)=(c-x)_{+}$"
 
     def to_dict(self):
-        return { 'name':'hinge', 
+        return { 'name':'hinge',
                  'args': (self.C,) }
 
 cdef class HSquare(Func):
@@ -826,26 +826,26 @@ cdef class HSquare(Func):
     #
     cdef double _evaluate(self, const double x) nogil:
         cdef double v = self.C - x
-        if v < 0: 
+        if v < 0:
             v = 0
         return 0.5 * v * v
     #
     cdef double _derivative(self, const double x) nogil:
         cdef double v = self.C - x
-        if v < 0: 
+        if v < 0:
             v = 0
         return -v
     #
     cdef double _derivative_div_x(self, const double x) nogil:
         cdef double v = self.C - x
-        if v < 0: 
+        if v < 0:
             return 0
         else:
             return -1
     #
     cdef double _derivative2(self, const double x) nogil:
         cdef double v = self.C - x
-        if v < 0: 
+        if v < 0:
             return 0
         else:
             return 1
@@ -857,9 +857,9 @@ cdef class HSquare(Func):
         return r"$ρ(x)=(c-x)^2$"
 
     def to_dict(self):
-        return { 'name':'hinge', 
+        return { 'name':'hinge',
                  'args': (self.C,) }
-    
+
 cdef class HingeSqrt(Func):
     #
     def __init__(self, alpha=1.0):
@@ -881,7 +881,7 @@ cdef class HingeSqrt(Func):
         return r"$ρ(x)=-x + \sqrt{c^2+x^2}$"
 
     def to_dict(self):
-        return { 'name':'hinge_sqrt', 
+        return { 'name':'hinge_sqrt',
                  'args': (self.alpha,) }
 
 cdef class HingeSqrtPlus(Func):
@@ -905,9 +905,9 @@ cdef class HingeSqrtPlus(Func):
         return r"$ρ(x)=-x + \sqrt{c^2+x^2}$"
 
     def to_dict(self):
-        return { 'name':'hinge_sqrt', 
+        return { 'name':'hinge_sqrt',
                  'args': (self.alpha,) }
-    
+
 cdef class Huber(Func):
 
     def __init__(self, C=1.345):
@@ -916,7 +916,7 @@ cdef class Huber(Func):
     @cython.cdivision(True)
     cdef double _evaluate(self, const double x) nogil:
         cdef double x_abs = fabs(x)
-        
+
         if x_abs > self.C:
             return x_abs - 0.5 * self.C
         else:
@@ -951,9 +951,9 @@ cdef class Huber(Func):
         $"""
 
     def to_dict(self):
-        return { 'name':'huber', 
+        return { 'name':'huber',
                  'args': (self.C,) }
-    
+
 cdef class TM(Func):
     #
     def __init__(self, a=1):
@@ -992,14 +992,14 @@ cdef class TM(Func):
         $"""
 
 cdef class LogSquare(Func):
-    
+
     def __init__(self, a=1.0):
         self.a = a
         self.a2 = a * a
-    
+
     cdef double _evaluate(self, const double x) nogil:
         return log(self.a2 + x*x)
-    
+
     @cython.cdivision(True)
     cdef double _derivative(self, const double x) nogil:
         return 2 * x / (self.a2 + x*x)
@@ -1007,16 +1007,16 @@ cdef class LogSquare(Func):
     @cython.cdivision(True)
     cdef double _derivative2(self, const double x) nogil:
         cdef double x2 = x*x
-        cdef double xa = self.a + x2 
+        cdef double xa = self.a + x2
         return 2 * (self.a2 - x2) / xa * xa
-    
+
     def _repr_latex_(self):
         return r'$\ln(a^2 + x^2)$'
-    
+
     def to_dict(self):
-        return { 'name':'log_square', 
+        return { 'name':'log_square',
                  'args': (self.a,) }
-    
+
 cdef class Tukey(Func):
 
     def __init__(self, C=4.685):
@@ -1027,7 +1027,7 @@ cdef class Tukey(Func):
         cdef double v = x/self.C
         cdef double v2 = v*v
         cdef double v3 = 1 - v2
-        
+
         if v <= self.C:
             return self.C2 * (1 - v3*v3*v3)
         else:
@@ -1036,7 +1036,7 @@ cdef class Tukey(Func):
     cdef double _derivative(self, const double x) nogil:
         cdef double v = x/self.C
         cdef double v3 = 1 - v*v
-        
+
         if v <= self.C:
             return x * v3*v3
         else:
@@ -1045,7 +1045,7 @@ cdef class Tukey(Func):
     cdef double _derivative2(self, const double x) nogil:
         cdef double v = x/self.C
         cdef double v3 = 1 - v*v
-        
+
         if v <= self.C:
             return v3*v3 - 4*v3*v*v
         else:
@@ -1060,7 +1060,7 @@ cdef class Tukey(Func):
         $"""
 
     def to_dict(self):
-        return { 'name':'tukey', 
+        return { 'name':'tukey',
                  'args': (self.C,) }
 
 cdef class SoftAbs(Func):
@@ -1090,12 +1090,12 @@ cdef class SoftAbs(Func):
     #
     def _repr_latex_(self):
         return r"$p(x)=\frac{x^2}{\varepsilon+|x|}$"
-    
+
     def to_dict(self):
-        return { 'name':'softabs', 
+        return { 'name':'softabs',
                  'args': (self.eps,) }
 
-    
+
 cdef class Sqrt(Func):
     #
     def __init__(self, eps=1.0):
@@ -1112,7 +1112,7 @@ cdef class Sqrt(Func):
     cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
         cdef Py_ssize_t i
         cdef double v, eps = self.eps, eps2 = self.eps2
-        
+
         for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
             v = x[i]
             y[i] = sqrt(eps2 + v*v) - eps
@@ -1128,7 +1128,7 @@ cdef class Sqrt(Func):
     cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
         cdef Py_ssize_t i
         cdef double v, eps = self.eps, eps2 = self.eps2
-        
+
         for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
             v = x[i]
             y[i] = v / sqrt(eps2 + v*v)
@@ -1144,7 +1144,7 @@ cdef class Sqrt(Func):
     cdef void _derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
         cdef Py_ssize_t i
         cdef double v, v2, eps = self.eps, eps2 = self.eps2
-        
+
         for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
             v = x[i]
             v2 = eps2 + v*v
@@ -1160,16 +1160,16 @@ cdef class Sqrt(Func):
     cdef void _derivative_div_array(self, const double *x, double *y, const Py_ssize_t n) nogil:
         cdef Py_ssize_t i
         cdef double v, v2, eps = self.eps, eps2 = self.eps2
-        
+
         for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
             v = x[i]
             y[i] = 1. / sqrt(eps2 + v*v)
     #
     def _repr_latex_(self):
         return r"$p(x)=\sqrt{\varepsilon^2+x^2}$"
-    
+
     def to_dict(self):
-        return { 'name':'sqrt', 
+        return { 'name':'sqrt',
                  'args': (self.eps) }
 
 cdef class Quantile_Sqrt(Func):
@@ -1260,12 +1260,12 @@ cdef class Quantile_Sqrt(Func):
     #
     def _repr_latex_(self):
         return r"$p(x)=(\sqrt{\varepsilon^2+x^2}-\varepsilon)_\alpha$"
-    
+
     def to_dict(self):
-        return { 'name':'quantile_sqrt', 
+        return { 'name':'quantile_sqrt',
                  'args': (self.alpha, self.eps) }
-    
-    
+
+
 cdef class Expectile(Func):
     #
     def __init__(self, alpha=1.0):
@@ -1284,9 +1284,9 @@ cdef class Expectile(Func):
         return r"$\rho(x)=\exp{x/\alpha}$"
 
     def to_dict(self):
-        return { 'name':'exp', 
+        return { 'name':'exp',
                  'args': (self.alpha,) }
-    
+
 cdef class Log(Func):
     #
     def __init__(self, alpha=1.0):
@@ -1306,9 +1306,9 @@ cdef class Log(Func):
         return r"$\rho(x)=\ln{\alpha+x}$"
 
     def to_dict(self):
-        return { 'name':'log', 
+        return { 'name':'log',
                  'args': (self.alpha,) }
-    
+
 cdef class ParameterizedFunc:
     #
     def __call__(self, x, u):
@@ -1324,7 +1324,7 @@ cdef class ParameterizedFunc:
         return 0
 
 cdef class WinsorizedFunc(ParameterizedFunc):
-    # 
+    #
     cdef double _evaluate(self, const double x, const double u) nogil:
         if x > u:
             return u
@@ -1344,11 +1344,11 @@ cdef class WinsorizedFunc(ParameterizedFunc):
             return 1
         else:
             return 0
-        
+
     def to_dict(self):
-        return { 'name':'winsorized', 
+        return { 'name':'winsorized',
                  'args': () }
-        
+
 
 cdef class SoftMinFunc(ParameterizedFunc):
     #
@@ -1371,11 +1371,11 @@ cdef class SoftMinFunc(ParameterizedFunc):
         return 1. / (1. + exp(-self.a*(x-u)))
 
     def to_dict(self):
-        return { 'name':'softmin', 
+        return { 'name':'softmin',
                  'args': (self.a,) }
-    
+
 cdef class  WinsorizedSmoothFunc(ParameterizedFunc):
-    # 
+    #
     def __init__(self, Func f):
         self.f = f
     #
@@ -1389,9 +1389,9 @@ cdef class  WinsorizedSmoothFunc(ParameterizedFunc):
         return 0.5 * (1. + self.f._derivative(x - u))
 
     def to_dict(self):
-        return { 'name':'winsorized_soft', 
+        return { 'name':'winsorized_soft',
                  'args': (self.f.to_dict(),) }
-    
+
 cdef class KMinSquare(Func):
     #
     def __init__(self, c):
@@ -1402,7 +1402,7 @@ cdef class KMinSquare(Func):
     cdef double _evaluate(self, const double x) nogil:
         cdef int j, j_min, n_dim = self.n_dim
         cdef double d, d_min
-    
+
         d_min = self.c[0]
         j_min = 0
         j = 1
@@ -1425,10 +1425,10 @@ cdef class KMinSquare(Func):
         return r"$\rho(x)=\min_{j=1,\dots,q} (x-c_j)^2/2$"
 
     def to_dict(self):
-        return { 'name':'kmin_square', 
+        return { 'name':'kmin_square',
                  'args': (self.c.tolist(),) }
 
-    
+
 register_func(Comp, 'comp')
 register_func(QuantileFunc, 'quantile_func')
 register_func(Sigmoidal, 'sigmoidal')

@@ -1,16 +1,10 @@
 # coding: utf-8 
 
 # cython: language_level=3
-# cython: boundscheck=True
-# cython: wraparound=True
-# cython: nonecheck=True
-# cython: embedsignature=True
-# cython: initializedcheck=False
-# cython: unraisable_tracebacks=True  
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2022> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal

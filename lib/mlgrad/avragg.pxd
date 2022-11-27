@@ -83,8 +83,8 @@ cdef class Average:
     cdef public int m_iter, L
     cdef public double h
     cdef public bint success    
-    cdef public double u_best
-    cdef public double pmin
+    cdef public double u_min
+    cdef public double pval_min
     cdef public double u
     cdef public double pval
     cdef int m, M
@@ -107,10 +107,12 @@ cdef class Average:
 # @cython.final
 cdef class MAverage(Average):
     cdef Func func
-    cdef double gamma
+    #
 
-    cdef _gradient(self, double[::1] Y, double[::1] grad)
-
+# @cython.final
+cdef class SAverage(Average):
+    cdef Func func
+    
 @cython.final
 cdef class Average_Iterative(Average):
     pass
