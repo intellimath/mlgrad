@@ -70,7 +70,7 @@ cdef class GD:
     #
     def fit(self, warm=False):
         cdef Risk risk = self.risk
-        cdef Py_ssize_t K
+        cdef Py_ssize_t K = 0
 
         self.risk.batch.init()
         self.init()
@@ -85,10 +85,6 @@ cdef class GD:
         
         self.completed = 0
         for K in range(self.n_iter):
-
-            # risk.X = risk.batch.get_samples(X)
-            # risk.Y = risk.batch.get_samples(Y)
-
             self.lval_prev = self.lval
                 
             self.fit_epoch()
@@ -111,7 +107,7 @@ cdef class GD:
             if self.callback is not None:
                 self.callback(self)
 
-        self.K += K
+        self.K = K
         self.finalize()
     #
     cpdef gradient(self):

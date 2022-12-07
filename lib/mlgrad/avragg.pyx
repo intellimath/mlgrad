@@ -192,14 +192,11 @@ cdef class PenaltyScale(Penalty):
 
 cdef class Average(object):
     #
-    cdef init(self, double[::1] Y, u0=None):
+    cdef init(self, double[::1] Y):
 
         self.pval_min = max_double/2
 
-        if u0 is not None:
-            self.u = u0
-        else:
-            self.u = array_mean(Y)
+        self.u = array_mean(Y)
 
         self.u_min = self.u
 
@@ -225,13 +222,13 @@ cdef class Average(object):
         self._gradient(Y, grad)
         return grad
     #
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef int j, K, n_iter = self.n_iter
         cdef Penalty penalty = self.penalty
         cdef double h = self.h
         cdef bint finish = 0
 
-        self.init(Y, u0)
+        self.init(Y)
         self.pval = penalty.evaluate(Y, self.u)
         if self.pval < self.pval_min:
             self.pval_min = self.pval
@@ -306,7 +303,7 @@ cdef class MAverage(Average):
         self.evaluated = 0
     #
     @cython.cdivision(True)
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double yk, v, S, V, Z
         cdef double u, u_min, z, z_min
@@ -315,11 +312,11 @@ cdef class MAverage(Average):
         cdef Py_ssize_t K
         cdef bint finish = 0
 
-        if u0 is None:
+        if not self.evaluated:
             u = (Y[0] + Y[N//2] + Y[N-1]) / 3
             ## u = array_mean(Y)
         else:
-            u = u0
+            u = self.u
 
         u_min = u
         z_min = z = max_double / 2
@@ -399,7 +396,7 @@ cdef class SAverage(Average):
         self.evaluated = 0
     #
     @cython.cdivision(True)
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double yk, v, S, Z
         cdef double u, u_min, z, z_min
@@ -408,18 +405,16 @@ cdef class SAverage(Average):
         cdef Py_ssize_t K
         cdef bint finish = 0
 
-        if u0 is None:
+        if not self.evaluated:
             u = 1.0
-            ## u = array_mean(Y)
         else:
-            u = u0
+            u = self.u
 
         u_min = u
         z_min = z = max_double / 2
 
         for K in range(self.n_iter):
             S = 0
-            V = 0
             # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
             for k in range(N):
                 yk = Y[k]
@@ -481,7 +476,7 @@ cdef class ParameterizedAverage(Average):
     #
     @cython.final
     @cython.cdivision(True)
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef Py_ssize_t k
         cdef Py_ssize_t N = Y.shape[0], M
         cdef double c
@@ -489,7 +484,7 @@ cdef class ParameterizedAverage(Average):
         # cdef double *YY = &Y[0]
         cdef ParameterizedFunc func = self.func
 
-        self.avr.fit(Y, u0)
+        self.avr.fit(Y)
         c = self.avr.u
 
         # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
@@ -545,13 +540,13 @@ cdef class WMAverage(Average):
     #
     @cython.cdivision(True)
     @cython.final
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef double v, yk, avr_u
         cdef Py_ssize_t k, N = Y.shape[0]
         # cdef double *YY = &Y[0]
         cdef double S
 
-        self.avr.fit(Y, u0)
+        self.avr.fit(Y)
         avr_u = self.avr.u
 
         S = 0
@@ -577,7 +572,7 @@ cdef class WMAverage(Average):
         # cdef double *GG = &grad[0]
 
         if self.evaluated == 0:
-            self.avr.fit(Y, self.avr.u)
+            self.avr.fit(Y)
         self.avr._gradient(Y, grad)
         self.evaluated = 0
         u = self.avr.u
@@ -606,7 +601,7 @@ cdef class WMAverageMixed(Average):
         self.u = 0
         self.evaluated = 0
     #
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef double u, v, yk, avr_u
         cdef Py_ssize_t k, N = Y.shape[0]
 
@@ -665,7 +660,7 @@ cdef class TMAverage(Average):
         self.u = 0
         self.evaluated = 0
     #
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef double u, v, yk, avr_u
         cdef Py_ssize_t k, M, N = Y.shape[0]
 
@@ -720,7 +715,7 @@ cdef class HMAverage(Average):
         self.evaluated = 0
     #
     @cython.cdivision(True)
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef double v, w, yk, avr_z
         cdef double u, u_prev
         cdef Py_ssize_t k, N = Y.shape[0]
@@ -734,14 +729,8 @@ cdef class HMAverage(Average):
             self.Z = np.zeros(N, 'd')
         Z = self.Z
 
-        if u0 is None:
-            wm.fit(Y)
-            u = wm.u
-#             for k in range(N):
-#                 u += Y[k]
-#             u /= N
-        else:
-            u = u0
+        wm.fit(Y)
+        u = wm.u
 
         self.K = 1
         while self.K < self.n_iter:
@@ -750,9 +739,9 @@ cdef class HMAverage(Average):
                 w = Y[k] - u
                 Z[k] = w * w
 
-            self.avr.fit(Z)
+            wm.fit(Z)
             avr_z = sqrt(self.avr.u)
-            self.avr._gradient(Z, grad)
+            wm._gradient(Z, grad)
 
             m = 0
             for k in range(N):
@@ -815,7 +804,7 @@ cdef class HMAverage(Average):
 cdef class ArithMean(Average):
     #
     @cython.cdivision(True)
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef double S
         cdef Py_ssize_t k, N = Y.shape[0]
         # cdef double *YY =&Y[0]
@@ -846,7 +835,7 @@ cdef class RArithMean(Average):
         self.func = func
     #
     @cython.cdivision(True)
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef double S
         cdef Py_ssize_t k, N = Y.shape[0]
         # cdef double *YY =&Y[0]
@@ -895,7 +884,7 @@ cdef class RArithMean(Average):
 
 cdef class Minimal(Average):
     #
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef double yk, y_min = Y[0]
         cdef Py_ssize_t k, N = Y.shape[0]
         # cdef double *y = &Y[0]
@@ -931,7 +920,7 @@ cdef class Minimal(Average):
 
 cdef class Maximal(Average):
     #
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef double yk, y_max = Y[0]
         cdef int k, N = Y.shape[0]
         for k in range(N):
@@ -966,7 +955,7 @@ cdef class KolmogorovMean(Average):
         self.func = func
         self.invfunc = invfunc
     #
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef double u, yk
         cdef int k, N = Y.shape[0]
 
@@ -996,7 +985,7 @@ cdef class SoftMinimal(Average):
     def __init__(self, a):
         self.a = a
     #
-    cpdef fit(self, double[::1] Y, u0=None):
+    cpdef fit(self, double[::1] Y):
         cdef double u, yk
         cdef int k, N = Y.shape[0]
         cdef double a = self.a

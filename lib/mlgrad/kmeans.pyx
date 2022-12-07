@@ -384,7 +384,7 @@ cpdef calc_Y(double[:, ::1] D, double[:, ::1] Y, Average minfunc):
             d = Dk[i]
             if d < dmin:
                 dmin = d
-        minfunc.fit(Dk, dmin)
+        minfunc.fit(Dk)
         minfunc.gradient(Dk, Y[k])
             
 cpdef calc_weights_and_Y(double[:, ::1] D, double[:, ::1] Y, double[::1] weights, Average avrfunc, Average minfunc):
@@ -402,7 +402,7 @@ cpdef calc_weights_and_Y(double[:, ::1] D, double[:, ::1] Y, double[::1] weights
             d = Dk[j]
             if d < dmin:
                 dmin = d
-        minfunc.fit(Dk, dmin)
+        minfunc.fit(Dk)
         DD[k] = minfunc.u
         Yk = Y[k]
         minfunc.gradient(Dk, Yk)

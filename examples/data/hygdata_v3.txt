@@ -1,0 +1,9 @@
+The Hertzsprung–Russell diagram classifies stars on a scatter plot: each star is represented as a point with an x-coordinate of effective temperature and a y
+
+-coordinate of luminosity, a measure of the star's radiated electromagnetic power. The compressed file hygdata_v3-abridged.csv.gz represents a version of the HYG-database, released under a Creative Commons Attribution-ShareAlike license} which provides data on 119614 stars.
+
+Read in these data with pandas and plot a Hertzsprung--Russell diagram. The luminosity column is identified as 'lum' in the header and the star temperature can be calculated from its color index (also referred to as (B−V)
+and identified as the column labeled 'ci') using the Ballesteros formula:
+T (K)=4600(10.92/((B−V)+1.7)+10.92/((B−V)+0.62)).
+Note that the luminosity is best visualized on a logarithmic scale and the temperature axis is usually plotted in reverse (decreasing temperature towards the right-hand side of the diagram).
+

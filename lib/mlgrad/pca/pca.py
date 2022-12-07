@@ -1,4 +1,4 @@
-#
+ #
 # PCA
 #
 
@@ -13,7 +13,7 @@ def distance_center(X, c, /):
     Z = X - c
     # Z2 = (Z * Z) @ e #.sum(axis=1)    
     Z2 = einsum("ni,ni->n", Z, Z)
-    return Z2
+    return np.sqrt(Z2)
 
 def distance_line(X, a, /):
     # e = ones_like(a)
@@ -21,7 +21,14 @@ def distance_line(X, a, /):
     XX = einsum("ni,ni->n", X, X)
     Z = X @ a
     Z = XX - Z * Z
-    return Z
+    return np.sqrt(Z)
+
+def score_distance(X, A, L):
+    S = np.zeros(len(X), 'd')
+    for a, l in zip(A,L):
+        V = (X @ a) / l
+        S += V*V
+    return S
 
 def project_line(X, a, /):
     return X @ a
@@ -34,7 +41,7 @@ def find_rob_center(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
     # Z = XY - c
     # U = (Z * Z).sum(axis=1)
     U = distance_center(XY, c)
-    af.fit(U, None)
+    af.fit(U)
     G = af.weights(U)
     S = S_min = af.u
 
@@ -47,7 +54,7 @@ def find_rob_center(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
         # Z = XY - c
         # U = (Z * Z).sum(axis=1)
         U = distance_center(XY, c)
-        af.fit(U, None)
+        af.fit(U)
         G = af.gradient(U)
         
         S0 = S
@@ -109,7 +116,7 @@ def find_rob_pc(X, qf, *, n_iter=1000, tol=1.0e-8, verbose=0):
     Z = X @ a
     Z = Z_min = XX - Z * Z
     
-    qf.fit(Z, None)
+    qf.fit(Z)
     SZ_min = qf.u
     G = qf.gradient(Z)
     L_min = 0
@@ -128,7 +135,7 @@ def find_rob_pc(X, qf, *, n_iter=1000, tol=1.0e-8, verbose=0):
         Z = X @ a1
         Z = XX - Z * Z
         
-        qf.fit(Z, None)
+        qf.fit(Z)
         SZ = qf.u
         G = qf.gradient(Z)
 
@@ -179,7 +186,7 @@ def find_pc_all(X0):
         U = project_line(X0, a)
         X = project(X, a)
         Ls.append(L)
-        As.append(L)
+        As.append(a)
         Us.append(U)
     Ls = np.array(Ls)
     return As, Ls, Us
@@ -195,7 +202,7 @@ def find_rob_pc_all(X0, wma):
         U = project_line(X0, a)
         X = project(X, a)
         Ls.append(L)
-        As.append(L)
+        As.append(a)
         Us.append(U)
     Ls = np.array(Ls)
     return As, Ls, Us

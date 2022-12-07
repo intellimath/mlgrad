@@ -96,9 +96,9 @@ cdef class Average:
     cdef _gradient(self, double[::1] Y, double[::1] grad)
     cdef _weights(self, double[::1] Y, double[::1] weights)
     #    
-    cdef init(self, double[::1] Y, u0=*)
+    cdef init(self, double[::1] Y)
     #
-    cpdef fit(self, double[::1] Y, u0=*)
+    cpdef fit(self, double[::1] Y)
     #
     cdef fit_epoch(self, double[::1] Y)
     #

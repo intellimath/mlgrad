@@ -46,7 +46,7 @@ cdef class GD:
     cdef Normalizer normalizer
 
     cdef public double tol
-    cdef public int n_iter, K, M
+    cdef public Py_ssize_t n_iter, K, M
     # cdef public int m
     cdef public bint completed
 

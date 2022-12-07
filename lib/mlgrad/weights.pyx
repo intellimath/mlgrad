@@ -128,13 +128,13 @@ cdef class MWeights(Weights):
     cpdef eval_weights(self):
         self.risk._evaluate_losses_all(self.lvals)
 
-        if self.first_time:
-            u0 = None
-            self.first_time = 0 
-        else:
-            u0 = self.average.u
+        # if self.first_time:
+        #     u0 = None
+        #     self.first_time = 0 
+        # else:
+        #     u0 = self.average.u
         
-        self.average.fit(self.lvals, u0)
+        self.average.fit(self.lvals)
         # if self.use_best_u and self.average.u < self.best_u:
         #     self.best_u = self.average.u
         

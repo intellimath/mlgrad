@@ -18,10 +18,10 @@ cdef class Average_FG(Average):
     def use_deriv_averager(self, averager):
         self.deriv_averager = averager
     #
-    cdef init(self, double[::1] Y, u0=None):
+    cdef init(self, double[::1] Y):
         if self.deriv_averager is not None:
             self.deriv_averager.init()
-        Average.init(self, Y, u0)
+        Average.init(self, Y)
 
     #
     cdef fit_epoch(self, double[::1] Y):

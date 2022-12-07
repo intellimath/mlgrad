@@ -1,0 +1,12 @@
+This dataset has the following columns:
+
+    HIP = Hipparcos star number
+    Vmag = Visual band magnitude.  This is an inverted logarithmic measure of brightness 
+    RA = Right Ascension (degrees), positional coordinate in the sky equivalent to longitude on the Earth
+    DE = Declination (degrees), positional coordinate in the sky equivalent to latitude on the Earth
+    Plx = Parallactic angle (mas = milliarcsseconds).  1000/Plx gives the distance in parsecs (pc)
+    pmRA = Proper motion in RA (mas/yr).  RA component of the motion of the star across the sky 
+    pmDE = Proper motion in DE (mas/yr). DE component of the motion of the star across the sky
+    e_Plx = Measurement error in Plx (mas)
+    B-V = Color of star (mag)
+
