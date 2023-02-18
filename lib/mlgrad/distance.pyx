@@ -47,9 +47,6 @@ cdef class Distance:
         return g
     cdef set_param(self, name, val):
         pass
-
-cdef class DistanceWithScale(Distance):
-    pass
     
 cdef class AbsoluteDistance(Distance):
 
@@ -103,7 +100,39 @@ cdef class EuclidDistance(Distance):
     
         for i in range(m):
             grad[i] = 2 * (x[i] - y[i])
+            
+cdef class PowerDistance(Distance):
+    
+    def __init__(self, p):
+        self.p = p
+        
+    cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
+        cdef int i, m = x.shape[0]
+        cdef double s, v
+        
+        s = 0.0
+        for i in range(m):
+            v = x[i]-y[i]
+            if v >= 0:
+                s += pow(v, self.p)
+            else:
+                s += pow(-v, self.p)
+        return s / self.p
 
+    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
+        cdef int i, m = grad.shape[0]
+        cdef double v
+    
+        for i in range(m):
+            v = x[i] - y[i]
+            if v >= 0:
+                grad[i] = pow(fabs(v), self.p-1.0)
+            else:
+                grad[i] = -pow(fabs(v), self.p-1.0)                
+
+cdef class DistanceWithScale(Distance):
+    pass            
+            
 cdef class MahalanobisDistance(DistanceWithScale):
     
     def __init__(self, double[:,::1] S):
@@ -119,13 +148,15 @@ cdef class MahalanobisDistance(DistanceWithScale):
         if n == 2:
             xy1 = x[0] - y[0]
             xy2 = x[1] - y[1]
-            return S[0,0] * xy1 * xy1 + S[1,1] * xy2 * xy2 + 2 * S[0,1] * xy1 * xy2            
+            return S[0,0] * xy1 * xy1 + \
+                   S[1,1] * xy2 * xy2 + \
+                   2 * (S[0,1] * xy1 * xy2)
         
         i = 0
         s = 0
         while i < n:
             vi = x[i] - y[i]
-            S_i = &S[i,i]
+            S_i = &S[i,0]
             s += vi * S_i[i] * vi
             
             sj = 0
@@ -161,31 +192,3 @@ cdef class MahalanobisDistance(DistanceWithScale):
         else:
             raise NameError("invalid param's name")
 
-cdef class PowerDistance(Distance):
-    
-    def __init__(self, p):
-        self.p = p
-        
-    cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
-        cdef int i, m = x.shape[0]
-        cdef double s, v
-        
-        s = 0.0
-        for i in range(m):
-            v = x[i]-y[i]
-            if v >= 0:
-                s += pow(v, self.p)
-            else:
-                s += pow(-v, self.p)
-        return s / self.p
-
-    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
-        cdef int i, m = grad.shape[0]
-        cdef double v
-    
-        for i in range(m):
-            v = x[i] - y[i]
-            if v >= 0:
-                grad[i] = pow(fabs(v), self.p-1.0)
-            else:
-                grad[i] = -pow(fabs(v), self.p-1.0)                

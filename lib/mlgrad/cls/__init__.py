@@ -7,7 +7,7 @@ import mlgrad.gd as gd
 import mlgrad.weights as weights
 from mlgrad.utils import exclude_outliers
 
-from mlgrad.regnorm import SquareNorm
+from mlgrad.func2 import SquareNorm
 from mlgrad.loss import SquareErrorLoss, ErrorLoss
 
 from mlgrad import fg, erm_fg, erm_irgd, erisk, mrisk

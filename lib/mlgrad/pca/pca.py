@@ -5,15 +5,12 @@
 import numpy as np
 einsum = np.einsum
 
-def find_center(X, /):
-    return np.mean(X, axis=0)
-
 def distance_center(X, c, /):
-    # e = ones_like(c)
     Z = X - c
+    # e = ones_like(c)
     # Z2 = (Z * Z) @ e #.sum(axis=1)    
     Z2 = einsum("ni,ni->n", Z, Z)
-    return np.sqrt(Z2)
+    return Z2
 
 def distance_line(X, a, /):
     # e = ones_like(a)
@@ -21,17 +18,20 @@ def distance_line(X, a, /):
     XX = einsum("ni,ni->n", X, X)
     Z = X @ a
     Z = XX - Z * Z
-    return np.sqrt(Z)
+    return Z
 
-def score_distance(X, A, L):
+def score_distance(X, A, L, /):
     S = np.zeros(len(X), 'd')
     for a, l in zip(A,L):
-        V = (X @ a) / l
-        S += V*V
+        V = X @ a
+        S += V * V / l
     return S
 
 def project_line(X, a, /):
     return X @ a
+
+def find_center(X, /):
+    return np.mean(X, axis=0)
 
 def find_rob_center(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
     c = XY.mean(axis=0)

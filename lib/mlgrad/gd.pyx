@@ -36,7 +36,7 @@ from mlgrad.risk cimport Risk, Functional
 
 import numpy as np
 
-from mlgrad.abc import Fittable
+# from mlgrad.abc import Fittable
 
 cdef double double_max = PyFloat_GetMax()
 cdef double double_min = PyFloat_GetMin()
@@ -68,14 +68,14 @@ cdef class GD:
 #             self.param_averager.init(n_param)
             
     #
-    def fit(self, warm=False):
+    def fit(self):
         cdef Risk risk = self.risk
         cdef Py_ssize_t K = 0
 
         self.risk.batch.init()
         self.init()
         self.lval = self.lval_min = self.risk._evaluate()
-        self.lvals = []   
+        self.lvals = []
         self.K = 0
 
         self.h_rate.init()
@@ -167,10 +167,10 @@ include "gd_fg_rud.pyx"
 include "gd_sgd.pyx"
 #include "gd_sag.pyx"
 
-Fittable.register(GD)
-Fittable.register(FG)
-Fittable.register(FG_RUD)
-Fittable.register(SGD)
+# Fittable.register(GD)
+# Fittable.register(FG)
+# Fittable.register(FG_RUD)
+# Fittable.register(SGD)
 
 include "stopcond.pyx"
 include "paramrate.pyx"

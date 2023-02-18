@@ -52,14 +52,14 @@ class LinearModelCase(unittest.TestCase):
     def test_6(self):
         mod = LinearModel(np.array([1,2,3], 'd'))
         X = np.array([1,2], 'd')
-        self.assertTrue(any(mod.gradient_x(X) == np.array([2,3], 'd')))
+        self.assertTrue(any(mod.gradient_input(X) == np.array([2,3], 'd')))
     #
     def test_ols_1(self):
         X = np.array([[-1],[-0.5], [0], [0.5], [1]], 'd')
         Y = np.array([-1, 0, 1, 2, 3], 'd')
         mod = LinearModel(1)
         mod.init_param()
-        alg = regression(X, Y, mod, h=0.01, n_iter=5000, tol=1.0e-10, averager=None, n_restart=5)
+        alg = regression(X, Y, mod, h=0.01, n_iter=5000, tol=1.0e-9, averager=None, n_restart=5)
         print(alg.K, np.array([1.,2.]), np.asarray(mod.param))
         # plt.loglog(alg.lvals)
         # plt.show()

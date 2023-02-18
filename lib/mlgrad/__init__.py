@@ -123,7 +123,7 @@ def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None
     if normalizer is not None:
         alg.use_normalizer(normalizer)
     for i in range(n_restart):
-        alg.fit(warm=(i>0))
+        alg.fit()
         K += alg.K
         if alg.completed:
             break

@@ -63,7 +63,7 @@ cdef class ArrayAllocator(Allocator):
 
         ar = self.buf[self.allocated: self.allocated + n]
         self.allocated += n
-       
+
         aa = self
         while aa.base is not None:
             aa.base.allocated = self.allocated
@@ -75,10 +75,10 @@ cdef class ArrayAllocator(Allocator):
         cdef double[:,::1] ar2
         cdef ArrayAllocator aa
         cdef Py_ssize_t nm = n * m
-       
+
         if n <= 0 or m <= 0:
             raise RuntimeError('n <= 0 or m <= 0')
-       
+
         if self.allocated + nm > self.size:
             raise RuntimeError('Memory out of buffer')
         ar = self.buf[self.allocated: self.allocated + nm]

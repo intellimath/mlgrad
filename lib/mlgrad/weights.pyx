@@ -75,37 +75,12 @@ cdef class RWeights(Weights):
         self.weights = np.zeros(len(risk.X), 'd')
     #
     cpdef eval_weights(self):
-        # cdef double[:,::1] X = self.risk.X
-        # cdef double[::1] Y = self.risk.Y
-        # cdef Loss lossfunc = self.risk.loss
-        # cdef Model mod = self.risk.model
-        # cdef double[::1] weights = self.weights
-        # cdef double val
-        # cdef Py_ssize_t k, N = X.shape[0]
-
         self.risk._evaluate_losses_derivative_div_all(self.weights)
-        # for k in range(N):
-        #     # val = mod._evaluate(X[k])
-        #     weights[k] = lossfunc._derivative_div(mod._evaluate(X[k]), Y[k])
-        
         if self.normalize:
             inventory.normalize(self.weights)
     #
     cpdef double get_qvalue(self):
-        # cdef Model mod = self.risk.model
-        # cdef double[:,::1] X = self.risk.X
-        # cdef double[::1] Y = self.risk.Y
-        # cdef Loss lossfunc = self.risk.loss
-        # cdef double qval
-        # cdef Py_ssize_t k, N = X.shape[0]
-        
         return self.risk._evaluate()
-        # qval = 0
-        # for k in range(N):
-        #     # val = mod._evaluate(X[k])
-        #     qval += lossfunc._evaluate(mod._evaluate(X[k]), Y[k])
-        # qval /= N 
-        # return qval
     #
     cpdef double[::1] get_weights(self):
         return self.weights
@@ -180,29 +155,6 @@ cdef class WeightsCompose(Weights):
     cpdef double get_qvalue(self):
         return self._weights1.get_qvalue()
     #
-
-# cdef class WRWeights(Weights):
-    
-#     def __init__(self, Average average, Risk risk, normalize=1):
-#         wt1 = MWeights(average, risk, normalize=0)
-#         wt2 = RWeights(risk, normalize=0)
-#         self._weights = WeightsCompose(wt1, wt2, normalize=1)
-#         self.weights = np.ones(len(risk.X), 'd')
-#         self.normalize = normalize
-#         self.risk = risk
-#     #
-#     cpdef init(self):
-#         self._weights.init()
-#     #   
-#     cpdef eval_weights(self):
-#         self._weights.eval_weights()
-#     #
-#     cpdef double[::1] get_weights(self):
-#         return self.weights
-#     #
-#     cpdef double get_qvalue(self):
-#         return self._weights.get_qvalue()
-#     #
 
 cdef class WRWeights(Weights):
     

@@ -130,31 +130,61 @@ def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None,
     irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
     return irgd
 
-def plot_losses_and_errors(alg, Xs, Y, fname=None, logscale=True):
+def plot_losses_and_errors(alg, Xs, Y, fname=None, logscale=True, lang='en'):
     import numpy as np
     import matplotlib.pyplot as plt
 
     err = np.abs(Y - alg.risk.model.evaluate_all(Xs))
     plt.figure(figsize=(12,5))
     plt.subplot(1,2,1)
-    plt.title('Fit curve')
+    if lang == 'en':
+        plt.title('Fit curve')
+        plt.xlabel('step')
+        plt.ylabel('mean of losses')
+    else:
+        plt.title('Кривая обучения')
+        plt.xlabel('шаг')
+        plt.ylabel('средние потери')
     plt.plot(alg.lvals)
     if logscale:
         plt.gca().set_yscale('log')
-    plt.xlabel('step')
-    plt.ylabel('mean of losses')
     plt.minorticks_on()
     plt.subplot(1,2,2)
-    plt.title('Errors')
+    if lang == 'en':
+        plt.title('Errors')
+        plt.xlabel('error rank')
+        plt.ylabel('error value')
+    else:
+        plt.title('Ошибки')
+        plt.xlabel('Ранг ошибки')
+        plt.ylabel('Значение ошибки')
     plt.plot(sorted(err), marker='o', markersize='4')
     plt.minorticks_on()
-    plt.xlabel('error rank')
-    plt.ylabel('error value')
     plt.tight_layout()
     if fname:
         plt.savefig(fname)
     plt.show()
+    
+def errors_plot(alg, Xs, Y, fname=None, logscale=True, lang='en'):
+    import numpy as np
+    import matplotlib.pyplot as plt
 
+    err = np.abs(Y - alg.risk.model.evaluate_all(Xs))
+    plt.figure(figsize=(5,5))
+    if lang == 'en':
+        plt.title('Errors')
+        plt.xlabel('error rank')
+        plt.ylabel('error value')
+    else:
+        plt.title('Ошибки')
+        plt.xlabel('Ранг ошибки')
+        plt.ylabel('Значение ошибки')
+    plt.plot(sorted(err), marker='o', markersize='4')
+    plt.minorticks_on()
+    if fname:
+        plt.savefig(fname)
+    
+    
 def plot_yy(Xs, Y, mod, label, b=0.1):
     import numpy as np 
     import matplotlib.pyplot as plt

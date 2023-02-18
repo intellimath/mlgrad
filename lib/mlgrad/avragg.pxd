@@ -3,6 +3,7 @@
 cimport cython
 
 from mlgrad.func cimport Func, ParameterizedFunc
+from mlgrad.func2 cimport SoftMin
 from mlgrad.averager cimport ScalarAverager
 
 # from mlgrad.miscfuncs cimport init_rand, rand, fill
@@ -78,16 +79,16 @@ cdef class PenaltyScale(Penalty):
 cdef class Average:
     cdef readonly Penalty penalty
     cdef readonly double tol
-    cdef readonly int n_iter 
-    cdef readonly int K 
-    cdef public int m_iter, L
+    cdef readonly Py_ssize_t n_iter 
+    cdef readonly Py_ssize_t K 
+    cdef public Py_ssize_t m_iter, L
     cdef public double h
     cdef public bint success    
     cdef public double u_min
     cdef public double pval_min
     cdef public double u
     cdef public double pval
-    cdef int m, M
+    cdef Py_ssize_t m, M
     cdef double u_prev, pval_prev
     cdef bint evaluated
     #cdef double u1, u2, u3, u4    
@@ -165,7 +166,7 @@ cdef class KolmogorovMean(Average):
 
 @cython.final
 cdef class SoftMinimal(Average):
-    cdef double a
+    cdef SoftMin softmin
     
 @cython.final
 cdef class Minimal(Average):

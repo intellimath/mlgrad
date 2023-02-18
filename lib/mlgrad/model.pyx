@@ -38,10 +38,10 @@ cdef inline void fill_memoryview(double[::1] X, double c) nogil:
     memset(&X[0], 0, X.shape[0]*cython.sizeof(double))    
 
 cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:
-    memcpy(&Y[0], &X[0], X.shape[0]*cython.sizeof(double))
+    memcpy(&Y[0], &X[0], <Py_ssize_t>X.shape[0]*cython.sizeof(double))
     
 cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
-    memcpy(&Y[0,0], &X[0,0], X.shape[0]*X.shape[1]*cython.sizeof(double))    
+    memcpy(&Y[0,0], &X[0,0], <Py_ssize_t>X.shape[0]*<Py_ssize_t>X.shape[1]*cython.sizeof(double))    
     
 cdef inline double ident(x):
     return x
@@ -93,7 +93,7 @@ cdef class BaseModel:
         return self._evaluate(X)
     #
     cdef _evaluate_all(self, double[:,::1] X, double[::1] Y):
-        cdef Py_ssize_t k, N = X.shape[0]
+        cdef Py_ssize_t k, N = <Py_ssize_t>X.shape[0]
         
         for k in range(N):
             Y[k] = self._evaluate(X[k])
@@ -265,7 +265,7 @@ cdef class LinearModel(Model):
                 text += "%sx_{%s}" % (spar, i)
         text = "$y(\mathbf{x})=" + text + "$"
         return text
-    #
+    # 
     def as_dict(self):
         return { 'name': 'linear', 
                  'param': (list(self.param) if self.param is not None else None), 
@@ -277,7 +277,7 @@ cdef class LinearModel(Model):
             self.param = param
         else:
             self.param[:] = param
-        self.n_param = param.shape[0]
+        self.n_param = <Py_ssize_t>param.shape[0]
         self.n_input = self.n_param - 1
 
 @register_model('linear')
@@ -291,7 +291,7 @@ cdef double tnorm2(double[::1] x) nogil:
     cdef double s, v
     
     s = 1
-    for i in range(1, x.shape[0]):
+    for i in range(1, <Py_ssize_t>x.shape[0]):
         v = x[i]
         s += v * v
     return s
@@ -356,7 +356,7 @@ cdef class TLinearModel(Model):
         s -= X[n_input]
         s /= (pn * pn * pn)
 
-        for i in range(1, self.n_param):
+        for i in range(1, <Py_ssize_t>self.n_param):
             grad[i] -= param[i] * s
     # 
     cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
@@ -453,15 +453,17 @@ cdef class SigmaNeuronModel(Model):
         cdef double[::1] param = self.param
         cdef double s, sx
         
-        s = param[0]
-        for i in range(self.n_input):
-            s += param[i+1] * X[i]
+        s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
+        # s = param[0]
+        # for i in range(self.n_input):
+        #     s += param[i+1] * X[i]
 
         sx = self.outfunc._derivative(s)
 
         grad[0] = sx
-        for i in range(self.n_input):
-            grad[i+1] = sx * X[i]
+        inventory._mul_set(&grad[1], &X[0], sx, self.n_input)
+        # for i in range(self.n_input):
+        #     grad[i+1] = sx * X[i]
     #
     cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
         cdef Py_ssize_t i
@@ -469,14 +471,16 @@ cdef class SigmaNeuronModel(Model):
         cdef double s, sx
         cdef double[::1] param = self.param
                                 
-        s = param[0]
-        for i in range(n_input):
-            s += param[i+1] * X[i]
+        s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
+        # s = param[0]
+        # for i in range(n_input):
+        #     s += param[i+1] * X[i]
 
         sx = self.outfunc._derivative(s)
 
-        for i in range(n_input):
-            grad_input[i] = sx * param[i+1]
+        inventory._mul_set(&grad_input[0], &param[1], sx, self.n_input)
+        # for i in range(n_input):
+        #     grad_input[i] = sx * param[i+1]
     #
     def as_dict(self):
         return { 'name': 'sigma_neuron', 
@@ -515,7 +519,7 @@ cdef class SimpleComposition(Model):
 
         val = self.func._derivative(mod._evaluate(X))
         mod._gradient(X, grad)
-        inventory._mul_const(&grad[0], val, grad.shape[0])
+        inventory._mul_const(&grad[0], val, <Py_ssize_t>grad.shape[0])
         # for j in range(self.grad.shape[0]):
         #     grad[j] *= val
     #
@@ -524,10 +528,10 @@ cdef class SimpleComposition(Model):
         cdef double val
         cdef Model mod = self.model
 
-        inventory._clear(&grad_input[0], grad_input.shape[0])
+        inventory._clear(&grad_input[0], <Py_ssize_t>grad_input.shape[0])
         val = self.func._derivative(mod._evaluate(X))
         mod._gradient_input(X, grad_input)
-        inventory._mul_const(&grad_input[0], val, grad_input.shape[0])
+        inventory._mul_const(&grad_input[0], val, <Py_ssize_t>grad_input.shape[0])
         # for j in range(grad_input.shape[0]):
         #     grad_input[j] *= val * mod.grad_input[j]
     #        
@@ -572,7 +576,7 @@ cdef class ModelComposition(Model):
                 self.ob_param[:] = self.param
 
         self.param = self.ob_param
-        self.n_param = self.param.shape[0]
+        self.n_param = <Py_ssize_t>self.param.shape[0]
 
         self.ss = np.zeros(len(self.models), 'd')
         self.sx = np.zeros(len(self.models), 'd')
@@ -596,7 +600,7 @@ cdef class ModelComposition(Model):
         cdef Py_ssize_t j, n_models = len(models)
         cdef double[::1] ss = self.ss
 
-        if ss is None or ss.shape[0] != n_models:
+        if ss is None or <Py_ssize_t>ss.shape[0] != n_models:
             ss = self.ss = np.empty(n_models, 'd')
             
         for j in range(n_models):
@@ -615,10 +619,10 @@ cdef class ModelComposition(Model):
         cdef double[::1] mod_grad
         cdef double sx_j
 
-        if ss is None or ss.shape[0] != n_models:
+        if ss is None or <Py_ssize_t>ss.shape[0] != n_models:
             ss = self.ss = np.empty(n_models, 'd')
         
-        if sx is None or sx.shape[0] != n_models:
+        if sx is None or <Py_ssize_t>sx.shape[0] != n_models:
             sx = self.sx = np.empty(n_models, 'd')
         else:
             sx = self.sx
@@ -649,10 +653,10 @@ cdef class ModelComposition(Model):
         cdef double[::1] mod_grad
         cdef double sx_j
 
-        if ss is None or ss.shape[0] != n_models:
+        if ss is None or <Py_ssize_t>ss.shape[0] != n_models:
             ss = self.ss = np.empty(n_models, 'd')
         
-        if sx is None or sx.shape[0] != n_models:
+        if sx is None or <Py_ssize_t>sx.shape[0] != n_models:
             sx = self.sx = np.empty(n_models, 'd')
         else:
             sx = self.sx
@@ -676,7 +680,7 @@ cdef class ModelComposition(Model):
         
         gval = self.func._gradient_j(X, j)
         (<Model>self.models[j])._gradient(X, grad)
-        inventory._mul_const(&grad[0], gval, grad.shape[0])
+        inventory._mul_const(&grad[0], gval, <Py_ssize_t>grad.shape[0])
         # for i in range(m):
         #     grad[i] *= gval
     #
@@ -815,7 +819,7 @@ cdef class GeneralModelLayer(ModelLayer):
                 self.ob_param[:] = self.param
 
         self.param = self.ob_param
-        self.n_param = self.param.shape[0]
+        self.n_param = <Py_ssize_t>self.param.shape[0]
 
         self.n_output = len(self.models)
 

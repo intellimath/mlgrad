@@ -153,7 +153,7 @@ cdef class MLSE:
         self.avg.fit(self.D)
 
         weights = np.zeros(len(self.D), 'd')
-        self.avg.gradient(self.D, weights)
+        self.avg._gradient(self.D, weights)
 
         W = 0
         for k in range(N):
@@ -242,7 +242,7 @@ cdef class MLocationEstimator(MLSE):
         
         self._calc_distances()
         self.avg.fit(self.D)
-        self.avg.gradient(self.D, self.weights)
+        self.avg._gradient(self.D, self.weights)
 
         self.dval = self.dval_min = self.Q()
         self.dval_prev = PyFloat_GetMax()
@@ -288,7 +288,7 @@ cdef class MLocationEstimator(MLSE):
 
         self._calc_distances()
         self.avg.fit(D)
-        self.avg.gradient(D, weights)
+        self.avg._gradient(D, weights)
 #         meanify_array(weights)
         
         for i in range(n):
@@ -361,7 +361,7 @@ cdef class MScatterEstimator(MLSE):
 
         self._calc_distances()
         self.avg.fit(self.D)
-        self.avg.gradient(self.D, self.weights)
+        self.avg._gradient(self.D, self.weights)
         
         self.dval_min = self.dval = self.Q()
         self.dval_prev = PyFloat_GetMax()
@@ -407,7 +407,7 @@ cdef class MScatterEstimator(MLSE):
 
         self._calc_distances()
         self.avg.fit(self.D)
-        self.avg.gradient(self.D, weights)
+        self.avg._gradient(self.D, weights)
 #         meanify_array(weights)
 
         for i in range(n):

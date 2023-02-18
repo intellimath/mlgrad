@@ -191,7 +191,7 @@ ext_modules = [
 setup(
     name = 'mlgrad',
     version = '0.6',
-    description = 'Robust Gradient Methods for Machine Learning & Data Analisys',
+    description = 'Robust Gradient Methods for Machine Learning & Data Analysis',
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
     license = "MIT License",
@@ -220,6 +220,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Operating System :: OS Independent',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],

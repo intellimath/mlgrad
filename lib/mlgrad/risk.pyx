@@ -264,11 +264,7 @@ cdef class MRisk(Risk):
     #
     cdef double _evaluate(self):        
         self._evaluate_losses_batch()
-        if self.first:
-            self.avg.fit(self.L)
-            self.first = 0
-        else:
-            self.avg.fit(self.L)
+        self.avg.fit(self.L)
         
         if self.regnorm is not None:
             v = self.tau * self.regnorm._evaluate(self.model.param)
@@ -295,8 +291,6 @@ cdef class MRisk(Risk):
         cdef Py_ssize_t[::1] indices = self.batch.indices
         cdef double[::1] Yp = self.Yp
 
-        # self._evaluate_models_batch()
-        # self._evaluate_losses_batch()
         self.avg._gradient(self.L, weights)
 
         inventory.clear(grad_average)

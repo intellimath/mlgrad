@@ -20,10 +20,11 @@
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
+# THE SOFTWARE. 
 
 cimport cython
 from mlgrad.func cimport Func, ParameterizedFunc
+from mlgrad.func2 cimport SoftMin
 from libc.math cimport fabs, pow, sqrt, fmax, log, exp
 
 # from cython.parallel cimport parallel, prange
@@ -223,7 +224,7 @@ cdef class Average(object):
         return grad
     #
     cpdef fit(self, double[::1] Y):
-        cdef int j, K, n_iter = self.n_iter
+        cdef Py_ssize_t j, K, n_iter = self.n_iter
         cdef Penalty penalty = self.penalty
         cdef double h = self.h
         cdef bint finish = 0
@@ -249,8 +250,8 @@ cdef class Average(object):
                 self.pval_min = self.pval
                 self.u_min = self.u
                 self.m = 0
-            elif not finish and self.pval > self.pval_prev:
-                self.u = (1-h) * self.u_prev + h * self.u
+            # elif not finish and self.pval > self.pval_prev:
+            #     self.u = (1-h) * self.u_prev + h * self.u
 
             if finish:
                 break
@@ -265,8 +266,8 @@ cdef class Average(object):
         return None
     #
     cdef _gradient(self, double[::1] Y, double[::1] grad):
-        if not self.evaluated:
-            self.fit(Y)
+        # if not self.evaluated:
+        self.fit(Y)
         self.penalty.gradient(Y, self.u, grad)
         self.evaluated = 0
     #
@@ -309,14 +310,15 @@ cdef class MAverage(Average):
         cdef double u, u_min, z, z_min
         cdef double tol = self.tol
         cdef Func func = self.func
-        cdef Py_ssize_t K
+        cdef Py_ssize_t K = 0
         cdef bint finish = 0
 
-        if not self.evaluated:
-            u = (Y[0] + Y[N//2] + Y[N-1]) / 3
-            ## u = array_mean(Y)
-        else:
-            u = self.u
+        # if not self.evaluated:
+        #     u = (Y[0] + Y[N//2] + Y[N-1]) / 3
+        #     ## u = array_mean(Y)
+        # else:
+        #     u = self.u
+        u = (Y[0] + Y[N//2] + Y[N-1]) / 3
 
         u_min = u
         z_min = z = max_double / 2
@@ -351,8 +353,8 @@ cdef class MAverage(Average):
                 break
 
         self.u = u_min
-        # self.u_min = u_min
         self.evaluated = 1
+        self.K = K + 1
     #
     @cython.cdivision(True)
     cdef _gradient(self, double[::1] Y, double[::1] grad):
@@ -360,8 +362,8 @@ cdef class MAverage(Average):
         cdef double V, u
         cdef Func func = self.func
 
-        if not self.evaluated:
-            self.fit(Y)
+        # if not self.evaluated:
+        self.fit(Y)
         u = self.u
 
         S = 0
@@ -402,14 +404,15 @@ cdef class SAverage(Average):
         cdef double u, u_min, z, z_min
         cdef double tol = self.tol
         cdef Func func = self.func
-        cdef Py_ssize_t K
+        cdef Py_ssize_t K = 0
         cdef bint finish = 0
 
-        if not self.evaluated:
-            u = 1.0
-        else:
-            u = self.u
+        # if not self.evaluated:
+        #     u = 1.0
+        # else:
+        #     u = self.u
 
+        u = 1.0
         u_min = u
         z_min = z = max_double / 2
 
@@ -442,6 +445,7 @@ cdef class SAverage(Average):
         self.u = u_min
         # self.u_min = u_min
         self.evaluated = 1
+        self.K = K + 1
     #
     @cython.cdivision(True)
     cdef _gradient(self, double[::1] Y, double[::1] grad):
@@ -543,7 +547,6 @@ cdef class WMAverage(Average):
     cpdef fit(self, double[::1] Y):
         cdef double v, yk, avr_u
         cdef Py_ssize_t k, N = Y.shape[0]
-        # cdef double *YY = &Y[0]
         cdef double S
 
         self.avr.fit(Y)
@@ -568,11 +571,9 @@ cdef class WMAverage(Average):
         cdef double u, v, gk
         cdef double N1 = 1.0/N
         cdef double dm
-        # cdef double *YY = &Y[0]
-        # cdef double *GG = &grad[0]
 
-        if self.evaluated == 0:
-            self.avr.fit(Y)
+        # if self.evaluated == 0:
+        self.avr.fit(Y)
         self.avr._gradient(Y, grad)
         self.evaluated = 0
         u = self.avr.u
@@ -589,7 +590,6 @@ cdef class WMAverage(Average):
             v = dm * gk
             if Y[k] <= u:
                 v = v + 1
-            # v = (1 + m * gk) if Y[k] <= u else (m * gk)
             grad[k] = v * N1
     #
 
@@ -603,7 +603,7 @@ cdef class WMAverageMixed(Average):
     #
     cpdef fit(self, double[::1] Y):
         cdef double u, v, yk, avr_u
-        cdef Py_ssize_t k, N = Y.shape[0]
+        cdef Py_ssize_t k, m, N = Y.shape[0]
 
         self.avr.fit(Y)
         self.evaluated = 1
@@ -718,9 +718,8 @@ cdef class HMAverage(Average):
     cpdef fit(self, double[::1] Y):
         cdef double v, w, yk, avr_z
         cdef double u, u_prev
-        cdef Py_ssize_t k, N = Y.shape[0]
+        cdef Py_ssize_t k, m, N = Y.shape[0]
         cdef double q, S
-        cdef int m
         cdef double[::1] Z
         cdef double[::1] grad = np.zeros(N, 'd')
         cdef Average wm = self.avr
@@ -770,10 +769,9 @@ cdef class HMAverage(Average):
     #
     @cython.cdivision(True)
     cdef _gradient(self, double[::1] Y, double[::1] grad):
-        cdef Py_ssize_t k, N = Y.shape[0]
+        cdef Py_ssize_t k, m, N = Y.shape[0]
         cdef double u, v, w, N1, yk
         cdef double q, avr_z, S
-        cdef int m
         cdef double[::1] Z = self.Z
 
         u = self.u
@@ -898,12 +896,12 @@ cdef class Minimal(Average):
         self.evaluated = 1
     #
     cdef _gradient(self, double[::1] Y, double[::1] grad):
-        cdef Py_ssize_t k, N = Y.shape[0]
-        cdef int m = 0
+        cdef Py_ssize_t k, m, N = Y.shape[0]
         cdef double u = self.u
         # cdef double *g = &grad[0]
         # cdef double *y = &Y[0]
 
+        m = 0
         for k in range(N):
             if Y[k] == u:
                 grad[k] = 1
@@ -922,7 +920,7 @@ cdef class Maximal(Average):
     #
     cpdef fit(self, double[::1] Y):
         cdef double yk, y_max = Y[0]
-        cdef int k, N = Y.shape[0]
+        cdef Py_ssize_t k, N = Y.shape[0]
         for k in range(N):
             yk = Y[k]
             if yk > y_max:
@@ -932,9 +930,9 @@ cdef class Maximal(Average):
         self.evaluated = 1
     #
     cdef _gradient(self, double[::1] Y, double[::1] grad):
-        cdef int k, N = Y.shape[0]
-        cdef int m = 0
+        cdef Py_ssize_t k, m, N = Y.shape[0]
 
+        m = 0
         for k in range(N):
             if Y[k] == self.u:
                 grad[k] = 1
@@ -957,7 +955,7 @@ cdef class KolmogorovMean(Average):
     #
     cpdef fit(self, double[::1] Y):
         cdef double u, yk
-        cdef int k, N = Y.shape[0]
+        cdef Py_ssize_t k, N = Y.shape[0]
 
         u = 0
 #         for k in prange(N, nogil=True):
@@ -971,7 +969,7 @@ cdef class KolmogorovMean(Average):
         self.evaluated = 1
     #
     cdef _gradient(self, double[::1] Y, double[::1] grad):
-        cdef int k, N = Y.shape[0]
+        cdef Py_ssize_t k, N = Y.shape[0]
         cdef double V
 
         V = self.invfunc._derivative(self.uu)
@@ -983,36 +981,38 @@ cdef class KolmogorovMean(Average):
 cdef class SoftMinimal(Average):
     #
     def __init__(self, a):
-        self.a = a
+        self.softmin = SoftMin(a)
+        
     #
     cpdef fit(self, double[::1] Y):
-        cdef double u, yk
-        cdef int k, N = Y.shape[0]
-        cdef double a = self.a
+#         cdef double u, yk
+#         cdef Py_ssize_t k, N = Y.shape[0]
+#         cdef double a = self.a
 
-        u = 0
-#         for k in prange(N, nogil=True):
-        for k in range(N):
-            yk = Y[k]
-            u += exp(-yk*a)
-        u /= N
-        self.u = - log(u) / a
+#         u = 0
+# #         for k in prange(N, nogil=True):
+#         for k in range(N):
+#             yk = Y[k]
+#             u += exp(-yk*a)
+#         u /= N
+        self.u = self.softmin._evaluate(Y)
         self.u_min = self.u
         self.evaluated = 1
     #
     cdef _gradient(self, double[::1] Y, double[::1] grad):
-        cdef int k, l, N = Y.shape[0]
-        cdef double u, yk, yl
-        cdef double a = self.a
+#         cdef Py_ssize_t k, l, N = Y.shape[0]
+#         cdef double u, yk, yl
+#         cdef double a = self.a
 
-        for l in range(N):
-            u = 0
-            yl = Y[l]
-            for k in range(N):
-                yk = Y[k] - yl
-                u += exp(-yk*a)
+#         for l in range(N):
+#             u = 0
+#             yl = Y[l]
+#             for k in range(N):
+#                 yk = Y[k] - yl
+#                 u += exp(-yk*a)
 
-            grad[l] = 1. / u
+#             grad[l] = 1. / u
+        self.softmin._gradient(Y, grad)
         self.evaluated = 0
 
 cdef inline double nearest_value(double[::1] u, double y):

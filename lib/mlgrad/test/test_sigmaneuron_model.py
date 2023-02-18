@@ -40,31 +40,31 @@ class SigmaNeuronModelCase(unittest.TestCase):
         self.assertEqual(mod.param[2], 3.)
     #
     def test_4(self):
-        mod = SigmaNeuronModel(np.array([1,2,3], 'd'), PlusId())
+        mod = SigmaNeuronModel(PlusId(), np.array([1,2,3], 'd'))
         self.assertEqual(mod.evaluate(np.array([1,1], 'd')), 6.)
         self.assertEqual(mod.evaluate(np.array([2,3], 'd')), 14.)
-        self.assertEqual(mod.evaluate(np.array([-1,1], 'd')), 6.)
+        self.assertEqual(mod.evaluate(np.array([-1,1], 'd')), 2.)
         self.assertEqual(mod.evaluate(np.array([2,3], 'd')), 14.)
     #
     def test_5(self):
-        mod = LinearModel(np.array([1,2,3], 'd'))
+        mod = SigmaNeuronModel(PlusId(), np.array([1,2,3], 'd'))
         X = np.array([1,2], 'd')
         self.assertTrue(any(mod.gradient(X) == np.array([1,1,2], 'd')))
     #
     def test_6(self):
-        mod = LinearModel(np.array([1,2,3], 'd'))
+        mod = SigmaNeuronModel(PlusId(), np.array([1,2,3], 'd'))
         X = np.array([1,2], 'd')
-        self.assertTrue(any(mod.gradient_x(X) == np.array([2,3], 'd')))
+        self.assertTrue(any(mod.gradient_input(X) == np.array([2,3], 'd')))
     #
-    def test_ols_1(self):
-        X = np.array([[-1],[-0.5], [0], [0.5], [1]], 'd')
-        Y = np.array([-1, 0, 1, 2, 3], 'd')
-        mod = LinearModel(1)
-        mod.init_param()
-        alg = regression(X, Y, mod, h=0.01, n_iter=5000, tol=1.0e-10, averager=None, n_restart=5)
-        print(alg.K, np.array([1.,2.]), np.asarray(mod.param))
-        # plt.loglog(alg.lvals)
-        # plt.show()
+    # def test_ols_1(self):
+    #     X = np.array([[-1],[-0.5], [0], [0.5], [1]], 'd')
+    #     Y = np.array([-1, 0, 1, 2, 3], 'd')
+    #     mod = LinearModel(1)
+    #     mod.init_param()
+    #     alg = regression(X, Y, mod, h=0.01, n_iter=5000, tol=1.0e-9, averager=None, n_restart=5)
+    #     print(alg.K, np.array([1.,2.]), np.asarray(mod.param))
+    #     # plt.loglog(alg.lvals)
+    #     # plt.show()
 
 
 def suite():

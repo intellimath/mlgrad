@@ -11,6 +11,8 @@ from mlgrad.avragg cimport Average
 from mlgrad.distance cimport Distance, DistanceWithScale, MahalanobisDistance
 from mlgrad.func cimport Func
 
+cimport mlgrad.inventory as inventory
+
 cdef extern from "Python.h":
     double PyFloat_GetMax()
     double PyFloat_GetMin()
@@ -25,7 +27,7 @@ cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:
     cdef Py_ssize_t m = X.shape[0], n = Y.shape[0]
     if n < m:
         m = n
-    memcpy(&Y[0], &X[0], m*cython.sizeof(double))    
+    memcpy(&Y[0], &X[0], m*cython.sizeof(double))
 
 cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X) nogil:
     cdef Py_ssize_t m = X.shape[0], n = X.shape[1]
@@ -37,17 +39,17 @@ cdef inline void copy_memoryview3(double[:,:,::1] Y, double[:,:,::1] X) nogil:
 
 cdef inline void fill_memoryview(double[::1] X, double c) nogil:
     cdef Py_ssize_t m = X.shape[0]
-    memset(&X[0], 0, m*cython.sizeof(double))    
+    memset(&X[0], 0, m*cython.sizeof(double))
 
 cdef inline void fill_memoryview2(double[:,::1] X, double c) nogil:
     cdef Py_ssize_t i, j
     cdef Py_ssize_t m = X.shape[0], n = X.shape[1]
-    memset(&X[0,0], 0, m*n*cython.sizeof(double))     
+    memset(&X[0,0], 0, m*n*cython.sizeof(double))
 
 cdef inline void fill_memoryview3(double[:,:,::1] X, double c) nogil:
     cdef Py_ssize_t i, j
     cdef Py_ssize_t m = X.shape[0], n = X.shape[1], l = X.shape[2]
-    memset(&X[0,0,0], 0, m*n*l*cython.sizeof(double))     
+    memset(&X[0,0,0], 0, m*n*l*cython.sizeof(double))
 
 cdef inline void multiply_memoryview(double[::1] X, double c) nogil:
     cdef Py_ssize_t i
@@ -78,16 +80,15 @@ cdef class MLSE2:
     cdef public DistanceWithScale[::1] distfuncs
     cdef public double[:,::1] X
     cdef public double[:,::1] locs, locs_min
-    cdef public Py_ssize_t n_locs
+    cdef public Py_ssize_t N, n, n_locs
     cdef public double[:,:,::1] scatters, scatters_min
-    cdef double[:,::1] DD
+    cdef double[::1] DD
     cdef double[::1] D
     cdef double[:,::1] GG
     cdef Average avg
     cdef Average avg_min
     cdef public double[::1] weights
     cdef double[::1] W
-    cdef double[::1] xy
     cdef Py_ssize_t[::1] Ns
 
     cdef double dval, dval_prev, dval_min
@@ -100,7 +101,7 @@ cdef class MLSE2:
 
     cpdef calc_distances(self)
     cpdef calc_weights(self)
-    cpdef calc_update_GG(self)
+    cdef calc_update_GG(self)
     cpdef double Q(self)
     # cpdef double local_Q(self)
 #     cpdef get_weights(self)
