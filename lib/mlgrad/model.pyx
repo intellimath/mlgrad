@@ -947,12 +947,6 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
     def init_param(self):
         self.ob_param[:] = self.param = np.random.random(self.n_param)
     #
-    # def _allocate_grad(self, allocator):
-    #     """Allocate matrix"""
-    #     layer_allocator = allocator.suballocator()
-    #     self.grad_matrix = layer_allocator.allocate2(self.n_output, self.n_input+1)
-    #     self.grad = layer_allocator.get_allocated()
-    # #
     cpdef ModelLayer copy(self, bint share=1):
         cdef SigmaNeuronModelLayer layer = SigmaNeuronModelLayer(self.func, self.n_input, self.n_output)
         cdef list models = self.models
@@ -971,24 +965,22 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         cdef Py_ssize_t n_output = self.n_output
         cdef Py_ssize_t i, j, k
         cdef double s
-        # cdef double[:,::1] matrix = self.matrix
         cdef double[::1] param = self.param
         cdef double[::1] output = self.output
         cdef double[::1] ss = self.ss
         cdef Func func = self.func
+        cdef bint is_func = (func is not None)
          
         k = 0
         for j in range(n_output):
-            # s = matrix[j,0]
             s = param[k]
             k += 1
             for i in range(n_input):
                 s += param[k] * X[i]
                 k += 1
-                # s += matrix[j, i+1] * X[i]
             ss[j] = s
 
-        if func is not None:
+        if is_func:
             for j in range(n_output):
                 output[j] = func._evaluate(ss[j])
         else:
@@ -996,56 +988,44 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
                 output[j] = ss[j]
     #
     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
-        cdef Py_ssize_t i, j, jj
+        cdef Py_ssize_t i, j, k
         cdef Py_ssize_t n_input = self.n_input
-        cdef Py_ssize_t n_input1 = n_input + 1
         cdef Py_ssize_t n_output = self.n_output
         cdef double val_j, s, sx
         cdef double[::1] grad_in = self.grad_input
 
-        cdef double[:,::1] matrix = self.matrix
         cdef double[::1] output = self.output
         cdef double[::1] param = self.param
         cdef double[::1] ss = self.ss
         cdef Func func = self.func
         cdef bint is_func = (func is not None)
         
-        # fill_memoryview(grad_in, 0)
-        inventory.fill(grad_in, 0)
-        jj = 0
+        k = 0
         for j in range(n_output):
-            s = param[jj]
-            jj += 1
-            # s = matrix[j,0]
+            s = param[k]
+            k += 1
             for i in range(n_input):
-                s += param[jj] * X[i]
-                jj += 1
-                # s += matrix[j,i+1] * X[i]
+                s += param[k] * X[i]
+                k += 1
             ss[j] = s
 
         if is_func:
-            for j in range(n_output):            
+            for j in range(n_output):
                 ss[j] = grad_out[j] * func._derivative(ss[j])
         else:
-            for j in range(n_output):            
+            for j in range(n_output):      
                 ss[j] = grad_out[j]
 
-        jj = 0
-        for j in range(n_output):            
-            sx = ss[j]
-            jj += 1
+        inventory.fill(grad_in, 0)
+                
+        k = 0
+        for j in range(n_output):  
+            grad[k] = sx = ss[j]
+            k += 1
             for i in range(n_input):
-                grad_in[i] += sx * param[jj] #matrix[j,i+1]
-                jj += 1
-
-        jj = 0
-        for j in range(n_output):            
-            grad[jj] = sx = ss[j]
-            # grad[jj] = sx
-            jj += 1
-            for i in range(n_input):
-                grad[jj] = sx * X[i]
-                jj += 1
+                grad_in[i] += sx * param[k]
+                grad[k] = sx * X[i]
+                k += 1
     #
     def as_dict(self):
         return { 'name': 'sigma_neuron_layer',

@@ -24,7 +24,7 @@
 
 import numpy as np
 
-from mlgrad.abc import Fittable
+# from mlgrad.abc import Fittable
 #from cython.parallel import prange
 
 # cdef class ArrayRef:
@@ -504,6 +504,6 @@ cdef class HCD_M2:
                 return 0
         return 1
     
-Fittable.register(HCD)
-Fittable.register(HCD_M1)
-Fittable.register(HCD_M2)
+# Fittable.register(HCD)
+# Fittable.register(HCD_M1)
+# Fittable.register(HCD_M2)

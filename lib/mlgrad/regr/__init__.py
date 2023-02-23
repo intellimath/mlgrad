@@ -164,6 +164,28 @@ def plot_losses_and_errors(alg, Xs, Y, fname=None, logscale=True, lang='en'):
     if fname:
         plt.savefig(fname)
     plt.show()
+
+def plot_losses(alg, Xs, Y, fname=None, logscale=True, lang='en'):
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    err = np.abs(Y - alg.risk.model.evaluate_all(Xs))
+    plt.figure(figsize=(5,5))
+    if lang == 'en':
+        plt.title('Fit curve')
+        plt.xlabel('step')
+        plt.ylabel('mean of losses')
+    else:
+        plt.title('Кривая обучения')
+        plt.xlabel('шаг')
+        plt.ylabel('средние потери')
+    plt.plot(alg.lvals)
+    if logscale:
+        plt.gca().set_yscale('log')
+    plt.minorticks_on()
+    if fname:
+        plt.savefig(fname)
+    plt.show()
     
 def errors_plot(alg, Xs, Y, fname=None, logscale=True, lang='en'):
     import numpy as np

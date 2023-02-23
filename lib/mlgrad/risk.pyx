@@ -89,18 +89,18 @@ cdef class Risk(Functional):
     # cdef update_param(self, double[::1] param):
     #     self.model.update_param(param)
     #
-    cdef void _evaluate_models_batch(self):
-        cdef Model _model = self.model
+#     cdef void _evaluate_models_batch(self):
+#         cdef Model _model = self.model
 
-        cdef double[:, ::1] X = self.X
-        cdef Py_ssize_t[::1] indices = self.batch.indices
+#         cdef double[:, ::1] X = self.X
+#         cdef Py_ssize_t[::1] indices = self.batch.indices
         
-        cdef Py_ssize_t j, k
-        cdef double[::1] Yp = self.Yp
+#         cdef Py_ssize_t j, k
+#         cdef double[::1] Yp = self.Yp
 
-        for j in range(self.batch.size):
-            k = indices[j]
-            Yp[j] = _model._evaluate(X[k])
+#         for j in range(self.batch.size):
+#             k = indices[j]
+#             Yp[j] = _model._evaluate(X[k])
     #
     cdef void _evaluate_models_all(self, double[::1] vals):
         cdef Model _model = self.model
@@ -382,8 +382,8 @@ cdef class ED(Risk):
             for i in range(self.n_param):
                 grad_average[i] -= wk * grad[i]                    
     #
-    cdef void _evaluate_models_batch(self):
-        pass
+    # cdef void _evaluate_models_batch(self):
+    #     pass
     #
     cdef void _evaluate_losses_batch(self):
         cdef int n_sample = self.n_sample
@@ -399,7 +399,7 @@ cdef class ED(Risk):
 cdef class ERisk(Risk):
     #
     def __init__(self, double[:,::1] X not None, double[::1] Y not None, Model model not None, 
-                 Loss loss=None, Func2 regnorm=None, Batch batch=None, tau=0.001):
+                 Loss loss=None, Func2 regnorm=None, Batch batch=None, tau=0.001, is_natgrad=1):
 
         self.model = model
         self.param = model.param
@@ -432,6 +432,7 @@ cdef class ERisk(Risk):
         N = len(X)
         self.weights = np.full(N, 1./N, np_double)
         self.lval = 0
+        self.is_natgrad = is_natgrad
     #
     cdef double _evaluate(self):
         cdef Py_ssize_t j, k
@@ -465,7 +466,7 @@ cdef class ERisk(Risk):
         cdef Loss _loss = self.loss
 
         cdef Py_ssize_t i, j, k
-        cdef double vv
+        cdef double v, s
         
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
@@ -482,14 +483,23 @@ cdef class ERisk(Risk):
             k = indices[j]
 
             _model._gradient(X[k], grad)
-            vv = weights[k] * _loss._derivative(Yp[j], Y[k])
+            v = weights[k] * _loss._derivative(Yp[j], Y[k])
             for i in range(self.n_param):
-                grad_average[i] += vv * grad[i]
+                grad_average[i] += v * grad[i]
 
         if self.regnorm is not None:
             self.regnorm._gradient(_model.param, self.grad_r)
             for i in range(self.n_param):
                 self.grad_average[i] += self.tau * self.grad_r[i]
+
+        if self.is_natgrad:
+            s = 0
+            for i in range(self.n_param):
+                v = grad_average[i]
+                s += v * v
+            s = sqrt(s)
+            for i in range(self.n_param):
+                grad_average[i] /= s
 
 cdef class ERiskGB(Risk):
     #
@@ -552,22 +562,22 @@ cdef class ERiskGB(Risk):
         for k in range(self.n_sample):
             vals[k] = H[k] + alpha * _model._evaluate(X[k])
     #
-    cdef void _evaluate_models_batch(self):
-        cdef Py_ssize_t j, k
-        cdef double y
-        cdef Model _model = self.model
-        cdef Loss _loss = self.loss
+#     cdef void _evaluate_models_batch(self):
+#         cdef Py_ssize_t j, k
+#         cdef double y
+#         cdef Model _model = self.model
+#         cdef Loss _loss = self.loss
 
-        cdef double[:, ::1] X = self.X
-        cdef double[::1] Y = self.Y
-        cdef Py_ssize_t[::1] indices = self.batch.indices
-        cdef double alpha = self.alpha
-        cdef double[::1] H = self.H
-        cdef double[::1] Yp = self.Yp
+#         cdef double[:, ::1] X = self.X
+#         cdef double[::1] Y = self.Y
+#         cdef Py_ssize_t[::1] indices = self.batch.indices
+#         cdef double alpha = self.alpha
+#         cdef double[::1] H = self.H
+#         cdef double[::1] Yp = self.Yp
         
-        for j in range(self.batch.size):
-            k = indices[j]
-            Yp[j] = H[k] + alpha * _model._evaluate(X[k])
+#         for j in range(self.batch.size):
+#             k = indices[j]
+#             Yp[j] = H[k] + alpha * _model._evaluate(X[k])
     #
     cdef void _evaluate_losses_batch(self):
         cdef Py_ssize_t j, k

@@ -22,7 +22,7 @@ def distance_line(X, a, /):
 
 def score_distance(X, A, L, /):
     S = np.zeros(len(X), 'd')
-    for a, l in zip(A,L):
+    for a, l in zip(A, L):
         V = X @ a
         S += V * V / l
     return S
@@ -43,10 +43,10 @@ def find_rob_center(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
     U = distance_center(XY, c)
     af.fit(U)
     G = af.weights(U)
-    S = S_min = af.u
+    s = s_min = af.u
 
     if verbose:
-        print(S, c)
+        print(s, c)
 
     for K in range(n_iter):
         c = XY.T @ G
@@ -57,17 +57,16 @@ def find_rob_center(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
         af.fit(U)
         G = af.gradient(U)
         
-        S0 = S
-        S = af.u
+        s = af.u
         # print(S, c)
         
-        if K > 0 and S < S_min:
-            S_min = S
+        if K > 0 and s < s_min:
+            s_min = s
             c_min = c
             if verbose:
-                print('*', S, c)
+                print('*', s, c)
         
-        if K > 0 and abs(S - S_min) < tol:
+        if K > 0 and abs(s - s_min) < tol:
             break
 
     if verbose:

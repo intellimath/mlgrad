@@ -9,24 +9,24 @@ from libc.string cimport memcpy, memset
 cdef int get_num_threads() nogil
 cdef void set_num_threads(int num) nogil
 
-cdef void _clear(double *to, const size_t n) nogil
-cdef void _clear2(double *to, const size_t n, const size_t m) nogil
-cdef void _fill(double *to, const double c, const size_t n) nogil
-cdef double _conv(const double*, const double*, const size_t) nogil
-cdef void _move(double*, const double*, const size_t) nogil
-cdef double _sum(const double*, const size_t) nogil
-cdef void _add(double *a, const double *b, const size_t n) nogil
-cdef void _sub(double *a, const double *b, const size_t n) nogil
-cdef void _mul(double *a, const double *b, const size_t n) nogil
-cdef void _mul_add(double *a, const double *b, double c, const size_t n) nogil
-cdef void _mul_set(double *a, const double *b, double c, const size_t n) nogil
-cdef void _mul_const(double *a, const double c, const size_t n) nogil
-cdef void _matdot(double*, double*, const double*, const size_t, const size_t) nogil
-cdef void _matdot2(double*, double*, const double*, const size_t, const size_t) nogil
-cdef void _mul_add_arrays(double *a, double *M, const double *ss, const size_t n_input, const size_t n_output) nogil
-cdef void _mul_grad(double *grad, const double *X, const double *ss, const size_t n_input, const size_t n_output) nogil
-cdef void _multiply(double *a, const double *b, const double *x, const size_t n) nogil
-cdef void _normalize(double *a, const size_t n) nogil
+cdef void _clear(double *to, const Py_ssize_t n) nogil
+cdef void _clear2(double *to, const Py_ssize_t n, const Py_ssize_t m) nogil
+cdef void _fill(double *to, const double c, const Py_ssize_t n) nogil
+cdef double _conv(const double*, const double*, const Py_ssize_t) nogil
+cdef void _move(double*, const double*, const Py_ssize_t) nogil
+cdef double _sum(const double*, const Py_ssize_t) nogil
+cdef void _add(double *a, const double *b, const Py_ssize_t n) nogil
+cdef void _sub(double *a, const double *b, const Py_ssize_t n) nogil
+cdef void _mul(double *a, const double *b, const Py_ssize_t n) nogil
+cdef void _mul_add(double *a, const double *b, double c, const Py_ssize_t n) nogil
+cdef void _mul_set(double *a, const double *b, double c, const Py_ssize_t n) nogil
+cdef void _mul_const(double *a, const double c, const Py_ssize_t n) nogil
+cdef void _matdot(double*, double*, const double*, const Py_ssize_t, const Py_ssize_t) nogil
+cdef void _matdot2(double*, double*, const double*, const Py_ssize_t, const Py_ssize_t) nogil
+cdef void _mul_add_arrays(double *a, double *M, const double *ss, const Py_ssize_t n_input, const Py_ssize_t n_output) nogil
+cdef void _mul_grad(double *grad, const double *X, const double *ss, const Py_ssize_t n_input, const Py_ssize_t n_output) nogil
+cdef void _multiply(double *a, const double *b, const double *x, const Py_ssize_t n) nogil
+cdef void _normalize(double *a, const Py_ssize_t n) nogil
 
 
 cdef void clear(double[::1] to) nogil

@@ -65,6 +65,7 @@ cdef class Functional:
     cdef readonly Batch batch
     cdef readonly Py_ssize_t n_param
     cdef readonly Py_ssize_t n_input
+    cdef readonly bint is_natgrad
 
     cpdef init(self)
     cdef public double _evaluate(self)
@@ -87,7 +88,7 @@ cdef class Risk(Functional):
     cdef readonly Py_ssize_t n_sample
     #
     cdef void _evaluate_models_all(self, double[::1] vals)
-    cdef void _evaluate_models_batch(self)
+    # cdef void _evaluate_models_batch(self)
     cdef void _evaluate_losses_batch(self)
     cdef void _evaluate_losses_all(self, double[::1] lvals)
     # cdef void _evaluate_losses_derivative_div_batch(self)
