@@ -5,11 +5,11 @@
     "distutils": {
         "depends": [],
         "extra_compile_args": [
-            "-Os",
+            "-march=native",
             "-fopenmp"
         ],
         "extra_link_args": [
-            "-Os",
+            "-march=native",
             "-fopenmp",
             "-lm"
         ],

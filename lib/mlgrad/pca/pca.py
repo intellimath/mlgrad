@@ -5,13 +5,6 @@
 import numpy as np
 einsum = np.einsum
 
-def distance_center(X, c, /):
-    Z = X - c
-    # e = ones_like(c)
-    # Z2 = (Z * Z) @ e #.sum(axis=1)    
-    Z2 = einsum("ni,ni->n", Z, Z)
-    return Z2
-
 def distance_line(X, a, /):
     # e = ones_like(a)
     # XX = (X * X) @ e #.sum(axis=1)
@@ -20,59 +13,59 @@ def distance_line(X, a, /):
     Z = XX - Z * Z
     return Z
 
-def score_distance(X, A, L, /):
-    S = np.zeros(len(X), 'd')
-    for a, l in zip(A, L):
-        V = X @ a
-        S += V * V / l
-    return S
+# def score_distance(X, A, L, /):
+#     S = np.zeros(len(X), 'd')
+#     for a, l in zip(A, L):
+#         V = X @ a
+#         S += V * V / l
+#     return S
 
 def project_line(X, a, /):
     return X @ a
 
-def find_center(X, /):
-    return np.mean(X, axis=0)
+# def find_center(X, /):
+#     return np.mean(X, axis=0)
 
-def find_rob_center(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
-    c = XY.mean(axis=0)
-    c_min = c
-    N = len(XY)
+# def find_rob_center(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
+#     c = XY.mean(axis=0)
+#     c_min = c
+#     N = len(XY)
 
-    # Z = XY - c
-    # U = (Z * Z).sum(axis=1)
-    U = distance_center(XY, c)
-    af.fit(U)
-    G = af.weights(U)
-    s = s_min = af.u
+#     # Z = XY - c
+#     # U = (Z * Z).sum(axis=1)
+#     U = distance_center(XY, c)
+#     af.fit(U)
+#     G = af.weights(U)
+#     s = s_min = af.u
 
-    if verbose:
-        print(s, c)
+#     if verbose:
+#         print(s, c)
 
-    for K in range(n_iter):
-        c = XY.T @ G
+#     for K in range(n_iter):
+#         c = XY.T @ G
 
-        # Z = XY - c
-        # U = (Z * Z).sum(axis=1)
-        U = distance_center(XY, c)
-        af.fit(U)
-        G = af.gradient(U)
+#         # Z = XY - c
+#         # U = (Z * Z).sum(axis=1)
+#         U = distance_center(XY, c)
+#         af.fit(U)
+#         G = af.gradient(U)
         
-        s = af.u
-        # print(S, c)
+#         s = af.u
+#         # print(S, c)
         
-        if K > 0 and s < s_min:
-            s_min = s
-            c_min = c
-            if verbose:
-                print('*', s, c)
+#         if K > 0 and s < s_min:
+#             s_min = s
+#             c_min = c
+#             if verbose:
+#                 print('*', s, c)
         
-        if K > 0 and abs(s - s_min) < tol:
-            break
+#         if K > 0 and abs(s - s_min) < tol:
+#             break
 
-    if verbose:
-        print(f"K: {K}")
+#     if verbose:
+#         print(f"K: {K}")
 
-    return c_min
+#     return c_min
 
 def find_pc(XY2, *, a0 = None, n_iter=1000, tol=1.0e-8, verbose=0):
     N, n = XY2.shape

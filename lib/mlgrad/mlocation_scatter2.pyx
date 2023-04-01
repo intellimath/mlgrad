@@ -68,10 +68,9 @@ cdef void covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S):
                 s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
             S[i,j] = s / N
 
-cdef void covariance_matrix_weighted(
-            double[:, ::1] X, double[::1] W, double[::1] loc, double[:,::1] S):
-    cdef Py_ssize_t i, j
-    cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
+cdef void _covariance_matrix_weighted(
+            double *X, double *W, double *loc, double *S, Py_ssize_t n, Py_ssize_t N) nogil:
+    cdef Py_ssize_t i, j, k
     cdef double s, loc_i, loc_j
     cdef double *X_ki
     cdef double *X_kj
@@ -80,8 +79,8 @@ cdef void covariance_matrix_weighted(
         loc_i = loc[i]
         for j in range(i, n):
             loc_j = loc[j]
-            X_kj = &X[0,j]
-            X_ki = &X[0,i]
+            X_kj = X + j
+            X_ki = X + i
 
             s = 0
             for k in range(N):
@@ -89,8 +88,29 @@ cdef void covariance_matrix_weighted(
                 X_ki += n
                 X_kj += n
 
-            S[i,j] = S[j,i] = s
+            S[i*n+j] = S[j*n+i] = s
+            
+cdef void covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
+                                     double[::1] loc, double[:,::1] S) nogil:
+        _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], &S[0,0], X.shape[1], X.shape[0])
 
+cdef void _location_weighted(double *X, double *W, double *loc, 
+                             Py_ssize_t n, Py_ssize_t N) nogil:
+    cdef Py_ssize_t i, k
+    cdef double *Xi
+    cdef double c
+
+    for i in range(n):
+        c = 0
+        Xi = X + i
+        for k in range(N):
+            c += W[k] * Xi[0]
+            Xi += n
+        loc[i] = c
+            
+cdef void location_weighted(double[:,::1] X, double[::1] W, double[::1] loc):
+    _location_weighted(&X[0,0], &W[0], &loc[0], X.shape[1],  X.shape[0])
+            
 def standard_location(X):
     n = X.shape[1]
     loc = np.zeros(n, 'd')
@@ -111,6 +131,8 @@ cdef det_matrix_2(double[:,::1] S):
 cdef double[:,::1] inv_matrix_2(double[:,::1] S):
     cdef double s00 = S[0,0], s01 = S[0,1], s10 = S[1,0], s11 = S[1,1]
     cdef double d = s00*s11 - s10*s01
+    
+    # print(s00, s01, s10, s11, d);
 
     S[0,0] = s11 / d
     S[1,1] = s00 / d
@@ -118,26 +140,28 @@ cdef double[:,::1] inv_matrix_2(double[:,::1] S):
     S[0,1] = -s01 / d
     return S
 
-cdef void _scale_matrix(double[:,::1] S, double to=1.0):
+cdef double _scale_matrix(double[:,::1] S):
     cdef Py_ssize_t n = S.shape[0]
     cdef double vol
     cdef Py_ssize_t i
     cdef double *ptr
 
     if n == 2:
-        vol = det_matrix_2(S) / to
+        vol = det_matrix_2(S)
     else:
-        vol = linalg.det(np.asarray(S)) / to
-    # if vol <= 0:
-    #     print('-', S)
+        vol = linalg.det(np.asarray(S))
+    if vol <= 0:
+        print('-', S)
     vol = vol ** (1.0/n)
     vol = 1/vol
     ptr = &S[0,0]
     for i in range(n*n):
         ptr[i] *= vol
+        
+    return vol
 
-def scale_matrix(S, to=1.0):
-    _scale_matrix(S, to=1.0)
+def scale_matrix(S):
+    _scale_matrix(S)
 
 def init_locations(X, double[:,::1] locs):
 
@@ -181,6 +205,7 @@ cdef class MLSE2:
         cdef DistanceWithScale df
         cdef DistanceWithScale[::1] distfuncs = self.distfuncs
         cdef Average avg_min = self.avg_min
+        cdef double[::1] GF = self.GF
 
         for k in range(N):
             for j in range(n_locs):
@@ -188,7 +213,9 @@ cdef class MLSE2:
                 DM[j] = df._evaluate(&X[k,0], &locs[j,0], n)
 
             D[k] = avg_min._evaluate(DM)
-            avg_min._gradient(DM, GG[k])
+            avg_min._gradient(DM, GF)
+            for j in range(n_locs):
+                GG[j,k] = GF[j]
 
         return D
 
@@ -202,31 +229,34 @@ cdef class MLSE2:
         cdef Py_ssize_t N = self.N, n = self.n, n_locs = self.n_locs
         cdef double wk, wj
         cdef double[:,::1] GG = self.GG
-        cdef double[::1] GG_k
+        cdef double[::1] GG_j
         cdef double[::1] W = self.W
         cdef double[::1] weights = self.weights
 
 #         for k in prange(N, nogil=True, num_threads=num_procs):
-        for k in range(N):
-            wk = weights[k]
-            GG_k = GG[k]
-            for j in range(n_locs):
-                GG_k[j] *= wk
+        for j in range(n_locs):
+            GG_j = GG[j]
+            # inventory.mul(GG_j, weights)
+            for k in range(N):
+                GG_j[k] *= weights[k]
 
 #         num = int_min(num_procs, self.n_locs)
 #         for j in prange(self.n_locs, nogil=True, num_threads=num):
         for j in range(n_locs):
+            GG_j = GG[j]
+            # W[j] = inventory.sum(GG_j)
             wj = 0
             for k in range(N):
-                wj += GG[k,j]
+                wj += GG_j[k]
             W[j] = wj
 
 #         for k in prange(N, nogil=True, num_threads=num_procs):
-        for k in range(N):
-            wk = weights[k]
-            GG_k = GG[k]
-            for j in range(n_locs):
-                GG_k[j] /= W[j]
+        for j in range(n_locs):
+            wj = W[j]
+            GG_j = GG[j]
+            # inventory.mul_const(GG_j, 1/wj)
+            for k in range(N):
+                GG_j[k] /= wj
 
     cpdef double Q(self):
         self.calc_distances()
@@ -263,7 +293,8 @@ cdef class MLSE2:
 
 cdef class MLocationsScattersEstimator(MLSE2):
 
-    def __init__(self, Average avg, Average avg_min, n_locs, tol=1.0e-6, n_iter=1, n_iter_s=1, n_step=100, alpha=1.0):
+    def __init__(self, Average avg, Average avg_min, n_locs, 
+                 tol=1.0e-6, n_iter_c=20, n_iter_s=10, n_iter=100, normalize_S=1):
         self.avg = avg
         self.avg_min = avg_min
         self.X = None
@@ -277,13 +308,10 @@ cdef class MLocationsScattersEstimator(MLSE2):
 
         self.distfuncs = None
         self.tol = tol
+        self.n_iter_c = n_iter_c
+        self.n_iter_s = n_iter_s
         self.n_iter = n_iter
-        if n_iter_s <= 0:
-            self.n_iter_s = n_iter
-        else:
-            self.n_iter_s = n_iter_s
-        self.n_step = n_step
-        self.alpha = alpha
+        self.normalize_S = normalize_S
 
     def init(self, double[:,::1] X, warm=False):
         self.n = n = X.shape[1]
@@ -295,10 +323,12 @@ cdef class MLocationsScattersEstimator(MLSE2):
 
         self.D  = np.zeros(N, 'd')
         self.DD  = np.zeros(self.n_locs, 'd')
-        self.GG  = np.zeros((N, self.n_locs), 'd')
+        self.GG  = np.zeros((self.n_locs, N), 'd')
 
         self.weights = np.full(N, 1./N, 'd')
         self.W = np.zeros(self.n_locs, 'd')
+        self.GF = np.zeros(self.n_locs, 'd')
+        self.Lambda = np.ones(self.n_locs, 'd')
         self.dval_prev = self.dval_min = self.dval = max_double/2
         self.dval2_prev = self.dval2_min = self.dval2 = max_double/2
         self.dvals = []
@@ -311,16 +341,8 @@ cdef class MLocationsScattersEstimator(MLSE2):
             self.init_locations(X)
             self.init_scatters(X)
 
-        self.calc_distances()
-        self.calc_weights()
-
-        # self.dval = self.dval_min = self.avg.u
-        # self.dvals.append(self.dval)
-        # self.dval_prev = max_double
-
-        self.dval2 = self.dval2_min = self.Q()
-        self.dval2_prev = max_double/2
-        self.dvals2.append(self.dval2)
+        # self.calc_distances()
+        # self.calc_weights()
 
     def init_locations(self, double[:,::1] X, double[:,::1] locs=None):
         n = self.n
@@ -405,82 +427,140 @@ cdef class MLocationsScattersEstimator(MLSE2):
         return D.base
 
     def fit_locations(self, double[:,::1] X, double[:,::1] locs=None):
-        self.K = 1
+        cdef Py_ssize_t K = 0
 
-        self.calc_distances()
-        self.calc_weights()
-        self.fit_step_locations()
+        is_completed = False
+        self.dval = self.dval_min = self.Q()
+        self.dvals.append(self.dval)
+        copy_memoryview2(self.locs_min, self.locs)
+        for K in range(self.n_iter_c):
+            self.calc_distances()
+            self.calc_weights()
+            self.fit_step_locations()
+            
+            self.dval = self.Q()
+            self.dvals.append(self.dval)
+
+            if self.stop_condition():
+                is_completed = True
+            
+            if self.dval < self.dval_min:
+                self.dval_min = self.dval
+                # inventory.move2(self.locs_min, self.locs)
+                copy_memoryview2(self.locs_min, self.locs)
+            
+            if is_completed:
+                break
+
+        copy_memoryview2(self.locs, self.locs_min)
 
     def fit_step_locations(self):
         cdef Py_ssize_t n = self.n, N = self.N
         cdef Py_ssize_t i, j, k, l
-        cdef double v, wk, wkj, Wj
+        # cdef double v, wk, wkj, Wj
         cdef double[:,::1] X = self.X
         cdef double[:,::1] locs = self.locs
-        cdef double[::1] W = self.W
+        # cdef double[::1] W = self.W
         cdef double[::1] locs_j
-        cdef double[::1] Xk
+        # cdef double[::1] Xk
         cdef double[:, ::1] GG = self.GG
-        cdef double[::1] GG_k
-        cdef double alpha = self.alpha
+        # cdef double[::1] GG_k
+        # cdef double alpha = self.alpha
 
-        multiply_memoryview2(locs, 1-alpha)
-        # inventory.mul_const2(locs, 1-alpha)
-        for k in range(N):
-            GG_k = GG[k]
-            Xk = X[k]
-            for j in range(self.n_locs):
-                locs_j = locs[j]
-                gkj = alpha * GG_k[j]
-                for i in range(n):
-                    locs_j[i] += gkj * Xk[i]
+        # multiply_memoryview2(locs, 0)
+        # inventory.clear2(locs)
+        for j in range(self.n_locs):
+            _location_weighted(&X[0,0], &GG[j,0], &locs[j,0], X.shape[1], X.shape[0])
+        # for k in range(N):
+        #     GG_k = GG[k]
+        #     Xk = X[k]
+        #     for j in range(self.n_locs):
+        #         locs_j = locs[j]
+        #         gkj = alpha * GG_k[j]
+        #         for i in range(n):
+        #             locs_j[i] += gkj * Xk[i]
 
     def fit_scatters(self, double[:,::1] X, double[:,:,::1] scatters=None):
-        self.calc_distances()
-        self.calc_weights()
-        self.fit_step_scatters()
+        # self.calc_distances()
+        # self.calc_weights()
+        # self.fit_step_scatters()
+        
+        cdef Py_ssize_t K = 0
+
+        is_completed = False
+        self.dval = self.dval_min = self.Q()
+        self.dvals.append(self.dval)
+
+        copy_memoryview3(self.scatters_min, self.scatters)
+        for K in range(self.n_iter_c):
+            self.calc_distances()
+            self.calc_weights()
+            self.fit_step_scatters()
+            
+            self.dval = self.Q()
+            self.dvals.append(self.dval)
+            
+            if self.stop_condition():
+                is_completed = True
+
+            if self.dval < self.dval_min:
+                self.dval_min = self.dval
+                # inventory.move3(self.scatters_min, self.scatters)
+                copy_memoryview3(self.scatters_min, self.scatters)
+            
+            if is_completed:
+                break            
+        
+        copy_memoryview3(self.scatters, self.scatters_min)
+        self.update_distfuncs(self.scatters)
 
     def fit_step_scatters(self):
         cdef Py_ssize_t i, j, k, l
         cdef Py_ssize_t N = self.X.shape[0], n = self.X.shape[1]
-        cdef double wk, vv
+        # cdef double wk, vv
         cdef double[:,::1] X = self.X
 #         cdef DistanceWithScale[::1] distfuncs = self.distfuncs
         cdef double[:,:,::1] scatters = self.scatters
         cdef double[:,::1] S, S1
         cdef double[:,::1] locs = self.locs
         cdef double[::1] weights = self.weights
-        cdef double[::1] W = self.W
+        # cdef double[::1] W = self.W
         cdef double[:, ::1] GG = self.GG
-        cdef double alpha = self.alpha
+        # cdef double[::1] GG_l
+        # cdef double alpha = self.alpha
 
-        cdef double[::1] loc
-        cdef double[::1] Xk
-        cdef double[::1] Si
+        # cdef double[::1] loc
+        # cdef double[::1] Xk
+        # cdef double[::1] Si
 
-        multiply_memoryview3(scatters, 1-alpha)
+        # multiply_memoryview3(scatters, 0)
         # inventory.mul_const3(scatters, 1-alpha)
         for l in range(self.n_locs):
-            S = scatters[l]
-            loc = locs[l]
-            for k in range(N):
-                Xk = X[k]
-                wk = GG[k,l]
-                for i in range(n):
-                    vv = alpha * wk * (Xk[i] - loc[i])
-                    Si = S[i]
-                    for j in range(i,n):
-                        Si[j] += vv * (Xk[j] - loc[j])
-                        if j > i:
-                            S[j,i] = Si[j]
+            # S = scatters[l]
+            # loc = locs[l]
+            # GG_l = GG[l]
+            _covariance_matrix_weighted(&X[0,0], &GG[l,0], &locs[l,0], 
+                                        &scatters[l,0,0], X.shape[1], X.shape[0])
+            # for k in range(N):
+            #     Xk = X[k]
+            #     wk = GG[k,l]
+            #     for i in range(n):
+            #         vv = alpha * wk * (Xk[i] - loc[i])
+            #         Si = S[i]
+            #         for j in range(i,n):
+            #             Si[j] += vv * (Xk[j] - loc[j])
+            #             if j > i:
+            #                 S[j,i] = Si[j]
 
         for l in range(self.n_locs):
             S = scatters[l]
-            _scale_matrix(S)
+            # self.Lambda[l] = linalg.det(S) ** (1./n)
+            if self.normalize_S:
+                _scale_matrix(S)
             if n == 2:
                 S = inv_matrix_2(S)
             else:
-                S1 = linalg.pinv(np.asarray(S), hermitian=True)
+                S1 = linalg.pinv(np.asarray(S))
                 copy_memoryview2(S, S1)
                 # inventory.move2(S, S1)
 
@@ -493,50 +573,48 @@ cdef class MLocationsScattersEstimator(MLSE2):
         locations_only = (only == 'locations')
 
         self.Ks = 1
+        is_completed = False
 
-        while self.Ks <= self.n_step:
+        self.dval2 = self.dval2_min = self.Q()
+        self.dvals2.append(self.dval2)
+        
+        while self.Ks <= self.n_iter:
             if not scatters_only:
                 self.fit_locations(self.X, self.locs)
-
-                self.dval2_prev = self.dval2
-                self.dval2 = self.Q()
-                self.dvals2.append(self.dval2)
-                if self.dval2 < self.dval2_min:
-                    self.dval2_min = self.dval2
-                    # inventory.move2(self.locs_min, self.locs)
-                    copy_memoryview2(self.locs_min, self.locs)
 
             if not locations_only:
                 self.fit_scatters(self.X, self.scatters)
 
-                self.dval2_prev = self.dval2
-                self.dval2 = self.Q()
-                self.dvals2.append(self.dval2)
-                if self.dval2 < self.dval2_min:
-                    self.dval2_min = self.dval2
-                    # inventory.move3(self.scatters_min, self.scatters)
-                    copy_memoryview3(self.scatters_min, self.scatters)
-
-#             if locations_only or scatters_only:
-#                 break
+            # self.dval2_prev = self.dval2
+            self.dval2 = self.Q()
+            self.dvals2.append(self.dval2)
 
             if self.stop_condition2():
+                is_completed = True
+
+            if self.dval2 < self.dval2_min:
+                self.dval2_min = self.dval2
+                # inventory.move2(self.locs_min, self.locs)
+                # copy_memoryview2(self.locs_min, self.locs)
+                # copy_memoryview3(self.scatters_min, self.scatters)
+
+            if is_completed:
                 break
 
             self.Ks += 1
 # 
-        copy_memoryview2(self.locs, self.locs_min)
-        # inventory.move2(self.locs, self.locs_min)
-        copy_memoryview3(self.scatters, self.scatters_min)
-        # inventory.move3(self.scatters, self.scatters_min)
-        self.update_distfuncs(self.scatters)
+        # copy_memoryview2(self.locs, self.locs_min)
+        # # inventory.move2(self.locs, self.locs_min)
+        # copy_memoryview3(self.scatters, self.scatters_min)
+        # # inventory.move3(self.scatters, self.scatters_min)
+        # self.update_distfuncs(self.scatters)
 
     cdef bint stop_condition(self):
-        if fabs(self.dval - self.dval_prev) / (1 + fabs(self.dval_min)) >= self.tol:
+        if fabs(self.dval - self.dval_min) / (1 + fabs(self.dval_min)) >= self.tol:
             return 0
         return 1
 
     cdef bint stop_condition2(self):
-        if fabs(self.dval2 - self.dval2_prev) / (1 + fabs(self.dval2_min)) >= self.tol:
+        if fabs(self.dval2 - self.dval2_min) / (1 + fabs(self.dval2_min)) >= self.tol:
             return 0
         return 1

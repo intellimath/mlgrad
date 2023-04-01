@@ -89,15 +89,18 @@ cdef class MLSE2:
     cdef Average avg_min
     cdef public double[::1] weights
     cdef double[::1] W
+    cdef double[::1] GF
+    cdef double[::1] Lambda
     cdef Py_ssize_t[::1] Ns
 
     cdef double dval, dval_prev, dval_min
     cdef double dval2, dval2_prev, dval2_min
     cdef double h
-    cdef public int K, Ks, n_iter, n_iter_s, n_step
+    cdef public int K, Ks, n_iter_c, n_iter_s, n_iter
     cdef public double tol
     cdef public list dvals, dvals2
-    cdef double alpha
+    # cdef double alpha
+    cdef bint normalize_S
 
     cpdef calc_distances(self)
     cpdef calc_weights(self)

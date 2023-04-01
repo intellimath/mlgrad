@@ -5,10 +5,10 @@
     "distutils": {
         "depends": [],
         "extra_compile_args": [
-            "-Os"
+            "-march=native"
         ],
         "extra_link_args": [
-            "-Os",
+            "-march=native",
             "-lm"
         ],
         "name": "mlgrad.risk",

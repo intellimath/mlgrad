@@ -139,7 +139,7 @@ cdef class MahalanobisDistance(DistanceWithScale):
         self.S = S
 
     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
-        cdef double[:,::1] S = self.S
+        cdef double *S = &self.S[0,0]
         cdef double xy1, xy2
         cdef Py_ssize_t i, j
         cdef double s, vi, vj, sj
@@ -148,18 +148,16 @@ cdef class MahalanobisDistance(DistanceWithScale):
         if n == 2:
             xy1 = x[0] - y[0]
             xy2 = x[1] - y[1]
-            return S[0,0] * xy1 * xy1 + \
-                   S[1,1] * xy2 * xy2 + \
-                   2 * (S[0,1] * xy1 * xy2)
+            return S[0] * xy1 * xy1 + \
+                   S[3] * xy2 * xy2 + \
+                   2 * (S[1] * xy1 * xy2)
         
-        i = 0
         s = 0
-        while i < n:
-            vi = x[i] - y[i]
-            S_i = &S[i,0]
-            s += vi * S_i[i] * vi
-            
-            sj = 0
+        S_i = S
+        for i in range(n):
+            vi = x[i] - y[i]            
+            sj = S_i[i] * vi
+
             j = i + 1
             while j < n:
                 vj = x[j] - y[j]
@@ -167,7 +165,8 @@ cdef class MahalanobisDistance(DistanceWithScale):
                 j += 1
 
             s += 2 * vi * sj
-            i += 1
+            S_i += n
+
         return s
         
     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
