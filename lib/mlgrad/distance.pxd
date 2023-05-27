@@ -24,6 +24,7 @@ cdef class DistanceWithScale(Distance):
     cdef public double[:,::1] S
     cdef public double sigma
 
-#@cython.final
+# @cython.final
 cdef class MahalanobisDistance(DistanceWithScale):
-    pass
+    
+    cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil

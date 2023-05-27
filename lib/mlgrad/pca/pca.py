@@ -4,6 +4,9 @@
 
 import numpy as np
 einsum = np.einsum
+sqrt = np.sqrt
+isnan = np.isnan
+fromiter = np.fromiter
 
 def distance_line(X, a, /):
     # e = ones_like(a)
@@ -11,17 +14,23 @@ def distance_line(X, a, /):
     XX = einsum("ni,ni->n", X, X)
     Z = X @ a
     Z = XX - Z * Z
-    return Z
+    Z[Z<0] = 0
+    return sqrt(Z)
 
-# def score_distance(X, A, L, /):
-#     S = np.zeros(len(X), 'd')
-#     for a, l in zip(A, L):
-#         V = X @ a
-#         S += V * V / l
-#     return S
+def score_distance(X, A, L, /):
+    S = np.zeros(len(X), 'd')
+    for a, l in zip(A, L):
+        V = X @ a
+        S += V * V / l
+    return S
 
 def project_line(X, a, /):
     return X @ a
+
+def project(X, a, /):
+    Xa = (X @ a).reshape(-1,1) * X
+    # Xa = np.fromiter(((x @ a) * a for x in X), len(X), 'd')
+    return X - Xa
 
 # def find_center(X, /):
 #     return np.mean(X, axis=0)
@@ -67,16 +76,18 @@ def project_line(X, a, /):
 
 #     return c_min
 
-def find_pc(XY2, *, a0 = None, n_iter=1000, tol=1.0e-8, verbose=0):
-    N, n = XY2.shape
+def find_pc(X, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
+    N = len(X)
+    S = X.T @ X / N
+    a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose)    
+    return a, L
+
+def _find_pc(S, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):    
     if a0 is None:
-        a = np.random.random(n)
+        a = np.random.random(S.shape[0])
     else:
         a = a0
 
-    S = XY2.T @ XY2 / N
-    XX = (XY2 * XY2).sum(axis=1)
-    
     np_abs = np.abs
     np_sqrt = np.sqrt
     
@@ -89,21 +100,26 @@ def find_pc(XY2, *, a0 = None, n_iter=1000, tol=1.0e-8, verbose=0):
             break
 
         a = a1
-        if verbose:
-            print(L, S)
+
+    K += 1
+    if verbose:
+        print("K:", K, L, a)
 
     # Z = XY2 @ a1
     # Z = XX - Z * Z
             
     return a, L
 
-def find_rob_pc(X, qf, *, n_iter=1000, tol=1.0e-8, verbose=0):
+def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
     N, n = X.shape
 
-    a0 = np.random.random(n)
+    if a0 is None:
+        a0 = np.random.random(n)
+    else:
+        a0 = a0
+
     a = a_min = a0 / np.sqrt(a0 @ a0)
     XX = (X * X).sum(axis=1)
-    # print(XX.shape)    
 
     Z = X @ a
     Z = Z_min = XX - Z * Z
@@ -115,21 +131,23 @@ def find_rob_pc(X, qf, *, n_iter=1000, tol=1.0e-8, verbose=0):
 
     np_abs = np.abs
     np_sqrt = np.sqrt
-    
+
+    complete = False
     for K in range(n_iter):
 
         S = (X.T * G) @ X
 
-        L = ((S @ a) @ a) / (a @ a)
-        a1 = (S @ a) / L
-        a1 /= np_sqrt(a1 @ a1)
-        
+        a1, L = _find_pc(S, a0=a, n_iter=100, tol=tol, verbose=verbose)
+
         Z = X @ a1
         Z = XX - Z * Z
         
         qf.fit(Z)
         SZ = qf.u
         G = qf.gradient(Z)
+
+        if abs(SZ - SZ_min) < tol:
+            complete = True
 
         if SZ < SZ_min:
             SZ_min = SZ
@@ -139,11 +157,12 @@ def find_rob_pc(X, qf, *, n_iter=1000, tol=1.0e-8, verbose=0):
             if verbose:
                 print('*', SZ, L, a)
 
-        if np_abs(a1 - a).max() < tol:
+        if complete:
             break
 
         a = a1
-        
+
+    K += 1
     if verbose:
         print(f"K: {K}")
 
@@ -183,14 +202,14 @@ def find_pc_all(X0):
     Ls = np.array(Ls)
     return As, Ls, Us
         
-def find_rob_pc_all(X0, wma):
+def find_robust_pc_all(X0, wma):
     Ls = []
     As = []
     Us = []
     n = X0.shape[1]
     X = X0
     for i in range(n):
-        a, L = find_rob_pc(X, wma)
+        a, L = find_robust_pc(X, wma)
         U = project_line(X0, a)
         X = project(X, a)
         Ls.append(L)

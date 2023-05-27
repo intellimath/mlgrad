@@ -69,6 +69,7 @@ class GradientBoostingRegression:
         # print(j)
         risk.model.param[:] = param_min
         risk.alpha = alpha_min
+        self.lval = lval_min
     #
     def fit(self, X, Y):
         n = X.shape[1]
@@ -83,8 +84,8 @@ class GradientBoostingRegression:
             
             self.find_param_alpha(risk)
 
-            lval = risk.evaluate()
-            self.lvals.append(lval)
+            # lval = risk.evaluate()
+            self.lvals.append(self.lval)
 
             self.complex_model.add(mod, risk.alpha)            
 

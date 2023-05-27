@@ -92,8 +92,6 @@ cdef class MWeights(Weights):
         self.risk = risk
         self.first_time = 1
         self.normalize = normalize
-        # self.best_u = PyFloat_GetMax()
-        # self.use_best_u = use_best_u
         self.weights = np.empty(len(risk.X), 'd')
         self.lvals = np.empty(len(risk.X), 'd')
     #
@@ -102,22 +100,8 @@ cdef class MWeights(Weights):
     #
     cpdef eval_weights(self):
         self.risk._evaluate_losses_all(self.lvals)
-
-        # if self.first_time:
-        #     u0 = None
-        #     self.first_time = 0 
-        # else:
-        #     u0 = self.average.u
-        
         self.average.fit(self.lvals)
-        # if self.use_best_u and self.average.u < self.best_u:
-        #     self.best_u = self.average.u
-        
-        # if self.use_best_u:
-        #     self.average.penalty.gradient(self.lval_all, self.best_u, self.weights)
-        # else:
         self.average._gradient(self.lvals, self.weights)
-
         if self.normalize:
             inventory.normalize(self.weights)
     #
@@ -127,6 +111,58 @@ cdef class MWeights(Weights):
     cpdef double[::1] get_weights(self):
         return self.weights
 
+cdef class MWeights2(Weights):
+    #
+    def __init__(self, Average average, ERisk2 risk, normalize=0):
+        self.average = average
+        self.risk = risk
+        self.first_time = 1
+        self.normalize = normalize
+        self.weights = np.empty(len(risk.X), 'd')
+        self.lvals = np.empty(len(risk.X), 'd')
+    #
+    cpdef init(self):
+        self.first_time = 1
+    #
+    cpdef eval_weights(self):
+        self.risk._evaluate_losses_all(self.lvals)
+        self.average.fit(self.lvals)
+        self.average._gradient(self.lvals, self.weights)
+        if self.normalize:
+            inventory.normalize(self.weights)
+    #
+    cpdef double get_qvalue(self):
+        return self.average.u
+    #
+    cpdef double[::1] get_weights(self):
+        return self.weights
+
+cdef class MWeights22(Weights):
+    #
+    def __init__(self, Average average, ERisk22 risk, normalize=0):
+        self.average = average
+        self.risk = risk
+        self.first_time = 1
+        self.normalize = normalize
+        self.weights = np.empty(len(risk.X), 'd')
+        self.lvals = np.empty(len(risk.X), 'd')
+    #
+    cpdef init(self):
+        self.first_time = 1
+    #
+    cpdef eval_weights(self):
+        self.risk._evaluate_losses_all(self.lvals)
+        self.average.fit(self.lvals)
+        self.average._gradient(self.lvals, self.weights)
+        if self.normalize:
+            inventory.normalize(self.weights)
+    #
+    cpdef double get_qvalue(self):
+        return self.average.u
+    #
+    cpdef double[::1] get_weights(self):
+        return self.weights
+    
 cdef class WeightsCompose(Weights):
     
     def __init__(self, Weights weights1, Weights weights2, normalize=1):

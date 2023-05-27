@@ -7,7 +7,7 @@ def distance_center(X, c, /):
     # e = ones_like(c)
     # Z2 = (Z * Z) @ e #.sum(axis=1)    
     Z2 = einsum("ni,ni->n", Z, Z)
-    return Z2
+    return np.sqrt(Z2)
 
 def location(X, /):
     return mean(X, axis=0)
@@ -19,7 +19,8 @@ def robust_location(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
 
     # Z = XY - c
     # U = (Z * Z).sum(axis=1)
-    U = distance_center(XY, c)
+    Z = XY - c
+    U = einsum("ni,ni->n", Z, Z)
     af.fit(U)
     G = af.weights(U)
     s = s_min = af.u
@@ -32,7 +33,9 @@ def robust_location(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
 
         # Z = XY - c
         # U = (Z * Z).sum(axis=1)
-        U = distance_center(XY, c)
+        Z = XY - c
+        U = einsum("ni,ni->n", Z, Z)
+        # U = distance_center(XY, c)
         s = af.evaluate(U)
         G = af.gradient(U)
         

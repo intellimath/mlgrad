@@ -102,8 +102,8 @@ cdef class MLSE2:
     # cdef double alpha
     cdef bint normalize_S
 
-    cpdef calc_distances(self)
-    cpdef calc_weights(self)
+    cpdef evaluate_distances(self)
+    cpdef evaluate_weights(self)
     cdef calc_update_GG(self)
     cpdef double Q(self)
     # cpdef double local_Q(self)

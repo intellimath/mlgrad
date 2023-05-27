@@ -4,7 +4,7 @@ cimport cython
 
 from mlgrad.func cimport Func
 from mlgrad.loss cimport Loss
-from mlgrad.risk cimport ERisk, Risk, Functional
+from mlgrad.risk cimport ERisk, Risk, ERisk2, ERisk22, Functional
 from mlgrad.avragg cimport Average
 from mlgrad.model cimport Model
 
@@ -56,7 +56,6 @@ cdef inline void normalize_memoryview(double[::1] X):
 cdef class Weights(object):
     #
     cdef public double[::1] weights
-    cdef public Risk risk
     cdef bint normalize
     #
     cpdef init(self)
@@ -75,6 +74,7 @@ cdef class ConstantWeights(Weights):
 
 @cython.final
 cdef class RWeights(Weights):
+    cdef public Risk risk
     # cdef readonly double[::1] lval_all
     # cdef public Func func
     # cdef bint normalize
@@ -82,11 +82,28 @@ cdef class RWeights(Weights):
 
 @cython.final
 cdef class MWeights(Weights):
+    cdef public Risk risk
     cdef readonly double[::1] lvals
     # cdef public double best_u
     cdef public Average average
     cdef bint first_time #, u_only, use_best_u
 
+@cython.final
+cdef class MWeights2(Weights):
+    cdef public ERisk2 risk
+    cdef readonly double[::1] lvals
+    # cdef public double best_u
+    cdef public Average average
+    cdef bint first_time #, u_only, use_best_u
+
+@cython.final
+cdef class MWeights22(Weights):
+    cdef public ERisk22 risk
+    cdef readonly double[::1] lvals
+    # cdef public double best_u
+    cdef public Average average
+    cdef bint first_time #, u_only, use_best_u
+    
 @cython.final
 cdef class WeightsCompose(Weights):
     cdef Weights _weights1

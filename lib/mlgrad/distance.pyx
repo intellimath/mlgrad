@@ -35,7 +35,7 @@ import numpy as np
 cdef class Distance:
     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
         return 0
-    cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
+    cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:
         return 0
     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
         pass
@@ -138,7 +138,7 @@ cdef class MahalanobisDistance(DistanceWithScale):
     def __init__(self, double[:,::1] S):
         self.S = S
 
-    cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
+    cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:
         cdef double *S = &self.S[0,0]
         cdef double xy1, xy2
         cdef Py_ssize_t i, j

@@ -1163,9 +1163,10 @@ struct __pyx_obj_6mlgrad_8distance_DistanceWithScale {
 
 /* "mlgrad/distance.pxd":28
  * 
- * #@cython.final
+ * # @cython.final
  * cdef class MahalanobisDistance(DistanceWithScale):             # <<<<<<<<<<<<<<
- *     pass
+ * 
+ *     cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil
  */
 struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance {
   struct __pyx_obj_6mlgrad_8distance_DistanceWithScale __pyx_base;
@@ -1638,6 +1639,12 @@ static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *, PyObject *);
 /* GetAttr3.proto */
 static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *, PyObject *, PyObject *);
 
+/* BufferIndexError.proto */
+static void __Pyx_RaiseBufferIndexError(int axis);
+
+/* BufferIndexErrorNogil.proto */
+static void __Pyx_RaiseBufferIndexErrorNogil(int axis);
+
 /* WriteUnraisableException.proto */
 static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
@@ -1681,28 +1688,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
 /* HasAttr.proto */
 static CYTHON_INLINE int __Pyx_HasAttr(PyObject *, PyObject *);
 
-/* ArgTypeTest.proto */
-#define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
-    ((likely((Py_TYPE(obj) == type) | (none_allowed && (obj == Py_None)))) ? 1 :\
-        __Pyx__ArgTypeTest(obj, type, name, exact))
-static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
-
-/* StrEquals.proto */
-#if PY_MAJOR_VERSION >= 3
-#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
-#else
-#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
-#endif
-
-/* DivInt[Py_ssize_t].proto */
-static CYTHON_INLINE Py_ssize_t __Pyx_div_Py_ssize_t(Py_ssize_t, Py_ssize_t);
-
-/* UnaryNegOverflows.proto */
-#define UNARY_NEG_WOULD_OVERFLOW(x)\
-        (((x) < 0) & ((unsigned long)(x) == 0-(unsigned long)(x)))
-
-static CYTHON_UNUSED int __pyx_array_getbuffer(PyObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /*proto*/
-static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *); /*proto*/
 /* GetItemInt.proto */
 #define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
     (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
@@ -1725,6 +1710,28 @@ static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
 static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
                                                      int is_list, int wraparound, int boundscheck);
 
+/* ArgTypeTest.proto */
+#define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
+    ((likely((Py_TYPE(obj) == type) | (none_allowed && (obj == Py_None)))) ? 1 :\
+        __Pyx__ArgTypeTest(obj, type, name, exact))
+static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
+
+/* StrEquals.proto */
+#if PY_MAJOR_VERSION >= 3
+#define __Pyx_PyString_Equals __Pyx_PyUnicode_Equals
+#else
+#define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
+#endif
+
+/* DivInt[Py_ssize_t].proto */
+static CYTHON_INLINE Py_ssize_t __Pyx_div_Py_ssize_t(Py_ssize_t, Py_ssize_t);
+
+/* UnaryNegOverflows.proto */
+#define UNARY_NEG_WOULD_OVERFLOW(x)\
+        (((x) < 0) & ((unsigned long)(x) == 0-(unsigned long)(x)))
+
+static CYTHON_UNUSED int __pyx_array_getbuffer(PyObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /*proto*/
+static PyObject *__pyx_array_get_memview(struct __pyx_array_obj *); /*proto*/
 /* ObjectGetItem.proto */
 #if CYTHON_USE_TYPE_SLOTS
 static CYTHON_INLINE PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key);
@@ -2021,7 +2028,7 @@ static int __Pyx_check_binary_version(void);
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 static double __pyx_f_6mlgrad_8distance_8Distance_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_y); /* proto*/
-static double __pyx_f_6mlgrad_8distance_8Distance__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED double const *__pyx_v_x, CYTHON_UNUSED double const *__pyx_v_y, CYTHON_UNUSED Py_ssize_t __pyx_v_n); /* proto*/
+static double __pyx_f_6mlgrad_8distance_8Distance__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED double const *__pyx_v_x, CYTHON_UNUSED double const *__pyx_v_y, CYTHON_UNUSED Py_ssize_t const __pyx_v_n); /* proto*/
 static void __pyx_f_6mlgrad_8distance_8Distance_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_y, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_grad); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8distance_8Distance_set_param(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_name, CYTHON_UNUSED PyObject *__pyx_v_val); /* proto*/
 static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y); /* proto*/
@@ -2031,7 +2038,7 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
 static void __pyx_f_6mlgrad_8distance_14EuclidDistance_gradient(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_EuclidDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y, __Pyx_memviewslice __pyx_v_grad); /* proto*/
 static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_obj_6mlgrad_8distance_PowerDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y); /* proto*/
 static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_6mlgrad_8distance_PowerDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y, __Pyx_memviewslice __pyx_v_grad); /* proto*/
-static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, double const *__pyx_v_x, double const *__pyx_v_y, Py_ssize_t __pyx_v_n); /* proto*/
+static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, double const *__pyx_v_x, double const *__pyx_v_y, Py_ssize_t const __pyx_v_n); /* proto*/
 static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance_evaluate(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y); /* proto*/
 static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y, __Pyx_memviewslice __pyx_v_grad); /* proto*/
 static PyObject *__pyx_f_6mlgrad_8distance_19MahalanobisDistance_set_param(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_val); /* proto*/
@@ -2489,7 +2496,7 @@ static PyObject *__pyx_codeobj__42;
  * cdef class Distance:
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
  *         return 0
- *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:
  */
 
 static double __pyx_f_6mlgrad_8distance_8Distance_evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_y) {
@@ -2499,7 +2506,7 @@ static double __pyx_f_6mlgrad_8distance_8Distance_evaluate(CYTHON_UNUSED struct 
  * cdef class Distance:
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
  *         return 0             # <<<<<<<<<<<<<<
- *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:
  *         return 0
  */
   __pyx_r = 0.0;
@@ -2510,7 +2517,7 @@ static double __pyx_f_6mlgrad_8distance_8Distance_evaluate(CYTHON_UNUSED struct 
  * cdef class Distance:
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:             # <<<<<<<<<<<<<<
  *         return 0
- *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:
  */
 
   /* function exit code */
@@ -2521,17 +2528,17 @@ static double __pyx_f_6mlgrad_8distance_8Distance_evaluate(CYTHON_UNUSED struct 
 /* "mlgrad/distance.pyx":38
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
  *         return 0
- *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  */
 
-static double __pyx_f_6mlgrad_8distance_8Distance__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED double const *__pyx_v_x, CYTHON_UNUSED double const *__pyx_v_y, CYTHON_UNUSED Py_ssize_t __pyx_v_n) {
+static double __pyx_f_6mlgrad_8distance_8Distance__evaluate(CYTHON_UNUSED struct __pyx_obj_6mlgrad_8distance_Distance *__pyx_v_self, CYTHON_UNUSED double const *__pyx_v_x, CYTHON_UNUSED double const *__pyx_v_y, CYTHON_UNUSED Py_ssize_t const __pyx_v_n) {
   double __pyx_r;
 
   /* "mlgrad/distance.pyx":39
  *         return 0
- *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:
  *         return 0             # <<<<<<<<<<<<<<
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  *         pass
@@ -2542,7 +2549,7 @@ static double __pyx_f_6mlgrad_8distance_8Distance__evaluate(CYTHON_UNUSED struct
   /* "mlgrad/distance.pyx":38
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
  *         return 0
- *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         return 0
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  */
@@ -2553,7 +2560,7 @@ static double __pyx_f_6mlgrad_8distance_8Distance__evaluate(CYTHON_UNUSED struct
 }
 
 /* "mlgrad/distance.pyx":40
- *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:
  *         return 0
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:             # <<<<<<<<<<<<<<
  *         pass
@@ -2654,6 +2661,10 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance___call__(struct __pyx_obj_
  *         g = np.zeros(x.shape[0], 'd')
  */
   __Pyx_XDECREF(__pyx_r);
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "evaluate");
+    __PYX_ERR(0, 43, __pyx_L1_error)
+  }
   __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_6mlgrad_8distance_Distance *)__pyx_v_self->__pyx_vtab)->evaluate(__pyx_v_self, __pyx_v_x, __pyx_v_y)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -2782,6 +2793,10 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance_2grad(struct __pyx_obj_6ml
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    __PYX_ERR(0, 45, __pyx_L1_error)
+  }
   __pyx_t_2 = PyInt_FromSsize_t((__pyx_v_x.shape[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
@@ -2841,6 +2856,10 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8Distance_2grad(struct __pyx_obj_6ml
  *         return g
  *     cdef set_param(self, name, val):
  */
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "gradient");
+    __PYX_ERR(0, 46, __pyx_L1_error)
+  }
   __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_g, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 46, __pyx_L1_error)
   ((struct __pyx_vtabstruct_6mlgrad_8distance_Distance *)__pyx_v_self->__pyx_vtab)->gradient(__pyx_v_self, __pyx_v_x, __pyx_v_y, __pyx_t_7);
   __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
@@ -3212,7 +3231,11 @@ static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSE
   int __pyx_t_2;
   int __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
+  int __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
 
   /* "mlgrad/distance.pyx":54
  * 
@@ -3221,6 +3244,16 @@ static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSE
  *         cdef double s
  * 
  */
+  if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 54, __pyx_L1_error)
+  }
   __pyx_v_m = (__pyx_v_x.shape[0]);
 
   /* "mlgrad/distance.pyx":57
@@ -3251,9 +3284,47 @@ static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSE
  *         return s
  * 
  */
+    if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 59, __pyx_L1_error)
+    }
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = __pyx_v_i;
-    __pyx_v_s = (__pyx_v_s + fabs(((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))))));
+    __pyx_t_5 = -1;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_x.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_x.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 59, __pyx_L1_error)
+    }
+    if (unlikely(((PyObject *) __pyx_v_y.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 59, __pyx_L1_error)
+    }
+    __pyx_t_6 = __pyx_v_i;
+    __pyx_t_5 = -1;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_y.shape[0];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_y.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 59, __pyx_L1_error)
+    }
+    __pyx_v_s = (__pyx_v_s + fabs(((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_6)) ))))));
   }
 
   /* "mlgrad/distance.pyx":60
@@ -3275,6 +3346,9 @@ static double __pyx_f_6mlgrad_8distance_16AbsoluteDistance_evaluate(CYTHON_UNUSE
  */
 
   /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("mlgrad.distance.AbsoluteDistance.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
 }
@@ -3295,8 +3369,12 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
   int __pyx_t_2;
   int __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
+  int __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  int __pyx_t_7;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
 
   /* "mlgrad/distance.pyx":63
  * 
@@ -3305,6 +3383,16 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
  *         cdef double v
  * 
  */
+  if (unlikely(((PyObject *) __pyx_v_grad.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 63, __pyx_L1_error)
+  }
   __pyx_v_m = (__pyx_v_grad.shape[0]);
 
   /* "mlgrad/distance.pyx":66
@@ -3326,9 +3414,47 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
  *             if v > 0:
  *                 grad[i] = 1
  */
+    if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 67, __pyx_L1_error)
+    }
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = __pyx_v_i;
-    __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))));
+    __pyx_t_5 = -1;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_x.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_x.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 67, __pyx_L1_error)
+    }
+    if (unlikely(((PyObject *) __pyx_v_y.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 67, __pyx_L1_error)
+    }
+    __pyx_t_6 = __pyx_v_i;
+    __pyx_t_5 = -1;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_y.shape[0];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_y.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 67, __pyx_L1_error)
+    }
+    __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_6)) ))));
 
     /* "mlgrad/distance.pyx":68
  *         for i in range(m):
@@ -3337,8 +3463,8 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
  *                 grad[i] = 1
  *             elif v < 0:
  */
-    __pyx_t_6 = ((__pyx_v_v > 0.0) != 0);
-    if (__pyx_t_6) {
+    __pyx_t_7 = ((__pyx_v_v > 0.0) != 0);
+    if (__pyx_t_7) {
 
       /* "mlgrad/distance.pyx":69
  *             v = x[i] - y[i]
@@ -3347,8 +3473,27 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
  *             elif v < 0:
  *                 grad[i] = -1
  */
-      __pyx_t_5 = __pyx_v_i;
-      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = 1.0;
+      if (unlikely(((PyObject *) __pyx_v_grad.memview) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 69, __pyx_L1_error)
+      }
+      __pyx_t_6 = __pyx_v_i;
+      __pyx_t_5 = -1;
+      if (__pyx_t_6 < 0) {
+        __pyx_t_6 += __pyx_v_grad.shape[0];
+        if (unlikely(__pyx_t_6 < 0)) __pyx_t_5 = 0;
+      } else if (unlikely(__pyx_t_6 >= __pyx_v_grad.shape[0])) __pyx_t_5 = 0;
+      if (unlikely(__pyx_t_5 != -1)) {
+        __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+        __PYX_ERR(0, 69, __pyx_L1_error)
+      }
+      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = 1.0;
 
       /* "mlgrad/distance.pyx":68
  *         for i in range(m):
@@ -3367,8 +3512,8 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
  *                 grad[i] = -1
  *             else:
  */
-    __pyx_t_6 = ((__pyx_v_v < 0.0) != 0);
-    if (__pyx_t_6) {
+    __pyx_t_7 = ((__pyx_v_v < 0.0) != 0);
+    if (__pyx_t_7) {
 
       /* "mlgrad/distance.pyx":71
  *                 grad[i] = 1
@@ -3377,8 +3522,27 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
  *             else:
  *                 grad[i] = 0
  */
-      __pyx_t_5 = __pyx_v_i;
-      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = -1.0;
+      if (unlikely(((PyObject *) __pyx_v_grad.memview) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 71, __pyx_L1_error)
+      }
+      __pyx_t_6 = __pyx_v_i;
+      __pyx_t_5 = -1;
+      if (__pyx_t_6 < 0) {
+        __pyx_t_6 += __pyx_v_grad.shape[0];
+        if (unlikely(__pyx_t_6 < 0)) __pyx_t_5 = 0;
+      } else if (unlikely(__pyx_t_6 >= __pyx_v_grad.shape[0])) __pyx_t_5 = 0;
+      if (unlikely(__pyx_t_5 != -1)) {
+        __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+        __PYX_ERR(0, 71, __pyx_L1_error)
+      }
+      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = -1.0;
 
       /* "mlgrad/distance.pyx":70
  *             if v > 0:
@@ -3398,8 +3562,27 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
  * cdef class EuclidDistance(Distance):
  */
     /*else*/ {
-      __pyx_t_5 = __pyx_v_i;
-      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = 0.0;
+      if (unlikely(((PyObject *) __pyx_v_grad.memview) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 73, __pyx_L1_error)
+      }
+      __pyx_t_6 = __pyx_v_i;
+      __pyx_t_5 = -1;
+      if (__pyx_t_6 < 0) {
+        __pyx_t_6 += __pyx_v_grad.shape[0];
+        if (unlikely(__pyx_t_6 < 0)) __pyx_t_5 = 0;
+      } else if (unlikely(__pyx_t_6 >= __pyx_v_grad.shape[0])) __pyx_t_5 = 0;
+      if (unlikely(__pyx_t_5 != -1)) {
+        __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+        __PYX_ERR(0, 73, __pyx_L1_error)
+      }
+      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = 0.0;
     }
     __pyx_L5:;
   }
@@ -3413,6 +3596,10 @@ static void __pyx_f_6mlgrad_8distance_16AbsoluteDistance_gradient(CYTHON_UNUSED 
  */
 
   /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("mlgrad.distance.AbsoluteDistance.gradient", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __pyx_L0:;
 }
 
 /* "(tree fragment)":1
@@ -3802,7 +3989,11 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
+  int __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
 
   /* "mlgrad/distance.pyx":88
  * 
@@ -3811,6 +4002,16 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
  *         cdef double s, v
  * 
  */
+  if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 88, __pyx_L1_error)
+  }
   __pyx_v_m = (__pyx_v_x.shape[0]);
 
   /* "mlgrad/distance.pyx":91
@@ -3841,9 +4042,47 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
  *             s += v * v
  *         return s
  */
+    if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 93, __pyx_L1_error)
+    }
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = __pyx_v_i;
-    __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))));
+    __pyx_t_5 = -1;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_x.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_x.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 93, __pyx_L1_error)
+    }
+    if (unlikely(((PyObject *) __pyx_v_y.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 93, __pyx_L1_error)
+    }
+    __pyx_t_6 = __pyx_v_i;
+    __pyx_t_5 = -1;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_y.shape[0];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_y.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 93, __pyx_L1_error)
+    }
+    __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_6)) ))));
 
     /* "mlgrad/distance.pyx":94
  *         for i in range(m):
@@ -3874,6 +4113,9 @@ static double __pyx_f_6mlgrad_8distance_14EuclidDistance_evaluate(CYTHON_UNUSED 
  */
 
   /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("mlgrad.distance.EuclidDistance.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
 }
@@ -3893,8 +4135,12 @@ static void __pyx_f_6mlgrad_8distance_14EuclidDistance_gradient(CYTHON_UNUSED st
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
+  int __pyx_t_5;
   Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
 
   /* "mlgrad/distance.pyx":98
  * 
@@ -3903,6 +4149,16 @@ static void __pyx_f_6mlgrad_8distance_14EuclidDistance_gradient(CYTHON_UNUSED st
  *         cdef double v
  * 
  */
+  if (unlikely(((PyObject *) __pyx_v_grad.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 98, __pyx_L1_error)
+  }
   __pyx_v_m = (__pyx_v_grad.shape[0]);
 
   /* "mlgrad/distance.pyx":101
@@ -3924,10 +4180,67 @@ static void __pyx_f_6mlgrad_8distance_14EuclidDistance_gradient(CYTHON_UNUSED st
  * 
  * cdef class PowerDistance(Distance):
  */
+    if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 102, __pyx_L1_error)
+    }
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = __pyx_v_i;
+    __pyx_t_5 = -1;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_x.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_x.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 102, __pyx_L1_error)
+    }
+    if (unlikely(((PyObject *) __pyx_v_y.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 102, __pyx_L1_error)
+    }
     __pyx_t_6 = __pyx_v_i;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = (2.0 * ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) )))));
+    __pyx_t_5 = -1;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_y.shape[0];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_y.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 102, __pyx_L1_error)
+    }
+    if (unlikely(((PyObject *) __pyx_v_grad.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 102, __pyx_L1_error)
+    }
+    __pyx_t_7 = __pyx_v_i;
+    __pyx_t_5 = -1;
+    if (__pyx_t_7 < 0) {
+      __pyx_t_7 += __pyx_v_grad.shape[0];
+      if (unlikely(__pyx_t_7 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_7 >= __pyx_v_grad.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 102, __pyx_L1_error)
+    }
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_7)) )) = (2.0 * ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_6)) )))));
   }
 
   /* "mlgrad/distance.pyx":97
@@ -3939,6 +4252,10 @@ static void __pyx_f_6mlgrad_8distance_14EuclidDistance_gradient(CYTHON_UNUSED st
  */
 
   /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("mlgrad.distance.EuclidDistance.gradient", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __pyx_L0:;
 }
 
 /* "(tree fragment)":1
@@ -4308,6 +4625,10 @@ static int __pyx_pf_6mlgrad_8distance_13PowerDistance___init__(struct __pyx_obj_
  *     cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
  */
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_p); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 107, __pyx_L1_error)
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "p");
+    __PYX_ERR(0, 107, __pyx_L1_error)
+  }
   __pyx_v_self->p = __pyx_t_1;
 
   /* "mlgrad/distance.pyx":106
@@ -4347,8 +4668,9 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
   int __pyx_t_2;
   int __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
+  int __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  int __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -4360,6 +4682,16 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
  *         cdef double s, v
  * 
  */
+  if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 110, __pyx_L1_error)
+  }
   __pyx_v_m = (__pyx_v_x.shape[0]);
 
   /* "mlgrad/distance.pyx":113
@@ -4390,9 +4722,47 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
  *             if v >= 0:
  *                 s += pow(v, self.p)
  */
+    if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 115, __pyx_L1_error)
+    }
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = __pyx_v_i;
-    __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))));
+    __pyx_t_5 = -1;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_x.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_x.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 115, __pyx_L1_error)
+    }
+    if (unlikely(((PyObject *) __pyx_v_y.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 115, __pyx_L1_error)
+    }
+    __pyx_t_6 = __pyx_v_i;
+    __pyx_t_5 = -1;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_y.shape[0];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_y.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 115, __pyx_L1_error)
+    }
+    __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_6)) ))));
 
     /* "mlgrad/distance.pyx":116
  *         for i in range(m):
@@ -4401,8 +4771,8 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
  *                 s += pow(v, self.p)
  *             else:
  */
-    __pyx_t_6 = ((__pyx_v_v >= 0.0) != 0);
-    if (__pyx_t_6) {
+    __pyx_t_7 = ((__pyx_v_v >= 0.0) != 0);
+    if (__pyx_t_7) {
 
       /* "mlgrad/distance.pyx":117
  *             v = x[i]-y[i]
@@ -4411,6 +4781,16 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
  *             else:
  *                 s += pow(-v, self.p)
  */
+      if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "p");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 117, __pyx_L1_error)
+      }
       __pyx_v_s = (__pyx_v_s + pow(__pyx_v_v, __pyx_v_self->p));
 
       /* "mlgrad/distance.pyx":116
@@ -4431,6 +4811,16 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
  * 
  */
     /*else*/ {
+      if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "p");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 119, __pyx_L1_error)
+      }
       __pyx_v_s = (__pyx_v_s + pow((-__pyx_v_v), __pyx_v_self->p));
     }
     __pyx_L5:;
@@ -4443,6 +4833,16 @@ static double __pyx_f_6mlgrad_8distance_13PowerDistance_evaluate(struct __pyx_ob
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  */
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "p");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 120, __pyx_L1_error)
+  }
   if (unlikely(__pyx_v_self->p == 0)) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
@@ -4488,8 +4888,12 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
   int __pyx_t_2;
   int __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
+  int __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  int __pyx_t_7;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
 
   /* "mlgrad/distance.pyx":123
  * 
@@ -4498,6 +4902,16 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
  *         cdef double v
  * 
  */
+  if (unlikely(((PyObject *) __pyx_v_grad.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 123, __pyx_L1_error)
+  }
   __pyx_v_m = (__pyx_v_grad.shape[0]);
 
   /* "mlgrad/distance.pyx":126
@@ -4519,9 +4933,47 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
  *             if v >= 0:
  *                 grad[i] = pow(fabs(v), self.p-1.0)
  */
+    if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 127, __pyx_L1_error)
+    }
     __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = __pyx_v_i;
-    __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))));
+    __pyx_t_5 = -1;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_x.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_x.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 127, __pyx_L1_error)
+    }
+    if (unlikely(((PyObject *) __pyx_v_y.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 127, __pyx_L1_error)
+    }
+    __pyx_t_6 = __pyx_v_i;
+    __pyx_t_5 = -1;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_y.shape[0];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_y.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 127, __pyx_L1_error)
+    }
+    __pyx_v_v = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_4)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_6)) ))));
 
     /* "mlgrad/distance.pyx":128
  *         for i in range(m):
@@ -4530,8 +4982,8 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
  *                 grad[i] = pow(fabs(v), self.p-1.0)
  *             else:
  */
-    __pyx_t_6 = ((__pyx_v_v >= 0.0) != 0);
-    if (__pyx_t_6) {
+    __pyx_t_7 = ((__pyx_v_v >= 0.0) != 0);
+    if (__pyx_t_7) {
 
       /* "mlgrad/distance.pyx":129
  *             v = x[i] - y[i]
@@ -4540,8 +4992,37 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
  *             else:
  *                 grad[i] = -pow(fabs(v), self.p-1.0)
  */
-      __pyx_t_5 = __pyx_v_i;
-      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = pow(fabs(__pyx_v_v), (__pyx_v_self->p - 1.0));
+      if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "p");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 129, __pyx_L1_error)
+      }
+      if (unlikely(((PyObject *) __pyx_v_grad.memview) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 129, __pyx_L1_error)
+      }
+      __pyx_t_6 = __pyx_v_i;
+      __pyx_t_5 = -1;
+      if (__pyx_t_6 < 0) {
+        __pyx_t_6 += __pyx_v_grad.shape[0];
+        if (unlikely(__pyx_t_6 < 0)) __pyx_t_5 = 0;
+      } else if (unlikely(__pyx_t_6 >= __pyx_v_grad.shape[0])) __pyx_t_5 = 0;
+      if (unlikely(__pyx_t_5 != -1)) {
+        __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+        __PYX_ERR(0, 129, __pyx_L1_error)
+      }
+      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = pow(fabs(__pyx_v_v), (__pyx_v_self->p - 1.0));
 
       /* "mlgrad/distance.pyx":128
  *         for i in range(m):
@@ -4561,8 +5042,37 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
  * cdef class DistanceWithScale(Distance):
  */
     /*else*/ {
-      __pyx_t_5 = __pyx_v_i;
-      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = (-pow(fabs(__pyx_v_v), (__pyx_v_self->p - 1.0)));
+      if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "p");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 131, __pyx_L1_error)
+      }
+      if (unlikely(((PyObject *) __pyx_v_grad.memview) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 131, __pyx_L1_error)
+      }
+      __pyx_t_6 = __pyx_v_i;
+      __pyx_t_5 = -1;
+      if (__pyx_t_6 < 0) {
+        __pyx_t_6 += __pyx_v_grad.shape[0];
+        if (unlikely(__pyx_t_6 < 0)) __pyx_t_5 = 0;
+      } else if (unlikely(__pyx_t_6 >= __pyx_v_grad.shape[0])) __pyx_t_5 = 0;
+      if (unlikely(__pyx_t_5 != -1)) {
+        __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+        __PYX_ERR(0, 131, __pyx_L1_error)
+      }
+      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = (-pow(fabs(__pyx_v_v), (__pyx_v_self->p - 1.0)));
     }
     __pyx_L5:;
   }
@@ -4576,6 +5086,10 @@ static void __pyx_f_6mlgrad_8distance_13PowerDistance_gradient(struct __pyx_obj_
  */
 
   /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("mlgrad.distance.PowerDistance.gradient", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __pyx_L0:;
 }
 
 /* "(tree fragment)":1
@@ -4621,6 +5135,10 @@ static PyObject *__pyx_pf_6mlgrad_8distance_13PowerDistance_2__reduce_cython__(s
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "p");
+    __PYX_ERR(1, 5, __pyx_L1_error)
+  }
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->p); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
@@ -4904,6 +5422,11 @@ static PyObject *__pyx_pf_6mlgrad_8distance_17DistanceWithScale_1S___get__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "S");
+    __PYX_ERR(2, 24, __pyx_L1_error)
+  }
+  if (unlikely(!__pyx_v_self->S.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 24, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -4943,6 +5466,10 @@ static int __pyx_pf_6mlgrad_8distance_17DistanceWithScale_1S_2__set__(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
   __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(2, 24, __pyx_L1_error)
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "S");
+    __PYX_ERR(2, 24, __pyx_L1_error)
+  }
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->S, 0);
   __pyx_v_self->S = __pyx_t_1;
   __pyx_t_1.memview = NULL;
@@ -4965,7 +5492,7 @@ static int __pyx_pf_6mlgrad_8distance_17DistanceWithScale_1S_2__set__(struct __p
  *     cdef public double[:,::1] S
  *     cdef public double sigma             # <<<<<<<<<<<<<<
  * 
- * #@cython.final
+ * # @cython.final
  */
 
 /* Python wrapper */
@@ -4990,6 +5517,10 @@ static PyObject *__pyx_pf_6mlgrad_8distance_17DistanceWithScale_5sigma___get__(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "sigma");
+    __PYX_ERR(2, 25, __pyx_L1_error)
+  }
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->sigma); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
@@ -5029,6 +5560,10 @@ static int __pyx_pf_6mlgrad_8distance_17DistanceWithScale_5sigma_2__set__(struct
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
   __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 25, __pyx_L1_error)
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "sigma");
+    __PYX_ERR(2, 25, __pyx_L1_error)
+  }
   __pyx_v_self->sigma = __pyx_t_1;
 
   /* function exit code */
@@ -5085,8 +5620,17 @@ static PyObject *__pyx_pf_6mlgrad_8distance_17DistanceWithScale___reduce_cython_
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "S");
+    __PYX_ERR(1, 5, __pyx_L1_error)
+  }
+  if (unlikely(!__pyx_v_self->S.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "sigma");
+    __PYX_ERR(1, 5, __pyx_L1_error)
+  }
   __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->sigma); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 5, __pyx_L1_error)
@@ -5407,6 +5951,9 @@ static int __pyx_pw_6mlgrad_8distance_19MahalanobisDistance_1__init__(PyObject *
 static int __pyx_pf_6mlgrad_8distance_19MahalanobisDistance___init__(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_S) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
   /* "mlgrad/distance.pyx":139
@@ -5414,8 +5961,12 @@ static int __pyx_pf_6mlgrad_8distance_19MahalanobisDistance___init__(struct __py
  *     def __init__(self, double[:,::1] S):
  *         self.S = S             # <<<<<<<<<<<<<<
  * 
- *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:
  */
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "S");
+    __PYX_ERR(0, 139, __pyx_L1_error)
+  }
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.S, 0);
   __PYX_INC_MEMVIEW(&__pyx_v_S, 0);
   __pyx_v_self->__pyx_base.S = __pyx_v_S;
@@ -5430,6 +5981,11 @@ static int __pyx_pf_6mlgrad_8distance_19MahalanobisDistance___init__(struct __py
 
   /* function exit code */
   __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("mlgrad.distance.MahalanobisDistance.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_S, 1);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -5438,12 +5994,12 @@ static int __pyx_pf_6mlgrad_8distance_19MahalanobisDistance___init__(struct __py
 /* "mlgrad/distance.pyx":141
  *         self.S = S
  * 
- *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         cdef double *S = &self.S[0,0]
  *         cdef double xy1, xy2
  */
 
-static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, double const *__pyx_v_x, double const *__pyx_v_y, Py_ssize_t __pyx_v_n) {
+static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, double const *__pyx_v_x, double const *__pyx_v_y, Py_ssize_t const __pyx_v_n) {
   double *__pyx_v_S;
   double __pyx_v_xy1;
   double __pyx_v_xy2;
@@ -5458,19 +6014,57 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
+  int __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
 
   /* "mlgrad/distance.pyx":142
  * 
- *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:
+ *     cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:
  *         cdef double *S = &self.S[0,0]             # <<<<<<<<<<<<<<
  *         cdef double xy1, xy2
  *         cdef Py_ssize_t i, j
  */
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "S");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 142, __pyx_L1_error)
+  }
+  if (unlikely(!__pyx_v_self->__pyx_base.S.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 142, __pyx_L1_error)}
+  if (unlikely(((PyObject *) __pyx_v_self->__pyx_base.S.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 142, __pyx_L1_error)
+  }
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
+  __pyx_t_3 = -1;
+  if (__pyx_t_1 < 0) {
+    __pyx_t_1 += __pyx_v_self->__pyx_base.S.shape[0];
+    if (unlikely(__pyx_t_1 < 0)) __pyx_t_3 = 0;
+  } else if (unlikely(__pyx_t_1 >= __pyx_v_self->__pyx_base.S.shape[0])) __pyx_t_3 = 0;
+  if (__pyx_t_2 < 0) {
+    __pyx_t_2 += __pyx_v_self->__pyx_base.S.shape[1];
+    if (unlikely(__pyx_t_2 < 0)) __pyx_t_3 = 1;
+  } else if (unlikely(__pyx_t_2 >= __pyx_v_self->__pyx_base.S.shape[1])) __pyx_t_3 = 1;
+  if (unlikely(__pyx_t_3 != -1)) {
+    __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_3);
+    __PYX_ERR(0, 142, __pyx_L1_error)
+  }
   __pyx_v_S = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->__pyx_base.S.data + __pyx_t_1 * __pyx_v_self->__pyx_base.S.strides[0]) )) + __pyx_t_2)) ))));
 
   /* "mlgrad/distance.pyx":148
@@ -5480,8 +6074,8 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
  *             xy1 = x[0] - y[0]
  *             xy2 = x[1] - y[1]
  */
-  __pyx_t_3 = ((__pyx_v_n == 2) != 0);
-  if (__pyx_t_3) {
+  __pyx_t_4 = ((__pyx_v_n == 2) != 0);
+  if (__pyx_t_4) {
 
     /* "mlgrad/distance.pyx":149
  * 
@@ -5545,10 +6139,10 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
  *             vi = x[i] - y[i]
  *             sj = S_i[i] * vi
  */
-  __pyx_t_4 = __pyx_v_n;
-  __pyx_t_5 = __pyx_t_4;
-  for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
-    __pyx_v_i = __pyx_t_6;
+  __pyx_t_5 = __pyx_v_n;
+  __pyx_t_6 = __pyx_t_5;
+  for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
+    __pyx_v_i = __pyx_t_7;
 
     /* "mlgrad/distance.pyx":158
  *         S_i = S
@@ -5585,8 +6179,8 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
  *                 sj += S_i[j] * vj
  */
     while (1) {
-      __pyx_t_3 = ((__pyx_v_j < __pyx_v_n) != 0);
-      if (!__pyx_t_3) break;
+      __pyx_t_4 = ((__pyx_v_j < __pyx_v_n) != 0);
+      if (!__pyx_t_4) break;
 
       /* "mlgrad/distance.pyx":163
  *             j = i + 1
@@ -5648,12 +6242,15 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
   /* "mlgrad/distance.pyx":141
  *         self.S = S
  * 
- *     cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
+ *     cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:             # <<<<<<<<<<<<<<
  *         cdef double *S = &self.S[0,0]
  *         cdef double xy1, xy2
  */
 
   /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("mlgrad.distance.MahalanobisDistance._evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
 }
@@ -5669,7 +6266,11 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance__evaluate(struct _
 static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance_evaluate(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v_self, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
   double __pyx_r;
   Py_ssize_t __pyx_t_1;
-  Py_ssize_t __pyx_t_2;
+  int __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
 
   /* "mlgrad/distance.pyx":173
  * 
@@ -5678,9 +6279,67 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance_evaluate(struct __
  * 
  *     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
  */
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "_evaluate");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 173, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 173, __pyx_L1_error)
+  }
   __pyx_t_1 = 0;
-  __pyx_t_2 = 0;
-  __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._evaluate(((struct __pyx_obj_6mlgrad_8distance_Distance *)__pyx_v_self), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_2)) )))), (__pyx_v_x.shape[0]));
+  __pyx_t_2 = -1;
+  if (__pyx_t_1 < 0) {
+    __pyx_t_1 += __pyx_v_x.shape[0];
+    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_1 >= __pyx_v_x.shape[0])) __pyx_t_2 = 0;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
+    __PYX_ERR(0, 173, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_y.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 173, __pyx_L1_error)
+  }
+  __pyx_t_3 = 0;
+  __pyx_t_2 = -1;
+  if (__pyx_t_3 < 0) {
+    __pyx_t_3 += __pyx_v_y.shape[0];
+    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_3 >= __pyx_v_y.shape[0])) __pyx_t_2 = 0;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
+    __PYX_ERR(0, 173, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 173, __pyx_L1_error)
+  }
+  __pyx_r = ((struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._evaluate(((struct __pyx_obj_6mlgrad_8distance_Distance *)__pyx_v_self), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_3)) )))), (__pyx_v_x.shape[0]));
   goto __pyx_L0;
 
   /* "mlgrad/distance.pyx":172
@@ -5692,6 +6351,9 @@ static double __pyx_f_6mlgrad_8distance_19MahalanobisDistance_evaluate(struct __
  */
 
   /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("mlgrad.distance.MahalanobisDistance.evaluate", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __pyx_r = 0;
   __pyx_L0:;
   return __pyx_r;
 }
@@ -5717,9 +6379,13 @@ static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __py
   Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
+  int __pyx_t_7;
   Py_ssize_t __pyx_t_8;
   Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
 
   /* "mlgrad/distance.pyx":176
  * 
@@ -5728,6 +6394,17 @@ static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __py
  *         cdef double *S_i
  *         cdef Py_ssize_t i, j, m = grad.shape[0]
  */
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "S");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 176, __pyx_L1_error)
+  }
+  if (unlikely(!__pyx_v_self->__pyx_base.S.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 176, __pyx_L1_error)}
   __pyx_t_1 = __pyx_v_self->__pyx_base.S;
   __PYX_INC_MEMVIEW(&__pyx_t_1, 0);
   __pyx_v_S = __pyx_t_1;
@@ -5741,6 +6418,16 @@ static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __py
  *         cdef double s, xi
  * 
  */
+  if (unlikely(((PyObject *) __pyx_v_grad.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 178, __pyx_L1_error)
+  }
   __pyx_v_m = (__pyx_v_grad.shape[0]);
 
   /* "mlgrad/distance.pyx":181
@@ -5762,8 +6449,31 @@ static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __py
  *             s = 0
  *             for j in range(m):
  */
+    if (unlikely(((PyObject *) __pyx_v_S.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 182, __pyx_L1_error)
+    }
     __pyx_t_5 = __pyx_v_i;
     __pyx_t_6 = 0;
+    __pyx_t_7 = -1;
+    if (__pyx_t_5 < 0) {
+      __pyx_t_5 += __pyx_v_S.shape[0];
+      if (unlikely(__pyx_t_5 < 0)) __pyx_t_7 = 0;
+    } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[0])) __pyx_t_7 = 0;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_S.shape[1];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 1;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_S.shape[1])) __pyx_t_7 = 1;
+    if (unlikely(__pyx_t_7 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_7);
+      __PYX_ERR(0, 182, __pyx_L1_error)
+    }
     __pyx_v_S_i = (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_6)) ))));
 
     /* "mlgrad/distance.pyx":183
@@ -5782,10 +6492,10 @@ static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __py
  *                 s += S_i[j] * (x[j] - y[j])
  *             grad[i] = 2*s
  */
-    __pyx_t_7 = __pyx_v_m;
-    __pyx_t_8 = __pyx_t_7;
-    for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
-      __pyx_v_j = __pyx_t_9;
+    __pyx_t_8 = __pyx_v_m;
+    __pyx_t_9 = __pyx_t_8;
+    for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
+      __pyx_v_j = __pyx_t_10;
 
       /* "mlgrad/distance.pyx":185
  *             s = 0
@@ -5794,8 +6504,46 @@ static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __py
  *             grad[i] = 2*s
  * 
  */
+      if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 185, __pyx_L1_error)
+      }
       __pyx_t_6 = __pyx_v_j;
+      __pyx_t_7 = -1;
+      if (__pyx_t_6 < 0) {
+        __pyx_t_6 += __pyx_v_x.shape[0];
+        if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
+      } else if (unlikely(__pyx_t_6 >= __pyx_v_x.shape[0])) __pyx_t_7 = 0;
+      if (unlikely(__pyx_t_7 != -1)) {
+        __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_7);
+        __PYX_ERR(0, 185, __pyx_L1_error)
+      }
+      if (unlikely(((PyObject *) __pyx_v_y.memview) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 185, __pyx_L1_error)
+      }
       __pyx_t_5 = __pyx_v_j;
+      __pyx_t_7 = -1;
+      if (__pyx_t_5 < 0) {
+        __pyx_t_5 += __pyx_v_y.shape[0];
+        if (unlikely(__pyx_t_5 < 0)) __pyx_t_7 = 0;
+      } else if (unlikely(__pyx_t_5 >= __pyx_v_y.shape[0])) __pyx_t_7 = 0;
+      if (unlikely(__pyx_t_7 != -1)) {
+        __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_7);
+        __PYX_ERR(0, 185, __pyx_L1_error)
+      }
       __pyx_v_s = (__pyx_v_s + ((__pyx_v_S_i[__pyx_v_j]) * ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_6)) ))) - (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_5)) ))))));
     }
 
@@ -5806,7 +6554,26 @@ static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __py
  * 
  *     cdef set_param(self, name, val):
  */
+    if (unlikely(((PyObject *) __pyx_v_grad.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 186, __pyx_L1_error)
+    }
     __pyx_t_5 = __pyx_v_i;
+    __pyx_t_7 = -1;
+    if (__pyx_t_5 < 0) {
+      __pyx_t_5 += __pyx_v_grad.shape[0];
+      if (unlikely(__pyx_t_5 < 0)) __pyx_t_7 = 0;
+    } else if (unlikely(__pyx_t_5 >= __pyx_v_grad.shape[0])) __pyx_t_7 = 0;
+    if (unlikely(__pyx_t_7 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_7);
+      __PYX_ERR(0, 186, __pyx_L1_error)
+    }
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = (2.0 * __pyx_v_s);
   }
 
@@ -5819,6 +6586,11 @@ static void __pyx_f_6mlgrad_8distance_19MahalanobisDistance_gradient(struct __py
  */
 
   /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
+  __Pyx_WriteUnraisable("mlgrad.distance.MahalanobisDistance.gradient", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 1);
+  __pyx_L0:;
   __PYX_XDEC_MEMVIEW(&__pyx_v_S, 0);
 }
 
@@ -5859,6 +6631,10 @@ static PyObject *__pyx_f_6mlgrad_8distance_19MahalanobisDistance_set_param(struc
  *             raise NameError("invalid param's name")
  */
     __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_val, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 190, __pyx_L1_error)
+    if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+      PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "S");
+      __PYX_ERR(0, 190, __pyx_L1_error)
+    }
     __PYX_XDEC_MEMVIEW(&__pyx_v_self->__pyx_base.S, 0);
     __pyx_v_self->__pyx_base.S = __pyx_t_2;
     __pyx_t_2.memview = NULL;
@@ -5954,8 +6730,17 @@ static PyObject *__pyx_pf_6mlgrad_8distance_19MahalanobisDistance_2__reduce_cyth
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "S");
+    __PYX_ERR(1, 5, __pyx_L1_error)
+  }
+  if (unlikely(!__pyx_v_self->__pyx_base.S.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(1, 5, __pyx_L1_error)}
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->__pyx_base.S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
+  if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "sigma");
+    __PYX_ERR(1, 5, __pyx_L1_error)
+  }
   __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.sigma); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 5, __pyx_L1_error)
@@ -6500,6 +7285,7 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_Distance__set_state(st
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -6542,18 +7328,21 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_Distance__set_state(st
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 13, __pyx_L1_error)
     }
-    __pyx_t_6 = NULL;
+    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_7);
-      if (likely(__pyx_t_6)) {
+      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
+      if (likely(__pyx_t_8)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_8);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_7, function);
       }
     }
-    __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_6, PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) : __Pyx_PyObject_CallOneArg(__pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 0));
-    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_5 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -6582,6 +7371,7 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_Distance__set_state(st
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("mlgrad.distance.__pyx_unpickle_Distance__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -6878,6 +7668,7 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_AbsoluteDistance__set_
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -6920,18 +7711,21 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_AbsoluteDistance__set_
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 13, __pyx_L1_error)
     }
-    __pyx_t_6 = NULL;
+    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_7);
-      if (likely(__pyx_t_6)) {
+      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
+      if (likely(__pyx_t_8)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_8);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_7, function);
       }
     }
-    __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_6, PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) : __Pyx_PyObject_CallOneArg(__pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 0));
-    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_5 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -6960,6 +7754,7 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_AbsoluteDistance__set_
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("mlgrad.distance.__pyx_unpickle_AbsoluteDistance__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -7256,6 +8051,7 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_EuclidDistance__set_st
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -7298,18 +8094,21 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_EuclidDistance__set_st
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 13, __pyx_L1_error)
     }
-    __pyx_t_6 = NULL;
+    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_7);
-      if (likely(__pyx_t_6)) {
+      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
+      if (likely(__pyx_t_8)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_8);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_7, function);
       }
     }
-    __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_6, PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) : __Pyx_PyObject_CallOneArg(__pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 0));
-    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_5 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_8, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -7338,6 +8137,7 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_EuclidDistance__set_st
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("mlgrad.distance.__pyx_unpickle_EuclidDistance__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -7627,14 +8427,15 @@ static PyObject *__pyx_pf_6mlgrad_8distance_6__pyx_unpickle_PowerDistance(CYTHON
 static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_PowerDistance__set_state(struct __pyx_obj_6mlgrad_8distance_PowerDistance *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  double __pyx_t_1;
-  int __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  int __pyx_t_4;
+  PyObject *__pyx_t_1 = NULL;
+  double __pyx_t_2;
+  int __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
   int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -7651,8 +8452,15 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_PowerDistance__set_sta
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->p = __pyx_t_1;
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "p");
+    __PYX_ERR(1, 12, __pyx_L1_error)
+  }
+  __pyx_v___pyx_result->p = __pyx_t_2;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_PowerDistance__set_state(PowerDistance __pyx_result, tuple __pyx_state):
@@ -7664,18 +8472,18 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_PowerDistance__set_sta
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(1, 13, __pyx_L1_error)
   }
-  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_4 = ((__pyx_t_3 > 1) != 0);
-  if (__pyx_t_4) {
+  __pyx_t_4 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_t_5 = ((__pyx_t_4 > 1) != 0);
+  if (__pyx_t_5) {
   } else {
-    __pyx_t_2 = __pyx_t_4;
+    __pyx_t_3 = __pyx_t_5;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_4 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_5 = (__pyx_t_4 != 0);
-  __pyx_t_2 = __pyx_t_5;
+  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_t_6 = (__pyx_t_5 != 0);
+  __pyx_t_3 = __pyx_t_6;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_2) {
+  if (__pyx_t_3) {
 
     /* "(tree fragment)":14
  *     __pyx_result.p = __pyx_state[0]
@@ -7691,22 +8499,25 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_PowerDistance__set_sta
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 14, __pyx_L1_error)
     }
-    __pyx_t_7 = NULL;
+    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_9 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
-      if (likely(__pyx_t_7)) {
+      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
+      if (likely(__pyx_t_9)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-        __Pyx_INCREF(__pyx_t_7);
+        __Pyx_INCREF(__pyx_t_9);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
-    __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_7, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)) : __Pyx_PyObject_CallOneArg(__pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1));
-    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_8, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_7);
+    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_PowerDistance__set_state(PowerDistance __pyx_result, tuple __pyx_state):
@@ -7728,9 +8539,10 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_PowerDistance__set_sta
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("mlgrad.distance.__pyx_unpickle_PowerDistance__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -8020,15 +8832,16 @@ static PyObject *__pyx_pf_6mlgrad_8distance_8__pyx_unpickle_DistanceWithScale(CY
 static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_DistanceWithScale__set_state(struct __pyx_obj_6mlgrad_8distance_DistanceWithScale *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_t_2;
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  int __pyx_t_5;
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_t_3;
+  int __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
   int __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_7;
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -8045,17 +8858,31 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_DistanceWithScale__set
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(1, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "S");
+    __PYX_ERR(1, 12, __pyx_L1_error)
+  }
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->S, 0);
-  __pyx_v___pyx_result->S = __pyx_t_1;
-  __pyx_t_1.memview = NULL;
-  __pyx_t_1.data = NULL;
+  __pyx_v___pyx_result->S = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->sigma = __pyx_t_2;
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "sigma");
+    __PYX_ERR(1, 12, __pyx_L1_error)
+  }
+  __pyx_v___pyx_result->sigma = __pyx_t_3;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_DistanceWithScale__set_state(DistanceWithScale __pyx_result, tuple __pyx_state):
@@ -8067,18 +8894,18 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_DistanceWithScale__set
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(1, 13, __pyx_L1_error)
   }
-  __pyx_t_4 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_5 = ((__pyx_t_4 > 2) != 0);
-  if (__pyx_t_5) {
+  __pyx_t_5 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_t_6 = ((__pyx_t_5 > 2) != 0);
+  if (__pyx_t_6) {
   } else {
-    __pyx_t_3 = __pyx_t_5;
+    __pyx_t_4 = __pyx_t_6;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_6 = (__pyx_t_5 != 0);
-  __pyx_t_3 = __pyx_t_6;
+  __pyx_t_6 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_t_7 = (__pyx_t_6 != 0);
+  __pyx_t_4 = __pyx_t_7;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_3) {
+  if (__pyx_t_4) {
 
     /* "(tree fragment)":14
  *     __pyx_result.S = __pyx_state[0]; __pyx_result.sigma = __pyx_state[1]
@@ -8094,22 +8921,25 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_DistanceWithScale__set
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 14, __pyx_L1_error)
     }
-    __pyx_t_8 = NULL;
+    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_10 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
-      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_9);
-      if (likely(__pyx_t_8)) {
+      __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_9);
+      if (likely(__pyx_t_10)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
-        __Pyx_INCREF(__pyx_t_8);
+        __Pyx_INCREF(__pyx_t_10);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_9, function);
       }
     }
-    __pyx_t_7 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)) : __Pyx_PyObject_CallOneArg(__pyx_t_9, PyTuple_GET_ITEM(__pyx_v___pyx_state, 2));
-    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_1 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_10, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_8);
+    __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_DistanceWithScale__set_state(DistanceWithScale __pyx_result, tuple __pyx_state):
@@ -8131,10 +8961,11 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_DistanceWithScale__set
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
-  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_10);
   __Pyx_AddTraceback("mlgrad.distance.__pyx_unpickle_DistanceWithScale__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -8424,15 +9255,16 @@ static PyObject *__pyx_pf_6mlgrad_8distance_10__pyx_unpickle_MahalanobisDistance
 static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_MahalanobisDistance__set_state(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_t_2;
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  int __pyx_t_5;
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_t_3;
+  int __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
   int __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_7;
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -8449,17 +9281,31 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_MahalanobisDistance__s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(1, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "S");
+    __PYX_ERR(1, 12, __pyx_L1_error)
+  }
   __PYX_XDEC_MEMVIEW(&__pyx_v___pyx_result->__pyx_base.S, 0);
-  __pyx_v___pyx_result->__pyx_base.S = __pyx_t_1;
-  __pyx_t_1.memview = NULL;
-  __pyx_t_1.data = NULL;
+  __pyx_v___pyx_result->__pyx_base.S = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->__pyx_base.sigma = __pyx_t_2;
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(((PyObject *)__pyx_v___pyx_result) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "sigma");
+    __PYX_ERR(1, 12, __pyx_L1_error)
+  }
+  __pyx_v___pyx_result->__pyx_base.sigma = __pyx_t_3;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_MahalanobisDistance__set_state(MahalanobisDistance __pyx_result, tuple __pyx_state):
@@ -8471,18 +9317,18 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_MahalanobisDistance__s
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(1, 13, __pyx_L1_error)
   }
-  __pyx_t_4 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_5 = ((__pyx_t_4 > 2) != 0);
-  if (__pyx_t_5) {
+  __pyx_t_5 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_t_6 = ((__pyx_t_5 > 2) != 0);
+  if (__pyx_t_6) {
   } else {
-    __pyx_t_3 = __pyx_t_5;
+    __pyx_t_4 = __pyx_t_6;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_6 = (__pyx_t_5 != 0);
-  __pyx_t_3 = __pyx_t_6;
+  __pyx_t_6 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_t_7 = (__pyx_t_6 != 0);
+  __pyx_t_4 = __pyx_t_7;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_3) {
+  if (__pyx_t_4) {
 
     /* "(tree fragment)":14
  *     __pyx_result.S = __pyx_state[0]; __pyx_result.sigma = __pyx_state[1]
@@ -8498,22 +9344,25 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_MahalanobisDistance__s
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 14, __pyx_L1_error)
     }
-    __pyx_t_8 = NULL;
+    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_10 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
-      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_9);
-      if (likely(__pyx_t_8)) {
+      __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_9);
+      if (likely(__pyx_t_10)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
-        __Pyx_INCREF(__pyx_t_8);
+        __Pyx_INCREF(__pyx_t_10);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_9, function);
       }
     }
-    __pyx_t_7 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)) : __Pyx_PyObject_CallOneArg(__pyx_t_9, PyTuple_GET_ITEM(__pyx_v___pyx_state, 2));
-    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_1 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_10, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_8);
+    __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_MahalanobisDistance__set_state(MahalanobisDistance __pyx_result, tuple __pyx_state):
@@ -8535,10 +9384,11 @@ static PyObject *__pyx_f_6mlgrad_8distance___pyx_unpickle_MahalanobisDistance__s
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
-  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_10);
   __Pyx_AddTraceback("mlgrad.distance.__pyx_unpickle_MahalanobisDistance__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -12932,7 +13782,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  * 
  */
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_result, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 500, __pyx_L5_except_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_result, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 500, __pyx_L5_except_error)
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_r = __pyx_t_1;
         __pyx_t_1 = 0;
@@ -21491,7 +22341,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->name);
@@ -21536,7 +22386,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 14, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 14, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
@@ -24759,6 +25609,23 @@ static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject
     return (likely(r)) ? r : __Pyx_GetAttr3Default(d);
 }
 
+/* BufferIndexError */
+static void __Pyx_RaiseBufferIndexError(int axis) {
+  PyErr_Format(PyExc_IndexError,
+     "Out of bounds on buffer access (axis %d)", axis);
+}
+
+/* BufferIndexErrorNogil */
+static void __Pyx_RaiseBufferIndexErrorNogil(int axis) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE gilstate = PyGILState_Ensure();
+    #endif
+    __Pyx_RaiseBufferIndexError(axis);
+    #ifdef WITH_THREAD
+    PyGILState_Release(gilstate);
+    #endif
+}
+
 /* WriteUnraisableException */
 static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
                                   CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
@@ -25295,35 +26162,6 @@ static CYTHON_INLINE int __Pyx_HasAttr(PyObject *o, PyObject *n) {
     }
 }
 
-/* ArgTypeTest */
-static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact)
-{
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
-    }
-    else if (exact) {
-        #if PY_MAJOR_VERSION == 2
-        if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
-        #endif
-    }
-    else {
-        if (likely(__Pyx_TypeCheck(obj, type))) return 1;
-    }
-    PyErr_Format(PyExc_TypeError,
-        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
-        name, type->tp_name, Py_TYPE(obj)->tp_name);
-    return 0;
-}
-
-/* DivInt[Py_ssize_t] */
-static CYTHON_INLINE Py_ssize_t __Pyx_div_Py_ssize_t(Py_ssize_t a, Py_ssize_t b) {
-    Py_ssize_t q = a / b;
-    Py_ssize_t r = a - q*b;
-    q -= ((r != 0) & ((r ^ b) < 0));
-    return q;
-}
-
 /* GetItemInt */
 static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
     PyObject *r;
@@ -25409,6 +26247,35 @@ static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, 
     }
 #endif
     return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+}
+
+/* ArgTypeTest */
+static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact)
+{
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
+    }
+    else if (exact) {
+        #if PY_MAJOR_VERSION == 2
+        if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
+        #endif
+    }
+    else {
+        if (likely(__Pyx_TypeCheck(obj, type))) return 1;
+    }
+    PyErr_Format(PyExc_TypeError,
+        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
+        name, type->tp_name, Py_TYPE(obj)->tp_name);
+    return 0;
+}
+
+/* DivInt[Py_ssize_t] */
+static CYTHON_INLINE Py_ssize_t __Pyx_div_Py_ssize_t(Py_ssize_t a, Py_ssize_t b) {
+    Py_ssize_t q = a / b;
+    Py_ssize_t r = a - q*b;
+    q -= ((r != 0) & ((r ^ b) < 0));
+    return q;
 }
 
 /* ObjectGetItem */

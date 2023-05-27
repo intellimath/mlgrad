@@ -165,12 +165,12 @@ ext_modules = [
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
-    Extension(
-        "mlgrad.mlocation_scatter",
-        ["lib/mlgrad/mlocation_scatter.pyx"],
-        extra_compile_args = extra_compile_args_openmp,
-        extra_link_args = extra_link_args_openmp,
-    ),
+    # Extension(
+    #     "mlgrad.mlocation_scatter",
+    #     ["lib/mlgrad/mlocation_scatter.pyx"],
+    #     extra_compile_args = extra_compile_args_openmp,
+    #     extra_link_args = extra_link_args_openmp,
+    # ),
     Extension(
         "mlgrad.mlocation_scatter2",
         ["lib/mlgrad/mlocation_scatter2.pyx"],
@@ -196,7 +196,7 @@ setup(
     author_email = "szport@gmail.com",
     license = "MIT License",
     ext_modules = cythonize(ext_modules, nthreads=2,
-                            compiler_directives=cython_compiler_directives2),
+                            compiler_directives=cython_compiler_directives),
     # ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},

@@ -4,7 +4,7 @@
 
 from mlgrad.avragg import PenaltyAverage, Average_Iterative, Average_FG, ArithMean, ParameterizedAverage
 from mlgrad.gd import FG, FG_RUD, SGD
-from mlgrad.risk import ED, MRisk, ERisk, ERisk2, SimpleFunctional
+from mlgrad.risk import ED, MRisk, ERisk, ERisk2, ERisk22, SimpleFunctional
 from mlgrad.irgd import IRGD
 from mlgrad.averager import ArraySave, ArrayMOM, ArrayRMSProp, ArrayAMOM, ArrayAdaM1, ArrayAdaM2, ScalarAdaM1, ScalarAdaM2
 import numpy as np
@@ -62,7 +62,13 @@ def mrisk(X, Y, mod, loss_func, avg, regnorm=None, weights=None, tau=0.001, batc
 #     return er
 
 def erisk2(X, Y, mod, loss_func, regnorm=None, weights=None, tau=0.001, batch=None):
-    er = ERisk21(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
+    er = ERisk2(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
+    if weights is not None:
+        er.use_weights(weights)
+    return er
+
+def erisk22(X, Y, mod, loss_func, regnorm=None, weights=None, tau=0.001, batch=None):
+    er = ERisk22(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
     if weights is not None:
         er.use_weights(weights)
     return er
