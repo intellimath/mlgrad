@@ -62,70 +62,62 @@ cdef class Penalty:
     cdef double derivative(self, double[::1] Y, double u)
     cdef void gradient(self, double[::1] Y, double u, double[::1] grad)
     cdef double iterative_next(self, double[::1] Y, double u)
-    
 
 @cython.final
 cdef class PenaltyAverage(Penalty):
     pass
 
-
 @cython.final
 cdef class PenaltyScale(Penalty):
     pass
 
-
 #############################################################
 
 cdef class Average:
-    cdef readonly Penalty penalty
     cdef readonly double tol
     cdef readonly Py_ssize_t n_iter 
     cdef readonly Py_ssize_t K 
-    cdef public Py_ssize_t m_iter, L
-    cdef public double h
     cdef public bint success    
-    cdef public double u_min
-    cdef public double pval_min
     cdef public double u
     cdef public double pval
-    cdef Py_ssize_t m, M
-    cdef double u_prev, pval_prev
     cdef bint evaluated
-    #cdef double u1, u2, u3, u4    
+    #
+    cdef double init_u(self, double[::1] Y)
     #
     cdef double _evaluate(self, double[::1] Y)
     cdef _gradient(self, double[::1] Y, double[::1] grad)
     cdef _weights(self, double[::1] Y, double[::1] weights)
     #    
-    cdef init(self, double[::1] Y)
-    #
     cpdef fit(self, double[::1] Y)
     #
-    cdef fit_epoch(self, double[::1] Y)
-    #
-    cdef bint stop_condition(self)
+    # cdef bint stop_condition(self)
+
+cdef class AverageIterative(Average):
+    cdef readonly Penalty penalty
     
 # @cython.final
-cdef class MAverage(Average):
+cdef class MAverage(AverageIterative):
     cdef Func func
     #
+    # cdef double evaluate_next_u(self, double[::1] Y, const double u)
+    # cdef double evaluate_penalty(self, double[::1] Y, const double u)
 
 # @cython.final
-cdef class SAverage(Average):
+cdef class SAverage(AverageIterative):
     cdef Func func
     
-@cython.final
-cdef class Average_Iterative(Average):
-    pass
+# @cython.final
+# cdef class Average_Iterative(Average):
+#     pass
 
-@cython.final
-cdef class MAverage_Iterative(Average):
-    cdef Func func
+# @cython.final
+# cdef class MAverage_Iterative(Average):
+#     cdef Func func
 
-@cython.final
-cdef class Average_FG(Average):
-    #
-    cdef ScalarAverager deriv_averager
+# @cython.final
+# cdef class Average_FG(Average):
+#     #
+#     cdef ScalarAverager deriv_averager
     
 @cython.final
 cdef class ParameterizedAverage(Average):
@@ -137,10 +129,10 @@ cdef class WMAverage(Average):
     cdef Average avr
     cdef bint initial
 
-@cython.final
-cdef class WMAverageMixed(Average):
-    cdef Average avr
-    cdef double gamma
+# @cython.final
+# cdef class WMAverageMixed(Average):
+#     cdef Average avr
+#     cdef double gamma
     
 @cython.final
 cdef class TMAverage(Average):
@@ -175,5 +167,3 @@ cdef class Minimal(Average):
 @cython.final
 cdef class Maximal(Average):
     pass
-    
-

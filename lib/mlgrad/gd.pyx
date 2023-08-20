@@ -70,7 +70,7 @@ cdef class GD:
     #
     def fit(self):
         cdef Risk risk = self.risk
-        cdef Py_ssize_t K = 0
+        cdef Py_ssize_t k = 0
 
         self.risk.batch.init()
         self.init()
@@ -84,7 +84,7 @@ cdef class GD:
             self.normalizer.normalize(risk.param)
         
         self.completed = 0
-        for K in range(self.n_iter):
+        for k in range(self.n_iter):
             self.lval_prev = self.lval
                 
             self.fit_epoch()
@@ -107,7 +107,7 @@ cdef class GD:
             if self.callback is not None:
                 self.callback(self)
 
-        self.K = K
+        self.K = k
         self.finalize()
     #
     cpdef gradient(self):
@@ -116,10 +116,6 @@ cdef class GD:
     #
     cpdef fit_epoch(self):
         cdef Risk risk = self.risk
-        # cdef Py_ssize_t i, n_param = risk.n_param
-        # cdef double[::1] grad_average
-        # cdef double[::1] param = risk.param
-        cdef double h
         cdef Py_ssize_t n_repeat = 1
         
         if risk.n_sample > 0 and risk.batch is not None and risk.batch.size > 0:
@@ -130,12 +126,11 @@ cdef class GD:
         while n_repeat > 0:
             risk.batch.generate()
 
-            h = self.h = self.h_rate.get_rate()
+            self.h = self.h_rate.get_rate()
 
             self.gradient()
 
-            self.grad_averager.update(risk.grad_average, h)
-            # grad_average = self.grad_averager.array_average
+            self.grad_averager.update(risk.grad_average, self.h)
             risk.update_param(self.grad_averager.array_average)
             # for i in range(n_param):
             #     param[i] -= grad_average[i]

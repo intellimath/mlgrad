@@ -12,7 +12,7 @@ import platform
 WIN32 = (platform.system() == 'Windows')
 
 Oflag = "-march=native"
-extra_compile_args = [Oflag,] 
+extra_compile_args = [Oflag, "-Ofast"] 
 extra_link_args = [Oflag, "-lm"]
 extra_compile_args_openmp = [Oflag, ("-fopenmp" if not WIN32 else "/openmp")]
 extra_link_args_openmp = [Oflag, ("-fopenmp" if not WIN32 else "/openmp"), "-lm"]
@@ -36,6 +36,8 @@ cython_compiler_directives2 = dict(
     initializedcheck=False,
     unraisable_tracebacks=True,  
 )
+
+Options._directive_defaults.update(cython_compiler_directives2)
 
 ext_modules = [
     Extension(
@@ -195,9 +197,9 @@ setup(
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
     license = "MIT License",
-    ext_modules = cythonize(ext_modules, nthreads=2,
-                            compiler_directives=cython_compiler_directives),
-    # ext_modules = ext_modules,
+    # ext_modules = cythonize(ext_modules, nthreads=2,
+    #                         compiler_directives=cython_compiler_directives2),
+    ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
     packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost',

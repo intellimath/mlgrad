@@ -1,5 +1,5 @@
 import numpy as np
-from numpy import diag, einsum, mean
+from numpy import diag, einsum, einsum_path, mean
 from numpy.linalg import det, inv, pinv
 
 def distance_center(X, c, /):
@@ -20,7 +20,8 @@ def robust_location(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
     # Z = XY - c
     # U = (Z * Z).sum(axis=1)
     Z = XY - c
-    U = einsum("ni,ni->n", Z, Z)
+    path, _ = einsum_path("ni,ni->n", Z, Z, optimize='optimal')
+    U = einsum("ni,ni->n", Z, Z, optimize=path)
     af.fit(U)
     G = af.weights(U)
     s = s_min = af.u
@@ -34,7 +35,7 @@ def robust_location(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
         # Z = XY - c
         # U = (Z * Z).sum(axis=1)
         Z = XY - c
-        U = einsum("ni,ni->n", Z, Z)
+        U = einsum("ni,ni->n", Z, Z, optimize=path)
         # U = distance_center(XY, c)
         s = af.evaluate(U)
         G = af.gradient(U)
@@ -66,7 +67,8 @@ def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=True, return_q
     S = pinv(S)
     S /= det(S) ** n1
     S_min = S
-    D = einsum('nj,jk,nk->n', X, S, X)
+    path, _ = einsum_path('nj,jk,nk->n', X, S, X, optimize='optimal')
+    D = einsum('nj,jk,nk->n', X, S, X, optimize=path)
     # D = np.fromiter(
     #         (((x @ S) @ x) for x in X), 'd', N)
     qval_min = maf.evaluate(D)
@@ -77,7 +79,7 @@ def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=True, return_q
         S = (X.T @ diag(W)) @ X
         S = pinv(S)
         S /= det(S) ** n1
-        D = einsum('nj,jk,nk->n', X, S, X)
+        D = einsum('nj,jk,nk->n', X, S, X, optimize=path)
         # D = np.fromiter(
         #         (((x @ S) @ x) for x in X), 'd', N)
         qval = maf.evaluate(D)

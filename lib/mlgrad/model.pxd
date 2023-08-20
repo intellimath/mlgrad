@@ -130,7 +130,6 @@ cdef class Model2:
     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad)
     #
 
-
 cdef class ModelLayer(Model2):
     cdef public double[::1] input
     cdef public double[::1] grad_input
@@ -141,6 +140,10 @@ cdef class ModelLayer(Model2):
 cdef class ScaleLayer(ModelLayer):
     cdef public Func func    
     
+cdef class LinearModelLayer(ModelLayer):
+    cdef public double[:,::1] matrix
+    cdef bint first_time
+
 cdef class SigmaNeuronModelLayer(ModelLayer):
     cdef public Func func
     cdef public double[:,::1] matrix

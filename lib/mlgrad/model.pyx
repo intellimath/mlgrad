@@ -752,7 +752,6 @@ cdef class ScaleLayer(ModelLayer):
     #
     def __init__(self, Func func, n_input):
         self.func = func
-        self.n_input
         self.obparam = param = None
         self.n_param = 0
         self.n_input = n_input
@@ -764,7 +763,6 @@ cdef class ScaleLayer(ModelLayer):
     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         self.func._derivative_array(&X[0], &self.grad_input[0], self.n_input)
         inventory._mul(&self.grad_input[0], &grad_out[0], self.n_input)
-            
 
 cdef class SimpleLayer(ModelLayer):
     #
@@ -919,6 +917,92 @@ def general_layer_from_dict(ob):
     for mod in ob['models']:
         models.append( model_from_dict(mod) )
     return layer
+
+cdef class LinearModelLayer(ModelLayer):
+
+    def __init__(self, n_input, n_output):
+        self.n_input = n_input
+        self.n_output = n_output
+        self.n_param = (n_input+1)*n_output
+        self.matrix = None
+        self.param = self.ob_param = None
+        self.grad_input = None
+        self.output = None
+        self.ss = None
+        # self.first_time = 1
+    #
+    def _allocate_param(self, allocator):
+        """Allocate matrix"""
+        layer_allocator = allocator.suballocator()
+        self.matrix = layer_allocator.allocate2(self.n_output, self.n_input+1)
+        self.param = self.ob_param = layer_allocator.get_allocated()
+
+        self.output = np.zeros(self.n_output, 'd')
+        self.grad_input = np.zeros(self.n_input, 'd')
+    #
+    def init_param(self):
+        self.ob_param[:] = self.param = np.random.random(self.n_param)
+    #
+    cpdef ModelLayer copy(self, bint share=1):
+        cdef SigmaNeuronModelLayer layer = SigmaNeuronModelLayer(self.func, self.n_input, self.n_output)
+        cdef list models = self.models
+        cdef Model mod
+
+        layer.matrix = self.matrix
+        layer.param = self.param
+
+        layer.output = np.zeros(self.n_output, 'd')
+        layer.grad_input = np.zeros(self.n_input, 'd')
+        return <ModelLayer>layer
+    #
+    cdef void forward(self, double[::1] X):
+        cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t n_output = self.n_output
+        cdef Py_ssize_t i, j, k
+        cdef double s
+        cdef double[::1] param = self.param
+        cdef double[::1] output = self.output
+         
+        k = 0
+        for j in range(n_output):
+            s = param[k]
+            k += 1
+            for i in range(n_input):
+                s += param[k] * X[i]
+                k += 1
+            output[j] = s
+    #
+    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+        cdef Py_ssize_t i, j, k
+        cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t n_output = self.n_output
+        cdef double val_j, s, sx
+        cdef double[::1] grad_in = self.grad_input
+
+        cdef double[::1] output = self.output
+        cdef double[::1] param = self.param        
+
+        inventory.fill(grad_in, 0)
+                
+        k = 0
+        for j in range(n_output):  
+            grad[k] = sx = grad_out[j]
+            k += 1
+            for i in range(n_input):
+                grad_in[i] += sx * param[k]
+                grad[k] = sx * X[i]
+                k += 1
+    #
+    def as_dict(self):
+        return { 'name': 'sigma_neuron_layer',
+                 'n_input': self.n_input, 
+                 'n_output': self.n_output,
+                 'matrix': [list(row) for row in self.matrix]
+               }
+    #
+    def init_from(self, ob):
+        cdef double[:,::1] matrix = np.array(ob['matrix'], 'd')
+        inventory.move2(self.matrix, matrix)
 
 cdef class SigmaNeuronModelLayer(ModelLayer):
 

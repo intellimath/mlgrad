@@ -2,7 +2,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2023> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -129,8 +129,8 @@ cdef class KAverage:
         cdef double s
         
         s = 0
-        for k in prange(N, nogil=True, num_threads=num_procs):
-#         for k in range(N):
+        # for k in prange(N, nogil=True, num_threads=num_procs):
+        for k in range(N):
             y_k = Y[k]
             
             d_min = double_max

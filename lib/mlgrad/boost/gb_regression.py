@@ -9,6 +9,8 @@ from mlgrad.model import LinearFuncModel
 from mlgrad import erm_fg, erisk
 from mlgrad.af import averaging_function
 
+import mlgrad.func as func
+
 import numpy as np
 
 np_dot = np.dot
@@ -55,7 +57,7 @@ class GradientBoostingRegression:
 
             lval = risk.evaluate()
 
-            if j > 0 and abs(lval - lval_min) / (1 + abs(lval_min)) < self.tol:
+            if abs(lval - lval_min) / (1 + abs(lval_min)) < self.tol:
                 finish = 1
             
             if lval < lval_min:
@@ -153,7 +155,7 @@ class MGradientBoostingRegression:
             lval = self.agg.u
             # lval = risk.evaluate()
 
-            if j > 0 and abs(lval - lval_min) / (1 + abs(lval_min)) < self.tol:
+            if abs(lval - lval_min) / (1 + abs(lval_min)) < self.tol:
                 finish = 1
             
             if lval < lval_min:
@@ -200,7 +202,7 @@ def gb_fit_agg(X, Y, new_model, loss_func=None, aggname='WM',
     lfm = LinearFuncModel()
     if loss_func is None:
         loss_func = SquareErrorLoss()
-    agg = averaging_function(aggname, alpha=alpha)
+    agg = averaging_function(aggname, rhofunc=func.QuantileFunc(alpha, func.Sqrt(0.001)))
     gb = MGradientBoostingRegression(lfm, new_model, loss_func, agg, 
                            h=h, n_iter=n_iter, n_iter2=n_iter2, tol=tol)
     gb.fit(X, Y)

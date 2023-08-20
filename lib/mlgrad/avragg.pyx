@@ -2,7 +2,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2022> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2023> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ from mlgrad.func cimport Func, ParameterizedFunc
 from mlgrad.func2 cimport SoftMin
 from libc.math cimport fabs, pow, sqrt, fmax, log, exp
 
-# from cython.parallel cimport parallel, prange
+from cython.parallel cimport parallel, prange
 
 cimport mlgrad.inventory as inventory
 
@@ -193,23 +193,6 @@ cdef class PenaltyScale(Penalty):
 
 cdef class Average(object):
     #
-    cdef init(self, double[::1] Y):
-
-        self.pval_min = max_double/2
-
-        self.u = array_mean(Y)
-
-        self.u_min = self.u
-
-        self.m = 0
-
-        if self.h < 0:
-            self.h = 0.1
-    #
-    def __call__(self, double[::1] Y):
-        self.fit(Y)
-        return self.u
-    #
     cdef double _evaluate(self, double[::1] Y):
         self.fit(Y)
         return self.u
@@ -223,252 +206,260 @@ cdef class Average(object):
         self._gradient(Y, grad)
         return grad
     #
-    cpdef fit(self, double[::1] Y):
-        cdef Py_ssize_t j, K, n_iter = self.n_iter
-        cdef Penalty penalty = self.penalty
-        cdef double h = self.h
-        cdef bint finish = 0
-
-        self.init(Y)
-        self.pval = penalty.evaluate(Y, self.u)
-        if self.pval < self.pval_min:
-            self.pval_min = self.pval
-            self.u_min = self.u
-        #
-        K = 1
-        while K < n_iter:
-            self.u_prev = self.u
-            self.pval_prev = self.pval
-            self.fit_epoch(Y)
-
-            self.pval = penalty.evaluate(Y, self.u)
-
-            if K > 0 and self.stop_condition():
-                finish = 1
-
-            if self.pval < self.pval_min:
-                self.pval_min = self.pval
-                self.u_min = self.u
-                self.m = 0
-            # elif not finish and self.pval > self.pval_prev:
-            #     self.u = (1-h) * self.u_prev + h * self.u
-
-            if finish:
-                break
-            #
-            K += 1
-
-        self.K = K
-        self.u = self.u_min
-        self.evaluated = 1
-    #
-    cdef fit_epoch(self, double[::1] Y):
-        return None
-    #
-    cdef _gradient(self, double[::1] Y, double[::1] grad):
-        # if not self.evaluated:
-        self.fit(Y)
-        self.penalty.gradient(Y, self.u, grad)
-        self.evaluated = 0
-    #
-    cdef _weights(self, double[::1] Y, double[::1] weights):
-        self._gradient(Y, weights)
-    #
     def weights(self, double[::1] Y):
         grad = np.zeros(len(Y), 'd')
         self._gradient(Y, grad)
         return grad
     #
-    @cython.cdivision(True)
-    cdef bint stop_condition(self):
-        if fabs(self.pval - self.pval_min) / (1. + fabs(self.pval_min)) < self.tol:
-            return 1
-
-        if self.m > self.m_iter:
-            return 1
-
-        self.m += 1
-
+    cdef double init_u(self, double[::1] Y):
         return 0
+    #
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
+        pass
+    #
+    cdef _weights(self, double[::1] Y, double[::1] weights):
+        self._gradient(Y, weights)
+    #
+    cpdef fit(self, double[::1] Y):
+        pass
 
-include "avragg_it.pyx"
+cdef class AverageIterative(Average):
+    #
+    cdef double init_u(self, double[::1] Y):
+        return 0
+    #
+    cpdef fit(self, double[::1] Y):
+        cdef Py_ssize_t k=0, n_iter = self.n_iter
+        cdef Penalty penalty = self.penalty
+        cdef double tol = self.tol
+        cdef double u, u_min, pval, pval_min
+        cdef bint finish = 0
+
+        u = u_min = self.init_u(Y)
+        pval_min = pval = penalty.evaluate(Y, u)
+        #
+        for k in range(n_iter):
+            u = penalty.iterative_next(Y, u)
+            pval = penalty.evaluate(Y, u)
+
+            if fabs(pval - pval_min) / (1 + fabs(pval_min)) < self.tol:
+                finish = 1
+
+            if pval < pval_min:
+                pval_min = pval
+                u_min = u
+
+            if finish:
+                break
+            #
+
+        self.K = k + 1
+        self.u = u_min
+        self.pval = pval_min
+        self.evaluated = 1
+    #
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
+        if not self.evaluated:
+            self.fit(Y)
+        self.penalty.gradient(Y, self.u, grad)
+        self.evaluated = 0
+    #
+
+# include "avragg_it.pyx"
 include "avragg_fg.pyx"
 
 # @cython.final
-cdef class MAverage(Average):
+cdef class MAverage(AverageIterative):
     #
     def __init__(self, Func func, tol=1.0e-9, n_iter=1000):
-        self.func = func
+        self.penalty = PenaltyAverage(func)
         self.n_iter = n_iter
         self.tol = tol
         self.evaluated = 0
     #
-    @cython.cdivision(True)
-    cpdef fit(self, double[::1] Y):
-        cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double yk, v, S, V, Z
-        cdef double u, u_min, z, z_min
-        cdef double tol = self.tol
-        cdef Func func = self.func
-        cdef Py_ssize_t K = 0
-        cdef bint finish = 0
-
-        # if not self.evaluated:
-        #     u = (Y[0] + Y[N//2] + Y[N-1]) / 3
-        #     ## u = array_mean(Y)
-        # else:
-        #     u = self.u
-        u = (Y[0] + Y[N//2] + Y[N-1]) / 3
-
-        u_min = u
-        z_min = z = max_double / 2
-
-        for K in range(self.n_iter):
-            S = 0
-            V = 0
-            # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-            for k in range(N):
-                yk = Y[k]
-                v = func._derivative_div_x(yk - u)
-                S += v * yk
-                V += v
-
-            u = S / V
-
-            Z = 0
-            # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-            for k in range(N):
-                Z += func._evaluate(Y[k] - u)
-
-            z = Z / N
-
-            if K > 0 and fabs(z - z_min) / (1 + fabs(z_min)) < tol:
-                finish = 1
-
-            if z < z_min:
-                z_min = z
-                u_min = u
-
-            if finish:
-                break
-
-        self.u = u_min
-        self.evaluated = 1
-        self.K = K + 1
+    cdef double init_u(self, double[::1] Y):
+        cdef Py_ssize_t N = Y.shape[0]
+        return (Y[0] + Y[N//2] + Y[N-1]) / 3
     #
-    @cython.cdivision(True)
-    cdef _gradient(self, double[::1] Y, double[::1] grad):
-        cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double V, u
-        cdef Func func = self.func
+    # @cython.cdivision(True)
+    # cdef double evaluate_next_u(self, double[::1] Y, const double u):
+    #     cdef Py_ssize_t k, N = Y.shape[0]
+    #     cdef double yk, v, S = 0, V = 0
+    #     cdef Func func = self.func
 
-        # if not self.evaluated:
-        self.fit(Y)
-        u = self.u
+    #     with cython.nogil, parallel():
+    #         for k in prange(N, schedule='static'):
+    #         # for k in range(N):
+    #             yk = Y[k]
+    #             v = func._derivative_div_x(yk - u)
+    #             S += v * yk
+    #             V += v
 
-        S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            v = Y[k] / u
-            S += func._derivative2(v) * v * v
-        S += N
+    #     return S / V
+    # #
+    # @cython.cdivision(True)
+    # cdef double evaluate_penalty(self, double[::1] Y, const double u):
+    #     cdef Py_ssize_t k, N = Y.shape[0]
+    #     cdef Func func = self.func
+    #     cdef double Z = 0
+
+    #     with cython.nogil, parallel():
+    #         for k in prange(N, schedule='static'):
+    #         # for k in range(N):
+    #             Z += func._evaluate(Y[k] - u)
+
+    #     return Z / N
+    # #
+    # @cython.cdivision(True)
+    # cpdef fit(self, double[::1] Y):
+    #     cdef Py_ssize_t N = Y.shape[0]
+    #     cdef Py_ssize_t k = 0
+    #     cdef double u, u_min, z, z_min
+    #     cdef double tol = self.tol
+    #     cdef bint finish = 0
+
+    #     u_min = u = (Y[0] + Y[N//2] + Y[N-1]) / 3
+    #     z_min = z = self.evaluate_penalty(Y, u)
+
+    #     for k in range(self.n_iter):
+    #         u = self.evaluate_next_u(Y, u)
+    #         z = self.evaluate_penalty(Y, u)
+
+    #         if fabs(z - z_min) / (1 + fabs(z_min)) < tol:
+    #             finish = 1
+
+    #         if z < z_min:
+    #             z_min = z
+    #             u_min = u
+
+    #         if finish:
+    #             break
+
+    #     self.u = u_min
+    #     self.evaluated = 1
+    #     self.K = k + 1
+    # #
+    # @cython.cdivision(True)
+    # cdef _gradient(self, double[::1] Y, double[::1] grad):
+    #     cdef Py_ssize_t k, N = Y.shape[0]
+    #     cdef double V, v, u
+    #     cdef Func func = self.func
+
+    #     # if not self.evaluated:
+    #     self.fit(Y)
+    #     u = self.u
         
-        # for k in prange(N, nogil=True, schedule='static', num_threads=threads):
-        for k in range(N):
-            grad[k] = func._derivative2(Y[k] - u)
+    #     V = 0
+    #     with cython.nogil, parallel():
+    #         for k in prange(N, schedule='static'):
+    #         # for k in range(N):
+    #             v = grad[k] = func._derivative2(Y[k] - u)
+    #             V += v
 
-        V = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            V += grad[k]
+    #     with cython.nogil, parallel():
+    #         for k in prange(N, schedule='static'):
+    #         # for k in range(N):
+    #             grad[k] /= V
 
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            grad[k] /= V
-
-        self.evaluated = 0
-
+    #     self.evaluated = 0
+ 
 # @cython.final
-cdef class SAverage(Average):
+cdef class SAverage(AverageIterative):
     #
     def __init__(self, Func func, tol=1.0e-9, n_iter=1000):
-        self.func = func
+        self.penalty = PenaltyScale(func)
         self.n_iter = n_iter
         self.tol = tol
         self.evaluated = 0
     #
-    @cython.cdivision(True)
-    cpdef fit(self, double[::1] Y):
-        cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double yk, v, S, Z
-        cdef double u, u_min, z, z_min
-        cdef double tol = self.tol
-        cdef Func func = self.func
-        cdef Py_ssize_t K = 0
-        cdef bint finish = 0
+    cdef double init_u(self, double[::1] Y):
+        return 1
+    # #
+    # @cython.cdivision(True)
+    # cdef double evaluate_next_u(self, double[::1] Y, const double u):
+    #     cdef Py_ssize_t k, N = Y.shape[0]
+    #     cdef double yk, S = 0
+    #     cdef Func func = self.func
+    #     cdef double S = 0
 
-        # if not self.evaluated:
-        #     u = 1.0
-        # else:
-        #     u = self.u
+    #     with cython.nogil, parallel():
+    #         for k in prange(N, schedule='static'):
+    #         # for k in range(N):
+    #             yk = Y[k]
+    #             S += func._derivative(yk / u) * yk
 
-        u = 1.0
-        u_min = u
-        z_min = z = max_double / 2
+    #     return S / N
+    # #
+    # @cython.cdivision(True)
+    # cdef double evaluate_penalty(self, double[::1] Y, const double u):
+    #     cdef Py_ssize_t k, N = Y.shape[0]
+    #     cdef Func func = self.func
+    #     cdef double Z = 0
 
-        for K in range(self.n_iter):
-            S = 0
-            # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-            for k in range(N):
-                yk = Y[k]
-                S += func._derivative(yk / u) * yk
+    #     with cython.nogil, parallel():
+    #         for k in prange(N, schedule='static'):
+    #         # for k in range(N):
+    #             Z += func._evaluate(Y[k] / u)
 
-            u = S / N
-            
-            Z = 0
-            # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-            for k in range(N):
-                Z += func._evaluate(Y[k] / u)
+    #     return Z / N + log(u
+    # #
+    # @cython.cdivision(True)
+    # cpdef fit(self, double[::1] Y):
+    #     cdef Py_ssize_t k, N = Y.shape[0]
+    #     cdef double u, u_min, z, z_min
+    #     cdef double tol = self.tol
+    #     cdef Func func = self.func
+    #     cdef Py_ssize_t k
+    #     cdef bint finish = 0
 
-            z = Z / N + log(u)
+    #     # if not self.evaluated:
+    #     #     u = 1.0
+    #     # else:
+    #     #     u = self.u
 
-            if K > 0 and fabs(z - z_min) / (1 + fabs(z_min)) < tol:
-                finish = 1
+    #     u = u_min = 1.0
+    #     z_min = z = self.evaluate_penalty(Y, u)
 
-            if z < z_min:
-                z_min = z
-                u_min = u
+    #     for k in range(self.n_iter):
+    #         u = self.evaluate_next_u(Y, u)
+    #         z = self.evaluate_penalty(Y, u)
 
-            if finish:
-                break
+    #         if K > 0 and fabs(z - z_min) / (1 + fabs(z_min)) < tol:
+    #             finish = 1
 
-        self.u = u_min
-        # self.u_min = u_min
-        self.evaluated = 1
-        self.K = K + 1
-    #
-    @cython.cdivision(True)
-    cdef _gradient(self, double[::1] Y, double[::1] grad):
-        cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double S, v, u
-        cdef Func func = self.func
+    #         if z < z_min:
+    #             z_min = z
+    #             u_min = u
 
-        if not self.evaluated:
-            self.fit(Y)
-        u = self.u
+    #         if finish:
+    #             break
 
-        S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            v = Y[k] / u
-            S += func._derivative2(v) * v * v
-        S += N
-        #
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            grad[k] = func._derivative(Y[k] / u) / S
+    #     self.u = u_min
+    #     self.evaluated = 1
+    #     self.K = k + 1
+    # #
+    # @cython.cdivision(True)
+    # cdef _gradient(self, double[::1] Y, double[::1] grad):
+    #     cdef Py_ssize_t k, N = Y.shape[0]
+    #     cdef double S, v, u
+    #     cdef Func func = self.func
 
-        self.evaluated = 0
+    #     if not self.evaluated:
+    #         self.fit(Y)
+    #     u = self.u
+
+    #     S = 0
+    #     # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+    #     for k in range(N):
+    #         v = Y[k] / u
+    #         S += func._derivative(v) * v * v
+    #     S += N
+    #     #
+    #     # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+    #     for k in range(N):
+    #         grad[k] = func._derivative(Y[k] / u) / S
+
+    #     self.evaluated = 0
         
 @cython.final
 cdef class ParameterizedAverage(Average):
@@ -549,31 +540,29 @@ cdef class WMAverage(Average):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double S
 
-        self.avr.fit(Y)
-        avr_u = self.avr.u
+        avr_u = self.avr._evaluate(Y)
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            yk = Y[k]
-            v = yk if yk <= avr_u else avr_u
-            S += v
-
+        with cython.nogil, parallel():
+            for k in prange(N, schedule='static'):
+            # for k in range(N):
+                yk = Y[k]
+                v = yk if yk <= avr_u else avr_u
+                S += v
         self.u = S / N
-        self.u_min = self.u
+
+        # self.u_min = self.u
         self.K = self.avr.K
         self.evaluated = 1
     #
     @cython.cdivision(True)
     @cython.final
     cdef _gradient(self, double[::1] Y, double[::1] grad):
-        cdef Py_ssize_t k, m, N = Y.shape[0]
-        cdef double u, v, gk
-        cdef double N1 = 1.0/N
-        cdef double dm
+        cdef Py_ssize_t k, N = Y.shape[0]
+        cdef double u, v, m, fN = N
 
-        # if self.evaluated == 0:
-        self.avr.fit(Y)
+        if self.evaluated == 0:
+            self.avr.fit(Y)
         self.avr._gradient(Y, grad)
         self.evaluated = 0
         u = self.avr.u
@@ -582,76 +571,75 @@ cdef class WMAverage(Average):
         for k in range(N):
             if Y[k] > u:
                 m += 1
-        dm = m
 
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            gk = grad[k]
-            v = dm * gk
-            if Y[k] <= u:
-                v = v + 1
-            grad[k] = v * N1
+        with cython.nogil, parallel():
+            for k in prange(N, schedule='static'):
+            # for k in range(N):
+                v = m * grad[k]
+                if Y[k] <= u:
+                    v = v + 1
+                grad[k] = v / fN
     #
 
-cdef class WMAverageMixed(Average):
-    #
-    def __init__(self, Average avr, double gamma=1):
-        self.avr = avr
-        self.gamma = gamma
-        self.u = 0
-        self.evaluated = 0
-    #
-    cpdef fit(self, double[::1] Y):
-        cdef double u, v, yk, avr_u
-        cdef Py_ssize_t k, m, N = Y.shape[0]
+# cdef class WMAverageMixed(Average):
+#     #
+#     def __init__(self, Average avr, double gamma=1):
+#         self.avr = avr
+#         self.gamma = gamma
+#         self.u = 0
+#         self.evaluated = 0
+#     #
+#     cpdef fit(self, double[::1] Y):
+#         cdef double u, v, yk, avr_u
+#         cdef Py_ssize_t k, m, N = Y.shape[0]
 
-        self.avr.fit(Y)
-        self.evaluated = 1
-        avr_u = self.avr.u
+#         self.avr.fit(Y)
+#         self.evaluated = 1
+#         avr_u = self.avr.u
 
-        m = 0
-        for k in range(N):
-            if Y[k] > avr_u:
-                m += 1
+#         m = 0
+#         for k in range(N):
+#             if Y[k] > avr_u:
+#                 m += 1
 
-        u = 0
-        v = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            yk = Y[k]
-            if yk <= avr_u:
-                u += yk
-            else:
-                v += yk
+#         u = 0
+#         v = 0
+#         # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+#         for k in range(N):
+#             yk = Y[k]
+#             if yk <= avr_u:
+#                 u += yk
+#             else:
+#                 v += yk
 
-        self.u = (1-self.gamma) * u / (N-m) + self.gamma * v / m
+#         self.u = (1-self.gamma) * u / (N-m) + self.gamma * v / m
 
-        self.u_min = self.u
-    #
-    cdef _gradient(self, double[::1] Y, double[::1] grad):
-        cdef Py_ssize_t k, m, N = Y.shape[0]
-        cdef double v, N1, N2, yk, avr_u
+#         self.u_min = self.u
+#     #
+#     cdef _gradient(self, double[::1] Y, double[::1] grad):
+#         cdef Py_ssize_t k, m, N = Y.shape[0]
+#         cdef double v, N1, N2, yk, avr_u
 
-        self.avr._gradient(Y, grad)
-        self.evaluated = 0
-        avr_u = self.avr.u
+#         self.avr._gradient(Y, grad)
+#         self.evaluated = 0
+#         avr_u = self.avr.u
 
-        m = 0
-        for k in range(N):
-            if Y[k] > avr_u:
-                m += 1
+#         m = 0
+#         for k in range(N):
+#             if Y[k] > avr_u:
+#                 m += 1
 
-        N1 = (1-self.gamma) / (N-m)
-        N2 = self.gamma / m
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            yk = Y[k]
-            if yk <= avr_u:
-                v = N1
-            else:
-                v = N2
-            grad[k] = v
-    #
+#         N1 = (1-self.gamma) / (N-m)
+#         N2 = self.gamma / m
+#         # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+#         for k in range(N):
+#             yk = Y[k]
+#             if yk <= avr_u:
+#                 v = N1
+#             else:
+#                 v = N2
+#             grad[k] = v
+#     #
 
 cdef class TMAverage(Average):
     #
@@ -681,8 +669,8 @@ cdef class TMAverage(Average):
         self.K = self.avr.K
     #
     cdef _gradient(self, double[::1] Y, double[::1] grad):
-        cdef Py_ssize_t k, M, N = Y.shape[0]
-        cdef double u, N1, yk
+        cdef Py_ssize_t k, N = Y.shape[0]
+        cdef double u, N1, M
 
         self.avr._gradient(Y, grad)
         self.evaluated = 0
@@ -690,15 +678,13 @@ cdef class TMAverage(Average):
 
         M = 0
         for k in range(N):
-            yk = Y[k]
-            if yk <= u:
+            if Y[k] <= u:
                 M += 1
 
         N1 = 1./M
         # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
         for k in range(N):
-            yk = Y[k]
-            if yk <= u:
+            if Y[k] <= u:
                 grad[k] = N1
             else:
                 grad[k] = 0
@@ -808,9 +794,9 @@ cdef class ArithMean(Average):
         # cdef double *YY =&Y[0]
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            S += Y[k]
+        with cython.nogil, parallel():
+            for k in prange(N, schedule='static'):
+                S += Y[k]
         self.u = S / N
         self.u_min = self.u
         self.evaluated = 1
@@ -818,13 +804,12 @@ cdef class ArithMean(Average):
     @cython.cdivision(True)
     cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
-        # cdef double *GG = &grad[0]
         cdef double v
 
         v = 1./N
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            grad[k] = v
+        with cython.nogil, parallel():
+            for k in prange(N, schedule='static'):
+                grad[k] = v
         self.evaluated = 0
 
 cdef class RArithMean(Average):
@@ -836,13 +821,12 @@ cdef class RArithMean(Average):
     cpdef fit(self, double[::1] Y):
         cdef double S
         cdef Py_ssize_t k, N = Y.shape[0]
-        # cdef double *YY =&Y[0]
         cdef Func func = self.func
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            S += func._evaluate(Y[k])
+        with cython.nogil, parallel():
+            for k in prange(N, schedule='static'):
+                S += func._evaluate(Y[k])
         self.u = S / N
         self.u_min = self.u
         self.evaluated = 1
@@ -855,9 +839,9 @@ cdef class RArithMean(Average):
         cdef Func func = self.func
 
         v = 1./N
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            grad[k] = v * func._derivative(Y[k])
+        with cython.nogil, parallel():
+            for k in prange(N, schedule='static'):
+                grad[k] = v * func._derivative(Y[k])
         self.evaluated = 0
     #
     @cython.cdivision(True)
@@ -868,15 +852,15 @@ cdef class RArithMean(Average):
         cdef Func func = self.func
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            v = func._derivative_div_x(Y[k])
-            grad[k] = v
-            S += v
+        with cython.nogil, parallel():
+            for k in prange(N, schedule='static'):
+                v = func._derivative_div_x(Y[k])
+                grad[k] = v
+                S += v
 
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
-            grad[k] /= S
+        with cython.nogil, parallel():
+            for k in prange(N, schedule='static'):
+                grad[k] /= S
 
         self.evaluated = 0
 

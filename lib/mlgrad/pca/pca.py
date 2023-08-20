@@ -104,10 +104,8 @@ def _find_pc(S, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
     K += 1
     if verbose:
         print("K:", K, L, a)
-
-    # Z = XY2 @ a1
-    # Z = XX - Z * Z
             
+    L = ((S @ a) @ a) / (a @ a)
     return a, L
 
 def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
@@ -124,8 +122,7 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
     Z = X @ a
     Z = Z_min = XX - Z * Z
     
-    qf.fit(Z)
-    SZ_min = qf.u
+    SZ_min = qf.evaluate(Z)
     G = qf.gradient(Z)
     L_min = 0
 
@@ -142,8 +139,7 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
         Z = X @ a1
         Z = XX - Z * Z
         
-        qf.fit(Z)
-        SZ = qf.u
+        SZ = qf.evaluate(Z)
         G = qf.gradient(Z)
 
         if abs(SZ - SZ_min) < tol:
@@ -169,7 +165,6 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
     return a_min, L_min
 
 def project(X, a, /):
-    # Xa = (X @ a).reshape(-1,1) * X
     Xa = np.array([(x @ a) * a for x in X])
     return X - Xa
 
