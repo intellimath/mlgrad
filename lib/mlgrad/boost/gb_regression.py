@@ -198,7 +198,7 @@ def gb_fit(X, Y, new_model, loss_func=None,
     return gb
 
 def gb_fit_agg(X, Y, new_model, loss_func=None, aggname='WM', 
-               alpha=0.5, h=0.001, n_iter=100, n_iter2=10, tol=1.0e-9):
+               alpha=0.5, h=0.001, n_iter=100, n_iter2=22, tol=1.0e-9):
     lfm = LinearFuncModel()
     if loss_func is None:
         loss_func = SquareErrorLoss()

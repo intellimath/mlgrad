@@ -26,11 +26,12 @@ from cython cimport view
 from openmp cimport omp_get_num_procs
 from cpython.object cimport PyObject
  
-cdef int num_threads = 2 #omp_get_num_procs()
-# if num_procs >= 4:
-#     num_procs /= 2
-# else:
-#     num_procs = 2
+cdef int num_procs = omp_get_num_procs()
+cdef int num_threads
+if num_procs >= 4:
+    num_threads /= 2
+else:
+    num_threads = 2
 
 cdef int get_num_threads() nogil:
     return num_threads

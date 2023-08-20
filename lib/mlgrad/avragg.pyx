@@ -31,7 +31,7 @@ from cython.parallel cimport parallel, prange
 
 cimport mlgrad.inventory as inventory
 
-# cdef num_threads = num_threads
+cdef int num_threads = inventory.get_num_threads()
 
 cdef double max_double = PyFloat_GetMax()
 
@@ -65,8 +65,8 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             S += func._evaluate(Y[k] - u)
 
         return S / N
@@ -79,8 +79,8 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             S += func._derivative(Y[k] - u)
 
         return -S / N
@@ -94,8 +94,8 @@ cdef class PenaltyAverage(Penalty):
 
         S = 0
         V = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             yk = Y[k]
             v = func._derivative_div_x(yk - u)
             V += v
@@ -111,13 +111,13 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             grad[k] = v = func._derivative2(Y[k] - u)
             S += v
 
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             grad[k] /= S
 
 @cython.final
@@ -135,8 +135,8 @@ cdef class PenaltyScale(Penalty):
         cdef double v
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             v = Y[k]
             S += func._evaluate(v / s)
 
@@ -150,8 +150,8 @@ cdef class PenaltyScale(Penalty):
         cdef Func func = self.func
         #
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             v = Y[k] / s
             S += func._derivative(v) * v
         #
@@ -165,8 +165,8 @@ cdef class PenaltyScale(Penalty):
         cdef Func func = self.func
         #
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             y_k = Y[k]
             S += func._derivative(y_k / s) * y_k
         #
@@ -180,14 +180,14 @@ cdef class PenaltyScale(Penalty):
         cdef Func func = self.func
         #
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             v = Y[k] / s
             S += func._derivative2(v) * v * v
         S += N
         #
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             v = Y[k] / s
             grad[k] = func._derivative(v) / S
 
