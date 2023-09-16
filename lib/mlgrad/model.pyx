@@ -2,7 +2,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2022> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2023> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -957,44 +957,46 @@ cdef class LinearModelLayer(ModelLayer):
     #
     cdef void forward(self, double[::1] X):
         cdef Py_ssize_t n_input = self.n_input
-        cdef Py_ssize_t n_output = self.n_output
-        cdef Py_ssize_t i, j, k
-        cdef double s
-        cdef double[::1] param = self.param
+        cdef Py_ssize_t j
         cdef double[::1] output = self.output
+        cdef double[:,::1] matrix = self.matrix
          
-        k = 0
-        for j in range(n_output):
-            s = param[k]
-            k += 1
-            for i in range(n_input):
-                s += param[k] * X[i]
-                k += 1
-            output[j] = s
+        # k = 0
+        for j in range(self.n_output):
+            output[j] = matrix[j,0] + inventory._dot(&matrix[j,1], &X[0], n_input)
+            # s = param[k]
+            # k += 1
+            # for i in range(n_input):
+            #     s += param[k] * X[i]
+            #     k += 1
+            # output[j] = s
     #
     cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
-        cdef Py_ssize_t i, j, k
+        cdef Py_ssize_t i, j
         cdef Py_ssize_t n_input = self.n_input
-        cdef Py_ssize_t n_output = self.n_output
-        cdef double val_j, s, sx
+        cdef Py_ssize_t n_input1 = n_input + 1
         cdef double[::1] grad_in = self.grad_input
-
-        cdef double[::1] output = self.output
-        cdef double[::1] param = self.param        
+        cdef double *G0 = &grad[0]
+        cdef double *W0 = &self.param[0]
+        cdef double *G
+        cdef double *W
+        cdef double sx
+        cdef double[:,::1] matrix = self.matrix
 
         inventory.fill(grad_in, 0)
                 
-        k = 0
-        for j in range(n_output):  
-            grad[k] = sx = grad_out[j]
-            k += 1
-            for i in range(n_input):
-                grad_in[i] += sx * param[k]
-                grad[k] = sx * X[i]
-                k += 1
+        for j in range(self.n_output):
+            G = G0 + j * n_input1
+            G[0] = sx = grad_out[j]
+            G += 1
+            inventory._mul_add(&grad_in[0], &matrix[j,1], sx, n_input)
+            inventory._mul_set(G, &X[0], sx, n_input)
+            # for i in range(n_input):
+            #     grad_in[i] += sx * W[i]
+            #     G[i] = sx * X[i]
     #
     def as_dict(self):
-        return { 'name': 'sigma_neuron_layer',
+        return { 'name': 'linear_neuron_layer',
                  'n_input': self.n_input, 
                  'n_output': self.n_output,
                  'matrix': [list(row) for row in self.matrix]

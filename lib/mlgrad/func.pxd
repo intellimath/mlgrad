@@ -6,17 +6,17 @@ cimport cython
 cdef class Func(object):
     cdef public unicode label
     #
-    cdef double _evaluate(self, const double x) nogil
-    cdef double _derivative(self, const double x) nogil
-    cdef double _derivative2(self, const double x) nogil
-    cdef double _derivative_div_x(self, const double x) nogil
-    cdef double _value(self, const double x) nogil
+    cdef double _evaluate(self, const double x) noexcept nogil
+    cdef double _derivative(self, const double x) noexcept nogil
+    cdef double _derivative2(self, const double x) noexcept nogil
+    cdef double _derivative_div_x(self, const double x) noexcept nogil
+    cdef double _value(self, const double x) noexcept nogil
 
-    cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) nogil
-    cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) nogil
-    cdef void _derivative2_array(self, const double *x, double *y, const Py_ssize_t n) nogil
-    cdef void _derivative_div_array(self, const double *x, double *y, const Py_ssize_t n) nogil
-    cdef void _value_array(self, const double *x, double *y, const Py_ssize_t n) nogil
+    cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
+    cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
+    cdef void _derivative2_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
+    cdef void _derivative_div_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
+    cdef void _value_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
     #
 
 @cython.final
@@ -219,11 +219,11 @@ cdef class KMinSquare(Func):
     
 cdef class ParameterizedFunc:
     #
-    cdef double _evaluate(self, double x, double u) nogil
+    cdef double _evaluate(self, double x, double u) noexcept nogil
     #
-    cdef double _derivative(self, double x, double u) nogil
+    cdef double _derivative(self, double x, double u) noexcept nogil
     #
-    cdef double derivative_u(self, double x, double u) nogil
+    cdef double derivative_u(self, double x, double u) noexcept nogil
 
 @cython.final
 cdef class WinsorizedFunc(ParameterizedFunc):

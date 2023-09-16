@@ -23,61 +23,59 @@
 # THE SOFTWARE. 
 
 from cython cimport view
-from openmp cimport omp_get_num_procs
+from openmp cimport omp_get_num_procs, omp_get_num_threads
 from cpython.object cimport PyObject
+
+from cython.parallel cimport parallel, prange
  
 cdef int num_procs = omp_get_num_procs()
-cdef int num_threads
-if num_procs >= 4:
-    num_threads /= 2
-else:
-    num_threads = 2
+cdef int num_threads = omp_get_num_threads()
 
-cdef int get_num_threads() nogil:
+cdef int get_num_threads() noexcept nogil:
     return num_threads
 
-cdef void set_num_threads(int num) nogil:
+cdef void set_num_threads(int num) noexcept nogil:
     num_threads = num
     
-cdef void _clear(double *to, const Py_ssize_t n) nogil:
+cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     for i in range(n):
         to[i] = 0
 
-cdef void clear(double[::1] to) nogil:
+cdef void clear(double[::1] to) noexcept nogil:
     _clear(&to[0], <const Py_ssize_t>to.shape[0])
 
-cdef void _clear2(double *to, const Py_ssize_t n, const Py_ssize_t m) nogil:
+cdef void _clear2(double *to, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil:
     cdef Py_ssize_t i
     for i in range(n*m):
         to[i] = 0
         
-cdef void clear2(double[:,::1] to) nogil:
+cdef void clear2(double[:,::1] to) noexcept nogil:
     _clear2(&to[0,0], <const Py_ssize_t>to.shape[0], <const Py_ssize_t>to.shape[1])
     
-cdef void _fill(double *to, const double c, const Py_ssize_t n) nogil:
+cdef void _fill(double *to, const double c, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     for i in range(n):
         to[i] = c
 
-cdef void fill(double[::1] to, const double c) nogil:
+cdef void fill(double[::1] to, const double c) noexcept nogil:
     _fill(&to[0], c, <const Py_ssize_t>to.shape[0])
         
-cdef void _move(double *to, const double *src, const Py_ssize_t n) nogil:
+cdef void _move(double *to, const double *src, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     for i in range(n):
         to[i] = src[i]
 
-cdef void move(double[::1] to, double[::1] src) nogil:
+cdef void move(double[::1] to, double[::1] src) noexcept nogil:
     _move(&to[0], &src[0], to.shape[0])
 
-cdef void move2(double[:, ::1] to, double[:,::1] src) nogil:
+cdef void move2(double[:, ::1] to, double[:,::1] src) noexcept nogil:
     _move(&to[0,0], &src[0,0], to.shape[0] * to.shape[1])
 
-cdef void move3(double[:,:,::1] to, double[:,:,::1] src) nogil:
+cdef void move3(double[:,:,::1] to, double[:,:,::1] src) noexcept nogil:
     _move(&to[0,0,0], &src[0,0,0], to.shape[0] * to.shape[1] * to.shape[2])
     
-cdef double _conv(const double *a, const double *b, const Py_ssize_t n) nogil:
+cdef double _conv(const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     cdef double s = 0
 
@@ -85,31 +83,31 @@ cdef double _conv(const double *a, const double *b, const Py_ssize_t n) nogil:
         s += a[i] * b[i]
     return s
 
-cdef double conv(double[::1] a, double[::1] b) nogil:
+cdef double conv(double[::1] a, double[::1] b) noexcept nogil:
     return _conv(&a[0], &b[0], a.shape[0])
 
-cdef void _add(double *a, const double *b, const Py_ssize_t n) nogil:
+cdef void _add(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
     for i in range(n):
         a[i] += b[i]
 
-cdef void add(double[::1] a, double[::1] b) nogil:
+cdef void add(double[::1] a, double[::1] b) noexcept nogil:
     _add(&a[0], &b[0], a.shape[0])
 
-cdef void add2(double[:,::1] a, double[:,::1] b) nogil:
+cdef void add2(double[:,::1] a, double[:,::1] b) noexcept nogil:
     _add(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
     
-cdef void _sub(double *a, const double *b, const Py_ssize_t n) nogil:
+cdef void _sub(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
     for i in range(n):
         a[i] -= b[i]
 
-cdef void sub(double[::1] a, double[::1] b) nogil:
+cdef void sub(double[::1] a, double[::1] b) noexcept nogil:
     _sub(&a[0], &b[0], a.shape[0])
     
-cdef double _sum(const double *a, const Py_ssize_t n) nogil:
+cdef double _sum(const double *a, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     cdef double s = 0
 
@@ -117,101 +115,102 @@ cdef double _sum(const double *a, const Py_ssize_t n) nogil:
         s += a[i]
     return s
 
-cdef double sum(double[::1] a) nogil:
+cdef double sum(double[::1] a) noexcept nogil:
     return _sum(&a[0], a.shape[0])
 
-cdef void _mul_const(double *a, const double c, const Py_ssize_t n) nogil:
+cdef void _mul_const(double *a, const double c, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
     for i in range(n):
         a[i] *= c
 
-cdef void mul_const(double[::1] a, const double c) nogil:
+cdef void mul_const(double[::1] a, const double c) noexcept nogil:
     _mul_const(&a[0], c, a.shape[0])
 
-cdef void mul_const2(double[:,::1] a, const double c) nogil:
+cdef void mul_const2(double[:,::1] a, const double c) noexcept nogil:
     _mul_const(&a[0,0], c, a.shape[0] * a.shape[1])
 
-cdef void mul_const3(double[:,:,::1] a, const double c) nogil:
+cdef void mul_const3(double[:,:,::1] a, const double c) noexcept nogil:
     _mul_const(&a[0,0,0], c, a.shape[0] * a.shape[1] * a.shape[2])
     
-cdef void _mul_add(double *a, const double *b, double c, const Py_ssize_t n) nogil:
+cdef void _mul_add(double *a, const double *b, double c, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     
     for i in range(n):
         a[i] += c * b[i]
 
-cdef void mul_add(double[::1] a, double[::1] b, double c) nogil:
+cdef void mul_add(double[::1] a, double[::1] b, double c) noexcept nogil:
     _mul_add(&a[0], &b[0], c, a.shape[0])
 
-cdef void mul_add2(double[:,::1] a, double[:,::1] b, double c) nogil:
+cdef void mul_add2(double[:,::1] a, double[:,::1] b, double c) noexcept nogil:
     _mul_add(&a[0,0], &b[0,0], c, a.shape[0] * a.shape[1])
     
-cdef void _mul_set(double *a, const double *b, double c, const Py_ssize_t n) nogil:
+cdef void _mul_set(double *a, const double *b, double c, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     
     for i in range(n):
         a[i] = c * b[i]
 
-cdef void mul_set(double[::1] a, double[::1] b, double c) nogil:
+cdef void mul_set(double[::1] a, double[::1] b, double c) noexcept nogil:
     _mul_set(&a[0], &b[0], c, a.shape[0])
         
-cdef void _mul(double *a, const double *b, const Py_ssize_t n) nogil:
+cdef void _mul(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     
     for i in range(n):
         a[i] *= b[i]
 
-cdef void mul(double[::1] a, double[::1] b) nogil:
+cdef void mul(double[::1] a, double[::1] b) noexcept nogil:
     _mul(&a[0], &b[0], a.shape[0])
 
-cdef void mul2(double[:,::1] a, double[:,::1] b) nogil:
+cdef void mul2(double[:,::1] a, double[:,::1] b) noexcept nogil:
     _mul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
     
-cdef void _multiply(double *a, const double *b, const double *c, const Py_ssize_t n) nogil:
+cdef void _multiply(double *a, const double *b, const double *c, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     
     for i in range(n):
         a[i] = b[i] * c[i]
 
-cdef void multiply(double[::1] a, double[::1] b, double[::1] c) nogil:
+cdef void multiply(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:
     _multiply(&a[0], &b[0], &c[0], a.shape[0])
+
+cdef double dot(double[::1] a, double[::1] b) noexcept nogil:
+    return _dot(&a[0], &b[0], a.shape[0])
+    
+cdef double _dot(const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+    cdef double s
+
+    s = 0
+    for i in range(n):
+        s += a[i] * b[i]
+    return s
     
 cdef void _matdot(double *output, double *M, const double *X, 
-                    const Py_ssize_t n_input, const Py_ssize_t n_output) nogil:
-    cdef Py_ssize_t i, j
-    cdef double s
-    cdef double *Mj = M
+                    const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
+    cdef Py_ssize_t j
 
-    for j in range(n_output):
-        s = 0
-        for i in range(n_input):
-            s += Mj[i] * X[i];
-        output[j] = s
-        Mj += n_input
+    for j in prange(n_output, schedule='static', nogil=True, num_threads=num_threads):
+        output[j] = _dot(M + j * n_input, X, n_input)
 
-cdef void matdot(double[::1] output, double[:,::1] M, double[::1] X) nogil:
+cdef void matdot(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil:
     _matdot(&output[0], &M[0,0], &X[0], X.shape[0], output.shape[0])
         
 cdef void _matdot2(double *output, double *M, const double *X, 
-                   const Py_ssize_t n_input, const Py_ssize_t n_output) nogil:
-    cdef Py_ssize_t i, j
-    cdef double s
-    cdef double *Mj = M;
+                   const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
+    cdef Py_ssize_t j
+    cdef double *Mj
 
-    for j in range(n_output):
-        s = Mj[0]
-        Mj += 1
-        for i in range(n_input):
-            s += Mj[i] * X[i]
-        output[j] = s
-        Mj += n_input
+    for j in prange(n_output, schedule='static', nogil=True, num_threads=num_threads):
+        Mj = M + j * (n_input+1)
+        output[j] = Mj[0] + _dot(&Mj[1], X, n_input)
 
-cdef void matdot2(double[::1] output, double[:,::1] M, double[::1] X) nogil:
+cdef void matdot2(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil:
     _matdot2(&output[0], &M[0,0], &X[0], <const Py_ssize_t>X.shape[0], <const Py_ssize_t>M.shape[0])
         
 cdef void _mul_add_arrays(double *a, double *M, const double *ss, 
-                          const Py_ssize_t n_input, const Py_ssize_t n_output) nogil:
+                          const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
     cdef Py_ssize_t i, j
     cdef double *Mj = M;
     cdef double sx
@@ -223,11 +222,11 @@ cdef void _mul_add_arrays(double *a, double *M, const double *ss,
             a[i] += sx * Mj[i]
         Mj += n_input
 
-cdef void mul_add_arrays(double[::1] a, double[:,::1] M, double[::1] ss) nogil:
+cdef void mul_add_arrays(double[::1] a, double[:,::1] M, double[::1] ss) noexcept nogil:
     _mul_add_arrays(&a[0], &M[0,0], &ss[0], <const Py_ssize_t>(a.shape[0]), <const Py_ssize_t>(M.shape[0]))
         
 cdef void _mul_grad(double *grad, const double *X, const double *ss, 
-                    const Py_ssize_t n_input, const Py_ssize_t n_output) nogil:
+                    const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
     cdef Py_ssize_t i, j
     cdef double *G = grad
     cdef double sx
@@ -240,10 +239,10 @@ cdef void _mul_grad(double *grad, const double *X, const double *ss,
             G[i] = sx * X[i]
         G += n_input
 
-cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) nogil:
+cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) noexcept nogil:
     _mul_grad(&grad[0,0], &X[0], &ss[0], <const Py_ssize_t>X.shape[0], <const Py_ssize_t>grad.shape[0])
 
-cdef void _normalize(double *a, const Py_ssize_t n) nogil:
+cdef void _normalize(double *a, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     cdef double S
 
@@ -254,10 +253,10 @@ cdef void _normalize(double *a, const Py_ssize_t n) nogil:
     for i in range(n):
         a[i] /= S
 
-cdef void normalize(double[::1] a) nogil:
+cdef void normalize(double[::1] a) noexcept nogil:
     _normalize(&a[0], a.shape[0])
 
-cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) nogil:
+cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil:
     """
     Вычисление взвешенной ковариационной матрицы
     Вход:
@@ -296,7 +295,7 @@ cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] 
     #             ss[j] += v * Xk[j]
     #         ss += n
 
-cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) nogil:
+cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil:
     """
     Вычисление ковариационной матрицы
     Вход:
@@ -330,7 +329,7 @@ cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) nogil:
             ss[j] /= N
         ss += n
 
-cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) nogil:
+cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexcept nogil:
     """
     Взвешенная сумма строк матрицы:
     Вход:

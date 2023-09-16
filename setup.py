@@ -12,13 +12,13 @@ import platform
 WIN32 = (platform.system() == 'Windows')
 
 Oflag = "-march=native"
-extra_compile_args = [Oflag, "-Ofast"] 
-extra_link_args = [Oflag, "-lm"]
-extra_compile_args_openmp = [Oflag, ("-fopenmp" if not WIN32 else "/openmp")]
-extra_link_args_openmp = [Oflag, ("-fopenmp" if not WIN32 else "/openmp"), "-lm"]
+extra_compile_args = [Oflag] #, "-Ofast"] #, "-fno-wrapv"] 
+extra_link_args = [Oflag]
+extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not WIN32 else "/openmp")]
+extra_link_args_openmp = [Oflag, ("-fopenmp" if not WIN32 else "/openmp")]
 
 # cython_compile_time_env = {"USE_OPENMP":1}
-cython_compiler_directives = dict(
+cython_compiler_directives1 = dict(
     language_level='3',
     boundscheck=True,
     wraparound=True,
@@ -37,7 +37,7 @@ cython_compiler_directives2 = dict(
     unraisable_tracebacks=True,  
 )
 
-Options._directive_defaults.update(cython_compiler_directives2)
+# Options._directive_defaults.update(cython_compiler_directives2)
 
 ext_modules = [
     Extension(
@@ -61,18 +61,21 @@ ext_modules = [
     Extension(
         "mlgrad.func",
         ["lib/mlgrad/func.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
     ),
     Extension(
         "mlgrad.func2",
         ["lib/mlgrad/func2.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
     Extension(
         "mlgrad.model",
         ["lib/mlgrad/model.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
     ),
@@ -91,6 +94,7 @@ ext_modules = [
     Extension(
         "mlgrad.avragg",
         ["lib/mlgrad/avragg.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args_openmp, 
         extra_link_args = extra_link_args_openmp,
 #         cython_compile_time_env = cython_compile_time_env,
@@ -145,10 +149,6 @@ ext_modules = [
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
-    # Extension(
-    #     "mlgrad.stopcond",
-    #     ["lib/mlgrad/stopcond.pyx"],
-    # ),
     Extension(
         "mlgrad.gd",
         ["lib/mlgrad/gd.pyx"],
@@ -197,9 +197,9 @@ setup(
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
     license = "MIT License",
-    # ext_modules = cythonize(ext_modules, nthreads=2,
-    #                         compiler_directives=cython_compiler_directives2),
-    ext_modules = ext_modules,
+    ext_modules = cythonize(ext_modules, nthreads=2,
+                            compiler_directives=cython_compiler_directives2),
+    # ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
     packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost',

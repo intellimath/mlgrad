@@ -70,7 +70,8 @@ cdef class GD:
     #
     def fit(self):
         cdef Risk risk = self.risk
-        cdef Py_ssize_t k = 0
+        cdef Py_ssize_t k = 0, m=0, M=self.M
+        # cdef double lval0
 
         self.risk.batch.init()
         self.init()
@@ -100,6 +101,12 @@ cdef class GD:
             if self.lval < self.lval_min:
                 self.lval_min = self.lval
                 inventory.move(self.param_min, risk.param)
+                m = 0
+            else:
+                m += 1
+
+            if m > M:
+                self.completed = 1
                 
             if self.completed:
                 break
@@ -116,14 +123,14 @@ cdef class GD:
     #
     cpdef fit_epoch(self):
         cdef Risk risk = self.risk
-        cdef Py_ssize_t n_repeat = 1
+        cdef Py_ssize_t i, n_repeat = 1, m
         
         if risk.n_sample > 0 and risk.batch is not None and risk.batch.size > 0:
             n_repeat, m = divmod(risk.n_sample, risk.batch.size)
             if m > 0:
                 n_repeat += 1
 
-        while n_repeat > 0:
+        for j in range(n_repeat):
             risk.batch.generate()
 
             self.h = self.h_rate.get_rate()
@@ -138,8 +145,6 @@ cdef class GD:
             # if self.param_averager is not None:
             #     self.param_averager.update(risk.param)
             #     copy_memoryview(risk.param, self.param_averager.array_average)
-            
-            n_repeat -= 1
     # 
     def use_gradient_averager(self, averager):
         self.grad_averager = averager

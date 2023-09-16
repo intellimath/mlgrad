@@ -68,6 +68,10 @@ cdef class PenaltyAverage(Penalty):
     pass
 
 @cython.final
+cdef class PenaltyAverage2(Penalty):
+    pass
+
+@cython.final
 cdef class PenaltyScale(Penalty):
     pass
 
@@ -99,9 +103,13 @@ cdef class AverageIterative(Average):
 cdef class MAverage(AverageIterative):
     cdef Func func
     #
-    # cdef double evaluate_next_u(self, double[::1] Y, const double u)
-    # cdef double evaluate_penalty(self, double[::1] Y, const double u)
 
+# @cython.final
+cdef class MAverage2(AverageIterative):
+    cdef Func func
+    #
+    
+    
 # @cython.final
 cdef class SAverage(AverageIterative):
     cdef Func func

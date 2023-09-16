@@ -104,6 +104,6 @@ def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=True, return_q
         print(f"K: {K}")
 
     if return_qvals:
-        return S_min, qvals, qval_min
+        return S_min, qvals
     else:
         return S_min

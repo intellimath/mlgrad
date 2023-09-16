@@ -78,7 +78,7 @@ def averager_it(func, tol=1.0e-6, n_iter=1000):
     alg = Average_Iterative(penalty, tol=tol, n_iter=n_iter)
     return alg
 
-def averager_fg(func, h=0.01, tol=1.0e-6, n_iter=1000, averager='AdaM2'):
+def averager_fg(func, h=0.01, tol=1.0e-6, n_iter=1000, averager=None):
     penalty = PenaltyAverage(func)
     alg = Average_FG(penalty, h=h, tol=tol, n_iter=n_iter)
     _averager = __averager_scalar_dict.get(averager, None)
@@ -105,7 +105,7 @@ def average_fg(Y, penalty_func, h=0.01, tol=1.0e-5, n_iter=1000, verbose=0, aver
         print("K={} u={}".format(alg.K, alg.u))
     return alg
 
-def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, stop_condition='diffL1', normalizer=None):
+def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager=None, callback=None, stop_condition='diffL1', normalizer=None):
     alg = FG(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition)
     _averager = __averager_dict.get(averager, None)
     if _averager is not None:
@@ -114,14 +114,14 @@ def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, st
         alg.use_normalizer(normalizer)
     return alg
 
-def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None, stop_condition='diffL1', normalizer=None):
+def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager=None, callback=None, stop_condition='diffL1', normalizer=None):
     alg = FG_RUD(er, h=h, tol=tol, n_iter=n_iter, callback=callback, stop_condition=stop_condition, gamma=gamma)
     _averager = __averager_dict.get(averager, ArrayMOM)
     if _averager is not None:
         alg.use_gradient_averager(_averager())
     return alg
 
-def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None, 
+def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager=None, callback=None, 
            stop_condition='diffL1', n_restart=1, verbose=0, normalizer=None):
     K = 0
     alg = fg(er, h=h, tol=tol, n_iter=n_iter,
@@ -138,7 +138,7 @@ def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None
         print("K={} param={}".format(alg.K, er.param.base))
     return alg
 
-def erm_fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None, 
+def erm_fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager=None, callback=None, 
                stop_condition='diffL1', n_restart=1, verbose=0, normalizer=None):
     K = 0
     for i in range(n_restart):

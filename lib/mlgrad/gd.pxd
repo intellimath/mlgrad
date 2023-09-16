@@ -47,7 +47,6 @@ cdef class GD:
 
     cdef public double tol
     cdef public Py_ssize_t n_iter, K, M
-    # cdef public int m
     cdef public bint completed
 
     cdef public double h

@@ -87,13 +87,14 @@ cdef class Risk(Functional):
     cdef readonly double tau
     cdef readonly Py_ssize_t n_sample
     #
-    cdef void _evaluate_models_all(self, double[::1] vals)
+    # cdef void _evaluate_models_all(self, double[::1] vals)
     # cdef void _evaluate_models_batch(self)
     cdef void _evaluate_losses_batch(self)
     cdef void _evaluate_losses_all(self, double[::1] lvals)
     # cdef void _evaluate_losses_derivative_div_batch(self)
     cdef void _evaluate_losses_derivative_div_all(self, double[::1] vals)
     cdef void _evaluate_weights(self)
+    cdef void add_regular_gradient(self)
     #
     #
     # cdef void generate_samples(self, X, Y)z

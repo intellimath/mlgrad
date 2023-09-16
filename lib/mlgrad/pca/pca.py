@@ -134,7 +134,7 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
 
         S = (X.T * G) @ X
 
-        a1, L = _find_pc(S, a0=a, n_iter=100, tol=tol, verbose=verbose)
+        a1, L = _find_pc(S, a0=a, n_iter=200, tol=tol, verbose=verbose)
 
         Z = X @ a1
         Z = XX - Z * Z

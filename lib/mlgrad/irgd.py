@@ -31,7 +31,7 @@ import numpy as np
 
 class IRGD:
     #
-    def __init__(self, gd, weights, tol=1.0e-5, n_iter=100, h_anneal=0.96, M=40, callback=None):
+    def __init__(self, gd, weights, tol=1.0e-5, n_iter=100, h_anneal=0.99, M=11, callback=None):
         """
         """
         self.gd = gd
@@ -81,7 +81,9 @@ class IRGD:
         
         if self.callback is not None:
             self.callback(self)
-        
+
+        m = 0
+        M = self.M
         for K in range(self.n_iter):     
             # print(K)
             self.gd.fit()
@@ -103,10 +105,16 @@ class IRGD:
             if self.lval < self.lval_best:
                 self.param_best[:] = risk.param
                 self.lval_best = self.lval
+                m = 0
+            else:
+                m += 1
 
-            if K > 11 and self.lval > self.lvals[-1]:
+            if K > 5 and self.lval > self.lvals[-1]:
                 self.gd.h_rate.h *= self.h_anneal
                 self.gd.h_rate.init()
+
+            if m > M:
+                self.completed = 1
 
             self.lvals.append(self.lval)
 

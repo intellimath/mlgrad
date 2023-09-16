@@ -115,7 +115,7 @@ cdef class PenaltyAverage(Penalty):
         # for k in range(N):
             grad[k] = v = func._derivative2(Y[k] - u)
             S += v
-
+ 
         for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
         # for k in range(N):
             grad[k] /= S
@@ -135,8 +135,8 @@ cdef class PenaltyScale(Penalty):
         cdef double v
 
         S = 0
-        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        for k in range(N):
             v = Y[k]
             S += func._evaluate(v / s)
 
@@ -150,8 +150,8 @@ cdef class PenaltyScale(Penalty):
         cdef Func func = self.func
         #
         S = 0
-        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        for k in range(N):
             v = Y[k] / s
             S += func._derivative(v) * v
         #
@@ -165,8 +165,8 @@ cdef class PenaltyScale(Penalty):
         cdef Func func = self.func
         #
         S = 0
-        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        for k in range(N):
             y_k = Y[k]
             S += func._derivative(y_k / s) * y_k
         #
@@ -180,14 +180,14 @@ cdef class PenaltyScale(Penalty):
         cdef Func func = self.func
         #
         S = 0
-        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        for k in range(N):
             v = Y[k] / s
             S += func._derivative2(v) * v * v
         S += N
         #
-        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        for k in range(N):
             v = Y[k] / s
             grad[k] = func._derivative(v) / S
 
@@ -268,7 +268,7 @@ cdef class AverageIterative(Average):
 # include "avragg_it.pyx"
 include "avragg_fg.pyx"
 
-# @cython.final
+@cython.final
 cdef class MAverage(AverageIterative):
     #
     def __init__(self, Func func, tol=1.0e-9, n_iter=1000):
@@ -543,12 +543,11 @@ cdef class WMAverage(Average):
         avr_u = self.avr._evaluate(Y)
 
         S = 0
-        with cython.nogil, parallel():
-            for k in prange(N, schedule='static'):
-            # for k in range(N):
-                yk = Y[k]
-                v = yk if yk <= avr_u else avr_u
-                S += v
+        for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
+        # for k in range(N):
+            yk = Y[k]
+            v = yk if yk <= avr_u else avr_u
+            S += v
         self.u = S / N
 
         # self.u_min = self.u
@@ -572,13 +571,12 @@ cdef class WMAverage(Average):
             if Y[k] > u:
                 m += 1
 
-        with cython.nogil, parallel():
-            for k in prange(N, schedule='static'):
-            # for k in range(N):
-                v = m * grad[k]
-                if Y[k] <= u:
-                    v = v + 1
-                grad[k] = v / fN
+        for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
+        # for k in range(N):
+            v = m * grad[k]
+            if Y[k] <= u:
+                v = v + 1
+            grad[k] = v / fN
     #
 
 # cdef class WMAverageMixed(Average):
@@ -794,8 +792,8 @@ cdef class ArithMean(Average):
         # cdef double *YY =&Y[0]
 
         S = 0
-        with cython.nogil, parallel():
-            for k in prange(N, schedule='static'):
+        for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
+        # for k in range(N):
                 S += Y[k]
         self.u = S / N
         self.u_min = self.u
@@ -807,8 +805,8 @@ cdef class ArithMean(Average):
         cdef double v
 
         v = 1./N
-        with cython.nogil, parallel():
-            for k in prange(N, schedule='static'):
+        for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
+        # for k in range(N):
                 grad[k] = v
         self.evaluated = 0
 
@@ -824,8 +822,8 @@ cdef class RArithMean(Average):
         cdef Func func = self.func
 
         S = 0
-        with cython.nogil, parallel():
-            for k in prange(N, schedule='static'):
+        for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
+        # for k in range(N):
                 S += func._evaluate(Y[k])
         self.u = S / N
         self.u_min = self.u
@@ -839,8 +837,8 @@ cdef class RArithMean(Average):
         cdef Func func = self.func
 
         v = 1./N
-        with cython.nogil, parallel():
-            for k in prange(N, schedule='static'):
+        for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
+        # for k in range(N):
                 grad[k] = v * func._derivative(Y[k])
         self.evaluated = 0
     #
@@ -852,14 +850,15 @@ cdef class RArithMean(Average):
         cdef Func func = self.func
 
         S = 0
-        with cython.nogil, parallel():
-            for k in prange(N, schedule='static'):
+        for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
+        # for k in range(N):
                 v = func._derivative_div_x(Y[k])
                 grad[k] = v
                 S += v
 
-        with cython.nogil, parallel():
-            for k in prange(N, schedule='static'):
+        # with cython.nogil, parallel():
+        #     for k in prange(N, schedule='static'):
+        for k in range(N):
                 grad[k] /= S
 
         self.evaluated = 0
