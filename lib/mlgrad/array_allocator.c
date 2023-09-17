@@ -19927,7 +19927,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
  *         if self.allocated + nm > self.size:
  *             raise RuntimeError('Memory out of buffer')             # <<<<<<<<<<<<<<
  *         ar = self.buf[self.allocated: self.allocated + nm]
- *         ar2 = ar.reshape(n, m)
+ *         ar2 = ar.reshape((n, m))
  */
     __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -19948,7 +19948,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
  *         if self.allocated + nm > self.size:
  *             raise RuntimeError('Memory out of buffer')
  *         ar = self.buf[self.allocated: self.allocated + nm]             # <<<<<<<<<<<<<<
- *         ar2 = ar.reshape(n, m)
+ *         ar2 = ar.reshape((n, m))
  *         self.allocated += nm
  */
   __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->allocated, (__pyx_v_self->allocated + __pyx_v_nm), NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L1_error)
@@ -19959,7 +19959,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
   /* "mlgrad/array_allocator.pyx":85
  *             raise RuntimeError('Memory out of buffer')
  *         ar = self.buf[self.allocated: self.allocated + nm]
- *         ar2 = ar.reshape(n, m)             # <<<<<<<<<<<<<<
+ *         ar2 = ar.reshape((n, m))             # <<<<<<<<<<<<<<
  *         self.allocated += nm
  * 
  */
@@ -19969,14 +19969,22 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_m); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = NULL;
+  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_GIVEREF(__pyx_t_5);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5)) __PYX_ERR(0, 85, __pyx_L1_error);
+  __Pyx_GIVEREF(__pyx_t_6);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_6)) __PYX_ERR(0, 85, __pyx_L1_error);
+  __pyx_t_5 = 0;
+  __pyx_t_6 = 0;
+  __pyx_t_6 = NULL;
   __pyx_t_8 = 0;
   #if CYTHON_UNPACK_METHODS
   if (likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_7)) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_6)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(__pyx_t_6);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_4, function);
       __pyx_t_8 = 1;
@@ -19984,11 +19992,10 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
   }
   #endif
   {
-    PyObject *__pyx_callargs[3] = {__pyx_t_7, __pyx_t_5, __pyx_t_6};
-    __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_8, 2+__pyx_t_8);
-    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    PyObject *__pyx_callargs[2] = {__pyx_t_6, __pyx_t_7};
+    __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -20001,7 +20008,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
 
   /* "mlgrad/array_allocator.pyx":86
  *         ar = self.buf[self.allocated: self.allocated + nm]
- *         ar2 = ar.reshape(n, m)
+ *         ar2 = ar.reshape((n, m))
  *         self.allocated += nm             # <<<<<<<<<<<<<<
  * 
  *         aa = self

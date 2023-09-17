@@ -708,23 +708,29 @@ cdef class ModelComposition_j(Model):
         
 cdef class Model2:
 
-    cdef void forward(self, double[::1] X):
+    cdef void _forward(self, double[::1] X):
         pass
     #
     cdef void gradient_j(self, Py_ssize_t j, double[::1] X, double[::1] grad):
         pass
     #
-    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         pass
     #
     
 cdef class ModelLayer(Model2):
     
-    # cdef void _forward(self):
+    # cdef void _forward(self, double[::1] X):
     #     pass
     # #
     # cdef void _backward(self, double[::1] grad_out, double[::1] grad):
     #     pass
+    #
+    def forward(self, X):
+        self._forward(X)
+    #
+    def backward(self, X, grad_out, grad):
+        self._backward(X, grad_out, grad)
     #
     cpdef ModelLayer copy(self, bint share=1):
         pass
@@ -757,16 +763,16 @@ cdef class ScaleLayer(ModelLayer):
         self.n_input = n_input
         self.n_output = n_input
     #
-    cdef void forward(self, double[::1] X):
+    cdef void _forward(self, double[::1] X):
         self.func._evaluate_array(&X[0], &self.output[0], self.n_input)
     #
-    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         self.func._derivative_array(&X[0], &self.grad_input[0], self.n_input)
         inventory._mul(&self.grad_input[0], &grad_out[0], self.n_input)
 
 cdef class SimpleLayer(ModelLayer):
     #
-    cdef void forward(self, double[::1] X):
+    cdef void _forward(self, double[::1] X):
         cdef Func func = self.func
         cdef double[::1] param = self.param
         cdef double[::1] output = self.output
@@ -780,7 +786,7 @@ cdef class SimpleLayer(ModelLayer):
             pass
             # XXXXXXX
     #
-    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Func func = self.func
         cdef double[::1] param = self.param
         cdef Py_ssize_t i, n = self.n_input
@@ -861,7 +867,7 @@ cdef class GeneralModelLayer(ModelLayer):
     def __iter__(self):
         return iter(self.models)
     #
-    cdef void forward(self, double[::1] X):
+    cdef void _forward(self, double[::1] X):
         cdef Model mod
         cdef Py_ssize_t j, n_output = self.n_output
 
@@ -869,7 +875,7 @@ cdef class GeneralModelLayer(ModelLayer):
             # mod = <Model>self.models[j]
             self.output[j] = (<Model>self.models[j])._evaluate(X)
     #
-    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Model mod_j
         cdef Py_ssize_t i, j, k, n_param_j
         cdef double val_j
@@ -918,7 +924,7 @@ def general_layer_from_dict(ob):
         models.append( model_from_dict(mod) )
     return layer
 
-cdef class LinearModelLayer(ModelLayer):
+cdef class LinearLayer(ModelLayer):
 
     def __init__(self, n_input, n_output):
         self.n_input = n_input
@@ -928,7 +934,6 @@ cdef class LinearModelLayer(ModelLayer):
         self.param = self.ob_param = None
         self.grad_input = None
         self.output = None
-        self.ss = None
         # self.first_time = 1
     #
     def _allocate_param(self, allocator):
@@ -944,9 +949,7 @@ cdef class LinearModelLayer(ModelLayer):
         self.ob_param[:] = self.param = np.random.random(self.n_param)
     #
     cpdef ModelLayer copy(self, bint share=1):
-        cdef SigmaNeuronModelLayer layer = SigmaNeuronModelLayer(self.func, self.n_input, self.n_output)
-        cdef list models = self.models
-        cdef Model mod
+        cdef LinearLayer layer = LinearLayer(self.n_input, self.n_output)
 
         layer.matrix = self.matrix
         layer.param = self.param
@@ -955,7 +958,7 @@ cdef class LinearModelLayer(ModelLayer):
         layer.grad_input = np.zeros(self.n_input, 'd')
         return <ModelLayer>layer
     #
-    cdef void forward(self, double[::1] X):
+    cdef void _forward(self, double[::1] X):
         cdef Py_ssize_t n_input = self.n_input
         cdef Py_ssize_t j
         cdef double[::1] output = self.output
@@ -971,7 +974,7 @@ cdef class LinearModelLayer(ModelLayer):
             #     k += 1
             # output[j] = s
     #
-    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Py_ssize_t i, j
         cdef Py_ssize_t n_input = self.n_input
         cdef Py_ssize_t n_input1 = n_input + 1
@@ -1046,7 +1049,7 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
         layer.grad_input = np.zeros(self.n_input, 'd')
         return <ModelLayer>layer
     #
-    cdef void forward(self, double[::1] X):
+    cdef void _forward(self, double[::1] X):
         cdef Py_ssize_t n_input = self.n_input
         cdef Py_ssize_t n_output = self.n_output
         cdef Py_ssize_t i, j, k
@@ -1073,7 +1076,7 @@ cdef class SigmaNeuronModelLayer(ModelLayer):
             for j in range(n_output):
                 output[j] = ss[j]
     #
-    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Py_ssize_t i, j, k
         cdef Py_ssize_t n_input = self.n_input
         cdef Py_ssize_t n_output = self.n_output
@@ -1187,10 +1190,10 @@ cdef class LinearFuncModel(BaseModel):
     
 cdef class MLModel:
 
-    cdef void forward(self, double[::1] X):
+    cdef void _forward(self, double[::1] X):
         pass
     #
-    cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
+    cdef void _backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
         pass
     #
     cdef void backward2(self, double[::1] X, double[::1] grad_u, double[::1] grad):
@@ -1278,7 +1281,7 @@ cdef class FFNetworkModel(MLModel):
             
         return <MLModel>ml
     #
-    cdef void forward(self, double[::1] X):
+    cdef void _forward(self, double[::1] X):
         cdef Py_ssize_t i, n_layer
         cdef ModelLayer layer
         cdef double[::1] input, output
@@ -1293,7 +1296,7 @@ cdef class FFNetworkModel(MLModel):
 #         self.output = layer.output
         self.is_forward = 1
 
-    cdef void backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
+    cdef void _backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
         cdef Py_ssize_t n_layer = PyList_GET_SIZE(<PyObject*>self.layers)
         cdef Py_ssize_t j, l, m, m0
         cdef ModelLayer layer, prev_layer
@@ -1375,7 +1378,7 @@ cdef class FFNetworkFuncModel(Model):
         return <Model>mod
     #
     cdef double _evaluate(self, double[::1] X):
-        self.body.forward(X)
+        self.body._forward(X)
         return self.head._evaluate(self.body.output)
     #
     cdef void _gradient(self, double[::1] X, double[::1] grad):
@@ -1387,7 +1390,7 @@ cdef class FFNetworkFuncModel(Model):
         if head.n_param > 0:
             head._gradient(body.output, grad[:head.n_param])
         head._gradient_input(body.output, head.grad_input)
-        body.backward(X, head.grad_input, grad[head.n_param:])
+        body._backward(X, head.grad_input, grad[head.n_param:])
     #
     def as_dict(self):
         d = {}

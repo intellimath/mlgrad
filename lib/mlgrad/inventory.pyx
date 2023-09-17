@@ -34,8 +34,11 @@ cdef int num_threads = omp_get_num_threads()
 cdef int get_num_threads() noexcept nogil:
     return num_threads
 
-cdef void set_num_threads(int num) noexcept nogil:
-    num_threads = num
+cdef int get_num_procs() noexcept nogil:
+    return num_procs
+
+# cdef void set_num_threads(int num) noexcept nogil:
+#     num_threads = num
     
 cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i

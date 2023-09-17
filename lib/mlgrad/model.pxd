@@ -123,11 +123,11 @@ cdef class Model2:
     cdef public double[::1] param
     cdef public double[::1] output
     #
-    cdef void forward(self, double[::1] X)
+    cdef void _forward(self, double[::1] X)
     #
     cdef void gradient_j(self, Py_ssize_t j, double[::1] X, double[::1] grad)
     #
-    cdef void backward(self, double[::1] X, double[::1] grad_out, double[::1] grad)
+    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad)
     #
 
 cdef class ModelLayer(Model2):
@@ -140,7 +140,7 @@ cdef class ModelLayer(Model2):
 cdef class ScaleLayer(ModelLayer):
     cdef public Func func    
     
-cdef class LinearModelLayer(ModelLayer):
+cdef class LinearLayer(ModelLayer):
     cdef public double[:,::1] matrix
     cdef bint first_time
 

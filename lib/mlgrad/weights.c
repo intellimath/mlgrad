@@ -1671,7 +1671,7 @@ struct __pyx_obj_6mlgrad_5model_PolynomialModel;
 struct __pyx_obj_6mlgrad_5model_Model2;
 struct __pyx_obj_6mlgrad_5model_ModelLayer;
 struct __pyx_obj_6mlgrad_5model_ScaleLayer;
-struct __pyx_obj_6mlgrad_5model_LinearModelLayer;
+struct __pyx_obj_6mlgrad_5model_LinearLayer;
 struct __pyx_obj_6mlgrad_5model_SigmaNeuronModelLayer;
 struct __pyx_obj_6mlgrad_5model_GeneralModelLayer;
 struct __pyx_obj_6mlgrad_5model_LinearFuncModel;
@@ -2774,11 +2774,11 @@ struct __pyx_obj_6mlgrad_5model_ScaleLayer {
 /* "mlgrad/model.pxd":143
  *     cdef public Func func
  * 
- * cdef class LinearModelLayer(ModelLayer):             # <<<<<<<<<<<<<<
+ * cdef class LinearLayer(ModelLayer):             # <<<<<<<<<<<<<<
  *     cdef public double[:,::1] matrix
  *     cdef bint first_time
  */
-struct __pyx_obj_6mlgrad_5model_LinearModelLayer {
+struct __pyx_obj_6mlgrad_5model_LinearLayer {
   struct __pyx_obj_6mlgrad_5model_ModelLayer __pyx_base;
   __Pyx_memviewslice matrix;
   int first_time;
@@ -4984,9 +4984,9 @@ static struct __pyx_vtabstruct_6mlgrad_5model_PolynomialModel *__pyx_vtabptr_6ml
  */
 
 struct __pyx_vtabstruct_6mlgrad_5model_Model2 {
-  void (*forward)(struct __pyx_obj_6mlgrad_5model_Model2 *, __Pyx_memviewslice);
+  void (*_forward)(struct __pyx_obj_6mlgrad_5model_Model2 *, __Pyx_memviewslice);
   void (*gradient_j)(struct __pyx_obj_6mlgrad_5model_Model2 *, Py_ssize_t, __Pyx_memviewslice, __Pyx_memviewslice);
-  void (*backward)(struct __pyx_obj_6mlgrad_5model_Model2 *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice);
+  void (*_backward)(struct __pyx_obj_6mlgrad_5model_Model2 *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice);
 };
 static struct __pyx_vtabstruct_6mlgrad_5model_Model2 *__pyx_vtabptr_6mlgrad_5model_Model2;
 
@@ -5023,15 +5023,15 @@ static struct __pyx_vtabstruct_6mlgrad_5model_ScaleLayer *__pyx_vtabptr_6mlgrad_
 /* "mlgrad/model.pxd":143
  *     cdef public Func func
  * 
- * cdef class LinearModelLayer(ModelLayer):             # <<<<<<<<<<<<<<
+ * cdef class LinearLayer(ModelLayer):             # <<<<<<<<<<<<<<
  *     cdef public double[:,::1] matrix
  *     cdef bint first_time
  */
 
-struct __pyx_vtabstruct_6mlgrad_5model_LinearModelLayer {
+struct __pyx_vtabstruct_6mlgrad_5model_LinearLayer {
   struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_5model_LinearModelLayer *__pyx_vtabptr_6mlgrad_5model_LinearModelLayer;
+static struct __pyx_vtabstruct_6mlgrad_5model_LinearLayer *__pyx_vtabptr_6mlgrad_5model_LinearLayer;
 
 
 /* "mlgrad/model.pxd":147
@@ -7959,7 +7959,7 @@ typedef struct {
   PyTypeObject *__pyx_ptype_6mlgrad_5model_Model2;
   PyTypeObject *__pyx_ptype_6mlgrad_5model_ModelLayer;
   PyTypeObject *__pyx_ptype_6mlgrad_5model_ScaleLayer;
-  PyTypeObject *__pyx_ptype_6mlgrad_5model_LinearModelLayer;
+  PyTypeObject *__pyx_ptype_6mlgrad_5model_LinearLayer;
   PyTypeObject *__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer;
   PyTypeObject *__pyx_ptype_6mlgrad_5model_GeneralModelLayer;
   PyTypeObject *__pyx_ptype_6mlgrad_5model_LinearFuncModel;
@@ -8505,7 +8505,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5model_Model2);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5model_ModelLayer);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5model_ScaleLayer);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5model_LinearModelLayer);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5model_LinearLayer);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5model_GeneralModelLayer);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5model_LinearFuncModel);
@@ -9013,7 +9013,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5model_Model2);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5model_ModelLayer);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5model_ScaleLayer);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5model_LinearModelLayer);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5model_LinearLayer);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5model_GeneralModelLayer);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5model_LinearFuncModel);
@@ -9569,7 +9569,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_6mlgrad_5model_Model2 __pyx_mstate_global->__pyx_ptype_6mlgrad_5model_Model2
 #define __pyx_ptype_6mlgrad_5model_ModelLayer __pyx_mstate_global->__pyx_ptype_6mlgrad_5model_ModelLayer
 #define __pyx_ptype_6mlgrad_5model_ScaleLayer __pyx_mstate_global->__pyx_ptype_6mlgrad_5model_ScaleLayer
-#define __pyx_ptype_6mlgrad_5model_LinearModelLayer __pyx_mstate_global->__pyx_ptype_6mlgrad_5model_LinearModelLayer
+#define __pyx_ptype_6mlgrad_5model_LinearLayer __pyx_mstate_global->__pyx_ptype_6mlgrad_5model_LinearLayer
 #define __pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer __pyx_mstate_global->__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer
 #define __pyx_ptype_6mlgrad_5model_GeneralModelLayer __pyx_mstate_global->__pyx_ptype_6mlgrad_5model_GeneralModelLayer
 #define __pyx_ptype_6mlgrad_5model_LinearFuncModel __pyx_mstate_global->__pyx_ptype_6mlgrad_5model_LinearFuncModel
@@ -45118,8 +45118,8 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_vtabptr_6mlgrad_5model_ModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ModelLayer); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ModelLayer)) __PYX_ERR(9, 133, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_ScaleLayer = __Pyx_ImportType_3_0_2(__pyx_t_1, "mlgrad.model", "ScaleLayer", sizeof(struct __pyx_obj_6mlgrad_5model_ScaleLayer), __PYX_GET_STRUCT_ALIGNMENT_3_0_2(struct __pyx_obj_6mlgrad_5model_ScaleLayer),__Pyx_ImportType_CheckSize_Warn_3_0_2); if (!__pyx_ptype_6mlgrad_5model_ScaleLayer) __PYX_ERR(9, 140, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_5model_ScaleLayer = (struct __pyx_vtabstruct_6mlgrad_5model_ScaleLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_ScaleLayer); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_ScaleLayer)) __PYX_ERR(9, 140, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_5model_LinearModelLayer = __Pyx_ImportType_3_0_2(__pyx_t_1, "mlgrad.model", "LinearModelLayer", sizeof(struct __pyx_obj_6mlgrad_5model_LinearModelLayer), __PYX_GET_STRUCT_ALIGNMENT_3_0_2(struct __pyx_obj_6mlgrad_5model_LinearModelLayer),__Pyx_ImportType_CheckSize_Warn_3_0_2); if (!__pyx_ptype_6mlgrad_5model_LinearModelLayer) __PYX_ERR(9, 143, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5model_LinearModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_LinearModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_LinearModelLayer); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_LinearModelLayer)) __PYX_ERR(9, 143, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5model_LinearLayer = __Pyx_ImportType_3_0_2(__pyx_t_1, "mlgrad.model", "LinearLayer", sizeof(struct __pyx_obj_6mlgrad_5model_LinearLayer), __PYX_GET_STRUCT_ALIGNMENT_3_0_2(struct __pyx_obj_6mlgrad_5model_LinearLayer),__Pyx_ImportType_CheckSize_Warn_3_0_2); if (!__pyx_ptype_6mlgrad_5model_LinearLayer) __PYX_ERR(9, 143, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5model_LinearLayer = (struct __pyx_vtabstruct_6mlgrad_5model_LinearLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_LinearLayer); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_LinearLayer)) __PYX_ERR(9, 143, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer = __Pyx_ImportType_3_0_2(__pyx_t_1, "mlgrad.model", "SigmaNeuronModelLayer", sizeof(struct __pyx_obj_6mlgrad_5model_SigmaNeuronModelLayer), __PYX_GET_STRUCT_ALIGNMENT_3_0_2(struct __pyx_obj_6mlgrad_5model_SigmaNeuronModelLayer),__Pyx_ImportType_CheckSize_Warn_3_0_2); if (!__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer) __PYX_ERR(9, 147, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_5model_SigmaNeuronModelLayer = (struct __pyx_vtabstruct_6mlgrad_5model_SigmaNeuronModelLayer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5model_SigmaNeuronModelLayer); if (unlikely(!__pyx_vtabptr_6mlgrad_5model_SigmaNeuronModelLayer)) __PYX_ERR(9, 147, __pyx_L1_error)
   __pyx_ptype_6mlgrad_5model_GeneralModelLayer = __Pyx_ImportType_3_0_2(__pyx_t_1, "mlgrad.model", "GeneralModelLayer", sizeof(struct __pyx_obj_6mlgrad_5model_GeneralModelLayer), __PYX_GET_STRUCT_ALIGNMENT_3_0_2(struct __pyx_obj_6mlgrad_5model_GeneralModelLayer),__Pyx_ImportType_CheckSize_Warn_3_0_2); if (!__pyx_ptype_6mlgrad_5model_GeneralModelLayer) __PYX_ERR(9, 153, __pyx_L1_error)

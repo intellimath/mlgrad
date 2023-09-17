@@ -82,7 +82,7 @@ cdef class ArrayAllocator(Allocator):
         if self.allocated + nm > self.size:
             raise RuntimeError('Memory out of buffer')
         ar = self.buf[self.allocated: self.allocated + nm]
-        ar2 = ar.reshape(n, m)
+        ar2 = ar.reshape((n, m))
         self.allocated += nm
         
         aa = self

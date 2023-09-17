@@ -7,7 +7,8 @@ cimport cython
 from libc.string cimport memcpy, memset
 
 cdef int get_num_threads() noexcept nogil
-cdef void set_num_threads(int num) noexcept nogil
+cdef int get_num_procs() noexcept nogil
+# cdef void set_num_threads(int num) noexcept nogil
 
 cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil
 cdef void _clear2(double *to, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil
