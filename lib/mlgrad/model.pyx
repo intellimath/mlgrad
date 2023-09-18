@@ -762,10 +762,10 @@ cdef class ScaleLayer(ModelLayer):
         self.func = func
         self.ob_param = param = None
         self.n_param = 0
-        self.n_param = 0
         self.n_input = n_input
         self.n_output = n_input
         self.output = np.zeros(n_input, 'd')
+        self.grad_input = np.zeros(n_input, 'd')
     #
     cdef void _forward(self, double[::1] X):
         cdef double *output = &self.output[0]
@@ -1278,7 +1278,7 @@ cdef class FFNetworkModel(MLModel):
         input = X
         for i in range(n_layer):
             layer = <ModelLayer>layers[i]
-            layer.forward(input)
+            layer._forward(input)
             input = layer.output
 #         self.output = layer.output
         self.is_forward = 1
@@ -1292,7 +1292,7 @@ cdef class FFNetworkModel(MLModel):
         cdef list layers = self.layers
 
         if not self.is_forward:
-            self.forward(X)
+            self._forward(X)
         m = len(grad)
         l = n_layer-1
         grad_out = grad_u
@@ -1305,9 +1305,9 @@ cdef class FFNetworkModel(MLModel):
                 input = X
             m0 = m - layer.n_param
             if layer.n_param > 0:
-                layer.backward(input, grad_out, grad[m0:m])
+                layer._backward(input, grad_out, grad[m0:m])
             else:
-                layer.backward(input, grad_out, None)
+                layer._backward(input, grad_out, None)
             grad_out = layer.grad_input
             l -= 1
             m = m0

@@ -44444,7 +44444,7 @@ static int __pyx_pf_6mlgrad_5model_10ScaleLayer_4__init__(struct __pyx_obj_6mlgr
  *         self.func = func
  *         self.ob_param = param = None             # <<<<<<<<<<<<<<
  *         self.n_param = 0
- *         self.n_param = 0
+ *         self.n_input = n_input
  */
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
@@ -44458,50 +44458,41 @@ static int __pyx_pf_6mlgrad_5model_10ScaleLayer_4__init__(struct __pyx_obj_6mlgr
  *         self.func = func
  *         self.ob_param = param = None
  *         self.n_param = 0             # <<<<<<<<<<<<<<
- *         self.n_param = 0
  *         self.n_input = n_input
+ *         self.n_output = n_input
  */
   __pyx_v_self->__pyx_base.__pyx_base.n_param = 0;
 
   /* "mlgrad/model.pyx":765
  *         self.ob_param = param = None
  *         self.n_param = 0
- *         self.n_param = 0             # <<<<<<<<<<<<<<
- *         self.n_input = n_input
- *         self.n_output = n_input
- */
-  __pyx_v_self->__pyx_base.__pyx_base.n_param = 0;
-
-  /* "mlgrad/model.pyx":766
- *         self.n_param = 0
- *         self.n_param = 0
  *         self.n_input = n_input             # <<<<<<<<<<<<<<
  *         self.n_output = n_input
  *         self.output = np.zeros(n_input, 'd')
  */
-  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_n_input); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 766, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_n_input); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 765, __pyx_L1_error)
   __pyx_v_self->__pyx_base.__pyx_base.n_input = __pyx_t_1;
 
-  /* "mlgrad/model.pyx":767
+  /* "mlgrad/model.pyx":766
  *         self.n_param = 0
  *         self.n_input = n_input
  *         self.n_output = n_input             # <<<<<<<<<<<<<<
  *         self.output = np.zeros(n_input, 'd')
- *     #
+ *         self.grad_input = np.zeros(n_input, 'd')
  */
-  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_n_input); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 767, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_n_input); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 766, __pyx_L1_error)
   __pyx_v_self->__pyx_base.__pyx_base.n_output = __pyx_t_1;
 
-  /* "mlgrad/model.pyx":768
+  /* "mlgrad/model.pyx":767
  *         self.n_input = n_input
  *         self.n_output = n_input
  *         self.output = np.zeros(n_input, 'd')             # <<<<<<<<<<<<<<
+ *         self.grad_input = np.zeros(n_input, 'd')
  *     #
- *     cdef void _forward(self, double[::1] X):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 768, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 767, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 768, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 767, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -44522,14 +44513,55 @@ static int __pyx_pf_6mlgrad_5model_10ScaleLayer_4__init__(struct __pyx_obj_6mlgr
     PyObject *__pyx_callargs[3] = {__pyx_t_3, __pyx_v_n_input, __pyx_n_u_d};
     __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_5, 2+__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 768, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 767, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 768, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 767, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_self->__pyx_base.__pyx_base.output, 0);
   __pyx_v_self->__pyx_base.__pyx_base.output = __pyx_t_6;
+  __pyx_t_6.memview = NULL;
+  __pyx_t_6.data = NULL;
+
+  /* "mlgrad/model.pyx":768
+ *         self.n_output = n_input
+ *         self.output = np.zeros(n_input, 'd')
+ *         self.grad_input = np.zeros(n_input, 'd')             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef void _forward(self, double[::1] X):
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 768, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 768, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = NULL;
+  __pyx_t_5 = 0;
+  #if CYTHON_UNPACK_METHODS
+  if (unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_5 = 1;
+    }
+  }
+  #endif
+  {
+    PyObject *__pyx_callargs[3] = {__pyx_t_4, __pyx_v_n_input, __pyx_n_u_d};
+    __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_5, 2+__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 768, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  }
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 768, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_self->__pyx_base.grad_input, 0);
+  __pyx_v_self->__pyx_base.grad_input = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
@@ -44558,7 +44590,7 @@ static int __pyx_pf_6mlgrad_5model_10ScaleLayer_4__init__(struct __pyx_obj_6mlgr
 }
 
 /* "mlgrad/model.pyx":770
- *         self.output = np.zeros(n_input, 'd')
+ *         self.grad_input = np.zeros(n_input, 'd')
  *     #
  *     cdef void _forward(self, double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef double *output = &self.output[0]
@@ -44678,7 +44710,7 @@ static void __pyx_f_6mlgrad_5model_10ScaleLayer__forward(struct __pyx_obj_6mlgra
   }
 
   /* "mlgrad/model.pyx":770
- *         self.output = np.zeros(n_input, 'd')
+ *         self.grad_input = np.zeros(n_input, 'd')
  *     #
  *     cdef void _forward(self, double[::1] X):             # <<<<<<<<<<<<<<
  *         cdef double *output = &self.output[0]
@@ -59599,11 +59631,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__forward(struct __pyx_obj_6m
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  int __pyx_t_8;
-  __Pyx_memviewslice __pyx_t_9 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_5 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -59653,7 +59681,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__forward(struct __pyx_obj_6m
  *         input = X
  *         for i in range(n_layer):             # <<<<<<<<<<<<<<
  *             layer = <ModelLayer>layers[i]
- *             layer.forward(input)
+ *             layer._forward(input)
  */
   __pyx_t_2 = __pyx_v_n_layer;
   __pyx_t_3 = __pyx_t_2;
@@ -59664,7 +59692,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__forward(struct __pyx_obj_6m
  *         input = X
  *         for i in range(n_layer):
  *             layer = <ModelLayer>layers[i]             # <<<<<<<<<<<<<<
- *             layer.forward(input)
+ *             layer._forward(input)
  *             input = layer.output
  */
     if (unlikely(__pyx_v_layers == Py_None)) {
@@ -59679,52 +59707,25 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__forward(struct __pyx_obj_6m
     /* "mlgrad/model.pyx":1281
  *         for i in range(n_layer):
  *             layer = <ModelLayer>layers[i]
- *             layer.forward(input)             # <<<<<<<<<<<<<<
+ *             layer._forward(input)             # <<<<<<<<<<<<<<
  *             input = layer.output
  * #         self.output = layer.output
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_layer), __pyx_n_s_forward); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1281, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_input, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1281, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = NULL;
-    __pyx_t_8 = 0;
-    #if CYTHON_UNPACK_METHODS
-    if (likely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_7);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_5, function);
-        __pyx_t_8 = 1;
-      }
-    }
-    #endif
-    {
-      PyObject *__pyx_callargs[2] = {__pyx_t_7, __pyx_t_6};
-      __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1281, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    ((struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer *)__pyx_v_layer->__pyx_base.__pyx_vtab)->__pyx_base._forward(((struct __pyx_obj_6mlgrad_5model_Model2 *)__pyx_v_layer), __pyx_v_input); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1281, __pyx_L1_error)
 
     /* "mlgrad/model.pyx":1282
  *             layer = <ModelLayer>layers[i]
- *             layer.forward(input)
+ *             layer._forward(input)
  *             input = layer.output             # <<<<<<<<<<<<<<
  * #         self.output = layer.output
  *         self.is_forward = 1
  */
-    __pyx_t_9 = __pyx_v_layer->__pyx_base.output;
-    __PYX_INC_MEMVIEW(&__pyx_t_9, 1);
+    __pyx_t_5 = __pyx_v_layer->__pyx_base.output;
+    __PYX_INC_MEMVIEW(&__pyx_t_5, 1);
     __PYX_XCLEAR_MEMVIEW(&__pyx_v_input, 1);
-    __pyx_v_input = __pyx_t_9;
-    __pyx_t_9.memview = NULL;
-    __pyx_t_9.data = NULL;
+    __pyx_v_input = __pyx_t_5;
+    __pyx_t_5.memview = NULL;
+    __pyx_t_5.data = NULL;
   }
 
   /* "mlgrad/model.pyx":1284
@@ -59748,10 +59749,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__forward(struct __pyx_obj_6m
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __PYX_XCLEAR_MEMVIEW(&__pyx_t_9, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_t_5, 1);
   __Pyx_AddTraceback("mlgrad.model.FFNetworkModel._forward", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_layer);
@@ -59781,14 +59779,9 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__backward(struct __pyx_obj_6
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  int __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
-  __Pyx_memviewslice __pyx_t_8 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
+  Py_ssize_t __pyx_t_3;
+  __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_5;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -59819,7 +59812,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__backward(struct __pyx_obj_6
  *         cdef list layers = self.layers
  * 
  *         if not self.is_forward:             # <<<<<<<<<<<<<<
- *             self.forward(X)
+ *             self._forward(X)
  *         m = len(grad)
  */
   __pyx_t_2 = (!__pyx_v_self->__pyx_base.is_forward);
@@ -59828,60 +59821,33 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__backward(struct __pyx_obj_6
     /* "mlgrad/model.pyx":1295
  * 
  *         if not self.is_forward:
- *             self.forward(X)             # <<<<<<<<<<<<<<
+ *             self._forward(X)             # <<<<<<<<<<<<<<
  *         m = len(grad)
  *         l = n_layer-1
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_forward); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1295, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_X, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1295, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = NULL;
-    __pyx_t_6 = 0;
-    #if CYTHON_UNPACK_METHODS
-    if (likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-        __pyx_t_6 = 1;
-      }
-    }
-    #endif
-    {
-      PyObject *__pyx_callargs[2] = {__pyx_t_5, __pyx_t_4};
-      __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_6, 1+__pyx_t_6);
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1295, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    ((struct __pyx_vtabstruct_6mlgrad_5model_FFNetworkModel *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._forward(((struct __pyx_obj_6mlgrad_5model_Model2 *)__pyx_v_self), __pyx_v_X); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1295, __pyx_L1_error)
 
     /* "mlgrad/model.pyx":1294
  *         cdef list layers = self.layers
  * 
  *         if not self.is_forward:             # <<<<<<<<<<<<<<
- *             self.forward(X)
+ *             self._forward(X)
  *         m = len(grad)
  */
   }
 
   /* "mlgrad/model.pyx":1296
  *         if not self.is_forward:
- *             self.forward(X)
+ *             self._forward(X)
  *         m = len(grad)             # <<<<<<<<<<<<<<
  *         l = n_layer-1
  *         grad_out = grad_u
  */
-  __pyx_t_7 = __Pyx_MemoryView_Len(__pyx_v_grad); 
-  __pyx_v_m = __pyx_t_7;
+  __pyx_t_3 = __Pyx_MemoryView_Len(__pyx_v_grad); 
+  __pyx_v_m = __pyx_t_3;
 
   /* "mlgrad/model.pyx":1297
- *             self.forward(X)
+ *             self._forward(X)
  *         m = len(grad)
  *         l = n_layer-1             # <<<<<<<<<<<<<<
  *         grad_out = grad_u
@@ -59947,8 +59913,8 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__backward(struct __pyx_obj_6
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
         __PYX_ERR(0, 1302, __pyx_L1_error)
       }
-      __pyx_t_7 = (__pyx_v_l - 1);
-      __pyx_t_1 = PyList_GET_ITEM(__pyx_v_layers, __pyx_t_7);
+      __pyx_t_3 = (__pyx_v_l - 1);
+      __pyx_t_1 = PyList_GET_ITEM(__pyx_v_layers, __pyx_t_3);
       __Pyx_INCREF(__pyx_t_1);
       __Pyx_XDECREF_SET(__pyx_v_prev_layer, ((struct __pyx_obj_6mlgrad_5model_ModelLayer *)__pyx_t_1));
       __pyx_t_1 = 0;
@@ -59960,12 +59926,12 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__backward(struct __pyx_obj_6
  *             else:
  *                 input = X
  */
-      __pyx_t_8 = __pyx_v_prev_layer->__pyx_base.output;
-      __PYX_INC_MEMVIEW(&__pyx_t_8, 1);
+      __pyx_t_4 = __pyx_v_prev_layer->__pyx_base.output;
+      __PYX_INC_MEMVIEW(&__pyx_t_4, 1);
       __PYX_XCLEAR_MEMVIEW(&__pyx_v_input, 1);
-      __pyx_v_input = __pyx_t_8;
-      __pyx_t_8.memview = NULL;
-      __pyx_t_8.data = NULL;
+      __pyx_v_input = __pyx_t_4;
+      __pyx_t_4.memview = NULL;
+      __pyx_t_4.data = NULL;
 
       /* "mlgrad/model.pyx":1301
  *         while l >= 0:
@@ -59996,7 +59962,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__backward(struct __pyx_obj_6
  *                 input = X
  *             m0 = m - layer.n_param             # <<<<<<<<<<<<<<
  *             if layer.n_param > 0:
- *                 layer.backward(input, grad_out, grad[m0:m])
+ *                 layer._backward(input, grad_out, grad[m0:m])
  */
     __pyx_v_m0 = (__pyx_v_m - __pyx_v_layer->__pyx_base.n_param);
 
@@ -60004,7 +59970,7 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__backward(struct __pyx_obj_6
  *                 input = X
  *             m0 = m - layer.n_param
  *             if layer.n_param > 0:             # <<<<<<<<<<<<<<
- *                 layer.backward(input, grad_out, grad[m0:m])
+ *                 layer._backward(input, grad_out, grad[m0:m])
  *             else:
  */
     __pyx_t_2 = (__pyx_v_layer->__pyx_base.n_param > 0);
@@ -60013,26 +59979,20 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__backward(struct __pyx_obj_6
       /* "mlgrad/model.pyx":1308
  *             m0 = m - layer.n_param
  *             if layer.n_param > 0:
- *                 layer.backward(input, grad_out, grad[m0:m])             # <<<<<<<<<<<<<<
+ *                 layer._backward(input, grad_out, grad[m0:m])             # <<<<<<<<<<<<<<
  *             else:
- *                 layer.backward(input, grad_out, None)
+ *                 layer._backward(input, grad_out, None)
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_layer), __pyx_n_s_backward); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1308, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_input, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1308, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_grad_out, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1308, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_8.data = __pyx_v_grad.data;
-      __pyx_t_8.memview = __pyx_v_grad.memview;
-      __PYX_INC_MEMVIEW(&__pyx_t_8, 1);
-      __pyx_t_6 = -1;
+      __pyx_t_4.data = __pyx_v_grad.data;
+      __pyx_t_4.memview = __pyx_v_grad.memview;
+      __PYX_INC_MEMVIEW(&__pyx_t_4, 1);
+      __pyx_t_5 = -1;
       if (unlikely(__pyx_memoryview_slice_memviewslice(
-    &__pyx_t_8,
+    &__pyx_t_4,
     __pyx_v_grad.shape[0], __pyx_v_grad.strides[0], __pyx_v_grad.suboffsets[0],
     0,
     0,
-    &__pyx_t_6,
+    &__pyx_t_5,
     __pyx_v_m0,
     __pyx_v_m,
     0,
@@ -60044,105 +60004,51 @@ static void __pyx_f_6mlgrad_5model_14FFNetworkModel__backward(struct __pyx_obj_6
     __PYX_ERR(0, 1308, __pyx_L1_error)
 }
 
-__pyx_t_9 = __pyx_memoryview_fromslice(__pyx_t_8, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1308, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __PYX_XCLEAR_MEMVIEW(&__pyx_t_8, 1);
-      __pyx_t_8.memview = NULL; __pyx_t_8.data = NULL;
-      __pyx_t_10 = NULL;
-      __pyx_t_6 = 0;
-      #if CYTHON_UNPACK_METHODS
-      if (likely(PyMethod_Check(__pyx_t_3))) {
-        __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_3);
-        if (likely(__pyx_t_10)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-          __Pyx_INCREF(__pyx_t_10);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_3, function);
-          __pyx_t_6 = 1;
-        }
-      }
-      #endif
-      {
-        PyObject *__pyx_callargs[4] = {__pyx_t_10, __pyx_t_4, __pyx_t_5, __pyx_t_9};
-        __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_6, 3+__pyx_t_6);
-        __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1308, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      }
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+((struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer *)__pyx_v_layer->__pyx_base.__pyx_vtab)->__pyx_base._backward(((struct __pyx_obj_6mlgrad_5model_Model2 *)__pyx_v_layer), __pyx_v_input, __pyx_v_grad_out, __pyx_t_4); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1308, __pyx_L1_error)
+      __PYX_XCLEAR_MEMVIEW(&__pyx_t_4, 1);
+      __pyx_t_4.memview = NULL; __pyx_t_4.data = NULL;
 
       /* "mlgrad/model.pyx":1307
  *                 input = X
  *             m0 = m - layer.n_param
  *             if layer.n_param > 0:             # <<<<<<<<<<<<<<
- *                 layer.backward(input, grad_out, grad[m0:m])
+ *                 layer._backward(input, grad_out, grad[m0:m])
  *             else:
  */
       goto __pyx_L7;
     }
 
     /* "mlgrad/model.pyx":1310
- *                 layer.backward(input, grad_out, grad[m0:m])
+ *                 layer._backward(input, grad_out, grad[m0:m])
  *             else:
- *                 layer.backward(input, grad_out, None)             # <<<<<<<<<<<<<<
+ *                 layer._backward(input, grad_out, None)             # <<<<<<<<<<<<<<
  *             grad_out = layer.grad_input
  *             l -= 1
  */
     /*else*/ {
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_layer), __pyx_n_s_backward); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1310, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_9 = __pyx_memoryview_fromslice(__pyx_v_input, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 1310, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_grad_out, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1310, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = NULL;
-      __pyx_t_6 = 0;
-      #if CYTHON_UNPACK_METHODS
-      if (likely(PyMethod_Check(__pyx_t_3))) {
-        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-        if (likely(__pyx_t_4)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-          __Pyx_INCREF(__pyx_t_4);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_3, function);
-          __pyx_t_6 = 1;
-        }
-      }
-      #endif
-      {
-        PyObject *__pyx_callargs[4] = {__pyx_t_4, __pyx_t_9, __pyx_t_5, Py_None};
-        __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_3, __pyx_callargs+1-__pyx_t_6, 3+__pyx_t_6);
-        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1310, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      }
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 1310, __pyx_L1_error)
+      ((struct __pyx_vtabstruct_6mlgrad_5model_ModelLayer *)__pyx_v_layer->__pyx_base.__pyx_vtab)->__pyx_base._backward(((struct __pyx_obj_6mlgrad_5model_Model2 *)__pyx_v_layer), __pyx_v_input, __pyx_v_grad_out, __pyx_t_4); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1310, __pyx_L1_error)
+      __PYX_XCLEAR_MEMVIEW(&__pyx_t_4, 1);
+      __pyx_t_4.memview = NULL; __pyx_t_4.data = NULL;
     }
     __pyx_L7:;
 
     /* "mlgrad/model.pyx":1311
  *             else:
- *                 layer.backward(input, grad_out, None)
+ *                 layer._backward(input, grad_out, None)
  *             grad_out = layer.grad_input             # <<<<<<<<<<<<<<
  *             l -= 1
  *             m = m0
  */
-    __pyx_t_8 = __pyx_v_layer->grad_input;
-    __PYX_INC_MEMVIEW(&__pyx_t_8, 1);
+    __pyx_t_4 = __pyx_v_layer->grad_input;
+    __PYX_INC_MEMVIEW(&__pyx_t_4, 1);
     __PYX_XCLEAR_MEMVIEW(&__pyx_v_grad_out, 1);
-    __pyx_v_grad_out = __pyx_t_8;
-    __pyx_t_8.memview = NULL;
-    __pyx_t_8.data = NULL;
+    __pyx_v_grad_out = __pyx_t_4;
+    __pyx_t_4.memview = NULL;
+    __pyx_t_4.data = NULL;
 
     /* "mlgrad/model.pyx":1312
- *                 layer.backward(input, grad_out, None)
+ *                 layer._backward(input, grad_out, None)
  *             grad_out = layer.grad_input
  *             l -= 1             # <<<<<<<<<<<<<<
  *             m = m0
@@ -60181,12 +60087,7 @@ __pyx_t_9 = __pyx_memoryview_fromslice(__pyx_t_8, 1, (PyObject *(*)(char *)) __p
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __PYX_XCLEAR_MEMVIEW(&__pyx_t_8, 1);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_t_4, 1);
   __Pyx_AddTraceback("mlgrad.model.FFNetworkModel._backward", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_layer);
