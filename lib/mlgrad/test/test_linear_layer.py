@@ -28,6 +28,14 @@ class LinearLayerCase(unittest.TestCase):
         dy = np.max(np.abs(np.subtract(Y, self.mod.output)))
         self.assertTrue(dy < 1.0e-10)
     #
+    def test_linearlayer_3(self):
+        grad_out = 2 * np.ones(self.mod.n_output, 'd')
+        grad = np.zeros(self.mod.n_param, 'd')
+        self.mod.backward(self.X, grad_out, grad)
+        print()
+        print(np.asarray(2*self.X), np.asarray(grad))
+        print(np.dot(grad_out, self.mod.matrix)[1:], np.asarray(self.mod.grad_input))
+    #
 
 
 def suite():

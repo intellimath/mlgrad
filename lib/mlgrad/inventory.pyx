@@ -180,7 +180,7 @@ cdef void multiply(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:
 
 cdef double dot(double[::1] a, double[::1] b) noexcept nogil:
     return _dot(&a[0], &b[0], a.shape[0])
-    
+
 cdef double _dot(const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     cdef double s
@@ -189,7 +189,17 @@ cdef double _dot(const double *a, const double *b, const Py_ssize_t n) noexcept 
     for i in range(n):
         s += a[i] * b[i]
     return s
-    
+
+cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil:
+    cdef Py_ssize_t i
+    cdef double s
+
+    s = 0
+    for i in range(n):
+        s += a[i] * b[0]
+        b += m
+    return s
+
 cdef void _matdot(double *output, double *M, const double *X, 
                     const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
     cdef Py_ssize_t j

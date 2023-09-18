@@ -28,7 +28,10 @@ from libc.stdlib cimport strtod
 
 from cython.parallel cimport parallel, prange
 
-from openmp cimport omp_get_num_procs
+from openmp cimport omp_get_num_threads
+cimport mlgrad.inventory as inventory
+
+cdef int num_threads = inventory.get_num_threads()
 
 cdef int num_procs = 2 #omp_get_num_procs()
 # if num_procs >= 4:
@@ -91,22 +94,22 @@ cdef class Func(object):
     #
     cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
-        for i in range(n):
+        for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
             y[i] = self._evaluate(x[i])
     #
     cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
-        for i in range(n):
+        for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
             y[i] = self._derivative(x[i])
     #
     cdef void _derivative2_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
-        for i in range(n):
+        for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
             y[i] = self._derivative2(x[i])
     #
     cdef void _derivative_div_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
-        for i in range(n):
+        for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
             y[i] = self._derivative_div_x(x[i])
     #
     cdef double _value(self, const double x) noexcept nogil:

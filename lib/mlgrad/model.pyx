@@ -27,9 +27,11 @@ import numpy as np
 
 from mlgrad.func import func_from_dict
 
-# from cython.parallel cimport parallel, prange
+from cython.parallel cimport parallel, prange
 
 cimport mlgrad.inventory as inventory
+
+cdef int num_threads = inventory.get_num_threads()
 
 format_double = r"%.2f"
 display_precision = 0.005
@@ -758,41 +760,29 @@ cdef class ScaleLayer(ModelLayer):
     #
     def __init__(self, Func func, n_input):
         self.func = func
-        self.obparam = param = None
+        self.ob_param = param = None
+        self.n_param = 0
         self.n_param = 0
         self.n_input = n_input
         self.n_output = n_input
+        self.output = np.zeros(n_input, 'd')
     #
     cdef void _forward(self, double[::1] X):
-        self.func._evaluate_array(&X[0], &self.output[0], self.n_input)
-    #
-    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
-        self.func._derivative_array(&X[0], &self.grad_input[0], self.n_input)
-        inventory._mul(&self.grad_input[0], &grad_out[0], self.n_input)
+        cdef double *output = &self.output[0]
+        cdef Func func = self.func
+        cdef Py_ssize_t j
 
-cdef class SimpleLayer(ModelLayer):
-    #
-    cdef void _forward(self, double[::1] X):
-        cdef Func func = self.func
-        cdef double[::1] param = self.param
-        cdef double[::1] output = self.output
-        cdef Py_ssize_t i, n = self.n_input
-        
-        for i in range(n):
-            output[i] = func._evaluate(X[i] - param[i])
-    #
-    def init_param(self):
-        if self.param is None:
-            pass
-            # XXXXXXX
+        for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
+            output[j] = func._evaluate(X[j])
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+        cdef double *output = &self.output[0]
+        cdef double *grad_in = &self.grad_input[0]
         cdef Func func = self.func
-        cdef double[::1] param = self.param
-        cdef Py_ssize_t i, n = self.n_input
-        
-        for i in range(n):
-            grad[i] = -func._derivative(X[i] - param[i]) * grad_out[i]
+        cdef Py_ssize_t j
+
+        for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
+            grad_in[j] = grad_out[j] * func._derivative(X[j])
 
     
 cdef class GeneralModelLayer(ModelLayer):
@@ -964,39 +954,36 @@ cdef class LinearLayer(ModelLayer):
         cdef double[::1] output = self.output
         cdef double[:,::1] matrix = self.matrix
          
-        # k = 0
-        for j in range(self.n_output):
+        for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
             output[j] = matrix[j,0] + inventory._dot(&matrix[j,1], &X[0], n_input)
-            # s = param[k]
-            # k += 1
-            # for i in range(n_input):
-            #     s += param[k] * X[i]
-            #     k += 1
-            # output[j] = s
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Py_ssize_t i, j
         cdef Py_ssize_t n_input = self.n_input
-        cdef Py_ssize_t n_input1 = n_input + 1
+        cdef Py_ssize_t n_output = self.n_output
         cdef double[::1] grad_in = self.grad_input
-        cdef double *G0 = &grad[0]
-        cdef double *W0 = &self.param[0]
+        cdef double *grad_p = &grad[0]
+        cdef double *param_p = &self.param[0]
         cdef double *G
-        cdef double *W
-        cdef double sx
+        cdef double sx, s
         cdef double[:,::1] matrix = self.matrix
 
         inventory.fill(grad_in, 0)
                 
-        for j in range(self.n_output):
-            G = G0 + j * n_input1
+        for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
+            G = grad_p + j * (n_input + 1)
             G[0] = sx = grad_out[j]
-            G += 1
-            inventory._mul_add(&grad_in[0], &matrix[j,1], sx, n_input)
-            inventory._mul_set(G, &X[0], sx, n_input)
-            # for i in range(n_input):
-            #     grad_in[i] += sx * W[i]
-            #     G[i] = sx * X[i]
+            inventory._mul_set(&G[1], &X[0], sx, n_input)
+
+        for i in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
+            grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input+1)
+            # s = 0
+            # W = &matrix[0,i]
+            # for j in range(self.n_output):
+            #     s += grad_out[j] * W[0]
+            #     W += n_input
+            # grad_in[i] = s
+            
     #
     def as_dict(self):
         return { 'name': 'linear_neuron_layer',

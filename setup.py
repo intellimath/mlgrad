@@ -102,6 +102,7 @@ ext_modules = [
     Extension(
         "mlgrad.kaverage",
         ["lib/mlgrad/kaverage.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args, 
         extra_link_args = extra_link_args,
 #         cython_compile_time_env = cython_compile_time_env,
@@ -109,18 +110,21 @@ ext_modules = [
     Extension(
         "mlgrad.loss",
         ["lib/mlgrad/loss.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
    Extension(
         "mlgrad.distance",
         ["lib/mlgrad/distance.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
    Extension(
         "mlgrad.dissimilarity",
         ["lib/mlgrad/dissimilarity.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
@@ -133,6 +137,7 @@ ext_modules = [
     Extension(
         "mlgrad.risk",
         ["lib/mlgrad/risk.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
 #         cython_compile_time_env = cython_compile_time_env,
@@ -140,18 +145,21 @@ ext_modules = [
     Extension(
         "mlgrad.averager",
         ["lib/mlgrad/averager.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
     ),
     Extension(
         "mlgrad.weights",
         ["lib/mlgrad/weights.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
     Extension(
         "mlgrad.gd",
         ["lib/mlgrad/gd.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
@@ -164,6 +172,7 @@ ext_modules = [
     Extension(
         "mlgrad.kmeans",
         ["lib/mlgrad/kmeans.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
@@ -176,6 +185,7 @@ ext_modules = [
     Extension(
         "mlgrad.mlocation_scatter2",
         ["lib/mlgrad/mlocation_scatter2.pyx"],
+        library=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
     ),

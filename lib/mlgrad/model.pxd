@@ -112,14 +112,9 @@ cdef class WinnerModel(Model):
 cdef class PolynomialModel(Model):
     pass
 
-# cdef class ModelAdd(Model):
-#     cdef Model main
-#     cdef Model base
-#     cdef double alpha
-
 cdef class Model2:
     cdef public Py_ssize_t n_param, n_input, n_output
-    cdef object ob_param
+    cdef public object ob_param
     cdef public double[::1] param
     cdef public double[::1] output
     #

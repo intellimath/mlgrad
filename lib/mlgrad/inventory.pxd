@@ -23,6 +23,7 @@ cdef void _mul_add(double *a, const double *b, double c, const Py_ssize_t n) noe
 cdef void _mul_set(double *a, const double *b, double c, const Py_ssize_t n) noexcept nogil
 cdef void _mul_const(double *a, const double c, const Py_ssize_t n) noexcept nogil
 cdef double _dot(const double *a, const double *b, const Py_ssize_t n) noexcept nogil
+cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil
 cdef void _matdot(double*, double*, const double*, const Py_ssize_t, const Py_ssize_t) noexcept nogil
 cdef void _matdot2(double*, double*, const double*, const Py_ssize_t, const Py_ssize_t) noexcept nogil
 cdef void _mul_add_arrays(double *a, double *M, const double *ss, const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil

@@ -23,6 +23,7 @@
 from mlgrad.test.test_linear_model import *
 from mlgrad.test.test_sigmaneuron_model import *
 from mlgrad.test.test_linear_layer import *
+from mlgrad.test.test_scale_layer import *
 
 __version__ = '0.1'
 
