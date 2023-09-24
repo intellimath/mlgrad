@@ -1606,14 +1606,14 @@ struct __pyx_obj_6mlgrad_15array_allocator_Allocator {
  * @cython.final
  * cdef class ArrayAllocator(Allocator):             # <<<<<<<<<<<<<<
  *     cdef ArrayAllocator base
- *     cdef readonly Py_ssize_t size, start, allocated
+ *     cdef readonly Py_ssize_t size, start, n_allocated
  */
 struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator {
   struct __pyx_obj_6mlgrad_15array_allocator_Allocator __pyx_base;
   struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *base;
   Py_ssize_t size;
   Py_ssize_t start;
-  Py_ssize_t allocated;
+  Py_ssize_t n_allocated;
   PyObject *buf;
 };
 
@@ -1717,7 +1717,7 @@ static struct __pyx_vtabstruct_6mlgrad_15array_allocator_Allocator *__pyx_vtabpt
  * 
  * cdef class ArrayAllocator(Allocator):             # <<<<<<<<<<<<<<
  * 
- *     def __init__(self, size, start=0, allocated=0):
+ *     def __init__(self, size):
  */
 
 struct __pyx_vtabstruct_6mlgrad_15array_allocator_ArrayAllocator {
@@ -2893,7 +2893,6 @@ static const char __pyx_k_setstate[] = "__setstate__";
 static const char __pyx_k_Allocator[] = "Allocator";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_allocate2[] = "allocate2";
-static const char __pyx_k_allocated[] = "allocated";
 static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_isenabled[] = "isenabled";
 static const char __pyx_k_pyx_state[] = "__pyx_state";
@@ -2976,7 +2975,7 @@ static const char __pyx_k_got_differing_extents_in_dimensi[] = "got differing ex
 static const char __pyx_k_no_default___reduce___due_to_non[] = "no default __reduce__ due to non-trivial __cinit__";
 static const char __pyx_k_unable_to_allocate_shape_and_str[] = "unable to allocate shape and strides.";
 static const char __pyx_k_Incompatible_checksums_0x_x_vs_0_2[] = "Incompatible checksums (0x%x vs (0xe3b0c44, 0xda39a3e, 0xd41d8cd) = ())";
-static const char __pyx_k_Incompatible_checksums_0x_x_vs_0_3[] = "Incompatible checksums (0x%x vs (0xd376460, 0x765c36d, 0x479d425) = (allocated, base, buf, size, start))";
+static const char __pyx_k_Incompatible_checksums_0x_x_vs_0_3[] = "Incompatible checksums (0x%x vs (0x6c4ae10, 0x61b4655, 0x14912cc) = (base, buf, n_allocated, size, start))";
 /* #### Code section: decls ### */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
@@ -3025,7 +3024,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_4get_allocated(st
 static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_6suballocator(struct __pyx_obj_6mlgrad_15array_allocator_Allocator *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_8__reduce_cython__(struct __pyx_obj_6mlgrad_15array_allocator_Allocator *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_10__setstate_cython__(struct __pyx_obj_6mlgrad_15array_allocator_Allocator *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self, PyObject *__pyx_v_size, CYTHON_UNUSED PyObject *__pyx_v_start, CYTHON_UNUSED PyObject *__pyx_v_allocated); /* proto */
+static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self, PyObject *__pyx_v_size); /* proto */
 static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_4allocate(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self, Py_ssize_t __pyx_v_n); /* proto */
 static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_6allocate2(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self, Py_ssize_t __pyx_v_n, Py_ssize_t __pyx_v_m); /* proto */
@@ -3033,7 +3032,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8get_alloca
 static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_10suballocator(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_4size___get__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_5start___get__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_9allocated___get__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_11n_allocated___get__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_3buf___get__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_cython__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_14__setstate_cython__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
@@ -3152,7 +3151,6 @@ typedef struct {
   PyObject *__pyx_n_s_allocate;
   PyObject *__pyx_n_s_allocate2;
   PyObject *__pyx_n_s_allocate_buffer;
-  PyObject *__pyx_n_s_allocated;
   PyObject *__pyx_kp_u_and;
   PyObject *__pyx_n_s_asyncio_coroutines;
   PyObject *__pyx_n_s_base;
@@ -3254,12 +3252,12 @@ typedef struct {
   PyObject *__pyx_int_0;
   PyObject *__pyx_int_1;
   PyObject *__pyx_int_3;
-  PyObject *__pyx_int_75093029;
+  PyObject *__pyx_int_21566156;
+  PyObject *__pyx_int_102450773;
   PyObject *__pyx_int_112105877;
-  PyObject *__pyx_int_124109677;
+  PyObject *__pyx_int_113552912;
   PyObject *__pyx_int_136983863;
   PyObject *__pyx_int_184977713;
-  PyObject *__pyx_int_221733984;
   PyObject *__pyx_int_222419149;
   PyObject *__pyx_int_228825662;
   PyObject *__pyx_int_238750788;
@@ -3416,7 +3414,6 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_allocate);
   Py_CLEAR(clear_module_state->__pyx_n_s_allocate2);
   Py_CLEAR(clear_module_state->__pyx_n_s_allocate_buffer);
-  Py_CLEAR(clear_module_state->__pyx_n_s_allocated);
   Py_CLEAR(clear_module_state->__pyx_kp_u_and);
   Py_CLEAR(clear_module_state->__pyx_n_s_asyncio_coroutines);
   Py_CLEAR(clear_module_state->__pyx_n_s_base);
@@ -3518,12 +3515,12 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_int_0);
   Py_CLEAR(clear_module_state->__pyx_int_1);
   Py_CLEAR(clear_module_state->__pyx_int_3);
-  Py_CLEAR(clear_module_state->__pyx_int_75093029);
+  Py_CLEAR(clear_module_state->__pyx_int_21566156);
+  Py_CLEAR(clear_module_state->__pyx_int_102450773);
   Py_CLEAR(clear_module_state->__pyx_int_112105877);
-  Py_CLEAR(clear_module_state->__pyx_int_124109677);
+  Py_CLEAR(clear_module_state->__pyx_int_113552912);
   Py_CLEAR(clear_module_state->__pyx_int_136983863);
   Py_CLEAR(clear_module_state->__pyx_int_184977713);
-  Py_CLEAR(clear_module_state->__pyx_int_221733984);
   Py_CLEAR(clear_module_state->__pyx_int_222419149);
   Py_CLEAR(clear_module_state->__pyx_int_228825662);
   Py_CLEAR(clear_module_state->__pyx_int_238750788);
@@ -3658,7 +3655,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_allocate);
   Py_VISIT(traverse_module_state->__pyx_n_s_allocate2);
   Py_VISIT(traverse_module_state->__pyx_n_s_allocate_buffer);
-  Py_VISIT(traverse_module_state->__pyx_n_s_allocated);
   Py_VISIT(traverse_module_state->__pyx_kp_u_and);
   Py_VISIT(traverse_module_state->__pyx_n_s_asyncio_coroutines);
   Py_VISIT(traverse_module_state->__pyx_n_s_base);
@@ -3760,12 +3756,12 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_int_0);
   Py_VISIT(traverse_module_state->__pyx_int_1);
   Py_VISIT(traverse_module_state->__pyx_int_3);
-  Py_VISIT(traverse_module_state->__pyx_int_75093029);
+  Py_VISIT(traverse_module_state->__pyx_int_21566156);
+  Py_VISIT(traverse_module_state->__pyx_int_102450773);
   Py_VISIT(traverse_module_state->__pyx_int_112105877);
-  Py_VISIT(traverse_module_state->__pyx_int_124109677);
+  Py_VISIT(traverse_module_state->__pyx_int_113552912);
   Py_VISIT(traverse_module_state->__pyx_int_136983863);
   Py_VISIT(traverse_module_state->__pyx_int_184977713);
-  Py_VISIT(traverse_module_state->__pyx_int_221733984);
   Py_VISIT(traverse_module_state->__pyx_int_222419149);
   Py_VISIT(traverse_module_state->__pyx_int_228825662);
   Py_VISIT(traverse_module_state->__pyx_int_238750788);
@@ -3916,7 +3912,6 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_allocate __pyx_mstate_global->__pyx_n_s_allocate
 #define __pyx_n_s_allocate2 __pyx_mstate_global->__pyx_n_s_allocate2
 #define __pyx_n_s_allocate_buffer __pyx_mstate_global->__pyx_n_s_allocate_buffer
-#define __pyx_n_s_allocated __pyx_mstate_global->__pyx_n_s_allocated
 #define __pyx_kp_u_and __pyx_mstate_global->__pyx_kp_u_and
 #define __pyx_n_s_asyncio_coroutines __pyx_mstate_global->__pyx_n_s_asyncio_coroutines
 #define __pyx_n_s_base __pyx_mstate_global->__pyx_n_s_base
@@ -4018,12 +4013,12 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_int_0 __pyx_mstate_global->__pyx_int_0
 #define __pyx_int_1 __pyx_mstate_global->__pyx_int_1
 #define __pyx_int_3 __pyx_mstate_global->__pyx_int_3
-#define __pyx_int_75093029 __pyx_mstate_global->__pyx_int_75093029
+#define __pyx_int_21566156 __pyx_mstate_global->__pyx_int_21566156
+#define __pyx_int_102450773 __pyx_mstate_global->__pyx_int_102450773
 #define __pyx_int_112105877 __pyx_mstate_global->__pyx_int_112105877
-#define __pyx_int_124109677 __pyx_mstate_global->__pyx_int_124109677
+#define __pyx_int_113552912 __pyx_mstate_global->__pyx_int_113552912
 #define __pyx_int_136983863 __pyx_mstate_global->__pyx_int_136983863
 #define __pyx_int_184977713 __pyx_mstate_global->__pyx_int_184977713
-#define __pyx_int_221733984 __pyx_mstate_global->__pyx_int_221733984
 #define __pyx_int_222419149 __pyx_mstate_global->__pyx_int_222419149
 #define __pyx_int_228825662 __pyx_mstate_global->__pyx_int_228825662
 #define __pyx_int_238750788 __pyx_mstate_global->__pyx_int_238750788
@@ -5666,6 +5661,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
+PyDoc_STRVAR(__pyx_doc___pyx_array___reduce_cython__, "array.__reduce_cython__(self)");
 static PyObject *__pyx_pw___pyx_array_1__reduce_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -5756,6 +5752,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
+PyDoc_STRVAR(__pyx_doc___pyx_array_2__setstate_cython__, "array.__setstate_cython__(self, __pyx_state)");
 static PyObject *__pyx_pw___pyx_array_3__setstate_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -6398,6 +6395,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
+PyDoc_STRVAR(__pyx_doc___pyx_MemviewEnum___reduce_cython__, "Enum.__reduce_cython__(self)");
 static PyObject *__pyx_pw___pyx_MemviewEnum_1__reduce_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -6668,6 +6666,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
+PyDoc_STRVAR(__pyx_doc___pyx_MemviewEnum_2__setstate_cython__, "Enum.__setstate_cython__(self, __pyx_state)");
 static PyObject *__pyx_pw___pyx_MemviewEnum_3__setstate_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -8800,7 +8799,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  * 
  */
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_result, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 502, __pyx_L5_except_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_result, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 502, __pyx_L5_except_error)
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_r = __pyx_t_1;
         __pyx_t_1 = 0;
@@ -10604,6 +10603,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
+PyDoc_STRVAR(__pyx_doc_15View_dot_MemoryView_10memoryview_16is_c_contig, "memoryview.is_c_contig(self)");
 static PyObject *__pyx_memoryview_is_c_contig(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -10718,6 +10718,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
+PyDoc_STRVAR(__pyx_doc_15View_dot_MemoryView_10memoryview_18is_f_contig, "memoryview.is_f_contig(self)");
 static PyObject *__pyx_memoryview_is_f_contig(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -10832,6 +10833,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
+PyDoc_STRVAR(__pyx_doc_15View_dot_MemoryView_10memoryview_20copy, "memoryview.copy(self)");
 static PyObject *__pyx_memoryview_copy(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -10964,6 +10966,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
+PyDoc_STRVAR(__pyx_doc_15View_dot_MemoryView_10memoryview_22copy_fortran, "memoryview.copy_fortran(self)");
 static PyObject *__pyx_memoryview_copy_fortran(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -11095,6 +11098,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
+PyDoc_STRVAR(__pyx_doc___pyx_memoryview___reduce_cython__, "memoryview.__reduce_cython__(self)");
 static PyObject *__pyx_pw___pyx_memoryview_1__reduce_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -11185,6 +11189,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
+PyDoc_STRVAR(__pyx_doc___pyx_memoryview_2__setstate_cython__, "memoryview.__setstate_cython__(self, __pyx_state)");
 static PyObject *__pyx_pw___pyx_memoryview_3__setstate_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -11717,7 +11722,7 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
  *         idx += 1
  * 
  */
-      if (unlikely((__Pyx_SetItemInt(__pyx_v_result, __pyx_v_idx, __pyx_v_item, Py_ssize_t, 1, PyInt_FromSsize_t, 1, 1, 1) < 0))) __PYX_ERR(1, 694, __pyx_L1_error)
+      if (unlikely((__Pyx_SetItemInt(__pyx_v_result, __pyx_v_idx, __pyx_v_item, Py_ssize_t, 1, PyInt_FromSsize_t, 1, 0, 0) < 0))) __PYX_ERR(1, 694, __pyx_L1_error)
     }
     __pyx_L5:;
 
@@ -14043,6 +14048,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
+PyDoc_STRVAR(__pyx_doc___pyx_memoryviewslice___reduce_cython__, "_memoryviewslice.__reduce_cython__(self)");
 static PyObject *__pyx_pw___pyx_memoryviewslice_1__reduce_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -14133,6 +14139,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
+PyDoc_STRVAR(__pyx_doc___pyx_memoryviewslice_2__setstate_cython__, "_memoryviewslice.__setstate_cython__(self, __pyx_state)");
 static PyObject *__pyx_pw___pyx_memoryviewslice_3__setstate_cython__(PyObject *__pyx_v_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -17361,7 +17368,8 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static PyMethodDef __pyx_mdef_15View_dot_MemoryView_1__pyx_unpickle_Enum = {"__pyx_unpickle_Enum", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_15View_dot_MemoryView_1__pyx_unpickle_Enum, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
+PyDoc_STRVAR(__pyx_doc_15View_dot_MemoryView___pyx_unpickle_Enum, "__pyx_unpickle_Enum(__pyx_type, long __pyx_checksum, __pyx_state)");
+static PyMethodDef __pyx_mdef_15View_dot_MemoryView_1__pyx_unpickle_Enum = {"__pyx_unpickle_Enum", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_15View_dot_MemoryView_1__pyx_unpickle_Enum, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_15View_dot_MemoryView___pyx_unpickle_Enum};
 static PyObject *__pyx_pw_15View_dot_MemoryView_1__pyx_unpickle_Enum(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
@@ -17669,8 +17677,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   int __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  int __pyx_t_8;
+  int __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -17687,8 +17694,8 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
+  __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->name);
   __Pyx_DECREF(__pyx_v___pyx_result->name);
@@ -17731,27 +17738,24 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(1, 14, __pyx_L1_error)
     }
-    __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = NULL;
-    __pyx_t_8 = 0;
+    __pyx_t_5 = NULL;
+    __pyx_t_7 = 0;
     #if CYTHON_UNPACK_METHODS
     if (likely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_7)) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_5)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_7);
+        __Pyx_INCREF(__pyx_t_5);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_6, function);
-        __pyx_t_8 = 1;
+        __pyx_t_7 = 1;
       }
     }
     #endif
     {
-      PyObject *__pyx_callargs[2] = {__pyx_t_7, __pyx_t_5};
-      __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_8, 1+__pyx_t_8);
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      PyObject *__pyx_callargs[2] = {__pyx_t_5, PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)};
+      __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_7, 1+__pyx_t_7);
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 14, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -17781,7 +17785,6 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("View.MemoryView.__pyx_unpickle_Enum__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -19113,7 +19116,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_10__setstate_cyth
 /* "mlgrad/array_allocator.pyx":41
  * cdef class ArrayAllocator(Allocator):
  * 
- *     def __init__(self, size, start=0, allocated=0):             # <<<<<<<<<<<<<<
+ *     def __init__(self, size):             # <<<<<<<<<<<<<<
  *         self.base = None
  *         self.size = size
  */
@@ -19122,11 +19125,9 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_10__setstate_cyth
 static int __pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_size = 0;
-  CYTHON_UNUSED PyObject *__pyx_v_start = 0;
-  CYTHON_UNUSED PyObject *__pyx_v_allocated = 0;
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[3] = {0,0,0};
+  PyObject* values[1] = {0};
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -19141,16 +19142,10 @@ static int __pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_1__init__(PyObjec
   #endif
   __pyx_kwvalues = __Pyx_KwValues_VARARGS(__pyx_args, __pyx_nargs);
   {
-    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_size,&__pyx_n_s_start,&__pyx_n_s_allocated,0};
-    values[1] = __Pyx_Arg_NewRef_VARARGS(((PyObject *)__pyx_int_0));
-    values[2] = __Pyx_Arg_NewRef_VARARGS(((PyObject *)__pyx_int_0));
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_size,0};
     if (__pyx_kwds) {
       Py_ssize_t kw_args;
       switch (__pyx_nargs) {
-        case  3: values[2] = __Pyx_Arg_VARARGS(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = __Pyx_Arg_VARARGS(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
         case  1: values[0] = __Pyx_Arg_VARARGS(__pyx_args, 0);
         CYTHON_FALLTHROUGH;
         case  0: break;
@@ -19165,43 +19160,21 @@ static int __pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_1__init__(PyObjec
         }
         else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
-        CYTHON_FALLTHROUGH;
-        case  1:
-        if (kw_args > 0) {
-          PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_start);
-          if (value) { values[1] = __Pyx_Arg_NewRef_VARARGS(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (kw_args > 0) {
-          PyObject* value = __Pyx_GetKwValue_VARARGS(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_allocated);
-          if (value) { values[2] = __Pyx_Arg_NewRef_VARARGS(value); kw_args--; }
-          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L3_error)
-        }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 41, __pyx_L3_error)
       }
+    } else if (unlikely(__pyx_nargs != 1)) {
+      goto __pyx_L5_argtuple_error;
     } else {
-      switch (__pyx_nargs) {
-        case  3: values[2] = __Pyx_Arg_VARARGS(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
-        case  2: values[1] = __Pyx_Arg_VARARGS(__pyx_args, 1);
-        CYTHON_FALLTHROUGH;
-        case  1: values[0] = __Pyx_Arg_VARARGS(__pyx_args, 0);
-        break;
-        default: goto __pyx_L5_argtuple_error;
-      }
+      values[0] = __Pyx_Arg_VARARGS(__pyx_args, 0);
     }
     __pyx_v_size = values[0];
-    __pyx_v_start = values[1];
-    __pyx_v_allocated = values[2];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 3, __pyx_nargs); __PYX_ERR(0, 41, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 41, __pyx_L3_error)
   goto __pyx_L3_error;
   __pyx_L3_error:;
   {
@@ -19214,7 +19187,7 @@ static int __pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_1__init__(PyObjec
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(((struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *)__pyx_v_self), __pyx_v_size, __pyx_v_start, __pyx_v_allocated);
+  __pyx_r = __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(((struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *)__pyx_v_self), __pyx_v_size);
 
   /* function exit code */
   {
@@ -19227,7 +19200,7 @@ static int __pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_1__init__(PyObjec
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self, PyObject *__pyx_v_size, CYTHON_UNUSED PyObject *__pyx_v_start, CYTHON_UNUSED PyObject *__pyx_v_allocated) {
+static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self, PyObject *__pyx_v_size) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
@@ -19242,7 +19215,7 @@ static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct _
 
   /* "mlgrad/array_allocator.pyx":42
  * 
- *     def __init__(self, size, start=0, allocated=0):
+ *     def __init__(self, size):
  *         self.base = None             # <<<<<<<<<<<<<<
  *         self.size = size
  *         self.start = 0
@@ -19254,11 +19227,11 @@ static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct _
   __pyx_v_self->base = ((struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *)Py_None);
 
   /* "mlgrad/array_allocator.pyx":43
- *     def __init__(self, size, start=0, allocated=0):
+ *     def __init__(self, size):
  *         self.base = None
  *         self.size = size             # <<<<<<<<<<<<<<
  *         self.start = 0
- *         self.allocated = 0
+ *         self.n_allocated = 0
  */
   __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_size); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L1_error)
   __pyx_v_self->size = __pyx_t_1;
@@ -19267,7 +19240,7 @@ static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct _
  *         self.base = None
  *         self.size = size
  *         self.start = 0             # <<<<<<<<<<<<<<
- *         self.allocated = 0
+ *         self.n_allocated = 0
  *         self.buf = np.zeros(size, 'd')
  */
   __pyx_v_self->start = 0;
@@ -19275,15 +19248,15 @@ static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct _
   /* "mlgrad/array_allocator.pyx":45
  *         self.size = size
  *         self.start = 0
- *         self.allocated = 0             # <<<<<<<<<<<<<<
+ *         self.n_allocated = 0             # <<<<<<<<<<<<<<
  *         self.buf = np.zeros(size, 'd')
  *     #
  */
-  __pyx_v_self->allocated = 0;
+  __pyx_v_self->n_allocated = 0;
 
   /* "mlgrad/array_allocator.pyx":46
  *         self.start = 0
- *         self.allocated = 0
+ *         self.n_allocated = 0
  *         self.buf = np.zeros(size, 'd')             # <<<<<<<<<<<<<<
  *     #
  *     def __repr__(self):
@@ -19324,7 +19297,7 @@ static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct _
   /* "mlgrad/array_allocator.pyx":41
  * cdef class ArrayAllocator(Allocator):
  * 
- *     def __init__(self, size, start=0, allocated=0):             # <<<<<<<<<<<<<<
+ *     def __init__(self, size):             # <<<<<<<<<<<<<<
  *         self.base = None
  *         self.size = size
  */
@@ -19395,7 +19368,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
  *         addr = 0
  *         if self.base is not None:             # <<<<<<<<<<<<<<
  *             addr = id(self.base)
- *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.allocated)
+ *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
  */
   __pyx_t_1 = (((PyObject *)__pyx_v_self->base) != Py_None);
   if (__pyx_t_1) {
@@ -19404,7 +19377,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
  *         addr = 0
  *         if self.base is not None:
  *             addr = id(self.base)             # <<<<<<<<<<<<<<
- *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.allocated)
+ *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
  *     #
  */
     __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self->base)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
@@ -19417,14 +19390,14 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
  *         addr = 0
  *         if self.base is not None:             # <<<<<<<<<<<<<<
  *             addr = id(self.base)
- *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.allocated)
+ *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
  */
   }
 
   /* "mlgrad/array_allocator.pyx":52
  *         if self.base is not None:
  *             addr = id(self.base)
- *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.allocated)             # <<<<<<<<<<<<<<
+ *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)             # <<<<<<<<<<<<<<
  *     #
  *     cpdef allocate(self, Py_ssize_t n):
  */
@@ -19468,7 +19441,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
   __pyx_t_3 += 1;
   __Pyx_GIVEREF(__pyx_kp_u__9);
   PyTuple_SET_ITEM(__pyx_t_2, 6, __pyx_kp_u__9);
-  __pyx_t_5 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_self->allocated, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_self->n_allocated, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_3 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_5);
@@ -19507,7 +19480,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
 }
 
 /* "mlgrad/array_allocator.pyx":54
- *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.allocated)
+ *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
  *     #
  *     cpdef allocate(self, Py_ssize_t n):             # <<<<<<<<<<<<<<
  *         cdef double[::1] ar
@@ -19550,7 +19523,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate(str
  *         if n <= 0:
  *             raise RuntimeError('n <= 0')             # <<<<<<<<<<<<<<
  * 
- *         if self.allocated + n > self.size:
+ *         if self.n_allocated + n > self.size:
  */
     __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -19570,19 +19543,19 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate(str
   /* "mlgrad/array_allocator.pyx":61
  *             raise RuntimeError('n <= 0')
  * 
- *         if self.allocated + n > self.size:             # <<<<<<<<<<<<<<
+ *         if self.n_allocated + n > self.size:             # <<<<<<<<<<<<<<
  *             raise RuntimeError('Memory out of buffer')
  * 
  */
-  __pyx_t_1 = ((__pyx_v_self->allocated + __pyx_v_n) > __pyx_v_self->size);
+  __pyx_t_1 = ((__pyx_v_self->n_allocated + __pyx_v_n) > __pyx_v_self->size);
   if (unlikely(__pyx_t_1)) {
 
     /* "mlgrad/array_allocator.pyx":62
  * 
- *         if self.allocated + n > self.size:
+ *         if self.n_allocated + n > self.size:
  *             raise RuntimeError('Memory out of buffer')             # <<<<<<<<<<<<<<
  * 
- *         ar = self.buf[self.allocated: self.allocated + n]
+ *         ar = self.buf[self.n_allocated: self.n_allocated + n]
  */
     __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -19593,7 +19566,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate(str
     /* "mlgrad/array_allocator.pyx":61
  *             raise RuntimeError('n <= 0')
  * 
- *         if self.allocated + n > self.size:             # <<<<<<<<<<<<<<
+ *         if self.n_allocated + n > self.size:             # <<<<<<<<<<<<<<
  *             raise RuntimeError('Memory out of buffer')
  * 
  */
@@ -19602,11 +19575,11 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate(str
   /* "mlgrad/array_allocator.pyx":64
  *             raise RuntimeError('Memory out of buffer')
  * 
- *         ar = self.buf[self.allocated: self.allocated + n]             # <<<<<<<<<<<<<<
- *         self.allocated += n
+ *         ar = self.buf[self.n_allocated: self.n_allocated + n]             # <<<<<<<<<<<<<<
+ *         self.n_allocated += n
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->allocated, (__pyx_v_self->allocated + __pyx_v_n), NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->n_allocated, (__pyx_v_self->n_allocated + __pyx_v_n), NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -19616,19 +19589,19 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate(str
 
   /* "mlgrad/array_allocator.pyx":65
  * 
- *         ar = self.buf[self.allocated: self.allocated + n]
- *         self.allocated += n             # <<<<<<<<<<<<<<
+ *         ar = self.buf[self.n_allocated: self.n_allocated + n]
+ *         self.n_allocated += n             # <<<<<<<<<<<<<<
  * 
  *         aa = self
  */
-  __pyx_v_self->allocated = (__pyx_v_self->allocated + __pyx_v_n);
+  __pyx_v_self->n_allocated = (__pyx_v_self->n_allocated + __pyx_v_n);
 
   /* "mlgrad/array_allocator.pyx":67
- *         self.allocated += n
+ *         self.n_allocated += n
  * 
  *         aa = self             # <<<<<<<<<<<<<<
  *         while aa.base is not None:
- *             aa.base.allocated = self.allocated
+ *             aa.base.n_allocated = self.n_allocated
  */
   __Pyx_INCREF((PyObject *)__pyx_v_self);
   __pyx_v_aa = __pyx_v_self;
@@ -19637,7 +19610,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate(str
  * 
  *         aa = self
  *         while aa.base is not None:             # <<<<<<<<<<<<<<
- *             aa.base.allocated = self.allocated
+ *             aa.base.n_allocated = self.n_allocated
  *             aa = aa.base
  */
   while (1) {
@@ -19647,16 +19620,16 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate(str
     /* "mlgrad/array_allocator.pyx":69
  *         aa = self
  *         while aa.base is not None:
- *             aa.base.allocated = self.allocated             # <<<<<<<<<<<<<<
+ *             aa.base.n_allocated = self.n_allocated             # <<<<<<<<<<<<<<
  *             aa = aa.base
  * 
  */
-    __pyx_t_4 = __pyx_v_self->allocated;
-    __pyx_v_aa->base->allocated = __pyx_t_4;
+    __pyx_t_4 = __pyx_v_self->n_allocated;
+    __pyx_v_aa->base->n_allocated = __pyx_t_4;
 
     /* "mlgrad/array_allocator.pyx":70
  *         while aa.base is not None:
- *             aa.base.allocated = self.allocated
+ *             aa.base.n_allocated = self.n_allocated
  *             aa = aa.base             # <<<<<<<<<<<<<<
  * 
  *         return ar
@@ -19682,7 +19655,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate(str
   goto __pyx_L0;
 
   /* "mlgrad/array_allocator.pyx":54
- *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.allocated)
+ *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
  *     #
  *     cpdef allocate(self, Py_ssize_t n):             # <<<<<<<<<<<<<<
  *         cdef double[::1] ar
@@ -19895,7 +19868,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
  *         if n <= 0 or m <= 0:
  *             raise RuntimeError('n <= 0 or m <= 0')             # <<<<<<<<<<<<<<
  * 
- *         if self.allocated + nm > self.size:
+ *         if self.n_allocated + nm > self.size:
  */
     __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -19915,18 +19888,18 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
   /* "mlgrad/array_allocator.pyx":82
  *             raise RuntimeError('n <= 0 or m <= 0')
  * 
- *         if self.allocated + nm > self.size:             # <<<<<<<<<<<<<<
+ *         if self.n_allocated + nm > self.size:             # <<<<<<<<<<<<<<
  *             raise RuntimeError('Memory out of buffer')
- *         ar = self.buf[self.allocated: self.allocated + nm]
+ *         ar = self.buf[self.n_allocated: self.n_allocated + nm]
  */
-  __pyx_t_1 = ((__pyx_v_self->allocated + __pyx_v_nm) > __pyx_v_self->size);
+  __pyx_t_1 = ((__pyx_v_self->n_allocated + __pyx_v_nm) > __pyx_v_self->size);
   if (unlikely(__pyx_t_1)) {
 
     /* "mlgrad/array_allocator.pyx":83
  * 
- *         if self.allocated + nm > self.size:
+ *         if self.n_allocated + nm > self.size:
  *             raise RuntimeError('Memory out of buffer')             # <<<<<<<<<<<<<<
- *         ar = self.buf[self.allocated: self.allocated + nm]
+ *         ar = self.buf[self.n_allocated: self.n_allocated + nm]
  *         ar2 = ar.reshape((n, m))
  */
     __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
@@ -19938,29 +19911,29 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
     /* "mlgrad/array_allocator.pyx":82
  *             raise RuntimeError('n <= 0 or m <= 0')
  * 
- *         if self.allocated + nm > self.size:             # <<<<<<<<<<<<<<
+ *         if self.n_allocated + nm > self.size:             # <<<<<<<<<<<<<<
  *             raise RuntimeError('Memory out of buffer')
- *         ar = self.buf[self.allocated: self.allocated + nm]
+ *         ar = self.buf[self.n_allocated: self.n_allocated + nm]
  */
   }
 
   /* "mlgrad/array_allocator.pyx":84
- *         if self.allocated + nm > self.size:
+ *         if self.n_allocated + nm > self.size:
  *             raise RuntimeError('Memory out of buffer')
- *         ar = self.buf[self.allocated: self.allocated + nm]             # <<<<<<<<<<<<<<
+ *         ar = self.buf[self.n_allocated: self.n_allocated + nm]             # <<<<<<<<<<<<<<
  *         ar2 = ar.reshape((n, m))
- *         self.allocated += nm
+ *         self.n_allocated += nm
  */
-  __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->allocated, (__pyx_v_self->allocated + __pyx_v_nm), NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->n_allocated, (__pyx_v_self->n_allocated + __pyx_v_nm), NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_ar = __pyx_t_3;
   __pyx_t_3 = 0;
 
   /* "mlgrad/array_allocator.pyx":85
  *             raise RuntimeError('Memory out of buffer')
- *         ar = self.buf[self.allocated: self.allocated + nm]
+ *         ar = self.buf[self.n_allocated: self.n_allocated + nm]
  *         ar2 = ar.reshape((n, m))             # <<<<<<<<<<<<<<
- *         self.allocated += nm
+ *         self.n_allocated += nm
  * 
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_ar, __pyx_n_s_reshape); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 85, __pyx_L1_error)
@@ -20007,20 +19980,20 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
   __pyx_t_9.data = NULL;
 
   /* "mlgrad/array_allocator.pyx":86
- *         ar = self.buf[self.allocated: self.allocated + nm]
+ *         ar = self.buf[self.n_allocated: self.n_allocated + nm]
  *         ar2 = ar.reshape((n, m))
- *         self.allocated += nm             # <<<<<<<<<<<<<<
+ *         self.n_allocated += nm             # <<<<<<<<<<<<<<
  * 
  *         aa = self
  */
-  __pyx_v_self->allocated = (__pyx_v_self->allocated + __pyx_v_nm);
+  __pyx_v_self->n_allocated = (__pyx_v_self->n_allocated + __pyx_v_nm);
 
   /* "mlgrad/array_allocator.pyx":88
- *         self.allocated += nm
+ *         self.n_allocated += nm
  * 
  *         aa = self             # <<<<<<<<<<<<<<
  *         while aa.base is not None:
- *             aa.base.allocated = self.allocated
+ *             aa.base.n_allocated = self.n_allocated
  */
   __Pyx_INCREF((PyObject *)__pyx_v_self);
   __pyx_v_aa = __pyx_v_self;
@@ -20029,7 +20002,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
  * 
  *         aa = self
  *         while aa.base is not None:             # <<<<<<<<<<<<<<
- *             aa.base.allocated = self.allocated
+ *             aa.base.n_allocated = self.n_allocated
  *             aa = aa.base
  */
   while (1) {
@@ -20039,16 +20012,16 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
     /* "mlgrad/array_allocator.pyx":90
  *         aa = self
  *         while aa.base is not None:
- *             aa.base.allocated = self.allocated             # <<<<<<<<<<<<<<
+ *             aa.base.n_allocated = self.n_allocated             # <<<<<<<<<<<<<<
  *             aa = aa.base
  *         return ar2
  */
-    __pyx_t_10 = __pyx_v_self->allocated;
-    __pyx_v_aa->base->allocated = __pyx_t_10;
+    __pyx_t_10 = __pyx_v_self->n_allocated;
+    __pyx_v_aa->base->n_allocated = __pyx_t_10;
 
     /* "mlgrad/array_allocator.pyx":91
  *         while aa.base is not None:
- *             aa.base.allocated = self.allocated
+ *             aa.base.n_allocated = self.n_allocated
  *             aa = aa.base             # <<<<<<<<<<<<<<
  *         return ar2
  *     #
@@ -20060,7 +20033,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_allocate2(st
   }
 
   /* "mlgrad/array_allocator.pyx":92
- *             aa.base.allocated = self.allocated
+ *             aa.base.n_allocated = self.n_allocated
  *             aa = aa.base
  *         return ar2             # <<<<<<<<<<<<<<
  *     #
@@ -20242,8 +20215,8 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_6allocate2(
  *         return ar2
  *     #
  *     cpdef get_allocated(self):             # <<<<<<<<<<<<<<
- *         self.buf[self.start:self.allocated] = 0
- *         return self.buf[self.start: self.allocated]
+ *         self.buf[self.start:self.n_allocated] = 0
+ *         return self.buf[self.start: self.n_allocated]
  */
 
 static PyObject *__pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_9get_allocated(PyObject *__pyx_v_self, 
@@ -20265,21 +20238,21 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_get_allocate
   /* "mlgrad/array_allocator.pyx":95
  *     #
  *     cpdef get_allocated(self):
- *         self.buf[self.start:self.allocated] = 0             # <<<<<<<<<<<<<<
- *         return self.buf[self.start: self.allocated]
+ *         self.buf[self.start:self.n_allocated] = 0             # <<<<<<<<<<<<<<
+ *         return self.buf[self.start: self.n_allocated]
  *     #
  */
-  if (__Pyx_PyObject_SetSlice(__pyx_v_self->buf, __pyx_int_0, __pyx_v_self->start, __pyx_v_self->allocated, NULL, NULL, NULL, 1, 1, 0) < 0) __PYX_ERR(0, 95, __pyx_L1_error)
+  if (__Pyx_PyObject_SetSlice(__pyx_v_self->buf, __pyx_int_0, __pyx_v_self->start, __pyx_v_self->n_allocated, NULL, NULL, NULL, 1, 1, 0) < 0) __PYX_ERR(0, 95, __pyx_L1_error)
 
   /* "mlgrad/array_allocator.pyx":96
  *     cpdef get_allocated(self):
- *         self.buf[self.start:self.allocated] = 0
- *         return self.buf[self.start: self.allocated]             # <<<<<<<<<<<<<<
+ *         self.buf[self.start:self.n_allocated] = 0
+ *         return self.buf[self.start: self.n_allocated]             # <<<<<<<<<<<<<<
  *     #
  *     cpdef Allocator suballocator(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->start, __pyx_v_self->allocated, NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->start, __pyx_v_self->n_allocated, NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20289,8 +20262,8 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator_14ArrayAllocator_get_allocate
  *         return ar2
  *     #
  *     cpdef get_allocated(self):             # <<<<<<<<<<<<<<
- *         self.buf[self.start:self.allocated] = 0
- *         return self.buf[self.start: self.allocated]
+ *         self.buf[self.start:self.n_allocated] = 0
+ *         return self.buf[self.start: self.n_allocated]
  */
 
   /* function exit code */
@@ -20384,7 +20357,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8get_alloca
 }
 
 /* "mlgrad/array_allocator.pyx":98
- *         return self.buf[self.start: self.allocated]
+ *         return self.buf[self.start: self.n_allocated]
  *     #
  *     cpdef Allocator suballocator(self):             # <<<<<<<<<<<<<<
  *         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)
@@ -20425,8 +20398,8 @@ static struct __pyx_obj_6mlgrad_15array_allocator_Allocator *__pyx_f_6mlgrad_15a
  *         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)
  * 
  *         allocator.buf = self.buf             # <<<<<<<<<<<<<<
- *         allocator.start = self.allocated
- *         allocator.allocated = self.allocated
+ *         allocator.start = self.n_allocated
+ *         allocator.n_allocated = self.n_allocated
  */
   __pyx_t_1 = __pyx_v_self->buf;
   __Pyx_INCREF(__pyx_t_1);
@@ -20439,26 +20412,26 @@ static struct __pyx_obj_6mlgrad_15array_allocator_Allocator *__pyx_f_6mlgrad_15a
   /* "mlgrad/array_allocator.pyx":102
  * 
  *         allocator.buf = self.buf
- *         allocator.start = self.allocated             # <<<<<<<<<<<<<<
- *         allocator.allocated = self.allocated
+ *         allocator.start = self.n_allocated             # <<<<<<<<<<<<<<
+ *         allocator.n_allocated = self.n_allocated
  *         allocator.size = self.size
  */
-  __pyx_t_2 = __pyx_v_self->allocated;
+  __pyx_t_2 = __pyx_v_self->n_allocated;
   __pyx_v_allocator->start = __pyx_t_2;
 
   /* "mlgrad/array_allocator.pyx":103
  *         allocator.buf = self.buf
- *         allocator.start = self.allocated
- *         allocator.allocated = self.allocated             # <<<<<<<<<<<<<<
+ *         allocator.start = self.n_allocated
+ *         allocator.n_allocated = self.n_allocated             # <<<<<<<<<<<<<<
  *         allocator.size = self.size
  *         allocator.base = self
  */
-  __pyx_t_2 = __pyx_v_self->allocated;
-  __pyx_v_allocator->allocated = __pyx_t_2;
+  __pyx_t_2 = __pyx_v_self->n_allocated;
+  __pyx_v_allocator->n_allocated = __pyx_t_2;
 
   /* "mlgrad/array_allocator.pyx":104
- *         allocator.start = self.allocated
- *         allocator.allocated = self.allocated
+ *         allocator.start = self.n_allocated
+ *         allocator.n_allocated = self.n_allocated
  *         allocator.size = self.size             # <<<<<<<<<<<<<<
  *         allocator.base = self
  *         return allocator
@@ -20467,7 +20440,7 @@ static struct __pyx_obj_6mlgrad_15array_allocator_Allocator *__pyx_f_6mlgrad_15a
   __pyx_v_allocator->size = __pyx_t_2;
 
   /* "mlgrad/array_allocator.pyx":105
- *         allocator.allocated = self.allocated
+ *         allocator.n_allocated = self.n_allocated
  *         allocator.size = self.size
  *         allocator.base = self             # <<<<<<<<<<<<<<
  *         return allocator
@@ -20489,7 +20462,7 @@ static struct __pyx_obj_6mlgrad_15array_allocator_Allocator *__pyx_f_6mlgrad_15a
   goto __pyx_L0;
 
   /* "mlgrad/array_allocator.pyx":98
- *         return self.buf[self.start: self.allocated]
+ *         return self.buf[self.start: self.n_allocated]
  *     #
  *     cpdef Allocator suballocator(self):             # <<<<<<<<<<<<<<
  *         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)
@@ -20590,7 +20563,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_10suballoca
 /* "mlgrad/array_allocator.pxd":39
  * cdef class ArrayAllocator(Allocator):
  *     cdef ArrayAllocator base
- *     cdef readonly Py_ssize_t size, start, allocated             # <<<<<<<<<<<<<<
+ *     cdef readonly Py_ssize_t size, start, n_allocated             # <<<<<<<<<<<<<<
  *     cdef readonly object buf
  */
 
@@ -20677,21 +20650,21 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_5start___ge
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_9allocated_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_9allocated_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_11n_allocated_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_11n_allocated_1__get__(PyObject *__pyx_v_self) {
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
   __pyx_kwvalues = __Pyx_KwValues_VARARGS(__pyx_args, __pyx_nargs);
-  __pyx_r = __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_9allocated___get__(((struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *)__pyx_v_self));
+  __pyx_r = __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_11n_allocated___get__(((struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_9allocated___get__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self) {
+static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_11n_allocated___get__(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -20700,7 +20673,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_9allocated_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->allocated); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 39, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->n_allocated); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20709,7 +20682,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_9allocated_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("mlgrad.array_allocator.ArrayAllocator.allocated.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("mlgrad.array_allocator.ArrayAllocator.n_allocated.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20719,7 +20692,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_9allocated_
 
 /* "mlgrad/array_allocator.pxd":40
  *     cdef ArrayAllocator base
- *     cdef readonly Py_ssize_t size, start, allocated
+ *     cdef readonly Py_ssize_t size, start, n_allocated
  *     cdef readonly object buf             # <<<<<<<<<<<<<<
  */
 
@@ -20833,11 +20806,11 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_
   /* "(tree fragment)":5
  *     cdef object _dict
  *     cdef bint use_setstate
- *     state = (self.allocated, self.base, self.buf, self.size, self.start)             # <<<<<<<<<<<<<<
+ *     state = (self.base, self.buf, self.n_allocated, self.size, self.start)             # <<<<<<<<<<<<<<
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->allocated); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->n_allocated); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_self->size); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -20845,14 +20818,14 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = PyTuple_New(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_1);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error);
   __Pyx_INCREF((PyObject *)__pyx_v_self->base);
   __Pyx_GIVEREF((PyObject *)__pyx_v_self->base);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 1, ((PyObject *)__pyx_v_self->base))) __PYX_ERR(1, 5, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 0, ((PyObject *)__pyx_v_self->base))) __PYX_ERR(1, 5, __pyx_L1_error);
   __Pyx_INCREF(__pyx_v_self->buf);
   __Pyx_GIVEREF(__pyx_v_self->buf);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_v_self->buf)) __PYX_ERR(1, 5, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_self->buf)) __PYX_ERR(1, 5, __pyx_L1_error);
+  __Pyx_GIVEREF(__pyx_t_1);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_2);
   if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 3, __pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_3);
@@ -20865,7 +20838,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_
 
   /* "(tree fragment)":6
  *     cdef bint use_setstate
- *     state = (self.allocated, self.base, self.buf, self.size, self.start)
+ *     state = (self.base, self.buf, self.n_allocated, self.size, self.start)
  *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
  *     if _dict is not None:
  *         state += (_dict,)
@@ -20876,7 +20849,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_
   __pyx_t_4 = 0;
 
   /* "(tree fragment)":7
- *     state = (self.allocated, self.base, self.buf, self.size, self.start)
+ *     state = (self.base, self.buf, self.n_allocated, self.size, self.start)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -20913,7 +20886,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_
     __pyx_v_use_setstate = 1;
 
     /* "(tree fragment)":7
- *     state = (self.allocated, self.base, self.buf, self.size, self.start)
+ *     state = (self.base, self.buf, self.n_allocated, self.size, self.start)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -20927,7 +20900,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_
  *     else:
  *         use_setstate = self.base is not None or self.buf is not None             # <<<<<<<<<<<<<<
  *     if use_setstate:
- *         return __pyx_unpickle_ArrayAllocator, (type(self), 0xd376460, None), state
+ *         return __pyx_unpickle_ArrayAllocator, (type(self), 0x6c4ae10, None), state
  */
   /*else*/ {
     __pyx_t_6 = (((PyObject *)__pyx_v_self->base) != Py_None);
@@ -20947,7 +20920,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_
  *     else:
  *         use_setstate = self.base is not None or self.buf is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_ArrayAllocator, (type(self), 0xd376460, None), state
+ *         return __pyx_unpickle_ArrayAllocator, (type(self), 0x6c4ae10, None), state
  *     else:
  */
   if (__pyx_v_use_setstate) {
@@ -20955,9 +20928,9 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_
     /* "(tree fragment)":13
  *         use_setstate = self.base is not None or self.buf is not None
  *     if use_setstate:
- *         return __pyx_unpickle_ArrayAllocator, (type(self), 0xd376460, None), state             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_ArrayAllocator, (type(self), 0x6c4ae10, None), state             # <<<<<<<<<<<<<<
  *     else:
- *         return __pyx_unpickle_ArrayAllocator, (type(self), 0xd376460, state)
+ *         return __pyx_unpickle_ArrayAllocator, (type(self), 0x6c4ae10, state)
  */
     __Pyx_XDECREF(__pyx_r);
     __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pyx_unpickle_ArrayAllocator); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 13, __pyx_L1_error)
@@ -20967,9 +20940,9 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))))) __PYX_ERR(1, 13, __pyx_L1_error);
-    __Pyx_INCREF(__pyx_int_221733984);
-    __Pyx_GIVEREF(__pyx_int_221733984);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_int_221733984)) __PYX_ERR(1, 13, __pyx_L1_error);
+    __Pyx_INCREF(__pyx_int_113552912);
+    __Pyx_GIVEREF(__pyx_int_113552912);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_int_113552912)) __PYX_ERR(1, 13, __pyx_L1_error);
     __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(Py_None);
     if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 2, Py_None)) __PYX_ERR(1, 13, __pyx_L1_error);
@@ -20992,15 +20965,15 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_
  *     else:
  *         use_setstate = self.base is not None or self.buf is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_ArrayAllocator, (type(self), 0xd376460, None), state
+ *         return __pyx_unpickle_ArrayAllocator, (type(self), 0x6c4ae10, None), state
  *     else:
  */
   }
 
   /* "(tree fragment)":15
- *         return __pyx_unpickle_ArrayAllocator, (type(self), 0xd376460, None), state
+ *         return __pyx_unpickle_ArrayAllocator, (type(self), 0x6c4ae10, None), state
  *     else:
- *         return __pyx_unpickle_ArrayAllocator, (type(self), 0xd376460, state)             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_ArrayAllocator, (type(self), 0x6c4ae10, state)             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_ArrayAllocator__set_state(self, __pyx_state)
  */
@@ -21013,9 +20986,9 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))))) __PYX_ERR(1, 15, __pyx_L1_error);
-    __Pyx_INCREF(__pyx_int_221733984);
-    __Pyx_GIVEREF(__pyx_int_221733984);
-    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_int_221733984)) __PYX_ERR(1, 15, __pyx_L1_error);
+    __Pyx_INCREF(__pyx_int_113552912);
+    __Pyx_GIVEREF(__pyx_int_113552912);
+    if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_int_113552912)) __PYX_ERR(1, 15, __pyx_L1_error);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
     if (__Pyx_PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_v_state)) __PYX_ERR(1, 15, __pyx_L1_error);
@@ -21056,7 +21029,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12__reduce_
 
 /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_ArrayAllocator, (type(self), 0xd376460, state)
+ *         return __pyx_unpickle_ArrayAllocator, (type(self), 0x6c4ae10, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_ArrayAllocator__set_state(self, __pyx_state)
  */
@@ -21168,7 +21141,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_14__setstat
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
 
   /* "(tree fragment)":17
- *         return __pyx_unpickle_ArrayAllocator, (type(self), 0xd376460, state)
+ *         return __pyx_unpickle_ArrayAllocator, (type(self), 0x6c4ae10, state)
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_ArrayAllocator__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
@@ -21179,7 +21152,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_14__setstat
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_ArrayAllocator, (type(self), 0xd376460, state)
+ *         return __pyx_unpickle_ArrayAllocator, (type(self), 0x6c4ae10, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_ArrayAllocator__set_state(self, __pyx_state)
  */
@@ -21768,9 +21741,9 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_2__pyx_unpickle_ArrayAllocat
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum not in (0xd376460, 0x765c36d, 0x479d425):             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum not in (0x6c4ae10, 0x61b4655, 0x14912cc):             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0xd376460, 0x765c36d, 0x479d425) = (allocated, base, buf, size, start))" % __pyx_checksum
+ *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0x6c4ae10, 0x61b4655, 0x14912cc) = (base, buf, n_allocated, size, start))" % __pyx_checksum
  */
   __pyx_t_1 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -21780,9 +21753,9 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_2__pyx_unpickle_ArrayAllocat
 
     /* "(tree fragment)":5
  *     cdef object __pyx_result
- *     if __pyx_checksum not in (0xd376460, 0x765c36d, 0x479d425):
+ *     if __pyx_checksum not in (0x6c4ae10, 0x61b4655, 0x14912cc):
  *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0xd376460, 0x765c36d, 0x479d425) = (allocated, base, buf, size, start))" % __pyx_checksum
+ *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0x6c4ae10, 0x61b4655, 0x14912cc) = (base, buf, n_allocated, size, start))" % __pyx_checksum
  *     __pyx_result = ArrayAllocator.__new__(__pyx_type)
  */
     __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 5, __pyx_L1_error)
@@ -21801,9 +21774,9 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_2__pyx_unpickle_ArrayAllocat
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":6
- *     if __pyx_checksum not in (0xd376460, 0x765c36d, 0x479d425):
+ *     if __pyx_checksum not in (0x6c4ae10, 0x61b4655, 0x14912cc):
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0xd376460, 0x765c36d, 0x479d425) = (allocated, base, buf, size, start))" % __pyx_checksum             # <<<<<<<<<<<<<<
+ *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0x6c4ae10, 0x61b4655, 0x14912cc) = (base, buf, n_allocated, size, start))" % __pyx_checksum             # <<<<<<<<<<<<<<
  *     __pyx_result = ArrayAllocator.__new__(__pyx_type)
  *     if __pyx_state is not None:
  */
@@ -21819,15 +21792,15 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_2__pyx_unpickle_ArrayAllocat
     /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum not in (0xd376460, 0x765c36d, 0x479d425):             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum not in (0x6c4ae10, 0x61b4655, 0x14912cc):             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0xd376460, 0x765c36d, 0x479d425) = (allocated, base, buf, size, start))" % __pyx_checksum
+ *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0x6c4ae10, 0x61b4655, 0x14912cc) = (base, buf, n_allocated, size, start))" % __pyx_checksum
  */
   }
 
   /* "(tree fragment)":7
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0xd376460, 0x765c36d, 0x479d425) = (allocated, base, buf, size, start))" % __pyx_checksum
+ *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0x6c4ae10, 0x61b4655, 0x14912cc) = (base, buf, n_allocated, size, start))" % __pyx_checksum
  *     __pyx_result = ArrayAllocator.__new__(__pyx_type)             # <<<<<<<<<<<<<<
  *     if __pyx_state is not None:
  *         __pyx_unpickle_ArrayAllocator__set_state(<ArrayAllocator> __pyx_result, __pyx_state)
@@ -21860,7 +21833,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_2__pyx_unpickle_ArrayAllocat
   __pyx_t_1 = 0;
 
   /* "(tree fragment)":8
- *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0xd376460, 0x765c36d, 0x479d425) = (allocated, base, buf, size, start))" % __pyx_checksum
+ *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0x6c4ae10, 0x61b4655, 0x14912cc) = (base, buf, n_allocated, size, start))" % __pyx_checksum
  *     __pyx_result = ArrayAllocator.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_ArrayAllocator__set_state(<ArrayAllocator> __pyx_result, __pyx_state)
@@ -21882,7 +21855,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_2__pyx_unpickle_ArrayAllocat
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "(tree fragment)":8
- *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0xd376460, 0x765c36d, 0x479d425) = (allocated, base, buf, size, start))" % __pyx_checksum
+ *         raise __pyx_PickleError, "Incompatible checksums (0x%x vs (0x6c4ae10, 0x61b4655, 0x14912cc) = (base, buf, n_allocated, size, start))" % __pyx_checksum
  *     __pyx_result = ArrayAllocator.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_ArrayAllocator__set_state(<ArrayAllocator> __pyx_result, __pyx_state)
@@ -21895,7 +21868,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_2__pyx_unpickle_ArrayAllocat
  *         __pyx_unpickle_ArrayAllocator__set_state(<ArrayAllocator> __pyx_result, __pyx_state)
  *     return __pyx_result             # <<<<<<<<<<<<<<
  * cdef __pyx_unpickle_ArrayAllocator__set_state(ArrayAllocator __pyx_result, tuple __pyx_state):
- *     __pyx_result.allocated = __pyx_state[0]; __pyx_result.base = __pyx_state[1]; __pyx_result.buf = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]
+ *     __pyx_result.base = __pyx_state[0]; __pyx_result.buf = __pyx_state[1]; __pyx_result.n_allocated = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v___pyx_result);
@@ -21927,15 +21900,15 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_2__pyx_unpickle_ArrayAllocat
  *         __pyx_unpickle_ArrayAllocator__set_state(<ArrayAllocator> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_ArrayAllocator__set_state(ArrayAllocator __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.allocated = __pyx_state[0]; __pyx_result.base = __pyx_state[1]; __pyx_result.buf = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]
+ *     __pyx_result.base = __pyx_state[0]; __pyx_result.buf = __pyx_state[1]; __pyx_result.n_allocated = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]
  *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):
  */
 
 static PyObject *__pyx_f_6mlgrad_15array_allocator___pyx_unpickle_ArrayAllocator__set_state(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  Py_ssize_t __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
   int __pyx_t_3;
   int __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
@@ -21949,7 +21922,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator___pyx_unpickle_ArrayAllocator
   /* "(tree fragment)":12
  *     return __pyx_result
  * cdef __pyx_unpickle_ArrayAllocator__set_state(ArrayAllocator __pyx_result, tuple __pyx_state):
- *     __pyx_result.allocated = __pyx_state[0]; __pyx_result.base = __pyx_state[1]; __pyx_result.buf = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]             # <<<<<<<<<<<<<<
+ *     __pyx_result.base = __pyx_state[0]; __pyx_result.buf = __pyx_state[1]; __pyx_result.n_allocated = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]             # <<<<<<<<<<<<<<
  *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):
  *         __pyx_result.__dict__.update(__pyx_state[5])
  */
@@ -21957,47 +21930,47 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator___pyx_unpickle_ArrayAllocator
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->allocated = __pyx_t_1;
-  if (unlikely(__pyx_v___pyx_state == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(1, 12, __pyx_L1_error)
-  }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1), __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator))))) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_t_2 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 1);
-  __Pyx_INCREF(__pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_2);
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator))))) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
+  __Pyx_INCREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF((PyObject *)__pyx_v___pyx_result->base);
   __Pyx_DECREF((PyObject *)__pyx_v___pyx_result->base);
-  __pyx_v___pyx_result->base = ((struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *)__pyx_t_2);
-  __pyx_t_2 = 0;
+  __pyx_v___pyx_result->base = ((struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *)__pyx_t_1);
+  __pyx_t_1 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 2);
-  __Pyx_INCREF(__pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_2);
+  __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 1);
+  __Pyx_INCREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v___pyx_result->buf);
   __Pyx_DECREF(__pyx_v___pyx_result->buf);
-  __pyx_v___pyx_result->buf = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_v___pyx_result->buf = __pyx_t_1;
+  __pyx_t_1 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->size = __pyx_t_1;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->n_allocated = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->start = __pyx_t_1;
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->size = __pyx_t_2;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(1, 12, __pyx_L1_error)
+  }
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->start = __pyx_t_2;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_ArrayAllocator__set_state(ArrayAllocator __pyx_result, tuple __pyx_state):
- *     __pyx_result.allocated = __pyx_state[0]; __pyx_result.base = __pyx_state[1]; __pyx_result.buf = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]
+ *     __pyx_result.base = __pyx_state[0]; __pyx_result.buf = __pyx_state[1]; __pyx_result.n_allocated = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]
  *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
  *         __pyx_result.__dict__.update(__pyx_state[5])
  */
@@ -22005,8 +21978,8 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator___pyx_unpickle_ArrayAllocator
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(1, 13, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_4 = (__pyx_t_1 > 5);
+  __pyx_t_2 = __Pyx_PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_t_4 = (__pyx_t_2 > 5);
   if (__pyx_t_4) {
   } else {
     __pyx_t_3 = __pyx_t_4;
@@ -22018,7 +21991,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator___pyx_unpickle_ArrayAllocator
   if (__pyx_t_3) {
 
     /* "(tree fragment)":14
- *     __pyx_result.allocated = __pyx_state[0]; __pyx_result.base = __pyx_state[1]; __pyx_result.buf = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]
+ *     __pyx_result.base = __pyx_state[0]; __pyx_result.buf = __pyx_state[1]; __pyx_result.n_allocated = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]
  *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):
  *         __pyx_result.__dict__.update(__pyx_state[5])             # <<<<<<<<<<<<<<
  */
@@ -22047,17 +22020,17 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator___pyx_unpickle_ArrayAllocator
     #endif
     {
       PyObject *__pyx_callargs[2] = {__pyx_t_5, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)};
-      __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_7, 1+__pyx_t_7);
+      __pyx_t_1 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+1-__pyx_t_7, 1+__pyx_t_7);
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 14, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 14, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_ArrayAllocator__set_state(ArrayAllocator __pyx_result, tuple __pyx_state):
- *     __pyx_result.allocated = __pyx_state[0]; __pyx_result.base = __pyx_state[1]; __pyx_result.buf = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]
+ *     __pyx_result.base = __pyx_state[0]; __pyx_result.buf = __pyx_state[1]; __pyx_result.n_allocated = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]
  *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
  *         __pyx_result.__dict__.update(__pyx_state[5])
  */
@@ -22067,7 +22040,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator___pyx_unpickle_ArrayAllocator
  *         __pyx_unpickle_ArrayAllocator__set_state(<ArrayAllocator> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_ArrayAllocator__set_state(ArrayAllocator __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.allocated = __pyx_state[0]; __pyx_result.base = __pyx_state[1]; __pyx_result.buf = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]
+ *     __pyx_result.base = __pyx_state[0]; __pyx_result.buf = __pyx_state[1]; __pyx_result.n_allocated = __pyx_state[2]; __pyx_result.size = __pyx_state[3]; __pyx_result.start = __pyx_state[4]
  *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):
  */
 
@@ -22075,7 +22048,7 @@ static PyObject *__pyx_f_6mlgrad_15array_allocator___pyx_unpickle_ArrayAllocator
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_AddTraceback("mlgrad.array_allocator.__pyx_unpickle_ArrayAllocator__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -22281,8 +22254,8 @@ static PyObject *__pyx_getprop_6mlgrad_15array_allocator_14ArrayAllocator_start(
   return __pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_5start_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_6mlgrad_15array_allocator_14ArrayAllocator_allocated(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_9allocated_1__get__(o);
+static PyObject *__pyx_getprop_6mlgrad_15array_allocator_14ArrayAllocator_n_allocated(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_11n_allocated_1__get__(o);
 }
 
 static PyObject *__pyx_getprop_6mlgrad_15array_allocator_14ArrayAllocator_buf(PyObject *o, CYTHON_UNUSED void *x) {
@@ -22303,7 +22276,7 @@ static PyMethodDef __pyx_methods_6mlgrad_15array_allocator_ArrayAllocator[] = {
 static struct PyGetSetDef __pyx_getsets_6mlgrad_15array_allocator_ArrayAllocator[] = {
   {(char *)"size", __pyx_getprop_6mlgrad_15array_allocator_14ArrayAllocator_size, 0, (char *)0, 0},
   {(char *)"start", __pyx_getprop_6mlgrad_15array_allocator_14ArrayAllocator_start, 0, (char *)0, 0},
-  {(char *)"allocated", __pyx_getprop_6mlgrad_15array_allocator_14ArrayAllocator_allocated, 0, (char *)0, 0},
+  {(char *)"n_allocated", __pyx_getprop_6mlgrad_15array_allocator_14ArrayAllocator_n_allocated, 0, (char *)0, 0},
   {(char *)"buf", __pyx_getprop_6mlgrad_15array_allocator_14ArrayAllocator_buf, 0, (char *)0, 0},
   {0, 0, 0, 0, 0}
 };
@@ -22311,7 +22284,7 @@ static struct PyGetSetDef __pyx_getsets_6mlgrad_15array_allocator_ArrayAllocator
 static PyType_Slot __pyx_type_6mlgrad_15array_allocator_ArrayAllocator_slots[] = {
   {Py_tp_dealloc, (void *)__pyx_tp_dealloc_6mlgrad_15array_allocator_ArrayAllocator},
   {Py_tp_repr, (void *)__pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_3__repr__},
-  {Py_tp_doc, (void *)PyDoc_STR("ArrayAllocator(size, start=0, allocated=0)")},
+  {Py_tp_doc, (void *)PyDoc_STR("ArrayAllocator(size)")},
   {Py_tp_traverse, (void *)__pyx_tp_traverse_6mlgrad_15array_allocator_ArrayAllocator},
   {Py_tp_clear, (void *)__pyx_tp_clear_6mlgrad_15array_allocator_ArrayAllocator},
   {Py_tp_methods, (void *)__pyx_methods_6mlgrad_15array_allocator_ArrayAllocator},
@@ -22360,7 +22333,7 @@ static PyTypeObject __pyx_type_6mlgrad_15array_allocator_ArrayAllocator = {
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  PyDoc_STR("ArrayAllocator(size, start=0, allocated=0)"), /*tp_doc*/
+  PyDoc_STR("ArrayAllocator(size)"), /*tp_doc*/
   __pyx_tp_traverse_6mlgrad_15array_allocator_ArrayAllocator, /*tp_traverse*/
   __pyx_tp_clear_6mlgrad_15array_allocator_ArrayAllocator, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -22502,8 +22475,8 @@ static PyObject *__pyx_getprop___pyx_array_memview(PyObject *o, CYTHON_UNUSED vo
 
 static PyMethodDef __pyx_methods_array[] = {
   {"__getattr__", (PyCFunction)__pyx_array___getattr__, METH_O|METH_COEXIST, 0},
-  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_array_1__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_array_3__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_array_1__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc___pyx_array___reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_array_3__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc___pyx_array_2__setstate_cython__},
   {0, 0, 0, 0}
 };
 
@@ -22738,14 +22711,15 @@ static PyObject *__pyx_specialmethod___pyx_MemviewEnum___repr__(PyObject *self, 
 
 static PyMethodDef __pyx_methods_Enum[] = {
   {"__repr__", (PyCFunction)__pyx_specialmethod___pyx_MemviewEnum___repr__, METH_NOARGS|METH_COEXIST, 0},
-  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_MemviewEnum_1__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_MemviewEnum_3__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_MemviewEnum_1__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc___pyx_MemviewEnum___reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_MemviewEnum_3__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc___pyx_MemviewEnum_2__setstate_cython__},
   {0, 0, 0, 0}
 };
 #if CYTHON_USE_TYPE_SPECS
 static PyType_Slot __pyx_type___pyx_MemviewEnum_slots[] = {
   {Py_tp_dealloc, (void *)__pyx_tp_dealloc_Enum},
   {Py_tp_repr, (void *)__pyx_MemviewEnum___repr__},
+  {Py_tp_doc, (void *)PyDoc_STR("Enum(name)")},
   {Py_tp_traverse, (void *)__pyx_tp_traverse_Enum},
   {Py_tp_clear, (void *)__pyx_tp_clear_Enum},
   {Py_tp_methods, (void *)__pyx_methods_Enum},
@@ -22793,7 +22767,7 @@ static PyTypeObject __pyx_type___pyx_MemviewEnum = {
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  0, /*tp_doc*/
+  PyDoc_STR("Enum(name)"), /*tp_doc*/
   __pyx_tp_traverse_Enum, /*tp_traverse*/
   __pyx_tp_clear_Enum, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -23000,12 +22974,12 @@ static PyObject *__pyx_specialmethod___pyx_memoryview___repr__(PyObject *self, C
 
 static PyMethodDef __pyx_methods_memoryview[] = {
   {"__repr__", (PyCFunction)__pyx_specialmethod___pyx_memoryview___repr__, METH_NOARGS|METH_COEXIST, 0},
-  {"is_c_contig", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_memoryview_is_c_contig, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"is_f_contig", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_memoryview_is_f_contig, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"copy", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_memoryview_copy, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"copy_fortran", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_memoryview_copy_fortran, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_memoryview_1__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_memoryview_3__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"is_c_contig", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_memoryview_is_c_contig, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_15View_dot_MemoryView_10memoryview_16is_c_contig},
+  {"is_f_contig", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_memoryview_is_f_contig, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_15View_dot_MemoryView_10memoryview_18is_f_contig},
+  {"copy", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_memoryview_copy, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_15View_dot_MemoryView_10memoryview_20copy},
+  {"copy_fortran", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_memoryview_copy_fortran, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_15View_dot_MemoryView_10memoryview_22copy_fortran},
+  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_memoryview_1__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc___pyx_memoryview___reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_memoryview_3__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc___pyx_memoryview_2__setstate_cython__},
   {0, 0, 0, 0}
 };
 
@@ -23244,8 +23218,8 @@ static int __pyx_tp_clear__memoryviewslice(PyObject *o) {
 }
 
 static PyMethodDef __pyx_methods__memoryviewslice[] = {
-  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_memoryviewslice_1__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
-  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_memoryviewslice_3__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
+  {"__reduce_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_memoryviewslice_1__reduce_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc___pyx_memoryviewslice___reduce_cython__},
+  {"__setstate_cython__", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw___pyx_memoryviewslice_3__setstate_cython__, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc___pyx_memoryviewslice_2__setstate_cython__},
   {0, 0, 0, 0}
 };
 #if CYTHON_USE_TYPE_SPECS
@@ -23433,7 +23407,6 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_allocate, __pyx_k_allocate, sizeof(__pyx_k_allocate), 0, 0, 1, 1},
     {&__pyx_n_s_allocate2, __pyx_k_allocate2, sizeof(__pyx_k_allocate2), 0, 0, 1, 1},
     {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
-    {&__pyx_n_s_allocated, __pyx_k_allocated, sizeof(__pyx_k_allocated), 0, 0, 1, 1},
     {&__pyx_kp_u_and, __pyx_k_and, sizeof(__pyx_k_and), 0, 1, 0, 0},
     {&__pyx_n_s_asyncio_coroutines, __pyx_k_asyncio_coroutines, sizeof(__pyx_k_asyncio_coroutines), 0, 0, 1, 1},
     {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
@@ -23600,7 +23573,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         if n <= 0:
  *             raise RuntimeError('n <= 0')             # <<<<<<<<<<<<<<
  * 
- *         if self.allocated + n > self.size:
+ *         if self.n_allocated + n > self.size:
  */
   __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_n_0); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
@@ -23608,10 +23581,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
   /* "mlgrad/array_allocator.pyx":62
  * 
- *         if self.allocated + n > self.size:
+ *         if self.n_allocated + n > self.size:
  *             raise RuntimeError('Memory out of buffer')             # <<<<<<<<<<<<<<
  * 
- *         ar = self.buf[self.allocated: self.allocated + n]
+ *         ar = self.buf[self.n_allocated: self.n_allocated + n]
  */
   __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_Memory_out_of_buffer); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
@@ -23622,7 +23595,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         if n <= 0 or m <= 0:
  *             raise RuntimeError('n <= 0 or m <= 0')             # <<<<<<<<<<<<<<
  * 
- *         if self.allocated + nm > self.size:
+ *         if self.n_allocated + nm > self.size:
  */
   __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_n_0_or_m_0); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
@@ -23638,7 +23611,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__13 = PyTuple_Pack(3, __pyx_int_238750788, __pyx_int_228825662, __pyx_int_222419149); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_tuple__14 = PyTuple_Pack(3, __pyx_int_221733984, __pyx_int_124109677, __pyx_int_75093029); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(3, __pyx_int_113552912, __pyx_int_102450773, __pyx_int_21566156); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(1, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
 
@@ -23810,7 +23783,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) __PYX_ERR(1, 16, __pyx_L1_error)
 
   /* "mlgrad/array_allocator.pyx":54
- *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.allocated)
+ *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
  *     #
  *     cpdef allocate(self, Py_ssize_t n):             # <<<<<<<<<<<<<<
  *         cdef double[::1] ar
@@ -23831,13 +23804,13 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         return ar2
  *     #
  *     cpdef get_allocated(self):             # <<<<<<<<<<<<<<
- *         self.buf[self.start:self.allocated] = 0
- *         return self.buf[self.start: self.allocated]
+ *         self.buf[self.start:self.n_allocated] = 0
+ *         return self.buf[self.start: self.n_allocated]
  */
   __pyx_codeobj__39 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_get_allocated, 94, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__39)) __PYX_ERR(0, 94, __pyx_L1_error)
 
   /* "mlgrad/array_allocator.pyx":98
- *         return self.buf[self.start: self.allocated]
+ *         return self.buf[self.start: self.n_allocated]
  *     #
  *     cpdef Allocator suballocator(self):             # <<<<<<<<<<<<<<
  *         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)
@@ -23854,7 +23827,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_ArrayAllocator, (type(self), 0xd376460, state)
+ *         return __pyx_unpickle_ArrayAllocator, (type(self), 0x6c4ae10, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_ArrayAllocator__set_state(self, __pyx_state)
  */
@@ -23880,12 +23853,12 @@ static CYTHON_SMALL_CODE int __Pyx_InitConstants(void) {
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_3 = PyInt_FromLong(3); if (unlikely(!__pyx_int_3)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_75093029 = PyInt_FromLong(75093029L); if (unlikely(!__pyx_int_75093029)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_21566156 = PyInt_FromLong(21566156L); if (unlikely(!__pyx_int_21566156)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_102450773 = PyInt_FromLong(102450773L); if (unlikely(!__pyx_int_102450773)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_112105877 = PyInt_FromLong(112105877L); if (unlikely(!__pyx_int_112105877)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_124109677 = PyInt_FromLong(124109677L); if (unlikely(!__pyx_int_124109677)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_113552912 = PyInt_FromLong(113552912L); if (unlikely(!__pyx_int_113552912)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_136983863 = PyInt_FromLong(136983863L); if (unlikely(!__pyx_int_136983863)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_184977713 = PyInt_FromLong(184977713L); if (unlikely(!__pyx_int_184977713)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_221733984 = PyInt_FromLong(221733984L); if (unlikely(!__pyx_int_221733984)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_222419149 = PyInt_FromLong(222419149L); if (unlikely(!__pyx_int_222419149)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_228825662 = PyInt_FromLong(228825662L); if (unlikely(!__pyx_int_228825662)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_238750788 = PyInt_FromLong(238750788L); if (unlikely(!__pyx_int_238750788)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -25083,7 +25056,7 @@ if (!__Pyx_RefNanny) {
   PyType_Modified(__pyx_ptype_6mlgrad_15array_allocator_Allocator);
 
   /* "mlgrad/array_allocator.pyx":54
- *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.allocated)
+ *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
  *     #
  *     cpdef allocate(self, Py_ssize_t n):             # <<<<<<<<<<<<<<
  *         cdef double[::1] ar
@@ -25112,8 +25085,8 @@ if (!__Pyx_RefNanny) {
  *         return ar2
  *     #
  *     cpdef get_allocated(self):             # <<<<<<<<<<<<<<
- *         self.buf[self.start:self.allocated] = 0
- *         return self.buf[self.start: self.allocated]
+ *         self.buf[self.start:self.n_allocated] = 0
+ *         return self.buf[self.start: self.n_allocated]
  */
   __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_14ArrayAllocator_9get_allocated, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ArrayAllocator_get_allocated, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__39)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 94, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
@@ -25122,7 +25095,7 @@ if (!__Pyx_RefNanny) {
   PyType_Modified(__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator);
 
   /* "mlgrad/array_allocator.pyx":98
- *         return self.buf[self.start: self.allocated]
+ *         return self.buf[self.start: self.n_allocated]
  *     #
  *     cpdef Allocator suballocator(self):             # <<<<<<<<<<<<<<
  *         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)
@@ -25147,7 +25120,7 @@ if (!__Pyx_RefNanny) {
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_ArrayAllocator, (type(self), 0xd376460, state)
+ *         return __pyx_unpickle_ArrayAllocator, (type(self), 0x6c4ae10, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_ArrayAllocator__set_state(self, __pyx_state)
  */

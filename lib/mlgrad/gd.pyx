@@ -94,6 +94,7 @@ cdef class GD:
 
             self.lval = risk.lval = risk._evaluate()
             self.lvals.append(self.lval)
+            # print(k, self.lval, self.lval_min)
                 
             if self.stop_condition.verify():
                 self.completed = 1

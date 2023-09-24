@@ -35,15 +35,7 @@ cdef int num_threads = inventory.get_num_threads()
 
 format_double = r"%.2f"
 display_precision = 0.005
-
-cdef inline void fill_memoryview(double[::1] X, double c) nogil:
-    memset(&X[0], 0, X.shape[0]*cython.sizeof(double))    
-
-cdef inline void copy_memoryview(double[::1] Y, double[::1] X) nogil:
-    memcpy(&Y[0], &X[0], <Py_ssize_t>X.shape[0]*cython.sizeof(double))
-    
-cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
-    memcpy(&Y[0,0], &X[0,0], <Py_ssize_t>X.shape[0]*<Py_ssize_t>X.shape[1]*cython.sizeof(double))    
+np.set_printoptions(precision=3, floatmode='maxprec_equal')
     
 cdef inline double ident(x):
     return x
@@ -127,10 +119,11 @@ cdef class Model(BaseModel):
         self.grad_input = np.zeros(self.n_input, 'd')
     #
     def init_param(self, param=None, random=1):
-        if random and param is None:
-            r = np.random.random(self.n_param)
-        elif param is None:
-            r = np.zeros(self.n_param, 'd')
+        if param is None:
+            if random:
+                r = np.random.random(self.n_param)
+            else:
+                r = np.zeros(self.n_param, 'd')
         else:
             if len(param) != self.n_param:
                 raise TypeError(f"len(param) = {len(param)} n_param = {self.n_param}")
@@ -773,17 +766,112 @@ cdef class ScaleLayer(ModelLayer):
         cdef Py_ssize_t j
 
         for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
+        # for j in range(self.n_output):
             output[j] = func._evaluate(X[j])
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
-        cdef double *output = &self.output[0]
         cdef double *grad_in = &self.grad_input[0]
         cdef Func func = self.func
         cdef Py_ssize_t j
 
-        for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
+        # for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
+        for j in range(self.n_input):
             grad_in[j] = grad_out[j] * func._derivative(X[j])
 
+cdef class LinearLayer(ModelLayer):
+
+    def __init__(self, n_input, n_output):
+        self.n_input = n_input
+        self.n_output = n_output
+        self.n_param = (n_input+1)*n_output
+        self.matrix = None
+        self.param = self.ob_param = None
+        self.grad_input = None
+        self.output = None
+        # self.first_time = 1
+    #
+    def _allocate_param(self, allocator):
+        """Allocate matrix"""
+        layer_allocator = allocator.suballocator()
+        self.matrix = layer_allocator.allocate2(self.n_output, self.n_input+1)
+        self.param = self.ob_param = layer_allocator.get_allocated()
+
+        self.output = np.zeros(self.n_output, 'd')
+        self.grad_input = np.zeros(self.n_input, 'd')
+    #
+    def init_param(self):
+        ob_param = np.random.random(self.n_param)
+        if self.param is None:
+            self.ob_param = self.param = ob_param
+        else:
+            self.param[:] = ob_param
+    #
+    cpdef ModelLayer copy(self, bint share=1):
+        cdef LinearLayer layer = LinearLayer(self.n_input, self.n_output)
+
+        layer.matrix = self.matrix
+        layer.param = self.param
+
+        layer.output = np.zeros(self.n_output, 'd')
+        layer.grad_input = np.zeros(self.n_input, 'd')
+        return <ModelLayer>layer
+    #
+    cdef void _forward(self, double[::1] X):
+        cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t j
+        cdef double[::1] output = self.output
+        cdef double[:,::1] matrix = self.matrix
+         
+        # for j in prange(self.n_output, nogil=True, schedule='static', 
+        #                 num_threads=inventory.get_num_threads_ex(self.n_output)):
+        for j in range(self.n_output):
+            output[j] = matrix[j,0] + inventory._dot(&matrix[j,1], &X[0], n_input)
+    #
+    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+        cdef Py_ssize_t i, j
+        cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t n_output = self.n_output
+        cdef double[::1] grad_in = self.grad_input
+        cdef double *grad_p = &grad[0]
+        cdef double *param_p = &self.param[0]
+        cdef double *G
+        cdef double sx, s
+        cdef double[:,::1] matrix = self.matrix
+        # cdef int num_threads
+
+        inventory.fill(grad_in, 0)
+
+        # num_threads = inventory.get_num_threads_ex(self.n_output)
+        # for j in prange(self.n_output, nogil=True, schedule='static', 
+        #                 num_threads=num_threads):
+        for j in range(n_output):
+            G = grad_p + j * (n_input + 1)
+            G[0] = sx = grad_out[j]
+            inventory._mul_set(&G[1], &X[0], sx, n_input)
+
+        # num_threads = inventory.get_num_threads_ex(self.n_input)
+        # for i in prange(self.n_input, nogil=True, schedule='static', 
+        #                 num_threads=num_threads):
+        for i in range(self.n_input):
+            grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input+1)
+            # s = 0
+            # W = &matrix[0,i]
+            # for j in range(self.n_output):
+            #     s += grad_out[j] * W[0]
+            #     W += n_input
+            # grad_in[i] = s
+            
+    #
+    def as_dict(self):
+        return { 'name': 'linear_neuron_layer',
+                 'n_input': self.n_input, 
+                 'n_output': self.n_output,
+                 'matrix': [list(row) for row in self.matrix]
+               }
+    #
+    def init_from(self, ob):
+        cdef double[:,::1] matrix = np.array(ob['matrix'], 'd')
+        inventory.move2(self.matrix, matrix)
     
 cdef class GeneralModelLayer(ModelLayer):
     #
@@ -913,88 +1001,6 @@ def general_layer_from_dict(ob):
     for mod in ob['models']:
         models.append( model_from_dict(mod) )
     return layer
-
-cdef class LinearLayer(ModelLayer):
-
-    def __init__(self, n_input, n_output):
-        self.n_input = n_input
-        self.n_output = n_output
-        self.n_param = (n_input+1)*n_output
-        self.matrix = None
-        self.param = self.ob_param = None
-        self.grad_input = None
-        self.output = None
-        # self.first_time = 1
-    #
-    def _allocate_param(self, allocator):
-        """Allocate matrix"""
-        layer_allocator = allocator.suballocator()
-        self.matrix = layer_allocator.allocate2(self.n_output, self.n_input+1)
-        self.param = self.ob_param = layer_allocator.get_allocated()
-
-        self.output = np.zeros(self.n_output, 'd')
-        self.grad_input = np.zeros(self.n_input, 'd')
-    #
-    def init_param(self):
-        self.ob_param[:] = self.param = np.random.random(self.n_param)
-    #
-    cpdef ModelLayer copy(self, bint share=1):
-        cdef LinearLayer layer = LinearLayer(self.n_input, self.n_output)
-
-        layer.matrix = self.matrix
-        layer.param = self.param
-
-        layer.output = np.zeros(self.n_output, 'd')
-        layer.grad_input = np.zeros(self.n_input, 'd')
-        return <ModelLayer>layer
-    #
-    cdef void _forward(self, double[::1] X):
-        cdef Py_ssize_t n_input = self.n_input
-        cdef Py_ssize_t j
-        cdef double[::1] output = self.output
-        cdef double[:,::1] matrix = self.matrix
-         
-        for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
-            output[j] = matrix[j,0] + inventory._dot(&matrix[j,1], &X[0], n_input)
-    #
-    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
-        cdef Py_ssize_t i, j
-        cdef Py_ssize_t n_input = self.n_input
-        cdef Py_ssize_t n_output = self.n_output
-        cdef double[::1] grad_in = self.grad_input
-        cdef double *grad_p = &grad[0]
-        cdef double *param_p = &self.param[0]
-        cdef double *G
-        cdef double sx, s
-        cdef double[:,::1] matrix = self.matrix
-
-        inventory.fill(grad_in, 0)
-                
-        for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
-            G = grad_p + j * (n_input + 1)
-            G[0] = sx = grad_out[j]
-            inventory._mul_set(&G[1], &X[0], sx, n_input)
-
-        for i in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
-            grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input+1)
-            # s = 0
-            # W = &matrix[0,i]
-            # for j in range(self.n_output):
-            #     s += grad_out[j] * W[0]
-            #     W += n_input
-            # grad_in[i] = s
-            
-    #
-    def as_dict(self):
-        return { 'name': 'linear_neuron_layer',
-                 'n_input': self.n_input, 
-                 'n_output': self.n_output,
-                 'matrix': [list(row) for row in self.matrix]
-               }
-    #
-    def init_from(self, ob):
-        cdef double[:,::1] matrix = np.array(ob['matrix'], 'd')
-        inventory.move2(self.matrix, matrix)
 
 cdef class SigmaNeuronModelLayer(ModelLayer):
 
@@ -1184,8 +1190,8 @@ cdef class MLModel:
         pass
     #
     cdef void backward2(self, double[::1] X, double[::1] grad_u, double[::1] grad):
-        self.forward(X)
-        self.backward(X, grad_u, grad)
+        self._forward(X)
+        self._backward(X, grad_u, grad)
     #
     
     cpdef MLModel copy(self, bint share=1):
@@ -1210,14 +1216,13 @@ cdef class MLModel:
         self._allocate_param(allocator)
     #
     def init_param(self):
-        # self.param = np.random.random(self.n_param)
         for layer in self.layers:
             layer.init_param()
     #
     def __call__(self, x):
         cdef double[::1] x1d = as_array1d(x)
         
-        self.forward(x1d)
+        self._forward(x1d)
         return self.output.copy()
 
 cdef class FFNetworkModel(MLModel):
@@ -1235,9 +1240,9 @@ cdef class FFNetworkModel(MLModel):
         else:
             n_output = self.layers[n_layer-1].n_output
             if n_output != layer.n_input:
-                raise RuntimeError("Previous layer n_output=%s, layer n_input=%s" % (n_output, layer.n_input))
+                raise RuntimeError(f"Previous layer n_output={n_output}, layer n_input={layer.n_input}")
         self.layers.append(layer)
-        self.n_param += layer.n_param 
+        self.n_param += layer.n_param
         self.n_output = layer.n_output
         # self.output = layer.output
     #

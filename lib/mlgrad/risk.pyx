@@ -756,7 +756,7 @@ cdef class ERisk22(Risk):
 
         for j in range(size):
             k = indices[j]
-            _model.forward(X[k])
+            _model._forward(X[k])
             L[k] = _loss._evaluate(output, Y[k])
 
         #if self.regnorm is not None:
@@ -782,7 +782,7 @@ cdef class ERisk22(Risk):
         S = 0
         for j in range(size):
             k = indices[j]
-            _model.forward(X[k])
+            _model._forward(X[k])
             lval = _loss._evaluate(output, Y[k])
             S += weights[k] * lval
                     
@@ -803,7 +803,7 @@ cdef class ERisk22(Risk):
         cdef double[::1] yk
 
         for k in range(self.n_sample):
-            _model.forward(X[k])
+            _model._forward(X[k])
             lvals[k] = _loss._evaluate(output, Y[k])
     #    
     cdef void _gradient(self):
@@ -831,9 +831,9 @@ cdef class ERisk22(Risk):
             Xk = X[k]
             Yk = Y[k]
 
-            _model.forward(Xk)
+            _model._forward(Xk)
             _loss._gradient(output, Yk, grad_u)
-            _model.backward(Xk, grad_u, grad)
+            _model._backward(Xk, grad_u, grad)
             
             wk = weights[k]
             
@@ -926,7 +926,7 @@ cdef class ERisk2(Risk):
 
         for j in range(size):
             k = indices[j]
-            _model.forward(X[k])
+            _model._forward(X[k])
             L[k] = _loss._evaluate(output, Y[k])
 
         #if self.regnorm is not None:
@@ -943,7 +943,7 @@ cdef class ERisk2(Risk):
         cdef double[::1] output = _model.output
 
         for k in range(N):
-            _model.forward(X[k])
+            _model._forward(X[k])
             lvals[k] = _loss._evaluate(output, Y[k])
 
         #if self.regnorm is not None:
@@ -960,7 +960,7 @@ cdef class ERisk2(Risk):
         cdef double[::1] output = _model.output
 
         for k in range(N):
-            _model.forward(X[k])
+            _model._forward(X[k])
             lvals[k] = _loss._derivative_x(output, Y[k])
 
         #if self.regnorm is not None:
@@ -986,7 +986,7 @@ cdef class ERisk2(Risk):
         S = 0
         for j in range(size):
             k = indices[j]
-            _model.forward(X[k])
+            _model._forward(X[k])
             lval = _loss._evaluate(output, Y[k])
             S += weights[k] * lval
                     
@@ -1022,9 +1022,9 @@ cdef class ERisk2(Risk):
             Xk = X[k]
             yk = Y[k]
 
-            _model.forward(Xk)
+            _model._forward(Xk)
             _loss._gradient(output, yk, grad_u)
-            _model.backward(Xk, grad_u, grad)
+            _model._backward(Xk, grad_u, grad)
             
             # wk = weights[k]
             

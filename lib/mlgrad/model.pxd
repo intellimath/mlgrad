@@ -130,14 +130,13 @@ cdef class ModelLayer(Model2):
     cdef public double[::1] grad_input
     
     cpdef ModelLayer copy(self, bint share=*)
-    # cdef double[::1] _evaluate(self, double[::1] X)
     
 cdef class ScaleLayer(ModelLayer):
     cdef public Func func    
     
 cdef class LinearLayer(ModelLayer):
     cdef public double[:,::1] matrix
-    cdef bint first_time
+    # cdef bint first_time
 
 cdef class SigmaNeuronModelLayer(ModelLayer):
     cdef public Func func

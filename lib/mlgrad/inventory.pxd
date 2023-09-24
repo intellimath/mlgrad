@@ -8,6 +8,8 @@ from libc.string cimport memcpy, memset
 
 cdef int get_num_threads() noexcept nogil
 cdef int get_num_procs() noexcept nogil
+cdef int get_num_threads_ex(int n) noexcept nogil
+cdef int get_num_procs_ex(int n) noexcept nogil
 # cdef void set_num_threads(int num) noexcept nogil
 
 cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil
@@ -19,8 +21,8 @@ cdef double _sum(const double*, const Py_ssize_t) noexcept nogil
 cdef void _add(double *a, const double *b, const Py_ssize_t n) noexcept nogil
 cdef void _sub(double *a, const double *b, const Py_ssize_t n) noexcept nogil
 cdef void _mul(double *a, const double *b, const Py_ssize_t n) noexcept nogil
-cdef void _mul_add(double *a, const double *b, double c, const Py_ssize_t n) noexcept nogil
-cdef void _mul_set(double *a, const double *b, double c, const Py_ssize_t n) noexcept nogil
+cdef void _mul_add(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
+cdef void _mul_set(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
 cdef void _mul_const(double *a, const double c, const Py_ssize_t n) noexcept nogil
 cdef double _dot(const double *a, const double *b, const Py_ssize_t n) noexcept nogil
 cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil
@@ -48,9 +50,9 @@ cdef void mul_const2(double[:, ::1] a, const double c) noexcept nogil
 cdef void mul_const3(double[:,:,::1] a, const double c) noexcept nogil
 cdef void mul(double[::1] a, double[::1] b) noexcept nogil
 cdef void mul2(double[:,::1] a, double[:,::1] b) noexcept nogil
-cdef void mul_add(double[::1] a, double[::1] b, double c) noexcept nogil
-cdef void mul_add2(double[:,::1] a, double[:,::1] b, double c) noexcept nogil
-cdef void mul_set(double[::1] a, double[::1] b, double c) noexcept nogil
+cdef void mul_add(double[::1] a, double[::1] b, const double c) noexcept nogil
+cdef void mul_add2(double[:,::1] a, double[:,::1] b, const double c) noexcept nogil
+cdef void mul_set(double[::1] a, double[::1] b, const double c) noexcept nogil
 cdef double dot(double[::1] a, double[::1] b) noexcept nogil
 cdef void matdot(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil
 cdef void matdot2(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil

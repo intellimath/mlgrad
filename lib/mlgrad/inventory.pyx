@@ -37,6 +37,20 @@ cdef int get_num_threads() noexcept nogil:
 cdef int get_num_procs() noexcept nogil:
     return num_procs
 
+cdef int get_num_threads_ex(int m) noexcept nogil:
+    if m <= 0:
+        m = 1
+    if m < num_threads:
+        return m
+    return num_threads
+
+cdef int get_num_procs_ex(int m) noexcept nogil:
+    if m <= 0:
+        m = 1
+    if m < num_procs:
+        return m
+    return num_procs
+
 # cdef void set_num_threads(int num) noexcept nogil:
 #     num_threads = num
     
@@ -136,19 +150,19 @@ cdef void mul_const2(double[:,::1] a, const double c) noexcept nogil:
 cdef void mul_const3(double[:,:,::1] a, const double c) noexcept nogil:
     _mul_const(&a[0,0,0], c, a.shape[0] * a.shape[1] * a.shape[2])
     
-cdef void _mul_add(double *a, const double *b, double c, const Py_ssize_t n) noexcept nogil:
+cdef void _mul_add(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     
     for i in range(n):
         a[i] += c * b[i]
 
-cdef void mul_add(double[::1] a, double[::1] b, double c) noexcept nogil:
+cdef void mul_add(double[::1] a, double[::1] b, const double c) noexcept nogil:
     _mul_add(&a[0], &b[0], c, a.shape[0])
 
-cdef void mul_add2(double[:,::1] a, double[:,::1] b, double c) noexcept nogil:
+cdef void mul_add2(double[:,::1] a, double[:,::1] b, const double c) noexcept nogil:
     _mul_add(&a[0,0], &b[0,0], c, a.shape[0] * a.shape[1])
     
-cdef void _mul_set(double *a, const double *b, double c, const Py_ssize_t n) noexcept nogil:
+cdef void _mul_set(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     
     for i in range(n):

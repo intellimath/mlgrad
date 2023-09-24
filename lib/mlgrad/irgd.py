@@ -77,7 +77,7 @@ class IRGD:
 
         self.lval_best = self.weights.get_qvalue()
         # print(self.lval_best)
-        self.param_best[:] = risk.param
+        self.param_best[:] = risk.model.param
         
         if self.callback is not None:
             self.callback(self)
@@ -129,7 +129,7 @@ class IRGD:
         risk = self.gd.risk
 
         print(self.lval_best)
-        risk.param[:] = self.param_best
+        risk.model.param[:] = self.param_best
     #
     def stop_condition(self):
         

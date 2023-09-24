@@ -183,18 +183,18 @@ cdef class ArrayAdaM2(ArrayAverager):
     
         self.beta1_k *= beta1
         self.beta2_k *= beta2
-        self.beta1_k += 1
-        self.beta2_k += 1
+        # self.beta1_k += 1
+        # self.beta2_k += 1
         beta1_k = self.beta1_k
         beta2_k = self.beta2_k
         # for i in prange(m, nogil=True, num_threads=inventory.get_num_threads()):
         for i in range(m):
             v = x[i]
-            mgrad[i] = beta1 * mgrad[i] + v
-            mv = mgrad[i] / beta1_k
+            mgrad[i] = beta1 * mgrad[i] + (1-beta1)*v
+            mv = mgrad[i] / (1-beta1_k)
 
-            vgrad[i] = beta2 * vgrad[i] + v*v
-            vv = vgrad[i] / beta2_k
+            vgrad[i] = beta2 * vgrad[i] + (1-beta2)*v*v
+            vv = vgrad[i] / (1-beta2_k)
             v2 = sqrt(vv)
             array_average[i] = h * (mv / (v2 + epsilon))
 

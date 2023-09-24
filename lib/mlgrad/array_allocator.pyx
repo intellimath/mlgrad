@@ -38,18 +38,18 @@ cdef class Allocator(object):
 
 cdef class ArrayAllocator(Allocator):
 
-    def __init__(self, size, start=0, allocated=0):
+    def __init__(self, size):
         self.base = None
         self.size = size
         self.start = 0
-        self.allocated = 0
+        self.n_allocated = 0
         self.buf = np.zeros(size, 'd')
     #
     def __repr__(self):
         addr = 0
         if self.base is not None:
             addr = id(self.base)
-        return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.allocated)
+        return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
     #
     cpdef allocate(self, Py_ssize_t n):
         cdef double[::1] ar
@@ -58,15 +58,15 @@ cdef class ArrayAllocator(Allocator):
         if n <= 0:
             raise RuntimeError('n <= 0')
 
-        if self.allocated + n > self.size:
+        if self.n_allocated + n > self.size:
             raise RuntimeError('Memory out of buffer')
 
-        ar = self.buf[self.allocated: self.allocated + n]
-        self.allocated += n
+        ar = self.buf[self.n_allocated: self.n_allocated + n]
+        self.n_allocated += n
 
         aa = self
         while aa.base is not None:
-            aa.base.allocated = self.allocated
+            aa.base.n_allocated = self.n_allocated
             aa = aa.base
 
         return ar
@@ -79,28 +79,28 @@ cdef class ArrayAllocator(Allocator):
         if n <= 0 or m <= 0:
             raise RuntimeError('n <= 0 or m <= 0')
 
-        if self.allocated + nm > self.size:
+        if self.n_allocated + nm > self.size:
             raise RuntimeError('Memory out of buffer')
-        ar = self.buf[self.allocated: self.allocated + nm]
+        ar = self.buf[self.n_allocated: self.n_allocated + nm]
         ar2 = ar.reshape((n, m))
-        self.allocated += nm
+        self.n_allocated += nm
         
         aa = self
         while aa.base is not None:
-            aa.base.allocated = self.allocated
+            aa.base.n_allocated = self.n_allocated
             aa = aa.base
         return ar2
     #
     cpdef get_allocated(self):
-        self.buf[self.start:self.allocated] = 0
-        return self.buf[self.start: self.allocated]
+        self.buf[self.start:self.n_allocated] = 0
+        return self.buf[self.start: self.n_allocated]
     #
     cpdef Allocator suballocator(self):
         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)
 
         allocator.buf = self.buf
-        allocator.start = self.allocated
-        allocator.allocated = self.allocated
+        allocator.start = self.n_allocated
+        allocator.n_allocated = self.n_allocated
         allocator.size = self.size
         allocator.base = self
         return allocator

@@ -13,7 +13,7 @@ from mlgrad.af import averaging_function
 
 __all__ = 'regression', 'm_regression', 'm_regression_irls', 'r_regression_irls', 'mr_regression_irls'
 
-def regression(Xs, Y, mod, *, loss_func=None, regnorm=None,
+def regression(Xs, Y, mod, loss_func=None, regnorm=None, *,
                h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
     """\
     Поиск параметров модели `mod` при помощи принципа минимизации эмпирического риска. 

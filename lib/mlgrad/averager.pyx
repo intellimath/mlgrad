@@ -26,10 +26,10 @@ from libc.math cimport fabs, pow, sqrt, fmax
 
 import numpy as np
 
-DEF Beta = 0.9
-DEF Beta1 = 0.99
-DEF Beta2 = 0.9999
-DEF Epsilon = 1.0e-9
+cdef double Beta = 0.9
+cdef double Beta1 = 0.9
+cdef double Beta2 = 0.999
+cdef double Epsilon = 0.001
 
 include "averager_scalar.pyx"
 include "averager_array.pyx"

@@ -37,7 +37,7 @@ cython_compiler_directives2 = dict(
     unraisable_tracebacks=True,  
 )
 
-# Options._directive_defaults.update(cython_compiler_directives2)
+Options._directive_defaults.update(cython_compiler_directives2)
 
 ext_modules = [
     Extension(
@@ -207,9 +207,9 @@ setup(
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
     license = "MIT License",
-    ext_modules = cythonize(ext_modules, nthreads=2,
-                            compiler_directives=cython_compiler_directives2),
-    # ext_modules = ext_modules,
+    # ext_modules = cythonize(ext_modules, nthreads=2,
+    #                         compiler_directives=cython_compiler_directives2),
+    ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
     packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost',

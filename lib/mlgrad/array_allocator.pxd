@@ -36,5 +36,5 @@ cdef class Allocator:
 @cython.final
 cdef class ArrayAllocator(Allocator):
     cdef ArrayAllocator base
-    cdef readonly Py_ssize_t size, start, allocated
+    cdef readonly Py_ssize_t size, start, n_allocated
     cdef readonly object buf
