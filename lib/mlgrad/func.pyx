@@ -180,6 +180,47 @@ cdef class CompSqrt(Func):
                 'args': (self.f.to_dict(), self.g.to_dict() )
                }
 
+cdef class Gauss(Func):
+    #
+    def __init__(self, a=1.0):
+        self.a = a
+    #
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        return exp(-self.a*x*x)
+    #
+    cdef double _derivative(self, const double x) noexcept nogil:
+        return -2*self.a*x*exp(-self.a*x*x)
+    #
+
+cdef class DArctg(Func):
+    #
+    def __init__(self, a=1.0):
+        self.a = a
+    #
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        return 1/(1+self.a*x*x)
+    #
+    cdef double _derivative(self, const double x) noexcept nogil:
+        cdef double v = 1 + self.a * x * x
+        return -2*self.a*x / (v*v)
+    #
+
+cdef class LogGauss2(Func):
+    #
+    def __init__(self, w, c=0, s=1):
+        self.w = w
+        self.c = c
+        self.s = s
+    #
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        cdef double v = (x - self.c) / self.s
+        return log(1 + self.w * exp(-v*v/2))
+    #
+    cdef double _derivative(self, const double x) noexcept nogil:
+        cdef double v = (x - self.c) / self.s
+        return self.w * exp(-v*v/2) / (1 + self.w * exp(-v*v/2))
+    #
+    
 cdef class ZeroOnPositive(Func):
     #
     def __init__(self, Func f):
@@ -822,6 +863,43 @@ cdef class Hinge(Func):
         return { 'name':'hinge',
                  'args': (self.C,) }
 
+cdef class RELU(Func):
+    #
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        if x > 0:
+            return x
+        else:
+            return 0
+    #
+    cdef double _derivative(self, const double x) noexcept nogil:
+        if x > 0:
+            return 1
+        elif x < 0:
+            return 0
+        else:
+            return 0.5
+    #
+    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+        if x > 0:
+            return 1/x
+        else:
+            return 0
+    #
+    cdef double _derivative2(self, const double x) noexcept nogil:
+        if x > 0:
+            return -1/(x*x)
+        else:
+            return 0
+    #
+    cdef double _value(self, const double x) noexcept nogil:
+        return x
+    #
+    def _repr_latex_(self):
+        return r"$ρ(x)=(x_{+} + x)/2$"
+
+    def to_dict(self):
+        return { 'name':'relu' }
+        
 cdef class HSquare(Func):
     #
     def __init__(self, C=1.0):
@@ -887,6 +965,7 @@ cdef class HingeSqrt(Func):
         return { 'name':'hinge_sqrt',
                  'args': (self.alpha,) }
 
+        
 cdef class HingeSqrtPlus(Func):
     #
     def __init__(self, alpha=1.0):
@@ -1105,12 +1184,12 @@ cdef class Sqrt(Func):
         self.eps = eps
         self.eps2 = eps*eps
     #
-    @cython.cdivision(True)
+    # @cython.cdivision(True)
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
         return sqrt(self.eps2 + x*x) - self.eps
     #
-    @cython.cdivision(True)
+    # @cython.cdivision(True)
     @cython.final
     cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
@@ -1120,13 +1199,13 @@ cdef class Sqrt(Func):
             v = x[i]
             y[i] = sqrt(eps2 + v*v) - eps
     #
-    @cython.cdivision(True)
+    # @cython.cdivision(True)
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
         cdef double v = self.eps2 + x*x
         return x / sqrt(v)
     #
-    @cython.cdivision(True)
+    # @cython.cdivision(True)
     @cython.final
     cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
@@ -1136,13 +1215,13 @@ cdef class Sqrt(Func):
             v = x[i]
             y[i] = v / sqrt(eps2 + v*v)
     #
-    @cython.cdivision(True)
+    # @cython.cdivision(True)
     @cython.final
     cdef double _derivative2(self, const double x) noexcept nogil:
         cdef double v = self.eps2 + x*x
         return self.eps2 / (v * sqrt(v))
     #
-    @cython.cdivision(True)
+    # @cython.cdivision(True)
     @cython.final
     cdef void _derivative2_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
@@ -1153,12 +1232,12 @@ cdef class Sqrt(Func):
             v2 = eps2 + v*v
             y[i] = eps2 / (v2 * sqrt(v2))
     #
-    @cython.cdivision(True)
+    # @cython.cdivision(True)
     @cython.final
     cdef double _derivative_div_x(self, const double x) noexcept nogil:
         return 1. / sqrt(self.eps2 + x*x)
     #
-    @cython.cdivision(True)
+    # @cython.cdivision(True)
     @cython.final
     cdef void _derivative_div_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i

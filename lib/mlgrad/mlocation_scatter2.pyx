@@ -54,7 +54,7 @@ cdef void arithmetic_mean(double[:, ::1] X, double[::1] loc):
             v += X[k,i]
         loc[i] = v / N
 
-cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S):
+cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil:
     cdef Py_ssize_t i, j
     cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
     cdef double s, loc_i, loc_j
@@ -73,7 +73,7 @@ def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S):
             
 cdef void _covariance_matrix_weighted(
             double *X, const double *W, const double *loc, double *S, 
-            const Py_ssize_t n, const Py_ssize_t N) nogil:
+            const Py_ssize_t n, const Py_ssize_t N) noexcept nogil:
     cdef Py_ssize_t i, j, k
     cdef double s, loc_i, loc_j
     cdef double *X_ki
@@ -99,7 +99,7 @@ def covariance_matrix_weighted(double[:, ::1] X, double[::1] W,
         _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], &S[0,0], X.shape[1], X.shape[0])
 
 cdef void _location_weighted(double *X, const double *W, double *loc, 
-                             const Py_ssize_t n, const Py_ssize_t N) nogil:
+                             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil:
     cdef Py_ssize_t i, k
     cdef double *Xi
     cdef double c
@@ -208,7 +208,7 @@ cdef class MLSE2:
         return D
 
     cpdef evaluate_weights(self):
-        self.avg.fit(self.D)
+        cdef double u = self.avg._evaluate(self.D)
         self.avg._gradient(self.D, self.weights)
         self.calc_update_GG()
 

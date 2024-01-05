@@ -27,13 +27,13 @@ import numpy as np
 
 cdef class Allocator(object):
     #
-    cpdef allocate(self, Py_ssize_t n):
+    def allocate(self, Py_ssize_t n):
         return None
-    cpdef allocate2(self, Py_ssize_t n, Py_ssize_t m):
+    def allocate2(self, Py_ssize_t n, Py_ssize_t m):
         return None
-    cpdef get_allocated(self):
+    def get_allocated(self):
         return None
-    cpdef Allocator suballocator(self):
+    def suballocator(self):
         return self
 
 cdef class ArrayAllocator(Allocator):
@@ -51,8 +51,7 @@ cdef class ArrayAllocator(Allocator):
             addr = id(self.base)
         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
     #
-    cpdef allocate(self, Py_ssize_t n):
-        cdef double[::1] ar
+    def allocate(self, Py_ssize_t n):
         cdef ArrayAllocator aa
 
         if n <= 0:
@@ -71,8 +70,7 @@ cdef class ArrayAllocator(Allocator):
 
         return ar
     #
-    cpdef allocate2(self, Py_ssize_t n, Py_ssize_t m):
-        cdef double[:,::1] ar2
+    def allocate2(self, Py_ssize_t n, Py_ssize_t m):
         cdef ArrayAllocator aa
         cdef Py_ssize_t nm = n * m
 
@@ -89,13 +87,14 @@ cdef class ArrayAllocator(Allocator):
         while aa.base is not None:
             aa.base.n_allocated = self.n_allocated
             aa = aa.base
+
         return ar2
     #
-    cpdef get_allocated(self):
+    def get_allocated(self):
         self.buf[self.start:self.n_allocated] = 0
         return self.buf[self.start: self.n_allocated]
     #
-    cpdef Allocator suballocator(self):
+    def suballocator(self):
         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)
 
         allocator.buf = self.buf

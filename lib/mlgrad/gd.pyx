@@ -26,7 +26,7 @@
  
 cimport mlgrad.inventory as inventory
     
-from mlgrad.model cimport Model
+# from mlgrad.model cimport Model
 from mlgrad.func cimport Func
 from mlgrad.func2 cimport Func2
 from mlgrad.avragg cimport Average, ArithMean
@@ -41,6 +41,8 @@ import numpy as np
 cdef double double_max = PyFloat_GetMax()
 cdef double double_min = PyFloat_GetMin()
 
+from math import isnan
+
 cdef class GD: 
 
     cpdef init(self):
@@ -54,7 +56,9 @@ cdef class GD:
 #             self.param_prev = np.zeros((n_param,), dtype='d')
         if self.param_min is None:
             self.param_min = self.risk.param.copy()
-#         print(self.param_min.base)
+
+        if self.param_copy is None:
+            self.param_copy = self.risk.param.copy()
         
         if self.stop_condition is None:
             self.stop_condition = DiffL1StopCondition(self)
@@ -70,13 +74,13 @@ cdef class GD:
     #
     def fit(self):
         cdef Risk risk = self.risk
-        cdef Py_ssize_t k = 0, m=0, M=self.M
-        # cdef double lval0
+        cdef Py_ssize_t i, k = 0, m=0, M=self.M
+        cdef double lval
 
         self.risk.batch.init()
         self.init()
         self.lval = self.lval_min = self.risk._evaluate()
-        self.lvals = []
+        self.lvals = [self.lval]
         self.K = 0
 
         self.h_rate.init()
@@ -89,13 +93,26 @@ cdef class GD:
             self.lval_prev = self.lval
                 
             self.fit_epoch()
-            if self.normalizer is not None:
-                self.normalizer.normalize(risk.param)
 
-            self.lval = risk.lval = risk._evaluate()
+            self.lval = risk._evaluate()
+            # if self.lval < self.lval_prev:
+            #     for i in range(10):
+            #         inventory.move(self.param_copy, risk.param)
+            #         self.grad_averager.update(risk.grad_average, self.h)
+            #         risk.update_param(self.grad_averager.array_average)
+            #         lval = risk._evaluate()
+            #         if lval >= self.lval:
+            #             break
+            #         else:
+            #             self.lval = lval
+            #     inventory.move(risk.param, self.param_copy)        
+            
             self.lvals.append(self.lval)
             # print(k, self.lval, self.lval_min)
-                
+
+            if self.normalizer is not None:
+                self.normalizer.normalize(risk.param)       
+
             if self.stop_condition.verify():
                 self.completed = 1
 
@@ -138,8 +155,14 @@ cdef class GD:
 
             self.gradient()
 
+            # for v in risk.grad_average:
+            #     if isnan(v):
+            #         raise RuntimeError(f"{self.K} {list(risk.grad_average)}")
+
             self.grad_averager.update(risk.grad_average, self.h)
             risk.update_param(self.grad_averager.array_average)
+
+            
             # for i in range(n_param):
             #     param[i] -= grad_average[i]
 

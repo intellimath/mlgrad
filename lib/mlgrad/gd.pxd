@@ -2,7 +2,7 @@
 
 cimport cython
 
-from mlgrad.model cimport Model
+# from mlgrad.model cimport Model
 from mlgrad.func cimport Func, Square
 from mlgrad.func2 cimport Func2
 from mlgrad.loss cimport Loss
@@ -53,7 +53,7 @@ cdef class GD:
     
     cdef public list lvals
         
-    cdef double[::1] param_min
+    cdef double[::1] param_min, param_copy
     cdef double lval, lval_prev, lval_min
         
     cdef ArrayAverager grad_averager

@@ -269,9 +269,10 @@ cdef class MRisk(Risk):
         self.lval = 0
         self.first = 1
     #
-    cdef double _evaluate(self):        
+    cdef double _evaluate(self):
+        cdef double u
         self._evaluate_losses_batch()
-        self.avg.fit(self.L)
+        u = self.avg._evaluate(self.L)
         
         if self.regnorm is not None:
             v = self.tau * self.regnorm._evaluate(self.model.param)

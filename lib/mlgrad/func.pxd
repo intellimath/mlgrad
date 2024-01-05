@@ -32,6 +32,18 @@ cdef class CompSqrt(Func):
     #
 
 @cython.final
+cdef class Gauss(Func):
+    cdef public double a
+
+@cython.final
+cdef class DArctg(Func):
+    cdef public double a
+
+@cython.final
+cdef class LogGauss2(Func):
+    cdef public double w, c, s
+
+@cython.final
 cdef class ZeroOnPositive(Func):
     #
     cdef public Func f
@@ -181,6 +193,11 @@ cdef class Hinge(Func):
     cdef public double C
     #
 
+@cython.final
+cdef class RELU(Func):
+    #
+    pass
+    
 @cython.final
 cdef class HSquare(Func):
     #

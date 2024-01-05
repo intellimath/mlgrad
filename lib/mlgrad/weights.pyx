@@ -99,8 +99,9 @@ cdef class MWeights(Weights):
         self.first_time = 1
     #
     cpdef eval_weights(self):
+        cdef double u
         self.risk._evaluate_losses_all(self.lvals)
-        self.average.fit(self.lvals)
+        u = self.average._evaluate(self.lvals)
         self.average._gradient(self.lvals, self.weights)
         if self.normalize:
             inventory.normalize(self.weights)
@@ -125,8 +126,9 @@ cdef class MWeights2(Weights):
         self.first_time = 1
     #
     cpdef eval_weights(self):
+        cdef double u
         self.risk._evaluate_losses_all(self.lvals)
-        self.average.fit(self.lvals)
+        u = self.average._evaluate(self.lvals)
         self.average._gradient(self.lvals, self.weights)
         if self.normalize:
             inventory.normalize(self.weights)
@@ -151,8 +153,9 @@ cdef class MWeights22(Weights):
         self.first_time = 1
     #
     cpdef eval_weights(self):
+        cdef double u
         self.risk._evaluate_losses_all(self.lvals)
-        self.average.fit(self.lvals)
+        u = self.average._evaluate(self.lvals)
         self.average._gradient(self.lvals, self.weights)
         if self.normalize:
             inventory.normalize(self.weights)

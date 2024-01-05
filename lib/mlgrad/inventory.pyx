@@ -170,7 +170,18 @@ cdef void _mul_set(double *a, const double *b, const double c, const Py_ssize_t 
 
 cdef void mul_set(double[::1] a, double[::1] b, double c) noexcept nogil:
     _mul_set(&a[0], &b[0], c, a.shape[0])
-        
+
+cdef void _mul_set1(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+
+    a[0] = c
+    a += 1
+    for i in range(n):
+        a[i] = c * b[i]
+
+cdef void mul_set1(double[::1] a, double[::1] b, double c) noexcept nogil:
+    _mul_set(&a[0], &b[0], c, a.shape[0])
+    
 cdef void _mul(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     
@@ -192,23 +203,34 @@ cdef void _multiply(double *a, const double *b, const double *c, const Py_ssize_
 cdef void multiply(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:
     _multiply(&a[0], &b[0], &c[0], a.shape[0])
 
+
+cdef double dot1(double[::1] a, double[::1] b) noexcept nogil:
+    return _dot1(&a[0], &b[0], a.shape[0])
+
+cdef double _dot1(const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+    cdef double s = a[0]
+
+    a += 1
+    for i in range(n):
+        s += a[i] * b[i]
+    return s
+
 cdef double dot(double[::1] a, double[::1] b) noexcept nogil:
     return _dot(&a[0], &b[0], a.shape[0])
 
 cdef double _dot(const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
-    cdef double s
+    cdef double s = 0
 
-    s = 0
     for i in range(n):
         s += a[i] * b[i]
     return s
 
 cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil:
     cdef Py_ssize_t i
-    cdef double s
+    cdef double s = 0
 
-    s = 0
     for i in range(n):
         s += a[i] * b[0]
         b += m
@@ -218,7 +240,8 @@ cdef void _matdot(double *output, double *M, const double *X,
                     const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
     cdef Py_ssize_t j
 
-    for j in prange(n_output, schedule='static', nogil=True, num_threads=num_threads):
+    # for j in prange(n_output, schedule='static', nogil=True, num_threads=num_procs):
+    for j in range(n_output):
         output[j] = _dot(M + j * n_input, X, n_input)
 
 cdef void matdot(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil:
@@ -229,7 +252,8 @@ cdef void _matdot2(double *output, double *M, const double *X,
     cdef Py_ssize_t j
     cdef double *Mj
 
-    for j in prange(n_output, schedule='static', nogil=True, num_threads=num_threads):
+    # for j in prange(n_output, schedule='static', nogil=True, num_threads=num_procs):
+    for j in range(n_output):
         Mj = M + j * (n_input+1)
         output[j] = Mj[0] + _dot(&Mj[1], X, n_input)
 

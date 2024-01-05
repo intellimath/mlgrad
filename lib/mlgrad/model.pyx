@@ -1,4 +1,4 @@
-# coding: utf-8 
+coding: utf-8 
 
 # The MIT License (MIT)
 #
@@ -20,7 +20,7 @@
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
+# THE SOFTWARE. 
 
 cimport cython
 import numpy as np
@@ -86,7 +86,7 @@ cdef class BaseModel:
     def evaluate(self, X):
         return self._evaluate(X)
     #
-    cdef _evaluate_all(self, double[:,::1] X, double[::1] Y):
+    cdef void _evaluate_all(self, double[:,::1] X, double[::1] Y):
         cdef Py_ssize_t k, N = <Py_ssize_t>X.shape[0]
         
         for k in range(N):
@@ -95,6 +95,7 @@ cdef class BaseModel:
     cpdef copy(self, bint share=0):
         return self
 
+    
 cdef class Model(BaseModel):
     #
     def allocate(self):
@@ -110,11 +111,15 @@ cdef class Model(BaseModel):
         
         """        
         self.ob_param = allocator.allocate(self.n_param)
-        if self.param is not None:
+        if not self.ob_param.flags['C_CONTIGUOUS']:
+            raise TypeError("Array is not contiguous")
+        if self.param is None:
+            self.param = self.ob_param
+        else:
+            if self.param.size != self.ob_param.size:
+                raise TypeError("ob_param.size != param.size")            
             with cython.boundscheck(True):
                 self.ob_param[:] = self.param
-
-        self.param = self.ob_param
         self.grad = np.zeros(self.n_param, 'd')
         self.grad_input = np.zeros(self.n_input, 'd')
     #
@@ -160,16 +165,16 @@ cdef class Model(BaseModel):
     # cdef update_param(self, double[::1] param):
     #     inventory.sub(self.param, param)
     
-cdef class ModelView(Model):
-    #
-    def __init__(self, Model model):
-        self.model = model
-    #
-    cdef double _evaluate(self, double[::1] X):
-        return self.model._evaluate(X)
-    #
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
-        self.model._gradient(X, grad)
+# cdef class ModelView(Model):
+#     #
+#     def __init__(self, Model model):
+#         self.model = model
+#     #
+#     cdef double _evaluate(self, double[::1] X):
+#         return self.model._evaluate(X)
+#     #
+#     cdef void _gradient(self, double[::1] X, double[::1] grad):
+#         self.model._gradient(X, grad)
         
 cdef class LinearModel(Model):
     __doc__ = """LinearModel(param)"""
@@ -212,8 +217,16 @@ cdef class LinearModel(Model):
         # for i in range(self.n_input):
         #     v += param[i+1] * X[i]
         # return v
+        return inventory._dot1(&self.param[0], &X[0], self.n_input)
+    #
+    cdef void _evaluate_all(self, double[:, ::1] X, double[::1] Y):
         cdef double *param = &self.param[0]
-        return param[0] + inventory._conv(&X[0], &param[1], self.n_input)
+        cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t N = <Py_ssize_t>X.shape[0]
+
+        for k in range(N):
+            # Y[k] = self._evaluate(X[k])
+            Y[k] = inventory._dot1(param, &X[k,0], n_input)
     #
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         # cdef Py_ssize_t i
@@ -231,10 +244,11 @@ cdef class LinearModel(Model):
         # for i in range(self.n_input):
         #     grad_input[i] = param[i+1]
     #
-    cpdef Model copy(self, bint share=1):
+    cpdef Model copy(self, bint share=0):
         cdef LinearModel mod = LinearModel(self.n_input)
 
         if share:
+            mod.ob_param = self.ob_param
             mod.param = self.param
         else:
             mod.param = self.param.copy()
@@ -281,216 +295,99 @@ def linear_model_from_dict(ob):
     mod.init_from(ob)
     return mod
 
-cdef double tnorm2(double[::1] x) nogil:
-    cdef Py_ssize_t i
-    cdef double s, v
-    
-    s = 1
-    for i in range(1, <Py_ssize_t>x.shape[0]):
-        v = x[i]
-        s += v * v
-    return s
+# cdef class SigmaNeuronModel(Model):
+#     #
+#     __doc__ = "Модель сигмоидального нейрона с простыми синапсами"
+#     #
+#     def __init__(self, Func outfunc, o):
+#         self.outfunc = outfunc
+#         if isinstance(o, (int, long)):
+#             self.n_param = o + 1
+#             self.n_input = o
+#             self.param = self.ob_param = None
+#             self.grad = None
+#             self.grad_input = None
+#         else:
+#             self.param = self.ob_param = o
+#             self.n_param = len(self.param)
+#             self.n_input = self.n_param - 1
+#             self.grad = np.zeros(self.n_param, 'd')
+#             self.grad_input = np.zeros(self.n_input, 'd')
+#     #
+#     cpdef Model copy(self, bint share=1):
+#         cdef Py_ssize_t n_param = self.n_param
+#         cdef SigmaNeuronModel mod = SigmaNeuronModel(self.outfunc, self.n_input)
 
-cdef class TLinearModel(Model):
-    __doc__ = """TLinearModel(param)"""
-    #
-    def __init__(self, o):
-        if isinstance(o, (int, long)):
-            self.n_input = o
-            self.n_param = o + 1
-            self.param = self.ob_param = None
-            self.grad = None
-            self.grad_input = None
-        else:
-            self.param = self.ob_param = np.asarray(o, 'd')
-            self.n_param = len(self.param)
-            self.n_input = self.n_param - 1
-            self.grad = np.zeros(self.n_param, 'd')
-            self.grad_input = np.zeros(self.n_input, 'd')
-    #
-    def __reduce__(self):
-        return LinearModel, (self.n_input,)
-    #
-    def __getstate__(self):
-        return self.param
-    #
-    def __setstate__(self, param):
-        self.param = param
-    #
-    def __getnewargs__(self):
-        return (self.n_input,)
-    #
-    cdef double _evaluate(self, double[::1] X):
-        """
-        y = (w_0+w_1 x_1+...+w_n x_n) / sqrt(1 + ||w||^2)
-        """
-        cdef Py_ssize_t i, n_input = self.n_input
-        cdef double v
-        cdef double[::1] param = self.param
-        cdef double pn = sqrt(tnorm2(param))
+#         if share:
+#             mod.param = self.param
+#         else:
+#             mod.param = self.param.copy()
 
-        v = param[0]
-        for i in range(n_input):
-            v += param[i+1] * X[i]
-        v -= X[n_input]
-        return v / pn
-    #
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
-        cdef Py_ssize_t i, n_input = self.n_input
-        cdef double[::1] param = self.param
-        cdef double pn = sqrt(tnorm2(param))
-        cdef double s
+#         mod.grad = self.grad.copy()
+#         mod.grad_input = np.zeros(self.n_input, 'd')
+#         return <Model>mod
+#     #
+#     cdef double _evaluate(self, double[::1] X):
+#         # cdef Py_ssize_t i
+#         # cdef double[::1] param = self.param
+#         cdef double s
+#         cdef double *param = &self.param[0]
 
-        grad[0] = 1.0 / pn
-        for i in range(n_input):
-            grad[i+1] = X[i] / pn
-
-        s = param[0]
-        for i in range(n_input):
-            s += param[i+1] * X[i]
-        s -= X[n_input]
-        s /= (pn * pn * pn)
-
-        for i in range(1, <Py_ssize_t>self.n_param):
-            grad[i] -= param[i] * s
-    # 
-    cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
-        cdef Py_ssize_t i
-        cdef double[::1] param = self.param
-        cdef double pn = sqrt(tnorm2(param))
-
-        for i in range(self.n_input):
-            grad_input[i] = param[i+1] / pn
-    #
-    cpdef Model copy(self, bint share=1):
-        cdef TLinearModel mod = TLinearModel(self.n_input)
-
-        if share:
-            mod.param = self.param
-        else:
-            mod.param = self.param.copy()
-
-        mod.grad = np.zeros(self.n_param, 'd')
-        mod.grad_input = np.zeros(self.n_input, 'd')
-        return <Model>mod
-    #
-    def as_linearmodel(self):
-        cdef double[::1] param = np.array(self.param, copy=True)        
-        return LinearModel(param)        
-    #
-    # def _repr_latex_(self):
-    #     if self.param[0]:
-    #         text = format_double % self.param[0]
-    #     else:
-    #         text = ''
-    #     m = self.n_param
-    #     for i in range(1, m):
-    #         par = self.param[i]
-    #         if fabs(par) < display_precision:
-    #             continue
-    #         spar = format_double % par
-    #         if self.param[i] >= 0:
-    #             text += "+%sx_{%s}" % (spar, i)
-    #         else:
-    #             text += "%sx_{%s}" % (spar, i)
-    #     text = "$y(\mathbf{x})=" + text + "$"
-    #     return text
-    #
-
-
-cdef class SigmaNeuronModel(Model):
-    #
-    __doc__ = "Модель сигмоидального нейрона с простыми синапсами"
-    #
-    def __init__(self, Func outfunc, o):
-        self.outfunc = outfunc
-        if isinstance(o, (int, long)):
-            self.n_param = o + 1
-            self.n_input = o
-            self.param = self.ob_param = None
-            self.grad = None
-            self.grad_input = None
-        else:
-            self.param = self.ob_param = o
-            self.n_param = len(self.param)
-            self.n_input = self.n_param - 1
-            self.grad = np.zeros(self.n_param, 'd')
-            self.grad_input = np.zeros(self.n_input, 'd')
-    #
-    cpdef Model copy(self, bint share=1):
-        cdef Py_ssize_t n_param = self.n_param
-        cdef SigmaNeuronModel mod = SigmaNeuronModel(self.outfunc, self.n_input)
-
-        if share:
-            mod.param = self.param
-        else:
-            mod.param = self.param.copy()
-
-        mod.grad = self.grad.copy()
-        mod.grad_input = np.zeros(self.n_input, 'd')
-        return <Model>mod
-    #
-    cdef double _evaluate(self, double[::1] X):
-        # cdef Py_ssize_t i
-        # cdef double[::1] param = self.param
-        cdef double s
-        cdef double *param = &self.param[0]
-
-        s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
-        # s = param[0]
-        # for i in range(self.n_input):
-        #     s += param[i+1] * X[i]
+#         s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
+#         # s = param[0]
+#         # for i in range(self.n_input):
+#         #     s += param[i+1] * X[i]
         
-        return self.outfunc._evaluate(s)
-    #
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
-        cdef Py_ssize_t i
-        cdef double[::1] param = self.param
-        cdef double s, sx
+#         return self.outfunc._evaluate(s)
+#     #
+#     cdef void _gradient(self, double[::1] X, double[::1] grad):
+#         cdef Py_ssize_t i
+#         cdef double[::1] param = self.param
+#         cdef double s, sx
         
-        s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
-        # s = param[0]
-        # for i in range(self.n_input):
-        #     s += param[i+1] * X[i]
+#         s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
+#         # s = param[0]
+#         # for i in range(self.n_input):
+#         #     s += param[i+1] * X[i]
 
-        sx = self.outfunc._derivative(s)
+#         sx = self.outfunc._derivative(s)
 
-        grad[0] = sx
-        inventory._mul_set(&grad[1], &X[0], sx, self.n_input)
-        # for i in range(self.n_input):
-        #     grad[i+1] = sx * X[i]
-    #
-    cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
-        cdef Py_ssize_t i
-        cdef Py_ssize_t n_input = self.n_input
-        cdef double s, sx
-        cdef double[::1] param = self.param
+#         grad[0] = sx
+#         inventory._mul_set(&grad[1], &X[0], sx, self.n_input)
+#         # for i in range(self.n_input):
+#         #     grad[i+1] = sx * X[i]
+#     #
+#     cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
+#         cdef Py_ssize_t i
+#         cdef Py_ssize_t n_input = self.n_input
+#         cdef double s, sx
+#         cdef double[::1] param = self.param
                                 
-        s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
-        # s = param[0]
-        # for i in range(n_input):
-        #     s += param[i+1] * X[i]
+#         s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
+#         # s = param[0]
+#         # for i in range(n_input):
+#         #     s += param[i+1] * X[i]
 
-        sx = self.outfunc._derivative(s)
+#         sx = self.outfunc._derivative(s)
 
-        inventory._mul_set(&grad_input[0], &param[1], sx, self.n_input)
-        # for i in range(n_input):
-        #     grad_input[i] = sx * param[i+1]
-    #
-    def as_dict(self):
-        return { 'name': 'sigma_neuron', 
-                 'func': self.outfunc.to_dict(),
-                 'param': (list(self.param) if self.param is not None else None), 
-                 'n_input': self.n_input }
-    #
-    def init_from(self, ob):
-        cdef double[::1] param = np.array(ob['param'], 'd')
-        inventory.move(self.param, param)
+#         inventory._mul_set(&grad_input[0], &param[1], sx, self.n_input)
+#         # for i in range(n_input):
+#         #     grad_input[i] = sx * param[i+1]
+#     #
+#     def as_dict(self):
+#         return { 'name': 'sigma_neuron', 
+#                  'func': self.outfunc.to_dict(),
+#                  'param': (list(self.param) if self.param is not None else None), 
+#                  'n_input': self.n_input }
+#     #
+#     def init_from(self, ob):
+#         cdef double[::1] param = np.array(ob['param'], 'd')
+#         inventory.move(self.param, param)
 
-@register_model('sigma_neuron')
-def sigma_neuron_from_dict(ob):
-    mod = SigmaNeuronModel(func_from_dict(ob['func']), ob['n_input'])
-    return mod        
+# @register_model('sigma_neuron')
+# def sigma_neuron_from_dict(ob):
+#     mod = SigmaNeuronModel(func_from_dict(ob['func']), ob['n_input'])
+#     return mod        
 
 cdef class SimpleComposition(Model):
     #
@@ -743,40 +640,6 @@ cdef class ModelLayer(Model2):
     #     return self.output
     #
 
-cdef class ScaleLayer(ModelLayer):
-    #
-    def _allocate_param(self, allocator):
-        pass
-    #
-    def init_param(self):
-        pass
-    #
-    def __init__(self, Func func, n_input):
-        self.func = func
-        self.ob_param = param = None
-        self.n_param = 0
-        self.n_input = n_input
-        self.n_output = n_input
-        self.output = np.zeros(n_input, 'd')
-        self.grad_input = np.zeros(n_input, 'd')
-    #
-    cdef void _forward(self, double[::1] X):
-        cdef double *output = &self.output[0]
-        cdef Func func = self.func
-        cdef Py_ssize_t j
-
-        for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
-        # for j in range(self.n_output):
-            output[j] = func._evaluate(X[j])
-    #
-    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
-        cdef double *grad_in = &self.grad_input[0]
-        cdef Func func = self.func
-        cdef Py_ssize_t j
-
-        # for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
-        for j in range(self.n_input):
-            grad_in[j] = grad_out[j] * func._derivative(X[j])
 
 cdef class LinearLayer(ModelLayer):
 
@@ -821,41 +684,43 @@ cdef class LinearLayer(ModelLayer):
         cdef Py_ssize_t j
         cdef double[::1] output = self.output
         cdef double[:,::1] matrix = self.matrix
-         
+        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+
         # for j in prange(self.n_output, nogil=True, schedule='static', 
         #                 num_threads=inventory.get_num_threads_ex(self.n_output)):
         for j in range(self.n_output):
-            output[j] = matrix[j,0] + inventory._dot(&matrix[j,1], &X[0], n_input)
+            output[j] = inventory._dot1(&matrix[j,0], &X[0], n_input)
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Py_ssize_t i, j
         cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t n_input1 = n_input + 1
         cdef Py_ssize_t n_output = self.n_output
         cdef double[::1] grad_in = self.grad_input
-        cdef double *grad_p = &grad[0]
-        cdef double *param_p = &self.param[0]
-        cdef double *G
-        cdef double sx, s
+        # cdef double *grad_p = &grad[0]
+        # cdef double *param_p = &self.param[0]
+        # cdef double *G
+        # cdef double sx, s
         cdef double[:,::1] matrix = self.matrix
-        # cdef int num_threads
+        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
 
-        inventory.fill(grad_in, 0)
+        inventory._fill(&grad_in[0], 0, n_input)
 
         # num_threads = inventory.get_num_threads_ex(self.n_output)
         # for j in prange(self.n_output, nogil=True, schedule='static', 
         #                 num_threads=num_threads):
         for j in range(n_output):
-            G = grad_p + j * (n_input + 1)
-            G[0] = sx = grad_out[j]
-            inventory._mul_set(&G[1], &X[0], sx, n_input)
+            # G = &grad[j * (n_input + 1)] #grad_p + j * (n_input + 1)
+            # G[0] = sx = grad_out[j]
+            inventory._mul_set1(&grad[j * n_input1], &X[0], grad_out[j], n_input)
 
         # num_threads = inventory.get_num_threads_ex(self.n_input)
         # for i in prange(self.n_input, nogil=True, schedule='static', 
         #                 num_threads=num_threads):
         for i in range(self.n_input):
-            grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input+1)
+            grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input1)
             # s = 0
-            # W = &matrix[0,i]
+            # W = &matrix[0,i+1]
             # for j in range(self.n_output):
             #     s += grad_out[j] * W[0]
             #     W += n_input
@@ -873,6 +738,45 @@ cdef class LinearLayer(ModelLayer):
         cdef double[:,::1] matrix = np.array(ob['matrix'], 'd')
         inventory.move2(self.matrix, matrix)
     
+    
+@cython.final
+cdef class ScaleLayer(ModelLayer):
+    #
+    def _allocate_param(self, allocator):
+        pass
+    #
+    def init_param(self):
+        pass
+    #
+    def __init__(self, Func func, n_input):
+        self.func = func
+        self.ob_param = param = None
+        self.n_param = 0
+        self.n_input = n_input
+        self.n_output = n_input
+        self.output = np.zeros(n_input, 'd')
+        self.grad_input = np.zeros(n_input, 'd')
+    #
+    cdef void _forward(self, double[::1] X):
+        cdef double *output = &self.output[0]
+        cdef Func func = self.func
+        cdef Py_ssize_t j
+        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+
+        # for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
+        for j in range(self.n_output):
+            output[j] = func._evaluate(X[j])
+    #
+    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+        cdef double *grad_in = &self.grad_input[0]
+        cdef Func func = self.func
+        cdef Py_ssize_t j
+        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+
+        # for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
+        for j in range(self.n_input):
+            grad_in[j] = grad_out[j] * func._derivative(X[j])
+   
 cdef class GeneralModelLayer(ModelLayer):
     #
     def __init__(self, n_input):
@@ -1002,129 +906,129 @@ def general_layer_from_dict(ob):
         models.append( model_from_dict(mod) )
     return layer
 
-cdef class SigmaNeuronModelLayer(ModelLayer):
+# cdef class SigmaNeuronModelLayer(ModelLayer):
 
-    def __init__(self, Func func, n_input, n_output):
-        self.n_input = n_input
-        self.n_output = n_output
-        self.n_param = (n_input+1)*n_output
-        self.func = func
-        self.matrix = None
-        self.param = self.ob_param = None
-        self.grad_input = None
-        self.output = None
-        self.ss = None
-        # self.first_time = 1
-    #
-    def _allocate_param(self, allocator):
-        """Allocate matrix"""
-        layer_allocator = allocator.suballocator()
-        self.matrix = layer_allocator.allocate2(self.n_output, self.n_input+1)
-        self.param = self.ob_param = layer_allocator.get_allocated()
+#     def __init__(self, Func func, n_input, n_output):
+#         self.n_input = n_input
+#         self.n_output = n_output
+#         self.n_param = (n_input+1)*n_output
+#         self.func = func
+#         self.matrix = None
+#         self.param = self.ob_param = None
+#         self.grad_input = None
+#         self.output = None
+#         self.ss = None
+#         # self.first_time = 1
+#     #
+#     def _allocate_param(self, allocator):
+#         """Allocate matrix"""
+#         layer_allocator = allocator.suballocator()
+#         self.matrix = layer_allocator.allocate2(self.n_output, self.n_input+1)
+#         self.param = self.ob_param = layer_allocator.get_allocated()
 
-        self.output = np.zeros(self.n_output, 'd')
-        self.ss = np.zeros(self.n_output, 'd')
-        self.grad_input = np.zeros(self.n_input, 'd')
-    #
-    def init_param(self):
-        self.ob_param[:] = self.param = np.random.random(self.n_param)
-    #
-    cpdef ModelLayer copy(self, bint share=1):
-        cdef SigmaNeuronModelLayer layer = SigmaNeuronModelLayer(self.func, self.n_input, self.n_output)
-        cdef list models = self.models
-        cdef Model mod
+#         self.output = np.zeros(self.n_output, 'd')
+#         self.ss = np.zeros(self.n_output, 'd')
+#         self.grad_input = np.zeros(self.n_input, 'd')
+#     #
+#     def init_param(self):
+#         self.ob_param[:] = self.param = np.random.random(self.n_param)
+#     #
+#     cpdef ModelLayer copy(self, bint share=1):
+#         cdef SigmaNeuronModelLayer layer = SigmaNeuronModelLayer(self.func, self.n_input, self.n_output)
+#         cdef list models = self.models
+#         cdef Model mod
 
-        layer.matrix = self.matrix
-        layer.param = self.param
+#         layer.matrix = self.matrix
+#         layer.param = self.param
 
-        layer.output = np.zeros(self.n_output, 'd')
-        layer.ss = np.zeros(self.n_output, 'd')
-        layer.grad_input = np.zeros(self.n_input, 'd')
-        return <ModelLayer>layer
-    #
-    cdef void _forward(self, double[::1] X):
-        cdef Py_ssize_t n_input = self.n_input
-        cdef Py_ssize_t n_output = self.n_output
-        cdef Py_ssize_t i, j, k
-        cdef double s
-        cdef double[::1] param = self.param
-        cdef double[::1] output = self.output
-        cdef double[::1] ss = self.ss
-        cdef Func func = self.func
-        cdef bint is_func = (func is not None)
+#         layer.output = np.zeros(self.n_output, 'd')
+#         layer.ss = np.zeros(self.n_output, 'd')
+#         layer.grad_input = np.zeros(self.n_input, 'd')
+#         return <ModelLayer>layer
+#     #
+#     cdef void _forward(self, double[::1] X):
+#         cdef Py_ssize_t n_input = self.n_input
+#         cdef Py_ssize_t n_output = self.n_output
+#         cdef Py_ssize_t i, j, k
+#         cdef double s
+#         cdef double[::1] param = self.param
+#         cdef double[::1] output = self.output
+#         cdef double[::1] ss = self.ss
+#         cdef Func func = self.func
+#         cdef bint is_func = (func is not None)
          
-        k = 0
-        for j in range(n_output):
-            s = param[k]
-            k += 1
-            for i in range(n_input):
-                s += param[k] * X[i]
-                k += 1
-            ss[j] = s
+#         k = 0
+#         for j in range(n_output):
+#             s = param[k]
+#             k += 1
+#             for i in range(n_input):
+#                 s += param[k] * X[i]
+#                 k += 1
+#             ss[j] = s
 
-        if is_func:
-            for j in range(n_output):
-                output[j] = func._evaluate(ss[j])
-        else:
-            for j in range(n_output):
-                output[j] = ss[j]
-    #
-    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
-        cdef Py_ssize_t i, j, k
-        cdef Py_ssize_t n_input = self.n_input
-        cdef Py_ssize_t n_output = self.n_output
-        cdef double val_j, s, sx
-        cdef double[::1] grad_in = self.grad_input
+#         if is_func:
+#             for j in range(n_output):
+#                 output[j] = func._evaluate(ss[j])
+#         else:
+#             for j in range(n_output):
+#                 output[j] = ss[j]
+#     #
+#     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+#         cdef Py_ssize_t i, j, k
+#         cdef Py_ssize_t n_input = self.n_input
+#         cdef Py_ssize_t n_output = self.n_output
+#         cdef double val_j, s, sx
+#         cdef double[::1] grad_in = self.grad_input
 
-        cdef double[::1] output = self.output
-        cdef double[::1] param = self.param
-        cdef double[::1] ss = self.ss
-        cdef Func func = self.func
-        cdef bint is_func = (func is not None)
+#         cdef double[::1] output = self.output
+#         cdef double[::1] param = self.param
+#         cdef double[::1] ss = self.ss
+#         cdef Func func = self.func
+#         cdef bint is_func = (func is not None)
         
-        k = 0
-        for j in range(n_output):
-            s = param[k]
-            k += 1
-            for i in range(n_input):
-                s += param[k] * X[i]
-                k += 1
-            ss[j] = s
+#         k = 0
+#         for j in range(n_output):
+#             s = param[k]
+#             k += 1
+#             for i in range(n_input):
+#                 s += param[k] * X[i]
+#                 k += 1
+#             ss[j] = s
 
-        if is_func:
-            for j in range(n_output):
-                ss[j] = grad_out[j] * func._derivative(ss[j])
-        else:
-            for j in range(n_output):      
-                ss[j] = grad_out[j]
+#         if is_func:
+#             for j in range(n_output):
+#                 ss[j] = grad_out[j] * func._derivative(ss[j])
+#         else:
+#             for j in range(n_output):      
+#                 ss[j] = grad_out[j]
 
-        inventory.fill(grad_in, 0)
+#         inventory.fill(grad_in, 0)
                 
-        k = 0
-        for j in range(n_output):  
-            grad[k] = sx = ss[j]
-            k += 1
-            for i in range(n_input):
-                grad_in[i] += sx * param[k]
-                grad[k] = sx * X[i]
-                k += 1
-    #
-    def as_dict(self):
-        return { 'name': 'sigma_neuron_layer',
-                 'func': self.func.to_dict(),
-                 'n_input': self.n_input, 
-                 'n_output': self.n_output,
-                 'matrix': [list(row) for row in self.matrix]
-               }
-    #
-    def init_from(self, ob):
-        cdef double[:,::1] matrix = np.array(ob['matrix'], 'd')
-        inventory.move2(self.matrix, matrix)
+#         k = 0
+#         for j in range(n_output):  
+#             grad[k] = sx = ss[j]
+#             k += 1
+#             for i in range(n_input):
+#                 grad_in[i] += sx * param[k]
+#                 grad[k] = sx * X[i]
+#                 k += 1
+#     #
+#     def as_dict(self):
+#         return { 'name': 'sigma_neuron_layer',
+#                  'func': self.func.to_dict(),
+#                  'n_input': self.n_input, 
+#                  'n_output': self.n_output,
+#                  'matrix': [list(row) for row in self.matrix]
+#                }
+#     #
+#     def init_from(self, ob):
+#         cdef double[:,::1] matrix = np.array(ob['matrix'], 'd')
+#         inventory.move2(self.matrix, matrix)
 
-@register_model('sigma_neuron_layer')
-def sigma_neuron_layer_from_dict(ob):
-    layer = SigmaNeuronModelLayer(ob['n_input'], ob['n_output'])
-    return layer
+# @register_model('sigma_neuron_layer')
+# def sigma_neuron_layer_from_dict(ob):
+#     layer = SigmaNeuronModelLayer(ob['n_input'], ob['n_output'])
+#     return layer
 
 cdef class LinearFuncModel(BaseModel):
     #
@@ -1289,21 +1193,23 @@ cdef class FFNetworkModel(MLModel):
         self.is_forward = 1
 
     cdef void _backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
-        cdef Py_ssize_t n_layer = PyList_GET_SIZE(<PyObject*>self.layers)
+        # cdef Py_ssize_t n_layer = PyList_GET_SIZE(self.layers)
+        cdef Py_ssize_t n_layer = len(self.layers)
         cdef Py_ssize_t j, l, m, m0
         cdef ModelLayer layer, prev_layer
-#         cdef double[::1] grad_in
         cdef double[::1] grad_out, input
         cdef list layers = self.layers
 
         if not self.is_forward:
             self._forward(X)
-        m = len(grad)
+        m = grad.shape[0]
         l = n_layer-1
         grad_out = grad_u
         while l >= 0:
+            # layer = <ModelLayer>PyList_GET_ITEM(layers, l)
             layer = <ModelLayer>layers[l]
             if l > 0:
+                # prev_layer = <ModelLayer>PyList_GET_ITEM(layers, l-1)
                 prev_layer = <ModelLayer>layers[l-1]
                 input = prev_layer.output
             else:
@@ -1679,3 +1585,57 @@ cdef class SquaredModel(Model):
 #         lval_deriv =
 #
 
+# cdef class ScalarModel:
+#     cdef double _evaluate(self, double x)
+#     cdef void _evaluate(self, double x, double[::1] grad)
+
+
+cdef class LogSpecModel(Model):
+    #
+    def __init__(self, n_param, center=None, scale=None, param=None):
+        self.n_param = n_param
+        self.n_input = 1
+        if param is None:
+            self.param = self.ob_param = np.zeros(n_param, "d")
+        else:
+            self.param = self.ob_param = param
+        if scale is None:
+            self.scale = np.ones(n_param, "d")
+        else:
+            self.scale = scale
+        if center is None:
+            self.center = np.zeros(n_param, "d")
+        else:
+            self.center = center
+        self.grad = np.zeros(n_param, "d")
+    #
+    cdef double _evaluate(self, double[::1] x):
+        cdef double v, s
+        cdef double *param = &self.param[0]
+        cdef double *center = &self.center[0]
+        cdef double *scale = &self.scale[0]
+
+        cdef Py_ssize_t k
+        cdef double xx = x[0]
+
+        s = 0
+        for k in range(self.n_param):
+            v = (xx - center[k]) / scale[k]
+            s += log(1 + param[k] * exp(-v*v/2))
+        return s
+    #
+    cdef void _gradient(self, double[::1] x, double[::1] grad):
+        cdef double v, ee
+        cdef double *param = &self.param[0]
+        cdef double *center = &self.center[0]
+        cdef double *scale = &self.scale[0]
+
+        cdef Py_ssize_t k, m = self.n_param
+        cdef double xx = x[0]
+
+        inventory._clear(&grad[0], grad.shape[0])
+
+        for k in range(self.n_param):
+            v = (xx - center[k]) / scale[k]
+            ee = exp(-v*v/2)
+            grad[k] =  ee / (1 + param[k] * ee)

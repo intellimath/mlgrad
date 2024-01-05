@@ -1,11 +1,11 @@
 # coding: utf-8
 
-cython: boundscheck=False
-cython: wraparound=False
-cython: nonecheck=False
-cython: language_level=3
-cython: embedsignature=True
-cython: initializedcheck=False
+# cython: boundscheck=False
+# cython: wraparound=False
+# cython: nonecheck=False
+# cython: language_level=3
+# cython: embedsignature=True
+# cython: initializedcheck=False
 
 # The MIT License (MIT)f
 #
@@ -149,7 +149,7 @@ cdef class ArrayRMSProp(ArrayAverager):
 
 cdef class ArrayAdaM2(ArrayAverager):
 
-    def __init__(self, beta1=Beta1, beta2=Beta2, epsilon=Epsilon):
+    def __init__(self, beta1=Beta1, beta2=Beta2, epsilon=Epsilon2):
         self.beta1 = beta1
         self.beta2 = beta2
         self.epsilon = epsilon
@@ -195,6 +195,8 @@ cdef class ArrayAdaM2(ArrayAverager):
 
             vgrad[i] = beta2 * vgrad[i] + (1-beta2)*v*v
             vv = vgrad[i] / (1-beta2_k)
+            # if vv < 0:
+            #     raise RuntimeError(f"{vv}")
             v2 = sqrt(vv)
             array_average[i] = h * (mv / (v2 + epsilon))
 
@@ -245,29 +247,20 @@ cdef class ArrayAdaM1(ArrayAverager):
     
         self.beta1_k *= beta1
         self.beta2_k *= beta2
-        self.beta1_k += 1
-        self.beta2_k += 1
+        # self.beta1_k += 1
+        # self.beta2_k += 1
         beta1_k = self.beta1_k
         beta2_k = self.beta2_k
         # for i in prange(m, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
         for i in range(m):
             v = x[i]
-            mgrad[i] = beta1 * mgrad[i] + v
-            mv = mgrad[i] / beta1_k
+            mgrad[i] = beta1 * mgrad[i] + (1-beta1)*v
+            mv = mgrad[i] / (1 - beta1_k)
 
-            vgrad[i] = beta2 * vgrad[i] + fabs(v)
-            vv = vgrad[i] / beta2_k
+            vgrad[i] = beta2 * vgrad[i] + (1-beta1)*fabs(v)
+            vv = vgrad[i] / (1 - beta2_k)
             v2 = fabs(vv)
             array_average[i] = h * (mv / (v2 + epsilon))
-            
-#             v = x[i]
-#             mgrad[i] = beta1 * mgrad[i] + (1.0 - beta1) * v 
-#             mv = mgrad[i] / (1.0 - self.beta1_k)
-
-#             vgrad[i] = beta2 * vgrad[i] + (1.0 - beta2) * fabs(v)
-#             vv = vgrad[i] / (1.0 - self.beta2_k)
-#             v2 = fabs(vv)
-#             array_average[i] = h * (mv / (v2 + epsilon))
 
 # cdef class ArrayAdaNG(ArrayAverager):
 

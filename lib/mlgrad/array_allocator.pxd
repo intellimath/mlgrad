@@ -4,7 +4,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2022> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2023> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,11 @@ cimport cython
 
 cdef class Allocator:
     #
-    cpdef allocate(self, Py_ssize_t n)
-    cpdef allocate2(self, Py_ssize_t n, Py_ssize_t m)
-    cpdef get_allocated(self)
-    cpdef Allocator suballocator(self)
+    # cpdef allocate(self, Py_ssize_t n)
+    # cpdef allocate2(self, Py_ssize_t n, Py_ssize_t m)
+    # cpdef get_allocated(self)
+    # cpdef Allocator suballocator(self)
+    pass
 
 @cython.final
 cdef class ArrayAllocator(Allocator):

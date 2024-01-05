@@ -3,9 +3,9 @@
 cimport cython
 
 cdef class Distance:    
-    cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) nogil
-    cdef double evaluate(self, double[::1] x, double[::1] y) nogil
-    cdef void gradient(self, double[::1] x, double[::1] y, double[::1]) nogil
+    cdef double _evaluate(self, const double *x, const double *y, Py_ssize_t n) noexcept nogil
+    cdef double evaluate(self, double[::1] x, double[::1] y) noexcept nogil
+    cdef void gradient(self, double[::1] x, double[::1] y, double[::1]) noexcept nogil
     cdef set_param(self, name, val)
     
 @cython.final
@@ -27,4 +27,4 @@ cdef class DistanceWithScale(Distance):
 # @cython.final
 cdef class MahalanobisDistance(DistanceWithScale):
     
-    cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil
+    cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) noexcept nogil

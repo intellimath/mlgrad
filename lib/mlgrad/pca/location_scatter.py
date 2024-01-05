@@ -10,38 +10,42 @@ def distance_center(X, c, /):
     return np.sqrt(Z2)
 
 def location(X, /):
-    return mean(X, axis=0)
+    return X.mean(axis=0)
 
-def robust_location(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
-    c = XY.mean(axis=0)
+def robust_location(X, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
+    c = X.mean(axis=0)
     c_min = c
-    N = len(XY)
+    N = len(X)
 
-    # Z = XY - c
+    # Z = X - c
     # U = (Z * Z).sum(axis=1)
-    Z = XY - c
+    Z = X - c
+
     path, _ = einsum_path("ni,ni->n", Z, Z, optimize='optimal')
     U = einsum("ni,ni->n", Z, Z, optimize=path)
-    af.fit(U)
-    G = af.weights(U)
-    s = s_min = af.u
+
+    s = s_min = af.evaluate(U)
+    G = af.gradient(U)
+    # print('*', s, G)
 
     if verbose:
         print(s, c)
 
     for K in range(n_iter):
-        c = XY.T @ G
+        c = X.T @ G
 
-        # Z = XY - c
+        # Z = X - c
         # U = (Z * Z).sum(axis=1)
-        Z = XY - c
+        Z = X - c
         U = einsum("ni,ni->n", Z, Z, optimize=path)
         # U = distance_center(XY, c)
+        # print(U)
         s = af.evaluate(U)
         G = af.gradient(U)
-        
+        # print('**', s, G)
+
         # print(S, c)
-        
+
         if K > 0 and s < s_min:
             s_min = s
             c_min = c
@@ -55,7 +59,6 @@ def robust_location(XY, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
         print(f"K: {K}")
 
     return c_min
-
 
 def scatter_matrix(X):
     return X.T @ X / len(X)
@@ -72,7 +75,7 @@ def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=True, return_q
     # D = np.fromiter(
     #         (((x @ S) @ x) for x in X), 'd', N)
     qval_min = maf.evaluate(D)
-    W = maf.gradient(D)
+    W = maf.weights(D)
 
     qvals = [qval_min]
     for K in range(n_iter):
@@ -83,6 +86,7 @@ def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=True, return_q
         # D = np.fromiter(
         #         (((x @ S) @ x) for x in X), 'd', N)
         qval = maf.evaluate(D)
+        W = maf.weights(D)
         qvals.append(qval)
 
         stop = False

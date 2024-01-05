@@ -43,7 +43,7 @@ def scaling_function(
              kind='S',
              rhofunc=func.Sqrt(0.001),
              *,
-             tol=1.0e-8, n_iter=1000):
+             tol=1.0e-8, n_iter=200):
 
     avgfunc = avragg.SAverage(rhofunc, tol=tol, n_iter=n_iter)
 

@@ -7,7 +7,7 @@
 
 cimport cython
 
-from libc.math cimport fabs, pow, sqrt, fmax
+from libc.math cimport fabs, pow, sqrt, fmax, log, exp
 from libc.string cimport memcpy, memset
 
 from mlgrad.func cimport Func
@@ -19,9 +19,9 @@ cdef extern from *:
     """
     #define D_PTR(p) (*(p))
     """
-    double D_PTR(double* p) nogil
-    PyObject* PyList_GET_ITEM(PyObject* list, Py_ssize_t i) nogil
-    int PyList_GET_SIZE(PyObject* list) nogil
+    double D_PTR(double* p) noexcept nogil
+    PyObject* PyList_GET_ITEM(list ob, Py_ssize_t i) noexcept nogil
+    int PyList_GET_SIZE(list ob) noexcept nogil
  
 cdef extern from "Python.h":
     double PyDouble_GetMax()
@@ -48,7 +48,7 @@ cdef inline Model as_model(object o):
 
 cdef class BaseModel(object):
     cdef double _evaluate(self, double[::1] X)
-    cdef _evaluate_all(self, double[:,::1] X, double[::1] Y)
+    cdef void _evaluate_all(self, double[:,::1] X, double[::1] Y)
     cpdef copy(self, bint share=*)
 
 cdef class Model(BaseModel):
@@ -96,13 +96,9 @@ cdef class ModelView(Model):
 cdef class LinearModel(Model):
     pass
 
-@cython.final
-cdef class TLinearModel(Model):
-    pass
-
-@cython.final
-cdef class SigmaNeuronModel(Model):
-    cdef Func outfunc
+# @cython.final
+# cdef class SigmaNeuronModel(Model):
+#     cdef Func outfunc
 
 @cython.final
 cdef class WinnerModel(Model):
@@ -131,9 +127,11 @@ cdef class ModelLayer(Model2):
     
     cpdef ModelLayer copy(self, bint share=*)
     
+@cython.final
 cdef class ScaleLayer(ModelLayer):
     cdef public Func func    
     
+@cython.final
 cdef class LinearLayer(ModelLayer):
     cdef public double[:,::1] matrix
     # cdef bint first_time
@@ -184,3 +182,7 @@ cdef class SquaredModel(Model):
     cdef double[:,::1] matrix
     cdef double[:,::1] matrix_grad
                                                                     
+@cython.final
+cdef class LogSpecModel(Model):
+    cdef public double[::1] center
+    cdef public double[::1] scale

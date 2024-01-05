@@ -33,11 +33,11 @@ import numpy as np
 #         return -x
 
 cdef class Distance:
-    cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
+    cdef double evaluate(self, double[::1] x, double[::1] y) noexcept nogil:
         return 0
-    cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:
+    cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) noexcept nogil:
         return 0
-    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
+    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) noexcept nogil:
         pass
     def __call__(self, double[::1] x, double[::1] y):
         return self.evaluate(x, y)
@@ -50,7 +50,7 @@ cdef class Distance:
     
 cdef class AbsoluteDistance(Distance):
 
-    cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
+    cdef double evaluate(self, double[::1] x, double[::1] y) noexcept nogil:
         cdef int i, m = x.shape[0]
         cdef double s
 
@@ -59,7 +59,7 @@ cdef class AbsoluteDistance(Distance):
             s += fabs(x[i] - y[i])
         return s
 
-    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
+    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) noexcept nogil:
         cdef int i, m = grad.shape[0]
         cdef double v
 
@@ -74,7 +74,7 @@ cdef class AbsoluteDistance(Distance):
 
 cdef class EuclidDistance(Distance):
 
-    cdef double _evaluate(self, double *x, double *y, Py_ssize_t m) nogil:
+    cdef double _evaluate(self, double *x, double *y, Py_ssize_t m) noexcept nogil:
         cdef Py_ssize_t i
         cdef double s, v
         
@@ -84,7 +84,7 @@ cdef class EuclidDistance(Distance):
             s += v * v
         return s
     
-    cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
+    cdef double evaluate(self, double[::1] x, double[::1] y) noexcept nogil:
         cdef Py_ssize_t i, m = x.shape[0]
         cdef double s, v
         
@@ -94,7 +94,7 @@ cdef class EuclidDistance(Distance):
             s += v * v
         return s
 
-    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
+    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) noexcept nogil:
         cdef Py_ssize_t i, m = grad.shape[0]
         cdef double v
     
@@ -106,7 +106,7 @@ cdef class PowerDistance(Distance):
     def __init__(self, p):
         self.p = p
         
-    cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
+    cdef double evaluate(self, double[::1] x, double[::1] y) noexcept nogil:
         cdef int i, m = x.shape[0]
         cdef double s, v
         
@@ -119,7 +119,7 @@ cdef class PowerDistance(Distance):
                 s += pow(-v, self.p)
         return s / self.p
 
-    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
+    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) noexcept nogil:
         cdef int i, m = grad.shape[0]
         cdef double v
     
@@ -138,7 +138,7 @@ cdef class MahalanobisDistance(DistanceWithScale):
     def __init__(self, double[:,::1] S):
         self.S = S
 
-    cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) nogil:
+    cdef double _evaluate(self, const double *x, const double *y, const Py_ssize_t n) noexcept nogil:
         cdef double *S = &self.S[0,0]
         cdef double xy1, xy2
         cdef Py_ssize_t i, j
@@ -169,10 +169,10 @@ cdef class MahalanobisDistance(DistanceWithScale):
 
         return s
         
-    cdef double evaluate(self, double[::1] x, double[::1] y) nogil:
+    cdef double evaluate(self, double[::1] x, double[::1] y) noexcept nogil:
         return self._evaluate(&x[0], &y[0], x.shape[0])
 
-    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) nogil:
+    cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) noexcept nogil:
         cdef double[:,::1] S = self.S
         cdef double *S_i
         cdef Py_ssize_t i, j, m = grad.shape[0]

@@ -54,8 +54,8 @@ class IRGD:
         
         self.completed = False
         
-        self.K = 0
-        self.m = 0
+        # self.K = 0
+        # self.m = 0
         
         self.lvals = []
         #self.qvals = []
@@ -77,7 +77,7 @@ class IRGD:
 
         self.lval_best = self.weights.get_qvalue()
         # print(self.lval_best)
-        self.param_best[:] = risk.model.param
+        self.param_best = risk.model.param.copy()
         
         if self.callback is not None:
             self.callback(self)
@@ -103,7 +103,7 @@ class IRGD:
                 self.completed = 1
 
             if self.lval < self.lval_best:
-                self.param_best[:] = risk.param
+                self.param_best = risk.param.copy()
                 self.lval_best = self.lval
                 m = 0
             else:

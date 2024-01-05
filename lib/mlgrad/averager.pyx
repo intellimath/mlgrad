@@ -29,7 +29,8 @@ import numpy as np
 cdef double Beta = 0.9
 cdef double Beta1 = 0.9
 cdef double Beta2 = 0.999
-cdef double Epsilon = 0.001
+cdef double Epsilon2 = 1.0e-4
+cdef double Epsilon = 1.0e-4
 
 include "averager_scalar.pyx"
 include "averager_array.pyx"

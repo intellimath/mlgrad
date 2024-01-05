@@ -21,6 +21,7 @@ ctypedef fused number:
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()
+    double PyFloat_GetMin()
 
 cdef extern from "pymath.h" nogil:
     bint Py_IS_FINITE(double x)
@@ -81,9 +82,9 @@ cdef class Average:
     cdef readonly double tol
     cdef readonly Py_ssize_t n_iter 
     cdef readonly Py_ssize_t K 
-    cdef public bint success    
+    # cdef public bint success    
     cdef public double u
-    cdef public double pval
+    # cdef public double pval
     cdef bint evaluated
     #
     cdef double init_u(self, double[::1] Y)
@@ -92,7 +93,7 @@ cdef class Average:
     cdef _gradient(self, double[::1] Y, double[::1] grad)
     cdef _weights(self, double[::1] Y, double[::1] weights)
     #    
-    cpdef fit(self, double[::1] Y)
+    # cpdef fit(self, double[::1] Y)
     #
     # cdef bint stop_condition(self)
 
@@ -105,8 +106,8 @@ cdef class MAverage(AverageIterative):
     #
 
 # @cython.final
-cdef class MAverage2(AverageIterative):
-    cdef Func func
+# cdef class MAverage2(AverageIterative):
+#     cdef Func func
     #
     
     
@@ -146,10 +147,10 @@ cdef class WMAverage(Average):
 cdef class TMAverage(Average):
     cdef Average avr
 
-@cython.final
-cdef class HMAverage(Average):
-    cdef Average avr
-    cdef double[::1] Z
+# @cython.final
+# cdef class HMAverage(Average):
+#     cdef Average avr
+#     cdef double[::1] Z
     
 @cython.final
 cdef class ArithMean(Average):

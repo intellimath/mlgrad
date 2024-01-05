@@ -2,7 +2,7 @@
 
 cdef class FG(GD):
     #
-    def __init__(self, Functional risk, tol=1.0e-9, h=0.001, n_iter=1000, M = 22,
+    def __init__(self, Functional risk, tol=1.0e-9, h=0.001, n_iter=1000, M = 44,
                  callback=None, stop_condition=None, h_rate=None):
         """
         """
@@ -23,10 +23,10 @@ cdef class FG(GD):
         else:
             self.h_rate = h_rate
             
-        # self.m = 0
         self.M = M
         
         self.param_min = None
+        self.param_copy = None
         
         self.callback = callback
     #

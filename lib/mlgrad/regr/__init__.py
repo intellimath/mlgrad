@@ -9,7 +9,7 @@ from mlgrad.loss import SquareErrorLoss, ErrorLoss
 
 from mlgrad import fg, erm_fg, erm_irgd, erisk, mrisk
 
-from mlgrad.af import averaging_function
+from mlgrad.af import averaging_function, scaling_function
 
 __all__ = 'regression', 'm_regression', 'm_regression_irls', 'r_regression_irls', 'mr_regression_irls'
 
@@ -165,7 +165,7 @@ def plot_losses_and_errors(alg, Xs, Y, fname=None, logscale=True, lang='en'):
         plt.savefig(fname)
     plt.show()
 
-def plot_losses(alg, Xs, Y, fname=None, logscale=True, lang='en'):
+def plot_losses(alg, Xs, Y, fname=None, logscale=False, lang='en'):
     import numpy as np
     import matplotlib.pyplot as plt
 
@@ -187,7 +187,7 @@ def plot_losses(alg, Xs, Y, fname=None, logscale=True, lang='en'):
         plt.savefig(fname)
     plt.show()
     
-def errors_plot(alg, Xs, Y, fname=None, logscale=True, lang='en'):
+def errors_plot(alg, Xs, Y, fname=None, logscale=False, lang='en'):
     import numpy as np
     import matplotlib.pyplot as plt
 
@@ -201,7 +201,7 @@ def errors_plot(alg, Xs, Y, fname=None, logscale=True, lang='en'):
         plt.title('Ошибки')
         plt.xlabel('Ранг ошибки')
         plt.ylabel('Значение ошибки')
-    plt.plot(sorted(err), marker='o', markersize='4')
+    plt.plot(sorted(err), marker='o', markersize=4)
     plt.minorticks_on()
     if fname:
         plt.savefig(fname)
