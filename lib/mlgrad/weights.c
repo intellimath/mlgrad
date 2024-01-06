@@ -3606,6 +3606,7 @@ struct __pyx_obj_6mlgrad_6avragg_Average {
   Py_ssize_t n_iter;
   Py_ssize_t K;
   double u;
+  double pval;
   int evaluated;
 };
 

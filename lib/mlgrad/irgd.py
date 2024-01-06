@@ -31,7 +31,7 @@ import numpy as np
 
 class IRGD:
     #
-    def __init__(self, gd, weights, tol=1.0e-5, n_iter=100, h_anneal=0.99, M=11, callback=None):
+    def __init__(self, gd, weights, tol=1.0e-5, n_iter=100, h_anneal=0.99, M=12, callback=None):
         """
         """
         self.gd = gd

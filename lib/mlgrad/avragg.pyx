@@ -66,8 +66,8 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             S += func._evaluate(Y[k] - u)
 
         return S / <double>N
@@ -80,8 +80,8 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             S += func._derivative(Y[k] - u)
 
         return -S / <double>N
@@ -95,8 +95,8 @@ cdef class PenaltyAverage(Penalty):
 
         S = 0
         V = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             yk = Y[k]
             v = func._derivative_div_x(yk - u)
             V += v
@@ -112,13 +112,13 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             grad[k] = v = func._derivative2(Y[k] - u)
             S += v
  
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             grad[k] /= S
 
 @cython.final
@@ -136,8 +136,8 @@ cdef class PenaltyScale(Penalty):
         cdef double v
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             v = Y[k]
             S += func._evaluate(v / s)
 
@@ -151,8 +151,8 @@ cdef class PenaltyScale(Penalty):
         cdef Func func = self.func
         #
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             v = Y[k] / s
             S += func._derivative(v) * v
         #
@@ -166,14 +166,14 @@ cdef class PenaltyScale(Penalty):
         cdef Func func = self.func
         #
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             y_k = Y[k]
             S += func._derivative(y_k / s) * y_k
         #
         return S / N
     #
-    # @cython.cdivision(True)
+    @cython.cdivision(True)
     @cython.final
     cdef void gradient(self, double[::1] Y, const double s, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
@@ -181,14 +181,14 @@ cdef class PenaltyScale(Penalty):
         cdef Func func = self.func
         #
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             v = Y[k] / s
             S += func._derivative2(v) * v * v
         S += N
         #
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in range(N):
             v = Y[k] / s
             grad[k] = func._derivative(v) / S
 
@@ -230,75 +230,32 @@ cdef class AverageIterative(Average):
         cdef Py_ssize_t k=0, n_iter = self.n_iter
         cdef Penalty penalty = self.penalty
         cdef double tol = self.tol
-        cdef double u, u1, u2
-        cdef double d1, d2, d, fd
+        cdef double u, u_min, pval, pval_min
+        cdef bint finish = 0
 
-        u = self.init_u(Y)
-        d = penalty.derivative(Y, u)
-        if d < 0:
-            d1 = d
-            d2 = max_double
-            u1 = u2 = u
-        elif d > 0:
-            d1 = min_double
-            d2 = d
-            u1 = u2 = u
-        else:
-            self.u = u
-            self.K = 0
-            self.evaluated = 1
-            return self.u
+        u = u_min = self.init_u(Y)
+        pval_min = pval = penalty.evaluate(Y, u)
         #
+        m = 0
         for k in range(n_iter):
             u = penalty.iterative_next(Y, u)
-            d = penalty.derivative(Y, u)
-            if d == 0:
-                self.u = u
-                self.K = k+1
-                self.evaluated = 1
-                return self.u
-            elif d < 0:
-                if d > d1:
-                    d1 = d
-                    u1 = u
-            elif d > 0: 
-                if d < d2:
-                    d2 = d
-                    u2 = u
+            pval = penalty.evaluate(Y, u)
 
-            if d1 == min_double or d2 == max_double:
-                continue
+            if fabs(pval - pval_min) / (1 + fabs(pval_min)) < tol:
+                finish = 1
 
-            if d1 >= -1.0 and d2 <= 1.0:
+            if pval <= pval_min:
+                pval_min = pval
+                u_min = u
+
+            if finish:
                 break
-
-            if fabs(u1 - u2) / (1+fabs(u)) < tol:
-                break
-
-        if d1 == min_double:
-            u = u2
-        elif d2 == max_double:
-            u = u1
-        else:
-            u = (u1 + u2) / 2
-            while fabs(u1 - u2) / (1+fabs(u)) >= tol:
-                d = penalty.derivative(Y, u)
-                if d < 0:
-                    u1 = u
-                elif d > 0:
-                    u2 = u
-                else:
-                    break
-
-                u = (u1 + u2) / 2
-                k += 1
-
-            u = (u1 + u2) / 2
+            #
 
         self.K = k + 1
-        self.u = u
+        self.u = u_min
+        self.pval = pval_min
         self.evaluated = 1
-        # print(self.K, self.u)
         return self.u
     #
     cdef _gradient(self, double[::1] Y, double[::1] grad):
@@ -875,7 +832,6 @@ cdef class RArithMean(Average):
         # for k in range(N):
                 S += func._evaluate(Y[k])
         self.u = S / N
-        # self.u_min = self.u
         self.evaluated = 1
         return self.u
     #
@@ -883,7 +839,7 @@ cdef class RArithMean(Average):
     cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
         # cdef double *GG = &grad[0]
-        cdef double v
+        cdef double v = 1./N
         cdef Func func = self.func
 
         v = 1./N
@@ -906,9 +862,8 @@ cdef class RArithMean(Average):
                 grad[k] = v
                 S += v
 
-        # with cython.nogil, parallel():
-        #     for k in prange(N, schedule='static'):
-        for k in range(N):
+        for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
+        # for k in range(N):
                 grad[k] /= S
 
         self.evaluated = 0
@@ -918,14 +873,12 @@ cdef class Minimal(Average):
     cdef double _evaluate(self, double[::1] Y):
         cdef double yk, y_min = Y[0]
         cdef Py_ssize_t k, N = Y.shape[0]
-        # cdef double *y = &Y[0]
 
         for k in range(N):
             yk = Y[k]
             if yk < y_min:
                 y_min = yk
         self.u = y_min
-        # self.u_min = self.u
         self.evaluated = 1
         return self.u
     #
@@ -933,9 +886,9 @@ cdef class Minimal(Average):
         cdef Py_ssize_t k, N = Y.shape[0]
         cdef double u
 
-        if not self.evaluated:
-            self.fit(Y)
-
+        # if not self.evaluated:
+        #     u = self._evaluate(Y)
+        # else:
         u = self.u
 
         for k in range(N):
@@ -955,26 +908,19 @@ cdef class Maximal(Average):
             yk = Y[k]
             if yk > y_max:
                 y_max = yk
+
         self.u = y_max
-        # self.u_min = self.u
         self.evaluated = 1
         return self.u
     #
     cdef _gradient(self, double[::1] Y, double[::1] grad):
-        cdef Py_ssize_t k, m, N = Y.shape[0]
+        cdef Py_ssize_t k, N = Y.shape[0]
 
-        m = 0
         for k in range(N):
             if Y[k] == self.u:
                 grad[k] = 1
-                m += 1
             else:
                 grad[k] = 0
-
-        if m > 1:
-            for k in range(N):
-                if grad[k] > 0:
-                    grad[k] /= m
 
         self.evaluated = 0
 
@@ -989,8 +935,8 @@ cdef class KolmogorovMean(Average):
         cdef Py_ssize_t k, N = Y.shape[0]
 
         u = 0
-#         for k in prange(N, nogil=True):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static'):
+        # for k in range(N):
             yk = Y[k]
             u += self.func._evaluate(yk)
         u /= N
@@ -1005,8 +951,8 @@ cdef class KolmogorovMean(Average):
         cdef double V
 
         V = self.invfunc._derivative(self.uu)
-#         for k in prange(N, nogil=True, schedule='static'):
-        for k in range(N):
+        for k in prange(N, nogil=True, schedule='static'):
+        # for k in range(N):
             grad[k] = self.func._derivative(Y[k]) * V
         self.evaluated = 0
 
@@ -1014,37 +960,13 @@ cdef class SoftMinimal(Average):
     #
     def __init__(self, a):
         self.softmin = SoftMin(a)
-        
     #
     cdef double _evaluate(self, double[::1] Y):
-#         cdef double u, yk
-#         cdef Py_ssize_t k, N = Y.shape[0]
-#         cdef double a = self.a
- 
-#         u = 0
-# #         for k in prange(N, nogil=True):
-#         for k in range(N):
-#             yk = Y[k]
-#             u += exp(-yk*a)
-#         u /= N
         self.u = self.softmin._evaluate(Y)
-        # self.u_min = self.u
         self.evaluated = 1
         return self.u
     #
     cdef _gradient(self, double[::1] Y, double[::1] grad):
-#         cdef Py_ssize_t k, l, N = Y.shape[0]
-#         cdef double u, yk, yl
-#         cdef double a = self.a
-
-#         for l in range(N):
-#             u = 0
-#             yl = Y[l]
-#             for k in range(N):
-#                 yk = Y[k] - yl
-#                 u += exp(-yk*a)
-
-#             grad[l] = 1. / u
         self.softmin._gradient(Y, grad)
         self.evaluated = 0
 

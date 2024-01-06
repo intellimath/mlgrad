@@ -84,7 +84,7 @@ cdef class Average:
     cdef readonly Py_ssize_t K 
     # cdef public bint success    
     cdef public double u
-    # cdef public double pval
+    cdef public double pval
     cdef bint evaluated
     #
     cdef double init_u(self, double[::1] Y)
