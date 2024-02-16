@@ -209,7 +209,7 @@ setup(
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
     license = "MIT License",
-    ext_modules = cythonize(ext_modules, nthreads=4,
+    ext_modules = cythonize(ext_modules, #nthreads=4,
                             compiler_directives=cython_compiler_directives2),
     # ext_modules = ext_modules,
     package_dir = {'': 'lib'},
