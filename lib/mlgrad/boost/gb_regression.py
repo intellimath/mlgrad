@@ -2,14 +2,14 @@
 # Gradient Boosting Regression 
 #
 
-from mlgrad.risk import ERisk, ERiskGB
+from mlgrad.risks import ERisk, ERiskGB
 from mlgrad.loss import SquareErrorLoss
-from mlgrad.model import LinearFuncModel
+from mlgrad.models import LinearFuncModel
 
 from mlgrad import erm_fg, erisk
 from mlgrad.af import averaging_function
 
-import mlgrad.func as func
+import mlgrad.funcs as funcs
 
 import numpy as np
 
@@ -202,7 +202,7 @@ def gb_fit_agg(X, Y, new_model, loss_func=None, aggname='WM',
     lfm = LinearFuncModel()
     if loss_func is None:
         loss_func = SquareErrorLoss()
-    agg = averaging_function(aggname, rhofunc=func.QuantileFunc(alpha, func.Sqrt(0.001)))
+    agg = averaging_function(aggname, rhofunc=funcs.QuantileFunc(alpha, funcs.Sqrt(0.001)))
     gb = MGradientBoostingRegression(lfm, new_model, loss_func, agg, 
                            h=h, n_iter=n_iter, n_iter2=n_iter2, tol=tol)
     gb.fit(X, Y)

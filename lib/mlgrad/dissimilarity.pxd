@@ -1,6 +1,6 @@
 # cython: language_level=3
 
-from mlgrad.func cimport Func
+from mlgrad.funcs cimport Func
 
 cdef class Dissimilarity(object):
     #

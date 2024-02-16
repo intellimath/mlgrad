@@ -12,7 +12,8 @@ Options.fast_fail = True
 import platform
 WIN32 = (platform.system() == 'Windows')
 
-Oflag = "-march=native"
+# Oflag = "-march=native"
+Oflag = ""
 extra_compile_args = [Oflag] #, "-fno-wrapv"] 
 extra_link_args = [Oflag, "-lm"]
 extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not WIN32 else "/openmp")]
@@ -60,22 +61,22 @@ ext_modules = [
         extra_link_args = extra_link_args,
     ),
     Extension(
-        "mlgrad.func",
-        ["lib/mlgrad/func.pyx"],
+        "mlgrad.funcs",
+        ["lib/mlgrad/funcs.pyx"],
         library=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
     ),
     Extension(
-        "mlgrad.func2",
-        ["lib/mlgrad/func2.pyx"],
+        "mlgrad.funcs2",
+        ["lib/mlgrad/funcs2.pyx"],
         library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
     Extension(
-        "mlgrad.model",
-        ["lib/mlgrad/model.pyx"],
+        "mlgrad.models",
+        ["lib/mlgrad/models.pyx"],
         library=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
@@ -136,8 +137,8 @@ ext_modules = [
     #     extra_link_args = extra_link_args,
     # ),
     Extension(
-        "mlgrad.risk",
-        ["lib/mlgrad/risk.pyx"],
+        "mlgrad.risks",
+        ["lib/mlgrad/risks.pyx"],
         library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,

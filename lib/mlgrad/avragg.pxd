@@ -2,8 +2,8 @@
 
 cimport cython
 
-from mlgrad.func cimport Func, ParameterizedFunc
-from mlgrad.func2 cimport SoftMin
+from mlgrad.funcs cimport Func, ParameterizedFunc
+from mlgrad.funcs2 cimport SoftMin
 from mlgrad.averager cimport ScalarAverager
 
 # from mlgrad.miscfuncs cimport init_rand, rand, fill

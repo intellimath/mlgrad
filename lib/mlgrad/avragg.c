@@ -1480,8 +1480,8 @@ static const char *__pyx_f[] = {
   "<stringsource>",
   "lib/mlgrad/avragg.pyx",
   "lib/mlgrad/avragg_fg.pyx",
-  "lib/mlgrad/func.pxd",
-  "lib/mlgrad/func2.pxd",
+  "lib/mlgrad/funcs.pxd",
+  "lib/mlgrad/funcs2.pxd",
   "lib/mlgrad/averager.pxd",
 };
 /* #### Code section: utility_code_proto_before_types ### */
@@ -1631,59 +1631,63 @@ typedef struct {
 /* #### Code section: type_declarations ### */
 
 /*--- Type declarations ---*/
-struct __pyx_obj_6mlgrad_4func_Func;
-struct __pyx_obj_6mlgrad_4func_Comp;
-struct __pyx_obj_6mlgrad_4func_CompSqrt;
-struct __pyx_obj_6mlgrad_4func_Gauss;
-struct __pyx_obj_6mlgrad_4func_DArctg;
-struct __pyx_obj_6mlgrad_4func_LogGauss2;
-struct __pyx_obj_6mlgrad_4func_ZeroOnPositive;
-struct __pyx_obj_6mlgrad_4func_FuncExp;
-struct __pyx_obj_6mlgrad_4func_Id;
-struct __pyx_obj_6mlgrad_4func_Neg;
-struct __pyx_obj_6mlgrad_4func_PlusId;
-struct __pyx_obj_6mlgrad_4func_Arctang;
-struct __pyx_obj_6mlgrad_4func_Sigmoidal;
-struct __pyx_obj_6mlgrad_4func_ModSigmoidal;
-struct __pyx_obj_6mlgrad_4func_SoftPlus;
-struct __pyx_obj_6mlgrad_4func_Threshold;
-struct __pyx_obj_6mlgrad_4func_Sign;
-struct __pyx_obj_6mlgrad_4func_Quantile;
-struct __pyx_obj_6mlgrad_4func_QuantileFunc;
-struct __pyx_obj_6mlgrad_4func_Expectile;
-struct __pyx_obj_6mlgrad_4func_Power;
-struct __pyx_obj_6mlgrad_4func_Square;
-struct __pyx_obj_6mlgrad_4func_SquareSigned;
-struct __pyx_obj_6mlgrad_4func_Absolute;
-struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog;
-struct __pyx_obj_6mlgrad_4func_SoftAbs;
-struct __pyx_obj_6mlgrad_4func_Sqrt;
-struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt;
-struct __pyx_obj_6mlgrad_4func_Logistic;
-struct __pyx_obj_6mlgrad_4func_Huber;
-struct __pyx_obj_6mlgrad_4func_TM;
-struct __pyx_obj_6mlgrad_4func_LogSquare;
-struct __pyx_obj_6mlgrad_4func_Tukey;
-struct __pyx_obj_6mlgrad_4func_Hinge;
-struct __pyx_obj_6mlgrad_4func_RELU;
-struct __pyx_obj_6mlgrad_4func_HSquare;
-struct __pyx_obj_6mlgrad_4func_HingeSqrt;
-struct __pyx_obj_6mlgrad_4func_HingeSqrtPlus;
-struct __pyx_obj_6mlgrad_4func_Exp;
-struct __pyx_obj_6mlgrad_4func_Log;
-struct __pyx_obj_6mlgrad_4func_KMinSquare;
-struct __pyx_obj_6mlgrad_4func_ParameterizedFunc;
-struct __pyx_obj_6mlgrad_4func_WinsorizedFunc;
-struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc;
-struct __pyx_obj_6mlgrad_4func_SoftMinFunc;
-struct __pyx_obj_6mlgrad_5func2_Func2;
-struct __pyx_obj_6mlgrad_5func2_PowerNorm;
-struct __pyx_obj_6mlgrad_5func2_SquareNorm;
-struct __pyx_obj_6mlgrad_5func2_AbsoluteNorm;
-struct __pyx_obj_6mlgrad_5func2_SquareForm;
-struct __pyx_obj_6mlgrad_5func2_Rosenbrok;
-struct __pyx_obj_6mlgrad_5func2_Himmelblau;
-struct __pyx_obj_6mlgrad_5func2_SoftMin;
+struct __pyx_obj_6mlgrad_5funcs_Func;
+struct __pyx_obj_6mlgrad_5funcs_Comp;
+struct __pyx_obj_6mlgrad_5funcs_CompSqrt;
+struct __pyx_obj_6mlgrad_5funcs_Gauss;
+struct __pyx_obj_6mlgrad_5funcs_DArctg;
+struct __pyx_obj_6mlgrad_5funcs_Linear;
+struct __pyx_obj_6mlgrad_5funcs_LogGauss2;
+struct __pyx_obj_6mlgrad_5funcs_ZeroOnPositive;
+struct __pyx_obj_6mlgrad_5funcs_ZeroOnNegative;
+struct __pyx_obj_6mlgrad_5funcs_TruncAbs;
+struct __pyx_obj_6mlgrad_5funcs_FuncExp;
+struct __pyx_obj_6mlgrad_5funcs_Id;
+struct __pyx_obj_6mlgrad_5funcs_Neg;
+struct __pyx_obj_6mlgrad_5funcs_PlusId;
+struct __pyx_obj_6mlgrad_5funcs_Arctang;
+struct __pyx_obj_6mlgrad_5funcs_Sigmoidal;
+struct __pyx_obj_6mlgrad_5funcs_ModSigmoidal;
+struct __pyx_obj_6mlgrad_5funcs_SoftPlus;
+struct __pyx_obj_6mlgrad_5funcs_Threshold;
+struct __pyx_obj_6mlgrad_5funcs_Sign;
+struct __pyx_obj_6mlgrad_5funcs_Quantile;
+struct __pyx_obj_6mlgrad_5funcs_QuantileFunc;
+struct __pyx_obj_6mlgrad_5funcs_Expectile;
+struct __pyx_obj_6mlgrad_5funcs_Power;
+struct __pyx_obj_6mlgrad_5funcs_Square;
+struct __pyx_obj_6mlgrad_5funcs_SquareSigned;
+struct __pyx_obj_6mlgrad_5funcs_Absolute;
+struct __pyx_obj_6mlgrad_5funcs_Quantile_AlphaLog;
+struct __pyx_obj_6mlgrad_5funcs_SoftAbs;
+struct __pyx_obj_6mlgrad_5funcs_Sqrt;
+struct __pyx_obj_6mlgrad_5funcs_FSqrt;
+struct __pyx_obj_6mlgrad_5funcs_Quantile_Sqrt;
+struct __pyx_obj_6mlgrad_5funcs_Logistic;
+struct __pyx_obj_6mlgrad_5funcs_Huber;
+struct __pyx_obj_6mlgrad_5funcs_TM;
+struct __pyx_obj_6mlgrad_5funcs_LogSquare;
+struct __pyx_obj_6mlgrad_5funcs_Tukey;
+struct __pyx_obj_6mlgrad_5funcs_Hinge;
+struct __pyx_obj_6mlgrad_5funcs_RELU;
+struct __pyx_obj_6mlgrad_5funcs_HSquare;
+struct __pyx_obj_6mlgrad_5funcs_HingeSqrt;
+struct __pyx_obj_6mlgrad_5funcs_HingeSqrtPlus;
+struct __pyx_obj_6mlgrad_5funcs_Exp;
+struct __pyx_obj_6mlgrad_5funcs_Log;
+struct __pyx_obj_6mlgrad_5funcs_KMinSquare;
+struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc;
+struct __pyx_obj_6mlgrad_5funcs_WinsorizedFunc;
+struct __pyx_obj_6mlgrad_5funcs_WinsorizedSmoothFunc;
+struct __pyx_obj_6mlgrad_5funcs_SoftMinFunc;
+struct __pyx_obj_6mlgrad_6funcs2_Func2;
+struct __pyx_obj_6mlgrad_6funcs2_PowerNorm;
+struct __pyx_obj_6mlgrad_6funcs2_SquareNorm;
+struct __pyx_obj_6mlgrad_6funcs2_AbsoluteNorm;
+struct __pyx_obj_6mlgrad_6funcs2_SquareForm;
+struct __pyx_obj_6mlgrad_6funcs2_Rosenbrok;
+struct __pyx_obj_6mlgrad_6funcs2_Himmelblau;
+struct __pyx_obj_6mlgrad_6funcs2_SoftMin;
 struct __pyx_obj_6mlgrad_8averager_ScalarAverager;
 struct __pyx_obj_6mlgrad_8averager_ScalarAdaM2;
 struct __pyx_obj_6mlgrad_8averager_ScalarAdaM1;
@@ -1729,7 +1733,7 @@ struct __pyx_memoryviewslice_obj;
  * ctypedef double (*FuncDerivative)(Func, double) nogil
  * ctypedef double (*FuncDerivative2)(Func, double) nogil
  */
-typedef double (*__pyx_t_6mlgrad_6avragg_FuncEvaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef double (*__pyx_t_6mlgrad_6avragg_FuncEvaluate)(struct __pyx_obj_6mlgrad_5funcs_Func *, double);
 
 /* "mlgrad/avragg.pxd":12
  * 
@@ -1738,7 +1742,7 @@ typedef double (*__pyx_t_6mlgrad_6avragg_FuncEvaluate)(struct __pyx_obj_6mlgrad_
  * ctypedef double (*FuncDerivative2)(Func, double) nogil
  * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
  */
-typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative)(struct __pyx_obj_6mlgrad_5funcs_Func *, double);
 
 /* "mlgrad/avragg.pxd":13
  * ctypedef double (*FuncEvaluate)(Func, double) nogil
@@ -1747,7 +1751,7 @@ typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative)(struct __pyx_obj_6mlgra
  * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
  * 
  */
-typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative2)(struct __pyx_obj_6mlgrad_5funcs_Func *, double);
 
 /* "mlgrad/avragg.pxd":14
  * ctypedef double (*FuncDerivative)(Func, double) nogil
@@ -1756,702 +1760,758 @@ typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative2)(struct __pyx_obj_6mlgr
  * 
  * ctypedef fused number:
  */
-typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivativeDivX)(struct __pyx_obj_6mlgrad_4func_Func *, double);
+typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivativeDivX)(struct __pyx_obj_6mlgrad_5funcs_Func *, double);
 
-/* "mlgrad/func.pxd":6
+/* "mlgrad/funcs.pxd":6
  * cimport cython
  * 
  * cdef class Func(object):             # <<<<<<<<<<<<<<
  *     cdef public unicode label
  *     #
  */
-struct __pyx_obj_6mlgrad_4func_Func {
+struct __pyx_obj_6mlgrad_5funcs_Func {
   PyObject_HEAD
-  struct __pyx_vtabstruct_6mlgrad_4func_Func *__pyx_vtab;
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func *__pyx_vtab;
   PyObject *label;
 };
 
 
-/* "mlgrad/func.pxd":23
+/* "mlgrad/funcs.pxd":23
  * 
  * @cython.final
  * cdef class Comp(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public Func f, g
  */
-struct __pyx_obj_6mlgrad_4func_Comp {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  struct __pyx_obj_6mlgrad_4func_Func *f;
-  struct __pyx_obj_6mlgrad_4func_Func *g;
+struct __pyx_obj_6mlgrad_5funcs_Comp {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
+  struct __pyx_obj_6mlgrad_5funcs_Func *f;
+  struct __pyx_obj_6mlgrad_5funcs_Func *g;
 };
 
 
-/* "mlgrad/func.pxd":29
+/* "mlgrad/funcs.pxd":29
  * 
  * @cython.final
  * cdef class CompSqrt(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public Func f, g
  */
-struct __pyx_obj_6mlgrad_4func_CompSqrt {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  struct __pyx_obj_6mlgrad_4func_Func *f;
-  struct __pyx_obj_6mlgrad_4func_Func *g;
+struct __pyx_obj_6mlgrad_5funcs_CompSqrt {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
+  struct __pyx_obj_6mlgrad_5funcs_Func *f;
+  struct __pyx_obj_6mlgrad_5funcs_Func *g;
 };
 
 
-/* "mlgrad/func.pxd":35
+/* "mlgrad/funcs.pxd":35
  * 
  * @cython.final
  * cdef class Gauss(Func):             # <<<<<<<<<<<<<<
- *     cdef public double a
+ *     cdef public double a, a2
  * 
  */
-struct __pyx_obj_6mlgrad_4func_Gauss {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Gauss {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double a;
+  double a2;
 };
 
 
-/* "mlgrad/func.pxd":39
+/* "mlgrad/funcs.pxd":39
  * 
  * @cython.final
  * cdef class DArctg(Func):             # <<<<<<<<<<<<<<
  *     cdef public double a
  * 
  */
-struct __pyx_obj_6mlgrad_4func_DArctg {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_DArctg {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double a;
 };
 
 
-/* "mlgrad/func.pxd":43
+/* "mlgrad/funcs.pxd":43
+ * 
+ * @cython.final
+ * cdef class Linear(Func):             # <<<<<<<<<<<<<<
+ *     cdef public double a, b
+ * 
+ */
+struct __pyx_obj_6mlgrad_5funcs_Linear {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
+  double a;
+  double b;
+};
+
+
+/* "mlgrad/funcs.pxd":47
  * 
  * @cython.final
  * cdef class LogGauss2(Func):             # <<<<<<<<<<<<<<
  *     cdef public double w, c, s
  * 
  */
-struct __pyx_obj_6mlgrad_4func_LogGauss2 {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_LogGauss2 {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double w;
   double c;
   double s;
 };
 
 
-/* "mlgrad/func.pxd":47
+/* "mlgrad/funcs.pxd":51
  * 
  * @cython.final
  * cdef class ZeroOnPositive(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public Func f
  */
-struct __pyx_obj_6mlgrad_4func_ZeroOnPositive {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  struct __pyx_obj_6mlgrad_4func_Func *f;
+struct __pyx_obj_6mlgrad_5funcs_ZeroOnPositive {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
+  struct __pyx_obj_6mlgrad_5funcs_Func *f;
 };
 
 
-/* "mlgrad/func.pxd":52
+/* "mlgrad/funcs.pxd":56
+ * 
+ * @cython.final
+ * cdef class ZeroOnNegative(Func):             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef public Func f
+ */
+struct __pyx_obj_6mlgrad_5funcs_ZeroOnNegative {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
+  struct __pyx_obj_6mlgrad_5funcs_Func *f;
+};
+
+
+/* "mlgrad/funcs.pxd":60
+ *     cdef public Func f
+ * 
+ * cdef class TruncAbs(Func):             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef public double c
+ */
+struct __pyx_obj_6mlgrad_5funcs_TruncAbs {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
+  double c;
+};
+
+
+/* "mlgrad/funcs.pxd":65
  * 
  * @cython.final
  * cdef class FuncExp(Func):             # <<<<<<<<<<<<<<
  *     cdef public Func f
  * 
  */
-struct __pyx_obj_6mlgrad_4func_FuncExp {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
-  struct __pyx_obj_6mlgrad_4func_Func *f;
+struct __pyx_obj_6mlgrad_5funcs_FuncExp {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
+  struct __pyx_obj_6mlgrad_5funcs_Func *f;
 };
 
 
-/* "mlgrad/func.pxd":56
+/* "mlgrad/funcs.pxd":69
  * 
  * @cython.final
  * cdef class Id(Func):             # <<<<<<<<<<<<<<
  *     #
  *     pass
  */
-struct __pyx_obj_6mlgrad_4func_Id {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Id {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
 };
 
 
-/* "mlgrad/func.pxd":61
+/* "mlgrad/funcs.pxd":74
  * 
  * @cython.final
  * cdef class Neg(Func):             # <<<<<<<<<<<<<<
  *     #
  *     pass
  */
-struct __pyx_obj_6mlgrad_4func_Neg {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Neg {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
 };
 
 
-/* "mlgrad/func.pxd":66
+/* "mlgrad/funcs.pxd":79
  * 
  * @cython.final
  * cdef class PlusId(Func):             # <<<<<<<<<<<<<<
  *     #
  *     pass
  */
-struct __pyx_obj_6mlgrad_4func_PlusId {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_PlusId {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
 };
 
 
-/* "mlgrad/func.pxd":71
+/* "mlgrad/funcs.pxd":84
  * 
  * @cython.final
  * cdef class Arctang(Func):             # <<<<<<<<<<<<<<
  *     cdef public double a
  * 
  */
-struct __pyx_obj_6mlgrad_4func_Arctang {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Arctang {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double a;
 };
 
 
-/* "mlgrad/func.pxd":75
+/* "mlgrad/funcs.pxd":88
  * 
  * @cython.final
  * cdef class Sigmoidal(Func):             # <<<<<<<<<<<<<<
  *     cdef public double p
  * 
  */
-struct __pyx_obj_6mlgrad_4func_Sigmoidal {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Sigmoidal {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double p;
 };
 
 
-/* "mlgrad/func.pxd":79
+/* "mlgrad/funcs.pxd":92
  * 
  * @cython.final
  * cdef class ModSigmoidal(Func):             # <<<<<<<<<<<<<<
  *     cdef public double a
  * 
  */
-struct __pyx_obj_6mlgrad_4func_ModSigmoidal {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_ModSigmoidal {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double a;
 };
 
 
-/* "mlgrad/func.pxd":83
+/* "mlgrad/funcs.pxd":96
  * 
  * @cython.final
  * cdef class SoftPlus(Func):             # <<<<<<<<<<<<<<
  *     cdef public double a
  *     cdef double log_a
  */
-struct __pyx_obj_6mlgrad_4func_SoftPlus {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_SoftPlus {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double a;
   double log_a;
 };
 
 
-/* "mlgrad/func.pxd":88
+/* "mlgrad/funcs.pxd":101
  * 
  * @cython.final
  * cdef class Threshold(Func):             # <<<<<<<<<<<<<<
  *     cdef public double theta
  * 
  */
-struct __pyx_obj_6mlgrad_4func_Threshold {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Threshold {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double theta;
 };
 
 
-/* "mlgrad/func.pxd":92
+/* "mlgrad/funcs.pxd":105
  * 
  * @cython.final
  * cdef class Sign(Func):             # <<<<<<<<<<<<<<
  *     cdef public double theta
  * 
  */
-struct __pyx_obj_6mlgrad_4func_Sign {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Sign {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double theta;
 };
 
 
-/* "mlgrad/func.pxd":96
+/* "mlgrad/funcs.pxd":109
  * 
  * @cython.final
  * cdef class Quantile(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double alpha
  */
-struct __pyx_obj_6mlgrad_4func_Quantile {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Quantile {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double alpha;
 };
 
 
-/* "mlgrad/func.pxd":102
+/* "mlgrad/funcs.pxd":115
  * 
  * @cython.final
  * cdef class QuantileFunc(Func):             # <<<<<<<<<<<<<<
  *     cdef public double alpha
  *     cdef public Func f
  */
-struct __pyx_obj_6mlgrad_4func_QuantileFunc {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_QuantileFunc {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double alpha;
-  struct __pyx_obj_6mlgrad_4func_Func *f;
+  struct __pyx_obj_6mlgrad_5funcs_Func *f;
 };
 
 
-/* "mlgrad/func.pxd":107
+/* "mlgrad/funcs.pxd":120
  * 
  * @cython.final
  * cdef class Expectile(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double alpha
  */
-struct __pyx_obj_6mlgrad_4func_Expectile {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Expectile {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double alpha;
 };
 
 
-/* "mlgrad/func.pxd":113
+/* "mlgrad/funcs.pxd":126
  * 
  * @cython.final
  * cdef class Power(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double alpha, p, alpha_p
  */
-struct __pyx_obj_6mlgrad_4func_Power {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Power {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double alpha;
   double p;
   double alpha_p;
 };
 
 
-/* "mlgrad/func.pxd":119
+/* "mlgrad/funcs.pxd":132
  * 
  * @cython.final
  * cdef class Square(Func):             # <<<<<<<<<<<<<<
  *     pass
  * 
  */
-struct __pyx_obj_6mlgrad_4func_Square {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Square {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
 };
 
 
-/* "mlgrad/func.pxd":123
+/* "mlgrad/funcs.pxd":136
  * 
  * @cython.final
  * cdef class SquareSigned(Func):             # <<<<<<<<<<<<<<
  *     #
  *     pass
  */
-struct __pyx_obj_6mlgrad_4func_SquareSigned {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_SquareSigned {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
 };
 
 
-/* "mlgrad/func.pxd":128
+/* "mlgrad/funcs.pxd":141
  * 
  * @cython.final
  * cdef class Absolute(Func):             # <<<<<<<<<<<<<<
  *     #
  *     pass
  */
-struct __pyx_obj_6mlgrad_4func_Absolute {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Absolute {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
 };
 
 
-/* "mlgrad/func.pxd":133
+/* "mlgrad/funcs.pxd":146
  * 
  * @cython.final
  * cdef class Quantile_AlphaLog(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double alpha
  */
-struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Quantile_AlphaLog {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double alpha;
   double alpha2;
   double q;
 };
 
 
-/* "mlgrad/func.pxd":140
+/* "mlgrad/funcs.pxd":153
  * 
  * @cython.final
  * cdef class SoftAbs(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double eps
+ *     cdef public double eps
  */
-struct __pyx_obj_6mlgrad_4func_SoftAbs {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_SoftAbs {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double eps;
 };
 
 
-/* "mlgrad/func.pxd":145
+/* "mlgrad/funcs.pxd":158
  * 
  * @cython.final
  * cdef class Sqrt(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double eps
  */
-struct __pyx_obj_6mlgrad_4func_Sqrt {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Sqrt {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double eps;
   double eps2;
-  double zero;
 };
 
 
-/* "mlgrad/func.pxd":153
+/* "mlgrad/funcs.pxd":165
+ * 
+ * @cython.final
+ * cdef class FSqrt(Func):             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef public double eps
+ */
+struct __pyx_obj_6mlgrad_5funcs_FSqrt {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
+  double eps;
+  double eps2;
+  double eps3;
+  double q;
+};
+
+
+/* "mlgrad/funcs.pxd":173
  * 
  * @cython.final
  * cdef class Quantile_Sqrt(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef double eps
  */
-struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Quantile_Sqrt {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double eps;
   double eps2;
   double alpha;
 };
 
 
-/* "mlgrad/func.pxd":161
+/* "mlgrad/funcs.pxd":181
  * 
  * @cython.final
  * cdef class Logistic(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double p
  */
-struct __pyx_obj_6mlgrad_4func_Logistic {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Logistic {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double p;
 };
 
 
-/* "mlgrad/func.pxd":167
+/* "mlgrad/funcs.pxd":187
  * 
  * @cython.final
  * cdef class Huber(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double C
  */
-struct __pyx_obj_6mlgrad_4func_Huber {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Huber {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double C;
 };
 
 
-/* "mlgrad/func.pxd":173
+/* "mlgrad/funcs.pxd":193
  * 
  * @cython.final
  * cdef class TM(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double a
  */
-struct __pyx_obj_6mlgrad_4func_TM {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_TM {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double a;
 };
 
 
-/* "mlgrad/func.pxd":178
+/* "mlgrad/funcs.pxd":198
  * 
  * @cython.final
  * cdef class LogSquare(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double a
  */
-struct __pyx_obj_6mlgrad_4func_LogSquare {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_LogSquare {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double a;
   double a2;
 };
 
 
-/* "mlgrad/func.pxd":184
+/* "mlgrad/funcs.pxd":204
  * 
  * @cython.final
  * cdef class Tukey(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double C
  */
-struct __pyx_obj_6mlgrad_4func_Tukey {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Tukey {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double C;
   double C2;
 };
 
 
-/* "mlgrad/func.pxd":191
+/* "mlgrad/funcs.pxd":211
  * 
  * @cython.final
  * cdef class Hinge(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double C
  */
-struct __pyx_obj_6mlgrad_4func_Hinge {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Hinge {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double C;
 };
 
 
-/* "mlgrad/func.pxd":197
+/* "mlgrad/funcs.pxd":217
  * 
  * @cython.final
  * cdef class RELU(Func):             # <<<<<<<<<<<<<<
  *     #
  *     pass
  */
-struct __pyx_obj_6mlgrad_4func_RELU {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_RELU {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
 };
 
 
-/* "mlgrad/func.pxd":202
+/* "mlgrad/funcs.pxd":222
  * 
  * @cython.final
  * cdef class HSquare(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double C
  */
-struct __pyx_obj_6mlgrad_4func_HSquare {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_HSquare {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double C;
 };
 
 
-/* "mlgrad/func.pxd":208
+/* "mlgrad/funcs.pxd":228
  * 
  * @cython.final
  * cdef class HingeSqrt(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double alpha
  */
-struct __pyx_obj_6mlgrad_4func_HingeSqrt {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_HingeSqrt {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double alpha;
   double alpha2;
 };
 
 
-/* "mlgrad/func.pxd":215
+/* "mlgrad/funcs.pxd":235
  * 
  * @cython.final
  * cdef class HingeSqrtPlus(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double alpha
  */
-struct __pyx_obj_6mlgrad_4func_HingeSqrtPlus {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_HingeSqrtPlus {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double alpha;
   double alpha2;
 };
 
 
-/* "mlgrad/func.pxd":222
+/* "mlgrad/funcs.pxd":242
  * 
  * @cython.final
  * cdef class  Exp(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double alpha
  */
-struct __pyx_obj_6mlgrad_4func_Exp {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Exp {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double alpha;
 };
 
 
-/* "mlgrad/func.pxd":227
+/* "mlgrad/funcs.pxd":247
  * 
  * @cython.final
  * cdef class  Log(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef public double alpha
  */
-struct __pyx_obj_6mlgrad_4func_Log {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_Log {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   double alpha;
 };
 
 
-/* "mlgrad/func.pxd":232
+/* "mlgrad/funcs.pxd":252
  * 
  * @cython.final
  * cdef class KMinSquare(Func):             # <<<<<<<<<<<<<<
  *     #
  *     cdef double[::1] c
  */
-struct __pyx_obj_6mlgrad_4func_KMinSquare {
-  struct __pyx_obj_6mlgrad_4func_Func __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_KMinSquare {
+  struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
   __Pyx_memviewslice c;
   int n_dim;
   int j_min;
 };
 
 
-/* "mlgrad/func.pxd":237
+/* "mlgrad/funcs.pxd":257
  *     cdef int n_dim, j_min
  * 
  * cdef class ParameterizedFunc:             # <<<<<<<<<<<<<<
  *     #
  *     cdef double _evaluate(self, double x, double u) noexcept nogil
  */
-struct __pyx_obj_6mlgrad_4func_ParameterizedFunc {
+struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc {
   PyObject_HEAD
-  struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *__pyx_vtab;
+  struct __pyx_vtabstruct_6mlgrad_5funcs_ParameterizedFunc *__pyx_vtab;
 };
 
 
-/* "mlgrad/func.pxd":246
+/* "mlgrad/funcs.pxd":266
  * 
  * @cython.final
  * cdef class WinsorizedFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
  *     pass
  * 
  */
-struct __pyx_obj_6mlgrad_4func_WinsorizedFunc {
-  struct __pyx_obj_6mlgrad_4func_ParameterizedFunc __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_WinsorizedFunc {
+  struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc __pyx_base;
 };
 
 
-/* "mlgrad/func.pxd":250
+/* "mlgrad/funcs.pxd":270
  * 
  * @cython.final
  * cdef class WinsorizedSmoothFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
  *     cdef Func f
  * 
  */
-struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc {
-  struct __pyx_obj_6mlgrad_4func_ParameterizedFunc __pyx_base;
-  struct __pyx_obj_6mlgrad_4func_Func *f;
+struct __pyx_obj_6mlgrad_5funcs_WinsorizedSmoothFunc {
+  struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc __pyx_base;
+  struct __pyx_obj_6mlgrad_5funcs_Func *f;
 };
 
 
-/* "mlgrad/func.pxd":253
+/* "mlgrad/funcs.pxd":273
  *     cdef Func f
  * 
  * cdef class SoftMinFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
  *     cdef double a
  * 
  */
-struct __pyx_obj_6mlgrad_4func_SoftMinFunc {
-  struct __pyx_obj_6mlgrad_4func_ParameterizedFunc __pyx_base;
+struct __pyx_obj_6mlgrad_5funcs_SoftMinFunc {
+  struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc __pyx_base;
   double a;
 };
 
 
-/* "mlgrad/func2.pxd":38
+/* "mlgrad/funcs2.pxd":38
  *         y[i] = v
  * 
  * cdef class Func2:             # <<<<<<<<<<<<<<
  *     #cdef bint all
  *     cdef double _evaluate(self, double[::1] param)
  */
-struct __pyx_obj_6mlgrad_5func2_Func2 {
+struct __pyx_obj_6mlgrad_6funcs2_Func2 {
   PyObject_HEAD
-  struct __pyx_vtabstruct_6mlgrad_5func2_Func2 *__pyx_vtab;
+  struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 *__pyx_vtab;
 };
 
 
-/* "mlgrad/func2.pxd":45
+/* "mlgrad/funcs2.pxd":45
  * 
  * @cython.final
  * cdef class PowerNorm(Func2):             # <<<<<<<<<<<<<<
  *     #
  *     cdef double p
  */
-struct __pyx_obj_6mlgrad_5func2_PowerNorm {
-  struct __pyx_obj_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_obj_6mlgrad_6funcs2_PowerNorm {
+  struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
   double p;
 };
 
 
-/* "mlgrad/func2.pxd":51
+/* "mlgrad/funcs2.pxd":51
  * 
  * @cython.final
  * cdef class SquareNorm(Func2):             # <<<<<<<<<<<<<<
  *     pass
  * 
  */
-struct __pyx_obj_6mlgrad_5func2_SquareNorm {
-  struct __pyx_obj_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_obj_6mlgrad_6funcs2_SquareNorm {
+  struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
 };
 
 
-/* "mlgrad/func2.pxd":55
+/* "mlgrad/funcs2.pxd":55
  * 
  * @cython.final
  * cdef class AbsoluteNorm(Func2):             # <<<<<<<<<<<<<<
  *     pass
  * 
  */
-struct __pyx_obj_6mlgrad_5func2_AbsoluteNorm {
-  struct __pyx_obj_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_obj_6mlgrad_6funcs2_AbsoluteNorm {
+  struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
 };
 
 
-/* "mlgrad/func2.pxd":59
+/* "mlgrad/funcs2.pxd":59
  * 
  * @cython.final
  * cdef class SquareForm(Func2):             # <<<<<<<<<<<<<<
  *     cdef double[:,::1] matrix
  * 
  */
-struct __pyx_obj_6mlgrad_5func2_SquareForm {
-  struct __pyx_obj_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_obj_6mlgrad_6funcs2_SquareForm {
+  struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
   __Pyx_memviewslice matrix;
 };
 
 
-/* "mlgrad/func2.pxd":63
+/* "mlgrad/funcs2.pxd":63
  * 
  * @cython.final
  * cdef class Rosenbrok(Func2):             # <<<<<<<<<<<<<<
  *     pass
  * 
  */
-struct __pyx_obj_6mlgrad_5func2_Rosenbrok {
-  struct __pyx_obj_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_obj_6mlgrad_6funcs2_Rosenbrok {
+  struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
 };
 
 
-/* "mlgrad/func2.pxd":67
+/* "mlgrad/funcs2.pxd":67
  * 
  * @cython.final
  * cdef class Himmelblau(Func2):             # <<<<<<<<<<<<<<
  *     pass
  * 
  */
-struct __pyx_obj_6mlgrad_5func2_Himmelblau {
-  struct __pyx_obj_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_obj_6mlgrad_6funcs2_Himmelblau {
+  struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
 };
 
 
-/* "mlgrad/func2.pxd":71
+/* "mlgrad/funcs2.pxd":71
  * 
  * @cython.final
  * cdef class SoftMin(Func2):             # <<<<<<<<<<<<<<
  *     cdef double p
  *     cdef double[::1] evals
  */
-struct __pyx_obj_6mlgrad_5func2_SoftMin {
-  struct __pyx_obj_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_obj_6mlgrad_6funcs2_SoftMin {
+  struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
   double p;
   __Pyx_memviewslice evals;
 };
@@ -2705,7 +2765,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayTAverager {
 struct __pyx_obj_6mlgrad_6avragg_Penalty {
   PyObject_HEAD
   struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty *__pyx_vtab;
-  struct __pyx_obj_6mlgrad_4func_Func *func;
+  struct __pyx_obj_6mlgrad_5funcs_Func *func;
 };
 
 
@@ -2786,7 +2846,7 @@ struct __pyx_obj_6mlgrad_6avragg_AverageIterative {
  */
 struct __pyx_obj_6mlgrad_6avragg_MAverage {
   struct __pyx_obj_6mlgrad_6avragg_AverageIterative __pyx_base;
-  struct __pyx_obj_6mlgrad_4func_Func *func;
+  struct __pyx_obj_6mlgrad_5funcs_Func *func;
 };
 
 
@@ -2799,7 +2859,7 @@ struct __pyx_obj_6mlgrad_6avragg_MAverage {
  */
 struct __pyx_obj_6mlgrad_6avragg_SAverage {
   struct __pyx_obj_6mlgrad_6avragg_AverageIterative __pyx_base;
-  struct __pyx_obj_6mlgrad_4func_Func *func;
+  struct __pyx_obj_6mlgrad_5funcs_Func *func;
 };
 
 
@@ -2812,7 +2872,7 @@ struct __pyx_obj_6mlgrad_6avragg_SAverage {
  */
 struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage {
   struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
-  struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *func;
+  struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *func;
   struct __pyx_obj_6mlgrad_6avragg_Average *avr;
 };
 
@@ -2865,7 +2925,7 @@ struct __pyx_obj_6mlgrad_6avragg_ArithMean {
  */
 struct __pyx_obj_6mlgrad_6avragg_RArithMean {
   struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
-  struct __pyx_obj_6mlgrad_4func_Func *func;
+  struct __pyx_obj_6mlgrad_5funcs_Func *func;
 };
 
 
@@ -2878,8 +2938,8 @@ struct __pyx_obj_6mlgrad_6avragg_RArithMean {
  */
 struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean {
   struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
-  struct __pyx_obj_6mlgrad_4func_Func *func;
-  struct __pyx_obj_6mlgrad_4func_Func *invfunc;
+  struct __pyx_obj_6mlgrad_5funcs_Func *func;
+  struct __pyx_obj_6mlgrad_5funcs_Func *invfunc;
   double uu;
 };
 
@@ -2893,7 +2953,7 @@ struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean {
  */
 struct __pyx_obj_6mlgrad_6avragg_SoftMinimal {
   struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
-  struct __pyx_obj_6mlgrad_5func2_SoftMin *softmin;
+  struct __pyx_obj_6mlgrad_6funcs2_SoftMin *softmin;
 };
 
 
@@ -3009,7 +3069,7 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "mlgrad/func.pxd":6
+/* "mlgrad/funcs.pxd":6
  * cimport cython
  * 
  * cdef class Func(object):             # <<<<<<<<<<<<<<
@@ -3017,22 +3077,22 @@ struct __pyx_memoryviewslice_obj {
  *     #
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Func {
-  double (*_evaluate)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
-  double (*_derivative)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
-  double (*_derivative2)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
-  double (*_derivative_div_x)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
-  double (*_value)(struct __pyx_obj_6mlgrad_4func_Func *, double const );
-  void (*_evaluate_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  void (*_derivative_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  void (*_derivative2_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  void (*_derivative_div_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
-  void (*_value_array)(struct __pyx_obj_6mlgrad_4func_Func *, double const *, double *, Py_ssize_t const );
+struct __pyx_vtabstruct_6mlgrad_5funcs_Func {
+  double (*_evaluate)(struct __pyx_obj_6mlgrad_5funcs_Func *, double const );
+  double (*_derivative)(struct __pyx_obj_6mlgrad_5funcs_Func *, double const );
+  double (*_derivative2)(struct __pyx_obj_6mlgrad_5funcs_Func *, double const );
+  double (*_derivative_div_x)(struct __pyx_obj_6mlgrad_5funcs_Func *, double const );
+  double (*_value)(struct __pyx_obj_6mlgrad_5funcs_Func *, double const );
+  void (*_evaluate_array)(struct __pyx_obj_6mlgrad_5funcs_Func *, double const *, double *, Py_ssize_t const );
+  void (*_derivative_array)(struct __pyx_obj_6mlgrad_5funcs_Func *, double const *, double *, Py_ssize_t const );
+  void (*_derivative2_array)(struct __pyx_obj_6mlgrad_5funcs_Func *, double const *, double *, Py_ssize_t const );
+  void (*_derivative_div_array)(struct __pyx_obj_6mlgrad_5funcs_Func *, double const *, double *, Py_ssize_t const );
+  void (*_value_array)(struct __pyx_obj_6mlgrad_5funcs_Func *, double const *, double *, Py_ssize_t const );
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Func *__pyx_vtabptr_6mlgrad_4func_Func;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Func *__pyx_vtabptr_6mlgrad_5funcs_Func;
 
 
-/* "mlgrad/func.pxd":23
+/* "mlgrad/funcs.pxd":23
  * 
  * @cython.final
  * cdef class Comp(Func):             # <<<<<<<<<<<<<<
@@ -3040,13 +3100,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Func *__pyx_vtabptr_6mlgrad_4func_F
  *     cdef public Func f, g
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Comp {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Comp {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Comp *__pyx_vtabptr_6mlgrad_4func_Comp;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Comp *__pyx_vtabptr_6mlgrad_5funcs_Comp;
 
 
-/* "mlgrad/func.pxd":29
+/* "mlgrad/funcs.pxd":29
  * 
  * @cython.final
  * cdef class CompSqrt(Func):             # <<<<<<<<<<<<<<
@@ -3054,27 +3114,27 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Comp *__pyx_vtabptr_6mlgrad_4func_C
  *     cdef public Func f, g
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_CompSqrt {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_CompSqrt {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_CompSqrt *__pyx_vtabptr_6mlgrad_4func_CompSqrt;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_CompSqrt *__pyx_vtabptr_6mlgrad_5funcs_CompSqrt;
 
 
-/* "mlgrad/func.pxd":35
+/* "mlgrad/funcs.pxd":35
  * 
  * @cython.final
  * cdef class Gauss(Func):             # <<<<<<<<<<<<<<
- *     cdef public double a
+ *     cdef public double a, a2
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Gauss {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Gauss {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Gauss *__pyx_vtabptr_6mlgrad_4func_Gauss;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Gauss *__pyx_vtabptr_6mlgrad_5funcs_Gauss;
 
 
-/* "mlgrad/func.pxd":39
+/* "mlgrad/funcs.pxd":39
  * 
  * @cython.final
  * cdef class DArctg(Func):             # <<<<<<<<<<<<<<
@@ -3082,13 +3142,27 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Gauss *__pyx_vtabptr_6mlgrad_4func_
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_DArctg {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_DArctg {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_DArctg *__pyx_vtabptr_6mlgrad_4func_DArctg;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_DArctg *__pyx_vtabptr_6mlgrad_5funcs_DArctg;
 
 
-/* "mlgrad/func.pxd":43
+/* "mlgrad/funcs.pxd":43
+ * 
+ * @cython.final
+ * cdef class Linear(Func):             # <<<<<<<<<<<<<<
+ *     cdef public double a, b
+ * 
+ */
+
+struct __pyx_vtabstruct_6mlgrad_5funcs_Linear {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Linear *__pyx_vtabptr_6mlgrad_5funcs_Linear;
+
+
+/* "mlgrad/funcs.pxd":47
  * 
  * @cython.final
  * cdef class LogGauss2(Func):             # <<<<<<<<<<<<<<
@@ -3096,13 +3170,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_DArctg *__pyx_vtabptr_6mlgrad_4func
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_LogGauss2 {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_LogGauss2 {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_LogGauss2 *__pyx_vtabptr_6mlgrad_4func_LogGauss2;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_LogGauss2 *__pyx_vtabptr_6mlgrad_5funcs_LogGauss2;
 
 
-/* "mlgrad/func.pxd":47
+/* "mlgrad/funcs.pxd":51
  * 
  * @cython.final
  * cdef class ZeroOnPositive(Func):             # <<<<<<<<<<<<<<
@@ -3110,13 +3184,41 @@ static struct __pyx_vtabstruct_6mlgrad_4func_LogGauss2 *__pyx_vtabptr_6mlgrad_4f
  *     cdef public Func f
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_ZeroOnPositive {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive *__pyx_vtabptr_6mlgrad_4func_ZeroOnPositive;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_ZeroOnPositive *__pyx_vtabptr_6mlgrad_5funcs_ZeroOnPositive;
 
 
-/* "mlgrad/func.pxd":52
+/* "mlgrad/funcs.pxd":56
+ * 
+ * @cython.final
+ * cdef class ZeroOnNegative(Func):             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef public Func f
+ */
+
+struct __pyx_vtabstruct_6mlgrad_5funcs_ZeroOnNegative {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_5funcs_ZeroOnNegative *__pyx_vtabptr_6mlgrad_5funcs_ZeroOnNegative;
+
+
+/* "mlgrad/funcs.pxd":60
+ *     cdef public Func f
+ * 
+ * cdef class TruncAbs(Func):             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef public double c
+ */
+
+struct __pyx_vtabstruct_6mlgrad_5funcs_TruncAbs {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_5funcs_TruncAbs *__pyx_vtabptr_6mlgrad_5funcs_TruncAbs;
+
+
+/* "mlgrad/funcs.pxd":65
  * 
  * @cython.final
  * cdef class FuncExp(Func):             # <<<<<<<<<<<<<<
@@ -3124,13 +3226,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive *__pyx_vtabptr_6mlgr
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_FuncExp {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_FuncExp {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_FuncExp *__pyx_vtabptr_6mlgrad_4func_FuncExp;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_FuncExp *__pyx_vtabptr_6mlgrad_5funcs_FuncExp;
 
 
-/* "mlgrad/func.pxd":56
+/* "mlgrad/funcs.pxd":69
  * 
  * @cython.final
  * cdef class Id(Func):             # <<<<<<<<<<<<<<
@@ -3138,13 +3240,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_FuncExp *__pyx_vtabptr_6mlgrad_4fun
  *     pass
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Id {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Id {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Id *__pyx_vtabptr_6mlgrad_4func_Id;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Id *__pyx_vtabptr_6mlgrad_5funcs_Id;
 
 
-/* "mlgrad/func.pxd":61
+/* "mlgrad/funcs.pxd":74
  * 
  * @cython.final
  * cdef class Neg(Func):             # <<<<<<<<<<<<<<
@@ -3152,13 +3254,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Id *__pyx_vtabptr_6mlgrad_4func_Id;
  *     pass
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Neg {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Neg {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Neg *__pyx_vtabptr_6mlgrad_4func_Neg;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Neg *__pyx_vtabptr_6mlgrad_5funcs_Neg;
 
 
-/* "mlgrad/func.pxd":66
+/* "mlgrad/funcs.pxd":79
  * 
  * @cython.final
  * cdef class PlusId(Func):             # <<<<<<<<<<<<<<
@@ -3166,13 +3268,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Neg *__pyx_vtabptr_6mlgrad_4func_Ne
  *     pass
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_PlusId {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_PlusId {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_PlusId *__pyx_vtabptr_6mlgrad_4func_PlusId;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_PlusId *__pyx_vtabptr_6mlgrad_5funcs_PlusId;
 
 
-/* "mlgrad/func.pxd":71
+/* "mlgrad/funcs.pxd":84
  * 
  * @cython.final
  * cdef class Arctang(Func):             # <<<<<<<<<<<<<<
@@ -3180,13 +3282,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_PlusId *__pyx_vtabptr_6mlgrad_4func
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Arctang {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Arctang {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Arctang *__pyx_vtabptr_6mlgrad_4func_Arctang;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Arctang *__pyx_vtabptr_6mlgrad_5funcs_Arctang;
 
 
-/* "mlgrad/func.pxd":75
+/* "mlgrad/funcs.pxd":88
  * 
  * @cython.final
  * cdef class Sigmoidal(Func):             # <<<<<<<<<<<<<<
@@ -3194,13 +3296,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Arctang *__pyx_vtabptr_6mlgrad_4fun
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Sigmoidal {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal *__pyx_vtabptr_6mlgrad_4func_Sigmoidal;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Sigmoidal *__pyx_vtabptr_6mlgrad_5funcs_Sigmoidal;
 
 
-/* "mlgrad/func.pxd":79
+/* "mlgrad/funcs.pxd":92
  * 
  * @cython.final
  * cdef class ModSigmoidal(Func):             # <<<<<<<<<<<<<<
@@ -3208,13 +3310,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal *__pyx_vtabptr_6mlgrad_4f
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_ModSigmoidal {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal *__pyx_vtabptr_6mlgrad_4func_ModSigmoidal;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_ModSigmoidal *__pyx_vtabptr_6mlgrad_5funcs_ModSigmoidal;
 
 
-/* "mlgrad/func.pxd":83
+/* "mlgrad/funcs.pxd":96
  * 
  * @cython.final
  * cdef class SoftPlus(Func):             # <<<<<<<<<<<<<<
@@ -3222,13 +3324,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal *__pyx_vtabptr_6mlgrad
  *     cdef double log_a
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_SoftPlus {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_SoftPlus {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_SoftPlus *__pyx_vtabptr_6mlgrad_4func_SoftPlus;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_SoftPlus *__pyx_vtabptr_6mlgrad_5funcs_SoftPlus;
 
 
-/* "mlgrad/func.pxd":88
+/* "mlgrad/funcs.pxd":101
  * 
  * @cython.final
  * cdef class Threshold(Func):             # <<<<<<<<<<<<<<
@@ -3236,13 +3338,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_SoftPlus *__pyx_vtabptr_6mlgrad_4fu
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Threshold {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Threshold {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Threshold *__pyx_vtabptr_6mlgrad_4func_Threshold;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Threshold *__pyx_vtabptr_6mlgrad_5funcs_Threshold;
 
 
-/* "mlgrad/func.pxd":92
+/* "mlgrad/funcs.pxd":105
  * 
  * @cython.final
  * cdef class Sign(Func):             # <<<<<<<<<<<<<<
@@ -3250,13 +3352,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Threshold *__pyx_vtabptr_6mlgrad_4f
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Sign {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Sign {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Sign *__pyx_vtabptr_6mlgrad_4func_Sign;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Sign *__pyx_vtabptr_6mlgrad_5funcs_Sign;
 
 
-/* "mlgrad/func.pxd":96
+/* "mlgrad/funcs.pxd":109
  * 
  * @cython.final
  * cdef class Quantile(Func):             # <<<<<<<<<<<<<<
@@ -3264,13 +3366,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Sign *__pyx_vtabptr_6mlgrad_4func_S
  *     cdef public double alpha
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Quantile {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Quantile {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Quantile *__pyx_vtabptr_6mlgrad_4func_Quantile;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Quantile *__pyx_vtabptr_6mlgrad_5funcs_Quantile;
 
 
-/* "mlgrad/func.pxd":102
+/* "mlgrad/funcs.pxd":115
  * 
  * @cython.final
  * cdef class QuantileFunc(Func):             # <<<<<<<<<<<<<<
@@ -3278,13 +3380,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Quantile *__pyx_vtabptr_6mlgrad_4fu
  *     cdef public Func f
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_QuantileFunc {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc *__pyx_vtabptr_6mlgrad_4func_QuantileFunc;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_QuantileFunc *__pyx_vtabptr_6mlgrad_5funcs_QuantileFunc;
 
 
-/* "mlgrad/func.pxd":107
+/* "mlgrad/funcs.pxd":120
  * 
  * @cython.final
  * cdef class Expectile(Func):             # <<<<<<<<<<<<<<
@@ -3292,13 +3394,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc *__pyx_vtabptr_6mlgrad
  *     cdef public double alpha
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Expectile {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Expectile {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Expectile *__pyx_vtabptr_6mlgrad_4func_Expectile;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Expectile *__pyx_vtabptr_6mlgrad_5funcs_Expectile;
 
 
-/* "mlgrad/func.pxd":113
+/* "mlgrad/funcs.pxd":126
  * 
  * @cython.final
  * cdef class Power(Func):             # <<<<<<<<<<<<<<
@@ -3306,13 +3408,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Expectile *__pyx_vtabptr_6mlgrad_4f
  *     cdef public double alpha, p, alpha_p
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Power {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Power {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Power *__pyx_vtabptr_6mlgrad_4func_Power;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Power *__pyx_vtabptr_6mlgrad_5funcs_Power;
 
 
-/* "mlgrad/func.pxd":119
+/* "mlgrad/funcs.pxd":132
  * 
  * @cython.final
  * cdef class Square(Func):             # <<<<<<<<<<<<<<
@@ -3320,13 +3422,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Power *__pyx_vtabptr_6mlgrad_4func_
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Square {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Square {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Square *__pyx_vtabptr_6mlgrad_4func_Square;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Square *__pyx_vtabptr_6mlgrad_5funcs_Square;
 
 
-/* "mlgrad/func.pxd":123
+/* "mlgrad/funcs.pxd":136
  * 
  * @cython.final
  * cdef class SquareSigned(Func):             # <<<<<<<<<<<<<<
@@ -3334,13 +3436,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Square *__pyx_vtabptr_6mlgrad_4func
  *     pass
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_SquareSigned {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned *__pyx_vtabptr_6mlgrad_4func_SquareSigned;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_SquareSigned *__pyx_vtabptr_6mlgrad_5funcs_SquareSigned;
 
 
-/* "mlgrad/func.pxd":128
+/* "mlgrad/funcs.pxd":141
  * 
  * @cython.final
  * cdef class Absolute(Func):             # <<<<<<<<<<<<<<
@@ -3348,13 +3450,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned *__pyx_vtabptr_6mlgrad
  *     pass
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Absolute {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Absolute {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Absolute *__pyx_vtabptr_6mlgrad_4func_Absolute;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Absolute *__pyx_vtabptr_6mlgrad_5funcs_Absolute;
 
 
-/* "mlgrad/func.pxd":133
+/* "mlgrad/funcs.pxd":146
  * 
  * @cython.final
  * cdef class Quantile_AlphaLog(Func):             # <<<<<<<<<<<<<<
@@ -3362,27 +3464,27 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Absolute *__pyx_vtabptr_6mlgrad_4fu
  *     cdef public double alpha
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Quantile_AlphaLog {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog *__pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Quantile_AlphaLog *__pyx_vtabptr_6mlgrad_5funcs_Quantile_AlphaLog;
 
 
-/* "mlgrad/func.pxd":140
+/* "mlgrad/funcs.pxd":153
  * 
  * @cython.final
  * cdef class SoftAbs(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef double eps
+ *     cdef public double eps
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_SoftAbs {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs *__pyx_vtabptr_6mlgrad_4func_SoftAbs;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_SoftAbs *__pyx_vtabptr_6mlgrad_5funcs_SoftAbs;
 
 
-/* "mlgrad/func.pxd":145
+/* "mlgrad/funcs.pxd":158
  * 
  * @cython.final
  * cdef class Sqrt(Func):             # <<<<<<<<<<<<<<
@@ -3390,13 +3492,27 @@ static struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs *__pyx_vtabptr_6mlgrad_4fun
  *     cdef public double eps
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Sqrt {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Sqrt {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Sqrt *__pyx_vtabptr_6mlgrad_4func_Sqrt;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Sqrt *__pyx_vtabptr_6mlgrad_5funcs_Sqrt;
 
 
-/* "mlgrad/func.pxd":153
+/* "mlgrad/funcs.pxd":165
+ * 
+ * @cython.final
+ * cdef class FSqrt(Func):             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef public double eps
+ */
+
+struct __pyx_vtabstruct_6mlgrad_5funcs_FSqrt {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_5funcs_FSqrt *__pyx_vtabptr_6mlgrad_5funcs_FSqrt;
+
+
+/* "mlgrad/funcs.pxd":173
  * 
  * @cython.final
  * cdef class Quantile_Sqrt(Func):             # <<<<<<<<<<<<<<
@@ -3404,13 +3520,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Sqrt *__pyx_vtabptr_6mlgrad_4func_S
  *     cdef double eps
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Quantile_Sqrt {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt *__pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Quantile_Sqrt *__pyx_vtabptr_6mlgrad_5funcs_Quantile_Sqrt;
 
 
-/* "mlgrad/func.pxd":161
+/* "mlgrad/funcs.pxd":181
  * 
  * @cython.final
  * cdef class Logistic(Func):             # <<<<<<<<<<<<<<
@@ -3418,13 +3534,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt *__pyx_vtabptr_6mlgra
  *     cdef public double p
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Logistic {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Logistic {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Logistic *__pyx_vtabptr_6mlgrad_4func_Logistic;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Logistic *__pyx_vtabptr_6mlgrad_5funcs_Logistic;
 
 
-/* "mlgrad/func.pxd":167
+/* "mlgrad/funcs.pxd":187
  * 
  * @cython.final
  * cdef class Huber(Func):             # <<<<<<<<<<<<<<
@@ -3432,13 +3548,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Logistic *__pyx_vtabptr_6mlgrad_4fu
  *     cdef public double C
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Huber {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Huber {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Huber *__pyx_vtabptr_6mlgrad_4func_Huber;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Huber *__pyx_vtabptr_6mlgrad_5funcs_Huber;
 
 
-/* "mlgrad/func.pxd":173
+/* "mlgrad/funcs.pxd":193
  * 
  * @cython.final
  * cdef class TM(Func):             # <<<<<<<<<<<<<<
@@ -3446,13 +3562,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Huber *__pyx_vtabptr_6mlgrad_4func_
  *     cdef public double a
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_TM {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_TM {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_TM *__pyx_vtabptr_6mlgrad_4func_TM;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_TM *__pyx_vtabptr_6mlgrad_5funcs_TM;
 
 
-/* "mlgrad/func.pxd":178
+/* "mlgrad/funcs.pxd":198
  * 
  * @cython.final
  * cdef class LogSquare(Func):             # <<<<<<<<<<<<<<
@@ -3460,13 +3576,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_TM *__pyx_vtabptr_6mlgrad_4func_TM;
  *     cdef public double a
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_LogSquare {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_LogSquare {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_LogSquare *__pyx_vtabptr_6mlgrad_4func_LogSquare;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_LogSquare *__pyx_vtabptr_6mlgrad_5funcs_LogSquare;
 
 
-/* "mlgrad/func.pxd":184
+/* "mlgrad/funcs.pxd":204
  * 
  * @cython.final
  * cdef class Tukey(Func):             # <<<<<<<<<<<<<<
@@ -3474,13 +3590,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_LogSquare *__pyx_vtabptr_6mlgrad_4f
  *     cdef public double C
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Tukey {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Tukey {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Tukey *__pyx_vtabptr_6mlgrad_4func_Tukey;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Tukey *__pyx_vtabptr_6mlgrad_5funcs_Tukey;
 
 
-/* "mlgrad/func.pxd":191
+/* "mlgrad/funcs.pxd":211
  * 
  * @cython.final
  * cdef class Hinge(Func):             # <<<<<<<<<<<<<<
@@ -3488,13 +3604,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Tukey *__pyx_vtabptr_6mlgrad_4func_
  *     cdef public double C
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Hinge {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Hinge {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Hinge *__pyx_vtabptr_6mlgrad_4func_Hinge;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Hinge *__pyx_vtabptr_6mlgrad_5funcs_Hinge;
 
 
-/* "mlgrad/func.pxd":197
+/* "mlgrad/funcs.pxd":217
  * 
  * @cython.final
  * cdef class RELU(Func):             # <<<<<<<<<<<<<<
@@ -3502,13 +3618,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Hinge *__pyx_vtabptr_6mlgrad_4func_
  *     pass
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_RELU {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_RELU {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_RELU *__pyx_vtabptr_6mlgrad_4func_RELU;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_RELU *__pyx_vtabptr_6mlgrad_5funcs_RELU;
 
 
-/* "mlgrad/func.pxd":202
+/* "mlgrad/funcs.pxd":222
  * 
  * @cython.final
  * cdef class HSquare(Func):             # <<<<<<<<<<<<<<
@@ -3516,13 +3632,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_RELU *__pyx_vtabptr_6mlgrad_4func_R
  *     cdef public double C
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_HSquare {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_HSquare {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_HSquare *__pyx_vtabptr_6mlgrad_4func_HSquare;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_HSquare *__pyx_vtabptr_6mlgrad_5funcs_HSquare;
 
 
-/* "mlgrad/func.pxd":208
+/* "mlgrad/funcs.pxd":228
  * 
  * @cython.final
  * cdef class HingeSqrt(Func):             # <<<<<<<<<<<<<<
@@ -3530,13 +3646,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_HSquare *__pyx_vtabptr_6mlgrad_4fun
  *     cdef public double alpha
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_HingeSqrt {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt *__pyx_vtabptr_6mlgrad_4func_HingeSqrt;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_HingeSqrt *__pyx_vtabptr_6mlgrad_5funcs_HingeSqrt;
 
 
-/* "mlgrad/func.pxd":215
+/* "mlgrad/funcs.pxd":235
  * 
  * @cython.final
  * cdef class HingeSqrtPlus(Func):             # <<<<<<<<<<<<<<
@@ -3544,13 +3660,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt *__pyx_vtabptr_6mlgrad_4f
  *     cdef public double alpha
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrtPlus {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_HingeSqrtPlus {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrtPlus *__pyx_vtabptr_6mlgrad_4func_HingeSqrtPlus;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_HingeSqrtPlus *__pyx_vtabptr_6mlgrad_5funcs_HingeSqrtPlus;
 
 
-/* "mlgrad/func.pxd":222
+/* "mlgrad/funcs.pxd":242
  * 
  * @cython.final
  * cdef class  Exp(Func):             # <<<<<<<<<<<<<<
@@ -3558,13 +3674,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrtPlus *__pyx_vtabptr_6mlgra
  *     cdef public double alpha
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Exp {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Exp {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Exp *__pyx_vtabptr_6mlgrad_4func_Exp;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Exp *__pyx_vtabptr_6mlgrad_5funcs_Exp;
 
 
-/* "mlgrad/func.pxd":227
+/* "mlgrad/funcs.pxd":247
  * 
  * @cython.final
  * cdef class  Log(Func):             # <<<<<<<<<<<<<<
@@ -3572,13 +3688,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Exp *__pyx_vtabptr_6mlgrad_4func_Ex
  *     cdef public double alpha
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_Log {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_Log {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_Log *__pyx_vtabptr_6mlgrad_4func_Log;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_Log *__pyx_vtabptr_6mlgrad_5funcs_Log;
 
 
-/* "mlgrad/func.pxd":232
+/* "mlgrad/funcs.pxd":252
  * 
  * @cython.final
  * cdef class KMinSquare(Func):             # <<<<<<<<<<<<<<
@@ -3586,13 +3702,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_Log *__pyx_vtabptr_6mlgrad_4func_Lo
  *     cdef double[::1] c
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare {
-  struct __pyx_vtabstruct_6mlgrad_4func_Func __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_KMinSquare {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_Func __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare *__pyx_vtabptr_6mlgrad_4func_KMinSquare;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_KMinSquare *__pyx_vtabptr_6mlgrad_5funcs_KMinSquare;
 
 
-/* "mlgrad/func.pxd":237
+/* "mlgrad/funcs.pxd":257
  *     cdef int n_dim, j_min
  * 
  * cdef class ParameterizedFunc:             # <<<<<<<<<<<<<<
@@ -3600,15 +3716,15 @@ static struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare *__pyx_vtabptr_6mlgrad_4
  *     cdef double _evaluate(self, double x, double u) noexcept nogil
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc {
-  double (*_evaluate)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
-  double (*_derivative)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
-  double (*derivative_u)(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *, double, double);
+struct __pyx_vtabstruct_6mlgrad_5funcs_ParameterizedFunc {
+  double (*_evaluate)(struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *, double, double);
+  double (*_derivative)(struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *, double, double);
+  double (*derivative_u)(struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *, double, double);
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_ParameterizedFunc *__pyx_vtabptr_6mlgrad_5funcs_ParameterizedFunc;
 
 
-/* "mlgrad/func.pxd":246
+/* "mlgrad/funcs.pxd":266
  * 
  * @cython.final
  * cdef class WinsorizedFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -3616,13 +3732,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *__pyx_vtabptr_6m
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc {
-  struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_WinsorizedFunc {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_ParameterizedFunc __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc *__pyx_vtabptr_6mlgrad_4func_WinsorizedFunc;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_WinsorizedFunc *__pyx_vtabptr_6mlgrad_5funcs_WinsorizedFunc;
 
 
-/* "mlgrad/func.pxd":250
+/* "mlgrad/funcs.pxd":270
  * 
  * @cython.final
  * cdef class WinsorizedSmoothFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -3630,13 +3746,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc *__pyx_vtabptr_6mlgr
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc {
-  struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_WinsorizedSmoothFunc {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_ParameterizedFunc __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_WinsorizedSmoothFunc *__pyx_vtabptr_6mlgrad_5funcs_WinsorizedSmoothFunc;
 
 
-/* "mlgrad/func.pxd":253
+/* "mlgrad/funcs.pxd":273
  *     cdef Func f
  * 
  * cdef class SoftMinFunc(ParameterizedFunc):             # <<<<<<<<<<<<<<
@@ -3644,13 +3760,13 @@ static struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc *__pyx_vtabptr
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc {
-  struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_5funcs_SoftMinFunc {
+  struct __pyx_vtabstruct_6mlgrad_5funcs_ParameterizedFunc __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc *__pyx_vtabptr_6mlgrad_4func_SoftMinFunc;
+static struct __pyx_vtabstruct_6mlgrad_5funcs_SoftMinFunc *__pyx_vtabptr_6mlgrad_5funcs_SoftMinFunc;
 
 
-/* "mlgrad/func2.pxd":38
+/* "mlgrad/funcs2.pxd":38
  *         y[i] = v
  * 
  * cdef class Func2:             # <<<<<<<<<<<<<<
@@ -3658,15 +3774,15 @@ static struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc *__pyx_vtabptr_6mlgrad_
  *     cdef double _evaluate(self, double[::1] param)
  */
 
-struct __pyx_vtabstruct_6mlgrad_5func2_Func2 {
-  double (*_evaluate)(struct __pyx_obj_6mlgrad_5func2_Func2 *, __Pyx_memviewslice);
-  void (*_gradient)(struct __pyx_obj_6mlgrad_5func2_Func2 *, __Pyx_memviewslice, __Pyx_memviewslice);
-  double (*_gradient_j)(struct __pyx_obj_6mlgrad_5func2_Func2 *, __Pyx_memviewslice, Py_ssize_t);
+struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 {
+  double (*_evaluate)(struct __pyx_obj_6mlgrad_6funcs2_Func2 *, __Pyx_memviewslice);
+  void (*_gradient)(struct __pyx_obj_6mlgrad_6funcs2_Func2 *, __Pyx_memviewslice, __Pyx_memviewslice);
+  double (*_gradient_j)(struct __pyx_obj_6mlgrad_6funcs2_Func2 *, __Pyx_memviewslice, Py_ssize_t);
 };
-static struct __pyx_vtabstruct_6mlgrad_5func2_Func2 *__pyx_vtabptr_6mlgrad_5func2_Func2;
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 *__pyx_vtabptr_6mlgrad_6funcs2_Func2;
 
 
-/* "mlgrad/func2.pxd":45
+/* "mlgrad/funcs2.pxd":45
  * 
  * @cython.final
  * cdef class PowerNorm(Func2):             # <<<<<<<<<<<<<<
@@ -3674,13 +3790,13 @@ static struct __pyx_vtabstruct_6mlgrad_5func2_Func2 *__pyx_vtabptr_6mlgrad_5func
  *     cdef double p
  */
 
-struct __pyx_vtabstruct_6mlgrad_5func2_PowerNorm {
-  struct __pyx_vtabstruct_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_6funcs2_PowerNorm {
+  struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_5func2_PowerNorm *__pyx_vtabptr_6mlgrad_5func2_PowerNorm;
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_PowerNorm *__pyx_vtabptr_6mlgrad_6funcs2_PowerNorm;
 
 
-/* "mlgrad/func2.pxd":51
+/* "mlgrad/funcs2.pxd":51
  * 
  * @cython.final
  * cdef class SquareNorm(Func2):             # <<<<<<<<<<<<<<
@@ -3688,13 +3804,13 @@ static struct __pyx_vtabstruct_6mlgrad_5func2_PowerNorm *__pyx_vtabptr_6mlgrad_5
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_5func2_SquareNorm {
-  struct __pyx_vtabstruct_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareNorm {
+  struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_5func2_SquareNorm *__pyx_vtabptr_6mlgrad_5func2_SquareNorm;
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareNorm *__pyx_vtabptr_6mlgrad_6funcs2_SquareNorm;
 
 
-/* "mlgrad/func2.pxd":55
+/* "mlgrad/funcs2.pxd":55
  * 
  * @cython.final
  * cdef class AbsoluteNorm(Func2):             # <<<<<<<<<<<<<<
@@ -3702,13 +3818,13 @@ static struct __pyx_vtabstruct_6mlgrad_5func2_SquareNorm *__pyx_vtabptr_6mlgrad_
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_5func2_AbsoluteNorm {
-  struct __pyx_vtabstruct_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_6funcs2_AbsoluteNorm {
+  struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_5func2_AbsoluteNorm *__pyx_vtabptr_6mlgrad_5func2_AbsoluteNorm;
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_AbsoluteNorm *__pyx_vtabptr_6mlgrad_6funcs2_AbsoluteNorm;
 
 
-/* "mlgrad/func2.pxd":59
+/* "mlgrad/funcs2.pxd":59
  * 
  * @cython.final
  * cdef class SquareForm(Func2):             # <<<<<<<<<<<<<<
@@ -3716,13 +3832,13 @@ static struct __pyx_vtabstruct_6mlgrad_5func2_AbsoluteNorm *__pyx_vtabptr_6mlgra
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_5func2_SquareForm {
-  struct __pyx_vtabstruct_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareForm {
+  struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_5func2_SquareForm *__pyx_vtabptr_6mlgrad_5func2_SquareForm;
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareForm *__pyx_vtabptr_6mlgrad_6funcs2_SquareForm;
 
 
-/* "mlgrad/func2.pxd":63
+/* "mlgrad/funcs2.pxd":63
  * 
  * @cython.final
  * cdef class Rosenbrok(Func2):             # <<<<<<<<<<<<<<
@@ -3730,13 +3846,13 @@ static struct __pyx_vtabstruct_6mlgrad_5func2_SquareForm *__pyx_vtabptr_6mlgrad_
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_5func2_Rosenbrok {
-  struct __pyx_vtabstruct_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_6funcs2_Rosenbrok {
+  struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_5func2_Rosenbrok *__pyx_vtabptr_6mlgrad_5func2_Rosenbrok;
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_Rosenbrok *__pyx_vtabptr_6mlgrad_6funcs2_Rosenbrok;
 
 
-/* "mlgrad/func2.pxd":67
+/* "mlgrad/funcs2.pxd":67
  * 
  * @cython.final
  * cdef class Himmelblau(Func2):             # <<<<<<<<<<<<<<
@@ -3744,13 +3860,13 @@ static struct __pyx_vtabstruct_6mlgrad_5func2_Rosenbrok *__pyx_vtabptr_6mlgrad_5
  * 
  */
 
-struct __pyx_vtabstruct_6mlgrad_5func2_Himmelblau {
-  struct __pyx_vtabstruct_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_6funcs2_Himmelblau {
+  struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_5func2_Himmelblau *__pyx_vtabptr_6mlgrad_5func2_Himmelblau;
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_Himmelblau *__pyx_vtabptr_6mlgrad_6funcs2_Himmelblau;
 
 
-/* "mlgrad/func2.pxd":71
+/* "mlgrad/funcs2.pxd":71
  * 
  * @cython.final
  * cdef class SoftMin(Func2):             # <<<<<<<<<<<<<<
@@ -3758,10 +3874,10 @@ static struct __pyx_vtabstruct_6mlgrad_5func2_Himmelblau *__pyx_vtabptr_6mlgrad_
  *     cdef double[::1] evals
  */
 
-struct __pyx_vtabstruct_6mlgrad_5func2_SoftMin {
-  struct __pyx_vtabstruct_6mlgrad_5func2_Func2 __pyx_base;
+struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftMin {
+  struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
 };
-static struct __pyx_vtabstruct_6mlgrad_5func2_SoftMin *__pyx_vtabptr_6mlgrad_5func2_SoftMin;
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftMin *__pyx_vtabptr_6mlgrad_6funcs2_SoftMin;
 
 
 /* "mlgrad/averager.pxd":25
@@ -5327,15 +5443,15 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal__gradient(struct __pyx_ob
 
 /* Module declarations from "cython" */
 
-/* Module declarations from "mlgrad.func" */
+/* Module declarations from "mlgrad.funcs" */
 
 /* Module declarations from "libc.math" */
 
 /* Module declarations from "libc.string" */
 
-/* Module declarations from "mlgrad.func2" */
-static double *__pyx_vp_6mlgrad_5func2_double_max = 0;
-#define __pyx_v_6mlgrad_5func2_double_max (*__pyx_vp_6mlgrad_5func2_double_max)
+/* Module declarations from "mlgrad.funcs2" */
+static double *__pyx_vp_6mlgrad_6funcs2_double_max = 0;
+#define __pyx_v_6mlgrad_6funcs2_double_max (*__pyx_vp_6mlgrad_6funcs2_double_max)
 
 /* Module declarations from "mlgrad.averager" */
 
@@ -5702,10 +5818,10 @@ static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSE
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Penalty_4func___get__(struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Penalty___reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Penalty_2__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_Penalty *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_14PenaltyAverage___init__(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func); /* proto */
+static int __pyx_pf_6mlgrad_6avragg_14PenaltyAverage___init__(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_14PenaltyAverage_2__reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_14PenaltyAverage_4__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_12PenaltyScale___init__(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func); /* proto */
+static int __pyx_pf_6mlgrad_6avragg_12PenaltyScale___init__(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_12PenaltyScale_2__reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_12PenaltyScale_4__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Average_evaluate(struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y); /* proto */
@@ -5727,13 +5843,13 @@ static int __pyx_pf_6mlgrad_6avragg_10Average_FG___init__(struct __pyx_obj_6mlgr
 static PyObject *__pyx_pf_6mlgrad_6avragg_10Average_FG_2use_deriv_averager(struct __pyx_obj_6mlgrad_6avragg_Average_FG *__pyx_v_self, PyObject *__pyx_v_averager); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_10Average_FG_4__reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_Average_FG *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_10Average_FG_6__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_Average_FG *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_8MAverage___init__(struct __pyx_obj_6mlgrad_6avragg_MAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, PyObject *__pyx_v_tol, PyObject *__pyx_v_n_iter); /* proto */
+static int __pyx_pf_6mlgrad_6avragg_8MAverage___init__(struct __pyx_obj_6mlgrad_6avragg_MAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func, PyObject *__pyx_v_tol, PyObject *__pyx_v_n_iter); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_8MAverage_2__reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_MAverage *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_8MAverage_4__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_MAverage *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_8SAverage___init__(struct __pyx_obj_6mlgrad_6avragg_SAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, PyObject *__pyx_v_tol, PyObject *__pyx_v_n_iter); /* proto */
+static int __pyx_pf_6mlgrad_6avragg_8SAverage___init__(struct __pyx_obj_6mlgrad_6avragg_SAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func, PyObject *__pyx_v_tol, PyObject *__pyx_v_n_iter); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_8SAverage_2__reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_SAverage *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_8SAverage_4__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_SAverage *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_20ParameterizedAverage___init__(struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_func, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avr); /* proto */
+static int __pyx_pf_6mlgrad_6avragg_20ParameterizedAverage___init__(struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *__pyx_v_func, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avr); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_20ParameterizedAverage_2__reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_20ParameterizedAverage_4__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_6mlgrad_6avragg_9WMAverage___init__(struct __pyx_obj_6mlgrad_6avragg_WMAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avr); /* proto */
@@ -5744,14 +5860,14 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9TMAverage_2__reduce_cython__(struct _
 static PyObject *__pyx_pf_6mlgrad_6avragg_9TMAverage_4__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_TMAverage *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_9ArithMean___reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_ArithMean *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_9ArithMean_2__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_ArithMean *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_10RArithMean___init__(struct __pyx_obj_6mlgrad_6avragg_RArithMean *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func); /* proto */
+static int __pyx_pf_6mlgrad_6avragg_10RArithMean___init__(struct __pyx_obj_6mlgrad_6avragg_RArithMean *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_10RArithMean_2__reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_RArithMean *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_10RArithMean_4__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_RArithMean *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Minimal___reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_Minimal *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Minimal_2__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_Minimal *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Maximal___reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_Maximal *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_7Maximal_2__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_Maximal *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_6mlgrad_6avragg_14KolmogorovMean___init__(struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_invfunc); /* proto */
+static int __pyx_pf_6mlgrad_6avragg_14KolmogorovMean___init__(struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_invfunc); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_14KolmogorovMean_2__reduce_cython__(struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_6mlgrad_6avragg_14KolmogorovMean_4__setstate_cython__(struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_6mlgrad_6avragg_11SoftMinimal___init__(struct __pyx_obj_6mlgrad_6avragg_SoftMinimal *__pyx_v_self, PyObject *__pyx_v_a); /* proto */
@@ -5831,65 +5947,69 @@ typedef struct {
   #endif
   #if CYTHON_USE_MODULE_STATE
   #endif
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Func;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Comp;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_CompSqrt;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Gauss;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_DArctg;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_LogGauss2;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_ZeroOnPositive;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_FuncExp;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Id;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Neg;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_PlusId;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Arctang;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Sigmoidal;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_ModSigmoidal;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_SoftPlus;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Threshold;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Sign;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Quantile;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_QuantileFunc;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Expectile;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Power;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Square;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_SquareSigned;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Absolute;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_SoftAbs;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Sqrt;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Quantile_Sqrt;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Logistic;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Huber;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_TM;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_LogSquare;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Tukey;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Hinge;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_RELU;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_HSquare;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_HingeSqrt;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_HingeSqrtPlus;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Exp;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_Log;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_KMinSquare;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_ParameterizedFunc;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_WinsorizedFunc;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc;
-  PyTypeObject *__pyx_ptype_6mlgrad_4func_SoftMinFunc;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Func;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Comp;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_CompSqrt;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Gauss;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_DArctg;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Linear;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_LogGauss2;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_ZeroOnPositive;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_ZeroOnNegative;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_TruncAbs;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_FuncExp;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Id;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Neg;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_PlusId;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Arctang;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Sigmoidal;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_ModSigmoidal;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_SoftPlus;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Threshold;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Sign;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Quantile;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_QuantileFunc;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Expectile;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Power;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Square;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_SquareSigned;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Absolute;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Quantile_AlphaLog;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_SoftAbs;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Sqrt;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_FSqrt;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Quantile_Sqrt;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Logistic;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Huber;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_TM;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_LogSquare;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Tukey;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Hinge;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_RELU;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_HSquare;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_HingeSqrt;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_HingeSqrtPlus;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Exp;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_Log;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_KMinSquare;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_ParameterizedFunc;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_WinsorizedFunc;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_WinsorizedSmoothFunc;
+  PyTypeObject *__pyx_ptype_6mlgrad_5funcs_SoftMinFunc;
   #if CYTHON_USE_MODULE_STATE
   #endif
   #if CYTHON_USE_MODULE_STATE
   #endif
   #if CYTHON_USE_MODULE_STATE
   #endif
-  PyTypeObject *__pyx_ptype_6mlgrad_5func2_Func2;
-  PyTypeObject *__pyx_ptype_6mlgrad_5func2_PowerNorm;
-  PyTypeObject *__pyx_ptype_6mlgrad_5func2_SquareNorm;
-  PyTypeObject *__pyx_ptype_6mlgrad_5func2_AbsoluteNorm;
-  PyTypeObject *__pyx_ptype_6mlgrad_5func2_SquareForm;
-  PyTypeObject *__pyx_ptype_6mlgrad_5func2_Rosenbrok;
-  PyTypeObject *__pyx_ptype_6mlgrad_5func2_Himmelblau;
-  PyTypeObject *__pyx_ptype_6mlgrad_5func2_SoftMin;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_Func2;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_PowerNorm;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SquareNorm;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SquareForm;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_Rosenbrok;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_Himmelblau;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SoftMin;
   #if CYTHON_USE_MODULE_STATE
   #endif
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ScalarAverager;
@@ -6358,59 +6478,63 @@ static int __pyx_m_clear(PyObject *m) {
   #ifdef __Pyx_FusedFunction_USED
   Py_CLEAR(clear_module_state->__pyx_FusedFunctionType);
   #endif
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Func);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Comp);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_CompSqrt);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Gauss);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_DArctg);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_LogGauss2);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_ZeroOnPositive);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_FuncExp);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Id);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Neg);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_PlusId);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Arctang);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Sigmoidal);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_ModSigmoidal);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_SoftPlus);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Threshold);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Sign);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Quantile);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_QuantileFunc);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Expectile);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Power);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Square);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_SquareSigned);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Absolute);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_SoftAbs);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Sqrt);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Quantile_Sqrt);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Logistic);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Huber);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_TM);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_LogSquare);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Tukey);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Hinge);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_RELU);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_HSquare);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_HingeSqrt);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_HingeSqrtPlus);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Exp);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_Log);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_KMinSquare);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_ParameterizedFunc);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_WinsorizedFunc);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4func_SoftMinFunc);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5func2_Func2);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5func2_PowerNorm);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5func2_SquareNorm);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5func2_AbsoluteNorm);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5func2_SquareForm);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5func2_Rosenbrok);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5func2_Himmelblau);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5func2_SoftMin);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Func);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Comp);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_CompSqrt);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Gauss);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_DArctg);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Linear);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_LogGauss2);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_ZeroOnPositive);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_ZeroOnNegative);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_TruncAbs);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_FuncExp);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Id);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Neg);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_PlusId);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Arctang);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Sigmoidal);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_ModSigmoidal);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_SoftPlus);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Threshold);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Sign);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Quantile);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_QuantileFunc);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Expectile);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Power);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Square);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_SquareSigned);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Absolute);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Quantile_AlphaLog);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_SoftAbs);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Sqrt);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_FSqrt);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Quantile_Sqrt);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Logistic);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Huber);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_TM);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_LogSquare);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Tukey);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Hinge);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_RELU);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_HSquare);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_HingeSqrt);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_HingeSqrtPlus);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Exp);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_Log);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_KMinSquare);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_ParameterizedFunc);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_WinsorizedFunc);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_WinsorizedSmoothFunc);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_SoftMinFunc);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_Func2);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_PowerNorm);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareNorm);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareForm);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_Rosenbrok);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_Himmelblau);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SoftMin);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ScalarAverager);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ScalarAdaM2);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ScalarAdaM1);
@@ -6851,59 +6975,63 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   #ifdef __Pyx_FusedFunction_USED
   Py_VISIT(traverse_module_state->__pyx_FusedFunctionType);
   #endif
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Func);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Comp);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_CompSqrt);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Gauss);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_DArctg);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_LogGauss2);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_ZeroOnPositive);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_FuncExp);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Id);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Neg);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_PlusId);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Arctang);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Sigmoidal);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_ModSigmoidal);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_SoftPlus);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Threshold);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Sign);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Quantile);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_QuantileFunc);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Expectile);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Power);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Square);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_SquareSigned);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Absolute);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_SoftAbs);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Sqrt);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Quantile_Sqrt);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Logistic);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Huber);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_TM);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_LogSquare);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Tukey);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Hinge);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_RELU);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_HSquare);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_HingeSqrt);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_HingeSqrtPlus);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Exp);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_Log);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_KMinSquare);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_ParameterizedFunc);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_WinsorizedFunc);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4func_SoftMinFunc);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5func2_Func2);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5func2_PowerNorm);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5func2_SquareNorm);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5func2_AbsoluteNorm);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5func2_SquareForm);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5func2_Rosenbrok);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5func2_Himmelblau);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5func2_SoftMin);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Func);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Comp);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_CompSqrt);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Gauss);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_DArctg);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Linear);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_LogGauss2);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_ZeroOnPositive);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_ZeroOnNegative);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_TruncAbs);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_FuncExp);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Id);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Neg);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_PlusId);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Arctang);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Sigmoidal);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_ModSigmoidal);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_SoftPlus);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Threshold);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Sign);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Quantile);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_QuantileFunc);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Expectile);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Power);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Square);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_SquareSigned);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Absolute);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Quantile_AlphaLog);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_SoftAbs);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Sqrt);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_FSqrt);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Quantile_Sqrt);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Logistic);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Huber);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_TM);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_LogSquare);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Tukey);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Hinge);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_RELU);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_HSquare);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_HingeSqrt);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_HingeSqrtPlus);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Exp);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_Log);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_KMinSquare);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_ParameterizedFunc);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_WinsorizedFunc);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_WinsorizedSmoothFunc);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_SoftMinFunc);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_Func2);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_PowerNorm);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareNorm);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareForm);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_Rosenbrok);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_Himmelblau);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SoftMin);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ScalarAverager);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ScalarAdaM2);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ScalarAdaM1);
@@ -7360,65 +7488,69 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #endif
 #if CYTHON_USE_MODULE_STATE
 #endif
-#define __pyx_ptype_6mlgrad_4func_Func __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Func
-#define __pyx_ptype_6mlgrad_4func_Comp __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Comp
-#define __pyx_ptype_6mlgrad_4func_CompSqrt __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_CompSqrt
-#define __pyx_ptype_6mlgrad_4func_Gauss __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Gauss
-#define __pyx_ptype_6mlgrad_4func_DArctg __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_DArctg
-#define __pyx_ptype_6mlgrad_4func_LogGauss2 __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_LogGauss2
-#define __pyx_ptype_6mlgrad_4func_ZeroOnPositive __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_ZeroOnPositive
-#define __pyx_ptype_6mlgrad_4func_FuncExp __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_FuncExp
-#define __pyx_ptype_6mlgrad_4func_Id __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Id
-#define __pyx_ptype_6mlgrad_4func_Neg __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Neg
-#define __pyx_ptype_6mlgrad_4func_PlusId __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_PlusId
-#define __pyx_ptype_6mlgrad_4func_Arctang __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Arctang
-#define __pyx_ptype_6mlgrad_4func_Sigmoidal __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Sigmoidal
-#define __pyx_ptype_6mlgrad_4func_ModSigmoidal __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_ModSigmoidal
-#define __pyx_ptype_6mlgrad_4func_SoftPlus __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_SoftPlus
-#define __pyx_ptype_6mlgrad_4func_Threshold __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Threshold
-#define __pyx_ptype_6mlgrad_4func_Sign __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Sign
-#define __pyx_ptype_6mlgrad_4func_Quantile __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Quantile
-#define __pyx_ptype_6mlgrad_4func_QuantileFunc __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_QuantileFunc
-#define __pyx_ptype_6mlgrad_4func_Expectile __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Expectile
-#define __pyx_ptype_6mlgrad_4func_Power __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Power
-#define __pyx_ptype_6mlgrad_4func_Square __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Square
-#define __pyx_ptype_6mlgrad_4func_SquareSigned __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_SquareSigned
-#define __pyx_ptype_6mlgrad_4func_Absolute __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Absolute
-#define __pyx_ptype_6mlgrad_4func_Quantile_AlphaLog __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog
-#define __pyx_ptype_6mlgrad_4func_SoftAbs __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_SoftAbs
-#define __pyx_ptype_6mlgrad_4func_Sqrt __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Sqrt
-#define __pyx_ptype_6mlgrad_4func_Quantile_Sqrt __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Quantile_Sqrt
-#define __pyx_ptype_6mlgrad_4func_Logistic __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Logistic
-#define __pyx_ptype_6mlgrad_4func_Huber __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Huber
-#define __pyx_ptype_6mlgrad_4func_TM __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_TM
-#define __pyx_ptype_6mlgrad_4func_LogSquare __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_LogSquare
-#define __pyx_ptype_6mlgrad_4func_Tukey __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Tukey
-#define __pyx_ptype_6mlgrad_4func_Hinge __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Hinge
-#define __pyx_ptype_6mlgrad_4func_RELU __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_RELU
-#define __pyx_ptype_6mlgrad_4func_HSquare __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_HSquare
-#define __pyx_ptype_6mlgrad_4func_HingeSqrt __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_HingeSqrt
-#define __pyx_ptype_6mlgrad_4func_HingeSqrtPlus __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_HingeSqrtPlus
-#define __pyx_ptype_6mlgrad_4func_Exp __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Exp
-#define __pyx_ptype_6mlgrad_4func_Log __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_Log
-#define __pyx_ptype_6mlgrad_4func_KMinSquare __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_KMinSquare
-#define __pyx_ptype_6mlgrad_4func_ParameterizedFunc __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_ParameterizedFunc
-#define __pyx_ptype_6mlgrad_4func_WinsorizedFunc __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_WinsorizedFunc
-#define __pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc
-#define __pyx_ptype_6mlgrad_4func_SoftMinFunc __pyx_mstate_global->__pyx_ptype_6mlgrad_4func_SoftMinFunc
+#define __pyx_ptype_6mlgrad_5funcs_Func __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Func
+#define __pyx_ptype_6mlgrad_5funcs_Comp __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Comp
+#define __pyx_ptype_6mlgrad_5funcs_CompSqrt __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_CompSqrt
+#define __pyx_ptype_6mlgrad_5funcs_Gauss __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Gauss
+#define __pyx_ptype_6mlgrad_5funcs_DArctg __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_DArctg
+#define __pyx_ptype_6mlgrad_5funcs_Linear __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Linear
+#define __pyx_ptype_6mlgrad_5funcs_LogGauss2 __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_LogGauss2
+#define __pyx_ptype_6mlgrad_5funcs_ZeroOnPositive __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_ZeroOnPositive
+#define __pyx_ptype_6mlgrad_5funcs_ZeroOnNegative __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_ZeroOnNegative
+#define __pyx_ptype_6mlgrad_5funcs_TruncAbs __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_TruncAbs
+#define __pyx_ptype_6mlgrad_5funcs_FuncExp __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_FuncExp
+#define __pyx_ptype_6mlgrad_5funcs_Id __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Id
+#define __pyx_ptype_6mlgrad_5funcs_Neg __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Neg
+#define __pyx_ptype_6mlgrad_5funcs_PlusId __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_PlusId
+#define __pyx_ptype_6mlgrad_5funcs_Arctang __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Arctang
+#define __pyx_ptype_6mlgrad_5funcs_Sigmoidal __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Sigmoidal
+#define __pyx_ptype_6mlgrad_5funcs_ModSigmoidal __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_ModSigmoidal
+#define __pyx_ptype_6mlgrad_5funcs_SoftPlus __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_SoftPlus
+#define __pyx_ptype_6mlgrad_5funcs_Threshold __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Threshold
+#define __pyx_ptype_6mlgrad_5funcs_Sign __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Sign
+#define __pyx_ptype_6mlgrad_5funcs_Quantile __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Quantile
+#define __pyx_ptype_6mlgrad_5funcs_QuantileFunc __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_QuantileFunc
+#define __pyx_ptype_6mlgrad_5funcs_Expectile __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Expectile
+#define __pyx_ptype_6mlgrad_5funcs_Power __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Power
+#define __pyx_ptype_6mlgrad_5funcs_Square __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Square
+#define __pyx_ptype_6mlgrad_5funcs_SquareSigned __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_SquareSigned
+#define __pyx_ptype_6mlgrad_5funcs_Absolute __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Absolute
+#define __pyx_ptype_6mlgrad_5funcs_Quantile_AlphaLog __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Quantile_AlphaLog
+#define __pyx_ptype_6mlgrad_5funcs_SoftAbs __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_SoftAbs
+#define __pyx_ptype_6mlgrad_5funcs_Sqrt __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Sqrt
+#define __pyx_ptype_6mlgrad_5funcs_FSqrt __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_FSqrt
+#define __pyx_ptype_6mlgrad_5funcs_Quantile_Sqrt __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Quantile_Sqrt
+#define __pyx_ptype_6mlgrad_5funcs_Logistic __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Logistic
+#define __pyx_ptype_6mlgrad_5funcs_Huber __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Huber
+#define __pyx_ptype_6mlgrad_5funcs_TM __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_TM
+#define __pyx_ptype_6mlgrad_5funcs_LogSquare __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_LogSquare
+#define __pyx_ptype_6mlgrad_5funcs_Tukey __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Tukey
+#define __pyx_ptype_6mlgrad_5funcs_Hinge __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Hinge
+#define __pyx_ptype_6mlgrad_5funcs_RELU __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_RELU
+#define __pyx_ptype_6mlgrad_5funcs_HSquare __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_HSquare
+#define __pyx_ptype_6mlgrad_5funcs_HingeSqrt __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_HingeSqrt
+#define __pyx_ptype_6mlgrad_5funcs_HingeSqrtPlus __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_HingeSqrtPlus
+#define __pyx_ptype_6mlgrad_5funcs_Exp __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Exp
+#define __pyx_ptype_6mlgrad_5funcs_Log __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_Log
+#define __pyx_ptype_6mlgrad_5funcs_KMinSquare __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_KMinSquare
+#define __pyx_ptype_6mlgrad_5funcs_ParameterizedFunc __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_ParameterizedFunc
+#define __pyx_ptype_6mlgrad_5funcs_WinsorizedFunc __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_WinsorizedFunc
+#define __pyx_ptype_6mlgrad_5funcs_WinsorizedSmoothFunc __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_WinsorizedSmoothFunc
+#define __pyx_ptype_6mlgrad_5funcs_SoftMinFunc __pyx_mstate_global->__pyx_ptype_6mlgrad_5funcs_SoftMinFunc
 #if CYTHON_USE_MODULE_STATE
 #endif
 #if CYTHON_USE_MODULE_STATE
 #endif
 #if CYTHON_USE_MODULE_STATE
 #endif
-#define __pyx_ptype_6mlgrad_5func2_Func2 __pyx_mstate_global->__pyx_ptype_6mlgrad_5func2_Func2
-#define __pyx_ptype_6mlgrad_5func2_PowerNorm __pyx_mstate_global->__pyx_ptype_6mlgrad_5func2_PowerNorm
-#define __pyx_ptype_6mlgrad_5func2_SquareNorm __pyx_mstate_global->__pyx_ptype_6mlgrad_5func2_SquareNorm
-#define __pyx_ptype_6mlgrad_5func2_AbsoluteNorm __pyx_mstate_global->__pyx_ptype_6mlgrad_5func2_AbsoluteNorm
-#define __pyx_ptype_6mlgrad_5func2_SquareForm __pyx_mstate_global->__pyx_ptype_6mlgrad_5func2_SquareForm
-#define __pyx_ptype_6mlgrad_5func2_Rosenbrok __pyx_mstate_global->__pyx_ptype_6mlgrad_5func2_Rosenbrok
-#define __pyx_ptype_6mlgrad_5func2_Himmelblau __pyx_mstate_global->__pyx_ptype_6mlgrad_5func2_Himmelblau
-#define __pyx_ptype_6mlgrad_5func2_SoftMin __pyx_mstate_global->__pyx_ptype_6mlgrad_5func2_SoftMin
+#define __pyx_ptype_6mlgrad_6funcs2_Func2 __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_Func2
+#define __pyx_ptype_6mlgrad_6funcs2_PowerNorm __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_PowerNorm
+#define __pyx_ptype_6mlgrad_6funcs2_SquareNorm __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SquareNorm
+#define __pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm
+#define __pyx_ptype_6mlgrad_6funcs2_SquareForm __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SquareForm
+#define __pyx_ptype_6mlgrad_6funcs2_Rosenbrok __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_Rosenbrok
+#define __pyx_ptype_6mlgrad_6funcs2_Himmelblau __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_Himmelblau
+#define __pyx_ptype_6mlgrad_6funcs2_SoftMin __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SoftMin
 #if CYTHON_USE_MODULE_STATE
 #endif
 #define __pyx_ptype_6mlgrad_8averager_ScalarAverager __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ScalarAverager
@@ -21481,7 +21613,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   return __pyx_r;
 }
 
-/* "mlgrad/func2.pxd":14
+/* "mlgrad/funcs2.pxd":14
  * cdef double double_max
  * 
  * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
@@ -21489,11 +21621,11 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
  *     memset(&X[0], 0, m*cython.sizeof(double))
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_fill_memoryview(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED double __pyx_v_c) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_6funcs2_fill_memoryview(__Pyx_memviewslice __pyx_v_X, CYTHON_UNUSED double __pyx_v_c) {
   int __pyx_v_m;
   Py_ssize_t __pyx_t_1;
 
-  /* "mlgrad/func2.pxd":15
+  /* "mlgrad/funcs2.pxd":15
  * 
  * cdef inline void fill_memoryview(double[::1] X, double c):
  *     cdef int m = X.shape[0]             # <<<<<<<<<<<<<<
@@ -21502,7 +21634,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_fill_memoryview(__Pyx_memviewsl
  */
   __pyx_v_m = (__pyx_v_X.shape[0]);
 
-  /* "mlgrad/func2.pxd":16
+  /* "mlgrad/funcs2.pxd":16
  * cdef inline void fill_memoryview(double[::1] X, double c):
  *     cdef int m = X.shape[0]
  *     memset(&X[0], 0, m*cython.sizeof(double))             # <<<<<<<<<<<<<<
@@ -21512,7 +21644,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_fill_memoryview(__Pyx_memviewsl
   __pyx_t_1 = 0;
   (void)(memset((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) )))), 0, (__pyx_v_m * (sizeof(double)))));
 
-  /* "mlgrad/func2.pxd":14
+  /* "mlgrad/funcs2.pxd":14
  * cdef double double_max
  * 
  * cdef inline void fill_memoryview(double[::1] X, double c):             # <<<<<<<<<<<<<<
@@ -21523,7 +21655,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_fill_memoryview(__Pyx_memviewsl
   /* function exit code */
 }
 
-/* "mlgrad/func2.pxd":18
+/* "mlgrad/funcs2.pxd":18
  *     memset(&X[0], 0, m*cython.sizeof(double))
  * 
  * cdef inline void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
@@ -21531,7 +21663,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_fill_memoryview(__Pyx_memviewsl
  *     cdef double v
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot(__Pyx_memviewslice __pyx_v_A, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_6funcs2_matrix_dot(__Pyx_memviewslice __pyx_v_A, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
   int __pyx_v_i;
   int __pyx_v_n;
   int __pyx_v_m;
@@ -21547,7 +21679,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot(__Pyx_memviewslice _
   Py_ssize_t __pyx_t_8;
   Py_ssize_t __pyx_t_9;
 
-  /* "mlgrad/func2.pxd":19
+  /* "mlgrad/funcs2.pxd":19
  * 
  * cdef inline void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):
  *     cdef int i, n=A.shape[0], m=A.shape[1]             # <<<<<<<<<<<<<<
@@ -21557,7 +21689,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot(__Pyx_memviewslice _
   __pyx_v_n = (__pyx_v_A.shape[0]);
   __pyx_v_m = (__pyx_v_A.shape[1]);
 
-  /* "mlgrad/func2.pxd":22
+  /* "mlgrad/funcs2.pxd":22
  *     cdef double v
  * 
  *     for j in range(n):             # <<<<<<<<<<<<<<
@@ -21569,7 +21701,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot(__Pyx_memviewslice _
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_j = __pyx_t_3;
 
-    /* "mlgrad/func2.pxd":23
+    /* "mlgrad/funcs2.pxd":23
  * 
  *     for j in range(n):
  *         v = 0             # <<<<<<<<<<<<<<
@@ -21578,7 +21710,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot(__Pyx_memviewslice _
  */
     __pyx_v_v = 0.0;
 
-    /* "mlgrad/func2.pxd":24
+    /* "mlgrad/funcs2.pxd":24
  *     for j in range(n):
  *         v = 0
  *         for i in range(m):             # <<<<<<<<<<<<<<
@@ -21590,7 +21722,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot(__Pyx_memviewslice _
     for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
       __pyx_v_i = __pyx_t_6;
 
-      /* "mlgrad/func2.pxd":25
+      /* "mlgrad/funcs2.pxd":25
  *         v = 0
  *         for i in range(m):
  *             v += A[j,i] * x[i]             # <<<<<<<<<<<<<<
@@ -21603,7 +21735,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot(__Pyx_memviewslice _
       __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) )))));
     }
 
-    /* "mlgrad/func2.pxd":26
+    /* "mlgrad/funcs2.pxd":26
  *         for i in range(m):
  *             v += A[j,i] * x[i]
  *         y[j] = v             # <<<<<<<<<<<<<<
@@ -21614,7 +21746,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot(__Pyx_memviewslice _
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_9)) )) = __pyx_v_v;
   }
 
-  /* "mlgrad/func2.pxd":18
+  /* "mlgrad/funcs2.pxd":18
  *     memset(&X[0], 0, m*cython.sizeof(double))
  * 
  * cdef inline void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
@@ -21625,7 +21757,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot(__Pyx_memviewslice _
   /* function exit code */
 }
 
-/* "mlgrad/func2.pxd":28
+/* "mlgrad/funcs2.pxd":28
  *         y[j] = v
  * 
  * cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
@@ -21633,7 +21765,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot(__Pyx_memviewslice _
  *     cdef double v
  */
 
-static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot_t(__Pyx_memviewslice __pyx_v_A, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
+static CYTHON_INLINE void __pyx_f_6mlgrad_6funcs2_matrix_dot_t(__Pyx_memviewslice __pyx_v_A, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
   int __pyx_v_i;
   int __pyx_v_n;
   int __pyx_v_m;
@@ -21649,7 +21781,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot_t(__Pyx_memviewslice
   Py_ssize_t __pyx_t_8;
   Py_ssize_t __pyx_t_9;
 
-  /* "mlgrad/func2.pxd":29
+  /* "mlgrad/funcs2.pxd":29
  * 
  * cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
  *     cdef int i, n=A.shape[0], m=A.shape[1]             # <<<<<<<<<<<<<<
@@ -21659,7 +21791,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot_t(__Pyx_memviewslice
   __pyx_v_n = (__pyx_v_A.shape[0]);
   __pyx_v_m = (__pyx_v_A.shape[1]);
 
-  /* "mlgrad/func2.pxd":32
+  /* "mlgrad/funcs2.pxd":32
  *     cdef double v
  * 
  *     for i in range(m):             # <<<<<<<<<<<<<<
@@ -21671,7 +21803,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot_t(__Pyx_memviewslice
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/func2.pxd":33
+    /* "mlgrad/funcs2.pxd":33
  * 
  *     for i in range(m):
  *         v = 0             # <<<<<<<<<<<<<<
@@ -21680,7 +21812,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot_t(__Pyx_memviewslice
  */
     __pyx_v_v = 0.0;
 
-    /* "mlgrad/func2.pxd":34
+    /* "mlgrad/funcs2.pxd":34
  *     for i in range(m):
  *         v = 0
  *         for j in range(n):             # <<<<<<<<<<<<<<
@@ -21692,7 +21824,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot_t(__Pyx_memviewslice
     for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
       __pyx_v_j = __pyx_t_6;
 
-      /* "mlgrad/func2.pxd":35
+      /* "mlgrad/funcs2.pxd":35
  *         v = 0
  *         for j in range(n):
  *             v += A[j,i] * x[j]             # <<<<<<<<<<<<<<
@@ -21705,7 +21837,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot_t(__Pyx_memviewslice
       __pyx_v_v = (__pyx_v_v + ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_A.data + __pyx_t_7 * __pyx_v_A.strides[0]) )) + __pyx_t_8)) ))) * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_9)) )))));
     }
 
-    /* "mlgrad/func2.pxd":36
+    /* "mlgrad/funcs2.pxd":36
  *         for j in range(n):
  *             v += A[j,i] * x[j]
  *         y[i] = v             # <<<<<<<<<<<<<<
@@ -21716,7 +21848,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_5func2_matrix_dot_t(__Pyx_memviewslice
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_9)) )) = __pyx_v_v;
   }
 
-  /* "mlgrad/func2.pxd":28
+  /* "mlgrad/funcs2.pxd":28
  *         y[j] = v
  * 
  * cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):             # <<<<<<<<<<<<<<
@@ -22734,7 +22866,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Penalty_2__setstate_cython__(struct _
 /* Python wrapper */
 static int __pyx_pw_6mlgrad_6avragg_14PenaltyAverage_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_6mlgrad_6avragg_14PenaltyAverage_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
   PyObject* values[1] = {0};
@@ -22779,7 +22911,7 @@ static int __pyx_pw_6mlgrad_6avragg_14PenaltyAverage_1__init__(PyObject *__pyx_v
     } else {
       values[0] = __Pyx_Arg_VARARGS(__pyx_args, 0);
     }
-    __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)values[0]);
+    __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)values[0]);
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
@@ -22797,7 +22929,7 @@ static int __pyx_pw_6mlgrad_6avragg_14PenaltyAverage_1__init__(PyObject *__pyx_v
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(2, 58, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_5funcs_Func, 1, "func", 0))) __PYX_ERR(2, 58, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_14PenaltyAverage___init__(((struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *)__pyx_v_self), __pyx_v_func);
 
   /* function exit code */
@@ -22815,7 +22947,7 @@ static int __pyx_pw_6mlgrad_6avragg_14PenaltyAverage_1__init__(PyObject *__pyx_v
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_6avragg_14PenaltyAverage___init__(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func) {
+static int __pyx_pf_6mlgrad_6avragg_14PenaltyAverage___init__(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 1);
@@ -22859,7 +22991,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_N;
   double __pyx_v_S;
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -22887,7 +23019,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->__pyx_base.func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":68
@@ -22944,7 +23076,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_evaluate(struct __pyx_obj
  *         return S / <double>N
  */
                             __pyx_t_5 = __pyx_v_k;
-                            __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->_evaluate(__pyx_v_func, ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) ))) - __pyx_v_u)));
+                            __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_evaluate(__pyx_v_func, ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) ))) - __pyx_v_u)));
                         }
                     }
                 }
@@ -23014,7 +23146,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_N;
   double __pyx_v_S;
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -23042,7 +23174,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->__pyx_base.func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":82
@@ -23099,7 +23231,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_derivative(struct __pyx_o
  *         return -S / <double>N
  */
                             __pyx_t_5 = __pyx_v_k;
-                            __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) ))) - __pyx_v_u)));
+                            __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) ))) - __pyx_v_u)));
                         }
                     }
                 }
@@ -23172,7 +23304,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
   double __pyx_v_V;
   double __pyx_v_v;
   double __pyx_v_yk;
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -23200,7 +23332,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->__pyx_base.func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":96
@@ -23278,7 +23410,7 @@ static double __pyx_f_6mlgrad_6avragg_14PenaltyAverage_iterative_next(struct __p
  *             V += v
  *             S += v * yk
  */
-                            __pyx_v_v = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->_derivative_div_x(__pyx_v_func, (__pyx_v_yk - __pyx_v_u));
+                            __pyx_v_v = ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_derivative_div_x(__pyx_v_func, (__pyx_v_yk - __pyx_v_u));
 
                             /* "mlgrad/avragg.pyx":102
  *             yk = Y[k]
@@ -23367,7 +23499,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
   CYTHON_UNUSED Py_ssize_t __pyx_v_N;
   double __pyx_v_v;
   double __pyx_v_S;
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
@@ -23395,7 +23527,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->__pyx_base.func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":114
@@ -23454,7 +23586,7 @@ static void __pyx_f_6mlgrad_6avragg_14PenaltyAverage_gradient(struct __pyx_obj_6
  * 
  */
                             __pyx_t_5 = __pyx_v_k;
-                            __pyx_t_6 = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->_derivative2(__pyx_v_func, ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) ))) - __pyx_v_u));
+                            __pyx_t_6 = ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_derivative2(__pyx_v_func, ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) ))) - __pyx_v_u));
                             __pyx_t_5 = __pyx_v_k;
                             *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = __pyx_t_6;
                             __pyx_v_v = __pyx_t_6;
@@ -24004,7 +24136,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_14PenaltyAverage_4__setstate_cython__(
 /* Python wrapper */
 static int __pyx_pw_6mlgrad_6avragg_12PenaltyScale_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_6mlgrad_6avragg_12PenaltyScale_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
   PyObject* values[1] = {0};
@@ -24049,7 +24181,7 @@ static int __pyx_pw_6mlgrad_6avragg_12PenaltyScale_1__init__(PyObject *__pyx_v_s
     } else {
       values[0] = __Pyx_Arg_VARARGS(__pyx_args, 0);
     }
-    __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)values[0]);
+    __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)values[0]);
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
@@ -24067,7 +24199,7 @@ static int __pyx_pw_6mlgrad_6avragg_12PenaltyScale_1__init__(PyObject *__pyx_v_s
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(2, 127, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_5funcs_Func, 1, "func", 0))) __PYX_ERR(2, 127, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_12PenaltyScale___init__(((struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *)__pyx_v_self), __pyx_v_func);
 
   /* function exit code */
@@ -24085,7 +24217,7 @@ static int __pyx_pw_6mlgrad_6avragg_12PenaltyScale_1__init__(PyObject *__pyx_v_s
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_6avragg_12PenaltyScale___init__(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func) {
+static int __pyx_pf_6mlgrad_6avragg_12PenaltyScale___init__(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 1);
@@ -24128,7 +24260,7 @@ static int __pyx_pf_6mlgrad_6avragg_12PenaltyScale___init__(struct __pyx_obj_6ml
 static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale *__pyx_v_self, __Pyx_memviewslice __pyx_v_Y, double const __pyx_v_s) {
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_N;
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   double __pyx_v_S;
   double __pyx_v_v;
   double __pyx_r;
@@ -24158,7 +24290,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->__pyx_base.func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":138
@@ -24226,7 +24358,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_evaluate(struct __pyx_obj_6
  * 
  *         return S / N + log(s)
  */
-                            __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->_evaluate(__pyx_v_func, (__pyx_v_v / ((double)__pyx_v_s))));
+                            __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_evaluate(__pyx_v_func, (__pyx_v_v / ((double)__pyx_v_s))));
                         }
                     }
                 }
@@ -24297,7 +24429,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
   Py_ssize_t __pyx_v_N;
   double __pyx_v_S;
   double __pyx_v_v;
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -24325,7 +24457,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->__pyx_base.func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":153
@@ -24393,7 +24525,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_derivative(struct __pyx_obj
  *         #
  *         return (1 - (S / N)) / s
  */
-                            __pyx_v_S = (__pyx_v_S + (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, __pyx_v_v) * __pyx_v_v));
+                            __pyx_v_S = (__pyx_v_S + (((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, __pyx_v_v) * __pyx_v_v));
                         }
                     }
                 }
@@ -24464,7 +24596,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
   Py_ssize_t __pyx_v_N;
   double __pyx_v_S;
   double __pyx_v_y_k;
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -24492,7 +24624,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->__pyx_base.func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":168
@@ -24560,7 +24692,7 @@ static double __pyx_f_6mlgrad_6avragg_12PenaltyScale_iterative_next(struct __pyx
  *         #
  *         return S / N
  */
-                            __pyx_v_S = (__pyx_v_S + (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, (__pyx_v_y_k / ((double)__pyx_v_s))) * __pyx_v_y_k));
+                            __pyx_v_S = (__pyx_v_S + (((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, (__pyx_v_y_k / ((double)__pyx_v_s))) * __pyx_v_y_k));
                         }
                     }
                 }
@@ -24631,7 +24763,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
   Py_ssize_t __pyx_v_N;
   double __pyx_v_S;
   double __pyx_v_v;
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
@@ -24658,7 +24790,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->__pyx_base.func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":183
@@ -24726,7 +24858,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
  *         S += N
  *         #
  */
-                            __pyx_v_S = (__pyx_v_S + ((((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->_derivative2(__pyx_v_func, __pyx_v_v) * __pyx_v_v) * __pyx_v_v));
+                            __pyx_v_S = (__pyx_v_S + ((((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_derivative2(__pyx_v_func, __pyx_v_v) * __pyx_v_v) * __pyx_v_v));
                         }
                     }
                 }
@@ -24825,7 +24957,7 @@ static void __pyx_f_6mlgrad_6avragg_12PenaltyScale_gradient(struct __pyx_obj_6ml
  * cdef class Average:
  */
                             __pyx_t_5 = __pyx_v_k;
-                            *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, __pyx_v_v) / __pyx_v_S);
+                            *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = (((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, __pyx_v_v) / __pyx_v_S);
                         }
                     }
                 }
@@ -28821,7 +28953,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_10Average_FG_6__setstate_cython__(stru
 /* Python wrapper */
 static int __pyx_pw_6mlgrad_6avragg_8MAverage_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_6mlgrad_6avragg_8MAverage_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   PyObject *__pyx_v_tol = 0;
   PyObject *__pyx_v_n_iter = 0;
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
@@ -28894,7 +29026,7 @@ static int __pyx_pw_6mlgrad_6avragg_8MAverage_1__init__(PyObject *__pyx_v_self, 
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)values[0]);
+    __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)values[0]);
     __pyx_v_tol = values[1];
     __pyx_v_n_iter = values[2];
   }
@@ -28914,7 +29046,7 @@ static int __pyx_pw_6mlgrad_6avragg_8MAverage_1__init__(PyObject *__pyx_v_self, 
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(2, 277, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_5funcs_Func, 1, "func", 0))) __PYX_ERR(2, 277, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_8MAverage___init__(((struct __pyx_obj_6mlgrad_6avragg_MAverage *)__pyx_v_self), __pyx_v_func, __pyx_v_tol, __pyx_v_n_iter);
 
   /* function exit code */
@@ -28932,7 +29064,7 @@ static int __pyx_pw_6mlgrad_6avragg_8MAverage_1__init__(PyObject *__pyx_v_self, 
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_6avragg_8MAverage___init__(struct __pyx_obj_6mlgrad_6avragg_MAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, PyObject *__pyx_v_tol, PyObject *__pyx_v_n_iter) {
+static int __pyx_pf_6mlgrad_6avragg_8MAverage___init__(struct __pyx_obj_6mlgrad_6avragg_MAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func, PyObject *__pyx_v_tol, PyObject *__pyx_v_n_iter) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -29521,7 +29653,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_8MAverage_4__setstate_cython__(struct 
 /* Python wrapper */
 static int __pyx_pw_6mlgrad_6avragg_8SAverage_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_6mlgrad_6avragg_8SAverage_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   PyObject *__pyx_v_tol = 0;
   PyObject *__pyx_v_n_iter = 0;
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
@@ -29594,7 +29726,7 @@ static int __pyx_pw_6mlgrad_6avragg_8SAverage_1__init__(PyObject *__pyx_v_self, 
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)values[0]);
+    __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)values[0]);
     __pyx_v_tol = values[1];
     __pyx_v_n_iter = values[2];
   }
@@ -29614,7 +29746,7 @@ static int __pyx_pw_6mlgrad_6avragg_8SAverage_1__init__(PyObject *__pyx_v_self, 
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(2, 372, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_5funcs_Func, 1, "func", 0))) __PYX_ERR(2, 372, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_8SAverage___init__(((struct __pyx_obj_6mlgrad_6avragg_SAverage *)__pyx_v_self), __pyx_v_func, __pyx_v_tol, __pyx_v_n_iter);
 
   /* function exit code */
@@ -29632,7 +29764,7 @@ static int __pyx_pw_6mlgrad_6avragg_8SAverage_1__init__(PyObject *__pyx_v_self, 
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_6avragg_8SAverage___init__(struct __pyx_obj_6mlgrad_6avragg_SAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, PyObject *__pyx_v_tol, PyObject *__pyx_v_n_iter) {
+static int __pyx_pf_6mlgrad_6avragg_8SAverage___init__(struct __pyx_obj_6mlgrad_6avragg_SAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func, PyObject *__pyx_v_tol, PyObject *__pyx_v_n_iter) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -30205,7 +30337,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_8SAverage_4__setstate_cython__(struct 
 /* Python wrapper */
 static int __pyx_pw_6mlgrad_6avragg_20ParameterizedAverage_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_6mlgrad_6avragg_20ParameterizedAverage_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *__pyx_v_func = 0;
   struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avr = 0;
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
@@ -30264,7 +30396,7 @@ static int __pyx_pw_6mlgrad_6avragg_20ParameterizedAverage_1__init__(PyObject *_
       values[0] = __Pyx_Arg_VARARGS(__pyx_args, 0);
       values[1] = __Pyx_Arg_VARARGS(__pyx_args, 1);
     }
-    __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *)values[0]);
+    __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *)values[0]);
     __pyx_v_avr = ((struct __pyx_obj_6mlgrad_6avragg_Average *)values[1]);
   }
   goto __pyx_L6_skip;
@@ -30283,7 +30415,7 @@ static int __pyx_pw_6mlgrad_6avragg_20ParameterizedAverage_1__init__(PyObject *_
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_ParameterizedFunc, 1, "func", 0))) __PYX_ERR(2, 470, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_5funcs_ParameterizedFunc, 1, "func", 0))) __PYX_ERR(2, 470, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_avr), __pyx_ptype_6mlgrad_6avragg_Average, 1, "avr", 0))) __PYX_ERR(2, 470, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_20ParameterizedAverage___init__(((struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage *)__pyx_v_self), __pyx_v_func, __pyx_v_avr);
 
@@ -30302,7 +30434,7 @@ static int __pyx_pw_6mlgrad_6avragg_20ParameterizedAverage_1__init__(PyObject *_
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_6avragg_20ParameterizedAverage___init__(struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_func, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avr) {
+static int __pyx_pf_6mlgrad_6avragg_20ParameterizedAverage___init__(struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *__pyx_v_func, struct __pyx_obj_6mlgrad_6avragg_Average *__pyx_v_avr) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 1);
@@ -30369,7 +30501,7 @@ static double __pyx_f_6mlgrad_6avragg_20ParameterizedAverage__evaluate(struct __
   Py_ssize_t __pyx_v_N;
   double __pyx_v_c;
   double __pyx_v_S;
-  struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *__pyx_v_func = 0;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -30414,7 +30546,7 @@ static double __pyx_f_6mlgrad_6avragg_20ParameterizedAverage__evaluate(struct __
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":485
@@ -30483,7 +30615,7 @@ static double __pyx_f_6mlgrad_6avragg_20ParameterizedAverage__evaluate(struct __
  *         self.u = S / N
  */
     __pyx_t_10 = __pyx_v_k;
-    __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->_evaluate(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_10)) ))), __pyx_v_c));
+    __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_5funcs_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->_evaluate(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_10)) ))), __pyx_v_c));
   }
 
   /* "mlgrad/avragg.pyx":492
@@ -30552,7 +30684,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage__gradient(struct
   double __pyx_v_N1;
   double __pyx_v_H;
   double __pyx_v_S;
-  struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *__pyx_v_func = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -30594,7 +30726,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage__gradient(struct
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":508
@@ -30656,7 +30788,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage__gradient(struct
  * 
  */
     __pyx_t_6 = __pyx_v_k;
-    __pyx_v_H = (__pyx_v_H + ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->derivative_u(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) ))), __pyx_v_c));
+    __pyx_v_H = (__pyx_v_H + ((struct __pyx_vtabstruct_6mlgrad_5funcs_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->derivative_u(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) ))), __pyx_v_c));
   }
 
   /* "mlgrad/avragg.pyx":516
@@ -30698,7 +30830,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_20ParameterizedAverage__gradient(struct
  */
     __pyx_t_6 = __pyx_v_k;
     __pyx_t_7 = __pyx_v_k;
-    __pyx_v_v = ((__pyx_v_N1 * ((struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) ))), __pyx_v_c)) + (__pyx_v_H * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_7)) )))));
+    __pyx_v_v = ((__pyx_v_N1 * ((struct __pyx_vtabstruct_6mlgrad_5funcs_ParameterizedFunc *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_6)) ))), __pyx_v_c)) + (__pyx_v_H * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_7)) )))));
 
     /* "mlgrad/avragg.pyx":523
  *         for k in range(N):
@@ -33980,7 +34112,7 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_9ArithMean_2__setstate_cython__(struct
 /* Python wrapper */
 static int __pyx_pw_6mlgrad_6avragg_10RArithMean_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_6mlgrad_6avragg_10RArithMean_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
   PyObject* values[1] = {0};
@@ -34025,7 +34157,7 @@ static int __pyx_pw_6mlgrad_6avragg_10RArithMean_1__init__(PyObject *__pyx_v_sel
     } else {
       values[0] = __Pyx_Arg_VARARGS(__pyx_args, 0);
     }
-    __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)values[0]);
+    __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)values[0]);
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
@@ -34043,7 +34175,7 @@ static int __pyx_pw_6mlgrad_6avragg_10RArithMean_1__init__(PyObject *__pyx_v_sel
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(2, 821, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_5funcs_Func, 1, "func", 0))) __PYX_ERR(2, 821, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_10RArithMean___init__(((struct __pyx_obj_6mlgrad_6avragg_RArithMean *)__pyx_v_self), __pyx_v_func);
 
   /* function exit code */
@@ -34061,7 +34193,7 @@ static int __pyx_pw_6mlgrad_6avragg_10RArithMean_1__init__(PyObject *__pyx_v_sel
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_6avragg_10RArithMean___init__(struct __pyx_obj_6mlgrad_6avragg_RArithMean *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func) {
+static int __pyx_pf_6mlgrad_6avragg_10RArithMean___init__(struct __pyx_obj_6mlgrad_6avragg_RArithMean *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 1);
@@ -34105,7 +34237,7 @@ static double __pyx_f_6mlgrad_6avragg_10RArithMean__evaluate(struct __pyx_obj_6m
   double __pyx_v_S;
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_N;
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -34133,7 +34265,7 @@ static double __pyx_f_6mlgrad_6avragg_10RArithMean__evaluate(struct __pyx_obj_6m
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":830
@@ -34190,7 +34322,7 @@ static double __pyx_f_6mlgrad_6avragg_10RArithMean__evaluate(struct __pyx_obj_6m
  *         self.evaluated = 1
  */
                             __pyx_t_5 = __pyx_v_k;
-                            __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->_evaluate(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) )))));
+                            __pyx_v_S = (__pyx_v_S + ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_evaluate(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) )))));
                         }
                     }
                 }
@@ -34278,7 +34410,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_10RArithMean__gradient(struct __pyx_obj
   Py_ssize_t __pyx_v_k;
   Py_ssize_t __pyx_v_N;
   double __pyx_v_v;
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -34316,7 +34448,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_10RArithMean__gradient(struct __pyx_obj
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":845
@@ -34374,7 +34506,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_10RArithMean__gradient(struct __pyx_obj
  */
                             __pyx_t_5 = __pyx_v_k;
                             __pyx_t_6 = __pyx_v_k;
-                            *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = (__pyx_v_v * ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) )))));
+                            *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_6)) )) = (__pyx_v_v * ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) )))));
                         }
                     }
                 }
@@ -34445,7 +34577,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_10RArithMean__weights(struct __pyx_obj_
   CYTHON_UNUSED Py_ssize_t __pyx_v_N;
   double __pyx_v_v;
   double __pyx_v_S;
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -34473,7 +34605,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_10RArithMean__weights(struct __pyx_obj_
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->func);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":858
@@ -34532,7 +34664,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_10RArithMean__weights(struct __pyx_obj_
  *                 S += v
  */
                             __pyx_t_5 = __pyx_v_k;
-                            __pyx_v_v = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_func->__pyx_vtab)->_derivative_div_x(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) ))));
+                            __pyx_v_v = ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_derivative_div_x(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_5)) ))));
 
                             /* "mlgrad/avragg.pyx":862
  *         # for k in range(N):
@@ -36507,8 +36639,8 @@ static PyObject *__pyx_pf_6mlgrad_6avragg_7Maximal_2__setstate_cython__(struct _
 /* Python wrapper */
 static int __pyx_pw_6mlgrad_6avragg_14KolmogorovMean_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_6mlgrad_6avragg_14KolmogorovMean_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func = 0;
-  struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_invfunc = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
+  struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_invfunc = 0;
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
   PyObject* values[2] = {0,0};
@@ -36566,8 +36698,8 @@ static int __pyx_pw_6mlgrad_6avragg_14KolmogorovMean_1__init__(PyObject *__pyx_v
       values[0] = __Pyx_Arg_VARARGS(__pyx_args, 0);
       values[1] = __Pyx_Arg_VARARGS(__pyx_args, 1);
     }
-    __pyx_v_func = ((struct __pyx_obj_6mlgrad_4func_Func *)values[0]);
-    __pyx_v_invfunc = ((struct __pyx_obj_6mlgrad_4func_Func *)values[1]);
+    __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)values[0]);
+    __pyx_v_invfunc = ((struct __pyx_obj_6mlgrad_5funcs_Func *)values[1]);
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
@@ -36585,8 +36717,8 @@ static int __pyx_pw_6mlgrad_6avragg_14KolmogorovMean_1__init__(PyObject *__pyx_v
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_4func_Func, 1, "func", 0))) __PYX_ERR(2, 929, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_invfunc), __pyx_ptype_6mlgrad_4func_Func, 1, "invfunc", 0))) __PYX_ERR(2, 929, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_func), __pyx_ptype_6mlgrad_5funcs_Func, 1, "func", 0))) __PYX_ERR(2, 929, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_invfunc), __pyx_ptype_6mlgrad_5funcs_Func, 1, "invfunc", 0))) __PYX_ERR(2, 929, __pyx_L1_error)
   __pyx_r = __pyx_pf_6mlgrad_6avragg_14KolmogorovMean___init__(((struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean *)__pyx_v_self), __pyx_v_func, __pyx_v_invfunc);
 
   /* function exit code */
@@ -36604,7 +36736,7 @@ static int __pyx_pw_6mlgrad_6avragg_14KolmogorovMean_1__init__(PyObject *__pyx_v
   return __pyx_r;
 }
 
-static int __pyx_pf_6mlgrad_6avragg_14KolmogorovMean___init__(struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean *__pyx_v_self, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_func, struct __pyx_obj_6mlgrad_4func_Func *__pyx_v_invfunc) {
+static int __pyx_pf_6mlgrad_6avragg_14KolmogorovMean___init__(struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean *__pyx_v_self, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func, struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_invfunc) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__", 1);
@@ -36748,7 +36880,7 @@ static double __pyx_f_6mlgrad_6avragg_14KolmogorovMean__evaluate(struct __pyx_ob
  *         u /= N
  *         self.uu = u
  */
-                            __pyx_v_u = (__pyx_v_u + ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->_evaluate(__pyx_v_self->func, __pyx_v_yk));
+                            __pyx_v_u = (__pyx_v_u + ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_self->func->__pyx_vtab)->_evaluate(__pyx_v_self->func, __pyx_v_yk));
                         }
                     }
                 }
@@ -36810,7 +36942,7 @@ static double __pyx_f_6mlgrad_6avragg_14KolmogorovMean__evaluate(struct __pyx_ob
  *         self.u_min = self.u
  *         self.evaluated = 1
  */
-  __pyx_v_self->__pyx_base.u = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->invfunc->__pyx_vtab)->_evaluate(__pyx_v_self->invfunc, __pyx_v_u);
+  __pyx_v_self->__pyx_base.u = ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_self->invfunc->__pyx_vtab)->_evaluate(__pyx_v_self->invfunc, __pyx_v_u);
 
   /* "mlgrad/avragg.pyx":945
  *         self.uu = u
@@ -36898,7 +37030,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean__gradient(struct __pyx
  *         for k in prange(N, nogil=True, schedule='static'):
  *         # for k in range(N):
  */
-  __pyx_v_V = ((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->invfunc->__pyx_vtab)->_derivative(__pyx_v_self->invfunc, __pyx_v_self->uu);
+  __pyx_v_V = ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_self->invfunc->__pyx_vtab)->_derivative(__pyx_v_self->invfunc, __pyx_v_self->uu);
 
   /* "mlgrad/avragg.pyx":954
  * 
@@ -36946,7 +37078,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_14KolmogorovMean__gradient(struct __pyx
  */
                             __pyx_t_4 = __pyx_v_k;
                             __pyx_t_5 = __pyx_v_k;
-                            *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = (((struct __pyx_vtabstruct_6mlgrad_4func_Func *)__pyx_v_self->func->__pyx_vtab)->_derivative(__pyx_v_self->func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_4)) )))) * __pyx_v_V);
+                            *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_5)) )) = (((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_self->func->__pyx_vtab)->_derivative(__pyx_v_self->func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_Y.data) + __pyx_t_4)) )))) * __pyx_v_V);
                         }
                     }
                 }
@@ -37566,12 +37698,12 @@ static int __pyx_pf_6mlgrad_6avragg_11SoftMinimal___init__(struct __pyx_obj_6mlg
  *     #
  *     cdef double _evaluate(self, double[::1] Y):
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6mlgrad_5func2_SoftMin), __pyx_v_a); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 962, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_6mlgrad_6funcs2_SoftMin), __pyx_v_a); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 962, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF((PyObject *)__pyx_v_self->softmin);
   __Pyx_DECREF((PyObject *)__pyx_v_self->softmin);
-  __pyx_v_self->softmin = ((struct __pyx_obj_6mlgrad_5func2_SoftMin *)__pyx_t_1);
+  __pyx_v_self->softmin = ((struct __pyx_obj_6mlgrad_6funcs2_SoftMin *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "mlgrad/avragg.pyx":961
@@ -37616,7 +37748,7 @@ static double __pyx_f_6mlgrad_6avragg_11SoftMinimal__evaluate(struct __pyx_obj_6
  *         self.evaluated = 1
  *         return self.u
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_5func2_SoftMin *)__pyx_v_self->softmin->__pyx_base.__pyx_vtab)->__pyx_base._evaluate(((struct __pyx_obj_6mlgrad_5func2_Func2 *)__pyx_v_self->softmin), __pyx_v_Y); if (unlikely(PyErr_Occurred())) __PYX_ERR(2, 965, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftMin *)__pyx_v_self->softmin->__pyx_base.__pyx_vtab)->__pyx_base._evaluate(((struct __pyx_obj_6mlgrad_6funcs2_Func2 *)__pyx_v_self->softmin), __pyx_v_Y); if (unlikely(PyErr_Occurred())) __PYX_ERR(2, 965, __pyx_L1_error)
   __pyx_v_self->__pyx_base.u = __pyx_t_1;
 
   /* "mlgrad/avragg.pyx":966
@@ -37677,7 +37809,7 @@ static PyObject *__pyx_f_6mlgrad_6avragg_11SoftMinimal__gradient(struct __pyx_ob
  *         self.evaluated = 0
  * 
  */
-  ((struct __pyx_vtabstruct_6mlgrad_5func2_SoftMin *)__pyx_v_self->softmin->__pyx_base.__pyx_vtab)->__pyx_base._gradient(((struct __pyx_obj_6mlgrad_5func2_Func2 *)__pyx_v_self->softmin), __pyx_v_Y, __pyx_v_grad); if (unlikely(PyErr_Occurred())) __PYX_ERR(2, 970, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftMin *)__pyx_v_self->softmin->__pyx_base.__pyx_vtab)->__pyx_base._gradient(((struct __pyx_obj_6mlgrad_6funcs2_Func2 *)__pyx_v_self->softmin), __pyx_v_Y, __pyx_v_grad); if (unlikely(PyErr_Occurred())) __PYX_ERR(2, 970, __pyx_L1_error)
 
   /* "mlgrad/avragg.pyx":971
  *     cdef _gradient(self, double[::1] Y, double[::1] grad):
@@ -38753,13 +38885,13 @@ static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_Penalty__set_state(struc
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_5funcs_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
   __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF((PyObject *)__pyx_v___pyx_result->func);
   __Pyx_DECREF((PyObject *)__pyx_v___pyx_result->func);
-  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "(tree fragment)":13
@@ -39193,13 +39325,13 @@ static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_PenaltyAverage__set_stat
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_5funcs_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
   __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF((PyObject *)__pyx_v___pyx_result->__pyx_base.func);
   __Pyx_DECREF((PyObject *)__pyx_v___pyx_result->__pyx_base.func);
-  __pyx_v___pyx_result->__pyx_base.func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v___pyx_result->__pyx_base.func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "(tree fragment)":13
@@ -39633,13 +39765,13 @@ static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_PenaltyScale__set_state(
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 0)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 0), __pyx_ptype_6mlgrad_5funcs_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
   __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 0);
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF((PyObject *)__pyx_v___pyx_result->__pyx_base.func);
   __Pyx_DECREF((PyObject *)__pyx_v___pyx_result->__pyx_base.func);
-  __pyx_v___pyx_result->__pyx_base.func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_1);
+  __pyx_v___pyx_result->__pyx_base.func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* "(tree fragment)":13
@@ -41493,13 +41625,13 @@ static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_MAverage__set_state(stru
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), __pyx_ptype_6mlgrad_5funcs_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
   __pyx_t_3 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 2);
   __Pyx_INCREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
   __Pyx_GOTREF((PyObject *)__pyx_v___pyx_result->func);
   __Pyx_DECREF((PyObject *)__pyx_v___pyx_result->func);
-  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_3);
+  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_3);
   __pyx_t_3 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -41982,13 +42114,13 @@ static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_SAverage__set_state(stru
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), __pyx_ptype_6mlgrad_5funcs_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
   __pyx_t_3 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 2);
   __Pyx_INCREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
   __Pyx_GOTREF((PyObject *)__pyx_v___pyx_result->func);
   __Pyx_DECREF((PyObject *)__pyx_v___pyx_result->func);
-  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_3);
+  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_3);
   __pyx_t_3 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -42483,13 +42615,13 @@ static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_ParameterizedAverage__se
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3), __pyx_ptype_6mlgrad_4func_ParameterizedFunc))))) __PYX_ERR(1, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3), __pyx_ptype_6mlgrad_5funcs_ParameterizedFunc))))) __PYX_ERR(1, 12, __pyx_L1_error)
   __pyx_t_2 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 3);
   __Pyx_INCREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF((PyObject *)__pyx_v___pyx_result->func);
   __Pyx_DECREF((PyObject *)__pyx_v___pyx_result->func);
-  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *)__pyx_t_2);
+  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *)__pyx_t_2);
   __pyx_t_2 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -44385,13 +44517,13 @@ static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_RArithMean__set_state(st
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), __pyx_ptype_6mlgrad_5funcs_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
   __pyx_t_3 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 2);
   __Pyx_INCREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
   __Pyx_GOTREF((PyObject *)__pyx_v___pyx_result->func);
   __Pyx_DECREF((PyObject *)__pyx_v___pyx_result->func);
-  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_3);
+  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_3);
   __pyx_t_3 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -45792,25 +45924,25 @@ static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_KolmogorovMean__set_stat
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2), __pyx_ptype_6mlgrad_5funcs_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
   __pyx_t_3 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 2);
   __Pyx_INCREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
   __Pyx_GOTREF((PyObject *)__pyx_v___pyx_result->func);
   __Pyx_DECREF((PyObject *)__pyx_v___pyx_result->func);
-  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_3);
+  __pyx_v___pyx_result->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_3);
   __pyx_t_3 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3), __pyx_ptype_6mlgrad_4func_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3), __pyx_ptype_6mlgrad_5funcs_Func))))) __PYX_ERR(1, 12, __pyx_L1_error)
   __pyx_t_3 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 3);
   __Pyx_INCREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_3);
   __Pyx_GOTREF((PyObject *)__pyx_v___pyx_result->invfunc);
   __Pyx_DECREF((PyObject *)__pyx_v___pyx_result->invfunc);
-  __pyx_v___pyx_result->invfunc = ((struct __pyx_obj_6mlgrad_4func_Func *)__pyx_t_3);
+  __pyx_v___pyx_result->invfunc = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_3);
   __pyx_t_3 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -46299,13 +46431,13 @@ static PyObject *__pyx_f_6mlgrad_6avragg___pyx_unpickle_SoftMinimal__set_state(s
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), __pyx_ptype_6mlgrad_5func2_SoftMin))))) __PYX_ERR(1, 12, __pyx_L1_error)
+  if (!(likely(((PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)) == Py_None) || likely(__Pyx_TypeTest(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4), __pyx_ptype_6mlgrad_6funcs2_SoftMin))))) __PYX_ERR(1, 12, __pyx_L1_error)
   __pyx_t_4 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 4);
   __Pyx_INCREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_4);
   __Pyx_GOTREF((PyObject *)__pyx_v___pyx_result->softmin);
   __Pyx_DECREF((PyObject *)__pyx_v___pyx_result->softmin);
-  __pyx_v___pyx_result->softmin = ((struct __pyx_obj_6mlgrad_5func2_SoftMin *)__pyx_t_4);
+  __pyx_v___pyx_result->softmin = ((struct __pyx_obj_6mlgrad_6funcs2_SoftMin *)__pyx_t_4);
   __pyx_t_4 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -46428,7 +46560,7 @@ static PyObject *__pyx_tp_new_6mlgrad_6avragg_Penalty(PyTypeObject *t, CYTHON_UN
   #endif
   p = ((struct __pyx_obj_6mlgrad_6avragg_Penalty *)o);
   p->__pyx_vtab = __pyx_vtabptr_6mlgrad_6avragg_Penalty;
-  p->func = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None); Py_INCREF(Py_None);
+  p->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)Py_None); Py_INCREF(Py_None);
   return o;
 }
 
@@ -46466,7 +46598,7 @@ static int __pyx_tp_clear_6mlgrad_6avragg_Penalty(PyObject *o) {
   PyObject* tmp;
   struct __pyx_obj_6mlgrad_6avragg_Penalty *p = (struct __pyx_obj_6mlgrad_6avragg_Penalty *)o;
   tmp = ((PyObject*)p->func);
-  p->func = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None); Py_INCREF(Py_None);
+  p->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   return 0;
 }
@@ -47286,7 +47418,7 @@ static PyObject *__pyx_tp_new_6mlgrad_6avragg_MAverage(PyTypeObject *t, PyObject
   if (unlikely(!o)) return 0;
   p = ((struct __pyx_obj_6mlgrad_6avragg_MAverage *)o);
   p->__pyx_base.__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average*)__pyx_vtabptr_6mlgrad_6avragg_MAverage;
-  p->func = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None); Py_INCREF(Py_None);
+  p->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)Py_None); Py_INCREF(Py_None);
   return o;
 }
 
@@ -47313,7 +47445,7 @@ static int __pyx_tp_clear_6mlgrad_6avragg_MAverage(PyObject *o) {
   struct __pyx_obj_6mlgrad_6avragg_MAverage *p = (struct __pyx_obj_6mlgrad_6avragg_MAverage *)o;
   __pyx_tp_clear_6mlgrad_6avragg_AverageIterative(o);
   tmp = ((PyObject*)p->func);
-  p->func = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None); Py_INCREF(Py_None);
+  p->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   return 0;
 }
@@ -47432,7 +47564,7 @@ static PyObject *__pyx_tp_new_6mlgrad_6avragg_SAverage(PyTypeObject *t, PyObject
   if (unlikely(!o)) return 0;
   p = ((struct __pyx_obj_6mlgrad_6avragg_SAverage *)o);
   p->__pyx_base.__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average*)__pyx_vtabptr_6mlgrad_6avragg_SAverage;
-  p->func = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None); Py_INCREF(Py_None);
+  p->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)Py_None); Py_INCREF(Py_None);
   return o;
 }
 
@@ -47466,7 +47598,7 @@ static int __pyx_tp_clear_6mlgrad_6avragg_SAverage(PyObject *o) {
   struct __pyx_obj_6mlgrad_6avragg_SAverage *p = (struct __pyx_obj_6mlgrad_6avragg_SAverage *)o;
   __pyx_tp_clear_6mlgrad_6avragg_AverageIterative(o);
   tmp = ((PyObject*)p->func);
-  p->func = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None); Py_INCREF(Py_None);
+  p->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   return 0;
 }
@@ -47585,7 +47717,7 @@ static PyObject *__pyx_tp_new_6mlgrad_6avragg_ParameterizedAverage(PyTypeObject 
   if (unlikely(!o)) return 0;
   p = ((struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage *)o);
   p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average*)__pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage;
-  p->func = ((struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *)Py_None); Py_INCREF(Py_None);
+  p->func = ((struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *)Py_None); Py_INCREF(Py_None);
   p->avr = ((struct __pyx_obj_6mlgrad_6avragg_Average *)Py_None); Py_INCREF(Py_None);
   return o;
 }
@@ -47616,7 +47748,7 @@ static int __pyx_tp_clear_6mlgrad_6avragg_ParameterizedAverage(PyObject *o) {
   struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage *p = (struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage *)o;
   if (likely(__pyx_ptype_6mlgrad_6avragg_Average)) { if (__pyx_ptype_6mlgrad_6avragg_Average->tp_clear) __pyx_ptype_6mlgrad_6avragg_Average->tp_clear(o); } else __Pyx_call_next_tp_clear(o, __pyx_tp_clear_6mlgrad_6avragg_ParameterizedAverage);
   tmp = ((PyObject*)p->func);
-  p->func = ((struct __pyx_obj_6mlgrad_4func_ParameterizedFunc *)Py_None); Py_INCREF(Py_None);
+  p->func = ((struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->avr);
   p->avr = ((struct __pyx_obj_6mlgrad_6avragg_Average *)Py_None); Py_INCREF(Py_None);
@@ -48140,7 +48272,7 @@ static PyObject *__pyx_tp_new_6mlgrad_6avragg_RArithMean(PyTypeObject *t, PyObje
   if (unlikely(!o)) return 0;
   p = ((struct __pyx_obj_6mlgrad_6avragg_RArithMean *)o);
   p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average*)__pyx_vtabptr_6mlgrad_6avragg_RArithMean;
-  p->func = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None); Py_INCREF(Py_None);
+  p->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)Py_None); Py_INCREF(Py_None);
   return o;
 }
 
@@ -48166,7 +48298,7 @@ static int __pyx_tp_clear_6mlgrad_6avragg_RArithMean(PyObject *o) {
   struct __pyx_obj_6mlgrad_6avragg_RArithMean *p = (struct __pyx_obj_6mlgrad_6avragg_RArithMean *)o;
   if (likely(__pyx_ptype_6mlgrad_6avragg_Average)) { if (__pyx_ptype_6mlgrad_6avragg_Average->tp_clear) __pyx_ptype_6mlgrad_6avragg_Average->tp_clear(o); } else __Pyx_call_next_tp_clear(o, __pyx_tp_clear_6mlgrad_6avragg_RArithMean);
   tmp = ((PyObject*)p->func);
-  p->func = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None); Py_INCREF(Py_None);
+  p->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   return 0;
 }
@@ -48285,8 +48417,8 @@ static PyObject *__pyx_tp_new_6mlgrad_6avragg_KolmogorovMean(PyTypeObject *t, Py
   if (unlikely(!o)) return 0;
   p = ((struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean *)o);
   p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average*)__pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean;
-  p->func = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None); Py_INCREF(Py_None);
-  p->invfunc = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None); Py_INCREF(Py_None);
+  p->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)Py_None); Py_INCREF(Py_None);
+  p->invfunc = ((struct __pyx_obj_6mlgrad_5funcs_Func *)Py_None); Py_INCREF(Py_None);
   return o;
 }
 
@@ -48316,10 +48448,10 @@ static int __pyx_tp_clear_6mlgrad_6avragg_KolmogorovMean(PyObject *o) {
   struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean *p = (struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean *)o;
   if (likely(__pyx_ptype_6mlgrad_6avragg_Average)) { if (__pyx_ptype_6mlgrad_6avragg_Average->tp_clear) __pyx_ptype_6mlgrad_6avragg_Average->tp_clear(o); } else __Pyx_call_next_tp_clear(o, __pyx_tp_clear_6mlgrad_6avragg_KolmogorovMean);
   tmp = ((PyObject*)p->func);
-  p->func = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None); Py_INCREF(Py_None);
+  p->func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->invfunc);
-  p->invfunc = ((struct __pyx_obj_6mlgrad_4func_Func *)Py_None); Py_INCREF(Py_None);
+  p->invfunc = ((struct __pyx_obj_6mlgrad_5funcs_Func *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   return 0;
 }
@@ -48438,7 +48570,7 @@ static PyObject *__pyx_tp_new_6mlgrad_6avragg_SoftMinimal(PyTypeObject *t, PyObj
   if (unlikely(!o)) return 0;
   p = ((struct __pyx_obj_6mlgrad_6avragg_SoftMinimal *)o);
   p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average*)__pyx_vtabptr_6mlgrad_6avragg_SoftMinimal;
-  p->softmin = ((struct __pyx_obj_6mlgrad_5func2_SoftMin *)Py_None); Py_INCREF(Py_None);
+  p->softmin = ((struct __pyx_obj_6mlgrad_6funcs2_SoftMin *)Py_None); Py_INCREF(Py_None);
   return o;
 }
 
@@ -48464,7 +48596,7 @@ static int __pyx_tp_clear_6mlgrad_6avragg_SoftMinimal(PyObject *o) {
   struct __pyx_obj_6mlgrad_6avragg_SoftMinimal *p = (struct __pyx_obj_6mlgrad_6avragg_SoftMinimal *)o;
   if (likely(__pyx_ptype_6mlgrad_6avragg_Average)) { if (__pyx_ptype_6mlgrad_6avragg_Average->tp_clear) __pyx_ptype_6mlgrad_6avragg_Average->tp_clear(o); } else __Pyx_call_next_tp_clear(o, __pyx_tp_clear_6mlgrad_6avragg_SoftMinimal);
   tmp = ((PyObject*)p->softmin);
-  p->softmin = ((struct __pyx_obj_6mlgrad_5func2_SoftMin *)Py_None); Py_INCREF(Py_None);
+  p->softmin = ((struct __pyx_obj_6mlgrad_6funcs2_SoftMin *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   return 0;
 }
@@ -51558,117 +51690,125 @@ static int __Pyx_modinit_type_import_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_import_code", 0);
   /*--- Type import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.func"); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 6, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.funcs"); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_ptype_6mlgrad_4func_Func = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Func", sizeof(struct __pyx_obj_6mlgrad_4func_Func), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Func),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Func) __PYX_ERR(4, 6, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Func = (struct __pyx_vtabstruct_6mlgrad_4func_Func*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Func); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Func)) __PYX_ERR(4, 6, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Comp = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Comp", sizeof(struct __pyx_obj_6mlgrad_4func_Comp), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Comp),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Comp) __PYX_ERR(4, 23, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Comp = (struct __pyx_vtabstruct_6mlgrad_4func_Comp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Comp); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Comp)) __PYX_ERR(4, 23, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_CompSqrt = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "CompSqrt", sizeof(struct __pyx_obj_6mlgrad_4func_CompSqrt), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_CompSqrt),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_CompSqrt) __PYX_ERR(4, 29, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_CompSqrt = (struct __pyx_vtabstruct_6mlgrad_4func_CompSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_CompSqrt); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_CompSqrt)) __PYX_ERR(4, 29, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Gauss = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Gauss", sizeof(struct __pyx_obj_6mlgrad_4func_Gauss), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Gauss),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Gauss) __PYX_ERR(4, 35, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Gauss = (struct __pyx_vtabstruct_6mlgrad_4func_Gauss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Gauss); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Gauss)) __PYX_ERR(4, 35, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_DArctg = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "DArctg", sizeof(struct __pyx_obj_6mlgrad_4func_DArctg), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_DArctg),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_DArctg) __PYX_ERR(4, 39, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_DArctg = (struct __pyx_vtabstruct_6mlgrad_4func_DArctg*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_DArctg); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_DArctg)) __PYX_ERR(4, 39, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_LogGauss2 = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "LogGauss2", sizeof(struct __pyx_obj_6mlgrad_4func_LogGauss2), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_LogGauss2),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_LogGauss2) __PYX_ERR(4, 43, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_LogGauss2 = (struct __pyx_vtabstruct_6mlgrad_4func_LogGauss2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_LogGauss2); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_LogGauss2)) __PYX_ERR(4, 43, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_ZeroOnPositive = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "ZeroOnPositive", sizeof(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_ZeroOnPositive),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_ZeroOnPositive) __PYX_ERR(4, 47, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_ZeroOnPositive = (struct __pyx_vtabstruct_6mlgrad_4func_ZeroOnPositive*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ZeroOnPositive); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ZeroOnPositive)) __PYX_ERR(4, 47, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_FuncExp = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "FuncExp", sizeof(struct __pyx_obj_6mlgrad_4func_FuncExp), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_FuncExp),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_FuncExp) __PYX_ERR(4, 52, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_FuncExp = (struct __pyx_vtabstruct_6mlgrad_4func_FuncExp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_FuncExp); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_FuncExp)) __PYX_ERR(4, 52, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Id = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Id", sizeof(struct __pyx_obj_6mlgrad_4func_Id), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Id),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Id) __PYX_ERR(4, 56, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Id = (struct __pyx_vtabstruct_6mlgrad_4func_Id*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Id); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Id)) __PYX_ERR(4, 56, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Neg = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Neg", sizeof(struct __pyx_obj_6mlgrad_4func_Neg), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Neg),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Neg) __PYX_ERR(4, 61, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Neg = (struct __pyx_vtabstruct_6mlgrad_4func_Neg*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Neg); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Neg)) __PYX_ERR(4, 61, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_PlusId = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "PlusId", sizeof(struct __pyx_obj_6mlgrad_4func_PlusId), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_PlusId),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_PlusId) __PYX_ERR(4, 66, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_PlusId = (struct __pyx_vtabstruct_6mlgrad_4func_PlusId*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_PlusId); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_PlusId)) __PYX_ERR(4, 66, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Arctang = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Arctang", sizeof(struct __pyx_obj_6mlgrad_4func_Arctang), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Arctang),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Arctang) __PYX_ERR(4, 71, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Arctang = (struct __pyx_vtabstruct_6mlgrad_4func_Arctang*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Arctang); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Arctang)) __PYX_ERR(4, 71, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Sigmoidal = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Sigmoidal", sizeof(struct __pyx_obj_6mlgrad_4func_Sigmoidal), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Sigmoidal),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Sigmoidal) __PYX_ERR(4, 75, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Sigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_Sigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sigmoidal); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sigmoidal)) __PYX_ERR(4, 75, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_ModSigmoidal = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "ModSigmoidal", sizeof(struct __pyx_obj_6mlgrad_4func_ModSigmoidal), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_ModSigmoidal),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_ModSigmoidal) __PYX_ERR(4, 79, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_ModSigmoidal = (struct __pyx_vtabstruct_6mlgrad_4func_ModSigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ModSigmoidal); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ModSigmoidal)) __PYX_ERR(4, 79, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_SoftPlus = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "SoftPlus", sizeof(struct __pyx_obj_6mlgrad_4func_SoftPlus), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_SoftPlus),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_SoftPlus) __PYX_ERR(4, 83, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SoftPlus = (struct __pyx_vtabstruct_6mlgrad_4func_SoftPlus*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftPlus); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftPlus)) __PYX_ERR(4, 83, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Threshold = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Threshold", sizeof(struct __pyx_obj_6mlgrad_4func_Threshold), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Threshold),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Threshold) __PYX_ERR(4, 88, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Threshold = (struct __pyx_vtabstruct_6mlgrad_4func_Threshold*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Threshold); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Threshold)) __PYX_ERR(4, 88, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Sign = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Sign", sizeof(struct __pyx_obj_6mlgrad_4func_Sign), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Sign),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Sign) __PYX_ERR(4, 92, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Sign = (struct __pyx_vtabstruct_6mlgrad_4func_Sign*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sign); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sign)) __PYX_ERR(4, 92, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Quantile = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Quantile", sizeof(struct __pyx_obj_6mlgrad_4func_Quantile), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Quantile),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Quantile) __PYX_ERR(4, 96, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Quantile = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile)) __PYX_ERR(4, 96, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_QuantileFunc = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "QuantileFunc", sizeof(struct __pyx_obj_6mlgrad_4func_QuantileFunc), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_QuantileFunc),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_QuantileFunc) __PYX_ERR(4, 102, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_QuantileFunc = (struct __pyx_vtabstruct_6mlgrad_4func_QuantileFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_QuantileFunc); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_QuantileFunc)) __PYX_ERR(4, 102, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Expectile = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Expectile", sizeof(struct __pyx_obj_6mlgrad_4func_Expectile), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Expectile),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Expectile) __PYX_ERR(4, 107, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Expectile = (struct __pyx_vtabstruct_6mlgrad_4func_Expectile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Expectile); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Expectile)) __PYX_ERR(4, 107, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Power = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Power", sizeof(struct __pyx_obj_6mlgrad_4func_Power), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Power),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Power) __PYX_ERR(4, 113, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Power = (struct __pyx_vtabstruct_6mlgrad_4func_Power*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Power); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Power)) __PYX_ERR(4, 113, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Square = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Square", sizeof(struct __pyx_obj_6mlgrad_4func_Square), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Square),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Square) __PYX_ERR(4, 119, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Square = (struct __pyx_vtabstruct_6mlgrad_4func_Square*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Square); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Square)) __PYX_ERR(4, 119, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_SquareSigned = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "SquareSigned", sizeof(struct __pyx_obj_6mlgrad_4func_SquareSigned), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_SquareSigned),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_SquareSigned) __PYX_ERR(4, 123, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SquareSigned = (struct __pyx_vtabstruct_6mlgrad_4func_SquareSigned*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SquareSigned); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SquareSigned)) __PYX_ERR(4, 123, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Absolute = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Absolute", sizeof(struct __pyx_obj_6mlgrad_4func_Absolute), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Absolute),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Absolute) __PYX_ERR(4, 128, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Absolute = (struct __pyx_vtabstruct_6mlgrad_4func_Absolute*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Absolute); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Absolute)) __PYX_ERR(4, 128, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Quantile_AlphaLog = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Quantile_AlphaLog", sizeof(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Quantile_AlphaLog),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog) __PYX_ERR(4, 133, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_AlphaLog*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_AlphaLog); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_AlphaLog)) __PYX_ERR(4, 133, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_SoftAbs = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "SoftAbs", sizeof(struct __pyx_obj_6mlgrad_4func_SoftAbs), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_SoftAbs),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_SoftAbs) __PYX_ERR(4, 140, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SoftAbs = (struct __pyx_vtabstruct_6mlgrad_4func_SoftAbs*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftAbs); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftAbs)) __PYX_ERR(4, 140, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Sqrt = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Sqrt", sizeof(struct __pyx_obj_6mlgrad_4func_Sqrt), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Sqrt),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Sqrt) __PYX_ERR(4, 145, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Sqrt); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Sqrt)) __PYX_ERR(4, 145, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Quantile_Sqrt = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Quantile_Sqrt", sizeof(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Quantile_Sqrt),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Quantile_Sqrt) __PYX_ERR(4, 153, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt = (struct __pyx_vtabstruct_6mlgrad_4func_Quantile_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Quantile_Sqrt); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Quantile_Sqrt)) __PYX_ERR(4, 153, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Logistic = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Logistic", sizeof(struct __pyx_obj_6mlgrad_4func_Logistic), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Logistic),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Logistic) __PYX_ERR(4, 161, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Logistic = (struct __pyx_vtabstruct_6mlgrad_4func_Logistic*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Logistic); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Logistic)) __PYX_ERR(4, 161, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Huber = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Huber", sizeof(struct __pyx_obj_6mlgrad_4func_Huber), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Huber),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Huber) __PYX_ERR(4, 167, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Huber = (struct __pyx_vtabstruct_6mlgrad_4func_Huber*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Huber); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Huber)) __PYX_ERR(4, 167, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_TM = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "TM", sizeof(struct __pyx_obj_6mlgrad_4func_TM), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_TM),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_TM) __PYX_ERR(4, 173, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_TM = (struct __pyx_vtabstruct_6mlgrad_4func_TM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_TM); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_TM)) __PYX_ERR(4, 173, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_LogSquare = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "LogSquare", sizeof(struct __pyx_obj_6mlgrad_4func_LogSquare), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_LogSquare),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_LogSquare) __PYX_ERR(4, 178, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_LogSquare = (struct __pyx_vtabstruct_6mlgrad_4func_LogSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_LogSquare); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_LogSquare)) __PYX_ERR(4, 178, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Tukey = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Tukey", sizeof(struct __pyx_obj_6mlgrad_4func_Tukey), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Tukey),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Tukey) __PYX_ERR(4, 184, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Tukey = (struct __pyx_vtabstruct_6mlgrad_4func_Tukey*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Tukey); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Tukey)) __PYX_ERR(4, 184, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Hinge = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Hinge", sizeof(struct __pyx_obj_6mlgrad_4func_Hinge), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Hinge),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Hinge) __PYX_ERR(4, 191, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Hinge = (struct __pyx_vtabstruct_6mlgrad_4func_Hinge*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Hinge); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Hinge)) __PYX_ERR(4, 191, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_RELU = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "RELU", sizeof(struct __pyx_obj_6mlgrad_4func_RELU), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_RELU),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_RELU) __PYX_ERR(4, 197, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_RELU = (struct __pyx_vtabstruct_6mlgrad_4func_RELU*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_RELU); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_RELU)) __PYX_ERR(4, 197, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_HSquare = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "HSquare", sizeof(struct __pyx_obj_6mlgrad_4func_HSquare), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_HSquare),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_HSquare) __PYX_ERR(4, 202, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_HSquare = (struct __pyx_vtabstruct_6mlgrad_4func_HSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_HSquare); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_HSquare)) __PYX_ERR(4, 202, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_HingeSqrt = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "HingeSqrt", sizeof(struct __pyx_obj_6mlgrad_4func_HingeSqrt), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_HingeSqrt),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_HingeSqrt) __PYX_ERR(4, 208, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_HingeSqrt = (struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_HingeSqrt); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_HingeSqrt)) __PYX_ERR(4, 208, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_HingeSqrtPlus = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "HingeSqrtPlus", sizeof(struct __pyx_obj_6mlgrad_4func_HingeSqrtPlus), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_HingeSqrtPlus),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_HingeSqrtPlus) __PYX_ERR(4, 215, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_HingeSqrtPlus = (struct __pyx_vtabstruct_6mlgrad_4func_HingeSqrtPlus*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_HingeSqrtPlus); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_HingeSqrtPlus)) __PYX_ERR(4, 215, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Exp = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Exp", sizeof(struct __pyx_obj_6mlgrad_4func_Exp), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Exp),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Exp) __PYX_ERR(4, 222, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Exp = (struct __pyx_vtabstruct_6mlgrad_4func_Exp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Exp); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Exp)) __PYX_ERR(4, 222, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_Log = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "Log", sizeof(struct __pyx_obj_6mlgrad_4func_Log), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_Log),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_Log) __PYX_ERR(4, 227, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_Log = (struct __pyx_vtabstruct_6mlgrad_4func_Log*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_Log); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_Log)) __PYX_ERR(4, 227, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_KMinSquare = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "KMinSquare", sizeof(struct __pyx_obj_6mlgrad_4func_KMinSquare), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_KMinSquare),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_KMinSquare) __PYX_ERR(4, 232, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_KMinSquare = (struct __pyx_vtabstruct_6mlgrad_4func_KMinSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_KMinSquare); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_KMinSquare)) __PYX_ERR(4, 232, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_ParameterizedFunc = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "ParameterizedFunc", sizeof(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_ParameterizedFunc),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_ParameterizedFunc) __PYX_ERR(4, 237, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_ParameterizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_ParameterizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_ParameterizedFunc); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_ParameterizedFunc)) __PYX_ERR(4, 237, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_WinsorizedFunc = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "WinsorizedFunc", sizeof(struct __pyx_obj_6mlgrad_4func_WinsorizedFunc), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_WinsorizedFunc),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_WinsorizedFunc) __PYX_ERR(4, 246, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_WinsorizedFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedFunc); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedFunc)) __PYX_ERR(4, 246, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "WinsorizedSmoothFunc", sizeof(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_WinsorizedSmoothFunc),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc) __PYX_ERR(4, 250, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc = (struct __pyx_vtabstruct_6mlgrad_4func_WinsorizedSmoothFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_WinsorizedSmoothFunc); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_WinsorizedSmoothFunc)) __PYX_ERR(4, 250, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_4func_SoftMinFunc = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func", "SoftMinFunc", sizeof(struct __pyx_obj_6mlgrad_4func_SoftMinFunc), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_4func_SoftMinFunc),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_4func_SoftMinFunc) __PYX_ERR(4, 253, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_4func_SoftMinFunc = (struct __pyx_vtabstruct_6mlgrad_4func_SoftMinFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_4func_SoftMinFunc); if (unlikely(!__pyx_vtabptr_6mlgrad_4func_SoftMinFunc)) __PYX_ERR(4, 253, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Func = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Func", sizeof(struct __pyx_obj_6mlgrad_5funcs_Func), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Func),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Func) __PYX_ERR(4, 6, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Func = (struct __pyx_vtabstruct_6mlgrad_5funcs_Func*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Func); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Func)) __PYX_ERR(4, 6, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Comp = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Comp", sizeof(struct __pyx_obj_6mlgrad_5funcs_Comp), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Comp),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Comp) __PYX_ERR(4, 23, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Comp = (struct __pyx_vtabstruct_6mlgrad_5funcs_Comp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Comp); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Comp)) __PYX_ERR(4, 23, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_CompSqrt = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "CompSqrt", sizeof(struct __pyx_obj_6mlgrad_5funcs_CompSqrt), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_CompSqrt),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_CompSqrt) __PYX_ERR(4, 29, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_CompSqrt = (struct __pyx_vtabstruct_6mlgrad_5funcs_CompSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_CompSqrt); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_CompSqrt)) __PYX_ERR(4, 29, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Gauss = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Gauss", sizeof(struct __pyx_obj_6mlgrad_5funcs_Gauss), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Gauss),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Gauss) __PYX_ERR(4, 35, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Gauss = (struct __pyx_vtabstruct_6mlgrad_5funcs_Gauss*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Gauss); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Gauss)) __PYX_ERR(4, 35, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_DArctg = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "DArctg", sizeof(struct __pyx_obj_6mlgrad_5funcs_DArctg), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_DArctg),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_DArctg) __PYX_ERR(4, 39, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_DArctg = (struct __pyx_vtabstruct_6mlgrad_5funcs_DArctg*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_DArctg); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_DArctg)) __PYX_ERR(4, 39, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Linear = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Linear", sizeof(struct __pyx_obj_6mlgrad_5funcs_Linear), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Linear),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Linear) __PYX_ERR(4, 43, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Linear = (struct __pyx_vtabstruct_6mlgrad_5funcs_Linear*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Linear); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Linear)) __PYX_ERR(4, 43, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_LogGauss2 = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "LogGauss2", sizeof(struct __pyx_obj_6mlgrad_5funcs_LogGauss2), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_LogGauss2),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_LogGauss2) __PYX_ERR(4, 47, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_LogGauss2 = (struct __pyx_vtabstruct_6mlgrad_5funcs_LogGauss2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_LogGauss2); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_LogGauss2)) __PYX_ERR(4, 47, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_ZeroOnPositive = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "ZeroOnPositive", sizeof(struct __pyx_obj_6mlgrad_5funcs_ZeroOnPositive), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_ZeroOnPositive),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_ZeroOnPositive) __PYX_ERR(4, 51, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_ZeroOnPositive = (struct __pyx_vtabstruct_6mlgrad_5funcs_ZeroOnPositive*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_ZeroOnPositive); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_ZeroOnPositive)) __PYX_ERR(4, 51, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_ZeroOnNegative = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "ZeroOnNegative", sizeof(struct __pyx_obj_6mlgrad_5funcs_ZeroOnNegative), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_ZeroOnNegative),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_ZeroOnNegative) __PYX_ERR(4, 56, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_ZeroOnNegative = (struct __pyx_vtabstruct_6mlgrad_5funcs_ZeroOnNegative*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_ZeroOnNegative); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_ZeroOnNegative)) __PYX_ERR(4, 56, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_TruncAbs = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "TruncAbs", sizeof(struct __pyx_obj_6mlgrad_5funcs_TruncAbs), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_TruncAbs),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_TruncAbs) __PYX_ERR(4, 60, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_TruncAbs = (struct __pyx_vtabstruct_6mlgrad_5funcs_TruncAbs*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_TruncAbs); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_TruncAbs)) __PYX_ERR(4, 60, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_FuncExp = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "FuncExp", sizeof(struct __pyx_obj_6mlgrad_5funcs_FuncExp), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_FuncExp),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_FuncExp) __PYX_ERR(4, 65, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_FuncExp = (struct __pyx_vtabstruct_6mlgrad_5funcs_FuncExp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_FuncExp); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_FuncExp)) __PYX_ERR(4, 65, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Id = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Id", sizeof(struct __pyx_obj_6mlgrad_5funcs_Id), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Id),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Id) __PYX_ERR(4, 69, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Id = (struct __pyx_vtabstruct_6mlgrad_5funcs_Id*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Id); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Id)) __PYX_ERR(4, 69, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Neg = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Neg", sizeof(struct __pyx_obj_6mlgrad_5funcs_Neg), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Neg),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Neg) __PYX_ERR(4, 74, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Neg = (struct __pyx_vtabstruct_6mlgrad_5funcs_Neg*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Neg); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Neg)) __PYX_ERR(4, 74, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_PlusId = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "PlusId", sizeof(struct __pyx_obj_6mlgrad_5funcs_PlusId), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_PlusId),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_PlusId) __PYX_ERR(4, 79, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_PlusId = (struct __pyx_vtabstruct_6mlgrad_5funcs_PlusId*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_PlusId); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_PlusId)) __PYX_ERR(4, 79, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Arctang = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Arctang", sizeof(struct __pyx_obj_6mlgrad_5funcs_Arctang), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Arctang),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Arctang) __PYX_ERR(4, 84, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Arctang = (struct __pyx_vtabstruct_6mlgrad_5funcs_Arctang*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Arctang); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Arctang)) __PYX_ERR(4, 84, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Sigmoidal = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Sigmoidal", sizeof(struct __pyx_obj_6mlgrad_5funcs_Sigmoidal), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Sigmoidal),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Sigmoidal) __PYX_ERR(4, 88, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Sigmoidal = (struct __pyx_vtabstruct_6mlgrad_5funcs_Sigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Sigmoidal); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Sigmoidal)) __PYX_ERR(4, 88, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_ModSigmoidal = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "ModSigmoidal", sizeof(struct __pyx_obj_6mlgrad_5funcs_ModSigmoidal), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_ModSigmoidal),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_ModSigmoidal) __PYX_ERR(4, 92, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_ModSigmoidal = (struct __pyx_vtabstruct_6mlgrad_5funcs_ModSigmoidal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_ModSigmoidal); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_ModSigmoidal)) __PYX_ERR(4, 92, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_SoftPlus = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "SoftPlus", sizeof(struct __pyx_obj_6mlgrad_5funcs_SoftPlus), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_SoftPlus),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_SoftPlus) __PYX_ERR(4, 96, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_SoftPlus = (struct __pyx_vtabstruct_6mlgrad_5funcs_SoftPlus*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_SoftPlus); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_SoftPlus)) __PYX_ERR(4, 96, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Threshold = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Threshold", sizeof(struct __pyx_obj_6mlgrad_5funcs_Threshold), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Threshold),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Threshold) __PYX_ERR(4, 101, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Threshold = (struct __pyx_vtabstruct_6mlgrad_5funcs_Threshold*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Threshold); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Threshold)) __PYX_ERR(4, 101, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Sign = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Sign", sizeof(struct __pyx_obj_6mlgrad_5funcs_Sign), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Sign),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Sign) __PYX_ERR(4, 105, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Sign = (struct __pyx_vtabstruct_6mlgrad_5funcs_Sign*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Sign); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Sign)) __PYX_ERR(4, 105, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Quantile = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Quantile", sizeof(struct __pyx_obj_6mlgrad_5funcs_Quantile), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Quantile),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Quantile) __PYX_ERR(4, 109, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Quantile = (struct __pyx_vtabstruct_6mlgrad_5funcs_Quantile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Quantile); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Quantile)) __PYX_ERR(4, 109, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_QuantileFunc = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "QuantileFunc", sizeof(struct __pyx_obj_6mlgrad_5funcs_QuantileFunc), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_QuantileFunc),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_QuantileFunc) __PYX_ERR(4, 115, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_QuantileFunc = (struct __pyx_vtabstruct_6mlgrad_5funcs_QuantileFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_QuantileFunc); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_QuantileFunc)) __PYX_ERR(4, 115, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Expectile = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Expectile", sizeof(struct __pyx_obj_6mlgrad_5funcs_Expectile), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Expectile),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Expectile) __PYX_ERR(4, 120, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Expectile = (struct __pyx_vtabstruct_6mlgrad_5funcs_Expectile*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Expectile); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Expectile)) __PYX_ERR(4, 120, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Power = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Power", sizeof(struct __pyx_obj_6mlgrad_5funcs_Power), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Power),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Power) __PYX_ERR(4, 126, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Power = (struct __pyx_vtabstruct_6mlgrad_5funcs_Power*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Power); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Power)) __PYX_ERR(4, 126, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Square = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Square", sizeof(struct __pyx_obj_6mlgrad_5funcs_Square), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Square),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Square) __PYX_ERR(4, 132, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Square = (struct __pyx_vtabstruct_6mlgrad_5funcs_Square*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Square); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Square)) __PYX_ERR(4, 132, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_SquareSigned = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "SquareSigned", sizeof(struct __pyx_obj_6mlgrad_5funcs_SquareSigned), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_SquareSigned),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_SquareSigned) __PYX_ERR(4, 136, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_SquareSigned = (struct __pyx_vtabstruct_6mlgrad_5funcs_SquareSigned*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_SquareSigned); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_SquareSigned)) __PYX_ERR(4, 136, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Absolute = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Absolute", sizeof(struct __pyx_obj_6mlgrad_5funcs_Absolute), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Absolute),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Absolute) __PYX_ERR(4, 141, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Absolute = (struct __pyx_vtabstruct_6mlgrad_5funcs_Absolute*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Absolute); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Absolute)) __PYX_ERR(4, 141, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Quantile_AlphaLog = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Quantile_AlphaLog", sizeof(struct __pyx_obj_6mlgrad_5funcs_Quantile_AlphaLog), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Quantile_AlphaLog),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Quantile_AlphaLog) __PYX_ERR(4, 146, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Quantile_AlphaLog = (struct __pyx_vtabstruct_6mlgrad_5funcs_Quantile_AlphaLog*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Quantile_AlphaLog); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Quantile_AlphaLog)) __PYX_ERR(4, 146, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_SoftAbs = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "SoftAbs", sizeof(struct __pyx_obj_6mlgrad_5funcs_SoftAbs), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_SoftAbs),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_SoftAbs) __PYX_ERR(4, 153, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_SoftAbs = (struct __pyx_vtabstruct_6mlgrad_5funcs_SoftAbs*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_SoftAbs); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_SoftAbs)) __PYX_ERR(4, 153, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Sqrt = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Sqrt", sizeof(struct __pyx_obj_6mlgrad_5funcs_Sqrt), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Sqrt),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Sqrt) __PYX_ERR(4, 158, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Sqrt = (struct __pyx_vtabstruct_6mlgrad_5funcs_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Sqrt); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Sqrt)) __PYX_ERR(4, 158, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_FSqrt = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "FSqrt", sizeof(struct __pyx_obj_6mlgrad_5funcs_FSqrt), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_FSqrt),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_FSqrt) __PYX_ERR(4, 165, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_FSqrt = (struct __pyx_vtabstruct_6mlgrad_5funcs_FSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_FSqrt); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_FSqrt)) __PYX_ERR(4, 165, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Quantile_Sqrt = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Quantile_Sqrt", sizeof(struct __pyx_obj_6mlgrad_5funcs_Quantile_Sqrt), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Quantile_Sqrt),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Quantile_Sqrt) __PYX_ERR(4, 173, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Quantile_Sqrt = (struct __pyx_vtabstruct_6mlgrad_5funcs_Quantile_Sqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Quantile_Sqrt); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Quantile_Sqrt)) __PYX_ERR(4, 173, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Logistic = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Logistic", sizeof(struct __pyx_obj_6mlgrad_5funcs_Logistic), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Logistic),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Logistic) __PYX_ERR(4, 181, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Logistic = (struct __pyx_vtabstruct_6mlgrad_5funcs_Logistic*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Logistic); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Logistic)) __PYX_ERR(4, 181, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Huber = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Huber", sizeof(struct __pyx_obj_6mlgrad_5funcs_Huber), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Huber),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Huber) __PYX_ERR(4, 187, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Huber = (struct __pyx_vtabstruct_6mlgrad_5funcs_Huber*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Huber); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Huber)) __PYX_ERR(4, 187, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_TM = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "TM", sizeof(struct __pyx_obj_6mlgrad_5funcs_TM), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_TM),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_TM) __PYX_ERR(4, 193, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_TM = (struct __pyx_vtabstruct_6mlgrad_5funcs_TM*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_TM); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_TM)) __PYX_ERR(4, 193, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_LogSquare = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "LogSquare", sizeof(struct __pyx_obj_6mlgrad_5funcs_LogSquare), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_LogSquare),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_LogSquare) __PYX_ERR(4, 198, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_LogSquare = (struct __pyx_vtabstruct_6mlgrad_5funcs_LogSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_LogSquare); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_LogSquare)) __PYX_ERR(4, 198, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Tukey = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Tukey", sizeof(struct __pyx_obj_6mlgrad_5funcs_Tukey), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Tukey),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Tukey) __PYX_ERR(4, 204, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Tukey = (struct __pyx_vtabstruct_6mlgrad_5funcs_Tukey*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Tukey); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Tukey)) __PYX_ERR(4, 204, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Hinge = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Hinge", sizeof(struct __pyx_obj_6mlgrad_5funcs_Hinge), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Hinge),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Hinge) __PYX_ERR(4, 211, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Hinge = (struct __pyx_vtabstruct_6mlgrad_5funcs_Hinge*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Hinge); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Hinge)) __PYX_ERR(4, 211, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_RELU = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "RELU", sizeof(struct __pyx_obj_6mlgrad_5funcs_RELU), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_RELU),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_RELU) __PYX_ERR(4, 217, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_RELU = (struct __pyx_vtabstruct_6mlgrad_5funcs_RELU*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_RELU); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_RELU)) __PYX_ERR(4, 217, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_HSquare = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "HSquare", sizeof(struct __pyx_obj_6mlgrad_5funcs_HSquare), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_HSquare),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_HSquare) __PYX_ERR(4, 222, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_HSquare = (struct __pyx_vtabstruct_6mlgrad_5funcs_HSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_HSquare); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_HSquare)) __PYX_ERR(4, 222, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_HingeSqrt = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "HingeSqrt", sizeof(struct __pyx_obj_6mlgrad_5funcs_HingeSqrt), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_HingeSqrt),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_HingeSqrt) __PYX_ERR(4, 228, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_HingeSqrt = (struct __pyx_vtabstruct_6mlgrad_5funcs_HingeSqrt*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_HingeSqrt); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_HingeSqrt)) __PYX_ERR(4, 228, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_HingeSqrtPlus = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "HingeSqrtPlus", sizeof(struct __pyx_obj_6mlgrad_5funcs_HingeSqrtPlus), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_HingeSqrtPlus),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_HingeSqrtPlus) __PYX_ERR(4, 235, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_HingeSqrtPlus = (struct __pyx_vtabstruct_6mlgrad_5funcs_HingeSqrtPlus*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_HingeSqrtPlus); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_HingeSqrtPlus)) __PYX_ERR(4, 235, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Exp = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Exp", sizeof(struct __pyx_obj_6mlgrad_5funcs_Exp), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Exp),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Exp) __PYX_ERR(4, 242, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Exp = (struct __pyx_vtabstruct_6mlgrad_5funcs_Exp*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Exp); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Exp)) __PYX_ERR(4, 242, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_Log = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "Log", sizeof(struct __pyx_obj_6mlgrad_5funcs_Log), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_Log),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_Log) __PYX_ERR(4, 247, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_Log = (struct __pyx_vtabstruct_6mlgrad_5funcs_Log*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_Log); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_Log)) __PYX_ERR(4, 247, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_KMinSquare = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "KMinSquare", sizeof(struct __pyx_obj_6mlgrad_5funcs_KMinSquare), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_KMinSquare),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_KMinSquare) __PYX_ERR(4, 252, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_KMinSquare = (struct __pyx_vtabstruct_6mlgrad_5funcs_KMinSquare*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_KMinSquare); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_KMinSquare)) __PYX_ERR(4, 252, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_ParameterizedFunc = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "ParameterizedFunc", sizeof(struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_ParameterizedFunc) __PYX_ERR(4, 257, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_ParameterizedFunc = (struct __pyx_vtabstruct_6mlgrad_5funcs_ParameterizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_ParameterizedFunc); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_ParameterizedFunc)) __PYX_ERR(4, 257, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_WinsorizedFunc = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "WinsorizedFunc", sizeof(struct __pyx_obj_6mlgrad_5funcs_WinsorizedFunc), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_WinsorizedFunc),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_WinsorizedFunc) __PYX_ERR(4, 266, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_WinsorizedFunc = (struct __pyx_vtabstruct_6mlgrad_5funcs_WinsorizedFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_WinsorizedFunc); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_WinsorizedFunc)) __PYX_ERR(4, 266, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_WinsorizedSmoothFunc = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "WinsorizedSmoothFunc", sizeof(struct __pyx_obj_6mlgrad_5funcs_WinsorizedSmoothFunc), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_WinsorizedSmoothFunc),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_WinsorizedSmoothFunc) __PYX_ERR(4, 270, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_WinsorizedSmoothFunc = (struct __pyx_vtabstruct_6mlgrad_5funcs_WinsorizedSmoothFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_WinsorizedSmoothFunc); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_WinsorizedSmoothFunc)) __PYX_ERR(4, 270, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_5funcs_SoftMinFunc = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs", "SoftMinFunc", sizeof(struct __pyx_obj_6mlgrad_5funcs_SoftMinFunc), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5funcs_SoftMinFunc),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5funcs_SoftMinFunc) __PYX_ERR(4, 273, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_5funcs_SoftMinFunc = (struct __pyx_vtabstruct_6mlgrad_5funcs_SoftMinFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_SoftMinFunc); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_SoftMinFunc)) __PYX_ERR(4, 273, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.func2"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 38, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.funcs2"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_ptype_6mlgrad_5func2_Func2 = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func2", "Func2", sizeof(struct __pyx_obj_6mlgrad_5func2_Func2), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5func2_Func2),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5func2_Func2) __PYX_ERR(5, 38, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5func2_Func2 = (struct __pyx_vtabstruct_6mlgrad_5func2_Func2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5func2_Func2); if (unlikely(!__pyx_vtabptr_6mlgrad_5func2_Func2)) __PYX_ERR(5, 38, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_5func2_PowerNorm = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func2", "PowerNorm", sizeof(struct __pyx_obj_6mlgrad_5func2_PowerNorm), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5func2_PowerNorm),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5func2_PowerNorm) __PYX_ERR(5, 45, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5func2_PowerNorm = (struct __pyx_vtabstruct_6mlgrad_5func2_PowerNorm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5func2_PowerNorm); if (unlikely(!__pyx_vtabptr_6mlgrad_5func2_PowerNorm)) __PYX_ERR(5, 45, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_5func2_SquareNorm = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func2", "SquareNorm", sizeof(struct __pyx_obj_6mlgrad_5func2_SquareNorm), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5func2_SquareNorm),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5func2_SquareNorm) __PYX_ERR(5, 51, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5func2_SquareNorm = (struct __pyx_vtabstruct_6mlgrad_5func2_SquareNorm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5func2_SquareNorm); if (unlikely(!__pyx_vtabptr_6mlgrad_5func2_SquareNorm)) __PYX_ERR(5, 51, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_5func2_AbsoluteNorm = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func2", "AbsoluteNorm", sizeof(struct __pyx_obj_6mlgrad_5func2_AbsoluteNorm), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5func2_AbsoluteNorm),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5func2_AbsoluteNorm) __PYX_ERR(5, 55, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5func2_AbsoluteNorm = (struct __pyx_vtabstruct_6mlgrad_5func2_AbsoluteNorm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5func2_AbsoluteNorm); if (unlikely(!__pyx_vtabptr_6mlgrad_5func2_AbsoluteNorm)) __PYX_ERR(5, 55, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_5func2_SquareForm = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func2", "SquareForm", sizeof(struct __pyx_obj_6mlgrad_5func2_SquareForm), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5func2_SquareForm),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5func2_SquareForm) __PYX_ERR(5, 59, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5func2_SquareForm = (struct __pyx_vtabstruct_6mlgrad_5func2_SquareForm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5func2_SquareForm); if (unlikely(!__pyx_vtabptr_6mlgrad_5func2_SquareForm)) __PYX_ERR(5, 59, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_5func2_Rosenbrok = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func2", "Rosenbrok", sizeof(struct __pyx_obj_6mlgrad_5func2_Rosenbrok), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5func2_Rosenbrok),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5func2_Rosenbrok) __PYX_ERR(5, 63, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5func2_Rosenbrok = (struct __pyx_vtabstruct_6mlgrad_5func2_Rosenbrok*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5func2_Rosenbrok); if (unlikely(!__pyx_vtabptr_6mlgrad_5func2_Rosenbrok)) __PYX_ERR(5, 63, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_5func2_Himmelblau = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func2", "Himmelblau", sizeof(struct __pyx_obj_6mlgrad_5func2_Himmelblau), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5func2_Himmelblau),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5func2_Himmelblau) __PYX_ERR(5, 67, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5func2_Himmelblau = (struct __pyx_vtabstruct_6mlgrad_5func2_Himmelblau*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5func2_Himmelblau); if (unlikely(!__pyx_vtabptr_6mlgrad_5func2_Himmelblau)) __PYX_ERR(5, 67, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_5func2_SoftMin = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.func2", "SoftMin", sizeof(struct __pyx_obj_6mlgrad_5func2_SoftMin), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_5func2_SoftMin),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_5func2_SoftMin) __PYX_ERR(5, 71, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_5func2_SoftMin = (struct __pyx_vtabstruct_6mlgrad_5func2_SoftMin*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5func2_SoftMin); if (unlikely(!__pyx_vtabptr_6mlgrad_5func2_SoftMin)) __PYX_ERR(5, 71, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_Func2 = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "Func2", sizeof(struct __pyx_obj_6mlgrad_6funcs2_Func2), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_Func2),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_Func2) __PYX_ERR(5, 38, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_Func2 = (struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_Func2); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_Func2)) __PYX_ERR(5, 38, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_PowerNorm = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "PowerNorm", sizeof(struct __pyx_obj_6mlgrad_6funcs2_PowerNorm), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_PowerNorm),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_PowerNorm) __PYX_ERR(5, 45, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_PowerNorm = (struct __pyx_vtabstruct_6mlgrad_6funcs2_PowerNorm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_PowerNorm); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_PowerNorm)) __PYX_ERR(5, 45, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_SquareNorm = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "SquareNorm", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SquareNorm), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_SquareNorm),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_SquareNorm) __PYX_ERR(5, 51, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_SquareNorm = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareNorm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SquareNorm); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SquareNorm)) __PYX_ERR(5, 51, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "AbsoluteNorm", sizeof(struct __pyx_obj_6mlgrad_6funcs2_AbsoluteNorm), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_AbsoluteNorm),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm) __PYX_ERR(5, 55, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_AbsoluteNorm = (struct __pyx_vtabstruct_6mlgrad_6funcs2_AbsoluteNorm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_AbsoluteNorm)) __PYX_ERR(5, 55, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_SquareForm = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "SquareForm", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SquareForm), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_SquareForm),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_SquareForm) __PYX_ERR(5, 59, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_SquareForm = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareForm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SquareForm); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SquareForm)) __PYX_ERR(5, 59, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_Rosenbrok = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "Rosenbrok", sizeof(struct __pyx_obj_6mlgrad_6funcs2_Rosenbrok), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_Rosenbrok),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_Rosenbrok) __PYX_ERR(5, 63, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_Rosenbrok = (struct __pyx_vtabstruct_6mlgrad_6funcs2_Rosenbrok*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_Rosenbrok); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_Rosenbrok)) __PYX_ERR(5, 63, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_Himmelblau = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "Himmelblau", sizeof(struct __pyx_obj_6mlgrad_6funcs2_Himmelblau), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_Himmelblau),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_Himmelblau) __PYX_ERR(5, 67, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_Himmelblau = (struct __pyx_vtabstruct_6mlgrad_6funcs2_Himmelblau*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_Himmelblau); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_Himmelblau)) __PYX_ERR(5, 67, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_SoftMin = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "SoftMin", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SoftMin), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_SoftMin),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_SoftMin) __PYX_ERR(5, 71, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_SoftMin = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftMin*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SoftMin); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SoftMin)) __PYX_ERR(5, 71, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("mlgrad.averager"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -51719,9 +51859,9 @@ static int __Pyx_modinit_variable_import_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_variable_import_code", 0);
   /*--- Variable import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.func2"); if (!__pyx_t_1) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.funcs2"); if (!__pyx_t_1) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_ImportVoidPtr_3_0_7(__pyx_t_1, "double_max", (void **)&__pyx_vp_6mlgrad_5func2_double_max, "double") < 0) __PYX_ERR(2, 1, __pyx_L1_error)
+  if (__Pyx_ImportVoidPtr_3_0_7(__pyx_t_1, "double_max", (void **)&__pyx_vp_6mlgrad_6funcs2_double_max, "double") < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;

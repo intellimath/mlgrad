@@ -67,6 +67,10 @@ class IRGD:
     @property
     def risk(self):
         return self.gd.risk
+
+    @property
+    def sample_weights(self):
+        return np.asarray(self.weights.weights)    
     #
     def fit(self):
         risk = self.gd.risk
@@ -128,7 +132,7 @@ class IRGD:
     def finalize(self):
         risk = self.gd.risk
 
-        print(self.lval_best)
+        # print(self.lval_best)
         risk.model.param[:] = self.param_best
     #
     def stop_condition(self):

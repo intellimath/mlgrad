@@ -6,9 +6,9 @@ from libc.math cimport fabs, pow, sqrt, fmax
 from mlgrad.miscfuncs cimport init_rand, rand, fill
 from libc.string cimport memcpy, memset
 
-from mlgrad.func cimport Func
+from mlgrad.funcs cimport Func
 from mlgrad.distance cimport Distance
-from mlgrad.risk cimport ED
+from mlgrad.risks cimport ED
 from mlgrad.gd cimport FG
 from mlgrad.avragg cimport Average
 

@@ -4,7 +4,7 @@ cimport cython
 
 # from libc.math cimport fabs, pow, sqrt, fmax
 
-from mlgrad.func cimport Func, ParameterizedFunc, Square
+from mlgrad.funcs cimport Func, ParameterizedFunc, Square
 # from mlgrad.model cimport Model, MLModel
 
 cdef extern from "Python.h":

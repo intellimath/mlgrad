@@ -24,7 +24,8 @@
 
 import numpy as np
 from libc.math cimport sqrt #, fabs, fmax, exp, log, atan
-from mlgrad.func cimport CompSqrt
+
+from mlgrad.funcs cimport CompSqrt
 
 cdef class Weights(object):
     #

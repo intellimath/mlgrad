@@ -26,13 +26,13 @@
  
 cimport mlgrad.inventory as inventory
     
-# from mlgrad.model cimport Model
-from mlgrad.func cimport Func
-from mlgrad.func2 cimport Func2
+# from mlgrad.models cimport Model
+from mlgrad.funcs cimport Func
+from mlgrad.funcs2 cimport Func2
 from mlgrad.avragg cimport Average, ArithMean
 from mlgrad.averager cimport ArrayAverager, ArrayAdaM1
 from mlgrad.weights cimport Weights, ConstantWeights, ArrayWeights
-from mlgrad.risk cimport Risk, Functional
+from mlgrad.risks cimport Risk, Functional
 
 import numpy as np
 
@@ -45,6 +45,10 @@ from math import isnan
 
 cdef class GD: 
 
+    @property
+    def sample_weights(self):
+        return np.asarray(self.risk.weights)    
+    #    
     cpdef init(self):
         self.risk.init()
         if self.normalizer is not None:

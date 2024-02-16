@@ -9,7 +9,7 @@ from libc.string cimport memcpy, memset
 from mlgrad.miscfuncs cimport init_rand, rand, fill
 from mlgrad.avragg cimport Average
 from mlgrad.distance cimport Distance, DistanceWithScale, MahalanobisDistance
-from mlgrad.func cimport Func
+from mlgrad.funcs cimport Func
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()

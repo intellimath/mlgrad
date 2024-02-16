@@ -2,11 +2,11 @@
 
 cimport cython
 
-from mlgrad.func cimport Func
+from mlgrad.funcs cimport Func
 from mlgrad.loss cimport Loss
-from mlgrad.risk cimport ERisk, Risk, ERisk2, ERisk22, Functional
+from mlgrad.risks cimport ERisk, Risk, ERisk2, ERisk22, Functional
 from mlgrad.avragg cimport Average
-from mlgrad.model cimport Model
+from mlgrad.models cimport Model
 
 cimport mlgrad.inventory as inventory
 

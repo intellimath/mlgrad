@@ -2,10 +2,10 @@
 # Gradient Boosting Regression 
 #
 
-from mlgrad.risk import ERisk, ERiskGB
+from mlgrad.risks import ERisk, ERiskGB
 from mlgrad.loss import MarginLoss
-from mlgrad.func import Hinge, HSquare, Square
-from mlgrad.model import LinearFuncModel
+from mlgrad.funcs import Hinge, HSquare, Square
+from mlgrad.models import LinearFuncModel
 
 from mlgrad import erm_fg, erisk
 from mlgrad.af import averaging_function

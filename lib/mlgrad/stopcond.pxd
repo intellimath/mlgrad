@@ -2,7 +2,7 @@ cimport cython
 
 from mlgrad.gd cimport GD
 
-from mlgrad.risk cimport Risk, Functional
+from mlgrad.risks cimport Risk, Functional
 
 from libc.math cimport fabs, pow, sqrt, fmax
 from libc.string cimport memcpy, memset

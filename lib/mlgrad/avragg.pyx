@@ -23,8 +23,8 @@
 # THE SOFTWARE. 
 
 cimport cython
-from mlgrad.func cimport Func, ParameterizedFunc
-from mlgrad.func2 cimport SoftMin
+from mlgrad.funcs cimport Func, ParameterizedFunc
+from mlgrad.funcs2 cimport SoftMin
 from libc.math cimport fabs, pow, sqrt, fmax, log, exp
 
 from cython.parallel cimport parallel, prange

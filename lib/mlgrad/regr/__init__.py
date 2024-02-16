@@ -1,10 +1,10 @@
 import mlgrad.loss as loss
-import mlgrad.func as func
+import mlgrad.funcs as func
 import mlgrad.gd as gd
 import mlgrad.weights as weights
 from mlgrad.utils import exclude_outliers
 
-from mlgrad.func2 import SquareNorm
+from mlgrad.funcs2 import SquareNorm
 from mlgrad.loss import SquareErrorLoss, ErrorLoss
 
 from mlgrad import fg, erm_fg, erm_irgd, erisk, mrisk
@@ -24,6 +24,10 @@ def regression(Xs, Y, mod, loss_func=None, regnorm=None, *,
         _loss_func = SquareErrorLoss()
     else:
         _loss_func = loss_func
+
+    if mod.param is None:
+        mod.init_param()
+
     er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter,
                  verbose=verbose, n_restart=n_restart)
@@ -37,10 +41,15 @@ def m_regression(Xs, Y, mod,
         _loss_func = SquareErrorLoss()
     else:
         _loss_func = loss_func
+
     if agg_func is None:
         _agg_func = averaging_function('WM')
     else:
         _agg_func = agg_func
+
+    if mod.param is None:
+        mod.init_param()
+
     er = mrisk(Xs, Y, mod, loss_func, _agg_func, regnorm=regnorm, tau=tau)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, n_restart=n_restart)
     return alg
@@ -66,6 +75,9 @@ def m_regression_irls(Xs, Y, mod,
     else:
         _agg_func = agg_func
 
+    if mod.param is None:
+        mod.init_param()
+
     er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
     alg = fg(er, h=h, tol=tol, n_iter=n_iter)
 
@@ -86,7 +98,7 @@ def mr_regression_irls(Xs, Y, mod,
     `Xs` и `Y` -- входной двумерный массив и массив ожидаемых значений на выходе.
     """
     if loss_func is None:
-        _loss_func = ErrorLoss(func.Sqrt(0.001))
+        _loss_func = ErrorLoss(funcs.Sqrt(0.001))
     else:
         _loss_func = loss_func
 
@@ -95,6 +107,9 @@ def mr_regression_irls(Xs, Y, mod,
     else:
         _agg_func = agg_func
     
+    if mod.param is None:
+        mod.init_param()
+
     er2 = erisk(Xs, Y, mod, SquareErrorLoss(), regnorm=regnorm, tau=tau)
     alg = fg(er2, h=h, tol=tol, n_iter=n_iter)
 
@@ -116,10 +131,13 @@ def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None,
     `Xs` и `Y` -- входной двумерный массив и массив ожидаемых значений на выходе.
     """
     if rho_func is None:
-        _rho_func = func.Square()
+        _rho_func = funcs.Square()
     else:
         _rho_func = rho_func
     loss_func = ErrorLoss(_rho_func)
+
+    if mod.param is None:
+        mod.init_param()
 
     er = erisk(Xs, Y, mod, SquareErrorLoss(), regnorm=regnorm, tau=tau)
     alg = fg(er, h=h, n_iter=n_iter, tol=tol)
@@ -130,12 +148,12 @@ def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None,
     irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
     return irgd
 
-def plot_losses_and_errors(alg, Xs, Y, fname=None, logscale=True, lang='en'):
+def plot_losses_and_errors(alg, Xs, Y, fname=None, logscale=False, lang='en'):
     import numpy as np
     import matplotlib.pyplot as plt
 
     err = np.abs(Y - alg.risk.model.evaluate_all(Xs))
-    plt.figure(figsize=(12,5))
+    plt.figure(figsize=(10,5))
     plt.subplot(1,2,1)
     if lang == 'en':
         plt.title('Fit curve')
@@ -145,7 +163,7 @@ def plot_losses_and_errors(alg, Xs, Y, fname=None, logscale=True, lang='en'):
         plt.title('Кривая обучения')
         plt.xlabel('шаг')
         plt.ylabel('средние потери')
-    plt.plot(alg.lvals)
+    plt.plot(alg.lvals, color='k')
     if logscale:
         plt.gca().set_yscale('log')
     plt.minorticks_on()
@@ -158,7 +176,7 @@ def plot_losses_and_errors(alg, Xs, Y, fname=None, logscale=True, lang='en'):
         plt.title('Ошибки')
         plt.xlabel('Ранг ошибки')
         plt.ylabel('Значение ошибки')
-    plt.plot(sorted(err), marker='o', markersize='4')
+    plt.plot(sorted(err), marker='o', markersize='5', color='k')
     plt.minorticks_on()
     plt.tight_layout()
     if fname:
@@ -179,7 +197,7 @@ def plot_losses(alg, Xs, Y, fname=None, logscale=False, lang='en'):
         plt.title('Кривая обучения')
         plt.xlabel('шаг')
         plt.ylabel('средние потери')
-    plt.plot(alg.lvals)
+    plt.plot(alg.lvals, color='k')
     if logscale:
         plt.gca().set_yscale('log')
     plt.minorticks_on()
@@ -187,12 +205,11 @@ def plot_losses(alg, Xs, Y, fname=None, logscale=False, lang='en'):
         plt.savefig(fname)
     plt.show()
     
-def errors_plot(alg, Xs, Y, fname=None, logscale=False, lang='en'):
+def plot_errors(mod, Xs, Y, fname=None, lang='en'):
     import numpy as np
     import matplotlib.pyplot as plt
 
-    err = np.abs(Y - alg.risk.model.evaluate_all(Xs))
-    plt.figure(figsize=(5,5))
+    err = np.abs(Y - mod.evaluate_all(Xs))
     if lang == 'en':
         plt.title('Errors')
         plt.xlabel('error rank')
@@ -201,13 +218,30 @@ def errors_plot(alg, Xs, Y, fname=None, logscale=False, lang='en'):
         plt.title('Ошибки')
         plt.xlabel('Ранг ошибки')
         plt.ylabel('Значение ошибки')
-    plt.plot(sorted(err), marker='o', markersize=4)
+    plt.plot(sorted(err), marker='o', markersize=4, color='k')
     plt.minorticks_on()
     if fname:
         plt.savefig(fname)
     
+def plot_errors_hist(mod, Xs, Y, fname=None, lang='en', hist=False, bins=20, density=False):
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    err = np.abs(Y - mod.evaluate_all(Xs))
+    if lang == 'en':
+        plt.title('Errors hist')
+        plt.xlabel('errors value')
+        # plt.ylabel('error value')
+    else:
+        plt.title('Гистограмма ошибок')
+        plt.xlabel('Величина ошибки')
+        # plt.ylabel('Значение ошибки')
+    plt.hist(err, bins=bins, color='k', rwidth=0.9, density=density)
+    plt.minorticks_on()
+    if fname:
+        plt.savefig(fname)
     
-def plot_yy(Xs, Y, mod, label, b=0.1):
+def plot_yy(mod, Xs, Y, title="", b=0.1):
     import numpy as np 
     import matplotlib.pyplot as plt
 
@@ -218,12 +252,19 @@ def plot_yy(Xs, Y, mod, label, b=0.1):
     ypmax, ypmin = np.max(Yp), np.min(Yp)
     ymax = max(ymax, ypmax)
     ymin = min(ymin, ypmin)
+    plt.title("Y-Y plot")
     plt.plot([ymin, ymax], [ymin, ymax], color='k', linewidth=0.66)
     plt.fill_between([ymin, ymax], [ymin-b, ymax-b], [ymin+b, ymax+b], color='LightGray')
     plt.scatter(Y, Yp, c='k', s=12, label=r'$\{|err|<%.2f\}\ \to\ %s$ %%' % (b, int(c)))
-    plt.title(label)
+    if title:
+        plt.title(title)
     plt.ylim(ymin, ymax)
     plt.xlim(ymin, ymax)
     plt.xlabel("original")
     plt.ylabel("predicted")
     plt.legend()
+
+def plot_sample_weights(alg, label=None):
+    import matplotlib.pyplot as plt
+    plt.plot(sorted(alg.sample_weights), label=label, marker='o')
+    

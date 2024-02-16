@@ -1,20 +1,20 @@
 #
 
 import mlgrad.loss as loss
-import mlgrad.func as func
+import mlgrad.funcs as funcs
 import mlgrad.avragg as avragg
 import mlgrad.gd as gd
 import mlgrad.weights as weights
 from mlgrad.utils import exclude_outliers
 
-from mlgrad.func2 import SquareNorm
+from mlgrad.funcs2 import SquareNorm
 from mlgrad.loss import SquareErrorLoss, ErrorLoss
 
 from mlgrad import fg, erm_fg, erm_irgd, erisk, mrisk
 
 from mlgrad.af import averaging_function
 
-def classification_as_regr(Xs, Y, mod, lossfunc=loss.MarginLoss(func.Hinge(0)), regnorm=None, 
+def classification_as_regr(Xs, Y, mod, lossfunc=loss.MarginLoss(funcs.Hinge(0)), regnorm=None, 
                h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
     er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, n_restart=n_restart)
@@ -22,7 +22,7 @@ def classification_as_regr(Xs, Y, mod, lossfunc=loss.MarginLoss(func.Hinge(0)), 
 
 
 def classification_as_mregr(Xs, Y, mod, 
-                      lossfunc=loss.MarginLoss(func.Hinge(0)),
+                      lossfunc=loss.MarginLoss(funcs.Hinge(0)),
                       avrfunc=averaging_function('WM'), regnorm=None, 
                       h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-6, n_iter2=22, verbose=0):
     """\

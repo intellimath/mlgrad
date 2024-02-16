@@ -4,7 +4,7 @@
 
 from mlgrad.avragg import PenaltyAverage, PenaltyScale, Average_FG, ArithMean, ParameterizedAverage
 from mlgrad.gd import FG, FG_RUD, SGD
-from mlgrad.risk import ED, MRisk, ERisk, ERisk2, ERisk22, SimpleFunctional
+from mlgrad.risks import ED, MRisk, ERisk, ERisk2, ERisk22, SimpleFunctional
 from mlgrad.irgd import IRGD
 from mlgrad.averager import ArraySave, ArrayMOM, ArrayRMSProp, ArrayAMOM, ArrayAdaM1, ArrayAdaM2, ScalarAdaM1, ScalarAdaM2
 import numpy as np

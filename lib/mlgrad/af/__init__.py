@@ -1,11 +1,11 @@
-import mlgrad.func as func
+import mlgrad.funcs as funcs
 import mlgrad.avragg as avragg
 
 __all__ = ['averaging_function']
 
 def averaging_function(
              kind='M',
-             rhofunc=func.Sqrt(0.001),
+             rhofunc=funcs.Sqrt(0.001),
              *,
              tol=1.0e-8, n_iter=1000):
     """
@@ -14,13 +14,13 @@ def averaging_function(
     Примеры:
     
     # создание сглаженного варианта квантиля с alpha=0.8
-    avgfunc = averaging_function('M', func.quantile_func(0.8, func.Sqrt(0.001)))    
+    avgfunc = averaging_function('M', funcs.quantile_func(0.8, funcs.Sqrt(0.001)))    
 
     # создание варианта цензурированного среднего  alpha=0.8
-    avgfunc = averaging_function('WM', func.quantile_func(0.8, func.Sqrt(0.001)))
+    avgfunc = averaging_function('WM', funcs.quantile_func(0.8, funcs.Sqrt(0.001)))
     
     # создание сглаженного варианта цензурированного среднего  alpha=0.8
-    avgfunc = averaging_function('SWM', func.quantile_func(0.8, func.Sqrt(0.001)))
+    avgfunc = averaging_function('SWM', funcs.quantile_func(0.8, funcs.Sqrt(0.001)))
     """
     avgfunc = avragg.MAverage(rhofunc, tol=tol, n_iter=n_iter)
 
@@ -29,7 +29,7 @@ def averaging_function(
     elif kind == 'WM':
         avg = avragg.WMAverage(avgfunc)
     elif kind == 'SWM':
-        avg = avragg.ParameterizedAverage(func.WinsorizedSmoothFunc(rhofunc), avgfunc)
+        avg = avragg.ParameterizedAverage(funcs.WinsorizedSmoothFunc(rhofunc), avgfunc)
     elif kind == 'HM':
         avg = avragg.HMAverage(avgfunc)
     elif kind == 'AM':
@@ -41,7 +41,7 @@ def averaging_function(
 
 def scaling_function(
              kind='S',
-             rhofunc=func.Sqrt(0.001),
+             rhofunc=funcs.Sqrt(0.001),
              *,
              tol=1.0e-8, n_iter=200):
 

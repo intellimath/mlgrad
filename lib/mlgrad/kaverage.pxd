@@ -4,7 +4,7 @@
 
 cimport cython
 
-from mlgrad.func cimport Func, Square
+from mlgrad.funcs cimport Func, Square
 from libc.string cimport memcpy, memset
 
 cdef extern from "Python.h":
