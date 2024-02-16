@@ -13,11 +13,15 @@ import platform
 WIN32 = (platform.system() == 'Windows')
 
 # Oflag = "-march=native"
-Oflag = ""
-extra_compile_args = [Oflag] #, "-fno-wrapv"] 
-extra_link_args = [Oflag, "-lm"]
+# extra_compile_args = [Oflag] #, "-fno-wrapv"] 
+# extra_link_args = [Oflag, "-lm"]
+# extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not WIN32 else "/openmp")]
+# extra_link_args_openmp = [Oflag, "-lm", ("-fopenmp" if not WIN32 else "/openmp")]
+
+extra_compile_args = [] #, "-fno-wrapv"] 
+extra_link_args = ["-lm"]
 extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not WIN32 else "/openmp")]
-extra_link_args_openmp = [Oflag, "-lm", ("-fopenmp" if not WIN32 else "/openmp")]
+extra_link_args_openmp = ["-lm", ("-fopenmp" if not WIN32 else "/openmp")]
 
 # cython_compile_time_env = {"USE_OPENMP":1}
 cython_compiler_directives1 = dict(
