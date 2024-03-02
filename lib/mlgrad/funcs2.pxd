@@ -56,6 +56,10 @@ cdef class AbsoluteNorm(Func2):
     pass
 
 @cython.final
+cdef class SoftAbsoluteNorm(Func2):
+    cdef double eps, eps2
+
+@cython.final
 cdef class SquareForm(Func2):
     cdef double[:,::1] matrix
 
@@ -71,3 +75,14 @@ cdef class Himmelblau(Func2):
 cdef class SoftMin(Func2):
     cdef double p
     cdef double[::1] evals
+
+@cython.final
+cdef class SoftMax(Func2):
+    cdef double p
+    cdef double[::1] evals
+
+@cython.final
+cdef class PowerMax(Func2):
+    cdef double p
+    cdef double[::1] evals
+    

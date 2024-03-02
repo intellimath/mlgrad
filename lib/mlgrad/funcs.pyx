@@ -350,6 +350,26 @@ cdef class FuncExp(Func):
         cdef double y = exp(x)
         return (self.f._derivative(y) + self.f._derivative2(y) * y) * y
 
+cdef class Exp(Func):
+    #
+    def __init__ (self, p=1.0):
+        self.p = p
+    #
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        return exp(self.p*x)
+    #
+    cdef double _derivative(self, const double x) noexcept nogil:
+        cdef double p = self.p
+        return p * exp(p*x)
+    #
+    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+        cdef double p = self.p
+        return p * exp(p*x) / x
+    #
+    cdef double _derivative2(self, const double x) noexcept nogil:
+        cdef double p = self.p
+        return p*p * exp(p*x)
+
 cdef class Id(Func):
     #
     cdef double _evaluate(self, const double x) noexcept nogil:

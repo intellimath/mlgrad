@@ -241,7 +241,7 @@ cdef class HingeSqrtPlus(Func):
 @cython.final
 cdef class  Exp(Func):
     #
-    cdef public double alpha
+    cdef public double p
 
 @cython.final
 cdef class  Log(Func):

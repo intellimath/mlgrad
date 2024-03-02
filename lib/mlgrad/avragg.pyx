@@ -24,7 +24,7 @@
 
 cimport cython
 from mlgrad.funcs cimport Func, ParameterizedFunc
-from mlgrad.funcs2 cimport SoftMin
+from mlgrad.funcs2 cimport SoftMin, SoftMax
 from libc.math cimport fabs, pow, sqrt, fmax, log, exp
 
 from cython.parallel cimport parallel, prange
@@ -970,6 +970,34 @@ cdef class SoftMinimal(Average):
         self.softmin._gradient(Y, grad)
         self.evaluated = 0
 
+cdef class SoftMaximal(Average):
+    #
+    def __init__(self, a):
+        self.softmax = SoftMax(a)
+    #
+    cdef double _evaluate(self, double[::1] Y):
+        self.u = self.softmax._evaluate(Y)
+        self.evaluated = 1
+        return self.u
+    # 
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
+        self.softmax._gradient(Y, grad)
+        self.evaluated = 0
+
+cdef class PowerMaximal(Average):
+    #
+    def __init__(self, a):
+        self.powermax = PowerMax(a)
+    #
+    cdef double _evaluate(self, double[::1] Y):
+        self.u = self.powermax._evaluate(Y)
+        self.evaluated = 1
+        return self.u
+    #
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
+        self.powermax._gradient(Y, grad)
+        self.evaluated = 0
+        
 cdef inline double nearest_value(double[::1] u, double y):
     cdef Py_ssize_t j, K = u.shape[0]
     cdef double u_j, u_min=0, d_min = max_double

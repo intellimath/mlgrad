@@ -120,15 +120,18 @@ def fg_rud(er, h=0.001, tol=1.0e-8, n_iter=1000, gamma=1, averager='AdaM2', call
     _averager = __averager_dict.get(averager, ArrayMOM)
     if _averager is not None:
         alg.use_gradient_averager(_averager())
+    if normalizer is not None:
+        alg.use_normalizer(normalizer)
     return alg
 
 def erm_fg(er, h=0.001, tol=1.0e-8, n_iter=1000, averager='AdaM2', callback=None, 
            stop_condition='diffL1', n_restart=1, verbose=0, normalizer=None):
     K = 0
     alg = fg(er, h=h, tol=tol, n_iter=n_iter,
-             averager=averager, callback=callback, stop_condition=stop_condition, normalizer=normalizer)
-    if normalizer is not None:
-        alg.use_normalizer(normalizer)
+             averager=averager, callback=callback, stop_condition=stop_condition, 
+             normalizer=normalizer)
+    # if normalizer is not None:
+    #     alg.use_normalizer(normalizer)
     for i in range(n_restart):
         alg.fit()
         K += alg.K
@@ -144,8 +147,9 @@ def erm_fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', 
     K = 0
     for i in range(n_restart):
         alg = fg_rud(er, h=h, tol=tol, n_iter=n_iter,
-                 averager=averager, callback=callback, 
-                 stop_condition=stop_condition, gamma=gamma, normalizer=normalizer)
+                     averager=averager, callback=callback, 
+                     stop_condition=stop_condition, gamma=gamma,
+                     normalizer=normalizer)
         alg.fit()
         K += alg.K
         if alg.completed:

@@ -4,7 +4,7 @@ cimport cython
 
 # from libc.math cimport fabs, pow, sqrt, fmax
 
-from mlgrad.funcs cimport Func, ParameterizedFunc, Square
+from mlgrad.funcs cimport Func, ParameterizedFunc, Square, Id
 # from mlgrad.model cimport Model, MLModel
 
 cdef extern from "Python.h":
@@ -52,6 +52,10 @@ cdef class RelativeErrorLoss(LossFunc):
 
 @cython.final
 cdef class MarginLoss(LossFunc):
+    pass
+    #
+@cython.final
+cdef class NegMargin(LossFunc):
     pass
     #
 

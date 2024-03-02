@@ -199,6 +199,25 @@ cdef class MarginLoss(LossFunc):
     def _repr_latex_(self):
         return r"$\ell(u\tilde y)$" 
 
+cdef class NegMargin(LossFunc):
+    #
+    def __init__(self, func=Id()):
+        self.func = func
+    #
+    cdef double _evaluate(self, const double u, const double yk) noexcept nogil:
+        return self.func._evaluate(-u*yk)
+    #
+    cdef double _derivative(self, const double u, const double yk) noexcept nogil:
+        return -yk*self.func._derivative(-u*yk)
+    #
+    cdef double _derivative_div(self, const double u, const double yk) noexcept nogil:
+        return -yk*self.func._derivative_div_x(-u*yk)
+    #
+    cdef double _residual(self, const double u, const double yk) noexcept nogil:
+        return self.func._value(-u*yk)
+    #
+    def _repr_latex_(self):
+        return r"$\rho(-u\tilde y)$" 
 
 cdef class MLoss(Loss):
 

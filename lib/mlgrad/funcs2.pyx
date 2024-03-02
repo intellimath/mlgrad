@@ -2,7 +2,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2020> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2024> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+cimport cython
+
 import numpy as np
 from mlgrad.models import as_array1d
 
 cdef double double_max = PyFloat_GetMax()
+cdef double double_min = PyFloat_GetMin()
 
 cdef class Func2:
 
@@ -50,14 +53,16 @@ cdef class PowerNorm(Func2):
 
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m
-        cdef double s
+        cdef double s, v
         cdef double* X_ptr = &X[0]
-        
-        m = X.shape[0]
+
         s = 0
-        
-        for i in range(m):
-            s += pow(fabs(X_ptr[i]), self.p)
+        for i in range(X.shape[0]):
+            v = X_ptr[i]
+            if v >= 0:
+                s += pow(v, self.p)
+            else:
+                s += pow(-v, self.p)
         
         s /= self.p
         return s
@@ -66,14 +71,9 @@ cdef class PowerNorm(Func2):
         cdef Py_ssize_t i, m
         cdef double v
         cdef double* X_ptr = &X[0]
-        cdef double* grad_ptr
+        cdef double* grad_ptr = &grad[0]
     
-        m = X.shape[0]
-        # if grad is None:
-        #     grad = np.empty((m,), dtype='d')
-        grad_ptr = &grad[0]
-
-        for i in range(m):
+        for i in range(m = X.shape[0]):
             v = pow(fabs(X_ptr[i]), self.p-1.0)
             if v < 0:
                 grad_ptr[i] = -v
@@ -97,9 +97,8 @@ cdef class SquareNorm(Func2):
         cdef double s, v
         cdef double* X_ptr = &X[0]
 
-        m = X.shape[0]
         s = 0
-        for i in range(m):
+        for i in range(X.shape[0]):
             v = X_ptr[i]
             s += v * v
 
@@ -109,14 +108,9 @@ cdef class SquareNorm(Func2):
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m
         cdef double* X_ptr = &X[0]
-        cdef double* grad_ptr
+        cdef double* grad_ptr = &grad[0]
 
-        m = X.shape[0]
-        # if grad is None:
-        #     grad = np.empty((m,), dtype='d')
-        grad_ptr = &grad[0]
-
-        for i in range(m):
+        for i in range(X.shape[0]):
             grad_ptr[i] = X_ptr[i]    
     #
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
@@ -129,27 +123,21 @@ cdef class SquareNorm(Func2):
 cdef class AbsoluteNorm(Func2):
 
     cdef double _evaluate(self, double[::1] X):
-        cdef Py_ssize_t i, m
+        cdef Py_ssize_t i
         cdef double s
         cdef double* X_ptr = &X[0]
 
-        m = X.shape[0]
         s = 0
-        for i in range(m):
+        for i in range(X.shape[0]):
             s += fabs(X_ptr[i])
         return s
 
     cdef void _gradient(self, double[::1] X, double[::1] grad):
-        cdef int i, m
+        cdef Py_ssize_t i, m
         cdef double* X_ptr = &X[0]
-        cdef double* grad_ptr
+        cdef double* grad_ptr = &grad[0]
 
-        m = X.shape[0]
-        if grad is None:
-            grad = np.empty((m,), dtype='d')
-        grad_ptr = &grad[0]
-
-        for i in range(m):
+        for i in range(X.shape[0]):
             v = X_ptr[i]
             if v > 0:
                 grad_ptr[i] = 1
@@ -168,6 +156,54 @@ cdef class AbsoluteNorm(Func2):
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_1=\sum_{i=0}^n |w_i|$"
 
+cdef class SoftAbsoluteNorm(Func2):
+
+    def __init__(self, eps=0.001):
+        self.eps = eps
+        self.eps2 = eps * eps
+
+    cdef double _evaluate(self, double[::1] X):
+        cdef Py_ssize_t i
+        cdef double s, v
+        cdef double* X_ptr = &X[0]
+
+        s = 0
+        for i in range(X.shape[0]):
+            v = X_ptr[i]
+            s += v * v
+        return sqrt(self.eps2 + s) - self.eps
+
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        cdef Py_ssize_t i
+        cdef double s, v
+        cdef double* X_ptr = &X[0]
+        cdef double* grad_ptr = &grad[0]
+
+        s = 0
+        for i in range(X.shape[0]):
+            grad_ptr[i] = v = X_ptr[i]
+            s += v * v
+        s = sqrt(self.eps2 + s)
+        
+        for i in range(X.shape[0]):
+            grad_ptr[i] /= s
+    #
+    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
+        cdef Py_ssize_t i
+        cdef double s, v
+        cdef double* X_ptr = &X[0]
+
+        s = 0
+        for i in range(X.shape[0]):
+            v = X_ptr[i]
+            s += v * v
+        s = sqrt(self.eps2 + s)
+        
+        return X_ptr[j] / s
+    #    
+    def _repr_latex_(self):
+        return r"$||\mathbf{w}||_1=\sum_{i=0}^n |w_i|$"
+    
 cdef class SquareForm(Func2):
     
     def __init__(self, double[:,::1] matrix):
@@ -298,3 +334,124 @@ cdef class SoftMin(Func2):
     #
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_{%s}^{%s}=\sum_{i=0}^n w_i^{%s}$" % (self.p, self.p, self.p)
+
+cdef class SoftMax(Func2):
+    
+    def __init__(self, p=1.0):
+        self.p = p
+        self.evals = None
+
+    cdef double _evaluate(self, double[::1] X):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v, v_max
+        cdef double p = self.p
+        
+        v_max = double_min
+        for i in range(m):
+            v = X[i]
+            if v > v_max:
+                v_max = v
+        
+        s = 0
+        for i in range(m):
+            s += exp(p*(X[i] - v_max))
+
+        s = log(s)
+        s += p * v_max
+        
+        return s / p
+
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v, v_max
+        cdef double p = self.p
+        cdef double[::1] evals = self.evals
+
+        if evals is None or evals.shape[0] != m:
+            evals = self.evals = np.empty(m, 'd')
+        
+        v_max = double_min
+        for i in range(m):
+            v = X[i]
+            if v > v_max:
+                v_max = v
+
+        s = 0
+        for i in range(m):
+            evals[i] = v = p*exp(p*(X[i] - v_max))
+            s += v
+
+        for i in range(m):
+            grad[i] = evals[i] / s
+    #
+    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v, v_max
+        cdef double p = self.p
+
+        v_max = double_min
+        for i in range(m):
+            v = X[i]
+            if v > v_max:
+                v_max = v
+
+        s = 0
+        for i in range(m):
+            s += exp(p*(X[i] - v_max))
+
+        return exp(p*(X[j] - v_max)) / s 
+    #
+
+cdef class PowerMax(Func2):
+    
+    def __init__(self, p=1.0):
+        self.p = p
+        self.evals = None
+
+    cdef double _evaluate(self, double[::1] X):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v, v_max
+        cdef double p = self.p
+        
+        v_max = double_min
+        for i in range(m):
+            v = fabs(X[i])
+            if v > v_max:
+                v_max = v
+        
+        s = 0
+        for i in range(m):
+            v = X[i]
+            if v >= 0:
+                s += pow(v / v_max, p)
+            else:
+                s += pow(-v / v_max, p)
+
+        s = pow(s, 1/p)
+        s *= v_max
+        
+        return s
+
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v
+        cdef double p = self.p
+        cdef double[::1] evals = self.evals
+
+        if evals is None or evals.shape[0] != m:
+            evals = self.evals = np.empty(m, 'd')
+
+        s = self._evaluate(X)
+        
+        for i in range(m):
+            v = X[i] / s
+            evals[i] = p * pow(v, p-1)
+    #
+    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
+        cdef Py_ssize_t i
+        cdef double s
+        cdef double p = self.p
+
+        s = self._evaluate(X)
+        return p * pow(X[j] / s, p-1)
+    #

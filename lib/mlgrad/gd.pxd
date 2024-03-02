@@ -57,7 +57,7 @@ cdef class GD:
     cdef double lval, lval_prev, lval_min
         
     cdef ArrayAverager grad_averager
-    #cdef ArrayAverager param_averager
+    # cdef ArrayTransformer param_transformer
 
     cdef public object callback
     #

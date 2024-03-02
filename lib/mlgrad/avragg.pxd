@@ -3,7 +3,7 @@
 cimport cython
 
 from mlgrad.funcs cimport Func, ParameterizedFunc
-from mlgrad.funcs2 cimport SoftMin
+from mlgrad.funcs2 cimport SoftMin, SoftMax, PowerMax
 from mlgrad.averager cimport ScalarAverager
 
 # from mlgrad.miscfuncs cimport init_rand, rand, fill
@@ -168,6 +168,14 @@ cdef class KolmogorovMean(Average):
 @cython.final
 cdef class SoftMinimal(Average):
     cdef SoftMin softmin
+
+@cython.final
+cdef class SoftMaximal(Average):
+    cdef SoftMax softmax
+
+@cython.final
+cdef class PowerMaximal(Average):
+    cdef PowerMax powermax
     
 @cython.final
 cdef class Minimal(Average):

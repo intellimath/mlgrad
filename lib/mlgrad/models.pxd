@@ -96,9 +96,9 @@ cdef class ModelView(Model):
 cdef class LinearModel(Model):
     pass
 
-# @cython.final
-# cdef class SigmaNeuronModel(Model):
-#     cdef Func outfunc
+@cython.final
+cdef class SigmaNeuronModel(Model):
+    cdef Func outfunc
 
 @cython.final
 cdef class WinnerModel(Model):

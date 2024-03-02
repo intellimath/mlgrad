@@ -9,7 +9,7 @@ cdef class FG(GD):
         self.risk = risk
         self.stop_condition = get_stop_condition(stop_condition)(self)
         self.grad_averager = None
-        #self.param_averager = None
+        # self.param_transformer = None
         self.tol = tol
         self.n_iter = n_iter
         self.h = h

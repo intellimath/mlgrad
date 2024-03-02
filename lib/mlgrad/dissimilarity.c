@@ -4,11 +4,7 @@
 {
     "distutils": {
         "depends": [],
-        "extra_compile_args": [
-            "-march=native"
-        ],
         "extra_link_args": [
-            "-march=native",
             "-lm"
         ],
         "name": "mlgrad.dissimilarity",
@@ -2246,11 +2242,11 @@ struct __pyx_obj_6mlgrad_5funcs_HingeSqrtPlus {
  * @cython.final
  * cdef class  Exp(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public double p
  */
 struct __pyx_obj_6mlgrad_5funcs_Exp {
   struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
-  double alpha;
+  double p;
 };
 
 
@@ -3027,7 +3023,7 @@ static struct __pyx_vtabstruct_6mlgrad_5funcs_HingeSqrtPlus *__pyx_vtabptr_6mlgr
  * @cython.final
  * cdef class  Exp(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public double p
  */
 
 struct __pyx_vtabstruct_6mlgrad_5funcs_Exp {

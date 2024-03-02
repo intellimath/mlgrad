@@ -5,11 +5,9 @@
     "distutils": {
         "depends": [],
         "extra_compile_args": [
-            "-march=native",
             "-fopenmp"
         ],
         "extra_link_args": [
-            "-march=native",
             "-lm",
             "-fopenmp"
         ],
@@ -1720,10 +1718,13 @@ struct __pyx_obj_6mlgrad_6funcs2_Func2;
 struct __pyx_obj_6mlgrad_6funcs2_PowerNorm;
 struct __pyx_obj_6mlgrad_6funcs2_SquareNorm;
 struct __pyx_obj_6mlgrad_6funcs2_AbsoluteNorm;
+struct __pyx_obj_6mlgrad_6funcs2_SoftAbsoluteNorm;
 struct __pyx_obj_6mlgrad_6funcs2_SquareForm;
 struct __pyx_obj_6mlgrad_6funcs2_Rosenbrok;
 struct __pyx_obj_6mlgrad_6funcs2_Himmelblau;
 struct __pyx_obj_6mlgrad_6funcs2_SoftMin;
+struct __pyx_obj_6mlgrad_6funcs2_SoftMax;
+struct __pyx_obj_6mlgrad_6funcs2_PowerMax;
 struct __pyx_obj_6mlgrad_8averager_ScalarAverager;
 struct __pyx_obj_6mlgrad_8averager_ScalarAdaM2;
 struct __pyx_obj_6mlgrad_8averager_ScalarAdaM1;
@@ -1754,6 +1755,8 @@ struct __pyx_obj_6mlgrad_6avragg_ArithMean;
 struct __pyx_obj_6mlgrad_6avragg_RArithMean;
 struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean;
 struct __pyx_obj_6mlgrad_6avragg_SoftMinimal;
+struct __pyx_obj_6mlgrad_6avragg_SoftMaximal;
+struct __pyx_obj_6mlgrad_6avragg_PowerMaximal;
 struct __pyx_obj_6mlgrad_6avragg_Minimal;
 struct __pyx_obj_6mlgrad_6avragg_Maximal;
 struct __pyx_obj_6mlgrad_8distance_Distance;
@@ -2372,11 +2375,11 @@ struct __pyx_obj_6mlgrad_5funcs_HingeSqrtPlus {
  * @cython.final
  * cdef class  Exp(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public double p
  */
 struct __pyx_obj_6mlgrad_5funcs_Exp {
   struct __pyx_obj_6mlgrad_5funcs_Func __pyx_base;
-  double alpha;
+  double p;
 };
 
 
@@ -2512,6 +2515,20 @@ struct __pyx_obj_6mlgrad_6funcs2_AbsoluteNorm {
 /* "mlgrad/funcs2.pxd":59
  * 
  * @cython.final
+ * cdef class SoftAbsoluteNorm(Func2):             # <<<<<<<<<<<<<<
+ *     cdef double eps, eps2
+ * 
+ */
+struct __pyx_obj_6mlgrad_6funcs2_SoftAbsoluteNorm {
+  struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
+  double eps;
+  double eps2;
+};
+
+
+/* "mlgrad/funcs2.pxd":63
+ * 
+ * @cython.final
  * cdef class SquareForm(Func2):             # <<<<<<<<<<<<<<
  *     cdef double[:,::1] matrix
  * 
@@ -2522,7 +2539,7 @@ struct __pyx_obj_6mlgrad_6funcs2_SquareForm {
 };
 
 
-/* "mlgrad/funcs2.pxd":63
+/* "mlgrad/funcs2.pxd":67
  * 
  * @cython.final
  * cdef class Rosenbrok(Func2):             # <<<<<<<<<<<<<<
@@ -2534,7 +2551,7 @@ struct __pyx_obj_6mlgrad_6funcs2_Rosenbrok {
 };
 
 
-/* "mlgrad/funcs2.pxd":67
+/* "mlgrad/funcs2.pxd":71
  * 
  * @cython.final
  * cdef class Himmelblau(Func2):             # <<<<<<<<<<<<<<
@@ -2546,7 +2563,7 @@ struct __pyx_obj_6mlgrad_6funcs2_Himmelblau {
 };
 
 
-/* "mlgrad/funcs2.pxd":71
+/* "mlgrad/funcs2.pxd":75
  * 
  * @cython.final
  * cdef class SoftMin(Func2):             # <<<<<<<<<<<<<<
@@ -2554,6 +2571,34 @@ struct __pyx_obj_6mlgrad_6funcs2_Himmelblau {
  *     cdef double[::1] evals
  */
 struct __pyx_obj_6mlgrad_6funcs2_SoftMin {
+  struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
+  double p;
+  __Pyx_memviewslice evals;
+};
+
+
+/* "mlgrad/funcs2.pxd":80
+ * 
+ * @cython.final
+ * cdef class SoftMax(Func2):             # <<<<<<<<<<<<<<
+ *     cdef double p
+ *     cdef double[::1] evals
+ */
+struct __pyx_obj_6mlgrad_6funcs2_SoftMax {
+  struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
+  double p;
+  __Pyx_memviewslice evals;
+};
+
+
+/* "mlgrad/funcs2.pxd":85
+ * 
+ * @cython.final
+ * cdef class PowerMax(Func2):             # <<<<<<<<<<<<<<
+ *     cdef double p
+ *     cdef double[::1] evals
+ */
+struct __pyx_obj_6mlgrad_6funcs2_PowerMax {
   struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
   double p;
   __Pyx_memviewslice evals;
@@ -3003,6 +3048,32 @@ struct __pyx_obj_6mlgrad_6avragg_SoftMinimal {
 /* "mlgrad/avragg.pxd":173
  * 
  * @cython.final
+ * cdef class SoftMaximal(Average):             # <<<<<<<<<<<<<<
+ *     cdef SoftMax softmax
+ * 
+ */
+struct __pyx_obj_6mlgrad_6avragg_SoftMaximal {
+  struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
+  struct __pyx_obj_6mlgrad_6funcs2_SoftMax *softmax;
+};
+
+
+/* "mlgrad/avragg.pxd":177
+ * 
+ * @cython.final
+ * cdef class PowerMaximal(Average):             # <<<<<<<<<<<<<<
+ *     cdef PowerMax powermax
+ * 
+ */
+struct __pyx_obj_6mlgrad_6avragg_PowerMaximal {
+  struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
+  struct __pyx_obj_6mlgrad_6funcs2_PowerMax *powermax;
+};
+
+
+/* "mlgrad/avragg.pxd":181
+ * 
+ * @cython.final
  * cdef class Minimal(Average):             # <<<<<<<<<<<<<<
  *     pass
  * 
@@ -3012,7 +3083,7 @@ struct __pyx_obj_6mlgrad_6avragg_Minimal {
 };
 
 
-/* "mlgrad/avragg.pxd":177
+/* "mlgrad/avragg.pxd":185
  * 
  * @cython.final
  * cdef class Maximal(Average):             # <<<<<<<<<<<<<<
@@ -3838,7 +3909,7 @@ static struct __pyx_vtabstruct_6mlgrad_5funcs_HingeSqrtPlus *__pyx_vtabptr_6mlgr
  * @cython.final
  * cdef class  Exp(Func):             # <<<<<<<<<<<<<<
  *     #
- *     cdef public double alpha
+ *     cdef public double p
  */
 
 struct __pyx_vtabstruct_6mlgrad_5funcs_Exp {
@@ -3994,6 +4065,20 @@ static struct __pyx_vtabstruct_6mlgrad_6funcs2_AbsoluteNorm *__pyx_vtabptr_6mlgr
 /* "mlgrad/funcs2.pxd":59
  * 
  * @cython.final
+ * cdef class SoftAbsoluteNorm(Func2):             # <<<<<<<<<<<<<<
+ *     cdef double eps, eps2
+ * 
+ */
+
+struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftAbsoluteNorm {
+  struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftAbsoluteNorm *__pyx_vtabptr_6mlgrad_6funcs2_SoftAbsoluteNorm;
+
+
+/* "mlgrad/funcs2.pxd":63
+ * 
+ * @cython.final
  * cdef class SquareForm(Func2):             # <<<<<<<<<<<<<<
  *     cdef double[:,::1] matrix
  * 
@@ -4005,7 +4090,7 @@ struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareForm {
 static struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareForm *__pyx_vtabptr_6mlgrad_6funcs2_SquareForm;
 
 
-/* "mlgrad/funcs2.pxd":63
+/* "mlgrad/funcs2.pxd":67
  * 
  * @cython.final
  * cdef class Rosenbrok(Func2):             # <<<<<<<<<<<<<<
@@ -4019,7 +4104,7 @@ struct __pyx_vtabstruct_6mlgrad_6funcs2_Rosenbrok {
 static struct __pyx_vtabstruct_6mlgrad_6funcs2_Rosenbrok *__pyx_vtabptr_6mlgrad_6funcs2_Rosenbrok;
 
 
-/* "mlgrad/funcs2.pxd":67
+/* "mlgrad/funcs2.pxd":71
  * 
  * @cython.final
  * cdef class Himmelblau(Func2):             # <<<<<<<<<<<<<<
@@ -4033,7 +4118,7 @@ struct __pyx_vtabstruct_6mlgrad_6funcs2_Himmelblau {
 static struct __pyx_vtabstruct_6mlgrad_6funcs2_Himmelblau *__pyx_vtabptr_6mlgrad_6funcs2_Himmelblau;
 
 
-/* "mlgrad/funcs2.pxd":71
+/* "mlgrad/funcs2.pxd":75
  * 
  * @cython.final
  * cdef class SoftMin(Func2):             # <<<<<<<<<<<<<<
@@ -4045,6 +4130,34 @@ struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftMin {
   struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
 };
 static struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftMin *__pyx_vtabptr_6mlgrad_6funcs2_SoftMin;
+
+
+/* "mlgrad/funcs2.pxd":80
+ * 
+ * @cython.final
+ * cdef class SoftMax(Func2):             # <<<<<<<<<<<<<<
+ *     cdef double p
+ *     cdef double[::1] evals
+ */
+
+struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftMax {
+  struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftMax *__pyx_vtabptr_6mlgrad_6funcs2_SoftMax;
+
+
+/* "mlgrad/funcs2.pxd":85
+ * 
+ * @cython.final
+ * cdef class PowerMax(Func2):             # <<<<<<<<<<<<<<
+ *     cdef double p
+ *     cdef double[::1] evals
+ */
+
+struct __pyx_vtabstruct_6mlgrad_6funcs2_PowerMax {
+  struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_PowerMax *__pyx_vtabptr_6mlgrad_6funcs2_PowerMax;
 
 
 /* "mlgrad/averager.pxd":25
@@ -4480,6 +4593,34 @@ static struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal *__pyx_vtabptr_6mlgra
 /* "mlgrad/avragg.pxd":173
  * 
  * @cython.final
+ * cdef class SoftMaximal(Average):             # <<<<<<<<<<<<<<
+ *     cdef SoftMax softmax
+ * 
+ */
+
+struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMaximal {
+  struct __pyx_vtabstruct_6mlgrad_6avragg_Average __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMaximal *__pyx_vtabptr_6mlgrad_6avragg_SoftMaximal;
+
+
+/* "mlgrad/avragg.pxd":177
+ * 
+ * @cython.final
+ * cdef class PowerMaximal(Average):             # <<<<<<<<<<<<<<
+ *     cdef PowerMax powermax
+ * 
+ */
+
+struct __pyx_vtabstruct_6mlgrad_6avragg_PowerMaximal {
+  struct __pyx_vtabstruct_6mlgrad_6avragg_Average __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_6avragg_PowerMaximal *__pyx_vtabptr_6mlgrad_6avragg_PowerMaximal;
+
+
+/* "mlgrad/avragg.pxd":181
+ * 
+ * @cython.final
  * cdef class Minimal(Average):             # <<<<<<<<<<<<<<
  *     pass
  * 
@@ -4491,7 +4632,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal *__pyx_vtabptr_6mlgrad_6avragg_Minimal;
 
 
-/* "mlgrad/avragg.pxd":177
+/* "mlgrad/avragg.pxd":185
  * 
  * @cython.final
  * cdef class Maximal(Average):             # <<<<<<<<<<<<<<
@@ -6318,10 +6459,13 @@ typedef struct {
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_PowerNorm;
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SquareNorm;
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SoftAbsoluteNorm;
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SquareForm;
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_Rosenbrok;
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_Himmelblau;
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SoftMin;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SoftMax;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_PowerMax;
   #if CYTHON_USE_MODULE_STATE
   #endif
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ScalarAverager;
@@ -6356,6 +6500,8 @@ typedef struct {
   PyTypeObject *__pyx_ptype_6mlgrad_6avragg_RArithMean;
   PyTypeObject *__pyx_ptype_6mlgrad_6avragg_KolmogorovMean;
   PyTypeObject *__pyx_ptype_6mlgrad_6avragg_SoftMinimal;
+  PyTypeObject *__pyx_ptype_6mlgrad_6avragg_SoftMaximal;
+  PyTypeObject *__pyx_ptype_6mlgrad_6avragg_PowerMaximal;
   PyTypeObject *__pyx_ptype_6mlgrad_6avragg_Minimal;
   PyTypeObject *__pyx_ptype_6mlgrad_6avragg_Maximal;
   #if CYTHON_USE_MODULE_STATE
@@ -6791,10 +6937,13 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_PowerNorm);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareNorm);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SoftAbsoluteNorm);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareForm);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_Rosenbrok);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_Himmelblau);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SoftMin);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SoftMax);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_PowerMax);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ScalarAverager);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ScalarAdaM2);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ScalarAdaM1);
@@ -6825,6 +6974,8 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_RArithMean);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_KolmogorovMean);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_SoftMinimal);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_SoftMaximal);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_PowerMaximal);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_Minimal);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_Maximal);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8distance_Distance);
@@ -7230,10 +7381,13 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_PowerNorm);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareNorm);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SoftAbsoluteNorm);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareForm);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_Rosenbrok);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_Himmelblau);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SoftMin);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SoftMax);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_PowerMax);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ScalarAverager);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ScalarAdaM2);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ScalarAdaM1);
@@ -7264,6 +7418,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_RArithMean);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_KolmogorovMean);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_SoftMinimal);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_SoftMaximal);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_PowerMaximal);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_Minimal);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_Maximal);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8distance_Distance);
@@ -7693,10 +7849,13 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_6mlgrad_6funcs2_PowerNorm __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_PowerNorm
 #define __pyx_ptype_6mlgrad_6funcs2_SquareNorm __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SquareNorm
 #define __pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm
+#define __pyx_ptype_6mlgrad_6funcs2_SoftAbsoluteNorm __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SoftAbsoluteNorm
 #define __pyx_ptype_6mlgrad_6funcs2_SquareForm __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SquareForm
 #define __pyx_ptype_6mlgrad_6funcs2_Rosenbrok __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_Rosenbrok
 #define __pyx_ptype_6mlgrad_6funcs2_Himmelblau __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_Himmelblau
 #define __pyx_ptype_6mlgrad_6funcs2_SoftMin __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SoftMin
+#define __pyx_ptype_6mlgrad_6funcs2_SoftMax __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SoftMax
+#define __pyx_ptype_6mlgrad_6funcs2_PowerMax __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_PowerMax
 #if CYTHON_USE_MODULE_STATE
 #endif
 #define __pyx_ptype_6mlgrad_8averager_ScalarAverager __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ScalarAverager
@@ -7731,6 +7890,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_6mlgrad_6avragg_RArithMean __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_RArithMean
 #define __pyx_ptype_6mlgrad_6avragg_KolmogorovMean __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_KolmogorovMean
 #define __pyx_ptype_6mlgrad_6avragg_SoftMinimal __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_SoftMinimal
+#define __pyx_ptype_6mlgrad_6avragg_SoftMaximal __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_SoftMaximal
+#define __pyx_ptype_6mlgrad_6avragg_PowerMaximal __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_PowerMaximal
 #define __pyx_ptype_6mlgrad_6avragg_Minimal __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_Minimal
 #define __pyx_ptype_6mlgrad_6avragg_Maximal __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_Maximal
 #if CYTHON_USE_MODULE_STATE
@@ -38929,14 +39090,20 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_vtabptr_6mlgrad_6funcs2_SquareNorm = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareNorm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SquareNorm); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SquareNorm)) __PYX_ERR(5, 51, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "AbsoluteNorm", sizeof(struct __pyx_obj_6mlgrad_6funcs2_AbsoluteNorm), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_AbsoluteNorm),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm) __PYX_ERR(5, 55, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_6funcs2_AbsoluteNorm = (struct __pyx_vtabstruct_6mlgrad_6funcs2_AbsoluteNorm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_AbsoluteNorm); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_AbsoluteNorm)) __PYX_ERR(5, 55, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6funcs2_SquareForm = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "SquareForm", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SquareForm), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_SquareForm),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_SquareForm) __PYX_ERR(5, 59, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6funcs2_SquareForm = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareForm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SquareForm); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SquareForm)) __PYX_ERR(5, 59, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6funcs2_Rosenbrok = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "Rosenbrok", sizeof(struct __pyx_obj_6mlgrad_6funcs2_Rosenbrok), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_Rosenbrok),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_Rosenbrok) __PYX_ERR(5, 63, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6funcs2_Rosenbrok = (struct __pyx_vtabstruct_6mlgrad_6funcs2_Rosenbrok*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_Rosenbrok); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_Rosenbrok)) __PYX_ERR(5, 63, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6funcs2_Himmelblau = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "Himmelblau", sizeof(struct __pyx_obj_6mlgrad_6funcs2_Himmelblau), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_Himmelblau),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_Himmelblau) __PYX_ERR(5, 67, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6funcs2_Himmelblau = (struct __pyx_vtabstruct_6mlgrad_6funcs2_Himmelblau*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_Himmelblau); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_Himmelblau)) __PYX_ERR(5, 67, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6funcs2_SoftMin = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "SoftMin", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SoftMin), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_SoftMin),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_SoftMin) __PYX_ERR(5, 71, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6funcs2_SoftMin = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftMin*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SoftMin); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SoftMin)) __PYX_ERR(5, 71, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_SoftAbsoluteNorm = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "SoftAbsoluteNorm", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SoftAbsoluteNorm), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_SoftAbsoluteNorm),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_SoftAbsoluteNorm) __PYX_ERR(5, 59, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_SoftAbsoluteNorm = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftAbsoluteNorm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SoftAbsoluteNorm); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SoftAbsoluteNorm)) __PYX_ERR(5, 59, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_SquareForm = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "SquareForm", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SquareForm), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_SquareForm),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_SquareForm) __PYX_ERR(5, 63, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_SquareForm = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareForm*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SquareForm); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SquareForm)) __PYX_ERR(5, 63, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_Rosenbrok = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "Rosenbrok", sizeof(struct __pyx_obj_6mlgrad_6funcs2_Rosenbrok), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_Rosenbrok),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_Rosenbrok) __PYX_ERR(5, 67, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_Rosenbrok = (struct __pyx_vtabstruct_6mlgrad_6funcs2_Rosenbrok*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_Rosenbrok); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_Rosenbrok)) __PYX_ERR(5, 67, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_Himmelblau = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "Himmelblau", sizeof(struct __pyx_obj_6mlgrad_6funcs2_Himmelblau), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_Himmelblau),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_Himmelblau) __PYX_ERR(5, 71, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_Himmelblau = (struct __pyx_vtabstruct_6mlgrad_6funcs2_Himmelblau*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_Himmelblau); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_Himmelblau)) __PYX_ERR(5, 71, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_SoftMin = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "SoftMin", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SoftMin), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_SoftMin),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_SoftMin) __PYX_ERR(5, 75, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_SoftMin = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftMin*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SoftMin); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SoftMin)) __PYX_ERR(5, 75, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_SoftMax = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "SoftMax", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SoftMax), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_SoftMax),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_SoftMax) __PYX_ERR(5, 80, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_SoftMax = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SoftMax*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SoftMax); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SoftMax)) __PYX_ERR(5, 80, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_PowerMax = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.funcs2", "PowerMax", sizeof(struct __pyx_obj_6mlgrad_6funcs2_PowerMax), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6funcs2_PowerMax),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6funcs2_PowerMax) __PYX_ERR(5, 85, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_PowerMax = (struct __pyx_vtabstruct_6mlgrad_6funcs2_PowerMax*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_PowerMax); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_PowerMax)) __PYX_ERR(5, 85, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("mlgrad.averager"); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -39003,10 +39170,14 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_KolmogorovMean); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean)) __PYX_ERR(3, 164, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6avragg_SoftMinimal = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.avragg", "SoftMinimal", sizeof(struct __pyx_obj_6mlgrad_6avragg_SoftMinimal), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6avragg_SoftMinimal),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6avragg_SoftMinimal) __PYX_ERR(3, 169, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_6avragg_SoftMinimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_SoftMinimal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_SoftMinimal)) __PYX_ERR(3, 169, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_Minimal = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.avragg", "Minimal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Minimal), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6avragg_Minimal),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6avragg_Minimal) __PYX_ERR(3, 173, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Minimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Minimal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Minimal)) __PYX_ERR(3, 173, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_Maximal = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.avragg", "Maximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Maximal), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6avragg_Maximal),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6avragg_Maximal) __PYX_ERR(3, 177, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Maximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Maximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Maximal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Maximal)) __PYX_ERR(3, 177, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_SoftMaximal = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.avragg", "SoftMaximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_SoftMaximal), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6avragg_SoftMaximal),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6avragg_SoftMaximal) __PYX_ERR(3, 173, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_SoftMaximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMaximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_SoftMaximal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_SoftMaximal)) __PYX_ERR(3, 173, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_PowerMaximal = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.avragg", "PowerMaximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_PowerMaximal), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6avragg_PowerMaximal),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6avragg_PowerMaximal) __PYX_ERR(3, 177, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_PowerMaximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_PowerMaximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PowerMaximal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PowerMaximal)) __PYX_ERR(3, 177, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_Minimal = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.avragg", "Minimal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Minimal), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6avragg_Minimal),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6avragg_Minimal) __PYX_ERR(3, 181, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Minimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Minimal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Minimal)) __PYX_ERR(3, 181, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_Maximal = __Pyx_ImportType_3_0_7(__pyx_t_1, "mlgrad.avragg", "Maximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Maximal), __PYX_GET_STRUCT_ALIGNMENT_3_0_7(struct __pyx_obj_6mlgrad_6avragg_Maximal),__Pyx_ImportType_CheckSize_Warn_3_0_7); if (!__pyx_ptype_6mlgrad_6avragg_Maximal) __PYX_ERR(3, 185, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Maximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Maximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Maximal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Maximal)) __PYX_ERR(3, 185, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("mlgrad.distance"); if (unlikely(!__pyx_t_1)) __PYX_ERR(7, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

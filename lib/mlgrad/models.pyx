@@ -295,99 +295,99 @@ def linear_model_from_dict(ob):
     mod.init_from(ob)
     return mod
 
-# cdef class SigmaNeuronModel(Model):
-#     #
-#     __doc__ = "Модель сигмоидального нейрона с простыми синапсами"
-#     #
-#     def __init__(self, Func outfunc, o):
-#         self.outfunc = outfunc
-#         if isinstance(o, (int, long)):
-#             self.n_param = o + 1
-#             self.n_input = o
-#             self.param = self.ob_param = None
-#             self.grad = None
-#             self.grad_input = None
-#         else:
-#             self.param = self.ob_param = o
-#             self.n_param = len(self.param)
-#             self.n_input = self.n_param - 1
-#             self.grad = np.zeros(self.n_param, 'd')
-#             self.grad_input = np.zeros(self.n_input, 'd')
-#     #
-#     cpdef Model copy(self, bint share=1):
-#         cdef Py_ssize_t n_param = self.n_param
-#         cdef SigmaNeuronModel mod = SigmaNeuronModel(self.outfunc, self.n_input)
+cdef class SigmaNeuronModel(Model):
+    #
+    __doc__ = "Модель сигмоидального нейрона с простыми синапсами"
+    #
+    def __init__(self, Func outfunc, o):
+        self.outfunc = outfunc
+        if isinstance(o, (int, long)):
+            self.n_param = o + 1
+            self.n_input = o
+            self.param = self.ob_param = None
+            self.grad = None
+            self.grad_input = None
+        else:
+            self.param = self.ob_param = o
+            self.n_param = len(self.param)
+            self.n_input = self.n_param - 1
+            self.grad = np.zeros(self.n_param, 'd')
+            self.grad_input = np.zeros(self.n_input, 'd')
+    #
+    cpdef Model copy(self, bint share=1):
+        cdef Py_ssize_t n_param = self.n_param
+        cdef SigmaNeuronModel mod = SigmaNeuronModel(self.outfunc, self.n_input)
 
-#         if share:
-#             mod.param = self.param
-#         else:
-#             mod.param = self.param.copy()
+        if share:
+            mod.param = self.param
+        else:
+            mod.param = self.param.copy()
 
-#         mod.grad = self.grad.copy()
-#         mod.grad_input = np.zeros(self.n_input, 'd')
-#         return <Model>mod
-#     #
-#     cdef double _evaluate(self, double[::1] X):
-#         # cdef Py_ssize_t i
-#         # cdef double[::1] param = self.param
-#         cdef double s
-#         cdef double *param = &self.param[0]
+        mod.grad = self.grad.copy()
+        mod.grad_input = np.zeros(self.n_input, 'd')
+        return <Model>mod
+    #
+    cdef double _evaluate(self, double[::1] X):
+        # cdef Py_ssize_t i
+        # cdef double[::1] param = self.param
+        cdef double s
+        cdef double *param = &self.param[0]
 
-#         s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
-#         # s = param[0]
-#         # for i in range(self.n_input):
-#         #     s += param[i+1] * X[i]
+        s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
+        # s = param[0]
+        # for i in range(self.n_input):
+        #     s += param[i+1] * X[i]
         
-#         return self.outfunc._evaluate(s)
-#     #
-#     cdef void _gradient(self, double[::1] X, double[::1] grad):
-#         cdef Py_ssize_t i
-#         cdef double[::1] param = self.param
-#         cdef double s, sx
+        return self.outfunc._evaluate(s)
+    #
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        cdef Py_ssize_t i
+        cdef double[::1] param = self.param
+        cdef double s, sx
         
-#         s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
-#         # s = param[0]
-#         # for i in range(self.n_input):
-#         #     s += param[i+1] * X[i]
+        s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
+        # s = param[0]
+        # for i in range(self.n_input):
+        #     s += param[i+1] * X[i]
 
-#         sx = self.outfunc._derivative(s)
+        sx = self.outfunc._derivative(s)
 
-#         grad[0] = sx
-#         inventory._mul_set(&grad[1], &X[0], sx, self.n_input)
-#         # for i in range(self.n_input):
-#         #     grad[i+1] = sx * X[i]
-#     #
-#     cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
-#         cdef Py_ssize_t i
-#         cdef Py_ssize_t n_input = self.n_input
-#         cdef double s, sx
-#         cdef double[::1] param = self.param
+        grad[0] = sx
+        inventory._mul_set(&grad[1], &X[0], sx, self.n_input)
+        # for i in range(self.n_input):
+        #     grad[i+1] = sx * X[i]
+    #
+    cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
+        cdef Py_ssize_t i
+        cdef Py_ssize_t n_input = self.n_input
+        cdef double s, sx
+        cdef double[::1] param = self.param
                                 
-#         s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
-#         # s = param[0]
-#         # for i in range(n_input):
-#         #     s += param[i+1] * X[i]
+        s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
+        # s = param[0]
+        # for i in range(n_input):
+        #     s += param[i+1] * X[i]
 
-#         sx = self.outfunc._derivative(s)
+        sx = self.outfunc._derivative(s)
 
-#         inventory._mul_set(&grad_input[0], &param[1], sx, self.n_input)
-#         # for i in range(n_input):
-#         #     grad_input[i] = sx * param[i+1]
-#     #
-#     def as_dict(self):
-#         return { 'name': 'sigma_neuron', 
-#                  'func': self.outfunc.to_dict(),
-#                  'param': (list(self.param) if self.param is not None else None), 
-#                  'n_input': self.n_input }
-#     #
-#     def init_from(self, ob):
-#         cdef double[::1] param = np.array(ob['param'], 'd')
-#         inventory.move(self.param, param)
+        inventory._mul_set(&grad_input[0], &param[1], sx, self.n_input)
+        # for i in range(n_input):
+        #     grad_input[i] = sx * param[i+1]
+    #
+    def as_dict(self):
+        return { 'name': 'sigma_neuron', 
+                 'func': self.outfunc.to_dict(),
+                 'param': (list(self.param) if self.param is not None else None), 
+                 'n_input': self.n_input }
+    #
+    def init_from(self, ob):
+        cdef double[::1] param = np.array(ob['param'], 'd')
+        inventory.move(self.param, param)
 
-# @register_model('sigma_neuron')
-# def sigma_neuron_from_dict(ob):
-#     mod = SigmaNeuronModel(func_from_dict(ob['func']), ob['n_input'])
-#     return mod        
+@register_model('sigma_neuron')
+def sigma_neuron_from_dict(ob):
+    mod = SigmaNeuronModel(func_from_dict(ob['func']), ob['n_input'])
+    return mod        
 
 cdef class SimpleComposition(Model):
     #

@@ -29,7 +29,7 @@ def regression(Xs, Y, mod, loss_func=None, regnorm=None, *,
         mod.init_param()
 
     er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
-    alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter,
+    alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, 
                  verbose=verbose, n_restart=n_restart)
     return alg
 

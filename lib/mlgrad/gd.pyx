@@ -20,7 +20,7 @@
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
+# THE SOFTWARE. 
 
 #from cython.parallel cimport parallel, prange
  
@@ -72,8 +72,8 @@ cdef class GD:
             self.grad_averager = ArraySave()
         self.grad_averager.init(n_param)
         
-#         if self.param_averager is not None:
-#             self.param_averager.init(n_param)
+        # if self.param_transformer is not None:
+        #     self.param_transformer.init(n_param)
             
     #
     def fit(self):
@@ -166,13 +166,11 @@ cdef class GD:
             self.grad_averager.update(risk.grad_average, self.h)
             risk.update_param(self.grad_averager.array_average)
 
-            
             # for i in range(n_param):
             #     param[i] -= grad_average[i]
 
-            # if self.param_averager is not None:
-            #     self.param_averager.update(risk.param)
-            #     copy_memoryview(risk.param, self.param_averager.array_average)
+            # if self.param_transformer is not None:
+            #     self.param_transformer.transform(risk.model.param)
     # 
     def use_gradient_averager(self, averager):
         self.grad_averager = averager
@@ -180,8 +178,8 @@ cdef class GD:
     def use_normalizer(self, Normalizer normalizer):
         self.normalizer = normalizer
 #
-#     def use_param_averager(self, averager):
-#         self.param_averager = averager
+    # def use_transformer(self, transformer):
+    #     self.param_transformer = transformer
 #
     cpdef finalize(self):
         cdef Risk risk = self.risk
