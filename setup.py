@@ -43,7 +43,7 @@ cython_compiler_directives2 = dict(
     unraisable_tracebacks=True,  
 )
 
-Options._directive_defaults.update(cython_compiler_directives2)
+Options._directive_defaults.update(cython_compiler_directives1)
 
 ext_modules = [
     Extension(
@@ -213,12 +213,12 @@ setup(
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
     license = "MIT License",
-    ext_modules = cythonize(ext_modules, #nthreads=4,
+    ext_modules = cythonize(ext_modules, nthreads=4,
                             compiler_directives=cython_compiler_directives2),
     # ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
-    packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost',
+    packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost', 'mlgrad.plots',
                 'mlgrad.cls', 'mlgrad.pca', 'mlgrad.outl', 'mlgrad.test'],
     package_data = {'': ['*.pxd']},
     url = 'https://bitbucket.org/intellimath/mlgrad',

@@ -18,5 +18,5 @@ class MarginMaximization:
         w = np.random.random(n)
         c = 0
 
-        for K in range(self.n_iter):
+        # for K in range(self.n_iter):
             

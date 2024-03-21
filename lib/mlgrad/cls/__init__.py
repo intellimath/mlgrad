@@ -6,7 +6,6 @@ import mlgrad.avragg as avragg
 import mlgrad.gd as gd
 import mlgrad.weights as weights
 from mlgrad.utils import exclude_outliers
-import mlgrad.normalizer as normalizer
 
 from mlgrad.funcs2 import SquareNorm
 from mlgrad.loss import SquareErrorLoss, ErrorLoss
@@ -19,6 +18,7 @@ def classification_as_regr(Xs, Y, mod, lossfunc=loss.MarginLoss(funcs.Hinge(1.0)
                normalizer=None, h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
     if mod.param is None:
         mod.init_param()
+    # print(mod.param.base)
 
     er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, 

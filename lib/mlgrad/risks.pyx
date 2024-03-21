@@ -185,6 +185,12 @@ cdef class Risk(Functional):
     cdef void _evaluate_weights(self):
             pass
     #
+    cdef update_param(self, double[::1] param):
+        if self.model.mask is None:
+            inventory.sub(self.model.param, param)
+        else:
+            inventory.sub_mask(self.model.param, param, self.model.mask)
+    #
     def evaluate_weights(self):
         # W = np_zeros(self.batch.size, np_double)
         # self._evaluate_weights()

@@ -978,6 +978,49 @@ cdef class Hinge(Func):
         return { 'name':'hinge',
                  'args': (self.C,) }
 
+cdef class Hinge2(Func):
+    #
+    def __init__(self, C=1.0):
+        self.C = C
+    #
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        cdef double v = self.C - x
+        if v <= 0:
+            return 0
+        else:
+            return 0.5 * v * v
+    #
+    cdef double _derivative(self, const double x) noexcept nogil:
+        cdef double v = self.C - x
+        if v <= 0:
+            return 0
+        else:
+            return v
+    #
+    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+        cdef double v = self.C - x
+        if v <= 0:
+            return 0
+        else:
+            return 1
+    #
+    cdef double _derivative2(self, const double x) noexcept nogil:
+        cdef double v = self.C - x
+        if v <= 0:
+            return 0
+        else:
+            return 1
+    #
+    cdef double _value(self, const double x) noexcept nogil:
+        return self.C - x
+    #
+    def _repr_latex_(self):
+        return r"$ρ(x)=(c-x)_{+}$"
+
+    def to_dict(self):
+        return { 'name':'hinge',
+                 'args': (self.C,) }
+        
 cdef class RELU(Func):
     #
     cdef double _evaluate(self, const double x) noexcept nogil:

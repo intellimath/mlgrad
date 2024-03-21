@@ -214,6 +214,12 @@ cdef class Hinge(Func):
     #
 
 @cython.final
+cdef class Hinge2(Func):
+    #
+    cdef public double C
+    #
+    
+@cython.final
 cdef class RELU(Func):
     #
     pass

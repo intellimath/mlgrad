@@ -4,6 +4,8 @@
 
 cimport cython
 
+from numpy cimport npy_uint8 as uint8
+
 from libc.string cimport memcpy, memset
 
 cdef int get_num_threads() noexcept nogil
@@ -20,6 +22,7 @@ cdef void _move(double*, const double*, const Py_ssize_t) noexcept nogil
 cdef double _sum(const double*, const Py_ssize_t) noexcept nogil
 cdef void _add(double *a, const double *b, const Py_ssize_t n) noexcept nogil
 cdef void _sub(double *a, const double *b, const Py_ssize_t n) noexcept nogil
+cdef void _sub_mask(double *a, const double *b, uint8 *m, const Py_ssize_t n) noexcept nogil
 cdef void _mul(double *a, const double *b, const Py_ssize_t n) noexcept nogil
 cdef void _mul_add(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
 cdef void _mul_set(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
@@ -47,6 +50,7 @@ cdef double sum(double[::1] a) noexcept nogil
 cdef void add(double[::1] a, double[::1] b) noexcept nogil
 cdef void add2(double[:,::1] a, double[:,::1] b) noexcept nogil
 cdef void sub(double[::1] a, double[::1] b) noexcept nogil
+cdef void sub_mask(double[::1] a, double[::1] b, uint8[::1] m) noexcept nogil
 cdef void mul_const(double[::1] a, const double c) noexcept nogil
 cdef void mul_const2(double[:, ::1] a, const double c) noexcept nogil
 cdef void mul_const3(double[:,:,::1] a, const double c) noexcept nogil

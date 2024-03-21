@@ -2,7 +2,7 @@
 
 # The MIT License (MIT) 
 #
-# Copyright (c) <2015-2022> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2024> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE. 
+# THE SOFTWARE.
 
 #from cython.parallel cimport parallel, prange
  
@@ -51,6 +51,7 @@ cdef class GD:
     #    
     cpdef init(self):
         self.risk.init()
+
         if self.normalizer is not None:
             self.normalizer.normalize(self.risk.param)
         

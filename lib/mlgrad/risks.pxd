@@ -18,6 +18,7 @@ from libc.math cimport fabs, pow, sqrt, fmax
 from libc.string cimport memcpy, memset
 
 from cpython.object cimport PyObject
+from numpy cimport npy_uint8 as uint8
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()
@@ -86,6 +87,7 @@ cdef class Risk(Functional):
     cdef double[::1] grad_r
     cdef readonly double tau
     cdef readonly Py_ssize_t n_sample
+    cdef uint8[::1] mask
     #
     # cdef void _evaluate_models_all(self, double[::1] vals)
     # cdef void _evaluate_models_batch(self)

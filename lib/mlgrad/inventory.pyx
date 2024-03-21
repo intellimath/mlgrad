@@ -121,8 +121,18 @@ cdef void _sub(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     for i in range(n):
         a[i] -= b[i]
 
+cdef void _sub_mask(double *a, const double *b, uint8 *m, const Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+
+    for i in range(n):
+        if m[i] == 0:
+            a[i] -= b[i]
+        
 cdef void sub(double[::1] a, double[::1] b) noexcept nogil:
     _sub(&a[0], &b[0], a.shape[0])
+
+cdef void sub_mask(double[::1] a, double[::1] b, uint8[::1] m) noexcept nogil:
+    _sub_mask(&a[0], &b[0], &m[0], a.shape[0])
     
 cdef double _sum(const double *a, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i

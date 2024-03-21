@@ -5,6 +5,8 @@
 # cython: embedsignature=True
 # cython: initializedcheck=False
 
+from numpy cimport npy_uint8 as uint8
+
 cimport cython
 
 from libc.math cimport fabs, pow, sqrt, fmax, log, exp
@@ -57,6 +59,7 @@ cdef class Model(BaseModel):
     cdef public double[::1] param
     cdef public double[::1] grad
     cdef public double[::1] grad_input
+    cdef public uint8[::1] mask
     # cdef bint is_allocated
 
     # cpdef init_param(self, param=*, bint random=*)

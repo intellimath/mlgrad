@@ -73,7 +73,7 @@ cdef class PowerNorm(Func2):
         cdef double* X_ptr = &X[0]
         cdef double* grad_ptr = &grad[0]
     
-        for i in range(m = X.shape[0]):
+        for i in range(X.shape[0]):
             v = pow(fabs(X_ptr[i]), self.p-1.0)
             if v < 0:
                 grad_ptr[i] = -v

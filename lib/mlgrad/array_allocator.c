@@ -4,11 +4,9 @@
 {
     "distutils": {
         "extra_compile_args": [
-            "-march=native",
             "-fopenmp"
         ],
         "extra_link_args": [
-            "-march=native",
             "-lm",
             "-fopenmp"
         ],

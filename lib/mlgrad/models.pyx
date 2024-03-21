@@ -122,11 +122,12 @@ cdef class Model(BaseModel):
                 self.ob_param[:] = self.param
         self.grad = np.zeros(self.n_param, 'd')
         self.grad_input = np.zeros(self.n_input, 'd')
+        self.mask = None
     #
     def init_param(self, param=None, random=1):
         if param is None:
             if random:
-                r = np.random.random(self.n_param)
+                r = 1*np.random.random(self.n_param)-0.5
             else:
                 r = np.zeros(self.n_param, 'd')
         else:
@@ -195,6 +196,7 @@ cdef class LinearModel(Model):
             self.grad = np.zeros(self.n_param, 'd')
             self.grad_input = np.zeros(self.n_input, 'd')
             # self.is_allocated = 1
+        self.mask = None
     #
     def __reduce__(self):
         return LinearModel, (self.n_input,)
@@ -308,7 +310,7 @@ cdef class SigmaNeuronModel(Model):
             self.grad = None
             self.grad_input = None
         else:
-            self.param = self.ob_param = o
+            self.param = self.ob_param = np.asarray(o, 'd', )
             self.n_param = len(self.param)
             self.n_input = self.n_param - 1
             self.grad = np.zeros(self.n_param, 'd')
@@ -333,7 +335,7 @@ cdef class SigmaNeuronModel(Model):
         cdef double s
         cdef double *param = &self.param[0]
 
-        s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
+        s =  param[0] + inventory._dot(&X[0], &param[1], self.n_input)
         # s = param[0]
         # for i in range(self.n_input):
         #     s += param[i+1] * X[i]

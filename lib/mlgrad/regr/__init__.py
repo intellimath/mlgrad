@@ -1,3 +1,27 @@
+# coding: utf-8 
+
+# The MIT License (MIT)
+#
+# Copyright (c) <2015-2024> <Shibzukhov Zaur, szport at gmail dot com>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
 import mlgrad.loss as loss
 import mlgrad.funcs as func
 import mlgrad.gd as gd
@@ -14,6 +38,7 @@ from mlgrad.af import averaging_function, scaling_function
 __all__ = 'regression', 'm_regression', 'm_regression_irls', 'r_regression_irls', 'mr_regression_irls'
 
 def regression(Xs, Y, mod, loss_func=None, regnorm=None, *,
+               normalizer=None,
                h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
     """\
     Поиск параметров модели `mod` при помощи принципа минимизации эмпирического риска. 
@@ -30,7 +55,7 @@ def regression(Xs, Y, mod, loss_func=None, regnorm=None, *,
 
     er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, 
-                 verbose=verbose, n_restart=n_restart)
+                 verbose=verbose, n_restart=n_restart, normalizer=normalizer)
     return alg
 
 def m_regression(Xs, Y, mod, 
@@ -148,123 +173,3 @@ def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None,
     irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
     return irgd
 
-def plot_losses_and_errors(alg, Xs, Y, fname=None, logscale=False, lang='en'):
-    import numpy as np
-    import matplotlib.pyplot as plt
-
-    err = np.abs(Y - alg.risk.model.evaluate_all(Xs))
-    plt.figure(figsize=(10,5))
-    plt.subplot(1,2,1)
-    if lang == 'en':
-        plt.title('Fit curve')
-        plt.xlabel('step')
-        plt.ylabel('mean of losses')
-    else:
-        plt.title('Кривая обучения')
-        plt.xlabel('шаг')
-        plt.ylabel('средние потери')
-    plt.plot(alg.lvals, color='k')
-    if logscale:
-        plt.gca().set_yscale('log')
-    plt.minorticks_on()
-    plt.subplot(1,2,2)
-    if lang == 'en':
-        plt.title('Errors')
-        plt.xlabel('error rank')
-        plt.ylabel('error value')
-    else:
-        plt.title('Ошибки')
-        plt.xlabel('Ранг ошибки')
-        plt.ylabel('Значение ошибки')
-    plt.plot(sorted(err), marker='o', markersize='5', color='k')
-    plt.minorticks_on()
-    plt.tight_layout()
-    if fname:
-        plt.savefig(fname)
-    plt.show()
-
-def plot_losses(alg, Xs, Y, fname=None, logscale=False, lang='en'):
-    import numpy as np
-    import matplotlib.pyplot as plt
-
-    err = np.abs(Y - alg.risk.model.evaluate_all(Xs))
-    plt.figure(figsize=(5,5))
-    if lang == 'en':
-        plt.title('Fit curve')
-        plt.xlabel('step')
-        plt.ylabel('mean of losses')
-    else:
-        plt.title('Кривая обучения')
-        plt.xlabel('шаг')
-        plt.ylabel('средние потери')
-    plt.plot(alg.lvals, color='k')
-    if logscale:
-        plt.gca().set_yscale('log')
-    plt.minorticks_on()
-    if fname:
-        plt.savefig(fname)
-    plt.show()
-    
-def plot_errors(mod, Xs, Y, fname=None, lang='en'):
-    import numpy as np
-    import matplotlib.pyplot as plt
-
-    err = np.abs(Y - mod.evaluate_all(Xs))
-    if lang == 'en':
-        plt.title('Errors')
-        plt.xlabel('error rank')
-        plt.ylabel('error value')
-    else:
-        plt.title('Ошибки')
-        plt.xlabel('Ранг ошибки')
-        plt.ylabel('Значение ошибки')
-    plt.plot(sorted(err), marker='o', markersize=4, color='k')
-    plt.minorticks_on()
-    if fname:
-        plt.savefig(fname)
-    
-def plot_errors_hist(mod, Xs, Y, fname=None, lang='en', hist=False, bins=20, density=False):
-    import numpy as np
-    import matplotlib.pyplot as plt
-
-    err = np.abs(Y - mod.evaluate_all(Xs))
-    if lang == 'en':
-        plt.title('Errors hist')
-        plt.xlabel('errors value')
-        # plt.ylabel('error value')
-    else:
-        plt.title('Гистограмма ошибок')
-        plt.xlabel('Величина ошибки')
-        # plt.ylabel('Значение ошибки')
-    plt.hist(err, bins=bins, color='k', rwidth=0.9, density=density)
-    plt.minorticks_on()
-    if fname:
-        plt.savefig(fname)
-    
-def plot_yy(mod, Xs, Y, title="", b=0.1):
-    import numpy as np 
-    import matplotlib.pyplot as plt
-
-    Yp = mod.evaluate_all(Xs)
-    E = np.abs(Y - Yp) / np.abs(Y)
-    c = sum(E < b) / len(E) * 100
-    ymax, ymin = np.max(Y), np.min(Y)
-    ypmax, ypmin = np.max(Yp), np.min(Yp)
-    ymax = max(ymax, ypmax)
-    ymin = min(ymin, ypmin)
-    plt.title("Y-Y plot")
-    plt.plot([ymin, ymax], [ymin, ymax], color='k', linewidth=0.66)
-    plt.fill_between([ymin, ymax], [ymin-b, ymax-b], [ymin+b, ymax+b], color='LightGray')
-    plt.scatter(Y, Yp, c='k', s=12, label=r'$\{|err|<%.2f\}\ \to\ %s$ %%' % (b, int(c)))
-    if title:
-        plt.title(title)
-    plt.ylim(ymin, ymax)
-    plt.xlim(ymin, ymax)
-    plt.xlabel("original")
-    plt.ylabel("predicted")
-    plt.legend()
-
-def plot_sample_weights(alg, label=None):
-    import matplotlib.pyplot as plt
-    plt.plot(sorted(alg.sample_weights), label=label, marker='o')
-    

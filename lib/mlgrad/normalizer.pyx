@@ -19,4 +19,22 @@ cdef class LinearModelNormalizer(Normalizer):
         for i in range(n):
             param[i] /= s
 
+cdef class Masked(Normalizer):
+    def __init__(self, Model mod, tol=1.0e-8):
+        self.tol = tol
+        self.model = mod
+        mod.mask = np.zeros(mod.n_param, np.uint8)
+    #
+    cdef normalize(self, double[::1] param):
+        cdef Py_ssize_t i
+        cdef uint8[::1] mask = self.model.mask
+        cdef double v, tol = self.tol
+
+        for i in range(param.shape[0]):
+            v = param[i]
+            if fabs(v) < tol:
+                param[i] = 0
+                mask[i] = 1
+                
+        
             

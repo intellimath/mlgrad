@@ -18,6 +18,8 @@ from libc.math cimport fabs, pow, sqrt, fmax
 # from libc.math cimport fabsf, powf, sqrtf, fmaxf
 from libc.string cimport memcpy, memset
 
+from numpy cimport npy_uint8 as uint8
+
 cdef extern from "Python.h":
     double Pydouble_GetMax()
     double Pydouble_GetMin()
