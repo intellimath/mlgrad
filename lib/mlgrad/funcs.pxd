@@ -7,6 +7,7 @@ cdef class Func(object):
     cdef public unicode label
     #
     cdef double _evaluate(self, const double x) noexcept nogil
+    cdef double _inverse(self, const double x) noexcept nogil
     cdef double _derivative(self, const double x) noexcept nogil
     cdef double _derivative2(self, const double x) noexcept nogil
     cdef double _derivative_div_x(self, const double x) noexcept nogil
@@ -17,6 +18,7 @@ cdef class Func(object):
     cdef void _derivative2_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
     cdef void _derivative_div_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
     cdef void _value_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
+    cdef void _inverse_array(self, double *x, double *y, Py_ssize_t n) noexcept nogil
     #
 
 @cython.final
@@ -125,7 +127,7 @@ cdef class Expectile(Func):
 @cython.final
 cdef class Power(Func):
     #
-    cdef public double alpha, p, alpha_p
+    cdef public double p, p1, alpha, alpha_p
     #
 
 @cython.final

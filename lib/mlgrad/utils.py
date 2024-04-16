@@ -9,6 +9,10 @@ def exclude_outliers(mod, X, Y, n):
     I = np.argsort(E)
     return np.ascontiguousarray(X[I[:-n]]), np.ascontiguousarray(Y[I[:-n]])
 
+def exclude_tail(keyvals, X, n):
+    I = np.argsort(keyvals)
+    return np.ascontiguousarray(X[I[:-n]])
+
 def get_outliers(mod, X, Y, n):
     if len(X.shape) == 1:
         Y_p = mod.evaluate_all(X[:,None])

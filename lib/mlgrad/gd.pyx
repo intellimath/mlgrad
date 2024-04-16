@@ -98,6 +98,10 @@ cdef class GD:
             self.lval_prev = self.lval
                 
             self.fit_epoch()
+            
+            if inventory.hasnan(risk.param):
+                print(k, np.asarray(risk.param))
+            
 
             self.lval = risk._evaluate()
             # if self.lval < self.lval_prev:

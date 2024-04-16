@@ -28,9 +28,15 @@ def project_line(X, a, /):
     return X @ a
 
 def project(X, a, /):
-    Xa = (X @ a).reshape(-1,1) * X
+    # Xa = (X @ a).reshape(-1,1) * X
+    Xa = einsum("ni,i,j->nj", X, a, a)
     # Xa = np.fromiter(((x @ a) * a for x in X), len(X), 'd')
     return X - Xa
+
+def project0(X, a, /):
+    Xa1 = einsum("ni,i,j->nj", X, a, a)
+    Xa2 = np.fromiter(((x @ a) * a for x in X), len(X), 'd')
+    return Xa1, Xa2
 
 def total_regression(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verbose=0):
     N = len(X)
@@ -99,13 +105,14 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
     Z = X @ a
     Z = rho_func.evaluate_array(XX - Z*Z)
     
-    SZ_min = Z.mean()
+    sz = sz_min = Z.mean()
     G = rho_func.derivative_array(Z)
     G /= G.sum()
     L_min = 0
 
     complete = False
     for K in range(n_iter):
+        sz_prev = sz
 
         S = (X.T * G) @ X
 
@@ -114,31 +121,25 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
         Z = X @ a1
         Z = rho_func.evaluate_array(XX - Z*Z)
         
-        SZ = Z.mean()
+        sz = Z.mean()
         G = rho_func.derivative_array(Z)
         G /= G.sum()
-
-        # if abs(SZ - SZ_min) / (1 + abs(SZ_min)) < tol:
-        #     complete = True
-
-        if abs(a1 - a_min).max() < tol:
-            complete = True
         
-        if SZ < SZ_min:
-            SZ_min = SZ
+        if sz < sz_min:
+            sz_min = sz
             a_min = a1
             L_min = L
             if verbose:
-                print('*', SZ, L, a)
+                print('*', sz, L, a)
 
-        if complete:
+        if abs(sz_prev - sz) / (1 + abs(sz_min)) < tol:
             break
 
         a = a1
 
     K += 1
     if verbose:
-        print(f"K: {K}")
+        print(f"K: {K}", sz_min, a_min, L_min)
 
     return a_min, L_min
 
@@ -156,7 +157,7 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
     _Z = X @ a
     Z = XX - _Z * _Z
     
-    SZ_min = qf.evaluate(Z)
+    sz_min = qf.evaluate(Z)
     G = qf.gradient(Z)
     L_min = 0
 
@@ -173,7 +174,7 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
         Z = X @ a1
         ZZ = XX - Z * Z
         
-        SZ = qf.evaluate(ZZ)
+        sz = qf.evaluate(ZZ)
         G = qf.gradient(ZZ)
 
         # if abs(SZ - SZ_min) / (1 + abs(SZ_min)) < tol:
@@ -182,12 +183,12 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
         if abs(a1 - a_min).max() < tol:
             complete = True
         
-        if SZ < SZ_min:
-            SZ_min = SZ
+        if sz < sz_min:
+            sz_min = sz
             a_min = a1
             L_min = L
             if verbose:
-                print('*', SZ, L, a)
+                print('*', sz, L, a)
 
         if complete:
             break
@@ -196,65 +197,64 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
 
     K += 1
     if verbose:
-        print(f"K: {K}")
+        print(f"K: {K}", sz_min)
 
     return a_min, L_min
 
-# def find_pc_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0, l1=False, tau=0.001):
-#     N, n = X.shape
+def find_pc_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
+    np_abs = np.abs
+    np_sqrt = np.sqrt
 
-#     if a0 is None:
-#         a0 = np.random.random(n)
-#     else:
-#         a0 = a0
+    N, n = X.shape
 
-#     a = a_min = a0 / np_sqrt(a0 @ a0)
-#     XX = (X * X).sum(axis=1)
+    if a0 is None:
+        a0 = np.random.random(n)
+    else:
+        a0 = a0
 
-#     Z = X @ a
-#     Z1 = np_sqrt(XX - Z * Z)
-#     SZ = SZ_min = Z1.sum()
+    a = a_min = a0 / np_sqrt(a0 @ a0)
+    XX = (X * X).sum(axis=1)
+
+    Z = X @ a
+    Z1 = np_sqrt(np_abs(XX - Z * Z))
+    sz = sz_min = Z1.mean()
     
-#     G = 1. / Z1
-#     L_min = 0
+    G = 1. / Z1
+    G /= G.sum()
+    L_min = 0
 
-#     np_abs = np.abs
-#     np_sqrt = np.sqrt
+    for K in range(n_iter):
+        sz_prev = sz
 
-#     complete = False
-#     for K in range(n_iter):
+        S = (X.T * G) @ X
 
-#         S = (X.T * G) @ X
+        a1, L = _find_pc(S, a0=a, n_iter=200, tol=tol, verbose=verbose)
 
-#         a1, L = _find_pc(S, a0=a, n_iter=200, tol=tol, verbose=verbose, l1=l1, tau=tau)
+        Z = X @ a1
+        Z1 = np_sqrt(np_abs(XX - Z * Z))
 
-#         Z = X @ a1
-#         Z1 = np_sqrt(XX - Z * Z)    
+        G = 1. / Z1
+        G /= G.sum()
+        sz = Z1.mean()
 
-#         G = 1. / Z1
-#         SZ = Z1.sum()
+        if sz < sz_min:
+            # Z1_min = Z1
+            sz_min = sz
+            a_min = a1
+            L_min = L
+            if verbose:
+                print('*', sz, L, a)
 
-#         if abs(SZ - SZ_min) / (1 + SZ_min) < tol:
-#             complete = True
+        if abs(sz_prev - sz) / (1 + sz_min) < tol:
+            break
 
-#         if SZ < SZ_min:
-#             # Z1_min = Z1
-#             SZ_min = SZ
-#             a_min = a1
-#             L_min = L
-#             if verbose:
-#                 print('*', SZ, L, a)
+        a = a1
 
-#         if complete:
-#             break
+    K += 1
+    if verbose:
+        print(f"K: {K}", sz_min, a_min, L_min)
 
-#         a = a1
-
-#     K += 1
-#     if verbose:
-#         print(f"K: {K}")
-
-#     return a_min, L_min
+    return a_min, L_min
 
 def project(X, a, /):
     Xa = np.array([(x @ a) * a for x in X])
@@ -273,7 +273,7 @@ def transform(X, G):
     U = np.array(Us)
     return U
 
-def find_pc_all(X0, n=None):
+def find_pc_all(X0, n=None, verbose=False):
     Ls = []
     As = []
     Us = []
@@ -286,22 +286,50 @@ def find_pc_all(X0, n=None):
 
     X = X0
     for i in range(n):
-        a, L = find_pc(X)
+        a, L = find_pc(X, verbose=verbose)
         U = project_line(X0, a)
         X = project(X, a)
         Ls.append(L)
         As.append(a)
         Us.append(U)
     Ls = np.array(Ls)
+    As = np.array(As)
+    Us = np.array(Us)
     return As, Ls, Us
 
-def _find_robust_pc_all(X, wma, n=None, As=None, *, n_iter=200, tol=1.0e-6, verbose=0): 
-    if As is None:
-        return find_pc_all(X, n=n)
-    N = len(X)
-    S = X.T @ X / N
-    a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose) 
-    return a, L
+def find_pc_l1_all(X0, n=None, verbose=False):
+    Ls = []
+    As = []
+    Us = []
+
+    _n = X0.shape[1]
+    if n is None:
+        n = _n
+    elif n > _n:
+        raise RuntimeError(f"n={n} greater X.shape[1]={_n}")
+
+    X = X0
+    for i in range(n):
+        if verbose:
+            print(f"*** {i} ***")
+        a, L = find_pc_l1(X, verbose=verbose)
+        U = project_line(X0, a)
+        X = project(X, a)
+        Ls.append(L)
+        As.append(a)
+        Us.append(U)
+    Ls = np.array(Ls)
+    As = np.array(As)
+    Us = np.array(Us)
+    return As, Ls, Us
+
+# def _find_robust_pc_all(X, wma, n=None, As=None, *, n_iter=200, tol=1.0e-6, verbose=0): 
+#     if As is None:
+#         return find_pc_all(X, n=n)
+#     N = len(X)
+#     S = X.T @ X / N
+#     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose) 
+#     return a, L
 
 def find_robust_pc_all(X0, wma, n=None, verbose=False):
     Ls = []
@@ -320,6 +348,9 @@ def find_robust_pc_all(X0, wma, n=None, verbose=False):
         Ls.append(L)
         As.append(a)
         Us.append(U)
+    Ls = np.array(Ls)
+    As = np.array(As)
+    Us = np.array(Us)
     Ls = np.array(Ls)
     return As, Ls, Us
 
@@ -340,6 +371,9 @@ def find_rho_pc_all(X0, rho_func, n=None, verbose=False):
         Ls.append(L)
         As.append(a)
         Us.append(U)
+    Ls = np.array(Ls)
+    As = np.array(As)
+    Us = np.array(Us)
     Ls = np.array(Ls)
     return As, Ls, Us
 

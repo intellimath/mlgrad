@@ -116,6 +116,7 @@ cdef class Model2:
     cdef public object ob_param
     cdef public double[::1] param
     cdef public double[::1] output
+    cdef public uint8[::1] mask
     #
     cdef void _forward(self, double[::1] X)
     #

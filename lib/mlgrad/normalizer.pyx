@@ -29,8 +29,14 @@ cdef class Masked(Normalizer):
         cdef Py_ssize_t i
         cdef uint8[::1] mask = self.model.mask
         cdef double v, tol = self.tol
+        cdef uint8 mm
 
         for i in range(param.shape[0]):
+            mm = mask[i]
+            if mm == 1:
+                param[i] = 0
+                continue
+
             v = param[i]
             if fabs(v) < tol:
                 param[i] = 0

@@ -32,6 +32,8 @@ def robust_location(X, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
         print(s, c)
 
     for K in range(n_iter):
+        s_prev = s
+
         c = X.T @ G
 
         # Z = X - c
@@ -46,17 +48,71 @@ def robust_location(X, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
 
         # print(S, c)
 
-        if K > 0 and s < s_min:
+        if s < s_min:
             s_min = s
             c_min = c
             if verbose:
                 print('*', s, c)
         
-        if K > 0 and abs(s - s_min) < tol:
+        if abs(s_prev - s) / (1 + abs(s_min)) < tol:
             break
 
     if verbose:
         print(f"K: {K}")
+
+    return c_min
+
+def location_l1(X, *, n_iter=1000, tol=1.0e-9, verbose=0):
+    c = X.mean(axis=0)
+    c_min = c
+    N = len(X)
+
+    # Z = X - c
+    # U = (Z * Z).sum(axis=1)
+    Z = X - c
+
+    path, _ = einsum_path("ni,ni->n", Z, Z, optimize='optimal')
+    U = einsum("ni,ni->n", Z, Z, optimize=path)
+    U = np.sqrt(U)
+
+    s = s_min = U.mean()
+    G = 1.0 / U
+    G /= G.sum()
+    # print('*', s, G)
+
+    if verbose:
+        print(s, c)
+
+    for K in range(n_iter):
+        s_prev = s
+        c = X.T @ G
+
+        # Z = X - c
+        # U = (Z * Z).sum(axis=1)
+        Z = X - c
+        U = einsum("ni,ni->n", Z, Z, optimize=path)
+        U = np.sqrt(U)
+        # U = distance_center(XY, c)
+
+        s = U.mean()
+        G = 1.0 / U
+        G /= G.sum()
+        
+        # print('**', s, G)
+
+        # print(S, c)
+
+        if s < s_min:
+            s_min = s
+            c_min = c
+            if verbose:
+                print('*', s, c)
+        
+        if abs(s_prev - s) / (1 + abs(s_min)) < tol:
+            break
+
+    if verbose:
+        print(f"K: {K}", s_min, c_min)
 
     return c_min
 

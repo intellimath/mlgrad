@@ -59,6 +59,16 @@ cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:
     for i in range(n):
         to[i] = 0
 
+cdef int hasnan(double[::1] a) noexcept nogil:
+    return _hasnan(&a[0], a.shape[0])
+        
+cdef int _hasnan(double *a, const Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+    for i in range(n):
+        if isnan(a[i]):
+            return 1
+    return 0
+        
 cdef void clear(double[::1] to) noexcept nogil:
     _clear(&to[0], <const Py_ssize_t>to.shape[0])
 
@@ -121,15 +131,15 @@ cdef void _sub(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     for i in range(n):
         a[i] -= b[i]
 
+cdef void sub(double[::1] a, double[::1] b) noexcept nogil:
+    _sub(&a[0], &b[0], a.shape[0])
+
 cdef void _sub_mask(double *a, const double *b, uint8 *m, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
     for i in range(n):
         if m[i] == 0:
             a[i] -= b[i]
-        
-cdef void sub(double[::1] a, double[::1] b) noexcept nogil:
-    _sub(&a[0], &b[0], a.shape[0])
 
 cdef void sub_mask(double[::1] a, double[::1] b, uint8[::1] m) noexcept nogil:
     _sub_mask(&a[0], &b[0], &m[0], a.shape[0])

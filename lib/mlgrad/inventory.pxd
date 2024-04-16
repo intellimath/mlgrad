@@ -7,12 +7,15 @@ cimport cython
 from numpy cimport npy_uint8 as uint8
 
 from libc.string cimport memcpy, memset
+from libc.math cimport isnan
 
 cdef int get_num_threads() noexcept nogil
 cdef int get_num_procs() noexcept nogil
 cdef int get_num_threads_ex(int n) noexcept nogil
 cdef int get_num_procs_ex(int n) noexcept nogil
 # cdef void set_num_threads(int num) noexcept nogil
+
+cdef int _hasnan(double *a, const Py_ssize_t n) noexcept nogil
 
 cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil
 cdef void _clear2(double *to, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil
@@ -38,6 +41,8 @@ cdef void _mul_grad(double *grad, const double *X, const double *ss, const Py_ss
 cdef void _multiply(double *a, const double *b, const double *x, const Py_ssize_t n) noexcept nogil
 cdef void _normalize(double *a, const Py_ssize_t n) noexcept nogil
 
+
+cdef int hasnan(double[::1] a) noexcept nogil
 
 cdef void clear(double[::1] to) noexcept nogil
 cdef void clear2(double[:,::1] to) noexcept nogil

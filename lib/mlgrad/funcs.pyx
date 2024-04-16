@@ -60,13 +60,11 @@ cdef class Func(object):
     cdef double _evaluate(self, const double x) noexcept nogil:
         return 0.
     #
-    def __call__(self, x):
-        cdef double v = x
-        return self._evaluate(v)
+    def evaluate(self, double x):
+        return self._evaluate(x)
     #
-    def __getitem__(self, x):
-        cdef double v = x
-        return self._derivative(v)
+    def derivative(self, double x):
+        return self._derivative(x)
     #
     cdef double _derivative(self, const double x) noexcept nogil:
         return 0.
@@ -126,6 +124,25 @@ cdef class Func(object):
     def value_array(self, double[::1] x):
         cdef double[::1] y = np.empty(len(x), 'd')
         self._value_array(&x[0], &y[0], x.shape[0])
+        return y.base
+    #
+    cdef double _inverse(self, const double x) noexcept nogil:
+        return 0
+    #
+    def inverse(self, x):
+        return self._inverse(x)
+    #
+    cdef void _inverse_array(self, double *x, double *y, Py_ssize_t n) noexcept nogil:
+        cdef Py_ssize_t i
+        for i in range(n):
+            y[i] = self._inverse(x[i])
+    #
+    def inverse(self, x):
+        return self._inverse(x)
+    #
+    def inverse_array(self, double[::1] x):
+        cdef double[::1] y = np.empty(len(x), 'd')
+        self._inverse_array(&x[0], &y[0], x.shape[0])
         return y.base
     #
 
@@ -484,14 +501,16 @@ cdef class Sigmoidal(Func):
     #
     @cython.cdivision(True)
     cdef double _evaluate(self, const double x) noexcept nogil:
-        cdef double p2 = 2 * self.p
-        return (1.0 - exp(-p2 * x)) / (1.0 + exp(-p2 * x))
+        cdef double p = self.p
+        cdef double v1 = exp(p * x)
+        cdef double v2 = exp(-p * x)
+        return (v1 - v2) / (v1 + v2)
     #
     @cython.cdivision(True)
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double p2 = 2 * self.p
-        cdef double v = exp(-p2 * x)
-        return 2 * p2 * v / ((1 + v) * (1 + v))
+        cdef double p = self.p
+        cdef double v = exp(p * x) + exp(-p * x)
+        return 4 * p / (v*v)
     #
     @cython.cdivision(True)
     cdef double _derivative2(self, const double x) noexcept nogil:
@@ -741,11 +760,15 @@ cdef class Power(Func):
     #
     def __init__(self, p=2.0, alpha=0):
         self.p = p
+        self.p1 = 1.0/p
         self.alpha = alpha
         self.alpha_p = pow(self.alpha, self.p)
     #
     cdef double _evaluate(self, const double x) noexcept nogil:
         return pow(fabs(x) + self.alpha, self.p) / self.p
+    #
+    cdef double _inverse(self, const double y) noexcept nogil:
+        return pow(y*self.p + self.alpha, self.p1) - self.alpha
     #
     cdef double _derivative(self, const double x) noexcept nogil:
         cdef double val
@@ -951,8 +974,10 @@ cdef class Hinge(Func):
             return self.C - x
     #
     cdef double _derivative(self, const double x) noexcept nogil:
-        if x >= self.C:
+        if x > self.C:
             return 0
+        elif x == self.C:
+            return -0.5
         else:
             return -1
     #

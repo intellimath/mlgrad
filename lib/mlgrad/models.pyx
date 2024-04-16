@@ -5,7 +5,7 @@ coding: utf-8
 # Copyright (c) <2015-2023> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
+# of this software and associated do cumentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
@@ -79,7 +79,7 @@ cdef class BaseModel:
         return 0
     #
     def evaluate_all(self, X):
-        Y = np.empty(len(X), 'd')
+        Y = np.zeros(len(X), 'd')
         self._evaluate_all(as_array2d(X), Y)
         return Y
     #
@@ -315,6 +315,7 @@ cdef class SigmaNeuronModel(Model):
             self.n_input = self.n_param - 1
             self.grad = np.zeros(self.n_param, 'd')
             self.grad_input = np.zeros(self.n_input, 'd')
+        self.mask = None
     #
     cpdef Model copy(self, bint share=1):
         cdef Py_ssize_t n_param = self.n_param
@@ -330,15 +331,15 @@ cdef class SigmaNeuronModel(Model):
         return <Model>mod
     #
     cdef double _evaluate(self, double[::1] X):
-        # cdef Py_ssize_t i
-        # cdef double[::1] param = self.param
+        cdef Py_ssize_t i
+        cdef double[::1] param = self.param
         cdef double s
-        cdef double *param = &self.param[0]
+        # cdef double *param = &self.param[0]
 
-        s =  param[0] + inventory._dot(&X[0], &param[1], self.n_input)
-        # s = param[0]
-        # for i in range(self.n_input):
-        #     s += param[i+1] * X[i]
+        # s =  param[0] + inventory._dot(&X[0], &param[1], self.n_input)
+        s = param[0]
+        for i in range(self.n_input):
+            s += param[i+1] * X[i]
         
         return self.outfunc._evaluate(s)
     #
@@ -347,17 +348,17 @@ cdef class SigmaNeuronModel(Model):
         cdef double[::1] param = self.param
         cdef double s, sx
         
-        s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
-        # s = param[0]
-        # for i in range(self.n_input):
-        #     s += param[i+1] * X[i]
+        # s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
+        s = param[0]
+        for i in range(self.n_input):
+            s += param[i+1] * X[i]
 
         sx = self.outfunc._derivative(s)
 
         grad[0] = sx
-        inventory._mul_set(&grad[1], &X[0], sx, self.n_input)
-        # for i in range(self.n_input):
-        #     grad[i+1] = sx * X[i]
+        # inventory._mul_set(&grad[1], &X[0], sx, self.n_input)
+        for i in range(self.n_input):
+            grad[i+1] = sx * X[i]
     #
     cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
         cdef Py_ssize_t i
@@ -402,6 +403,7 @@ cdef class SimpleComposition(Model):
         self.param = model.param
         self.grad = model.grad
         self.grad_input = model.grad_input
+        self.mask = None
     #
     cdef double _evaluate(self, double[::1] X):
         return self.func._evaluate(self.model._evaluate(X))
@@ -589,6 +591,7 @@ cdef class ModelComposition_j(Model):
         self.param = self.model_j.param
         self.n_input = model_comp.n_input
         self.j = j
+        self.mask = None
     #
     cdef double _evaluate(self, double[::1] X):
         return self.model_j._evaluate(X)
@@ -654,6 +657,7 @@ cdef class LinearLayer(ModelLayer):
         self.grad_input = None
         self.output = None
         # self.first_time = 1
+        self.mask = None
     #
     def _allocate_param(self, allocator):
         """Allocate matrix"""
@@ -758,6 +762,7 @@ cdef class ScaleLayer(ModelLayer):
         self.n_output = n_input
         self.output = np.zeros(n_input, 'd')
         self.grad_input = np.zeros(n_input, 'd')
+        self.mask = None
     #
     cdef void _forward(self, double[::1] X):
         cdef double *output = &self.output[0]
@@ -789,6 +794,7 @@ cdef class GeneralModelLayer(ModelLayer):
         self.models = []
         self.grad_input = None
         self.output = None
+        self.mask = None
     #
     def _allocate_param(self, allocator):
         """Allocate mod.param and mod.grad for all models"""
@@ -1037,6 +1043,7 @@ cdef class LinearFuncModel(BaseModel):
     def __init__(self):
         self.models = []
         self.weights = list_doubles(0)
+        self.mask = None
     #
     def add(self, Model mod, weight=1.0):
         # if mod.n_input != self.n_input:
@@ -1138,6 +1145,7 @@ cdef class FFNetworkModel(MLModel):
         self.layers = []
         self.param = None
         self.is_forward = 0
+        self.mask = None
     #
     def add(self, layer):
         n_layer = len(self.layers)
@@ -1254,6 +1262,7 @@ cdef class FFNetworkFuncModel(Model):
         self.param = self.ob_param = None
         self.grad = None
         self.grad_input = None
+        self.mask = None
     #
     def _allocate_param(self, allocator):
         ffnm_allocator = allocator.suballocator()
@@ -1356,6 +1365,7 @@ cdef class EllipticModel(Model):
         self.c = None
         self.S = None
         self.param = None
+        self.mask = None
     #
     def _allocate_param(self, allocator):
         sub_allocator = allocator.suballocator()
