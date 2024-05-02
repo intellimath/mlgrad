@@ -273,7 +273,7 @@ def transform(X, G):
     U = np.array(Us)
     return U
 
-def find_pc_all(X0, n=None, verbose=False):
+def find_pc_all(X0, n=None, weights=None, verbose=False):
     Ls = []
     As = []
     Us = []
@@ -286,7 +286,7 @@ def find_pc_all(X0, n=None, verbose=False):
 
     X = X0
     for i in range(n):
-        a, L = find_pc(X, verbose=verbose)
+        a, L = find_pc(X, weights=weights, verbose=verbose)
         U = project_line(X0, a)
         X = project(X, a)
         Ls.append(L)
@@ -323,13 +323,45 @@ def find_pc_l1_all(X0, n=None, verbose=False):
     Us = np.array(Us)
     return As, Ls, Us
 
-# def _find_robust_pc_all(X, wma, n=None, As=None, *, n_iter=200, tol=1.0e-6, verbose=0): 
-#     if As is None:
-#         return find_pc_all(X, n=n)
-#     N = len(X)
-#     S = X.T @ X / N
-#     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose) 
-#     return a, L
+def find_robust_pc_all2(X, wma, n=None, *, n_iter=200, tol=1.0e-6, verbose=0): 
+    c = location(X)
+    X0 = X - c
+    As, Ls, Us = rfind_pc_all(X0, n=n)
+    As = np.array(As)
+    
+    XX0 = (X0 * X0).sum(axis=1)
+    
+    U = X0 @ As
+    Z = XX0 - (U * U).sum(axis=1)
+    
+    sz_min = sz = wma.evaluate(Z)
+    for K in range(n_iter):
+        sz_prev = sz
+        G = wma.gradient(Z)
+        c = np.average(Z, weights=G)
+        X0 - c
+        As, Ls, Us = find_pc_all(X0, n=n, weights=G)
+        As = np.array(As)
+    
+        U = X0 @ As
+        Z = XX0 - (U * U).sum(axis=1)
+        
+        sz = wma.evaluate(Z)
+
+        if sz < sz_min:
+            # Z1_min = Z1
+            sz_min = sz
+            As_min = As
+            Ls_min = Ls
+            Us_min = Us
+            if verbose:
+                print('*', sz, Ls, As)
+
+        if abs(sz_prev - sz) / (1 + sz_min) < tol:
+            break
+
+    return As_min, Ls_min, Us_min
+        
 
 def find_robust_pc_all(X0, wma, n=None, verbose=False):
     Ls = []

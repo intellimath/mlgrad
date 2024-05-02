@@ -28,7 +28,7 @@ cdef class DiffL1StopCondition(StopCondition):
     cdef bint verify(self):
         cdef GD gd = self.gd
         
-        if fabs(gd.lval - gd.lval_min) / (1.0 + fabs(gd.lval_min)) < gd.tol:
+        if fabs(gd.lval - gd.lval_prev) / (1.0 + fabs(gd.lval_min)) < gd.tol:
             return 1
         
         return 0

@@ -690,11 +690,11 @@ cdef class LinearLayer(ModelLayer):
         cdef Py_ssize_t j
         cdef double[::1] output = self.output
         cdef double[:,::1] matrix = self.matrix
-        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+        cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
 
-        # for j in prange(self.n_output, nogil=True, schedule='static', 
-        #                 num_threads=inventory.get_num_threads_ex(self.n_output)):
-        for j in range(self.n_output):
+        for j in prange(self.n_output, nogil=True, schedule='static', 
+                        num_threads=inventory.get_num_threads_ex(self.n_output)):
+        # for j in range(self.n_output):
             output[j] = inventory._dot1(&matrix[j,0], &X[0], n_input)
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
@@ -708,22 +708,22 @@ cdef class LinearLayer(ModelLayer):
         # cdef double *G
         # cdef double sx, s
         cdef double[:,::1] matrix = self.matrix
-        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+        cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
 
         inventory._fill(&grad_in[0], 0, n_input)
 
-        # num_threads = inventory.get_num_threads_ex(self.n_output)
-        # for j in prange(self.n_output, nogil=True, schedule='static', 
-        #                 num_threads=num_threads):
-        for j in range(n_output):
+        num_threads = inventory.get_num_threads_ex(self.n_output)
+        for j in prange(self.n_output, nogil=True, schedule='static', 
+                        num_threads=num_threads):
+        # for j in range(n_output):
             # G = &grad[j * (n_input + 1)] #grad_p + j * (n_input + 1)
             # G[0] = sx = grad_out[j]
             inventory._mul_set1(&grad[j * n_input1], &X[0], grad_out[j], n_input)
 
-        # num_threads = inventory.get_num_threads_ex(self.n_input)
-        # for i in prange(self.n_input, nogil=True, schedule='static', 
-        #                 num_threads=num_threads):
-        for i in range(self.n_input):
+        num_threads = inventory.get_num_threads_ex(self.n_input)
+        for i in prange(self.n_input, nogil=True, schedule='static', 
+                        num_threads=num_threads):
+        # for i in range(self.n_input):
             grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input1)
             # s = 0
             # W = &matrix[0,i+1]
@@ -768,20 +768,20 @@ cdef class ScaleLayer(ModelLayer):
         cdef double *output = &self.output[0]
         cdef Func func = self.func
         cdef Py_ssize_t j
-        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+        cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
 
-        # for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
-        for j in range(self.n_output):
+        for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
+        # for j in range(self.n_output):
             output[j] = func._evaluate(X[j])
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef double *grad_in = &self.grad_input[0]
         cdef Func func = self.func
         cdef Py_ssize_t j
-        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+        cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
 
-        # for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
-        for j in range(self.n_input):
+        for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
+        # for j in range(self.n_input):
             grad_in[j] = grad_out[j] * func._derivative(X[j])
    
 cdef class GeneralModelLayer(ModelLayer):
