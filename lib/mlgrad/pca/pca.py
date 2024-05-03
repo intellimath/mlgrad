@@ -11,7 +11,7 @@ fromiter = np.fromiter
 def distance_line(X, a, /):
     # e = ones_like(a)
     # XX = (X * X) @ e #.sum(axis=1)
-    XX = einsum("ni,ni->n", X, X)
+    XX = einsum("ni,ni->n", X, X, optimize=True)
     Z = X @ a
     Z = XX - Z * Z
     Z[Z<0] = 0
@@ -29,7 +29,7 @@ def project_line(X, a, /):
 
 def project(X, a, /):
     # Xa = (X @ a).reshape(-1,1) * X
-    Xa = einsum("ni,i,j->nj", X, a, a)
+    Xa = einsum("ni,i,j->nj", X, a, a, optimize=True)
     # Xa = np.fromiter(((x @ a) * a for x in X), len(X), 'd')
     return X - Xa
 
@@ -52,7 +52,8 @@ def find_pc(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verbose=0):
     if weights is None:
         S = X.T @ X / N
     else:
-        S = (X.T * np.diag(weights)) @ X
+        S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
+        # S = (X.T * np.diag(weights)) @ X
     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose) 
     return a, L
 
@@ -70,11 +71,11 @@ def _find_pc(S, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
     
     for K in range(n_iter):
         S_a = S @ a
-        L = S_a @ a
-        a1 = S_a / L
+        # L = S_a @ a
+        a1 = S_a / (S_a @ a)
         a1 /= np_sqrt(a1 @ a1)
                 
-        if abs(a1 - a).max() < tol:
+        if abs(a1 - a).max() / (1 + abs(a1).min()) < tol:
             a = a1
             break
 
@@ -167,7 +168,8 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
     complete = False
     for K in range(n_iter):
 
-        S = (X.T * G) @ X
+        # S = (X.T * G) @ X
+        S = einsum("in,n,nj->ij", X.T, G, X, optimize=True)
 
         a1, L = _find_pc(S, a0=a, tol=tol, verbose=verbose)
 
@@ -180,7 +182,7 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
         # if abs(SZ - SZ_min) / (1 + abs(SZ_min)) < tol:
         #     complete = True
 
-        if abs(a1 - a_min).max() < tol:
+        if abs(a1 - a_min).max()  / (1 + abs(a1).min()) < tol:
             complete = True
         
         if sz < sz_min:

@@ -3,11 +3,11 @@
 cdef class FG(GD):
     #
     def __init__(self, Functional risk, tol=1.0e-9, h=0.001, n_iter=1000, M = 44,
-                 callback=None, stop_condition=None, h_rate=None):
+                 callback=None, h_rate=None):
         """
         """
         self.risk = risk
-        self.stop_condition = get_stop_condition(stop_condition)(self)
+        # self.stop_condition = get_stop_condition(stop_condition)(self)
         self.grad_averager = None
         # self.param_transformer = None
         self.tol = tol

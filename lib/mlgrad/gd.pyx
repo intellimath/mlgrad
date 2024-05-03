@@ -65,9 +65,9 @@ cdef class GD:
         if self.param_copy is None:
             self.param_copy = self.risk.param.copy()
         
-        if self.stop_condition is None:
-            self.stop_condition = DiffL1StopCondition(self)
-        self.stop_condition.init()    
+        # if self.stop_condition is None:
+        #     self.stop_condition = DiffL1StopCondition(self)
+        # self.stop_condition.init()    
 
         if self.grad_averager is None:
             self.grad_averager = ArraySave()
@@ -85,6 +85,7 @@ cdef class GD:
         self.risk.batch.init()
         self.init()
         self.lval = self.lval_min = self.risk._evaluate()
+        self.lval_min_prev = double_max / 100
         self.lvals = [self.lval]
         self.K = 0
 
@@ -122,10 +123,11 @@ cdef class GD:
             if self.normalizer is not None:
                 self.normalizer.normalize(risk.param)       
 
-            if self.stop_condition.verify():
+            if self.stop_condition():
                 self.completed = 1
 
             if self.lval < self.lval_min:
+                self.lval_min_prev = self.lval_min
                 self.lval_min = self.lval
                 inventory.move(self.param_min, risk.param)
                 m = 0
@@ -176,7 +178,17 @@ cdef class GD:
 
             # if self.param_transformer is not None:
             #     self.param_transformer.transform(risk.model.param)
-    # 
+    #
+    cdef int stop_condition(self):
+        
+        if fabs(self.lval - self.lval_prev) / (1.0 + fabs(self.lval_min)) < self.tol:
+            return 1
+        
+        if fabs(self.lval_min - self.lval_min_prev) / (1.0 + fabs(self.lval_min)) < self.tol:
+            return 1
+        
+        return 0
+    #
     def use_gradient_averager(self, averager):
         self.grad_averager = averager
     #
@@ -203,7 +215,7 @@ include "gd_sgd.pyx"
 # Fittable.register(FG_RUD)
 # Fittable.register(SGD)
 
-include "stopcond.pyx"
+# include "stopcond.pyx"
 include "paramrate.pyx"
 include "normalizer.pyx"
 

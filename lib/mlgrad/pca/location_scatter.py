@@ -12,7 +12,7 @@ def distance_center(X, c, /):
 def location(X, /):
     return X.mean(axis=0)
 
-def robust_location(X, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
+def robust_location(X, af, *, n_iter=1000, tol=1.0e-8, verbose=0):
     c = X.mean(axis=0)
     c_min = c
     N = len(X)
@@ -25,6 +25,7 @@ def robust_location(X, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
     U = einsum("ni,ni->n", Z, Z, optimize=path)
 
     s = s_min = af.evaluate(U)
+    s_min_prev = 0
     G = af.gradient(U)
     # print('*', s, G)
 
@@ -48,13 +49,16 @@ def robust_location(X, af, *, n_iter=1000, tol=1.0e-9, verbose=0):
 
         # print(S, c)
 
-        if s < s_min:
+        if s <= s_min:
+            s_min_prev = s_min
             s_min = s
             c_min = c
             if verbose:
                 print('*', s, c)
         
         if abs(s_prev - s) / (1 + abs(s_min)) < tol:
+            break
+        if abs(s_min - s_min_prev) / (1 + abs(s_min)) < tol:
             break
 
     if verbose:

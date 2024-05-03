@@ -2,11 +2,11 @@
 
 cdef class FG_RUD(GD):
     def __init__(self, Functional risk, tol=1.0e-8, h=0.001, n_iter=1000,
-                 callback=None, stop_condition=None, h_rate=None, gamma = 1):
+                 callback=None, h_rate=None, gamma = 1):
         """
         """
         self.risk = risk
-        self.stop_condition = get_stop_condition(stop_condition)(self)
+        # self.stop_condition = get_stop_condition(stop_condition)(self)
         self.grad_averager = None
         #self.param_averager = None
         self.tol = tol

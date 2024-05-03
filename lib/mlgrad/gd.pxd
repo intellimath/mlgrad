@@ -21,8 +21,8 @@ from libc.string cimport memcpy, memset
 from numpy cimport npy_uint8 as uint8
 
 cdef extern from "Python.h":
-    double Pydouble_GetMax()
-    double Pydouble_GetMin()
+    double PyFloat_GetMax()
+    double PyFloat_GetMin()
 
 cdef inline void fill_memoryview(double[::1] X, double c):
     memset(&X[0], 0, X.shape[0]*cython.sizeof(double))    
@@ -43,7 +43,6 @@ cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
 cdef class GD:
 
     cdef public Functional risk
-    cdef public StopCondition stop_condition
     cdef public ParamRate h_rate
     cdef Normalizer normalizer
 
@@ -56,7 +55,7 @@ cdef class GD:
     cdef public list lvals
         
     cdef double[::1] param_min, param_copy
-    cdef double lval, lval_prev, lval_min
+    cdef double lval, lval_prev, lval_min, lval_min_prev
         
     cdef ArrayAverager grad_averager
     # cdef ArrayTransformer param_transformer
@@ -68,6 +67,8 @@ cdef class GD:
     cpdef gradient(self)
     #
     cpdef fit_epoch(self)
+    #
+    cdef int stop_condition(self)
     #
     cpdef finalize(self)
 
@@ -129,7 +130,7 @@ cdef class SGD(GD):
     
 #######################################################    
 
-include "stopcond.pxd"
+# include "stopcond.pxd"
 include "paramrate.pxd"
 include "normalizer.pxd"
 
