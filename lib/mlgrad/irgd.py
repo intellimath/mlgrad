@@ -25,9 +25,6 @@
 from sys import float_info
 
 import numpy as np
-# from mlgrad.avragg import Average_FG
-# from mlgrad.gd import FG
-# from mlgrad.risk import Risk, Functional
 
 class IRGD:
     #
@@ -79,7 +76,8 @@ class IRGD:
         self.weights.eval_weights()
         risk.use_weights(self.weights.weights)
 
-        self.lval_best = self.weights.get_qvalue()
+        self.lval_best = self.lval = self.weights.get_qvalue()
+        self.lval_best_prev = float_info.max / 10
         # print(self.lval_best)
         self.param_best = risk.model.param.copy()
         
@@ -89,6 +87,7 @@ class IRGD:
         m = 0
         M = self.M
         for K in range(self.n_iter):     
+            self.lval_prev = self.lval
             # print(K)
             self.gd.fit()
             
@@ -106,14 +105,15 @@ class IRGD:
             if self.stop_condition():
                 self.completed = 1
 
-            if self.lval < self.lval_best:
+            if self.lval <= self.lval_best:
                 self.param_best = risk.param.copy()
+                self.lval_best_prev = self.lval_best
                 self.lval_best = self.lval
                 m = 0
             else:
                 m += 1
 
-            if K > 5 and self.lval > self.lvals[-1]:
+            if self.lval > self.lval_prev:
                 self.gd.h_rate.h *= self.h_anneal
                 self.gd.h_rate.init()
 
@@ -138,6 +138,9 @@ class IRGD:
     def stop_condition(self):
         
         if abs(self.lval - self.lval_best) / (1 + abs(self.lval_best)) < self.tol:
+            return True
+
+        if abs(self.lval_best_prev - self.lval_best) / (1 + abs(self.lval_best)) < self.tol:
             return True
         
         return False

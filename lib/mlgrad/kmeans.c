@@ -2035,6 +2035,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAMOM;
 struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp;
 struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2;
 struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1;
+struct __pyx_obj_6mlgrad_8averager_ArrayNG;
 struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager;
 struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager;
 struct __pyx_obj_6mlgrad_8averager_ArrayTAverager;
@@ -2084,6 +2085,7 @@ struct __pyx_obj_6mlgrad_2gd_ExponentParamRate;
 struct __pyx_obj_6mlgrad_2gd_PowerParamRate;
 struct __pyx_obj_6mlgrad_2gd_Normalizer;
 struct __pyx_obj_6mlgrad_2gd_LinearModelNormalizer;
+struct __pyx_obj_6mlgrad_2gd_LinearModelPositive;
 struct __pyx_obj_6mlgrad_2gd_Masked;
 struct __pyx_obj_6mlgrad_6kmeans_HCD;
 struct __pyx_obj_6mlgrad_6kmeans_HCD_M1;
@@ -3961,6 +3963,22 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1 {
 };
 
 
+/* "mlgrad/averager.pxd":128
+ * 
+ * @cython.final
+ * cdef class ArrayNG(ArrayAverager):             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef double[::1] mgrad
+ */
+struct __pyx_obj_6mlgrad_8averager_ArrayNG {
+  struct __pyx_obj_6mlgrad_8averager_ArrayAverager __pyx_base;
+  __Pyx_memviewslice mgrad;
+  double beta;
+  double beta_k;
+  double epsilon;
+};
+
+
 /* "mlgrad/averager.pxd":135
  * 
  * @cython.final
@@ -4675,6 +4693,18 @@ struct __pyx_obj_6mlgrad_2gd_LinearModelNormalizer {
 
 
 /* "lib/mlgrad/normalizer.pxd":15
+ * 
+ * @cython.final
+ * cdef class LinearModelPositive(Normalizer):             # <<<<<<<<<<<<<<
+ *     pass
+ * 
+ */
+struct __pyx_obj_6mlgrad_2gd_LinearModelPositive {
+  struct __pyx_obj_6mlgrad_2gd_Normalizer __pyx_base;
+};
+
+
+/* "lib/mlgrad/normalizer.pxd":19
  * 
  * @cython.final
  * cdef class Masked(Normalizer):             # <<<<<<<<<<<<<<
@@ -6608,6 +6638,20 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1 {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1 *__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1;
 
 
+/* "mlgrad/averager.pxd":128
+ * 
+ * @cython.final
+ * cdef class ArrayNG(ArrayAverager):             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef double[::1] mgrad
+ */
+
+struct __pyx_vtabstruct_6mlgrad_8averager_ArrayNG {
+  struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayNG *__pyx_vtabptr_6mlgrad_8averager_ArrayNG;
+
+
 /* "mlgrad/averager.pxd":135
  * 
  * @cython.final
@@ -7184,7 +7228,6 @@ struct __pyx_vtabstruct_6mlgrad_2gd_GD {
   PyObject *(*init)(struct __pyx_obj_6mlgrad_2gd_GD *, int __pyx_skip_dispatch);
   PyObject *(*gradient)(struct __pyx_obj_6mlgrad_2gd_GD *, int __pyx_skip_dispatch);
   PyObject *(*fit_epoch)(struct __pyx_obj_6mlgrad_2gd_GD *, int __pyx_skip_dispatch);
-  int (*stop_condition)(struct __pyx_obj_6mlgrad_2gd_GD *);
   PyObject *(*finalize)(struct __pyx_obj_6mlgrad_2gd_GD *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_6mlgrad_2gd_GD *__pyx_vtabptr_6mlgrad_2gd_GD;
@@ -7317,6 +7360,20 @@ static struct __pyx_vtabstruct_6mlgrad_2gd_LinearModelNormalizer *__pyx_vtabptr_
 
 
 /* "lib/mlgrad/normalizer.pxd":15
+ * 
+ * @cython.final
+ * cdef class LinearModelPositive(Normalizer):             # <<<<<<<<<<<<<<
+ *     pass
+ * 
+ */
+
+struct __pyx_vtabstruct_6mlgrad_2gd_LinearModelPositive {
+  struct __pyx_vtabstruct_6mlgrad_2gd_Normalizer __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_2gd_LinearModelPositive *__pyx_vtabptr_6mlgrad_2gd_LinearModelPositive;
+
+
+/* "lib/mlgrad/normalizer.pxd":19
  * 
  * @cython.final
  * cdef class Masked(Normalizer):             # <<<<<<<<<<<<<<
@@ -9258,6 +9315,7 @@ typedef struct {
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayRMSProp;
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayAdaM2;
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayAdaM1;
+  PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayNG;
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager;
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager;
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayTAverager;
@@ -9315,6 +9373,7 @@ typedef struct {
   PyTypeObject *__pyx_ptype_6mlgrad_2gd_PowerParamRate;
   PyTypeObject *__pyx_ptype_6mlgrad_2gd_Normalizer;
   PyTypeObject *__pyx_ptype_6mlgrad_2gd_LinearModelNormalizer;
+  PyTypeObject *__pyx_ptype_6mlgrad_2gd_LinearModelPositive;
   PyTypeObject *__pyx_ptype_6mlgrad_2gd_Masked;
   #if CYTHON_USE_MODULE_STATE
   PyObject *__pyx_type_6mlgrad_6kmeans_HCD;
@@ -9776,6 +9835,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArrayRMSProp);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArrayAdaM2);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArrayAdaM1);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArrayNG);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArrayTAverager);
@@ -9825,6 +9885,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_2gd_PowerParamRate);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_2gd_Normalizer);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_2gd_LinearModelNormalizer);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_2gd_LinearModelPositive);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_2gd_Masked);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6kmeans_HCD);
   Py_CLEAR(clear_module_state->__pyx_type_6mlgrad_6kmeans_HCD);
@@ -10262,6 +10323,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArrayRMSProp);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArrayAdaM2);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArrayAdaM1);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArrayNG);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArrayTAverager);
@@ -10311,6 +10373,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_2gd_PowerParamRate);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_2gd_Normalizer);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_2gd_LinearModelNormalizer);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_2gd_LinearModelPositive);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_2gd_Masked);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6kmeans_HCD);
   Py_VISIT(traverse_module_state->__pyx_type_6mlgrad_6kmeans_HCD);
@@ -10812,6 +10875,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_6mlgrad_8averager_ArrayRMSProp __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArrayRMSProp
 #define __pyx_ptype_6mlgrad_8averager_ArrayAdaM2 __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArrayAdaM2
 #define __pyx_ptype_6mlgrad_8averager_ArrayAdaM1 __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArrayAdaM1
+#define __pyx_ptype_6mlgrad_8averager_ArrayNG __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArrayNG
 #define __pyx_ptype_6mlgrad_8averager_ArraySimpleAverager __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager
 #define __pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager
 #define __pyx_ptype_6mlgrad_8averager_ArrayTAverager __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArrayTAverager
@@ -10869,6 +10933,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_6mlgrad_2gd_PowerParamRate __pyx_mstate_global->__pyx_ptype_6mlgrad_2gd_PowerParamRate
 #define __pyx_ptype_6mlgrad_2gd_Normalizer __pyx_mstate_global->__pyx_ptype_6mlgrad_2gd_Normalizer
 #define __pyx_ptype_6mlgrad_2gd_LinearModelNormalizer __pyx_mstate_global->__pyx_ptype_6mlgrad_2gd_LinearModelNormalizer
+#define __pyx_ptype_6mlgrad_2gd_LinearModelPositive __pyx_mstate_global->__pyx_ptype_6mlgrad_2gd_LinearModelPositive
 #define __pyx_ptype_6mlgrad_2gd_Masked __pyx_mstate_global->__pyx_ptype_6mlgrad_2gd_Masked
 #if CYTHON_USE_MODULE_STATE
 #define __pyx_type_6mlgrad_6kmeans_HCD __pyx_mstate_global->__pyx_type_6mlgrad_6kmeans_HCD
@@ -46761,6 +46826,8 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2 = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAdaM2); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2)) __PYX_ERR(15, 114, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayAdaM1 = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.averager", "ArrayAdaM1", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_8averager_ArrayAdaM1) __PYX_ERR(15, 121, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1 = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAdaM1); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1)) __PYX_ERR(15, 121, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_8averager_ArrayNG = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.averager", "ArrayNG", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayNG), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_8averager_ArrayNG),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_8averager_ArrayNG) __PYX_ERR(15, 128, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayNG = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayNG*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayNG); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayNG)) __PYX_ERR(15, 128, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArraySimpleAverager = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.averager", "ArraySimpleAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager) __PYX_ERR(15, 135, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArraySimpleAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager)) __PYX_ERR(15, 135, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.averager", "ArrayCyclicAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager) __PYX_ERR(15, 142, __pyx_L1_error)
@@ -46871,8 +46938,10 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_vtabptr_6mlgrad_2gd_Normalizer = (struct __pyx_vtabstruct_6mlgrad_2gd_Normalizer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_Normalizer); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_Normalizer)) __PYX_ERR(19, 7, __pyx_L1_error)
   __pyx_ptype_6mlgrad_2gd_LinearModelNormalizer = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.gd", "LinearModelNormalizer", sizeof(struct __pyx_obj_6mlgrad_2gd_LinearModelNormalizer), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_2gd_LinearModelNormalizer),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_2gd_LinearModelNormalizer) __PYX_ERR(19, 11, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_2gd_LinearModelNormalizer = (struct __pyx_vtabstruct_6mlgrad_2gd_LinearModelNormalizer*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_LinearModelNormalizer); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_LinearModelNormalizer)) __PYX_ERR(19, 11, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_2gd_Masked = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.gd", "Masked", sizeof(struct __pyx_obj_6mlgrad_2gd_Masked), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_2gd_Masked),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_2gd_Masked) __PYX_ERR(19, 15, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_2gd_Masked = (struct __pyx_vtabstruct_6mlgrad_2gd_Masked*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_Masked); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_Masked)) __PYX_ERR(19, 15, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_2gd_LinearModelPositive = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.gd", "LinearModelPositive", sizeof(struct __pyx_obj_6mlgrad_2gd_LinearModelPositive), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_2gd_LinearModelPositive),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_2gd_LinearModelPositive) __PYX_ERR(19, 15, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_LinearModelPositive = (struct __pyx_vtabstruct_6mlgrad_2gd_LinearModelPositive*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_LinearModelPositive); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_LinearModelPositive)) __PYX_ERR(19, 15, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_2gd_Masked = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.gd", "Masked", sizeof(struct __pyx_obj_6mlgrad_2gd_Masked), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_2gd_Masked),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_2gd_Masked) __PYX_ERR(19, 19, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_2gd_Masked = (struct __pyx_vtabstruct_6mlgrad_2gd_Masked*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_2gd_Masked); if (unlikely(!__pyx_vtabptr_6mlgrad_2gd_Masked)) __PYX_ERR(19, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;

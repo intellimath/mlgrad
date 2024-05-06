@@ -70,40 +70,6 @@ class MarginMaximization:
         self.c = c_min
         self.s = s_min
     #
-    # def fit_c(self, X, Y):
-    #     func = self.func
-    #     tol = self.tol
-    #     c = c_min = self.c
-    #     w = self.w
-    #     s = self.s
-        
-    #     Xw = X @ w
-    #     U = (Xw - c) * Y / s
-
-    #     lval= lval_min = func.evaluate_array(U).mean()
-
-    #     for K in range(self.n_iter_c):
-    #         lval_prev = lval
-
-    #         V = func.derivative_div_array(U)
-    #         c = (Xw @ V) / V.sum()
-
-    #         # Xw = X @ w
-    #         U = (Xw - c) * Y / s
-            
-    #         lval= func.evaluate_array(U).mean()
-    #         self.lvals.append(lval)
-            
-    #         if lval < lval_min:
-    #             lval_min = lval
-    #             c_min = c
-                
-    #         if abs(lval - lval_prev) / (1 + abs(lval_min)) < tol:
-    #             break
-
-    #     print("c:", K)
-    #     self.c = c_min        
-    #
     def fit(self, X, Y):
         func = self.func
         tol = self.tol
@@ -138,7 +104,6 @@ class MarginMaximization:
             lval_prev = lval
 
             self.fit_wc(X, Y)
-            # self.fit_c(X, Y)
 
             Xw = X @ self.w
             U = (Xw - self.c) * Y / self.s

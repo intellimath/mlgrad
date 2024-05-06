@@ -124,12 +124,12 @@ cdef class ArrayAdaM1(ArrayAverager):
     cdef double beta1, beta2, beta1_k, beta2_k, epsilon
     #
 
-# @cython.final
-# cdef class ArrayAdaNG(ArrayAverager):
-#     #
-#     cdef double[::1] mgrad
-#     cdef double beta, beta_k, epsilon
-#     #
+@cython.final
+cdef class ArrayNG(ArrayAverager):
+    #
+    cdef double[::1] mgrad
+    cdef double beta, beta_k, epsilon
+    #
 
 @cython.final
 cdef class ArraySimpleAverager(ArrayAverager):

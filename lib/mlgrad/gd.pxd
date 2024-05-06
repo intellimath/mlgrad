@@ -68,7 +68,7 @@ cdef class GD:
     #
     cpdef fit_epoch(self)
     #
-    cdef int stop_condition(self)
+    # cdef int stop_condition(self)
     #
     cpdef finalize(self)
 

@@ -230,26 +230,28 @@ cdef class AverageIterative(Average):
         cdef Py_ssize_t k=0, n_iter = self.n_iter
         cdef Penalty penalty = self.penalty
         cdef double tol = self.tol
-        cdef double u, u_min, pval, pval_min
-        cdef bint finish = 0
+        cdef double u, u_min, pval, pval_prev, pval_min, pval_min_prev
 
         u = u_min = self.init_u(Y)
         pval_min = pval = penalty.evaluate(Y, u)
+        pval_min_prev = max_double / 10
         #
         m = 0
         for k in range(n_iter):
+            pval_prev = pval
             u = penalty.iterative_next(Y, u)
             pval = penalty.evaluate(Y, u)
 
-            if fabs(pval - pval_min) / (1 + fabs(pval_min)) < tol:
-                finish = 1
-
             if pval <= pval_min:
+                pval_min_prev = pval_min
                 pval_min = pval
                 u_min = u
 
-            if finish:
+            if fabs(pval - pval_prev) / (1 + fabs(pval_min)) < tol:
                 break
+
+            if fabs(pval_min_prev - pval_min) / (1 + fabs(pval_min)) < tol:
+                break                
             #
 
         self.K = k + 1

@@ -19,6 +19,17 @@ cdef class LinearModelNormalizer(Normalizer):
         for i in range(n):
             param[i] /= s
 
+cdef class LinearModelPositive(Normalizer):
+
+    cdef normalize(self, double[::1] param):
+        cdef Py_ssize_t i, n = param.shape[0]
+        cdef double v
+
+        for i in range(1, param.shape[0]):
+            v = param[i]
+            if v < 0:
+                param[i] = 0
+            
 cdef class Masked(Normalizer):
     def __init__(self, Model mod, tol=1.0e-8):
         self.tol = tol

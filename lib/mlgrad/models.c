@@ -45949,17 +45949,15 @@ static void __pyx_f_6mlgrad_6models_11LinearLayer__forward(struct __pyx_obj_6mlg
   Py_ssize_t __pyx_v_j;
   __Pyx_memviewslice __pyx_v_output = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_matrix = { 0, 0, { 0 }, { 0 }, { 0 } };
-  CYTHON_UNUSED int __pyx_v_num_threads;
   Py_ssize_t __pyx_t_1;
   __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_t_4;
   Py_ssize_t __pyx_t_5;
-  int __pyx_t_6;
+  Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
   Py_ssize_t __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
 
   /* "mlgrad/models.pyx":689
  *     #
@@ -45976,7 +45974,7 @@ static void __pyx_f_6mlgrad_6models_11LinearLayer__forward(struct __pyx_obj_6mlg
  *         cdef Py_ssize_t j
  *         cdef double[::1] output = self.output             # <<<<<<<<<<<<<<
  *         cdef double[:,::1] matrix = self.matrix
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+ *         # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
  */
   __pyx_t_2 = __pyx_v_self->__pyx_base.__pyx_base.output;
   __PYX_INC_MEMVIEW(&__pyx_t_2, 1);
@@ -45988,7 +45986,7 @@ static void __pyx_f_6mlgrad_6models_11LinearLayer__forward(struct __pyx_obj_6mlg
  *         cdef Py_ssize_t j
  *         cdef double[::1] output = self.output
  *         cdef double[:,::1] matrix = self.matrix             # <<<<<<<<<<<<<<
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+ *         # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
  * 
  */
   __pyx_t_3 = __pyx_v_self->matrix;
@@ -45997,103 +45995,30 @@ static void __pyx_f_6mlgrad_6models_11LinearLayer__forward(struct __pyx_obj_6mlg
   __pyx_t_3.memview = NULL;
   __pyx_t_3.data = NULL;
 
-  /* "mlgrad/models.pyx":693
- *         cdef double[::1] output = self.output
- *         cdef double[:,::1] matrix = self.matrix
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)             # <<<<<<<<<<<<<<
- * 
- *         for j in prange(self.n_output, nogil=True, schedule='static',
- */
-  __pyx_v_num_threads = __pyx_f_6mlgrad_9inventory_get_num_threads_ex(__pyx_v_self->__pyx_base.__pyx_base.n_output);
-
-  /* "mlgrad/models.pyx":695
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
- * 
- *         for j in prange(self.n_output, nogil=True, schedule='static',             # <<<<<<<<<<<<<<
- *                         num_threads=inventory.get_num_threads_ex(self.n_output)):
- *         # for j in range(self.n_output):
- */
-  {
-      #ifdef WITH_THREAD
-      PyThreadState *_save;
-      _save = NULL;
-      Py_UNBLOCK_THREADS
-      __Pyx_FastGIL_Remember();
-      #endif
-      /*try:*/ {
-        __pyx_t_1 = __pyx_v_self->__pyx_base.__pyx_base.n_output;
-        {
-
-            /* "mlgrad/models.pyx":696
- * 
- *         for j in prange(self.n_output, nogil=True, schedule='static',
- *                         num_threads=inventory.get_num_threads_ex(self.n_output)):             # <<<<<<<<<<<<<<
- *         # for j in range(self.n_output):
+  /* "mlgrad/models.pyx":697
+ *         # for j in prange(self.n_output, nogil=True, schedule='static',
+ *         #                 num_threads=inventory.get_num_threads_ex(self.n_output)):
+ *         for j in range(self.n_output):             # <<<<<<<<<<<<<<
  *             output[j] = inventory._dot1(&matrix[j,0], &X[0], n_input)
+ *     #
  */
-            __pyx_t_6 = __pyx_f_6mlgrad_9inventory_get_num_threads_ex(__pyx_v_self->__pyx_base.__pyx_base.n_output);
-            #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
-                #undef likely
-                #undef unlikely
-                #define likely(x)   (x)
-                #define unlikely(x) (x)
-            #endif
-            __pyx_t_5 = (__pyx_t_1 - 0 + 1 - 1/abs(1)) / 1;
-            if (__pyx_t_5 > 0)
-            {
-                #ifdef _OPENMP
-                #pragma omp parallel num_threads(__pyx_t_6) private(__pyx_t_10, __pyx_t_7, __pyx_t_8, __pyx_t_9)
-                #endif /* _OPENMP */
-                {
-                    #ifdef _OPENMP
-                    #pragma omp for firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) schedule(static)
-                    #endif /* _OPENMP */
-                    for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_5; __pyx_t_4++){
-                        {
-                            __pyx_v_j = (Py_ssize_t)(0 + 1 * __pyx_t_4);
+  __pyx_t_1 = __pyx_v_self->__pyx_base.__pyx_base.n_output;
+  __pyx_t_4 = __pyx_t_1;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_j = __pyx_t_5;
 
-                            /* "mlgrad/models.pyx":698
- *                         num_threads=inventory.get_num_threads_ex(self.n_output)):
- *         # for j in range(self.n_output):
+    /* "mlgrad/models.pyx":698
+ *         #                 num_threads=inventory.get_num_threads_ex(self.n_output)):
+ *         for j in range(self.n_output):
  *             output[j] = inventory._dot1(&matrix[j,0], &X[0], n_input)             # <<<<<<<<<<<<<<
  *     #
  *     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
  */
-                            __pyx_t_7 = __pyx_v_j;
-                            __pyx_t_8 = 0;
-                            __pyx_t_9 = 0;
-                            __pyx_t_10 = __pyx_v_j;
-                            *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_output.data) + __pyx_t_10)) )) = __pyx_f_6mlgrad_9inventory__dot1((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_7 * __pyx_v_matrix.strides[0]) )) + __pyx_t_8)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_9)) )))), __pyx_v_n_input);
-                        }
-                    }
-                }
-            }
-        }
-        #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
-            #undef likely
-            #undef unlikely
-            #define likely(x)   __builtin_expect(!!(x), 1)
-            #define unlikely(x) __builtin_expect(!!(x), 0)
-        #endif
-      }
-
-      /* "mlgrad/models.pyx":695
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
- * 
- *         for j in prange(self.n_output, nogil=True, schedule='static',             # <<<<<<<<<<<<<<
- *                         num_threads=inventory.get_num_threads_ex(self.n_output)):
- *         # for j in range(self.n_output):
- */
-      /*finally:*/ {
-        /*normal exit:*/{
-          #ifdef WITH_THREAD
-          __Pyx_FastGIL_Forget();
-          Py_BLOCK_THREADS
-          #endif
-          goto __pyx_L5;
-        }
-        __pyx_L5:;
-      }
+    __pyx_t_6 = __pyx_v_j;
+    __pyx_t_7 = 0;
+    __pyx_t_8 = 0;
+    __pyx_t_9 = __pyx_v_j;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_output.data) + __pyx_t_9)) )) = __pyx_f_6mlgrad_9inventory__dot1((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_6 * __pyx_v_matrix.strides[0]) )) + __pyx_t_7)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_8)) )))), __pyx_v_n_input);
   }
 
   /* "mlgrad/models.pyx":688
@@ -46205,188 +46130,60 @@ static void __pyx_f_6mlgrad_6models_11LinearLayer__backward(struct __pyx_obj_6ml
  * 
  *         inventory._fill(&grad_in[0], 0, n_input)             # <<<<<<<<<<<<<<
  * 
- *         num_threads = inventory.get_num_threads_ex(self.n_output)
+ *         # num_threads = inventory.get_num_threads_ex(self.n_output)
  */
   __pyx_t_4 = 0;
   __pyx_f_6mlgrad_9inventory__fill((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_in.data) + __pyx_t_4)) )))), 0.0, __pyx_v_n_input);
 
-  /* "mlgrad/models.pyx":715
- *         inventory._fill(&grad_in[0], 0, n_input)
- * 
- *         num_threads = inventory.get_num_threads_ex(self.n_output)             # <<<<<<<<<<<<<<
- *         for j in prange(self.n_output, nogil=True, schedule='static',
- *                         num_threads=num_threads):
+  /* "mlgrad/models.pyx":718
+ *         # for j in prange(self.n_output, nogil=True, schedule='static',
+ *         #                 num_threads=num_threads):
+ *         for j in range(n_output):             # <<<<<<<<<<<<<<
+ *             # G = &grad[j * (n_input + 1)] #grad_p + j * (n_input + 1)
+ *             # G[0] = sx = grad_out[j]
  */
-  __pyx_v_num_threads = __pyx_f_6mlgrad_9inventory_get_num_threads_ex(__pyx_v_self->__pyx_base.__pyx_base.n_output);
+  __pyx_t_1 = __pyx_v_n_output;
+  __pyx_t_5 = __pyx_t_1;
+  for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
+    __pyx_v_j = __pyx_t_6;
 
-  /* "mlgrad/models.pyx":716
- * 
- *         num_threads = inventory.get_num_threads_ex(self.n_output)
- *         for j in prange(self.n_output, nogil=True, schedule='static',             # <<<<<<<<<<<<<<
- *                         num_threads=num_threads):
- *         # for j in range(n_output):
- */
-  {
-      #ifdef WITH_THREAD
-      PyThreadState *_save;
-      _save = NULL;
-      Py_UNBLOCK_THREADS
-      __Pyx_FastGIL_Remember();
-      #endif
-      /*try:*/ {
-        __pyx_t_1 = __pyx_v_self->__pyx_base.__pyx_base.n_output;
-        {
-            #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
-                #undef likely
-                #undef unlikely
-                #define likely(x)   (x)
-                #define unlikely(x) (x)
-            #endif
-            __pyx_t_6 = (__pyx_t_1 - 0 + 1 - 1/abs(1)) / 1;
-            if (__pyx_t_6 > 0)
-            {
-                #ifdef _OPENMP
-                #pragma omp parallel num_threads(__pyx_v_num_threads) private(__pyx_t_4, __pyx_t_7, __pyx_t_8)
-                #endif /* _OPENMP */
-                {
-                    #ifdef _OPENMP
-                    #pragma omp for firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) schedule(static)
-                    #endif /* _OPENMP */
-                    for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_6; __pyx_t_5++){
-                        {
-                            __pyx_v_j = (Py_ssize_t)(0 + 1 * __pyx_t_5);
-
-                            /* "mlgrad/models.pyx":721
+    /* "mlgrad/models.pyx":721
  *             # G = &grad[j * (n_input + 1)] #grad_p + j * (n_input + 1)
  *             # G[0] = sx = grad_out[j]
  *             inventory._mul_set1(&grad[j * n_input1], &X[0], grad_out[j], n_input)             # <<<<<<<<<<<<<<
  * 
- *         num_threads = inventory.get_num_threads_ex(self.n_input)
+ *         # num_threads = inventory.get_num_threads_ex(self.n_input)
  */
-                            __pyx_t_4 = (__pyx_v_j * __pyx_v_n_input1);
-                            __pyx_t_7 = 0;
-                            __pyx_t_8 = __pyx_v_j;
-                            __pyx_f_6mlgrad_9inventory__mul_set1((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_4)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_7)) )))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_out.data) + __pyx_t_8)) ))), __pyx_v_n_input);
-                        }
-                    }
-                }
-            }
-        }
-        #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
-            #undef likely
-            #undef unlikely
-            #define likely(x)   __builtin_expect(!!(x), 1)
-            #define unlikely(x) __builtin_expect(!!(x), 0)
-        #endif
-      }
-
-      /* "mlgrad/models.pyx":716
- * 
- *         num_threads = inventory.get_num_threads_ex(self.n_output)
- *         for j in prange(self.n_output, nogil=True, schedule='static',             # <<<<<<<<<<<<<<
- *                         num_threads=num_threads):
- *         # for j in range(n_output):
- */
-      /*finally:*/ {
-        /*normal exit:*/{
-          #ifdef WITH_THREAD
-          __Pyx_FastGIL_Forget();
-          Py_BLOCK_THREADS
-          #endif
-          goto __pyx_L5;
-        }
-        __pyx_L5:;
-      }
+    __pyx_t_4 = (__pyx_v_j * __pyx_v_n_input1);
+    __pyx_t_7 = 0;
+    __pyx_t_8 = __pyx_v_j;
+    __pyx_f_6mlgrad_9inventory__mul_set1((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad.data) + __pyx_t_4)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_7)) )))), (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_out.data) + __pyx_t_8)) ))), __pyx_v_n_input);
   }
 
-  /* "mlgrad/models.pyx":723
- *             inventory._mul_set1(&grad[j * n_input1], &X[0], grad_out[j], n_input)
- * 
- *         num_threads = inventory.get_num_threads_ex(self.n_input)             # <<<<<<<<<<<<<<
- *         for i in prange(self.n_input, nogil=True, schedule='static',
- *                         num_threads=num_threads):
+  /* "mlgrad/models.pyx":726
+ *         # for i in prange(self.n_input, nogil=True, schedule='static',
+ *         #                 num_threads=num_threads):
+ *         for i in range(self.n_input):             # <<<<<<<<<<<<<<
+ *             grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input1)
+ *             # s = 0
  */
-  __pyx_v_num_threads = __pyx_f_6mlgrad_9inventory_get_num_threads_ex(__pyx_v_self->__pyx_base.__pyx_base.n_input);
+  __pyx_t_1 = __pyx_v_self->__pyx_base.__pyx_base.n_input;
+  __pyx_t_5 = __pyx_t_1;
+  for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
+    __pyx_v_i = __pyx_t_6;
 
-  /* "mlgrad/models.pyx":724
- * 
- *         num_threads = inventory.get_num_threads_ex(self.n_input)
- *         for i in prange(self.n_input, nogil=True, schedule='static',             # <<<<<<<<<<<<<<
- *                         num_threads=num_threads):
- *         # for i in range(self.n_input):
- */
-  {
-      #ifdef WITH_THREAD
-      PyThreadState *_save;
-      _save = NULL;
-      Py_UNBLOCK_THREADS
-      __Pyx_FastGIL_Remember();
-      #endif
-      /*try:*/ {
-        __pyx_t_6 = __pyx_v_self->__pyx_base.__pyx_base.n_input;
-        {
-            #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
-                #undef likely
-                #undef unlikely
-                #define likely(x)   (x)
-                #define unlikely(x) (x)
-            #endif
-            __pyx_t_1 = (__pyx_t_6 - 0 + 1 - 1/abs(1)) / 1;
-            if (__pyx_t_1 > 0)
-            {
-                #ifdef _OPENMP
-                #pragma omp parallel num_threads(__pyx_v_num_threads) private(__pyx_t_4, __pyx_t_7, __pyx_t_8, __pyx_t_9)
-                #endif /* _OPENMP */
-                {
-                    #ifdef _OPENMP
-                    #pragma omp for firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) schedule(static)
-                    #endif /* _OPENMP */
-                    for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_1; __pyx_t_5++){
-                        {
-                            __pyx_v_i = (Py_ssize_t)(0 + 1 * __pyx_t_5);
-
-                            /* "mlgrad/models.pyx":727
- *                         num_threads=num_threads):
- *         # for i in range(self.n_input):
+    /* "mlgrad/models.pyx":727
+ *         #                 num_threads=num_threads):
+ *         for i in range(self.n_input):
  *             grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input1)             # <<<<<<<<<<<<<<
  *             # s = 0
  *             # W = &matrix[0,i+1]
  */
-                            __pyx_t_8 = 0;
-                            __pyx_t_7 = 0;
-                            __pyx_t_4 = (__pyx_v_i + 1);
-                            __pyx_t_9 = __pyx_v_i;
-                            *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_in.data) + __pyx_t_9)) )) = __pyx_f_6mlgrad_9inventory__dot_t((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_out.data) + __pyx_t_8)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_7 * __pyx_v_matrix.strides[0]) )) + __pyx_t_4)) )))), __pyx_v_n_output, __pyx_v_n_input1);
-                        }
-                    }
-                }
-            }
-        }
-        #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
-            #undef likely
-            #undef unlikely
-            #define likely(x)   __builtin_expect(!!(x), 1)
-            #define unlikely(x) __builtin_expect(!!(x), 0)
-        #endif
-      }
-
-      /* "mlgrad/models.pyx":724
- * 
- *         num_threads = inventory.get_num_threads_ex(self.n_input)
- *         for i in prange(self.n_input, nogil=True, schedule='static',             # <<<<<<<<<<<<<<
- *                         num_threads=num_threads):
- *         # for i in range(self.n_input):
- */
-      /*finally:*/ {
-        /*normal exit:*/{
-          #ifdef WITH_THREAD
-          __Pyx_FastGIL_Forget();
-          Py_BLOCK_THREADS
-          #endif
-          goto __pyx_L14;
-        }
-        __pyx_L14:;
-      }
+    __pyx_t_8 = 0;
+    __pyx_t_7 = 0;
+    __pyx_t_4 = (__pyx_v_i + 1);
+    __pyx_t_9 = __pyx_v_i;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_in.data) + __pyx_t_9)) )) = __pyx_f_6mlgrad_9inventory__dot_t((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_out.data) + __pyx_t_8)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_matrix.data + __pyx_t_7 * __pyx_v_matrix.strides[0]) )) + __pyx_t_4)) )))), __pyx_v_n_output, __pyx_v_n_input1);
   }
 
   /* "mlgrad/models.pyx":700
@@ -47822,7 +47619,6 @@ static void __pyx_f_6mlgrad_6models_10ScaleLayer__forward(struct __pyx_obj_6mlgr
   double *__pyx_v_output;
   struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   Py_ssize_t __pyx_v_j;
-  CYTHON_UNUSED int __pyx_v_num_threads;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -47846,98 +47642,34 @@ static void __pyx_f_6mlgrad_6models_10ScaleLayer__forward(struct __pyx_obj_6mlgr
  *         cdef double *output = &self.output[0]
  *         cdef Func func = self.func             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t j
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+ *         # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
  */
   __pyx_t_2 = ((PyObject *)__pyx_v_self->func);
   __Pyx_INCREF(__pyx_t_2);
   __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "mlgrad/models.pyx":771
- *         cdef Func func = self.func
- *         cdef Py_ssize_t j
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)             # <<<<<<<<<<<<<<
+  /* "mlgrad/models.pyx":774
  * 
- *         for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
- */
-  __pyx_v_num_threads = __pyx_f_6mlgrad_9inventory_get_num_threads_ex(__pyx_v_self->__pyx_base.__pyx_base.n_output);
-
-  /* "mlgrad/models.pyx":773
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
- * 
- *         for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):             # <<<<<<<<<<<<<<
- *         # for j in range(self.n_output):
+ *         # for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
+ *         for j in range(self.n_output):             # <<<<<<<<<<<<<<
  *             output[j] = func._evaluate(X[j])
+ *     #
  */
-  {
-      #ifdef WITH_THREAD
-      PyThreadState *_save;
-      _save = NULL;
-      Py_UNBLOCK_THREADS
-      __Pyx_FastGIL_Remember();
-      #endif
-      /*try:*/ {
-        __pyx_t_3 = __pyx_v_self->__pyx_base.__pyx_base.n_output;
-        {
-            #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
-                #undef likely
-                #undef unlikely
-                #define likely(x)   (x)
-                #define unlikely(x) (x)
-            #endif
-            __pyx_t_5 = (__pyx_t_3 - 0 + 1 - 1/abs(1)) / 1;
-            if (__pyx_t_5 > 0)
-            {
-                #ifdef _OPENMP
-                #pragma omp parallel num_threads(__pyx_v_num_threads) private(__pyx_t_1)
-                #endif /* _OPENMP */
-                {
-                    #ifdef _OPENMP
-                    #pragma omp for firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) schedule(static)
-                    #endif /* _OPENMP */
-                    for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_5; __pyx_t_4++){
-                        {
-                            __pyx_v_j = (Py_ssize_t)(0 + 1 * __pyx_t_4);
+  __pyx_t_3 = __pyx_v_self->__pyx_base.__pyx_base.n_output;
+  __pyx_t_4 = __pyx_t_3;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_j = __pyx_t_5;
 
-                            /* "mlgrad/models.pyx":775
- *         for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
- *         # for j in range(self.n_output):
+    /* "mlgrad/models.pyx":775
+ *         # for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
+ *         for j in range(self.n_output):
  *             output[j] = func._evaluate(X[j])             # <<<<<<<<<<<<<<
  *     #
  *     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
  */
-                            __pyx_t_1 = __pyx_v_j;
-                            (__pyx_v_output[__pyx_v_j]) = ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_evaluate(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) ))));
-                        }
-                    }
-                }
-            }
-        }
-        #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
-            #undef likely
-            #undef unlikely
-            #define likely(x)   __builtin_expect(!!(x), 1)
-            #define unlikely(x) __builtin_expect(!!(x), 0)
-        #endif
-      }
-
-      /* "mlgrad/models.pyx":773
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
- * 
- *         for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):             # <<<<<<<<<<<<<<
- *         # for j in range(self.n_output):
- *             output[j] = func._evaluate(X[j])
- */
-      /*finally:*/ {
-        /*normal exit:*/{
-          #ifdef WITH_THREAD
-          __Pyx_FastGIL_Forget();
-          Py_BLOCK_THREADS
-          #endif
-          goto __pyx_L5;
-        }
-        __pyx_L5:;
-      }
+    __pyx_t_1 = __pyx_v_j;
+    (__pyx_v_output[__pyx_v_j]) = ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_evaluate(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_1)) ))));
   }
 
   /* "mlgrad/models.pyx":767
@@ -47965,7 +47697,6 @@ static void __pyx_f_6mlgrad_6models_10ScaleLayer__backward(struct __pyx_obj_6mlg
   double *__pyx_v_grad_in;
   struct __pyx_obj_6mlgrad_5funcs_Func *__pyx_v_func = 0;
   Py_ssize_t __pyx_v_j;
-  CYTHON_UNUSED int __pyx_v_num_threads;
   __Pyx_RefNannyDeclarations
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
@@ -47990,99 +47721,35 @@ static void __pyx_f_6mlgrad_6models_10ScaleLayer__backward(struct __pyx_obj_6mlg
  *         cdef double *grad_in = &self.grad_input[0]
  *         cdef Func func = self.func             # <<<<<<<<<<<<<<
  *         cdef Py_ssize_t j
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+ *         # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
  */
   __pyx_t_2 = ((PyObject *)__pyx_v_self->func);
   __Pyx_INCREF(__pyx_t_2);
   __pyx_v_func = ((struct __pyx_obj_6mlgrad_5funcs_Func *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "mlgrad/models.pyx":781
- *         cdef Func func = self.func
- *         cdef Py_ssize_t j
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)             # <<<<<<<<<<<<<<
+  /* "mlgrad/models.pyx":784
  * 
- *         for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
- */
-  __pyx_v_num_threads = __pyx_f_6mlgrad_9inventory_get_num_threads_ex(__pyx_v_self->__pyx_base.__pyx_base.n_output);
-
-  /* "mlgrad/models.pyx":783
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
- * 
- *         for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):             # <<<<<<<<<<<<<<
- *         # for j in range(self.n_input):
+ *         # for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
+ *         for j in range(self.n_input):             # <<<<<<<<<<<<<<
  *             grad_in[j] = grad_out[j] * func._derivative(X[j])
+ * 
  */
-  {
-      #ifdef WITH_THREAD
-      PyThreadState *_save;
-      _save = NULL;
-      Py_UNBLOCK_THREADS
-      __Pyx_FastGIL_Remember();
-      #endif
-      /*try:*/ {
-        __pyx_t_3 = __pyx_v_self->__pyx_base.__pyx_base.n_input;
-        {
-            #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
-                #undef likely
-                #undef unlikely
-                #define likely(x)   (x)
-                #define unlikely(x) (x)
-            #endif
-            __pyx_t_5 = (__pyx_t_3 - 0 + 1 - 1/abs(1)) / 1;
-            if (__pyx_t_5 > 0)
-            {
-                #ifdef _OPENMP
-                #pragma omp parallel num_threads(__pyx_v_num_threads) private(__pyx_t_1, __pyx_t_6)
-                #endif /* _OPENMP */
-                {
-                    #ifdef _OPENMP
-                    #pragma omp for firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) schedule(static)
-                    #endif /* _OPENMP */
-                    for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_5; __pyx_t_4++){
-                        {
-                            __pyx_v_j = (Py_ssize_t)(0 + 1 * __pyx_t_4);
+  __pyx_t_3 = __pyx_v_self->__pyx_base.__pyx_base.n_input;
+  __pyx_t_4 = __pyx_t_3;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_j = __pyx_t_5;
 
-                            /* "mlgrad/models.pyx":785
- *         for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
- *         # for j in range(self.n_input):
+    /* "mlgrad/models.pyx":785
+ *         # for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
+ *         for j in range(self.n_input):
  *             grad_in[j] = grad_out[j] * func._derivative(X[j])             # <<<<<<<<<<<<<<
  * 
  * cdef class GeneralModelLayer(ModelLayer):
  */
-                            __pyx_t_1 = __pyx_v_j;
-                            __pyx_t_6 = __pyx_v_j;
-                            (__pyx_v_grad_in[__pyx_v_j]) = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_out.data) + __pyx_t_1)) ))) * ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) )))));
-                        }
-                    }
-                }
-            }
-        }
-        #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
-            #undef likely
-            #undef unlikely
-            #define likely(x)   __builtin_expect(!!(x), 1)
-            #define unlikely(x) __builtin_expect(!!(x), 0)
-        #endif
-      }
-
-      /* "mlgrad/models.pyx":783
- *         cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
- * 
- *         for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):             # <<<<<<<<<<<<<<
- *         # for j in range(self.n_input):
- *             grad_in[j] = grad_out[j] * func._derivative(X[j])
- */
-      /*finally:*/ {
-        /*normal exit:*/{
-          #ifdef WITH_THREAD
-          __Pyx_FastGIL_Forget();
-          Py_BLOCK_THREADS
-          #endif
-          goto __pyx_L5;
-        }
-        __pyx_L5:;
-      }
+    __pyx_t_1 = __pyx_v_j;
+    __pyx_t_6 = __pyx_v_j;
+    (__pyx_v_grad_in[__pyx_v_j]) = ((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_grad_out.data) + __pyx_t_1)) ))) * ((struct __pyx_vtabstruct_6mlgrad_5funcs_Func *)__pyx_v_func->__pyx_vtab)->_derivative(__pyx_v_func, (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_X.data) + __pyx_t_6)) )))));
   }
 
   /* "mlgrad/models.pyx":777

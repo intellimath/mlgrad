@@ -2,7 +2,9 @@
 # PCA
 #
 
+from sys import float_info
 import numpy as np
+
 einsum = np.einsum
 sqrt = np.sqrt
 isnan = np.isnan
@@ -158,7 +160,9 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
     _Z = X @ a
     Z = XX - _Z * _Z
     
-    sz_min = qf.evaluate(Z)
+    sz_min = sz = qf.evaluate(Z)
+    sz_min_prev = float_info.max / 10
+    sz_prev = 0
     G = qf.gradient(Z)
     L_min = 0
 
@@ -179,13 +183,16 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
         sz = qf.evaluate(ZZ)
         G = qf.gradient(ZZ)
 
-        # if abs(SZ - SZ_min) / (1 + abs(SZ_min)) < tol:
-        #     complete = True
-
-        if abs(a1 - a_min).max()  / (1 + abs(a1).min()) < tol:
+        if abs(sz - sz_min) / (1 + abs(sz_min)) < tol:
             complete = True
+        if abs(sz_min_prev - sz_min) / (1 + abs(sz_min)) < tol:
+            complete = True
+
+        # if abs(a1 - a_min).max()  / (1 + abs(a1).min()) < tol:
+        #     complete = True
         
-        if sz < sz_min:
+        if sz <= sz_min:
+            sz_min_prev = sz_min
             sz_min = sz
             a_min = a1
             L_min = L

@@ -1,6 +1,7 @@
 import numpy as np
 from numpy import diag, einsum, einsum_path, mean
 from numpy.linalg import det, inv, pinv
+from sys import float_info
 
 def distance_center(X, c, /):
     Z = X - c
@@ -125,7 +126,7 @@ def scatter_matrix(X):
 
 def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=True, return_qvals=False):
     N = len(X)
-    S = X.T @ X
+    S = X.T @ X / N
     n1 = 1.0 / S.shape[0]
     S = pinv(S)
     S /= det(S) ** n1
@@ -135,11 +136,12 @@ def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=True, return_q
     # D = np.fromiter(
     #         (((x @ S) @ x) for x in X), 'd', N)
     qval_min = maf.evaluate(D)
+    qval_min_prev = float_info.max
     W = maf.weights(D)
 
     qvals = [qval_min]
     for K in range(n_iter):
-        S = (X.T @ diag(W)) @ X
+        S = ((X.T @ diag(W)) @ X) / N
         S = pinv(S)
         S /= det(S) ** n1
         D = einsum('nj,jk,nk->n', X, S, X, optimize=path)
@@ -150,19 +152,22 @@ def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=True, return_q
         qvals.append(qval)
 
         stop = False
-        if abs(qval - qval_min) < tol:
+        if abs(qval - qval_min) / (1 + abs(qval_min)) < tol:
+            stop = True
+        if abs(qval_min_prev - qval_min) / (1 + abs(qval_min)) < tol:
             stop = True
 
-        if qval < qval_min:
+        if qval <= qval_min:
+            qval_min_prev = qval_min
             qval_min = qval
             S_min = S
             if verbose:
                 print(S, qval)
-
+        
         if stop:
             break
 
-        W = maf.gradient(D)
+        # W = maf.gradient(D)
 
     if verbose:
         print(f"K: {K}")

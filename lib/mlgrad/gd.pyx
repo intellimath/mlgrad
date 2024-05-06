@@ -80,13 +80,14 @@ cdef class GD:
     def fit(self):
         cdef Risk risk = self.risk
         cdef Py_ssize_t i, k = 0, m=0, M=self.M
-        cdef double lval
+        cdef double lval, lval_prev, lval_min, lval_min_prev
+        cdef double tol = self.tol
 
         self.risk.batch.init()
         self.init()
-        self.lval = self.lval_min = self.risk._evaluate()
-        self.lval_min_prev = double_max / 100
-        self.lvals = [self.lval]
+        lval = lval_min = self.risk._evaluate()
+        lval_min_prev = double_max / 100
+        self.lvals = [lval]
         self.K = 0
 
         self.h_rate.init()
@@ -96,7 +97,7 @@ cdef class GD:
         
         self.completed = 0
         for k in range(self.n_iter):
-            self.lval_prev = self.lval
+            lval_prev = lval
                 
             self.fit_epoch()
             
@@ -104,7 +105,7 @@ cdef class GD:
                 print(k, np.asarray(risk.param))
             
 
-            self.lval = risk._evaluate()
+            lval = risk._evaluate()
             # if self.lval < self.lval_prev:
             #     for i in range(10):
             #         inventory.move(self.param_copy, risk.param)
@@ -117,18 +118,24 @@ cdef class GD:
             #             self.lval = lval
             #     inventory.move(risk.param, self.param_copy)        
             
-            self.lvals.append(self.lval)
+            self.lvals.append(lval)
             # print(k, self.lval, self.lval_min)
 
             if self.normalizer is not None:
                 self.normalizer.normalize(risk.param)       
 
-            if self.stop_condition():
+            # if self.stop_condition():
+            #     self.completed = 1
+            if fabs(lval - lval_prev) / (1.0 + fabs(lval_min)) < tol:
                 self.completed = 1
+            
+            if fabs(lval_min - lval_min_prev) / (1.0 + fabs(lval_min)) < tol:
+                self.completed = 1
+                
 
-            if self.lval < self.lval_min:
-                self.lval_min_prev = self.lval_min
-                self.lval_min = self.lval
+            if lval < lval_min:
+                lval_min_prev = lval_min
+                lval_min = lval
                 inventory.move(self.param_min, risk.param)
                 m = 0
             else:
@@ -179,15 +186,15 @@ cdef class GD:
             # if self.param_transformer is not None:
             #     self.param_transformer.transform(risk.model.param)
     #
-    cdef int stop_condition(self):
+    # cdef int stop_condition(self):
         
-        if fabs(self.lval - self.lval_prev) / (1.0 + fabs(self.lval_min)) < self.tol:
-            return 1
+    #     if fabs(self.lval - self.lval_prev) / (1.0 + fabs(self.lval_min)) < self.tol:
+    #         return 1
         
-        if fabs(self.lval_min - self.lval_min_prev) / (1.0 + fabs(self.lval_min)) < self.tol:
-            return 1
+    #     if fabs(self.lval_min - self.lval_min_prev) / (1.0 + fabs(self.lval_min)) < self.tol:
+    #         return 1
         
-        return 0
+    #     return 0
     #
     def use_gradient_averager(self, averager):
         self.grad_averager = averager

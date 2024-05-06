@@ -12,6 +12,10 @@ cdef class LinearModelNormalizer(Normalizer):
     pass
 
 @cython.final
+cdef class LinearModelPositive(Normalizer):
+    pass
+
+@cython.final
 cdef class Masked(Normalizer):
     cdef double tol
     cdef Model model

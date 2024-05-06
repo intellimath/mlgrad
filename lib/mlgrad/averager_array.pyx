@@ -262,50 +262,49 @@ cdef class ArrayAdaM1(ArrayAverager):
             v2 = fabs(vv)
             array_average[i] = h * (mv / (v2 + epsilon))
 
-# cdef class ArrayAdaNG(ArrayAverager):
+cdef class ArrayNG(ArrayAverager):
 
-#     def __init__(self, beta=Beta, epsilon=1.0e-8):
-#         self.beta = beta
-#         self.epsilon = epsilon
-#         self.mgrad = None
-#         self.array_average = None
-#     #
-#     cdef init(self, ndim):
-#         self.beta_k = 1.
+    def __init__(self, beta=Beta, epsilon=1.0e-8):
+        self.beta = beta
+        self.epsilon = epsilon
+        self.mgrad = None
+        self.array_average = None
+    #
+    cdef init(self, ndim):
+        self.beta_k = 1.
         
-#         if self.mgrad is None:
-#             self.mgrad = np.zeros(ndim, dtype='d')
-#         else:
-#             fill_memoryview(self.mgrad, 0)
+        if self.mgrad is None:
+            self.mgrad = np.zeros(ndim, dtype='d')
+        else:
+            fill_memoryview(self.mgrad, 0)
 
-#         if self.array_average is None:
-#             self.array_average = np.zeros(ndim, dtype='d')
-#         else:
-#             fill_memoryview(self.array_average, 0)
-#     #
-#     cdef double[::1] update(self, double[::1] x):
-#         cdef int i, m = self.mgrad.shape[0]
-#         cdef double mn, v, mv
-#         cdef double beta = self.beta
-#         cdef double[::1] mgrad = self.mgrad
-#         #cdef double[::1] vgrad = self.vgrad
-#         cdef double[::1] array_average = self.array_average
+        if self.array_average is None:
+            self.array_average = np.zeros(ndim, dtype='d')
+        else:
+            fill_memoryview(self.array_average, 0)
+    #
+    cdef update(self, double[::1] x, const double h):
+        cdef Py_ssize_t i, m = self.mgrad.shape[0]
+        cdef double mn, v, mv
+        cdef double beta = self.beta, beta1, beta_k1
+        cdef double[::1] mgrad = self.mgrad
+        cdef double[::1] array_average = self.array_average
     
-#         self.beta_k *= beta
-#         mn = 0.
-#         for i in range(m):
-#             v = x[i]
-#             mn += v*v
-#         mn = sqrt(mn)
+        self.beta_k *= beta
+        beta_k1 = 1 - self.beta_k
+        beta1 = 1 - beta
+        mn = 0.
+        for i in range(m):
+            v = x[i]
+            mn += v*v
+        mn = sqrt(mn)
             
-#         for i in range(m):
-#             v = x[i] / mn
-#             mgrad[i] = beta * mgrad[i] + (1.0 - beta) * v 
-#             mv = mgrad[i] / (1.0 - self.beta_k)
+        for i in range(m):
+            v = x[i] / mn
+            mgrad[i] = beta * mgrad[i] + beta1 * v 
+            mv = mgrad[i] / beta_k1
 
-#             array_average[i] = mv
-
-#         return array_average
+            array_average[i] = h * mv
 
 cdef class ArrayTAverager(ArrayAverager):
     #

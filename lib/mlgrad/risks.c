@@ -2030,6 +2030,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAMOM;
 struct __pyx_obj_6mlgrad_8averager_ArrayRMSProp;
 struct __pyx_obj_6mlgrad_8averager_ArrayAdaM2;
 struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1;
+struct __pyx_obj_6mlgrad_8averager_ArrayNG;
 struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager;
 struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager;
 struct __pyx_obj_6mlgrad_8averager_ArrayTAverager;
@@ -3930,6 +3931,22 @@ struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1 {
   double beta2;
   double beta1_k;
   double beta2_k;
+  double epsilon;
+};
+
+
+/* "mlgrad/averager.pxd":128
+ * 
+ * @cython.final
+ * cdef class ArrayNG(ArrayAverager):             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef double[::1] mgrad
+ */
+struct __pyx_obj_6mlgrad_8averager_ArrayNG {
+  struct __pyx_obj_6mlgrad_8averager_ArrayAverager __pyx_base;
+  __Pyx_memviewslice mgrad;
+  double beta;
+  double beta_k;
   double epsilon;
 };
 
@@ -6222,6 +6239,20 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1 {
   struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager __pyx_base;
 };
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1 *__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1;
+
+
+/* "mlgrad/averager.pxd":128
+ * 
+ * @cython.final
+ * cdef class ArrayNG(ArrayAverager):             # <<<<<<<<<<<<<<
+ *     #
+ *     cdef double[::1] mgrad
+ */
+
+struct __pyx_vtabstruct_6mlgrad_8averager_ArrayNG {
+  struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAverager __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayNG *__pyx_vtabptr_6mlgrad_8averager_ArrayNG;
 
 
 /* "mlgrad/averager.pxd":135
@@ -8629,6 +8660,7 @@ typedef struct {
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayRMSProp;
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayAdaM2;
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayAdaM1;
+  PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayNG;
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager;
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager;
   PyTypeObject *__pyx_ptype_6mlgrad_8averager_ArrayTAverager;
@@ -9199,6 +9231,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArrayRMSProp);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArrayAdaM2);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArrayAdaM1);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArrayNG);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_8averager_ArrayTAverager);
@@ -9743,6 +9776,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArrayRMSProp);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArrayAdaM2);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArrayAdaM1);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArrayNG);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_8averager_ArrayTAverager);
@@ -10351,6 +10385,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_6mlgrad_8averager_ArrayRMSProp __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArrayRMSProp
 #define __pyx_ptype_6mlgrad_8averager_ArrayAdaM2 __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArrayAdaM2
 #define __pyx_ptype_6mlgrad_8averager_ArrayAdaM1 __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArrayAdaM1
+#define __pyx_ptype_6mlgrad_8averager_ArrayNG __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArrayNG
 #define __pyx_ptype_6mlgrad_8averager_ArraySimpleAverager __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager
 #define __pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager
 #define __pyx_ptype_6mlgrad_8averager_ArrayTAverager __pyx_mstate_global->__pyx_ptype_6mlgrad_8averager_ArrayTAverager
@@ -57859,6 +57894,8 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2 = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAdaM2); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM2)) __PYX_ERR(14, 114, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayAdaM1 = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.averager", "ArrayAdaM1", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_8averager_ArrayAdaM1),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_8averager_ArrayAdaM1) __PYX_ERR(14, 121, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1 = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayAdaM1*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayAdaM1); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayAdaM1)) __PYX_ERR(14, 121, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_8averager_ArrayNG = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.averager", "ArrayNG", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayNG), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_8averager_ArrayNG),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_8averager_ArrayNG) __PYX_ERR(14, 128, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8averager_ArrayNG = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayNG*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayNG); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayNG)) __PYX_ERR(14, 128, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArraySimpleAverager = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.averager", "ArraySimpleAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_8averager_ArraySimpleAverager),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager) __PYX_ERR(14, 135, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArraySimpleAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArraySimpleAverager); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArraySimpleAverager)) __PYX_ERR(14, 135, __pyx_L1_error)
   __pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.averager", "ArrayCyclicAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_8averager_ArrayCyclicAverager),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_8averager_ArrayCyclicAverager) __PYX_ERR(14, 142, __pyx_L1_error)
