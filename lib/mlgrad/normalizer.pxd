@@ -18,4 +18,4 @@ cdef class LinearModelPositive(Normalizer):
 @cython.final
 cdef class Masked(Normalizer):
     cdef double tol
-    cdef Model model
+    cdef uint8[::1] mask

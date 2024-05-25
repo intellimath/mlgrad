@@ -974,10 +974,8 @@ cdef class Hinge(Func):
             return self.C - x
     #
     cdef double _derivative(self, const double x) noexcept nogil:
-        if x > self.C:
+        if x >= self.C:
             return 0
-        elif x == self.C:
-            return -0.5
         else:
             return -1
     #
@@ -985,13 +983,10 @@ cdef class Hinge(Func):
         if x >= self.C:
             return 0
         else:
-            return -1 / (self.C - x)
+            return -1 / (x - self.C)
     #
     cdef double _derivative2(self, const double x) noexcept nogil:
-        if x >= self.C:
-            return -c_inf
-        else:
-            return 0
+        return 0
     #
     cdef double _value(self, const double x) noexcept nogil:
         return self.C - x

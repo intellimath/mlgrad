@@ -5,6 +5,8 @@ cimport cython
 from libc.math cimport fabs, pow, sqrt, fmax, exp, log
 from libc.string cimport memcpy, memset
 
+cimport numpy
+
 cdef extern from "Python.h":
     double PyFloat_GetMax()
     double PyFloat_GetMin()
@@ -85,4 +87,13 @@ cdef class SoftMax(Func2):
 cdef class PowerMax(Func2):
     cdef double p
     cdef double[::1] evals
+
+@cython.final
+cdef class SquareDiff(Func2):
+    pass
+
+@cython.final
+cdef class SquareDiff2(Func2):
+    pass
+
     

@@ -36,8 +36,6 @@ from mlgrad.risks cimport Risk, Functional
 
 import numpy as np
 
-# from mlgrad.abc import Fittable
-
 cdef double double_max = PyFloat_GetMax()
 cdef double double_min = PyFloat_GetMin()
 
@@ -98,6 +96,7 @@ cdef class GD:
         self.completed = 0
         for k in range(self.n_iter):
             lval_prev = lval
+            # print(k, lval)
                 
             self.fit_epoch()
             
@@ -173,9 +172,9 @@ cdef class GD:
 
             self.gradient()
 
-            # for v in risk.grad_average:
-            #     if isnan(v):
-            #         raise RuntimeError(f"{self.K} {list(risk.grad_average)}")
+            for v in risk.grad_average:
+                if isnan(v):
+                    raise RuntimeError(f"{self.K} {list(risk.grad_average)}")
 
             self.grad_averager.update(risk.grad_average, self.h)
             risk.update_param(self.grad_averager.array_average)

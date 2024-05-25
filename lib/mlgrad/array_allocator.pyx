@@ -25,6 +25,31 @@
 cimport cython
 import numpy as np
 
+from cpython.buffer cimport PyObject_GetBuffer, PyBuffer_Release, PyBUF_ANY_CONTIGUOUS, PyBUF_SIMPLE
+ 
+@cython.binding(True)
+cdef (double*, int, int) _memoryview_start_and_len(double[::1] m):
+    '''Gets a slice object that corresponds to the given memoryview's view on the undelying.'''
+    cdef Py_buffer view_buffer, underlying_buffer
+    PyObject_GetBuffer(m, &view_buffer, PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)
+    try:
+        view_ptr = <const char *>view_buffer.buf
+        PyObject_GetBuffer(m.obj, &underlying_buffer, PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)
+        try:
+            underlying_ptr = <const char *>underlying_buffer.buf
+            if view_ptr < underlying_ptr:
+                raise RuntimeError("Weird: view_ptr < underlying_ptr")
+            start = view_ptr - underlying_ptr
+            return (<double*>underlying_ptr, start, len(m))
+        finally:
+            PyBuffer_Release(&underlying_buffer)
+    finally:
+        PyBuffer_Release(&view_buffer)
+
+def memoryview_start_and_len(m):
+    cdef (double*, int, int) stat = _memoryview_start_and_len(m)
+    return (<int>stat[0], stat[1], stat[2])
+    
 cdef class Allocator(object):
     #
     def allocate(self, Py_ssize_t n):
@@ -41,7 +66,7 @@ cdef class ArrayAllocator(Allocator):
     def __init__(self, size):
         self.base = None
         self.size = size
-        self.start = 0
+        self.start = self.i = 0
         self.n_allocated = 0
         self.buf = np.zeros(size, 'd')
     #
@@ -50,6 +75,10 @@ cdef class ArrayAllocator(Allocator):
         if self.base is not None:
             addr = id(self.base)
         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
+    #
+    def close(self):
+        if self.base is not None:
+            self.base.n_allocated = self.n_allocated
     #
     def allocate(self, Py_ssize_t n):
         cdef ArrayAllocator aa
@@ -60,18 +89,19 @@ cdef class ArrayAllocator(Allocator):
         if self.n_allocated + n > self.size:
             raise RuntimeError('Memory out of buffer')
 
-        ar = self.buf[self.n_allocated: self.n_allocated + n]
+        self.i = self.n_allocated
         self.n_allocated += n
+        ar = self.buf[self.i: self.n_allocated]
 
-        aa = self
-        while aa.base is not None:
-            aa.base.n_allocated = self.n_allocated
-            aa = aa.base
+        # aa = self
+        # while aa.base is not None:
+        #     aa.base.n_allocated = self.n_allocated
+        #     aa = aa.base
 
         return ar
     #
     def allocate2(self, Py_ssize_t n, Py_ssize_t m):
-        cdef ArrayAllocator aa
+        # cdef ArrayAllocator aa
         cdef Py_ssize_t nm = n * m
 
         if n <= 0 or m <= 0:
@@ -79,14 +109,17 @@ cdef class ArrayAllocator(Allocator):
 
         if self.n_allocated + nm > self.size:
             raise RuntimeError('Memory out of buffer')
-        ar = self.buf[self.n_allocated: self.n_allocated + nm]
-        ar2 = ar.reshape((n, m))
+
+        self.i = self.n_allocated
         self.n_allocated += nm
+        ar = self.buf[self.i: self.n_allocated]
+
+        ar2 = ar.reshape((n, m))
         
-        aa = self
-        while aa.base is not None:
-            aa.base.n_allocated = self.n_allocated
-            aa = aa.base
+        # aa = self
+        # while aa.base is not None:
+        #     aa.base.n_allocated = self.n_allocated
+        #     aa = aa.base
 
         return ar2
     #
@@ -98,7 +131,7 @@ cdef class ArrayAllocator(Allocator):
         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)
 
         allocator.buf = self.buf
-        allocator.start = self.n_allocated
+        allocator.start = allocator.i = self.n_allocated
         allocator.n_allocated = self.n_allocated
         allocator.size = self.size
         allocator.base = self

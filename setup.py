@@ -12,16 +12,16 @@ Options.fast_fail = True
 import platform
 WIN32 = (platform.system() == 'Windows')
 
-# Oflag = "-march=native"
-# extra_compile_args = [Oflag] #, "-fno-wrapv"] 
-# extra_link_args = [Oflag, "-lm"]
+Oflag = ["-O3", "-march=native"]
+extra_compile_args = Oflag #, "-fno-wrapv"] 
+# extra_link_args = Oflag + ["-lm"]
 # extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not WIN32 else "/openmp")]
 # extra_link_args_openmp = [Oflag, "-lm", ("-fopenmp" if not WIN32 else "/openmp")]
 
-extra_compile_args = [] #, "-fno-wrapv"] 
+# extra_compile_args = [] #, "-fno-wrapv"] 
 extra_link_args = ["-lm"]
 extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not WIN32 else "/openmp")]
-extra_link_args_openmp = ["-lm", ("-fopenmp" if not WIN32 else "/openmp")]
+extra_link_args_openmp = extra_link_args + [("-fopenmp" if not WIN32 else "/openmp")]
 
 # cython_compile_time_env = {"USE_OPENMP":1}
 cython_compiler_directives1 = dict(
@@ -43,7 +43,7 @@ cython_compiler_directives2 = dict(
     unraisable_tracebacks=True,  
 )
 
-Options._directive_defaults.update(cython_compiler_directives1)
+Options._directive_defaults.update(cython_compiler_directives2)
 
 ext_modules = [
     Extension(
@@ -182,12 +182,6 @@ ext_modules = [
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
-    # Extension(
-    #     "mlgrad.mlocation_scatter",
-    #     ["lib/mlgrad/mlocation_scatter.pyx"],
-    #     extra_compile_args = extra_compile_args_openmp,
-    #     extra_link_args = extra_link_args_openmp,
-    # ),
     Extension(
         "mlgrad.mlocation_scatter2",
         ["lib/mlgrad/mlocation_scatter2.pyx"],
@@ -219,7 +213,7 @@ setup(
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
     packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost', 'mlgrad.plots',
-                'mlgrad.cls', 'mlgrad.pca', 'mlgrad.cluster', 'mlgrad.outl', 
+                'mlgrad.cls', 'mlgrad.pca', 'mlgrad.cluster', 'mlgrad.outl', 'mlgrad.smooth',
                 'mlgrad.test'],
     package_data = {'': ['*.pxd']},
     url = 'https://bitbucket.org/intellimath/mlgrad',

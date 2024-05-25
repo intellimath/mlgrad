@@ -195,8 +195,8 @@ cdef class ArrayAdaM2(ArrayAverager):
 
             vgrad[i] = beta2 * vgrad[i] + (1-beta2)*v*v
             vv = vgrad[i] / (1-beta2_k)
-            # if vv < 0:
-            #     raise RuntimeError(f"{vv}")
+            if vv < 0:
+                raise RuntimeError(f"{vv}")
             v2 = sqrt(vv)
             array_average[i] = h * (mv / (v2 + epsilon))
 

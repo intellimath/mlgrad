@@ -10,11 +10,11 @@ from mlgrad.utils import exclude_outliers
 from mlgrad.funcs2 import SquareNorm
 from mlgrad.loss import SquareErrorLoss, ErrorLoss
 
-from mlgrad import fg, erm_fg, erm_irgd, erisk, mrisk
+from mlgrad import fg, erm_fg, erm_irgd, erisk, mrisk, erisk22
 
 from mlgrad.af import averaging_function
 
-from .margin_max import MarginMaximization
+from .margin_max import MarginMaximization2, MarginMaximization1
 
 def classification_as_regr(Xs, Y, mod, lossfunc=loss.MarginLoss(funcs.Hinge(1.0)), regnorm=None,
                normalizer=None, h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
@@ -23,6 +23,18 @@ def classification_as_regr(Xs, Y, mod, lossfunc=loss.MarginLoss(funcs.Hinge(1.0)
     # print(mod.param.base)
 
     er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
+    alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, 
+                 normalizer=normalizer,
+                 verbose=verbose, n_restart=n_restart)
+    return alg
+
+def classification_as_regr22(Xs, Ys, mod, lossfunc=loss.MarginMultLoss2(funcs.Square()), regnorm=None,
+               normalizer=None, h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
+    if mod.param is None:
+        mod.init_param()
+    # print(mod.param.base)
+
+    er = erisk22(Xs, Ys, mod, lossfunc, regnorm=regnorm, tau=tau)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, 
                  normalizer=normalizer,
                  verbose=verbose, n_restart=n_restart)

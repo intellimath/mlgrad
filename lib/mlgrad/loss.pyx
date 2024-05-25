@@ -335,7 +335,7 @@ cdef class ErrorMultiLoss(MultLoss):
 
 cdef class MarginMultiLoss(MultLoss):
     
-    def __init__(self, Func, func):
+    def __init__(self, Func func):
             self.func = func
     
     cdef double _evaluate(self, double[::1] y, double yk) noexcept nogil:

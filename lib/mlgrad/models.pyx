@@ -466,6 +466,7 @@ cdef class ModelComposition(Model):
             mod._allocate_param(suballocator)
 
         self.ob_param = suballocator.get_allocated()
+        suballocator.close()
 
         if self.param is not None:
             with cython.boundscheck(True):
@@ -663,17 +664,21 @@ cdef class LinearLayer(ModelLayer):
         """Allocate matrix"""
         layer_allocator = allocator.suballocator()
         self.matrix = layer_allocator.allocate2(self.n_output, self.n_input+1)
-        self.param = self.ob_param = layer_allocator.get_allocated()
+        self.ob_param = layer_allocator.get_allocated()
+        self.param = self.ob_param
+        layer_allocator.close()
 
         self.output = np.zeros(self.n_output, 'd')
         self.grad_input = np.zeros(self.n_input, 'd')
     #
     def init_param(self):
-        ob_param = np.random.random(self.n_param)
+        ob_param = np.ascontiguousarray(2*np.random.random(self.n_param)-1)
         if self.param is None:
-            self.ob_param = self.param = ob_param
+            self.ob_param = ob_param
+            self.param = self.ob_param
         else:
-            self.param[:] = ob_param
+            inventory.move(self.param, ob_param)
+            # self.param[:] = ob_param[:]
     #
     cpdef ModelLayer copy(self, bint share=1):
         cdef LinearLayer layer = LinearLayer(self.n_input, self.n_output)
@@ -765,7 +770,7 @@ cdef class ScaleLayer(ModelLayer):
         self.mask = None
     #
     cdef void _forward(self, double[::1] X):
-        cdef double *output = &self.output[0]
+        cdef double[::1] output = self.output
         cdef Func func = self.func
         cdef Py_ssize_t j
         # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
@@ -807,6 +812,7 @@ cdef class GeneralModelLayer(ModelLayer):
             mod._allocate_param(layer_allocator)
 
         self.ob_param = layer_allocator.get_allocated()
+        layer_allocator.close()
 
         if self.param is not None:
             with cython.boundscheck(True):
@@ -933,6 +939,7 @@ def general_layer_from_dict(ob):
 #         layer_allocator = allocator.suballocator()
 #         self.matrix = layer_allocator.allocate2(self.n_output, self.n_input+1)
 #         self.param = self.ob_param = layer_allocator.get_allocated()
+#         layer_allocator.close() 
 
 #         self.output = np.zeros(self.n_output, 'd')
 #         self.ss = np.zeros(self.n_output, 'd')
@@ -1119,6 +1126,7 @@ cdef class MLModel:
                 layer._allocate_param(layers_allocator)
 
         self.param = layers_allocator.get_allocated()
+        layers_allocator.close()
 
         n_layer = len(self.layers)
         layer = self.layers[n_layer-1]
@@ -1158,7 +1166,7 @@ cdef class FFNetworkModel(MLModel):
         self.layers.append(layer)
         self.n_param += layer.n_param
         self.n_output = layer.n_output
-        # self.output = layer.output
+        self.output = layer.output
     #
     def __getitem__(self, i):
         return self.layers[i]
@@ -1197,9 +1205,11 @@ cdef class FFNetworkModel(MLModel):
         input = X
         for i in range(n_layer):
             layer = <ModelLayer>layers[i]
+            # print(i, np.asarray(input))
             layer._forward(input)
             input = layer.output
-#         self.output = layer.output
+            # print(i, np.asarray(layer.output))
+        # self.output = layer.output
         self.is_forward = 1
 
     cdef void _backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
@@ -1272,6 +1282,8 @@ cdef class FFNetworkFuncModel(Model):
         self.body._allocate_param(ffnm_allocator)
         
         self.param = self.ob_param = ffnm_allocator.get_allocated()
+        ffnm_allocator.close()
+        
         self.n_param = len(self.param)
         #print("NN", allocator)
     #
@@ -1373,6 +1385,8 @@ cdef class EllipticModel(Model):
         self.S = sub_allocator.allocate(self.S_size)
 
         param = sub_allocator.get_allocated()
+        sub_allocator.close()
+
         if self.param is not None:
             param[:] = self.param
         self.param = param

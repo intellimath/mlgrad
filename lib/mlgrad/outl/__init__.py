@@ -1,4 +1,5 @@
 from scipy.stats import t
+import numpy as np
 
 def grubbs_test(y, alpha=0.05, ddof=0):
     import numpy as np
@@ -91,3 +92,25 @@ def generalized_esd(x, n_outl, alpha=0.05, full_output=False, ddof=0):
             return 0, []
         else:
             return 0, [], R, L, minds
+
+def despike_whittaker(y, m=5, tau=6):
+    median = np.median
+    n = len(y)
+
+    dy = np.empty_like(y)
+    dy[1:] = y[1:] - y[:-1]
+    dy[0] = 0
+    
+    med = median(dy)
+    s = dy - med
+    mad = median(abs(s))
+    z = 0.6745 * s / mad
+
+    for i in range(m, n-m-1):
+        yy = y[i-m:i+m+1]
+        zz = z[i-m:i+m+1]
+        ii = (zz < tau)
+        if not ii[m] and yy[m] == yy.max():
+            y[i] = yy[ii].mean()
+
+    return y

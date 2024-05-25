@@ -30,6 +30,18 @@ from mlgrad.models import as_array1d
 cdef double double_max = PyFloat_GetMax()
 cdef double double_min = PyFloat_GetMin()
 
+enpty = np.empty
+
+numpy.import_array()
+
+# cdef _asarray(o):
+#     if type(o) is ndarray:
+#         return o
+#     else:
+#         return asarray(o)
+
+# asarray = np.asarray
+
 cdef class Func2:
 
     cdef double _evaluate(self, double[::1] X):
@@ -41,10 +53,15 @@ cdef class Func2:
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         return 0
     #
-    def __call__(self, X):
-        cdef double[::1] x1d = as_array1d(X)
-        return self._evaluate(x1d)
+    def evaluate(self, double[::1] X):
+        return self._evaluate(X)
 
+    def gradient(self, double[::1] X):
+        cdef numpy.npy_intp n = X.shape[0]
+        grad = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+        self._gradient(X, grad)
+        return grad
+    
 cdef class PowerNorm(Func2):
     
     def __init__(self, p=2.0):
@@ -53,39 +70,42 @@ cdef class PowerNorm(Func2):
 
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m
-        cdef double s, v
+        cdef double s, v, p=self.p
         cdef double* X_ptr = &X[0]
 
         s = 0
         for i in range(X.shape[0]):
             v = X_ptr[i]
             if v >= 0:
-                s += pow(v, self.p)
+                s += pow(v, p)
             else:
-                s += pow(-v, self.p)
+                s += pow(-v, p)
         
         s /= self.p
         return s
 
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m
-        cdef double v
+        cdef double v, p1 = self.p-1
         cdef double* X_ptr = &X[0]
         cdef double* grad_ptr = &grad[0]
     
         for i in range(X.shape[0]):
-            v = pow(fabs(X_ptr[i]), self.p-1.0)
+            v = X_ptr[i]
             if v < 0:
-                grad_ptr[i] = -v
+                grad_ptr[i] = -pow(-v, p1)
             else:
-                grad_ptr[i] = v
+                grad_ptr[i] = pow(v, p1)
     #
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
-        cdef double v = pow(fabs(X[j]), self.p-1.0)
-
+        cdef double v, p1 = self.p-1
+        cdef double* X_ptr = &X[0]
+    
+        v = X_ptr[j]
         if v < 0:
-             v = -v
-        return v
+            return -pow(-v, p1)
+        else:
+            return pow(v, p1)
     #
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_{%s}^{%s}=\sum_{i=0}^n w_i^{%s}$" % (self.p, self.p, self.p)
@@ -93,12 +113,12 @@ cdef class PowerNorm(Func2):
 cdef class SquareNorm(Func2):
 
     cdef double _evaluate(self, double[::1] X):
-        cdef Py_ssize_t i, m
+        cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
         cdef double* X_ptr = &X[0]
 
         s = 0
-        for i in range(X.shape[0]):
+        for i in range(m):
             v = X_ptr[i]
             s += v * v
 
@@ -106,11 +126,11 @@ cdef class SquareNorm(Func2):
         return s
 
     cdef void _gradient(self, double[::1] X, double[::1] grad):
-        cdef Py_ssize_t i, m
+        cdef Py_ssize_t i, m = X.shape[0]
         cdef double* X_ptr = &X[0]
         cdef double* grad_ptr = &grad[0]
 
-        for i in range(X.shape[0]):
+        for i in range(m):
             grad_ptr[i] = X_ptr[i]    
     #
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
@@ -455,3 +475,51 @@ cdef class PowerMax(Func2):
         s = self._evaluate(X)
         return p * pow(X[j] / s, p-1)
     #
+
+cdef class SquareDiff(Func2):
+    #
+    cdef double _evaluate(self, double[::1] X):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v
+
+        s = 0
+        for i in range(1,m):
+            v = X[i] - X[i-1]
+            s += v * v
+
+        return 0.5 * s
+
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        cdef Py_ssize_t i, m = X.shape[0]
+
+        grad[0] = X[0] - X[1]
+        grad[m-1] = X[m-1] - X[m-2]
+        for i in range(1, m-1):
+            grad[i] = 2*X[i] - X[i-1] - X[i+1]
+
+cdef class SquareDiff2(Func2):
+    #
+    cdef double _evaluate(self, double[::1] X):
+        cdef Py_ssize_t i, m = X.shape[0]
+
+        v = -2*X[0] + X[1]
+        s = v * v
+        for i in range(1, m-1):
+            v = X[i-1] - 2*X[i] + X[i+1]
+            s += v * v
+        v = -2*X[m-2] + X[m-1]
+        s += v * v
+
+        return 0.5 * s
+
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v
+
+        grad[0] = X[0] - 2*X[1] + X[2]
+        grad[1] = -2*X[0] + 5*X[1] - 4*X[2] + X[3]
+        grad[m-1] = X[m-1] - 2*X[m-2] + X[m-3]
+        grad[m-2] = -2*X[m-1] + 5*X[m-2] - 4*X[m-3] + X[m-4]
+        for i in range(2, m-2):
+            grad[i] = X[i-2] - 4*X[i-1] + 6*X[i] - 4*X[i+1] + X[i+2]
+    

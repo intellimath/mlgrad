@@ -794,7 +794,8 @@ cdef class ERisk22(Risk):
         for j in range(size):
             k = indices[j]
             _model._forward(X[k])
-            lval = _loss._evaluate(output, Y[k])
+            # print(np.asarray(_model.output))
+            lval = _loss._evaluate(_model.output, Y[k])
             S += weights[k] * lval
                     
         if self.regnorm is not None:

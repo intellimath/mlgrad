@@ -31,14 +31,13 @@ cdef class LinearModelPositive(Normalizer):
                 param[i] = 0
             
 cdef class Masked(Normalizer):
-    def __init__(self, Model mod, tol=1.0e-8):
+    def __init__(self, n_param, tol=1.0e-8):
         self.tol = tol
-        self.model = mod
-        mod.mask = np.zeros(mod.n_param, np.uint8)
+        self.mask = np.zeros(n_param, np.uint8)
     #
     cdef normalize(self, double[::1] param):
         cdef Py_ssize_t i
-        cdef uint8[::1] mask = self.model.mask
+        cdef uint8[::1] mask = self.mask
         cdef double v, tol = self.tol
         cdef uint8 mm
 
