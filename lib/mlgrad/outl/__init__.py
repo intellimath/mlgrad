@@ -93,7 +93,7 @@ def generalized_esd(x, n_outl, alpha=0.05, full_output=False, ddof=0):
         else:
             return 0, [], R, L, minds
 
-def despike_whittaker(y, m=5, tau=6):
+def despike_whittaker(y, m=4, tau=3.5):
     median = np.median
     n = len(y)
 
@@ -104,13 +104,14 @@ def despike_whittaker(y, m=5, tau=6):
     med = median(dy)
     s = dy - med
     mad = median(abs(s))
-    z = 0.6745 * s / mad
+    z = 0.67449 * s / mad
+    I = (z <= tau)
 
     for i in range(m, n-m-1):
-        yy = y[i-m:i+m+1]
-        zz = z[i-m:i+m+1]
-        ii = (zz < tau)
-        if not ii[m] and yy[m] == yy.max():
-            y[i] = yy[ii].mean()
+        if not I[i]:
+            yy = y[i-m:i+m+1]
+            if yy[m] == yy.max():
+                ii = I[i-m:i+m+1]
+                y[i] = yy[ii].mean()
 
     return y

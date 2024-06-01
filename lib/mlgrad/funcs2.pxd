@@ -89,7 +89,7 @@ cdef class PowerMax(Func2):
     cdef double[::1] evals
 
 @cython.final
-cdef class SquareDiff(Func2):
+cdef class SquareDiff1(Func2):
     pass
 
 @cython.final

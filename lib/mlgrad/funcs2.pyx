@@ -476,38 +476,43 @@ cdef class PowerMax(Func2):
         return p * pow(X[j] / s, p-1)
     #
 
-cdef class SquareDiff(Func2):
+cdef class SquareDiff1(Func2):
     #
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
+        cdef double *XX = &X[0]
 
         s = 0
         for i in range(1,m):
-            v = X[i] - X[i-1]
+            v = XX[i] - XX[i-1]
             s += v * v
 
         return 0.5 * s
 
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m = X.shape[0]
+        cdef double *XX = &X[0]
+        cdef double *GG = &grad[0]
 
-        grad[0] = X[0] - X[1]
-        grad[m-1] = X[m-1] - X[m-2]
+        grad[0] = XX[0] - XX[1]
+        grad[m-1] = XX[m-1] - XX[m-2]
         for i in range(1, m-1):
-            grad[i] = 2*X[i] - X[i-1] - X[i+1]
+            GG[i] = 2*XX[i] - XX[i-1] - XX[i+1]
 
 cdef class SquareDiff2(Func2):
     #
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m = X.shape[0]
+        cdef double v, s
+        cdef double *XX = &X[0]
 
-        v = -2*X[0] + X[1]
+        v = -2*XX[0] + XX[1]
         s = v * v
         for i in range(1, m-1):
-            v = X[i-1] - 2*X[i] + X[i+1]
+            v = XX[i-1] - 2*XX[i] + XX[i+1]
             s += v * v
-        v = -2*X[m-2] + X[m-1]
+        v = -2*XX[m-2] + XX[m-1]
         s += v * v
 
         return 0.5 * s
@@ -515,11 +520,13 @@ cdef class SquareDiff2(Func2):
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
+        cdef double *XX = &X[0]
+        cdef double *GG = &grad[0]
 
-        grad[0] = X[0] - 2*X[1] + X[2]
-        grad[1] = -2*X[0] + 5*X[1] - 4*X[2] + X[3]
-        grad[m-1] = X[m-1] - 2*X[m-2] + X[m-3]
-        grad[m-2] = -2*X[m-1] + 5*X[m-2] - 4*X[m-3] + X[m-4]
+        GG[0] = XX[0] - 2*XX[1] + XX[2]
+        GG[1] = -2*XX[0] + 5*XX[1] - 4*XX[2] + XX[3]
+        GG[m-1] = XX[m-1] - 2*XX[m-2] + XX[m-3]
+        GG[m-2] = -2*XX[m-1] + 5*XX[m-2] - 4*XX[m-3] + XX[m-4]
         for i in range(2, m-2):
-            grad[i] = X[i-2] - 4*X[i-1] + 6*X[i] - 4*X[i+1] + X[i+2]
-    
+            GG[i] = XX[i-2] - 4*XX[i-1] + 6*XX[i] - 4*XX[i+1] + XX[i+2]
+

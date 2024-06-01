@@ -76,17 +76,17 @@ cdef class Func(object):
         return self._derivative(x) / x
     #
     def evaluate_array(self, double[::1] x):
-        cdef double[::1] y = np.empty(len(x), 'd')
+        cdef double[::1] y = np.empty_like(x)
         self._evaluate_array(&x[0], &y[0], x.shape[0])
         return y.base
     #
     def derivative_array(self, double[::1] x):
-        cdef double[::1] y = np.empty(len(x), 'd')
+        cdef double[::1] y = np.empty_like(x)
         self._derivative_array(&x[0], &y[0], x.shape[0])
         return y.base
     #
     def derivative_div_array(self, double[::1] x):
-        cdef double[::1] y = np.empty(len(x), 'd')
+        cdef double[::1] y = np.empty_like(x)
         self._derivative_div_array(&x[0], &y[0], x.shape[0])
         return y.base
     #
@@ -799,10 +799,24 @@ cdef class Square(Func):
         return x
     #
     cdef double _derivative_div_x(self, const double x) noexcept nogil:
-        return 1
+        return 1 
     #
     cdef double _derivative2(self, const double x) noexcept nogil:
         return 1
+    #
+    cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
+        cdef Py_ssize_t i
+        cdef double v
+        for i in range(n):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+            v = x[i]
+            y[i] = 0.5 * v * v
+    #
+    cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
+        cdef Py_ssize_t i
+        for i in range(n):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+            y[i] = x[i]
     #
     def _repr_latex_(self):
         return r"$ρ(x)=0.5x^2$"
