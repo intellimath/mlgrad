@@ -80,9 +80,17 @@ cdef class Func(object):
         self._evaluate_array(&x[0], &y[0], x.shape[0])
         return y.base
     #
+    def evaluate_weighted_sum(self, double[::1] x, double[::1] w):
+        return self._evaluate_weighted_sum(&x[0], &w[0], x.shape[0])
+    #
     def derivative_array(self, double[::1] x):
         cdef double[::1] y = np.empty_like(x)
         self._derivative_array(&x[0], &y[0], x.shape[0])
+        return y.base
+    #
+    def derivative_weighted_array(self, double[::1] x, double[::1] w):
+        cdef double[::1] y = np.empty_like(x)
+        self._derivative_weighted_array(&x[0], &y[0], &w[0], x.shape[0])
         return y.base
     #
     def derivative_div_array(self, double[::1] x):
@@ -96,11 +104,25 @@ cdef class Func(object):
         for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
             y[i] = self._evaluate(x[i])
     #
+    cdef double _evaluate_weighted_sum(self, const double *x, const double *w, const Py_ssize_t n) noexcept nogil:
+        cdef Py_ssize_t i
+        cdef double s = 0
+        # for i in range(n):
+        for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+            s += w[i] * self._evaluate(x[i])
+        return s
+    #
     cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
         # for i in range(n):
         for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
             y[i] = self._derivative(x[i])
+    #
+    cdef void _derivative_weighted_array(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil:
+        cdef Py_ssize_t i
+        # for i in range(n):
+        for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+            y[i] = w[i] * self._derivative(x[i])
     #
     cdef void _derivative2_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
@@ -812,11 +834,26 @@ cdef class Square(Func):
             v = x[i]
             y[i] = 0.5 * v * v
     #
+    cdef double _evaluate_weighted_sum(self, const double *x, const double *w, const Py_ssize_t n) noexcept nogil:
+        cdef Py_ssize_t i
+        cdef double v, s = 0
+        for i in range(n):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+            v = x[i]
+            s += 0.5 * w[i] * v * v
+        return s
+    #
     cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
         for i in range(n):
         # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
             y[i] = x[i]
+    #
+    cdef void _derivative_weighted_array(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil:
+        cdef Py_ssize_t i
+        for i in range(n):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+            y[i] = w[i] * x[i]
     #
     def _repr_latex_(self):
         return r"$ρ(x)=0.5x^2$"

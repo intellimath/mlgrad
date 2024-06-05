@@ -14,7 +14,9 @@ cdef class Func(object):
     cdef double _value(self, const double x) noexcept nogil
 
     cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
+    cdef double _evaluate_weighted_sum(self, const double *x, const double *w, const Py_ssize_t n) noexcept nogil    
     cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
+    cdef void _derivative_weighted_array(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil
     cdef void _derivative2_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
     cdef void _derivative_div_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
     cdef void _value_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
