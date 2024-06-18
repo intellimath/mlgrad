@@ -3123,15 +3123,15 @@ struct __pyx_obj_6mlgrad_11list_values_list_doubles {
  * cdef (double*, int, int) _memoryview_start_and_len(double[::1] m)
  * 
  * cdef class Allocator:             # <<<<<<<<<<<<<<
- *     #
- *     # cpdef allocate(self, Py_ssize_t n)
+ *     pass
+ * 
  */
 struct __pyx_obj_6mlgrad_15array_allocator_Allocator {
   PyObject_HEAD
 };
 
 
-/* "mlgrad/array_allocator.pxd":40
+/* "mlgrad/array_allocator.pxd":35
  * 
  * @cython.final
  * cdef class ArrayAllocator(Allocator):             # <<<<<<<<<<<<<<
@@ -82299,7 +82299,7 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_t_1 = PyImport_ImportModule("mlgrad.array_allocator"); if (unlikely(!__pyx_t_1)) __PYX_ERR(8, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_15array_allocator_Allocator = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.array_allocator", "Allocator", sizeof(struct __pyx_obj_6mlgrad_15array_allocator_Allocator), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_15array_allocator_Allocator),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_15array_allocator_Allocator) __PYX_ERR(8, 31, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.array_allocator", "ArrayAllocator", sizeof(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator) __PYX_ERR(8, 40, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator = __Pyx_ImportType_3_0_10(__pyx_t_1, "mlgrad.array_allocator", "ArrayAllocator", sizeof(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator), __PYX_GET_STRUCT_ALIGNMENT_3_0_10(struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator),__Pyx_ImportType_CheckSize_Warn_3_0_10); if (!__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator) __PYX_ERR(8, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;

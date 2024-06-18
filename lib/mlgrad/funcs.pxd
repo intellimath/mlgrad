@@ -159,14 +159,14 @@ cdef class SoftAbs(Func):
     cdef public double eps
     
 @cython.final
-cdef class Sqrt(Func):
+cdef class SoftAbs_Sqrt(Func):
     #
     cdef public double eps
     cdef double eps2
     #
 
 @cython.final
-cdef class FSqrt(Func):
+cdef class SoftAbs_FSqrt(Func):
     #
     cdef public double eps
     cdef double eps2, eps3

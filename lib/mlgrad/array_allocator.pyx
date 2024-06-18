@@ -25,7 +25,8 @@
 cimport cython
 import numpy as np
 
-from cpython.buffer cimport PyObject_GetBuffer, PyBuffer_Release, PyBUF_ANY_CONTIGUOUS, PyBUF_SIMPLE
+from cpython.buffer cimport PyObject_GetBuffer, PyBuffer_Release, \
+                            PyBUF_ANY_CONTIGUOUS, PyBUF_SIMPLE
  
 @cython.binding(True)
 cdef (double*, int, int) _memoryview_start_and_len(double[::1] m):

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from setuptools import setup, find_packages
+from setuptools import setup
 from setuptools.command.build_ext import build_ext
 from setuptools.extension import Extension
 
@@ -216,8 +216,8 @@ setup(
                 'mlgrad.cls', 'mlgrad.pca', 'mlgrad.cluster', 'mlgrad.outl', 'mlgrad.smooth',
                 'mlgrad.test'],
     package_data = {'': ['*.pxd']},
-    url = 'https://bitbucket.org/intellimath/mlgrad',
-    download_url = 'https://bitbucket.org/intellimath/mlgrad',
+    url = 'https://github.org/intellimath/mlgrad',
+    download_url = 'https://github.org/intellimath/mlgrad',
     long_description = "", # long_description,
     classifiers = [
         'Development Status :: 4 - Beta',

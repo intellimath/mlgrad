@@ -1669,15 +1669,15 @@ struct __pyx_ctuple_double__ptr__and_int__and_int {
  * cdef (double*, int, int) _memoryview_start_and_len(double[::1] m)
  * 
  * cdef class Allocator:             # <<<<<<<<<<<<<<
- *     #
- *     # cpdef allocate(self, Py_ssize_t n)
+ *     pass
+ * 
  */
 struct __pyx_obj_6mlgrad_15array_allocator_Allocator {
   PyObject_HEAD
 };
 
 
-/* "mlgrad/array_allocator.pxd":40
+/* "mlgrad/array_allocator.pxd":35
  * 
  * @cython.final
  * cdef class ArrayAllocator(Allocator):             # <<<<<<<<<<<<<<
@@ -17838,7 +17838,7 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":31
+/* "mlgrad/array_allocator.pyx":32
  * 
  * @cython.binding(True)
  * cdef (double*, int, int) _memoryview_start_and_len(double[::1] m):             # <<<<<<<<<<<<<<
@@ -17874,19 +17874,19 @@ static __pyx_ctuple_double__ptr__and_int__and_int __pyx_f_6mlgrad_15array_alloca
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_memoryview_start_and_len", 1);
 
-  /* "mlgrad/array_allocator.pyx":34
+  /* "mlgrad/array_allocator.pyx":35
  *     '''Gets a slice object that corresponds to the given memoryview's view on the undelying.'''
  *     cdef Py_buffer view_buffer, underlying_buffer
  *     PyObject_GetBuffer(m, &view_buffer, PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)             # <<<<<<<<<<<<<<
  *     try:
  *         view_ptr = <const char *>view_buffer.buf
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_m, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_m, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetBuffer(__pyx_t_1, (&__pyx_v_view_buffer), (PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_2 = PyObject_GetBuffer(__pyx_t_1, (&__pyx_v_view_buffer), (PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "mlgrad/array_allocator.pyx":35
+  /* "mlgrad/array_allocator.pyx":36
  *     cdef Py_buffer view_buffer, underlying_buffer
  *     PyObject_GetBuffer(m, &view_buffer, PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)
  *     try:             # <<<<<<<<<<<<<<
@@ -17895,7 +17895,7 @@ static __pyx_ctuple_double__ptr__and_int__and_int __pyx_f_6mlgrad_15array_alloca
  */
   /*try:*/ {
 
-    /* "mlgrad/array_allocator.pyx":36
+    /* "mlgrad/array_allocator.pyx":37
  *     PyObject_GetBuffer(m, &view_buffer, PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)
  *     try:
  *         view_ptr = <const char *>view_buffer.buf             # <<<<<<<<<<<<<<
@@ -17904,22 +17904,22 @@ static __pyx_ctuple_double__ptr__and_int__and_int __pyx_f_6mlgrad_15array_alloca
  */
     __pyx_v_view_ptr = ((char const *)__pyx_v_view_buffer.buf);
 
-    /* "mlgrad/array_allocator.pyx":37
+    /* "mlgrad/array_allocator.pyx":38
  *     try:
  *         view_ptr = <const char *>view_buffer.buf
  *         PyObject_GetBuffer(m.obj, &underlying_buffer, PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)             # <<<<<<<<<<<<<<
  *         try:
  *             underlying_ptr = <const char *>underlying_buffer.buf
  */
-    __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_m, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L4_error)
+    __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_m, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L4_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_obj); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L4_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_obj); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L4_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_2 = PyObject_GetBuffer(__pyx_t_3, (&__pyx_v_underlying_buffer), (PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 37, __pyx_L4_error)
+    __pyx_t_2 = PyObject_GetBuffer(__pyx_t_3, (&__pyx_v_underlying_buffer), (PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 38, __pyx_L4_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "mlgrad/array_allocator.pyx":38
+    /* "mlgrad/array_allocator.pyx":39
  *         view_ptr = <const char *>view_buffer.buf
  *         PyObject_GetBuffer(m.obj, &underlying_buffer, PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)
  *         try:             # <<<<<<<<<<<<<<
@@ -17928,7 +17928,7 @@ static __pyx_ctuple_double__ptr__and_int__and_int __pyx_f_6mlgrad_15array_alloca
  */
     /*try:*/ {
 
-      /* "mlgrad/array_allocator.pyx":39
+      /* "mlgrad/array_allocator.pyx":40
  *         PyObject_GetBuffer(m.obj, &underlying_buffer, PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)
  *         try:
  *             underlying_ptr = <const char *>underlying_buffer.buf             # <<<<<<<<<<<<<<
@@ -17937,7 +17937,7 @@ static __pyx_ctuple_double__ptr__and_int__and_int __pyx_f_6mlgrad_15array_alloca
  */
       __pyx_v_underlying_ptr = ((char const *)__pyx_v_underlying_buffer.buf);
 
-      /* "mlgrad/array_allocator.pyx":40
+      /* "mlgrad/array_allocator.pyx":41
  *         try:
  *             underlying_ptr = <const char *>underlying_buffer.buf
  *             if view_ptr < underlying_ptr:             # <<<<<<<<<<<<<<
@@ -17947,20 +17947,20 @@ static __pyx_ctuple_double__ptr__and_int__and_int __pyx_f_6mlgrad_15array_alloca
       __pyx_t_4 = (__pyx_v_view_ptr < __pyx_v_underlying_ptr);
       if (unlikely(__pyx_t_4)) {
 
-        /* "mlgrad/array_allocator.pyx":41
+        /* "mlgrad/array_allocator.pyx":42
  *             underlying_ptr = <const char *>underlying_buffer.buf
  *             if view_ptr < underlying_ptr:
  *                 raise RuntimeError("Weird: view_ptr < underlying_ptr")             # <<<<<<<<<<<<<<
  *             start = view_ptr - underlying_ptr
  *             return (<double*>underlying_ptr, start, len(m))
  */
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 41, __pyx_L7_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 42, __pyx_L7_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_Raise(__pyx_t_3, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __PYX_ERR(0, 41, __pyx_L7_error)
+        __PYX_ERR(0, 42, __pyx_L7_error)
 
-        /* "mlgrad/array_allocator.pyx":40
+        /* "mlgrad/array_allocator.pyx":41
  *         try:
  *             underlying_ptr = <const char *>underlying_buffer.buf
  *             if view_ptr < underlying_ptr:             # <<<<<<<<<<<<<<
@@ -17969,7 +17969,7 @@ static __pyx_ctuple_double__ptr__and_int__and_int __pyx_f_6mlgrad_15array_alloca
  */
       }
 
-      /* "mlgrad/array_allocator.pyx":42
+      /* "mlgrad/array_allocator.pyx":43
  *             if view_ptr < underlying_ptr:
  *                 raise RuntimeError("Weird: view_ptr < underlying_ptr")
  *             start = view_ptr - underlying_ptr             # <<<<<<<<<<<<<<
@@ -17978,7 +17978,7 @@ static __pyx_ctuple_double__ptr__and_int__and_int __pyx_f_6mlgrad_15array_alloca
  */
       __pyx_v_start = (__pyx_v_view_ptr - __pyx_v_underlying_ptr);
 
-      /* "mlgrad/array_allocator.pyx":43
+      /* "mlgrad/array_allocator.pyx":44
  *                 raise RuntimeError("Weird: view_ptr < underlying_ptr")
  *             start = view_ptr - underlying_ptr
  *             return (<double*>underlying_ptr, start, len(m))             # <<<<<<<<<<<<<<
@@ -17993,7 +17993,7 @@ static __pyx_ctuple_double__ptr__and_int__and_int __pyx_f_6mlgrad_15array_alloca
       goto __pyx_L6_return;
     }
 
-    /* "mlgrad/array_allocator.pyx":45
+    /* "mlgrad/array_allocator.pyx":46
  *             return (<double*>underlying_ptr, start, len(m))
  *         finally:
  *             PyBuffer_Release(&underlying_buffer)             # <<<<<<<<<<<<<<
@@ -18043,7 +18043,7 @@ static __pyx_ctuple_double__ptr__and_int__and_int __pyx_f_6mlgrad_15array_alloca
     }
   }
 
-  /* "mlgrad/array_allocator.pyx":47
+  /* "mlgrad/array_allocator.pyx":48
  *             PyBuffer_Release(&underlying_buffer)
  *     finally:
  *         PyBuffer_Release(&view_buffer)             # <<<<<<<<<<<<<<
@@ -18092,7 +18092,7 @@ static __pyx_ctuple_double__ptr__and_int__and_int __pyx_f_6mlgrad_15array_alloca
     }
   }
 
-  /* "mlgrad/array_allocator.pyx":31
+  /* "mlgrad/array_allocator.pyx":32
  * 
  * @cython.binding(True)
  * cdef (double*, int, int) _memoryview_start_and_len(double[::1] m):             # <<<<<<<<<<<<<<
@@ -18111,7 +18111,7 @@ static __pyx_ctuple_double__ptr__and_int__and_int __pyx_f_6mlgrad_15array_alloca
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":49
+/* "mlgrad/array_allocator.pyx":50
  *         PyBuffer_Release(&view_buffer)
  * 
  * def memoryview_start_and_len(m):             # <<<<<<<<<<<<<<
@@ -18173,12 +18173,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "memoryview_start_and_len") < 0)) __PYX_ERR(0, 49, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "memoryview_start_and_len") < 0)) __PYX_ERR(0, 50, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -18189,7 +18189,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("memoryview_start_and_len", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 49, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("memoryview_start_and_len", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 50, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -18231,20 +18231,20 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_memoryview_start_and_len(CYT
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("memoryview_start_and_len", 1);
 
-  /* "mlgrad/array_allocator.pyx":50
+  /* "mlgrad/array_allocator.pyx":51
  * 
  * def memoryview_start_and_len(m):
  *     cdef (double*, int, int) stat = _memoryview_start_and_len(m)             # <<<<<<<<<<<<<<
  *     return (<int>stat[0], stat[1], stat[2])
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_m, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 50, __pyx_L1_error)
-  __pyx_t_2 = __pyx_f_6mlgrad_15array_allocator__memoryview_start_and_len(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_m, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_6mlgrad_15array_allocator__memoryview_start_and_len(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_1, 1);
   __pyx_t_1.memview = NULL; __pyx_t_1.data = NULL;
   __pyx_v_stat = __pyx_t_2;
 
-  /* "mlgrad/array_allocator.pyx":51
+  /* "mlgrad/array_allocator.pyx":52
  * def memoryview_start_and_len(m):
  *     cdef (double*, int, int) stat = _memoryview_start_and_len(m)
  *     return (<int>stat[0], stat[1], stat[2])             # <<<<<<<<<<<<<<
@@ -18252,20 +18252,20 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_memoryview_start_and_len(CYT
  * cdef class Allocator(object):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyInt_From_int(((int)__pyx_v_stat.f0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(((int)__pyx_v_stat.f0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_stat.f1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_stat.f1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_stat.f2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_stat.f2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_3);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3)) __PYX_ERR(0, 51, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3)) __PYX_ERR(0, 52, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_4);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_5);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 2, __pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_6, 2, __pyx_t_5)) __PYX_ERR(0, 52, __pyx_L1_error);
   __pyx_t_3 = 0;
   __pyx_t_4 = 0;
   __pyx_t_5 = 0;
@@ -18273,7 +18273,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_memoryview_start_and_len(CYT
   __pyx_t_6 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/array_allocator.pyx":49
+  /* "mlgrad/array_allocator.pyx":50
  *         PyBuffer_Release(&view_buffer)
  * 
  * def memoryview_start_and_len(m):             # <<<<<<<<<<<<<<
@@ -18296,7 +18296,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_memoryview_start_and_len(CYT
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":55
+/* "mlgrad/array_allocator.pyx":56
  * cdef class Allocator(object):
  *     #
  *     def allocate(self, Py_ssize_t n):             # <<<<<<<<<<<<<<
@@ -18358,23 +18358,23 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 56, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "allocate") < 0)) __PYX_ERR(0, 55, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "allocate") < 0)) __PYX_ERR(0, 56, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
     }
-    __pyx_v_n = __Pyx_PyIndex_AsSsize_t(values[0]); if (unlikely((__pyx_v_n == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L3_error)
+    __pyx_v_n = __Pyx_PyIndex_AsSsize_t(values[0]); if (unlikely((__pyx_v_n == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 56, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("allocate", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 55, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("allocate", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 56, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -18406,7 +18406,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_allocate(CYTHON_U
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("allocate", 1);
 
-  /* "mlgrad/array_allocator.pyx":56
+  /* "mlgrad/array_allocator.pyx":57
  *     #
  *     def allocate(self, Py_ssize_t n):
  *         return None             # <<<<<<<<<<<<<<
@@ -18417,7 +18417,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_allocate(CYTHON_U
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
 
-  /* "mlgrad/array_allocator.pyx":55
+  /* "mlgrad/array_allocator.pyx":56
  * cdef class Allocator(object):
  *     #
  *     def allocate(self, Py_ssize_t n):             # <<<<<<<<<<<<<<
@@ -18432,7 +18432,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_allocate(CYTHON_U
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":57
+/* "mlgrad/array_allocator.pyx":58
  *     def allocate(self, Py_ssize_t n):
  *         return None
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):             # <<<<<<<<<<<<<<
@@ -18497,7 +18497,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -18505,14 +18505,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("allocate2", 1, 2, 2, 1); __PYX_ERR(0, 57, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("allocate2", 1, 2, 2, 1); __PYX_ERR(0, 58, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "allocate2") < 0)) __PYX_ERR(0, 57, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "allocate2") < 0)) __PYX_ERR(0, 58, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 2)) {
       goto __pyx_L5_argtuple_error;
@@ -18520,12 +18520,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
       values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
     }
-    __pyx_v_n = __Pyx_PyIndex_AsSsize_t(values[0]); if (unlikely((__pyx_v_n == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L3_error)
-    __pyx_v_m = __Pyx_PyIndex_AsSsize_t(values[1]); if (unlikely((__pyx_v_m == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L3_error)
+    __pyx_v_n = __Pyx_PyIndex_AsSsize_t(values[0]); if (unlikely((__pyx_v_n == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L3_error)
+    __pyx_v_m = __Pyx_PyIndex_AsSsize_t(values[1]); if (unlikely((__pyx_v_m == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("allocate2", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 57, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("allocate2", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 58, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -18557,7 +18557,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_2allocate2(CYTHON
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("allocate2", 1);
 
-  /* "mlgrad/array_allocator.pyx":58
+  /* "mlgrad/array_allocator.pyx":59
  *         return None
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):
  *         return None             # <<<<<<<<<<<<<<
@@ -18568,7 +18568,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_2allocate2(CYTHON
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
 
-  /* "mlgrad/array_allocator.pyx":57
+  /* "mlgrad/array_allocator.pyx":58
  *     def allocate(self, Py_ssize_t n):
  *         return None
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):             # <<<<<<<<<<<<<<
@@ -18583,7 +18583,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_2allocate2(CYTHON
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":59
+/* "mlgrad/array_allocator.pyx":60
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):
  *         return None
  *     def get_allocated(self):             # <<<<<<<<<<<<<<
@@ -18638,7 +18638,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_4get_allocated(CY
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_allocated", 1);
 
-  /* "mlgrad/array_allocator.pyx":60
+  /* "mlgrad/array_allocator.pyx":61
  *         return None
  *     def get_allocated(self):
  *         return None             # <<<<<<<<<<<<<<
@@ -18649,7 +18649,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_4get_allocated(CY
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
 
-  /* "mlgrad/array_allocator.pyx":59
+  /* "mlgrad/array_allocator.pyx":60
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):
  *         return None
  *     def get_allocated(self):             # <<<<<<<<<<<<<<
@@ -18664,7 +18664,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_4get_allocated(CY
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":61
+/* "mlgrad/array_allocator.pyx":62
  *     def get_allocated(self):
  *         return None
  *     def suballocator(self):             # <<<<<<<<<<<<<<
@@ -18719,7 +18719,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_6suballocator(str
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("suballocator", 1);
 
-  /* "mlgrad/array_allocator.pyx":62
+  /* "mlgrad/array_allocator.pyx":63
  *         return None
  *     def suballocator(self):
  *         return self             # <<<<<<<<<<<<<<
@@ -18731,7 +18731,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_6suballocator(str
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "mlgrad/array_allocator.pyx":61
+  /* "mlgrad/array_allocator.pyx":62
  *     def get_allocated(self):
  *         return None
  *     def suballocator(self):             # <<<<<<<<<<<<<<
@@ -19143,7 +19143,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_9Allocator_10__setstate_cyth
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":66
+/* "mlgrad/array_allocator.pyx":67
  * cdef class ArrayAllocator(Allocator):
  * 
  *     def __init__(self, size):             # <<<<<<<<<<<<<<
@@ -19187,12 +19187,12 @@ static int __pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_1__init__(PyObjec
           (void)__Pyx_Arg_NewRef_VARARGS(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 66, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 67, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 66, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "__init__") < 0)) __PYX_ERR(0, 67, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -19203,7 +19203,7 @@ static int __pyx_pw_6mlgrad_15array_allocator_14ArrayAllocator_1__init__(PyObjec
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 66, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 67, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -19243,7 +19243,7 @@ static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct _
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 1);
 
-  /* "mlgrad/array_allocator.pyx":67
+  /* "mlgrad/array_allocator.pyx":68
  * 
  *     def __init__(self, size):
  *         self.base = None             # <<<<<<<<<<<<<<
@@ -19256,17 +19256,17 @@ static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct _
   __Pyx_DECREF((PyObject *)__pyx_v_self->base);
   __pyx_v_self->base = ((struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *)Py_None);
 
-  /* "mlgrad/array_allocator.pyx":68
+  /* "mlgrad/array_allocator.pyx":69
  *     def __init__(self, size):
  *         self.base = None
  *         self.size = size             # <<<<<<<<<<<<<<
  *         self.start = self.i = 0
  *         self.n_allocated = 0
  */
-  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_size); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyIndex_AsSsize_t(__pyx_v_size); if (unlikely((__pyx_t_1 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 69, __pyx_L1_error)
   __pyx_v_self->size = __pyx_t_1;
 
-  /* "mlgrad/array_allocator.pyx":69
+  /* "mlgrad/array_allocator.pyx":70
  *         self.base = None
  *         self.size = size
  *         self.start = self.i = 0             # <<<<<<<<<<<<<<
@@ -19276,7 +19276,7 @@ static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct _
   __pyx_v_self->start = 0;
   __pyx_v_self->i = 0;
 
-  /* "mlgrad/array_allocator.pyx":70
+  /* "mlgrad/array_allocator.pyx":71
  *         self.size = size
  *         self.start = self.i = 0
  *         self.n_allocated = 0             # <<<<<<<<<<<<<<
@@ -19285,16 +19285,16 @@ static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct _
  */
   __pyx_v_self->n_allocated = 0;
 
-  /* "mlgrad/array_allocator.pyx":71
+  /* "mlgrad/array_allocator.pyx":72
  *         self.start = self.i = 0
  *         self.n_allocated = 0
  *         self.buf = np.zeros(size, 'd')             # <<<<<<<<<<<<<<
  *     #
  *     def __repr__(self):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -19315,7 +19315,7 @@ static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct _
     PyObject *__pyx_callargs[3] = {__pyx_t_3, __pyx_v_size, __pyx_n_u_d};
     __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_4, __pyx_callargs+1-__pyx_t_5, 2+__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
@@ -19325,7 +19325,7 @@ static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct _
   __pyx_v_self->buf = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "mlgrad/array_allocator.pyx":66
+  /* "mlgrad/array_allocator.pyx":67
  * cdef class ArrayAllocator(Allocator):
  * 
  *     def __init__(self, size):             # <<<<<<<<<<<<<<
@@ -19347,7 +19347,7 @@ static int __pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator___init__(struct _
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":73
+/* "mlgrad/array_allocator.pyx":74
  *         self.buf = np.zeros(size, 'd')
  *     #
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -19384,7 +19384,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 1);
 
-  /* "mlgrad/array_allocator.pyx":74
+  /* "mlgrad/array_allocator.pyx":75
  *     #
  *     def __repr__(self):
  *         addr = 0             # <<<<<<<<<<<<<<
@@ -19394,7 +19394,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_addr = __pyx_int_0;
 
-  /* "mlgrad/array_allocator.pyx":75
+  /* "mlgrad/array_allocator.pyx":76
  *     def __repr__(self):
  *         addr = 0
  *         if self.base is not None:             # <<<<<<<<<<<<<<
@@ -19404,19 +19404,19 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
   __pyx_t_1 = (((PyObject *)__pyx_v_self->base) != Py_None);
   if (__pyx_t_1) {
 
-    /* "mlgrad/array_allocator.pyx":76
+    /* "mlgrad/array_allocator.pyx":77
  *         addr = 0
  *         if self.base is not None:
  *             addr = id(self.base)             # <<<<<<<<<<<<<<
  *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
  *     #
  */
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self->base)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self->base)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF_SET(__pyx_v_addr, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "mlgrad/array_allocator.pyx":75
+    /* "mlgrad/array_allocator.pyx":76
  *     def __repr__(self):
  *         addr = 0
  *         if self.base is not None:             # <<<<<<<<<<<<<<
@@ -19425,7 +19425,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
  */
   }
 
-  /* "mlgrad/array_allocator.pyx":77
+  /* "mlgrad/array_allocator.pyx":78
  *         if self.base is not None:
  *             addr = id(self.base)
  *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)             # <<<<<<<<<<<<<<
@@ -19433,7 +19433,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
  *     def close(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyTuple_New(9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = 0;
   __pyx_t_4 = 127;
@@ -19441,7 +19441,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
   __pyx_t_3 += 15;
   __Pyx_GIVEREF(__pyx_kp_u_ArrayAllocator);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_ArrayAllocator);
-  __pyx_t_5 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Unicode(__pyx_v_addr), __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Unicode(__pyx_v_addr), __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_4 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_4) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_4;
   __pyx_t_3 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
@@ -19452,7 +19452,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
   __pyx_t_3 += 1;
   __Pyx_GIVEREF(__pyx_kp_u__10);
   PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_kp_u__10);
-  __pyx_t_5 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_self->size, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_self->size, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_3 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_5);
@@ -19462,7 +19462,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
   __pyx_t_3 += 1;
   __Pyx_GIVEREF(__pyx_kp_u__10);
   PyTuple_SET_ITEM(__pyx_t_2, 4, __pyx_kp_u__10);
-  __pyx_t_5 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_self->start, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_self->start, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_3 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_5);
@@ -19472,7 +19472,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
   __pyx_t_3 += 1;
   __Pyx_GIVEREF(__pyx_kp_u__10);
   PyTuple_SET_ITEM(__pyx_t_2, 6, __pyx_kp_u__10);
-  __pyx_t_5 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_self->n_allocated, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_From_Py_ssize_t(__pyx_v_self->n_allocated, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_3 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_5);
@@ -19482,14 +19482,14 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
   __pyx_t_3 += 1;
   __Pyx_GIVEREF(__pyx_kp_u__7);
   PyTuple_SET_ITEM(__pyx_t_2, 8, __pyx_kp_u__7);
-  __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_2, 9, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_2, 9, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 78, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_5;
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/array_allocator.pyx":73
+  /* "mlgrad/array_allocator.pyx":74
  *         self.buf = np.zeros(size, 'd')
  *     #
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -19510,7 +19510,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_2__repr__(s
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":79
+/* "mlgrad/array_allocator.pyx":80
  *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
  *     #
  *     def close(self):             # <<<<<<<<<<<<<<
@@ -19567,7 +19567,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_4close(stru
   Py_ssize_t __pyx_t_2;
   __Pyx_RefNannySetupContext("close", 1);
 
-  /* "mlgrad/array_allocator.pyx":80
+  /* "mlgrad/array_allocator.pyx":81
  *     #
  *     def close(self):
  *         if self.base is not None:             # <<<<<<<<<<<<<<
@@ -19577,7 +19577,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_4close(stru
   __pyx_t_1 = (((PyObject *)__pyx_v_self->base) != Py_None);
   if (__pyx_t_1) {
 
-    /* "mlgrad/array_allocator.pyx":81
+    /* "mlgrad/array_allocator.pyx":82
  *     def close(self):
  *         if self.base is not None:
  *             self.base.n_allocated = self.n_allocated             # <<<<<<<<<<<<<<
@@ -19587,7 +19587,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_4close(stru
     __pyx_t_2 = __pyx_v_self->n_allocated;
     __pyx_v_self->base->n_allocated = __pyx_t_2;
 
-    /* "mlgrad/array_allocator.pyx":80
+    /* "mlgrad/array_allocator.pyx":81
  *     #
  *     def close(self):
  *         if self.base is not None:             # <<<<<<<<<<<<<<
@@ -19596,7 +19596,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_4close(stru
  */
   }
 
-  /* "mlgrad/array_allocator.pyx":79
+  /* "mlgrad/array_allocator.pyx":80
  *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
  *     #
  *     def close(self):             # <<<<<<<<<<<<<<
@@ -19611,7 +19611,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_4close(stru
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":83
+/* "mlgrad/array_allocator.pyx":84
  *             self.base.n_allocated = self.n_allocated
  *     #
  *     def allocate(self, Py_ssize_t n):             # <<<<<<<<<<<<<<
@@ -19673,23 +19673,23 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "allocate") < 0)) __PYX_ERR(0, 83, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "allocate") < 0)) __PYX_ERR(0, 84, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
     }
-    __pyx_v_n = __Pyx_PyIndex_AsSsize_t(values[0]); if (unlikely((__pyx_v_n == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L3_error)
+    __pyx_v_n = __Pyx_PyIndex_AsSsize_t(values[0]); if (unlikely((__pyx_v_n == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("allocate", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 83, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("allocate", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 84, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -19728,7 +19728,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_6allocate(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("allocate", 1);
 
-  /* "mlgrad/array_allocator.pyx":86
+  /* "mlgrad/array_allocator.pyx":87
  *         cdef ArrayAllocator aa
  * 
  *         if n <= 0:             # <<<<<<<<<<<<<<
@@ -19738,20 +19738,20 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_6allocate(s
   __pyx_t_1 = (__pyx_v_n <= 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "mlgrad/array_allocator.pyx":87
+    /* "mlgrad/array_allocator.pyx":88
  * 
  *         if n <= 0:
  *             raise RuntimeError('n <= 0')             # <<<<<<<<<<<<<<
  * 
  *         if self.n_allocated + n > self.size:
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 87, __pyx_L1_error)
+    __PYX_ERR(0, 88, __pyx_L1_error)
 
-    /* "mlgrad/array_allocator.pyx":86
+    /* "mlgrad/array_allocator.pyx":87
  *         cdef ArrayAllocator aa
  * 
  *         if n <= 0:             # <<<<<<<<<<<<<<
@@ -19760,7 +19760,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_6allocate(s
  */
   }
 
-  /* "mlgrad/array_allocator.pyx":89
+  /* "mlgrad/array_allocator.pyx":90
  *             raise RuntimeError('n <= 0')
  * 
  *         if self.n_allocated + n > self.size:             # <<<<<<<<<<<<<<
@@ -19770,20 +19770,20 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_6allocate(s
   __pyx_t_1 = ((__pyx_v_self->n_allocated + __pyx_v_n) > __pyx_v_self->size);
   if (unlikely(__pyx_t_1)) {
 
-    /* "mlgrad/array_allocator.pyx":90
+    /* "mlgrad/array_allocator.pyx":91
  * 
  *         if self.n_allocated + n > self.size:
  *             raise RuntimeError('Memory out of buffer')             # <<<<<<<<<<<<<<
  * 
  *         self.i = self.n_allocated
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 90, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 90, __pyx_L1_error)
+    __PYX_ERR(0, 91, __pyx_L1_error)
 
-    /* "mlgrad/array_allocator.pyx":89
+    /* "mlgrad/array_allocator.pyx":90
  *             raise RuntimeError('n <= 0')
  * 
  *         if self.n_allocated + n > self.size:             # <<<<<<<<<<<<<<
@@ -19792,7 +19792,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_6allocate(s
  */
   }
 
-  /* "mlgrad/array_allocator.pyx":92
+  /* "mlgrad/array_allocator.pyx":93
  *             raise RuntimeError('Memory out of buffer')
  * 
  *         self.i = self.n_allocated             # <<<<<<<<<<<<<<
@@ -19802,7 +19802,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_6allocate(s
   __pyx_t_3 = __pyx_v_self->n_allocated;
   __pyx_v_self->i = __pyx_t_3;
 
-  /* "mlgrad/array_allocator.pyx":93
+  /* "mlgrad/array_allocator.pyx":94
  * 
  *         self.i = self.n_allocated
  *         self.n_allocated += n             # <<<<<<<<<<<<<<
@@ -19811,19 +19811,19 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_6allocate(s
  */
   __pyx_v_self->n_allocated = (__pyx_v_self->n_allocated + __pyx_v_n);
 
-  /* "mlgrad/array_allocator.pyx":94
+  /* "mlgrad/array_allocator.pyx":95
  *         self.i = self.n_allocated
  *         self.n_allocated += n
  *         ar = self.buf[self.i: self.n_allocated]             # <<<<<<<<<<<<<<
  * 
  *         # aa = self
  */
-  __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->i, __pyx_v_self->n_allocated, NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->i, __pyx_v_self->n_allocated, NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_ar = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "mlgrad/array_allocator.pyx":101
+  /* "mlgrad/array_allocator.pyx":102
  *         #     aa = aa.base
  * 
  *         return ar             # <<<<<<<<<<<<<<
@@ -19835,7 +19835,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_6allocate(s
   __pyx_r = __pyx_v_ar;
   goto __pyx_L0;
 
-  /* "mlgrad/array_allocator.pyx":83
+  /* "mlgrad/array_allocator.pyx":84
  *             self.base.n_allocated = self.n_allocated
  *     #
  *     def allocate(self, Py_ssize_t n):             # <<<<<<<<<<<<<<
@@ -19855,7 +19855,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_6allocate(s
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":103
+/* "mlgrad/array_allocator.pyx":104
  *         return ar
  *     #
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):             # <<<<<<<<<<<<<<
@@ -19920,7 +19920,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -19928,14 +19928,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("allocate2", 1, 2, 2, 1); __PYX_ERR(0, 103, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("allocate2", 1, 2, 2, 1); __PYX_ERR(0, 104, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "allocate2") < 0)) __PYX_ERR(0, 103, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "allocate2") < 0)) __PYX_ERR(0, 104, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 2)) {
       goto __pyx_L5_argtuple_error;
@@ -19943,12 +19943,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
       values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
     }
-    __pyx_v_n = __Pyx_PyIndex_AsSsize_t(values[0]); if (unlikely((__pyx_v_n == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L3_error)
-    __pyx_v_m = __Pyx_PyIndex_AsSsize_t(values[1]); if (unlikely((__pyx_v_m == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L3_error)
+    __pyx_v_n = __Pyx_PyIndex_AsSsize_t(values[0]); if (unlikely((__pyx_v_n == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L3_error)
+    __pyx_v_m = __Pyx_PyIndex_AsSsize_t(values[1]); if (unlikely((__pyx_v_m == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("allocate2", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 103, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("allocate2", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 104, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -19995,7 +19995,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8allocate2(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("allocate2", 1);
 
-  /* "mlgrad/array_allocator.pyx":105
+  /* "mlgrad/array_allocator.pyx":106
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):
  *         # cdef ArrayAllocator aa
  *         cdef Py_ssize_t nm = n * m             # <<<<<<<<<<<<<<
@@ -20004,7 +20004,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8allocate2(
  */
   __pyx_v_nm = (__pyx_v_n * __pyx_v_m);
 
-  /* "mlgrad/array_allocator.pyx":107
+  /* "mlgrad/array_allocator.pyx":108
  *         cdef Py_ssize_t nm = n * m
  * 
  *         if n <= 0 or m <= 0:             # <<<<<<<<<<<<<<
@@ -20022,20 +20022,20 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8allocate2(
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "mlgrad/array_allocator.pyx":108
+    /* "mlgrad/array_allocator.pyx":109
  * 
  *         if n <= 0 or m <= 0:
  *             raise RuntimeError('n <= 0 or m <= 0')             # <<<<<<<<<<<<<<
  * 
  *         if self.n_allocated + nm > self.size:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 109, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 108, __pyx_L1_error)
+    __PYX_ERR(0, 109, __pyx_L1_error)
 
-    /* "mlgrad/array_allocator.pyx":107
+    /* "mlgrad/array_allocator.pyx":108
  *         cdef Py_ssize_t nm = n * m
  * 
  *         if n <= 0 or m <= 0:             # <<<<<<<<<<<<<<
@@ -20044,7 +20044,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8allocate2(
  */
   }
 
-  /* "mlgrad/array_allocator.pyx":110
+  /* "mlgrad/array_allocator.pyx":111
  *             raise RuntimeError('n <= 0 or m <= 0')
  * 
  *         if self.n_allocated + nm > self.size:             # <<<<<<<<<<<<<<
@@ -20054,20 +20054,20 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8allocate2(
   __pyx_t_1 = ((__pyx_v_self->n_allocated + __pyx_v_nm) > __pyx_v_self->size);
   if (unlikely(__pyx_t_1)) {
 
-    /* "mlgrad/array_allocator.pyx":111
+    /* "mlgrad/array_allocator.pyx":112
  * 
  *         if self.n_allocated + nm > self.size:
  *             raise RuntimeError('Memory out of buffer')             # <<<<<<<<<<<<<<
  * 
  *         self.i = self.n_allocated
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 111, __pyx_L1_error)
+    __PYX_ERR(0, 112, __pyx_L1_error)
 
-    /* "mlgrad/array_allocator.pyx":110
+    /* "mlgrad/array_allocator.pyx":111
  *             raise RuntimeError('n <= 0 or m <= 0')
  * 
  *         if self.n_allocated + nm > self.size:             # <<<<<<<<<<<<<<
@@ -20076,7 +20076,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8allocate2(
  */
   }
 
-  /* "mlgrad/array_allocator.pyx":113
+  /* "mlgrad/array_allocator.pyx":114
  *             raise RuntimeError('Memory out of buffer')
  * 
  *         self.i = self.n_allocated             # <<<<<<<<<<<<<<
@@ -20086,7 +20086,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8allocate2(
   __pyx_t_4 = __pyx_v_self->n_allocated;
   __pyx_v_self->i = __pyx_t_4;
 
-  /* "mlgrad/array_allocator.pyx":114
+  /* "mlgrad/array_allocator.pyx":115
  * 
  *         self.i = self.n_allocated
  *         self.n_allocated += nm             # <<<<<<<<<<<<<<
@@ -20095,37 +20095,37 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8allocate2(
  */
   __pyx_v_self->n_allocated = (__pyx_v_self->n_allocated + __pyx_v_nm);
 
-  /* "mlgrad/array_allocator.pyx":115
+  /* "mlgrad/array_allocator.pyx":116
  *         self.i = self.n_allocated
  *         self.n_allocated += nm
  *         ar = self.buf[self.i: self.n_allocated]             # <<<<<<<<<<<<<<
  * 
  *         ar2 = ar.reshape((n, m))
  */
-  __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->i, __pyx_v_self->n_allocated, NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->i, __pyx_v_self->n_allocated, NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_ar = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "mlgrad/array_allocator.pyx":117
+  /* "mlgrad/array_allocator.pyx":118
  *         ar = self.buf[self.i: self.n_allocated]
  * 
  *         ar2 = ar.reshape((n, m))             # <<<<<<<<<<<<<<
  * 
  *         # aa = self
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_ar, __pyx_n_s_reshape); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_ar, __pyx_n_s_reshape); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_v_m); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_v_m); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_6);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6)) __PYX_ERR(0, 117, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6)) __PYX_ERR(0, 118, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_7);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_7)) __PYX_ERR(0, 117, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_7)) __PYX_ERR(0, 118, __pyx_L1_error);
   __pyx_t_6 = 0;
   __pyx_t_7 = 0;
   __pyx_t_7 = NULL;
@@ -20147,14 +20147,14 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8allocate2(
     __pyx_t_3 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+1-__pyx_t_9, 1+__pyx_t_9);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 117, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __pyx_v_ar2 = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "mlgrad/array_allocator.pyx":124
+  /* "mlgrad/array_allocator.pyx":125
  *         #     aa = aa.base
  * 
  *         return ar2             # <<<<<<<<<<<<<<
@@ -20166,7 +20166,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8allocate2(
   __pyx_r = __pyx_v_ar2;
   goto __pyx_L0;
 
-  /* "mlgrad/array_allocator.pyx":103
+  /* "mlgrad/array_allocator.pyx":104
  *         return ar
  *     #
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):             # <<<<<<<<<<<<<<
@@ -20191,7 +20191,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_8allocate2(
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":126
+/* "mlgrad/array_allocator.pyx":127
  *         return ar2
  *     #
  *     def get_allocated(self):             # <<<<<<<<<<<<<<
@@ -20250,16 +20250,16 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_10get_alloc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_allocated", 1);
 
-  /* "mlgrad/array_allocator.pyx":127
+  /* "mlgrad/array_allocator.pyx":128
  *     #
  *     def get_allocated(self):
  *         self.buf[self.start:self.n_allocated] = 0             # <<<<<<<<<<<<<<
  *         return self.buf[self.start: self.n_allocated]
  *     #
  */
-  if (__Pyx_PyObject_SetSlice(__pyx_v_self->buf, __pyx_int_0, __pyx_v_self->start, __pyx_v_self->n_allocated, NULL, NULL, NULL, 1, 1, 0) < 0) __PYX_ERR(0, 127, __pyx_L1_error)
+  if (__Pyx_PyObject_SetSlice(__pyx_v_self->buf, __pyx_int_0, __pyx_v_self->start, __pyx_v_self->n_allocated, NULL, NULL, NULL, 1, 1, 0) < 0) __PYX_ERR(0, 128, __pyx_L1_error)
 
-  /* "mlgrad/array_allocator.pyx":128
+  /* "mlgrad/array_allocator.pyx":129
  *     def get_allocated(self):
  *         self.buf[self.start:self.n_allocated] = 0
  *         return self.buf[self.start: self.n_allocated]             # <<<<<<<<<<<<<<
@@ -20267,13 +20267,13 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_10get_alloc
  *     def suballocator(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->start, __pyx_v_self->n_allocated, NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetSlice(__pyx_v_self->buf, __pyx_v_self->start, __pyx_v_self->n_allocated, NULL, NULL, NULL, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/array_allocator.pyx":126
+  /* "mlgrad/array_allocator.pyx":127
  *         return ar2
  *     #
  *     def get_allocated(self):             # <<<<<<<<<<<<<<
@@ -20292,7 +20292,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_10get_alloc
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pyx":130
+/* "mlgrad/array_allocator.pyx":131
  *         return self.buf[self.start: self.n_allocated]
  *     #
  *     def suballocator(self):             # <<<<<<<<<<<<<<
@@ -20353,19 +20353,19 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12suballoca
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("suballocator", 1);
 
-  /* "mlgrad/array_allocator.pyx":131
+  /* "mlgrad/array_allocator.pyx":132
  *     #
  *     def suballocator(self):
  *         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)             # <<<<<<<<<<<<<<
  * 
  *         allocator.buf = self.buf
  */
-  __pyx_t_1 = ((PyObject *)__pyx_tp_new_6mlgrad_15array_allocator_ArrayAllocator(((PyTypeObject *)__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator), __pyx_empty_tuple, NULL)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_tp_new_6mlgrad_15array_allocator_ArrayAllocator(((PyTypeObject *)__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator), __pyx_empty_tuple, NULL)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF((PyObject *)__pyx_t_1);
   __pyx_v_allocator = ((struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "mlgrad/array_allocator.pyx":133
+  /* "mlgrad/array_allocator.pyx":134
  *         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)
  * 
  *         allocator.buf = self.buf             # <<<<<<<<<<<<<<
@@ -20380,7 +20380,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12suballoca
   __pyx_v_allocator->buf = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "mlgrad/array_allocator.pyx":134
+  /* "mlgrad/array_allocator.pyx":135
  * 
  *         allocator.buf = self.buf
  *         allocator.start = allocator.i = self.n_allocated             # <<<<<<<<<<<<<<
@@ -20391,7 +20391,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12suballoca
   __pyx_v_allocator->start = __pyx_t_2;
   __pyx_v_allocator->i = __pyx_t_2;
 
-  /* "mlgrad/array_allocator.pyx":135
+  /* "mlgrad/array_allocator.pyx":136
  *         allocator.buf = self.buf
  *         allocator.start = allocator.i = self.n_allocated
  *         allocator.n_allocated = self.n_allocated             # <<<<<<<<<<<<<<
@@ -20401,7 +20401,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12suballoca
   __pyx_t_2 = __pyx_v_self->n_allocated;
   __pyx_v_allocator->n_allocated = __pyx_t_2;
 
-  /* "mlgrad/array_allocator.pyx":136
+  /* "mlgrad/array_allocator.pyx":137
  *         allocator.start = allocator.i = self.n_allocated
  *         allocator.n_allocated = self.n_allocated
  *         allocator.size = self.size             # <<<<<<<<<<<<<<
@@ -20411,7 +20411,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12suballoca
   __pyx_t_2 = __pyx_v_self->size;
   __pyx_v_allocator->size = __pyx_t_2;
 
-  /* "mlgrad/array_allocator.pyx":137
+  /* "mlgrad/array_allocator.pyx":138
  *         allocator.n_allocated = self.n_allocated
  *         allocator.size = self.size
  *         allocator.base = self             # <<<<<<<<<<<<<<
@@ -20423,7 +20423,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12suballoca
   __Pyx_DECREF((PyObject *)__pyx_v_allocator->base);
   __pyx_v_allocator->base = __pyx_v_self;
 
-  /* "mlgrad/array_allocator.pyx":138
+  /* "mlgrad/array_allocator.pyx":139
  *         allocator.size = self.size
  *         allocator.base = self
  *         return allocator             # <<<<<<<<<<<<<<
@@ -20433,7 +20433,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12suballoca
   __pyx_r = ((PyObject *)__pyx_v_allocator);
   goto __pyx_L0;
 
-  /* "mlgrad/array_allocator.pyx":130
+  /* "mlgrad/array_allocator.pyx":131
  *         return self.buf[self.start: self.n_allocated]
  *     #
  *     def suballocator(self):             # <<<<<<<<<<<<<<
@@ -20453,11 +20453,12 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_12suballoca
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pxd":42
+/* "mlgrad/array_allocator.pxd":37
  * cdef class ArrayAllocator(Allocator):
  *     cdef ArrayAllocator base
  *     cdef readonly Py_ssize_t size, start, i, n_allocated             # <<<<<<<<<<<<<<
  *     cdef readonly object buf
+ * 
  */
 
 /* Python wrapper */
@@ -20484,7 +20485,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_4size___get
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 1);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->size); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 42, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->size); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20525,7 +20526,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_5start___ge
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 1);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->start); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 42, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->start); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20566,7 +20567,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_1i___get__(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 1);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->i); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 42, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->i); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20607,7 +20608,7 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_11n_allocat
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 1);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->n_allocated); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 42, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_self->n_allocated); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20624,10 +20625,12 @@ static PyObject *__pyx_pf_6mlgrad_15array_allocator_14ArrayAllocator_11n_allocat
   return __pyx_r;
 }
 
-/* "mlgrad/array_allocator.pxd":43
+/* "mlgrad/array_allocator.pxd":38
  *     cdef ArrayAllocator base
  *     cdef readonly Py_ssize_t size, start, i, n_allocated
  *     cdef readonly object buf             # <<<<<<<<<<<<<<
+ * 
+ * 
  */
 
 /* Python wrapper */
@@ -23465,8 +23468,8 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
 }
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(0, 41, __pyx_L1_error)
-  __pyx_builtin_id = __Pyx_GetBuiltinName(__pyx_n_s_id); if (!__pyx_builtin_id) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_builtin_id = __Pyx_GetBuiltinName(__pyx_n_s_id); if (!__pyx_builtin_id) __PYX_ERR(0, 77, __pyx_L1_error)
   __pyx_builtin___import__ = __Pyx_GetBuiltinName(__pyx_n_s_import); if (!__pyx_builtin___import__) __PYX_ERR(1, 100, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 141, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 156, __pyx_L1_error)
@@ -23522,47 +23525,47 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "mlgrad/array_allocator.pyx":41
+  /* "mlgrad/array_allocator.pyx":42
  *             underlying_ptr = <const char *>underlying_buffer.buf
  *             if view_ptr < underlying_ptr:
  *                 raise RuntimeError("Weird: view_ptr < underlying_ptr")             # <<<<<<<<<<<<<<
  *             start = view_ptr - underlying_ptr
  *             return (<double*>underlying_ptr, start, len(m))
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Weird_view_ptr_underlying_ptr); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Weird_view_ptr_underlying_ptr); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "mlgrad/array_allocator.pyx":87
+  /* "mlgrad/array_allocator.pyx":88
  * 
  *         if n <= 0:
  *             raise RuntimeError('n <= 0')             # <<<<<<<<<<<<<<
  * 
  *         if self.n_allocated + n > self.size:
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_n_0); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_n_0); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
-  /* "mlgrad/array_allocator.pyx":90
+  /* "mlgrad/array_allocator.pyx":91
  * 
  *         if self.n_allocated + n > self.size:
  *             raise RuntimeError('Memory out of buffer')             # <<<<<<<<<<<<<<
  * 
  *         self.i = self.n_allocated
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_Memory_out_of_buffer); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_Memory_out_of_buffer); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
 
-  /* "mlgrad/array_allocator.pyx":108
+  /* "mlgrad/array_allocator.pyx":109
  * 
  *         if n <= 0 or m <= 0:
  *             raise RuntimeError('n <= 0 or m <= 0')             # <<<<<<<<<<<<<<
  * 
  *         if self.n_allocated + nm > self.size:
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_n_0_or_m_0); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_n_0_or_m_0); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
 
@@ -23681,62 +23684,62 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__25);
   __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(1, 1, __pyx_L1_error)
 
-  /* "mlgrad/array_allocator.pyx":49
+  /* "mlgrad/array_allocator.pyx":50
  *         PyBuffer_Release(&view_buffer)
  * 
  * def memoryview_start_and_len(m):             # <<<<<<<<<<<<<<
  *     cdef (double*, int, int) stat = _memoryview_start_and_len(m)
  *     return (<int>stat[0], stat[1], stat[2])
  */
-  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_n_s_m, __pyx_n_s_stat); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_n_s_m, __pyx_n_s_stat); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
-  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_memoryview_start_and_len, 49, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_memoryview_start_and_len, 50, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 50, __pyx_L1_error)
 
-  /* "mlgrad/array_allocator.pyx":55
+  /* "mlgrad/array_allocator.pyx":56
  * cdef class Allocator(object):
  *     #
  *     def allocate(self, Py_ssize_t n):             # <<<<<<<<<<<<<<
  *         return None
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):
  */
-  __pyx_tuple__29 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_n); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_n); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_allocate, 55, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_allocate, 56, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 56, __pyx_L1_error)
 
-  /* "mlgrad/array_allocator.pyx":57
+  /* "mlgrad/array_allocator.pyx":58
  *     def allocate(self, Py_ssize_t n):
  *         return None
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):             # <<<<<<<<<<<<<<
  *         return None
  *     def get_allocated(self):
  */
-  __pyx_tuple__31 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_n, __pyx_n_s_m); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_n, __pyx_n_s_m); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_allocate2, 57, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_allocate2, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 58, __pyx_L1_error)
 
-  /* "mlgrad/array_allocator.pyx":59
+  /* "mlgrad/array_allocator.pyx":60
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):
  *         return None
  *     def get_allocated(self):             # <<<<<<<<<<<<<<
  *         return None
  *     def suballocator(self):
  */
-  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
-  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_get_allocated, 59, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_get_allocated, 60, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 60, __pyx_L1_error)
 
-  /* "mlgrad/array_allocator.pyx":61
+  /* "mlgrad/array_allocator.pyx":62
  *     def get_allocated(self):
  *         return None
  *     def suballocator(self):             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_suballocator, 61, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_suballocator, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) __PYX_ERR(0, 62, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
@@ -23759,59 +23762,59 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__38);
   __pyx_codeobj__39 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__38, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_setstate_cython, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__39)) __PYX_ERR(1, 16, __pyx_L1_error)
 
-  /* "mlgrad/array_allocator.pyx":79
+  /* "mlgrad/array_allocator.pyx":80
  *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
  *     #
  *     def close(self):             # <<<<<<<<<<<<<<
  *         if self.base is not None:
  *             self.base.n_allocated = self.n_allocated
  */
-  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_close, 79, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_close, 80, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(0, 80, __pyx_L1_error)
 
-  /* "mlgrad/array_allocator.pyx":83
+  /* "mlgrad/array_allocator.pyx":84
  *             self.base.n_allocated = self.n_allocated
  *     #
  *     def allocate(self, Py_ssize_t n):             # <<<<<<<<<<<<<<
  *         cdef ArrayAllocator aa
  * 
  */
-  __pyx_tuple__41 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_n, __pyx_n_s_aa, __pyx_n_s_ar); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_tuple__41 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_n, __pyx_n_s_aa, __pyx_n_s_ar); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__41);
   __Pyx_GIVEREF(__pyx_tuple__41);
-  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_allocate, 83, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_allocate, 84, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(0, 84, __pyx_L1_error)
 
-  /* "mlgrad/array_allocator.pyx":103
+  /* "mlgrad/array_allocator.pyx":104
  *         return ar
  *     #
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):             # <<<<<<<<<<<<<<
  *         # cdef ArrayAllocator aa
  *         cdef Py_ssize_t nm = n * m
  */
-  __pyx_tuple__43 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_n, __pyx_n_s_m, __pyx_n_s_nm, __pyx_n_s_ar, __pyx_n_s_ar2); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_tuple__43 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_n, __pyx_n_s_m, __pyx_n_s_nm, __pyx_n_s_ar, __pyx_n_s_ar2); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__43);
   __Pyx_GIVEREF(__pyx_tuple__43);
-  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_allocate2, 103, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_allocate2, 104, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(0, 104, __pyx_L1_error)
 
-  /* "mlgrad/array_allocator.pyx":126
+  /* "mlgrad/array_allocator.pyx":127
  *         return ar2
  *     #
  *     def get_allocated(self):             # <<<<<<<<<<<<<<
  *         self.buf[self.start:self.n_allocated] = 0
  *         return self.buf[self.start: self.n_allocated]
  */
-  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_get_allocated, 126, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_get_allocated, 127, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(0, 127, __pyx_L1_error)
 
-  /* "mlgrad/array_allocator.pyx":130
+  /* "mlgrad/array_allocator.pyx":131
  *         return self.buf[self.start: self.n_allocated]
  *     #
  *     def suballocator(self):             # <<<<<<<<<<<<<<
  *         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)
  * 
  */
-  __pyx_tuple__46 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_allocator); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_tuple__46 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_allocator); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__46);
   __Pyx_GIVEREF(__pyx_tuple__46);
-  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_suballocator, 130, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_array_allocator_pyx, __pyx_n_s_suballocator, 131, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(0, 131, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
@@ -23930,15 +23933,15 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_ptype_6mlgrad_15array_allocator_Allocator = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_6mlgrad_15array_allocator_Allocator_spec, NULL); if (unlikely(!__pyx_ptype_6mlgrad_15array_allocator_Allocator)) __PYX_ERR(0, 53, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_6mlgrad_15array_allocator_Allocator_spec, __pyx_ptype_6mlgrad_15array_allocator_Allocator) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_15array_allocator_Allocator = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_6mlgrad_15array_allocator_Allocator_spec, NULL); if (unlikely(!__pyx_ptype_6mlgrad_15array_allocator_Allocator)) __PYX_ERR(0, 54, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_6mlgrad_15array_allocator_Allocator_spec, __pyx_ptype_6mlgrad_15array_allocator_Allocator) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
   #else
   __pyx_ptype_6mlgrad_15array_allocator_Allocator = &__pyx_type_6mlgrad_15array_allocator_Allocator;
   #endif
   #if !CYTHON_COMPILING_IN_LIMITED_API
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_6mlgrad_15array_allocator_Allocator) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_6mlgrad_15array_allocator_Allocator) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_6mlgrad_15array_allocator_Allocator->tp_print = 0;
@@ -23948,17 +23951,17 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_ptype_6mlgrad_15array_allocator_Allocator->tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Allocator, (PyObject *) __pyx_ptype_6mlgrad_15array_allocator_Allocator) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Allocator, (PyObject *) __pyx_ptype_6mlgrad_15array_allocator_Allocator) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_6mlgrad_15array_allocator_Allocator) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_6mlgrad_15array_allocator_Allocator) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
   #endif
   #if CYTHON_USE_TYPE_SPECS
-  __pyx_t_1 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_6mlgrad_15array_allocator_Allocator); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_Pack(1, (PyObject *)__pyx_ptype_6mlgrad_15array_allocator_Allocator); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator = (PyTypeObject *) __Pyx_PyType_FromModuleAndSpec(__pyx_m, &__pyx_type_6mlgrad_15array_allocator_ArrayAllocator_spec, __pyx_t_1);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator)) __PYX_ERR(0, 64, __pyx_L1_error)
-  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_6mlgrad_15array_allocator_ArrayAllocator_spec, __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (unlikely(!__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator)) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (__Pyx_fix_up_extension_type_from_spec(&__pyx_type_6mlgrad_15array_allocator_ArrayAllocator_spec, __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
   #else
   __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator = &__pyx_type_6mlgrad_15array_allocator_ArrayAllocator;
   #endif
@@ -23966,7 +23969,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator->tp_base = __pyx_ptype_6mlgrad_15array_allocator_Allocator;
   #endif
   #if !CYTHON_USE_TYPE_SPECS
-  if (__Pyx_PyType_Ready(__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (__Pyx_PyType_Ready(__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
   #endif
   #if PY_MAJOR_VERSION < 3
   __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator->tp_print = 0;
@@ -23976,9 +23979,9 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator->tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArrayAllocator_2, (PyObject *) __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ArrayAllocator_2, (PyObject *) __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
   #if !CYTHON_COMPILING_IN_LIMITED_API
-  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject *) __pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
   #endif
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -24954,74 +24957,74 @@ if (!__Pyx_RefNanny) {
  * cimport cython
  * import numpy as np             # <<<<<<<<<<<<<<
  * 
- * from cpython.buffer cimport PyObject_GetBuffer, PyBuffer_Release, PyBUF_ANY_CONTIGUOUS, PyBUF_SIMPLE
+ * from cpython.buffer cimport PyObject_GetBuffer, PyBuffer_Release, \
  */
   __pyx_t_7 = __Pyx_ImportDottedModule(__pyx_n_s_numpy, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_7) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "mlgrad/array_allocator.pyx":49
+  /* "mlgrad/array_allocator.pyx":50
  *         PyBuffer_Release(&view_buffer)
  * 
  * def memoryview_start_and_len(m):             # <<<<<<<<<<<<<<
  *     cdef (double*, int, int) stat = _memoryview_start_and_len(m)
  *     return (<int>stat[0], stat[1], stat[2])
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_1memoryview_start_and_len, 0, __pyx_n_s_memoryview_start_and_len, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__28)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_1memoryview_start_and_len, 0, __pyx_n_s_memoryview_start_and_len, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__28)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_memoryview_start_and_len, __pyx_t_7) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_memoryview_start_and_len, __pyx_t_7) < 0) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "mlgrad/array_allocator.pyx":55
+  /* "mlgrad/array_allocator.pyx":56
  * cdef class Allocator(object):
  *     #
  *     def allocate(self, Py_ssize_t n):             # <<<<<<<<<<<<<<
  *         return None
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_9Allocator_1allocate, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Allocator_allocate, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__30)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_9Allocator_1allocate, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Allocator_allocate, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__30)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_Allocator, __pyx_n_s_allocate, __pyx_t_7) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_Allocator, __pyx_n_s_allocate, __pyx_t_7) < 0) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   PyType_Modified(__pyx_ptype_6mlgrad_15array_allocator_Allocator);
 
-  /* "mlgrad/array_allocator.pyx":57
+  /* "mlgrad/array_allocator.pyx":58
  *     def allocate(self, Py_ssize_t n):
  *         return None
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):             # <<<<<<<<<<<<<<
  *         return None
  *     def get_allocated(self):
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_9Allocator_3allocate2, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Allocator_allocate2, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__32)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_9Allocator_3allocate2, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Allocator_allocate2, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__32)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_Allocator, __pyx_n_s_allocate2, __pyx_t_7) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_Allocator, __pyx_n_s_allocate2, __pyx_t_7) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   PyType_Modified(__pyx_ptype_6mlgrad_15array_allocator_Allocator);
 
-  /* "mlgrad/array_allocator.pyx":59
+  /* "mlgrad/array_allocator.pyx":60
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):
  *         return None
  *     def get_allocated(self):             # <<<<<<<<<<<<<<
  *         return None
  *     def suballocator(self):
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_9Allocator_5get_allocated, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Allocator_get_allocated, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__34)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_9Allocator_5get_allocated, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Allocator_get_allocated, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__34)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_Allocator, __pyx_n_s_get_allocated, __pyx_t_7) < 0) __PYX_ERR(0, 59, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_Allocator, __pyx_n_s_get_allocated, __pyx_t_7) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   PyType_Modified(__pyx_ptype_6mlgrad_15array_allocator_Allocator);
 
-  /* "mlgrad/array_allocator.pyx":61
+  /* "mlgrad/array_allocator.pyx":62
  *     def get_allocated(self):
  *         return None
  *     def suballocator(self):             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_9Allocator_7suballocator, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Allocator_suballocator, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__35)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_9Allocator_7suballocator, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_Allocator_suballocator, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__35)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_Allocator, __pyx_n_s_suballocator, __pyx_t_7) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_Allocator, __pyx_n_s_suballocator, __pyx_t_7) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   PyType_Modified(__pyx_ptype_6mlgrad_15array_allocator_Allocator);
 
@@ -25048,68 +25051,68 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   PyType_Modified(__pyx_ptype_6mlgrad_15array_allocator_Allocator);
 
-  /* "mlgrad/array_allocator.pyx":79
+  /* "mlgrad/array_allocator.pyx":80
  *         return "ArrayAllocator(%s %s %s %s)" % (addr, self.size, self.start, self.n_allocated)
  *     #
  *     def close(self):             # <<<<<<<<<<<<<<
  *         if self.base is not None:
  *             self.base.n_allocated = self.n_allocated
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_14ArrayAllocator_5close, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ArrayAllocator_close, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__40)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_14ArrayAllocator_5close, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ArrayAllocator_close, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__40)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator, __pyx_n_s_close, __pyx_t_7) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator, __pyx_n_s_close, __pyx_t_7) < 0) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   PyType_Modified(__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator);
 
-  /* "mlgrad/array_allocator.pyx":83
+  /* "mlgrad/array_allocator.pyx":84
  *             self.base.n_allocated = self.n_allocated
  *     #
  *     def allocate(self, Py_ssize_t n):             # <<<<<<<<<<<<<<
  *         cdef ArrayAllocator aa
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_14ArrayAllocator_7allocate, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ArrayAllocator_allocate, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__42)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 83, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_14ArrayAllocator_7allocate, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ArrayAllocator_allocate, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__42)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator, __pyx_n_s_allocate, __pyx_t_7) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator, __pyx_n_s_allocate, __pyx_t_7) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   PyType_Modified(__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator);
 
-  /* "mlgrad/array_allocator.pyx":103
+  /* "mlgrad/array_allocator.pyx":104
  *         return ar
  *     #
  *     def allocate2(self, Py_ssize_t n, Py_ssize_t m):             # <<<<<<<<<<<<<<
  *         # cdef ArrayAllocator aa
  *         cdef Py_ssize_t nm = n * m
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_14ArrayAllocator_9allocate2, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ArrayAllocator_allocate2, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_14ArrayAllocator_9allocate2, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ArrayAllocator_allocate2, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__44)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator, __pyx_n_s_allocate2, __pyx_t_7) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator, __pyx_n_s_allocate2, __pyx_t_7) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   PyType_Modified(__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator);
 
-  /* "mlgrad/array_allocator.pyx":126
+  /* "mlgrad/array_allocator.pyx":127
  *         return ar2
  *     #
  *     def get_allocated(self):             # <<<<<<<<<<<<<<
  *         self.buf[self.start:self.n_allocated] = 0
  *         return self.buf[self.start: self.n_allocated]
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_14ArrayAllocator_11get_allocated, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ArrayAllocator_get_allocated, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__45)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_14ArrayAllocator_11get_allocated, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ArrayAllocator_get_allocated, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__45)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator, __pyx_n_s_get_allocated, __pyx_t_7) < 0) __PYX_ERR(0, 126, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator, __pyx_n_s_get_allocated, __pyx_t_7) < 0) __PYX_ERR(0, 127, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   PyType_Modified(__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator);
 
-  /* "mlgrad/array_allocator.pyx":130
+  /* "mlgrad/array_allocator.pyx":131
  *         return self.buf[self.start: self.n_allocated]
  *     #
  *     def suballocator(self):             # <<<<<<<<<<<<<<
  *         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)
  * 
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_14ArrayAllocator_13suballocator, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ArrayAllocator_suballocator, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__47)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_15array_allocator_14ArrayAllocator_13suballocator, __Pyx_CYFUNCTION_CCLASS, __pyx_n_s_ArrayAllocator_suballocator, NULL, __pyx_n_s_mlgrad_array_allocator, __pyx_d, ((PyObject *)__pyx_codeobj__47)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator, __pyx_n_s_suballocator, __pyx_t_7) < 0) __PYX_ERR(0, 130, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict((PyObject *)__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator, __pyx_n_s_suballocator, __pyx_t_7) < 0) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   PyType_Modified(__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator);
 

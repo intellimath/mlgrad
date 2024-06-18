@@ -29,11 +29,6 @@ cimport cython
 cdef (double*, int, int) _memoryview_start_and_len(double[::1] m)
 
 cdef class Allocator:
-    #
-    # cpdef allocate(self, Py_ssize_t n)
-    # cpdef allocate2(self, Py_ssize_t n, Py_ssize_t m)
-    # cpdef get_allocated(self)
-    # cpdef Allocator suballocator(self)
     pass
 
 @cython.final
@@ -41,3 +36,5 @@ cdef class ArrayAllocator(Allocator):
     cdef ArrayAllocator base
     cdef readonly Py_ssize_t size, start, i, n_allocated
     cdef readonly object buf
+
+    
