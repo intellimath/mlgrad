@@ -88,7 +88,7 @@ ext_modules = [
     Extension(
         "mlgrad.miscfuncs",
         ["lib/mlgrad/miscfuncs.pyx"],
-        extra_compile_args = extra_compile_args,
+        extra_compibitbucketle_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
     Extension(
