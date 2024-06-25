@@ -5,7 +5,7 @@ __all__ = ['averaging_function']
 
 def averaging_function(
              kind='M',
-             rhofunc=funcs.Sqrt(0.001),
+             rhofunc=funcs.SoftAbs_Sqrt(0.001),
              *,
              tol=1.0e-8, n_iter=1000, args=None, kwds=None):
     """
@@ -47,7 +47,7 @@ def averaging_function(
 
 def scaling_function(
              kind='S',
-             rhofunc=funcs.Sqrt(0.001),
+             rhofunc=funcs.SoftAbs_Sqrt(0.001),
              *,
              tol=1.0e-8, n_iter=200):
 

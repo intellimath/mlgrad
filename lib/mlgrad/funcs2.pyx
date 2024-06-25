@@ -30,6 +30,7 @@ from mlgrad.models import as_array1d
 cdef double double_max = PyFloat_GetMax()
 cdef double double_min = PyFloat_GetMin()
 
+
 enpty = np.empty
 
 numpy.import_array()
@@ -482,8 +483,10 @@ cdef class SquareDiff1(Func2):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
         cdef double *XX = &X[0]
+        # cdef int num_threads = inventory.get_num_threads()
 
         s = 0
+        # for i in prange(1, m, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(1,m):
             v = XX[i] - XX[i-1]
             s += v * v
@@ -494,9 +497,11 @@ cdef class SquareDiff1(Func2):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double *XX = &X[0]
         cdef double *GG = &grad[0]
+        # cdef int num_threads = inventory.get_num_threads()
 
         grad[0] = XX[0] - XX[1]
         grad[m-1] = XX[m-1] - XX[m-2]
+        # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(1, m-1):
             GG[i] = 2*XX[i] - XX[i-1] - XX[i+1]
 
@@ -506,9 +511,11 @@ cdef class SquareDiff2(Func2):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double v, s
         cdef double *XX = &X[0]
+        # cdef int num_threads = inventory.get_num_threads()
 
         v = -2*XX[0] + XX[1]
         s = v * v
+        # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(1, m-1):
             v = XX[i-1] - 2*XX[i] + XX[i+1]
             s += v * v
@@ -522,11 +529,13 @@ cdef class SquareDiff2(Func2):
         cdef double s, v
         cdef double *XX = &X[0]
         cdef double *GG = &grad[0]
+        # cdef int num_threads = inventory.get_num_threads()
 
         GG[0] = XX[0] - 2*XX[1] + XX[2]
         GG[1] = -2*XX[0] + 5*XX[1] - 4*XX[2] + XX[3]
         GG[m-1] = XX[m-1] - 2*XX[m-2] + XX[m-3]
         GG[m-2] = -2*XX[m-1] + 5*XX[m-2] - 4*XX[m-3] + XX[m-4]
+        # for i in prange(2, m-2, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(2, m-2):
             GG[i] = XX[i-2] - 4*XX[i-1] + 6*XX[i] - 4*XX[i+1] + XX[i+2]
 

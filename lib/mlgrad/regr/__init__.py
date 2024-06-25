@@ -123,7 +123,7 @@ def mr_regression_irls(Xs, Y, mod,
     `Xs` и `Y` -- входной двумерный массив и массив ожидаемых значений на выходе.
     """
     if loss_func is None:
-        _loss_func = ErrorLoss(funcs.Sqrt(0.001))
+        _loss_func = ErrorLoss(funcs.SoftAbs_Sqrt(0.001))
     else:
         _loss_func = loss_func
 

@@ -5,6 +5,9 @@ cimport cython
 from libc.math cimport fabs, pow, sqrt, fmax, exp, log
 from libc.string cimport memcpy, memset
 
+from cython.parallel cimport parallel, prange
+cimport mlgrad.inventory as inventory
+
 cimport numpy
 
 cdef extern from "Python.h":

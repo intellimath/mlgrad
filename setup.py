@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from setuptools import setup
+from setuptools import setup, find_packages
 from setuptools.command.build_ext import build_ext
 from setuptools.extension import Extension
 
@@ -8,6 +8,8 @@ from Cython.Compiler import Options
 from Cython.Build import cythonize
 
 Options.fast_fail = True
+
+import numpy
 
 import platform
 WIN32 = (platform.system() == 'Windows')
@@ -20,6 +22,7 @@ extra_compile_args = Oflag #, "-fno-wrapv"]
 
 # extra_compile_args = [] #, "-fno-wrapv"] 
 extra_link_args = ["-lm"]
+
 extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not WIN32 else "/openmp")]
 extra_link_args_openmp = extra_link_args + [("-fopenmp" if not WIN32 else "/openmp")]
 
@@ -67,21 +70,21 @@ ext_modules = [
     Extension(
         "mlgrad.funcs",
         ["lib/mlgrad/funcs.pyx"],
-        library=["-lm"],
+        # libraries=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
     ),
     Extension(
         "mlgrad.funcs2",
         ["lib/mlgrad/funcs2.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
     Extension(
         "mlgrad.models",
         ["lib/mlgrad/models.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
     ),
@@ -100,7 +103,7 @@ ext_modules = [
     Extension(
         "mlgrad.avragg",
         ["lib/mlgrad/avragg.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args_openmp, 
         extra_link_args = extra_link_args_openmp,
 #         cython_compile_time_env = cython_compile_time_env,
@@ -108,7 +111,7 @@ ext_modules = [
     Extension(
         "mlgrad.kaverage",
         ["lib/mlgrad/kaverage.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args, 
         extra_link_args = extra_link_args,
 #         cython_compile_time_env = cython_compile_time_env,
@@ -116,21 +119,21 @@ ext_modules = [
     Extension(
         "mlgrad.loss",
         ["lib/mlgrad/loss.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
    Extension(
         "mlgrad.distance",
         ["lib/mlgrad/distance.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
    Extension(
         "mlgrad.dissimilarity",
         ["lib/mlgrad/dissimilarity.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
@@ -143,7 +146,7 @@ ext_modules = [
     Extension(
         "mlgrad.risks",
         ["lib/mlgrad/risks.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
 #         cython_compile_time_env = cython_compile_time_env,
@@ -151,21 +154,21 @@ ext_modules = [
     Extension(
         "mlgrad.averager",
         ["lib/mlgrad/averager.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
     ),
     Extension(
         "mlgrad.weights",
         ["lib/mlgrad/weights.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
     Extension(
         "mlgrad.gd",
         ["lib/mlgrad/gd.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
@@ -178,7 +181,7 @@ ext_modules = [
     Extension(
         "mlgrad.kmeans",
         ["lib/mlgrad/kmeans.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
@@ -216,6 +219,7 @@ setup(
                 'mlgrad.cls', 'mlgrad.pca', 'mlgrad.cluster', 'mlgrad.outl', 'mlgrad.smooth',
                 'mlgrad.test'],
     package_data = {'': ['*.pxd']},
+    include_dirs=[numpy.get_include()],
     url = 'https://github.org/intellimath/mlgrad',
     download_url = 'https://github.org/intellimath/mlgrad',
     long_description = "", # long_description,

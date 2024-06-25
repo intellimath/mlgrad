@@ -4,10 +4,6 @@
 {
     "distutils": {
         "depends": [],
-        "extra_compile_args": [
-            "-O3",
-            "-march=native"
-        ],
         "extra_link_args": [
             "-lm"
         ],

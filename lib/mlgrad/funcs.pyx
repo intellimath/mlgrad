@@ -424,7 +424,7 @@ cdef class Id(Func):
         return '$\mathrm{id}(x)=x$'
 
 def quantile_func(alpha, func):
-    if type(func) is Sqrt:
+    if type(func) is SoftAbs_Sqrt:
         return Quantile_Sqrt(alpha, func.eps)
     else:
         return QuantileFunc(alpha, func)
@@ -1573,7 +1573,7 @@ cdef class SoftAbs_FSqrt(Func):
     #     return { 'name':'sqrt',
     #              'args': (self.eps) }
 
-cdef const double ln2 = ln(2)
+cdef double ln2 = log(2)
     
 cdef class SoftAbs_Exp(Func):
     #
@@ -1583,11 +1583,11 @@ cdef class SoftAbs_Exp(Func):
     # @cython.cdivision(True)
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
-        cdef lam = self.lam
+        cdef double lam = self.lam
         if x > 0:
-            return  x + (ln(1 + exp(-2*lam*x)) - ln2) / lam
+            return  x + (log(1 + exp(-2*lam*x)) - ln2) / lam
         elif x < 0:
-            return -x + (ln(1 + exp( 2*lam*x)) - ln2) / lam
+            return -x + (log(1 + exp( 2*lam*x)) - ln2) / lam
         else:
             return 0
     #
@@ -1609,7 +1609,7 @@ cdef class SoftAbs_Exp(Func):
     @cython.cdivision(True)
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef lam = self.lam
+        cdef double lam = self.lam
 
         if x > 0:
             return (1 - exp(-2*lam*x)) / (1 + exp(-2*lam*x))
@@ -1632,7 +1632,7 @@ cdef class SoftAbs_Exp(Func):
     @cython.final
     cdef double _derivative2(self, const double x) noexcept nogil:
         cdef double v
-        cdef lam = self.lam
+        cdef double lam = self.lam
 
         if x > 0:
             v = (1 - exp(-2*lam*x)) / (1 + exp(-2*lam*x))
@@ -1656,8 +1656,8 @@ cdef class SoftAbs_Exp(Func):
     #
     # @cython.cdivision(True)
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil        cdef lam = self.lam
-        cdef lam = self.lam
+    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+        cdef double lam = self.lam
 
         if x > 0:
             return (1 - exp(-2*lam*x)) / (1 + exp(-2*lam*x)) / x
@@ -1950,7 +1950,7 @@ register_func(WinsorizedFunc, 'winsorized')
 register_func(Log, 'log')
 register_func(Exp, 'exp')
 register_func(Quantile_Sqrt, 'quantile_sqrt')
-register_func(Sqrt, 'sqrt')
+register_func(SoftAbs_Sqrt, 'softabs_sqrt')
 register_func(SoftAbs, 'softabs')
 register_func(Tukey, 'tukey')
 register_func(LogSquare, 'log_square')
