@@ -2,7 +2,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright © «2015–2022» <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright © «2015–2024» <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -420,11 +420,16 @@ cdef class Id(Func):
     cdef double _derivative2(self, const double x) noexcept nogil:
         return 0
     #
+    cdef double _inverse(self, const double y) noexcept nogil:
+        return y
+    #
     def _repr_latex_(self):
         return '$\mathrm{id}(x)=x$'
 
-def quantile_func(alpha, func):
+def soft_quantile_func(alpha, func):
     if type(func) is SoftAbs_Sqrt:
+        return Quantile_Sqrt(alpha, func.eps)
+    elif type(func) is SoftAbs_Exp:
         return Quantile_Sqrt(alpha, func.eps)
     else:
         return QuantileFunc(alpha, func)
@@ -1486,6 +1491,12 @@ cdef class SoftAbs_Sqrt(Func):
             v = x[i]
             y[i] = 1. / sqrt(eps2 + v*v)
     #
+    # @cython.cdivision(True)
+    @cython.final
+    cdef double _inverse(self, const double y) noexcept nogil:
+        cdef double v = y + self.eps
+        return sqrt(v*v - self.eps2)
+    #    
     def _repr_latex_(self):
         return r"$p(x)=\sqrt{\varepsilon^2+x^2}$"
 
@@ -1573,21 +1584,21 @@ cdef class SoftAbs_FSqrt(Func):
     #     return { 'name':'sqrt',
     #              'args': (self.eps) }
 
-cdef double ln2 = log(2)
+cdef double ln2 = log(2) 
     
 cdef class SoftAbs_Exp(Func):
     #
-    def __init__(self, lam=1.0):
-        self.lam = lam
+    def __init__(self, eps=1.0):
+        self.eps = eps
+        self.eps1 = 1/eps
     #
     # @cython.cdivision(True)
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
-        cdef double lam = self.lam
         if x > 0:
-            return  x + (log(1 + exp(-2*lam*x)) - ln2) / lam
+            return  x + (log(1 + exp(-2*self.eps1*x)) - ln2) * self.eps
         elif x < 0:
-            return -x + (log(1 + exp( 2*lam*x)) - ln2) / lam
+            return -x + (log(1 + exp( 2*self.eps1*x)) - ln2) * self.eps
         else:
             return 0
     #
@@ -1609,12 +1620,12 @@ cdef class SoftAbs_Exp(Func):
     @cython.cdivision(True)
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double lam = self.lam
+        cdef double eps1 = self.eps1
 
         if x > 0:
-            return (1 - exp(-2*lam*x)) / (1 + exp(-2*lam*x))
+            return (1 - exp(-2*eps1*x)) / (1 + exp(-2*eps1*x))
         elif x < 0:
-            return (1 - exp(2*lam*x)) / (1 + exp(2*lam*x))
+            return (exp(2*eps1*x) - 1) / (1 + exp(2*eps1*x))
         else:
             return 0
     #
@@ -1632,16 +1643,16 @@ cdef class SoftAbs_Exp(Func):
     @cython.final
     cdef double _derivative2(self, const double x) noexcept nogil:
         cdef double v
-        cdef double lam = self.lam
+        cdef double eps1 = self.eps1
 
         if x > 0:
-            v = (1 - exp(-2*lam*x)) / (1 + exp(-2*lam*x))
+            v = (1 - exp(-2*eps1*x)) / (1 + exp(-2*eps1*x))
         elif x < 0:
-            v = (1 - exp(2*lam*x)) / (1 + exp(2*lam*x))
+            v = (exp(2*eps1*x - 1)) / (1 + exp(2*eps1*x))
         else:
             v = 0
 
-        return lam * (1 - v*v)
+        return eps1 * (1 - v*v)
     #
     # @cython.cdivision(True)
     # @cython.final
@@ -1657,14 +1668,15 @@ cdef class SoftAbs_Exp(Func):
     # @cython.cdivision(True)
     @cython.final
     cdef double _derivative_div_x(self, const double x) noexcept nogil:
-        cdef double lam = self.lam
+        cdef double eps = self.eps
+        cdef double eps1 = self.eps1
 
         if x > 0:
-            return (1 - exp(-2*lam*x)) / (1 + exp(-2*lam*x)) / x
+            return (1 - exp(-2*self.eps1*x)) / (1 + exp(-2*self.eps1*x)) / x
         elif x < 0:
-            return (1 - exp(2*lam*x)) / (1 + exp(2*lam*x)) / x
+            return (1 - exp(2*self.eps1*x)) / (1 + exp(2*self.eps1*x)) / x
         else:
-            return lam
+            return 0
     #
     # @cython.cdivision(True)
     # @cython.final
@@ -1677,7 +1689,7 @@ cdef class SoftAbs_Exp(Func):
     #         y[i] = 1. / sqrt(eps2 + v*v)
     #
     def _repr_latex_(self):
-        return r"$p(x)=\sqrt{\varepsilon^2+x^2}$"
+        return r"$p(x)=\log(\exp(x/\epsilon) + \exp(-x/\epsilon)) - \log 2$"
 
     def to_dict(self):
         return { 'name':'sqrt',

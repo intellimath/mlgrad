@@ -168,7 +168,8 @@ cdef class SoftAbs_Sqrt(Func):
 @cython.final
 cdef class SoftAbs_Exp(Func):
     #
-    cdef public double lam
+    cdef public double eps
+    cdef double eps1
     #
     
 @cython.final

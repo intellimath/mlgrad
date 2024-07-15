@@ -151,7 +151,16 @@ cdef class TMAverage(Average):
 # cdef class HMAverage(Average):
 #     cdef Average avr
 #     cdef double[::1] Z
-    
+
+@cython.final
+cdef class WMZAverage(Average):
+    cdef public double tau
+    cdef public MAverage mavr
+    cdef MAverage savr
+    cdef double mval, sval
+    cdef double[::1] U, GU
+
+
 @cython.final
 cdef class ArithMean(Average):
     pass
