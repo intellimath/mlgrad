@@ -283,7 +283,7 @@ cdef class MAverage(AverageIterative):
     #
     cdef double init_u(self, double[::1] Y):
         cdef Py_ssize_t N = Y.shape[0]
-        return (Y[0] + Y[N//2] + Y[N-1]) / 3
+        return array_mean(Y)
     #
  
 @cython.final
@@ -627,7 +627,7 @@ cdef class TMAverage(Average):
 @cython.final
 cdef class WMZAverage(Average):
     #
-    def __init__(self, MAverage mavr, MAverage savr=None, tau=3.5, n_iter=1000, tol=1.0e-8):
+    def __init__(self, MAverage mavr, MAverage savr=None, c=1.0, tau=3.5, n_iter=1000, tol=1.0e-8):
         self.mavr = mavr
         if savr is None:
             self.savr = MAverage(mavr.func, n_iter=mavr.n_iter, tol=mavr.tol)
@@ -637,6 +637,7 @@ cdef class WMZAverage(Average):
         self.V = None
         self.GU = None
         self.evaluated = 0
+        self.c = c
     #
     cdef double _evaluate(self, double[::1] Y):
         cdef Py_ssize_t j, N = Y.shape[0]
@@ -653,7 +654,7 @@ cdef class WMZAverage(Average):
             U[j] = rho_func._evaluate(Y[j] - self.mval)
 
         self.sval = self.savr._evaluate(U)
-        tval = self.mval + self.tau * self.sval
+        tval = self.mval + self.c * self.self.tau * self.sval
 
         s = 0
         for j in range(N):
@@ -681,7 +682,7 @@ cdef class WMZAverage(Average):
             
 
         mval = self.mval
-        tval = mval + self.tau * self.sval
+        tval = mval + self.c * self.tau * self.sval
 
         m = 0
         for j in range(N):

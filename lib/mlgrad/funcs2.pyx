@@ -45,23 +45,111 @@ numpy.import_array()
 
 cdef class Func2:
 
+    cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
+        pass
+    #    
     cdef double _evaluate(self, double[::1] X):
         return 0
-    
+    #
+    cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
+        return 0
+    #
     cdef void _gradient(self, double[::1] X, double[::1] grad):
+        pass
+    #
+    cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
         pass
     #
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         return 0
     #
+    def evaluate_items(self, double[::1] X):
+        cdef numpy.npy_intp n = X.shape[0]
+        Y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+        self._evaluate_items(X, Y)
+        return Y
+    #
     def evaluate(self, double[::1] X):
         return self._evaluate(X)
-
+    #
+    def evaluate_ex(self, double[::1] X, double[::1] W):
+        return self._evaluate_ex(X, W)
+    #
     def gradient(self, double[::1] X):
         cdef numpy.npy_intp n = X.shape[0]
         grad = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
         self._gradient(X, grad)
         return grad
+    #
+    def gradient_ex(self, double[::1] X, double[::1] W):
+        cdef numpy.npy_intp n = X.shape[0]
+        grad = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+        self._gradient_ex(X, grad, W)
+        return grad
+
+cdef class FuncNorm(Func2):
+    
+    def __init__(self, Func func):
+        self.func = func
+#         self.all = all
+
+    cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
+        cdef Py_ssize_t i
+        cdef double* X_ptr = &X[0]
+        cdef double* Y_ptr = &Y[0]
+        cdef Func func = self.func
+
+        for i in range(X.shape[0]):
+            Y_ptr[i] = func._evaluate(X_ptr[i])
+
+    cdef double _evaluate(self, double[::1] X):
+        cdef Py_ssize_t i
+        cdef double s
+        cdef double* X_ptr = &X[0]
+        cdef Func func = self.func
+
+        s = 0
+        for i in range(X.shape[0]):
+            s += func._evaluate(X_ptr[i])
+        return s
+
+    cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
+        cdef Py_ssize_t i
+        cdef double s
+        cdef double* X_ptr = &X[0]
+        cdef double* W_ptr = &W[0]
+        cdef Func func = self.func
+
+        s = 0
+        for i in range(X.shape[0]):
+            s += W_ptr[i] * func._evaluate(X_ptr[i])
+        return s
+    
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        cdef Py_ssize_t i
+        cdef double* X_ptr = &X[0]
+        cdef double* grad_ptr = &grad[0]
+        cdef Func func = self.func
+    
+        for i in range(X.shape[0]):
+            grad_ptr[i] = func._derivative(X_ptr[i])
+    #
+    cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
+        cdef Py_ssize_t i
+        cdef double* X_ptr = &X[0]
+        cdef double* W_ptr = &W[0]
+        cdef double* grad_ptr = &grad[0]
+        cdef Func func = self.func
+    
+        for i in range(X.shape[0]):
+            grad_ptr[i] = W_ptr[i] * func._derivative(X_ptr[i])
+    #
+    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
+        return self.func._derivative(X[j])
+    #
+    def _repr_latex_(self):
+        return r"$||\mathbf{w}||_{%s}^{%s}=\sum_{i=0}^n w_i^{%s}$" % (self.p, self.p, self.p)
+
     
 cdef class PowerNorm(Func2):
     
@@ -69,8 +157,21 @@ cdef class PowerNorm(Func2):
         self.p = p
 #         self.all = all
 
+    cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
+        cdef Py_ssize_t i
+        cdef double v, p=self.p
+        cdef double* X_ptr = &X[0]
+        cdef double* Y_ptr = &Y[0]
+
+        for i in range(X.shape[0]):
+            v = X_ptr[i]
+            if v >= 0:
+                Y_ptr[i] = pow(v, p) / p
+            else:
+                Y_ptr[i] = pow(-v, p) / p
+        
     cdef double _evaluate(self, double[::1] X):
-        cdef Py_ssize_t i, m
+        cdef Py_ssize_t i
         cdef double s, v, p=self.p
         cdef double* X_ptr = &X[0]
 
@@ -82,9 +183,26 @@ cdef class PowerNorm(Func2):
             else:
                 s += pow(-v, p)
         
-        s /= self.p
+        s /= p
         return s
 
+    cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
+        cdef Py_ssize_t i, m
+        cdef double s, v, p=self.p
+        cdef double* X_ptr = &X[0]
+        cdef double* W_ptr = &W[0]
+
+        s = 0
+        for i in range(X.shape[0]):
+            v = X_ptr[i]
+            if v >= 0:
+                s += W_ptr[i] * pow(v, p)
+            else:
+                s += W_ptr[i] * pow(-v, p)
+        
+        s /= self.p
+        return s
+    
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m
         cdef double v, p1 = self.p-1
@@ -97,6 +215,20 @@ cdef class PowerNorm(Func2):
                 grad_ptr[i] = -pow(-v, p1)
             else:
                 grad_ptr[i] = pow(v, p1)
+    #
+    cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
+        cdef Py_ssize_t i, m
+        cdef double v, p1 = self.p-1
+        cdef double* X_ptr = &X[0]
+        cdef double* W_ptr = &W[0]
+        cdef double* grad_ptr = &grad[0]
+    
+        for i in range(X.shape[0]):
+            v = X_ptr[i]
+            if v < 0:
+                grad_ptr[i] = -W_ptr[i] * pow(-v, p1)
+            else:
+                grad_ptr[i] = W_ptr[i] * pow(v, p1)
     #
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         cdef double v, p1 = self.p-1
@@ -113,6 +245,16 @@ cdef class PowerNorm(Func2):
 
 cdef class SquareNorm(Func2):
 
+    cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
+        cdef Py_ssize_t i
+        cdef double v
+        cdef double* X_ptr = &X[0]
+        cdef double* Y_ptr = &Y[0]
+
+        for i in range(X.shape[0]):
+            v = X_ptr[i]
+            Y_ptr[i] = 0.5 * v * v
+    
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
@@ -126,6 +268,20 @@ cdef class SquareNorm(Func2):
         s /= 2.
         return s
 
+    cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v
+        cdef double* X_ptr = &X[0]
+        cdef double* W_ptr = &W[0]
+
+        s = 0
+        for i in range(m):
+            v = X_ptr[i]
+            s += W_ptr[i] * v * v
+
+        s /= 2.
+        return s
+    
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double* X_ptr = &X[0]
@@ -133,6 +289,15 @@ cdef class SquareNorm(Func2):
 
         for i in range(m):
             grad_ptr[i] = X_ptr[i]    
+    #
+    cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double* X_ptr = &X[0]
+        cdef double* W_ptr = &W[0]
+        cdef double* grad_ptr = &grad[0]
+
+        for i in range(m):
+            grad_ptr[i] = W_ptr[i] * X_ptr[i]    
     #
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         return X[j]
@@ -142,6 +307,15 @@ cdef class SquareNorm(Func2):
         
 
 cdef class AbsoluteNorm(Func2):
+
+    cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
+        cdef Py_ssize_t i
+        cdef double* X_ptr = &X[0]
+        cdef double* Y_ptr = &Y[0]
+
+        for i in range(X.shape[0]):
+            Y_ptr[i] = fabs(X_ptr[i])
+    
 
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i
@@ -153,6 +327,17 @@ cdef class AbsoluteNorm(Func2):
             s += fabs(X_ptr[i])
         return s
 
+    cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
+        cdef Py_ssize_t i
+        cdef double s
+        cdef double* X_ptr = &X[0]
+        cdef double* W_ptr = &W[0]
+
+        s = 0
+        for i in range(X.shape[0]):
+            s += W_ptr[i] * fabs(X_ptr[i])
+        return s
+    
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m
         cdef double* X_ptr = &X[0]
@@ -164,6 +349,21 @@ cdef class AbsoluteNorm(Func2):
                 grad_ptr[i] = 1
             elif v < 0:
                 grad_ptr[i] = -1
+            else:
+                grad_ptr[i] = 0
+    #
+    cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
+        cdef Py_ssize_t i, m
+        cdef double* X_ptr = &X[0]
+        cdef double* W_ptr = &W[0]
+        cdef double* grad_ptr = &grad[0]
+
+        for i in range(X.shape[0]):
+            v = X_ptr[i]
+            if v > 0:
+                grad_ptr[i] = W_ptr[i]
+            elif v < 0:
+                grad_ptr[i] = -W_ptr[i]
             else:
                 grad_ptr[i] = 0
     #
@@ -479,6 +679,18 @@ cdef class PowerMax(Func2):
 
 cdef class SquareDiff1(Func2):
     #
+    cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double v
+        cdef double *XX = &X[0]
+        cdef double *YY = &X[0]
+        # cdef int num_threads = inventory.get_num_threads()
+
+        # for i in prange(1, m, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(1,m):
+            v = XX[i] - XX[i-1]
+            YY[i] = 0.5 * v * v
+    #
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
@@ -493,19 +705,61 @@ cdef class SquareDiff1(Func2):
 
         return 0.5 * s
 
+    cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v
+        cdef double *XX = &X[0]
+        # cdef int num_threads = inventory.get_num_threads()
+
+        s = 0
+        # for i in prange(1, m, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(1,m):
+            v = W[i] * (XX[i] - XX[i-1])
+            s += v * v
+
+        return 0.5 * s
+
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double *XX = &X[0]
         cdef double *GG = &grad[0]
         # cdef int num_threads = inventory.get_num_threads()
 
-        grad[0] = XX[0] - XX[1]
+        grad[0] = XX[1] - XX[0]
         grad[m-1] = XX[m-1] - XX[m-2]
         # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(1, m-1):
             GG[i] = 2*XX[i] - XX[i-1] - XX[i+1]
 
+    cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double *XX = &X[0]
+        cdef double *GG = &grad[0]
+        # cdef int num_threads = inventory.get_num_threads()
+
+        grad[0] = W[0] * (XX[1] - XX[0])
+        grad[m-1] = W[m-1] * (XX[m-1] - XX[m-2])
+        # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(1, m-1):
+            GG[i] = W[i] * (2*XX[i] - XX[i-1] - XX[i+1])
+            
 cdef class SquareDiff2(Func2):
+    #
+    cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double v
+        cdef double *XX = &X[0]
+        cdef double *YY = &X[0]
+        # cdef int num_threads = inventory.get_num_threads()
+
+        v = -2*XX[0] + XX[1]
+        YY[0] = 0.5 * v * v
+        # for i in prange(1, m, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(1, m-1):
+            v = XX[i-1] - 2*XX[i] + XX[i+1]
+            YY[i] = 0.5 * v * v
+        v = -2*XX[m-2] + XX[m-1]
+        YY[m-1] = 0.5 * v * v
     #
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m = X.shape[0]
@@ -524,6 +778,23 @@ cdef class SquareDiff2(Func2):
 
         return 0.5 * s
 
+    cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double v, s
+        cdef double *XX = &X[0]
+        # cdef int num_threads = inventory.get_num_threads()
+
+        v = W[0] * (-2*XX[0] + XX[1])
+        s = v * v
+        # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(1, m-1):
+            v = W[i] * (XX[i-1] - 2*XX[i] + XX[i+1])
+            s += v * v
+        v = W[m-1] * (-2*XX[m-2] + XX[m-1])
+        s += v * v
+
+        return 0.5 * s
+    
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
@@ -538,4 +809,19 @@ cdef class SquareDiff2(Func2):
         # for i in prange(2, m-2, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(2, m-2):
             GG[i] = XX[i-2] - 4*XX[i-1] + 6*XX[i] - 4*XX[i+1] + XX[i+2]
+
+    cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v
+        cdef double *XX = &X[0]
+        cdef double *GG = &grad[0]
+        # cdef int num_threads = inventory.get_num_threads()
+
+        GG[0] = W[0] * (XX[0] - 2*XX[1] + XX[2])
+        GG[1] = W[1] * (-2*XX[0] + 5*XX[1] - 4*XX[2] + XX[3])
+        GG[m-1] = W[m-1] * (XX[m-1] - 2*XX[m-2] + XX[m-3])
+        GG[m-2] = W[m-2] * (-2*XX[m-1] + 5*XX[m-2] - 4*XX[m-3] + XX[m-4])
+        # for i in prange(2, m-2, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(2, m-2):
+            GG[i] = W[i] * (XX[i-2] - 4*XX[i-1] + 6*XX[i] - 4*XX[i+1] + XX[i+2])
 

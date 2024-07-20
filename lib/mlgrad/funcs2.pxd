@@ -7,6 +7,7 @@ from libc.string cimport memcpy, memset
 
 from cython.parallel cimport parallel, prange
 cimport mlgrad.inventory as inventory
+from mlgrad.funcs cimport Func
 
 cimport numpy
 
@@ -42,9 +43,18 @@ cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
 
 cdef class Func2:
     #cdef bint all
+    cdef void _evaluate_items(self, double[::1] param, double[::1] vals)
     cdef double _evaluate(self, double[::1] param)
     cdef void _gradient(self, double[::1] param, double[::1] grad)
+    cdef double _evaluate_ex(self, double[::1] param, double[::1] weights)
+    cdef void _gradient_ex(self, double[::1] param, double[::1] grad, double[::1] weights)
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j)
+
+@cython.final
+cdef class FuncNorm(Func2):
+    #
+    cdef Func func
+    #
 
 @cython.final
 cdef class PowerNorm(Func2):
