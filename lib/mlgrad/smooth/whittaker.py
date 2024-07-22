@@ -4,6 +4,7 @@ import mlgrad.funcs2 as funcs2
 import mlgrad.funcs as funcs
 import mlgrad.averager as averager
 
+
 import math
 import numpy as np
 
@@ -111,11 +112,11 @@ class WhittakerSmoother:
         if self.collect_qvals:
             self.qvals = qvals
 
-def whittaker(X, func=None, func1=None, func2=None, weights=None, h=0.01, 
+def whittaker(X, func=None, func1=None, func2=None, W=None, h=0.01, 
               tau2=1.0, tau1=0, n_iter=1000, tol=1.0e-9, collect_qvals=False):
     alg = WhittakerSmoother(func=func, func1=func1, func2=func2, h=h, 
                             tau2=tau2, tau1=tau1, n_iter=n_iter)
-    alg.fit(X, weights=weights)
+    alg.fit(X, W=W)
     if collect_qvals:
         return alg.Z, alg.qvals
     else:

@@ -58,15 +58,15 @@ cdef class ScalarWindowAverager(ScalarAverager):
 
 cdef class ArrayAverager:
     #
-    cdef double[::1] array_average
+    cdef public double[::1] array_average
     #
-    cdef init(self, object ndim)
+    cdef _init(self, object ndim)
     #
     cdef void set_param1(self, double val)
     #
     cdef void set_param2(self, double val)
     #
-    cdef update(self, double[::1] x, double h)
+    cdef _update(self, double[::1] x, double h)
 
 cdef class ArraySave(ArrayAverager):
     pass

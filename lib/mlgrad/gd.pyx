@@ -69,7 +69,7 @@ cdef class GD:
 
         if self.grad_averager is None:
             self.grad_averager = ArraySave()
-        self.grad_averager.init(n_param)
+        self.grad_averager._init(n_param)
         
         # if self.param_transformer is not None:
         #     self.param_transformer.init(n_param)
@@ -176,7 +176,7 @@ cdef class GD:
                 if isnan(v):
                     raise RuntimeError(f"{self.K} {list(risk.grad_average)}")
 
-            self.grad_averager.update(risk.grad_average, self.h)
+            self.grad_averager._update(risk.grad_average, self.h)
             risk.update_param(self.grad_averager.array_average)
 
             # for i in range(n_param):
@@ -208,7 +208,6 @@ cdef class GD:
         cdef Risk risk = self.risk
         
         inventory.move(risk.param, self.param_min)
-        
             
 include "gd_fg.pyx"
 include "gd_fg_rud.pyx"
