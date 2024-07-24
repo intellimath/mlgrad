@@ -11,7 +11,7 @@ import numpy as np
 class WhittakerSmoother:
     #
     def __init__(self, func=None, func1=None, func2=None, h=0.001, n_iter=1000, 
-                 tol=1.0e-8, tau1=4.0, tau2=10.0, collect_qvals=False):
+                 tol=1.0e-6, tau1=4.0, tau2=10.0, collect_qvals=False):
         if func is None:
             self.func = funcs2.SquareNorm()
         else:
@@ -68,8 +68,9 @@ class WhittakerSmoother:
 
         ZX = Z - X
         qval = func.evaluate_ex(ZX, W) + \
-               tau2 * func2.evaluate_ex(Z, W2) + \
-               tau1 * func1.evaluate_ex(Z, W1)
+               tau2 * func2.evaluate_ex(Z, W2)
+        if tau1 > 0:
+               qval += tau1 * func1.evaluate_ex(Z, W1)
     
         qval_min = qval
         qval_min_prev = 10*qval_min
@@ -81,8 +82,9 @@ class WhittakerSmoother:
             qval_prev = qval
 
             grad = func.gradient_ex(ZX, W) + \
-                   tau2 * func2.gradient_ex(Z, W2) + \
-                   tau1 * func1.gradient_ex(Z, W1)
+                   tau2 * func2.gradient_ex(Z, W2)
+            if tau1 > 0:
+                   grad += tau1 * func1.gradient_ex(Z, W1)
 
             avg.update(grad, h)
 
@@ -90,8 +92,9 @@ class WhittakerSmoother:
 
             ZX = Z - X
             qval = func.evaluate_ex(ZX, W) + \
-                   tau2 * func2.evaluate_ex(Z, W2) + \
-                   tau1 * func1.evaluate_ex(Z, W1)
+                   tau2 * func2.evaluate_ex(Z, W2)
+            if tau1 > 0:
+                   qval += tau1 * func1.evaluate_ex(Z, W1)
 
             if self.collect_qvals:
                 qvals.append(qval)
@@ -112,15 +115,17 @@ class WhittakerSmoother:
         if self.collect_qvals:
             self.qvals = qvals
 
-def whittaker(X, func=None, func1=None, func2=None, W=None, h=0.01, 
-              tau2=1.0, tau1=0, n_iter=1000, tol=1.0e-9, collect_qvals=False):
+def whittaker(X, func=None, func1=None, func2=None, W=None, h=0.001, 
+              tau2=1.0, tau1=0, n_iter=1000, tol=1.0e-8):
     alg = WhittakerSmoother(func=func, func1=func1, func2=func2, h=h, 
                             tau2=tau2, tau1=tau1, n_iter=n_iter)
-    alg.fit(X, W=W)
-    if collect_qvals:
-        return alg.Z, alg.qvals
+    s = np.median(abs(X))
+    if s > 10:
+        alg.fit(X/s, W=W)
+        alg.Z *= s
     else:
-        return alg.Z
+        alg.fit(X, W=W)
+    return alg.Z
 
 def whittaker_agg(X, aggfunc, func=None, func2=None, W=None, h=0.001, 
                      tau2=1.0, tau1=0, n_iter=1000, tol=1.0e-9, n_iter2=100, 
