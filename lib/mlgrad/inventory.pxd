@@ -7,7 +7,7 @@ cimport cython
 from numpy cimport npy_uint8 as uint8
 
 from libc.string cimport memcpy, memset
-from libc.math cimport isnan
+from libc.math cimport isnan, fma
 
 cdef int get_num_threads() noexcept nogil
 cdef int get_num_procs() noexcept nogil

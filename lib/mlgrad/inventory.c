@@ -19764,7 +19764,7 @@ static double __pyx_f_6mlgrad_9inventory__conv(double const *__pyx_v_a, double c
  *     cdef double s = 0
  * 
  *     for i in range(n):             # <<<<<<<<<<<<<<
- *         s += a[i] * b[i]
+ *         s = fma(a[i], b[i], s)
  *     return s
  */
   __pyx_t_1 = __pyx_v_n;
@@ -19775,16 +19775,16 @@ static double __pyx_f_6mlgrad_9inventory__conv(double const *__pyx_v_a, double c
     /* "mlgrad/inventory.pyx":110
  * 
  *     for i in range(n):
- *         s += a[i] * b[i]             # <<<<<<<<<<<<<<
+ *         s = fma(a[i], b[i], s)             # <<<<<<<<<<<<<<
  *     return s
  * 
  */
-    __pyx_v_s = (__pyx_v_s + ((__pyx_v_a[__pyx_v_i]) * (__pyx_v_b[__pyx_v_i])));
+    __pyx_v_s = fma((__pyx_v_a[__pyx_v_i]), (__pyx_v_b[__pyx_v_i]), __pyx_v_s);
   }
 
   /* "mlgrad/inventory.pyx":111
  *     for i in range(n):
- *         s += a[i] * b[i]
+ *         s = fma(a[i], b[i], s)
  *     return s             # <<<<<<<<<<<<<<
  * 
  * cdef double conv(double[::1] a, double[::1] b) noexcept nogil:
@@ -20982,7 +20982,7 @@ static double __pyx_f_6mlgrad_9inventory__dot1(double const *__pyx_v_a, double c
  * 
  *     a += 1             # <<<<<<<<<<<<<<
  *     for i in range(n):
- *         s += a[i] * b[i]
+ *         s = fma(a[i], b[i], s)
  */
   __pyx_v_a = (__pyx_v_a + 1);
 
@@ -20990,7 +20990,7 @@ static double __pyx_f_6mlgrad_9inventory__dot1(double const *__pyx_v_a, double c
  * 
  *     a += 1
  *     for i in range(n):             # <<<<<<<<<<<<<<
- *         s += a[i] * b[i]
+ *         s = fma(a[i], b[i], s)
  *     return s
  */
   __pyx_t_1 = __pyx_v_n;
@@ -21001,16 +21001,16 @@ static double __pyx_f_6mlgrad_9inventory__dot1(double const *__pyx_v_a, double c
     /* "mlgrad/inventory.pyx":236
  *     a += 1
  *     for i in range(n):
- *         s += a[i] * b[i]             # <<<<<<<<<<<<<<
+ *         s = fma(a[i], b[i], s)             # <<<<<<<<<<<<<<
  *     return s
  * 
  */
-    __pyx_v_s = (__pyx_v_s + ((__pyx_v_a[__pyx_v_i]) * (__pyx_v_b[__pyx_v_i])));
+    __pyx_v_s = fma((__pyx_v_a[__pyx_v_i]), (__pyx_v_b[__pyx_v_i]), __pyx_v_s);
   }
 
   /* "mlgrad/inventory.pyx":237
  *     for i in range(n):
- *         s += a[i] * b[i]
+ *         s = fma(a[i], b[i], s)
  *     return s             # <<<<<<<<<<<<<<
  * 
  * cdef double dot(double[::1] a, double[::1] b) noexcept nogil:
@@ -21168,7 +21168,7 @@ static double __pyx_f_6mlgrad_9inventory__dot_t(double const *__pyx_v_a, double 
  *     cdef double s = 0
  * 
  *     for i in range(n):             # <<<<<<<<<<<<<<
- *         s += a[i] * b[0]
+ *         s = fma(a[i], b[0], s)
  *         b += m
  */
   __pyx_t_1 = __pyx_v_n;
@@ -21179,15 +21179,15 @@ static double __pyx_f_6mlgrad_9inventory__dot_t(double const *__pyx_v_a, double 
     /* "mlgrad/inventory.pyx":255
  * 
  *     for i in range(n):
- *         s += a[i] * b[0]             # <<<<<<<<<<<<<<
+ *         s = fma(a[i], b[0], s)             # <<<<<<<<<<<<<<
  *         b += m
  *     return s
  */
-    __pyx_v_s = (__pyx_v_s + ((__pyx_v_a[__pyx_v_i]) * (__pyx_v_b[0])));
+    __pyx_v_s = fma((__pyx_v_a[__pyx_v_i]), (__pyx_v_b[0]), __pyx_v_s);
 
     /* "mlgrad/inventory.pyx":256
  *     for i in range(n):
- *         s += a[i] * b[0]
+ *         s = fma(a[i], b[0], s)
  *         b += m             # <<<<<<<<<<<<<<
  *     return s
  * 
@@ -21196,7 +21196,7 @@ static double __pyx_f_6mlgrad_9inventory__dot_t(double const *__pyx_v_a, double 
   }
 
   /* "mlgrad/inventory.pyx":257
- *         s += a[i] * b[0]
+ *         s = fma(a[i], b[0], s)
  *         b += m
  *     return s             # <<<<<<<<<<<<<<
  * 
@@ -21871,7 +21871,7 @@ static void __pyx_f_6mlgrad_9inventory_scatter_matrix_weighted(__Pyx_memviewslic
  *         Py_ssize_t N = X.shape[0]
  *         Py_ssize_t n = X.shape[1]             # <<<<<<<<<<<<<<
  *         Py_ssize_t i, j, k
- *         double s
+ *         double s, xkj
  */
   __pyx_v_n = (__pyx_v_X.shape[1]);
 
@@ -22097,7 +22097,7 @@ static void __pyx_f_6mlgrad_9inventory_scatter_matrix(__Pyx_memviewslice __pyx_v
  *             Xk = &X[0,0]
  *             s = 0             # <<<<<<<<<<<<<<
  *             for k in range(N):
- *                 s += Xk[i] * Xk[j]
+ *                 s = fma(Xk[i], Xk[j], s)
  */
       __pyx_v_s = 0.0;
 
@@ -22105,7 +22105,7 @@ static void __pyx_f_6mlgrad_9inventory_scatter_matrix(__Pyx_memviewslice __pyx_v
  *             Xk = &X[0,0]
  *             s = 0
  *             for k in range(N):             # <<<<<<<<<<<<<<
- *                 s += Xk[i] * Xk[j]
+ *                 s = fma(Xk[i], Xk[j], s)
  *                 Xk += n
  */
       __pyx_t_9 = __pyx_v_N;
@@ -22116,15 +22116,15 @@ static void __pyx_f_6mlgrad_9inventory_scatter_matrix(__Pyx_memviewslice __pyx_v
         /* "mlgrad/inventory.pyx":392
  *             s = 0
  *             for k in range(N):
- *                 s += Xk[i] * Xk[j]             # <<<<<<<<<<<<<<
+ *                 s = fma(Xk[i], Xk[j], s)             # <<<<<<<<<<<<<<
  *                 Xk += n
  *             ss[j] = s
  */
-        __pyx_v_s = (__pyx_v_s + ((__pyx_v_Xk[__pyx_v_i]) * (__pyx_v_Xk[__pyx_v_j])));
+        __pyx_v_s = fma((__pyx_v_Xk[__pyx_v_i]), (__pyx_v_Xk[__pyx_v_j]), __pyx_v_s);
 
         /* "mlgrad/inventory.pyx":393
  *             for k in range(N):
- *                 s += Xk[i] * Xk[j]
+ *                 s = fma(Xk[i], Xk[j], s)
  *                 Xk += n             # <<<<<<<<<<<<<<
  *             ss[j] = s
  *         ss += n
@@ -22133,7 +22133,7 @@ static void __pyx_f_6mlgrad_9inventory_scatter_matrix(__Pyx_memviewslice __pyx_v
       }
 
       /* "mlgrad/inventory.pyx":394
- *                 s += Xk[i] * Xk[j]
+ *                 s = fma(Xk[i], Xk[j], s)
  *                 Xk += n
  *             ss[j] = s             # <<<<<<<<<<<<<<
  *         ss += n
@@ -22330,7 +22330,7 @@ static void __pyx_f_6mlgrad_9inventory_weighted_sum_rows(__Pyx_memviewslice __py
  *         Xk = &X[0,0]
  *         for k in range(N):             # <<<<<<<<<<<<<<
  *             wk = W[k]
- *             y += wk * Xk[i]
+ *             y = fma(wk, Xk[i], y)
  */
     __pyx_t_6 = __pyx_v_N;
     __pyx_t_7 = __pyx_t_6;
@@ -22341,7 +22341,7 @@ static void __pyx_f_6mlgrad_9inventory_weighted_sum_rows(__Pyx_memviewslice __py
  *         Xk = &X[0,0]
  *         for k in range(N):
  *             wk = W[k]             # <<<<<<<<<<<<<<
- *             y += wk * Xk[i]
+ *             y = fma(wk, Xk[i], y)
  *             Xk += n
  */
       __pyx_t_5 = __pyx_v_k;
@@ -22350,15 +22350,15 @@ static void __pyx_f_6mlgrad_9inventory_weighted_sum_rows(__Pyx_memviewslice __py
       /* "mlgrad/inventory.pyx":426
  *         for k in range(N):
  *             wk = W[k]
- *             y += wk * Xk[i]             # <<<<<<<<<<<<<<
+ *             y = fma(wk, Xk[i], y)             # <<<<<<<<<<<<<<
  *             Xk += n
  *         yy[i] = y
  */
-      __pyx_v_y = (__pyx_v_y + (__pyx_v_wk * (__pyx_v_Xk[__pyx_v_i])));
+      __pyx_v_y = fma(__pyx_v_wk, (__pyx_v_Xk[__pyx_v_i]), __pyx_v_y);
 
       /* "mlgrad/inventory.pyx":427
  *             wk = W[k]
- *             y += wk * Xk[i]
+ *             y = fma(wk, Xk[i], y)
  *             Xk += n             # <<<<<<<<<<<<<<
  *         yy[i] = y
  */
@@ -22366,7 +22366,7 @@ static void __pyx_f_6mlgrad_9inventory_weighted_sum_rows(__Pyx_memviewslice __py
     }
 
     /* "mlgrad/inventory.pyx":428
- *             y += wk * Xk[i]
+ *             y = fma(wk, Xk[i], y)
  *             Xk += n
  *         yy[i] = y             # <<<<<<<<<<<<<<
  */

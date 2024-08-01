@@ -122,7 +122,7 @@ cdef class FuncNorm(Func2):
 
         s = 0
         for i in range(X.shape[0]):
-            s += W_ptr[i] * func._evaluate(X_ptr[i])
+            s = fma(W_ptr[i], func._evaluate(X_ptr[i]), s)
         return s
     
     cdef void _gradient(self, double[::1] X, double[::1] grad):
@@ -196,9 +196,9 @@ cdef class PowerNorm(Func2):
         for i in range(X.shape[0]):
             v = X_ptr[i]
             if v >= 0:
-                s += W_ptr[i] * pow(v, p)
+                s = fma(W_ptr[i], pow(v, p), s)
             else:
-                s += W_ptr[i] * pow(-v, p)
+                s = fma(W_ptr[i], pow(-v, p), s)
         
         s /= self.p
         return s
@@ -335,7 +335,7 @@ cdef class AbsoluteNorm(Func2):
 
         s = 0
         for i in range(X.shape[0]):
-            s += W_ptr[i] * fabs(X_ptr[i])
+            s = fma(W_ptr[i], fabs(X_ptr[i]), s)
         return s
     
     cdef void _gradient(self, double[::1] X, double[::1] grad):
@@ -443,7 +443,7 @@ cdef class SquareForm(Func2):
         for j in range(n_row):
             s = mat[j,0]
             for i in range(1, n_col):
-                s += mat[j,i] * x[i-1]
+                s = fma(mat[j,i], x[i-1], s)
             val += s*s
         return 0.5*val
 
@@ -461,7 +461,7 @@ cdef class SquareForm(Func2):
         for j in range(n_row):
             s = mat[j,0]
             for i in range(1, n_col):
-                s += mat[j,i] * x[i-1]
+                s = fma(mat[j,i], x[i-1], s)
 
             for i in range(1, n_col):
                 y[i-1] += s*mat[j,i]
@@ -578,7 +578,7 @@ cdef class SoftMax(Func2):
             s += exp(p*(X[i] - v_max))
 
         s = log(s)
-        s += p * v_max
+        s = fma(p, v_max, s)
         
         return s / p
 

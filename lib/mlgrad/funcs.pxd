@@ -3,6 +3,10 @@
 
 cimport cython
 
+from libc.math cimport fabs, pow, sqrt, fmax, exp, log, atan, fma
+from libc.math cimport isnan, isinf
+from libc.stdlib cimport strtod
+
 cdef class Func(object):
     cdef public unicode label
     #

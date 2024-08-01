@@ -339,7 +339,7 @@ cdef class SigmaNeuronModel(Model):
         # s =  param[0] + inventory._dot(&X[0], &param[1], self.n_input)
         s = param[0]
         for i in range(self.n_input):
-            s += param[i+1] * X[i]
+            s = fma(param[i+1], X[i], s)
         
         return self.outfunc._evaluate(s)
     #
@@ -351,7 +351,7 @@ cdef class SigmaNeuronModel(Model):
         # s =  param[0] + inventory._conv(&X[0], &param[1], self.n_input)
         s = param[0]
         for i in range(self.n_input):
-            s += param[i+1] * X[i]
+            s = fma(param[i+1], X[i], s)
 
         sx = self.outfunc._derivative(s)
 

@@ -107,7 +107,7 @@ cdef double _conv(const double *a, const double *b, const Py_ssize_t n) noexcept
     cdef double s = 0
 
     for i in range(n):
-        s += a[i] * b[i]
+        s = fma(a[i], b[i], s)
     return s
 
 cdef double conv(double[::1] a, double[::1] b) noexcept nogil:
@@ -233,7 +233,7 @@ cdef double _dot1(const double *a, const double *b, const Py_ssize_t n) noexcept
 
     a += 1
     for i in range(n):
-        s += a[i] * b[i]
+        s = fma(a[i], b[i], s)
     return s
 
 cdef double dot(double[::1] a, double[::1] b) noexcept nogil:
@@ -252,7 +252,7 @@ cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssiz
     cdef double s = 0
 
     for i in range(n):
-        s += a[i] * b[0]
+        s = fma(a[i], b[0], s)
         b += m
     return s
 
@@ -341,7 +341,7 @@ cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] 
         Py_ssize_t N = X.shape[0]
         Py_ssize_t n = X.shape[1]
         Py_ssize_t i, j, k
-        double s
+        double s, xkj
         double *Xk
         double *ss
 
@@ -389,7 +389,7 @@ cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil:
             Xk = &X[0,0]
             s = 0
             for k in range(N):
-                s += Xk[i] * Xk[j]
+                s = fma(Xk[i], Xk[j], s)
                 Xk += n
             ss[j] = s
         ss += n
@@ -423,6 +423,6 @@ cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexc
         Xk = &X[0,0]
         for k in range(N):
             wk = W[k]
-            y += wk * Xk[i]
+            y = fma(wk, Xk[i], y)
             Xk += n
         yy[i] = y

@@ -41,6 +41,9 @@ class WhittakerSmoother:
         func = self.func
         func1 = self.func1
         func2 = self.func2
+        N = len(X)
+
+        putmask = np.putmask
 
         if W is None:
             W = np.ones_like(X)
@@ -58,7 +61,7 @@ class WhittakerSmoother:
             W1 = np.asarray(W1)
 
         avg = averager.ArrayAdaM2()
-        avg.init(len(X))
+        avg.init(N)
         
         if self.Z is None:
             Z = X.copy()
@@ -66,11 +69,14 @@ class WhittakerSmoother:
             Z = self.Z
         Z_min = Z.copy()
 
-        ZX = Z - X
+        ZX = X - Z
+        # A = abs(ZX)
+        # A /= max(A) + 1.0e-6
         qval = func.evaluate_ex(ZX, W) + \
                tau2 * func2.evaluate_ex(Z, W2)
         if tau1 > 0:
                qval += tau1 * func1.evaluate_ex(Z, W1)
+        qval /= N
     
         qval_min = qval
         qval_min_prev = 10*qval_min
@@ -80,6 +86,7 @@ class WhittakerSmoother:
 
         for K in range(self.n_iter):
             qval_prev = qval
+            Z_prev = Z.copy()
 
             grad = func.gradient_ex(ZX, W) + \
                    tau2 * func2.gradient_ex(Z, W2)
@@ -90,11 +97,15 @@ class WhittakerSmoother:
 
             Z -= avg.array_average
 
-            ZX = Z - X
+            ZX = X - Z
+            # A = abs(ZX)
+            # A /= max(A) + 1.0e-6
+            
             qval = func.evaluate_ex(ZX, W) + \
                    tau2 * func2.evaluate_ex(Z, W2)
             if tau1 > 0:
                    qval += tau1 * func1.evaluate_ex(Z, W1)
+            qval /= N
 
             if self.collect_qvals:
                 qvals.append(qval)
@@ -103,6 +114,8 @@ class WhittakerSmoother:
                 qval_min_prev = qval_min
                 qval_min = qval
                 Z_min = Z.copy()
+                putmask(Z_min, Z_min < 0, 0)
+
 
             if abs(qval - qval_prev) / (1.0 + abs(qval_min)) < tol:
                 break
@@ -112,6 +125,7 @@ class WhittakerSmoother:
 
         self.Z = Z_min
         self.K = K+1
+        self.delta_qval = abs(qval_min - qval_min_prev)
         if self.collect_qvals:
             self.qvals = qvals
 
@@ -120,15 +134,16 @@ def whittaker(X, func=None, func1=None, func2=None, W=None, h=0.001,
     alg = WhittakerSmoother(func=func, func1=func1, func2=func2, h=h, 
                             tau2=tau2, tau1=tau1, n_iter=n_iter)
     s = np.median(abs(X))
-    if s > 10:
+    if s > 1:
         alg.fit(X/s, W=W)
         alg.Z *= s
     else:
         alg.fit(X, W=W)
+    # print(alg.K, alg.delta_qval)
     return alg.Z
 
 def whittaker_agg(X, aggfunc, func=None, func2=None, W=None, h=0.001, 
-                     tau2=1.0, tau1=0, n_iter=1000, tol=1.0e-9, n_iter2=100, 
+                     tau2=1.0, tau1=0, n_iter=1000, tol=1.0e-8, n_iter2=100, 
                      collect_qvals=False):
     alg = WhittakerSmoother(func=func, func2=func2, h=h, 
                             tau2=tau2, n_iter=n_iter)

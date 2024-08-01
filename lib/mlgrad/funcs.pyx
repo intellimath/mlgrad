@@ -22,10 +22,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from libc.math cimport fabs, pow, sqrt, fmax, exp, log, atan
-from libc.math cimport isnan, isinf
-from libc.stdlib cimport strtod
-
 from cython.parallel cimport parallel, prange
 
 from openmp cimport omp_get_num_threads
@@ -100,33 +96,34 @@ cdef class Func(object):
     #
     cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
-        # for i in range(n):
-        for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(n):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
             y[i] = self._evaluate(x[i])
     #
     cdef double _evaluate_weighted_sum(self, const double *x, const double *w, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
         cdef double s = 0
-        # for i in range(n):
-        for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
-            s += w[i] * self._evaluate(x[i])
+        for i in range(n):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+            s = fma(w[i], self._evaluate(x[i]), s)
         return s
     #
     cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
-        # for i in range(n):
-        for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(n):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
             y[i] = self._derivative(x[i])
     #
     cdef void _derivative_weighted_array(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
-        # for i in range(n):
-        for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
-            y[i] = w[i] * self._derivative(x[i])
+        for i in range(n):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+            y[i] += w[i] * self._derivative(x[i])
     #
     cdef void _derivative2_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
-        for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(n):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
             y[i] = self._derivative2(x[i])
     #
     cdef void _derivative_div_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:

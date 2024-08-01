@@ -9,7 +9,7 @@ from numpy cimport npy_uint8 as uint8
 
 cimport cython
 
-from libc.math cimport fabs, pow, sqrt, fmax, log, exp
+from libc.math cimport fabs, pow, sqrt, fmax, log, exp, fma
 from libc.string cimport memcpy, memset
 
 from mlgrad.funcs cimport Func
