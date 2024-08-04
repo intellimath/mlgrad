@@ -3015,6 +3015,8 @@ static void __pyx_f_6mlgrad_9inventory__mul_add_arrays(double *, double *, doubl
 static void __pyx_f_6mlgrad_9inventory__mul_grad(double *, double const *, double const *, Py_ssize_t const , Py_ssize_t const ); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__multiply(double *, double const *, double const *, Py_ssize_t const ); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__normalize(double *, Py_ssize_t const ); /*proto*/
+static int __pyx_f_6mlgrad_9inventory_quick_select(double *, int); /*proto*/
+static int __pyx_f_6mlgrad_9inventory_quick_select_t(double *, Py_ssize_t, Py_ssize_t); /*proto*/
 static int __pyx_array_allocate_buffer(struct __pyx_array_obj *); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo *); /*proto*/
@@ -22361,6 +22363,7 @@ static void __pyx_f_6mlgrad_9inventory_weighted_sum_rows(__Pyx_memviewslice __py
  *             y = fma(wk, Xk[i], y)
  *             Xk += n             # <<<<<<<<<<<<<<
  *         yy[i] = y
+ * 
  */
       __pyx_v_Xk = (__pyx_v_Xk + __pyx_v_n);
     }
@@ -22369,6 +22372,8 @@ static void __pyx_f_6mlgrad_9inventory_weighted_sum_rows(__Pyx_memviewslice __py
  *             y = fma(wk, Xk[i], y)
  *             Xk += n
  *         yy[i] = y             # <<<<<<<<<<<<<<
+ * 
+ * 
  */
     (__pyx_v_yy[__pyx_v_i]) = __pyx_v_y;
   }
@@ -22382,6 +22387,1309 @@ static void __pyx_f_6mlgrad_9inventory_weighted_sum_rows(__Pyx_memviewslice __py
  */
 
   /* function exit code */
+}
+
+/* "mlgrad/inventory.pyx":436
+ * #     b[0]=t
+ * 
+ * cdef int quick_select(double *a, int n) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef int low, high
+ *     cdef int median
+ */
+
+static int __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, int __pyx_v_n) {
+  int __pyx_v_low;
+  int __pyx_v_high;
+  int __pyx_v_median;
+  int __pyx_v_middle;
+  int __pyx_v_ll;
+  int __pyx_v_hh;
+  double __pyx_v_t;
+  int __pyx_r;
+  int __pyx_t_1;
+
+  /* "mlgrad/inventory.pyx":442
+ *     cdef double t
+ * 
+ *     low = 0             # <<<<<<<<<<<<<<
+ *     high = n-1
+ *     median = (low + high) // 2
+ */
+  __pyx_v_low = 0;
+
+  /* "mlgrad/inventory.pyx":443
+ * 
+ *     low = 0
+ *     high = n-1             # <<<<<<<<<<<<<<
+ *     median = (low + high) // 2
+ *     while 1:
+ */
+  __pyx_v_high = (__pyx_v_n - 1);
+
+  /* "mlgrad/inventory.pyx":444
+ *     low = 0
+ *     high = n-1
+ *     median = (low + high) // 2             # <<<<<<<<<<<<<<
+ *     while 1:
+ *         if high <= low: # One element only
+ */
+  __pyx_v_median = __Pyx_div_long((__pyx_v_low + __pyx_v_high), 2);
+
+  /* "mlgrad/inventory.pyx":445
+ *     high = n-1
+ *     median = (low + high) // 2
+ *     while 1:             # <<<<<<<<<<<<<<
+ *         if high <= low: # One element only
+ *             return median
+ */
+  while (1) {
+
+    /* "mlgrad/inventory.pyx":446
+ *     median = (low + high) // 2
+ *     while 1:
+ *         if high <= low: # One element only             # <<<<<<<<<<<<<<
+ *             return median
+ * 
+ */
+    __pyx_t_1 = (__pyx_v_high <= __pyx_v_low);
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":447
+ *     while 1:
+ *         if high <= low: # One element only
+ *             return median             # <<<<<<<<<<<<<<
+ * 
+ *         if high == low + 1:  # Two elements only
+ */
+      __pyx_r = __pyx_v_median;
+      goto __pyx_L0;
+
+      /* "mlgrad/inventory.pyx":446
+ *     median = (low + high) // 2
+ *     while 1:
+ *         if high <= low: # One element only             # <<<<<<<<<<<<<<
+ *             return median
+ * 
+ */
+    }
+
+    /* "mlgrad/inventory.pyx":449
+ *             return median
+ * 
+ *         if high == low + 1:  # Two elements only             # <<<<<<<<<<<<<<
+ *             if a[low] > a[high]:
+ *                 t = a[low]; a[low] = a[high]; a[high] = t
+ */
+    __pyx_t_1 = (__pyx_v_high == (__pyx_v_low + 1));
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":450
+ * 
+ *         if high == low + 1:  # Two elements only
+ *             if a[low] > a[high]:             # <<<<<<<<<<<<<<
+ *                 t = a[low]; a[low] = a[high]; a[high] = t
+ *             return median
+ */
+      __pyx_t_1 = ((__pyx_v_a[__pyx_v_low]) > (__pyx_v_a[__pyx_v_high]));
+      if (__pyx_t_1) {
+
+        /* "mlgrad/inventory.pyx":451
+ *         if high == low + 1:  # Two elements only
+ *             if a[low] > a[high]:
+ *                 t = a[low]; a[low] = a[high]; a[high] = t             # <<<<<<<<<<<<<<
+ *             return median
+ * 
+ */
+        __pyx_v_t = (__pyx_v_a[__pyx_v_low]);
+        (__pyx_v_a[__pyx_v_low]) = (__pyx_v_a[__pyx_v_high]);
+        (__pyx_v_a[__pyx_v_high]) = __pyx_v_t;
+
+        /* "mlgrad/inventory.pyx":450
+ * 
+ *         if high == low + 1:  # Two elements only
+ *             if a[low] > a[high]:             # <<<<<<<<<<<<<<
+ *                 t = a[low]; a[low] = a[high]; a[high] = t
+ *             return median
+ */
+      }
+
+      /* "mlgrad/inventory.pyx":452
+ *             if a[low] > a[high]:
+ *                 t = a[low]; a[low] = a[high]; a[high] = t
+ *             return median             # <<<<<<<<<<<<<<
+ * 
+ *         # Find median of low, middle and high items; swap into position low
+ */
+      __pyx_r = __pyx_v_median;
+      goto __pyx_L0;
+
+      /* "mlgrad/inventory.pyx":449
+ *             return median
+ * 
+ *         if high == low + 1:  # Two elements only             # <<<<<<<<<<<<<<
+ *             if a[low] > a[high]:
+ *                 t = a[low]; a[low] = a[high]; a[high] = t
+ */
+    }
+
+    /* "mlgrad/inventory.pyx":455
+ * 
+ *         # Find median of low, middle and high items; swap into position low
+ *         middle = (low + high) // 2             # <<<<<<<<<<<<<<
+ *         if a[middle] > a[high]:
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t
+ */
+    __pyx_v_middle = __Pyx_div_long((__pyx_v_low + __pyx_v_high), 2);
+
+    /* "mlgrad/inventory.pyx":456
+ *         # Find median of low, middle and high items; swap into position low
+ *         middle = (low + high) // 2
+ *         if a[middle] > a[high]:             # <<<<<<<<<<<<<<
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t
+ *         if a[low] > a[high]:
+ */
+    __pyx_t_1 = ((__pyx_v_a[__pyx_v_middle]) > (__pyx_v_a[__pyx_v_high]));
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":457
+ *         middle = (low + high) // 2
+ *         if a[middle] > a[high]:
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t             # <<<<<<<<<<<<<<
+ *         if a[low] > a[high]:
+ *             t = a[low]; a[low] = a[high]; a[high] = t
+ */
+      __pyx_v_t = (__pyx_v_a[__pyx_v_middle]);
+      (__pyx_v_a[__pyx_v_middle]) = (__pyx_v_a[__pyx_v_high]);
+      (__pyx_v_a[__pyx_v_high]) = __pyx_v_t;
+
+      /* "mlgrad/inventory.pyx":456
+ *         # Find median of low, middle and high items; swap into position low
+ *         middle = (low + high) // 2
+ *         if a[middle] > a[high]:             # <<<<<<<<<<<<<<
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t
+ *         if a[low] > a[high]:
+ */
+    }
+
+    /* "mlgrad/inventory.pyx":458
+ *         if a[middle] > a[high]:
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t
+ *         if a[low] > a[high]:             # <<<<<<<<<<<<<<
+ *             t = a[low]; a[low] = a[high]; a[high] = t
+ *         if a[middle] > a[low]:
+ */
+    __pyx_t_1 = ((__pyx_v_a[__pyx_v_low]) > (__pyx_v_a[__pyx_v_high]));
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":459
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t
+ *         if a[low] > a[high]:
+ *             t = a[low]; a[low] = a[high]; a[high] = t             # <<<<<<<<<<<<<<
+ *         if a[middle] > a[low]:
+ *             t = a[middle]; a[middle] = a[low]; a[low] = t
+ */
+      __pyx_v_t = (__pyx_v_a[__pyx_v_low]);
+      (__pyx_v_a[__pyx_v_low]) = (__pyx_v_a[__pyx_v_high]);
+      (__pyx_v_a[__pyx_v_high]) = __pyx_v_t;
+
+      /* "mlgrad/inventory.pyx":458
+ *         if a[middle] > a[high]:
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t
+ *         if a[low] > a[high]:             # <<<<<<<<<<<<<<
+ *             t = a[low]; a[low] = a[high]; a[high] = t
+ *         if a[middle] > a[low]:
+ */
+    }
+
+    /* "mlgrad/inventory.pyx":460
+ *         if a[low] > a[high]:
+ *             t = a[low]; a[low] = a[high]; a[high] = t
+ *         if a[middle] > a[low]:             # <<<<<<<<<<<<<<
+ *             t = a[middle]; a[middle] = a[low]; a[low] = t
+ * 
+ */
+    __pyx_t_1 = ((__pyx_v_a[__pyx_v_middle]) > (__pyx_v_a[__pyx_v_low]));
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":461
+ *             t = a[low]; a[low] = a[high]; a[high] = t
+ *         if a[middle] > a[low]:
+ *             t = a[middle]; a[middle] = a[low]; a[low] = t             # <<<<<<<<<<<<<<
+ * 
+ *         # Swap low item (now in position middle) into position (low+1)
+ */
+      __pyx_v_t = (__pyx_v_a[__pyx_v_middle]);
+      (__pyx_v_a[__pyx_v_middle]) = (__pyx_v_a[__pyx_v_low]);
+      (__pyx_v_a[__pyx_v_low]) = __pyx_v_t;
+
+      /* "mlgrad/inventory.pyx":460
+ *         if a[low] > a[high]:
+ *             t = a[low]; a[low] = a[high]; a[high] = t
+ *         if a[middle] > a[low]:             # <<<<<<<<<<<<<<
+ *             t = a[middle]; a[middle] = a[low]; a[low] = t
+ * 
+ */
+    }
+
+    /* "mlgrad/inventory.pyx":465
+ *         # Swap low item (now in position middle) into position (low+1)
+ *         # swap(&a[middle], &a[low+1])
+ *         t = a[middle]; a[middle] = a[low+1]; a[low+1] = t             # <<<<<<<<<<<<<<
+ * 
+ *         # Nibble from each end towards middle, swapping items when stuck
+ */
+    __pyx_v_t = (__pyx_v_a[__pyx_v_middle]);
+    (__pyx_v_a[__pyx_v_middle]) = (__pyx_v_a[(__pyx_v_low + 1)]);
+    (__pyx_v_a[(__pyx_v_low + 1)]) = __pyx_v_t;
+
+    /* "mlgrad/inventory.pyx":468
+ * 
+ *         # Nibble from each end towards middle, swapping items when stuck
+ *         ll = low + 1;             # <<<<<<<<<<<<<<
+ *         hh = high;
+ *         while 1:
+ */
+    __pyx_v_ll = (__pyx_v_low + 1);
+
+    /* "mlgrad/inventory.pyx":469
+ *         # Nibble from each end towards middle, swapping items when stuck
+ *         ll = low + 1;
+ *         hh = high;             # <<<<<<<<<<<<<<
+ *         while 1:
+ *             while a[low] > a[ll]:
+ */
+    __pyx_v_hh = __pyx_v_high;
+
+    /* "mlgrad/inventory.pyx":470
+ *         ll = low + 1;
+ *         hh = high;
+ *         while 1:             # <<<<<<<<<<<<<<
+ *             while a[low] > a[ll]:
+ *                 ll += 1
+ */
+    while (1) {
+
+      /* "mlgrad/inventory.pyx":471
+ *         hh = high;
+ *         while 1:
+ *             while a[low] > a[ll]:             # <<<<<<<<<<<<<<
+ *                 ll += 1
+ *             while a[hh]  > a[low]:
+ */
+      while (1) {
+        __pyx_t_1 = ((__pyx_v_a[__pyx_v_low]) > (__pyx_v_a[__pyx_v_ll]));
+        if (!__pyx_t_1) break;
+
+        /* "mlgrad/inventory.pyx":472
+ *         while 1:
+ *             while a[low] > a[ll]:
+ *                 ll += 1             # <<<<<<<<<<<<<<
+ *             while a[hh]  > a[low]:
+ *                 hh += 1
+ */
+        __pyx_v_ll = (__pyx_v_ll + 1);
+      }
+
+      /* "mlgrad/inventory.pyx":473
+ *             while a[low] > a[ll]:
+ *                 ll += 1
+ *             while a[hh]  > a[low]:             # <<<<<<<<<<<<<<
+ *                 hh += 1
+ * 
+ */
+      while (1) {
+        __pyx_t_1 = ((__pyx_v_a[__pyx_v_hh]) > (__pyx_v_a[__pyx_v_low]));
+        if (!__pyx_t_1) break;
+
+        /* "mlgrad/inventory.pyx":474
+ *                 ll += 1
+ *             while a[hh]  > a[low]:
+ *                 hh += 1             # <<<<<<<<<<<<<<
+ * 
+ *             if hh < ll:
+ */
+        __pyx_v_hh = (__pyx_v_hh + 1);
+      }
+
+      /* "mlgrad/inventory.pyx":476
+ *                 hh += 1
+ * 
+ *             if hh < ll:             # <<<<<<<<<<<<<<
+ *                 break
+ * 
+ */
+      __pyx_t_1 = (__pyx_v_hh < __pyx_v_ll);
+      if (__pyx_t_1) {
+
+        /* "mlgrad/inventory.pyx":477
+ * 
+ *             if hh < ll:
+ *                 break             # <<<<<<<<<<<<<<
+ * 
+ *             # swap(&a[ll], &a[hh])
+ */
+        goto __pyx_L12_break;
+
+        /* "mlgrad/inventory.pyx":476
+ *                 hh += 1
+ * 
+ *             if hh < ll:             # <<<<<<<<<<<<<<
+ *                 break
+ * 
+ */
+      }
+
+      /* "mlgrad/inventory.pyx":480
+ * 
+ *             # swap(&a[ll], &a[hh])
+ *             t = a[ll]; a[ll] = a[hh]; a[hh] = t             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+      __pyx_v_t = (__pyx_v_a[__pyx_v_ll]);
+      (__pyx_v_a[__pyx_v_ll]) = (__pyx_v_a[__pyx_v_hh]);
+      (__pyx_v_a[__pyx_v_hh]) = __pyx_v_t;
+    }
+    __pyx_L12_break:;
+
+    /* "mlgrad/inventory.pyx":484
+ * 
+ *         # Swap middle item (in position low) back into correct position
+ *         t = a[middle]; a[middle] = a[hh]; a[hh] = t             # <<<<<<<<<<<<<<
+ *         # swap(&a[low], &a[hh])
+ * 
+ */
+    __pyx_v_t = (__pyx_v_a[__pyx_v_middle]);
+    (__pyx_v_a[__pyx_v_middle]) = (__pyx_v_a[__pyx_v_hh]);
+    (__pyx_v_a[__pyx_v_hh]) = __pyx_v_t;
+
+    /* "mlgrad/inventory.pyx":488
+ * 
+ *         # Re-set active partition
+ *         if hh <= median:             # <<<<<<<<<<<<<<
+ *             low = ll
+ *         if hh >= median:
+ */
+    __pyx_t_1 = (__pyx_v_hh <= __pyx_v_median);
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":489
+ *         # Re-set active partition
+ *         if hh <= median:
+ *             low = ll             # <<<<<<<<<<<<<<
+ *         if hh >= median:
+ *             high = hh - 1
+ */
+      __pyx_v_low = __pyx_v_ll;
+
+      /* "mlgrad/inventory.pyx":488
+ * 
+ *         # Re-set active partition
+ *         if hh <= median:             # <<<<<<<<<<<<<<
+ *             low = ll
+ *         if hh >= median:
+ */
+    }
+
+    /* "mlgrad/inventory.pyx":490
+ *         if hh <= median:
+ *             low = ll
+ *         if hh >= median:             # <<<<<<<<<<<<<<
+ *             high = hh - 1
+ * 
+ */
+    __pyx_t_1 = (__pyx_v_hh >= __pyx_v_median);
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":491
+ *             low = ll
+ *         if hh >= median:
+ *             high = hh - 1             # <<<<<<<<<<<<<<
+ * 
+ * cdef int quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) noexcept nogil:
+ */
+      __pyx_v_high = (__pyx_v_hh - 1);
+
+      /* "mlgrad/inventory.pyx":490
+ *         if hh <= median:
+ *             low = ll
+ *         if hh >= median:             # <<<<<<<<<<<<<<
+ *             high = hh - 1
+ * 
+ */
+    }
+  }
+
+  /* "mlgrad/inventory.pyx":436
+ * #     b[0]=t
+ * 
+ * cdef int quick_select(double *a, int n) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef int low, high
+ *     cdef int median
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "mlgrad/inventory.pyx":493
+ *             high = hh - 1
+ * 
+ * cdef int quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i_low, low, i_high, high
+ *     cdef Py_ssize_t i_median, median
+ */
+
+static int __pyx_f_6mlgrad_9inventory_quick_select_t(double *__pyx_v_a, Py_ssize_t __pyx_v_n, Py_ssize_t __pyx_v_step) {
+  Py_ssize_t __pyx_v_i_low;
+  Py_ssize_t __pyx_v_low;
+  Py_ssize_t __pyx_v_i_high;
+  Py_ssize_t __pyx_v_high;
+  Py_ssize_t __pyx_v_i_median;
+  Py_ssize_t __pyx_v_median;
+  Py_ssize_t __pyx_v_i_middle;
+  Py_ssize_t __pyx_v_middle;
+  Py_ssize_t __pyx_v_i_ll;
+  Py_ssize_t __pyx_v_ll;
+  Py_ssize_t __pyx_v_i_hh;
+  Py_ssize_t __pyx_v_hh;
+  double __pyx_v_t;
+  int __pyx_r;
+  int __pyx_t_1;
+
+  /* "mlgrad/inventory.pyx":499
+ *     cdef double t
+ * 
+ *     i_low = 0; low = 0             # <<<<<<<<<<<<<<
+ *     i_high = n-1; high = i_high * step
+ *     i_median = (i_low + i_high) // 2; median = i_median * step
+ */
+  __pyx_v_i_low = 0;
+  __pyx_v_low = 0;
+
+  /* "mlgrad/inventory.pyx":500
+ * 
+ *     i_low = 0; low = 0
+ *     i_high = n-1; high = i_high * step             # <<<<<<<<<<<<<<
+ *     i_median = (i_low + i_high) // 2; median = i_median * step
+ *     while 1:
+ */
+  __pyx_v_i_high = (__pyx_v_n - 1);
+  __pyx_v_high = (__pyx_v_i_high * __pyx_v_step);
+
+  /* "mlgrad/inventory.pyx":501
+ *     i_low = 0; low = 0
+ *     i_high = n-1; high = i_high * step
+ *     i_median = (i_low + i_high) // 2; median = i_median * step             # <<<<<<<<<<<<<<
+ *     while 1:
+ *         if i_high <= i_low: # One element only
+ */
+  __pyx_v_i_median = __Pyx_div_Py_ssize_t((__pyx_v_i_low + __pyx_v_i_high), 2);
+  __pyx_v_median = (__pyx_v_i_median * __pyx_v_step);
+
+  /* "mlgrad/inventory.pyx":502
+ *     i_high = n-1; high = i_high * step
+ *     i_median = (i_low + i_high) // 2; median = i_median * step
+ *     while 1:             # <<<<<<<<<<<<<<
+ *         if i_high <= i_low: # One element only
+ *             return median
+ */
+  while (1) {
+
+    /* "mlgrad/inventory.pyx":503
+ *     i_median = (i_low + i_high) // 2; median = i_median * step
+ *     while 1:
+ *         if i_high <= i_low: # One element only             # <<<<<<<<<<<<<<
+ *             return median
+ * 
+ */
+    __pyx_t_1 = (__pyx_v_i_high <= __pyx_v_i_low);
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":504
+ *     while 1:
+ *         if i_high <= i_low: # One element only
+ *             return median             # <<<<<<<<<<<<<<
+ * 
+ *         if i_high == i_low + 1:  # Two elements only
+ */
+      __pyx_r = __pyx_v_median;
+      goto __pyx_L0;
+
+      /* "mlgrad/inventory.pyx":503
+ *     i_median = (i_low + i_high) // 2; median = i_median * step
+ *     while 1:
+ *         if i_high <= i_low: # One element only             # <<<<<<<<<<<<<<
+ *             return median
+ * 
+ */
+    }
+
+    /* "mlgrad/inventory.pyx":506
+ *             return median
+ * 
+ *         if i_high == i_low + 1:  # Two elements only             # <<<<<<<<<<<<<<
+ *             if a[low] > a[high]:
+ *                 t = a[low]; a[low] = a[high]; a[high] = t
+ */
+    __pyx_t_1 = (__pyx_v_i_high == (__pyx_v_i_low + 1));
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":507
+ * 
+ *         if i_high == i_low + 1:  # Two elements only
+ *             if a[low] > a[high]:             # <<<<<<<<<<<<<<
+ *                 t = a[low]; a[low] = a[high]; a[high] = t
+ *             return median
+ */
+      __pyx_t_1 = ((__pyx_v_a[__pyx_v_low]) > (__pyx_v_a[__pyx_v_high]));
+      if (__pyx_t_1) {
+
+        /* "mlgrad/inventory.pyx":508
+ *         if i_high == i_low + 1:  # Two elements only
+ *             if a[low] > a[high]:
+ *                 t = a[low]; a[low] = a[high]; a[high] = t             # <<<<<<<<<<<<<<
+ *             return median
+ * 
+ */
+        __pyx_v_t = (__pyx_v_a[__pyx_v_low]);
+        (__pyx_v_a[__pyx_v_low]) = (__pyx_v_a[__pyx_v_high]);
+        (__pyx_v_a[__pyx_v_high]) = __pyx_v_t;
+
+        /* "mlgrad/inventory.pyx":507
+ * 
+ *         if i_high == i_low + 1:  # Two elements only
+ *             if a[low] > a[high]:             # <<<<<<<<<<<<<<
+ *                 t = a[low]; a[low] = a[high]; a[high] = t
+ *             return median
+ */
+      }
+
+      /* "mlgrad/inventory.pyx":509
+ *             if a[low] > a[high]:
+ *                 t = a[low]; a[low] = a[high]; a[high] = t
+ *             return median             # <<<<<<<<<<<<<<
+ * 
+ *         # Find median of low, middle and high items; swap into position low
+ */
+      __pyx_r = __pyx_v_median;
+      goto __pyx_L0;
+
+      /* "mlgrad/inventory.pyx":506
+ *             return median
+ * 
+ *         if i_high == i_low + 1:  # Two elements only             # <<<<<<<<<<<<<<
+ *             if a[low] > a[high]:
+ *                 t = a[low]; a[low] = a[high]; a[high] = t
+ */
+    }
+
+    /* "mlgrad/inventory.pyx":512
+ * 
+ *         # Find median of low, middle and high items; swap into position low
+ *         i_middle = (i_low + i_high) // 2; middle = i_middle * step             # <<<<<<<<<<<<<<
+ *         if a[middle] > a[high]:
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t
+ */
+    __pyx_v_i_middle = __Pyx_div_Py_ssize_t((__pyx_v_i_low + __pyx_v_i_high), 2);
+    __pyx_v_middle = (__pyx_v_i_middle * __pyx_v_step);
+
+    /* "mlgrad/inventory.pyx":513
+ *         # Find median of low, middle and high items; swap into position low
+ *         i_middle = (i_low + i_high) // 2; middle = i_middle * step
+ *         if a[middle] > a[high]:             # <<<<<<<<<<<<<<
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t
+ *         if a[low] > a[high]:
+ */
+    __pyx_t_1 = ((__pyx_v_a[__pyx_v_middle]) > (__pyx_v_a[__pyx_v_high]));
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":514
+ *         i_middle = (i_low + i_high) // 2; middle = i_middle * step
+ *         if a[middle] > a[high]:
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t             # <<<<<<<<<<<<<<
+ *         if a[low] > a[high]:
+ *             t = a[low]; a[low] = a[high]; a[high] = t
+ */
+      __pyx_v_t = (__pyx_v_a[__pyx_v_middle]);
+      (__pyx_v_a[__pyx_v_middle]) = (__pyx_v_a[__pyx_v_high]);
+      (__pyx_v_a[__pyx_v_high]) = __pyx_v_t;
+
+      /* "mlgrad/inventory.pyx":513
+ *         # Find median of low, middle and high items; swap into position low
+ *         i_middle = (i_low + i_high) // 2; middle = i_middle * step
+ *         if a[middle] > a[high]:             # <<<<<<<<<<<<<<
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t
+ *         if a[low] > a[high]:
+ */
+    }
+
+    /* "mlgrad/inventory.pyx":515
+ *         if a[middle] > a[high]:
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t
+ *         if a[low] > a[high]:             # <<<<<<<<<<<<<<
+ *             t = a[low]; a[low] = a[high]; a[high] = t
+ *         if a[middle] > a[low]:
+ */
+    __pyx_t_1 = ((__pyx_v_a[__pyx_v_low]) > (__pyx_v_a[__pyx_v_high]));
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":516
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t
+ *         if a[low] > a[high]:
+ *             t = a[low]; a[low] = a[high]; a[high] = t             # <<<<<<<<<<<<<<
+ *         if a[middle] > a[low]:
+ *             t = a[middle]; a[middle] = a[low]; a[low] = t
+ */
+      __pyx_v_t = (__pyx_v_a[__pyx_v_low]);
+      (__pyx_v_a[__pyx_v_low]) = (__pyx_v_a[__pyx_v_high]);
+      (__pyx_v_a[__pyx_v_high]) = __pyx_v_t;
+
+      /* "mlgrad/inventory.pyx":515
+ *         if a[middle] > a[high]:
+ *             t = a[middle]; a[middle] = a[high]; a[high] = t
+ *         if a[low] > a[high]:             # <<<<<<<<<<<<<<
+ *             t = a[low]; a[low] = a[high]; a[high] = t
+ *         if a[middle] > a[low]:
+ */
+    }
+
+    /* "mlgrad/inventory.pyx":517
+ *         if a[low] > a[high]:
+ *             t = a[low]; a[low] = a[high]; a[high] = t
+ *         if a[middle] > a[low]:             # <<<<<<<<<<<<<<
+ *             t = a[middle]; a[middle] = a[low]; a[low] = t
+ * 
+ */
+    __pyx_t_1 = ((__pyx_v_a[__pyx_v_middle]) > (__pyx_v_a[__pyx_v_low]));
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":518
+ *             t = a[low]; a[low] = a[high]; a[high] = t
+ *         if a[middle] > a[low]:
+ *             t = a[middle]; a[middle] = a[low]; a[low] = t             # <<<<<<<<<<<<<<
+ * 
+ *         # Swap low item (now in position middle) into position (low+1)
+ */
+      __pyx_v_t = (__pyx_v_a[__pyx_v_middle]);
+      (__pyx_v_a[__pyx_v_middle]) = (__pyx_v_a[__pyx_v_low]);
+      (__pyx_v_a[__pyx_v_low]) = __pyx_v_t;
+
+      /* "mlgrad/inventory.pyx":517
+ *         if a[low] > a[high]:
+ *             t = a[low]; a[low] = a[high]; a[high] = t
+ *         if a[middle] > a[low]:             # <<<<<<<<<<<<<<
+ *             t = a[middle]; a[middle] = a[low]; a[low] = t
+ * 
+ */
+    }
+
+    /* "mlgrad/inventory.pyx":522
+ *         # Swap low item (now in position middle) into position (low+1)
+ *         # swap(&a[middle], &a[low+1])
+ *         t = a[middle]; a[middle] = a[low+step]; a[low+step] = t             # <<<<<<<<<<<<<<
+ * 
+ *         # Nibble from each end towards middle, swapping items when stuck
+ */
+    __pyx_v_t = (__pyx_v_a[__pyx_v_middle]);
+    (__pyx_v_a[__pyx_v_middle]) = (__pyx_v_a[(__pyx_v_low + __pyx_v_step)]);
+    (__pyx_v_a[(__pyx_v_low + __pyx_v_step)]) = __pyx_v_t;
+
+    /* "mlgrad/inventory.pyx":525
+ * 
+ *         # Nibble from each end towards middle, swapping items when stuck
+ *         i_ll = i_low + 1; ll = i_ll * step             # <<<<<<<<<<<<<<
+ *         i_hh = i_high; hh = i_hh * step
+ *         while 1:
+ */
+    __pyx_v_i_ll = (__pyx_v_i_low + 1);
+    __pyx_v_ll = (__pyx_v_i_ll * __pyx_v_step);
+
+    /* "mlgrad/inventory.pyx":526
+ *         # Nibble from each end towards middle, swapping items when stuck
+ *         i_ll = i_low + 1; ll = i_ll * step
+ *         i_hh = i_high; hh = i_hh * step             # <<<<<<<<<<<<<<
+ *         while 1:
+ *             while a[low] > a[ll]:
+ */
+    __pyx_v_i_hh = __pyx_v_i_high;
+    __pyx_v_hh = (__pyx_v_i_hh * __pyx_v_step);
+
+    /* "mlgrad/inventory.pyx":527
+ *         i_ll = i_low + 1; ll = i_ll * step
+ *         i_hh = i_high; hh = i_hh * step
+ *         while 1:             # <<<<<<<<<<<<<<
+ *             while a[low] > a[ll]:
+ *                 i_ll += 1; ll += step
+ */
+    while (1) {
+
+      /* "mlgrad/inventory.pyx":528
+ *         i_hh = i_high; hh = i_hh * step
+ *         while 1:
+ *             while a[low] > a[ll]:             # <<<<<<<<<<<<<<
+ *                 i_ll += 1; ll += step
+ *             while a[hh]  > a[low]:
+ */
+      while (1) {
+        __pyx_t_1 = ((__pyx_v_a[__pyx_v_low]) > (__pyx_v_a[__pyx_v_ll]));
+        if (!__pyx_t_1) break;
+
+        /* "mlgrad/inventory.pyx":529
+ *         while 1:
+ *             while a[low] > a[ll]:
+ *                 i_ll += 1; ll += step             # <<<<<<<<<<<<<<
+ *             while a[hh]  > a[low]:
+ *                 i_hh += 1; hh += step
+ */
+        __pyx_v_i_ll = (__pyx_v_i_ll + 1);
+        __pyx_v_ll = (__pyx_v_ll + __pyx_v_step);
+      }
+
+      /* "mlgrad/inventory.pyx":530
+ *             while a[low] > a[ll]:
+ *                 i_ll += 1; ll += step
+ *             while a[hh]  > a[low]:             # <<<<<<<<<<<<<<
+ *                 i_hh += 1; hh += step
+ * 
+ */
+      while (1) {
+        __pyx_t_1 = ((__pyx_v_a[__pyx_v_hh]) > (__pyx_v_a[__pyx_v_low]));
+        if (!__pyx_t_1) break;
+
+        /* "mlgrad/inventory.pyx":531
+ *                 i_ll += 1; ll += step
+ *             while a[hh]  > a[low]:
+ *                 i_hh += 1; hh += step             # <<<<<<<<<<<<<<
+ * 
+ *             if i_hh < i_ll:
+ */
+        __pyx_v_i_hh = (__pyx_v_i_hh + 1);
+        __pyx_v_hh = (__pyx_v_hh + __pyx_v_step);
+      }
+
+      /* "mlgrad/inventory.pyx":533
+ *                 i_hh += 1; hh += step
+ * 
+ *             if i_hh < i_ll:             # <<<<<<<<<<<<<<
+ *                 break
+ * 
+ */
+      __pyx_t_1 = (__pyx_v_i_hh < __pyx_v_i_ll);
+      if (__pyx_t_1) {
+
+        /* "mlgrad/inventory.pyx":534
+ * 
+ *             if i_hh < i_ll:
+ *                 break             # <<<<<<<<<<<<<<
+ * 
+ *             # swap(&a[ll], &a[hh])
+ */
+        goto __pyx_L12_break;
+
+        /* "mlgrad/inventory.pyx":533
+ *                 i_hh += 1; hh += step
+ * 
+ *             if i_hh < i_ll:             # <<<<<<<<<<<<<<
+ *                 break
+ * 
+ */
+      }
+
+      /* "mlgrad/inventory.pyx":537
+ * 
+ *             # swap(&a[ll], &a[hh])
+ *             t = a[ll]; a[ll] = a[hh]; a[hh] = t             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+      __pyx_v_t = (__pyx_v_a[__pyx_v_ll]);
+      (__pyx_v_a[__pyx_v_ll]) = (__pyx_v_a[__pyx_v_hh]);
+      (__pyx_v_a[__pyx_v_hh]) = __pyx_v_t;
+    }
+    __pyx_L12_break:;
+
+    /* "mlgrad/inventory.pyx":541
+ * 
+ *         # Swap middle item (in position low) back into correct position
+ *         t = a[middle]; a[middle] = a[hh]; a[hh] = t             # <<<<<<<<<<<<<<
+ *         # swap(&a[low], &a[hh])
+ * 
+ */
+    __pyx_v_t = (__pyx_v_a[__pyx_v_middle]);
+    (__pyx_v_a[__pyx_v_middle]) = (__pyx_v_a[__pyx_v_hh]);
+    (__pyx_v_a[__pyx_v_hh]) = __pyx_v_t;
+
+    /* "mlgrad/inventory.pyx":545
+ * 
+ *         # Re-set active partition
+ *         if i_hh <= i_median:             # <<<<<<<<<<<<<<
+ *             i_low = i_ll; low = ll
+ *         if i_hh >= i_median:
+ */
+    __pyx_t_1 = (__pyx_v_i_hh <= __pyx_v_i_median);
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":546
+ *         # Re-set active partition
+ *         if i_hh <= i_median:
+ *             i_low = i_ll; low = ll             # <<<<<<<<<<<<<<
+ *         if i_hh >= i_median:
+ *             i_high = i_hh - 1; high = hh - step
+ */
+      __pyx_v_i_low = __pyx_v_i_ll;
+      __pyx_v_low = __pyx_v_ll;
+
+      /* "mlgrad/inventory.pyx":545
+ * 
+ *         # Re-set active partition
+ *         if i_hh <= i_median:             # <<<<<<<<<<<<<<
+ *             i_low = i_ll; low = ll
+ *         if i_hh >= i_median:
+ */
+    }
+
+    /* "mlgrad/inventory.pyx":547
+ *         if i_hh <= i_median:
+ *             i_low = i_ll; low = ll
+ *         if i_hh >= i_median:             # <<<<<<<<<<<<<<
+ *             i_high = i_hh - 1; high = hh - step
+ * 
+ */
+    __pyx_t_1 = (__pyx_v_i_hh >= __pyx_v_i_median);
+    if (__pyx_t_1) {
+
+      /* "mlgrad/inventory.pyx":548
+ *             i_low = i_ll; low = ll
+ *         if i_hh >= i_median:
+ *             i_high = i_hh - 1; high = hh - step             # <<<<<<<<<<<<<<
+ * 
+ * cdef double median_1d(double[::1] x) noexcept nogil:
+ */
+      __pyx_v_i_high = (__pyx_v_i_hh - 1);
+      __pyx_v_high = (__pyx_v_hh - __pyx_v_step);
+
+      /* "mlgrad/inventory.pyx":547
+ *         if i_hh <= i_median:
+ *             i_low = i_ll; low = ll
+ *         if i_hh >= i_median:             # <<<<<<<<<<<<<<
+ *             i_high = i_hh - 1; high = hh - step
+ * 
+ */
+    }
+  }
+
+  /* "mlgrad/inventory.pyx":493
+ *             high = hh - 1
+ * 
+ * cdef int quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i_low, low, i_high, high
+ *     cdef Py_ssize_t i_median, median
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "mlgrad/inventory.pyx":550
+ *             i_high = i_hh - 1; high = hh - step
+ * 
+ * cdef double median_1d(double[::1] x) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     return x[quick_select(&x[0], x.shape[0])]
+ * 
+ */
+
+static double __pyx_f_6mlgrad_9inventory_median_1d(__Pyx_memviewslice __pyx_v_x) {
+  double __pyx_r;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+
+  /* "mlgrad/inventory.pyx":551
+ * 
+ * cdef double median_1d(double[::1] x) noexcept nogil:
+ *     return x[quick_select(&x[0], x.shape[0])]             # <<<<<<<<<<<<<<
+ * 
+ * cdef void median_2d(double[:,::1] x, double[::1] y) noexcept nogil:
+ */
+  __pyx_t_1 = 0;
+  __pyx_t_2 = __pyx_f_6mlgrad_9inventory_quick_select((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_1)) )))), (__pyx_v_x.shape[0]));
+  __pyx_r = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_x.data) + __pyx_t_2)) )));
+  goto __pyx_L0;
+
+  /* "mlgrad/inventory.pyx":550
+ *             i_high = i_hh - 1; high = hh - step
+ * 
+ * cdef double median_1d(double[::1] x) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     return x[quick_select(&x[0], x.shape[0])]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "mlgrad/inventory.pyx":553
+ *     return x[quick_select(&x[0], x.shape[0])]
+ * 
+ * cdef void median_2d(double[:,::1] x, double[::1] y) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i, j, N = x.shape[0], n = x.shape[1]
+ *     for i in range(N):
+ */
+
+static void __pyx_f_6mlgrad_9inventory_median_2d(__Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_j;
+  Py_ssize_t __pyx_v_N;
+  Py_ssize_t __pyx_v_n;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+
+  /* "mlgrad/inventory.pyx":554
+ * 
+ * cdef void median_2d(double[:,::1] x, double[::1] y) noexcept nogil:
+ *     cdef Py_ssize_t i, j, N = x.shape[0], n = x.shape[1]             # <<<<<<<<<<<<<<
+ *     for i in range(N):
+ *         j = quick_select(&x[i,0], n)
+ */
+  __pyx_v_N = (__pyx_v_x.shape[0]);
+  __pyx_v_n = (__pyx_v_x.shape[1]);
+
+  /* "mlgrad/inventory.pyx":555
+ * cdef void median_2d(double[:,::1] x, double[::1] y) noexcept nogil:
+ *     cdef Py_ssize_t i, j, N = x.shape[0], n = x.shape[1]
+ *     for i in range(N):             # <<<<<<<<<<<<<<
+ *         j = quick_select(&x[i,0], n)
+ *         y[i] = x[i, j]
+ */
+  __pyx_t_1 = __pyx_v_N;
+  __pyx_t_2 = __pyx_t_1;
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+
+    /* "mlgrad/inventory.pyx":556
+ *     cdef Py_ssize_t i, j, N = x.shape[0], n = x.shape[1]
+ *     for i in range(N):
+ *         j = quick_select(&x[i,0], n)             # <<<<<<<<<<<<<<
+ *         y[i] = x[i, j]
+ * 
+ */
+    __pyx_t_4 = __pyx_v_i;
+    __pyx_t_5 = 0;
+    __pyx_v_j = __pyx_f_6mlgrad_9inventory_quick_select((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_4 * __pyx_v_x.strides[0]) )) + __pyx_t_5)) )))), __pyx_v_n);
+
+    /* "mlgrad/inventory.pyx":557
+ *     for i in range(N):
+ *         j = quick_select(&x[i,0], n)
+ *         y[i] = x[i, j]             # <<<<<<<<<<<<<<
+ * 
+ * cdef void median_2d_t(double[:,::1] x, double[::1] y) noexcept nogil:
+ */
+    __pyx_t_5 = __pyx_v_i;
+    __pyx_t_4 = __pyx_v_j;
+    __pyx_t_6 = __pyx_v_i;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_6)) )) = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_5 * __pyx_v_x.strides[0]) )) + __pyx_t_4)) )));
+  }
+
+  /* "mlgrad/inventory.pyx":553
+ *     return x[quick_select(&x[0], x.shape[0])]
+ * 
+ * cdef void median_2d(double[:,::1] x, double[::1] y) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i, j, N = x.shape[0], n = x.shape[1]
+ *     for i in range(N):
+ */
+
+  /* function exit code */
+}
+
+/* "mlgrad/inventory.pyx":559
+ *         y[i] = x[i, j]
+ * 
+ * cdef void median_2d_t(double[:,::1] x, double[::1] y) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
+ *     for i in range(n):
+ */
+
+static void __pyx_f_6mlgrad_9inventory_median_2d_t(__Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_y) {
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_N;
+  Py_ssize_t __pyx_v_n;
+  int __pyx_v_j;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+
+  /* "mlgrad/inventory.pyx":560
+ * 
+ * cdef void median_2d_t(double[:,::1] x, double[::1] y) noexcept nogil:
+ *     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]             # <<<<<<<<<<<<<<
+ *     for i in range(n):
+ *         j = quick_select_t(&x[0,i], N, n)
+ */
+  __pyx_v_N = (__pyx_v_x.shape[0]);
+  __pyx_v_n = (__pyx_v_x.shape[1]);
+
+  /* "mlgrad/inventory.pyx":561
+ * cdef void median_2d_t(double[:,::1] x, double[::1] y) noexcept nogil:
+ *     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
+ *     for i in range(n):             # <<<<<<<<<<<<<<
+ *         j = quick_select_t(&x[0,i], N, n)
+ *         y[i] = x[j, i]
+ */
+  __pyx_t_1 = __pyx_v_n;
+  __pyx_t_2 = __pyx_t_1;
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+
+    /* "mlgrad/inventory.pyx":562
+ *     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
+ *     for i in range(n):
+ *         j = quick_select_t(&x[0,i], N, n)             # <<<<<<<<<<<<<<
+ *         y[i] = x[j, i]
+ * 
+ */
+    __pyx_t_4 = 0;
+    __pyx_t_5 = __pyx_v_i;
+    __pyx_v_j = __pyx_f_6mlgrad_9inventory_quick_select_t((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_4 * __pyx_v_x.strides[0]) )) + __pyx_t_5)) )))), __pyx_v_N, __pyx_v_n);
+
+    /* "mlgrad/inventory.pyx":563
+ *     for i in range(n):
+ *         j = quick_select_t(&x[0,i], N, n)
+ *         y[i] = x[j, i]             # <<<<<<<<<<<<<<
+ * 
+ * cdef Py_ssize_t kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil:
+ */
+    __pyx_t_5 = __pyx_v_j;
+    __pyx_t_4 = __pyx_v_i;
+    __pyx_t_6 = __pyx_v_i;
+    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_6)) )) = (*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_5 * __pyx_v_x.strides[0]) )) + __pyx_t_4)) )));
+  }
+
+  /* "mlgrad/inventory.pyx":559
+ *         y[i] = x[i, j]
+ * 
+ * cdef void median_2d_t(double[:,::1] x, double[::1] y) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
+ *     for i in range(n):
+ */
+
+  /* function exit code */
+}
+
+/* "mlgrad/inventory.pyx":565
+ *         y[i] = x[j, i]
+ * 
+ * cdef Py_ssize_t kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i, j, l, m
+ *     cdef double x, t
+ */
+
+static Py_ssize_t __pyx_f_6mlgrad_9inventory_kth_smallest(double *__pyx_v_a, Py_ssize_t __pyx_v_n, Py_ssize_t __pyx_v_k) {
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_j;
+  Py_ssize_t __pyx_v_l;
+  Py_ssize_t __pyx_v_m;
+  double __pyx_v_x;
+  double __pyx_v_t;
+  Py_ssize_t __pyx_r;
+  int __pyx_t_1;
+
+  /* "mlgrad/inventory.pyx":569
+ *     cdef double x, t
+ * 
+ *     l = 0; m = n-1             # <<<<<<<<<<<<<<
+ *     while l < m:
+ *         x = a[k]
+ */
+  __pyx_v_l = 0;
+  __pyx_v_m = (__pyx_v_n - 1);
+
+  /* "mlgrad/inventory.pyx":570
+ * 
+ *     l = 0; m = n-1
+ *     while l < m:             # <<<<<<<<<<<<<<
+ *         x = a[k]
+ *         i = l
+ */
+  while (1) {
+    __pyx_t_1 = (__pyx_v_l < __pyx_v_m);
+    if (!__pyx_t_1) break;
+
+    /* "mlgrad/inventory.pyx":571
+ *     l = 0; m = n-1
+ *     while l < m:
+ *         x = a[k]             # <<<<<<<<<<<<<<
+ *         i = l
+ *         j = m
+ */
+    __pyx_v_x = (__pyx_v_a[__pyx_v_k]);
+
+    /* "mlgrad/inventory.pyx":572
+ *     while l < m:
+ *         x = a[k]
+ *         i = l             # <<<<<<<<<<<<<<
+ *         j = m
+ *         while i <= j:
+ */
+    __pyx_v_i = __pyx_v_l;
+
+    /* "mlgrad/inventory.pyx":573
+ *         x = a[k]
+ *         i = l
+ *         j = m             # <<<<<<<<<<<<<<
+ *         while i <= j:
+ *             while a[i] < x:
+ */
+    __pyx_v_j = __pyx_v_m;
+
+    /* "mlgrad/inventory.pyx":574
+ *         i = l
+ *         j = m
+ *         while i <= j:             # <<<<<<<<<<<<<<
+ *             while a[i] < x:
+ *                 i += 1
+ */
+    while (1) {
+      __pyx_t_1 = (__pyx_v_i <= __pyx_v_j);
+      if (!__pyx_t_1) break;
+
+      /* "mlgrad/inventory.pyx":575
+ *         j = m
+ *         while i <= j:
+ *             while a[i] < x:             # <<<<<<<<<<<<<<
+ *                 i += 1
+ *             while x < a[j]:
+ */
+      while (1) {
+        __pyx_t_1 = ((__pyx_v_a[__pyx_v_i]) < __pyx_v_x);
+        if (!__pyx_t_1) break;
+
+        /* "mlgrad/inventory.pyx":576
+ *         while i <= j:
+ *             while a[i] < x:
+ *                 i += 1             # <<<<<<<<<<<<<<
+ *             while x < a[j]:
+ *                 j -= 1
+ */
+        __pyx_v_i = (__pyx_v_i + 1);
+      }
+
+      /* "mlgrad/inventory.pyx":577
+ *             while a[i] < x:
+ *                 i += 1
+ *             while x < a[j]:             # <<<<<<<<<<<<<<
+ *                 j -= 1
+ *             if i <= j:
+ */
+      while (1) {
+        __pyx_t_1 = (__pyx_v_x < (__pyx_v_a[__pyx_v_j]));
+        if (!__pyx_t_1) break;
+
+        /* "mlgrad/inventory.pyx":578
+ *                 i += 1
+ *             while x < a[j]:
+ *                 j -= 1             # <<<<<<<<<<<<<<
+ *             if i <= j:
+ *                 # swap(&a[i],&a[j]) ;
+ */
+        __pyx_v_j = (__pyx_v_j - 1);
+      }
+
+      /* "mlgrad/inventory.pyx":579
+ *             while x < a[j]:
+ *                 j -= 1
+ *             if i <= j:             # <<<<<<<<<<<<<<
+ *                 # swap(&a[i],&a[j]) ;
+ *                 t = a[i]; a[i] = a[j]; a[j] = t
+ */
+      __pyx_t_1 = (__pyx_v_i <= __pyx_v_j);
+      if (__pyx_t_1) {
+
+        /* "mlgrad/inventory.pyx":581
+ *             if i <= j:
+ *                 # swap(&a[i],&a[j]) ;
+ *                 t = a[i]; a[i] = a[j]; a[j] = t             # <<<<<<<<<<<<<<
+ *                 i += 1; j -= 1
+ *         if j < k: l=i
+ */
+        __pyx_v_t = (__pyx_v_a[__pyx_v_i]);
+        (__pyx_v_a[__pyx_v_i]) = (__pyx_v_a[__pyx_v_j]);
+        (__pyx_v_a[__pyx_v_j]) = __pyx_v_t;
+
+        /* "mlgrad/inventory.pyx":582
+ *                 # swap(&a[i],&a[j]) ;
+ *                 t = a[i]; a[i] = a[j]; a[j] = t
+ *                 i += 1; j -= 1             # <<<<<<<<<<<<<<
+ *         if j < k: l=i
+ *         if k<i: m=j
+ */
+        __pyx_v_i = (__pyx_v_i + 1);
+        __pyx_v_j = (__pyx_v_j - 1);
+
+        /* "mlgrad/inventory.pyx":579
+ *             while x < a[j]:
+ *                 j -= 1
+ *             if i <= j:             # <<<<<<<<<<<<<<
+ *                 # swap(&a[i],&a[j]) ;
+ *                 t = a[i]; a[i] = a[j]; a[j] = t
+ */
+      }
+    }
+
+    /* "mlgrad/inventory.pyx":583
+ *                 t = a[i]; a[i] = a[j]; a[j] = t
+ *                 i += 1; j -= 1
+ *         if j < k: l=i             # <<<<<<<<<<<<<<
+ *         if k<i: m=j
+ *     return k
+ */
+    __pyx_t_1 = (__pyx_v_j < __pyx_v_k);
+    if (__pyx_t_1) {
+      __pyx_v_l = __pyx_v_i;
+    }
+
+    /* "mlgrad/inventory.pyx":584
+ *                 i += 1; j -= 1
+ *         if j < k: l=i
+ *         if k<i: m=j             # <<<<<<<<<<<<<<
+ *     return k
+ */
+    __pyx_t_1 = (__pyx_v_k < __pyx_v_i);
+    if (__pyx_t_1) {
+      __pyx_v_m = __pyx_v_j;
+    }
+  }
+
+  /* "mlgrad/inventory.pyx":585
+ *         if j < k: l=i
+ *         if k<i: m=j
+ *     return k             # <<<<<<<<<<<<<<
+ */
+  __pyx_r = __pyx_v_k;
+  goto __pyx_L0;
+
+  /* "mlgrad/inventory.pyx":565
+ *         y[i] = x[j, i]
+ * 
+ * cdef Py_ssize_t kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i, j, l, m
+ *     cdef double x, t
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
 }
 static struct __pyx_vtabstruct_array __pyx_vtable_array;
 
@@ -23790,6 +25098,12 @@ static int __Pyx_modinit_function_export_code(void) {
   if (__Pyx_ExportFunction("scatter_matrix_weighted", (void (*)(void))__pyx_f_6mlgrad_9inventory_scatter_matrix_weighted, "void (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("scatter_matrix", (void (*)(void))__pyx_f_6mlgrad_9inventory_scatter_matrix, "void (__Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("weighted_sum_rows", (void (*)(void))__pyx_f_6mlgrad_9inventory_weighted_sum_rows, "void (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("quick_select", (void (*)(void))__pyx_f_6mlgrad_9inventory_quick_select, "int (double *, int)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("quick_select_t", (void (*)(void))__pyx_f_6mlgrad_9inventory_quick_select_t, "int (double *, Py_ssize_t, Py_ssize_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("median_1d", (void (*)(void))__pyx_f_6mlgrad_9inventory_median_1d, "double (__Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("median_2d", (void (*)(void))__pyx_f_6mlgrad_9inventory_median_2d, "void (__Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("median_2d_t", (void (*)(void))__pyx_f_6mlgrad_9inventory_median_2d_t, "void (__Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("kth_smallest", (void (*)(void))__pyx_f_6mlgrad_9inventory_kth_smallest, "Py_ssize_t (double *, Py_ssize_t, Py_ssize_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

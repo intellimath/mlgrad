@@ -94,13 +94,7 @@ cdef class FuncNorm(Func2):
 #         self.all = all
 
     cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
-        cdef Py_ssize_t i
-        cdef double* X_ptr = &X[0]
-        cdef double* Y_ptr = &Y[0]
-        cdef Func func = self.func
-
-        for i in range(X.shape[0]):
-            Y_ptr[i] = func._evaluate(X_ptr[i])
+        self.func._evaluate_array(&X[0], &Y[0], X.shape[0])
 
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i
@@ -126,23 +120,16 @@ cdef class FuncNorm(Func2):
         return s
     
     cdef void _gradient(self, double[::1] X, double[::1] grad):
-        cdef Py_ssize_t i
-        cdef double* X_ptr = &X[0]
-        cdef double* grad_ptr = &grad[0]
-        cdef Func func = self.func
-    
-        for i in range(X.shape[0]):
-            grad_ptr[i] = func._derivative(X_ptr[i])
+        self.func._derivative_array(&X[0], &grad[0], X.shape[0])
     #
     cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
         cdef Py_ssize_t i
-        cdef double* X_ptr = &X[0]
         cdef double* W_ptr = &W[0]
         cdef double* grad_ptr = &grad[0]
-        cdef Func func = self.func
     
+        self.func._derivative_array(&X[0], &grad[0], X.shape[0])
         for i in range(X.shape[0]):
-            grad_ptr[i] = W_ptr[i] * func._derivative(X_ptr[i])
+            grad_ptr[i] *= W_ptr[i]
     #
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         return self.func._derivative(X[j])
@@ -377,6 +364,43 @@ cdef class AbsoluteNorm(Func2):
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_1=\sum_{i=0}^n |w_i|$"
 
+cdef class MixedNorm(Func2):
+
+    cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
+        cdef numpy.npy_intp n = X.shape[0]
+        cdef double[::1] t1 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+        cdef double[::1] t2 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+        cdef double* t1_ptr = &t1[0]
+        cdef double* t2_ptr = &t2[0]
+        cdef double* Y_ptr = &Y[0]
+        cdef Py_ssize_t i
+        cdef double tau1 = self.tau1, tau2 = self.tau2
+
+        self.func1._evaluate_items(X, t1)
+        self.func2._evaluate_items(X, t2)
+
+        for i in range(X.shape[0]):
+            Y_ptr[i] = tau1 * t1_ptr[i] + tau2 * t2_ptr[i]
+
+    cdef double _evaluate(self, double[::1] X):
+        return self.tau1 * self.func1._evaluate(X) + self.tau2 * self.func2._evaluate(X) 
+
+    cdef void _gradient(self, double[::1] X, double[::1] Y):
+        cdef numpy.npy_intp n = X.shape[0]
+        cdef double[::1] t1 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+        cdef double[::1] t2 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+        cdef double* t1_ptr = &t1[0]
+        cdef double* t2_ptr = &t2[0]
+        cdef double* Y_ptr = &Y[0]
+        cdef Py_ssize_t i
+        cdef double tau1 = self.tau1, tau2 = self.tau2
+
+        self.func1._gradient(X, t1)
+        self.func2._gradient(X, t2)
+
+        for i in range(X.shape[0]):
+            Y_ptr[i] = tau1 * t1_ptr[i] + tau2 * t2_ptr[i]
+    
 cdef class SoftAbsoluteNorm(Func2):
 
     def __init__(self, eps=0.001):

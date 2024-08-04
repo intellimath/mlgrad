@@ -15,7 +15,7 @@ import platform
 WIN32 = (platform.system() == 'Windows')
 
 Oflag = ["-O3", "-march=native"]
-extra_compile_args = Oflag #, "-fno-wrapv"] 
+extra_compile_args = Oflag #  ["-fno-wrapv"] 
 # extra_link_args = Oflag + ["-lm"]
 # extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not WIN32 else "/openmp")]
 # extra_link_args_openmp = [Oflag, "-lm", ("-fopenmp" if not WIN32 else "/openmp")]
@@ -88,12 +88,12 @@ ext_modules = [
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
     ),
-    Extension(
-        "mlgrad.miscfuncs",
-        ["lib/mlgrad/miscfuncs.pyx"],
-        extra_compibitbucketle_args = extra_compile_args,
-        extra_link_args = extra_link_args,
-    ),
+    # Extension(
+    #     "mlgrad.miscfuncs",
+    #     ["lib/mlgrad/miscfuncs.pyx"],
+    #     extra_compibitbucketle_args = extra_compile_args,
+    #     extra_link_args = extra_link_args,
+    # ),
     Extension(
         "mlgrad.batch",
         ["lib/mlgrad/batch.pyx"],
@@ -238,6 +238,8 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
         'Operating System :: OS Independent',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],

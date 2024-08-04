@@ -77,3 +77,10 @@ cdef void normalize(double[::1] a) noexcept nogil
 cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil
 cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil
 cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexcept nogil
+
+cdef int quick_select(double *a, int n) noexcept nogil
+cdef int quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) noexcept nogil
+cdef double median_1d(double[::1] x) noexcept nogil
+cdef void median_2d(double[:,::1] x, double[::1] y) noexcept nogil
+cdef void median_2d_t(double[:,::1] x, double[::1] y) noexcept nogil
+cdef Py_ssize_t kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil

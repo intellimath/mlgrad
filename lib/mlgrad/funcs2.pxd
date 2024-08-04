@@ -56,6 +56,11 @@ cdef class FuncNorm(Func2):
     cdef Func func
     #
 
+cdef class MixedNorm(Func2):
+    #
+    cdef Func2 func1
+    cdef Func2 func2
+    
 @cython.final
 cdef class PowerNorm(Func2):
     #

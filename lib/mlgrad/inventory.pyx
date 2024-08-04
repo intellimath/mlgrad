@@ -426,3 +426,160 @@ cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexc
             y = fma(wk, Xk[i], y)
             Xk += n
         yy[i] = y
+
+
+# cdef inline void swap(double *a, double *b) noexcept nogil:
+#     cdef double t=a[0]
+#     a[0]=b[0]
+#     b[0]=t
+
+cdef int quick_select(double *a, int n) noexcept nogil:
+    cdef int low, high
+    cdef int median
+    cdef int middle, ll, hh
+    cdef double t
+
+    low = 0
+    high = n-1
+    median = (low + high) // 2
+    while 1:
+        if high <= low: # One element only
+            return median
+
+        if high == low + 1:  # Two elements only
+            if a[low] > a[high]:
+                t = a[low]; a[low] = a[high]; a[high] = t
+            return median
+
+        # Find median of low, middle and high items; swap into position low
+        middle = (low + high) // 2
+        if a[middle] > a[high]:
+            t = a[middle]; a[middle] = a[high]; a[high] = t
+        if a[low] > a[high]:
+            t = a[low]; a[low] = a[high]; a[high] = t
+        if a[middle] > a[low]:
+            t = a[middle]; a[middle] = a[low]; a[low] = t
+
+        # Swap low item (now in position middle) into position (low+1)
+        # swap(&a[middle], &a[low+1])
+        t = a[middle]; a[middle] = a[low+1]; a[low+1] = t
+
+        # Nibble from each end towards middle, swapping items when stuck
+        ll = low + 1;
+        hh = high;
+        while 1:
+            while a[low] > a[ll]:
+                ll += 1
+            while a[hh]  > a[low]:
+                hh += 1
+
+            if hh < ll:
+                break
+
+            # swap(&a[ll], &a[hh])
+            t = a[ll]; a[ll] = a[hh]; a[hh] = t
+
+        
+        # Swap middle item (in position low) back into correct position
+        t = a[middle]; a[middle] = a[hh]; a[hh] = t
+        # swap(&a[low], &a[hh])
+        
+        # Re-set active partition
+        if hh <= median:
+            low = ll
+        if hh >= median:
+            high = hh - 1
+
+cdef int quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) noexcept nogil:
+    cdef Py_ssize_t i_low, low, i_high, high
+    cdef Py_ssize_t i_median, median
+    cdef Py_ssize_t i_middle, middle, i_ll, ll, i_hh, hh
+    cdef double t
+
+    i_low = 0; low = 0
+    i_high = n-1; high = i_high * step
+    i_median = (i_low + i_high) // 2; median = i_median * step
+    while 1:
+        if i_high <= i_low: # One element only
+            return median
+
+        if i_high == i_low + 1:  # Two elements only
+            if a[low] > a[high]:
+                t = a[low]; a[low] = a[high]; a[high] = t
+            return median
+
+        # Find median of low, middle and high items; swap into position low
+        i_middle = (i_low + i_high) // 2; middle = i_middle * step
+        if a[middle] > a[high]:
+            t = a[middle]; a[middle] = a[high]; a[high] = t
+        if a[low] > a[high]:
+            t = a[low]; a[low] = a[high]; a[high] = t
+        if a[middle] > a[low]:
+            t = a[middle]; a[middle] = a[low]; a[low] = t
+
+        # Swap low item (now in position middle) into position (low+1)
+        # swap(&a[middle], &a[low+1])
+        t = a[middle]; a[middle] = a[low+step]; a[low+step] = t
+
+        # Nibble from each end towards middle, swapping items when stuck
+        i_ll = i_low + 1; ll = i_ll * step
+        i_hh = i_high; hh = i_hh * step
+        while 1:
+            while a[low] > a[ll]:
+                i_ll += 1; ll += step
+            while a[hh]  > a[low]:
+                i_hh += 1; hh += step
+
+            if i_hh < i_ll:
+                break
+
+            # swap(&a[ll], &a[hh])
+            t = a[ll]; a[ll] = a[hh]; a[hh] = t
+
+        
+        # Swap middle item (in position low) back into correct position
+        t = a[middle]; a[middle] = a[hh]; a[hh] = t
+        # swap(&a[low], &a[hh])
+        
+        # Re-set active partition
+        if i_hh <= i_median:
+            i_low = i_ll; low = ll
+        if i_hh >= i_median:
+            i_high = i_hh - 1; high = hh - step
+            
+cdef double median_1d(double[::1] x) noexcept nogil:
+    return x[quick_select(&x[0], x.shape[0])]
+
+cdef void median_2d(double[:,::1] x, double[::1] y) noexcept nogil:
+    cdef Py_ssize_t i, j, N = x.shape[0], n = x.shape[1]
+    for i in range(N):
+        j = quick_select(&x[i,0], n)
+        y[i] = x[i, j]
+
+cdef void median_2d_t(double[:,::1] x, double[::1] y) noexcept nogil:
+    cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
+    for i in range(n):
+        j = quick_select_t(&x[0,i], N, n)
+        y[i] = x[j, i]
+
+cdef Py_ssize_t kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil:
+    cdef Py_ssize_t i, j, l, m
+    cdef double x, t
+
+    l = 0; m = n-1
+    while l < m:
+        x = a[k]
+        i = l
+        j = m
+        while i <= j:
+            while a[i] < x:
+                i += 1
+            while x < a[j]:
+                j -= 1
+            if i <= j:
+                # swap(&a[i],&a[j]) ;
+                t = a[i]; a[i] = a[j]; a[j] = t
+                i += 1; j -= 1
+        if j < k: l=i
+        if k<i: m=j
+    return k
