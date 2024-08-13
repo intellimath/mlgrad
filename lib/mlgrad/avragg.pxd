@@ -102,7 +102,7 @@ cdef class AverageIterative(Average):
     
 # @cython.final
 cdef class MAverage(AverageIterative):
-    cdef Func func
+    cdef public Func func
     #
 
 # @cython.final
@@ -113,7 +113,7 @@ cdef class MAverage(AverageIterative):
     
 # @cython.final
 cdef class SAverage(AverageIterative):
-    cdef Func func
+    cdef public Func func
     
 # @cython.final
 # cdef class Average_Iterative(Average):
@@ -135,7 +135,7 @@ cdef class ParameterizedAverage(Average):
 
 @cython.final
 cdef class WMAverage(Average):
-    cdef Average avr
+    cdef public Average avr
     cdef bint initial
 
 # @cython.final
@@ -145,7 +145,7 @@ cdef class WMAverage(Average):
     
 @cython.final
 cdef class TMAverage(Average):
-    cdef Average avr
+    cdef public Average avr
 
 # @cython.final
 # cdef class HMAverage(Average):
@@ -154,9 +154,8 @@ cdef class TMAverage(Average):
 
 @cython.final
 cdef class WMZAverage(Average):
-    cdef public double tau
-    cdef public MAverage mavr
-    cdef MAverage savr
+    cdef public double c, tau
+    cdef public MAverage mavr, savr
     cdef double mval, sval
     cdef double[::1] U, GU
 

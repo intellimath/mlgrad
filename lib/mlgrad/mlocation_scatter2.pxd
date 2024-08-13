@@ -6,7 +6,7 @@ from cython.view cimport indirect_contiguous
 from libc.math cimport fabs, pow, sqrt, fmax, log
 from libc.string cimport memcpy, memset
 
-from mlgrad.miscfuncs cimport init_rand, rand, fill
+# from mlgrad.miscfuncs cimport init_rand, rand, fill
 from mlgrad.avragg cimport Average
 from mlgrad.distance cimport Distance, DistanceWithScale, MahalanobisDistance
 from mlgrad.funcs cimport Func

@@ -366,6 +366,10 @@ cdef class AbsoluteNorm(Func2):
 
 cdef class MixedNorm(Func2):
 
+    def __init__(self, Func2 func1, Func2 func2, tau1, tau2):
+        self.func1 = func1
+        self.func2 = func2
+
     cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
         cdef numpy.npy_intp n = X.shape[0]
         cdef double[::1] t1 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)

@@ -51,7 +51,6 @@ cdef inline Model as_model(object o):
 cdef class BaseModel(object):
     cdef double _evaluate(self, double[::1] X)
     cdef void _evaluate_all(self, double[:,::1] X, double[::1] Y)
-    cpdef copy(self, bint share=*)
 
 cdef class Model(BaseModel):
     cdef public Py_ssize_t n_param, n_input
@@ -67,11 +66,6 @@ cdef class Model(BaseModel):
     cdef void _gradient_input(self, double[::1] X, double[::1] grad)
     #
     # cdef update_param(self, double[::1] param)
-
-cdef class SimpleComposition(Model):
-    #
-    cdef Func func
-    cdef Model model
     
 cdef class ModelComposition(Model):
     #
@@ -81,6 +75,8 @@ cdef class ModelComposition(Model):
     cdef double[::1] ss, sx
     
     cdef void _gradient_j(self, double[::1] X, Py_ssize_t j, double[::1] grad)
+    #
+    cdef ModelComposition _copy(self, bint share)
     
 cdef class ModelComposition_j(Model):
     cdef ModelComposition model_comp
@@ -97,12 +93,21 @@ cdef class ModelView(Model):
     
 @cython.final
 cdef class LinearModel(Model):
-    pass
+    #
+    cdef LinearModel _copy(self, bint share)
 
 @cython.final
 cdef class SigmaNeuronModel(Model):
     cdef Func outfunc
+    cdef SigmaNeuronModel _copy(self, bint share)
 
+cdef class SimpleComposition(Model):
+    #
+    cdef Func func
+    cdef Model model
+    #
+    cdef SimpleComposition _copy(self, bint share)
+    
 @cython.final
 cdef class WinnerModel(Model):
     cdef Func outfunc
@@ -118,6 +123,7 @@ cdef class Model2:
     cdef public double[::1] output
     # cdef public double[::1] grad
     # cdef public double[::1] grad_input
+
     cdef public uint8[::1] mask
     #
     cdef void _forward(self, double[::1] X)
@@ -131,47 +137,57 @@ cdef class ModelLayer(Model2):
     cdef public double[::1] input
     cdef public double[::1] grad_input
     
-    cpdef ModelLayer copy(self, bint share=*)
-    
 @cython.final
 cdef class ScaleLayer(ModelLayer):
     cdef public Func func    
+    #
+    cdef ScaleLayer _copy(self, bint share)
     
 @cython.final
 cdef class LinearLayer(ModelLayer):
     cdef public double[:,::1] matrix
     # cdef bint first_time
+    #
+    cdef LinearLayer _copy(self, bint share)
 
-cdef class SigmaNeuronModelLayer(ModelLayer):
-    cdef public Func func
-    cdef public double[:,::1] matrix
-    cdef double[::1] ss
-    cdef bint first_time
-    
+# cdef class SigmaNeuronModelLayer(ModelLayer):
+#     cdef public Func func
+#     cdef public double[:,::1] matrix
+#     cdef double[::1] ss
+#     cdef bint first_time
+#     #
+#     cdef SigmaNeuronModelLayer _copy(self, bint share)
+
 cdef class GeneralModelLayer(ModelLayer):
     cdef public list models
+    #
+    cdef GeneralModelLayer _copy(self, bint share)
     
 cdef class LinearFuncModel(BaseModel):
     cdef public list models
     cdef public list_doubles weights
-    
+    #
+    cdef LinearFuncModel _copy(self, bint share)
     
 cdef class MLModel(Model2):
     cdef public list layers
     cdef bint is_forward
 
     cdef void backward2(self, double[::1] X, double[::1] grad_u, double[::1] grad)
-    cpdef MLModel copy(self, bint share=*)
+
 
 # @cython.final
 cdef class FFNetworkModel(MLModel):
-    pass
+    #
+    cdef FFNetworkModel _copy(self, bint share)
 
 @cython.final
 cdef class FFNetworkFuncModel(Model):
     #cdef ArrayAllocator allocator_param, allocator_grad
     cdef public Model head
-    cdef public MLModel body    
+    cdef public MLModel body
+    #
+    cdef FFNetworkFuncModel _copy(self, bint share)
     
 cdef class EllipticModel(Model):
     cdef readonly double[::1] c

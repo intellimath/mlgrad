@@ -3,7 +3,7 @@
 cimport cython
 
 from libc.math cimport fabs, pow, sqrt, fmax
-from mlgrad.miscfuncs cimport init_rand, rand, fill
+from mlgrad.inventory cimport init_rand, rand
 from libc.string cimport memcpy, memset
 
 from mlgrad.funcs cimport Func

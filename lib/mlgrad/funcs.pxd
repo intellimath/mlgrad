@@ -142,12 +142,10 @@ cdef class Square(Func):
 
 @cython.final
 cdef class SquareSigned(Func):
-    #
     pass
 
 @cython.final
 cdef class Absolute(Func):
-    #
     pass
 
 @cython.final
@@ -190,19 +188,21 @@ cdef class Quantile_Sqrt(Func):
     cdef double eps
     cdef double eps2
     cdef double alpha
-    #
 
+@cython.final
+cdef class Expit(Func):
+    #
+    cdef public double p
+    
 @cython.final
 cdef class Logistic(Func):
     #
     cdef public double p
-    #
 
 @cython.final
 cdef class Huber(Func):
     #
     cdef public double C
-    #
 
 @cython.final
 cdef class TM(Func):

@@ -87,6 +87,7 @@ cdef class GD:
         lval_min_prev = double_max / 100
         self.lvals = [lval]
         self.K = 0
+        # print(lval)
 
         self.h_rate.init()
 
@@ -212,7 +213,7 @@ cdef class GD:
 include "gd_fg.pyx"
 include "gd_fg_rud.pyx"
 #include "gd_rk4.pyx"
-include "gd_sgd.pyx"
+# include "gd_sgd.pyx"
 #include "gd_sag.pyx"
 
 # Fittable.register(GD)

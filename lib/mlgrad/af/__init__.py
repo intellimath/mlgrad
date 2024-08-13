@@ -9,7 +9,7 @@ def averaging_function(
              *,
              tol=1.0e-8, n_iter=1000, args=None, kwds=None):
     """
-    Создание экземпляра класса, реализуюего агрегирующую функцию.
+    Создание экземпляра класса, реалиазуюего агрегирующую функцию.
     
     Примеры:
     
@@ -23,12 +23,20 @@ def averaging_function(
     avgfunc = averaging_function('SWM', funcs.quantile_func(0.8, funcs.Sqrt(0.001)))
     """
 
+    if kwds is None:
+        kwds = {}
+    if args is None:
+        args = ()
+    
     avgfunc = avragg.MAverage(rhofunc, tol=tol, n_iter=n_iter)
     
     if kind == 'M':
         avg = avgfunc
     elif kind == 'WM':
         avg = avragg.WMAverage(avgfunc)
+    elif kind == 'WMZ':
+        avgfunc2 = avragg.MAverage(rhofunc, tol=tol, n_iter=n_iter)
+        avg = avragg.WMZAverage(avgfunc, avgfunc2, **kwds)
     elif kind == 'SWM':
         avg = avragg.ParameterizedAverage(funcs.WinsorizedSmoothFunc(rhofunc), avgfunc)
     elif kind == 'HM':

@@ -277,6 +277,7 @@ cdef class MAverage(AverageIterative):
     #
     def __init__(self, Func func, tol=1.0e-9, n_iter=1000):
         self.penalty = PenaltyAverage(func)
+        self.func = func
         self.n_iter = n_iter
         self.tol = tol
         self.evaluated = 0
@@ -530,6 +531,93 @@ cdef class TMAverage(Average):
                 grad[k] = 0
     #
 
+@cython.final
+cdef class WMZAverage(Average):
+    #
+    def __init__(self, MAverage mavr, MAverage savr, c=1.0, tau=6.0):
+        self.mavr = mavr
+        self.savr = savr
+        self.c = c
+        self.tau = tau
+        self.U = None
+        self.GU = None
+        self.evaluated = 0
+    #
+    @cython.cdivision(True)
+    @cython.final
+    cdef double _evaluate(self, double[::1] Y):
+        cdef Py_ssize_t j, N = Y.shape[0]
+        cdef double[::1] U = self.U
+        cdef Func rho_func = self.mavr.func
+        cdef double mval, tval, v, s
+
+        mval = self.mval = self.mavr._evaluate(Y)
+
+        if U is None or U.shape[0] != N:
+            U = self.U = np.empty(N, 'd')
+
+        for j in range(N):
+            U[j] = rho_func._evaluate(Y[j] - mval)
+
+        self.sval = self.savr._evaluate(U)
+        tval = self.mval + self.c * self.tau * self.sval
+
+        s = 0
+        for j in range(N):
+            v = Y[j]
+            if v > tval:
+                v = tval
+            s += v
+        s /= N
+        self.u = s
+        self.evaluated = 1
+        
+        return s
+    #
+    @cython.cdivision(True)
+    @cython.final
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
+        cdef Py_ssize_t j, N = Y.shape[0]
+        cdef double[::1] GU = self.GU
+        cdef Func rho_func = self.mavr.func
+        cdef double mval, tval, tau, v, s, ss, m
+
+        if not self.evaluated:
+            self._evaluate(Y)
+
+        if GU is None or GU.shape[0] != N:
+            GU = self.GU = np.empty(N, 'd')
+
+        mval = self.mval
+        tau = self.tau
+        tval = mval + self.c * tau * self.sval
+
+        m = 0
+        for j in range(N):
+            if Y[j] >= tval:
+                m += 1
+
+        self.mavr._gradient(Y, grad)
+        self.savr._gradient(self.U, GU)
+
+        for j in range(N):
+            GU[j] *= rho_func._derivative(Y[j] - mval)
+
+        ss = 0
+        for j in range(N):
+            ss += GU[j] * grad[j]
+
+        v = rho_func._derivative(self.sval)
+        for j in range(N):
+            grad[j] += tau * m * (GU[j] - ss) / v
+
+        for j in range(N):
+            if Y[j] < tval:
+                grad[j] += 1
+            grad[j] /= N
+
+        self.evaluated = 0
+
 # cdef class HMAverage(Average):
 #     #
 #     def __init__(self, Average avr, n_iter=1000, tol=1.0e-8):
@@ -623,92 +711,6 @@ cdef class TMAverage(Average):
 #                 v = m*grad[k]
 #             grad[k] = v * N1
     #
-
-@cython.final
-cdef class WMZAverage(Average):
-    #
-    def __init__(self, MAverage mavr, MAverage savr=None, c=1.0, tau=3.5, n_iter=1000, tol=1.0e-8):
-        self.mavr = mavr
-        if savr is None:
-            self.savr = MAverage(mavr.func, n_iter=mavr.n_iter, tol=mavr.tol)
-        else:
-            self.savr = savr
-        self.U = None
-        self.V = None
-        self.GU = None
-        self.evaluated = 0
-        self.c = c
-    #
-    cdef double _evaluate(self, double[::1] Y):
-        cdef Py_ssize_t j, N = Y.shape[0]
-        cdef double[::1] U = self.U
-        cdef Func rho_func = self.mavr.func
-        cdef double tval, v, s
-
-        self.mval = self.mavr._evaluate(Y)
-
-        if U is None or U.shape[0] != N:
-            U = self.U = np.empty(N, 'd')
-
-        for j in range(N):
-            U[j] = rho_func._evaluate(Y[j] - self.mval)
-
-        self.sval = self.savr._evaluate(U)
-        tval = self.mval + self.c * self.self.tau * self.sval
-
-        s = 0
-        for j in range(N):
-            v = Y[j]
-            if v > tval:
-                v = tval
-            s += v
-        s /= N
-        self.evaluated = 1
-        
-        return s
-    #
-    cdef _gradient(self, double[::1] Y, double[::1] grad):
-        cdef Py_ssize_t j, N = Y.shape[0]
-        cdef double[::1] GU = self.GU
-        # cdef double[::1] gradu
-        cdef Func rho_func = self.mavr.func
-        cdef double mval, tval, v, s, ss, m
-
-        if not self.evaluated:
-            self._evaluated(Y)
-
-        if GU is None or GU.shape[0] != N:
-            GU = self.GU = np.empty(N, 'd')
-            
-
-        mval = self.mval
-        tval = mval + self.c * self.tau * self.sval
-
-        m = 0
-        for j in range(N):
-            if Y[j] >= tval:
-                m += 1
-
-        self.mavr._gradient(Y, grad)
-        self.savr._gradient(self.U, GU)
-
-        for j in range(N):
-            GU[j] *= rho_func._derivative(Y[j] - mval)
-
-        ss = 0
-        for j in range(N):
-            ss += GU[j] * grad[j]
-
-        v = rho_func._derivative(self.sval)
-        for j in range(N):
-            grad[j] += self.tau * m * (GU[j] - ss) / v
-
-        for j in range(N):
-            if Y[j] < tval:
-                grad[j] += 1
-            grad[j] /= N
-
-        self.evaluated = 0
 
 cdef class ArithMean(Average):
     #

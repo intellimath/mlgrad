@@ -78,7 +78,7 @@ class IRGD:
 
         self.lval_best = self.lval = self.weights.get_qvalue()
         self.lval_best_prev = float_info.max / 10
-        # print(self.lval_best)
+        # print(self.lval)
         self.param_best = risk.model.param.copy()
         
         if self.callback is not None:

@@ -12,7 +12,7 @@ from mlgrad.weights cimport Weights
 from mlgrad.risks cimport Functional, Risk, ERisk
 # from mlgrad.normalizer cimport Normalizer
 
-from mlgrad.miscfuncs cimport init_rand, rand, fill
+# from mlgrad.inventory cimport init_rand, rand, fill
 
 from libc.math cimport fabs, pow, sqrt, fmax
 # from libc.math cimport fabsf, powf, sqrtf, fmaxf

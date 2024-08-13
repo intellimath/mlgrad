@@ -8,6 +8,17 @@ from numpy cimport npy_uint8 as uint8
 
 from libc.string cimport memcpy, memset
 from libc.math cimport isnan, fma
+from libc.stdlib cimport rand as stdlib_rand, srand
+from libc.time cimport time
+
+cdef extern from "pymath.h" nogil:
+    bint Py_IS_FINITE(double x)
+    bint Py_IS_INFINITY(double x)
+    bint Py_IS_NAN(double x)
+    bint copysign(double x, double x)
+
+cdef void init_rand() noexcept nogil
+cdef long rand(long N) noexcept nogil
 
 cdef int get_num_threads() noexcept nogil
 cdef int get_num_procs() noexcept nogil
@@ -23,9 +34,11 @@ cdef void _fill(double *to, const double c, const Py_ssize_t n) noexcept nogil
 cdef double _conv(const double*, const double*, const Py_ssize_t) noexcept nogil
 cdef void _move(double*, const double*, const Py_ssize_t) noexcept nogil
 cdef double _sum(const double*, const Py_ssize_t) noexcept nogil
-cdef void _add(double *a, const double *b, const Py_ssize_t n) noexcept nogil
-cdef void _sub(double *a, const double *b, const Py_ssize_t n) noexcept nogil
-cdef void _sub_mask(double *a, const double *b, uint8 *m, const Py_ssize_t n) noexcept nogil
+cdef void _iadd(double *a, const double *b, const Py_ssize_t n) noexcept nogil
+cdef void _add(const double *a, const double *b, double *c, const Py_ssize_t n) noexcept nogil
+cdef void _isub(double *a, const double *b, const Py_ssize_t n) noexcept nogil
+cdef void _isub_mask(double *a, const double *b, uint8 *m, const Py_ssize_t n) noexcept nogil
+cdef void _sub(const double *a, const double *b, double *c, const Py_ssize_t n) noexcept nogil
 cdef void _mul(double *a, const double *b, const Py_ssize_t n) noexcept nogil
 cdef void _mul_add(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
 cdef void _mul_set(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
@@ -52,10 +65,12 @@ cdef void move2(double[:,::1] to, double[:,::1] src) noexcept nogil
 cdef void move3(double[:,:,::1] to, double[:,:,::1] src) noexcept nogil
 cdef double conv(double[::1] a, double[::1] b) noexcept nogil
 cdef double sum(double[::1] a) noexcept nogil
-cdef void add(double[::1] a, double[::1] b) noexcept nogil
-cdef void add2(double[:,::1] a, double[:,::1] b) noexcept nogil
-cdef void sub(double[::1] a, double[::1] b) noexcept nogil
-cdef void sub_mask(double[::1] a, double[::1] b, uint8[::1] m) noexcept nogil
+cdef void iadd(double[::1] a, double[::1] b) noexcept nogil
+cdef void iadd2(double[:,::1] a, double[:,::1] b) noexcept nogil
+cdef void add(double[::1] a, double[::1] b, double[::1] c) noexcept nogil
+cdef void isub(double[::1] a, double[::1] b) noexcept nogil
+cdef void isub_mask(double[::1] a, double[::1] b, uint8[::1] m) noexcept nogil
+cdef void sub(double[::1] a, double[::1] b, double[::1] c) noexcept nogil
 cdef void mul_const(double[::1] a, const double c) noexcept nogil
 cdef void mul_const2(double[:, ::1] a, const double c) noexcept nogil
 cdef void mul_const3(double[:,:,::1] a, const double c) noexcept nogil
@@ -78,9 +93,9 @@ cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] 
 cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil
 cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexcept nogil
 
-cdef int quick_select(double *a, int n) noexcept nogil
-cdef int quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) noexcept nogil
-cdef double median_1d(double[::1] x) noexcept nogil
-cdef void median_2d(double[:,::1] x, double[::1] y) noexcept nogil
-cdef void median_2d_t(double[:,::1] x, double[::1] y) noexcept nogil
-cdef Py_ssize_t kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil
+cdef Py_ssize_t quick_select(double *a, Py_ssize_t n) #noexcept nogil
+cdef Py_ssize_t quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) #noexcept nogil
+cdef double _median_1d(double[::1] x) #noexcept nogil
+cdef void _median_2d(double[:,::1] x, double[::1] y) #noexcept nogil
+cdef void _median_2d_t(double[:,::1] x, double[::1] y) #noexcept nogil
+cdef Py_ssize_t kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) #noexcept nogil

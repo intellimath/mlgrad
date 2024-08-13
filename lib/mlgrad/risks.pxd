@@ -12,7 +12,7 @@ from mlgrad.batch cimport Batch, WholeBatch, RandomBatch
 from mlgrad.avragg cimport Average, ArithMean
 cimport mlgrad.inventory as inventory
 
-from mlgrad.miscfuncs cimport init_rand, rand, fill
+# from mlgrad.inventory cimport init_rand, rand, fill
 
 from libc.math cimport fabs, pow, sqrt, fmax
 from libc.string cimport memcpy, memset

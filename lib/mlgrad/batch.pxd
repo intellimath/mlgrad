@@ -1,6 +1,6 @@
 # cython: language_level=3
 
-from mlgrad.miscfuncs cimport init_rand, rand, fill
+from mlgrad.inventory cimport init_rand, rand, fill
 
 cdef class Batch:
     #

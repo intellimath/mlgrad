@@ -978,6 +978,37 @@ cdef class Quantile_AlphaLog(Func):
         return { 'name':'quantile_alpha_log',
                  'args': (self.alpha, self.q) }
 
+
+cdef class Expit(Func):
+
+    def __init__(self, p=1.0):
+        assert p > 0
+        self.p = p
+
+    @cython.cdivision(True)
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        if x > 0:
+            return 1 / (1 + exp(-self.p*x))
+        elif x < 0:
+            return 1 - 1 / (1 + exp(self.p*x))
+        else:
+            return 0.5
+
+    @cython.cdivision(True)
+    cdef double _derivative(self, const double x) noexcept nogil:
+        cdef double v, v1
+        if x > 0:
+            v = exp(-self.p*x)
+            v1 = 1 + v
+            return self.p * v / (v1 * v1)
+        elif x < 0:
+            v = exp(self.p*x)
+            v1 = 1 + v
+            return self.p * v / (v1 * v1)
+        else:
+            return 0.5 * self.p
+        
+
 cdef class Logistic(Func):
 
     def __init__(self, p=1.0):

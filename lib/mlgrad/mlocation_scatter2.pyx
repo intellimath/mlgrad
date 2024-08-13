@@ -157,7 +157,7 @@ def init_locations(X, double[:,::1] locs):
     n = X.shape[1]
     n_locs = len(locs)
 
-    k0 = rand(N)
+    k0 = inventory.rand(N)
     indices = np.random.randint(0, N, n_locs, 'i')
 
     for j in range(n_locs):
