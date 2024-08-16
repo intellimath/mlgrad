@@ -110,8 +110,14 @@ cdef class PowerMax(Func2):
 cdef class SquareDiff1(Func2):
     pass
 
-@cython.final
-cdef class SquareDiff2(Func2):
-    pass
+# @cython.final
+# cdef class SquareDiff2(Func2):
+#     pass
 
-    
+@cython.final
+cdef class FuncDiff2(Func2):
+    cdef readonly Func func
+    cdef double[::1] temp_array
+    #
+    cdef void _evaluate_diff2(self, double *XX, double *YY, const Py_ssize_t m) noexcept nogil
+

@@ -122,14 +122,14 @@ cdef double _conv(const double *a, const double *b, const Py_ssize_t n) noexcept
 cdef double conv(double[::1] a, double[::1] b) noexcept nogil:
     return _conv(&a[0], &b[0], a.shape[0])
 
-cdef void _add(const double *a, const double *b, double *c, const Py_ssize_t n) noexcept nogil:
+cdef void _add(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
     for i in range(n):
         c[i] = a[i] + b[i]
 
-cdef void add(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:
-    _add(&a[0], &b[0], &c[0], a.shape[0])
+cdef void add(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
+    _add(&c[0], &a[0], &b[0], a.shape[0])
         
 
 cdef void _iadd(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
@@ -153,14 +153,14 @@ cdef void _isub(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
 cdef void isub(double[::1] a, double[::1] b) noexcept nogil:
     _isub(&a[0], &b[0], a.shape[0])
 
-cdef void _sub(const double *a, const double *b, double *c, const Py_ssize_t n) noexcept nogil:
+cdef void _sub(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
     for i in range(n):
         c[i] = a[i] - b[i]
     
-cdef void sub(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:
-    _sub(&a[0], &b[0], &c[0], a.shape[0])
+cdef void sub(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
+    _sub(&c[0], &a[0], &b[0], a.shape[0])
     
 cdef void _isub_mask(double *a, const double *b, uint8 *m, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
@@ -230,26 +230,26 @@ cdef void _mul_set1(double *a, const double *b, const double c, const Py_ssize_t
 cdef void mul_set1(double[::1] a, double[::1] b, double c) noexcept nogil:
     _mul_set(&a[0], &b[0], c, a.shape[0])
     
-cdef void _mul(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
+cdef void _imul(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     
     for i in range(n):
         a[i] *= b[i]
 
-cdef void mul(double[::1] a, double[::1] b) noexcept nogil:
-    _mul(&a[0], &b[0], a.shape[0])
+cdef void imul(double[::1] a, double[::1] b) noexcept nogil:
+    _imul(&a[0], &b[0], a.shape[0])
 
-cdef void mul2(double[:,::1] a, double[:,::1] b) noexcept nogil:
-    _mul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
+cdef void imul2(double[:,::1] a, double[:,::1] b) noexcept nogil:
+    _imul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
     
-cdef void _multiply(double *a, const double *b, const double *c, const Py_ssize_t n) noexcept nogil:
+cdef void _mul(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     
     for i in range(n):
-        a[i] = b[i] * c[i]
+        c[i] = a[i] * b[i]
 
-cdef void multiply(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:
-    _multiply(&a[0], &b[0], &c[0], a.shape[0])
+cdef void mul(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
+    _mul(&c[0], &a[0], &b[0], a.shape[0])
 
 
 cdef double dot1(double[::1] a, double[::1] b) noexcept nogil:

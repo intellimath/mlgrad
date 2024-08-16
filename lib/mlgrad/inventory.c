@@ -3188,11 +3188,12 @@ static double __pyx_f_6mlgrad_9inventory__conv(double const *, double const *, P
 static void __pyx_f_6mlgrad_9inventory__move(double *, double const *, Py_ssize_t const ); /*proto*/
 static double __pyx_f_6mlgrad_9inventory__sum(double const *, Py_ssize_t const ); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__iadd(double *, double const *, Py_ssize_t const ); /*proto*/
-static void __pyx_f_6mlgrad_9inventory__add(double const *, double const *, double *, Py_ssize_t const ); /*proto*/
+static void __pyx_f_6mlgrad_9inventory__add(double *, double const *, double const *, Py_ssize_t const ); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__isub(double *, double const *, Py_ssize_t const ); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__isub_mask(double *, double const *, npy_uint8 *, Py_ssize_t const ); /*proto*/
-static void __pyx_f_6mlgrad_9inventory__sub(double const *, double const *, double *, Py_ssize_t const ); /*proto*/
-static void __pyx_f_6mlgrad_9inventory__mul(double *, double const *, Py_ssize_t const ); /*proto*/
+static void __pyx_f_6mlgrad_9inventory__sub(double *, double const *, double const *, Py_ssize_t const ); /*proto*/
+static void __pyx_f_6mlgrad_9inventory__imul(double *, double const *, Py_ssize_t const ); /*proto*/
+static void __pyx_f_6mlgrad_9inventory__mul(double *, double const *, double const *, Py_ssize_t const ); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__mul_add(double *, double const *, double const , Py_ssize_t const ); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__mul_set(double *, double const *, double const , Py_ssize_t const ); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__mul_const(double *, double const , Py_ssize_t const ); /*proto*/
@@ -3202,7 +3203,6 @@ static void __pyx_f_6mlgrad_9inventory__matdot(double *, double *, double const 
 static void __pyx_f_6mlgrad_9inventory__matdot2(double *, double *, double const *, Py_ssize_t const , Py_ssize_t const ); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__mul_add_arrays(double *, double *, double const *, Py_ssize_t const , Py_ssize_t const ); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__mul_grad(double *, double const *, double const *, Py_ssize_t const , Py_ssize_t const ); /*proto*/
-static void __pyx_f_6mlgrad_9inventory__multiply(double *, double const *, double const *, Py_ssize_t const ); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__normalize(double *, Py_ssize_t const ); /*proto*/
 static Py_ssize_t __pyx_f_6mlgrad_9inventory_quick_select(double *, Py_ssize_t); /*proto*/
 static Py_ssize_t __pyx_f_6mlgrad_9inventory_quick_select_t(double *, Py_ssize_t, Py_ssize_t); /*proto*/
@@ -21635,7 +21635,7 @@ static double __pyx_f_6mlgrad_9inventory_conv(__Pyx_memviewslice __pyx_v_a, __Py
  * cdef double conv(double[::1] a, double[::1] b) noexcept nogil:
  *     return _conv(&a[0], &b[0], a.shape[0])             # <<<<<<<<<<<<<<
  * 
- * cdef void _add(const double *a, const double *b, double *c, const Py_ssize_t n) noexcept nogil:
+ * cdef void _add(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
  */
   if (unlikely(((PyObject *) __pyx_v_a.memview) == Py_None)) {
     #ifdef WITH_THREAD
@@ -21715,12 +21715,12 @@ static double __pyx_f_6mlgrad_9inventory_conv(__Pyx_memviewslice __pyx_v_a, __Py
 /* "mlgrad/inventory.pyx":125
  *     return _conv(&a[0], &b[0], a.shape[0])
  * 
- * cdef void _add(const double *a, const double *b, double *c, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
+ * cdef void _add(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
  * 
  */
 
-static void __pyx_f_6mlgrad_9inventory__add(double const *__pyx_v_a, double const *__pyx_v_b, double *__pyx_v_c, Py_ssize_t const __pyx_v_n) {
+static void __pyx_f_6mlgrad_9inventory__add(double *__pyx_v_c, double const *__pyx_v_a, double const *__pyx_v_b, Py_ssize_t const __pyx_v_n) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -21743,7 +21743,7 @@ static void __pyx_f_6mlgrad_9inventory__add(double const *__pyx_v_a, double cons
  *     for i in range(n):
  *         c[i] = a[i] + b[i]             # <<<<<<<<<<<<<<
  * 
- * cdef void add(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:
+ * cdef void add(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
  */
     (__pyx_v_c[__pyx_v_i]) = ((__pyx_v_a[__pyx_v_i]) + (__pyx_v_b[__pyx_v_i]));
   }
@@ -21751,7 +21751,7 @@ static void __pyx_f_6mlgrad_9inventory__add(double const *__pyx_v_a, double cons
   /* "mlgrad/inventory.pyx":125
  *     return _conv(&a[0], &b[0], a.shape[0])
  * 
- * cdef void _add(const double *a, const double *b, double *c, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
+ * cdef void _add(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
  * 
  */
@@ -21762,12 +21762,12 @@ static void __pyx_f_6mlgrad_9inventory__add(double const *__pyx_v_a, double cons
 /* "mlgrad/inventory.pyx":131
  *         c[i] = a[i] + b[i]
  * 
- * cdef void add(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:             # <<<<<<<<<<<<<<
- *     _add(&a[0], &b[0], &c[0], a.shape[0])
+ * cdef void add(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     _add(&c[0], &a[0], &b[0], a.shape[0])
  * 
  */
 
-static void __pyx_f_6mlgrad_9inventory_add(__Pyx_memviewslice __pyx_v_a, __Pyx_memviewslice __pyx_v_b, __Pyx_memviewslice __pyx_v_c) {
+static void __pyx_f_6mlgrad_9inventory_add(__Pyx_memviewslice __pyx_v_c, __Pyx_memviewslice __pyx_v_a, __Pyx_memviewslice __pyx_v_b) {
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
   Py_ssize_t __pyx_t_3;
@@ -21781,12 +21781,12 @@ static void __pyx_f_6mlgrad_9inventory_add(__Pyx_memviewslice __pyx_v_a, __Pyx_m
 
   /* "mlgrad/inventory.pyx":132
  * 
- * cdef void add(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:
- *     _add(&a[0], &b[0], &c[0], a.shape[0])             # <<<<<<<<<<<<<<
+ * cdef void add(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
+ *     _add(&c[0], &a[0], &b[0], a.shape[0])             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (unlikely(((PyObject *) __pyx_v_a.memview) == Py_None)) {
+  if (unlikely(((PyObject *) __pyx_v_c.memview) == Py_None)) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
     #endif
@@ -21799,9 +21799,29 @@ static void __pyx_f_6mlgrad_9inventory_add(__Pyx_memviewslice __pyx_v_a, __Pyx_m
   __pyx_t_1 = 0;
   __pyx_t_2 = -1;
   if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_a.shape[0];
+    __pyx_t_1 += __pyx_v_c.shape[0];
     if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_a.shape[0])) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_1 >= __pyx_v_c.shape[0])) __pyx_t_2 = 0;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
+    __PYX_ERR(0, 132, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_a.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 132, __pyx_L1_error)
+  }
+  __pyx_t_3 = 0;
+  __pyx_t_2 = -1;
+  if (__pyx_t_3 < 0) {
+    __pyx_t_3 += __pyx_v_a.shape[0];
+    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_3 >= __pyx_v_a.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
     __PYX_ERR(0, 132, __pyx_L1_error)
@@ -21816,32 +21836,12 @@ static void __pyx_f_6mlgrad_9inventory_add(__Pyx_memviewslice __pyx_v_a, __Pyx_m
     #endif
     __PYX_ERR(0, 132, __pyx_L1_error)
   }
-  __pyx_t_3 = 0;
-  __pyx_t_2 = -1;
-  if (__pyx_t_3 < 0) {
-    __pyx_t_3 += __pyx_v_b.shape[0];
-    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_3 >= __pyx_v_b.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
-    __PYX_ERR(0, 132, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *) __pyx_v_c.memview) == Py_None)) {
-    #ifdef WITH_THREAD
-    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-    #endif
-    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-    #ifdef WITH_THREAD
-    __Pyx_PyGILState_Release(__pyx_gilstate_save);
-    #endif
-    __PYX_ERR(0, 132, __pyx_L1_error)
-  }
   __pyx_t_4 = 0;
   __pyx_t_2 = -1;
   if (__pyx_t_4 < 0) {
-    __pyx_t_4 += __pyx_v_c.shape[0];
+    __pyx_t_4 += __pyx_v_b.shape[0];
     if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_4 >= __pyx_v_c.shape[0])) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_4 >= __pyx_v_b.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
     __PYX_ERR(0, 132, __pyx_L1_error)
@@ -21856,13 +21856,13 @@ static void __pyx_f_6mlgrad_9inventory_add(__Pyx_memviewslice __pyx_v_a, __Pyx_m
     #endif
     __PYX_ERR(0, 132, __pyx_L1_error)
   }
-  __pyx_f_6mlgrad_9inventory__add((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_b.data) + __pyx_t_3)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_c.data) + __pyx_t_4)) )))), (__pyx_v_a.shape[0]));
+  __pyx_f_6mlgrad_9inventory__add((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_c.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a.data) + __pyx_t_3)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_b.data) + __pyx_t_4)) )))), (__pyx_v_a.shape[0]));
 
   /* "mlgrad/inventory.pyx":131
  *         c[i] = a[i] + b[i]
  * 
- * cdef void add(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:             # <<<<<<<<<<<<<<
- *     _add(&a[0], &b[0], &c[0], a.shape[0])
+ * cdef void add(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     _add(&c[0], &a[0], &b[0], a.shape[0])
  * 
  */
 
@@ -22221,7 +22221,7 @@ static void __pyx_f_6mlgrad_9inventory_isub(__Pyx_memviewslice __pyx_v_a, __Pyx_
  * cdef void isub(double[::1] a, double[::1] b) noexcept nogil:
  *     _isub(&a[0], &b[0], a.shape[0])             # <<<<<<<<<<<<<<
  * 
- * cdef void _sub(const double *a, const double *b, double *c, const Py_ssize_t n) noexcept nogil:
+ * cdef void _sub(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
  */
   if (unlikely(((PyObject *) __pyx_v_a.memview) == Py_None)) {
     #ifdef WITH_THREAD
@@ -22299,12 +22299,12 @@ static void __pyx_f_6mlgrad_9inventory_isub(__Pyx_memviewslice __pyx_v_a, __Pyx_
 /* "mlgrad/inventory.pyx":156
  *     _isub(&a[0], &b[0], a.shape[0])
  * 
- * cdef void _sub(const double *a, const double *b, double *c, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
+ * cdef void _sub(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
  * 
  */
 
-static void __pyx_f_6mlgrad_9inventory__sub(double const *__pyx_v_a, double const *__pyx_v_b, double *__pyx_v_c, Py_ssize_t const __pyx_v_n) {
+static void __pyx_f_6mlgrad_9inventory__sub(double *__pyx_v_c, double const *__pyx_v_a, double const *__pyx_v_b, Py_ssize_t const __pyx_v_n) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -22327,7 +22327,7 @@ static void __pyx_f_6mlgrad_9inventory__sub(double const *__pyx_v_a, double cons
  *     for i in range(n):
  *         c[i] = a[i] - b[i]             # <<<<<<<<<<<<<<
  * 
- * cdef void sub(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:
+ * cdef void sub(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
  */
     (__pyx_v_c[__pyx_v_i]) = ((__pyx_v_a[__pyx_v_i]) - (__pyx_v_b[__pyx_v_i]));
   }
@@ -22335,7 +22335,7 @@ static void __pyx_f_6mlgrad_9inventory__sub(double const *__pyx_v_a, double cons
   /* "mlgrad/inventory.pyx":156
  *     _isub(&a[0], &b[0], a.shape[0])
  * 
- * cdef void _sub(const double *a, const double *b, double *c, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
+ * cdef void _sub(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
  * 
  */
@@ -22346,12 +22346,12 @@ static void __pyx_f_6mlgrad_9inventory__sub(double const *__pyx_v_a, double cons
 /* "mlgrad/inventory.pyx":162
  *         c[i] = a[i] - b[i]
  * 
- * cdef void sub(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:             # <<<<<<<<<<<<<<
- *     _sub(&a[0], &b[0], &c[0], a.shape[0])
+ * cdef void sub(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     _sub(&c[0], &a[0], &b[0], a.shape[0])
  * 
  */
 
-static void __pyx_f_6mlgrad_9inventory_sub(__Pyx_memviewslice __pyx_v_a, __Pyx_memviewslice __pyx_v_b, __Pyx_memviewslice __pyx_v_c) {
+static void __pyx_f_6mlgrad_9inventory_sub(__Pyx_memviewslice __pyx_v_c, __Pyx_memviewslice __pyx_v_a, __Pyx_memviewslice __pyx_v_b) {
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
   Py_ssize_t __pyx_t_3;
@@ -22365,12 +22365,12 @@ static void __pyx_f_6mlgrad_9inventory_sub(__Pyx_memviewslice __pyx_v_a, __Pyx_m
 
   /* "mlgrad/inventory.pyx":163
  * 
- * cdef void sub(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:
- *     _sub(&a[0], &b[0], &c[0], a.shape[0])             # <<<<<<<<<<<<<<
+ * cdef void sub(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
+ *     _sub(&c[0], &a[0], &b[0], a.shape[0])             # <<<<<<<<<<<<<<
  * 
  * cdef void _isub_mask(double *a, const double *b, uint8 *m, const Py_ssize_t n) noexcept nogil:
  */
-  if (unlikely(((PyObject *) __pyx_v_a.memview) == Py_None)) {
+  if (unlikely(((PyObject *) __pyx_v_c.memview) == Py_None)) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
     #endif
@@ -22383,9 +22383,29 @@ static void __pyx_f_6mlgrad_9inventory_sub(__Pyx_memviewslice __pyx_v_a, __Pyx_m
   __pyx_t_1 = 0;
   __pyx_t_2 = -1;
   if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_a.shape[0];
+    __pyx_t_1 += __pyx_v_c.shape[0];
     if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_a.shape[0])) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_1 >= __pyx_v_c.shape[0])) __pyx_t_2 = 0;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
+    __PYX_ERR(0, 163, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_a.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 163, __pyx_L1_error)
+  }
+  __pyx_t_3 = 0;
+  __pyx_t_2 = -1;
+  if (__pyx_t_3 < 0) {
+    __pyx_t_3 += __pyx_v_a.shape[0];
+    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_3 >= __pyx_v_a.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
     __PYX_ERR(0, 163, __pyx_L1_error)
@@ -22400,32 +22420,12 @@ static void __pyx_f_6mlgrad_9inventory_sub(__Pyx_memviewslice __pyx_v_a, __Pyx_m
     #endif
     __PYX_ERR(0, 163, __pyx_L1_error)
   }
-  __pyx_t_3 = 0;
-  __pyx_t_2 = -1;
-  if (__pyx_t_3 < 0) {
-    __pyx_t_3 += __pyx_v_b.shape[0];
-    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_3 >= __pyx_v_b.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
-    __PYX_ERR(0, 163, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *) __pyx_v_c.memview) == Py_None)) {
-    #ifdef WITH_THREAD
-    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-    #endif
-    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-    #ifdef WITH_THREAD
-    __Pyx_PyGILState_Release(__pyx_gilstate_save);
-    #endif
-    __PYX_ERR(0, 163, __pyx_L1_error)
-  }
   __pyx_t_4 = 0;
   __pyx_t_2 = -1;
   if (__pyx_t_4 < 0) {
-    __pyx_t_4 += __pyx_v_c.shape[0];
+    __pyx_t_4 += __pyx_v_b.shape[0];
     if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_4 >= __pyx_v_c.shape[0])) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_4 >= __pyx_v_b.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
     __PYX_ERR(0, 163, __pyx_L1_error)
@@ -22440,13 +22440,13 @@ static void __pyx_f_6mlgrad_9inventory_sub(__Pyx_memviewslice __pyx_v_a, __Pyx_m
     #endif
     __PYX_ERR(0, 163, __pyx_L1_error)
   }
-  __pyx_f_6mlgrad_9inventory__sub((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_b.data) + __pyx_t_3)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_c.data) + __pyx_t_4)) )))), (__pyx_v_a.shape[0]));
+  __pyx_f_6mlgrad_9inventory__sub((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_c.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a.data) + __pyx_t_3)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_b.data) + __pyx_t_4)) )))), (__pyx_v_a.shape[0]));
 
   /* "mlgrad/inventory.pyx":162
  *         c[i] = a[i] - b[i]
  * 
- * cdef void sub(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:             # <<<<<<<<<<<<<<
- *     _sub(&a[0], &b[0], &c[0], a.shape[0])
+ * cdef void sub(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     _sub(&c[0], &a[0], &b[0], a.shape[0])
  * 
  */
 
@@ -22464,7 +22464,7 @@ static void __pyx_f_6mlgrad_9inventory_sub(__Pyx_memviewslice __pyx_v_a, __Pyx_m
 }
 
 /* "mlgrad/inventory.pyx":165
- *     _sub(&a[0], &b[0], &c[0], a.shape[0])
+ *     _sub(&c[0], &a[0], &b[0], a.shape[0])
  * 
  * cdef void _isub_mask(double *a, const double *b, uint8 *m, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
@@ -22522,7 +22522,7 @@ static void __pyx_f_6mlgrad_9inventory__isub_mask(double *__pyx_v_a, double cons
   }
 
   /* "mlgrad/inventory.pyx":165
- *     _sub(&a[0], &b[0], &c[0], a.shape[0])
+ *     _sub(&c[0], &a[0], &b[0], a.shape[0])
  * 
  * cdef void _isub_mask(double *a, const double *b, uint8 *m, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
@@ -23638,7 +23638,7 @@ static void __pyx_f_6mlgrad_9inventory_mul_set1(__Pyx_memviewslice __pyx_v_a, __
  * cdef void mul_set1(double[::1] a, double[::1] b, double c) noexcept nogil:
  *     _mul_set(&a[0], &b[0], c, a.shape[0])             # <<<<<<<<<<<<<<
  * 
- * cdef void _mul(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
+ * cdef void _imul(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
  */
   if (unlikely(((PyObject *) __pyx_v_a.memview) == Py_None)) {
     #ifdef WITH_THREAD
@@ -23716,12 +23716,12 @@ static void __pyx_f_6mlgrad_9inventory_mul_set1(__Pyx_memviewslice __pyx_v_a, __
 /* "mlgrad/inventory.pyx":233
  *     _mul_set(&a[0], &b[0], c, a.shape[0])
  * 
- * cdef void _mul(double *a, const double *b, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
+ * cdef void _imul(double *a, const double *b, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
  * 
  */
 
-static void __pyx_f_6mlgrad_9inventory__mul(double *__pyx_v_a, double const *__pyx_v_b, Py_ssize_t const __pyx_v_n) {
+static void __pyx_f_6mlgrad_9inventory__imul(double *__pyx_v_a, double const *__pyx_v_b, Py_ssize_t const __pyx_v_n) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -23745,7 +23745,7 @@ static void __pyx_f_6mlgrad_9inventory__mul(double *__pyx_v_a, double const *__p
  *     for i in range(n):
  *         a[i] *= b[i]             # <<<<<<<<<<<<<<
  * 
- * cdef void mul(double[::1] a, double[::1] b) noexcept nogil:
+ * cdef void imul(double[::1] a, double[::1] b) noexcept nogil:
  */
     __pyx_t_4 = __pyx_v_i;
     (__pyx_v_a[__pyx_t_4]) = ((__pyx_v_a[__pyx_t_4]) * (__pyx_v_b[__pyx_v_i]));
@@ -23754,7 +23754,7 @@ static void __pyx_f_6mlgrad_9inventory__mul(double *__pyx_v_a, double const *__p
   /* "mlgrad/inventory.pyx":233
  *     _mul_set(&a[0], &b[0], c, a.shape[0])
  * 
- * cdef void _mul(double *a, const double *b, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
+ * cdef void _imul(double *a, const double *b, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
  * 
  */
@@ -23765,12 +23765,12 @@ static void __pyx_f_6mlgrad_9inventory__mul(double *__pyx_v_a, double const *__p
 /* "mlgrad/inventory.pyx":239
  *         a[i] *= b[i]
  * 
- * cdef void mul(double[::1] a, double[::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
- *     _mul(&a[0], &b[0], a.shape[0])
+ * cdef void imul(double[::1] a, double[::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     _imul(&a[0], &b[0], a.shape[0])
  * 
  */
 
-static void __pyx_f_6mlgrad_9inventory_mul(__Pyx_memviewslice __pyx_v_a, __Pyx_memviewslice __pyx_v_b) {
+static void __pyx_f_6mlgrad_9inventory_imul(__Pyx_memviewslice __pyx_v_a, __Pyx_memviewslice __pyx_v_b) {
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
   Py_ssize_t __pyx_t_3;
@@ -23783,10 +23783,10 @@ static void __pyx_f_6mlgrad_9inventory_mul(__Pyx_memviewslice __pyx_v_a, __Pyx_m
 
   /* "mlgrad/inventory.pyx":240
  * 
- * cdef void mul(double[::1] a, double[::1] b) noexcept nogil:
- *     _mul(&a[0], &b[0], a.shape[0])             # <<<<<<<<<<<<<<
+ * cdef void imul(double[::1] a, double[::1] b) noexcept nogil:
+ *     _imul(&a[0], &b[0], a.shape[0])             # <<<<<<<<<<<<<<
  * 
- * cdef void mul2(double[:,::1] a, double[:,::1] b) noexcept nogil:
+ * cdef void imul2(double[:,::1] a, double[:,::1] b) noexcept nogil:
  */
   if (unlikely(((PyObject *) __pyx_v_a.memview) == Py_None)) {
     #ifdef WITH_THREAD
@@ -23838,13 +23838,13 @@ static void __pyx_f_6mlgrad_9inventory_mul(__Pyx_memviewslice __pyx_v_a, __Pyx_m
     #endif
     __PYX_ERR(0, 240, __pyx_L1_error)
   }
-  __pyx_f_6mlgrad_9inventory__mul((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_b.data) + __pyx_t_3)) )))), (__pyx_v_a.shape[0]));
+  __pyx_f_6mlgrad_9inventory__imul((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_b.data) + __pyx_t_3)) )))), (__pyx_v_a.shape[0]));
 
   /* "mlgrad/inventory.pyx":239
  *         a[i] *= b[i]
  * 
- * cdef void mul(double[::1] a, double[::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
- *     _mul(&a[0], &b[0], a.shape[0])
+ * cdef void imul(double[::1] a, double[::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     _imul(&a[0], &b[0], a.shape[0])
  * 
  */
 
@@ -23854,7 +23854,7 @@ static void __pyx_f_6mlgrad_9inventory_mul(__Pyx_memviewslice __pyx_v_a, __Pyx_m
   #ifdef WITH_THREAD
   __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
-  __Pyx_WriteUnraisable("mlgrad.inventory.mul", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("mlgrad.inventory.imul", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
   #endif
@@ -23862,14 +23862,14 @@ static void __pyx_f_6mlgrad_9inventory_mul(__Pyx_memviewslice __pyx_v_a, __Pyx_m
 }
 
 /* "mlgrad/inventory.pyx":242
- *     _mul(&a[0], &b[0], a.shape[0])
+ *     _imul(&a[0], &b[0], a.shape[0])
  * 
- * cdef void mul2(double[:,::1] a, double[:,::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
- *     _mul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
+ * cdef void imul2(double[:,::1] a, double[:,::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     _imul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
  * 
  */
 
-static void __pyx_f_6mlgrad_9inventory_mul2(__Pyx_memviewslice __pyx_v_a, __Pyx_memviewslice __pyx_v_b) {
+static void __pyx_f_6mlgrad_9inventory_imul2(__Pyx_memviewslice __pyx_v_a, __Pyx_memviewslice __pyx_v_b) {
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
   int __pyx_t_3;
@@ -23884,10 +23884,10 @@ static void __pyx_f_6mlgrad_9inventory_mul2(__Pyx_memviewslice __pyx_v_a, __Pyx_
 
   /* "mlgrad/inventory.pyx":243
  * 
- * cdef void mul2(double[:,::1] a, double[:,::1] b) noexcept nogil:
- *     _mul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])             # <<<<<<<<<<<<<<
+ * cdef void imul2(double[:,::1] a, double[:,::1] b) noexcept nogil:
+ *     _imul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])             # <<<<<<<<<<<<<<
  * 
- * cdef void _multiply(double *a, const double *b, const double *c, const Py_ssize_t n) noexcept nogil:
+ * cdef void _mul(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
  */
   if (unlikely(((PyObject *) __pyx_v_a.memview) == Py_None)) {
     #ifdef WITH_THREAD
@@ -23959,13 +23959,13 @@ static void __pyx_f_6mlgrad_9inventory_mul2(__Pyx_memviewslice __pyx_v_a, __Pyx_
     #endif
     __PYX_ERR(0, 243, __pyx_L1_error)
   }
-  __pyx_f_6mlgrad_9inventory__mul((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_a.data + __pyx_t_1 * __pyx_v_a.strides[0]) )) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_b.data + __pyx_t_4 * __pyx_v_b.strides[0]) )) + __pyx_t_5)) )))), ((__pyx_v_a.shape[0]) * (__pyx_v_a.shape[1])));
+  __pyx_f_6mlgrad_9inventory__imul((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_a.data + __pyx_t_1 * __pyx_v_a.strides[0]) )) + __pyx_t_2)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_b.data + __pyx_t_4 * __pyx_v_b.strides[0]) )) + __pyx_t_5)) )))), ((__pyx_v_a.shape[0]) * (__pyx_v_a.shape[1])));
 
   /* "mlgrad/inventory.pyx":242
- *     _mul(&a[0], &b[0], a.shape[0])
+ *     _imul(&a[0], &b[0], a.shape[0])
  * 
- * cdef void mul2(double[:,::1] a, double[:,::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
- *     _mul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
+ * cdef void imul2(double[:,::1] a, double[:,::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     _imul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
  * 
  */
 
@@ -23975,7 +23975,7 @@ static void __pyx_f_6mlgrad_9inventory_mul2(__Pyx_memviewslice __pyx_v_a, __Pyx_
   #ifdef WITH_THREAD
   __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
-  __Pyx_WriteUnraisable("mlgrad.inventory.mul2", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("mlgrad.inventory.imul2", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
   #endif
@@ -23983,14 +23983,14 @@ static void __pyx_f_6mlgrad_9inventory_mul2(__Pyx_memviewslice __pyx_v_a, __Pyx_
 }
 
 /* "mlgrad/inventory.pyx":245
- *     _mul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
+ *     _imul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
  * 
- * cdef void _multiply(double *a, const double *b, const double *c, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
+ * cdef void _mul(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
  * 
  */
 
-static void __pyx_f_6mlgrad_9inventory__multiply(double *__pyx_v_a, double const *__pyx_v_b, double const *__pyx_v_c, Py_ssize_t const __pyx_v_n) {
+static void __pyx_f_6mlgrad_9inventory__mul(double *__pyx_v_c, double const *__pyx_v_a, double const *__pyx_v_b, Py_ssize_t const __pyx_v_n) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_t_1;
   Py_ssize_t __pyx_t_2;
@@ -24000,7 +24000,7 @@ static void __pyx_f_6mlgrad_9inventory__multiply(double *__pyx_v_a, double const
  *     cdef Py_ssize_t i
  * 
  *     for i in range(n):             # <<<<<<<<<<<<<<
- *         a[i] = b[i] * c[i]
+ *         c[i] = a[i] * b[i]
  * 
  */
   __pyx_t_1 = __pyx_v_n;
@@ -24011,17 +24011,17 @@ static void __pyx_f_6mlgrad_9inventory__multiply(double *__pyx_v_a, double const
     /* "mlgrad/inventory.pyx":249
  * 
  *     for i in range(n):
- *         a[i] = b[i] * c[i]             # <<<<<<<<<<<<<<
+ *         c[i] = a[i] * b[i]             # <<<<<<<<<<<<<<
  * 
- * cdef void multiply(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:
+ * cdef void mul(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
  */
-    (__pyx_v_a[__pyx_v_i]) = ((__pyx_v_b[__pyx_v_i]) * (__pyx_v_c[__pyx_v_i]));
+    (__pyx_v_c[__pyx_v_i]) = ((__pyx_v_a[__pyx_v_i]) * (__pyx_v_b[__pyx_v_i]));
   }
 
   /* "mlgrad/inventory.pyx":245
- *     _mul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
+ *     _imul(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
  * 
- * cdef void _multiply(double *a, const double *b, const double *c, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
+ * cdef void _mul(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i
  * 
  */
@@ -24030,14 +24030,14 @@ static void __pyx_f_6mlgrad_9inventory__multiply(double *__pyx_v_a, double const
 }
 
 /* "mlgrad/inventory.pyx":251
- *         a[i] = b[i] * c[i]
+ *         c[i] = a[i] * b[i]
  * 
- * cdef void multiply(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:             # <<<<<<<<<<<<<<
- *     _multiply(&a[0], &b[0], &c[0], a.shape[0])
+ * cdef void mul(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     _mul(&c[0], &a[0], &b[0], a.shape[0])
  * 
  */
 
-static void __pyx_f_6mlgrad_9inventory_multiply(__Pyx_memviewslice __pyx_v_a, __Pyx_memviewslice __pyx_v_b, __Pyx_memviewslice __pyx_v_c) {
+static void __pyx_f_6mlgrad_9inventory_mul(__Pyx_memviewslice __pyx_v_c, __Pyx_memviewslice __pyx_v_a, __Pyx_memviewslice __pyx_v_b) {
   Py_ssize_t __pyx_t_1;
   int __pyx_t_2;
   Py_ssize_t __pyx_t_3;
@@ -24051,12 +24051,12 @@ static void __pyx_f_6mlgrad_9inventory_multiply(__Pyx_memviewslice __pyx_v_a, __
 
   /* "mlgrad/inventory.pyx":252
  * 
- * cdef void multiply(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:
- *     _multiply(&a[0], &b[0], &c[0], a.shape[0])             # <<<<<<<<<<<<<<
+ * cdef void mul(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
+ *     _mul(&c[0], &a[0], &b[0], a.shape[0])             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (unlikely(((PyObject *) __pyx_v_a.memview) == Py_None)) {
+  if (unlikely(((PyObject *) __pyx_v_c.memview) == Py_None)) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
     #endif
@@ -24069,9 +24069,29 @@ static void __pyx_f_6mlgrad_9inventory_multiply(__Pyx_memviewslice __pyx_v_a, __
   __pyx_t_1 = 0;
   __pyx_t_2 = -1;
   if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_a.shape[0];
+    __pyx_t_1 += __pyx_v_c.shape[0];
     if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_a.shape[0])) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_1 >= __pyx_v_c.shape[0])) __pyx_t_2 = 0;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
+    __PYX_ERR(0, 252, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_a.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 252, __pyx_L1_error)
+  }
+  __pyx_t_3 = 0;
+  __pyx_t_2 = -1;
+  if (__pyx_t_3 < 0) {
+    __pyx_t_3 += __pyx_v_a.shape[0];
+    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_3 >= __pyx_v_a.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
     __PYX_ERR(0, 252, __pyx_L1_error)
@@ -24086,32 +24106,12 @@ static void __pyx_f_6mlgrad_9inventory_multiply(__Pyx_memviewslice __pyx_v_a, __
     #endif
     __PYX_ERR(0, 252, __pyx_L1_error)
   }
-  __pyx_t_3 = 0;
-  __pyx_t_2 = -1;
-  if (__pyx_t_3 < 0) {
-    __pyx_t_3 += __pyx_v_b.shape[0];
-    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_3 >= __pyx_v_b.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
-    __PYX_ERR(0, 252, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *) __pyx_v_c.memview) == Py_None)) {
-    #ifdef WITH_THREAD
-    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
-    #endif
-    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-    #ifdef WITH_THREAD
-    __Pyx_PyGILState_Release(__pyx_gilstate_save);
-    #endif
-    __PYX_ERR(0, 252, __pyx_L1_error)
-  }
   __pyx_t_4 = 0;
   __pyx_t_2 = -1;
   if (__pyx_t_4 < 0) {
-    __pyx_t_4 += __pyx_v_c.shape[0];
+    __pyx_t_4 += __pyx_v_b.shape[0];
     if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_4 >= __pyx_v_c.shape[0])) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_4 >= __pyx_v_b.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
     __PYX_ERR(0, 252, __pyx_L1_error)
@@ -24126,13 +24126,13 @@ static void __pyx_f_6mlgrad_9inventory_multiply(__Pyx_memviewslice __pyx_v_a, __
     #endif
     __PYX_ERR(0, 252, __pyx_L1_error)
   }
-  __pyx_f_6mlgrad_9inventory__multiply((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_b.data) + __pyx_t_3)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_c.data) + __pyx_t_4)) )))), (__pyx_v_a.shape[0]));
+  __pyx_f_6mlgrad_9inventory__mul((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_c.data) + __pyx_t_1)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a.data) + __pyx_t_3)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_b.data) + __pyx_t_4)) )))), (__pyx_v_a.shape[0]));
 
   /* "mlgrad/inventory.pyx":251
- *         a[i] = b[i] * c[i]
+ *         c[i] = a[i] * b[i]
  * 
- * cdef void multiply(double[::1] a, double[::1] b, double[::1] c) noexcept nogil:             # <<<<<<<<<<<<<<
- *     _multiply(&a[0], &b[0], &c[0], a.shape[0])
+ * cdef void mul(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     _mul(&c[0], &a[0], &b[0], a.shape[0])
  * 
  */
 
@@ -24142,7 +24142,7 @@ static void __pyx_f_6mlgrad_9inventory_multiply(__Pyx_memviewslice __pyx_v_a, __
   #ifdef WITH_THREAD
   __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
   #endif
-  __Pyx_WriteUnraisable("mlgrad.inventory.multiply", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("mlgrad.inventory.mul", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
   #endif
@@ -29874,11 +29874,12 @@ static int __Pyx_modinit_function_export_code(void) {
   if (__Pyx_ExportFunction("_move", (void (*)(void))__pyx_f_6mlgrad_9inventory__move, "void (double *, double const *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_sum", (void (*)(void))__pyx_f_6mlgrad_9inventory__sum, "double (double const *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_iadd", (void (*)(void))__pyx_f_6mlgrad_9inventory__iadd, "void (double *, double const *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("_add", (void (*)(void))__pyx_f_6mlgrad_9inventory__add, "void (double const *, double const *, double *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("_add", (void (*)(void))__pyx_f_6mlgrad_9inventory__add, "void (double *, double const *, double const *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_isub", (void (*)(void))__pyx_f_6mlgrad_9inventory__isub, "void (double *, double const *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_isub_mask", (void (*)(void))__pyx_f_6mlgrad_9inventory__isub_mask, "void (double *, double const *, npy_uint8 *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("_sub", (void (*)(void))__pyx_f_6mlgrad_9inventory__sub, "void (double const *, double const *, double *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("_mul", (void (*)(void))__pyx_f_6mlgrad_9inventory__mul, "void (double *, double const *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("_sub", (void (*)(void))__pyx_f_6mlgrad_9inventory__sub, "void (double *, double const *, double const *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("_imul", (void (*)(void))__pyx_f_6mlgrad_9inventory__imul, "void (double *, double const *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("_mul", (void (*)(void))__pyx_f_6mlgrad_9inventory__mul, "void (double *, double const *, double const *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_mul_add", (void (*)(void))__pyx_f_6mlgrad_9inventory__mul_add, "void (double *, double const *, double const , Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_mul_set", (void (*)(void))__pyx_f_6mlgrad_9inventory__mul_set, "void (double *, double const *, double const , Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_mul_set1", (void (*)(void))__pyx_f_6mlgrad_9inventory__mul_set1, "void (double *, double const *, double const , Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -29890,7 +29891,6 @@ static int __Pyx_modinit_function_export_code(void) {
   if (__Pyx_ExportFunction("_matdot2", (void (*)(void))__pyx_f_6mlgrad_9inventory__matdot2, "void (double *, double *, double const *, Py_ssize_t const , Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_mul_add_arrays", (void (*)(void))__pyx_f_6mlgrad_9inventory__mul_add_arrays, "void (double *, double *, double const *, Py_ssize_t const , Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_mul_grad", (void (*)(void))__pyx_f_6mlgrad_9inventory__mul_grad, "void (double *, double const *, double const *, Py_ssize_t const , Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("_multiply", (void (*)(void))__pyx_f_6mlgrad_9inventory__multiply, "void (double *, double const *, double const *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_normalize", (void (*)(void))__pyx_f_6mlgrad_9inventory__normalize, "void (double *, Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("hasnan", (void (*)(void))__pyx_f_6mlgrad_9inventory_hasnan, "int (__Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("clear", (void (*)(void))__pyx_f_6mlgrad_9inventory_clear, "void (__Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -29910,8 +29910,9 @@ static int __Pyx_modinit_function_export_code(void) {
   if (__Pyx_ExportFunction("mul_const", (void (*)(void))__pyx_f_6mlgrad_9inventory_mul_const, "void (__Pyx_memviewslice, double const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("mul_const2", (void (*)(void))__pyx_f_6mlgrad_9inventory_mul_const2, "void (__Pyx_memviewslice, double const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("mul_const3", (void (*)(void))__pyx_f_6mlgrad_9inventory_mul_const3, "void (__Pyx_memviewslice, double const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("mul", (void (*)(void))__pyx_f_6mlgrad_9inventory_mul, "void (__Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("mul2", (void (*)(void))__pyx_f_6mlgrad_9inventory_mul2, "void (__Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("imul", (void (*)(void))__pyx_f_6mlgrad_9inventory_imul, "void (__Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("imul2", (void (*)(void))__pyx_f_6mlgrad_9inventory_imul2, "void (__Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("mul", (void (*)(void))__pyx_f_6mlgrad_9inventory_mul, "void (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("mul_add", (void (*)(void))__pyx_f_6mlgrad_9inventory_mul_add, "void (__Pyx_memviewslice, __Pyx_memviewslice, double const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("mul_add2", (void (*)(void))__pyx_f_6mlgrad_9inventory_mul_add2, "void (__Pyx_memviewslice, __Pyx_memviewslice, double const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("mul_set", (void (*)(void))__pyx_f_6mlgrad_9inventory_mul_set, "void (__Pyx_memviewslice, __Pyx_memviewslice, double const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -29922,7 +29923,6 @@ static int __Pyx_modinit_function_export_code(void) {
   if (__Pyx_ExportFunction("matdot2", (void (*)(void))__pyx_f_6mlgrad_9inventory_matdot2, "void (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("mul_add_arrays", (void (*)(void))__pyx_f_6mlgrad_9inventory_mul_add_arrays, "void (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("mul_grad", (void (*)(void))__pyx_f_6mlgrad_9inventory_mul_grad, "void (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (__Pyx_ExportFunction("multiply", (void (*)(void))__pyx_f_6mlgrad_9inventory_multiply, "void (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("normalize", (void (*)(void))__pyx_f_6mlgrad_9inventory_normalize, "void (__Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("scatter_matrix_weighted", (void (*)(void))__pyx_f_6mlgrad_9inventory_scatter_matrix_weighted, "void (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("scatter_matrix", (void (*)(void))__pyx_f_6mlgrad_9inventory_scatter_matrix, "void (__Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)

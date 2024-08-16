@@ -184,7 +184,7 @@ cdef class WeightsCompose(Weights):
         self._weights1.eval_weights()
         self._weights2.eval_weights()
         
-        inventory.multiply(self.weights, self._weights1.weights, self._weights2.weights)
+        inventory.mul(self.weights, self._weights1.weights, self._weights2.weights)
         
         if self.normalize:
             inventory.normalize(self.weights)        
@@ -213,7 +213,7 @@ cdef class WRWeights(Weights):
         self._weights1.eval_weights()
         self._weights2.eval_weights()
         
-        inventory.multiply(self.weights, self._weights1.weights, self._weights2.weights)
+        inventory.mul(self.weights, self._weights1.weights, self._weights2.weights)
         
         if self.normalize:
             inventory.normalize(self.weights)        

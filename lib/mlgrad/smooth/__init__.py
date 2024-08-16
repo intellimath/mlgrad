@@ -2,4 +2,4 @@
 #
 #
 
-from .whittaker import WhittakerSmoother, whittaker, whittaker_agg
+from .whittaker import whittaker, whittaker_agg, whittaker_weight_func

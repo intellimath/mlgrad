@@ -87,15 +87,63 @@ cdef class Func2:
         self._gradient_ex(X, grad, W)
         return grad
 
+@cython.final
+cdef class MixedNorm(Func2):
+    #
+    def __init__(self, Func2 func1, Func2 func2, tau1, tau2):
+        self.func1 = func1
+        self.func2 = func2
+    #
+    @cython.final
+    cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
+        cdef numpy.npy_intp n = X.shape[0]
+        cdef double[::1] t1 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+        cdef double[::1] t2 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+        cdef double* t1_ptr = &t1[0]
+        cdef double* t2_ptr = &t2[0]
+        cdef double* Y_ptr = &Y[0]
+        cdef Py_ssize_t i
+        cdef double tau1 = self.tau1, tau2 = self.tau2
+
+        self.func1._evaluate_items(X, t1)
+        self.func2._evaluate_items(X, t2)
+
+        for i in range(X.shape[0]):
+            Y_ptr[i] = tau1 * t1_ptr[i] + tau2 * t2_ptr[i]
+    #
+    @cython.final
+    cdef double _evaluate(self, double[::1] X):
+        return self.tau1 * self.func1._evaluate(X) + self.tau2 * self.func2._evaluate(X) 
+    #
+    @cython.final
+    cdef void _gradient(self, double[::1] X, double[::1] Y):
+        cdef numpy.npy_intp n = X.shape[0]
+        cdef double[::1] t1 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+        cdef double[::1] t2 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+        cdef double* t1_ptr = &t1[0]
+        cdef double* t2_ptr = &t2[0]
+        cdef double* Y_ptr = &Y[0]
+        cdef Py_ssize_t i
+        cdef double tau1 = self.tau1, tau2 = self.tau2
+
+        self.func1._gradient(X, t1)
+        self.func2._gradient(X, t2)
+
+        for i in range(X.shape[0]):
+            Y_ptr[i] = tau1 * t1_ptr[i] + tau2 * t2_ptr[i]
+
+@cython.final
 cdef class FuncNorm(Func2):
-    
+    #
     def __init__(self, Func func):
         self.func = func
 #         self.all = all
-
+    #
+    @cython.final
     cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
         self.func._evaluate_array(&X[0], &Y[0], X.shape[0])
-
+    #
+    @cython.final
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i
         cdef double s
@@ -106,7 +154,8 @@ cdef class FuncNorm(Func2):
         for i in range(X.shape[0]):
             s += func._evaluate(X_ptr[i])
         return s
-
+    #
+    @cython.final
     cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
         cdef Py_ssize_t i
         cdef double s
@@ -118,10 +167,12 @@ cdef class FuncNorm(Func2):
         for i in range(X.shape[0]):
             s = fma(W_ptr[i], func._evaluate(X_ptr[i]), s)
         return s
-    
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         self.func._derivative_array(&X[0], &grad[0], X.shape[0])
     #
+    @cython.final
     cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
         cdef Py_ssize_t i
         cdef double* W_ptr = &W[0]
@@ -131,19 +182,21 @@ cdef class FuncNorm(Func2):
         for i in range(X.shape[0]):
             grad_ptr[i] *= W_ptr[i]
     #
+    @cython.final
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         return self.func._derivative(X[j])
     #
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_{%s}^{%s}=\sum_{i=0}^n w_i^{%s}$" % (self.p, self.p, self.p)
 
-    
+@cython.final    
 cdef class PowerNorm(Func2):
     
     def __init__(self, p=2.0):
         self.p = p
 #         self.all = all
-
+    #
+    @cython.final
     cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
         cdef Py_ssize_t i
         cdef double v, p=self.p
@@ -156,7 +209,8 @@ cdef class PowerNorm(Func2):
                 Y_ptr[i] = pow(v, p) / p
             else:
                 Y_ptr[i] = pow(-v, p) / p
-        
+    #
+    @cython.final
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i
         cdef double s, v, p=self.p
@@ -172,7 +226,8 @@ cdef class PowerNorm(Func2):
         
         s /= p
         return s
-
+    #
+    @cython.final
     cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
         cdef Py_ssize_t i, m
         cdef double s, v, p=self.p
@@ -189,7 +244,8 @@ cdef class PowerNorm(Func2):
         
         s /= self.p
         return s
-    
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m
         cdef double v, p1 = self.p-1
@@ -203,6 +259,7 @@ cdef class PowerNorm(Func2):
             else:
                 grad_ptr[i] = pow(v, p1)
     #
+    @cython.final
     cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
         cdef Py_ssize_t i, m
         cdef double v, p1 = self.p-1
@@ -217,6 +274,7 @@ cdef class PowerNorm(Func2):
             else:
                 grad_ptr[i] = W_ptr[i] * pow(v, p1)
     #
+    @cython.final
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         cdef double v, p1 = self.p-1
         cdef double* X_ptr = &X[0]
@@ -230,8 +288,10 @@ cdef class PowerNorm(Func2):
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_{%s}^{%s}=\sum_{i=0}^n w_i^{%s}$" % (self.p, self.p, self.p)
 
+@cython.final
 cdef class SquareNorm(Func2):
-
+    #
+    @cython.final
     cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
         cdef Py_ssize_t i
         cdef double v
@@ -241,7 +301,8 @@ cdef class SquareNorm(Func2):
         for i in range(X.shape[0]):
             v = X_ptr[i]
             Y_ptr[i] = 0.5 * v * v
-    
+    #
+    @cython.final
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
@@ -254,7 +315,8 @@ cdef class SquareNorm(Func2):
 
         s /= 2.
         return s
-
+    #
+    @cython.final
     cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
@@ -268,7 +330,8 @@ cdef class SquareNorm(Func2):
 
         s /= 2.
         return s
-    
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double* X_ptr = &X[0]
@@ -277,6 +340,7 @@ cdef class SquareNorm(Func2):
         for i in range(m):
             grad_ptr[i] = X_ptr[i]    
     #
+    @cython.final
     cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double* X_ptr = &X[0]
@@ -286,6 +350,7 @@ cdef class SquareNorm(Func2):
         for i in range(m):
             grad_ptr[i] = W_ptr[i] * X_ptr[i]    
     #
+    @cython.final
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         return X[j]
     #
@@ -293,8 +358,10 @@ cdef class SquareNorm(Func2):
         return r"$||\mathbf{w}||_2^2=\sum_{i=0}^n w_i^2$"
         
 
+@cython.final
 cdef class AbsoluteNorm(Func2):
-
+    #
+    @cython.final
     cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
         cdef Py_ssize_t i
         cdef double* X_ptr = &X[0]
@@ -302,8 +369,8 @@ cdef class AbsoluteNorm(Func2):
 
         for i in range(X.shape[0]):
             Y_ptr[i] = fabs(X_ptr[i])
-    
-
+    #
+    @cython.final
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i
         cdef double s
@@ -313,7 +380,8 @@ cdef class AbsoluteNorm(Func2):
         for i in range(X.shape[0]):
             s += fabs(X_ptr[i])
         return s
-
+    #
+    @cython.final
     cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
         cdef Py_ssize_t i
         cdef double s
@@ -324,7 +392,8 @@ cdef class AbsoluteNorm(Func2):
         for i in range(X.shape[0]):
             s = fma(W_ptr[i], fabs(X_ptr[i]), s)
         return s
-    
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m
         cdef double* X_ptr = &X[0]
@@ -339,6 +408,7 @@ cdef class AbsoluteNorm(Func2):
             else:
                 grad_ptr[i] = 0
     #
+    @cython.final
     cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
         cdef Py_ssize_t i, m
         cdef double* X_ptr = &X[0]
@@ -354,6 +424,7 @@ cdef class AbsoluteNorm(Func2):
             else:
                 grad_ptr[i] = 0
     #
+    @cython.final
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         cdef double v = X[j]
         
@@ -364,53 +435,14 @@ cdef class AbsoluteNorm(Func2):
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_1=\sum_{i=0}^n |w_i|$"
 
-cdef class MixedNorm(Func2):
-
-    def __init__(self, Func2 func1, Func2 func2, tau1, tau2):
-        self.func1 = func1
-        self.func2 = func2
-
-    cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
-        cdef numpy.npy_intp n = X.shape[0]
-        cdef double[::1] t1 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
-        cdef double[::1] t2 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
-        cdef double* t1_ptr = &t1[0]
-        cdef double* t2_ptr = &t2[0]
-        cdef double* Y_ptr = &Y[0]
-        cdef Py_ssize_t i
-        cdef double tau1 = self.tau1, tau2 = self.tau2
-
-        self.func1._evaluate_items(X, t1)
-        self.func2._evaluate_items(X, t2)
-
-        for i in range(X.shape[0]):
-            Y_ptr[i] = tau1 * t1_ptr[i] + tau2 * t2_ptr[i]
-
-    cdef double _evaluate(self, double[::1] X):
-        return self.tau1 * self.func1._evaluate(X) + self.tau2 * self.func2._evaluate(X) 
-
-    cdef void _gradient(self, double[::1] X, double[::1] Y):
-        cdef numpy.npy_intp n = X.shape[0]
-        cdef double[::1] t1 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
-        cdef double[::1] t2 = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
-        cdef double* t1_ptr = &t1[0]
-        cdef double* t2_ptr = &t2[0]
-        cdef double* Y_ptr = &Y[0]
-        cdef Py_ssize_t i
-        cdef double tau1 = self.tau1, tau2 = self.tau2
-
-        self.func1._gradient(X, t1)
-        self.func2._gradient(X, t2)
-
-        for i in range(X.shape[0]):
-            Y_ptr[i] = tau1 * t1_ptr[i] + tau2 * t2_ptr[i]
-    
+@cython.final
 cdef class SoftAbsoluteNorm(Func2):
-
+    #
     def __init__(self, eps=0.001):
         self.eps = eps
         self.eps2 = eps * eps
-
+    #
+    @cython.final
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i
         cdef double s, v
@@ -421,7 +453,8 @@ cdef class SoftAbsoluteNorm(Func2):
             v = X_ptr[i]
             s += v * v
         return sqrt(self.eps2 + s) - self.eps
-
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i
         cdef double s, v
@@ -437,6 +470,7 @@ cdef class SoftAbsoluteNorm(Func2):
         for i in range(X.shape[0]):
             grad_ptr[i] /= s
     #
+    @cython.final
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         cdef Py_ssize_t i
         cdef double s, v
@@ -452,7 +486,8 @@ cdef class SoftAbsoluteNorm(Func2):
     #    
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_1=\sum_{i=0}^n |w_i|$"
-    
+
+@cython.final
 cdef class SquareForm(Func2):
     
     def __init__(self, double[:,::1] matrix):
@@ -460,6 +495,7 @@ cdef class SquareForm(Func2):
             raise RuntimeError("Invalid shape: (%s,%s)" % (matrix.shape[0], matrix.shape[1]))
         self.matrix = matrix
     #
+    @cython.final
     cdef double _evaluate(self, double[::1] x):
         cdef double[:,::1] mat = self.matrix
         cdef Py_ssize_t n_row = mat.shape[0]
@@ -474,7 +510,8 @@ cdef class SquareForm(Func2):
                 s = fma(mat[j,i], x[i-1], s)
             val += s*s
         return 0.5*val
-
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] x, double[::1] y):
         cdef double[:,::1] mat = self.matrix
         cdef Py_ssize_t n_row = mat.shape[0]
@@ -494,31 +531,39 @@ cdef class SquareForm(Func2):
             for i in range(1, n_col):
                 y[i-1] += s*mat[j,i]
 
+@cython.final
 cdef class Rosenbrok(Func2):
-
+    #
+    @cython.final
     cdef double _evaluate(self, double[::1] X):
         return 10. * (X[1] - X[0]**2)**2 + 0.1*(1. - X[0])**2
-    
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         grad[0] = -40. * (X[1] - X[0]**2) * X[0] - 0.2 * (1. - X[0])
         grad[1] = 20. * (X[1] - X[0]**2)
         
         
+@cython.final
 cdef class Himmelblau(Func2):
-
+    #
+    @cython.final
     cdef double _evaluate(self, double[::1] X):
         return (X[0]**2 + X[1] - 11)**2 + (X[0] + X[1]**2 - 7)**2
-    
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         grad[0] = 4*(X[0]**2 + X[1] - 11) * X[0] + 2*(X[0] + X[1]**2 - 7)
         grad[1] = 2*(X[0]**2 + X[1] - 11) + 4*(X[0] + X[1]**2 - 7) * X[1]
-        
+
+@cython.final
 cdef class SoftMin(Func2):
     
     def __init__(self, p=1.0):
         self.p = p
         self.evals = None
-
+    #
+    @cython.final
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v, v_min
@@ -538,7 +583,8 @@ cdef class SoftMin(Func2):
         s -= p * v_min
         
         return -s / p
-
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v, v_min
@@ -563,6 +609,7 @@ cdef class SoftMin(Func2):
         for i in range(m):
             grad[i] = evals[i] / s
     #
+    @cython.final
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v, v_min
@@ -584,12 +631,14 @@ cdef class SoftMin(Func2):
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_{%s}^{%s}=\sum_{i=0}^n w_i^{%s}$" % (self.p, self.p, self.p)
 
+@cython.final
 cdef class SoftMax(Func2):
     
     def __init__(self, p=1.0):
         self.p = p
         self.evals = None
-
+    #
+    @cython.final
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v, v_max
@@ -609,7 +658,8 @@ cdef class SoftMax(Func2):
         s = fma(p, v_max, s)
         
         return s / p
-
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v, v_max
@@ -633,6 +683,7 @@ cdef class SoftMax(Func2):
         for i in range(m):
             grad[i] = evals[i] / s
     #
+    @cython.final
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v, v_max
@@ -651,12 +702,14 @@ cdef class SoftMax(Func2):
         return exp(p*(X[j] - v_max)) / s 
     #
 
+@cython.final
 cdef class PowerMax(Func2):
     
     def __init__(self, p=1.0):
         self.p = p
         self.evals = None
-
+    #
+    @cython.final
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v, v_max
@@ -680,7 +733,8 @@ cdef class PowerMax(Func2):
         s *= v_max
         
         return s
-
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
@@ -696,6 +750,7 @@ cdef class PowerMax(Func2):
             v = X[i] / s
             evals[i] = p * pow(v, p-1)
     #
+    @cython.final
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         cdef Py_ssize_t i
         cdef double s
@@ -705,8 +760,10 @@ cdef class PowerMax(Func2):
         return p * pow(X[j] / s, p-1)
     #
 
+@cython.final
 cdef class SquareDiff1(Func2):
     #
+    @cython.final
     cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double v
@@ -719,6 +776,7 @@ cdef class SquareDiff1(Func2):
             v = XX[i] - XX[i-1]
             YY[i] = 0.5 * v * v
     #
+    @cython.final
     cdef double _evaluate(self, double[::1] X):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
@@ -732,7 +790,8 @@ cdef class SquareDiff1(Func2):
             s += v * v
 
         return 0.5 * s
-
+    #
+    @cython.final
     cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
@@ -746,7 +805,8 @@ cdef class SquareDiff1(Func2):
             s += v * v
 
         return 0.5 * s
-
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double *XX = &X[0]
@@ -758,7 +818,8 @@ cdef class SquareDiff1(Func2):
         # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(1, m-1):
             GG[i] = 2*XX[i] - XX[i-1] - XX[i+1]
-
+    #
+    @cython.final
     cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double *XX = &X[0]
@@ -770,9 +831,130 @@ cdef class SquareDiff1(Func2):
         # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(1, m-1):
             GG[i] = W[i] * (2*XX[i] - XX[i-1] - XX[i+1])
-            
-cdef class SquareDiff2(Func2):
+
+#from pybaselines.utils import difference_matrix
+#diff_matrix = difference_matrix(data_size, 2)
+#output = (diff_matrix.T @ diff_matrix).todia().data[::-1]
+#if lower_only:
+#    output = output[2:]
+
+# @cython.final
+# cdef class SquareDiff2(Func2):
+#     #
+#     @cython.final
+#     cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
+#         cdef Py_ssize_t i, m = X.shape[0]
+#         cdef double v
+#         cdef double *XX = &X[0]
+#         cdef double *YY = &X[0]
+#         # cdef int num_threads = inventory.get_num_threads()
+
+#         v = -2*XX[0] + XX[1]
+#         YY[0] = 0.5 * v * v
+#         # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
+#         for i in range(1, m-1):
+#             v = XX[i] - 2*XX[i+1] + XX[i+2]
+#             YY[i] = 0.5 * v * v
+#         v = -2*XX[m-1] + XX[m-2]
+#         YY[m-1] = 0.5 * v * v
+#     #
+#     @cython.final
+#     cdef double _evaluate(self, double[::1] X):
+#         cdef Py_ssize_t i, m = X.shape[0]
+#         cdef double v, s
+#         cdef double *XX = &X[0]
+#         # cdef int num_threads = inventory.get_num_threads()
+
+#         v = -2*XX[0] + XX[1]
+#         s = v * v
+#         # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
+#         for i in range(1, m-1):
+#             v = XX[i] - 2*XX[i+1] + XX[i+2]
+#             s += v * v
+#         v = -2*XX[m-1] + XX[m-2]
+#         s += v * v
+
+#         return 0.5 * s
+#     #
+#     @cython.final
+#     cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
+#         cdef Py_ssize_t i, m = X.shape[0]
+#         cdef double v, s
+#         cdef double *XX = &X[0] 
+#         cdef double *WW = &W[0]
+#         # cdef int num_threads = inventory.get_num_threads()
+
+#         v = -2*XX[0] + XX[1]
+#         s = WW[0] * v * v
+#         # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
+#         for i in range(1, m-1):
+#             v = XX[i] - 2*XX[i+1] + XX[i+2]
+#             s += WW[i] * v * v
+#         v = -2*XX[m-1] + XX[m-2]
+#         s += WW[m-1] * v * v
+
+#         return 0.5 * s
+#     #
+#     @cython.final
+#     cdef void _gradient(self, double[::1] X, double[::1] grad):
+#         cdef Py_ssize_t i, m = X.shape[0]
+#         cdef double s, v
+#         cdef double *XX = &X[0]
+#         cdef double *GG = &grad[0]
+#         # cdef int num_threads = inventory.get_num_threads()
+
+#         GG[0] = -XX[0] - 2*XX[1] + XX[2]
+#         GG[1] = -2*XX[0] + 5*XX[1] - 4*XX[2] + XX[3]
+#         GG[m-1] = XX[m-1] - 2*XX[m-2] + XX[m-3]
+#         GG[m-2] = -2*XX[m-1] + 5*XX[m-2] - 4*XX[m-3] + XX[m-4]
+#         # for i in prange(2, m-2, nogil=True, schedule='static', num_threads=num_threads):
+#         for i in range(2, m-2):
+#             GG[i] = XX[i-2] - 4*XX[i-1] + 6*XX[i] - 4*XX[i+1] + XX[i+2]
+#     #
+#     @cython.final
+#     cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
+#         cdef Py_ssize_t i, m = X.shape[0]
+#         cdef double s, v
+#         cdef double *XX = &X[0]
+#         cdef double *WW = &W[0]
+#         cdef double *GG = &grad[0]
+#         # cdef int num_threads = inventory.get_num_threads()
+
+
+#         YY[0] = -2*XX[0] + XX[1]
+#         # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
+#         for i in range(1, m-1):
+#             YY[i] = XX[i] - 2*XX[i+1] + XX[i+2]
+#         YY[m-1] = -2*XX[m-1] + XX[m-2]
+        
+#         GG[0] = WW[0]*YY[0]
+#         GG[1] = -2*WW[0]*YY[0] + WW[1]*YY[1]
+
+#         # for i in prange(2, m-2, nogil=True, schedule='static', num_threads=num_threads):
+#         for i in range(2, m-2):
+#             GG[i] = WW[i-1]*YY[i-1] - 2*WW[i]*YY[i] + WW[i+1]*YY[i+1]
+
+#         GG[m-1] = WW[m-1]*YY[m-1]
+#         GG[m-2] = -2*WW[m-1]*YY[m-1] + WW[m-2]*YY[m-2]
+
+@cython.final
+cdef class FuncDiff2(Func2):
     #
+    def __init__(self, Func func):
+        self.func = func
+        self.temp_array = None
+    #
+    cdef void _evaluate_diff2(self, double *XX, double *YY, const Py_ssize_t m) noexcept nogil:
+        cdef Py_ssize_t i
+        # cdef int num_threads = inventory.get_num_threads()
+
+        YY[0] = -2*XX[0] + XX[1]
+        # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(1, m-1):
+            YY[i] = XX[i-1] - 2*XX[i] + XX[i+1]
+        YY[m-1] = -2*XX[m-1] + XX[m-2]
+    #
+    @cython.final
     cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double v
@@ -780,76 +962,105 @@ cdef class SquareDiff2(Func2):
         cdef double *YY = &X[0]
         # cdef int num_threads = inventory.get_num_threads()
 
-        v = -2*XX[0] + XX[1]
-        YY[0] = 0.5 * v * v
-        # for i in prange(1, m, nogil=True, schedule='static', num_threads=num_threads):
-        for i in range(1, m-1):
-            v = XX[i-1] - 2*XX[i] + XX[i+1]
-            YY[i] = 0.5 * v * v
-        v = -2*XX[m-2] + XX[m-1]
-        YY[m-1] = 0.5 * v * v
+        self._evaluate_diff2(XX, YY, m)
+        self.func._evaluate_array(YY, YY, m)
     #
+    @cython.final
     cdef double _evaluate(self, double[::1] X):
+        cdef Func func = self.func
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double v, s
         cdef double *XX = &X[0]
         # cdef int num_threads = inventory.get_num_threads()
 
         v = -2*XX[0] + XX[1]
-        s = v * v
+        s = func._evaluate(v)
         # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(1, m-1):
             v = XX[i-1] - 2*XX[i] + XX[i+1]
-            s += v * v
-        v = -2*XX[m-2] + XX[m-1]
-        s += v * v
+            s += func._evaluate(v)
+        v = -2*XX[m-1] + XX[m-2]
+        s += func._evaluate(v)
 
-        return 0.5 * s
-
+        return s
+    #
+    @cython.final
     cdef double _evaluate_ex(self, double[::1] X, double[::1] W):
+        cdef Func func = self.func
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double v, s
-        cdef double *XX = &X[0]
+        cdef double *XX = &X[0] 
+        cdef double *WW = &W[0]
         # cdef int num_threads = inventory.get_num_threads()
 
-        v = W[0] * (-2*XX[0] + XX[1])
-        s = v * v
+        v = -2*XX[0] + XX[1]
+        s = WW[0] * func._evaluate(v)
         # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
-        for i in range(1, m-1):
-            v = W[i] * (XX[i-1] - 2*XX[i] + XX[i+1])
-            s += v * v
-        v = W[m-1] * (-2*XX[m-2] + XX[m-1])
-        s += v * v
+        for i in range(1,m-1):
+            v = XX[i-1] - 2*XX[i] + XX[i+1]
+            s += WW[i] * func._evaluate(v)
+        v = -2*XX[m-1] + XX[m-2]
+        s += WW[m-1] * func._evaluate(v)
 
-        return 0.5 * s
-    
+        return s
+    #
+    @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
         cdef double *XX = &X[0]
         cdef double *GG = &grad[0]
         # cdef int num_threads = inventory.get_num_threads()
+        cdef double[::1] temp_array = self.temp_array
+        cdef double* TT
 
-        GG[0] = XX[0] - 2*XX[1] + XX[2]
-        GG[1] = -2*XX[0] + 5*XX[1] - 4*XX[2] + XX[3]
-        GG[m-1] = XX[m-1] - 2*XX[m-2] + XX[m-3]
-        GG[m-2] = -2*XX[m-1] + 5*XX[m-2] - 4*XX[m-3] + XX[m-4]
+        if temp_array is None or temp_array.shape[0] != m:
+            self.temp_array = temp_array = np.empty(m, "d")
+
+        TT = &temp_array[0]
+
+        self._evaluate_diff2(XX, TT, m)
+        self.func._derivative_array(TT, TT, m)
+
+        GG[0] = -TT[0]
+        GG[1] = -2*TT[0] + TT[1]
         # for i in prange(2, m-2, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(2, m-2):
-            GG[i] = XX[i-2] - 4*XX[i-1] + 6*XX[i] - 4*XX[i+1] + XX[i+2]
-
+            GG[i] = TT[i-1] - 2*TT[i] + TT[i+1]
+        GG[m-1] = -TT[m-1]
+        GG[m-2] = -2*TT[m-1] + TT[m-2]
+    #
+    @cython.final
     cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
         cdef double *XX = &X[0]
+        cdef double *WW = &W[0]
         cdef double *GG = &grad[0]
         # cdef int num_threads = inventory.get_num_threads()
+        cdef double[::1] temp_array = self.temp_array
+        cdef double* TT
 
-        GG[0] = W[0] * (XX[0] - 2*XX[1] + XX[2])
-        GG[1] = W[1] * (-2*XX[0] + 5*XX[1] - 4*XX[2] + XX[3])
-        GG[m-1] = W[m-1] * (XX[m-1] - 2*XX[m-2] + XX[m-3])
-        GG[m-2] = W[m-2] * (-2*XX[m-1] + 5*XX[m-2] - 4*XX[m-3] + XX[m-4])
+        if temp_array is None or temp_array.shape[0] != m:
+            self.temp_array = temp_array = np.empty(m, "d")
+
+        TT = &temp_array[0]
+
+        TT[0] = -2*XX[0] + XX[1]
+        # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(1, m-1):
+            TT[i] = XX[i-1] - 2*XX[i] + XX[i+1]
+        TT[m-1] = -2*XX[m-1] + XX[m-2]
+                
+        self.func._derivative_array(TT, TT, m)
+        
+        GG[0] = WW[0]*TT[0]
+        GG[1] = -2*WW[0]*TT[0] + WW[1]*TT[1]
+
         # for i in prange(2, m-2, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(2, m-2):
-            GG[i] = W[i] * (XX[i-2] - 4*XX[i-1] + 6*XX[i] - 4*XX[i+1] + XX[i+2])
+            GG[i] = WW[i-1]*TT[i-1] - 2*WW[i]*TT[i] + WW[i+1]*TT[i+1]
+
+        GG[m-1] = WW[m-1]*TT[m-1]
+        GG[m-2] = -2*WW[m-1]*TT[m-1] + WW[m-2]*TT[m-2]
 

@@ -223,7 +223,7 @@ cdef class MLSE2:
 
 #         for k in prange(N, nogil=True, num_threads=num_procs):
         for j in range(n_locs):
-            inventory.mul(GG[j], weights)
+            inventory.imul(GG[j], weights)
             # GG_j = GG[j]
             # for k in range(N):
             #     GG_j[k] *= weights[k]

@@ -9,16 +9,17 @@ from ._whittaker import WhittakerSmoother
 import math
 import numpy as np
 
-def whittaker(X, func=None, func2=None, tau=1.0,
+
+def whittaker(X, *, func=None, func2=None, tau=1.0,
               h=0.001, n_iter=200, tol=1.0e-6):
     alg = WhittakerSmoother(func=func, func2=func2, tau=tau,
                             h=h, n_iter=n_iter, tol=tol)
-    s = np.max(abs(X)) / 2
+    s = np.max(abs(X)) / 10
     alg.fit(X/s)
     Z = np.array(alg.Z)
     Z *= s
     # print(alg.K, alg.delta_qval)
-    return Z, alg.qvals
+    return Z, {'qval': alg.qval, 'qvals':alg.qvals}
 
 def whittaker_agg(X, aggfunc, func=None, func2=None, tau=1.0, 
                   h=0.001, n_iter=100, tol=1.0e-6, n_iter2=100):
@@ -60,39 +61,41 @@ def whittaker_agg(X, aggfunc, func=None, func2=None, tau=1.0,
 
     return Z_min
 
-# def whittaker_weight_func(X, weight_func, func=None, func2=None, W=None, h=0.001, 
-#                      tau2=1.0, tau1=0, n_iter=1000, tol=1.0e-8, n_iter2=100, 
-#                      collect_qvals=False):
-#     alg = WhittakerSmoother(func=func, func2=func2, h=h, 
-#                             tau2=tau2, n_iter=n_iter)
-    
-#     alg.fit(X, W=W)
-#     Z_min = self.Z = Z.copy()
-    
-#     U = func2.evaluate_items(self.Z - X)
-#     W = weight_func.gradient(U)
-#     s = s_min = 
+def whittaker_weight_func(X, weight_func, *, func=None, func2=None, tau=1.0,
+                          h=0.001, n_iter2=1000, tol=1.0e-8, n_iter=100):
 
-#     flag = False
-#     for K in range(n_iter2):
-#         alg.fit(X, W=W)
-        
-#         U = func2.evaluate_items(self.Z - X)
-#         s = aggfunc.fit(U)
-        
-#         if abs(s - s_min) / (1+abs(s_min)) < tol:
-#             flag = True
-            
-#         if s < s_min:
-#             s_min = s
-#             Z_min = self.Z.copy()
-            
-#         if flag:
-#             break
-            
-#         W = aggfunc.gradient(U)
+    alg = WhittakerSmoother(func=func, func2=func2, tau=tau,
+                            h=h, n_iter=n_iter2, tol=tol)
+    
+    alg.fit(X)
+    
+    Z = np.array(alg.Z, copy=1)
+    print(Z)
+    qval_min = qval = alg.qval
+    qval_min_prev = 10 * qval_min
+    r = max(abs(X - Z))
+    qvals = [r]
 
-#     return Z_min
+    W = weight_func(X - Z)
+
+    flag = False
+    for K in range(n_iter):
+        Z_prev = Z.copy()
+        r_prev = r
+
+        alg.fit(X, W=W)
+        Z = np.array(alg.Z, copy=1)
+        print(Z)
+
+        r = max(abs(Z - Z_prev))
+        qvals.append(r)
+
+        if abs(r - r_prev) < tol:
+            break
+
+        W = weight_func(X - Z)
+
+    return Z, {'qval': r, 'qvals':qvals}
 
 # class WhittakerSmoothPartition:
 #     #

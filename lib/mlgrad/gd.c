@@ -1966,7 +1966,7 @@ struct __pyx_obj_6mlgrad_6funcs2_SoftMin;
 struct __pyx_obj_6mlgrad_6funcs2_SoftMax;
 struct __pyx_obj_6mlgrad_6funcs2_PowerMax;
 struct __pyx_obj_6mlgrad_6funcs2_SquareDiff1;
-struct __pyx_obj_6mlgrad_6funcs2_SquareDiff2;
+struct __pyx_obj_6mlgrad_6funcs2_FuncDiff2;
 struct __pyx_obj_6mlgrad_4loss_Loss;
 struct __pyx_obj_6mlgrad_4loss_LossFunc;
 struct __pyx_obj_6mlgrad_4loss_SquareErrorLoss;
@@ -3097,15 +3097,17 @@ struct __pyx_obj_6mlgrad_6funcs2_SquareDiff1 {
 };
 
 
-/* "mlgrad/funcs2.pxd":114
+/* "mlgrad/funcs2.pxd":118
  * 
  * @cython.final
- * cdef class SquareDiff2(Func2):             # <<<<<<<<<<<<<<
- *     pass
- * 
+ * cdef class FuncDiff2(Func2):             # <<<<<<<<<<<<<<
+ *     cdef readonly Func func
+ *     cdef double[::1] temp_array
  */
-struct __pyx_obj_6mlgrad_6funcs2_SquareDiff2 {
+struct __pyx_obj_6mlgrad_6funcs2_FuncDiff2 {
   struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
+  struct __pyx_obj_6mlgrad_5funcs_Func *func;
+  __Pyx_memviewslice temp_array;
 };
 
 
@@ -5791,18 +5793,19 @@ struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareDiff1 {
 static struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareDiff1 *__pyx_vtabptr_6mlgrad_6funcs2_SquareDiff1;
 
 
-/* "mlgrad/funcs2.pxd":114
+/* "mlgrad/funcs2.pxd":118
  * 
  * @cython.final
- * cdef class SquareDiff2(Func2):             # <<<<<<<<<<<<<<
- *     pass
- * 
+ * cdef class FuncDiff2(Func2):             # <<<<<<<<<<<<<<
+ *     cdef readonly Func func
+ *     cdef double[::1] temp_array
  */
 
-struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareDiff2 {
+struct __pyx_vtabstruct_6mlgrad_6funcs2_FuncDiff2 {
   struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
+  void (*_evaluate_diff2)(struct __pyx_obj_6mlgrad_6funcs2_FuncDiff2 *, double *, double *, Py_ssize_t const );
 };
-static struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareDiff2 *__pyx_vtabptr_6mlgrad_6funcs2_SquareDiff2;
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_FuncDiff2 *__pyx_vtabptr_6mlgrad_6funcs2_FuncDiff2;
 
 
 /* "mlgrad/loss.pxd":17
@@ -9353,7 +9356,7 @@ typedef struct {
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SoftMax;
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_PowerMax;
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SquareDiff1;
-  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SquareDiff2;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_FuncDiff2;
   #if CYTHON_USE_MODULE_STATE
   #endif
   PyTypeObject *__pyx_ptype_6mlgrad_4loss_Loss;
@@ -9997,7 +10000,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SoftMax);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_PowerMax);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareDiff1);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareDiff2);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_FuncDiff2);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4loss_Loss);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4loss_LossFunc);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_4loss_SquareErrorLoss);
@@ -10589,7 +10592,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SoftMax);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_PowerMax);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareDiff1);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareDiff2);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_FuncDiff2);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4loss_Loss);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4loss_LossFunc);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_4loss_SquareErrorLoss);
@@ -11227,7 +11230,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_6mlgrad_6funcs2_SoftMax __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SoftMax
 #define __pyx_ptype_6mlgrad_6funcs2_PowerMax __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_PowerMax
 #define __pyx_ptype_6mlgrad_6funcs2_SquareDiff1 __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SquareDiff1
-#define __pyx_ptype_6mlgrad_6funcs2_SquareDiff2 __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SquareDiff2
+#define __pyx_ptype_6mlgrad_6funcs2_FuncDiff2 __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_FuncDiff2
 #if CYTHON_USE_MODULE_STATE
 #endif
 #define __pyx_ptype_6mlgrad_4loss_Loss __pyx_mstate_global->__pyx_ptype_6mlgrad_4loss_Loss
@@ -52853,8 +52856,8 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_vtabptr_6mlgrad_6funcs2_PowerMax = (struct __pyx_vtabstruct_6mlgrad_6funcs2_PowerMax*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_PowerMax); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_PowerMax)) __PYX_ERR(4, 105, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6funcs2_SquareDiff1 = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.funcs2", "SquareDiff1", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SquareDiff1), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6funcs2_SquareDiff1),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6funcs2_SquareDiff1) __PYX_ERR(4, 110, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_6funcs2_SquareDiff1 = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareDiff1*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SquareDiff1); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SquareDiff1)) __PYX_ERR(4, 110, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6funcs2_SquareDiff2 = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.funcs2", "SquareDiff2", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SquareDiff2), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6funcs2_SquareDiff2),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6funcs2_SquareDiff2) __PYX_ERR(4, 114, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6funcs2_SquareDiff2 = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareDiff2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SquareDiff2); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SquareDiff2)) __PYX_ERR(4, 114, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_FuncDiff2 = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.funcs2", "FuncDiff2", sizeof(struct __pyx_obj_6mlgrad_6funcs2_FuncDiff2), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6funcs2_FuncDiff2),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6funcs2_FuncDiff2) __PYX_ERR(4, 118, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_FuncDiff2 = (struct __pyx_vtabstruct_6mlgrad_6funcs2_FuncDiff2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_FuncDiff2); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_FuncDiff2)) __PYX_ERR(4, 118, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("mlgrad.loss"); if (unlikely(!__pyx_t_1)) __PYX_ERR(15, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

@@ -34,12 +34,17 @@ cdef void _fill(double *to, const double c, const Py_ssize_t n) noexcept nogil
 cdef double _conv(const double*, const double*, const Py_ssize_t) noexcept nogil
 cdef void _move(double*, const double*, const Py_ssize_t) noexcept nogil
 cdef double _sum(const double*, const Py_ssize_t) noexcept nogil
+
 cdef void _iadd(double *a, const double *b, const Py_ssize_t n) noexcept nogil
-cdef void _add(const double *a, const double *b, double *c, const Py_ssize_t n) noexcept nogil
+cdef void _add(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil
+
 cdef void _isub(double *a, const double *b, const Py_ssize_t n) noexcept nogil
 cdef void _isub_mask(double *a, const double *b, uint8 *m, const Py_ssize_t n) noexcept nogil
-cdef void _sub(const double *a, const double *b, double *c, const Py_ssize_t n) noexcept nogil
-cdef void _mul(double *a, const double *b, const Py_ssize_t n) noexcept nogil
+cdef void _sub(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil
+
+cdef void _imul(double *a, const double *b, const Py_ssize_t n) noexcept nogil
+cdef void _mul(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil
+
 cdef void _mul_add(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
 cdef void _mul_set(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
 cdef void _mul_set1(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
@@ -51,7 +56,6 @@ cdef void _matdot(double*, double*, const double*, const Py_ssize_t, const Py_ss
 cdef void _matdot2(double*, double*, const double*, const Py_ssize_t, const Py_ssize_t) noexcept nogil
 cdef void _mul_add_arrays(double *a, double *M, const double *ss, const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
 cdef void _mul_grad(double *grad, const double *X, const double *ss, const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
-cdef void _multiply(double *a, const double *b, const double *x, const Py_ssize_t n) noexcept nogil
 cdef void _normalize(double *a, const Py_ssize_t n) noexcept nogil
 
 
@@ -67,15 +71,16 @@ cdef double conv(double[::1] a, double[::1] b) noexcept nogil
 cdef double sum(double[::1] a) noexcept nogil
 cdef void iadd(double[::1] a, double[::1] b) noexcept nogil
 cdef void iadd2(double[:,::1] a, double[:,::1] b) noexcept nogil
-cdef void add(double[::1] a, double[::1] b, double[::1] c) noexcept nogil
+cdef void add(double[::1] c, double[::1] a, double[::1] b) noexcept nogil
 cdef void isub(double[::1] a, double[::1] b) noexcept nogil
 cdef void isub_mask(double[::1] a, double[::1] b, uint8[::1] m) noexcept nogil
-cdef void sub(double[::1] a, double[::1] b, double[::1] c) noexcept nogil
+cdef void sub(double[::1] c, double[::1] a, double[::1] b) noexcept nogil
 cdef void mul_const(double[::1] a, const double c) noexcept nogil
 cdef void mul_const2(double[:, ::1] a, const double c) noexcept nogil
 cdef void mul_const3(double[:,:,::1] a, const double c) noexcept nogil
-cdef void mul(double[::1] a, double[::1] b) noexcept nogil
-cdef void mul2(double[:,::1] a, double[:,::1] b) noexcept nogil
+cdef void imul(double[::1] a, double[::1] b) noexcept nogil
+cdef void imul2(double[:,::1] a, double[:,::1] b) noexcept nogil
+cdef void mul(double[::1] c, double[::1] a, double[::1] b) noexcept nogil
 cdef void mul_add(double[::1] a, double[::1] b, const double c) noexcept nogil
 cdef void mul_add2(double[:,::1] a, double[:,::1] b, const double c) noexcept nogil
 cdef void mul_set(double[::1] a, double[::1] b, const double c) noexcept nogil
@@ -86,7 +91,6 @@ cdef void matdot(double[::1] output, double[:,::1] M, double[::1] X) noexcept no
 cdef void matdot2(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil
 cdef void mul_add_arrays(double[::1] a, double[:,::1] M, double[::1] ss) noexcept nogil
 cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) noexcept nogil
-cdef void multiply(double[::1] a, double[::1] b, double[::1] c) noexcept nogil
 cdef void normalize(double[::1] a) noexcept nogil
 
 cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil

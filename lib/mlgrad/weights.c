@@ -1977,7 +1977,7 @@ struct __pyx_obj_6mlgrad_6funcs2_SoftMin;
 struct __pyx_obj_6mlgrad_6funcs2_SoftMax;
 struct __pyx_obj_6mlgrad_6funcs2_PowerMax;
 struct __pyx_obj_6mlgrad_6funcs2_SquareDiff1;
-struct __pyx_obj_6mlgrad_6funcs2_SquareDiff2;
+struct __pyx_obj_6mlgrad_6funcs2_FuncDiff2;
 struct __pyx_obj_6mlgrad_11list_values_list_doubles;
 struct __pyx_obj_6mlgrad_15array_allocator_Allocator;
 struct __pyx_obj_6mlgrad_15array_allocator_ArrayAllocator;
@@ -3297,15 +3297,17 @@ struct __pyx_obj_6mlgrad_6funcs2_SquareDiff1 {
 };
 
 
-/* "mlgrad/funcs2.pxd":114
+/* "mlgrad/funcs2.pxd":118
  * 
  * @cython.final
- * cdef class SquareDiff2(Func2):             # <<<<<<<<<<<<<<
- *     pass
- * 
+ * cdef class FuncDiff2(Func2):             # <<<<<<<<<<<<<<
+ *     cdef readonly Func func
+ *     cdef double[::1] temp_array
  */
-struct __pyx_obj_6mlgrad_6funcs2_SquareDiff2 {
+struct __pyx_obj_6mlgrad_6funcs2_FuncDiff2 {
   struct __pyx_obj_6mlgrad_6funcs2_Func2 __pyx_base;
+  struct __pyx_obj_6mlgrad_5funcs_Func *func;
+  __Pyx_memviewslice temp_array;
 };
 
 
@@ -5853,18 +5855,19 @@ struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareDiff1 {
 static struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareDiff1 *__pyx_vtabptr_6mlgrad_6funcs2_SquareDiff1;
 
 
-/* "mlgrad/funcs2.pxd":114
+/* "mlgrad/funcs2.pxd":118
  * 
  * @cython.final
- * cdef class SquareDiff2(Func2):             # <<<<<<<<<<<<<<
- *     pass
- * 
+ * cdef class FuncDiff2(Func2):             # <<<<<<<<<<<<<<
+ *     cdef readonly Func func
+ *     cdef double[::1] temp_array
  */
 
-struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareDiff2 {
+struct __pyx_vtabstruct_6mlgrad_6funcs2_FuncDiff2 {
   struct __pyx_vtabstruct_6mlgrad_6funcs2_Func2 __pyx_base;
+  void (*_evaluate_diff2)(struct __pyx_obj_6mlgrad_6funcs2_FuncDiff2 *, double *, double *, Py_ssize_t const );
 };
-static struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareDiff2 *__pyx_vtabptr_6mlgrad_6funcs2_SquareDiff2;
+static struct __pyx_vtabstruct_6mlgrad_6funcs2_FuncDiff2 *__pyx_vtabptr_6mlgrad_6funcs2_FuncDiff2;
 
 
 /* "mlgrad/list_values.pxd":85
@@ -8352,7 +8355,7 @@ static double *__pyx_vp_6mlgrad_4loss_double_min = 0;
 static void (*__pyx_f_6mlgrad_9inventory_init_rand)(void); /*proto*/
 static long (*__pyx_f_6mlgrad_9inventory_rand)(long); /*proto*/
 static void (*__pyx_f_6mlgrad_9inventory_fill)(__Pyx_memviewslice, double const ); /*proto*/
-static void (*__pyx_f_6mlgrad_9inventory_multiply)(__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice); /*proto*/
+static void (*__pyx_f_6mlgrad_9inventory_mul)(__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice); /*proto*/
 static void (*__pyx_f_6mlgrad_9inventory_normalize)(__Pyx_memviewslice); /*proto*/
 
 /* Module declarations from "mlgrad.funcs2" */
@@ -8989,7 +8992,7 @@ typedef struct {
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SoftMax;
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_PowerMax;
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SquareDiff1;
-  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_SquareDiff2;
+  PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_FuncDiff2;
   #if CYTHON_USE_MODULE_STATE
   #endif
   #if CYTHON_USE_MODULE_STATE
@@ -9585,7 +9588,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SoftMax);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_PowerMax);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareDiff1);
-  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareDiff2);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_FuncDiff2);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_11list_values_list_doubles);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_15array_allocator_Allocator);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator);
@@ -10133,7 +10136,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SoftMax);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_PowerMax);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareDiff1);
-  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_SquareDiff2);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_FuncDiff2);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_11list_values_list_doubles);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_15array_allocator_Allocator);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_15array_allocator_ArrayAllocator);
@@ -10729,7 +10732,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_6mlgrad_6funcs2_SoftMax __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SoftMax
 #define __pyx_ptype_6mlgrad_6funcs2_PowerMax __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_PowerMax
 #define __pyx_ptype_6mlgrad_6funcs2_SquareDiff1 __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SquareDiff1
-#define __pyx_ptype_6mlgrad_6funcs2_SquareDiff2 __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_SquareDiff2
+#define __pyx_ptype_6mlgrad_6funcs2_FuncDiff2 __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_FuncDiff2
 #if CYTHON_USE_MODULE_STATE
 #endif
 #if CYTHON_USE_MODULE_STATE
@@ -38699,7 +38702,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_14WeightsCompose_eval_weights(struct _
  *         self._weights1.eval_weights()
  *         self._weights2.eval_weights()             # <<<<<<<<<<<<<<
  * 
- *         inventory.multiply(self.weights, self._weights1.weights, self._weights2.weights)
+ *         inventory.mul(self.weights, self._weights1.weights, self._weights2.weights)
  */
   if (unlikely(((PyObject *)__pyx_v_self) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "_weights2");
@@ -38716,7 +38719,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_14WeightsCompose_eval_weights(struct _
   /* "mlgrad/weights.pyx":187
  *         self._weights2.eval_weights()
  * 
- *         inventory.multiply(self.weights, self._weights1.weights, self._weights2.weights)             # <<<<<<<<<<<<<<
+ *         inventory.mul(self.weights, self._weights1.weights, self._weights2.weights)             # <<<<<<<<<<<<<<
  * 
  *         if self.normalize:
  */
@@ -38743,10 +38746,10 @@ static PyObject *__pyx_f_6mlgrad_7weights_14WeightsCompose_eval_weights(struct _
     __PYX_ERR(2, 187, __pyx_L1_error)
   }
   if (unlikely(!__pyx_v_self->_weights2->weights.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 187, __pyx_L1_error)}
-  __pyx_f_6mlgrad_9inventory_multiply(__pyx_v_self->__pyx_base.weights, __pyx_v_self->_weights1->weights, __pyx_v_self->_weights2->weights);
+  __pyx_f_6mlgrad_9inventory_mul(__pyx_v_self->__pyx_base.weights, __pyx_v_self->_weights1->weights, __pyx_v_self->_weights2->weights);
 
   /* "mlgrad/weights.pyx":189
- *         inventory.multiply(self.weights, self._weights1.weights, self._weights2.weights)
+ *         inventory.mul(self.weights, self._weights1.weights, self._weights2.weights)
  * 
  *         if self.normalize:             # <<<<<<<<<<<<<<
  *             inventory.normalize(self.weights)
@@ -38773,7 +38776,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_14WeightsCompose_eval_weights(struct _
     __pyx_f_6mlgrad_9inventory_normalize(__pyx_v_self->__pyx_base.weights);
 
     /* "mlgrad/weights.pyx":189
- *         inventory.multiply(self.weights, self._weights1.weights, self._weights2.weights)
+ *         inventory.mul(self.weights, self._weights1.weights, self._weights2.weights)
  * 
  *         if self.normalize:             # <<<<<<<<<<<<<<
  *             inventory.normalize(self.weights)
@@ -40234,7 +40237,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WRWeights_eval_weights(struct __pyx_o
  *         self._weights1.eval_weights()
  *         self._weights2.eval_weights()             # <<<<<<<<<<<<<<
  * 
- *         inventory.multiply(self.weights, self._weights1.weights, self._weights2.weights)
+ *         inventory.mul(self.weights, self._weights1.weights, self._weights2.weights)
  */
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_weights2_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 214, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -40268,7 +40271,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WRWeights_eval_weights(struct __pyx_o
   /* "mlgrad/weights.pyx":216
  *         self._weights2.eval_weights()
  * 
- *         inventory.multiply(self.weights, self._weights1.weights, self._weights2.weights)             # <<<<<<<<<<<<<<
+ *         inventory.mul(self.weights, self._weights1.weights, self._weights2.weights)             # <<<<<<<<<<<<<<
  * 
  *         if self.normalize:
  */
@@ -40291,14 +40294,14 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WRWeights_eval_weights(struct __pyx_o
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(2, 216, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_f_6mlgrad_9inventory_multiply(__pyx_v_self->__pyx_base.weights, __pyx_t_6, __pyx_t_7);
+  __pyx_f_6mlgrad_9inventory_mul(__pyx_v_self->__pyx_base.weights, __pyx_t_6, __pyx_t_7);
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_6, 1);
   __pyx_t_6.memview = NULL; __pyx_t_6.data = NULL;
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_7, 1);
   __pyx_t_7.memview = NULL; __pyx_t_7.data = NULL;
 
   /* "mlgrad/weights.pyx":218
- *         inventory.multiply(self.weights, self._weights1.weights, self._weights2.weights)
+ *         inventory.mul(self.weights, self._weights1.weights, self._weights2.weights)
  * 
  *         if self.normalize:             # <<<<<<<<<<<<<<
  *             inventory.normalize(self.weights)
@@ -40325,7 +40328,7 @@ static PyObject *__pyx_f_6mlgrad_7weights_9WRWeights_eval_weights(struct __pyx_o
     __pyx_f_6mlgrad_9inventory_normalize(__pyx_v_self->__pyx_base.weights);
 
     /* "mlgrad/weights.pyx":218
- *         inventory.multiply(self.weights, self._weights1.weights, self._weights2.weights)
+ *         inventory.mul(self.weights, self._weights1.weights, self._weights2.weights)
  * 
  *         if self.normalize:             # <<<<<<<<<<<<<<
  *             inventory.normalize(self.weights)
@@ -49740,8 +49743,8 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_vtabptr_6mlgrad_6funcs2_PowerMax = (struct __pyx_vtabstruct_6mlgrad_6funcs2_PowerMax*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_PowerMax); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_PowerMax)) __PYX_ERR(4, 105, __pyx_L1_error)
   __pyx_ptype_6mlgrad_6funcs2_SquareDiff1 = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.funcs2", "SquareDiff1", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SquareDiff1), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6funcs2_SquareDiff1),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6funcs2_SquareDiff1) __PYX_ERR(4, 110, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_6funcs2_SquareDiff1 = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareDiff1*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SquareDiff1); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SquareDiff1)) __PYX_ERR(4, 110, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6funcs2_SquareDiff2 = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.funcs2", "SquareDiff2", sizeof(struct __pyx_obj_6mlgrad_6funcs2_SquareDiff2), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6funcs2_SquareDiff2),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6funcs2_SquareDiff2) __PYX_ERR(4, 114, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6funcs2_SquareDiff2 = (struct __pyx_vtabstruct_6mlgrad_6funcs2_SquareDiff2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_SquareDiff2); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_SquareDiff2)) __PYX_ERR(4, 114, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6funcs2_FuncDiff2 = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.funcs2", "FuncDiff2", sizeof(struct __pyx_obj_6mlgrad_6funcs2_FuncDiff2), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6funcs2_FuncDiff2),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6funcs2_FuncDiff2) __PYX_ERR(4, 118, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6funcs2_FuncDiff2 = (struct __pyx_vtabstruct_6mlgrad_6funcs2_FuncDiff2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6funcs2_FuncDiff2); if (unlikely(!__pyx_vtabptr_6mlgrad_6funcs2_FuncDiff2)) __PYX_ERR(4, 118, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("mlgrad.list_values"); if (unlikely(!__pyx_t_1)) __PYX_ERR(10, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -49969,7 +49972,7 @@ static int __Pyx_modinit_function_import_code(void) {
   if (__Pyx_ImportFunction_3_0_11(__pyx_t_1, "init_rand", (void (**)(void))&__pyx_f_6mlgrad_9inventory_init_rand, "void (void)") < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   if (__Pyx_ImportFunction_3_0_11(__pyx_t_1, "rand", (void (**)(void))&__pyx_f_6mlgrad_9inventory_rand, "long (long)") < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   if (__Pyx_ImportFunction_3_0_11(__pyx_t_1, "fill", (void (**)(void))&__pyx_f_6mlgrad_9inventory_fill, "void (__Pyx_memviewslice, double const )") < 0) __PYX_ERR(2, 1, __pyx_L1_error)
-  if (__Pyx_ImportFunction_3_0_11(__pyx_t_1, "multiply", (void (**)(void))&__pyx_f_6mlgrad_9inventory_multiply, "void (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(2, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction_3_0_11(__pyx_t_1, "mul", (void (**)(void))&__pyx_f_6mlgrad_9inventory_mul, "void (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   if (__Pyx_ImportFunction_3_0_11(__pyx_t_1, "normalize", (void (**)(void))&__pyx_f_6mlgrad_9inventory_normalize, "void (__Pyx_memviewslice)") < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
