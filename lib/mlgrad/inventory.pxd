@@ -7,7 +7,7 @@ cimport cython
 from numpy cimport npy_uint8 as uint8
 
 from libc.string cimport memcpy, memset
-from libc.math cimport isnan, fma
+from libc.math cimport isnan, fma, sqrt, fabs
 from libc.stdlib cimport rand as stdlib_rand, srand
 from libc.time cimport time
 
@@ -57,6 +57,7 @@ cdef void _matdot2(double*, double*, const double*, const Py_ssize_t, const Py_s
 cdef void _mul_add_arrays(double *a, double *M, const double *ss, const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
 cdef void _mul_grad(double *grad, const double *X, const double *ss, const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
 cdef void _normalize(double *a, const Py_ssize_t n) noexcept nogil
+cdef void _normalize2(double *a, const Py_ssize_t n) noexcept nogil
 
 
 cdef int hasnan(double[::1] a) noexcept nogil
@@ -92,6 +93,7 @@ cdef void matdot2(double[::1] output, double[:,::1] M, double[::1] X) noexcept n
 cdef void mul_add_arrays(double[::1] a, double[:,::1] M, double[::1] ss) noexcept nogil
 cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) noexcept nogil
 cdef void normalize(double[::1] a) noexcept nogil
+cdef void normalize2(double[::1] a) noexcept nogil
 
 cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil
 cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil

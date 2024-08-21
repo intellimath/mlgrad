@@ -347,14 +347,31 @@ cdef void _normalize(double *a, const Py_ssize_t n) noexcept nogil:
 
     S = 0
     for i in range(n):
-        S += a[i]
+        S += fabs(a[i])
+
+    for i in range(n):
+        a[i] /= S
+
+cdef void normalize2(double[::1] a) noexcept nogil:
+    _normalize2(&a[0], a.shape[0])
+
+cdef void _normalize2(double *a, const Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+    cdef double v, S
+
+    S = 0
+    for i in range(n):
+        v = a[i]
+        S += v * v
+
+    S = sqrt(S)
 
     for i in range(n):
         a[i] /= S
 
 cdef void normalize(double[::1] a) noexcept nogil:
     _normalize(&a[0], a.shape[0])
-
+    
 cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil:
     """
     Вычисление взвешенной ковариационной матрицы

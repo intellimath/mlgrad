@@ -113,7 +113,8 @@ cdef class MixedNorm(Func2):
     #
     @cython.final
     cdef double _evaluate(self, double[::1] X):
-        return self.tau1 * self.func1._evaluate(X) + self.tau2 * self.func2._evaluate(X) 
+        return self.tau1 * self.func1._evaluate(X) + \
+			   self.tau2 * self.func2._evaluate(X) 
     #
     @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] Y):
@@ -165,7 +166,7 @@ cdef class FuncNorm(Func2):
 
         s = 0
         for i in range(X.shape[0]):
-            s = fma(W_ptr[i], func._evaluate(X_ptr[i]), s)
+            s += W_ptr[i] * func._evaluate(X_ptr[i])
         return s
     #
     @cython.final
@@ -530,31 +531,6 @@ cdef class SquareForm(Func2):
 
             for i in range(1, n_col):
                 y[i-1] += s*mat[j,i]
-
-@cython.final
-cdef class Rosenbrok(Func2):
-    #
-    @cython.final
-    cdef double _evaluate(self, double[::1] X):
-        return 10. * (X[1] - X[0]**2)**2 + 0.1*(1. - X[0])**2
-    #
-    @cython.final
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
-        grad[0] = -40. * (X[1] - X[0]**2) * X[0] - 0.2 * (1. - X[0])
-        grad[1] = 20. * (X[1] - X[0]**2)
-        
-        
-@cython.final
-cdef class Himmelblau(Func2):
-    #
-    @cython.final
-    cdef double _evaluate(self, double[::1] X):
-        return (X[0]**2 + X[1] - 11)**2 + (X[0] + X[1]**2 - 7)**2
-    #
-    @cython.final
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
-        grad[0] = 4*(X[0]**2 + X[1] - 11) * X[0] + 2*(X[0] + X[1]**2 - 7)
-        grad[1] = 2*(X[0]**2 + X[1] - 11) + 4*(X[0] + X[1]**2 - 7) * X[1]
 
 @cython.final
 cdef class SoftMin(Func2):
@@ -948,11 +924,11 @@ cdef class FuncDiff2(Func2):
         cdef Py_ssize_t i
         # cdef int num_threads = inventory.get_num_threads()
 
-        YY[0] = -2*XX[0] + XX[1]
+        YY[0] = 0
+        YY[m-1] = 0
         # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(1, m-1):
             YY[i] = XX[i-1] - 2*XX[i] + XX[i+1]
-        YY[m-1] = -2*XX[m-1] + XX[m-2]
     #
     @cython.final
     cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
@@ -973,14 +949,11 @@ cdef class FuncDiff2(Func2):
         cdef double *XX = &X[0]
         # cdef int num_threads = inventory.get_num_threads()
 
-        v = -2*XX[0] + XX[1]
-        s = func._evaluate(v)
+        s = 0
         # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(1, m-1):
             v = XX[i-1] - 2*XX[i] + XX[i+1]
             s += func._evaluate(v)
-        v = -2*XX[m-1] + XX[m-2]
-        s += func._evaluate(v)
 
         return s
     #
@@ -993,23 +966,20 @@ cdef class FuncDiff2(Func2):
         cdef double *WW = &W[0]
         # cdef int num_threads = inventory.get_num_threads()
 
-        v = -2*XX[0] + XX[1]
-        s = WW[0] * func._evaluate(v)
+        s = 0
         # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
         for i in range(1,m-1):
             v = XX[i-1] - 2*XX[i] + XX[i+1]
             s += WW[i] * func._evaluate(v)
-        v = -2*XX[m-1] + XX[m-2]
-        s += WW[m-1] * func._evaluate(v)
 
         return s
     #
     @cython.final
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
+    cdef void _gradient(self, double[::1] X, double[::1] G):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
         cdef double *XX = &X[0]
-        cdef double *GG = &grad[0]
+        cdef double *GG = &G[0]
         # cdef int num_threads = inventory.get_num_threads()
         cdef double[::1] temp_array = self.temp_array
         cdef double* TT
@@ -1022,21 +992,19 @@ cdef class FuncDiff2(Func2):
         self._evaluate_diff2(XX, TT, m)
         self.func._derivative_array(TT, TT, m)
 
-        GG[0] = -TT[0]
-        GG[1] = -2*TT[0] + TT[1]
+        GG[0] = 0
+        GG[m-1] = 0
         # for i in prange(2, m-2, nogil=True, schedule='static', num_threads=num_threads):
-        for i in range(2, m-2):
-            GG[i] = TT[i-1] - 2*TT[i] + TT[i+1]
-        GG[m-1] = -TT[m-1]
-        GG[m-2] = -2*TT[m-1] + TT[m-2]
+        for i in range(1, m-1):
+            GG[i] = TT[i-1] - 2*TT[i] + TT[i+1]        
     #
     @cython.final
-    cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
+    cdef void _gradient_ex(self, double[::1] X, double[::1] G, double[::1] W):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v
         cdef double *XX = &X[0]
         cdef double *WW = &W[0]
-        cdef double *GG = &grad[0]
+        cdef double *GG = &G[0]
         # cdef int num_threads = inventory.get_num_threads()
         cdef double[::1] temp_array = self.temp_array
         cdef double* TT
@@ -1045,22 +1013,38 @@ cdef class FuncDiff2(Func2):
             self.temp_array = temp_array = np.empty(m, "d")
 
         TT = &temp_array[0]
-
-        TT[0] = -2*XX[0] + XX[1]
-        # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
-        for i in range(1, m-1):
-            TT[i] = XX[i-1] - 2*XX[i] + XX[i+1]
-        TT[m-1] = -2*XX[m-1] + XX[m-2]
                 
+        self._evaluate_diff2(XX, TT, m)
         self.func._derivative_array(TT, TT, m)
         
-        GG[0] = WW[0]*TT[0]
-        GG[1] = -2*WW[0]*TT[0] + WW[1]*TT[1]
+        GG[0] = 0
+        GG[m-1] = 0
 
-        # for i in prange(2, m-2, nogil=True, schedule='static', num_threads=num_threads):
-        for i in range(2, m-2):
+        # for i in prange(1, m-1, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(1, m-1):
             GG[i] = WW[i-1]*TT[i-1] - 2*WW[i]*TT[i] + WW[i+1]*TT[i+1]
 
-        GG[m-1] = WW[m-1]*TT[m-1]
-        GG[m-2] = -2*WW[m-1]*TT[m-1] + WW[m-2]*TT[m-2]
-
+@cython.final
+cdef class Rosenbrok(Func2):
+    #
+    @cython.final
+    cdef double _evaluate(self, double[::1] X):
+        return 10. * (X[1] - X[0]**2)**2 + 0.1*(1. - X[0])**2
+    #
+    @cython.final
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        grad[0] = -40. * (X[1] - X[0]**2) * X[0] - 0.2 * (1. - X[0])
+        grad[1] = 20. * (X[1] - X[0]**2)
+        
+        
+@cython.final
+cdef class Himmelblau(Func2):
+    #
+    @cython.final
+    cdef double _evaluate(self, double[::1] X):
+        return (X[0]**2 + X[1] - 11)**2 + (X[0] + X[1]**2 - 7)**2
+    #
+    @cython.final
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        grad[0] = 4*(X[0]**2 + X[1] - 11) * X[0] + 2*(X[0] + X[1]**2 - 7)
+        grad[1] = 2*(X[0]**2 + X[1] - 11) + 4*(X[0] + X[1]**2 - 7) * X[1]

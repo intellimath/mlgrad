@@ -4,14 +4,116 @@
 
 import numpy as np
 
+cdef _get_D2T_D2(double tau, double[::1] W, double[::1] W2, double[:,::1] S):
+    cdef Py_ssize_t i, j, n = S.shape[1]
+
+    # d
+    S[2,0] = 1*W2[0]*tau + W[0]
+    S[2,1] = 5*W2[1]*tau + W[1]
+    S[2,n-1] = 1*W2[n-1]*tau + W[n-1]
+    S[2,n-2] = 5*W2[n-2]*tau + W[n-2]
+    for i in range(2, n-2):
+        S[2,i] = 6*W2[i]*tau + W[i]
+
+    # a
+    S[3,0] = -2*W2[0]*tau
+    S[3,n-2] = -2*W2[n-2]*tau
+    for i in range(1,n-2):
+        S[3,i] = -4*W2[n-2]*tau
+
+    # b
+    for i in range(n-2):
+        S[4,i] = 1*W2[i]*tau
+
+    # c
+    S[1,1] = -2*W2[1]*tau
+    S[1,n-1] = -2*W2[n-1]*tau
+    for i in range(2,n-1):
+        S[1,i] = -4*W2[i]*tau
+
+    # e
+    for i in range(2,n):
+        S[0,i] = 1*W2[i]*tau
+
+def get_D2T_D2(n, tau, W, W2):
+    S = np.zeros((5,n), "d")
+    _get_D2T_D2(tau, W, W2, S)
+    return S
+        
+cdef double _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
+    cdef Py_ssize_t i, j, n = Y.shape[0]
+    cdef double *y = &Y[0]
+    
+    cdef double *e = &S[0,0]
+    cdef double *c = &S[1,0]
+    cdef double *d = &S[2,0]
+    cdef double *a = &S[3,0]
+    cdef double *b = &S[4,0]
+    
+    cdef double[:,::1] T = np.zeros((5,n), 'd')
+    cdef double *mu =    &T[0,0]
+    cdef double *alpha = &T[1,0]
+    cdef double *beta =  &T[2,0]
+    cdef double *gamma = &T[3,0]
+    cdef double *zeta  = &T[4,0]
+    
+    cdef double *x = &X[0]
+
+    mu[0] = d[0]
+    alpha[0] = a[0] / mu[0]
+    beta[0] = b[0] / mu[0]
+    zeta[0] = y[0] / mu[0]
+
+    gamma[1] = c[1]
+    mu[1]    = d[1] - alpha[0] * gamma[1]
+    alpha[1] = (a[1] - beta[0] * gamma[1]) / mu[1]
+    beta[1]  = b[1] / mu[1]
+    zeta[1]  = (y[1] - zeta[0] * gamma[1]) / mu[1]
+
+    for i in range(2, n-3):
+        gamma[i] = c[i] - alpha[i-2] * e[i]
+        mu[i]    = d[i] - beta[i-2] * e[i] - alpha[i-1] * gamma[i]
+        alpha[i] = (a[i] - beta[i-1] * gamma[i]) / mu[i]
+        beta[i]  = b[i] / mu[i]
+        zeta[i]  = (y[i] - zeta[i-2] * e[i] - zeta[i-1] * gamma[i]) / mu[i]
+
+    gamma[n-2] = c[n-2] - alpha[n-4] * e[n-2]
+    mu[n-2]    = d[n-2] - beta[n-4] * e[n-2] - alpha[n-3] * gamma[n-2]
+    alpha[n-2] = (a[n-2] - beta[n-3] * gamma[n-2]) / mu[n-2]
+    gamma[n-1] = c[n-1] - alpha[n-3] * e[n-1]
+    mu[n-1]    = d[n-1] - beta[n-3] * e[n-1] - alpha[n-2] * gamma[n-1]
+    zeta[n-2]  = (y[n-2] - zeta[n-3] * e[n-2] - zeta[n-3] * gamma[n-2]) / mu[n-2]
+    zeta[n-1]  = (y[n-1] - zeta[n-2] * e[n-1] - zeta[n-2] * gamma[n-1]) / mu[n-1]
+
+    x[n-1] = zeta[n-1]
+    x[n-2] = zeta[n-2] - alpha[n-2] * x[n-1]
+    i = n-3
+    while i >= 0:
+        x[i] = zeta[i] - alpha[i] * x[i+1] - beta[i] * x[i+2]
+        i -= 1
+
+def penta_solver(Y, tau, W, W2):
+    S = get_D2T_D2(len(Y), tau, W, W2)
+    X = np.zeros_like(Y)
+    _penta_solver(S, Y*W, X)
+    return X
+    
+def whittaker_smooth_penta(Y, tau=1.0e5, W=None, W2=None):
+    if W is None:
+        W = np.ones_like(Y, "d")
+    if W2 is None:
+        W2 = np.ones_like(Y, "d")
+    X = penta_solver(Y, tau, W, W2)
+    return X
+    
 
 cdef class WhittakerSmoother:
     #
     def __init__(self, funcs2.Func2 func=None, funcs2.Func2 func2=None, 
-                 h=0.001, n_iter=1000, 
+                 h=0.1, n_iter=1000, 
                  tol=1.0e-6, tau=10.0):
         if func is None:
-            self.func = funcs2.SquareNorm()
+            self.func = funcs2.FuncNorm(funcs.Square())
         else:
             self.func = func
         if func2 is None: 
@@ -25,6 +127,7 @@ cdef class WhittakerSmoother:
         self.Z = None
         self.qvals = None
     #
+    #
     def fit(self, double[::1] X, double[::1] W=None, double[::1] W2=None):
         cdef double h = self.h
         cdef double tau = self.tau
@@ -32,7 +135,7 @@ cdef class WhittakerSmoother:
         cdef funcs2.Func2 func = self.func
         cdef funcs2.Func2 func2 = self.func2
         cdef Py_ssize_t j, N = len(X)
-        cdef averager.ArrayAverager avg
+        # cdef averager.ArrayAverager avg
         cdef double[::1] Z = np.zeros(N, 'd')
         cdef double[::1] Z_min = np.zeros(N, 'd')
         cdef double[::1] E = np.zeros(N, 'd')
@@ -45,14 +148,6 @@ cdef class WhittakerSmoother:
 
         # avg = averager.ArrayAdaM2()
         # avg.init(N)
-
-        if W is None:
-            W = np.ones_like(X)
-        # inventory.normalize(W)
-
-        if W2 is None:
-            W2 = np.ones_like(X)
-        # inventory.normalize(W2)
         
         if self.Z is None:
             inventory.move(Z, X)
@@ -64,8 +159,16 @@ cdef class WhittakerSmoother:
         # Z_min = Z.copy()
 
         inventory.sub(E, X, Z)
-        #  qval = func._evaluate_ex(E, W) + tau * func2._evaluate(Z)
-        qval = func._evaluate(E) / tau + func2._evaluate(Z)
+        if W is None:
+            qval = func._evaluate(E) / tau
+        else:
+            qval = func._evaluate_ex(E, W) / tau
+
+        if W2 is None:
+            qval += func2._evaluate(Z)
+        else:
+            qval += func2._evaluate_ex(Z, W2)
+
         qvals = [qval]
     
         qval_min = qval
@@ -75,24 +178,39 @@ cdef class WhittakerSmoother:
             qval_prev = qval
             # Z_prev = Z.copy()
 
-            # func._gradient_ex(E, G1, W) 
-            # func2._gradient(Z, G2)
-            func._gradient(E, G1) 
-            func2._gradient(Z, G2)
+            if W is None:
+                func._gradient(E, G1)
+            else:
+                func._gradient_ex(E, G1, W)
+        
+            if W2 is None:
+                func2._gradient(Z, G2)
+            else:
+                func2._gradient_ex(Z, G2, W2)
+                
             for j in range(N):
                 grad[j] = -G1[j] / tau + G2[j]
+            inventory.normalize(grad)
 
             # avg.update(grad, h)
             
             for j in range(N):
-                Z[j] -= h * grad[j]
+                Z[j] -= h * grad[j] * N
 
             # inventory.isub(Z, avg.array_average)
 
             inventory.sub(E, X, Z)
-            
-            # qval = func._evaluate_ex(E, W) + tau * func2._evaluate(Z)
-            qval = func._evaluate(E) / tau + func2._evaluate(Z)
+
+            if W is None:
+                qval = func._evaluate(E) / tau
+            else:
+                qval = func._evaluate_ex(E, W) / tau
+
+            if W2 is None:
+                qval += func2._evaluate(Z)
+            else:
+                qval += func2._evaluate_ex(Z, W2)
+                
             qvals.append(qval)
 
             if qval < qval_min:
@@ -102,7 +220,6 @@ cdef class WhittakerSmoother:
                 # for j in range(N):
                 #     if Z_min[j] < 0:
                 #         Z_min[j] = 0
-                # putmask(Z_min, Z_min < 0, 0)
                 
             if fabs(qval - qval_prev) / (1.0 + fabs(qval_min)) < tol:
                 break
@@ -117,6 +234,7 @@ cdef class WhittakerSmoother:
                 break
 
         self.Z = Z_min
+        # self.Z = Z
         self.qval = qval_min
         self.K = K+1
         self.delta_qval = fabs(qval_min - qval_min_prev)

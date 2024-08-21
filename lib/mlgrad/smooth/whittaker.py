@@ -4,29 +4,43 @@
 # import mlgrad.funcs as funcs
 # import mlgrad.averager as averager
 
-from ._whittaker import WhittakerSmoother
+from ._whittaker import WhittakerSmoother, whittaker_smooth_penta as whittaker_smooth
 
 import math
 import numpy as np
+import scipy
+
+def whittaker_smooth_scipy(y, tau=1.0e5, W=None, W2=None, d=2, **kwargs):
+    N = len(y)
+    D = scipy.sparse.csc_matrix(np.diff(np.eye(N), d))
+    if W is None:
+        W = np.ones(N, "d")
+    W = scipy.sparse.spdiags(W, 0, N, N)
+    if W2 is None:
+        W2 = np.ones(N, "d")
+    W2 = scipy.sparse.spdiags(W2, 0, N, N)
+    Z = W + tau * D.dot(D.T.dot(W2))
+    z = scipy.sparse.linalg.spsolve(Z, W*y)
+
+    return z
 
 
-def whittaker(X, *, func=None, func2=None, tau=1.0,
-              h=0.001, n_iter=200, tol=1.0e-6):
-    alg = WhittakerSmoother(func=func, func2=func2, tau=tau,
-                            h=h, n_iter=n_iter, tol=tol)
-    s = np.max(abs(X)) / 10
-    alg.fit(X/s)
-    Z = np.array(alg.Z)
-    Z *= s
-    # print(alg.K, alg.delta_qval)
-    return Z, {'qval': alg.qval, 'qvals':alg.qvals}
+# def whittaker_smooth(X, *, func=None, func2=None, tau=1.0,
+              # h=0.1, n_iter=1000, tol=1.0e-6):
+    # alg = WhittakerSmoother(func=func, func2=func2, tau=tau,
+                            # h=h, n_iter=n_iter, tol=tol)
+    # # s = 1 #(abs(X)).max() / 2
+    # alg.fit(X)
+    # Z = np.array(alg.Z, dtype="d", order="C", copy=True)
+    # # Z *= s
+    # # print(alg.K, alg.delta_qval)
+    # return Z, {'qval': alg.qval, 'qvals':alg.qvals}
 
 def whittaker_agg(X, aggfunc, func=None, func2=None, tau=1.0, 
-                  h=0.001, n_iter=100, tol=1.0e-6, n_iter2=100):
-    alg = WhittakerSmoother(func=func, func2=func2, tau=tau, h=h, n_iter=n_iter, tol=tol)
+                  h=0.1, n_iter=100, tol=1.0e-6, n_iter2=1000):
 
-    alg.fit(X, W=W)
-    Z_min = self.Z = Z.copy()
+    Z = whittaker_smooth_penta(X, tau=tau, W=W)
+    Z_min = Z.copy()
 
     def weight_func(E, aggfunc=aggfunc):
         U = func2.evaluate_items(E)
@@ -35,15 +49,15 @@ def whittaker_agg(X, aggfunc, func=None, func2=None, tau=1.0,
 
     self.weight_func = weight_func
     
-    E = self.Z - X
+    E = Z - X
     W = weight_func(E)
     s = s_min = aggfunc.u
 
     flag = False
     for K in range(n_iter2):
-        alg.fit(X, W)
+        Z = whittaker_smooth_penta(X, tau=tau, W=W)
 
-        E = self.Z - X
+        E = Z - X
         W = weight_func(E)
         s = aggfunc.u
 
@@ -57,43 +71,38 @@ def whittaker_agg(X, aggfunc, func=None, func2=None, tau=1.0,
         if flag:
             break
 
-        W = aggfunc.gradient(U)
-
     return Z_min
 
-def whittaker_weight_func(X, weight_func, *, func=None, func2=None, tau=1.0,
-                          h=0.001, n_iter2=1000, tol=1.0e-8, n_iter=100):
-
-    alg = WhittakerSmoother(func=func, func2=func2, tau=tau,
-                            h=h, n_iter=n_iter2, tol=tol)
+def whittaker_weight_func(X, weight_func, *, func=None, func2=None, tau=1.0, n_iter=100, tol=1.0e-3):
+    from math import isclose
     
-    alg.fit(X)
+    Z = whittaker_smooth(X, tau=tau)
     
-    Z = np.array(alg.Z, copy=1)
-    print(Z)
-    qval_min = qval = alg.qval
-    qval_min_prev = 10 * qval_min
-    r = max(abs(X - Z))
+    E = X - Z
+    abs_E = abs(E)
+    r = max(abs_E)
     qvals = [r]
 
     W = weight_func(X - Z)
+    #W2 = abs_E / abs_E.max()
 
     flag = False
     for K in range(n_iter):
         Z_prev = Z.copy()
         r_prev = r
 
-        alg.fit(X, W=W)
-        Z = np.array(alg.Z, copy=1)
-        print(Z)
+        Z = whittaker_smooth(X, tau=tau, W=W)
 
         r = max(abs(Z - Z_prev))
         qvals.append(r)
 
-        if abs(r - r_prev) < tol:
+        if isclose(r, r_prev, rel_tol=tol):
             break
 
-        W = weight_func(X - Z)
+        E = X - Z
+        abs_E = abs(E)
+        W = weight_func(E)
+        #W2 = abs_E / abs_E.max()
 
     return Z, {'qval': r, 'qvals':qvals}
 
