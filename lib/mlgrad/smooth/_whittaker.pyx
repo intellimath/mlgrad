@@ -9,31 +9,31 @@ cdef _get_D2T_D2(double tau, double[::1] W, double[::1] W2, double[:,::1] S):
 
     # d
     S[2,0] = 1*W2[0]*tau + W[0]
-    S[2,1] = 5*W2[1]*tau + W[1]
-    S[2,n-1] = 1*W2[n-1]*tau + W[n-1]
-    S[2,n-2] = 5*W2[n-2]*tau + W[n-2]
+    S[2,1] = (4*W2[0] + W2[1])*tau + W[1]
+    S[2,n-1] = 1*W2[n-2]*tau + W[n-1]
+    S[2,n-2] = (4*W2[n-3] + 1*W2[n-2])*tau + W[n-2]
     for i in range(2, n-2):
-        S[2,i] = 6*W2[i]*tau + W[i]
+        S[2,i] = (1*W2[i-2] + 4*W2[i-1] + 1*W2[i])*tau + W[i]
 
     # a
     S[3,0] = -2*W2[0]*tau
     S[3,n-2] = -2*W2[n-2]*tau
     for i in range(1,n-2):
-        S[3,i] = -4*W2[n-2]*tau
+        S[3,i] = (-2*W2[i-1] - 2*W2[i])*tau
 
     # b
     for i in range(n-2):
         S[4,i] = 1*W2[i]*tau
 
     # c
-    S[1,1] = -2*W2[1]*tau
-    S[1,n-1] = -2*W2[n-1]*tau
+    S[1,1] = -2*W2[0]*tau
+    S[1,n-1] = -2*W2[n-3]*tau
     for i in range(2,n-1):
-        S[1,i] = -4*W2[i]*tau
+        S[1,i] = (-2*W2[i-2] - 2*W2[i-1])*tau
 
     # e
     for i in range(2,n):
-        S[0,i] = 1*W2[i]*tau
+        S[0,i] = 1*W2[i-2]*tau
 
 def get_D2T_D2(n, tau, W, W2):
     S = np.zeros((5,n), "d")

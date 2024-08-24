@@ -73,25 +73,29 @@ def whittaker_agg(X, aggfunc, func=None, func2=None, tau=1.0,
 
     return Z_min
 
-def whittaker_weight_func(X, weight_func, *, func=None, func2=None, tau=1.0, n_iter=100, tol=1.0e-3):
+def whittaker_weight_func(X, weight_func=None, weight_func2=None, tau=1.0, n_iter=100, tol=1.0e-4):
     from math import isclose
     
     Z = whittaker_smooth(X, tau=tau)
     
     E = X - Z
-    abs_E = abs(E)
-    r = max(abs_E)
+    r = max(abs(E))
     qvals = [r]
+    
+    W = np.ones_like(X)
+    W2 = np.ones_like(X)
 
-    W = weight_func(X - Z)
-    #W2 = abs_E / abs_E.max()
+    if weight_func is not None:
+        W = weight_func(E)
+    if weight_func2 is not None:
+        W2 = weight_func2(E)
 
     flag = False
     for K in range(n_iter):
         Z_prev = Z.copy()
         r_prev = r
 
-        Z = whittaker_smooth(X, tau=tau, W=W)
+        Z = whittaker_smooth(X, tau=tau, W=W, W2=W2)
 
         r = max(abs(Z - Z_prev))
         qvals.append(r)
@@ -100,9 +104,10 @@ def whittaker_weight_func(X, weight_func, *, func=None, func2=None, tau=1.0, n_i
             break
 
         E = X - Z
-        abs_E = abs(E)
-        W = weight_func(E)
-        #W2 = abs_E / abs_E.max()
+        if weight_func is not None:
+            W = weight_func(E)
+        if weight_func2 is not None:
+            W2 = weight_func2(E)
 
     return Z, {'qval': r, 'qvals':qvals}
 

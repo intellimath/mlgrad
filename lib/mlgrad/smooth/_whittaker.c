@@ -24065,6 +24065,8 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
   Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -24087,8 +24089,8 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
  * 
  *     # d
  *     S[2,0] = 1*W2[0]*tau + W[0]             # <<<<<<<<<<<<<<
- *     S[2,1] = 5*W2[1]*tau + W[1]
- *     S[2,n-1] = 1*W2[n-1]*tau + W[n-1]
+ *     S[2,1] = (4*W2[0] + W2[1])*tau + W[1]
+ *     S[2,n-1] = 1*W2[n-2]*tau + W[n-1]
  */
   if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
@@ -24142,15 +24144,15 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
   /* "mlgrad/smooth/_whittaker.pyx":12
  *     # d
  *     S[2,0] = 1*W2[0]*tau + W[0]
- *     S[2,1] = 5*W2[1]*tau + W[1]             # <<<<<<<<<<<<<<
- *     S[2,n-1] = 1*W2[n-1]*tau + W[n-1]
- *     S[2,n-2] = 5*W2[n-2]*tau + W[n-2]
+ *     S[2,1] = (4*W2[0] + W2[1])*tau + W[1]             # <<<<<<<<<<<<<<
+ *     S[2,n-1] = 1*W2[n-2]*tau + W[n-1]
+ *     S[2,n-2] = (4*W2[n-3] + 1*W2[n-2])*tau + W[n-2]
  */
   if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
     __PYX_ERR(0, 12, __pyx_L1_error)
   }
-  __pyx_t_3 = 1;
+  __pyx_t_3 = 0;
   __pyx_t_2 = -1;
   if (__pyx_t_3 < 0) {
     __pyx_t_3 += __pyx_v_W2.shape[0];
@@ -24160,53 +24162,11 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(0, 12, __pyx_L1_error)
   }
-  if (unlikely(((PyObject *) __pyx_v_W.memview) == Py_None)) {
+  if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
     __PYX_ERR(0, 12, __pyx_L1_error)
   }
   __pyx_t_1 = 1;
-  __pyx_t_2 = -1;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_W.shape[0];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_W.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(0, 12, __pyx_L1_error)
-  }
-  if (unlikely(((PyObject *) __pyx_v_S.memview) == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-    __PYX_ERR(0, 12, __pyx_L1_error)
-  }
-  __pyx_t_5 = 2;
-  __pyx_t_4 = 1;
-  __pyx_t_2 = -1;
-  if (__pyx_t_5 < 0) {
-    __pyx_t_5 += __pyx_v_S.shape[0];
-    if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
-  if (__pyx_t_4 < 0) {
-    __pyx_t_4 += __pyx_v_S.shape[1];
-    if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 1;
-  } else if (unlikely(__pyx_t_4 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(0, 12, __pyx_L1_error)
-  }
-  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_4)) )) = (((5.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_3)) )))) * __pyx_v_tau) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_1)) ))));
-
-  /* "mlgrad/smooth/_whittaker.pyx":13
- *     S[2,0] = 1*W2[0]*tau + W[0]
- *     S[2,1] = 5*W2[1]*tau + W[1]
- *     S[2,n-1] = 1*W2[n-1]*tau + W[n-1]             # <<<<<<<<<<<<<<
- *     S[2,n-2] = 5*W2[n-2]*tau + W[n-2]
- *     for i in range(2, n-2):
- */
-  if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-    __PYX_ERR(0, 13, __pyx_L1_error)
-  }
-  __pyx_t_1 = (__pyx_v_n - 1);
   __pyx_t_2 = -1;
   if (__pyx_t_1 < 0) {
     __pyx_t_1 += __pyx_v_W2.shape[0];
@@ -24214,69 +24174,69 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
   } else if (unlikely(__pyx_t_1 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(0, 13, __pyx_L1_error)
+    __PYX_ERR(0, 12, __pyx_L1_error)
   }
   if (unlikely(((PyObject *) __pyx_v_W.memview) == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-    __PYX_ERR(0, 13, __pyx_L1_error)
+    __PYX_ERR(0, 12, __pyx_L1_error)
   }
-  __pyx_t_3 = (__pyx_v_n - 1);
+  __pyx_t_5 = 1;
   __pyx_t_2 = -1;
-  if (__pyx_t_3 < 0) {
-    __pyx_t_3 += __pyx_v_W.shape[0];
-    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_3 >= __pyx_v_W.shape[0])) __pyx_t_2 = 0;
+  if (__pyx_t_5 < 0) {
+    __pyx_t_5 += __pyx_v_W.shape[0];
+    if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_5 >= __pyx_v_W.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(0, 13, __pyx_L1_error)
+    __PYX_ERR(0, 12, __pyx_L1_error)
   }
   if (unlikely(((PyObject *) __pyx_v_S.memview) == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-    __PYX_ERR(0, 13, __pyx_L1_error)
+    __PYX_ERR(0, 12, __pyx_L1_error)
   }
   __pyx_t_4 = 2;
-  __pyx_t_5 = (__pyx_v_n - 1);
+  __pyx_t_6 = 1;
   __pyx_t_2 = -1;
   if (__pyx_t_4 < 0) {
     __pyx_t_4 += __pyx_v_S.shape[0];
     if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 0;
   } else if (unlikely(__pyx_t_4 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
+  if (__pyx_t_6 < 0) {
+    __pyx_t_6 += __pyx_v_S.shape[1];
+    if (unlikely(__pyx_t_6 < 0)) __pyx_t_2 = 1;
+  } else if (unlikely(__pyx_t_6 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_2);
+    __PYX_ERR(0, 12, __pyx_L1_error)
+  }
+  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_4 * __pyx_v_S.strides[0]) )) + __pyx_t_6)) )) = ((((4.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_3)) )))) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_1)) )))) * __pyx_v_tau) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_5)) ))));
+
+  /* "mlgrad/smooth/_whittaker.pyx":13
+ *     S[2,0] = 1*W2[0]*tau + W[0]
+ *     S[2,1] = (4*W2[0] + W2[1])*tau + W[1]
+ *     S[2,n-1] = 1*W2[n-2]*tau + W[n-1]             # <<<<<<<<<<<<<<
+ *     S[2,n-2] = (4*W2[n-3] + 1*W2[n-2])*tau + W[n-2]
+ *     for i in range(2, n-2):
+ */
+  if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    __PYX_ERR(0, 13, __pyx_L1_error)
+  }
+  __pyx_t_5 = (__pyx_v_n - 2);
+  __pyx_t_2 = -1;
   if (__pyx_t_5 < 0) {
-    __pyx_t_5 += __pyx_v_S.shape[1];
-    if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 1;
-  } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
+    __pyx_t_5 += __pyx_v_W2.shape[0];
+    if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_5 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(0, 13, __pyx_L1_error)
   }
-  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_4 * __pyx_v_S.strides[0]) )) + __pyx_t_5)) )) = (((1.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_1)) )))) * __pyx_v_tau) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_3)) ))));
-
-  /* "mlgrad/smooth/_whittaker.pyx":14
- *     S[2,1] = 5*W2[1]*tau + W[1]
- *     S[2,n-1] = 1*W2[n-1]*tau + W[n-1]
- *     S[2,n-2] = 5*W2[n-2]*tau + W[n-2]             # <<<<<<<<<<<<<<
- *     for i in range(2, n-2):
- *         S[2,i] = 6*W2[i]*tau + W[i]
- */
-  if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-    __PYX_ERR(0, 14, __pyx_L1_error)
-  }
-  __pyx_t_3 = (__pyx_v_n - 2);
-  __pyx_t_2 = -1;
-  if (__pyx_t_3 < 0) {
-    __pyx_t_3 += __pyx_v_W2.shape[0];
-    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_3 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
-  if (unlikely(__pyx_t_2 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(0, 14, __pyx_L1_error)
-  }
   if (unlikely(((PyObject *) __pyx_v_W.memview) == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-    __PYX_ERR(0, 14, __pyx_L1_error)
+    __PYX_ERR(0, 13, __pyx_L1_error)
   }
-  __pyx_t_1 = (__pyx_v_n - 2);
+  __pyx_t_1 = (__pyx_v_n - 1);
   __pyx_t_2 = -1;
   if (__pyx_t_1 < 0) {
     __pyx_t_1 += __pyx_v_W.shape[0];
@@ -24284,19 +24244,89 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
   } else if (unlikely(__pyx_t_1 >= __pyx_v_W.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
+    __PYX_ERR(0, 13, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_S.memview) == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    __PYX_ERR(0, 13, __pyx_L1_error)
+  }
+  __pyx_t_3 = 2;
+  __pyx_t_6 = (__pyx_v_n - 1);
+  __pyx_t_2 = -1;
+  if (__pyx_t_3 < 0) {
+    __pyx_t_3 += __pyx_v_S.shape[0];
+    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_3 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
+  if (__pyx_t_6 < 0) {
+    __pyx_t_6 += __pyx_v_S.shape[1];
+    if (unlikely(__pyx_t_6 < 0)) __pyx_t_2 = 1;
+  } else if (unlikely(__pyx_t_6 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_2);
+    __PYX_ERR(0, 13, __pyx_L1_error)
+  }
+  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_3 * __pyx_v_S.strides[0]) )) + __pyx_t_6)) )) = (((1.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_5)) )))) * __pyx_v_tau) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_1)) ))));
+
+  /* "mlgrad/smooth/_whittaker.pyx":14
+ *     S[2,1] = (4*W2[0] + W2[1])*tau + W[1]
+ *     S[2,n-1] = 1*W2[n-2]*tau + W[n-1]
+ *     S[2,n-2] = (4*W2[n-3] + 1*W2[n-2])*tau + W[n-2]             # <<<<<<<<<<<<<<
+ *     for i in range(2, n-2):
+ *         S[2,i] = (1*W2[i-2] + 4*W2[i-1] + 1*W2[i])*tau + W[i]
+ */
+  if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    __PYX_ERR(0, 14, __pyx_L1_error)
+  }
+  __pyx_t_1 = (__pyx_v_n - 3);
+  __pyx_t_2 = -1;
+  if (__pyx_t_1 < 0) {
+    __pyx_t_1 += __pyx_v_W2.shape[0];
+    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_1 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_2);
+    __PYX_ERR(0, 14, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    __PYX_ERR(0, 14, __pyx_L1_error)
+  }
+  __pyx_t_5 = (__pyx_v_n - 2);
+  __pyx_t_2 = -1;
+  if (__pyx_t_5 < 0) {
+    __pyx_t_5 += __pyx_v_W2.shape[0];
+    if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_5 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_2);
+    __PYX_ERR(0, 14, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_W.memview) == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    __PYX_ERR(0, 14, __pyx_L1_error)
+  }
+  __pyx_t_6 = (__pyx_v_n - 2);
+  __pyx_t_2 = -1;
+  if (__pyx_t_6 < 0) {
+    __pyx_t_6 += __pyx_v_W.shape[0];
+    if (unlikely(__pyx_t_6 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_6 >= __pyx_v_W.shape[0])) __pyx_t_2 = 0;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(0, 14, __pyx_L1_error)
   }
   if (unlikely(((PyObject *) __pyx_v_S.memview) == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
     __PYX_ERR(0, 14, __pyx_L1_error)
   }
-  __pyx_t_5 = 2;
+  __pyx_t_3 = 2;
   __pyx_t_4 = (__pyx_v_n - 2);
   __pyx_t_2 = -1;
-  if (__pyx_t_5 < 0) {
-    __pyx_t_5 += __pyx_v_S.shape[0];
-    if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
+  if (__pyx_t_3 < 0) {
+    __pyx_t_3 += __pyx_v_S.shape[0];
+    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_3 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
   if (__pyx_t_4 < 0) {
     __pyx_t_4 += __pyx_v_S.shape[1];
     if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 1;
@@ -24305,27 +24335,55 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(0, 14, __pyx_L1_error)
   }
-  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_4)) )) = (((5.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_3)) )))) * __pyx_v_tau) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_1)) ))));
+  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_3 * __pyx_v_S.strides[0]) )) + __pyx_t_4)) )) = ((((4.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_1)) )))) + (1.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_5)) ))))) * __pyx_v_tau) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_6)) ))));
 
   /* "mlgrad/smooth/_whittaker.pyx":15
- *     S[2,n-1] = 1*W2[n-1]*tau + W[n-1]
- *     S[2,n-2] = 5*W2[n-2]*tau + W[n-2]
+ *     S[2,n-1] = 1*W2[n-2]*tau + W[n-1]
+ *     S[2,n-2] = (4*W2[n-3] + 1*W2[n-2])*tau + W[n-2]
  *     for i in range(2, n-2):             # <<<<<<<<<<<<<<
- *         S[2,i] = 6*W2[i]*tau + W[i]
+ *         S[2,i] = (1*W2[i-2] + 4*W2[i-1] + 1*W2[i])*tau + W[i]
  * 
  */
-  __pyx_t_6 = (__pyx_v_n - 2);
-  __pyx_t_7 = __pyx_t_6;
-  for (__pyx_t_8 = 2; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-    __pyx_v_i = __pyx_t_8;
+  __pyx_t_7 = (__pyx_v_n - 2);
+  __pyx_t_8 = __pyx_t_7;
+  for (__pyx_t_9 = 2; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+    __pyx_v_i = __pyx_t_9;
 
     /* "mlgrad/smooth/_whittaker.pyx":16
- *     S[2,n-2] = 5*W2[n-2]*tau + W[n-2]
+ *     S[2,n-2] = (4*W2[n-3] + 1*W2[n-2])*tau + W[n-2]
  *     for i in range(2, n-2):
- *         S[2,i] = 6*W2[i]*tau + W[i]             # <<<<<<<<<<<<<<
+ *         S[2,i] = (1*W2[i-2] + 4*W2[i-1] + 1*W2[i])*tau + W[i]             # <<<<<<<<<<<<<<
  * 
  *     # a
  */
+    if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      __PYX_ERR(0, 16, __pyx_L1_error)
+    }
+    __pyx_t_6 = (__pyx_v_i - 2);
+    __pyx_t_2 = -1;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_W2.shape[0];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+    if (unlikely(__pyx_t_2 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_2);
+      __PYX_ERR(0, 16, __pyx_L1_error)
+    }
+    if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      __PYX_ERR(0, 16, __pyx_L1_error)
+    }
+    __pyx_t_5 = (__pyx_v_i - 1);
+    __pyx_t_2 = -1;
+    if (__pyx_t_5 < 0) {
+      __pyx_t_5 += __pyx_v_W2.shape[0];
+      if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_5 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+    if (unlikely(__pyx_t_2 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_2);
+      __PYX_ERR(0, 16, __pyx_L1_error)
+    }
     if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
       __PYX_ERR(0, 16, __pyx_L1_error)
@@ -24344,12 +24402,12 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
       __PYX_ERR(0, 16, __pyx_L1_error)
     }
-    __pyx_t_3 = __pyx_v_i;
+    __pyx_t_4 = __pyx_v_i;
     __pyx_t_2 = -1;
-    if (__pyx_t_3 < 0) {
-      __pyx_t_3 += __pyx_v_W.shape[0];
-      if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_3 >= __pyx_v_W.shape[0])) __pyx_t_2 = 0;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_W.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_W.shape[0])) __pyx_t_2 = 0;
     if (unlikely(__pyx_t_2 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_2);
       __PYX_ERR(0, 16, __pyx_L1_error)
@@ -24358,22 +24416,22 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
       __PYX_ERR(0, 16, __pyx_L1_error)
     }
-    __pyx_t_4 = 2;
-    __pyx_t_5 = __pyx_v_i;
+    __pyx_t_3 = 2;
+    __pyx_t_10 = __pyx_v_i;
     __pyx_t_2 = -1;
-    if (__pyx_t_4 < 0) {
-      __pyx_t_4 += __pyx_v_S.shape[0];
-      if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_4 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_v_S.shape[1];
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 1;
-    } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
+    if (__pyx_t_3 < 0) {
+      __pyx_t_3 += __pyx_v_S.shape[0];
+      if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_3 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
+    if (__pyx_t_10 < 0) {
+      __pyx_t_10 += __pyx_v_S.shape[1];
+      if (unlikely(__pyx_t_10 < 0)) __pyx_t_2 = 1;
+    } else if (unlikely(__pyx_t_10 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
     if (unlikely(__pyx_t_2 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_2);
       __PYX_ERR(0, 16, __pyx_L1_error)
     }
-    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_4 * __pyx_v_S.strides[0]) )) + __pyx_t_5)) )) = (((6.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_1)) )))) * __pyx_v_tau) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_3)) ))));
+    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_3 * __pyx_v_S.strides[0]) )) + __pyx_t_10)) )) = (((((1.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_6)) )))) + (4.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_5)) ))))) + (1.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_1)) ))))) * __pyx_v_tau) + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_4)) ))));
   }
 
   /* "mlgrad/smooth/_whittaker.pyx":19
@@ -24387,12 +24445,12 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
     __PYX_ERR(0, 19, __pyx_L1_error)
   }
-  __pyx_t_3 = 0;
+  __pyx_t_4 = 0;
   __pyx_t_2 = -1;
-  if (__pyx_t_3 < 0) {
-    __pyx_t_3 += __pyx_v_W2.shape[0];
-    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_3 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+  if (__pyx_t_4 < 0) {
+    __pyx_t_4 += __pyx_v_W2.shape[0];
+    if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_4 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(0, 19, __pyx_L1_error)
@@ -24416,25 +24474,25 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(0, 19, __pyx_L1_error)
   }
-  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_1 * __pyx_v_S.strides[0]) )) + __pyx_t_5)) )) = ((-2.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_3)) )))) * __pyx_v_tau);
+  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_1 * __pyx_v_S.strides[0]) )) + __pyx_t_5)) )) = ((-2.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_4)) )))) * __pyx_v_tau);
 
   /* "mlgrad/smooth/_whittaker.pyx":20
  *     # a
  *     S[3,0] = -2*W2[0]*tau
  *     S[3,n-2] = -2*W2[n-2]*tau             # <<<<<<<<<<<<<<
  *     for i in range(1,n-2):
- *         S[3,i] = -4*W2[n-2]*tau
+ *         S[3,i] = (-2*W2[i-1] - 2*W2[i])*tau
  */
   if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
     __PYX_ERR(0, 20, __pyx_L1_error)
   }
-  __pyx_t_3 = (__pyx_v_n - 2);
+  __pyx_t_4 = (__pyx_v_n - 2);
   __pyx_t_2 = -1;
-  if (__pyx_t_3 < 0) {
-    __pyx_t_3 += __pyx_v_W2.shape[0];
-    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_3 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+  if (__pyx_t_4 < 0) {
+    __pyx_t_4 += __pyx_v_W2.shape[0];
+    if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_4 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(0, 20, __pyx_L1_error)
@@ -24458,24 +24516,24 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(0, 20, __pyx_L1_error)
   }
-  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_1)) )) = ((-2.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_3)) )))) * __pyx_v_tau);
+  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_1)) )) = ((-2.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_4)) )))) * __pyx_v_tau);
 
   /* "mlgrad/smooth/_whittaker.pyx":21
  *     S[3,0] = -2*W2[0]*tau
  *     S[3,n-2] = -2*W2[n-2]*tau
  *     for i in range(1,n-2):             # <<<<<<<<<<<<<<
- *         S[3,i] = -4*W2[n-2]*tau
+ *         S[3,i] = (-2*W2[i-1] - 2*W2[i])*tau
  * 
  */
-  __pyx_t_6 = (__pyx_v_n - 2);
-  __pyx_t_7 = __pyx_t_6;
-  for (__pyx_t_8 = 1; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-    __pyx_v_i = __pyx_t_8;
+  __pyx_t_7 = (__pyx_v_n - 2);
+  __pyx_t_8 = __pyx_t_7;
+  for (__pyx_t_9 = 1; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+    __pyx_v_i = __pyx_t_9;
 
     /* "mlgrad/smooth/_whittaker.pyx":22
  *     S[3,n-2] = -2*W2[n-2]*tau
  *     for i in range(1,n-2):
- *         S[3,i] = -4*W2[n-2]*tau             # <<<<<<<<<<<<<<
+ *         S[3,i] = (-2*W2[i-1] - 2*W2[i])*tau             # <<<<<<<<<<<<<<
  * 
  *     # b
  */
@@ -24483,12 +24541,26 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
       __PYX_ERR(0, 22, __pyx_L1_error)
     }
-    __pyx_t_3 = (__pyx_v_n - 2);
+    __pyx_t_4 = (__pyx_v_i - 1);
     __pyx_t_2 = -1;
-    if (__pyx_t_3 < 0) {
-      __pyx_t_3 += __pyx_v_W2.shape[0];
-      if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_3 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_W2.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+    if (unlikely(__pyx_t_2 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_2);
+      __PYX_ERR(0, 22, __pyx_L1_error)
+    }
+    if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      __PYX_ERR(0, 22, __pyx_L1_error)
+    }
+    __pyx_t_1 = __pyx_v_i;
+    __pyx_t_2 = -1;
+    if (__pyx_t_1 < 0) {
+      __pyx_t_1 += __pyx_v_W2.shape[0];
+      if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_1 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
     if (unlikely(__pyx_t_2 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_2);
       __PYX_ERR(0, 22, __pyx_L1_error)
@@ -24497,22 +24569,22 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
       __PYX_ERR(0, 22, __pyx_L1_error)
     }
-    __pyx_t_1 = 3;
-    __pyx_t_5 = __pyx_v_i;
+    __pyx_t_5 = 3;
+    __pyx_t_6 = __pyx_v_i;
     __pyx_t_2 = -1;
-    if (__pyx_t_1 < 0) {
-      __pyx_t_1 += __pyx_v_S.shape[0];
-      if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_1 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
     if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_v_S.shape[1];
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 1;
-    } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
+      __pyx_t_5 += __pyx_v_S.shape[0];
+      if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_S.shape[1];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_2 = 1;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
     if (unlikely(__pyx_t_2 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_2);
       __PYX_ERR(0, 22, __pyx_L1_error)
     }
-    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_1 * __pyx_v_S.strides[0]) )) + __pyx_t_5)) )) = ((-4.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_3)) )))) * __pyx_v_tau);
+    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_6)) )) = (((-2.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_4)) )))) - (2.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_1)) ))))) * __pyx_v_tau);
   }
 
   /* "mlgrad/smooth/_whittaker.pyx":25
@@ -24522,10 +24594,10 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
  *         S[4,i] = 1*W2[i]*tau
  * 
  */
-  __pyx_t_6 = (__pyx_v_n - 2);
-  __pyx_t_7 = __pyx_t_6;
-  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-    __pyx_v_i = __pyx_t_8;
+  __pyx_t_7 = (__pyx_v_n - 2);
+  __pyx_t_8 = __pyx_t_7;
+  for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+    __pyx_v_i = __pyx_t_9;
 
     /* "mlgrad/smooth/_whittaker.pyx":26
  *     # b
@@ -24538,12 +24610,12 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
       __PYX_ERR(0, 26, __pyx_L1_error)
     }
-    __pyx_t_3 = __pyx_v_i;
+    __pyx_t_1 = __pyx_v_i;
     __pyx_t_2 = -1;
-    if (__pyx_t_3 < 0) {
-      __pyx_t_3 += __pyx_v_W2.shape[0];
-      if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_3 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+    if (__pyx_t_1 < 0) {
+      __pyx_t_1 += __pyx_v_W2.shape[0];
+      if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_1 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
     if (unlikely(__pyx_t_2 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_2);
       __PYX_ERR(0, 26, __pyx_L1_error)
@@ -24552,41 +24624,41 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
       __PYX_ERR(0, 26, __pyx_L1_error)
     }
-    __pyx_t_5 = 4;
-    __pyx_t_1 = __pyx_v_i;
+    __pyx_t_4 = 4;
+    __pyx_t_6 = __pyx_v_i;
     __pyx_t_2 = -1;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_v_S.shape[0];
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
-    if (__pyx_t_1 < 0) {
-      __pyx_t_1 += __pyx_v_S.shape[1];
-      if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 1;
-    } else if (unlikely(__pyx_t_1 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_S.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_S.shape[1];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_2 = 1;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
     if (unlikely(__pyx_t_2 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_2);
       __PYX_ERR(0, 26, __pyx_L1_error)
     }
-    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_1)) )) = ((1.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_3)) )))) * __pyx_v_tau);
+    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_4 * __pyx_v_S.strides[0]) )) + __pyx_t_6)) )) = ((1.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_1)) )))) * __pyx_v_tau);
   }
 
   /* "mlgrad/smooth/_whittaker.pyx":29
  * 
  *     # c
- *     S[1,1] = -2*W2[1]*tau             # <<<<<<<<<<<<<<
- *     S[1,n-1] = -2*W2[n-1]*tau
+ *     S[1,1] = -2*W2[0]*tau             # <<<<<<<<<<<<<<
+ *     S[1,n-1] = -2*W2[n-3]*tau
  *     for i in range(2,n-1):
  */
   if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
     __PYX_ERR(0, 29, __pyx_L1_error)
   }
-  __pyx_t_3 = 1;
+  __pyx_t_1 = 0;
   __pyx_t_2 = -1;
-  if (__pyx_t_3 < 0) {
-    __pyx_t_3 += __pyx_v_W2.shape[0];
-    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_3 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+  if (__pyx_t_1 < 0) {
+    __pyx_t_1 += __pyx_v_W2.shape[0];
+    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_1 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(0, 29, __pyx_L1_error)
@@ -24595,40 +24667,40 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
     __PYX_ERR(0, 29, __pyx_L1_error)
   }
-  __pyx_t_1 = 1;
-  __pyx_t_5 = 1;
+  __pyx_t_6 = 1;
+  __pyx_t_4 = 1;
   __pyx_t_2 = -1;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_S.shape[0];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
-  if (__pyx_t_5 < 0) {
-    __pyx_t_5 += __pyx_v_S.shape[1];
-    if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 1;
-  } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
+  if (__pyx_t_6 < 0) {
+    __pyx_t_6 += __pyx_v_S.shape[0];
+    if (unlikely(__pyx_t_6 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_6 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
+  if (__pyx_t_4 < 0) {
+    __pyx_t_4 += __pyx_v_S.shape[1];
+    if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 1;
+  } else if (unlikely(__pyx_t_4 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(0, 29, __pyx_L1_error)
   }
-  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_1 * __pyx_v_S.strides[0]) )) + __pyx_t_5)) )) = ((-2.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_3)) )))) * __pyx_v_tau);
+  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_6 * __pyx_v_S.strides[0]) )) + __pyx_t_4)) )) = ((-2.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_1)) )))) * __pyx_v_tau);
 
   /* "mlgrad/smooth/_whittaker.pyx":30
  *     # c
- *     S[1,1] = -2*W2[1]*tau
- *     S[1,n-1] = -2*W2[n-1]*tau             # <<<<<<<<<<<<<<
+ *     S[1,1] = -2*W2[0]*tau
+ *     S[1,n-1] = -2*W2[n-3]*tau             # <<<<<<<<<<<<<<
  *     for i in range(2,n-1):
- *         S[1,i] = -4*W2[i]*tau
+ *         S[1,i] = (-2*W2[i-2] - 2*W2[i-1])*tau
  */
   if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
     __PYX_ERR(0, 30, __pyx_L1_error)
   }
-  __pyx_t_3 = (__pyx_v_n - 1);
+  __pyx_t_1 = (__pyx_v_n - 3);
   __pyx_t_2 = -1;
-  if (__pyx_t_3 < 0) {
-    __pyx_t_3 += __pyx_v_W2.shape[0];
-    if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_3 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+  if (__pyx_t_1 < 0) {
+    __pyx_t_1 += __pyx_v_W2.shape[0];
+    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_1 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(0, 30, __pyx_L1_error)
@@ -24637,39 +24709,39 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
     __PYX_ERR(0, 30, __pyx_L1_error)
   }
-  __pyx_t_5 = 1;
-  __pyx_t_1 = (__pyx_v_n - 1);
+  __pyx_t_4 = 1;
+  __pyx_t_6 = (__pyx_v_n - 1);
   __pyx_t_2 = -1;
-  if (__pyx_t_5 < 0) {
-    __pyx_t_5 += __pyx_v_S.shape[0];
-    if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 0;
-  } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
-  if (__pyx_t_1 < 0) {
-    __pyx_t_1 += __pyx_v_S.shape[1];
-    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 1;
-  } else if (unlikely(__pyx_t_1 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
+  if (__pyx_t_4 < 0) {
+    __pyx_t_4 += __pyx_v_S.shape[0];
+    if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_4 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
+  if (__pyx_t_6 < 0) {
+    __pyx_t_6 += __pyx_v_S.shape[1];
+    if (unlikely(__pyx_t_6 < 0)) __pyx_t_2 = 1;
+  } else if (unlikely(__pyx_t_6 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
     __PYX_ERR(0, 30, __pyx_L1_error)
   }
-  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_1)) )) = ((-2.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_3)) )))) * __pyx_v_tau);
+  *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_4 * __pyx_v_S.strides[0]) )) + __pyx_t_6)) )) = ((-2.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_1)) )))) * __pyx_v_tau);
 
   /* "mlgrad/smooth/_whittaker.pyx":31
- *     S[1,1] = -2*W2[1]*tau
- *     S[1,n-1] = -2*W2[n-1]*tau
+ *     S[1,1] = -2*W2[0]*tau
+ *     S[1,n-1] = -2*W2[n-3]*tau
  *     for i in range(2,n-1):             # <<<<<<<<<<<<<<
- *         S[1,i] = -4*W2[i]*tau
+ *         S[1,i] = (-2*W2[i-2] - 2*W2[i-1])*tau
  * 
  */
-  __pyx_t_6 = (__pyx_v_n - 1);
-  __pyx_t_7 = __pyx_t_6;
-  for (__pyx_t_8 = 2; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-    __pyx_v_i = __pyx_t_8;
+  __pyx_t_7 = (__pyx_v_n - 1);
+  __pyx_t_8 = __pyx_t_7;
+  for (__pyx_t_9 = 2; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+    __pyx_v_i = __pyx_t_9;
 
     /* "mlgrad/smooth/_whittaker.pyx":32
- *     S[1,n-1] = -2*W2[n-1]*tau
+ *     S[1,n-1] = -2*W2[n-3]*tau
  *     for i in range(2,n-1):
- *         S[1,i] = -4*W2[i]*tau             # <<<<<<<<<<<<<<
+ *         S[1,i] = (-2*W2[i-2] - 2*W2[i-1])*tau             # <<<<<<<<<<<<<<
  * 
  *     # e
  */
@@ -24677,12 +24749,26 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
       __PYX_ERR(0, 32, __pyx_L1_error)
     }
-    __pyx_t_3 = __pyx_v_i;
+    __pyx_t_1 = (__pyx_v_i - 2);
     __pyx_t_2 = -1;
-    if (__pyx_t_3 < 0) {
-      __pyx_t_3 += __pyx_v_W2.shape[0];
-      if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_3 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+    if (__pyx_t_1 < 0) {
+      __pyx_t_1 += __pyx_v_W2.shape[0];
+      if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_1 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+    if (unlikely(__pyx_t_2 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_2);
+      __PYX_ERR(0, 32, __pyx_L1_error)
+    }
+    if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      __PYX_ERR(0, 32, __pyx_L1_error)
+    }
+    __pyx_t_6 = (__pyx_v_i - 1);
+    __pyx_t_2 = -1;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_W2.shape[0];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
     if (unlikely(__pyx_t_2 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_2);
       __PYX_ERR(0, 32, __pyx_L1_error)
@@ -24691,7 +24777,62 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
       __PYX_ERR(0, 32, __pyx_L1_error)
     }
-    __pyx_t_1 = 1;
+    __pyx_t_4 = 1;
+    __pyx_t_5 = __pyx_v_i;
+    __pyx_t_2 = -1;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_S.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
+    if (__pyx_t_5 < 0) {
+      __pyx_t_5 += __pyx_v_S.shape[1];
+      if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 1;
+    } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
+    if (unlikely(__pyx_t_2 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_2);
+      __PYX_ERR(0, 32, __pyx_L1_error)
+    }
+    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_4 * __pyx_v_S.strides[0]) )) + __pyx_t_5)) )) = (((-2.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_1)) )))) - (2.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_6)) ))))) * __pyx_v_tau);
+  }
+
+  /* "mlgrad/smooth/_whittaker.pyx":35
+ * 
+ *     # e
+ *     for i in range(2,n):             # <<<<<<<<<<<<<<
+ *         S[0,i] = 1*W2[i-2]*tau
+ * 
+ */
+  __pyx_t_7 = __pyx_v_n;
+  __pyx_t_8 = __pyx_t_7;
+  for (__pyx_t_9 = 2; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+    __pyx_v_i = __pyx_t_9;
+
+    /* "mlgrad/smooth/_whittaker.pyx":36
+ *     # e
+ *     for i in range(2,n):
+ *         S[0,i] = 1*W2[i-2]*tau             # <<<<<<<<<<<<<<
+ * 
+ * def get_D2T_D2(n, tau, W, W2):
+ */
+    if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      __PYX_ERR(0, 36, __pyx_L1_error)
+    }
+    __pyx_t_6 = (__pyx_v_i - 2);
+    __pyx_t_2 = -1;
+    if (__pyx_t_6 < 0) {
+      __pyx_t_6 += __pyx_v_W2.shape[0];
+      if (unlikely(__pyx_t_6 < 0)) __pyx_t_2 = 0;
+    } else if (unlikely(__pyx_t_6 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
+    if (unlikely(__pyx_t_2 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_2);
+      __PYX_ERR(0, 36, __pyx_L1_error)
+    }
+    if (unlikely(((PyObject *) __pyx_v_S.memview) == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      __PYX_ERR(0, 36, __pyx_L1_error)
+    }
+    __pyx_t_1 = 0;
     __pyx_t_5 = __pyx_v_i;
     __pyx_t_2 = -1;
     if (__pyx_t_1 < 0) {
@@ -24704,64 +24845,9 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
     } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
     if (unlikely(__pyx_t_2 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_2);
-      __PYX_ERR(0, 32, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_1 * __pyx_v_S.strides[0]) )) + __pyx_t_5)) )) = ((-4.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_3)) )))) * __pyx_v_tau);
-  }
-
-  /* "mlgrad/smooth/_whittaker.pyx":35
- * 
- *     # e
- *     for i in range(2,n):             # <<<<<<<<<<<<<<
- *         S[0,i] = 1*W2[i]*tau
- * 
- */
-  __pyx_t_6 = __pyx_v_n;
-  __pyx_t_7 = __pyx_t_6;
-  for (__pyx_t_8 = 2; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-    __pyx_v_i = __pyx_t_8;
-
-    /* "mlgrad/smooth/_whittaker.pyx":36
- *     # e
- *     for i in range(2,n):
- *         S[0,i] = 1*W2[i]*tau             # <<<<<<<<<<<<<<
- * 
- * def get_D2T_D2(n, tau, W, W2):
- */
-    if (unlikely(((PyObject *) __pyx_v_W2.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
       __PYX_ERR(0, 36, __pyx_L1_error)
     }
-    __pyx_t_3 = __pyx_v_i;
-    __pyx_t_2 = -1;
-    if (__pyx_t_3 < 0) {
-      __pyx_t_3 += __pyx_v_W2.shape[0];
-      if (unlikely(__pyx_t_3 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_3 >= __pyx_v_W2.shape[0])) __pyx_t_2 = 0;
-    if (unlikely(__pyx_t_2 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_2);
-      __PYX_ERR(0, 36, __pyx_L1_error)
-    }
-    if (unlikely(((PyObject *) __pyx_v_S.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(0, 36, __pyx_L1_error)
-    }
-    __pyx_t_5 = 0;
-    __pyx_t_1 = __pyx_v_i;
-    __pyx_t_2 = -1;
-    if (__pyx_t_5 < 0) {
-      __pyx_t_5 += __pyx_v_S.shape[0];
-      if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 0;
-    } else if (unlikely(__pyx_t_5 >= __pyx_v_S.shape[0])) __pyx_t_2 = 0;
-    if (__pyx_t_1 < 0) {
-      __pyx_t_1 += __pyx_v_S.shape[1];
-      if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 1;
-    } else if (unlikely(__pyx_t_1 >= __pyx_v_S.shape[1])) __pyx_t_2 = 1;
-    if (unlikely(__pyx_t_2 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_2);
-      __PYX_ERR(0, 36, __pyx_L1_error)
-    }
-    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_5 * __pyx_v_S.strides[0]) )) + __pyx_t_1)) )) = ((1.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_3)) )))) * __pyx_v_tau);
+    *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_1 * __pyx_v_S.strides[0]) )) + __pyx_t_5)) )) = ((1.0 * (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W2.data) + __pyx_t_6)) )))) * __pyx_v_tau);
   }
 
   /* "mlgrad/smooth/_whittaker.pyx":7
@@ -24785,7 +24871,7 @@ static PyObject *__pyx_f_6mlgrad_6smooth_10_whittaker__get_D2T_D2(double __pyx_v
 }
 
 /* "mlgrad/smooth/_whittaker.pyx":38
- *         S[0,i] = 1*W2[i]*tau
+ *         S[0,i] = 1*W2[i-2]*tau
  * 
  * def get_D2T_D2(n, tau, W, W2):             # <<<<<<<<<<<<<<
  *     S = np.zeros((5,n), "d")
@@ -25032,7 +25118,7 @@ static PyObject *__pyx_pf_6mlgrad_6smooth_10_whittaker_get_D2T_D2(CYTHON_UNUSED 
   goto __pyx_L0;
 
   /* "mlgrad/smooth/_whittaker.pyx":38
- *         S[0,i] = 1*W2[i]*tau
+ *         S[0,i] = 1*W2[i-2]*tau
  * 
  * def get_D2T_D2(n, tau, W, W2):             # <<<<<<<<<<<<<<
  *     S = np.zeros((5,n), "d")
@@ -32022,7 +32108,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(1, 1, __pyx_L1_error)
 
   /* "mlgrad/smooth/_whittaker.pyx":38
- *         S[0,i] = 1*W2[i]*tau
+ *         S[0,i] = 1*W2[i-2]*tau
  * 
  * def get_D2T_D2(n, tau, W, W2):             # <<<<<<<<<<<<<<
  *     S = np.zeros((5,n), "d")
@@ -33441,7 +33527,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
   /* "mlgrad/smooth/_whittaker.pyx":38
- *         S[0,i] = 1*W2[i]*tau
+ *         S[0,i] = 1*W2[i-2]*tau
  * 
  * def get_D2T_D2(n, tau, W, W2):             # <<<<<<<<<<<<<<
  *     S = np.zeros((5,n), "d")
