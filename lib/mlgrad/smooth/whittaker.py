@@ -92,7 +92,7 @@ def whittaker_weight_func(X, weight_func=None, weight_func2=None, tau=1.0, n_ite
 
     flag = False
     for K in range(n_iter):
-        Z_prev = Z.copy()
+        Z_prev = Z
         r_prev = r
 
         Z = whittaker_smooth(X, tau=tau, W=W, W2=W2)
@@ -109,7 +109,7 @@ def whittaker_weight_func(X, weight_func=None, weight_func2=None, tau=1.0, n_ite
         if weight_func2 is not None:
             W2 = weight_func2(E)
 
-    return Z, {'qval': r, 'qvals':qvals}
+    return Z, {'qvals':qvals}
 
 # class WhittakerSmoothPartition:
 #     #

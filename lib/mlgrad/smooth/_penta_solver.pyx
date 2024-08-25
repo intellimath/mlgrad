@@ -1,4 +1,20 @@
 
+# cdef class SDMatrix:
+#     #
+#     cdef __init__(self, double[::1] S):
+#         self.nr, self.nc = S.shape[0], S.shape[1]
+#         self.S = S
+#     #
+#     cdef double get(self, Py_ssize_t i, Py_ssize_t j):
+#         cdef Py_ssize_t m = self.nc // 2
+#         if i > j:
+#             i, j = j, i
+#         if j - i > m:
+#             return 0
+#         else:
+#             return self.S[j-i,]
+        
+
 cdef _get_D2T_D2(double[::1] S):
     cdef Py_ssize_t i, j, n = S.shape[1]
 
