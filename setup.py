@@ -58,8 +58,14 @@ ext_modules = [
     Extension(
         "mlgrad.array_allocator",
         ["lib/mlgrad/array_allocator.pyx"],
-        extra_compile_args = extra_compile_args_openmp,
-        extra_link_args = extra_link_args_openmp,
+        extra_compile_args = extra_compile_args,
+        extra_link_args = extra_link_args,
+    ),
+    Extension(
+        "mlgrad.array_transform",
+        ["lib/mlgrad/array_transform.pyx"],
+        extra_compile_args = extra_compile_args,
+        extra_link_args = extra_link_args,
     ),
     Extension(
         "mlgrad.list_values",

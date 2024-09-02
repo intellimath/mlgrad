@@ -5,6 +5,8 @@ cimport cython
 from mlgrad.funcs cimport Func, ParameterizedFunc
 from mlgrad.funcs2 cimport SoftMin, SoftMax, PowerMax
 from mlgrad.averager cimport ScalarAverager
+from libc.math cimport fabs, pow, sqrt, fmax, log, exp
+
 
 # from mlgrad.miscfuncs cimport init_rand, rand, fill
 
@@ -42,13 +44,26 @@ cdef inline double array_min(double[::1] arr):
 
 cdef inline double array_mean(double[::1] arr):
     cdef Py_ssize_t i, N = arr.shape[0]
+    cdef double *a = &arr[0]
     cdef double v
 
     v = 0
     for i in range(N):
-        v += arr[i]
+        v += a[i]
 
     return v / N
+
+cdef inline double array_std(double[::1] arr, double mu):
+    cdef Py_ssize_t i, N = arr.shape[0]
+    cdef double *a = &arr[0]
+    cdef double v, s
+
+    s = 0
+    for i in range(N):
+        v = a[i] - mu
+        s += v*v
+
+    return sqrt(s/N)
 
 cdef inline void array_add_scalar(double[::1] arr, const double v):
     cdef Py_ssize_t i, N = arr.shape[0]
@@ -159,6 +174,11 @@ cdef class WMZAverage(Average):
     cdef double mval, sval
     cdef double[::1] U, GU
 
+@cython.final
+cdef class WZAverage(Average):
+    cdef public double tau
+    cdef double mval, sval
+    
 
 @cython.final
 cdef class ArithMean(Average):

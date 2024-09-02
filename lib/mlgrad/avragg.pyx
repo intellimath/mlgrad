@@ -23,9 +23,6 @@
 # THE SOFTWARE. 
 
 cimport cython
-from mlgrad.funcs cimport Func, ParameterizedFunc
-from mlgrad.funcs2 cimport SoftMin, SoftMax
-from libc.math cimport fabs, pow, sqrt, fmax, log, exp
 
 from cython.parallel cimport parallel, prange
 
@@ -565,7 +562,7 @@ cdef class WMZAverage(Average):
         s = 0
         for j in range(N):
             v = Y[j]
-            if v > tval:
+            if v >= tval:
                 v = tval
             s += v
         s /= N
@@ -580,7 +577,7 @@ cdef class WMZAverage(Average):
         cdef Py_ssize_t j, N = Y.shape[0]
         cdef double[::1] GU = self.GU
         cdef Func rho_func = self.mavr.func
-        cdef double mval, tval, tau, v, s, ss, m
+        cdef double mval, tval, tau, v, ss, m
 
         if not self.evaluated:
             self._evaluate(Y)
@@ -618,6 +615,62 @@ cdef class WMZAverage(Average):
 
         self.evaluated = 0
 
+cdef class WZAverage(Average):
+    #
+    def __init__(self, tau=3.0):
+        self.tau = tau
+        self.evaluated = 0
+    #
+    @cython.cdivision(True)
+    @cython.final
+    cdef double _evaluate(self, double[::1] Y):
+        cdef Py_ssize_t j, N = Y.shape[0]
+        cdef double tval, v, s, mval
+
+        self.mval = mval = array_mean(Y)
+        self.sval = array_std(Y, mval)
+        tval = mval + self.tau * self.sval
+
+        s = 0
+        for j in range(N):
+            v = Y[j]
+            if v >= tval:
+                v = tval
+            s += v
+        s /= N
+        self.u = s
+        self.evaluated = 1
+        
+        return s
+    #
+    @cython.cdivision(True)
+    @cython.final
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
+        cdef Py_ssize_t j, N = Y.shape[0]
+        cdef double mval=self.mval, sval=self.sval, tval
+        cdef double tau=self.tau, v, cc, m
+
+        if not self.evaluated:
+            self._evaluate(Y)
+
+        tval = mval + tau * sval
+
+        m = 0
+        for j in range(N):
+            if Y[j] >= tval:
+                m += 1
+
+        cc = m * tau / sval
+        for j in range(N):
+            grad[j] = cc * (Y[j] - mval)
+
+        for j in range(N):
+            if Y[j] < tval:
+                grad[j] += 1
+            grad[j] /= N
+
+        self.evaluated = 0
+        
 # cdef class HMAverage(Average):
 #     #
 #     def __init__(self, Average avr, n_iter=1000, tol=1.0e-8):

@@ -2039,6 +2039,7 @@ struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage;
 struct __pyx_obj_6mlgrad_6avragg_WMAverage;
 struct __pyx_obj_6mlgrad_6avragg_TMAverage;
 struct __pyx_obj_6mlgrad_6avragg_WMZAverage;
+struct __pyx_obj_6mlgrad_6avragg_WZAverage;
 struct __pyx_obj_6mlgrad_6avragg_ArithMean;
 struct __pyx_obj_6mlgrad_6avragg_RArithMean;
 struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean;
@@ -2157,7 +2158,7 @@ typedef void (*__pyx_t_6mlgrad_6models_ModelGradient)(struct __pyx_obj_6mlgrad_6
  */
 typedef double (*__pyx_t_6mlgrad_6models_ptrfunc)(double);
 
-/* "mlgrad/avragg.pxd":11
+/* "mlgrad/avragg.pxd":13
  * # from mlgrad.miscfuncs cimport init_rand, rand, fill
  * 
  * ctypedef double (*FuncEvaluate)(Func, double) nogil             # <<<<<<<<<<<<<<
@@ -2166,7 +2167,7 @@ typedef double (*__pyx_t_6mlgrad_6models_ptrfunc)(double);
  */
 typedef double (*__pyx_t_6mlgrad_6avragg_FuncEvaluate)(struct __pyx_obj_6mlgrad_5funcs_Func *, double);
 
-/* "mlgrad/avragg.pxd":12
+/* "mlgrad/avragg.pxd":14
  * 
  * ctypedef double (*FuncEvaluate)(Func, double) nogil
  * ctypedef double (*FuncDerivative)(Func, double) nogil             # <<<<<<<<<<<<<<
@@ -2175,7 +2176,7 @@ typedef double (*__pyx_t_6mlgrad_6avragg_FuncEvaluate)(struct __pyx_obj_6mlgrad_
  */
 typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative)(struct __pyx_obj_6mlgrad_5funcs_Func *, double);
 
-/* "mlgrad/avragg.pxd":13
+/* "mlgrad/avragg.pxd":15
  * ctypedef double (*FuncEvaluate)(Func, double) nogil
  * ctypedef double (*FuncDerivative)(Func, double) nogil
  * ctypedef double (*FuncDerivative2)(Func, double) nogil             # <<<<<<<<<<<<<<
@@ -2184,7 +2185,7 @@ typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative)(struct __pyx_obj_6mlgra
  */
 typedef double (*__pyx_t_6mlgrad_6avragg_FuncDerivative2)(struct __pyx_obj_6mlgrad_5funcs_Func *, double);
 
-/* "mlgrad/avragg.pxd":14
+/* "mlgrad/avragg.pxd":16
  * ctypedef double (*FuncDerivative)(Func, double) nogil
  * ctypedef double (*FuncDerivative2)(Func, double) nogil
  * ctypedef double (*FuncDerivativeDivX)(Func, double) nogil             # <<<<<<<<<<<<<<
@@ -4029,7 +4030,7 @@ struct __pyx_obj_6mlgrad_8averager_ArrayTAverager {
 };
 
 
-/* "mlgrad/avragg.pxd":59
+/* "mlgrad/avragg.pxd":74
  *         arr[i] += v
  * 
  * cdef class Penalty:             # <<<<<<<<<<<<<<
@@ -4043,7 +4044,7 @@ struct __pyx_obj_6mlgrad_6avragg_Penalty {
 };
 
 
-/* "mlgrad/avragg.pxd":68
+/* "mlgrad/avragg.pxd":83
  * 
  * @cython.final
  * cdef class PenaltyAverage(Penalty):             # <<<<<<<<<<<<<<
@@ -4055,7 +4056,7 @@ struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":72
+/* "mlgrad/avragg.pxd":87
  * 
  * @cython.final
  * cdef class PenaltyAverage2(Penalty):             # <<<<<<<<<<<<<<
@@ -4067,7 +4068,7 @@ struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage2 {
 };
 
 
-/* "mlgrad/avragg.pxd":76
+/* "mlgrad/avragg.pxd":91
  * 
  * @cython.final
  * cdef class PenaltyScale(Penalty):             # <<<<<<<<<<<<<<
@@ -4079,7 +4080,7 @@ struct __pyx_obj_6mlgrad_6avragg_PenaltyScale {
 };
 
 
-/* "mlgrad/avragg.pxd":81
+/* "mlgrad/avragg.pxd":96
  * #############################################################
  * 
  * cdef class Average:             # <<<<<<<<<<<<<<
@@ -4098,7 +4099,7 @@ struct __pyx_obj_6mlgrad_6avragg_Average {
 };
 
 
-/* "mlgrad/avragg.pxd":100
+/* "mlgrad/avragg.pxd":115
  *     # cdef bint stop_condition(self)
  * 
  * cdef class AverageIterative(Average):             # <<<<<<<<<<<<<<
@@ -4111,7 +4112,7 @@ struct __pyx_obj_6mlgrad_6avragg_AverageIterative {
 };
 
 
-/* "mlgrad/avragg.pxd":104
+/* "mlgrad/avragg.pxd":119
  * 
  * # @cython.final
  * cdef class MAverage(AverageIterative):             # <<<<<<<<<<<<<<
@@ -4124,7 +4125,7 @@ struct __pyx_obj_6mlgrad_6avragg_MAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":115
+/* "mlgrad/avragg.pxd":130
  * 
  * # @cython.final
  * cdef class SAverage(AverageIterative):             # <<<<<<<<<<<<<<
@@ -4137,7 +4138,7 @@ struct __pyx_obj_6mlgrad_6avragg_SAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":132
+/* "mlgrad/avragg.pxd":147
  * 
  * @cython.final
  * cdef class ParameterizedAverage(Average):             # <<<<<<<<<<<<<<
@@ -4151,7 +4152,7 @@ struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":137
+/* "mlgrad/avragg.pxd":152
  * 
  * @cython.final
  * cdef class WMAverage(Average):             # <<<<<<<<<<<<<<
@@ -4165,7 +4166,7 @@ struct __pyx_obj_6mlgrad_6avragg_WMAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":147
+/* "mlgrad/avragg.pxd":162
  * 
  * @cython.final
  * cdef class TMAverage(Average):             # <<<<<<<<<<<<<<
@@ -4178,7 +4179,7 @@ struct __pyx_obj_6mlgrad_6avragg_TMAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":156
+/* "mlgrad/avragg.pxd":171
  * 
  * @cython.final
  * cdef class WMZAverage(Average):             # <<<<<<<<<<<<<<
@@ -4198,7 +4199,22 @@ struct __pyx_obj_6mlgrad_6avragg_WMZAverage {
 };
 
 
-/* "mlgrad/avragg.pxd":164
+/* "mlgrad/avragg.pxd":178
+ * 
+ * @cython.final
+ * cdef class WZAverage(Average):             # <<<<<<<<<<<<<<
+ *     cdef public double tau
+ *     cdef double mval, sval
+ */
+struct __pyx_obj_6mlgrad_6avragg_WZAverage {
+  struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
+  double tau;
+  double mval;
+  double sval;
+};
+
+
+/* "mlgrad/avragg.pxd":184
  * 
  * @cython.final
  * cdef class ArithMean(Average):             # <<<<<<<<<<<<<<
@@ -4210,7 +4226,7 @@ struct __pyx_obj_6mlgrad_6avragg_ArithMean {
 };
 
 
-/* "mlgrad/avragg.pxd":168
+/* "mlgrad/avragg.pxd":188
  * 
  * @cython.final
  * cdef class RArithMean(Average):             # <<<<<<<<<<<<<<
@@ -4223,7 +4239,7 @@ struct __pyx_obj_6mlgrad_6avragg_RArithMean {
 };
 
 
-/* "mlgrad/avragg.pxd":172
+/* "mlgrad/avragg.pxd":192
  * 
  * @cython.final
  * cdef class KolmogorovMean(Average):             # <<<<<<<<<<<<<<
@@ -4238,7 +4254,7 @@ struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean {
 };
 
 
-/* "mlgrad/avragg.pxd":177
+/* "mlgrad/avragg.pxd":197
  * 
  * @cython.final
  * cdef class SoftMinimal(Average):             # <<<<<<<<<<<<<<
@@ -4251,7 +4267,7 @@ struct __pyx_obj_6mlgrad_6avragg_SoftMinimal {
 };
 
 
-/* "mlgrad/avragg.pxd":181
+/* "mlgrad/avragg.pxd":201
  * 
  * @cython.final
  * cdef class SoftMaximal(Average):             # <<<<<<<<<<<<<<
@@ -4264,7 +4280,7 @@ struct __pyx_obj_6mlgrad_6avragg_SoftMaximal {
 };
 
 
-/* "mlgrad/avragg.pxd":185
+/* "mlgrad/avragg.pxd":205
  * 
  * @cython.final
  * cdef class PowerMaximal(Average):             # <<<<<<<<<<<<<<
@@ -4277,7 +4293,7 @@ struct __pyx_obj_6mlgrad_6avragg_PowerMaximal {
 };
 
 
-/* "mlgrad/avragg.pxd":189
+/* "mlgrad/avragg.pxd":209
  * 
  * @cython.final
  * cdef class Minimal(Average):             # <<<<<<<<<<<<<<
@@ -4289,7 +4305,7 @@ struct __pyx_obj_6mlgrad_6avragg_Minimal {
 };
 
 
-/* "mlgrad/avragg.pxd":193
+/* "mlgrad/avragg.pxd":213
  * 
  * @cython.final
  * cdef class Maximal(Average):             # <<<<<<<<<<<<<<
@@ -6435,7 +6451,7 @@ struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager {
 static struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager *__pyx_vtabptr_6mlgrad_8averager_ArrayTAverager;
 
 
-/* "mlgrad/avragg.pxd":59
+/* "mlgrad/avragg.pxd":74
  *         arr[i] += v
  * 
  * cdef class Penalty:             # <<<<<<<<<<<<<<
@@ -6452,7 +6468,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty *__pyx_vtabptr_6mlgrad_6avragg_Penalty;
 
 
-/* "mlgrad/avragg.pxd":68
+/* "mlgrad/avragg.pxd":83
  * 
  * @cython.final
  * cdef class PenaltyAverage(Penalty):             # <<<<<<<<<<<<<<
@@ -6466,7 +6482,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage *__pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage;
 
 
-/* "mlgrad/avragg.pxd":72
+/* "mlgrad/avragg.pxd":87
  * 
  * @cython.final
  * cdef class PenaltyAverage2(Penalty):             # <<<<<<<<<<<<<<
@@ -6480,7 +6496,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage2 {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage2 *__pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage2;
 
 
-/* "mlgrad/avragg.pxd":76
+/* "mlgrad/avragg.pxd":91
  * 
  * @cython.final
  * cdef class PenaltyScale(Penalty):             # <<<<<<<<<<<<<<
@@ -6494,7 +6510,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyScale {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyScale *__pyx_vtabptr_6mlgrad_6avragg_PenaltyScale;
 
 
-/* "mlgrad/avragg.pxd":81
+/* "mlgrad/avragg.pxd":96
  * #############################################################
  * 
  * cdef class Average:             # <<<<<<<<<<<<<<
@@ -6511,7 +6527,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_Average {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_Average *__pyx_vtabptr_6mlgrad_6avragg_Average;
 
 
-/* "mlgrad/avragg.pxd":100
+/* "mlgrad/avragg.pxd":115
  *     # cdef bint stop_condition(self)
  * 
  * cdef class AverageIterative(Average):             # <<<<<<<<<<<<<<
@@ -6525,7 +6541,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_AverageIterative {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_AverageIterative *__pyx_vtabptr_6mlgrad_6avragg_AverageIterative;
 
 
-/* "mlgrad/avragg.pxd":104
+/* "mlgrad/avragg.pxd":119
  * 
  * # @cython.final
  * cdef class MAverage(AverageIterative):             # <<<<<<<<<<<<<<
@@ -6539,7 +6555,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_MAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_MAverage *__pyx_vtabptr_6mlgrad_6avragg_MAverage;
 
 
-/* "mlgrad/avragg.pxd":115
+/* "mlgrad/avragg.pxd":130
  * 
  * # @cython.final
  * cdef class SAverage(AverageIterative):             # <<<<<<<<<<<<<<
@@ -6553,7 +6569,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_SAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_SAverage *__pyx_vtabptr_6mlgrad_6avragg_SAverage;
 
 
-/* "mlgrad/avragg.pxd":132
+/* "mlgrad/avragg.pxd":147
  * 
  * @cython.final
  * cdef class ParameterizedAverage(Average):             # <<<<<<<<<<<<<<
@@ -6567,7 +6583,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_ParameterizedAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_ParameterizedAverage *__pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage;
 
 
-/* "mlgrad/avragg.pxd":137
+/* "mlgrad/avragg.pxd":152
  * 
  * @cython.final
  * cdef class WMAverage(Average):             # <<<<<<<<<<<<<<
@@ -6581,7 +6597,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverage *__pyx_vtabptr_6mlgrad_6avragg_WMAverage;
 
 
-/* "mlgrad/avragg.pxd":147
+/* "mlgrad/avragg.pxd":162
  * 
  * @cython.final
  * cdef class TMAverage(Average):             # <<<<<<<<<<<<<<
@@ -6595,7 +6611,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage *__pyx_vtabptr_6mlgrad_6avragg_TMAverage;
 
 
-/* "mlgrad/avragg.pxd":156
+/* "mlgrad/avragg.pxd":171
  * 
  * @cython.final
  * cdef class WMZAverage(Average):             # <<<<<<<<<<<<<<
@@ -6609,7 +6625,21 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_WMZAverage {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_WMZAverage *__pyx_vtabptr_6mlgrad_6avragg_WMZAverage;
 
 
-/* "mlgrad/avragg.pxd":164
+/* "mlgrad/avragg.pxd":178
+ * 
+ * @cython.final
+ * cdef class WZAverage(Average):             # <<<<<<<<<<<<<<
+ *     cdef public double tau
+ *     cdef double mval, sval
+ */
+
+struct __pyx_vtabstruct_6mlgrad_6avragg_WZAverage {
+  struct __pyx_vtabstruct_6mlgrad_6avragg_Average __pyx_base;
+};
+static struct __pyx_vtabstruct_6mlgrad_6avragg_WZAverage *__pyx_vtabptr_6mlgrad_6avragg_WZAverage;
+
+
+/* "mlgrad/avragg.pxd":184
  * 
  * @cython.final
  * cdef class ArithMean(Average):             # <<<<<<<<<<<<<<
@@ -6623,7 +6653,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean *__pyx_vtabptr_6mlgrad_6avragg_ArithMean;
 
 
-/* "mlgrad/avragg.pxd":168
+/* "mlgrad/avragg.pxd":188
  * 
  * @cython.final
  * cdef class RArithMean(Average):             # <<<<<<<<<<<<<<
@@ -6637,7 +6667,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_RArithMean {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_RArithMean *__pyx_vtabptr_6mlgrad_6avragg_RArithMean;
 
 
-/* "mlgrad/avragg.pxd":172
+/* "mlgrad/avragg.pxd":192
  * 
  * @cython.final
  * cdef class KolmogorovMean(Average):             # <<<<<<<<<<<<<<
@@ -6651,7 +6681,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean *__pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean;
 
 
-/* "mlgrad/avragg.pxd":177
+/* "mlgrad/avragg.pxd":197
  * 
  * @cython.final
  * cdef class SoftMinimal(Average):             # <<<<<<<<<<<<<<
@@ -6665,7 +6695,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal *__pyx_vtabptr_6mlgrad_6avragg_SoftMinimal;
 
 
-/* "mlgrad/avragg.pxd":181
+/* "mlgrad/avragg.pxd":201
  * 
  * @cython.final
  * cdef class SoftMaximal(Average):             # <<<<<<<<<<<<<<
@@ -6679,7 +6709,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMaximal {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMaximal *__pyx_vtabptr_6mlgrad_6avragg_SoftMaximal;
 
 
-/* "mlgrad/avragg.pxd":185
+/* "mlgrad/avragg.pxd":205
  * 
  * @cython.final
  * cdef class PowerMaximal(Average):             # <<<<<<<<<<<<<<
@@ -6693,7 +6723,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_PowerMaximal {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_PowerMaximal *__pyx_vtabptr_6mlgrad_6avragg_PowerMaximal;
 
 
-/* "mlgrad/avragg.pxd":189
+/* "mlgrad/avragg.pxd":209
  * 
  * @cython.final
  * cdef class Minimal(Average):             # <<<<<<<<<<<<<<
@@ -6707,7 +6737,7 @@ struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal {
 static struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal *__pyx_vtabptr_6mlgrad_6avragg_Minimal;
 
 
-/* "mlgrad/avragg.pxd":193
+/* "mlgrad/avragg.pxd":213
  * 
  * @cython.final
  * cdef class Maximal(Average):             # <<<<<<<<<<<<<<
@@ -8841,6 +8871,7 @@ typedef struct {
   PyTypeObject *__pyx_ptype_6mlgrad_6avragg_WMAverage;
   PyTypeObject *__pyx_ptype_6mlgrad_6avragg_TMAverage;
   PyTypeObject *__pyx_ptype_6mlgrad_6avragg_WMZAverage;
+  PyTypeObject *__pyx_ptype_6mlgrad_6avragg_WZAverage;
   PyTypeObject *__pyx_ptype_6mlgrad_6avragg_ArithMean;
   PyTypeObject *__pyx_ptype_6mlgrad_6avragg_RArithMean;
   PyTypeObject *__pyx_ptype_6mlgrad_6avragg_KolmogorovMean;
@@ -9416,6 +9447,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_WMAverage);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_TMAverage);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_WMZAverage);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_WZAverage);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_ArithMean);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_RArithMean);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6avragg_KolmogorovMean);
@@ -9968,6 +10000,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_WMAverage);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_TMAverage);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_WMZAverage);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_WZAverage);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_ArithMean);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_RArithMean);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6avragg_KolmogorovMean);
@@ -10589,6 +10622,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_ptype_6mlgrad_6avragg_WMAverage __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_WMAverage
 #define __pyx_ptype_6mlgrad_6avragg_TMAverage __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_TMAverage
 #define __pyx_ptype_6mlgrad_6avragg_WMZAverage __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_WMZAverage
+#define __pyx_ptype_6mlgrad_6avragg_WZAverage __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_WZAverage
 #define __pyx_ptype_6mlgrad_6avragg_ArithMean __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_ArithMean
 #define __pyx_ptype_6mlgrad_6avragg_RArithMean __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_RArithMean
 #define __pyx_ptype_6mlgrad_6avragg_KolmogorovMean __pyx_mstate_global->__pyx_ptype_6mlgrad_6avragg_KolmogorovMean
@@ -27579,7 +27613,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_8averager_copy_memoryview(__Pyx_memvie
   __pyx_L0:;
 }
 
-/* "mlgrad/avragg.pxd":32
+/* "mlgrad/avragg.pxd":34
  *     bint copysign(double x, double x)
  * 
  * cdef inline double array_min(double[::1] arr):             # <<<<<<<<<<<<<<
@@ -27603,7 +27637,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/avragg.pxd":33
+  /* "mlgrad/avragg.pxd":35
  * 
  * cdef inline double array_min(double[::1] arr):
  *     cdef Py_ssize_t i, N = arr.shape[0]             # <<<<<<<<<<<<<<
@@ -27612,11 +27646,11 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
  */
   if (unlikely(((PyObject *) __pyx_v_arr.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
-    __PYX_ERR(5, 33, __pyx_L1_error)
+    __PYX_ERR(5, 35, __pyx_L1_error)
   }
   __pyx_v_N = (__pyx_v_arr.shape[0]);
 
-  /* "mlgrad/avragg.pxd":34
+  /* "mlgrad/avragg.pxd":36
  * cdef inline double array_min(double[::1] arr):
  *     cdef Py_ssize_t i, N = arr.shape[0]
  *     cdef double v, min_val = arr[0]             # <<<<<<<<<<<<<<
@@ -27625,7 +27659,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
  */
   if (unlikely(((PyObject *) __pyx_v_arr.memview) == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-    __PYX_ERR(5, 34, __pyx_L1_error)
+    __PYX_ERR(5, 36, __pyx_L1_error)
   }
   __pyx_t_1 = 0;
   __pyx_t_2 = -1;
@@ -27635,11 +27669,11 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   } else if (unlikely(__pyx_t_1 >= __pyx_v_arr.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(5, 34, __pyx_L1_error)
+    __PYX_ERR(5, 36, __pyx_L1_error)
   }
   __pyx_v_min_val = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) )));
 
-  /* "mlgrad/avragg.pxd":36
+  /* "mlgrad/avragg.pxd":38
  *     cdef double v, min_val = arr[0]
  * 
  *     for i in range(N):             # <<<<<<<<<<<<<<
@@ -27651,7 +27685,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "mlgrad/avragg.pxd":37
+    /* "mlgrad/avragg.pxd":39
  * 
  *     for i in range(N):
  *         v = arr[i]             # <<<<<<<<<<<<<<
@@ -27660,7 +27694,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
  */
     if (unlikely(((PyObject *) __pyx_v_arr.memview) == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(5, 37, __pyx_L1_error)
+      __PYX_ERR(5, 39, __pyx_L1_error)
     }
     __pyx_t_1 = __pyx_v_i;
     __pyx_t_2 = -1;
@@ -27670,11 +27704,11 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
     } else if (unlikely(__pyx_t_1 >= __pyx_v_arr.shape[0])) __pyx_t_2 = 0;
     if (unlikely(__pyx_t_2 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_2);
-      __PYX_ERR(5, 37, __pyx_L1_error)
+      __PYX_ERR(5, 39, __pyx_L1_error)
     }
     __pyx_v_v = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) )));
 
-    /* "mlgrad/avragg.pxd":38
+    /* "mlgrad/avragg.pxd":40
  *     for i in range(N):
  *         v = arr[i]
  *         if v < min_val:             # <<<<<<<<<<<<<<
@@ -27684,7 +27718,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
     __pyx_t_6 = (__pyx_v_v < __pyx_v_min_val);
     if (__pyx_t_6) {
 
-      /* "mlgrad/avragg.pxd":39
+      /* "mlgrad/avragg.pxd":41
  *         v = arr[i]
  *         if v < min_val:
  *             min_val = v             # <<<<<<<<<<<<<<
@@ -27693,7 +27727,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
  */
       __pyx_v_min_val = __pyx_v_v;
 
-      /* "mlgrad/avragg.pxd":38
+      /* "mlgrad/avragg.pxd":40
  *     for i in range(N):
  *         v = arr[i]
  *         if v < min_val:             # <<<<<<<<<<<<<<
@@ -27703,7 +27737,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
     }
   }
 
-  /* "mlgrad/avragg.pxd":41
+  /* "mlgrad/avragg.pxd":43
  *             min_val = v
  * 
  *     return min_val             # <<<<<<<<<<<<<<
@@ -27713,7 +27747,7 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   __pyx_r = __pyx_v_min_val;
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pxd":32
+  /* "mlgrad/avragg.pxd":34
  *     bint copysign(double x, double x)
  * 
  * cdef inline double array_min(double[::1] arr):             # <<<<<<<<<<<<<<
@@ -27729,106 +27763,116 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_min(__Pyx_memviewslice
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":43
+/* "mlgrad/avragg.pxd":45
  *     return min_val
  * 
  * cdef inline double array_mean(double[::1] arr):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, N = arr.shape[0]
- *     cdef double v
+ *     cdef double *a = &arr[0]
  */
 
 static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslice __pyx_v_arr) {
   Py_ssize_t __pyx_v_i;
   Py_ssize_t __pyx_v_N;
+  double *__pyx_v_a;
   double __pyx_v_v;
   double __pyx_r;
   Py_ssize_t __pyx_t_1;
-  Py_ssize_t __pyx_t_2;
+  int __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   Py_ssize_t __pyx_t_4;
-  int __pyx_t_5;
+  Py_ssize_t __pyx_t_5;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/avragg.pxd":44
+  /* "mlgrad/avragg.pxd":46
  * 
  * cdef inline double array_mean(double[::1] arr):
  *     cdef Py_ssize_t i, N = arr.shape[0]             # <<<<<<<<<<<<<<
+ *     cdef double *a = &arr[0]
  *     cdef double v
- * 
  */
   if (unlikely(((PyObject *) __pyx_v_arr.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
-    __PYX_ERR(5, 44, __pyx_L1_error)
+    __PYX_ERR(5, 46, __pyx_L1_error)
   }
   __pyx_v_N = (__pyx_v_arr.shape[0]);
 
   /* "mlgrad/avragg.pxd":47
+ * cdef inline double array_mean(double[::1] arr):
+ *     cdef Py_ssize_t i, N = arr.shape[0]
+ *     cdef double *a = &arr[0]             # <<<<<<<<<<<<<<
+ *     cdef double v
+ * 
+ */
+  if (unlikely(((PyObject *) __pyx_v_arr.memview) == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    __PYX_ERR(5, 47, __pyx_L1_error)
+  }
+  __pyx_t_1 = 0;
+  __pyx_t_2 = -1;
+  if (__pyx_t_1 < 0) {
+    __pyx_t_1 += __pyx_v_arr.shape[0];
+    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_1 >= __pyx_v_arr.shape[0])) __pyx_t_2 = 0;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_2);
+    __PYX_ERR(5, 47, __pyx_L1_error)
+  }
+  __pyx_v_a = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) ))));
+
+  /* "mlgrad/avragg.pxd":50
  *     cdef double v
  * 
  *     v = 0             # <<<<<<<<<<<<<<
  *     for i in range(N):
- *         v += arr[i]
+ *         v += a[i]
  */
   __pyx_v_v = 0.0;
 
-  /* "mlgrad/avragg.pxd":48
+  /* "mlgrad/avragg.pxd":51
  * 
  *     v = 0
  *     for i in range(N):             # <<<<<<<<<<<<<<
- *         v += arr[i]
+ *         v += a[i]
  * 
  */
-  __pyx_t_1 = __pyx_v_N;
-  __pyx_t_2 = __pyx_t_1;
-  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
-    __pyx_v_i = __pyx_t_3;
+  __pyx_t_3 = __pyx_v_N;
+  __pyx_t_4 = __pyx_t_3;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_i = __pyx_t_5;
 
-    /* "mlgrad/avragg.pxd":49
+    /* "mlgrad/avragg.pxd":52
  *     v = 0
  *     for i in range(N):
- *         v += arr[i]             # <<<<<<<<<<<<<<
+ *         v += a[i]             # <<<<<<<<<<<<<<
  * 
  *     return v / N
  */
-    if (unlikely(((PyObject *) __pyx_v_arr.memview) == Py_None)) {
-      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(5, 49, __pyx_L1_error)
-    }
-    __pyx_t_4 = __pyx_v_i;
-    __pyx_t_5 = -1;
-    if (__pyx_t_4 < 0) {
-      __pyx_t_4 += __pyx_v_arr.shape[0];
-      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
-    } else if (unlikely(__pyx_t_4 >= __pyx_v_arr.shape[0])) __pyx_t_5 = 0;
-    if (unlikely(__pyx_t_5 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(5, 49, __pyx_L1_error)
-    }
-    __pyx_v_v = (__pyx_v_v + (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_4)) ))));
+    __pyx_v_v = (__pyx_v_v + (__pyx_v_a[__pyx_v_i]));
   }
 
-  /* "mlgrad/avragg.pxd":51
- *         v += arr[i]
+  /* "mlgrad/avragg.pxd":54
+ *         v += a[i]
  * 
  *     return v / N             # <<<<<<<<<<<<<<
  * 
- * cdef inline void array_add_scalar(double[::1] arr, const double v):
+ * cdef inline double array_std(double[::1] arr, double mu):
  */
   if (unlikely(__pyx_v_N == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(5, 51, __pyx_L1_error)
+    __PYX_ERR(5, 54, __pyx_L1_error)
   }
   __pyx_r = (__pyx_v_v / ((double)__pyx_v_N));
   goto __pyx_L0;
 
-  /* "mlgrad/avragg.pxd":43
+  /* "mlgrad/avragg.pxd":45
  *     return min_val
  * 
  * cdef inline double array_mean(double[::1] arr):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, N = arr.shape[0]
- *     cdef double v
+ *     cdef double *a = &arr[0]
  */
 
   /* function exit code */
@@ -27839,8 +27883,138 @@ static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_mean(__Pyx_memviewslic
   return __pyx_r;
 }
 
-/* "mlgrad/avragg.pxd":53
+/* "mlgrad/avragg.pxd":56
  *     return v / N
+ * 
+ * cdef inline double array_std(double[::1] arr, double mu):             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i, N = arr.shape[0]
+ *     cdef double *a = &arr[0]
+ */
+
+static CYTHON_INLINE double __pyx_f_6mlgrad_6avragg_array_std(__Pyx_memviewslice __pyx_v_arr, double __pyx_v_mu) {
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_N;
+  double *__pyx_v_a;
+  double __pyx_v_v;
+  double __pyx_v_s;
+  double __pyx_r;
+  Py_ssize_t __pyx_t_1;
+  int __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+
+  /* "mlgrad/avragg.pxd":57
+ * 
+ * cdef inline double array_std(double[::1] arr, double mu):
+ *     cdef Py_ssize_t i, N = arr.shape[0]             # <<<<<<<<<<<<<<
+ *     cdef double *a = &arr[0]
+ *     cdef double v, s
+ */
+  if (unlikely(((PyObject *) __pyx_v_arr.memview) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    __PYX_ERR(5, 57, __pyx_L1_error)
+  }
+  __pyx_v_N = (__pyx_v_arr.shape[0]);
+
+  /* "mlgrad/avragg.pxd":58
+ * cdef inline double array_std(double[::1] arr, double mu):
+ *     cdef Py_ssize_t i, N = arr.shape[0]
+ *     cdef double *a = &arr[0]             # <<<<<<<<<<<<<<
+ *     cdef double v, s
+ * 
+ */
+  if (unlikely(((PyObject *) __pyx_v_arr.memview) == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    __PYX_ERR(5, 58, __pyx_L1_error)
+  }
+  __pyx_t_1 = 0;
+  __pyx_t_2 = -1;
+  if (__pyx_t_1 < 0) {
+    __pyx_t_1 += __pyx_v_arr.shape[0];
+    if (unlikely(__pyx_t_1 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_1 >= __pyx_v_arr.shape[0])) __pyx_t_2 = 0;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_2);
+    __PYX_ERR(5, 58, __pyx_L1_error)
+  }
+  __pyx_v_a = (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_1)) ))));
+
+  /* "mlgrad/avragg.pxd":61
+ *     cdef double v, s
+ * 
+ *     s = 0             # <<<<<<<<<<<<<<
+ *     for i in range(N):
+ *         v = a[i] - mu
+ */
+  __pyx_v_s = 0.0;
+
+  /* "mlgrad/avragg.pxd":62
+ * 
+ *     s = 0
+ *     for i in range(N):             # <<<<<<<<<<<<<<
+ *         v = a[i] - mu
+ *         s += v*v
+ */
+  __pyx_t_3 = __pyx_v_N;
+  __pyx_t_4 = __pyx_t_3;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_i = __pyx_t_5;
+
+    /* "mlgrad/avragg.pxd":63
+ *     s = 0
+ *     for i in range(N):
+ *         v = a[i] - mu             # <<<<<<<<<<<<<<
+ *         s += v*v
+ * 
+ */
+    __pyx_v_v = ((__pyx_v_a[__pyx_v_i]) - __pyx_v_mu);
+
+    /* "mlgrad/avragg.pxd":64
+ *     for i in range(N):
+ *         v = a[i] - mu
+ *         s += v*v             # <<<<<<<<<<<<<<
+ * 
+ *     return sqrt(s/N)
+ */
+    __pyx_v_s = (__pyx_v_s + (__pyx_v_v * __pyx_v_v));
+  }
+
+  /* "mlgrad/avragg.pxd":66
+ *         s += v*v
+ * 
+ *     return sqrt(s/N)             # <<<<<<<<<<<<<<
+ * 
+ * cdef inline void array_add_scalar(double[::1] arr, const double v):
+ */
+  if (unlikely(__pyx_v_N == 0)) {
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    __PYX_ERR(5, 66, __pyx_L1_error)
+  }
+  __pyx_r = sqrt((__pyx_v_s / ((double)__pyx_v_N)));
+  goto __pyx_L0;
+
+  /* "mlgrad/avragg.pxd":56
+ *     return v / N
+ * 
+ * cdef inline double array_std(double[::1] arr, double mu):             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i, N = arr.shape[0]
+ *     cdef double *a = &arr[0]
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("mlgrad.avragg.array_std", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "mlgrad/avragg.pxd":68
+ *     return sqrt(s/N)
  * 
  * cdef inline void array_add_scalar(double[::1] arr, const double v):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, N = arr.shape[0]
@@ -27859,7 +28033,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/avragg.pxd":54
+  /* "mlgrad/avragg.pxd":69
  * 
  * cdef inline void array_add_scalar(double[::1] arr, const double v):
  *     cdef Py_ssize_t i, N = arr.shape[0]             # <<<<<<<<<<<<<<
@@ -27868,11 +28042,11 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
  */
   if (unlikely(((PyObject *) __pyx_v_arr.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
-    __PYX_ERR(5, 54, __pyx_L1_error)
+    __PYX_ERR(5, 69, __pyx_L1_error)
   }
   __pyx_v_N = (__pyx_v_arr.shape[0]);
 
-  /* "mlgrad/avragg.pxd":56
+  /* "mlgrad/avragg.pxd":71
  *     cdef Py_ssize_t i, N = arr.shape[0]
  * 
  *     for i in range(N):             # <<<<<<<<<<<<<<
@@ -27884,7 +28058,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/avragg.pxd":57
+    /* "mlgrad/avragg.pxd":72
  * 
  *     for i in range(N):
  *         arr[i] += v             # <<<<<<<<<<<<<<
@@ -27893,7 +28067,7 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
  */
     if (unlikely(((PyObject *) __pyx_v_arr.memview) == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(5, 57, __pyx_L1_error)
+      __PYX_ERR(5, 72, __pyx_L1_error)
     }
     __pyx_t_4 = __pyx_v_i;
     __pyx_t_5 = -1;
@@ -27903,13 +28077,13 @@ static CYTHON_INLINE void __pyx_f_6mlgrad_6avragg_array_add_scalar(__Pyx_memview
     } else if (unlikely(__pyx_t_4 >= __pyx_v_arr.shape[0])) __pyx_t_5 = 0;
     if (unlikely(__pyx_t_5 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_5);
-      __PYX_ERR(5, 57, __pyx_L1_error)
+      __PYX_ERR(5, 72, __pyx_L1_error)
     }
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_arr.data) + __pyx_t_4)) )) += __pyx_v_v;
   }
 
-  /* "mlgrad/avragg.pxd":53
- *     return v / N
+  /* "mlgrad/avragg.pxd":68
+ *     return sqrt(s/N)
  * 
  * cdef inline void array_add_scalar(double[::1] arr, const double v):             # <<<<<<<<<<<<<<
  *     cdef Py_ssize_t i, N = arr.shape[0]
@@ -64631,48 +64805,50 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_ptype_6mlgrad_8averager_ArrayTAverager = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.averager", "ArrayTAverager", sizeof(struct __pyx_obj_6mlgrad_8averager_ArrayTAverager), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8averager_ArrayTAverager),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8averager_ArrayTAverager) __PYX_ERR(4, 149, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_8averager_ArrayTAverager = (struct __pyx_vtabstruct_6mlgrad_8averager_ArrayTAverager*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8averager_ArrayTAverager); if (unlikely(!__pyx_vtabptr_6mlgrad_8averager_ArrayTAverager)) __PYX_ERR(4, 149, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.avragg"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 59, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.avragg"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_ptype_6mlgrad_6avragg_Penalty = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "Penalty", sizeof(struct __pyx_obj_6mlgrad_6avragg_Penalty), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_Penalty),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_Penalty) __PYX_ERR(5, 59, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Penalty = (struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Penalty); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Penalty)) __PYX_ERR(5, 59, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_PenaltyAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "PenaltyAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_PenaltyAverage) __PYX_ERR(5, 68, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage)) __PYX_ERR(5, 68, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_PenaltyAverage2 = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "PenaltyAverage2", sizeof(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage2), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage2),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_PenaltyAverage2) __PYX_ERR(5, 72, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage2 = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyAverage2); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage2)) __PYX_ERR(5, 72, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_PenaltyScale = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "PenaltyScale", sizeof(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_PenaltyScale) __PYX_ERR(5, 76, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_PenaltyScale = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyScale*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyScale); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyScale)) __PYX_ERR(5, 76, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_Average = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "Average", sizeof(struct __pyx_obj_6mlgrad_6avragg_Average), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_Average),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_Average) __PYX_ERR(5, 81, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Average = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average)) __PYX_ERR(5, 81, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_AverageIterative = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "AverageIterative", sizeof(struct __pyx_obj_6mlgrad_6avragg_AverageIterative), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_AverageIterative),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_AverageIterative) __PYX_ERR(5, 100, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_AverageIterative = (struct __pyx_vtabstruct_6mlgrad_6avragg_AverageIterative*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_AverageIterative); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_AverageIterative)) __PYX_ERR(5, 100, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_MAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "MAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_MAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_MAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_MAverage) __PYX_ERR(5, 104, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_MAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_MAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_MAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_MAverage)) __PYX_ERR(5, 104, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_SAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "SAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_SAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_SAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_SAverage) __PYX_ERR(5, 115, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_SAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_SAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_SAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_SAverage)) __PYX_ERR(5, 115, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_ParameterizedAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "ParameterizedAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_ParameterizedAverage) __PYX_ERR(5, 132, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_ParameterizedAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_ParameterizedAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage)) __PYX_ERR(5, 132, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_WMAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "WMAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_WMAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_WMAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_WMAverage) __PYX_ERR(5, 137, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_WMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WMAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WMAverage)) __PYX_ERR(5, 137, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_TMAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "TMAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_TMAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_TMAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_TMAverage) __PYX_ERR(5, 147, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_TMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_TMAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_TMAverage)) __PYX_ERR(5, 147, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_WMZAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "WMZAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_WMZAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_WMZAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_WMZAverage) __PYX_ERR(5, 156, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_WMZAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_WMZAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WMZAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WMZAverage)) __PYX_ERR(5, 156, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_ArithMean = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "ArithMean", sizeof(struct __pyx_obj_6mlgrad_6avragg_ArithMean), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_ArithMean),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_ArithMean) __PYX_ERR(5, 164, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_ArithMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_ArithMean); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_ArithMean)) __PYX_ERR(5, 164, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_RArithMean = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "RArithMean", sizeof(struct __pyx_obj_6mlgrad_6avragg_RArithMean), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_RArithMean),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_RArithMean) __PYX_ERR(5, 168, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_RArithMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_RArithMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_RArithMean); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_RArithMean)) __PYX_ERR(5, 168, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_KolmogorovMean = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "KolmogorovMean", sizeof(struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_KolmogorovMean) __PYX_ERR(5, 172, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_KolmogorovMean); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean)) __PYX_ERR(5, 172, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_SoftMinimal = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "SoftMinimal", sizeof(struct __pyx_obj_6mlgrad_6avragg_SoftMinimal), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_SoftMinimal),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_SoftMinimal) __PYX_ERR(5, 177, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_SoftMinimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_SoftMinimal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_SoftMinimal)) __PYX_ERR(5, 177, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_SoftMaximal = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "SoftMaximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_SoftMaximal), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_SoftMaximal),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_SoftMaximal) __PYX_ERR(5, 181, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_SoftMaximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMaximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_SoftMaximal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_SoftMaximal)) __PYX_ERR(5, 181, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_PowerMaximal = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "PowerMaximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_PowerMaximal), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_PowerMaximal),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_PowerMaximal) __PYX_ERR(5, 185, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_PowerMaximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_PowerMaximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PowerMaximal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PowerMaximal)) __PYX_ERR(5, 185, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_Minimal = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "Minimal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Minimal), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_Minimal),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_Minimal) __PYX_ERR(5, 189, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Minimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Minimal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Minimal)) __PYX_ERR(5, 189, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_6avragg_Maximal = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "Maximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Maximal), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_Maximal),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_Maximal) __PYX_ERR(5, 193, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_6avragg_Maximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Maximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Maximal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Maximal)) __PYX_ERR(5, 193, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_Penalty = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "Penalty", sizeof(struct __pyx_obj_6mlgrad_6avragg_Penalty), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_Penalty),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_Penalty) __PYX_ERR(5, 74, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Penalty = (struct __pyx_vtabstruct_6mlgrad_6avragg_Penalty*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Penalty); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Penalty)) __PYX_ERR(5, 74, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_PenaltyAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "PenaltyAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_PenaltyAverage) __PYX_ERR(5, 83, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage)) __PYX_ERR(5, 83, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_PenaltyAverage2 = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "PenaltyAverage2", sizeof(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage2), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_PenaltyAverage2),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_PenaltyAverage2) __PYX_ERR(5, 87, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage2 = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyAverage2*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyAverage2); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyAverage2)) __PYX_ERR(5, 87, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_PenaltyScale = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "PenaltyScale", sizeof(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_PenaltyScale),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_PenaltyScale) __PYX_ERR(5, 91, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_PenaltyScale = (struct __pyx_vtabstruct_6mlgrad_6avragg_PenaltyScale*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PenaltyScale); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PenaltyScale)) __PYX_ERR(5, 91, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_Average = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "Average", sizeof(struct __pyx_obj_6mlgrad_6avragg_Average), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_Average),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_Average) __PYX_ERR(5, 96, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Average = (struct __pyx_vtabstruct_6mlgrad_6avragg_Average*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Average); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Average)) __PYX_ERR(5, 96, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_AverageIterative = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "AverageIterative", sizeof(struct __pyx_obj_6mlgrad_6avragg_AverageIterative), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_AverageIterative),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_AverageIterative) __PYX_ERR(5, 115, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_AverageIterative = (struct __pyx_vtabstruct_6mlgrad_6avragg_AverageIterative*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_AverageIterative); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_AverageIterative)) __PYX_ERR(5, 115, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_MAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "MAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_MAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_MAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_MAverage) __PYX_ERR(5, 119, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_MAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_MAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_MAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_MAverage)) __PYX_ERR(5, 119, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_SAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "SAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_SAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_SAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_SAverage) __PYX_ERR(5, 130, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_SAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_SAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_SAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_SAverage)) __PYX_ERR(5, 130, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_ParameterizedAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "ParameterizedAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_ParameterizedAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_ParameterizedAverage) __PYX_ERR(5, 147, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_ParameterizedAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_ParameterizedAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_ParameterizedAverage)) __PYX_ERR(5, 147, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_WMAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "WMAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_WMAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_WMAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_WMAverage) __PYX_ERR(5, 152, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_WMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_WMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WMAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WMAverage)) __PYX_ERR(5, 152, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_TMAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "TMAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_TMAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_TMAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_TMAverage) __PYX_ERR(5, 162, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_TMAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_TMAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_TMAverage)) __PYX_ERR(5, 162, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_WMZAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "WMZAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_WMZAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_WMZAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_WMZAverage) __PYX_ERR(5, 171, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_WMZAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_WMZAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WMZAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WMZAverage)) __PYX_ERR(5, 171, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_WZAverage = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "WZAverage", sizeof(struct __pyx_obj_6mlgrad_6avragg_WZAverage), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_WZAverage),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_WZAverage) __PYX_ERR(5, 178, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_WZAverage = (struct __pyx_vtabstruct_6mlgrad_6avragg_WZAverage*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_WZAverage); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_WZAverage)) __PYX_ERR(5, 178, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_ArithMean = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "ArithMean", sizeof(struct __pyx_obj_6mlgrad_6avragg_ArithMean), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_ArithMean),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_ArithMean) __PYX_ERR(5, 184, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_ArithMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_ArithMean); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_ArithMean)) __PYX_ERR(5, 184, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_RArithMean = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "RArithMean", sizeof(struct __pyx_obj_6mlgrad_6avragg_RArithMean), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_RArithMean),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_RArithMean) __PYX_ERR(5, 188, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_RArithMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_RArithMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_RArithMean); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_RArithMean)) __PYX_ERR(5, 188, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_KolmogorovMean = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "KolmogorovMean", sizeof(struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_KolmogorovMean),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_KolmogorovMean) __PYX_ERR(5, 192, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean = (struct __pyx_vtabstruct_6mlgrad_6avragg_KolmogorovMean*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_KolmogorovMean); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_KolmogorovMean)) __PYX_ERR(5, 192, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_SoftMinimal = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "SoftMinimal", sizeof(struct __pyx_obj_6mlgrad_6avragg_SoftMinimal), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_SoftMinimal),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_SoftMinimal) __PYX_ERR(5, 197, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_SoftMinimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMinimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_SoftMinimal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_SoftMinimal)) __PYX_ERR(5, 197, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_SoftMaximal = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "SoftMaximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_SoftMaximal), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_SoftMaximal),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_SoftMaximal) __PYX_ERR(5, 201, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_SoftMaximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_SoftMaximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_SoftMaximal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_SoftMaximal)) __PYX_ERR(5, 201, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_PowerMaximal = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "PowerMaximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_PowerMaximal), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_PowerMaximal),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_PowerMaximal) __PYX_ERR(5, 205, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_PowerMaximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_PowerMaximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_PowerMaximal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_PowerMaximal)) __PYX_ERR(5, 205, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_Minimal = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "Minimal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Minimal), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_Minimal),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_Minimal) __PYX_ERR(5, 209, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Minimal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Minimal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Minimal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Minimal)) __PYX_ERR(5, 209, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_6avragg_Maximal = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "Maximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Maximal), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_Maximal),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_Maximal) __PYX_ERR(5, 213, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_6avragg_Maximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Maximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Maximal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Maximal)) __PYX_ERR(5, 213, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;

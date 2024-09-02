@@ -28,11 +28,14 @@ cdef int get_num_procs_ex(int n) noexcept nogil
 
 cdef int _hasnan(double *a, const Py_ssize_t n) noexcept nogil
 
+cdef double _min(double *a, Py_ssize_t n) noexcept nogil
+
 cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil
 cdef void _clear2(double *to, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil
 cdef void _fill(double *to, const double c, const Py_ssize_t n) noexcept nogil
 cdef double _conv(const double*, const double*, const Py_ssize_t) noexcept nogil
 cdef void _move(double*, const double*, const Py_ssize_t) noexcept nogil
+cdef void _move_t(double *to, const double *src, const Py_ssize_t n, const Py_ssize_t step) noexcept nogil
 cdef double _sum(const double*, const Py_ssize_t) noexcept nogil
 
 cdef void _iadd(double *a, const double *b, const Py_ssize_t n) noexcept nogil
@@ -99,9 +102,12 @@ cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] 
 cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil
 cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexcept nogil
 
-cdef Py_ssize_t quick_select(double *a, Py_ssize_t n) #noexcept nogil
-cdef Py_ssize_t quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) #noexcept nogil
-cdef double _median_1d(double[::1] x) #noexcept nogil
+cdef double _mean(double *a, Py_ssize_t n) noexcept nogil
+cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil
+
+cdef double quick_select(double *a, Py_ssize_t n) #noexcept nogil
+# cdef double quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) #noexcept nogil
+cdef double _median_1d(double *x, Py_ssize_t n) #noexcept nogil
 cdef void _median_2d(double[:,::1] x, double[::1] y) #noexcept nogil
 cdef void _median_2d_t(double[:,::1] x, double[::1] y) #noexcept nogil
-cdef Py_ssize_t kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) #noexcept nogil
+cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) #noexcept nogil

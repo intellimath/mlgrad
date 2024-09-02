@@ -49,7 +49,7 @@ def total_regression(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verb
     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose) 
     return a, L
 
-def find_pc(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verbose=0):
+def find_pc(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-4, verbose=0):
     N = len(X)
     if weights is None:
         S = X.T @ X / N

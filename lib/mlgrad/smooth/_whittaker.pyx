@@ -6,37 +6,45 @@ import numpy as np
 
 cdef _get_D2T_D2(double tau, double[::1] W, double[::1] W2, double[:,::1] S):
     cdef Py_ssize_t i, j, n = S.shape[1]
+    cdef double *SS
+    cdef double *WW = &W[0]
+    cdef double *WW2 = &W2[0]
 
     # d
-    S[2,0] = 1*W2[0]*tau + W[0]
-    S[2,1] = (4*W2[0] + W2[1])*tau + W[1]
-    S[2,n-1] = 1*W2[n-2]*tau + W[n-1]
-    S[2,n-2] = (4*W2[n-3] + 1*W2[n-2])*tau + W[n-2]
+    SS = &S[2,0]
+    SS[0] = WW2[0]*tau + WW[0]
+    SS[1] = (4*WW2[0] + W2[1])*tau + WW[1]
+    SS[n-1] = WW2[n-2]*tau + WW[n-1]
+    SS[n-2] = (4*WW2[n-3] + 1*W2[n-2])*tau + WW[n-2]
     for i in range(2, n-2):
-        S[2,i] = (1*W2[i-2] + 4*W2[i-1] + 1*W2[i])*tau + W[i]
+        SS[i] = (WW2[i-2] + 4*WW2[i-1] + WW2[i])*tau + WW[i]
 
     # a
-    S[3,0] = -2*W2[0]*tau
-    S[3,n-2] = -2*W2[n-2]*tau
+    SS = &S[3,0]
+    SS[0] = -2*WW2[0]*tau
+    SS[n-2] = -2*WW2[n-2]*tau
     for i in range(1,n-2):
-        S[3,i] = (-2*W2[i-1] - 2*W2[i])*tau
+        SS[i] = (-2*WW2[i-1] - 2*WW2[i])*tau
 
     # b
+    SS = &S[4,0]
     for i in range(n-2):
-        S[4,i] = 1*W2[i]*tau
+        SS[i] = WW2[i]*tau
 
     # c
-    S[1,1] = -2*W2[0]*tau
-    S[1,n-1] = -2*W2[n-3]*tau
+    SS = &S[1,0]
+    SS[1] = -2*WW2[0]*tau
+    SS[n-1] = -2*WW2[n-3]*tau
     for i in range(2,n-1):
-        S[1,i] = (-2*W2[i-2] - 2*W2[i-1])*tau
+        SS[i] = (-2*WW2[i-2] - 2*WW2[i-1])*tau
 
     # e
+    SS = &S[0,0]
     for i in range(2,n):
-        S[0,i] = 1*W2[i-2]*tau
+        SS[i] = WW2[i-2]*tau
 
-def get_D2T_D2(n, tau, W, W2):
-    S = np.zeros((5,n), "d")
+def get_D2T_D2(n, tau, W, W2, _zeros=np.zeros):
+    S = _zeros((5,n), "d")
     _get_D2T_D2(tau, W, W2, S)
     return S
         
@@ -92,17 +100,18 @@ cdef double _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
         x[i] = zeta[i] - alpha[i] * x[i+1] - beta[i] * x[i+2]
         i -= 1
 
-def penta_solver(Y, tau, W, W2):
+def penta_solver(Y, tau, W, W2, _zeros=np.zeros):
     S = get_D2T_D2(len(Y), tau, W, W2)
-    X = np.zeros_like(Y)
+    X = _zeros(Y.shape[0], "d")
     _penta_solver(S, Y*W, X)
     return X
     
-def whittaker_smooth_penta(Y, tau=1.0e5, W=None, W2=None):
+def whittaker_smooth_penta(Y, tau=1.0e5, W=None, W2=None, _ones=np.ones):
+    N = Y.shape[0]
     if W is None:
-        W = np.ones_like(Y, "d")
+        W = _ones(N, "d")
     if W2 is None:
-        W2 = np.ones_like(Y, "d")
+        W2 = _ones(N, "d")
     X = penta_solver(Y, tau, W, W2)
     return X
     
