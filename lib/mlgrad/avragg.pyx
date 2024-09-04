@@ -332,10 +332,7 @@ cdef class ParameterizedAverage(Average):
         cdef Py_ssize_t k
         cdef Py_ssize_t N = Y.shape[0], M
         cdef double c, v
-        cdef double N1 = 1.0/N
         cdef double H, S
-        # cdef double *YY = &Y[0]
-        # cdef double *GG
         cdef ParameterizedFunc func = self.func
 
         self.avr._gradient(Y, grad)
@@ -346,20 +343,17 @@ cdef class ParameterizedAverage(Average):
         # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
         for k in range(N):
             H += func.derivative_u(Y[k], c)
-        H *= N1
 
-        S = 0
         # GG = &grad[0]
         # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
         for k in range(N):
-            v = N1 * func._derivative(Y[k], c) +  H * grad[k]
+            v = func._derivative(Y[k], c) +  H * grad[k]
             grad[k] = v
-            S += v
 
-        v = S
+        # v = S
         # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
         for k in range(N):
-            grad[k] /= v
+            grad[k] /= N
     #
 
 @cython.final

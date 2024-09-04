@@ -643,13 +643,13 @@ cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:
 #         if i_hh >= i_median:
 #             i_high = i_hh - 1
 #             high = hh - step
-            
-cdef double _median_1d(double *x, Py_ssize_t n): # noexcept nogil:
-    # cdef Py_ssize_t n = x.shape[0]
-    cdef Py_ssize_t n2
-    cdef double m1 = quick_select(x, n)
-    cdef double m2
 
+cdef double _median_1d(double *x, Py_ssize_t n): # noexcept nogil:
+    cdef Py_ssize_t n2
+    cdef numpy.npy_intp nn = n
+    cdef double m1, m2
+    
+    m1 = quick_select(x, n)
     if n % 2:
         return m1
     else:
@@ -659,7 +659,12 @@ cdef double _median_1d(double *x, Py_ssize_t n): # noexcept nogil:
 
 cdef void _median_2d(double[:,::1] x, double[::1] y): # noexcept nogil:
     cdef Py_ssize_t i, j, N = x.shape[0], n = x.shape[1]
+    cdef double[::1] temp
+    cdef numpy.npy_intp nn = n
+    
+    temp = numpy.PyArray_EMPTY(1, &nn, numpy.NPY_DOUBLE, 0)
     for i in range(N):
+        _move(&temp[0], &x[i,0], n)
         y[i] = _median_1d(&x[i,0], n)
 
 cdef void _median_2d_t(double[:,::1] x, double[::1] y): # noexcept nogil:
@@ -714,5 +719,5 @@ def median_2d_t(x):
 def median_2d(x):
     cdef numpy.npy_intp n = x.shape[0]
     y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
-    _median_2d_t(x, y)
+    _median_2d(x, y)
     return y
