@@ -660,12 +660,10 @@ cdef double _median_1d(double *x, Py_ssize_t n): # noexcept nogil:
 cdef void _median_2d(double[:,::1] x, double[::1] y): # noexcept nogil:
     cdef Py_ssize_t i, j, N = x.shape[0], n = x.shape[1]
     cdef double[::1] temp
-    cdef numpy.npy_intp nn = n
     
-    temp = numpy.PyArray_EMPTY(1, &nn, numpy.NPY_DOUBLE, 0)
     for i in range(N):
-        _move(&temp[0], &x[i,0], n)
-        y[i] = _median_1d(&x[i,0], n)
+        temp = x[i].copy()
+        y[i] = _median_1d(&temp[0], n)
 
 cdef void _median_2d_t(double[:,::1] x, double[::1] y): # noexcept nogil:
     cdef Py_ssize_t i, j, N = x.shape[0], n = x.shape[1]
