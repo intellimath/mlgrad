@@ -372,9 +372,9 @@ cdef void _normalize(double *a, const Py_ssize_t n) noexcept nogil:
     for i in range(n):
         a[i] /= S
 
-cdef void normalize2(double[::1] a) noexcept nogil:
-    _normalize2(&a[0], a.shape[0])
-
+cdef void normalize(double[::1] a) noexcept nogil:
+    _normalize(&a[0], a.shape[0])
+        
 cdef void _normalize2(double *a, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     cdef double v, S
@@ -388,10 +388,10 @@ cdef void _normalize2(double *a, const Py_ssize_t n) noexcept nogil:
 
     for i in range(n):
         a[i] /= S
-
-cdef void normalize(double[::1] a) noexcept nogil:
-    _normalize(&a[0], a.shape[0])
-    
+        
+cdef void normalize2(double[::1] a) noexcept nogil:
+    _normalize2(&a[0], a.shape[0])
+        
 cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil:
     """
     Вычисление взвешенной ковариационной матрицы
@@ -492,6 +492,9 @@ cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexc
             Xk += n
         yy[i] = y
 
+cdef object empty_array(Py_ssize_t size):
+    cdef numpy.npy_intp n = size
+    return numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
 
 # cdef inline void swap(double *a, double *b) noexcept nogil:
 #     cdef double t=a[0]
@@ -646,7 +649,6 @@ cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:
 
 cdef double _median_1d(double *x, Py_ssize_t n): # noexcept nogil:
     cdef Py_ssize_t n2
-    cdef numpy.npy_intp nn = n
     cdef double m1, m2
     
     m1 = quick_select(x, n)
@@ -658,7 +660,7 @@ cdef double _median_1d(double *x, Py_ssize_t n): # noexcept nogil:
         return (m1 + m2) / 2
 
 cdef void _median_2d(double[:,::1] x, double[::1] y): # noexcept nogil:
-    cdef Py_ssize_t i, j, N = x.shape[0], n = x.shape[1]
+    cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
     cdef double[::1] temp
     
     for i in range(N):
@@ -666,11 +668,9 @@ cdef void _median_2d(double[:,::1] x, double[::1] y): # noexcept nogil:
         y[i] = _median_1d(&temp[0], n)
 
 cdef void _median_2d_t(double[:,::1] x, double[::1] y): # noexcept nogil:
-    cdef Py_ssize_t i, j, N = x.shape[0], n = x.shape[1]
-    cdef double[::1] temp
-    cdef numpy.npy_intp NN = N
-    
-    temp = numpy.PyArray_EMPTY(1, &NN, numpy.NPY_DOUBLE, 0)
+    cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
+
+    cdef double[::1] temp = empty_array(N)
     
     for i in range(n):
         _move_t(&temp[0], &x[0,i], N, n)
@@ -709,13 +709,15 @@ def median_1d(x):
     return _median_1d(&xx[0], xx.shape[0])
 
 def median_2d_t(x):
-    cdef numpy.npy_intp n = x.shape[1]
-    y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+    # cdef numpy.npy_intp n = x.shape[1]
+    # y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+    y = empty_array(x.shape[1])
     _median_2d_t(x, y)
     return y
 
 def median_2d(x):
-    cdef numpy.npy_intp n = x.shape[0]
-    y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+    # cdef numpy.npy_intp n = x.shape[0]
+    # y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+    y = empty_array(x.shape[0])
     _median_2d(x, y)
     return y

@@ -1,6 +1,6 @@
-# from mlgrad.af import averaging_function
-# from mlgrad.funcs import Quantile_Sqrt
-# import mlgrad.funcs2 as funcs2
+from mlgrad.af import averaging_function
+import mlgrad.funcs as funcs
+import mlgrad.funcs2 as funcs2
 # import mlgrad.funcs as funcs
 # import mlgrad.averager as averager
 
@@ -36,37 +36,54 @@ def whittaker_smooth_scipy(y, tau=1.0e5, W=None, W2=None, d=2, **kwargs):
     # # print(alg.K, alg.delta_qval)
     # return Z, {'qval': alg.qval, 'qvals':alg.qvals}
 
-def whittaker_agg(X, aggfunc, func=None, func2=None, tau=1.0, 
-                  h=0.1, n_iter=100, tol=1.0e-6, n_iter2=1000):
+def whittaker_agg(X, aggfunc=None, aggfunc2=None, func=None, func2=None, tau=4.0, 
+                  n_iter=100, tol=1.0e-6):
 
-    Z = whittaker_smooth_penta(X, tau=tau, W=W)
-    Z_min = Z.copy()
-
-    def weight_func(E, aggfunc=aggfunc):
-        U = func2.evaluate_items(E)
-        aggfunc.fit(U)
-        return aggfunc.gradient(U)
-
-    self.weight_func = weight_func
+    if aggfunc is None:
+        aggfunc = averaging_function("AM")
     
-    E = Z - X
+    if aggfunc2 is None:
+        aggfunc2 = averaging_function("AM")
+
+    if func is None:
+        func = funcs2.FuncNorm(funcs.Square())
+
+    if func2 is None: 
+        func2 = funcs2.FuncDiff2(funcs.Square())
+
+    def weight_func2(Z):
+        U = func2.evaluate_items(Z)
+        aggfunc2.evaluate(U)
+        return aggfunc2.weights(U)
+
+    def weight_func(E):
+        U = func.evaluate_items(E)
+        aggfunc.evaluate(U)
+        return aggfunc.weights(U)
+    
+    Z = whittaker_smooth(X, tau=tau)
+    Z_min = Z.copy()
+    
+    E = (Z - X)
     W = weight_func(E)
-    s = s_min = aggfunc.u
+    W2 = weight_func(Z)
+    s = s_min = aggfunc.u + tau * aggfunc2.u
 
     flag = False
-    for K in range(n_iter2):
-        Z = whittaker_smooth_penta(X, tau=tau, W=W)
+    for K in range(n_iter):
+        Z = whittaker_smooth(X, tau=tau, W=W, W2=W2)
 
         E = Z - X
         W = weight_func(E)
-        s = aggfunc.u
+        W2 = weight_func(Z)
+        s = aggfunc.u + tau * aggfunc2.u
 
         if abs(s - s_min) / (1+abs(s_min)) < tol:
             flag = True
             
         if s < s_min:
             s_min = s
-            Z_min = self.Z.copy()
+            Z_min = Z.copy()
 
         if flag:
             break

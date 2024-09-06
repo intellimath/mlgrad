@@ -1,8 +1,8 @@
 # coding: utf-8
 
 import unittest
-from mlgrad.func import Square, Absolute, PlusId
-from mlgrad.model import SigmaNeuronModel, LinearModel
+from mlgrad.funcs import Square, Absolute, PlusId
+from mlgrad.models import SigmaNeuronModel, LinearModel
 from mlgrad.regr import regression
 import numpy as np
 

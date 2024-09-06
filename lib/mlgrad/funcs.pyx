@@ -148,9 +148,6 @@ cdef class Func(object):
     cdef double _inverse(self, const double x) noexcept nogil:
         return 0
     #
-    def inverse(self, x):
-        return self._inverse(x)
-    #
     cdef void _inverse_array(self, double *x, double *y, Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
         for i in range(n):
@@ -1624,15 +1621,16 @@ cdef class SoftAbs_Sqrt(Func):
         cdef Py_ssize_t i
         cdef double v, eps = self.eps, eps2 = self.eps2
 
-        for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
+        for i in range(n):
             v = x[i]
             y[i] = sqrt(eps2 + v*v) - eps
     #
     @cython.cdivision(True)
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double v = self.eps2 + x*x
-        return x / sqrt(v)
+        # cdef double v = self.eps2 + x*x
+        return x / sqrt(self.eps2 + x*x)
     #
     @cython.cdivision(True)
     @cython.final
@@ -1640,7 +1638,8 @@ cdef class SoftAbs_Sqrt(Func):
         cdef Py_ssize_t i
         cdef double v, eps = self.eps, eps2 = self.eps2
 
-        for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
+        for i in range(n):
             v = x[i]
             y[i] = v / sqrt(eps2 + v*v)
     #
@@ -1656,7 +1655,8 @@ cdef class SoftAbs_Sqrt(Func):
         cdef Py_ssize_t i
         cdef double v, v2, eps = self.eps, eps2 = self.eps2
 
-        for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
+        for i in range(n):
             v = x[i]
             v2 = eps2 + v*v
             y[i] = eps2 / (v2 * sqrt(v2))
@@ -1672,7 +1672,8 @@ cdef class SoftAbs_Sqrt(Func):
         cdef Py_ssize_t i
         cdef double v, v2, eps = self.eps, eps2 = self.eps2
 
-        for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
+        for i in range(n):
             v = x[i]
             y[i] = 1. / sqrt(eps2 + v*v)
     #
@@ -1682,7 +1683,7 @@ cdef class SoftAbs_Sqrt(Func):
         return sqrt(v*v - self.eps2)
     #    
     def _repr_latex_(self):
-        return r"$p(x)=\sqrt{\varepsilon^2+x^2}$"
+        return r"$\rho(x)=\sqrt{\varepsilon^2+x^2}$ - \varepsilon"
 
     def to_dict(self):
         return { 'name':'sqrt',

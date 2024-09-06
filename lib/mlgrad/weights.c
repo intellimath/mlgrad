@@ -4193,13 +4193,13 @@ struct __pyx_obj_6mlgrad_6avragg_TMAverage {
  * 
  * @cython.final
  * cdef class WMZAverage(Average):             # <<<<<<<<<<<<<<
- *     cdef public double c, tau
+ *     cdef public double c, alpha
  *     cdef public MAverage mavr, savr
  */
 struct __pyx_obj_6mlgrad_6avragg_WMZAverage {
   struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
   double c;
-  double tau;
+  double alpha;
   struct __pyx_obj_6mlgrad_6avragg_MAverage *mavr;
   struct __pyx_obj_6mlgrad_6avragg_MAverage *savr;
   double mval;
@@ -4227,12 +4227,12 @@ struct __pyx_obj_6mlgrad_6avragg_WZAverage {
 /* "mlgrad/avragg.pxd":184
  * 
  * @cython.final
- * cdef class ArithMean(Average):             # <<<<<<<<<<<<<<
+ * cdef class ArithMean(MAverage):             # <<<<<<<<<<<<<<
  *     pass
  * 
  */
 struct __pyx_obj_6mlgrad_6avragg_ArithMean {
-  struct __pyx_obj_6mlgrad_6avragg_Average __pyx_base;
+  struct __pyx_obj_6mlgrad_6avragg_MAverage __pyx_base;
 };
 
 
@@ -6751,7 +6751,7 @@ static struct __pyx_vtabstruct_6mlgrad_6avragg_TMAverage *__pyx_vtabptr_6mlgrad_
  * 
  * @cython.final
  * cdef class WMZAverage(Average):             # <<<<<<<<<<<<<<
- *     cdef public double c, tau
+ *     cdef public double c, alpha
  *     cdef public MAverage mavr, savr
  */
 
@@ -6778,13 +6778,13 @@ static struct __pyx_vtabstruct_6mlgrad_6avragg_WZAverage *__pyx_vtabptr_6mlgrad_
 /* "mlgrad/avragg.pxd":184
  * 
  * @cython.final
- * cdef class ArithMean(Average):             # <<<<<<<<<<<<<<
+ * cdef class ArithMean(MAverage):             # <<<<<<<<<<<<<<
  *     pass
  * 
  */
 
 struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean {
-  struct __pyx_vtabstruct_6mlgrad_6avragg_Average __pyx_base;
+  struct __pyx_vtabstruct_6mlgrad_6avragg_MAverage __pyx_base;
 };
 static struct __pyx_vtabstruct_6mlgrad_6avragg_ArithMean *__pyx_vtabptr_6mlgrad_6avragg_ArithMean;
 

@@ -102,6 +102,8 @@ cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] 
 cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil
 cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexcept nogil
 
+cdef object empty_array(Py_ssize_t size)
+
 cdef double _mean(double *a, Py_ssize_t n) noexcept nogil
 cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil
 

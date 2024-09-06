@@ -1,12 +1,12 @@
 # cython: language_level=3
 
 cimport cython
+cimport numpy
 
-from mlgrad.funcs cimport Func, ParameterizedFunc
+from mlgrad.funcs cimport SoftAbs_Sqrt, Square, Func, ParameterizedFunc
 from mlgrad.funcs2 cimport SoftMin, SoftMax, PowerMax
 from mlgrad.averager cimport ScalarAverager
 from libc.math cimport fabs, pow, sqrt, fmax, log, exp
-
 
 # from mlgrad.miscfuncs cimport init_rand, rand, fill
 
@@ -169,7 +169,7 @@ cdef class TMAverage(Average):
 
 @cython.final
 cdef class WMZAverage(Average):
-    cdef public double c, tau
+    cdef public double c, alpha
     cdef public MAverage mavr, savr
     cdef double mval, sval
     cdef double[::1] U, GU
@@ -181,7 +181,7 @@ cdef class WZAverage(Average):
     
 
 @cython.final
-cdef class ArithMean(Average):
+cdef class ArithMean(MAverage):
     pass
 
 @cython.final

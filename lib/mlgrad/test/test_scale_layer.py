@@ -1,8 +1,8 @@
 # coding: utf-8
 
 import unittest
-from mlgrad.func import Square, Absolute
-from mlgrad.model import ScaleLayer
+from mlgrad.funcs import Square, Absolute
+from mlgrad.models import ScaleLayer
 from mlgrad.regr import regression
 import numpy as np
 
