@@ -76,9 +76,10 @@ cdef void _covariance_matrix_weighted(
             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil:
     cdef Py_ssize_t i, j, k
     cdef double s, loc_i, loc_j
-    cdef double *X_ki
-    cdef double *X_kj
+    cdef double *X_ki, *X_kj
+    cdef double *S_i, *S_j
 
+    S_i = S_j = S
     for i in range(n):
         loc_i = loc[i]
         for j in range(i, n):
@@ -92,7 +93,9 @@ cdef void _covariance_matrix_weighted(
                 X_ki += n
                 X_kj += n
 
-            S[i*n+j] = S[j*n+i] = s
+            S_i[j] = S_j[i] = s
+            S_j += n
+        S_i += n
             
 def covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
                                      double[::1] loc, double[:,::1] S):

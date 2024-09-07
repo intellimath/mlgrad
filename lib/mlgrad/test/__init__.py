@@ -25,6 +25,7 @@ from mlgrad.test.test_sigmaneuron_model import *
 from mlgrad.test.test_linear_layer import *
 from mlgrad.test.test_scale_layer import *
 from mlgrad.test.test_median import *
+from mlgrad.test.test_covariance_matrix import *
 
 __version__ = '0.6'
 

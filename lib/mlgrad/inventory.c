@@ -1915,6 +1915,11 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  * cdef inline object PyArray_MultiIterNew1(a):
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
+struct __pyx_defaults;
+typedef struct __pyx_defaults __pyx_defaults;
+struct __pyx_defaults {
+  __Pyx_memviewslice __pyx_arg_S;
+};
 
 /* "View.MemoryView":114
  * @cython.collection_type("sequence")
@@ -2940,10 +2945,14 @@ static int __Pyx_ValidateAndInit_memviewslice(
                 PyObject *original_obj);
 
 /* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *, int writable_flag);
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *, int writable_flag);
 
 /* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *, int writable_flag);
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *, int writable_flag);
+
+/* MemviewDtypeToObject.proto */
+static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp);
+static CYTHON_INLINE int __pyx_memview_set_double(const char *itemp, PyObject *obj);
 
 /* RealImag.proto */
 #if CYTHON_CCOMPLEX
@@ -3215,10 +3224,13 @@ static void __pyx_f_6mlgrad_9inventory__mul_grad(double *, double const *, doubl
 static void __pyx_f_6mlgrad_9inventory__normalize(double *, Py_ssize_t const ); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__normalize2(double *, Py_ssize_t const ); /*proto*/
 static PyObject *__pyx_f_6mlgrad_9inventory_empty_array(Py_ssize_t); /*proto*/
+static PyObject *__pyx_f_6mlgrad_9inventory_empty_array2(Py_ssize_t, Py_ssize_t); /*proto*/
 static double __pyx_f_6mlgrad_9inventory_quick_select(double *, Py_ssize_t); /*proto*/
 static double __pyx_f_6mlgrad_9inventory__median_1d(double *, Py_ssize_t); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__median_2d(__Pyx_memviewslice, __Pyx_memviewslice); /*proto*/
 static void __pyx_f_6mlgrad_9inventory__median_2d_t(__Pyx_memviewslice, __Pyx_memviewslice); /*proto*/
+static void __pyx_f_6mlgrad_9inventory__covariance_matrix(__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice); /*proto*/
+static void __pyx_f_6mlgrad_9inventory__covariance_matrix_weighted(double *, double const *, double const *, double *, Py_ssize_t const , Py_ssize_t const ); /*proto*/
 static int __pyx_array_allocate_buffer(struct __pyx_array_obj *); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo *); /*proto*/
@@ -3276,7 +3288,11 @@ static PyObject *__pyx_builtin_ImportError;
 /* #### Code section: string_decls ### */
 static const char __pyx_k_[] = ": ";
 static const char __pyx_k_O[] = "O";
+static const char __pyx_k_S[] = "S";
+static const char __pyx_k_W[] = "W";
+static const char __pyx_k_X[] = "X";
 static const char __pyx_k_c[] = "c";
+static const char __pyx_k_n[] = "n";
 static const char __pyx_k_x[] = "x";
 static const char __pyx_k_y[] = "y";
 static const char __pyx_k__2[] = ".";
@@ -3286,10 +3302,11 @@ static const char __pyx_k__7[] = ")";
 static const char __pyx_k_gc[] = "gc";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_xx[] = "xx";
-static const char __pyx_k__27[] = "?";
+static const char __pyx_k__31[] = "?";
 static const char __pyx_k_abc[] = "abc";
 static const char __pyx_k_and[] = " and ";
 static const char __pyx_k_got[] = " (got ";
+static const char __pyx_k_loc[] = "loc";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_sys[] = "sys";
@@ -3365,6 +3382,7 @@ static const char __pyx_k_dtype_is_object[] = "dtype_is_object";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_mlgrad_inventory[] = "mlgrad.inventory";
+static const char __pyx_k_covariance_matrix[] = "covariance_matrix";
 static const char __pyx_k_pyx_unpickle_Enum[] = "__pyx_unpickle_Enum";
 static const char __pyx_k_asyncio_coroutines[] = "asyncio.coroutines";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
@@ -3379,6 +3397,7 @@ static const char __pyx_k_contiguous_and_indirect[] = "<contiguous and indirect>
 static const char __pyx_k_lib_mlgrad_inventory_pyx[] = "lib/mlgrad/inventory.pyx";
 static const char __pyx_k_Dimension_d_is_not_direct[] = "Dimension %d is not direct";
 static const char __pyx_k_Index_out_of_bounds_axis_d[] = "Index out of bounds (axis %d)";
+static const char __pyx_k_covariance_matrix_weighted[] = "covariance_matrix_weighted";
 static const char __pyx_k_Step_may_not_be_zero_axis_d[] = "Step may not be zero (axis %d)";
 static const char __pyx_k_itemsize_0_for_cython_array[] = "itemsize <= 0 for cython.array";
 static const char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate array data.";
@@ -3445,6 +3464,9 @@ static PyObject *__pyx_pf_15View_dot_MemoryView___pyx_unpickle_Enum(CYTHON_UNUSE
 static PyObject *__pyx_pf_6mlgrad_9inventory_median_1d(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
 static PyObject *__pyx_pf_6mlgrad_9inventory_2median_2d_t(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
 static PyObject *__pyx_pf_6mlgrad_9inventory_4median_2d(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
+static PyObject *__pyx_pf_6mlgrad_9inventory_10__defaults__(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_6mlgrad_9inventory_6covariance_matrix(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_loc, __Pyx_memviewslice __pyx_v_S); /* proto */
+static PyObject *__pyx_pf_6mlgrad_9inventory_8covariance_matrix_weighted(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_W, __Pyx_memviewslice __pyx_v_loc, __Pyx_memviewslice __pyx_v_S); /* proto */
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -3562,15 +3584,18 @@ typedef struct {
   PyObject *__pyx_n_b_O;
   PyObject *__pyx_kp_u_Out_of_bounds_on_buffer_access_a;
   PyObject *__pyx_n_s_PickleError;
+  PyObject *__pyx_n_s_S;
   PyObject *__pyx_n_s_Sequence;
   PyObject *__pyx_kp_s_Step_may_not_be_zero_axis_d;
   PyObject *__pyx_n_s_TypeError;
   PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
   PyObject *__pyx_n_s_ValueError;
   PyObject *__pyx_n_s_View_MemoryView;
+  PyObject *__pyx_n_s_W;
+  PyObject *__pyx_n_s_X;
   PyObject *__pyx_kp_u__2;
-  PyObject *__pyx_n_s__27;
   PyObject *__pyx_n_s__3;
+  PyObject *__pyx_n_s__31;
   PyObject *__pyx_kp_u__6;
   PyObject *__pyx_kp_u__7;
   PyObject *__pyx_n_s_abc;
@@ -3588,6 +3613,8 @@ typedef struct {
   PyObject *__pyx_kp_s_contiguous_and_direct;
   PyObject *__pyx_kp_s_contiguous_and_indirect;
   PyObject *__pyx_n_s_count;
+  PyObject *__pyx_n_s_covariance_matrix;
+  PyObject *__pyx_n_s_covariance_matrix_weighted;
   PyObject *__pyx_n_s_dict;
   PyObject *__pyx_kp_u_disable;
   PyObject *__pyx_n_s_dtype_is_object;
@@ -3612,6 +3639,7 @@ typedef struct {
   PyObject *__pyx_n_s_itemsize;
   PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
   PyObject *__pyx_kp_s_lib_mlgrad_inventory_pyx;
+  PyObject *__pyx_n_s_loc;
   PyObject *__pyx_n_s_main;
   PyObject *__pyx_n_s_median_1d;
   PyObject *__pyx_n_s_median_2d;
@@ -3619,6 +3647,7 @@ typedef struct {
   PyObject *__pyx_n_s_memview;
   PyObject *__pyx_n_s_mlgrad_inventory;
   PyObject *__pyx_n_s_mode;
+  PyObject *__pyx_n_s_n;
   PyObject *__pyx_n_s_name;
   PyObject *__pyx_n_s_name_2;
   PyObject *__pyx_n_s_ndim;
@@ -3688,10 +3717,14 @@ typedef struct {
   PyObject *__pyx_tuple__20;
   PyObject *__pyx_tuple__22;
   PyObject *__pyx_tuple__24;
+  PyObject *__pyx_tuple__27;
+  PyObject *__pyx_tuple__29;
   PyObject *__pyx_codeobj__21;
   PyObject *__pyx_codeobj__23;
   PyObject *__pyx_codeobj__25;
   PyObject *__pyx_codeobj__26;
+  PyObject *__pyx_codeobj__28;
+  PyObject *__pyx_codeobj__30;
 } __pyx_mstate;
 
 #if CYTHON_USE_MODULE_STATE
@@ -3784,15 +3817,18 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_b_O);
   Py_CLEAR(clear_module_state->__pyx_kp_u_Out_of_bounds_on_buffer_access_a);
   Py_CLEAR(clear_module_state->__pyx_n_s_PickleError);
+  Py_CLEAR(clear_module_state->__pyx_n_s_S);
   Py_CLEAR(clear_module_state->__pyx_n_s_Sequence);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Step_may_not_be_zero_axis_d);
   Py_CLEAR(clear_module_state->__pyx_n_s_TypeError);
   Py_CLEAR(clear_module_state->__pyx_kp_s_Unable_to_convert_item_to_object);
   Py_CLEAR(clear_module_state->__pyx_n_s_ValueError);
   Py_CLEAR(clear_module_state->__pyx_n_s_View_MemoryView);
+  Py_CLEAR(clear_module_state->__pyx_n_s_W);
+  Py_CLEAR(clear_module_state->__pyx_n_s_X);
   Py_CLEAR(clear_module_state->__pyx_kp_u__2);
-  Py_CLEAR(clear_module_state->__pyx_n_s__27);
   Py_CLEAR(clear_module_state->__pyx_n_s__3);
+  Py_CLEAR(clear_module_state->__pyx_n_s__31);
   Py_CLEAR(clear_module_state->__pyx_kp_u__6);
   Py_CLEAR(clear_module_state->__pyx_kp_u__7);
   Py_CLEAR(clear_module_state->__pyx_n_s_abc);
@@ -3810,6 +3846,8 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_kp_s_contiguous_and_direct);
   Py_CLEAR(clear_module_state->__pyx_kp_s_contiguous_and_indirect);
   Py_CLEAR(clear_module_state->__pyx_n_s_count);
+  Py_CLEAR(clear_module_state->__pyx_n_s_covariance_matrix);
+  Py_CLEAR(clear_module_state->__pyx_n_s_covariance_matrix_weighted);
   Py_CLEAR(clear_module_state->__pyx_n_s_dict);
   Py_CLEAR(clear_module_state->__pyx_kp_u_disable);
   Py_CLEAR(clear_module_state->__pyx_n_s_dtype_is_object);
@@ -3834,6 +3872,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_itemsize);
   Py_CLEAR(clear_module_state->__pyx_kp_s_itemsize_0_for_cython_array);
   Py_CLEAR(clear_module_state->__pyx_kp_s_lib_mlgrad_inventory_pyx);
+  Py_CLEAR(clear_module_state->__pyx_n_s_loc);
   Py_CLEAR(clear_module_state->__pyx_n_s_main);
   Py_CLEAR(clear_module_state->__pyx_n_s_median_1d);
   Py_CLEAR(clear_module_state->__pyx_n_s_median_2d);
@@ -3841,6 +3880,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_n_s_memview);
   Py_CLEAR(clear_module_state->__pyx_n_s_mlgrad_inventory);
   Py_CLEAR(clear_module_state->__pyx_n_s_mode);
+  Py_CLEAR(clear_module_state->__pyx_n_s_n);
   Py_CLEAR(clear_module_state->__pyx_n_s_name);
   Py_CLEAR(clear_module_state->__pyx_n_s_name_2);
   Py_CLEAR(clear_module_state->__pyx_n_s_ndim);
@@ -3910,10 +3950,14 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_tuple__20);
   Py_CLEAR(clear_module_state->__pyx_tuple__22);
   Py_CLEAR(clear_module_state->__pyx_tuple__24);
+  Py_CLEAR(clear_module_state->__pyx_tuple__27);
+  Py_CLEAR(clear_module_state->__pyx_tuple__29);
   Py_CLEAR(clear_module_state->__pyx_codeobj__21);
   Py_CLEAR(clear_module_state->__pyx_codeobj__23);
   Py_CLEAR(clear_module_state->__pyx_codeobj__25);
   Py_CLEAR(clear_module_state->__pyx_codeobj__26);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__28);
+  Py_CLEAR(clear_module_state->__pyx_codeobj__30);
   return 0;
 }
 #endif
@@ -3984,15 +4028,18 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_b_O);
   Py_VISIT(traverse_module_state->__pyx_kp_u_Out_of_bounds_on_buffer_access_a);
   Py_VISIT(traverse_module_state->__pyx_n_s_PickleError);
+  Py_VISIT(traverse_module_state->__pyx_n_s_S);
   Py_VISIT(traverse_module_state->__pyx_n_s_Sequence);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Step_may_not_be_zero_axis_d);
   Py_VISIT(traverse_module_state->__pyx_n_s_TypeError);
   Py_VISIT(traverse_module_state->__pyx_kp_s_Unable_to_convert_item_to_object);
   Py_VISIT(traverse_module_state->__pyx_n_s_ValueError);
   Py_VISIT(traverse_module_state->__pyx_n_s_View_MemoryView);
+  Py_VISIT(traverse_module_state->__pyx_n_s_W);
+  Py_VISIT(traverse_module_state->__pyx_n_s_X);
   Py_VISIT(traverse_module_state->__pyx_kp_u__2);
-  Py_VISIT(traverse_module_state->__pyx_n_s__27);
   Py_VISIT(traverse_module_state->__pyx_n_s__3);
+  Py_VISIT(traverse_module_state->__pyx_n_s__31);
   Py_VISIT(traverse_module_state->__pyx_kp_u__6);
   Py_VISIT(traverse_module_state->__pyx_kp_u__7);
   Py_VISIT(traverse_module_state->__pyx_n_s_abc);
@@ -4010,6 +4057,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_kp_s_contiguous_and_direct);
   Py_VISIT(traverse_module_state->__pyx_kp_s_contiguous_and_indirect);
   Py_VISIT(traverse_module_state->__pyx_n_s_count);
+  Py_VISIT(traverse_module_state->__pyx_n_s_covariance_matrix);
+  Py_VISIT(traverse_module_state->__pyx_n_s_covariance_matrix_weighted);
   Py_VISIT(traverse_module_state->__pyx_n_s_dict);
   Py_VISIT(traverse_module_state->__pyx_kp_u_disable);
   Py_VISIT(traverse_module_state->__pyx_n_s_dtype_is_object);
@@ -4034,6 +4083,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_itemsize);
   Py_VISIT(traverse_module_state->__pyx_kp_s_itemsize_0_for_cython_array);
   Py_VISIT(traverse_module_state->__pyx_kp_s_lib_mlgrad_inventory_pyx);
+  Py_VISIT(traverse_module_state->__pyx_n_s_loc);
   Py_VISIT(traverse_module_state->__pyx_n_s_main);
   Py_VISIT(traverse_module_state->__pyx_n_s_median_1d);
   Py_VISIT(traverse_module_state->__pyx_n_s_median_2d);
@@ -4041,6 +4091,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_n_s_memview);
   Py_VISIT(traverse_module_state->__pyx_n_s_mlgrad_inventory);
   Py_VISIT(traverse_module_state->__pyx_n_s_mode);
+  Py_VISIT(traverse_module_state->__pyx_n_s_n);
   Py_VISIT(traverse_module_state->__pyx_n_s_name);
   Py_VISIT(traverse_module_state->__pyx_n_s_name_2);
   Py_VISIT(traverse_module_state->__pyx_n_s_ndim);
@@ -4110,10 +4161,14 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_tuple__20);
   Py_VISIT(traverse_module_state->__pyx_tuple__22);
   Py_VISIT(traverse_module_state->__pyx_tuple__24);
+  Py_VISIT(traverse_module_state->__pyx_tuple__27);
+  Py_VISIT(traverse_module_state->__pyx_tuple__29);
   Py_VISIT(traverse_module_state->__pyx_codeobj__21);
   Py_VISIT(traverse_module_state->__pyx_codeobj__23);
   Py_VISIT(traverse_module_state->__pyx_codeobj__25);
   Py_VISIT(traverse_module_state->__pyx_codeobj__26);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__28);
+  Py_VISIT(traverse_module_state->__pyx_codeobj__30);
   return 0;
 }
 #endif
@@ -4228,15 +4283,18 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_b_O __pyx_mstate_global->__pyx_n_b_O
 #define __pyx_kp_u_Out_of_bounds_on_buffer_access_a __pyx_mstate_global->__pyx_kp_u_Out_of_bounds_on_buffer_access_a
 #define __pyx_n_s_PickleError __pyx_mstate_global->__pyx_n_s_PickleError
+#define __pyx_n_s_S __pyx_mstate_global->__pyx_n_s_S
 #define __pyx_n_s_Sequence __pyx_mstate_global->__pyx_n_s_Sequence
 #define __pyx_kp_s_Step_may_not_be_zero_axis_d __pyx_mstate_global->__pyx_kp_s_Step_may_not_be_zero_axis_d
 #define __pyx_n_s_TypeError __pyx_mstate_global->__pyx_n_s_TypeError
 #define __pyx_kp_s_Unable_to_convert_item_to_object __pyx_mstate_global->__pyx_kp_s_Unable_to_convert_item_to_object
 #define __pyx_n_s_ValueError __pyx_mstate_global->__pyx_n_s_ValueError
 #define __pyx_n_s_View_MemoryView __pyx_mstate_global->__pyx_n_s_View_MemoryView
+#define __pyx_n_s_W __pyx_mstate_global->__pyx_n_s_W
+#define __pyx_n_s_X __pyx_mstate_global->__pyx_n_s_X
 #define __pyx_kp_u__2 __pyx_mstate_global->__pyx_kp_u__2
-#define __pyx_n_s__27 __pyx_mstate_global->__pyx_n_s__27
 #define __pyx_n_s__3 __pyx_mstate_global->__pyx_n_s__3
+#define __pyx_n_s__31 __pyx_mstate_global->__pyx_n_s__31
 #define __pyx_kp_u__6 __pyx_mstate_global->__pyx_kp_u__6
 #define __pyx_kp_u__7 __pyx_mstate_global->__pyx_kp_u__7
 #define __pyx_n_s_abc __pyx_mstate_global->__pyx_n_s_abc
@@ -4254,6 +4312,8 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_kp_s_contiguous_and_direct __pyx_mstate_global->__pyx_kp_s_contiguous_and_direct
 #define __pyx_kp_s_contiguous_and_indirect __pyx_mstate_global->__pyx_kp_s_contiguous_and_indirect
 #define __pyx_n_s_count __pyx_mstate_global->__pyx_n_s_count
+#define __pyx_n_s_covariance_matrix __pyx_mstate_global->__pyx_n_s_covariance_matrix
+#define __pyx_n_s_covariance_matrix_weighted __pyx_mstate_global->__pyx_n_s_covariance_matrix_weighted
 #define __pyx_n_s_dict __pyx_mstate_global->__pyx_n_s_dict
 #define __pyx_kp_u_disable __pyx_mstate_global->__pyx_kp_u_disable
 #define __pyx_n_s_dtype_is_object __pyx_mstate_global->__pyx_n_s_dtype_is_object
@@ -4278,6 +4338,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_itemsize __pyx_mstate_global->__pyx_n_s_itemsize
 #define __pyx_kp_s_itemsize_0_for_cython_array __pyx_mstate_global->__pyx_kp_s_itemsize_0_for_cython_array
 #define __pyx_kp_s_lib_mlgrad_inventory_pyx __pyx_mstate_global->__pyx_kp_s_lib_mlgrad_inventory_pyx
+#define __pyx_n_s_loc __pyx_mstate_global->__pyx_n_s_loc
 #define __pyx_n_s_main __pyx_mstate_global->__pyx_n_s_main
 #define __pyx_n_s_median_1d __pyx_mstate_global->__pyx_n_s_median_1d
 #define __pyx_n_s_median_2d __pyx_mstate_global->__pyx_n_s_median_2d
@@ -4285,6 +4346,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_n_s_memview __pyx_mstate_global->__pyx_n_s_memview
 #define __pyx_n_s_mlgrad_inventory __pyx_mstate_global->__pyx_n_s_mlgrad_inventory
 #define __pyx_n_s_mode __pyx_mstate_global->__pyx_n_s_mode
+#define __pyx_n_s_n __pyx_mstate_global->__pyx_n_s_n
 #define __pyx_n_s_name __pyx_mstate_global->__pyx_n_s_name
 #define __pyx_n_s_name_2 __pyx_mstate_global->__pyx_n_s_name_2
 #define __pyx_n_s_ndim __pyx_mstate_global->__pyx_n_s_ndim
@@ -4354,10 +4416,14 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_tuple__20 __pyx_mstate_global->__pyx_tuple__20
 #define __pyx_tuple__22 __pyx_mstate_global->__pyx_tuple__22
 #define __pyx_tuple__24 __pyx_mstate_global->__pyx_tuple__24
+#define __pyx_tuple__27 __pyx_mstate_global->__pyx_tuple__27
+#define __pyx_tuple__29 __pyx_mstate_global->__pyx_tuple__29
 #define __pyx_codeobj__21 __pyx_mstate_global->__pyx_codeobj__21
 #define __pyx_codeobj__23 __pyx_mstate_global->__pyx_codeobj__23
 #define __pyx_codeobj__25 __pyx_mstate_global->__pyx_codeobj__25
 #define __pyx_codeobj__26 __pyx_mstate_global->__pyx_codeobj__26
+#define __pyx_codeobj__28 __pyx_mstate_global->__pyx_codeobj__28
+#define __pyx_codeobj__30 __pyx_mstate_global->__pyx_codeobj__30
 /* #### Code section: module_code ### */
 
 /* "View.MemoryView":131
@@ -20699,7 +20765,7 @@ static double __pyx_f_6mlgrad_9inventory__min(double *__pyx_v_a, Py_ssize_t __py
  * 
  *     return a_min             # <<<<<<<<<<<<<<
  * 
- * cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:
+ * cdef int hasnan(double[::1] a) noexcept nogil:
  */
   __pyx_r = __pyx_v_a_min;
   goto __pyx_L0;
@@ -20720,53 +20786,6 @@ static double __pyx_f_6mlgrad_9inventory__min(double *__pyx_v_a, Py_ssize_t __py
 /* "mlgrad/inventory.pyx":78
  *     return a_min
  * 
- * cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
- *     cdef Py_ssize_t i
- *     for i in range(n):
- */
-
-static void __pyx_f_6mlgrad_9inventory__clear(double *__pyx_v_to, Py_ssize_t const __pyx_v_n) {
-  Py_ssize_t __pyx_v_i;
-  Py_ssize_t __pyx_t_1;
-  Py_ssize_t __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-
-  /* "mlgrad/inventory.pyx":80
- * cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:
- *     cdef Py_ssize_t i
- *     for i in range(n):             # <<<<<<<<<<<<<<
- *         to[i] = 0
- * 
- */
-  __pyx_t_1 = __pyx_v_n;
-  __pyx_t_2 = __pyx_t_1;
-  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
-    __pyx_v_i = __pyx_t_3;
-
-    /* "mlgrad/inventory.pyx":81
- *     cdef Py_ssize_t i
- *     for i in range(n):
- *         to[i] = 0             # <<<<<<<<<<<<<<
- * 
- * cdef int hasnan(double[::1] a) noexcept nogil:
- */
-    (__pyx_v_to[__pyx_v_i]) = 0.0;
-  }
-
-  /* "mlgrad/inventory.pyx":78
- *     return a_min
- * 
- * cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
- *     cdef Py_ssize_t i
- *     for i in range(n):
- */
-
-  /* function exit code */
-}
-
-/* "mlgrad/inventory.pyx":83
- *         to[i] = 0
- * 
  * cdef int hasnan(double[::1] a) noexcept nogil:             # <<<<<<<<<<<<<<
  *     return _hasnan(&a[0], a.shape[0])
  * 
@@ -20783,7 +20802,7 @@ static int __pyx_f_6mlgrad_9inventory_hasnan(__Pyx_memviewslice __pyx_v_a) {
   PyGILState_STATE __pyx_gilstate_save;
   #endif
 
-  /* "mlgrad/inventory.pyx":84
+  /* "mlgrad/inventory.pyx":79
  * 
  * cdef int hasnan(double[::1] a) noexcept nogil:
  *     return _hasnan(&a[0], a.shape[0])             # <<<<<<<<<<<<<<
@@ -20798,7 +20817,7 @@ static int __pyx_f_6mlgrad_9inventory_hasnan(__Pyx_memviewslice __pyx_v_a) {
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 84, __pyx_L1_error)
+    __PYX_ERR(0, 79, __pyx_L1_error)
   }
   __pyx_t_1 = 0;
   __pyx_t_2 = -1;
@@ -20808,7 +20827,7 @@ static int __pyx_f_6mlgrad_9inventory_hasnan(__Pyx_memviewslice __pyx_v_a) {
   } else if (unlikely(__pyx_t_1 >= __pyx_v_a.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_2);
-    __PYX_ERR(0, 84, __pyx_L1_error)
+    __PYX_ERR(0, 79, __pyx_L1_error)
   }
   if (unlikely(((PyObject *) __pyx_v_a.memview) == Py_None)) {
     #ifdef WITH_THREAD
@@ -20818,13 +20837,13 @@ static int __pyx_f_6mlgrad_9inventory_hasnan(__Pyx_memviewslice __pyx_v_a) {
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 84, __pyx_L1_error)
+    __PYX_ERR(0, 79, __pyx_L1_error)
   }
   __pyx_r = __pyx_f_6mlgrad_9inventory__hasnan((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_a.data) + __pyx_t_1)) )))), (__pyx_v_a.shape[0]));
   goto __pyx_L0;
 
-  /* "mlgrad/inventory.pyx":83
- *         to[i] = 0
+  /* "mlgrad/inventory.pyx":78
+ *     return a_min
  * 
  * cdef int hasnan(double[::1] a) noexcept nogil:             # <<<<<<<<<<<<<<
  *     return _hasnan(&a[0], a.shape[0])
@@ -20845,7 +20864,7 @@ static int __pyx_f_6mlgrad_9inventory_hasnan(__Pyx_memviewslice __pyx_v_a) {
   return __pyx_r;
 }
 
-/* "mlgrad/inventory.pyx":86
+/* "mlgrad/inventory.pyx":81
  *     return _hasnan(&a[0], a.shape[0])
  * 
  * cdef int _hasnan(double *a, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
@@ -20861,7 +20880,7 @@ static int __pyx_f_6mlgrad_9inventory__hasnan(double *__pyx_v_a, Py_ssize_t cons
   Py_ssize_t __pyx_t_3;
   int __pyx_t_4;
 
-  /* "mlgrad/inventory.pyx":88
+  /* "mlgrad/inventory.pyx":83
  * cdef int _hasnan(double *a, const Py_ssize_t n) noexcept nogil:
  *     cdef Py_ssize_t i
  *     for i in range(n):             # <<<<<<<<<<<<<<
@@ -20873,7 +20892,7 @@ static int __pyx_f_6mlgrad_9inventory__hasnan(double *__pyx_v_a, Py_ssize_t cons
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/inventory.pyx":89
+    /* "mlgrad/inventory.pyx":84
  *     cdef Py_ssize_t i
  *     for i in range(n):
  *         if isnan(a[i]):             # <<<<<<<<<<<<<<
@@ -20883,7 +20902,7 @@ static int __pyx_f_6mlgrad_9inventory__hasnan(double *__pyx_v_a, Py_ssize_t cons
     __pyx_t_4 = isnan((__pyx_v_a[__pyx_v_i]));
     if (__pyx_t_4) {
 
-      /* "mlgrad/inventory.pyx":90
+      /* "mlgrad/inventory.pyx":85
  *     for i in range(n):
  *         if isnan(a[i]):
  *             return 1             # <<<<<<<<<<<<<<
@@ -20893,7 +20912,7 @@ static int __pyx_f_6mlgrad_9inventory__hasnan(double *__pyx_v_a, Py_ssize_t cons
       __pyx_r = 1;
       goto __pyx_L0;
 
-      /* "mlgrad/inventory.pyx":89
+      /* "mlgrad/inventory.pyx":84
  *     cdef Py_ssize_t i
  *     for i in range(n):
  *         if isnan(a[i]):             # <<<<<<<<<<<<<<
@@ -20903,17 +20922,17 @@ static int __pyx_f_6mlgrad_9inventory__hasnan(double *__pyx_v_a, Py_ssize_t cons
     }
   }
 
-  /* "mlgrad/inventory.pyx":91
+  /* "mlgrad/inventory.pyx":86
  *         if isnan(a[i]):
  *             return 1
  *     return 0             # <<<<<<<<<<<<<<
  * 
- * cdef void clear(double[::1] to) noexcept nogil:
+ * cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:
  */
   __pyx_r = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/inventory.pyx":86
+  /* "mlgrad/inventory.pyx":81
  *     return _hasnan(&a[0], a.shape[0])
  * 
  * cdef int _hasnan(double *a, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
@@ -20926,8 +20945,55 @@ static int __pyx_f_6mlgrad_9inventory__hasnan(double *__pyx_v_a, Py_ssize_t cons
   return __pyx_r;
 }
 
-/* "mlgrad/inventory.pyx":93
+/* "mlgrad/inventory.pyx":88
  *     return 0
+ * 
+ * cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i
+ *     for i in range(n):
+ */
+
+static void __pyx_f_6mlgrad_9inventory__clear(double *__pyx_v_to, Py_ssize_t const __pyx_v_n) {
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+
+  /* "mlgrad/inventory.pyx":90
+ * cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:
+ *     cdef Py_ssize_t i
+ *     for i in range(n):             # <<<<<<<<<<<<<<
+ *         to[i] = 0
+ * 
+ */
+  __pyx_t_1 = __pyx_v_n;
+  __pyx_t_2 = __pyx_t_1;
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+
+    /* "mlgrad/inventory.pyx":91
+ *     cdef Py_ssize_t i
+ *     for i in range(n):
+ *         to[i] = 0             # <<<<<<<<<<<<<<
+ * 
+ * cdef void clear(double[::1] to) noexcept nogil:
+ */
+    (__pyx_v_to[__pyx_v_i]) = 0.0;
+  }
+
+  /* "mlgrad/inventory.pyx":88
+ *     return 0
+ * 
+ * cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i
+ *     for i in range(n):
+ */
+
+  /* function exit code */
+}
+
+/* "mlgrad/inventory.pyx":93
+ *         to[i] = 0
  * 
  * cdef void clear(double[::1] to) noexcept nogil:             # <<<<<<<<<<<<<<
  *     _clear(&to[0], <const Py_ssize_t>to.shape[0])
@@ -20984,7 +21050,7 @@ static void __pyx_f_6mlgrad_9inventory_clear(__Pyx_memviewslice __pyx_v_to) {
   __pyx_f_6mlgrad_9inventory__clear((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_to.data) + __pyx_t_1)) )))), ((Py_ssize_t const )(__pyx_v_to.shape[0])));
 
   /* "mlgrad/inventory.pyx":93
- *     return 0
+ *         to[i] = 0
  * 
  * cdef void clear(double[::1] to) noexcept nogil:             # <<<<<<<<<<<<<<
  *     _clear(&to[0], <const Py_ssize_t>to.shape[0])
@@ -26477,7 +26543,7 @@ static void __pyx_f_6mlgrad_9inventory_scatter_matrix(__Pyx_memviewslice __pyx_v
  *             Xk = &X[0,0]
  *             s = 0             # <<<<<<<<<<<<<<
  *             for k in range(N):
- *                 s = fma(Xk[i], Xk[j], s)
+ *                 s += Xk[i] * Xk[j]
  */
       __pyx_v_s = 0.0;
 
@@ -26485,7 +26551,7 @@ static void __pyx_f_6mlgrad_9inventory_scatter_matrix(__Pyx_memviewslice __pyx_v
  *             Xk = &X[0,0]
  *             s = 0
  *             for k in range(N):             # <<<<<<<<<<<<<<
- *                 s = fma(Xk[i], Xk[j], s)
+ *                 s += Xk[i] * Xk[j]
  *                 Xk += n
  */
       __pyx_t_10 = __pyx_v_N;
@@ -26496,15 +26562,15 @@ static void __pyx_f_6mlgrad_9inventory_scatter_matrix(__Pyx_memviewslice __pyx_v
         /* "mlgrad/inventory.pyx":457
  *             s = 0
  *             for k in range(N):
- *                 s = fma(Xk[i], Xk[j], s)             # <<<<<<<<<<<<<<
+ *                 s += Xk[i] * Xk[j]             # <<<<<<<<<<<<<<
  *                 Xk += n
  *             ss[j] = s
  */
-        __pyx_v_s = fma((__pyx_v_Xk[__pyx_v_i]), (__pyx_v_Xk[__pyx_v_j]), __pyx_v_s);
+        __pyx_v_s = (__pyx_v_s + ((__pyx_v_Xk[__pyx_v_i]) * (__pyx_v_Xk[__pyx_v_j])));
 
         /* "mlgrad/inventory.pyx":458
  *             for k in range(N):
- *                 s = fma(Xk[i], Xk[j], s)
+ *                 s += Xk[i] * Xk[j]
  *                 Xk += n             # <<<<<<<<<<<<<<
  *             ss[j] = s
  *         ss += n
@@ -26513,7 +26579,7 @@ static void __pyx_f_6mlgrad_9inventory_scatter_matrix(__Pyx_memviewslice __pyx_v
       }
 
       /* "mlgrad/inventory.pyx":459
- *                 s = fma(Xk[i], Xk[j], s)
+ *                 s += Xk[i] * Xk[j]
  *                 Xk += n
  *             ss[j] = s             # <<<<<<<<<<<<<<
  *         ss += n
@@ -26920,7 +26986,7 @@ static PyObject *__pyx_f_6mlgrad_9inventory_empty_array(Py_ssize_t __pyx_v_size)
  *     cdef numpy.npy_intp n = size
  *     return numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)             # <<<<<<<<<<<<<<
  * 
- * # cdef inline void swap(double *a, double *b) noexcept nogil:
+ * cdef object empty_array2(Py_ssize_t size1, Py_ssize_t size2):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyArray_EMPTY(1, (&__pyx_v_n), NPY_DOUBLE, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 497, __pyx_L1_error)
@@ -26948,7 +27014,76 @@ static PyObject *__pyx_f_6mlgrad_9inventory_empty_array(Py_ssize_t __pyx_v_size)
   return __pyx_r;
 }
 
-/* "mlgrad/inventory.pyx":504
+/* "mlgrad/inventory.pyx":499
+ *     return numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+ * 
+ * cdef object empty_array2(Py_ssize_t size1, Py_ssize_t size2):             # <<<<<<<<<<<<<<
+ *     cdef numpy.npy_intp[2] n
+ * 
+ */
+
+static PyObject *__pyx_f_6mlgrad_9inventory_empty_array2(Py_ssize_t __pyx_v_size1, Py_ssize_t __pyx_v_size2) {
+  npy_intp __pyx_v_n[2];
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("empty_array2", 1);
+
+  /* "mlgrad/inventory.pyx":502
+ *     cdef numpy.npy_intp[2] n
+ * 
+ *     n[0] = size1             # <<<<<<<<<<<<<<
+ *     n[1] = size2
+ *     return numpy.PyArray_EMPTY(2, &n[0], numpy.NPY_DOUBLE, 0)
+ */
+  (__pyx_v_n[0]) = __pyx_v_size1;
+
+  /* "mlgrad/inventory.pyx":503
+ * 
+ *     n[0] = size1
+ *     n[1] = size2             # <<<<<<<<<<<<<<
+ *     return numpy.PyArray_EMPTY(2, &n[0], numpy.NPY_DOUBLE, 0)
+ * 
+ */
+  (__pyx_v_n[1]) = __pyx_v_size2;
+
+  /* "mlgrad/inventory.pyx":504
+ *     n[0] = size1
+ *     n[1] = size2
+ *     return numpy.PyArray_EMPTY(2, &n[0], numpy.NPY_DOUBLE, 0)             # <<<<<<<<<<<<<<
+ * 
+ * # cdef inline void swap(double *a, double *b) noexcept nogil:
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyArray_EMPTY(2, (&(__pyx_v_n[0])), NPY_DOUBLE, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 504, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "mlgrad/inventory.pyx":499
+ *     return numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+ * 
+ * cdef object empty_array2(Py_ssize_t size1, Py_ssize_t size2):             # <<<<<<<<<<<<<<
+ *     cdef numpy.npy_intp[2] n
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("mlgrad.inventory.empty_array2", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "mlgrad/inventory.pyx":511
  * #     b[0]=t
  * 
  * cdef double _mean(double *a, Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
@@ -26970,7 +27105,7 @@ static double __pyx_f_6mlgrad_9inventory__mean(double *__pyx_v_a, Py_ssize_t __p
   PyGILState_STATE __pyx_gilstate_save;
   #endif
 
-  /* "mlgrad/inventory.pyx":506
+  /* "mlgrad/inventory.pyx":513
  * cdef double _mean(double *a, Py_ssize_t n) noexcept nogil:
  *     cdef Py_ssize_t i
  *     cdef double s = 0             # <<<<<<<<<<<<<<
@@ -26979,7 +27114,7 @@ static double __pyx_f_6mlgrad_9inventory__mean(double *__pyx_v_a, Py_ssize_t __p
  */
   __pyx_v_s = 0.0;
 
-  /* "mlgrad/inventory.pyx":508
+  /* "mlgrad/inventory.pyx":515
  *     cdef double s = 0
  * 
  *     for i in range(n):             # <<<<<<<<<<<<<<
@@ -26991,7 +27126,7 @@ static double __pyx_f_6mlgrad_9inventory__mean(double *__pyx_v_a, Py_ssize_t __p
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/inventory.pyx":509
+    /* "mlgrad/inventory.pyx":516
  * 
  *     for i in range(n):
  *         s += a[i]             # <<<<<<<<<<<<<<
@@ -27001,7 +27136,7 @@ static double __pyx_f_6mlgrad_9inventory__mean(double *__pyx_v_a, Py_ssize_t __p
     __pyx_v_s = (__pyx_v_s + (__pyx_v_a[__pyx_v_i]));
   }
 
-  /* "mlgrad/inventory.pyx":510
+  /* "mlgrad/inventory.pyx":517
  *     for i in range(n):
  *         s += a[i]
  *     return s/n             # <<<<<<<<<<<<<<
@@ -27016,12 +27151,12 @@ static double __pyx_f_6mlgrad_9inventory__mean(double *__pyx_v_a, Py_ssize_t __p
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 510, __pyx_L1_error)
+    __PYX_ERR(0, 517, __pyx_L1_error)
   }
   __pyx_r = (__pyx_v_s / ((double)__pyx_v_n));
   goto __pyx_L0;
 
-  /* "mlgrad/inventory.pyx":504
+  /* "mlgrad/inventory.pyx":511
  * #     b[0]=t
  * 
  * cdef double _mean(double *a, Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
@@ -27043,7 +27178,7 @@ static double __pyx_f_6mlgrad_9inventory__mean(double *__pyx_v_a, Py_ssize_t __p
   return __pyx_r;
 }
 
-/* "mlgrad/inventory.pyx":512
+/* "mlgrad/inventory.pyx":519
  *     return s/n
  * 
  * cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
@@ -27066,7 +27201,7 @@ static double __pyx_f_6mlgrad_9inventory__std(double *__pyx_v_a, double __pyx_v_
   PyGILState_STATE __pyx_gilstate_save;
   #endif
 
-  /* "mlgrad/inventory.pyx":514
+  /* "mlgrad/inventory.pyx":521
  * cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil:
  *     cdef Py_ssize_t i
  *     cdef double v, s = 0             # <<<<<<<<<<<<<<
@@ -27075,7 +27210,7 @@ static double __pyx_f_6mlgrad_9inventory__std(double *__pyx_v_a, double __pyx_v_
  */
   __pyx_v_s = 0.0;
 
-  /* "mlgrad/inventory.pyx":516
+  /* "mlgrad/inventory.pyx":523
  *     cdef double v, s = 0
  * 
  *     for i in range(n):             # <<<<<<<<<<<<<<
@@ -27087,7 +27222,7 @@ static double __pyx_f_6mlgrad_9inventory__std(double *__pyx_v_a, double __pyx_v_
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/inventory.pyx":517
+    /* "mlgrad/inventory.pyx":524
  * 
  *     for i in range(n):
  *         v = a[i] - mu             # <<<<<<<<<<<<<<
@@ -27096,7 +27231,7 @@ static double __pyx_f_6mlgrad_9inventory__std(double *__pyx_v_a, double __pyx_v_
  */
     __pyx_v_v = ((__pyx_v_a[__pyx_v_i]) - __pyx_v_mu);
 
-    /* "mlgrad/inventory.pyx":518
+    /* "mlgrad/inventory.pyx":525
  *     for i in range(n):
  *         v = a[i] - mu
  *         s += v*v             # <<<<<<<<<<<<<<
@@ -27106,7 +27241,7 @@ static double __pyx_f_6mlgrad_9inventory__std(double *__pyx_v_a, double __pyx_v_
     __pyx_v_s = (__pyx_v_s + (__pyx_v_v * __pyx_v_v));
   }
 
-  /* "mlgrad/inventory.pyx":519
+  /* "mlgrad/inventory.pyx":526
  *         v = a[i] - mu
  *         s += v*v
  *     return sqrt(s/n)             # <<<<<<<<<<<<<<
@@ -27121,12 +27256,12 @@ static double __pyx_f_6mlgrad_9inventory__std(double *__pyx_v_a, double __pyx_v_
     #ifdef WITH_THREAD
     __Pyx_PyGILState_Release(__pyx_gilstate_save);
     #endif
-    __PYX_ERR(0, 519, __pyx_L1_error)
+    __PYX_ERR(0, 526, __pyx_L1_error)
   }
   __pyx_r = sqrt((__pyx_v_s / ((double)__pyx_v_n)));
   goto __pyx_L0;
 
-  /* "mlgrad/inventory.pyx":512
+  /* "mlgrad/inventory.pyx":519
  *     return s/n
  * 
  * cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil:             # <<<<<<<<<<<<<<
@@ -27148,7 +27283,7 @@ static double __pyx_f_6mlgrad_9inventory__std(double *__pyx_v_a, double __pyx_v_
   return __pyx_r;
 }
 
-/* "mlgrad/inventory.pyx":521
+/* "mlgrad/inventory.pyx":528
  *     return sqrt(s/n)
  * 
  * cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:             # <<<<<<<<<<<<<<
@@ -27168,7 +27303,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/inventory.pyx":526
+  /* "mlgrad/inventory.pyx":533
  *     cdef Py_ssize_t middle, ll, hh
  *     cdef double t
  *     cdef bint is2 = n % 2             # <<<<<<<<<<<<<<
@@ -27177,7 +27312,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
   __pyx_v_is2 = __Pyx_mod_Py_ssize_t(__pyx_v_n, 2);
 
-  /* "mlgrad/inventory.pyx":528
+  /* "mlgrad/inventory.pyx":535
  *     cdef bint is2 = n % 2
  * 
  *     low = 0             # <<<<<<<<<<<<<<
@@ -27186,7 +27321,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
   __pyx_v_low = 0;
 
-  /* "mlgrad/inventory.pyx":529
+  /* "mlgrad/inventory.pyx":536
  * 
  *     low = 0
  *     high = n-1             # <<<<<<<<<<<<<<
@@ -27195,7 +27330,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
   __pyx_v_high = (__pyx_v_n - 1);
 
-  /* "mlgrad/inventory.pyx":530
+  /* "mlgrad/inventory.pyx":537
  *     low = 0
  *     high = n-1
  *     median = (low + high) // 2             # <<<<<<<<<<<<<<
@@ -27204,7 +27339,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
   __pyx_v_median = __Pyx_div_Py_ssize_t((__pyx_v_low + __pyx_v_high), 2);
 
-  /* "mlgrad/inventory.pyx":531
+  /* "mlgrad/inventory.pyx":538
  *     high = n-1
  *     median = (low + high) // 2
  *     while 1:             # <<<<<<<<<<<<<<
@@ -27213,7 +27348,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
   while (1) {
 
-    /* "mlgrad/inventory.pyx":532
+    /* "mlgrad/inventory.pyx":539
  *     median = (low + high) // 2
  *     while 1:
  *         if high <= low: # One element only             # <<<<<<<<<<<<<<
@@ -27223,7 +27358,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
     __pyx_t_1 = (__pyx_v_high <= __pyx_v_low);
     if (__pyx_t_1) {
 
-      /* "mlgrad/inventory.pyx":533
+      /* "mlgrad/inventory.pyx":540
  *     while 1:
  *         if high <= low: # One element only
  *             return a[median]             # <<<<<<<<<<<<<<
@@ -27233,7 +27368,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
       __pyx_r = (__pyx_v_a[__pyx_v_median]);
       goto __pyx_L0;
 
-      /* "mlgrad/inventory.pyx":532
+      /* "mlgrad/inventory.pyx":539
  *     median = (low + high) // 2
  *     while 1:
  *         if high <= low: # One element only             # <<<<<<<<<<<<<<
@@ -27242,7 +27377,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
     }
 
-    /* "mlgrad/inventory.pyx":535
+    /* "mlgrad/inventory.pyx":542
  *             return a[median]
  * 
  *         if high == low + 1:  # Two elements only             # <<<<<<<<<<<<<<
@@ -27252,7 +27387,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
     __pyx_t_1 = (__pyx_v_high == (__pyx_v_low + 1));
     if (__pyx_t_1) {
 
-      /* "mlgrad/inventory.pyx":536
+      /* "mlgrad/inventory.pyx":543
  * 
  *         if high == low + 1:  # Two elements only
  *             if a[low] > a[high]:             # <<<<<<<<<<<<<<
@@ -27262,7 +27397,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
       __pyx_t_1 = ((__pyx_v_a[__pyx_v_low]) > (__pyx_v_a[__pyx_v_high]));
       if (__pyx_t_1) {
 
-        /* "mlgrad/inventory.pyx":537
+        /* "mlgrad/inventory.pyx":544
  *         if high == low + 1:  # Two elements only
  *             if a[low] > a[high]:
  *                 t = a[low]; a[low] = a[high]; a[high] = t             # <<<<<<<<<<<<<<
@@ -27273,7 +27408,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
         (__pyx_v_a[__pyx_v_low]) = (__pyx_v_a[__pyx_v_high]);
         (__pyx_v_a[__pyx_v_high]) = __pyx_v_t;
 
-        /* "mlgrad/inventory.pyx":536
+        /* "mlgrad/inventory.pyx":543
  * 
  *         if high == low + 1:  # Two elements only
  *             if a[low] > a[high]:             # <<<<<<<<<<<<<<
@@ -27282,7 +27417,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
       }
 
-      /* "mlgrad/inventory.pyx":538
+      /* "mlgrad/inventory.pyx":545
  *             if a[low] > a[high]:
  *                 t = a[low]; a[low] = a[high]; a[high] = t
  *             return a[median]             # <<<<<<<<<<<<<<
@@ -27292,7 +27427,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
       __pyx_r = (__pyx_v_a[__pyx_v_median]);
       goto __pyx_L0;
 
-      /* "mlgrad/inventory.pyx":535
+      /* "mlgrad/inventory.pyx":542
  *             return a[median]
  * 
  *         if high == low + 1:  # Two elements only             # <<<<<<<<<<<<<<
@@ -27301,7 +27436,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
     }
 
-    /* "mlgrad/inventory.pyx":541
+    /* "mlgrad/inventory.pyx":548
  * 
  *         # Find median of low, middle and high items; swap into position low
  *         middle = (low + high) // 2             # <<<<<<<<<<<<<<
@@ -27310,7 +27445,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
     __pyx_v_middle = __Pyx_div_Py_ssize_t((__pyx_v_low + __pyx_v_high), 2);
 
-    /* "mlgrad/inventory.pyx":542
+    /* "mlgrad/inventory.pyx":549
  *         # Find median of low, middle and high items; swap into position low
  *         middle = (low + high) // 2
  *         if a[middle] > a[high]:             # <<<<<<<<<<<<<<
@@ -27320,7 +27455,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
     __pyx_t_1 = ((__pyx_v_a[__pyx_v_middle]) > (__pyx_v_a[__pyx_v_high]));
     if (__pyx_t_1) {
 
-      /* "mlgrad/inventory.pyx":543
+      /* "mlgrad/inventory.pyx":550
  *         middle = (low + high) // 2
  *         if a[middle] > a[high]:
  *             t = a[middle]; a[middle] = a[high]; a[high] = t             # <<<<<<<<<<<<<<
@@ -27331,7 +27466,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
       (__pyx_v_a[__pyx_v_middle]) = (__pyx_v_a[__pyx_v_high]);
       (__pyx_v_a[__pyx_v_high]) = __pyx_v_t;
 
-      /* "mlgrad/inventory.pyx":542
+      /* "mlgrad/inventory.pyx":549
  *         # Find median of low, middle and high items; swap into position low
  *         middle = (low + high) // 2
  *         if a[middle] > a[high]:             # <<<<<<<<<<<<<<
@@ -27340,7 +27475,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
     }
 
-    /* "mlgrad/inventory.pyx":544
+    /* "mlgrad/inventory.pyx":551
  *         if a[middle] > a[high]:
  *             t = a[middle]; a[middle] = a[high]; a[high] = t
  *         if a[low] > a[high]:             # <<<<<<<<<<<<<<
@@ -27350,7 +27485,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
     __pyx_t_1 = ((__pyx_v_a[__pyx_v_low]) > (__pyx_v_a[__pyx_v_high]));
     if (__pyx_t_1) {
 
-      /* "mlgrad/inventory.pyx":545
+      /* "mlgrad/inventory.pyx":552
  *             t = a[middle]; a[middle] = a[high]; a[high] = t
  *         if a[low] > a[high]:
  *             t = a[low]; a[low] = a[high]; a[high] = t             # <<<<<<<<<<<<<<
@@ -27361,7 +27496,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
       (__pyx_v_a[__pyx_v_low]) = (__pyx_v_a[__pyx_v_high]);
       (__pyx_v_a[__pyx_v_high]) = __pyx_v_t;
 
-      /* "mlgrad/inventory.pyx":544
+      /* "mlgrad/inventory.pyx":551
  *         if a[middle] > a[high]:
  *             t = a[middle]; a[middle] = a[high]; a[high] = t
  *         if a[low] > a[high]:             # <<<<<<<<<<<<<<
@@ -27370,7 +27505,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
     }
 
-    /* "mlgrad/inventory.pyx":546
+    /* "mlgrad/inventory.pyx":553
  *         if a[low] > a[high]:
  *             t = a[low]; a[low] = a[high]; a[high] = t
  *         if a[middle] > a[low]:             # <<<<<<<<<<<<<<
@@ -27380,7 +27515,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
     __pyx_t_1 = ((__pyx_v_a[__pyx_v_middle]) > (__pyx_v_a[__pyx_v_low]));
     if (__pyx_t_1) {
 
-      /* "mlgrad/inventory.pyx":547
+      /* "mlgrad/inventory.pyx":554
  *             t = a[low]; a[low] = a[high]; a[high] = t
  *         if a[middle] > a[low]:
  *             t = a[middle]; a[middle] = a[low]; a[low] = t             # <<<<<<<<<<<<<<
@@ -27391,7 +27526,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
       (__pyx_v_a[__pyx_v_middle]) = (__pyx_v_a[__pyx_v_low]);
       (__pyx_v_a[__pyx_v_low]) = __pyx_v_t;
 
-      /* "mlgrad/inventory.pyx":546
+      /* "mlgrad/inventory.pyx":553
  *         if a[low] > a[high]:
  *             t = a[low]; a[low] = a[high]; a[high] = t
  *         if a[middle] > a[low]:             # <<<<<<<<<<<<<<
@@ -27400,7 +27535,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
     }
 
-    /* "mlgrad/inventory.pyx":551
+    /* "mlgrad/inventory.pyx":558
  *         # Swap low item (now in position middle) into position (low+1)
  *         # swap(&a[middle], &a[low+1])
  *         t = a[middle]; a[middle] = a[low+1]; a[low+1] = t             # <<<<<<<<<<<<<<
@@ -27411,7 +27546,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
     (__pyx_v_a[__pyx_v_middle]) = (__pyx_v_a[(__pyx_v_low + 1)]);
     (__pyx_v_a[(__pyx_v_low + 1)]) = __pyx_v_t;
 
-    /* "mlgrad/inventory.pyx":554
+    /* "mlgrad/inventory.pyx":561
  * 
  *         # Nibble from each end towards middle, swapping items when stuck
  *         ll = low + 1;             # <<<<<<<<<<<<<<
@@ -27420,7 +27555,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
     __pyx_v_ll = (__pyx_v_low + 1);
 
-    /* "mlgrad/inventory.pyx":555
+    /* "mlgrad/inventory.pyx":562
  *         # Nibble from each end towards middle, swapping items when stuck
  *         ll = low + 1;
  *         hh = high;             # <<<<<<<<<<<<<<
@@ -27429,7 +27564,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
     __pyx_v_hh = __pyx_v_high;
 
-    /* "mlgrad/inventory.pyx":556
+    /* "mlgrad/inventory.pyx":563
  *         ll = low + 1;
  *         hh = high;
  *         while 1:             # <<<<<<<<<<<<<<
@@ -27438,7 +27573,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
     while (1) {
 
-      /* "mlgrad/inventory.pyx":557
+      /* "mlgrad/inventory.pyx":564
  *         hh = high;
  *         while 1:
  *             ll += 1             # <<<<<<<<<<<<<<
@@ -27447,7 +27582,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
       __pyx_v_ll = (__pyx_v_ll + 1);
 
-      /* "mlgrad/inventory.pyx":558
+      /* "mlgrad/inventory.pyx":565
  *         while 1:
  *             ll += 1
  *             while a[low] > a[ll]:             # <<<<<<<<<<<<<<
@@ -27458,7 +27593,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
         __pyx_t_1 = ((__pyx_v_a[__pyx_v_low]) > (__pyx_v_a[__pyx_v_ll]));
         if (!__pyx_t_1) break;
 
-        /* "mlgrad/inventory.pyx":559
+        /* "mlgrad/inventory.pyx":566
  *             ll += 1
  *             while a[low] > a[ll]:
  *                 ll += 1             # <<<<<<<<<<<<<<
@@ -27468,7 +27603,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
         __pyx_v_ll = (__pyx_v_ll + 1);
       }
 
-      /* "mlgrad/inventory.pyx":561
+      /* "mlgrad/inventory.pyx":568
  *                 ll += 1
  * 
  *             hh -= 1             # <<<<<<<<<<<<<<
@@ -27477,7 +27612,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
       __pyx_v_hh = (__pyx_v_hh - 1);
 
-      /* "mlgrad/inventory.pyx":562
+      /* "mlgrad/inventory.pyx":569
  * 
  *             hh -= 1
  *             while a[hh]  > a[low]:             # <<<<<<<<<<<<<<
@@ -27488,7 +27623,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
         __pyx_t_1 = ((__pyx_v_a[__pyx_v_hh]) > (__pyx_v_a[__pyx_v_low]));
         if (!__pyx_t_1) break;
 
-        /* "mlgrad/inventory.pyx":563
+        /* "mlgrad/inventory.pyx":570
  *             hh -= 1
  *             while a[hh]  > a[low]:
  *                 hh -= 1             # <<<<<<<<<<<<<<
@@ -27498,7 +27633,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
         __pyx_v_hh = (__pyx_v_hh - 1);
       }
 
-      /* "mlgrad/inventory.pyx":565
+      /* "mlgrad/inventory.pyx":572
  *                 hh -= 1
  * 
  *             if hh < ll:             # <<<<<<<<<<<<<<
@@ -27508,7 +27643,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
       __pyx_t_1 = (__pyx_v_hh < __pyx_v_ll);
       if (__pyx_t_1) {
 
-        /* "mlgrad/inventory.pyx":566
+        /* "mlgrad/inventory.pyx":573
  * 
  *             if hh < ll:
  *                 break             # <<<<<<<<<<<<<<
@@ -27517,7 +27652,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
         goto __pyx_L12_break;
 
-        /* "mlgrad/inventory.pyx":565
+        /* "mlgrad/inventory.pyx":572
  *                 hh -= 1
  * 
  *             if hh < ll:             # <<<<<<<<<<<<<<
@@ -27526,7 +27661,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
       }
 
-      /* "mlgrad/inventory.pyx":569
+      /* "mlgrad/inventory.pyx":576
  * 
  *             # swap(&a[ll], &a[hh])
  *             t = a[ll]; a[ll] = a[hh]; a[hh] = t             # <<<<<<<<<<<<<<
@@ -27539,7 +27674,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
     }
     __pyx_L12_break:;
 
-    /* "mlgrad/inventory.pyx":573
+    /* "mlgrad/inventory.pyx":580
  * 
  *         # Swap middle item (in position low) back into correct position
  *         t = a[low]; a[low] = a[hh]; a[hh] = t             # <<<<<<<<<<<<<<
@@ -27550,7 +27685,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
     (__pyx_v_a[__pyx_v_low]) = (__pyx_v_a[__pyx_v_hh]);
     (__pyx_v_a[__pyx_v_hh]) = __pyx_v_t;
 
-    /* "mlgrad/inventory.pyx":577
+    /* "mlgrad/inventory.pyx":584
  * 
  *         # Re-set active partition
  *         if hh <= median:             # <<<<<<<<<<<<<<
@@ -27560,7 +27695,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
     __pyx_t_1 = (__pyx_v_hh <= __pyx_v_median);
     if (__pyx_t_1) {
 
-      /* "mlgrad/inventory.pyx":578
+      /* "mlgrad/inventory.pyx":585
  *         # Re-set active partition
  *         if hh <= median:
  *             low = ll             # <<<<<<<<<<<<<<
@@ -27569,7 +27704,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
       __pyx_v_low = __pyx_v_ll;
 
-      /* "mlgrad/inventory.pyx":577
+      /* "mlgrad/inventory.pyx":584
  * 
  *         # Re-set active partition
  *         if hh <= median:             # <<<<<<<<<<<<<<
@@ -27578,7 +27713,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
     }
 
-    /* "mlgrad/inventory.pyx":579
+    /* "mlgrad/inventory.pyx":586
  *         if hh <= median:
  *             low = ll
  *         if hh >= median:             # <<<<<<<<<<<<<<
@@ -27588,7 +27723,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
     __pyx_t_1 = (__pyx_v_hh >= __pyx_v_median);
     if (__pyx_t_1) {
 
-      /* "mlgrad/inventory.pyx":580
+      /* "mlgrad/inventory.pyx":587
  *             low = ll
  *         if hh >= median:
  *             high = hh - 1             # <<<<<<<<<<<<<<
@@ -27597,7 +27732,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
  */
       __pyx_v_high = (__pyx_v_hh - 1);
 
-      /* "mlgrad/inventory.pyx":579
+      /* "mlgrad/inventory.pyx":586
  *         if hh <= median:
  *             low = ll
  *         if hh >= median:             # <<<<<<<<<<<<<<
@@ -27607,7 +27742,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
     }
   }
 
-  /* "mlgrad/inventory.pyx":521
+  /* "mlgrad/inventory.pyx":528
  *     return sqrt(s/n)
  * 
  * cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:             # <<<<<<<<<<<<<<
@@ -27621,7 +27756,7 @@ static double __pyx_f_6mlgrad_9inventory_quick_select(double *__pyx_v_a, Py_ssiz
   return __pyx_r;
 }
 
-/* "mlgrad/inventory.pyx":650
+/* "mlgrad/inventory.pyx":657
  * #             high = hh - step
  * 
  * cdef double _median_1d(double *x, Py_ssize_t n): # noexcept nogil:             # <<<<<<<<<<<<<<
@@ -27640,17 +27775,17 @@ static double __pyx_f_6mlgrad_9inventory__median_1d(double *__pyx_v_x, Py_ssize_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/inventory.pyx":654
+  /* "mlgrad/inventory.pyx":661
  *     cdef double m1, m2
  * 
  *     m1 = quick_select(x, n)             # <<<<<<<<<<<<<<
  *     if n % 2:
  *         return m1
  */
-  __pyx_t_1 = __pyx_f_6mlgrad_9inventory_quick_select(__pyx_v_x, __pyx_v_n); if (unlikely(__pyx_t_1 == ((double)-1) && PyErr_Occurred())) __PYX_ERR(0, 654, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6mlgrad_9inventory_quick_select(__pyx_v_x, __pyx_v_n); if (unlikely(__pyx_t_1 == ((double)-1) && PyErr_Occurred())) __PYX_ERR(0, 661, __pyx_L1_error)
   __pyx_v_m1 = __pyx_t_1;
 
-  /* "mlgrad/inventory.pyx":655
+  /* "mlgrad/inventory.pyx":662
  * 
  *     m1 = quick_select(x, n)
  *     if n % 2:             # <<<<<<<<<<<<<<
@@ -27660,7 +27795,7 @@ static double __pyx_f_6mlgrad_9inventory__median_1d(double *__pyx_v_x, Py_ssize_
   __pyx_t_2 = (__Pyx_mod_Py_ssize_t(__pyx_v_n, 2) != 0);
   if (__pyx_t_2) {
 
-    /* "mlgrad/inventory.pyx":656
+    /* "mlgrad/inventory.pyx":663
  *     m1 = quick_select(x, n)
  *     if n % 2:
  *         return m1             # <<<<<<<<<<<<<<
@@ -27670,7 +27805,7 @@ static double __pyx_f_6mlgrad_9inventory__median_1d(double *__pyx_v_x, Py_ssize_
     __pyx_r = __pyx_v_m1;
     goto __pyx_L0;
 
-    /* "mlgrad/inventory.pyx":655
+    /* "mlgrad/inventory.pyx":662
  * 
  *     m1 = quick_select(x, n)
  *     if n % 2:             # <<<<<<<<<<<<<<
@@ -27679,7 +27814,7 @@ static double __pyx_f_6mlgrad_9inventory__median_1d(double *__pyx_v_x, Py_ssize_
  */
   }
 
-  /* "mlgrad/inventory.pyx":658
+  /* "mlgrad/inventory.pyx":665
  *         return m1
  *     else:
  *         n2 = n // 2             # <<<<<<<<<<<<<<
@@ -27689,7 +27824,7 @@ static double __pyx_f_6mlgrad_9inventory__median_1d(double *__pyx_v_x, Py_ssize_
   /*else*/ {
     __pyx_v_n2 = __Pyx_div_Py_ssize_t(__pyx_v_n, 2);
 
-    /* "mlgrad/inventory.pyx":659
+    /* "mlgrad/inventory.pyx":666
  *     else:
  *         n2 = n // 2
  *         m2 = _min(&x[n2], n2)             # <<<<<<<<<<<<<<
@@ -27698,7 +27833,7 @@ static double __pyx_f_6mlgrad_9inventory__median_1d(double *__pyx_v_x, Py_ssize_
  */
     __pyx_v_m2 = __pyx_f_6mlgrad_9inventory__min((&(__pyx_v_x[__pyx_v_n2])), __pyx_v_n2);
 
-    /* "mlgrad/inventory.pyx":660
+    /* "mlgrad/inventory.pyx":667
  *         n2 = n // 2
  *         m2 = _min(&x[n2], n2)
  *         return (m1 + m2) / 2             # <<<<<<<<<<<<<<
@@ -27709,7 +27844,7 @@ static double __pyx_f_6mlgrad_9inventory__median_1d(double *__pyx_v_x, Py_ssize_
     goto __pyx_L0;
   }
 
-  /* "mlgrad/inventory.pyx":650
+  /* "mlgrad/inventory.pyx":657
  * #             high = hh - step
  * 
  * cdef double _median_1d(double *x, Py_ssize_t n): # noexcept nogil:             # <<<<<<<<<<<<<<
@@ -27725,7 +27860,7 @@ static double __pyx_f_6mlgrad_9inventory__median_1d(double *__pyx_v_x, Py_ssize_
   return __pyx_r;
 }
 
-/* "mlgrad/inventory.pyx":662
+/* "mlgrad/inventory.pyx":669
  *         return (m1 + m2) / 2
  * 
  * cdef void _median_2d(double[:,::1] x, double[::1] y): # noexcept nogil:             # <<<<<<<<<<<<<<
@@ -27750,7 +27885,7 @@ static void __pyx_f_6mlgrad_9inventory__median_2d(__Pyx_memviewslice __pyx_v_x, 
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
-  /* "mlgrad/inventory.pyx":663
+  /* "mlgrad/inventory.pyx":670
  * 
  * cdef void _median_2d(double[:,::1] x, double[::1] y): # noexcept nogil:
  *     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]             # <<<<<<<<<<<<<<
@@ -27759,16 +27894,16 @@ static void __pyx_f_6mlgrad_9inventory__median_2d(__Pyx_memviewslice __pyx_v_x, 
  */
   if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
-    __PYX_ERR(0, 663, __pyx_L1_error)
+    __PYX_ERR(0, 670, __pyx_L1_error)
   }
   __pyx_v_N = (__pyx_v_x.shape[0]);
   if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
-    __PYX_ERR(0, 663, __pyx_L1_error)
+    __PYX_ERR(0, 670, __pyx_L1_error)
   }
   __pyx_v_n = (__pyx_v_x.shape[1]);
 
-  /* "mlgrad/inventory.pyx":666
+  /* "mlgrad/inventory.pyx":673
  *     cdef double[::1] temp
  * 
  *     for i in range(N):             # <<<<<<<<<<<<<<
@@ -27780,7 +27915,7 @@ static void __pyx_f_6mlgrad_9inventory__median_2d(__Pyx_memviewslice __pyx_v_x, 
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "mlgrad/inventory.pyx":667
+    /* "mlgrad/inventory.pyx":674
  * 
  *     for i in range(N):
  *         temp = x[i].copy()             # <<<<<<<<<<<<<<
@@ -27789,7 +27924,7 @@ static void __pyx_f_6mlgrad_9inventory__median_2d(__Pyx_memviewslice __pyx_v_x, 
  */
     if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "Cannot slice None memoryview slice");
-      __PYX_ERR(0, 667, __pyx_L1_error)
+      __PYX_ERR(0, 674, __pyx_L1_error)
     }
     __pyx_t_4.data = __pyx_v_x.data;
     __pyx_t_4.memview = __pyx_v_x.memview;
@@ -27803,7 +27938,7 @@ static void __pyx_f_6mlgrad_9inventory__median_2d(__Pyx_memviewslice __pyx_v_x, 
         if (unlikely(!__Pyx_is_valid_index(__pyx_tmp_idx, __pyx_tmp_shape))) {
             PyErr_SetString(PyExc_IndexError,
                             "Index out of bounds (axis 0)");
-            __PYX_ERR(0, 667, __pyx_L1_error)
+            __PYX_ERR(0, 674, __pyx_L1_error)
         }
         __pyx_t_4.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -27814,9 +27949,9 @@ __pyx_t_4.strides[0] = __pyx_v_x.strides[1];
 
 if (unlikely(((PyObject *) __pyx_t_4.memview) == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "copy");
-      __PYX_ERR(0, 667, __pyx_L1_error)
+      __PYX_ERR(0, 674, __pyx_L1_error)
     }
-    __pyx_t_5 = __pyx_memoryview_copy_slice_dc_double_c(__pyx_t_4); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 667, __pyx_L1_error)
+    __pyx_t_5 = __pyx_memoryview_copy_slice_dc_double_c(__pyx_t_4); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 674, __pyx_L1_error)
     __PYX_XCLEAR_MEMVIEW(&__pyx_t_4, 1);
     __pyx_t_4.memview = NULL; __pyx_t_4.data = NULL;
     __PYX_XCLEAR_MEMVIEW(&__pyx_v_temp, 1);
@@ -27824,7 +27959,7 @@ if (unlikely(((PyObject *) __pyx_t_4.memview) == Py_None)) {
     __pyx_t_5.memview = NULL;
     __pyx_t_5.data = NULL;
 
-    /* "mlgrad/inventory.pyx":668
+    /* "mlgrad/inventory.pyx":675
  *     for i in range(N):
  *         temp = x[i].copy()
  *         y[i] = _median_1d(&temp[0], n)             # <<<<<<<<<<<<<<
@@ -27833,7 +27968,7 @@ if (unlikely(((PyObject *) __pyx_t_4.memview) == Py_None)) {
  */
     if (unlikely(((PyObject *) __pyx_v_temp.memview) == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(0, 668, __pyx_L1_error)
+      __PYX_ERR(0, 675, __pyx_L1_error)
     }
     __pyx_t_6 = 0;
     __pyx_t_7 = -1;
@@ -27843,12 +27978,12 @@ if (unlikely(((PyObject *) __pyx_t_4.memview) == Py_None)) {
     } else if (unlikely(__pyx_t_6 >= __pyx_v_temp.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(0, 668, __pyx_L1_error)
+      __PYX_ERR(0, 675, __pyx_L1_error)
     }
-    __pyx_t_8 = __pyx_f_6mlgrad_9inventory__median_1d((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_temp.data) + __pyx_t_6)) )))), __pyx_v_n); if (unlikely(__pyx_t_8 == ((double)-1) && PyErr_Occurred())) __PYX_ERR(0, 668, __pyx_L1_error)
+    __pyx_t_8 = __pyx_f_6mlgrad_9inventory__median_1d((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_temp.data) + __pyx_t_6)) )))), __pyx_v_n); if (unlikely(__pyx_t_8 == ((double)-1) && PyErr_Occurred())) __PYX_ERR(0, 675, __pyx_L1_error)
     if (unlikely(((PyObject *) __pyx_v_y.memview) == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(0, 668, __pyx_L1_error)
+      __PYX_ERR(0, 675, __pyx_L1_error)
     }
     __pyx_t_6 = __pyx_v_i;
     __pyx_t_7 = -1;
@@ -27858,12 +27993,12 @@ if (unlikely(((PyObject *) __pyx_t_4.memview) == Py_None)) {
     } else if (unlikely(__pyx_t_6 >= __pyx_v_y.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(0, 668, __pyx_L1_error)
+      __PYX_ERR(0, 675, __pyx_L1_error)
     }
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_6)) )) = __pyx_t_8;
   }
 
-  /* "mlgrad/inventory.pyx":662
+  /* "mlgrad/inventory.pyx":669
  *         return (m1 + m2) / 2
  * 
  * cdef void _median_2d(double[:,::1] x, double[::1] y): # noexcept nogil:             # <<<<<<<<<<<<<<
@@ -27881,7 +28016,7 @@ if (unlikely(((PyObject *) __pyx_t_4.memview) == Py_None)) {
   __PYX_XCLEAR_MEMVIEW(&__pyx_v_temp, 1);
 }
 
-/* "mlgrad/inventory.pyx":670
+/* "mlgrad/inventory.pyx":677
  *         y[i] = _median_1d(&temp[0], n)
  * 
  * cdef void _median_2d_t(double[:,::1] x, double[::1] y): # noexcept nogil:             # <<<<<<<<<<<<<<
@@ -27910,7 +28045,7 @@ static void __pyx_f_6mlgrad_9inventory__median_2d_t(__Pyx_memviewslice __pyx_v_x
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_median_2d_t", 1);
 
-  /* "mlgrad/inventory.pyx":671
+  /* "mlgrad/inventory.pyx":678
  * 
  * cdef void _median_2d_t(double[:,::1] x, double[::1] y): # noexcept nogil:
  *     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]             # <<<<<<<<<<<<<<
@@ -27919,31 +28054,31 @@ static void __pyx_f_6mlgrad_9inventory__median_2d_t(__Pyx_memviewslice __pyx_v_x
  */
   if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
-    __PYX_ERR(0, 671, __pyx_L1_error)
+    __PYX_ERR(0, 678, __pyx_L1_error)
   }
   __pyx_v_N = (__pyx_v_x.shape[0]);
   if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
-    __PYX_ERR(0, 671, __pyx_L1_error)
+    __PYX_ERR(0, 678, __pyx_L1_error)
   }
   __pyx_v_n = (__pyx_v_x.shape[1]);
 
-  /* "mlgrad/inventory.pyx":673
+  /* "mlgrad/inventory.pyx":680
  *     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
  * 
  *     cdef double[::1] temp = empty_array(N)             # <<<<<<<<<<<<<<
  * 
  *     for i in range(n):
  */
-  __pyx_t_1 = __pyx_f_6mlgrad_9inventory_empty_array(__pyx_v_N); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 673, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6mlgrad_9inventory_empty_array(__pyx_v_N); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 680, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 673, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_1, PyBUF_WRITABLE); if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(0, 680, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_temp = __pyx_t_2;
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
 
-  /* "mlgrad/inventory.pyx":675
+  /* "mlgrad/inventory.pyx":682
  *     cdef double[::1] temp = empty_array(N)
  * 
  *     for i in range(n):             # <<<<<<<<<<<<<<
@@ -27955,7 +28090,7 @@ static void __pyx_f_6mlgrad_9inventory__median_2d_t(__Pyx_memviewslice __pyx_v_x
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "mlgrad/inventory.pyx":676
+    /* "mlgrad/inventory.pyx":683
  * 
  *     for i in range(n):
  *         _move_t(&temp[0], &x[0,i], N, n)             # <<<<<<<<<<<<<<
@@ -27964,7 +28099,7 @@ static void __pyx_f_6mlgrad_9inventory__median_2d_t(__Pyx_memviewslice __pyx_v_x
  */
     if (unlikely(((PyObject *) __pyx_v_temp.memview) == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(0, 676, __pyx_L1_error)
+      __PYX_ERR(0, 683, __pyx_L1_error)
     }
     __pyx_t_6 = 0;
     __pyx_t_7 = -1;
@@ -27974,11 +28109,11 @@ static void __pyx_f_6mlgrad_9inventory__median_2d_t(__Pyx_memviewslice __pyx_v_x
     } else if (unlikely(__pyx_t_6 >= __pyx_v_temp.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(0, 676, __pyx_L1_error)
+      __PYX_ERR(0, 683, __pyx_L1_error)
     }
     if (unlikely(((PyObject *) __pyx_v_x.memview) == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(0, 676, __pyx_L1_error)
+      __PYX_ERR(0, 683, __pyx_L1_error)
     }
     __pyx_t_8 = 0;
     __pyx_t_9 = __pyx_v_i;
@@ -27993,11 +28128,11 @@ static void __pyx_f_6mlgrad_9inventory__median_2d_t(__Pyx_memviewslice __pyx_v_x
     } else if (unlikely(__pyx_t_9 >= __pyx_v_x.shape[1])) __pyx_t_7 = 1;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(0, 676, __pyx_L1_error)
+      __PYX_ERR(0, 683, __pyx_L1_error)
     }
     __pyx_f_6mlgrad_9inventory__move_t((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_temp.data) + __pyx_t_6)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_8 * __pyx_v_x.strides[0]) )) + __pyx_t_9)) )))), __pyx_v_N, __pyx_v_n);
 
-    /* "mlgrad/inventory.pyx":677
+    /* "mlgrad/inventory.pyx":684
  *     for i in range(n):
  *         _move_t(&temp[0], &x[0,i], N, n)
  *         y[i] = _median_1d(&temp[0], N)             # <<<<<<<<<<<<<<
@@ -28006,7 +28141,7 @@ static void __pyx_f_6mlgrad_9inventory__median_2d_t(__Pyx_memviewslice __pyx_v_x
  */
     if (unlikely(((PyObject *) __pyx_v_temp.memview) == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(0, 677, __pyx_L1_error)
+      __PYX_ERR(0, 684, __pyx_L1_error)
     }
     __pyx_t_9 = 0;
     __pyx_t_7 = -1;
@@ -28016,12 +28151,12 @@ static void __pyx_f_6mlgrad_9inventory__median_2d_t(__Pyx_memviewslice __pyx_v_x
     } else if (unlikely(__pyx_t_9 >= __pyx_v_temp.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(0, 677, __pyx_L1_error)
+      __PYX_ERR(0, 684, __pyx_L1_error)
     }
-    __pyx_t_10 = __pyx_f_6mlgrad_9inventory__median_1d((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_temp.data) + __pyx_t_9)) )))), __pyx_v_N); if (unlikely(__pyx_t_10 == ((double)-1) && PyErr_Occurred())) __PYX_ERR(0, 677, __pyx_L1_error)
+    __pyx_t_10 = __pyx_f_6mlgrad_9inventory__median_1d((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_temp.data) + __pyx_t_9)) )))), __pyx_v_N); if (unlikely(__pyx_t_10 == ((double)-1) && PyErr_Occurred())) __PYX_ERR(0, 684, __pyx_L1_error)
     if (unlikely(((PyObject *) __pyx_v_y.memview) == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-      __PYX_ERR(0, 677, __pyx_L1_error)
+      __PYX_ERR(0, 684, __pyx_L1_error)
     }
     __pyx_t_9 = __pyx_v_i;
     __pyx_t_7 = -1;
@@ -28031,12 +28166,12 @@ static void __pyx_f_6mlgrad_9inventory__median_2d_t(__Pyx_memviewslice __pyx_v_x
     } else if (unlikely(__pyx_t_9 >= __pyx_v_y.shape[0])) __pyx_t_7 = 0;
     if (unlikely(__pyx_t_7 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      __PYX_ERR(0, 677, __pyx_L1_error)
+      __PYX_ERR(0, 684, __pyx_L1_error)
     }
     *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_y.data) + __pyx_t_9)) )) = __pyx_t_10;
   }
 
-  /* "mlgrad/inventory.pyx":670
+  /* "mlgrad/inventory.pyx":677
  *         y[i] = _median_1d(&temp[0], n)
  * 
  * cdef void _median_2d_t(double[:,::1] x, double[::1] y): # noexcept nogil:             # <<<<<<<<<<<<<<
@@ -28055,7 +28190,7 @@ static void __pyx_f_6mlgrad_9inventory__median_2d_t(__Pyx_memviewslice __pyx_v_x
   __Pyx_RefNannyFinishContext();
 }
 
-/* "mlgrad/inventory.pyx":679
+/* "mlgrad/inventory.pyx":686
  *         y[i] = _median_1d(&temp[0], N)
  * 
  * cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k): # noexcept nogil:             # <<<<<<<<<<<<<<
@@ -28073,7 +28208,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "mlgrad/inventory.pyx":683
+  /* "mlgrad/inventory.pyx":690
  *     cdef double x, t
  * 
  *     l = 0; m = n-1             # <<<<<<<<<<<<<<
@@ -28083,7 +28218,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
   __pyx_v_l = 0;
   __pyx_v_m = (__pyx_v_n - 1);
 
-  /* "mlgrad/inventory.pyx":684
+  /* "mlgrad/inventory.pyx":691
  * 
  *     l = 0; m = n-1
  *     while l < m:             # <<<<<<<<<<<<<<
@@ -28094,7 +28229,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
     __pyx_t_1 = (__pyx_v_l < __pyx_v_m);
     if (!__pyx_t_1) break;
 
-    /* "mlgrad/inventory.pyx":685
+    /* "mlgrad/inventory.pyx":692
  *     l = 0; m = n-1
  *     while l < m:
  *         x = a[k]             # <<<<<<<<<<<<<<
@@ -28103,7 +28238,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
  */
     __pyx_v_x = (__pyx_v_a[__pyx_v_k]);
 
-    /* "mlgrad/inventory.pyx":686
+    /* "mlgrad/inventory.pyx":693
  *     while l < m:
  *         x = a[k]
  *         i = l             # <<<<<<<<<<<<<<
@@ -28112,7 +28247,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
  */
     __pyx_v_i = __pyx_v_l;
 
-    /* "mlgrad/inventory.pyx":687
+    /* "mlgrad/inventory.pyx":694
  *         x = a[k]
  *         i = l
  *         j = m             # <<<<<<<<<<<<<<
@@ -28121,7 +28256,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
  */
     __pyx_v_j = __pyx_v_m;
 
-    /* "mlgrad/inventory.pyx":688
+    /* "mlgrad/inventory.pyx":695
  *         i = l
  *         j = m
  *         while 1:             # <<<<<<<<<<<<<<
@@ -28130,7 +28265,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
  */
     while (1) {
 
-      /* "mlgrad/inventory.pyx":689
+      /* "mlgrad/inventory.pyx":696
  *         j = m
  *         while 1:
  *             while a[i] < x:             # <<<<<<<<<<<<<<
@@ -28141,7 +28276,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
         __pyx_t_1 = ((__pyx_v_a[__pyx_v_i]) < __pyx_v_x);
         if (!__pyx_t_1) break;
 
-        /* "mlgrad/inventory.pyx":690
+        /* "mlgrad/inventory.pyx":697
  *         while 1:
  *             while a[i] < x:
  *                 i += 1             # <<<<<<<<<<<<<<
@@ -28151,7 +28286,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
         __pyx_v_i = (__pyx_v_i + 1);
       }
 
-      /* "mlgrad/inventory.pyx":691
+      /* "mlgrad/inventory.pyx":698
  *             while a[i] < x:
  *                 i += 1
  *             while x < a[j]:             # <<<<<<<<<<<<<<
@@ -28162,7 +28297,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
         __pyx_t_1 = (__pyx_v_x < (__pyx_v_a[__pyx_v_j]));
         if (!__pyx_t_1) break;
 
-        /* "mlgrad/inventory.pyx":692
+        /* "mlgrad/inventory.pyx":699
  *                 i += 1
  *             while x < a[j]:
  *                 j -= 1             # <<<<<<<<<<<<<<
@@ -28172,7 +28307,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
         __pyx_v_j = (__pyx_v_j - 1);
       }
 
-      /* "mlgrad/inventory.pyx":693
+      /* "mlgrad/inventory.pyx":700
  *             while x < a[j]:
  *                 j -= 1
  *             if i <= j:             # <<<<<<<<<<<<<<
@@ -28182,7 +28317,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
       __pyx_t_1 = (__pyx_v_i <= __pyx_v_j);
       if (__pyx_t_1) {
 
-        /* "mlgrad/inventory.pyx":695
+        /* "mlgrad/inventory.pyx":702
  *             if i <= j:
  *                 # swap(&a[i],&a[j]) ;
  *                 t = a[i]; a[i] = a[j]; a[j] = t             # <<<<<<<<<<<<<<
@@ -28193,7 +28328,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
         (__pyx_v_a[__pyx_v_i]) = (__pyx_v_a[__pyx_v_j]);
         (__pyx_v_a[__pyx_v_j]) = __pyx_v_t;
 
-        /* "mlgrad/inventory.pyx":696
+        /* "mlgrad/inventory.pyx":703
  *                 # swap(&a[i],&a[j]) ;
  *                 t = a[i]; a[i] = a[j]; a[j] = t
  *                 i += 1             # <<<<<<<<<<<<<<
@@ -28202,7 +28337,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
  */
         __pyx_v_i = (__pyx_v_i + 1);
 
-        /* "mlgrad/inventory.pyx":697
+        /* "mlgrad/inventory.pyx":704
  *                 t = a[i]; a[i] = a[j]; a[j] = t
  *                 i += 1
  *                 j -= 1             # <<<<<<<<<<<<<<
@@ -28211,7 +28346,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
  */
         __pyx_v_j = (__pyx_v_j - 1);
 
-        /* "mlgrad/inventory.pyx":693
+        /* "mlgrad/inventory.pyx":700
  *             while x < a[j]:
  *                 j -= 1
  *             if i <= j:             # <<<<<<<<<<<<<<
@@ -28220,7 +28355,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
  */
       }
 
-      /* "mlgrad/inventory.pyx":698
+      /* "mlgrad/inventory.pyx":705
  *                 i += 1
  *                 j -= 1
  *             if i <= j:             # <<<<<<<<<<<<<<
@@ -28230,7 +28365,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
       __pyx_t_1 = (__pyx_v_i <= __pyx_v_j);
       if (__pyx_t_1) {
 
-        /* "mlgrad/inventory.pyx":699
+        /* "mlgrad/inventory.pyx":706
  *                 j -= 1
  *             if i <= j:
  *                 break             # <<<<<<<<<<<<<<
@@ -28239,7 +28374,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
  */
         goto __pyx_L6_break;
 
-        /* "mlgrad/inventory.pyx":698
+        /* "mlgrad/inventory.pyx":705
  *                 i += 1
  *                 j -= 1
  *             if i <= j:             # <<<<<<<<<<<<<<
@@ -28250,7 +28385,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
     }
     __pyx_L6_break:;
 
-    /* "mlgrad/inventory.pyx":701
+    /* "mlgrad/inventory.pyx":708
  *                 break
  *         #
  *         if j < k:             # <<<<<<<<<<<<<<
@@ -28260,7 +28395,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
     __pyx_t_1 = (__pyx_v_j < __pyx_v_k);
     if (__pyx_t_1) {
 
-      /* "mlgrad/inventory.pyx":702
+      /* "mlgrad/inventory.pyx":709
  *         #
  *         if j < k:
  *             l=i             # <<<<<<<<<<<<<<
@@ -28269,7 +28404,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
  */
       __pyx_v_l = __pyx_v_i;
 
-      /* "mlgrad/inventory.pyx":701
+      /* "mlgrad/inventory.pyx":708
  *                 break
  *         #
  *         if j < k:             # <<<<<<<<<<<<<<
@@ -28278,7 +28413,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
  */
     }
 
-    /* "mlgrad/inventory.pyx":703
+    /* "mlgrad/inventory.pyx":710
  *         if j < k:
  *             l=i
  *         if k < i:             # <<<<<<<<<<<<<<
@@ -28288,7 +28423,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
     __pyx_t_1 = (__pyx_v_k < __pyx_v_i);
     if (__pyx_t_1) {
 
-      /* "mlgrad/inventory.pyx":704
+      /* "mlgrad/inventory.pyx":711
  *             l=i
  *         if k < i:
  *             m=j             # <<<<<<<<<<<<<<
@@ -28297,7 +28432,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
  */
       __pyx_v_m = __pyx_v_j;
 
-      /* "mlgrad/inventory.pyx":703
+      /* "mlgrad/inventory.pyx":710
  *         if j < k:
  *             l=i
  *         if k < i:             # <<<<<<<<<<<<<<
@@ -28307,7 +28442,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
     }
   }
 
-  /* "mlgrad/inventory.pyx":705
+  /* "mlgrad/inventory.pyx":712
  *         if k < i:
  *             m=j
  *     return a[k]             # <<<<<<<<<<<<<<
@@ -28317,7 +28452,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
   __pyx_r = (__pyx_v_a[__pyx_v_k]);
   goto __pyx_L0;
 
-  /* "mlgrad/inventory.pyx":679
+  /* "mlgrad/inventory.pyx":686
  *         y[i] = _median_1d(&temp[0], N)
  * 
  * cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k): # noexcept nogil:             # <<<<<<<<<<<<<<
@@ -28330,7 +28465,7 @@ static double __pyx_f_6mlgrad_9inventory__kth_smallest(double *__pyx_v_a, Py_ssi
   return __pyx_r;
 }
 
-/* "mlgrad/inventory.pyx":707
+/* "mlgrad/inventory.pyx":714
  *     return a[k]
  * 
  * def median_1d(x):             # <<<<<<<<<<<<<<
@@ -28392,12 +28527,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 707, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 714, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "median_1d") < 0)) __PYX_ERR(0, 707, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "median_1d") < 0)) __PYX_ERR(0, 714, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -28408,7 +28543,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("median_1d", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 707, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("median_1d", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 714, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -28449,19 +28584,19 @@ static PyObject *__pyx_pf_6mlgrad_9inventory_median_1d(CYTHON_UNUSED PyObject *_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("median_1d", 1);
 
-  /* "mlgrad/inventory.pyx":708
+  /* "mlgrad/inventory.pyx":715
  * 
  * def median_1d(x):
  *     cdef double[::1] xx = x             # <<<<<<<<<<<<<<
  *     return _median_1d(&xx[0], xx.shape[0])
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_x, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 708, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_x, PyBUF_WRITABLE); if (unlikely(!__pyx_t_1.memview)) __PYX_ERR(0, 715, __pyx_L1_error)
   __pyx_v_xx = __pyx_t_1;
   __pyx_t_1.memview = NULL;
   __pyx_t_1.data = NULL;
 
-  /* "mlgrad/inventory.pyx":709
+  /* "mlgrad/inventory.pyx":716
  * def median_1d(x):
  *     cdef double[::1] xx = x
  *     return _median_1d(&xx[0], xx.shape[0])             # <<<<<<<<<<<<<<
@@ -28471,7 +28606,7 @@ static PyObject *__pyx_pf_6mlgrad_9inventory_median_1d(CYTHON_UNUSED PyObject *_
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(((PyObject *) __pyx_v_xx.memview) == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
-    __PYX_ERR(0, 709, __pyx_L1_error)
+    __PYX_ERR(0, 716, __pyx_L1_error)
   }
   __pyx_t_2 = 0;
   __pyx_t_3 = -1;
@@ -28481,20 +28616,20 @@ static PyObject *__pyx_pf_6mlgrad_9inventory_median_1d(CYTHON_UNUSED PyObject *_
   } else if (unlikely(__pyx_t_2 >= __pyx_v_xx.shape[0])) __pyx_t_3 = 0;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(0, 709, __pyx_L1_error)
+    __PYX_ERR(0, 716, __pyx_L1_error)
   }
   if (unlikely(((PyObject *) __pyx_v_xx.memview) == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
-    __PYX_ERR(0, 709, __pyx_L1_error)
+    __PYX_ERR(0, 716, __pyx_L1_error)
   }
-  __pyx_t_4 = __pyx_f_6mlgrad_9inventory__median_1d((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_xx.data) + __pyx_t_2)) )))), (__pyx_v_xx.shape[0])); if (unlikely(__pyx_t_4 == ((double)-1) && PyErr_Occurred())) __PYX_ERR(0, 709, __pyx_L1_error)
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 709, __pyx_L1_error)
+  __pyx_t_4 = __pyx_f_6mlgrad_9inventory__median_1d((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_xx.data) + __pyx_t_2)) )))), (__pyx_v_xx.shape[0])); if (unlikely(__pyx_t_4 == ((double)-1) && PyErr_Occurred())) __PYX_ERR(0, 716, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 716, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_r = __pyx_t_5;
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "mlgrad/inventory.pyx":707
+  /* "mlgrad/inventory.pyx":714
  *     return a[k]
  * 
  * def median_1d(x):             # <<<<<<<<<<<<<<
@@ -28515,7 +28650,7 @@ static PyObject *__pyx_pf_6mlgrad_9inventory_median_1d(CYTHON_UNUSED PyObject *_
   return __pyx_r;
 }
 
-/* "mlgrad/inventory.pyx":711
+/* "mlgrad/inventory.pyx":718
  *     return _median_1d(&xx[0], xx.shape[0])
  * 
  * def median_2d_t(x):             # <<<<<<<<<<<<<<
@@ -28577,12 +28712,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 711, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 718, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "median_2d_t") < 0)) __PYX_ERR(0, 711, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "median_2d_t") < 0)) __PYX_ERR(0, 718, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -28593,7 +28728,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("median_2d_t", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 711, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("median_2d_t", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 718, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -28634,45 +28769,45 @@ static PyObject *__pyx_pf_6mlgrad_9inventory_2median_2d_t(CYTHON_UNUSED PyObject
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("median_2d_t", 1);
 
-  /* "mlgrad/inventory.pyx":714
+  /* "mlgrad/inventory.pyx":721
  *     # cdef numpy.npy_intp n = x.shape[1]
  *     # y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
  *     y = empty_array(x.shape[1])             # <<<<<<<<<<<<<<
  *     _median_2d_t(x, y)
  *     return y
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_x, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 714, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_x, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 721, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 714, __pyx_L1_error)
+    __PYX_ERR(0, 721, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 714, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 721, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 714, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 721, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __pyx_f_6mlgrad_9inventory_empty_array(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 714, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_6mlgrad_9inventory_empty_array(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 721, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_y = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "mlgrad/inventory.pyx":715
+  /* "mlgrad/inventory.pyx":722
  *     # y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
  *     y = empty_array(x.shape[1])
  *     _median_2d_t(x, y)             # <<<<<<<<<<<<<<
  *     return y
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_x, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 715, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_y, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 715, __pyx_L1_error)
-  __pyx_f_6mlgrad_9inventory__median_2d_t(__pyx_t_4, __pyx_t_5); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 715, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_x, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 722, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_y, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 722, __pyx_L1_error)
+  __pyx_f_6mlgrad_9inventory__median_2d_t(__pyx_t_4, __pyx_t_5); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 722, __pyx_L1_error)
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_4, 1);
   __pyx_t_4.memview = NULL; __pyx_t_4.data = NULL;
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_5, 1);
   __pyx_t_5.memview = NULL; __pyx_t_5.data = NULL;
 
-  /* "mlgrad/inventory.pyx":716
+  /* "mlgrad/inventory.pyx":723
  *     y = empty_array(x.shape[1])
  *     _median_2d_t(x, y)
  *     return y             # <<<<<<<<<<<<<<
@@ -28684,7 +28819,7 @@ static PyObject *__pyx_pf_6mlgrad_9inventory_2median_2d_t(CYTHON_UNUSED PyObject
   __pyx_r = __pyx_v_y;
   goto __pyx_L0;
 
-  /* "mlgrad/inventory.pyx":711
+  /* "mlgrad/inventory.pyx":718
  *     return _median_1d(&xx[0], xx.shape[0])
  * 
  * def median_2d_t(x):             # <<<<<<<<<<<<<<
@@ -28707,7 +28842,7 @@ static PyObject *__pyx_pf_6mlgrad_9inventory_2median_2d_t(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "mlgrad/inventory.pyx":718
+/* "mlgrad/inventory.pyx":725
  *     return y
  * 
  * def median_2d(x):             # <<<<<<<<<<<<<<
@@ -28769,12 +28904,12 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 718, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 725, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "median_2d") < 0)) __PYX_ERR(0, 718, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "median_2d") < 0)) __PYX_ERR(0, 725, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
@@ -28785,7 +28920,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("median_2d", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 718, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("median_2d", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 725, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -28826,54 +28961,57 @@ static PyObject *__pyx_pf_6mlgrad_9inventory_4median_2d(CYTHON_UNUSED PyObject *
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("median_2d", 1);
 
-  /* "mlgrad/inventory.pyx":721
+  /* "mlgrad/inventory.pyx":728
  *     # cdef numpy.npy_intp n = x.shape[0]
  *     # y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
  *     y = empty_array(x.shape[0])             # <<<<<<<<<<<<<<
  *     _median_2d(x, y)
  *     return y
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_x, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 721, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_x, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 728, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 721, __pyx_L1_error)
+    __PYX_ERR(0, 728, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 721, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 728, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 721, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 728, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __pyx_f_6mlgrad_9inventory_empty_array(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 721, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_6mlgrad_9inventory_empty_array(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 728, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_y = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "mlgrad/inventory.pyx":722
+  /* "mlgrad/inventory.pyx":729
  *     # y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
  *     y = empty_array(x.shape[0])
  *     _median_2d(x, y)             # <<<<<<<<<<<<<<
  *     return y
+ * 
  */
-  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_x, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 722, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_y, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 722, __pyx_L1_error)
-  __pyx_f_6mlgrad_9inventory__median_2d(__pyx_t_4, __pyx_t_5); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 722, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_x, PyBUF_WRITABLE); if (unlikely(!__pyx_t_4.memview)) __PYX_ERR(0, 729, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_y, PyBUF_WRITABLE); if (unlikely(!__pyx_t_5.memview)) __PYX_ERR(0, 729, __pyx_L1_error)
+  __pyx_f_6mlgrad_9inventory__median_2d(__pyx_t_4, __pyx_t_5); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 729, __pyx_L1_error)
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_4, 1);
   __pyx_t_4.memview = NULL; __pyx_t_4.data = NULL;
   __PYX_XCLEAR_MEMVIEW(&__pyx_t_5, 1);
   __pyx_t_5.memview = NULL; __pyx_t_5.data = NULL;
 
-  /* "mlgrad/inventory.pyx":723
+  /* "mlgrad/inventory.pyx":730
  *     y = empty_array(x.shape[0])
  *     _median_2d(x, y)
  *     return y             # <<<<<<<<<<<<<<
+ * 
+ * 
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_y);
   __pyx_r = __pyx_v_y;
   goto __pyx_L0;
 
-  /* "mlgrad/inventory.pyx":718
+  /* "mlgrad/inventory.pyx":725
  *     return y
  * 
  * def median_2d(x):             # <<<<<<<<<<<<<<
@@ -28891,6 +29029,1127 @@ static PyObject *__pyx_pf_6mlgrad_9inventory_4median_2d(CYTHON_UNUSED PyObject *
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_y);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "mlgrad/inventory.pyx":733
+ * 
+ * 
+ * cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i, j
+ *     cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
+ */
+
+static void __pyx_f_6mlgrad_9inventory__covariance_matrix(__Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_loc, __Pyx_memviewslice __pyx_v_S) {
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_j;
+  Py_ssize_t __pyx_v_n;
+  Py_ssize_t __pyx_v_N;
+  double __pyx_v_s;
+  double __pyx_v_loc_i;
+  double __pyx_v_loc_j;
+  Py_ssize_t __pyx_v_k;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  int __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  #ifdef WITH_THREAD
+  PyGILState_STATE __pyx_gilstate_save;
+  #endif
+
+  /* "mlgrad/inventory.pyx":735
+ * cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil:
+ *     cdef Py_ssize_t i, j
+ *     cdef Py_ssize_t n = X.shape[1], N = X.shape[0]             # <<<<<<<<<<<<<<
+ *     cdef double s, loc_i, loc_j
+ *     #
+ */
+  if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 735, __pyx_L1_error)
+  }
+  __pyx_v_n = (__pyx_v_X.shape[1]);
+  if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+    #endif
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    #ifdef WITH_THREAD
+    __Pyx_PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(0, 735, __pyx_L1_error)
+  }
+  __pyx_v_N = (__pyx_v_X.shape[0]);
+
+  /* "mlgrad/inventory.pyx":738
+ *     cdef double s, loc_i, loc_j
+ *     #
+ *     for i in range(n):             # <<<<<<<<<<<<<<
+ *         loc_i = loc[i]
+ *         for j in range(n):
+ */
+  __pyx_t_1 = __pyx_v_n;
+  __pyx_t_2 = __pyx_t_1;
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+
+    /* "mlgrad/inventory.pyx":739
+ *     #
+ *     for i in range(n):
+ *         loc_i = loc[i]             # <<<<<<<<<<<<<<
+ *         for j in range(n):
+ *             loc_j = loc[j]
+ */
+    if (unlikely(((PyObject *) __pyx_v_loc.memview) == Py_None)) {
+      #ifdef WITH_THREAD
+      PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+      #endif
+      PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+      #ifdef WITH_THREAD
+      __Pyx_PyGILState_Release(__pyx_gilstate_save);
+      #endif
+      __PYX_ERR(0, 739, __pyx_L1_error)
+    }
+    __pyx_t_4 = __pyx_v_i;
+    __pyx_t_5 = -1;
+    if (__pyx_t_4 < 0) {
+      __pyx_t_4 += __pyx_v_loc.shape[0];
+      if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
+    } else if (unlikely(__pyx_t_4 >= __pyx_v_loc.shape[0])) __pyx_t_5 = 0;
+    if (unlikely(__pyx_t_5 != -1)) {
+      __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+      __PYX_ERR(0, 739, __pyx_L1_error)
+    }
+    __pyx_v_loc_i = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_loc.data) + __pyx_t_4)) )));
+
+    /* "mlgrad/inventory.pyx":740
+ *     for i in range(n):
+ *         loc_i = loc[i]
+ *         for j in range(n):             # <<<<<<<<<<<<<<
+ *             loc_j = loc[j]
+ *             s = 0
+ */
+    __pyx_t_6 = __pyx_v_n;
+    __pyx_t_7 = __pyx_t_6;
+    for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
+      __pyx_v_j = __pyx_t_8;
+
+      /* "mlgrad/inventory.pyx":741
+ *         loc_i = loc[i]
+ *         for j in range(n):
+ *             loc_j = loc[j]             # <<<<<<<<<<<<<<
+ *             s = 0
+ *             for k in range(N):
+ */
+      if (unlikely(((PyObject *) __pyx_v_loc.memview) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 741, __pyx_L1_error)
+      }
+      __pyx_t_4 = __pyx_v_j;
+      __pyx_t_5 = -1;
+      if (__pyx_t_4 < 0) {
+        __pyx_t_4 += __pyx_v_loc.shape[0];
+        if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
+      } else if (unlikely(__pyx_t_4 >= __pyx_v_loc.shape[0])) __pyx_t_5 = 0;
+      if (unlikely(__pyx_t_5 != -1)) {
+        __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+        __PYX_ERR(0, 741, __pyx_L1_error)
+      }
+      __pyx_v_loc_j = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_loc.data) + __pyx_t_4)) )));
+
+      /* "mlgrad/inventory.pyx":742
+ *         for j in range(n):
+ *             loc_j = loc[j]
+ *             s = 0             # <<<<<<<<<<<<<<
+ *             for k in range(N):
+ *                 s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
+ */
+      __pyx_v_s = 0.0;
+
+      /* "mlgrad/inventory.pyx":743
+ *             loc_j = loc[j]
+ *             s = 0
+ *             for k in range(N):             # <<<<<<<<<<<<<<
+ *                 s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
+ *             S[i,j] = s / N
+ */
+      __pyx_t_9 = __pyx_v_N;
+      __pyx_t_10 = __pyx_t_9;
+      for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
+        __pyx_v_k = __pyx_t_11;
+
+        /* "mlgrad/inventory.pyx":744
+ *             s = 0
+ *             for k in range(N):
+ *                 s += (X[k,i] - loc_i) * (X[k,j] - loc_j)             # <<<<<<<<<<<<<<
+ *             S[i,j] = s / N
+ * 
+ */
+        if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
+          #ifdef WITH_THREAD
+          PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+          #endif
+          PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+          #ifdef WITH_THREAD
+          __Pyx_PyGILState_Release(__pyx_gilstate_save);
+          #endif
+          __PYX_ERR(0, 744, __pyx_L1_error)
+        }
+        __pyx_t_4 = __pyx_v_k;
+        __pyx_t_12 = __pyx_v_i;
+        __pyx_t_5 = -1;
+        if (__pyx_t_4 < 0) {
+          __pyx_t_4 += __pyx_v_X.shape[0];
+          if (unlikely(__pyx_t_4 < 0)) __pyx_t_5 = 0;
+        } else if (unlikely(__pyx_t_4 >= __pyx_v_X.shape[0])) __pyx_t_5 = 0;
+        if (__pyx_t_12 < 0) {
+          __pyx_t_12 += __pyx_v_X.shape[1];
+          if (unlikely(__pyx_t_12 < 0)) __pyx_t_5 = 1;
+        } else if (unlikely(__pyx_t_12 >= __pyx_v_X.shape[1])) __pyx_t_5 = 1;
+        if (unlikely(__pyx_t_5 != -1)) {
+          __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+          __PYX_ERR(0, 744, __pyx_L1_error)
+        }
+        if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
+          #ifdef WITH_THREAD
+          PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+          #endif
+          PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+          #ifdef WITH_THREAD
+          __Pyx_PyGILState_Release(__pyx_gilstate_save);
+          #endif
+          __PYX_ERR(0, 744, __pyx_L1_error)
+        }
+        __pyx_t_13 = __pyx_v_k;
+        __pyx_t_14 = __pyx_v_j;
+        __pyx_t_5 = -1;
+        if (__pyx_t_13 < 0) {
+          __pyx_t_13 += __pyx_v_X.shape[0];
+          if (unlikely(__pyx_t_13 < 0)) __pyx_t_5 = 0;
+        } else if (unlikely(__pyx_t_13 >= __pyx_v_X.shape[0])) __pyx_t_5 = 0;
+        if (__pyx_t_14 < 0) {
+          __pyx_t_14 += __pyx_v_X.shape[1];
+          if (unlikely(__pyx_t_14 < 0)) __pyx_t_5 = 1;
+        } else if (unlikely(__pyx_t_14 >= __pyx_v_X.shape[1])) __pyx_t_5 = 1;
+        if (unlikely(__pyx_t_5 != -1)) {
+          __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+          __PYX_ERR(0, 744, __pyx_L1_error)
+        }
+        __pyx_v_s = (__pyx_v_s + (((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_4 * __pyx_v_X.strides[0]) )) + __pyx_t_12)) ))) - __pyx_v_loc_i) * ((*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_13 * __pyx_v_X.strides[0]) )) + __pyx_t_14)) ))) - __pyx_v_loc_j)));
+      }
+
+      /* "mlgrad/inventory.pyx":745
+ *             for k in range(N):
+ *                 s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
+ *             S[i,j] = s / N             # <<<<<<<<<<<<<<
+ * 
+ * def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S=None):
+ */
+      if (unlikely(__pyx_v_N == 0)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 745, __pyx_L1_error)
+      }
+      if (unlikely(((PyObject *) __pyx_v_S.memview) == Py_None)) {
+        #ifdef WITH_THREAD
+        PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+        #endif
+        PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+        #ifdef WITH_THREAD
+        __Pyx_PyGILState_Release(__pyx_gilstate_save);
+        #endif
+        __PYX_ERR(0, 745, __pyx_L1_error)
+      }
+      __pyx_t_14 = __pyx_v_i;
+      __pyx_t_13 = __pyx_v_j;
+      __pyx_t_5 = -1;
+      if (__pyx_t_14 < 0) {
+        __pyx_t_14 += __pyx_v_S.shape[0];
+        if (unlikely(__pyx_t_14 < 0)) __pyx_t_5 = 0;
+      } else if (unlikely(__pyx_t_14 >= __pyx_v_S.shape[0])) __pyx_t_5 = 0;
+      if (__pyx_t_13 < 0) {
+        __pyx_t_13 += __pyx_v_S.shape[1];
+        if (unlikely(__pyx_t_13 < 0)) __pyx_t_5 = 1;
+      } else if (unlikely(__pyx_t_13 >= __pyx_v_S.shape[1])) __pyx_t_5 = 1;
+      if (unlikely(__pyx_t_5 != -1)) {
+        __Pyx_RaiseBufferIndexErrorNogil(__pyx_t_5);
+        __PYX_ERR(0, 745, __pyx_L1_error)
+      }
+      *((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_14 * __pyx_v_S.strides[0]) )) + __pyx_t_13)) )) = (__pyx_v_s / ((double)__pyx_v_N));
+    }
+  }
+
+  /* "mlgrad/inventory.pyx":733
+ * 
+ * 
+ * cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil:             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t i, j
+ *     cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
+ */
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  #ifdef WITH_THREAD
+  __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
+  #endif
+  __Pyx_WriteUnraisable("mlgrad.inventory._covariance_matrix", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  #ifdef WITH_THREAD
+  __Pyx_PyGILState_Release(__pyx_gilstate_save);
+  #endif
+  __pyx_L0:;
+}
+
+/* "mlgrad/inventory.pyx":747
+ *             S[i,j] = s / N
+ * 
+ * def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S=None):             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t n = X.shape[1]
+ *     if S is None:
+ */
+
+static PyObject *__pyx_pf_6mlgrad_9inventory_10__defaults__(CYTHON_UNUSED PyObject *__pyx_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__defaults__", 1);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_memoryview_fromslice(__Pyx_CyFunction_Defaults(__pyx_defaults, __pyx_self)->__pyx_arg_S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_1);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1)) __PYX_ERR(0, 747, __pyx_L1_error);
+  __pyx_t_1 = 0;
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_2);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2)) __PYX_ERR(0, 747, __pyx_L1_error);
+  __Pyx_INCREF(Py_None);
+  __Pyx_GIVEREF(Py_None);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_1, 1, Py_None)) __PYX_ERR(0, 747, __pyx_L1_error);
+  __pyx_t_2 = 0;
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("mlgrad.inventory.__defaults__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_9inventory_7covariance_matrix(PyObject *__pyx_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+PyDoc_STRVAR(__pyx_doc_6mlgrad_9inventory_6covariance_matrix, "covariance_matrix(double[:, ::1] X, double[::1] loc, double[:, ::1] S=None)");
+static PyMethodDef __pyx_mdef_6mlgrad_9inventory_7covariance_matrix = {"covariance_matrix", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6mlgrad_9inventory_7covariance_matrix, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6mlgrad_9inventory_6covariance_matrix};
+static PyObject *__pyx_pw_6mlgrad_9inventory_7covariance_matrix(PyObject *__pyx_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_loc = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_S = { 0, 0, { 0 }, { 0 }, { 0 } };
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
+  PyObject* values[3] = {0,0,0};
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("covariance_matrix (wrapper)", 0);
+  #if !CYTHON_METH_FASTCALL
+  #if CYTHON_ASSUME_SAFE_MACROS
+  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #else
+  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
+  #endif
+  #endif
+  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  {
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_X,&__pyx_n_s_loc,&__pyx_n_s_S,0};
+    __pyx_defaults *__pyx_dynamic_args = __Pyx_CyFunction_Defaults(__pyx_defaults, __pyx_self);
+    if (__pyx_kwds) {
+      Py_ssize_t kw_args;
+      switch (__pyx_nargs) {
+        case  3: values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = __Pyx_NumKwargs_FASTCALL(__pyx_kwds);
+      switch (__pyx_nargs) {
+        case  0:
+        if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_X)) != 0)) {
+          (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
+          kw_args--;
+        }
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 747, __pyx_L3_error)
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_loc)) != 0)) {
+          (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
+          kw_args--;
+        }
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 747, __pyx_L3_error)
+        else {
+          __Pyx_RaiseArgtupleInvalid("covariance_matrix", 0, 2, 3, 1); __PYX_ERR(0, 747, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_S);
+          if (value) { values[2] = __Pyx_Arg_NewRef_FASTCALL(value); kw_args--; }
+          else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 747, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t kwd_pos_args = __pyx_nargs;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "covariance_matrix") < 0)) __PYX_ERR(0, 747, __pyx_L3_error)
+      }
+    } else {
+      switch (__pyx_nargs) {
+        case  3: values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 747, __pyx_L3_error)
+    __pyx_v_loc = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_loc.memview)) __PYX_ERR(0, 747, __pyx_L3_error)
+    if (values[2]) {
+      __pyx_v_S = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_S.memview)) __PYX_ERR(0, 747, __pyx_L3_error)
+    } else {
+      __pyx_v_S = __pyx_dynamic_args->__pyx_arg_S;
+      __PYX_INC_MEMVIEW(&__pyx_v_S, 1);
+    }
+  }
+  goto __pyx_L6_skip;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("covariance_matrix", 0, 2, 3, __pyx_nargs); __PYX_ERR(0, 747, __pyx_L3_error)
+  __pyx_L6_skip:;
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  {
+    Py_ssize_t __pyx_temp;
+    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
+    }
+  }
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_X, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_loc, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_S, 1);
+  __Pyx_AddTraceback("mlgrad.inventory.covariance_matrix", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6mlgrad_9inventory_6covariance_matrix(__pyx_self, __pyx_v_X, __pyx_v_loc, __pyx_v_S);
+
+  /* function exit code */
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_X, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_loc, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_S, 1);
+  {
+    Py_ssize_t __pyx_temp;
+    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
+    }
+  }
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_9inventory_6covariance_matrix(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_loc, __Pyx_memviewslice __pyx_v_S) {
+  Py_ssize_t __pyx_v_n;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("covariance_matrix", 1);
+  __PYX_INC_MEMVIEW(&__pyx_v_S, 1);
+
+  /* "mlgrad/inventory.pyx":748
+ * 
+ * def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S=None):
+ *     cdef Py_ssize_t n = X.shape[1]             # <<<<<<<<<<<<<<
+ *     if S is None:
+ *         S = empty_array2(n, n)
+ */
+  if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    __PYX_ERR(0, 748, __pyx_L1_error)
+  }
+  __pyx_v_n = (__pyx_v_X.shape[1]);
+
+  /* "mlgrad/inventory.pyx":749
+ * def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S=None):
+ *     cdef Py_ssize_t n = X.shape[1]
+ *     if S is None:             # <<<<<<<<<<<<<<
+ *         S = empty_array2(n, n)
+ *     _covariance_matrix(X, loc, S)
+ */
+  __pyx_t_1 = (((PyObject *) __pyx_v_S.memview) == Py_None);
+  if (__pyx_t_1) {
+
+    /* "mlgrad/inventory.pyx":750
+ *     cdef Py_ssize_t n = X.shape[1]
+ *     if S is None:
+ *         S = empty_array2(n, n)             # <<<<<<<<<<<<<<
+ *     _covariance_matrix(X, loc, S)
+ *     return S
+ */
+    __pyx_t_2 = __pyx_f_6mlgrad_9inventory_empty_array2(__pyx_v_n, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 750, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(0, 750, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __PYX_XCLEAR_MEMVIEW(&__pyx_v_S, 1);
+    __pyx_v_S = __pyx_t_3;
+    __pyx_t_3.memview = NULL;
+    __pyx_t_3.data = NULL;
+
+    /* "mlgrad/inventory.pyx":749
+ * def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S=None):
+ *     cdef Py_ssize_t n = X.shape[1]
+ *     if S is None:             # <<<<<<<<<<<<<<
+ *         S = empty_array2(n, n)
+ *     _covariance_matrix(X, loc, S)
+ */
+  }
+
+  /* "mlgrad/inventory.pyx":751
+ *     if S is None:
+ *         S = empty_array2(n, n)
+ *     _covariance_matrix(X, loc, S)             # <<<<<<<<<<<<<<
+ *     return S
+ * 
+ */
+  __pyx_f_6mlgrad_9inventory__covariance_matrix(__pyx_v_X, __pyx_v_loc, __pyx_v_S);
+
+  /* "mlgrad/inventory.pyx":752
+ *         S = empty_array2(n, n)
+ *     _covariance_matrix(X, loc, S)
+ *     return S             # <<<<<<<<<<<<<<
+ * 
+ * cdef void _covariance_matrix_weighted(
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 752, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "mlgrad/inventory.pyx":747
+ *             S[i,j] = s / N
+ * 
+ * def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S=None):             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t n = X.shape[1]
+ *     if S is None:
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_t_3, 1);
+  __Pyx_AddTraceback("mlgrad.inventory.covariance_matrix", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_S, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "mlgrad/inventory.pyx":754
+ *     return S
+ * 
+ * cdef void _covariance_matrix_weighted(             # <<<<<<<<<<<<<<
+ *             double *X, const double *W, const double *loc, double *S,
+ *             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil:
+ */
+
+static void __pyx_f_6mlgrad_9inventory__covariance_matrix_weighted(double *__pyx_v_X, double const *__pyx_v_W, double const *__pyx_v_loc, double *__pyx_v_S, Py_ssize_t const __pyx_v_n, Py_ssize_t const __pyx_v_N) {
+  Py_ssize_t __pyx_v_i;
+  Py_ssize_t __pyx_v_j;
+  Py_ssize_t __pyx_v_k;
+  double __pyx_v_s;
+  double __pyx_v_loc_i;
+  double __pyx_v_loc_j;
+  double *__pyx_v_X_ki;
+  double *__pyx_v_X_kj;
+  double *__pyx_v_S_i;
+  double *__pyx_v_S_j;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+
+  /* "mlgrad/inventory.pyx":762
+ *     cdef double *S_i, *S_j
+ * 
+ *     S_i = S_j = S             # <<<<<<<<<<<<<<
+ *     for i in range(n):
+ *         loc_i = loc[i]
+ */
+  __pyx_v_S_i = __pyx_v_S;
+  __pyx_v_S_j = __pyx_v_S;
+
+  /* "mlgrad/inventory.pyx":763
+ * 
+ *     S_i = S_j = S
+ *     for i in range(n):             # <<<<<<<<<<<<<<
+ *         loc_i = loc[i]
+ *         for j in range(i, n):
+ */
+  __pyx_t_1 = __pyx_v_n;
+  __pyx_t_2 = __pyx_t_1;
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+
+    /* "mlgrad/inventory.pyx":764
+ *     S_i = S_j = S
+ *     for i in range(n):
+ *         loc_i = loc[i]             # <<<<<<<<<<<<<<
+ *         for j in range(i, n):
+ *             loc_j = loc[j]
+ */
+    __pyx_v_loc_i = (__pyx_v_loc[__pyx_v_i]);
+
+    /* "mlgrad/inventory.pyx":765
+ *     for i in range(n):
+ *         loc_i = loc[i]
+ *         for j in range(i, n):             # <<<<<<<<<<<<<<
+ *             loc_j = loc[j]
+ *             X_kj = X + j
+ */
+    __pyx_t_4 = __pyx_v_n;
+    __pyx_t_5 = __pyx_t_4;
+    for (__pyx_t_6 = __pyx_v_i; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
+      __pyx_v_j = __pyx_t_6;
+
+      /* "mlgrad/inventory.pyx":766
+ *         loc_i = loc[i]
+ *         for j in range(i, n):
+ *             loc_j = loc[j]             # <<<<<<<<<<<<<<
+ *             X_kj = X + j
+ *             X_ki = X + i
+ */
+      __pyx_v_loc_j = (__pyx_v_loc[__pyx_v_j]);
+
+      /* "mlgrad/inventory.pyx":767
+ *         for j in range(i, n):
+ *             loc_j = loc[j]
+ *             X_kj = X + j             # <<<<<<<<<<<<<<
+ *             X_ki = X + i
+ * 
+ */
+      __pyx_v_X_kj = (__pyx_v_X + __pyx_v_j);
+
+      /* "mlgrad/inventory.pyx":768
+ *             loc_j = loc[j]
+ *             X_kj = X + j
+ *             X_ki = X + i             # <<<<<<<<<<<<<<
+ * 
+ *             s = 0
+ */
+      __pyx_v_X_ki = (__pyx_v_X + __pyx_v_i);
+
+      /* "mlgrad/inventory.pyx":770
+ *             X_ki = X + i
+ * 
+ *             s = 0             # <<<<<<<<<<<<<<
+ *             for k in range(N):
+ *                 s += W[k] * (X_ki[0] - loc_i) * (X_kj[0] - loc_j)
+ */
+      __pyx_v_s = 0.0;
+
+      /* "mlgrad/inventory.pyx":771
+ * 
+ *             s = 0
+ *             for k in range(N):             # <<<<<<<<<<<<<<
+ *                 s += W[k] * (X_ki[0] - loc_i) * (X_kj[0] - loc_j)
+ *                 X_ki += n
+ */
+      __pyx_t_7 = __pyx_v_N;
+      __pyx_t_8 = __pyx_t_7;
+      for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+        __pyx_v_k = __pyx_t_9;
+
+        /* "mlgrad/inventory.pyx":772
+ *             s = 0
+ *             for k in range(N):
+ *                 s += W[k] * (X_ki[0] - loc_i) * (X_kj[0] - loc_j)             # <<<<<<<<<<<<<<
+ *                 X_ki += n
+ *                 X_kj += n
+ */
+        __pyx_v_s = (__pyx_v_s + (((__pyx_v_W[__pyx_v_k]) * ((__pyx_v_X_ki[0]) - __pyx_v_loc_i)) * ((__pyx_v_X_kj[0]) - __pyx_v_loc_j)));
+
+        /* "mlgrad/inventory.pyx":773
+ *             for k in range(N):
+ *                 s += W[k] * (X_ki[0] - loc_i) * (X_kj[0] - loc_j)
+ *                 X_ki += n             # <<<<<<<<<<<<<<
+ *                 X_kj += n
+ * 
+ */
+        __pyx_v_X_ki = (__pyx_v_X_ki + __pyx_v_n);
+
+        /* "mlgrad/inventory.pyx":774
+ *                 s += W[k] * (X_ki[0] - loc_i) * (X_kj[0] - loc_j)
+ *                 X_ki += n
+ *                 X_kj += n             # <<<<<<<<<<<<<<
+ * 
+ *             S_i[j] = S_j[i] = s
+ */
+        __pyx_v_X_kj = (__pyx_v_X_kj + __pyx_v_n);
+      }
+
+      /* "mlgrad/inventory.pyx":776
+ *                 X_kj += n
+ * 
+ *             S_i[j] = S_j[i] = s             # <<<<<<<<<<<<<<
+ *             S_j += n
+ *         S_i += n
+ */
+      (__pyx_v_S_i[__pyx_v_j]) = __pyx_v_s;
+      (__pyx_v_S_j[__pyx_v_i]) = __pyx_v_s;
+
+      /* "mlgrad/inventory.pyx":777
+ * 
+ *             S_i[j] = S_j[i] = s
+ *             S_j += n             # <<<<<<<<<<<<<<
+ *         S_i += n
+ * 
+ */
+      __pyx_v_S_j = (__pyx_v_S_j + __pyx_v_n);
+    }
+
+    /* "mlgrad/inventory.pyx":778
+ *             S_i[j] = S_j[i] = s
+ *             S_j += n
+ *         S_i += n             # <<<<<<<<<<<<<<
+ * 
+ * def covariance_matrix_weighted(double[:, ::1] X, double[::1] W,
+ */
+    __pyx_v_S_i = (__pyx_v_S_i + __pyx_v_n);
+  }
+
+  /* "mlgrad/inventory.pyx":754
+ *     return S
+ * 
+ * cdef void _covariance_matrix_weighted(             # <<<<<<<<<<<<<<
+ *             double *X, const double *W, const double *loc, double *S,
+ *             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil:
+ */
+
+  /* function exit code */
+}
+
+/* "mlgrad/inventory.pyx":780
+ *         S_i += n
+ * 
+ * def covariance_matrix_weighted(double[:, ::1] X, double[::1] W,             # <<<<<<<<<<<<<<
+ *                                      double[::1] loc, double[:,::1] S):
+ *     cdef Py_ssize_t n = X.shape[1]
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6mlgrad_9inventory_9covariance_matrix_weighted(PyObject *__pyx_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+); /*proto*/
+PyDoc_STRVAR(__pyx_doc_6mlgrad_9inventory_8covariance_matrix_weighted, "covariance_matrix_weighted(double[:, ::1] X, double[::1] W, double[::1] loc, double[:, ::1] S)");
+static PyMethodDef __pyx_mdef_6mlgrad_9inventory_9covariance_matrix_weighted = {"covariance_matrix_weighted", (PyCFunction)(void*)(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_6mlgrad_9inventory_9covariance_matrix_weighted, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_6mlgrad_9inventory_8covariance_matrix_weighted};
+static PyObject *__pyx_pw_6mlgrad_9inventory_9covariance_matrix_weighted(PyObject *__pyx_self, 
+#if CYTHON_METH_FASTCALL
+PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
+#else
+PyObject *__pyx_args, PyObject *__pyx_kwds
+#endif
+) {
+  __Pyx_memviewslice __pyx_v_X = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_W = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_loc = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_S = { 0, 0, { 0 }, { 0 }, { 0 } };
+  #if !CYTHON_METH_FASTCALL
+  CYTHON_UNUSED Py_ssize_t __pyx_nargs;
+  #endif
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
+  PyObject* values[4] = {0,0,0,0};
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("covariance_matrix_weighted (wrapper)", 0);
+  #if !CYTHON_METH_FASTCALL
+  #if CYTHON_ASSUME_SAFE_MACROS
+  __pyx_nargs = PyTuple_GET_SIZE(__pyx_args);
+  #else
+  __pyx_nargs = PyTuple_Size(__pyx_args); if (unlikely(__pyx_nargs < 0)) return NULL;
+  #endif
+  #endif
+  __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
+  {
+    PyObject **__pyx_pyargnames[] = {&__pyx_n_s_X,&__pyx_n_s_W,&__pyx_n_s_loc,&__pyx_n_s_S,0};
+    if (__pyx_kwds) {
+      Py_ssize_t kw_args;
+      switch (__pyx_nargs) {
+        case  4: values[3] = __Pyx_Arg_FASTCALL(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = __Pyx_NumKwargs_FASTCALL(__pyx_kwds);
+      switch (__pyx_nargs) {
+        case  0:
+        if (likely((values[0] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_X)) != 0)) {
+          (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
+          kw_args--;
+        }
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 780, __pyx_L3_error)
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_W)) != 0)) {
+          (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
+          kw_args--;
+        }
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 780, __pyx_L3_error)
+        else {
+          __Pyx_RaiseArgtupleInvalid("covariance_matrix_weighted", 1, 4, 4, 1); __PYX_ERR(0, 780, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_loc)) != 0)) {
+          (void)__Pyx_Arg_NewRef_FASTCALL(values[2]);
+          kw_args--;
+        }
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 780, __pyx_L3_error)
+        else {
+          __Pyx_RaiseArgtupleInvalid("covariance_matrix_weighted", 1, 4, 4, 2); __PYX_ERR(0, 780, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_GetKwValue_FASTCALL(__pyx_kwds, __pyx_kwvalues, __pyx_n_s_S)) != 0)) {
+          (void)__Pyx_Arg_NewRef_FASTCALL(values[3]);
+          kw_args--;
+        }
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 780, __pyx_L3_error)
+        else {
+          __Pyx_RaiseArgtupleInvalid("covariance_matrix_weighted", 1, 4, 4, 3); __PYX_ERR(0, 780, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        const Py_ssize_t kwd_pos_args = __pyx_nargs;
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "covariance_matrix_weighted") < 0)) __PYX_ERR(0, 780, __pyx_L3_error)
+      }
+    } else if (unlikely(__pyx_nargs != 4)) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = __Pyx_Arg_FASTCALL(__pyx_args, 0);
+      values[1] = __Pyx_Arg_FASTCALL(__pyx_args, 1);
+      values[2] = __Pyx_Arg_FASTCALL(__pyx_args, 2);
+      values[3] = __Pyx_Arg_FASTCALL(__pyx_args, 3);
+    }
+    __pyx_v_X = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[0], PyBUF_WRITABLE); if (unlikely(!__pyx_v_X.memview)) __PYX_ERR(0, 780, __pyx_L3_error)
+    __pyx_v_W = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1], PyBUF_WRITABLE); if (unlikely(!__pyx_v_W.memview)) __PYX_ERR(0, 780, __pyx_L3_error)
+    __pyx_v_loc = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_loc.memview)) __PYX_ERR(0, 781, __pyx_L3_error)
+    __pyx_v_S = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(values[3], PyBUF_WRITABLE); if (unlikely(!__pyx_v_S.memview)) __PYX_ERR(0, 781, __pyx_L3_error)
+  }
+  goto __pyx_L6_skip;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("covariance_matrix_weighted", 1, 4, 4, __pyx_nargs); __PYX_ERR(0, 780, __pyx_L3_error)
+  __pyx_L6_skip:;
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  {
+    Py_ssize_t __pyx_temp;
+    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
+    }
+  }
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_X, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_W, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_loc, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_S, 1);
+  __Pyx_AddTraceback("mlgrad.inventory.covariance_matrix_weighted", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_6mlgrad_9inventory_8covariance_matrix_weighted(__pyx_self, __pyx_v_X, __pyx_v_W, __pyx_v_loc, __pyx_v_S);
+
+  /* function exit code */
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_X, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_W, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_loc, 1);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_S, 1);
+  {
+    Py_ssize_t __pyx_temp;
+    for (__pyx_temp=0; __pyx_temp < (Py_ssize_t)(sizeof(values)/sizeof(values[0])); ++__pyx_temp) {
+      __Pyx_Arg_XDECREF_FASTCALL(values[__pyx_temp]);
+    }
+  }
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6mlgrad_9inventory_8covariance_matrix_weighted(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_X, __Pyx_memviewslice __pyx_v_W, __Pyx_memviewslice __pyx_v_loc, __Pyx_memviewslice __pyx_v_S) {
+  Py_ssize_t __pyx_v_n;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  int __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("covariance_matrix_weighted", 1);
+  __PYX_INC_MEMVIEW(&__pyx_v_S, 1);
+
+  /* "mlgrad/inventory.pyx":782
+ * def covariance_matrix_weighted(double[:, ::1] X, double[::1] W,
+ *                                      double[::1] loc, double[:,::1] S):
+ *     cdef Py_ssize_t n = X.shape[1]             # <<<<<<<<<<<<<<
+ *     if S is None:
+ *         S = empty_array2(n, n)
+ */
+  if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    __PYX_ERR(0, 782, __pyx_L1_error)
+  }
+  __pyx_v_n = (__pyx_v_X.shape[1]);
+
+  /* "mlgrad/inventory.pyx":783
+ *                                      double[::1] loc, double[:,::1] S):
+ *     cdef Py_ssize_t n = X.shape[1]
+ *     if S is None:             # <<<<<<<<<<<<<<
+ *         S = empty_array2(n, n)
+ *     _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], &S[0,0], X.shape[1], X.shape[0])
+ */
+  __pyx_t_1 = (((PyObject *) __pyx_v_S.memview) == Py_None);
+  if (__pyx_t_1) {
+
+    /* "mlgrad/inventory.pyx":784
+ *     cdef Py_ssize_t n = X.shape[1]
+ *     if S is None:
+ *         S = empty_array2(n, n)             # <<<<<<<<<<<<<<
+ *     _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], &S[0,0], X.shape[1], X.shape[0])
+ *     return S
+ */
+    __pyx_t_2 = __pyx_f_6mlgrad_9inventory_empty_array2(__pyx_v_n, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_3 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_2, PyBUF_WRITABLE); if (unlikely(!__pyx_t_3.memview)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __PYX_XCLEAR_MEMVIEW(&__pyx_v_S, 1);
+    __pyx_v_S = __pyx_t_3;
+    __pyx_t_3.memview = NULL;
+    __pyx_t_3.data = NULL;
+
+    /* "mlgrad/inventory.pyx":783
+ *                                      double[::1] loc, double[:,::1] S):
+ *     cdef Py_ssize_t n = X.shape[1]
+ *     if S is None:             # <<<<<<<<<<<<<<
+ *         S = empty_array2(n, n)
+ *     _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], &S[0,0], X.shape[1], X.shape[0])
+ */
+  }
+
+  /* "mlgrad/inventory.pyx":785
+ *     if S is None:
+ *         S = empty_array2(n, n)
+ *     _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], &S[0,0], X.shape[1], X.shape[0])             # <<<<<<<<<<<<<<
+ *     return S
+ */
+  if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    __PYX_ERR(0, 785, __pyx_L1_error)
+  }
+  __pyx_t_4 = 0;
+  __pyx_t_5 = 0;
+  __pyx_t_6 = -1;
+  if (__pyx_t_4 < 0) {
+    __pyx_t_4 += __pyx_v_X.shape[0];
+    if (unlikely(__pyx_t_4 < 0)) __pyx_t_6 = 0;
+  } else if (unlikely(__pyx_t_4 >= __pyx_v_X.shape[0])) __pyx_t_6 = 0;
+  if (__pyx_t_5 < 0) {
+    __pyx_t_5 += __pyx_v_X.shape[1];
+    if (unlikely(__pyx_t_5 < 0)) __pyx_t_6 = 1;
+  } else if (unlikely(__pyx_t_5 >= __pyx_v_X.shape[1])) __pyx_t_6 = 1;
+  if (unlikely(__pyx_t_6 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_6);
+    __PYX_ERR(0, 785, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_W.memview) == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    __PYX_ERR(0, 785, __pyx_L1_error)
+  }
+  __pyx_t_7 = 0;
+  __pyx_t_6 = -1;
+  if (__pyx_t_7 < 0) {
+    __pyx_t_7 += __pyx_v_W.shape[0];
+    if (unlikely(__pyx_t_7 < 0)) __pyx_t_6 = 0;
+  } else if (unlikely(__pyx_t_7 >= __pyx_v_W.shape[0])) __pyx_t_6 = 0;
+  if (unlikely(__pyx_t_6 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_6);
+    __PYX_ERR(0, 785, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_loc.memview) == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    __PYX_ERR(0, 785, __pyx_L1_error)
+  }
+  __pyx_t_8 = 0;
+  __pyx_t_6 = -1;
+  if (__pyx_t_8 < 0) {
+    __pyx_t_8 += __pyx_v_loc.shape[0];
+    if (unlikely(__pyx_t_8 < 0)) __pyx_t_6 = 0;
+  } else if (unlikely(__pyx_t_8 >= __pyx_v_loc.shape[0])) __pyx_t_6 = 0;
+  if (unlikely(__pyx_t_6 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_6);
+    __PYX_ERR(0, 785, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_S.memview) == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "Cannot index None memoryview slice");
+    __PYX_ERR(0, 785, __pyx_L1_error)
+  }
+  __pyx_t_9 = 0;
+  __pyx_t_10 = 0;
+  __pyx_t_6 = -1;
+  if (__pyx_t_9 < 0) {
+    __pyx_t_9 += __pyx_v_S.shape[0];
+    if (unlikely(__pyx_t_9 < 0)) __pyx_t_6 = 0;
+  } else if (unlikely(__pyx_t_9 >= __pyx_v_S.shape[0])) __pyx_t_6 = 0;
+  if (__pyx_t_10 < 0) {
+    __pyx_t_10 += __pyx_v_S.shape[1];
+    if (unlikely(__pyx_t_10 < 0)) __pyx_t_6 = 1;
+  } else if (unlikely(__pyx_t_10 >= __pyx_v_S.shape[1])) __pyx_t_6 = 1;
+  if (unlikely(__pyx_t_6 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_6);
+    __PYX_ERR(0, 785, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    __PYX_ERR(0, 785, __pyx_L1_error)
+  }
+  if (unlikely(((PyObject *) __pyx_v_X.memview) == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "Cannot access '%s' attribute of None memoryview slice", "shape");
+    __PYX_ERR(0, 785, __pyx_L1_error)
+  }
+  __pyx_f_6mlgrad_9inventory__covariance_matrix_weighted((&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_X.data + __pyx_t_4 * __pyx_v_X.strides[0]) )) + __pyx_t_5)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_W.data) + __pyx_t_7)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_loc.data) + __pyx_t_8)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_S.data + __pyx_t_9 * __pyx_v_S.strides[0]) )) + __pyx_t_10)) )))), (__pyx_v_X.shape[1]), (__pyx_v_X.shape[0]));
+
+  /* "mlgrad/inventory.pyx":786
+ *         S = empty_array2(n, n)
+ *     _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], &S[0,0], X.shape[1], X.shape[0])
+ *     return S             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_S, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 786, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "mlgrad/inventory.pyx":780
+ *         S_i += n
+ * 
+ * def covariance_matrix_weighted(double[:, ::1] X, double[::1] W,             # <<<<<<<<<<<<<<
+ *                                      double[::1] loc, double[:,::1] S):
+ *     cdef Py_ssize_t n = X.shape[1]
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_t_3, 1);
+  __Pyx_AddTraceback("mlgrad.inventory.covariance_matrix_weighted", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XCLEAR_MEMVIEW(&__pyx_v_S, 1);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -29897,15 +31156,18 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_b_O, __pyx_k_O, sizeof(__pyx_k_O), 0, 0, 0, 1},
     {&__pyx_kp_u_Out_of_bounds_on_buffer_access_a, __pyx_k_Out_of_bounds_on_buffer_access_a, sizeof(__pyx_k_Out_of_bounds_on_buffer_access_a), 0, 1, 0, 0},
     {&__pyx_n_s_PickleError, __pyx_k_PickleError, sizeof(__pyx_k_PickleError), 0, 0, 1, 1},
+    {&__pyx_n_s_S, __pyx_k_S, sizeof(__pyx_k_S), 0, 0, 1, 1},
     {&__pyx_n_s_Sequence, __pyx_k_Sequence, sizeof(__pyx_k_Sequence), 0, 0, 1, 1},
     {&__pyx_kp_s_Step_may_not_be_zero_axis_d, __pyx_k_Step_may_not_be_zero_axis_d, sizeof(__pyx_k_Step_may_not_be_zero_axis_d), 0, 0, 1, 0},
     {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
     {&__pyx_kp_s_Unable_to_convert_item_to_object, __pyx_k_Unable_to_convert_item_to_object, sizeof(__pyx_k_Unable_to_convert_item_to_object), 0, 0, 1, 0},
     {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
     {&__pyx_n_s_View_MemoryView, __pyx_k_View_MemoryView, sizeof(__pyx_k_View_MemoryView), 0, 0, 1, 1},
+    {&__pyx_n_s_W, __pyx_k_W, sizeof(__pyx_k_W), 0, 0, 1, 1},
+    {&__pyx_n_s_X, __pyx_k_X, sizeof(__pyx_k_X), 0, 0, 1, 1},
     {&__pyx_kp_u__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 1, 0, 0},
-    {&__pyx_n_s__27, __pyx_k__27, sizeof(__pyx_k__27), 0, 0, 1, 1},
     {&__pyx_n_s__3, __pyx_k__3, sizeof(__pyx_k__3), 0, 0, 1, 1},
+    {&__pyx_n_s__31, __pyx_k__31, sizeof(__pyx_k__31), 0, 0, 1, 1},
     {&__pyx_kp_u__6, __pyx_k__6, sizeof(__pyx_k__6), 0, 1, 0, 0},
     {&__pyx_kp_u__7, __pyx_k__7, sizeof(__pyx_k__7), 0, 1, 0, 0},
     {&__pyx_n_s_abc, __pyx_k_abc, sizeof(__pyx_k_abc), 0, 0, 1, 1},
@@ -29923,6 +31185,8 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_kp_s_contiguous_and_direct, __pyx_k_contiguous_and_direct, sizeof(__pyx_k_contiguous_and_direct), 0, 0, 1, 0},
     {&__pyx_kp_s_contiguous_and_indirect, __pyx_k_contiguous_and_indirect, sizeof(__pyx_k_contiguous_and_indirect), 0, 0, 1, 0},
     {&__pyx_n_s_count, __pyx_k_count, sizeof(__pyx_k_count), 0, 0, 1, 1},
+    {&__pyx_n_s_covariance_matrix, __pyx_k_covariance_matrix, sizeof(__pyx_k_covariance_matrix), 0, 0, 1, 1},
+    {&__pyx_n_s_covariance_matrix_weighted, __pyx_k_covariance_matrix_weighted, sizeof(__pyx_k_covariance_matrix_weighted), 0, 0, 1, 1},
     {&__pyx_n_s_dict, __pyx_k_dict, sizeof(__pyx_k_dict), 0, 0, 1, 1},
     {&__pyx_kp_u_disable, __pyx_k_disable, sizeof(__pyx_k_disable), 0, 1, 0, 0},
     {&__pyx_n_s_dtype_is_object, __pyx_k_dtype_is_object, sizeof(__pyx_k_dtype_is_object), 0, 0, 1, 1},
@@ -29947,6 +31211,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
     {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
     {&__pyx_kp_s_lib_mlgrad_inventory_pyx, __pyx_k_lib_mlgrad_inventory_pyx, sizeof(__pyx_k_lib_mlgrad_inventory_pyx), 0, 0, 1, 0},
+    {&__pyx_n_s_loc, __pyx_k_loc, sizeof(__pyx_k_loc), 0, 0, 1, 1},
     {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
     {&__pyx_n_s_median_1d, __pyx_k_median_1d, sizeof(__pyx_k_median_1d), 0, 0, 1, 1},
     {&__pyx_n_s_median_2d, __pyx_k_median_2d, sizeof(__pyx_k_median_2d), 0, 0, 1, 1},
@@ -29954,6 +31219,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
     {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
     {&__pyx_n_s_mlgrad_inventory, __pyx_k_mlgrad_inventory, sizeof(__pyx_k_mlgrad_inventory), 0, 0, 1, 1},
     {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
+    {&__pyx_n_s_n, __pyx_k_n, sizeof(__pyx_k_n), 0, 0, 1, 1},
     {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
     {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
     {&__pyx_n_s_ndim, __pyx_k_ndim, sizeof(__pyx_k_ndim), 0, 0, 1, 1},
@@ -30005,7 +31271,7 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
 }
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 83, __pyx_L1_error)
   __pyx_builtin___import__ = __Pyx_GetBuiltinName(__pyx_n_s_import); if (!__pyx_builtin___import__) __PYX_ERR(1, 100, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 141, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 156, __pyx_L1_error)
@@ -30185,38 +31451,62 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__20);
   __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(1, 1, __pyx_L1_error)
 
-  /* "mlgrad/inventory.pyx":707
+  /* "mlgrad/inventory.pyx":714
  *     return a[k]
  * 
  * def median_1d(x):             # <<<<<<<<<<<<<<
  *     cdef double[::1] xx = x
  *     return _median_1d(&xx[0], xx.shape[0])
  */
-  __pyx_tuple__22 = PyTuple_Pack(2, __pyx_n_s_x, __pyx_n_s_xx); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 707, __pyx_L1_error)
+  __pyx_tuple__22 = PyTuple_Pack(2, __pyx_n_s_x, __pyx_n_s_xx); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 714, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_GIVEREF(__pyx_tuple__22);
-  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_inventory_pyx, __pyx_n_s_median_1d, 707, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 707, __pyx_L1_error)
+  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_inventory_pyx, __pyx_n_s_median_1d, 714, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 714, __pyx_L1_error)
 
-  /* "mlgrad/inventory.pyx":711
+  /* "mlgrad/inventory.pyx":718
  *     return _median_1d(&xx[0], xx.shape[0])
  * 
  * def median_2d_t(x):             # <<<<<<<<<<<<<<
  *     # cdef numpy.npy_intp n = x.shape[1]
  *     # y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
  */
-  __pyx_tuple__24 = PyTuple_Pack(2, __pyx_n_s_x, __pyx_n_s_y); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 711, __pyx_L1_error)
+  __pyx_tuple__24 = PyTuple_Pack(2, __pyx_n_s_x, __pyx_n_s_y); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(0, 718, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__24);
   __Pyx_GIVEREF(__pyx_tuple__24);
-  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_inventory_pyx, __pyx_n_s_median_2d_t, 711, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(0, 711, __pyx_L1_error)
+  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_inventory_pyx, __pyx_n_s_median_2d_t, 718, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(0, 718, __pyx_L1_error)
 
-  /* "mlgrad/inventory.pyx":718
+  /* "mlgrad/inventory.pyx":725
  *     return y
  * 
  * def median_2d(x):             # <<<<<<<<<<<<<<
  *     # cdef numpy.npy_intp n = x.shape[0]
  *     # y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
  */
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_inventory_pyx, __pyx_n_s_median_2d, 718, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 718, __pyx_L1_error)
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_inventory_pyx, __pyx_n_s_median_2d, 725, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 725, __pyx_L1_error)
+
+  /* "mlgrad/inventory.pyx":747
+ *             S[i,j] = s / N
+ * 
+ * def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S=None):             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t n = X.shape[1]
+ *     if S is None:
+ */
+  __pyx_tuple__27 = PyTuple_Pack(4, __pyx_n_s_X, __pyx_n_s_loc, __pyx_n_s_S, __pyx_n_s_n); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_inventory_pyx, __pyx_n_s_covariance_matrix, 747, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 747, __pyx_L1_error)
+
+  /* "mlgrad/inventory.pyx":780
+ *         S_i += n
+ * 
+ * def covariance_matrix_weighted(double[:, ::1] X, double[::1] W,             # <<<<<<<<<<<<<<
+ *                                      double[::1] loc, double[:,::1] S):
+ *     cdef Py_ssize_t n = X.shape[1]
+ */
+  __pyx_tuple__29 = PyTuple_Pack(5, __pyx_n_s_X, __pyx_n_s_W, __pyx_n_s_loc, __pyx_n_s_S, __pyx_n_s_n); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 780, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(4, 0, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lib_mlgrad_inventory_pyx, __pyx_n_s_covariance_matrix_weighted, 780, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 780, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -30368,6 +31658,7 @@ static int __Pyx_modinit_function_export_code(void) {
   if (__Pyx_ExportFunction("scatter_matrix", (void (*)(void))__pyx_f_6mlgrad_9inventory_scatter_matrix, "void (__Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("weighted_sum_rows", (void (*)(void))__pyx_f_6mlgrad_9inventory_weighted_sum_rows, "void (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("empty_array", (void (*)(void))__pyx_f_6mlgrad_9inventory_empty_array, "PyObject *(Py_ssize_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("empty_array2", (void (*)(void))__pyx_f_6mlgrad_9inventory_empty_array2, "PyObject *(Py_ssize_t, Py_ssize_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_mean", (void (*)(void))__pyx_f_6mlgrad_9inventory__mean, "double (double *, Py_ssize_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_std", (void (*)(void))__pyx_f_6mlgrad_9inventory__std, "double (double *, double, Py_ssize_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("quick_select", (void (*)(void))__pyx_f_6mlgrad_9inventory_quick_select, "double (double *, Py_ssize_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -30375,6 +31666,8 @@ static int __Pyx_modinit_function_export_code(void) {
   if (__Pyx_ExportFunction("_median_2d", (void (*)(void))__pyx_f_6mlgrad_9inventory__median_2d, "void (__Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_median_2d_t", (void (*)(void))__pyx_f_6mlgrad_9inventory__median_2d_t, "void (__Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("_kth_smallest", (void (*)(void))__pyx_f_6mlgrad_9inventory__kth_smallest, "double (double *, Py_ssize_t, Py_ssize_t)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("_covariance_matrix", (void (*)(void))__pyx_f_6mlgrad_9inventory__covariance_matrix, "void (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("_covariance_matrix_weighted", (void (*)(void))__pyx_f_6mlgrad_9inventory__covariance_matrix_weighted, "void (double *, double const *, double const *, double *, Py_ssize_t const , Py_ssize_t const )") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -30770,6 +32063,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_inventory(PyObject *__pyx_pyinit_m
   PyObject *__pyx_t_7 = NULL;
   static PyThread_type_lock __pyx_t_8[8];
   int __pyx_t_9;
+  __Pyx_memviewslice __pyx_t_10 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -31425,40 +32719,70 @@ if (!__Pyx_RefNanny) {
  */
   __pyx_v_6mlgrad_9inventory_num_threads = omp_get_num_threads();
 
-  /* "mlgrad/inventory.pyx":707
+  /* "mlgrad/inventory.pyx":714
  *     return a[k]
  * 
  * def median_1d(x):             # <<<<<<<<<<<<<<
  *     cdef double[::1] xx = x
  *     return _median_1d(&xx[0], xx.shape[0])
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_9inventory_1median_1d, 0, __pyx_n_s_median_1d, NULL, __pyx_n_s_mlgrad_inventory, __pyx_d, ((PyObject *)__pyx_codeobj__23)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 707, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_9inventory_1median_1d, 0, __pyx_n_s_median_1d, NULL, __pyx_n_s_mlgrad_inventory, __pyx_d, ((PyObject *)__pyx_codeobj__23)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 714, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_median_1d, __pyx_t_7) < 0) __PYX_ERR(0, 707, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_median_1d, __pyx_t_7) < 0) __PYX_ERR(0, 714, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "mlgrad/inventory.pyx":711
+  /* "mlgrad/inventory.pyx":718
  *     return _median_1d(&xx[0], xx.shape[0])
  * 
  * def median_2d_t(x):             # <<<<<<<<<<<<<<
  *     # cdef numpy.npy_intp n = x.shape[1]
  *     # y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_9inventory_3median_2d_t, 0, __pyx_n_s_median_2d_t, NULL, __pyx_n_s_mlgrad_inventory, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 711, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_9inventory_3median_2d_t, 0, __pyx_n_s_median_2d_t, NULL, __pyx_n_s_mlgrad_inventory, __pyx_d, ((PyObject *)__pyx_codeobj__25)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 718, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_median_2d_t, __pyx_t_7) < 0) __PYX_ERR(0, 711, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_median_2d_t, __pyx_t_7) < 0) __PYX_ERR(0, 718, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "mlgrad/inventory.pyx":718
+  /* "mlgrad/inventory.pyx":725
  *     return y
  * 
  * def median_2d(x):             # <<<<<<<<<<<<<<
  *     # cdef numpy.npy_intp n = x.shape[0]
  *     # y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
  */
-  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_9inventory_5median_2d, 0, __pyx_n_s_median_2d, NULL, __pyx_n_s_mlgrad_inventory, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 718, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_9inventory_5median_2d, 0, __pyx_n_s_median_2d, NULL, __pyx_n_s_mlgrad_inventory, __pyx_d, ((PyObject *)__pyx_codeobj__26)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 725, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_median_2d, __pyx_t_7) < 0) __PYX_ERR(0, 718, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_median_2d, __pyx_t_7) < 0) __PYX_ERR(0, 725, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+  /* "mlgrad/inventory.pyx":747
+ *             S[i,j] = s / N
+ * 
+ * def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S=None):             # <<<<<<<<<<<<<<
+ *     cdef Py_ssize_t n = X.shape[1]
+ *     if S is None:
+ */
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_9inventory_7covariance_matrix, 0, __pyx_n_s_covariance_matrix, NULL, __pyx_n_s_mlgrad_inventory, __pyx_d, ((PyObject *)__pyx_codeobj__28)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  if (!__Pyx_CyFunction_InitDefaults(__pyx_t_7, sizeof(__pyx_defaults), 0)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(Py_None, PyBUF_WRITABLE); if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __Pyx_CyFunction_Defaults(__pyx_defaults, __pyx_t_7)->__pyx_arg_S = __pyx_t_10;
+  __pyx_t_10.memview = NULL;
+  __pyx_t_10.data = NULL;
+  __Pyx_CyFunction_SetDefaultsGetter(__pyx_t_7, __pyx_pf_6mlgrad_9inventory_10__defaults__);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_covariance_matrix, __pyx_t_7) < 0) __PYX_ERR(0, 747, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+  /* "mlgrad/inventory.pyx":780
+ *         S_i += n
+ * 
+ * def covariance_matrix_weighted(double[:, ::1] X, double[::1] W,             # <<<<<<<<<<<<<<
+ *                                      double[::1] loc, double[:,::1] S):
+ *     cdef Py_ssize_t n = X.shape[1]
+ */
+  __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_6mlgrad_9inventory_9covariance_matrix_weighted, 0, __pyx_n_s_covariance_matrix_weighted, NULL, __pyx_n_s_mlgrad_inventory, __pyx_d, ((PyObject *)__pyx_codeobj__30)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 780, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_covariance_matrix_weighted, __pyx_t_7) < 0) __PYX_ERR(0, 780, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
   /* "mlgrad/inventory.pyx":1
@@ -31478,6 +32802,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7);
+  __PYX_XCLEAR_MEMVIEW(&__pyx_t_10, 1);
   if (__pyx_m) {
     if (__pyx_d && stringtab_initialized) {
       __Pyx_AddTraceback("init mlgrad.inventory", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -37054,6 +38379,29 @@ no_fail:
 }
 
 /* ObjectToMemviewSlice */
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *obj, int writable_flag) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_FOLLOW), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
+                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 2,
+                                                 &__Pyx_TypeInfo_double, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
+/* ObjectToMemviewSlice */
   static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *obj, int writable_flag) {
     __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
     __Pyx_BufFmt_StackElem stack[1];
@@ -37076,27 +38424,16 @@ __pyx_fail:
     return result;
 }
 
-/* ObjectToMemviewSlice */
-  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *obj, int writable_flag) {
-    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
-    __Pyx_BufFmt_StackElem stack[1];
-    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_FOLLOW), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
-    int retcode;
-    if (obj == Py_None) {
-        result.memview = (struct __pyx_memoryview_obj *) Py_None;
-        return result;
-    }
-    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
-                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 2,
-                                                 &__Pyx_TypeInfo_double, stack,
-                                                 &result, obj);
-    if (unlikely(retcode == -1))
-        goto __pyx_fail;
-    return result;
-__pyx_fail:
-    result.memview = NULL;
-    result.data = NULL;
-    return result;
+/* MemviewDtypeToObject */
+  static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp) {
+    return (PyObject *) PyFloat_FromDouble(*(double *) itemp);
+}
+static CYTHON_INLINE int __pyx_memview_set_double(const char *itemp, PyObject *obj) {
+    double value = __pyx_PyFloat_AsDouble(obj);
+    if (unlikely((value == (double)-1) && PyErr_Occurred()))
+        return 0;
+    *(double *) itemp = value;
+    return 1;
 }
 
 /* Declarations */
@@ -38584,7 +39921,7 @@ __Pyx_PyType_GetName(PyTypeObject* tp)
     if (unlikely(name == NULL) || unlikely(!PyUnicode_Check(name))) {
         PyErr_Clear();
         Py_XDECREF(name);
-        name = __Pyx_NewRef(__pyx_n_s__27);
+        name = __Pyx_NewRef(__pyx_n_s__31);
     }
     return name;
 }

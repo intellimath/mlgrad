@@ -74,11 +74,6 @@ cdef double _min(double *a, Py_ssize_t n) noexcept nogil:
         i += 1
 
     return a_min
-    
-cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:
-    cdef Py_ssize_t i
-    for i in range(n):
-        to[i] = 0
 
 cdef int hasnan(double[::1] a) noexcept nogil:
     return _hasnan(&a[0], a.shape[0])
@@ -89,6 +84,11 @@ cdef int _hasnan(double *a, const Py_ssize_t n) noexcept nogil:
         if isnan(a[i]):
             return 1
     return 0
+
+cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+    for i in range(n):
+        to[i] = 0
         
 cdef void clear(double[::1] to) noexcept nogil:
     _clear(&to[0], <const Py_ssize_t>to.shape[0])
@@ -454,7 +454,7 @@ cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil:
             Xk = &X[0,0]
             s = 0
             for k in range(N):
-                s = fma(Xk[i], Xk[j], s)
+                s += Xk[i] * Xk[j]
                 Xk += n
             ss[j] = s
         ss += n
@@ -495,6 +495,13 @@ cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexc
 cdef object empty_array(Py_ssize_t size):
     cdef numpy.npy_intp n = size
     return numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+
+cdef object empty_array2(Py_ssize_t size1, Py_ssize_t size2):
+    cdef numpy.npy_intp[2] n
+
+    n[0] = size1
+    n[1] = size2
+    return numpy.PyArray_EMPTY(2, &n[0], numpy.NPY_DOUBLE, 0)
 
 # cdef inline void swap(double *a, double *b) noexcept nogil:
 #     cdef double t=a[0]
@@ -721,3 +728,59 @@ def median_2d(x):
     y = empty_array(x.shape[0])
     _median_2d(x, y)
     return y
+
+
+cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil:
+    cdef Py_ssize_t i, j
+    cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
+    cdef double s, loc_i, loc_j
+    #
+    for i in range(n):
+        loc_i = loc[i]
+        for j in range(n):
+            loc_j = loc[j]
+            s = 0
+            for k in range(N):
+                s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
+            S[i,j] = s / N
+
+def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S=None):
+    cdef Py_ssize_t n = X.shape[1]
+    if S is None:
+        S = empty_array2(n, n)
+    _covariance_matrix(X, loc, S)
+    return S
+            
+cdef void _covariance_matrix_weighted(
+            double *X, const double *W, const double *loc, double *S, 
+            const Py_ssize_t n, const Py_ssize_t N) noexcept nogil:
+    cdef Py_ssize_t i, j, k
+    cdef double s, loc_i, loc_j
+    cdef double *X_ki, *X_kj
+    cdef double *S_i, *S_j
+
+    S_i = S_j = S
+    for i in range(n):
+        loc_i = loc[i]
+        for j in range(i, n):
+            loc_j = loc[j]
+            X_kj = X + j
+            X_ki = X + i
+
+            s = 0
+            for k in range(N):
+                s += W[k] * (X_ki[0] - loc_i) * (X_kj[0] - loc_j)
+                X_ki += n
+                X_kj += n
+
+            S_i[j] = S_j[i] = s
+            S_j += n
+        S_i += n
+            
+def covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
+                                     double[::1] loc, double[:,::1] S):
+    cdef Py_ssize_t n = X.shape[1]
+    if S is None:
+        S = empty_array2(n, n)
+    _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], &S[0,0], X.shape[1], X.shape[0])
+    return S

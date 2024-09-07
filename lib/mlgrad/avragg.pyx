@@ -532,7 +532,7 @@ cdef class WMZAverage(Average):
         else:
             self.mavr = mavr
         if savr is None:
-            self.savr = MAverage(SoftAbs_Sqrt(0.001))
+            self.savr = MAverage(self.mavr.func)
         else:
             self.savr = mavr
         self.c = c
@@ -595,28 +595,31 @@ cdef class WMZAverage(Average):
             if Y[j] >= tval:
                 m += 1
 
-        self.mavr._gradient(Y, grad)
-        self.savr._gradient(self.U, GU)
-
-        for j in range(N):
-            GU[j] *= rho_func._derivative(Y[j] - mval)
-
-        ss = 0
-        for j in range(N):
-            ss += GU[j] * grad[j]
-        # print(ss, end=' ')
-
-        v = rho_func._derivative(self.sval)
-        for j in range(N):
-            grad[j] += alpha * (GU[j] - ss) / v
-
-        for j in range(N):
-            grad[j] *= m
+        if m > 0:
+            self.mavr._gradient(Y, grad)
+            self.savr._gradient(self.U, GU)
+    
+            for j in range(N):
+                GU[j] *= rho_func._derivative(Y[j] - mval)
+    
+            ss = 0
+            for j in range(N):
+                ss += GU[j] * grad[j]
+            # print(ss, end=' ')
+    
+            v = rho_func._derivative(self.sval)
+            for j in range(N):
+                grad[j] += alpha * (GU[j] - ss) / v
+    
+            for j in range(N):
+                grad[j] *= m
             
-        for j in range(N):
-            if Y[j] < tval:
-                grad[j] += 1
-            grad[j] /= N
+            for j in range(N):
+                if Y[j] < tval:
+                    grad[j] += 1
+                grad[j] /= N
+        else:
+            inventory.fill(grad, 1.0/N)
 
         self.evaluated = 0
 
