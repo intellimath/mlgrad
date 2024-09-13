@@ -503,6 +503,10 @@ cdef object empty_array2(Py_ssize_t size1, Py_ssize_t size2):
     n[1] = size2
     return numpy.PyArray_EMPTY(2, &n[0], numpy.NPY_DOUBLE, 0)
 
+cdef object zeros_array(Py_ssize_t size):
+    cdef numpy.npy_intp n = size
+    return numpy.PyArray_ZEROS(1, &n, numpy.NPY_DOUBLE, 0)
+
 # cdef inline void swap(double *a, double *b) noexcept nogil:
 #     cdef double t=a[0]
 #     a[0]=b[0]
@@ -524,6 +528,14 @@ cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil:
         v = a[i] - mu
         s += v*v
     return sqrt(s/n)
+
+cdef double _mad(double *a, double mu, Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+    cdef double s = 0
+
+    for i in range(n):
+        s += fabs(a[i] - mu)
+    return s/n
 
 cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:
     cdef Py_ssize_t low, high
@@ -654,11 +666,11 @@ cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:
 #             i_high = i_hh - 1
 #             high = hh - step
 
-cdef double _median_1d(double *x, Py_ssize_t n): # noexcept nogil:
-    cdef Py_ssize_t n2
+cdef double _median_1d(double[::1] x): # noexcept nogil:
+    cdef Py_ssize_t n2, n = x.shape[0]
     cdef double m1, m2
     
-    m1 = quick_select(x, n)
+    m1 = quick_select(&x[0], n)
     if n % 2:
         return m1
     else:
@@ -672,7 +684,7 @@ cdef void _median_2d(double[:,::1] x, double[::1] y): # noexcept nogil:
     
     for i in range(N):
         temp = x[i].copy()
-        y[i] = _median_1d(&temp[0], n)
+        y[i] = _median_1d(temp)
 
 cdef void _median_2d_t(double[:,::1] x, double[::1] y): # noexcept nogil:
     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
@@ -681,7 +693,7 @@ cdef void _median_2d_t(double[:,::1] x, double[::1] y): # noexcept nogil:
     
     for i in range(n):
         _move_t(&temp[0], &x[0,i], N, n)
-        y[i] = _median_1d(&temp[0], N)
+        y[i] = _median_1d(temp)
 
 cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k): # noexcept nogil:
     cdef Py_ssize_t i, j, l, m
@@ -711,9 +723,12 @@ cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k): # noexcept nog
             m=j
     return a[k]
 
-def median_1d(x):
-    cdef double[::1] xx = x
-    return _median_1d(&xx[0], xx.shape[0])
+def median_1d(x, copy=True):
+    if copy:
+        xx = x.copy()
+    else:
+        xx = x
+    return _median_1d(xx)
 
 def median_2d_t(x):
     # cdef numpy.npy_intp n = x.shape[1]
@@ -784,3 +799,28 @@ def covariance_matrix_weighted(double[:, ::1] X, double[::1] W,
         S = empty_array2(n, n)
     _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], &S[0,0], X.shape[1], X.shape[0])
     return S
+
+cdef class RingArray:
+    #
+    def __init__(self, Py_ssize_t n):
+        self.data = zeros_array(n)
+        self.size = n
+        self.index = 0
+    #
+    cpdef add(self, double val):
+        self.data[self.index] = val
+        self.index += 1
+        if self.index == self.size:
+            self.index = 0
+    #
+    cpdef mad(self):
+        cdef double mu_val, mad_val
+
+        mu_val = _mean(&self.data[0], self.size)
+        mad_val = _mad(&self.data[0], mu_val, self.size)
+        return mad_val
+    #
+    # cpdef median(self):
+    #     return median_1d(self.data, True)
+            
+    

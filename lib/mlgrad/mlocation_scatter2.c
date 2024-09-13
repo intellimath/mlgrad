@@ -1537,6 +1537,7 @@ static const char *__pyx_f[] = {
   "lib/mlgrad/avragg.pxd",
   "type.pxd",
   "lib/mlgrad/funcs.pxd",
+  "lib/mlgrad/inventory.pxd",
   "lib/mlgrad/distance.pxd",
 };
 /* #### Code section: utility_code_proto_before_types ### */
@@ -1933,6 +1934,7 @@ struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc;
 struct __pyx_obj_6mlgrad_5funcs_WinsorizedFunc;
 struct __pyx_obj_6mlgrad_5funcs_WinsorizedSmoothFunc;
 struct __pyx_obj_6mlgrad_5funcs_SoftMinFunc;
+struct __pyx_obj_6mlgrad_9inventory_RingArray;
 struct __pyx_obj_6mlgrad_6funcs2_Func2;
 struct __pyx_obj_6mlgrad_6funcs2_FuncNorm;
 struct __pyx_obj_6mlgrad_6funcs2_MixedNorm;
@@ -2762,6 +2764,22 @@ struct __pyx_obj_6mlgrad_5funcs_WinsorizedSmoothFunc {
 struct __pyx_obj_6mlgrad_5funcs_SoftMinFunc {
   struct __pyx_obj_6mlgrad_5funcs_ParameterizedFunc __pyx_base;
   double a;
+};
+
+
+/* "mlgrad/inventory.pxd":125
+ *             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil
+ * 
+ * cdef class RingArray:             # <<<<<<<<<<<<<<
+ *     cdef public double[::1] data
+ *     cdef Py_ssize_t size, index
+ */
+struct __pyx_obj_6mlgrad_9inventory_RingArray {
+  PyObject_HEAD
+  struct __pyx_vtabstruct_6mlgrad_9inventory_RingArray *__pyx_vtab;
+  __Pyx_memviewslice data;
+  Py_ssize_t size;
+  Py_ssize_t index;
 };
 
 
@@ -4455,6 +4473,21 @@ struct __pyx_vtabstruct_6mlgrad_5funcs_SoftMinFunc {
   struct __pyx_vtabstruct_6mlgrad_5funcs_ParameterizedFunc __pyx_base;
 };
 static struct __pyx_vtabstruct_6mlgrad_5funcs_SoftMinFunc *__pyx_vtabptr_6mlgrad_5funcs_SoftMinFunc;
+
+
+/* "mlgrad/inventory.pxd":125
+ *             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil
+ * 
+ * cdef class RingArray:             # <<<<<<<<<<<<<<
+ *     cdef public double[::1] data
+ *     cdef Py_ssize_t size, index
+ */
+
+struct __pyx_vtabstruct_6mlgrad_9inventory_RingArray {
+  PyObject *(*add)(struct __pyx_obj_6mlgrad_9inventory_RingArray *, double, int __pyx_skip_dispatch);
+  PyObject *(*mad)(struct __pyx_obj_6mlgrad_9inventory_RingArray *, int __pyx_skip_dispatch);
+};
+static struct __pyx_vtabstruct_6mlgrad_9inventory_RingArray *__pyx_vtabptr_6mlgrad_9inventory_RingArray;
 
 
 /* "mlgrad/funcs2.pxd":44
@@ -7119,6 +7152,7 @@ typedef struct {
   #endif
   #if CYTHON_USE_MODULE_STATE
   #endif
+  PyTypeObject *__pyx_ptype_6mlgrad_9inventory_RingArray;
   #if CYTHON_USE_MODULE_STATE
   #endif
   PyTypeObject *__pyx_ptype_6mlgrad_6funcs2_Func2;
@@ -7628,6 +7662,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_WinsorizedFunc);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_WinsorizedSmoothFunc);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5funcs_SoftMinFunc);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_9inventory_RingArray);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_Func2);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_FuncNorm);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_6funcs2_MixedNorm);
@@ -8107,6 +8142,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_WinsorizedFunc);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_WinsorizedSmoothFunc);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5funcs_SoftMinFunc);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_9inventory_RingArray);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_Func2);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_FuncNorm);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_6funcs2_MixedNorm);
@@ -8626,6 +8662,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #endif
 #if CYTHON_USE_MODULE_STATE
 #endif
+#define __pyx_ptype_6mlgrad_9inventory_RingArray __pyx_mstate_global->__pyx_ptype_6mlgrad_9inventory_RingArray
 #if CYTHON_USE_MODULE_STATE
 #endif
 #define __pyx_ptype_6mlgrad_6funcs2_Func2 __pyx_mstate_global->__pyx_ptype_6mlgrad_6funcs2_Func2
@@ -46434,6 +46471,11 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_ptype_6mlgrad_5funcs_SoftMinFunc = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.funcs", "SoftMinFunc", sizeof(struct __pyx_obj_6mlgrad_5funcs_SoftMinFunc), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_5funcs_SoftMinFunc),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_5funcs_SoftMinFunc) __PYX_ERR(8, 294, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_5funcs_SoftMinFunc = (struct __pyx_vtabstruct_6mlgrad_5funcs_SoftMinFunc*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_5funcs_SoftMinFunc); if (unlikely(!__pyx_vtabptr_6mlgrad_5funcs_SoftMinFunc)) __PYX_ERR(8, 294, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.inventory"); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 125, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_ptype_6mlgrad_9inventory_RingArray = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.inventory", "RingArray", sizeof(struct __pyx_obj_6mlgrad_9inventory_RingArray), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_9inventory_RingArray),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_9inventory_RingArray) __PYX_ERR(9, 125, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_9inventory_RingArray = (struct __pyx_vtabstruct_6mlgrad_9inventory_RingArray*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_9inventory_RingArray); if (unlikely(!__pyx_vtabptr_6mlgrad_9inventory_RingArray)) __PYX_ERR(9, 125, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("mlgrad.funcs2"); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6mlgrad_6funcs2_Func2 = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.funcs2", "Func2", sizeof(struct __pyx_obj_6mlgrad_6funcs2_Func2), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6funcs2_Func2),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6funcs2_Func2) __PYX_ERR(4, 44, __pyx_L1_error)
@@ -46547,20 +46589,20 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_ptype_6mlgrad_6avragg_Maximal = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.avragg", "Maximal", sizeof(struct __pyx_obj_6mlgrad_6avragg_Maximal), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_6avragg_Maximal),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_6avragg_Maximal) __PYX_ERR(6, 213, __pyx_L1_error)
   __pyx_vtabptr_6mlgrad_6avragg_Maximal = (struct __pyx_vtabstruct_6mlgrad_6avragg_Maximal*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_6avragg_Maximal); if (unlikely(!__pyx_vtabptr_6mlgrad_6avragg_Maximal)) __PYX_ERR(6, 213, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("mlgrad.distance"); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 5, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.distance"); if (unlikely(!__pyx_t_1)) __PYX_ERR(10, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_ptype_6mlgrad_8distance_Distance = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.distance", "Distance", sizeof(struct __pyx_obj_6mlgrad_8distance_Distance), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8distance_Distance),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8distance_Distance) __PYX_ERR(9, 5, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_Distance = (struct __pyx_vtabstruct_6mlgrad_8distance_Distance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_Distance); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_Distance)) __PYX_ERR(9, 5, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_8distance_AbsoluteDistance = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.distance", "AbsoluteDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8distance_AbsoluteDistance) __PYX_ERR(9, 12, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_AbsoluteDistance); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance)) __PYX_ERR(9, 12, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_8distance_EuclidDistance = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.distance", "EuclidDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_EuclidDistance), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8distance_EuclidDistance),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8distance_EuclidDistance) __PYX_ERR(9, 16, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_EuclidDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_EuclidDistance); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_EuclidDistance)) __PYX_ERR(9, 16, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_8distance_PowerDistance = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.distance", "PowerDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_PowerDistance), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8distance_PowerDistance),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8distance_PowerDistance) __PYX_ERR(9, 20, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_PowerDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_PowerDistance); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_PowerDistance)) __PYX_ERR(9, 20, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_8distance_DistanceWithScale = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.distance", "DistanceWithScale", sizeof(struct __pyx_obj_6mlgrad_8distance_DistanceWithScale), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8distance_DistanceWithScale),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8distance_DistanceWithScale) __PYX_ERR(9, 23, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_DistanceWithScale = (struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_DistanceWithScale); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_DistanceWithScale)) __PYX_ERR(9, 23, __pyx_L1_error)
-  __pyx_ptype_6mlgrad_8distance_MahalanobisDistance = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.distance", "MahalanobisDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8distance_MahalanobisDistance) __PYX_ERR(9, 28, __pyx_L1_error)
-  __pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_MahalanobisDistance); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance)) __PYX_ERR(9, 28, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_8distance_Distance = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.distance", "Distance", sizeof(struct __pyx_obj_6mlgrad_8distance_Distance), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8distance_Distance),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8distance_Distance) __PYX_ERR(10, 5, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_Distance = (struct __pyx_vtabstruct_6mlgrad_8distance_Distance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_Distance); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_Distance)) __PYX_ERR(10, 5, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_8distance_AbsoluteDistance = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.distance", "AbsoluteDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8distance_AbsoluteDistance),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8distance_AbsoluteDistance) __PYX_ERR(10, 12, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_AbsoluteDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_AbsoluteDistance); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_AbsoluteDistance)) __PYX_ERR(10, 12, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_8distance_EuclidDistance = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.distance", "EuclidDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_EuclidDistance), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8distance_EuclidDistance),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8distance_EuclidDistance) __PYX_ERR(10, 16, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_EuclidDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_EuclidDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_EuclidDistance); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_EuclidDistance)) __PYX_ERR(10, 16, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_8distance_PowerDistance = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.distance", "PowerDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_PowerDistance), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8distance_PowerDistance),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8distance_PowerDistance) __PYX_ERR(10, 20, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_PowerDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_PowerDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_PowerDistance); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_PowerDistance)) __PYX_ERR(10, 20, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_8distance_DistanceWithScale = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.distance", "DistanceWithScale", sizeof(struct __pyx_obj_6mlgrad_8distance_DistanceWithScale), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8distance_DistanceWithScale),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8distance_DistanceWithScale) __PYX_ERR(10, 23, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_DistanceWithScale = (struct __pyx_vtabstruct_6mlgrad_8distance_DistanceWithScale*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_DistanceWithScale); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_DistanceWithScale)) __PYX_ERR(10, 23, __pyx_L1_error)
+  __pyx_ptype_6mlgrad_8distance_MahalanobisDistance = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.distance", "MahalanobisDistance", sizeof(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_8distance_MahalanobisDistance),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_8distance_MahalanobisDistance) __PYX_ERR(10, 28, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance = (struct __pyx_vtabstruct_6mlgrad_8distance_MahalanobisDistance*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_8distance_MahalanobisDistance); if (unlikely(!__pyx_vtabptr_6mlgrad_8distance_MahalanobisDistance)) __PYX_ERR(10, 28, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;

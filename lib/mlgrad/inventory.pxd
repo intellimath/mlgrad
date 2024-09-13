@@ -104,13 +104,15 @@ cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexc
 
 cdef object empty_array(Py_ssize_t size)
 cdef object empty_array2(Py_ssize_t size1, Py_ssize_t size2)
+cdef object zeros_array(Py_ssize_t size)
 
 cdef double _mean(double *a, Py_ssize_t n) noexcept nogil
 cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil
+cdef double _mad(double *a, double mu, Py_ssize_t n) noexcept nogil
 
 cdef double quick_select(double *a, Py_ssize_t n) #noexcept nogil
 # cdef double quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) #noexcept nogil
-cdef double _median_1d(double *x, Py_ssize_t n) #noexcept nogil
+cdef double _median_1d(double[::1] x) #noexcept nogil
 cdef void _median_2d(double[:,::1] x, double[::1] y) #noexcept nogil
 cdef void _median_2d_t(double[:,::1] x, double[::1] y) #noexcept nogil
 cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) #noexcept nogil
@@ -119,3 +121,10 @@ cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S)
 cdef void _covariance_matrix_weighted(
             double *X, const double *W, const double *loc, double *S, 
             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil
+
+cdef class RingArray:
+    cdef public double[::1] data
+    cdef Py_ssize_t size, index
+
+    cpdef add(self, double val)
+    cpdef mad(self)

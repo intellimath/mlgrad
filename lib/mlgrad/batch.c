@@ -1530,6 +1530,7 @@ static const char *__pyx_f[] = {
   "__init__.cython-30.pxd",
   "lib/mlgrad/batch.pxd",
   "type.pxd",
+  "lib/mlgrad/inventory.pxd",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* ForceInitThreads.proto */
@@ -1873,6 +1874,7 @@ static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(do
 /* #### Code section: type_declarations ### */
 
 /*--- Type declarations ---*/
+struct __pyx_obj_6mlgrad_9inventory_RingArray;
 struct __pyx_obj_6mlgrad_5batch_Batch;
 struct __pyx_obj_6mlgrad_5batch_RandomBatch;
 struct __pyx_obj_6mlgrad_5batch_WholeBatch;
@@ -1916,6 +1918,22 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  * cdef inline object PyArray_MultiIterNew1(a):
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
+
+/* "mlgrad/inventory.pxd":125
+ *             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil
+ * 
+ * cdef class RingArray:             # <<<<<<<<<<<<<<
+ *     cdef public double[::1] data
+ *     cdef Py_ssize_t size, index
+ */
+struct __pyx_obj_6mlgrad_9inventory_RingArray {
+  PyObject_HEAD
+  struct __pyx_vtabstruct_6mlgrad_9inventory_RingArray *__pyx_vtab;
+  __Pyx_memviewslice data;
+  Py_ssize_t size;
+  Py_ssize_t index;
+};
+
 
 /* "mlgrad/batch.pxd":5
  * from mlgrad.inventory cimport init_rand, rand, fill
@@ -2031,6 +2049,21 @@ struct __pyx_memoryviewslice_obj {
   int (*to_dtype_func)(char *, PyObject *);
 };
 
+
+
+/* "mlgrad/inventory.pxd":125
+ *             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil
+ * 
+ * cdef class RingArray:             # <<<<<<<<<<<<<<
+ *     cdef public double[::1] data
+ *     cdef Py_ssize_t size, index
+ */
+
+struct __pyx_vtabstruct_6mlgrad_9inventory_RingArray {
+  PyObject *(*add)(struct __pyx_obj_6mlgrad_9inventory_RingArray *, double, int __pyx_skip_dispatch);
+  PyObject *(*mad)(struct __pyx_obj_6mlgrad_9inventory_RingArray *, int __pyx_skip_dispatch);
+};
+static struct __pyx_vtabstruct_6mlgrad_9inventory_RingArray *__pyx_vtabptr_6mlgrad_9inventory_RingArray;
 
 
 /* "mlgrad/batch.pyx":29
@@ -3614,6 +3647,7 @@ typedef struct {
   #endif
   #if CYTHON_USE_MODULE_STATE
   #endif
+  PyTypeObject *__pyx_ptype_6mlgrad_9inventory_RingArray;
   #if CYTHON_USE_MODULE_STATE
   PyObject *__pyx_type_6mlgrad_5batch_Batch;
   PyObject *__pyx_type_6mlgrad_5batch_RandomBatch;
@@ -3884,6 +3918,7 @@ static int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_ptype_5numpy_flexible);
   Py_CLEAR(clear_module_state->__pyx_ptype_5numpy_character);
   Py_CLEAR(clear_module_state->__pyx_ptype_5numpy_ufunc);
+  Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_9inventory_RingArray);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5batch_Batch);
   Py_CLEAR(clear_module_state->__pyx_type_6mlgrad_5batch_Batch);
   Py_CLEAR(clear_module_state->__pyx_ptype_6mlgrad_5batch_RandomBatch);
@@ -4130,6 +4165,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
   Py_VISIT(traverse_module_state->__pyx_ptype_5numpy_flexible);
   Py_VISIT(traverse_module_state->__pyx_ptype_5numpy_character);
   Py_VISIT(traverse_module_state->__pyx_ptype_5numpy_ufunc);
+  Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_9inventory_RingArray);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5batch_Batch);
   Py_VISIT(traverse_module_state->__pyx_type_6mlgrad_5batch_Batch);
   Py_VISIT(traverse_module_state->__pyx_ptype_6mlgrad_5batch_RandomBatch);
@@ -4418,6 +4454,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #endif
 #if CYTHON_USE_MODULE_STATE
 #endif
+#define __pyx_ptype_6mlgrad_9inventory_RingArray __pyx_mstate_global->__pyx_ptype_6mlgrad_9inventory_RingArray
 #if CYTHON_USE_MODULE_STATE
 #define __pyx_type_6mlgrad_5batch_Batch __pyx_mstate_global->__pyx_type_6mlgrad_5batch_Batch
 #define __pyx_type_6mlgrad_5batch_RandomBatch __pyx_mstate_global->__pyx_type_6mlgrad_5batch_RandomBatch
@@ -27028,6 +27065,11 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_ptype_5numpy_flexible = __Pyx_ImportType_3_0_11(__pyx_t_1, "numpy", "flexible", sizeof(PyObject), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(PyObject),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_5numpy_flexible) __PYX_ERR(2, 825, __pyx_L1_error)
   __pyx_ptype_5numpy_character = __Pyx_ImportType_3_0_11(__pyx_t_1, "numpy", "character", sizeof(PyObject), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(PyObject),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_5numpy_character) __PYX_ERR(2, 827, __pyx_L1_error)
   __pyx_ptype_5numpy_ufunc = __Pyx_ImportType_3_0_11(__pyx_t_1, "numpy", "ufunc", sizeof(PyUFuncObject), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(PyUFuncObject),__Pyx_ImportType_CheckSize_Ignore_3_0_11); if (!__pyx_ptype_5numpy_ufunc) __PYX_ERR(2, 866, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = PyImport_ImportModule("mlgrad.inventory"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 125, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_ptype_6mlgrad_9inventory_RingArray = __Pyx_ImportType_3_0_11(__pyx_t_1, "mlgrad.inventory", "RingArray", sizeof(struct __pyx_obj_6mlgrad_9inventory_RingArray), __PYX_GET_STRUCT_ALIGNMENT_3_0_11(struct __pyx_obj_6mlgrad_9inventory_RingArray),__Pyx_ImportType_CheckSize_Warn_3_0_11); if (!__pyx_ptype_6mlgrad_9inventory_RingArray) __PYX_ERR(5, 125, __pyx_L1_error)
+  __pyx_vtabptr_6mlgrad_9inventory_RingArray = (struct __pyx_vtabstruct_6mlgrad_9inventory_RingArray*)__Pyx_GetVtable(__pyx_ptype_6mlgrad_9inventory_RingArray); if (unlikely(!__pyx_vtabptr_6mlgrad_9inventory_RingArray)) __PYX_ERR(5, 125, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;

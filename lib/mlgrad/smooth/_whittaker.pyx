@@ -1,5 +1,5 @@
 #
-#
+# _whittaker.pyx
 #
 
 import numpy as np
@@ -7,50 +7,51 @@ import numpy as np
 cdef _get_D2T_D2(double tau, double[::1] W, double[::1] W2, double[:,::1] S):
     cdef Py_ssize_t i, j, n = S.shape[1]
     cdef double *SS
-    cdef double *WW = &W[0]
-    cdef double *WW2 = &W2[0]
+    # cdef double *WW = &W[0]
+    # cdef double *WW2 = &W2[0]
 
     # d
     SS = &S[2,0]
-    SS[0] = WW2[0]*tau + WW[0]
-    SS[1] = (4*WW2[0] + W2[1])*tau + WW[1]
-    SS[n-1] = WW2[n-2]*tau + WW[n-1]
-    SS[n-2] = (4*WW2[n-3] + 1*W2[n-2])*tau + WW[n-2]
-    for i in range(2, n-2):
-        SS[i] = (WW2[i-2] + 4*WW2[i-1] + WW2[i])*tau + WW[i]
+    SS[0] = W2[1]*tau + W[0]
+    SS[1] = (4*W2[1] + W2[2])*tau + W[1]
+    SS[n-1] = W2[n-2]*tau + W[n-1]
+    SS[n-2] = (4*W2[n-3] + W2[n-2])*tau + W[n-2]
+    for i in range(2, n-1):
+        SS[i] = (W2[i-1] + 4*W2[i] + W2[i+1])*tau + W[i]
 
     # a
     SS = &S[3,0]
-    SS[0] = -2*WW2[0]*tau
-    SS[n-2] = -2*WW2[n-2]*tau
+    SS[0] = -2*W2[1]*tau
+    SS[n-2] = -2*W2[n-2]*tau
     for i in range(1,n-2):
-        SS[i] = (-2*WW2[i-1] - 2*WW2[i])*tau
+        SS[i] = (-2*W2[i] - 2*W2[i+1])*tau
 
     # b
     SS = &S[4,0]
     for i in range(n-2):
-        SS[i] = WW2[i]*tau
+        SS[i] = W2[i+1]*tau
 
     # c
     SS = &S[1,0]
-    SS[1] = -2*WW2[0]*tau
-    SS[n-1] = -2*WW2[n-3]*tau
+    SS[1] = -2*W2[1]*tau
+    SS[n-1] = -2*W2[n-1]*tau
     for i in range(2,n-1):
-        SS[i] = (-2*WW2[i-2] - 2*WW2[i-1])*tau
+        SS[i] = (-2*W2[i-1] - 2*W2[i])*tau
 
     # e
     SS = &S[0,0]
     for i in range(2,n):
-        SS[i] = WW2[i-2]*tau
+        SS[i] = W2[i-1]*tau
 
-def get_D2T_D2(n, tau, W, W2, _zeros=np.zeros):
-    S = _zeros((5,n), "d")
-    _get_D2T_D2(tau, W, W2, S)
-    return S
+# def get_D2T_D2(n, tau, W, W2, _zeros=np.zeros):
+#     S = _zeros((5,n), "d")
+#     _get_D2T_D2(tau, W, W2, S)
+#     return S
         
 cdef double _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
     cdef Py_ssize_t i, j, n = Y.shape[0]
     cdef double *y = &Y[0]
+    cdef double *x = &X[0]
     
     cdef double *e = &S[0,0]
     cdef double *c = &S[1,0]
@@ -65,8 +66,6 @@ cdef double _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
     cdef double *gamma = &T[3,0]
     cdef double *zeta  = &T[4,0]
     
-    cdef double *x = &X[0]
-
     mu[0] = d[0]
     alpha[0] = a[0] / mu[0]
     beta[0] = b[0] / mu[0]
@@ -78,7 +77,7 @@ cdef double _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
     beta[1]  = b[1] / mu[1]
     zeta[1]  = (y[1] - zeta[0] * gamma[1]) / mu[1]
 
-    for i in range(2, n-3):
+    for i in range(2, n-2):
         gamma[i] = c[i] - alpha[i-2] * e[i]
         mu[i]    = d[i] - beta[i-2] * e[i] - alpha[i-1] * gamma[i]
         alpha[i] = (a[i] - beta[i-1] * gamma[i]) / mu[i]
@@ -101,12 +100,14 @@ cdef double _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
         i -= 1
 
 def penta_solver(Y, tau, W, W2, _zeros=np.zeros):
-    S = get_D2T_D2(len(Y), tau, W, W2)
-    X = _zeros(Y.shape[0], "d")
+    N = len(Y)
+    S = _zeros((5,N), "d")
+    _get_D2T_D2(tau, W, W2, S)
+    X = _zeros(N, "d")
     _penta_solver(S, Y*W, X)
     return X
     
-def whittaker_smooth_penta(Y, tau=1.0e5, W=None, W2=None, _ones=np.ones):
+def whittaker_smooth_penta(Y, tau=1.0, W=None, W2=None, _ones=np.ones):
     N = Y.shape[0]
     if W is None:
         W = _ones(N, "d")

@@ -803,7 +803,6 @@ cdef class ArithMean(MAverage):
         for k in range(N):
                 grad[k] = v
         self.evaluated = 0
-        
 
 cdef class RArithMean(Average):
     #

@@ -748,6 +748,7 @@ cdef class SquareDiff1(Func2):
         # cdef int num_threads = inventory.get_num_threads()
 
         # for i in prange(1, m, nogil=True, schedule='static', num_threads=num_threads):
+        Y[0] = 0
         for i in range(1,m):
             v = XX[i] - XX[i-1]
             YY[i] = 0.5 * v * v
@@ -935,7 +936,7 @@ cdef class FuncDiff2(Func2):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double v
         cdef double *XX = &X[0]
-        cdef double *YY = &X[0]
+        cdef double *YY = &Y[0]
         # cdef int num_threads = inventory.get_num_threads()
 
         self._evaluate_diff2(XX, YY, m)
