@@ -30,15 +30,9 @@ jobs:
         python -m pip install Cython
         python -m pip install numpy
         python -m pip install setuptools
-        python -m pip install wheel
-        python setup.py wheel
-        python setup.py install
-        # python -m pip wheel .
-    #- name: Upload distributions
-    #  uses: actions/upload-artifact@v4
-    #  with:
-    #    name: release-dists
-    #    path: dist/    
+        python -m pip install build
+        python -m build
+        pip -m pip install .
     - name: Test package
       run: |
         python test_all.py
