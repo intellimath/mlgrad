@@ -1,6 +1,13 @@
+[project]
+dependencies = [
+    "numpy",  
+    "Cython", 
+]
+
 [build-system]
 requires = [
     "setuptools",
     "Cython",
+    "numpy",
 ]
 build-backend = "setuptools.build_meta"
