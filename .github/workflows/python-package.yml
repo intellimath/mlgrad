@@ -32,6 +32,7 @@ jobs:
         python -m pip install setuptools
         python -m pip install wheel
         python setup.py install
+        python -m pip wheel .
     - name: Test package
       run: |
         python test_all.py
