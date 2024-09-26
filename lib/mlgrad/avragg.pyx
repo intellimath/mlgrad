@@ -536,7 +536,7 @@ cdef class WMZAverage(Average):
         else:
             self.savr = mavr
         self.c = c
-        self.alpha = alpha
+        self.alpha = alpha * c
         self.U = None
         self.GU = None
         self.evaluated = 0
@@ -558,7 +558,7 @@ cdef class WMZAverage(Average):
             U[j] = rho_func._evaluate(Y[j] - mval)
 
         self.sval = rho_func._inverse(self.savr._evaluate(U))
-        tval = self.mval + self.c * self.alpha * self.sval
+        tval = self.mval + self.alpha * self.sval
 
         s = 0
         for j in range(N):
@@ -588,7 +588,7 @@ cdef class WMZAverage(Average):
 
         mval = self.mval
         alpha = self.alpha
-        tval = mval + self.c * alpha * self.sval
+        tval = mval + alpha * self.sval
 
         m = 0
         for j in range(N):
@@ -609,19 +609,24 @@ cdef class WMZAverage(Average):
     
             v = rho_func._derivative(self.sval)
             for j in range(N):
-                grad[j] += alpha * (GU[j] - ss) / v
-    
-            for j in range(N):
-                grad[j] *= m
-            
+                grad[j] = m * (grad[j] + alpha * (GU[j] - ss) / v)
+
             for j in range(N):
                 if Y[j] < tval:
                     grad[j] += 1
+
+            for j in range(N):
                 grad[j] /= N
         else:
             inventory.fill(grad, 1.0/N)
 
         self.evaluated = 0
+
+    @cython.cdivision(True)
+    @cython.final
+    cdef _weights(self, double[::1] Y, double[::1] weights):
+        self._gradient(Y, weights)
+
 
 cdef class WZAverage(Average):
     #
@@ -831,28 +836,20 @@ cdef class RArithMean(Average):
         cdef Func func = self.func
 
         v = 1./N
-        for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
-        # for k in range(N):
+        # for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
+        for k in range(N):
                 grad[k] = v * func._derivative(Y[k])
         self.evaluated = 0
     #
     @cython.cdivision(True)
     cdef _weights(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
-        # cdef double *GG = &grad[0]
-        cdef double v, S
+        cdef double v = 1/N
         cdef Func func = self.func
 
-        S = 0
-        for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
-        # for k in range(N):
-                v = func._derivative_div_x(Y[k])
-                grad[k] = v
-                S += v
-
-        for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
-        # for k in range(N):
-                grad[k] /= S
+        # for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
+        for k in range(N):
+                grad[k] = func._derivative_div_x(Y[k]) * v
 
         self.evaluated = 0
 

@@ -1,12 +1,8 @@
 
-from libc.math cimport fabs, pow, sqrt, fmax
-cimport mlgrad.inventory as inventory
-cimport numpy
-cimport cython
-
 cdef void _array_zscore(double *a, double *b, Py_ssize_t n)
 cdef void _array_modified_zscore(double *a, double *b, Py_ssize_t n)
 cdef void _array_diff2(double *x, double *y, const Py_ssize_t n)
+cdef void _array_diff1(double *x, double *y, const Py_ssize_t n)
 
 
 # cdef class ArrayTransformer:

@@ -60,8 +60,8 @@ def whittaker_smooth_ex(X,
     
     s = s_min = aggfunc.u + tau * aggfunc2.u
 
-    ring_array = inventory.RingArray(16)
-    ring_array.add(s)
+    # ring_array = inventory.RingArray(16)
+    # ring_array.add(s)
 
     flag = False
     for K in range(n_iter):
@@ -79,14 +79,14 @@ def whittaker_smooth_ex(X,
         W2 = aggfunc2.weights(U2)
 
         s = aggfunc.u + tau * aggfunc2.u
-        ring_array.add(s)
+        # ring_array.add(s)
 
         if abs(s - s_min) / (1+abs(s_min)) < tol:
             flag = True
 
-        mad_val = ring_array.mad()
-        if mad_val < tol:
-            flag = True
+        # mad_val = ring_array.mad()
+        # if mad_val < tol:
+        #     flag = True
 
         if s < s_min:
             s_min = s

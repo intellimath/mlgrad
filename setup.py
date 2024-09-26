@@ -46,7 +46,7 @@ cython_compiler_directives2 = dict(
     unraisable_tracebacks=True,  
 )
 
-Options._directive_defaults.update(cython_compiler_directives1)
+Options._directive_defaults.update(cython_compiler_directives2)
 
 ext_modules = [
     Extension(
@@ -194,14 +194,14 @@ ext_modules = [
     Extension(
         "mlgrad.mlocation_scatter2",
         ["lib/mlgrad/mlocation_scatter2.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
     ),
     Extension(
         "mlgrad.smooth._whittaker",
         ["lib/mlgrad/smooth/_whittaker.pyx"],
-        library=["-lm"],
+        # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
     ),
@@ -224,7 +224,7 @@ setup(
     author_email = "szport@gmail.com",
     license = "MIT License",
     ext_modules = cythonize(ext_modules, nthreads=4,
-                            compiler_directives=cython_compiler_directives1),
+                            compiler_directives=cython_compiler_directives2),
     # ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},

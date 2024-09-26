@@ -1,3 +1,6 @@
+from libc.math cimport fabs, pow, sqrt, fmax
+cimport mlgrad.inventory as inventory
+
 import numpy as np
 
 cdef void _array_zscore(double *a, double *b, Py_ssize_t n):
@@ -50,7 +53,20 @@ def array_diff2(double[::1] a, double[::1] b=None):
         b = inventory.empty_array(n)
     _array_diff2(&a[0], &b[0], n)
     return np.asarray(b)
-        
+
+cdef void _array_diff1(double *x, double *y, const Py_ssize_t n):
+    cdef Py_ssize_t i
+
+    y[0] = 0
+    for i in range(1, n):
+        y[i] = y[i] - y[i-1]
+
+def array_diff1(double[::1] a, double[::1] b=None):
+    cdef Py_ssize_t n = a.shape[0] 
+    if b is None:
+        b = inventory.empty_array(n)
+    _array_diff1(&a[0], &b[0], n)
+    return np.asarray(b)
 
 
 # cdef class ArrayTransformer:
