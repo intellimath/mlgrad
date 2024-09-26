@@ -14,7 +14,11 @@ import numpy
 import platform
 WIN32 = (platform.system() == 'Windows')
 
-Oflag = ["-O3", "-march=native"]
+if WIN32:
+    Oflag = []
+else:
+    Oflag = ["-O3", "-march=native"]
+
 extra_compile_args = Oflag #  ["-fno-wrapv"] 
 # extra_link_args = Oflag + ["-lm"]
 # extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not WIN32 else "/openmp")]
@@ -252,7 +256,6 @@ setup(
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
-        'Programming Language :: Python :: 3.13',
         'Operating System :: OS Independent',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
