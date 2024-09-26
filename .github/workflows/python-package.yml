@@ -29,7 +29,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install build
         python -m build
-        pip -m pip install .
+        pip install .
     - name: Test package
       run: |
         python test_all.py
