@@ -29,9 +29,15 @@ keywords = [
 ]
 requires-python = ">=3.8"
 dependencies = [
-    "numpy",  
     "Cython", 
+    "numpy",  
 ]
+
+[tool.setuptools]
+py-modules = ["_custom_build"]
+
+[tool.setuptools.cmdclass]
+build_py = "_custom_build.build_py"
 
 [build-system]
 requires = [
