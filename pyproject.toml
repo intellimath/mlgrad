@@ -5,20 +5,22 @@ authors = [
     {name = "Zaur Shibzukhov", email = "szport@gmail.com"},
 ]
 description = "Machine Learning tools."
-# readme = "README.rst"
-# license = {file = "LICENSE.txt"}
+readme = "README.md"
+license = {file = "licence.txt"}
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: BSD License",
     "Operating System :: OS Independent",
+    "Programming Language :: Cython",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Scientific/Engineering",
 ]
 keywords = [
