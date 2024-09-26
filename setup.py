@@ -59,24 +59,28 @@ ext_modules = [
         ["lib/mlgrad/inventory.pyx"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.array_allocator",
         ["lib/mlgrad/array_allocator.pyx"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.array_transform",
         ["lib/mlgrad/array_transform.pyx"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.list_values",
         ["lib/mlgrad/list_values.pyx"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.funcs",
@@ -84,6 +88,7 @@ ext_modules = [
         # libraries=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.funcs2",
@@ -91,6 +96,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.models",
@@ -98,6 +104,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     # Extension(
     #     "mlgrad.miscfuncs",
@@ -110,6 +117,7 @@ ext_modules = [
         ["lib/mlgrad/batch.pyx"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.avragg",
@@ -117,7 +125,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args_openmp, 
         extra_link_args = extra_link_args_openmp,
-#         cython_compile_time_env = cython_compile_time_env,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.kaverage",
@@ -125,7 +133,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args, 
         extra_link_args = extra_link_args,
-#         cython_compile_time_env = cython_compile_time_env,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.loss",
@@ -133,6 +141,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
    Extension(
         "mlgrad.distance",
@@ -140,6 +149,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
    Extension(
         "mlgrad.dissimilarity",
@@ -147,6 +157,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     # Extension(
     #     "mlgrad.normalizer",
@@ -160,7 +171,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
-#         cython_compile_time_env = cython_compile_time_env,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.averager",
@@ -168,6 +179,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.weights",
@@ -175,6 +187,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.gd",
@@ -182,6 +195,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     # Extension(
     #     "mlgrad.irgd",
@@ -195,6 +209,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.mlocation_scatter2",
@@ -202,6 +217,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
         "mlgrad.smooth._whittaker",
@@ -209,6 +225,7 @@ ext_modules = [
         # library=["-lm"],
         extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
 #     Extension(
 #         "mlgrad.cytest",
@@ -223,7 +240,7 @@ ext_modules = [
 
 setup(
     name = 'mlgrad',
-    version = '0.6',
+    version = '0.6.1',
     description = 'Robust Gradient Methods for Machine Learning & Data Analysis',
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
