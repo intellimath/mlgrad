@@ -1,4 +1,5 @@
 # coding: utf-8
+# distutils: define_macros=NPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION
 
 from setuptools import setup, find_packages
 from setuptools.command.build_ext import build_ext
