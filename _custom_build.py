@@ -219,7 +219,4 @@ class build_py(_build_py):
     def initialize_options(self):
         super().initialize_options()
         if self.distribution.ext_modules == None:
-            self.distribution.ext_modules = cythonize(
-                ext_modules, 
-                compiler_directives=cython_compiler_directives1,
-            )
+            self.distribution.ext_modules = ext_modules
