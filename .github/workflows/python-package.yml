@@ -33,6 +33,12 @@ jobs:
         python -m pip install wheel
         python setup.py install
         python -m pip wheel .
+    - name: Upload distributions
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-dists
+        path: dist/
+        
     - name: Test package
       run: |
         python test_all.py
