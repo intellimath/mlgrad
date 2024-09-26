@@ -29,6 +29,8 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install Cython
         python -m pip install numpy
+        python setup.py build_ext
+        python setup.py build
         python -m pip install .
     - name: Test package
       run: |
