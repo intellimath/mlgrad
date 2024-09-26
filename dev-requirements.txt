@@ -1,5 +1,5 @@
 setuptools
 wheel
-cython
+Cython
 numpy
 
