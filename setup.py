@@ -13,12 +13,16 @@ Options.fast_fail = True
 import numpy
 
 import platform
-WIN32 = (platform.system() == 'Windows')
+print(platform.system())
+Windows = (platform.system() == 'Windows')
+Linux = (platform.system() == 'Linux')
 
-if WIN32:
-    Oflag = []
-else:
+if Windows:
+    Oflag = ["/O2", "/arch:AVX2"]
+elif Linux:
     Oflag = ["-O3", "-march=native"]
+else:
+    Oflag = []
 
 extra_compile_args = Oflag #  ["-fno-wrapv"] 
 # extra_link_args = Oflag + ["-lm"]
@@ -26,13 +30,15 @@ extra_compile_args = Oflag #  ["-fno-wrapv"]
 # extra_link_args_openmp = [Oflag, "-lm", ("-fopenmp" if not WIN32 else "/openmp")]
 
 # extra_compile_args = [] #, "-fno-wrapv"] 
-if WIN32:
+if Windows:
     extra_link_args = []
-else:
+elif Linux:
     extra_link_args = ["-lm"]
+else:
+    extra_link_args = []
 
-extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not WIN32 else "/openmp")]
-extra_link_args_openmp = extra_link_args + [("-fopenmp" if not WIN32 else "/openmp")]
+extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not Windows else "/openmp")]
+extra_link_args_openmp = extra_link_args + [("-fopenmp" if not Windows else "/openmp")]
 
 # cython_compile_time_env = {"USE_OPENMP":1}
 cython_compiler_directives1 = dict(
