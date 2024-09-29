@@ -32,14 +32,14 @@ jobs:
         pip wheel --wheel-dir dist .
         # del dist\nump-*.whl
         # del dist\Cython-*.whl
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v4
-      with:
-          name: dist-${{ matrix.python-version }}
-          path: |
-            dist/mlgrad-*.whl
-          compression-level: 0
-          overwrite: true
+    # - name: Archive production artifacts
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #       name: dist-${{ matrix.python-version }}
+    #       path: |
+    #         dist/mlgrad-*.whl
+    #       compression-level: 0
+    #       overwrite: true
     - name: Test package
       run: |
         pip install .
