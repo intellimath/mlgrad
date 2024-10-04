@@ -229,26 +229,31 @@ cdef class AverageIterative(Average):
         cdef Penalty penalty = self.penalty
         cdef double tol = self.tol
         cdef double u, u_min, pval, pval_prev, pval_min, pval_min_prev
+        cdef bint to_finish
 
         u = u_min = self.init_u(Y)
         pval_min = pval = penalty.evaluate(Y, u)
         pval_min_prev = pval_min * 10.0
         #
+        to_finish = 0
         for k in range(n_iter):
             pval_prev = pval
             u = penalty.iterative_next(Y, u)
             pval = penalty.evaluate(Y, u)
 
             if pval <= pval_min:
+                if fabs(pval - pval_min) / (1 + fabs(pval)) < tol:
+                    to_finish = True
+
                 pval_min_prev = pval_min
                 pval_min = pval
                 u_min = u
 
             if fabs(pval - pval_prev) / (1 + fabs(pval_min)) < tol:
-                break
+                to_finish = True
 
-            if fabs(pval_min_prev - pval_min) / (1 + fabs(pval_min)) < tol:
-                break                
+            if to_finish:
+                break
             #
 
         self.K = k + 1
@@ -534,7 +539,7 @@ cdef class WMZAverage(Average):
         if savr is None:
             self.savr = MAverage(self.mavr.func)
         else:
-            self.savr = mavr
+            self.savr = savr
         self.c = c
         self.alpha = alpha * c
         self.U = None
@@ -549,11 +554,12 @@ cdef class WMZAverage(Average):
         cdef Func rho_func = self.mavr.func
         cdef double mval, tval, v, s
 
-        mval = self.mval = self.mavr._evaluate(Y)
+        self.mval = self.mavr._evaluate(Y)
 
         if U is None or U.shape[0] != N:
-            U = self.U = np.empty(N, 'd')
+            U = self.U = inventory.empty_array(N)
 
+        mval = self.mval
         for j in range(N):
             U[j] = rho_func._evaluate(Y[j] - mval)
 
@@ -584,7 +590,7 @@ cdef class WMZAverage(Average):
             self._evaluate(Y)
 
         if GU is None or GU.shape[0] != N:
-            GU = self.GU = np.empty(N, 'd')
+            GU = self.GU = inventory.empty_array(N)
 
         mval = self.mval
         alpha = self.alpha
@@ -638,11 +644,11 @@ cdef class WZAverage(Average):
     @cython.final
     cdef double _evaluate(self, double[::1] Y):
         cdef Py_ssize_t j, N = Y.shape[0]
-        cdef double tval, v, s, mval
+        cdef double tval, v, s
 
-        self.mval = mval = array_mean(Y)
-        self.sval = array_std(Y, mval)
-        tval = mval + self.tau * self.sval
+        self.mval = array_mean(Y)
+        self.sval = array_std(Y, self.mval)
+        tval = self.mval + self.tau * self.sval
 
         s = 0
         for j in range(N):
@@ -844,13 +850,14 @@ cdef class RArithMean(Average):
     @cython.cdivision(True)
     cdef _weights(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double v = 1/N
+        cdef double v = 1.0/N
         cdef Func func = self.func
 
         # for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
         for k in range(N):
                 grad[k] = func._derivative_div_x(Y[k]) * v
 
+        # inventory.normalize(grad)
         self.evaluated = 0
 
 cdef class Minimal(Average):

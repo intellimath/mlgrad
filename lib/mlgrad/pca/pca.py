@@ -5,6 +5,8 @@
 from sys import float_info
 import numpy as np
 
+from mlgrad.pca._pca import _find_pc
+
 einsum = np.einsum
 sqrt = np.sqrt
 isnan = np.isnan
@@ -30,15 +32,15 @@ def project_line(X, a, /):
     return X @ a
 
 def project(X, a, /):
-    # Xa = (X @ a).reshape(-1,1) * X
-    Xa = einsum("ni,i,j->nj", X, a, a, optimize=True)
-    # Xa = np.fromiter(((x @ a) * a for x in X), len(X), 'd')
+    Xa = X @ a
+    Xa = Xa[:,None] * X
+    # Xa = einsum("ni,i,j->nj", X, a, a, optimize=True)
     return X - Xa
 
-def project0(X, a, /):
-    Xa1 = einsum("ni,i,j->nj", X, a, a)
-    Xa2 = np.fromiter(((x @ a) * a for x in X), len(X), 'd')
-    return Xa1, Xa2
+# def project0(X, a, /):
+#     Xa1 = einsum("ni,i,j->nj", X, a, a)
+#     Xa2 = np.fromiter(((x @ a) * a for x in X), len(X), 'd')
+#     return Xa1, Xa2
 
 def total_regression(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verbose=0):
     N = len(X)
@@ -50,46 +52,46 @@ def total_regression(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verb
     return a, L
 
 def find_pc(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-4, verbose=0):
-    N = len(X)
     if weights is None:
+        N = len(X)
         S = X.T @ X / N
     else:
-        S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
-        # S = (X.T * np.diag(weights)) @ X
+        # S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
+        S = (X.T * weights) @ X
     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose) 
     return a, L
 
-def _find_pc(S, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
-    if a0 is None:
-        a = np.random.random(S.shape[0])
-    else:
-        a = a0
+# def _find_pc(S, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
+#     if a0 is None:
+#         a = np.random.random(S.shape[0])
+#     else:
+#         a = a0
 
-    np_abs = np.abs
-    np_sqrt = np.sqrt
-    np_sign = np.sign
+#     np_abs = np.abs
+#     np_sqrt = np.sqrt
+#     np_sign = np.sign
 
-    a /= np.sqrt(a @ a)
+#     a /= np.sqrt(a @ a)
     
-    for K in range(n_iter):
-        S_a = S @ a
-        # L = S_a @ a
-        a1 = S_a / (S_a @ a)
-        a1 /= np_sqrt(a1 @ a1)
-                
-        if abs(a1 - a).max() / (1 + abs(a1).min()) < tol:
-            a = a1
-            break
+#     for K in range(n_iter):
+#         S_a = S @ a
+#         L = S_a @ a
+#         a1 = S_a / L
+#         a1 /= np_sqrt(a1 @ a1)
 
-        a = a1
+#         if abs(a1 - a).max() / (1 + abs(a1).min()) < tol:
+#             a = a1
+#             break
 
-    K += 1
-    if verbose:
-        print("K:", K, L, a)
+#         a = a1
+
+#     K += 1
+#     if verbose:
+#         print("K:", K, L, a)
             
-    S_a = S @ a
-    L = (S_a @ a) / (a @ a)
-    return a, L
+#     S_a = S @ a
+#     L = (S_a @ a) / (a @ a)
+#     return a, L
 
 def find_rho_pc(X, rho_func, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
     N, n = X.shape
@@ -162,7 +164,7 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
     
     sz_min = sz = qf.evaluate(Z)
     sz_min_prev = float_info.max / 10
-    sz_prev = 0
+    sz_prev = float_info.max / 10
     G = qf.gradient(Z)
     L_min = 0
 
@@ -172,8 +174,8 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
     complete = False
     for K in range(n_iter):
 
-        # S = (X.T * G) @ X
-        S = einsum("in,n,nj->ij", X.T, G, X, optimize=True)
+        S = (X.T @ np.diag(G)) @ X
+        # S = einsum("in,n,nj->ij", X.T, G, X, optimize=True)
 
         a1, L = _find_pc(S, a0=a, tol=tol, verbose=verbose)
 

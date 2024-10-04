@@ -13,13 +13,14 @@ Options.fast_fail = True
 import numpy
 
 import platform
-print(platform.system())
-Windows = (platform.system() == 'Windows')
-Linux = (platform.system() == 'Linux')
+platform_system = platform.system()
+is_windows = (platform.system() == 'Windows')
+is_linux = (platform.system() == 'Linux')
+print(f"platform: {platform_system}")
 
-if Windows:
+if is_windows:
     Oflag = ["/O2", "/arch:AVX2"]
-elif Linux:
+elif is_linux:
     Oflag = ["-O3", "-march=native"]
 else:
     Oflag = []
@@ -30,15 +31,15 @@ extra_compile_args = Oflag #  ["-fno-wrapv"]
 # extra_link_args_openmp = [Oflag, "-lm", ("-fopenmp" if not WIN32 else "/openmp")]
 
 # extra_compile_args = [] #, "-fno-wrapv"] 
-if Windows:
+if is_windows:
     extra_link_args = []
-elif Linux:
+elif is_linux:
     extra_link_args = ["-lm"]
 else:
     extra_link_args = []
 
-extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not Windows else "/openmp")]
-extra_link_args_openmp = extra_link_args + [("-fopenmp" if not Windows else "/openmp")]
+extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not is_windows else "/openmp")]
+extra_link_args_openmp = extra_link_args + [("-fopenmp" if not is_windows else "/openmp")]
 
 # cython_compile_time_env = {"USE_OPENMP":1}
 cython_compiler_directives1 = dict(
@@ -60,12 +61,19 @@ cython_compiler_directives2 = dict(
     unraisable_tracebacks=True,  
 )
 
-Options._directive_defaults.update(cython_compiler_directives1)
+Options._directive_defaults.update(cython_compiler_directives2)
 
 ext_modules = [
     Extension(
         "mlgrad.inventory",
         ["lib/mlgrad/inventory.pyx"],
+        extra_compile_args = extra_compile_args_openmp,
+        extra_link_args = extra_link_args_openmp,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
+    ),
+    Extension(
+        "mlgrad.pca._pca",
+        ["lib/mlgrad/pca/_pca.pyx"],
         extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
         define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
@@ -255,7 +263,7 @@ setup(
     author_email = "szport@gmail.com",
     license = "MIT License",
     ext_modules = cythonize(ext_modules, # nthreads=4,
-                            compiler_directives=cython_compiler_directives1),
+                            compiler_directives=cython_compiler_directives2),
     # ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},

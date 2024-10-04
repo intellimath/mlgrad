@@ -45,7 +45,7 @@ cdef void _array_diff2(double *x, double *y, const Py_ssize_t n):
     y[0] = 0
     y[n-1] = 0
     for i in range(1, n-1):
-        y[i] = y[i-1] - 2*y[i] +y[i+1]
+        y[i] = y[i-1] - 2*y[i] + y[i+1]
 
 def array_diff2(double[::1] a, double[::1] b=None):
     cdef Py_ssize_t n = a.shape[0] 

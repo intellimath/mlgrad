@@ -17,6 +17,10 @@ cdef extern from "pymath.h" nogil:
     bint Py_IS_NAN(double x)
     bint copysign(double x, double x)
 
+cdef extern from "Python.h":
+    double PyFloat_GetMax()
+    double PyFloat_GetMin()   
+
 cdef void init_rand() noexcept nogil
 cdef long rand(long N) noexcept nogil
 
@@ -57,11 +61,12 @@ cdef double _dot(const double *a, const double *b, const Py_ssize_t n) noexcept 
 cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil
 cdef void _matdot(double*, double*, const double*, const Py_ssize_t, const Py_ssize_t) noexcept nogil
 cdef void _matdot2(double*, double*, const double*, const Py_ssize_t, const Py_ssize_t) noexcept nogil
-cdef void _mul_add_arrays(double *a, double *M, const double *ss, const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
-cdef void _mul_grad(double *grad, const double *X, const double *ss, const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
+cdef void _mul_add_arrays(double *a, double *M, const double *ss, 
+                          const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
+cdef void _mul_grad(double *grad, const double *X, const double *ss, 
+                    const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
 cdef void _normalize(double *a, const Py_ssize_t n) noexcept nogil
 cdef void _normalize2(double *a, const Py_ssize_t n) noexcept nogil
-
 
 cdef int hasnan(double[::1] a) noexcept nogil
 
@@ -105,7 +110,12 @@ cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexc
 cdef object empty_array(Py_ssize_t size)
 cdef object empty_array2(Py_ssize_t size1, Py_ssize_t size2)
 cdef object zeros_array(Py_ssize_t size)
+cdef object zeros_array2(Py_ssize_t size1, Py_ssize_t size2)
 
+cdef object diag_matrix(double[::1] V)
+
+cdef double _abs_min(double *a, Py_ssize_t n) noexcept nogil
+cdef double _abs_diff_max(double *a, double *b, Py_ssize_t n) noexcept nogil
 cdef double _mean(double *a, Py_ssize_t n) noexcept nogil
 cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil
 cdef double _mad(double *a, double mu, Py_ssize_t n) noexcept nogil

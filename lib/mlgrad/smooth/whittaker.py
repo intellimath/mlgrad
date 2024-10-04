@@ -26,25 +26,25 @@ def whittaker_smooth_scipy(y, tau=1.0, W=None, W2=None, d=2):
 
     return z
 
-def whittaker_smooth(X, tau=1.0, W=None, W2=None, d=2, solver='penta', **kwargs):
-    if solver == 'penta':
+def whittaker_smooth(X, tau=1.0, W=None, W2=None, solver='penta', d=2, **kwargs):
+    if solver == 'penta' and d == 2:
         return whittaker_smooth_penta(X, tau, W, W2)
     elif solver == 'scipy':
         return whittaker_smooth_scipy(X, tau, W, W2, d=d)
     else:
-        raise RuntimeError(f"invalid solver '{solver}")
+        raise RuntimeError(f"invalid solver '{solver} or d: {d}")
         
 def whittaker_smooth_ex(X, 
                   aggfunc = averaging_function("AM"), 
                   aggfunc2 = averaging_function("AM"), 
                   func = funcs.Square(), 
                   func2 = funcs.Square(),
-                  solver = "penta",
+                  solver = "penta", d=2,
                   tau=4.0, n_iter=100, tol=1.0e-6):
 
     N = len(X)
 
-    Z = whittaker_smooth(X, tau=tau, solver=solver)
+    Z = whittaker_smooth(X, tau=tau, solver=solver, d=d)
     Z_min = Z.copy()
 
     E = (Z - X)
@@ -65,7 +65,7 @@ def whittaker_smooth_ex(X,
 
     flag = False
     for K in range(n_iter):
-        Z = whittaker_smooth(X, tau=tau, W=W, W2=W2, solver=solver)
+        Z = whittaker_smooth(X, tau=tau, W=W, W2=W2, solver=solver, d=d)
 
         E = Z - X
 
@@ -98,11 +98,11 @@ def whittaker_smooth_ex(X,
     return Z_min
 
 def whittaker_smooth_weight_func(X, weight_func=None, weight_func2=None, 
-                          tau=1.0, solver='penta',
+                          tau=1.0, solver='penta', d=2,
                           n_iter=100, tol=1.0e-4):
     from math import isclose
     
-    Z = whittaker_smooth(X, tau=tau, solver=solver)
+    Z = whittaker_smooth(X, tau=tau, solver=solver, d=d)
     
     E = X - Z
     r = max(abs(E))
@@ -121,7 +121,7 @@ def whittaker_smooth_weight_func(X, weight_func=None, weight_func2=None,
         Z_prev = Z
         r_prev = r
 
-        Z = whittaker_smooth(X, tau=tau, W=W, W2=W2, solver=solver)
+        Z = whittaker_smooth(X, tau=tau, W=W, W2=W2, solver=solver, d=d)
 
         r = max(abs(Z - Z_prev))
         qvals.append(r)

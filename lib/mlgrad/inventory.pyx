@@ -2,7 +2,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2021> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2024> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -503,6 +503,25 @@ cdef object empty_array2(Py_ssize_t size1, Py_ssize_t size2):
     n[1] = size2
     return numpy.PyArray_EMPTY(2, &n[0], numpy.NPY_DOUBLE, 0)
 
+cdef object zeros_array2(Py_ssize_t size1, Py_ssize_t size2):
+    cdef numpy.npy_intp[2] n
+
+    n[0] = size1
+    n[1] = size2
+    return numpy.PyArray_ZEROS(2, &n[0], numpy.NPY_DOUBLE, 0)
+
+cdef object diag_matrix(double[::1] V):
+    cdef numpy.npy_intp[2] nn
+    cdef double[:,::1] A
+    cdef Py_ssize_t i, n
+
+    n = nn[0] = nn[1] = V.shape[0]
+    A = o = numpy.PyArray_ZEROS(2, &nn[0], numpy.NPY_DOUBLE, 0)
+    for i in range(n):
+        A[i,i] = V[i]
+
+    return o
+
 cdef object zeros_array(Py_ssize_t size):
     cdef numpy.npy_intp n = size
     return numpy.PyArray_ZEROS(1, &n, numpy.NPY_DOUBLE, 0)
@@ -511,6 +530,32 @@ cdef object zeros_array(Py_ssize_t size):
 #     cdef double t=a[0]
 #     a[0]=b[0]
 #     b[0]=t
+
+cdef double _abs_min(double *a, Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+    cdef double v, v_min = 0
+
+    v_min = fabs(a[0])
+    i = 1
+    while i < n:
+        v = fabs(a[i])
+        if v < v_min:
+            v_min = v
+        i += 1
+    return v_min
+
+cdef double _abs_diff_max(double *a, double *b, Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+    cdef double v, v_max = 0
+
+    v_max = fabs(a[0] - b[0])
+    i = 1
+    while i < n:
+        v = fabs(a[i] - b[i])
+        if v > v_max:
+            v_max = v
+        i += 1
+    return v_max
 
 cdef double _mean(double *a, Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
@@ -731,19 +776,14 @@ def median_1d(x, copy=True):
     return _median_1d(xx)
 
 def median_2d_t(x):
-    # cdef numpy.npy_intp n = x.shape[1]
-    # y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
     y = empty_array(x.shape[1])
     _median_2d_t(x, y)
     return y
 
 def median_2d(x):
-    # cdef numpy.npy_intp n = x.shape[0]
-    # y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
     y = empty_array(x.shape[0])
     _median_2d(x, y)
     return y
-
 
 cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil:
     cdef Py_ssize_t i, j
@@ -769,10 +809,13 @@ def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S=None):
 cdef void _covariance_matrix_weighted(
             double *X, const double *W, const double *loc, double *S, 
             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil:
+
     cdef Py_ssize_t i, j, k
     cdef double s, loc_i, loc_j
-    cdef double *X_ki, *X_kj
-    cdef double *S_i, *S_j
+    cdef double *X_ki
+    cdef double *X_kj
+    cdef double *S_i
+    cdef double *S_j
 
     S_i = S_j = S
     for i in range(n):
@@ -793,11 +836,12 @@ cdef void _covariance_matrix_weighted(
         S_i += n
             
 def covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
-                                     double[::1] loc, double[:,::1] S):
+                               double[::1] loc, double[:,::1] S):
     cdef Py_ssize_t n = X.shape[1]
     if S is None:
         S = empty_array2(n, n)
-    _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], &S[0,0], X.shape[1], X.shape[0])
+    _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], 
+                                &S[0,0], X.shape[1], X.shape[0])
     return S
 
 cdef class RingArray:
