@@ -105,19 +105,7 @@ cdef class GD:
                 print(k, np.asarray(risk.param))
             
 
-            lval = risk._evaluate()
-            # if self.lval < self.lval_prev:
-            #     for i in range(10):
-            #         inventory.move(self.param_copy, risk.param)
-            #         self.grad_averager.update(risk.grad_average, self.h)
-            #         risk.update_param(self.grad_averager.array_average)
-            #         lval = risk._evaluate()
-            #         if lval >= self.lval:
-            #             break
-            #         else:
-            #             self.lval = lval
-            #     inventory.move(risk.param, self.param_copy)        
-            
+            lval = risk._evaluate()            
             self.lvals.append(lval)
             # print(k, self.lval, self.lval_min)
 

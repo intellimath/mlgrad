@@ -5,7 +5,7 @@ import mlgrad.inventory as inventory
 import mlgrad.array_transform as array_transform
 # import mlgrad.averager as averager
 
-from ._whittaker import WhittakerSmoother, whittaker_smooth_penta
+from ._whittaker import whittaker_smooth_penta, whittaker_smooth_tria
 
 import math
 import numpy as np
@@ -26,9 +26,12 @@ def whittaker_smooth_scipy(y, tau=1.0, W=None, W2=None, d=2):
 
     return z
 
-def whittaker_smooth(X, tau=1.0, W=None, W2=None, solver='penta', d=2, **kwargs):
-    if solver == 'penta' and d == 2:
-        return whittaker_smooth_penta(X, tau, W, W2)
+def whittaker_smooth(X, tau=1.0, W=None, W2=None, solver='scipy', d=2, **kwargs):
+    if solver == 'fast' and 1 <= d <= 2:
+        if d == 2:
+            return whittaker_smooth_penta(X, tau, W, W2)
+        elif d == 1:
+            return whittaker_smooth_tria(X, tau, W, W2)
     elif solver == 'scipy':
         return whittaker_smooth_scipy(X, tau, W, W2, d=d)
     else:
@@ -39,7 +42,7 @@ def whittaker_smooth_ex(X,
                   aggfunc2 = averaging_function("AM"), 
                   func = funcs.Square(), 
                   func2 = funcs.Square(),
-                  solver = "penta", d=2,
+                  solver = "scipy", d=2,
                   tau=4.0, n_iter=100, tol=1.0e-6):
 
     N = len(X)
@@ -97,9 +100,10 @@ def whittaker_smooth_ex(X,
 
     return Z_min
 
-def whittaker_smooth_weight_func(X, weight_func=None, weight_func2=None, 
-                          tau=1.0, solver='penta', d=2,
-                          n_iter=100, tol=1.0e-4):
+def whittaker_smooth_weight_func(
+            X, weight_func=None, weight_func2=None, 
+            tau=1.0, solver='scipy', d=2, n_iter=100, tol=1.0e-6):
+    
     from math import isclose
     
     Z = whittaker_smooth(X, tau=tau, solver=solver, d=d)
@@ -108,13 +112,17 @@ def whittaker_smooth_weight_func(X, weight_func=None, weight_func2=None,
     r = max(abs(E))
     qvals = [r]
     
-    W = np.ones_like(X)
-    W2 = np.ones_like(X)
+    N = len(X)
+    
+    W = np.full(N, 1.0/N, "d")
+    W2 = np.full(N, 1.0/N, "d")
 
     if weight_func is not None:
         W = weight_func(E)
+        W /= W.sum()
     if weight_func2 is not None:
         W2 = weight_func2(E,Z)
+        W2 /= W2.sum()
 
     flag = False
     for K in range(n_iter):
@@ -132,8 +140,10 @@ def whittaker_smooth_weight_func(X, weight_func=None, weight_func2=None,
         E = X - Z
         if weight_func is not None:
             W = weight_func(E)
+            W /= W.sum()
         if weight_func2 is not None:
             W2 = weight_func2(E,Z)
+            W2 /= W2.sum()
 
     return Z, {'qvals':qvals}
 

@@ -14,7 +14,7 @@ from mlgrad import fg, erm_fg, erm_irgd, erisk, mrisk, erisk22
 
 from mlgrad.af import averaging_function
 
-from .margin_max import MarginMaximization2, MarginMaximization1
+from .margin_max import MarginMaximization
 
 def classification_as_regr(Xs, Y, mod, lossfunc=loss.MarginLoss(funcs.Hinge(1.0)), regnorm=None,
                normalizer=None, h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):

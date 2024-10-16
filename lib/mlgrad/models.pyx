@@ -702,7 +702,6 @@ cdef class LinearLayer(ModelLayer):
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Py_ssize_t i, j
         cdef Py_ssize_t n_input = self.n_input
-        cdef Py_ssize_t n_input1 = n_input + 1
         cdef Py_ssize_t n_output = self.n_output
         cdef double[::1] grad_in = self.grad_input
         # cdef double *grad_p = &grad[0]
@@ -720,13 +719,13 @@ cdef class LinearLayer(ModelLayer):
         for j in range(n_output):
             # G = &grad[j * (n_input + 1)] #grad_p + j * (n_input + 1)
             # G[0] = sx = grad_out[j]
-            inventory._mul_set1(&grad[j * n_input1], &X[0], grad_out[j], n_input)
+            inventory._mul_set1(&grad[j * (n_input+1)], &X[0], grad_out[j], n_input)
 
         # num_threads = inventory.get_num_threads_ex(self.n_input)
         # for i in prange(self.n_input, nogil=True, schedule='static', 
         #                 num_threads=num_threads):
         for i in range(self.n_input):
-            grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input1)
+            grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input+1)
             # s = 0
             # W = &matrix[0,i+1]
             # for j in range(self.n_output):

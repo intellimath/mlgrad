@@ -15,7 +15,7 @@
 #             return self.S[j-i,]
         
 
-cdef _get_D2T_D2(double[::1] S):
+cdef _get_D2T_D2(double[:,::1] S):
     cdef Py_ssize_t i, j, n = S.shape[1]
 
     # d
@@ -97,6 +97,47 @@ cdef double penta_solver(double S[:,::1], double[::1] Y, double[::1] X):
     while i >= 0:
         x[i] = z[i] - alpha[i] * x[i+1] - beta[i] * x[i+2]
         i -= 1
+
+cdef _get_D1T_D1(double[:,::1] S):
+    cdef Py_ssize_t i, j, n = S.shape[1]
+    
+    cdef double *a = &S[0,0]
+    cdef double *b = &S[1,0]
+    cdef double *c = &S[1,0]
+
+    
+
         
+cdef tria_solver(S[:,::1], double[::1] Y, double[::1] X):
+    cdef Py_ssize_t i, n Y.shape[0]
+    
+    cdef double *a = &S[0,0]
+    cdef double *b = &S[1,0]
+    cdef double *c = &S[1,0]
+    
+    cdef double[::1] T = np.zeros((2,N), "d")
+    cdef double *c1 = &T[0,0]
+    cdef double *y1 = &T[1,0]
+
+    cdef double *x = &X[0]
+    cdef double *y = &Y[0]
+    
+
+    c1[0] = c[0] / b[0]
+    for i in range(1,n):
+        c1[i] = c[i] / (b[i] - a[i] * c1[i-1])
+
+    y1[0] = y[0] / b[0]
+    for i in range(1,n):
+        y1[i] = (y[i] - a[0] * y1[i-1]) / (b[i] - a[i] * c1[i-1])
+
+    x[n-1] = y1[n-1]
+    i = n-2
+    while i >= 0:
+        x[i] = y1[i] - c1[i] * y[i+1]
+        i -= 1
+
+    
+    
 
         
