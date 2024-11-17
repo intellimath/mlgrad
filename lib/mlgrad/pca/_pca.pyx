@@ -20,7 +20,7 @@
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE. 
+# THE SOFTWARE.
 
 import numpy as np
 
@@ -36,11 +36,23 @@ cdef double S_cov(double[:,::1] S, double[::1] a) noexcept nogil:
         for j in range(n):
             s += ai * Si[j] * aa[j]
     return s
-            
+
+cdef normalize(double *aa, Py_ssize_t n):
+    cdef Py_ssize_t i
+    cdef double na = 0
+    cdef double v
+
+    for i in range(n):
+        v = aa[i]
+        na += v * v
+    na = sqrt(na)
+    for i in range(n):
+        aa[i] /= na
 
 cpdef _find_pc(double[:,::1] S, double[::1] a0 = None, 
                Py_ssize_t n_iter=1000, double tol=1.0e-6, bint verbose=0):
-    cdef Py_ssize_t i, n = S.shape[0]
+
+    cdef Py_ssize_t i, j, n = S.shape[0]
     cdef Py_ssize_t K = 0
     cdef double[::1] a
     cdef double *aa
@@ -57,13 +69,14 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
 
     aa = &a[0]
 
-    na = 0
-    for i in range(n):
-        v = aa[i]
-        na += v * v
-    na = sqrt(na)
-    for i in range(n):
-        aa[i] /= na
+    normalize(aa, n)
+    # na = 0
+    # for i in range(n):
+    #     v = aa[i]
+    #     na += v * v
+    # na = sqrt(na)
+    # for i in range(n):
+    #     aa[i] /= na
 
     L = PyFloat_GetMax() / 10
 
@@ -89,13 +102,14 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
         for i in range(n):
             aa[i] = SS_a[i] / L
 
-        na = 0
-        for i in range(n):
-            v = aa[i]
-            na += v * v
-        na = sqrt(na)
-        for i in range(n):
-            aa[i] /= na
+        normalize(aa, n)
+        # na = 0
+        # for i in range(n):
+        #     v = aa[i]
+        #     na += v * v
+        # na = sqrt(na)
+        # for i in range(n):
+        #     aa[i] /= na
 
         K += 1
                 

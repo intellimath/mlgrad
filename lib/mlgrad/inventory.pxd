@@ -125,6 +125,11 @@ cdef double quick_select(double *a, Py_ssize_t n) #noexcept nogil
 cdef double _median_1d(double[::1] x) #noexcept nogil
 cdef void _median_2d(double[:,::1] x, double[::1] y) #noexcept nogil
 cdef void _median_2d_t(double[:,::1] x, double[::1] y) #noexcept nogil
+cdef void _median_absdev_2d(double[:,::1] x, double[::1] mu, double[::1] y) #noexcept nogil
+cdef void _median_absdev_2d_t(double[:,::1] x, double[::1] mu, double[::1] y) #noexcept nogil
+cdef void _robust_mean_2d(double[:,::1] x, double tau, double[::1] y) #noexcept nogil
+cdef void _robust_mean_2d_t(double[:,::1] x, double tau, double[::1] y) #noexcept nogil
+
 cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) #noexcept nogil
 
 cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil

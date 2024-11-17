@@ -70,6 +70,7 @@ cdef class ArrayAllocator(Allocator):
         self.start = self.i = 0
         self.n_allocated = 0
         self.buf = np.zeros(size, 'd')
+        self.buf_array = self.buf
     #
     def __repr__(self):
         addr = 0
@@ -132,6 +133,7 @@ cdef class ArrayAllocator(Allocator):
         cdef ArrayAllocator allocator = ArrayAllocator.__new__(ArrayAllocator)
 
         allocator.buf = self.buf
+        allocator.buf_array = self.buf_array
         allocator.start = allocator.i = self.n_allocated
         allocator.n_allocated = self.n_allocated
         allocator.size = self.size

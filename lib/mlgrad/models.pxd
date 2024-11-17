@@ -1,9 +1,3 @@
-# cython: language_level=3
-# cython: boundscheck=False
-# cython: wraparound=False
-# cython: nonecheck=False
-# cython: embedsignature=True
-# cython: initializedcheck=False
 
 from numpy cimport npy_uint8 as uint8
 
@@ -51,10 +45,13 @@ cdef inline Model as_model(object o):
 cdef class BaseModel(object):
     cdef double _evaluate(self, double[::1] X)
     cdef void _evaluate_all(self, double[:,::1] X, double[::1] Y)
+    cdef void _gradient_all(self, double[:,::1] X, double[:,::1] G)
+    cdef void _gradient_input_all(self, double[:,::1] X, double[:,::1] G)
 
 cdef class Model(BaseModel):
     cdef public Py_ssize_t n_param, n_input
     cdef public object ob_param
+    cdef public double[::1] param_base
     cdef public double[::1] param
     cdef public double[::1] grad
     cdef public double[::1] grad_input
@@ -119,6 +116,7 @@ cdef class PolynomialModel(Model):
 cdef class Model2:
     cdef public Py_ssize_t n_param, n_input, n_output
     cdef public object ob_param
+    cdef public double[::1] param_base
     cdef public double[::1] param
     cdef public double[::1] output
     # cdef public double[::1] grad

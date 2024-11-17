@@ -95,7 +95,7 @@ cdef class PenaltyAverage(Penalty):
         # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
         for k in range(N):
             yk = Y[k]
-            v = func._derivative_div_x(yk - u)
+            v = func._derivative_div(yk - u)
             V += v
             S += v * yk
 
@@ -855,7 +855,7 @@ cdef class RArithMean(Average):
 
         # for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
         for k in range(N):
-                grad[k] = func._derivative_div_x(Y[k]) * v
+                grad[k] = func._derivative_div(Y[k]) * v
 
         # inventory.normalize(grad)
         self.evaluated = 0

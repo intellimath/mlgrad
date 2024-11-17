@@ -272,27 +272,27 @@ cdef void mul(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
     _mul(&c[0], &a[0], &b[0], a.shape[0])
 
 
-cdef double dot1(double[::1] a, double[::1] b) noexcept nogil:
-    return _dot1(&a[0], &b[0], a.shape[0])
+cdef double dot1(double[::1] a, double[::1] x) noexcept nogil:
+    return _dot1(&a[0], &x[0], a.shape[0])
 
-cdef double _dot1(const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
+cdef double _dot1(const double *a, const double *x, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     cdef double s = a[0]
 
     a += 1
     for i in range(n):
-        s = fma(a[i], b[i], s)
+        s += a[i] * x[i]
     return s
 
-cdef double dot(double[::1] a, double[::1] b) noexcept nogil:
-    return _dot(&a[0], &b[0], a.shape[0])
+cdef double dot(double[::1] a, double[::1] x) noexcept nogil:
+    return _dot(&a[0], &x[0], a.shape[0])
 
-cdef double _dot(const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
+cdef double _dot(const double *a, const double *x, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     cdef double s = 0
 
     for i in range(n):
-        s += a[i] * b[i]
+        s += a[i] * x[i]
     return s
 
 cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil:
@@ -729,7 +729,7 @@ cdef void _median_2d(double[:,::1] x, double[::1] y): # noexcept nogil:
     
     for i in range(N):
         temp = x[i].copy()
-        y[i] = _median_1d(temp)
+        y[i] = _median_1d(temp)    
 
 cdef void _median_2d_t(double[:,::1] x, double[::1] y): # noexcept nogil:
     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
@@ -740,6 +740,72 @@ cdef void _median_2d_t(double[:,::1] x, double[::1] y): # noexcept nogil:
         _move_t(&temp[0], &x[0,i], N, n)
         y[i] = _median_1d(temp)
 
+cdef void _median_absdev_2d_t(double[:,::1] x, double[::1] mu, double[::1] y):
+    cdef Py_ssize_t i, j, n = x.shape[0], m = x.shape[1]
+    cdef double[::1] temp = empty_array(n)
+    cdef double mu_j
+
+    for j in range(m):
+        mu_j = mu[j]
+        for i in range(n):
+            temp[i] = fabs(x[i,j] - mu_j)
+        y[j] = _median_1d(temp)
+
+cdef void _median_absdev_2d(double[:,::1] x, double[::1] mu, double[::1] y):
+    cdef Py_ssize_t i, j, n = x.shape[0], m = x.shape[1]
+    cdef double[::1] temp = empty_array(m)
+    cdef double mu_i
+
+    for i in range(n):
+        mu_i = mu[i]
+        for j in range(m):
+            temp[j] = fabs(x[i,j] - mu_i)
+        y[i] = _median_1d(temp)
+        
+cdef void _robust_mean_2d_t(double[:,::1] x, double tau, double[::1] y):
+    cdef Py_ssize_t i, j, q, n = x.shape[0], m = x.shape[1]
+    cdef double[::1] mu = empty_array(m)
+    cdef double[::1] std = empty_array(m)
+    cdef double s, v, mu_j, std_j
+
+    _median_2d_t(x, mu)
+    _median_absdev_2d_t(x, mu, std)
+
+    tau /= 0.6745
+    for j in range(m):
+        mu_j = mu[j]
+        std_j = std[j]
+        s = 0
+        q = 0
+        for i in range(n):
+            v = x[i,j]
+            if (v <= mu_j + tau*std_j) or (v >= mu_j - tau*std_j):
+                s += v
+                q += 1
+        y[j] = s / q
+
+cdef void _robust_mean_2d(double[:,::1] x, double tau, double[::1] y):
+    cdef Py_ssize_t i, j, q, n = x.shape[0], m = x.shape[1]
+    cdef double[::1] mu = empty_array(n)
+    cdef double[::1] std = empty_array(n)
+    cdef double s, v, mu_i, std_i
+
+    _median_2d(x, mu)
+    _median_absdev_2d(x, mu, std)
+
+    tau /= 0.6745
+    for i in range(n):
+        mu_i = mu[i]
+        std_i = std[i]
+        s = 0
+        q = 0
+        for j in range(m):
+            v = x[i,j]
+            if (v <= mu_i + tau*std_i) or (v >= mu_i - tau*std_i):
+                s += v
+                q += 1
+        y[i] = s / q
+        
 cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k): # noexcept nogil:
     cdef Py_ssize_t i, j, l, m
     cdef double x, t
@@ -783,6 +849,26 @@ def median_2d_t(x):
 def median_2d(x):
     y = empty_array(x.shape[0])
     _median_2d(x, y)
+    return y
+
+def median_absdev_2d(x, mu):
+    y = empty_array(x.shape[0])
+    _median_absdev_2d(x, mu, y)
+    return y
+
+def median_absdev_2d_t(x, mu):
+    y = empty_array(x.shape[1])
+    _median_absdev_2d_t(x, mu, y)
+    return y
+
+def robust_mean_2d(x, tau):
+    y = empty_array(x.shape[0])
+    _robust_mean_2d(x, tau, y)
+    return y
+
+def robust_mean_2d_t(x, tau):
+    y = empty_array(x.shape[1])
+    _robust_mean_2d_t(x, tau, y)
     return y
 
 cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil:

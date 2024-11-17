@@ -125,7 +125,7 @@ cdef class ErrorLoss(LossFunc):
         return self.func._derivative(y-yk)
     #
     cdef double _derivative_div(self, const double y, const double yk) noexcept nogil:
-        return self.func._derivative_div_x(y-yk)
+        return self.func._derivative_div(y-yk)
     #
     cdef double _residual(self, const double y, const double yk) noexcept nogil:
         return fabs(y-yk)
@@ -168,7 +168,7 @@ cdef class RelativeErrorLoss(LossFunc):
         cdef double v = fabs(yk) + 1
         cdef double b = v / (v + yk*yk)
 
-        return b * self.func._derivative_div_x(b * (y - yk))
+        return b * self.func._derivative_div(b * (y - yk))
     #
     cdef double _residual(self, const double y, const double yk) noexcept nogil:
         cdef double v = fabs(yk) + 1
@@ -191,7 +191,7 @@ cdef class MarginLoss(LossFunc):
         return yk*self.func._derivative(u*yk)
     #
     cdef double _derivative_div(self, const double u, const double yk) noexcept nogil:
-        return yk*self.func._derivative_div_x(u*yk)
+        return yk*self.func._derivative_div(u*yk)
     #
     cdef double _residual(self, const double u, const double yk) noexcept nogil:
         return self.func._value(u*yk)
@@ -211,7 +211,7 @@ cdef class NegMargin(LossFunc):
         return -yk*self.func._derivative(-u*yk)
     #
     cdef double _derivative_div(self, const double u, const double yk) noexcept nogil:
-        return -yk*self.func._derivative_div_x(-u*yk)
+        return -yk*self.func._derivative_div(-u*yk)
     #
     cdef double _residual(self, const double u, const double yk) noexcept nogil:
         return self.func._value(-u*yk)
@@ -309,7 +309,7 @@ cdef class SquareErrorMultiLoss(MultLoss):
 
 cdef class ErrorMultiLoss(MultLoss):
     
-    def __init__(self, Func, func):
+    def __init__(self, Func func):
             self.func = func
     
     cdef double _evaluate(self, double[::1] y, double yk) noexcept nogil:

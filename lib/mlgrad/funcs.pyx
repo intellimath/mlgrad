@@ -68,7 +68,7 @@ cdef class Func(object):
     cdef double _derivative2(self, const double x) noexcept nogil:
         return 0.
     #
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         return self._derivative(x) / x
     #
     def evaluate_array(self, double[::1] x):
@@ -78,6 +78,9 @@ cdef class Func(object):
     #
     def evaluate_weighted_sum(self, double[::1] x, double[::1] w):
         return self._evaluate_weighted_sum(&x[0], &w[0], x.shape[0])
+    #
+    def evaluate_sum(self, double[::1] x):
+        return self._evaluate_sum(&x[0], x.shape[0])
     #
     def derivative_array(self, double[::1] x):
         cdef double[::1] y = np.empty_like(x)
@@ -99,6 +102,14 @@ cdef class Func(object):
         for i in range(n):
         # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
             y[i] = self._evaluate(x[i])
+    #
+    cdef double _evaluate_sum(self, const double *x, const Py_ssize_t n) noexcept nogil:
+        cdef Py_ssize_t i
+        cdef double s = 0
+        for i in range(n):
+        # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+            s += self._evaluate(x[i])
+        return s
     #
     cdef double _evaluate_weighted_sum(self, const double *x, const double *w, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
@@ -130,7 +141,7 @@ cdef class Func(object):
         cdef Py_ssize_t i
         for i in range(n):
         # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
-            y[i] = self._derivative_div_x(x[i])
+            y[i] = self._derivative_div(x[i])
     #
     cdef double _value(self, const double x) noexcept nogil:
         return x
@@ -181,8 +192,8 @@ cdef class Comp(Func):
         return self.f._derivative2(y) * dg * dg + \
                self.f._derivative(y) * self.g._derivative2(x)
     #
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
-        return self.f._derivative(self.g._evaluate(x)) * self.g._derivative_div_x(x)
+    cdef double _derivative_div(self, const double x) noexcept nogil:
+        return self.f._derivative(self.g._evaluate(x)) * self.g._derivative_div(x)
 
     def to_dict(self):
         return { 'name':'comp',
@@ -200,16 +211,16 @@ cdef class CompSqrt(Func):
     #
     cdef double _derivative(self, const double x) noexcept nogil:
         cdef double v = sqrt(x)
-        return 0.5 * self.f._derivative_div_x(v)
+        return 0.5 * self.f._derivative_div(v)
     #
     cdef double _derivative2(self, const double x) noexcept nogil:
         cdef double y = sqrt(x)
 
         return 0.25 * (self.f._derivative2(y) / x - self.f._derivative(y) / (x*y))
     #
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double v = sqrt(x)
-        return 0.5 * self.f._derivative_div_x(v) / x
+        return 0.5 * self.f._derivative_div(v) / x
 
     def to_dict(self):
         return { 'name':'compsqrt',
@@ -234,7 +245,7 @@ cdef class Gauss(Func):
         return -x * exp(-0.5*v*v)
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double v = x / self.a
         return -exp(-0.5*v*v)
     #
@@ -323,11 +334,11 @@ cdef class ZeroOnPositive(Func):
             return self.f._derivative2(x)
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         if x > 0:
             return 0
         else:
-            return self.f._derivative_div_x(x)
+            return self.f._derivative_div(x)
 
 @cython.final
 cdef class ZeroOnNegative(Func):
@@ -360,12 +371,12 @@ cdef class ZeroOnNegative(Func):
             return self.f._derivative2(x)
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double v = self.f._evaluate(x)
         if v < 0:
             return 0
         else:
-            return self.f._derivative_div_x(x)
+            return self.f._derivative_div(x)
         
 @cython.final
 cdef class PlusId(Func):
@@ -389,12 +400,43 @@ cdef class PlusId(Func):
         return 0
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         if x <= 0:
             return 0
         else:
             return 1./x
 
+@cython.final
+cdef class SquarePlus(Func):
+    #
+    @cython.final
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        if x <  0:
+            return 0
+        else:
+            return 0.5*x*x
+    #
+    @cython.final
+    cdef double _derivative(self, const double x) noexcept nogil:
+        if x < 0:
+            return 0
+        else:
+            return x
+    #
+    @cython.final
+    cdef double _derivative2(self, const double x) noexcept nogil:
+        if x <  0:
+            return 0
+        else:
+            return 1
+    #
+    @cython.final
+    cdef double _derivative_div(self, const double x) noexcept nogil:
+        if x < 0:
+            return 0
+        else:
+            return 1.
+        
 @cython.final
 cdef class FuncExp(Func):
     #
@@ -431,7 +473,7 @@ cdef class Exp(Func):
         return p * exp(p*x)
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double p = self.p
         return p * exp(p*x) / x
     #
@@ -505,13 +547,13 @@ cdef class QuantileFunc(Func):
             return 0.5 * self.f._derivative2(0)
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         if x > 0:
-            return self.alpha * self.f._derivative_div_x(x)
+            return self.alpha * self.f._derivative_div(x)
         elif x < 0:
-            return (1-self.alpha) * self.f._derivative_div_x(x)
+            return (1-self.alpha) * self.f._derivative_div(x)
         else:
-            return 0.5 * self.f._derivative_div_x(0)
+            return 0.5 * self.f._derivative_div(0)
     #
     def _repr_latex_(self):
         return '$\mathrm{id}(x)=x$'
@@ -579,28 +621,24 @@ cdef class Sigmoidal(Func):
     @cython.final
     @cython.cdivision(True)
     cdef double _evaluate(self, const double x) noexcept nogil:
-        cdef double p = self.p
-        cdef double v1 = exp(p * x)
-        cdef double v2 = exp(-p * x)
-        return (v1 - v2) / (v1 + v2)
+        return tanh(self.p * x)
     #
     @cython.final
     @cython.cdivision(True)
     cdef double _derivative(self, const double x) noexcept nogil:
         cdef double p = self.p
-        cdef double v = exp(p * x) + exp(-p * x)
-        return 4 * p / (v*v)
+        cdef double v = cosh(p * x)
+        return p / (v * v)
     #
     @cython.final
     @cython.cdivision(True)
     cdef double _derivative2(self, const double x) noexcept nogil:
         cdef double p = self.p
-        cdef double p2 = 2 * self.p
-        cdef double v = (1.0 - exp(-p2 * x)) / (1.0 + exp(-p2 * x))
-        return 2 * p * p * (v*v - 1) * v
+        cdef double v = cosh(p * x)
+        return -2 * p * p * sinh(p * x) / (v * v * v)
     #
     def _repr_latex_(self):
-        return '$%s(x, p)=\dfrac{1}{1+e^{-px}}$' % self.label
+        return '$%s(x, p)=th(px)$' % self.label
 
     def to_dict(self):
         return { 'name':'sigmoidal',
@@ -638,13 +676,13 @@ cdef class Arctang(Func):
     def to_dict(self):
         return { 'name':'arctg',
                  'args': (self.a,) }
-
+        
 @cython.final
 cdef class SoftPlus(Func):
     #
     def __init__(self, a=1):
         self.label = u'softplus'
-        self.a = a
+        self.alpha = a
         if a == 1:
             self.log_a = 0
         else:
@@ -652,20 +690,22 @@ cdef class SoftPlus(Func):
     #
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
-        return log(self.a + exp(x)) - self.log_a
+        cdef double a = self.a
+        return log(1 + exp(a*x)) / a
     #
     @cython.final
     @cython.cdivision(True)
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double v = exp(x)
-        return v / (self.a + v)
+        cdef double v = exp(self.a*x)
+        return v / (1 + v)
     #
     @cython.final
     @cython.cdivision(True)
     cdef double _derivative2(self, const double x) noexcept nogil:
-        cdef double v1 = exp(x)
-        cdef double v2 = self.a + v1
-        return self.a * v1 / v2*v2
+        cdef double a = self.a
+        cdef double v1 = exp(a*x)
+        cdef double v2 = 1 + v1
+        return a * v1 / v2*v2
     #
     def _repr_latex_(self):
         return '$%s(x, a)=\ln(a+e^x)$' % self.label
@@ -699,7 +739,7 @@ cdef class TruncAbs(Func):
             return 0
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double v = fabs(x)
         if v >= self.c:
             return 1 / v
@@ -846,7 +886,7 @@ cdef class Quantile(Func):
 #         else:
 #             return 0.5
 #     #
-#     cdef double _derivative_div_x(self, const double x) noexcept nogil:
+#     cdef double _derivative_div(self, const double x) noexcept nogil:
 #         if x < 0:
 #             return (1.0 - self.alpha)
 #         elif x > 0:
@@ -891,7 +931,7 @@ cdef class Power(Func):
         return (self.p-1) * pow(fabs(x) + self.alpha, self.p-2)
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         return pow(fabs(x) + self.alpha, self.p-2)
     #
     def _repr_latex_(self):
@@ -913,7 +953,7 @@ cdef class Square(Func):
         return x
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         return 1 
     #
     @cython.final
@@ -1065,7 +1105,7 @@ cdef class Quantile_AlphaLog(Func):
     #
     @cython.final
     @cython.cdivision(True)
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double val
         if x < 0:
             val = 1 / (self.alpha - x)
@@ -1083,80 +1123,58 @@ cdef class Quantile_AlphaLog(Func):
         return { 'name':'quantile_alpha_log',
                  'args': (self.alpha, self.q) }
 
-
 @cython.final
 cdef class Expit(Func):
 
     def __init__(self, p=1.0):
-        assert p > 0
         self.p = p
     #
     @cython.final
     @cython.cdivision(True)
     cdef double _evaluate(self, const double x) noexcept nogil:
-        if x > 0:
-            return 1 / (1 + exp(-self.p*x))
-        elif x < 0:
-            return 1 - 1 / (1 + exp(self.p*x))
+        cdef double v = self.p * x
+        if v >= 0:
+            return 1 / (1 + exp(-v))
         else:
-            return 0.5
+            return 1 - 1 / (1 + exp(v))
     #
     @cython.final
     @cython.cdivision(True)
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double v, v1
-        if x > 0:
-            v = exp(-self.p*x)
-            v1 = 1 + v
-            return self.p * v / (v1 * v1)
-        elif x < 0:
-            v = exp(self.p*x)
-            v1 = 1 + v
-            return self.p * v / (v1 * v1)
+        cdef double v = self.p * x, v1, v2
+        if v >= 0:
+            v1 = exp(-v)
         else:
-            return 0.5 * self.p
-        
+            v1 = exp(v)
+        v2 = v1 + 1
+        return self.p * v1 / (v2 * v2)
+
 @cython.final
 cdef class Logistic(Func):
 
     def __init__(self, p=1.0):
-        assert p > 0
         self.p = p
     #
     @cython.final
     @cython.cdivision(True)
     cdef double _evaluate(self, const double x) noexcept nogil:
-        return log(1.0 + exp(fabs(x) / self.p)) - log(2)
+        cdef double v = self.p * x
+        if v >= 0:
+            return 1 / (1 + exp(-v))
+        else:
+            return 1 - 1 / (1 + exp(v))
     #
     @cython.final
     @cython.cdivision(True)
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double v = exp(fabs(x) / self.p)
-        if x > 0:
-            return v / (1.0 + v) / self.p
-        elif x < 0:
-            return -v / (1.0 + v) / self.p
+        cdef double v = self.p * x, v1, v2
+        if v >= 0:
+            v1 = exp(-v)
         else:
-            return 0
-    #
-    @cython.final
-    @cython.cdivision(True)
-    cdef double _derivative2(self, const double x) noexcept nogil:
-        cdef double v = exp(fabs(x) / self.p)
-        if x > 0:
-            return 1 / ((1 + v) * (1+v)) / self.p
-        elif x < 0:
-            return -1 / ((1 + v) * (1+v)) / self.p
-        else:
-            return 0
-
-    def _repr_latex_(self):
-        return r"$\ell(y,\tilde y)=\log(1+e^{|y-\tilde y|/p})$"
-
-    def to_dict(self):
-        return { 'name':'logistic',
-                 'args': (self.p,) }
-
+            v1 = exp(v)
+        v2 = v1 + 1
+        return self.p * v1 / (v2 * v2)
+    
 @cython.final
 cdef class Hinge(Func):
     #
@@ -1178,7 +1196,7 @@ cdef class Hinge(Func):
             return -1
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         if x >= self.C:
             return 0
         else:
@@ -1208,7 +1226,7 @@ cdef class Hinge2(Func):
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
         cdef double v = self.C - x
-        if v <= 0:
+        if v < 0:
             return 0
         else:
             return 0.5 * v * v
@@ -1216,15 +1234,15 @@ cdef class Hinge2(Func):
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
         cdef double v = self.C - x
-        if v <= 0:
+        if v < 0:
             return 0
         else:
             return v
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double v = self.C - x
-        if v <= 0:
+        if v < 0:
             return 0
         else:
             return 1
@@ -1232,7 +1250,7 @@ cdef class Hinge2(Func):
     @cython.final
     cdef double _derivative2(self, const double x) noexcept nogil:
         cdef double v = self.C - x
-        if v <= 0:
+        if v < 0:
             return 0
         else:
             return 1
@@ -1268,7 +1286,7 @@ cdef class RELU(Func):
             return 0.5
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         if x > 0:
             return 1/x
         else:
@@ -1308,7 +1326,7 @@ cdef class HSquare(Func):
             v = 0
         return -v
     #
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double v = self.C - x
         if v < 0:
             return 0
@@ -1333,36 +1351,36 @@ cdef class HSquare(Func):
                  'args': (self.C,) }
 
 @cython.final
-cdef class HingeSqrt(Func):
+cdef class SoftHinge_Sqrt(Func):
     #
-    def __init__(self, alpha=1.0):
+    def __init__(self, alpha = 1.0):
         self.alpha = alpha
         self.alpha2 = alpha*alpha
     #
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
-        return -x + sqrt(self.alpha2 + x*x)
+        return 0.5 * (-x + sqrt(self.alpha2 + x*x))
     #
     @cython.final
     @cython.cdivision(True)
     cdef double _derivative(self, const double x) noexcept nogil:
-        return -1 + x/sqrt(self.alpha2 + x*x)
+        return 0.5 * (-1 + x/sqrt(self.alpha2 + x*x))
     #
     @cython.final
     @cython.cdivision(True)
     cdef double _derivative2(self, const double x) noexcept nogil:
-        return self.alpha2/sqrt(self.alpha2 + x*x)
+        return 0.5 * self.alpha2 / sqrt(self.alpha2 + x*x)
     #
     def _repr_latex_(self):
-        return r"$ρ(x)=-x + \sqrt{c^2+x^2}$"
+        return r"$ρ(x)=\frac{1}{2}(-x + \sqrt{c^2+x^2})$"
 
     def to_dict(self):
-        return { 'name':'hinge_sqrt',
+        return { 'name':'softhinge_sqrt',
                  'args': (self.alpha,) }
 
         
 @cython.final
-cdef class HingeSqrtPlus(Func):
+cdef class Softplus_Sqrt(Func):
     #
     def __init__(self, alpha=1.0):
         self.alpha = alpha
@@ -1419,7 +1437,7 @@ cdef class Huber(Func):
     #
     @cython.final
     @cython.cdivision(True)
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double x_abs = fabs(x)
 
         if x_abs > self.C:
@@ -1462,7 +1480,7 @@ cdef class TM(Func):
         else:
             return 0
     #
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         if x <= 0:
             return 1
         else:
@@ -1496,7 +1514,7 @@ cdef class LogSquare(Func):
     #
     @cython.final
     @cython.cdivision(True)
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double v = x / self.a
         return 1 / (1 + 0.5*v*v)
     #
@@ -1593,7 +1611,7 @@ cdef class SoftAbs(Func):
     #
     @cython.final
     @cython.cdivision(True)
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double v = self.eps + fabs(x)
         return (self.eps + v) / (v * v)
     #
@@ -1663,7 +1681,7 @@ cdef class SoftAbs_Sqrt(Func):
     #
     @cython.cdivision(True)
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         return 1. / sqrt(self.eps2 + x*x)
     #
     @cython.cdivision(True)
@@ -1746,7 +1764,7 @@ cdef class SoftAbs_FSqrt(Func):
     #         y[i] = eps2 / (v2 * sqrt(v2))
     #
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double q=self.q
         return 2 * q * pow(self.eps2 + x*x, q-1)
     #
@@ -1850,7 +1868,7 @@ cdef class SoftAbs_Exp(Func):
     #
     # @cython.cdivision(True)
     @cython.final
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double eps = self.eps
         cdef double eps1 = self.eps1
 
@@ -1914,7 +1932,7 @@ cdef class Quantile_Sqrt(Func):
     #
     @cython.final
     @cython.cdivision(True)
-    cdef double _derivative_div_x(self, const double x) noexcept nogil:
+    cdef double _derivative_div(self, const double x) noexcept nogil:
         cdef double v = self.eps2 + x*x
         if x >= 0:
             return self.alpha / sqrt(v)
@@ -2163,7 +2181,7 @@ register_func(SoftAbs, 'softabs')
 register_func(Tukey, 'tukey')
 register_func(LogSquare, 'log_square')
 register_func(Huber, 'huber')
-register_func(HingeSqrt, 'hinge_sqrt')
+register_func(SoftHinge_Sqrt, 'softhinge_sqrt')
 register_func(Hinge, 'hinge')
 register_func(Logistic, 'logistic')
 register_func(Quantile_AlphaLog, 'quantile_alpha_log')

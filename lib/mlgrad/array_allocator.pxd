@@ -36,5 +36,6 @@ cdef class ArrayAllocator(Allocator):
     cdef ArrayAllocator base
     cdef readonly Py_ssize_t size, start, i, n_allocated
     cdef readonly object buf
+    cdef readonly double[::1] buf_array
 
     

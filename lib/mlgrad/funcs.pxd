@@ -3,7 +3,7 @@
 
 cimport cython
 
-from libc.math cimport fabs, pow, sqrt, fmax, exp, log, atan, fma
+from libc.math cimport fabs, pow, sqrt, fmax, exp, log, atan, fma, sinh, cosh, tanh
 from libc.math cimport isnan, isinf
 from libc.stdlib cimport strtod
 
@@ -14,10 +14,11 @@ cdef class Func(object):
     cdef double _inverse(self, const double x) noexcept nogil
     cdef double _derivative(self, const double x) noexcept nogil
     cdef double _derivative2(self, const double x) noexcept nogil
-    cdef double _derivative_div_x(self, const double x) noexcept nogil
+    cdef double _derivative_div(self, const double x) noexcept nogil
     cdef double _value(self, const double x) noexcept nogil
 
     cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
+    cdef double _evaluate_sum(self, const double *x, const Py_ssize_t n) noexcept nogil    
     cdef double _evaluate_weighted_sum(self, const double *x, const double *w, const Py_ssize_t n) noexcept nogil    
     cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
     cdef void _derivative_weighted_array(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil
@@ -87,6 +88,11 @@ cdef class Neg(Func):
 cdef class PlusId(Func):
     #
     pass
+
+@cython.final
+cdef class SquarePlus(Func):
+    pass
+
 
 @cython.final
 cdef class Arctang(Func):
@@ -246,14 +252,14 @@ cdef class HSquare(Func):
     #
     
 @cython.final
-cdef class HingeSqrt(Func):
+cdef class SoftHinge_Sqrt(Func):
     #
     cdef public double alpha
     cdef double alpha2
     #
 
 @cython.final
-cdef class HingeSqrtPlus(Func):
+cdef class Softplus_Sqrt(Func):
     #
     cdef public double alpha
     cdef double alpha2

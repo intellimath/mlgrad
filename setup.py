@@ -74,8 +74,8 @@ ext_modules = [
     Extension(
         "mlgrad.pca._pca",
         ["lib/mlgrad/pca/_pca.pyx"],
-        extra_compile_args = extra_compile_args_openmp,
-        extra_link_args = extra_link_args_openmp,
+        extra_compile_args = extra_compile_args,
+        extra_link_args = extra_link_args,
         define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
@@ -262,7 +262,7 @@ setup(
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
     license = "MIT License",
-    ext_modules = cythonize(ext_modules, # nthreads=4,
+    ext_modules = cythonize(ext_modules, # nthreads=2,
                             compiler_directives=cython_compiler_directives2),
     # ext_modules = ext_modules,
     package_dir = {'': 'lib'},
