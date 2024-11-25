@@ -39,8 +39,8 @@ class KMeansBase:
         DD = np.empty((self.q, len(X)), "d")
         path, _ = einsum_path("ni,ni->n", X, X, optimize='optimal')
         for j in range(self.q):
-            Z = X - c[j]
-            einsum("ni,ni->n", Z, Z, optimize=path, out=DD[j])
+            Xj = X - c[j]
+            einsum("ni,ni->n", Xj, Xj, optimize=path, out=DD[j])
         return DD
     #
     def eval_dists(self, X):
@@ -52,6 +52,11 @@ class KMeansBase:
         DD = self._eval_dists(X)
         D = DD.min(axis=0)
         return D
+    #
+    def eval_qval(self, X):
+        DD = self._eval_dists(X)
+        D = DD.min(axis=0)
+        return sqrt(D.sum())
     #
     def find_clusters(self, X):
         DD = self._eval_dists(X)
@@ -85,8 +90,8 @@ class KMeansMahalanobisBase(KMeansBase):
         DD = np.empty((self.q, len(X)), "d")
         path, _ = einsum_path("ni,ij,nj->n", X, S1[0], X, optimize='optimal')
         for j in range(self.q):
-            Z = X - c[j]
-            einsum("ni,ij,nj->n", Z, S1[j], Z, optimize=path, out=DD[j])
+            Xj = X - c[j]
+            einsum("ni,ij,nj->n", Xj, S1[j], Xj, optimize=path, out=DD[j])
         return DD
     #
 
@@ -112,18 +117,22 @@ class KMeans(KMeansBase):
         D = einsum("ni,ni->n", U, U, optimize=True)
         return D.min()
     #
-    def eval_qval(self, X):
-        q = self.q
-        c = self.c
+    # def eval_qval(self, X):
+    #     DD = self._eval_dists(X)
+    #     D = DD.min(axis=0)
+    #     return sqrt(D.sum())
         
-        qval = 0
-        for xk in X:
-            U = x - c
-            # D = (U * U).sum(axis=1)
-            D = einsum("ni,ni->n", U, U, optimize=True)
-            qval += D.min()
-        return sqrt(qval)
-    #
+    #     # q = self.q
+    #     # c = self.c
+        
+    #     # qval = 0
+    #     # for xk in X:
+    #     #     U = x - c
+    #     #     # D = (U * U).sum(axis=1)
+    #     #     D = einsum("ni,ni->n", U, U, optimize=True)
+    #     #     qval += D.min()
+    #     # return sqrt(qval)
+    # #
     def find_locations(self, X, Is):
         mean = np.mean
         c = np.empty((self.q, X.shape[1]), 'd')
@@ -139,7 +148,7 @@ class KMeans(KMeansBase):
         dmax2 = max(dc2.sum(axis=1))
         dmax = sqrt(dmax2)
         # print(dmax)
-        self.dvals.append(dmax)
+        self.qvals.append(dmax)
         if dmax < self.tol:
             # print(c, c_prev)
             return True
@@ -148,7 +157,7 @@ class KMeans(KMeansBase):
     #
     def fit(self, X):
         self.c = self.initial_locations(X)
-        self.dvals = []
+        self.qvals = []
         self.qvals = []
         for K in range(self.n_iter):
             c_prev = self.c.copy()
@@ -172,21 +181,20 @@ class RKMeans(KMeansBase):
         self.verbose = verbose
         self.S1 = None
     #
-    def dist(self, x):
-        U = x - self.c
-        # D = (U * U).sum(axis=1)
-        D = einsum("ni,ni->n", U, U, optimize=True)
-        dmin = D.min()
-        return sqrt(dmin)
-    #
-    def norm2(self, x):
-        c = self.c
-        return min((norm2(x - c[j]) for j in range(self.q)))
+    # def dist(self, x):
+    #     U = x - self.c
+    #     # D = (U * U).sum(axis=1)
+    #     D = einsum("ni,ni->n", U, U, optimize=True)
+    #     dmin = D.min()
+    #     return sqrt(dmin)
+    # #
+    # def norm2(self, x):
+    #     c = self.c
+    #     return min((norm2(x - c[j]) for j in range(self.q)))
     #
     def find_locations(self, X, Is, G):
         n = X.shape[1]
-        zeros = np.zeros
-        c = zeros((self.q, n), 'd')
+        c = np.zeros((self.q, n), 'd')
         for j in range(self.q):
             Ij = Is[j]
             Gj = G[Ij]
@@ -276,17 +284,17 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
         self.qvals = []
         self.verbose = verbose
     #
-    def dist(self, x):
-        S1 = self.S1
-        c = self.c
-        ds = [mnorm2(x - c[j], S1[j]) for j in range(self.q)]
-        d_min = min(ds)
-        return sqrt(d_min)
+    # def dist(self, x):
+    #     S1 = self.S1
+    #     c = self.c
+    #     ds = [mnorm2(x - c[j], S1[j]) for j in range(self.q)]
+    #     d_min = min(ds)
+    #     return sqrt(d_min)
     #
-    def eval_qval(self, X):
-        ds = self.eval_dists(X)
-        return sqrt(ds.sum())
-    #
+    # def eval_qval(self, X):
+    #     ds = self.eval_dists(X)
+    #     return sqrt(ds.sum())
+    # #
     def find_locations(self, X, Is):
         mean = np.mean
         c = np.zeros((self.q, X.shape[1]), 'd')

@@ -53,9 +53,8 @@ class MarginMaximization:
 
             g = VY @ (X - c) - (V @ U) * w
             w -= h * g / N
-            w /= sqrt(w @ w)
-
             c += h * VY.mean() * w 
+            w /= sqrt(w @ w)
 
             Xw = (X - c) @ w
             U = Xw * Y
@@ -134,9 +133,9 @@ class MarginMaximization2:
             lval_prev = lval
 
             V = func.derivative_array(U)
-            L = -U @ V
+            # L = -U @ V
             V *= Y
-            w = - Xc.T @ V / L
+            w = (Xc.T @ V) / (U @ V)
             w /= np.sqrt(w @ w)
     
             V = func.derivative_div_array(U)
@@ -149,13 +148,13 @@ class MarginMaximization2:
             lval = func.evaluate_sum(U)
             self.lvals.append(lval)
             
-            if lval < lval_min:
-                # lval_min_prev = lval_min
-                lval_min = lval
-                w_min = w.copy()
-                c_min = c.copy()
-                if verbose:
-                    print("K:", K, "w:", w, "c:", c)
+            # if lval < lval_min:
+            #     # lval_min_prev = lval_min
+            #     lval_min = lval
+            #     w_min = w.copy()
+            #     c_min = c.copy()
+            #     if verbose:
+            #         print("K:", K, "w:", w, "c:", c)
             
             if abs(lval - lval_prev) / (1 + abs(lval_min)) < tol:
                 break
@@ -164,8 +163,10 @@ class MarginMaximization2:
             #     break            
         
         self.K = K
-        self.w = w_min        
-        self.c = c_min
+        # self.w = w_min        
+        # self.c = c_min
+        self.w = w
+        self.c = c
 
         Xw = (X - self.c) @ self.w
         U = Xw * Y

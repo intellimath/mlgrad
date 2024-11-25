@@ -672,6 +672,7 @@ cdef class LinearLayer(ModelLayer):
         if self.param is None:
             self.ob_param = ob_param
             self.param = self.ob_param
+            self.param_base = self.param
         else:
             inventory.move(self.param, ob_param)
             # self.param[:] = ob_param[:]
@@ -792,7 +793,70 @@ cdef class ScaleLayer(ModelLayer):
         layer.output = np.zeros(self.n_output, 'd')
         layer.grad_input = np.zeros(self.n_input, 'd')
         return layer
-   
+
+@cython.final
+cdef class Scale2Layer(ModelLayer):
+    #
+    def _allocate_param(self, allocator):        
+        layer_allocator = allocator.suballocator()
+        self.ob_param = layer_allocator.get_allocated()
+        self.param = self.ob_param
+        self.param_base = layer_allocator.buf_array
+        layer_allocator.close()
+    #
+    def init_param(self):
+        ob_param = np.ascontiguousarray(1*np.random.random(self.n_param)-0.5)
+        if self.param is None:
+            self.ob_param = ob_param
+            self.param = self.ob_param
+        else:
+            inventory.move(self.param, ob_param)
+            # self.param[:] = ob_param[:]
+    #
+    def __init__(self, ParameterizedFunc func, n_input):
+        self.func = func
+        self.ob_param = param = None
+        self.n_input = n_input
+        self.n_param = n_input
+        self.n_output = n_input
+        self.output = np.zeros(n_input, 'd')
+        self.grad_input = np.zeros(n_input, 'd')
+        self.mask = None
+    #
+    cdef void _forward(self, double[::1] X):
+        cdef double[::1] output = self.output
+        cdef ParameterizedFunc func = self.func
+        cdef Py_ssize_t j
+        cdef double[::1] param = self.param
+        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+
+        # for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
+        for j in range(self.n_output):
+            output[j] = func._evaluate(X[j], param[j])
+    #
+    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+        cdef double *grad_in = &self.grad_input[0]
+        cdef ParameterizedFunc func = self.func
+        cdef Py_ssize_t j
+        cdef double[::1] param = self.param
+        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
+
+        for j in range(self.n_input):
+            grad[j] = grad_out[j] * func._derivative_u(X[j], param[j])
+
+        # for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
+        for j in range(self.n_input):
+            grad_in[j] = grad_out[j] * func._derivative(X[j], param[j])
+    #
+    cdef ScaleLayer _copy(self, bint share):
+        cdef ScaleLayer layer = ScaleLayer(self.func, self.n_input)
+
+        layer.param = self.param
+
+        layer.output = np.zeros(self.n_output, 'd')
+        layer.grad_input = np.zeros(self.n_input, 'd')
+        return layer
+    
 cdef class GeneralModelLayer(ModelLayer):
     #
     def __init__(self, n_input):

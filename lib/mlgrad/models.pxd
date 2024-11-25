@@ -6,7 +6,7 @@ cimport cython
 from libc.math cimport fabs, pow, sqrt, fmax, log, exp, fma
 from libc.string cimport memcpy, memset
 
-from mlgrad.funcs cimport Func
+from mlgrad.funcs cimport Func, ParameterizedFunc
 from mlgrad.funcs2 cimport Func2
 
 from cpython.object cimport PyObject
@@ -138,6 +138,12 @@ cdef class ModelLayer(Model2):
 @cython.final
 cdef class ScaleLayer(ModelLayer):
     cdef public Func func    
+    #
+    cdef ScaleLayer _copy(self, bint share)
+
+@cython.final
+cdef class Scale2Layer(ModelLayer):
+    cdef public ParameterizedFunc func    
     #
     cdef ScaleLayer _copy(self, bint share)
     
