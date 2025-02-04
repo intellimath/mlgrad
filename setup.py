@@ -72,6 +72,13 @@ ext_modules = [
         define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
+        "mlgrad._linalg",
+        ["lib/mlgrad/_linalg.pyx"],
+        extra_compile_args = extra_compile_args_openmp,
+        extra_link_args = extra_link_args_openmp,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
+    ),
+    Extension(
         "mlgrad.pca._pca",
         ["lib/mlgrad/pca/_pca.pyx"],
         extra_compile_args = extra_compile_args,

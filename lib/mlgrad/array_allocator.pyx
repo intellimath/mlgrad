@@ -35,7 +35,7 @@ cdef (double*, int, int) _memoryview_start_and_len(double[::1] m):
     PyObject_GetBuffer(m, &view_buffer, PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)
     try:
         view_ptr = <const char *>view_buffer.buf
-        PyObject_GetBuffer(m.obj, &underlying_buffer, PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)
+        PyObject_GetBuffer(m.from_object, &underlying_buffer, PyBUF_SIMPLE | PyBUF_ANY_CONTIGUOUS)
         try:
             underlying_ptr = <const char *>underlying_buffer.buf
             if view_ptr < underlying_ptr:

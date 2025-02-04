@@ -30,6 +30,12 @@ cimport numpy
 numpy.import_array()
 
 from cython.parallel cimport parallel, prange
+
+cdef public double _double_max = PyFloat_GetMax()
+cdef public double _double_min = PyFloat_GetMin()
+
+double_max = PyFloat_FromDouble(_double_max)
+double_min = PyFloat_FromDouble(_double_min)
     
 cdef int num_procs = omp_get_num_procs()
 cdef int num_threads = omp_get_num_threads()
@@ -131,16 +137,16 @@ cdef void move2(double[:, ::1] to, double[:,::1] src) noexcept nogil:
 cdef void move3(double[:,:,::1] to, double[:,:,::1] src) noexcept nogil:
     _move(&to[0,0,0], &src[0,0,0], to.shape[0] * to.shape[1] * to.shape[2])
     
-cdef double _conv(const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
-    cdef Py_ssize_t i
-    cdef double s = 0
+# cdef double _conv(const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
+#     cdef Py_ssize_t i
+#     cdef double s = 0
 
-    for i in range(n):
-        s = fma(a[i], b[i], s)
-    return s
+#     for i in range(n):
+#         s = fma(a[i], b[i], s)
+#     return s
 
-cdef double conv(double[::1] a, double[::1] b) noexcept nogil:
-    return _conv(&a[0], &b[0], a.shape[0])
+# cdef double conv(double[::1] a, double[::1] b) noexcept nogil:
+#     return _conv(&a[0], &b[0], a.shape[0])
 
 cdef void _add(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
@@ -643,7 +649,6 @@ cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:
         if hh >= median:
             high = hh - 1
 
-
 # cdef Py_ssize_t quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step): # noexcept nogil:
 #     cdef Py_ssize_t i_low, low, i_high, high
 #     cdef Py_ssize_t i_median, median
@@ -723,21 +728,40 @@ cdef double _median_1d(double[::1] x): # noexcept nogil:
         m2 = _min(&x[n2], n2)
         return (m1 + m2) / 2
 
+cdef double _median_absdev_1d(double[::1] x, double mu):
+    cdef Py_ssize_t i, n = x.shape[0]
+    cdef double[::1] temp = empty_array(n)
+
+    for i in range(n):
+        temp[i] = fabs(x[i] - mu)
+    return _median_1d(temp)
+
 cdef void _median_2d(double[:,::1] x, double[::1] y): # noexcept nogil:
     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
-    cdef double[::1] temp
+    cdef double[::1] temp = empty_array(n)
     
     for i in range(N):
-        temp = x[i].copy()
+        _move(&temp[0], &x[i,0], n)
+        # temp = x[i].copy()
         y[i] = _median_1d(temp)    
 
 cdef void _median_2d_t(double[:,::1] x, double[::1] y): # noexcept nogil:
     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
-
     cdef double[::1] temp = empty_array(N)
     
     for i in range(n):
         _move_t(&temp[0], &x[0,i], N, n)
+        y[i] = _median_1d(temp)
+
+cdef void _median_absdev_2d(double[:,::1] x, double[::1] mu, double[::1] y):
+    cdef Py_ssize_t i, j, n = x.shape[0], m = x.shape[1]
+    cdef double[::1] temp = empty_array(m)
+    cdef double mu_i
+
+    for i in range(n):
+        mu_i = mu[i]
+        for j in range(m):
+            temp[j] = fabs(x[i,j] - mu_i)
         y[i] = _median_1d(temp)
 
 cdef void _median_absdev_2d_t(double[:,::1] x, double[::1] mu, double[::1] y):
@@ -751,17 +775,25 @@ cdef void _median_absdev_2d_t(double[:,::1] x, double[::1] mu, double[::1] y):
             temp[i] = fabs(x[i,j] - mu_j)
         y[j] = _median_1d(temp)
 
-cdef void _median_absdev_2d(double[:,::1] x, double[::1] mu, double[::1] y):
-    cdef Py_ssize_t i, j, n = x.shape[0], m = x.shape[1]
-    cdef double[::1] temp = empty_array(m)
-    cdef double mu_i
+cdef double _robust_mean_1d(double[::1] x, double tau): #noexcept nogil:
+    cdef Py_ssize_t i, j, q, n = x.shape[0]
+    cdef double s, v, mu, std
+    cdef double[::1] temp = empty_array(n)
 
+    _move(&temp[0], &x[0], n)
+    mu = _median_1d(temp)
+    std = _median_absdev_1d(x, mu)
+
+    s = 0
+    q = 0
+    tau /= 0.6745
     for i in range(n):
-        mu_i = mu[i]
-        for j in range(m):
-            temp[j] = fabs(x[i,j] - mu_i)
-        y[i] = _median_1d(temp)
-        
+        v = x[i]
+        if (v <= mu + tau*std) and (v >= mu - tau*std):
+            s += v
+            q += 1
+    return s / q
+    
 cdef void _robust_mean_2d_t(double[:,::1] x, double tau, double[::1] y):
     cdef Py_ssize_t i, j, q, n = x.shape[0], m = x.shape[1]
     cdef double[::1] mu = empty_array(m)
@@ -779,7 +811,7 @@ cdef void _robust_mean_2d_t(double[:,::1] x, double tau, double[::1] y):
         q = 0
         for i in range(n):
             v = x[i,j]
-            if (v <= mu_j + tau*std_j) or (v >= mu_j - tau*std_j):
+            if (v <= mu_j + tau*std_j) and (v >= mu_j - tau*std_j):
                 s += v
                 q += 1
         y[j] = s / q
@@ -801,7 +833,7 @@ cdef void _robust_mean_2d(double[:,::1] x, double tau, double[::1] y):
         q = 0
         for j in range(m):
             v = x[i,j]
-            if (v <= mu_i + tau*std_i) or (v >= mu_i - tau*std_i):
+            if (v <= mu_i + tau*std_i) and (v >= mu_i - tau*std_i):
                 s += v
                 q += 1
         y[i] = s / q
@@ -841,6 +873,9 @@ def median_1d(x, copy=True):
         xx = x
     return _median_1d(xx)
 
+def median_absdev_1d(x, mu):
+    return _median_absdev_1d(x, mu)
+    
 def median_2d_t(x):
     y = empty_array(x.shape[1])
     _median_2d_t(x, y)
@@ -953,4 +988,62 @@ cdef class RingArray:
     # cpdef median(self):
     #     return median_1d(self.data, True)
             
-    
+
+cdef _inverse_matrix(double[:,::1] AM, double[:,::1] IM):
+    """
+    Returns the inverse of the passed in matrix.
+        :param A: The matrix to be inversed
+
+        :return: The inverse of the matrix A
+    """
+    # Section 1: Make sure A can be inverted.
+    # check_squareness(A)
+    # check_non_singular(A)
+
+    # Section 2: Make copies of A & I, AM & IM, to use for row operations
+    cdef Py_ssize_t fd, i, j, n = len(AM)
+    cdef double fdScaler, crScaler
+    cdef double *AM_fd
+    cdef double *AM_i
+    cdef double *IM_fd
+    cdef double *IM_i
+
+    _clear(&IM[0,0], n*n)
+    for i in range(n):
+        IM[i,i] = 1
+
+    # Section 3: Perform row operations
+    for fd in range(n): # fd stands for focus diagonal
+        # FIRST: scale fd row with fd inverse.
+        AM_fd = &AM[fd,0]
+        IM_fd = &IM[fd,0]
+        fdScaler = 1.0 / AM[fd,fd]
+        for j in range(n): # Use j to indicate column looping.
+            AM_fd[j] *= fdScaler
+            IM_fd[j] *= fdScaler
+        # SECOND: operate on all rows except fd row as follows:
+        for i in range(n): # *** skip row with fd in it.
+            if i == fd:
+                continue
+            AM_i = &AM[i,0]
+            IM_i = &IM[i,0]
+            crScaler = AM[i,fd] # cr stands for "current row".
+            for j in range(n): # cr - crScaler * fdRow, but one element at a time.
+                AM_i[j] -= crScaler * AM_fd[j]
+                IM_i[j] -= crScaler * IM_fd[j]
+
+    # Section 4: Make sure that IM is an inverse of A within the specified tolerance
+    # if check_matrix_equality(I,matrix_multiply(A,IM),tol):
+    #     return IM
+    # else:
+    #     raise ArithmeticError("Matrix inverse out of tolerance.")
+
+def inverse_matrix(A, copy=1):
+    n, m = A.shape
+    if copy:
+        AM = A.copy()
+    else:
+        AM = A
+    IM = empty_array2(n, n)
+    _inverse_matrix(AM, IM)
+    return IM

@@ -4,7 +4,7 @@ from math import log
 
 class MarginMaximization:
 
-    def __init__(self, func, h=0.01, tol=1.0e-9, n_iter=1000, verbose=False):
+    def __init__(self, func, h=0.01, tol=1.0e-6, n_iter=1000, verbose=False):
         self.func = func
         self.h = h
         self.tol = tol
@@ -13,13 +13,32 @@ class MarginMaximization:
         self.c = None
         self.w = None
     #
-    def fit(self, X, Y):
+    def fit(self, X, Y, sample_weights=None, cls_weights=None):
         sqrt = np.sqrt
         outer = np.outer
         func = self.func
         tol = self.tol
         h = self.h
         verbose = self.verbose
+
+        N = len(Y)
+
+        if sample_weights is None:
+            sample_weights = np.ones_like(Y, dtype="d")
+
+        W = np.zeros_like(Y, dtype="d")
+
+        cls_ids = list(np.unique(Y))
+        if cls_weights is None:
+            for cls_id in cls_ids:
+                mask = (Y == cls_id)
+                cls_freq = N / mask.sum()
+                W[mask] = sample_weights[mask] * cls_freq
+        else:
+            for i, cls_weight in enumerate(cls_weights):
+                cls_id = cls_ids[i]
+                mask = (Y == cls_id)
+                W[mask] = sample_weights[mask] * cls_weight
 
         if self.w is None:
             w = X[Y>0].mean(axis=0) - X[Y<0].mean(axis=0)
@@ -33,33 +52,33 @@ class MarginMaximization:
             c = self.c = (X[Y>0].mean(axis=0) + X[Y<0].mean(axis=0)) / 2
         else:
             c = self.c
-
-        N = len(X)
         
         w_min = w.copy()
         c_min = c.copy()
 
-        Xw = (X - c) @ w
+        Xc = X - c
+        Xw = Xc @ w
         U = Xw * Y
         
-        lval = lval_min = func.evaluate_sum(U)
+        lval = lval_min = (W * func.evaluate_array(U)).sum()
         self.lvals = [lval]
 
         for K in range(self.n_iter):
             lval_prev = lval
 
-            V = func.derivative_array(U)
+            V = W * func.derivative_array(U)
             VY = V * Y
 
-            g = VY @ (X - c) - (V @ U) * w
+            g = VY @ Xc - (V @ U) * w
             w -= h * g / N
             c += h * VY.mean() * w 
             w /= sqrt(w @ w)
 
-            Xw = (X - c) @ w
+            Xc = X - c
+            Xw = Xc @ w
             U = Xw * Y
             
-            lval = func.evaluate_sum(U)
+            lval = (W * func.evaluate_array(U)).sum()
             self.lvals.append(lval)
             
             if lval < lval_min:

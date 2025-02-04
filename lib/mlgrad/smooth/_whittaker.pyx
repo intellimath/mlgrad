@@ -3,31 +3,32 @@
 #
 
 import numpy as np
+import scipy
 
-cdef _set_diagonal(double[:,::1] S, double[::1] W):
+cdef set_diagonal(double[:,::1] S, double[::1] W):
     cdef Py_ssize_t i, j, n = S.shape[1]
     # cdef double *SS
 
-    # cdef double *e = &S[0,0]
-    # cdef double *c = &S[1,0]
+    # cdef double *e = &S[4,0]
+    # cdef double *c = &S[3,0]
     cdef double *d = &S[2,0]
-    # cdef double *a = &S[3,0]
-    # cdef double *b = &S[4,0]
+    # cdef double *a = &S[1,0]
+    # cdef double *b = &S[0,0]
 
     # d
     # SS = &S[2,0]
     for i in range(n):
         d[i] = W[i]
 
-cdef _add_D2T_W2_D2(double[:,::1] S, double[::1] W2, double tau2):
+def add_D2_W2(double[:,::1] S, double[::1] W2, double tau2):
     cdef Py_ssize_t i, j, n = S.shape[1]
     # cdef double *SS
 
-    cdef double *e = &S[0,0]
-    cdef double *c = &S[1,0]
+    cdef double *e = &S[4,0]
+    cdef double *c = &S[3,0]
     cdef double *d = &S[2,0]
-    cdef double *a = &S[3,0]
-    cdef double *b = &S[4,0]
+    cdef double *a = &S[1,0]
+    cdef double *b = &S[0,0]
     
     # d
     # SS = &S[2,0]
@@ -39,38 +40,38 @@ cdef _add_D2T_W2_D2(double[:,::1] S, double[::1] W2, double tau2):
         d[i] += tau2 * (W2[i-1] + 4*W2[i] + W2[i+1])
 
     # a
-    # SS = &S[3,0]
-    a[0] += tau2 * -2*W2[1]
-    a[n-2] += tau2 * -2*W2[n-2]
-    for i in range(1, n-2):
-        a[i] += tau2 * (-2*W2[i] - 2*W2[i+1])
+    # SS = &S[1,0]
+    a[1] += tau2 * -2*W2[1]
+    a[n-1] += tau2 * -2*W2[n-2]
+    for i in range(1,n-1):
+        a[i+1] += tau2 * (-2*W2[i] - 2*W2[i+1])
 
     # b
-    # SS = &S[4,0]
-    for i in range(n-2):
-        b[i] += tau2 * W2[i+1]
+    # SS = &S[0,0]
+    for i in range(1,n-2):
+        b[i+1] += tau2 * W2[i]
 
     # c
-    # SS = &S[1,0]
-    c[1] += tau2 * -2*W2[1]
-    c[n-1] += tau2 * -2*W2[n-1]
-    for i in range(2, n-1):
+    # SS = &S[3,0]
+    c[0] += tau2 * -2*W2[1]
+    c[n-2] += tau2 * -2*W2[n-2]
+    for i in range(1, n-2):
         c[i] += tau2 * (-2*W2[i-1] - 2*W2[i])
 
     # e
-    # SS = &S[0,0]
-    for i in range(2, n):
-        e[i] += tau2 * W2[i-1]
+    # SS = &S[4,0]
+    for i in range(n-2):
+        e[i] += tau2 * W2[i+1]
 
-cdef _add_D1T_W1_D1(double[:,::1] S, double[::1] W1, double tau1):
+def add_D1_W1(double[:,::1] S, double[::1] W1, double tau1):
     cdef Py_ssize_t i, j, n = S.shape[1]
     # cdef double *SS
 
-    cdef double *e = &S[0,0]
-    cdef double *c = &S[1,0]
+    cdef double *e = &S[4,0]
+    cdef double *c = &S[3,0]
     cdef double *d = &S[2,0]
-    cdef double *a = &S[3,0]
-    cdef double *b = &S[4,0]
+    cdef double *a = &S[1,0]
+    cdef double *b = &S[0,0]
 
     # d
     # SS = &S[2,0]
@@ -80,70 +81,25 @@ cdef _add_D1T_W1_D1(double[:,::1] S, double[::1] W1, double tau1):
         d[i] += tau1 * (W1[i-1] + W1[i])
 
     # a
-    # SS = &S[3,0]
-    for i in range(n-2):
+    # SS = &S[1,0]
+    for i in range(n-1):
         a[i] -= tau1 * W1[i]
 
     # c
-    # SS = &S[1,0]
-    for i in range(1,n-1):
-        a[i] -= tau1 * W1[i-1]
-        
-# cdef _get_D2T_D2(double tau2, double tau1, double[::1] W, double[::1] W1, double[::1] W2, double[:,::1] S):
-#     cdef Py_ssize_t i, j, n = S.shape[1]
-#     cdef double *SS
-#     # cdef double *WW = &W[0]
-#     # cdef double *WW2 = &W2[0]
-
-#     cdef double *e = &S[0,0]
-#     cdef double *c = &S[1,0]
-#     cdef double *d = &S[2,0]
-#     cdef double *a = &S[3,0]
-#     cdef double *b = &S[4,0]
-
-#     # d
-#     # SS = &S[2,0]
-#     d[0] =   W[0]   + W2[1]*tau2
-#     d[1] =   W[1]   + (4*W2[1] + W2[2])*tau2
-#     d[n-1] = W[n-1] + W2[n-2]*tau2
-#     d[n-2] = W[n-2] + (4*W2[n-3] + W2[n-2])*tau2
-#     for i in range(2, n-1):
-#         d[i] = W[i] + (W2[i-1] + 4*W2[i] + W2[i+1])*tau2
-
-#     # a
-#     # SS = &S[3,0]
-#     a[0] = -2*W2[1]*tau2 - W1[0]*tau1
-#     a[n-2] = -2*W2[n-2]*tau2 - W1[n-2]*tau1
-#     for i in range(1,n-2):
-#         a[i] = (-2*W2[i] - 2*W2[i+1])*tau2 - W1[i]*tau1
-
-#     # b
-#     # SS = &S[4,0]
-#     for i in range(n-2):
-#         b[i] = W2[i+1]*tau2
-
-#     # c
-#     # SS = &S[1,0]
-#     c[1] = -2*W2[1]*tau2
-#     c[n-1] = -2*W2[n-1]*tau2
-#     for i in range(2,n-1):
-#         c[i] = (-2*W2[i-1] - 2*W2[i])*tau2
-
-#     # e
-#     # SS = &S[0,0]
-#     for i in range(2,n):
-#         e[i] = W2[i-1]*tau2
+    # SS = &S[3,0]
+    for i in range(1,n):
+        c[i] -= tau1 * W1[i-1]
         
 cdef _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
     cdef Py_ssize_t i, j, n = Y.shape[0]
     cdef double *y = &Y[0]
     cdef double *x = &X[0]
     
-    cdef double *e = &S[0,0]
-    cdef double *c = &S[1,0]
+    cdef double *e = &S[4,0]
+    cdef double *c = &S[3,0]
     cdef double *d = &S[2,0]
-    cdef double *a = &S[3,0]
-    cdef double *b = &S[4,0]
+    cdef double *a = &S[1,0]
+    cdef double *b = &S[0,0]
     
     cdef double[:,::1] T = np.zeros((5,n), 'd')
     cdef double *mu =    &T[0,0]
@@ -152,19 +108,19 @@ cdef _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
     cdef double *gamma = &T[3,0]
     cdef double *zeta  = &T[4,0]
 
-    cdef double eps = 1.0e-30
+    cdef double eps = 1.0e-33
     
     mu[0] = d[0]
-    if mu[0] == 0:
-        mu[0] = eps
+    # if mu[0] == 0:
+    #     mu[0] = eps
     alpha[0] = a[0] / mu[0]
     beta[0] = b[0] / mu[0]
     zeta[0] = y[0] / mu[0]
 
     gamma[1] = c[1]
     mu[1]    = d[1] - alpha[0] * gamma[1]
-    if mu[1] == 0:
-        mu[1] = eps
+    # if mu[1] == 0:
+    #     mu[1] = eps
     alpha[1] = (a[1] - beta[0] * gamma[1]) / mu[1]
     beta[1]  = b[1] / mu[1]
     zeta[1]  = (y[1] - zeta[0] * gamma[1]) / mu[1]
@@ -172,21 +128,21 @@ cdef _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
     for i in range(2, n-2):
         gamma[i] = c[i] - alpha[i-2] * e[i]
         mu[i]    = d[i] - beta[i-2] * e[i] - alpha[i-1] * gamma[i]
-        if (mu[i]) == 0:
-            mu[i] = eps
+        # if (mu[i]) == 0:
+        #     mu[i] = eps
         alpha[i] = (a[i] - beta[i-1] * gamma[i]) / mu[i]
         beta[i]  = b[i] / mu[i]
         zeta[i]  = (y[i] - zeta[i-2] * e[i] - zeta[i-1] * gamma[i]) / mu[i]
 
     gamma[n-2] = c[n-2] - alpha[n-4] * e[n-2]
     mu[n-2]    = d[n-2] - beta[n-4] * e[n-2] - alpha[n-3] * gamma[n-2]
-    if mu[n-2] == 0:
-        mu[n-2] = eps
+    # if mu[n-2] == 0:
+    #     mu[n-2] = eps
     alpha[n-2] = (a[n-2] - beta[n-3] * gamma[n-2]) / mu[n-2]
     gamma[n-1] = c[n-1] - alpha[n-3] * e[n-1]
     mu[n-1]    = d[n-1] - beta[n-3] * e[n-1] - alpha[n-2] * gamma[n-1]
-    if mu[n-1] == 0:
-        mu[n-1] = eps
+    # if mu[n-1] == 0:
+    #     mu[n-1] = eps
     zeta[n-2]  = (y[n-2] - zeta[n-3] * e[n-2] - zeta[n-3] * gamma[n-2]) / mu[n-2]
     zeta[n-1]  = (y[n-1] - zeta[n-2] * e[n-1] - zeta[n-2] * gamma[n-1]) / mu[n-1]
 
@@ -197,28 +153,38 @@ cdef _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
         x[i] = zeta[i] - alpha[i] * x[i+1] - beta[i] * x[i+2]
         i -= 1
 
-def penta_solver(Y, W, W1, W2, tau1, tau2, _zeros=np.zeros):
+def penta_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, _zeros=np.zeros):
     N = len(Y)
     S = _zeros((5,N), "d")
-    _set_diagonal(S, W)
-    if W2 is not None:
-        _add_D2T_W2_D2(S, W2, tau2)
-    if W1 is not None:
-        _add_D1T_W1_D1(S, W1, tau1)
-    # _get_D2T_D2(tau2, W, W2, S)
-    X = _zeros(N, "d")
-    _penta_solver(S, Y*W, X)
+    set_diagonal(S, W)
+    if W2 is not None and tau2 > 0:
+        add_D2_W2(S, W2, tau2)
+    if W1 is not None and tau1 > 0:
+        add_D1_W1(S, W1, tau1)
+
+    # print(S)
+
+    if tau_z != 0:
+        Yw = Y * W - tau_z
+    else:
+        Yw = Y * W
+    
+    # X = _zeros(N, "d")
+    X = scipy.linalg.solve_banded((2,2), S, Yw, 
+                                  overwrite_ab=True, overwrite_b=True, check_finite=False)
+    # _penta_solver(S, Yw, X)
     return X
     
-def whittaker_smooth_penta(Y, W=None, W1=None, W2=None, tau1=0, tau2=1.0, _ones=np.ones):
+def whittaker_smooth_penta(Y, W=None, W1=None, W2=None, 
+                           tau1=0, tau2=1.0, tau_z=0, _ones=np.ones):
     N = Y.shape[0]
     if W is None:
         W = _ones(N, "d")
-    # if W2 is None:
-    #     W2 = _ones(N, "d")
-    # if W1 is None:
-    #     W1 = _ones(N, "d")
-    X = penta_solver(Y, W, W1, W2, tau1, tau2)
+    if W2 is None:
+        W2 = _ones(N, "d")
+    if W1 is None:
+        W1 = _ones(N, "d")
+    X = penta_solver(Y, W, W1, W2, tau1, tau2, tau_z=tau_z)
     return X
 
 cdef _get_D1T_D1(double tau, double[::1] W, double[::1] W2, double[:,::1] S):
@@ -419,3 +385,29 @@ def whittaker_smooth_tria(Y, tau=1.0, W=None, W2=None, _ones=np.ones):
 #         self.K = K+1
 #         self.delta_qval = fabs(qval_min - qval_min_prev)
 #         self.qvals = qvals
+
+# cdef class NDiagonalMatrix:
+#     cdef Py_ssize_t N, n
+#     cdef double[:,::1] data
+
+#     def __init__(self, N, n):
+#         self.data = np.zeros((N,2*n+1), "d")
+#         self.N = N
+#         self.n = n
+#     #
+#     cdef get(self, Py_ssize i, Py_ssize j):
+#         cdef Py_ssize_t N = self.N, n = self.n, d
+
+#         if i < j:
+#             d = j - i
+#             if d > n:
+#                 return 0
+#             else:
+#                 return self.data[n+d,d]
+#         elif j < i:
+#             d = i - j
+#             if d > n:
+#                 return 0
+#             else:
+#                 return self.data[n-d,d]
+        

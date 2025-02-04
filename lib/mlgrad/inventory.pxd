@@ -19,7 +19,11 @@ cdef extern from "pymath.h" nogil:
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()
-    double PyFloat_GetMin()   
+    double PyFloat_GetMin()
+    object PyFloat_FromDouble(double)
+
+cdef public double _double_max
+cdef public double _double_min
 
 cdef void init_rand() noexcept nogil
 cdef long rand(long N) noexcept nogil
@@ -37,7 +41,7 @@ cdef double _min(double *a, Py_ssize_t n) noexcept nogil
 cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil
 cdef void _clear2(double *to, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil
 cdef void _fill(double *to, const double c, const Py_ssize_t n) noexcept nogil
-cdef double _conv(const double*, const double*, const Py_ssize_t) noexcept nogil
+# cdef double _conv(const double*, const double*, const Py_ssize_t) noexcept nogil
 cdef void _move(double*, const double*, const Py_ssize_t) noexcept nogil
 cdef void _move_t(double *to, const double *src, const Py_ssize_t n, const Py_ssize_t step) noexcept nogil
 cdef double _sum(const double*, const Py_ssize_t) noexcept nogil
@@ -76,7 +80,7 @@ cdef void fill(double[::1] to, const double c) noexcept nogil
 cdef void move(double[::1] to, double[::1] src) noexcept nogil
 cdef void move2(double[:,::1] to, double[:,::1] src) noexcept nogil
 cdef void move3(double[:,:,::1] to, double[:,:,::1] src) noexcept nogil
-cdef double conv(double[::1] a, double[::1] b) noexcept nogil
+# cdef double conv(double[::1] a, double[::1] b) noexcept nogil
 cdef double sum(double[::1] a) noexcept nogil
 cdef void iadd(double[::1] a, double[::1] b) noexcept nogil
 cdef void iadd2(double[:,::1] a, double[:,::1] b) noexcept nogil
@@ -120,13 +124,77 @@ cdef double _mean(double *a, Py_ssize_t n) noexcept nogil
 cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil
 cdef double _mad(double *a, double mu, Py_ssize_t n) noexcept nogil
 
+# /*
+#  *  This Quickselect routine is based on the algorithm described in
+#  *  "Numerical recipes in C", Second Edition,
+#  *  Cambridge University Press, 1992, Section 8.5, ISBN 0-521-43108-5
+#  *  This code by Nicolas Devillard - 1998. Public domain.
+#  */
+    
+# #define ELEM_SWAP(a,b) { register double t=(a);(a)=(b);(b)=t; }
+
+# static double quick_select(double *arr, Py_ssize_t n) 
+# {
+#     Py_ssize_t low, high ;
+#     Py_ssize_t median;
+#     Py_ssize_t middle, ll, hh;
+
+#     low = 0 ; high = n-1 ; median = (low + high) / 2;
+#     for (;;) {
+#         if (high <= low) /* One element only */
+#             return arr[median] ;
+
+#         if (high == low + 1) {  /* Two elements only */
+#             if (arr[low] > arr[high])
+#                 ELEM_SWAP(arr[low], arr[high]) ;
+#             return arr[median] ;
+#         }
+
+#         /* Find median of low, middle and high items; swap into position low */
+#         middle = (low + high) / 2;
+#         if (arr[middle] > arr[high])    ELEM_SWAP(arr[middle], arr[high]) ;
+#         if (arr[low] > arr[high])       ELEM_SWAP(arr[low], arr[high]) ;
+#         if (arr[middle] > arr[low])     ELEM_SWAP(arr[middle], arr[low]) ;
+    
+#         /* Swap low item (now in position middle) into position (low+1) */
+#         ELEM_SWAP(arr[middle], arr[low+1]) ;
+    
+#         /* Nibble from each end towards middle, swapping items when stuck */
+#         ll = low + 1;
+#         hh = high;
+#         for (;;) {
+#             do ll++; while (arr[low] > arr[ll]) ;
+#             do hh--; while (arr[hh]  > arr[low]) ;
+    
+#             if (hh < ll)
+#                 break;
+    
+#             ELEM_SWAP(arr[ll], arr[hh]) ;
+#         }
+    
+#         /* Swap middle item (in position low) back into correct position */
+#         ELEM_SWAP(arr[low], arr[hh]) ;
+    
+#         /* Re-set active partition */
+#         if (hh <= median)
+#             low = ll;
+#         if (hh >= median)
+#             high = hh - 1;
+#     }
+# }
+
+# #undef ELEM_SWAP
+
 cdef double quick_select(double *a, Py_ssize_t n) #noexcept nogil
+
 # cdef double quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) #noexcept nogil
 cdef double _median_1d(double[::1] x) #noexcept nogil
+cdef double _median_absdev_1d(double[::1] x, double mu) #noexcept nogil
 cdef void _median_2d(double[:,::1] x, double[::1] y) #noexcept nogil
 cdef void _median_2d_t(double[:,::1] x, double[::1] y) #noexcept nogil
 cdef void _median_absdev_2d(double[:,::1] x, double[::1] mu, double[::1] y) #noexcept nogil
 cdef void _median_absdev_2d_t(double[:,::1] x, double[::1] mu, double[::1] y) #noexcept nogil
+cdef double _robust_mean_1d(double[::1] x, double tau) #noexcept nogil
 cdef void _robust_mean_2d(double[:,::1] x, double tau, double[::1] y) #noexcept nogil
 cdef void _robust_mean_2d_t(double[:,::1] x, double tau, double[::1] y) #noexcept nogil
 
@@ -136,6 +204,9 @@ cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S)
 cdef void _covariance_matrix_weighted(
             double *X, const double *W, const double *loc, double *S, 
             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil
+
+cdef _inverse_matrix(double[:,::1] AM, double[:,::1] IM)
+
 
 cdef class RingArray:
     cdef public double[::1] data

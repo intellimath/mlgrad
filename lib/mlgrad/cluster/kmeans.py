@@ -95,7 +95,6 @@ class KMeansMahalanobisBase(KMeansBase):
         return DD
     #
 
-
 class KMeans(KMeansBase):
     #
     def __init__(self, q, tol=1.0e-8, n_iter=1000, verbose=False):
@@ -105,41 +104,13 @@ class KMeans(KMeansBase):
         self.verbose = verbose
         self.S1 = None
     #
-    def dist(self, x):
-        U = x - self.c
-        # D = (U * U).sum(axis=1)
-        D = einsum("ni,ni->n", U, U, optimize=True)
-        return sqrt(D.min())
-    #
-    def norm2(self, x):
-        U = x - self.c
-        # D = (U * U).sum(axis=1)
-        D = einsum("ni,ni->n", U, U, optimize=True)
-        return D.min()
-    #
-    # def eval_qval(self, X):
-    #     DD = self._eval_dists(X)
-    #     D = DD.min(axis=0)
-    #     return sqrt(D.sum())
-        
-    #     # q = self.q
-    #     # c = self.c
-        
-    #     # qval = 0
-    #     # for xk in X:
-    #     #     U = x - c
-    #     #     # D = (U * U).sum(axis=1)
-    #     #     D = einsum("ni,ni->n", U, U, optimize=True)
-    #     #     qval += D.min()
-    #     # return sqrt(qval)
-    # #
     def find_locations(self, X, Is):
         mean = np.mean
         c = np.empty((self.q, X.shape[1]), 'd')
         for j in range(self.q):
             Ij = Is[j]
             Xj = X[Ij]
-            c[j,:] = mean(Xj, axis=0)
+            c[j,:] = Xj.mean(axis=0)
         return c
     #
     def stop_condition(self, c, c_prev):
@@ -215,7 +186,7 @@ class RKMeans(KMeansBase):
         return False
     #
     def eval_qval(self, X):
-        ds = np.fromiter((self.norm2(x) for x in X), 'd', len(X))
+        ds = self.eval_dists(X)
         dd = self.avrfunc.evaluate(ds)
         return np.sqrt(dd)
     #
@@ -284,17 +255,6 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
         self.qvals = []
         self.verbose = verbose
     #
-    # def dist(self, x):
-    #     S1 = self.S1
-    #     c = self.c
-    #     ds = [mnorm2(x - c[j], S1[j]) for j in range(self.q)]
-    #     d_min = min(ds)
-    #     return sqrt(d_min)
-    #
-    # def eval_qval(self, X):
-    #     ds = self.eval_dists(X)
-    #     return sqrt(ds.sum())
-    # #
     def find_locations(self, X, Is):
         mean = np.mean
         c = np.zeros((self.q, X.shape[1]), 'd')
@@ -316,9 +276,8 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
         S1 = []
         for j in range(self.q):
             Ij = Is[j]
-            Nj = len(Ij)
-            Xcj = X[Ij] - c[j]
-            Sj = (Xcj.T @ Xcj) / Nj
+            Xj_c = X[Ij] - c[j]
+            Sj = (Xj_c.T @ Xj_c)
             Sj /= det(Sj) ** (1.0/n)
             Sj1 = inv(Sj)
             S1.append(Sj1)
@@ -411,18 +370,6 @@ class RKMeansMahalanobis(KMeansMahalanobisBase):
             self.avrfunc = avrfunc
         self.verbose = verbose
     #
-    def norm2(self, x):
-        S1 = self.S1
-        c = self.c
-        return min((mnorm2(x - c[j], S1[j]) for j in range(self.q)))
-    #
-    def dist(self, x):
-        S1 = self.S1
-        c = self.c
-        ds = [mnorm2(x - c[j], S1[j]) for j in range(self.q)]
-        d_min = min(ds)
-        return sqrt(d_min)
-    #
     def find_locations(self, X, Is, G):
         n = X.shape[1]
         zeros = np.zeros
@@ -483,20 +430,16 @@ class RKMeansMahalanobis(KMeansMahalanobisBase):
         N = X.shape[0]
         self.c_min = self.c.copy()
 
-        # self.ds = np.fromiter((self.norm2(x) for x in X), 'd', N)
         self.ds = self.eval_dists(X)
         dd = self.avrfunc.evaluate(self.ds)
         qval = self.qval_min = np.sqrt(dd)
         self.qval_min_prev = self.qval_min 
         for K in range(self.n_iter_c):
             qval_prev = qval
-            # self.ds = np.fromiter((self.norm2(x) for x in X), 'd', N)
-            # self.avrfunc.evaluate(self.ds)
             G = self.avrfunc.gradient(self.ds)
             self.Is = self.find_clusters(X)
             self.c = self.find_locations(X, self.Is, G)
             
-            # self.ds = np.fromiter((self.norm2(x) for x in X), 'd', N)
             self.ds = self.eval_dists(X)
             dd = self.avrfunc.evaluate(self.ds)
             qval = np.sqrt(dd)
@@ -509,8 +452,8 @@ class RKMeansMahalanobis(KMeansMahalanobisBase):
                 
             if self.stop_condition(qval, qval_prev):
                 break
-            if self.stop_condition(self.qval_min_prev, self.qval_min):
-                break
+            # if self.stop_condition(self.qval_min_prev, self.qval_min):
+            #     break
 
         self.K = K + 1
         self.c = self.c_min        
@@ -519,19 +462,17 @@ class RKMeansMahalanobis(KMeansMahalanobisBase):
         N = X.shape[0]
         self.S1_min = [S1.copy() for S1 in self.S1]
 
-        self.ds = np.fromiter((self.norm2(x) for x in X), 'd', N)
+        self.ds = self.eval_dists(X)
         dd = self.avrfunc.evaluate(self.ds)
         qval = self.qval_min = np.sqrt(dd)
         self.qval_min_prev = self.qval_min 
         for K in range(self.n_iter_s):
             qval_prev = qval
-            # self.ds = np.fromiter((self.norm2(x) for x in X), 'd', N)
-            # self.avrfunc.evaluate(self.ds)
             G = self.avrfunc.gradient(self.ds)
             self.Is = self.find_clusters(X)
             self.S1 = self.find_scatters(X, self.Is, G)
             
-            self.ds = np.fromiter((self.norm2(x) for x in X), 'd', N)
+            self.ds = self.eval_dists(X)
             dd = self.avrfunc.evaluate(self.ds)
             qval = np.sqrt(dd)
             self.qvals.append(qval)

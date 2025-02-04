@@ -3,7 +3,7 @@
 
 cimport cython
 
-from libc.math cimport fabs, pow, sqrt, fmax, exp, log, atan, fma, sinh, cosh, tanh
+from libc.math cimport fabs, pow, sqrt, fmax, exp, log, atan, fma, sinh, asinh, cosh, tanh, pi
 from libc.math cimport isnan, isinf
 from libc.stdlib cimport strtod
 
@@ -114,7 +114,7 @@ cdef class SoftPlus(Func):
 @cython.final
 cdef class Threshold(Func):
     cdef public double theta
-
+    
 @cython.final
 cdef class Sign(Func):
     cdef public double theta
@@ -198,7 +198,7 @@ cdef class Quantile_Sqrt(Func):
 @cython.final
 cdef class Expit(Func):
     #
-    cdef public double p
+    cdef public double p, x0
     
 @cython.final
 cdef class Logistic(Func):
@@ -229,6 +229,21 @@ cdef class Tukey(Func):
     #
 
 @cython.final
+cdef class Step(Func):
+    #
+    cdef public double C
+    #
+
+@cython.final
+cdef class StepExp(Func):
+    cdef public double p
+
+@cython.final
+cdef class RectExp(Func):
+    cdef public double w
+    cdef public double p
+        
+@cython.final
 cdef class Hinge(Func):
     #
     cdef public double C
@@ -239,7 +254,12 @@ cdef class Hinge2(Func):
     #
     cdef public double C
     #
-    
+
+@cython.final
+cdef class Square2Linear(Func):
+    #
+    cdef public double C
+
 @cython.final
 cdef class RELU(Func):
     #
@@ -250,19 +270,36 @@ cdef class HSquare(Func):
     #
     cdef public double C
     #
+
+@cython.final
+cdef class IntSoftHinge_Atan(Func):
+    #
+    cdef public double alpha
+    cdef public double x0
+    #
     
 @cython.final
 cdef class SoftHinge_Sqrt(Func):
     #
     cdef public double alpha
     cdef double alpha2
+    cdef public double x0
     #
 
+@cython.final
+cdef class IntSoftHinge_Sqrt(Func):
+    #
+    cdef public double alpha
+    cdef double alpha2
+    cdef public double x0
+    #
+    
 @cython.final
 cdef class Softplus_Sqrt(Func):
     #
     cdef public double alpha
     cdef double alpha2
+    cdef double x0
     #
     
 @cython.final
@@ -300,4 +337,5 @@ cdef class WinsorizedSmoothFunc(ParameterizedFunc):
 cdef class SoftMinFunc(ParameterizedFunc):
     cdef double a
 
-    
+cdef class RelativeAbsMax(Func):
+    pass

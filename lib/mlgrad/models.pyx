@@ -87,19 +87,19 @@ cdef class BaseModel:
         return self._evaluate(X)
     #
     cdef void _evaluate_all(self, double[:,::1] X, double[::1] Y):
-        cdef Py_ssize_t k, N = <Py_ssize_t>X.shape[0]
+        cdef Py_ssize_t k, N = X.shape[0]
         
         for k in range(N):
             Y[k] = self._evaluate(X[k])
     #
     cdef void _gradient_all(self, double[:,::1] X, double[:,::1] G):
-        cdef Py_ssize_t k, N = <Py_ssize_t>X.shape[0]
+        cdef Py_ssize_t k, N = X.shape[0]
         
         for k in range(N):
             self._gradient(X[k], G[k])
     #
     cdef void _gradient_input_all(self, double[:,::1] X, double[:,::1] G):
-        cdef Py_ssize_t k, N = <Py_ssize_t>X.shape[0]
+        cdef Py_ssize_t k, N = X.shape[0]
         
         for k in range(N):
             self._gradient_input(X[k], G[k])
@@ -255,18 +255,18 @@ cdef class LinearModel(Model):
         # for i in range(self.n_input):
         #     grad_input[i] = param[i+1]
     #
-    cdef LinearModel _copy(self, bint share):
-        cdef LinearModel mod = LinearModel(self.n_input)
+    # cdef LinearModel _copy(self, bint share):
+    #     cdef LinearModel mod = LinearModel(self.n_input)
 
-        if share:
-            mod.ob_param = self.ob_param
-            mod.param = self.param
-        else:
-            mod.param = self.param.copy()
+    #     if share:
+    #         mod.ob_param = self.ob_param
+    #         mod.param = self.param
+    #     else:
+    #         mod.param = self.param.copy()
 
-        mod.grad = np.zeros(self.n_param, 'd')
-        mod.grad_input = np.zeros(self.n_input, 'd')
-        return mod
+    #     mod.grad = np.zeros(self.n_param, 'd')
+    #     mod.grad_input = np.zeros(self.n_input, 'd')
+    #     return mod
     #
     def _repr_latex_(self):
         if self.param[0]:
@@ -305,6 +305,26 @@ def linear_model_from_dict(ob):
     mod = LinearModel(ob['n_input'])
     mod.init_from(ob)
     return mod
+
+cdef class LinearModel_Normalized2(Model):
+    #
+    def init_param(self, param=None, random=1):
+        Model.init_param(self, param=param, random=random)
+        self.normalize()
+    #
+    cdef void _gradient(self, double[::1] Xk, double[::1] grad):
+        cdef double val
+        
+        LinearModel._gradient(self, Xk, grad)
+        val = inventory._dot(&Xk[0], &self.param[1], self.n_input)
+        inventory._mul_add(&grad[1], &self.param[1], -val, self.n_input)
+    #
+    cpdef normalize(self):
+        cdef double normval2 = inventory._dot(&self.param[1], &self.param[1], self.n_input)
+        inventory._mul_const(&self.param[0], 1/sqrt(normval2), self.n_param)
+            
+        
+        
 
 cdef class SigmaNeuronModel(Model):
     #
@@ -426,8 +446,8 @@ cdef class SimpleComposition(Model):
         # for j in range(grad_input.shape[0]):
         #     grad_input[j] *= val * mod.grad_input[j]
     #        
-    cdef SimpleComposition _copy(self, bint share):
-        return SimpleComposition(self.func, self.model)
+    # cdef SimpleComposition _copy(self, bint share):
+    #     return SimpleComposition(self.func, self.model)
 
 cdef class ModelComposition(Model):
     #
@@ -475,15 +495,15 @@ cdef class ModelComposition(Model):
         self.grad = np.zeros(self.n_param, 'd')
         self.grad_input = np.zeros(self.n_input, 'd')
     #
-    cdef ModelComposition _copy(self, bint share):
-        cdef ModelComposition md = ModelComposition(self.func)
-        md.models = self.models[:]
-        md.n_param = self.n_param
-        if share:
-            md.param = self.param[:]
-        else:
-            md.param = self.param.copy()
-        return md
+    # cdef ModelComposition _copy(self, bint share):
+    #     cdef ModelComposition md = ModelComposition(self.func)
+    #     md.models = self.models[:]
+    #     md.n_param = self.n_param
+    #     if share:
+    #         md.param = self.param[:]
+    #     else:
+    #         md.param = self.param.copy()
+    #     return md
     #
     cdef double _evaluate(self, double[::1] X):
         cdef double w, s
@@ -641,6 +661,49 @@ cdef class ModelLayer(Model2):
     #     return self.output
     #
 
+cdef class LinearNNModel(Model):
+    def __init__(self, n_input, n_hidden):
+        self.linear_layer = LinearLayer(n_input, n_hidden)
+        self.linear_model = LinearModel(n_hidden)
+        self.n_input = n_input
+        self.n_hidden = n_hidden
+        self.n_param = (n_input+1)*n_hidden + n_hidden + 1
+        self.param = self.ob_param = None
+        self.grad_input = None
+        self.grad = None
+        # self.first_time = 1
+        self.mask = None
+    #
+    def _allocate_param(self, allocator):
+        _allocator = allocator.suballocator()
+        self.linear_layer._allocate_param(_allocator)
+        self.linear_model._allocate_param(_allocator)
+        self.ob_param = _allocator.get_allocated()
+        self.param = self.ob_param
+        self.param_base = _allocator.buf_array
+        _allocator.close()
+
+        self.grad_input = np.zeros(self.n_input, 'd')
+        self.grad = np.zeros(self.n_param, 'd')
+    #
+    def init_param(self):
+        self.linear_layer.init_param()
+        self.linear_model.init_param()
+    #
+    cdef double _evaluate(self, double[::1] Xk):
+        self.linear_layer._forward(Xk)
+        return self.linear_model._evaluate(self.linear_layer.output)
+    #
+    cdef void _gradient(self, double[::1] Xk, double[::1] grad):
+        cdef Py_ssize_t offset = self.n_hidden*(self.n_input+1)
+        cdef double[::1] grad_out = grad[offset:]
+        
+        self.linear_layer._forward(Xk)
+        self.linear_model._gradient(self.linear_layer.output, grad_out)
+        self.linear_layer._backward(Xk, grad_out, grad[:offset])
+    #
+    # cdef void regularizer_gradient_l2(self, double[:,::1] X, double[::1] R):
+
 
 cdef class LinearLayer(ModelLayer):
 
@@ -677,15 +740,15 @@ cdef class LinearLayer(ModelLayer):
             inventory.move(self.param, ob_param)
             # self.param[:] = ob_param[:]
     #
-    cdef LinearLayer _copy(self, bint share):
-        cdef LinearLayer layer = LinearLayer(self.n_input, self.n_output)
+    # cdef LinearLayer _copy(self, bint share):
+    #     cdef LinearLayer layer = LinearLayer(self.n_input, self.n_output)
 
-        layer.matrix = self.matrix
-        layer.param = self.param
+    #     layer.matrix = self.matrix
+    #     layer.param = self.param
 
-        layer.output = np.zeros(self.n_output, 'd')
-        layer.grad_input = np.zeros(self.n_input, 'd')
-        return layer
+    #     layer.output = np.zeros(self.n_output, 'd')
+    #     layer.grad_input = np.zeros(self.n_input, 'd')
+    #     return layer
     #
     cdef void _forward(self, double[::1] X):
         cdef Py_ssize_t n_input = self.n_input
@@ -785,14 +848,14 @@ cdef class ScaleLayer(ModelLayer):
         for j in range(self.n_input):
             grad_in[j] = grad_out[j] * func._derivative(X[j])
     #
-    cdef ScaleLayer _copy(self, bint share):
-        cdef ScaleLayer layer = ScaleLayer(self.func, self.n_input)
+    # cdef ScaleLayer _copy(self, bint share):
+    #     cdef ScaleLayer layer = ScaleLayer(self.func, self.n_input)
 
-        layer.param = self.param
+    #     layer.param = self.param
 
-        layer.output = np.zeros(self.n_output, 'd')
-        layer.grad_input = np.zeros(self.n_input, 'd')
-        return layer
+    #     layer.output = np.zeros(self.n_output, 'd')
+    #     layer.grad_input = np.zeros(self.n_input, 'd')
+    #     return layer
 
 @cython.final
 cdef class Scale2Layer(ModelLayer):
@@ -848,14 +911,14 @@ cdef class Scale2Layer(ModelLayer):
         for j in range(self.n_input):
             grad_in[j] = grad_out[j] * func._derivative(X[j], param[j])
     #
-    cdef ScaleLayer _copy(self, bint share):
-        cdef ScaleLayer layer = ScaleLayer(self.func, self.n_input)
+    # cdef ScaleLayer _copy(self, bint share):
+    #     cdef ScaleLayer layer = ScaleLayer(self.func, self.n_input)
 
-        layer.param = self.param
+    #     layer.param = self.param
 
-        layer.output = np.zeros(self.n_output, 'd')
-        layer.grad_input = np.zeros(self.n_input, 'd')
-        return layer
+    #     layer.output = np.zeros(self.n_output, 'd')
+    #     layer.grad_input = np.zeros(self.n_input, 'd')
+    #     return layer
     
 cdef class GeneralModelLayer(ModelLayer):
     #
@@ -899,21 +962,21 @@ cdef class GeneralModelLayer(ModelLayer):
             mod.init_param()
         # self.grad = np.zeros(self.n_param, 'd')
     #
-    cdef GeneralModelLayer _copy(self, bint share):
-        cdef GeneralModelLayer layer = GeneralModelLayer(self.n_input)
-        cdef list models = layer.models
-        cdef Model mod
+    # cdef GeneralModelLayer _copy(self, bint share):
+    #     cdef GeneralModelLayer layer = GeneralModelLayer(self.n_input)
+    #     cdef list models = layer.models
+    #     cdef Model mod
 
-        for mod in self.models:
-            models.append(mod.copy(share))
+    #     for mod in self.models:
+    #         models.append(mod.copy(share))
 
-        layer.n_output = self.n_output
-        layer.param = self.param
-        layer.ob_param = self.ob_param
-        layer.n_param = self.n_param
-        layer.output = np.zeros((self.n_output,), 'd')
-        layer.grad_input = np.zeros((self.n_input,), 'd')
-        return layer
+    #     layer.n_output = self.n_output
+    #     layer.param = self.param
+    #     layer.ob_param = self.ob_param
+    #     layer.n_param = self.n_param
+    #     layer.output = np.zeros((self.n_output,), 'd')
+    #     layer.grad_input = np.zeros((self.n_input,), 'd')
+    #     return layer
     #
     def append(self, Model mod):
         if self.n_input != mod.n_input:
@@ -1126,12 +1189,12 @@ cdef class LinearFuncModel(BaseModel):
         self.models.append(mod)
         self.weights.append(weight)
     #
-    cdef LinearFuncModel _copy(self, bint share):
-        cdef LinearFuncModel mod = LinearFuncModel()
-        mod.models = self.models[:]
-        mod.weights = self.weights.copy()
-        return mod
-    #
+    # cdef LinearFuncModel _copy(self, bint share):
+    #     cdef LinearFuncModel mod = LinearFuncModel()
+    #     mod.models = self.models[:]
+    #     mod.weights = self.weights.copy()
+    #     return mod
+    # #
     cdef double _evaluate(self, double[::1] X):
         cdef double w, s
         cdef Model mod
@@ -1182,9 +1245,9 @@ cdef class MLModel:
         self._backward(X, grad_u, grad)
     #
     
-    def copy(self, bint share=0):
-        return self._copy(share)
-    #
+    # def copy(self, bint share=0):
+    #     return self._copy(share)
+    # #
     def _allocate_param(self, allocator):
         """Allocate mod.param and mod.grad for all models"""
         
@@ -1246,23 +1309,23 @@ cdef class FFNetworkModel(MLModel):
     def __iter__(self):
         return iter(self.layers)
     #
-    cdef FFNetworkModel _copy(self, bint share):
-        cdef FFNetworkModel ml = FFNetworkModel()
-        cdef ModelLayer layer
-        cdef Py_ssize_t n_layer
+    # cdef FFNetworkModel _copy(self, bint share):
+    #     cdef FFNetworkModel ml = FFNetworkModel()
+    #     cdef ModelLayer layer
+    #     cdef Py_ssize_t n_layer
         
-        ml.param = self.param
-        ml.n_param = self.n_param
-        ml.n_input = self.n_input
-        ml.n_output = self.n_output
-        for layer in self.layers:
-            ml.layers.append(layer.copy(share))
+    #     ml.param = self.param
+    #     ml.n_param = self.n_param
+    #     ml.n_input = self.n_input
+    #     ml.n_output = self.n_output
+    #     for layer in self.layers:
+    #         ml.layers.append(layer.copy(share))
         
-        n_layer = len(ml.layers)
-        layer = ml.layers[n_layer-1]
-        ml.output = layer.output
+    #     n_layer = len(ml.layers)
+    #     layer = ml.layers[n_layer-1]
+    #     ml.output = layer.output
             
-        return ml
+    #     return ml
     #
     cdef void _forward(self, double[::1] X):
         cdef Py_ssize_t i, n_layer
@@ -1360,12 +1423,12 @@ cdef class FFNetworkFuncModel(Model):
     #     allocator = ArrayAllocator(self.n_param)
     #     self._allocate_param(allocator)
     #
-    cdef FFNetworkFuncModel _copy(self, bint share):
-        cdef FFNetworkFuncModel mod = FFNetworkFuncModel(self.head.copy(share), self.body.copy(share))
+    # cdef FFNetworkFuncModel _copy(self, bint share):
+    #     cdef FFNetworkFuncModel mod = FFNetworkFuncModel(self.head.copy(share), self.body.copy(share))
         
-        mod.param = self.param
+    #     mod.param = self.param
         
-        return mod
+    #     return mod
     #
     cdef double _evaluate(self, double[::1] X):
         self.body._forward(X)

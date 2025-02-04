@@ -6,6 +6,7 @@ from sys import float_info
 import numpy as np
 
 from mlgrad.pca._pca import _find_pc
+from mlgrad.smooth import whittaker_smooth
 
 einsum = np.einsum
 sqrt = np.sqrt
@@ -51,7 +52,7 @@ def total_regression(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verb
     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose) 
     return a, L
 
-def find_pc(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-4, verbose=0):
+def find_pc(X, *, a0 = None, weights=None, n_iter=100, tol=1.0e-4, verbose=0):
     if weights is None:
         N = len(X)
         S = X.T @ X / N
@@ -59,6 +60,23 @@ def find_pc(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-4, verbose=0):
         # S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
         S = (X.T * weights) @ X
     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose) 
+    return a, L
+
+def find_pc_smoothed(X, *, a0=None, tau=1.0, weights=None, n_iter=100, tol=1.0e-4, verbose=0):
+    N, m = X.shape
+    if weights is None:
+        S = X.T @ X / N
+    else:
+        # S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
+        S = (X.T * weights) @ X
+
+    D = np.diff(np.eye(m, dtype="d"), 2)
+    D2 = D @ D.T
+    # print(D2.shape)
+    S -= tau * D2 
+
+    a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose)
+    # a = whittaker_smooth(a, tau=tau, d=2)
     return a, L
 
 # def _find_pc(S, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
@@ -308,6 +326,30 @@ def find_pc_all(X0, n=None, weights=None, verbose=False):
     Us = np.array(Us)
     return As, Ls, Us
 
+def find_pc_smoothed_all(X0, n=None, tau=1.0, weights=None, verbose=False):
+    Ls = []
+    As = []
+    Us = []
+
+    _n = X0.shape[1]
+    if n is None:
+        n = _n
+    elif n > _n:
+        raise RuntimeError(f"n={n} greater X.shape[1]={_n}")
+
+    X = X0
+    for i in range(n):
+        a, L = find_pc_smoothed(X, tau=tau, weights=weights, verbose=verbose)
+        U = project_line(X0, a)
+        X = project(X, a)
+        Ls.append(L)
+        As.append(a)
+        Us.append(U)
+    Ls = np.array(Ls)
+    As = np.array(As)
+    Us = np.array(Us)
+    return As, Ls, Us
+    
 def find_pc_l1_all(X0, n=None, verbose=False):
     Ls = []
     As = []

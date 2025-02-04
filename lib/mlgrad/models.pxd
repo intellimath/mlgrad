@@ -73,7 +73,7 @@ cdef class ModelComposition(Model):
     
     cdef void _gradient_j(self, double[::1] X, Py_ssize_t j, double[::1] grad)
     #
-    cdef ModelComposition _copy(self, bint share)
+    # cdef ModelComposition _copy(self, bint share)
     
 cdef class ModelComposition_j(Model):
     cdef ModelComposition model_comp
@@ -91,7 +91,13 @@ cdef class ModelView(Model):
 @cython.final
 cdef class LinearModel(Model):
     #
-    cdef LinearModel _copy(self, bint share)
+    # cdef LinearModel _copy(self, bint share)
+    pass
+
+cdef class LinearModel_Normalized2(Model):
+    #
+    cpdef normalize(self)
+    
 
 @cython.final
 cdef class SigmaNeuronModel(Model):
@@ -103,7 +109,7 @@ cdef class SimpleComposition(Model):
     cdef Func func
     cdef Model model
     #
-    cdef SimpleComposition _copy(self, bint share)
+    # cdef SimpleComposition _copy(self, bint share)
     
 @cython.final
 cdef class WinnerModel(Model):
@@ -112,6 +118,12 @@ cdef class WinnerModel(Model):
 @cython.final
 cdef class PolynomialModel(Model):
     pass
+
+@cython.final
+cdef class LinearNNModel(Model):
+    cdef public Py_ssize_t n_hidden
+    cdef public LinearModel linear_model
+    cdef public LinearLayer linear_layer
 
 cdef class Model2:
     cdef public Py_ssize_t n_param, n_input, n_output
@@ -139,20 +151,20 @@ cdef class ModelLayer(Model2):
 cdef class ScaleLayer(ModelLayer):
     cdef public Func func    
     #
-    cdef ScaleLayer _copy(self, bint share)
+    # cdef ScaleLayer _copy(self, bint share)
 
 @cython.final
 cdef class Scale2Layer(ModelLayer):
     cdef public ParameterizedFunc func    
     #
-    cdef ScaleLayer _copy(self, bint share)
+    # cdef ScaleLayer _copy(self, bint share)
     
 @cython.final
 cdef class LinearLayer(ModelLayer):
     cdef public double[:,::1] matrix
     # cdef bint first_time
     #
-    cdef LinearLayer _copy(self, bint share)
+    # cdef LinearLayer _copy(self, bint share)
 
 # cdef class SigmaNeuronModelLayer(ModelLayer):
 #     cdef public Func func
@@ -165,13 +177,13 @@ cdef class LinearLayer(ModelLayer):
 cdef class GeneralModelLayer(ModelLayer):
     cdef public list models
     #
-    cdef GeneralModelLayer _copy(self, bint share)
+    # cdef GeneralModelLayer _copy(self, bint share)
     
 cdef class LinearFuncModel(BaseModel):
     cdef public list models
     cdef public list_doubles weights
     #
-    cdef LinearFuncModel _copy(self, bint share)
+    # cdef LinearFuncModel _copy(self, bint share)
     
 cdef class MLModel(Model2):
     cdef public list layers
@@ -183,7 +195,8 @@ cdef class MLModel(Model2):
 # @cython.final
 cdef class FFNetworkModel(MLModel):
     #
-    cdef FFNetworkModel _copy(self, bint share)
+    pass
+    # cdef FFNetworkModel _copy(self, bint share)
 
 @cython.final
 cdef class FFNetworkFuncModel(Model):
@@ -191,7 +204,7 @@ cdef class FFNetworkFuncModel(Model):
     cdef public Model head
     cdef public MLModel body
     #
-    cdef FFNetworkFuncModel _copy(self, bint share)
+    # cdef FFNetworkFuncModel _copy(self, bint share)
     
 cdef class EllipticModel(Model):
     cdef readonly double[::1] c
