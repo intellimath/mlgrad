@@ -6,12 +6,18 @@ import mlgrad.array_transform as array_transform
 # import mlgrad.averager as averager
 from sys import float_info
 
-from ._whittaker import whittaker_smooth_penta, whittaker_smooth_tria
+from ._whittaker import whittaker_smooth_banded
 
 import math
 import numpy as np
 import scipy
 # import matplotlib.pyplot as plt
+
+def whittaker_smooth(X, W=None, W1=None, W2=None, tau1=0, tau2=1.0, tau_z=0, d=2):
+    if 1 <= d <= 2:
+        return whittaker_smooth_banded(X, W, W1, W2, tau1, tau2, tau_z=tau_z)
+    else:
+        return whittaker_smooth_scipy(X, W, W2, tau2, tau_z=tau_z, d=d)
 
 def whittaker_smooth_scipy(y, W=None, W2=None, tau=1.0, tau_z=0, d=2):
     N = len(y)
@@ -23,47 +29,20 @@ def whittaker_smooth_scipy(y, W=None, W2=None, tau=1.0, tau_z=0, d=2):
         W2 = np.ones(N, "d")
     W2 = scipy.sparse.spdiags(W2, 0, N, N)
     Z = W + tau * D.dot(D.T.dot(W2))
-    z = scipy.sparse.linalg.spsolve(Z, W.dot(y) - tau_z)
-
-    # N = len(y)
-    # D = np.diff(np.eye(N), d)
-    # if W is None:
-    #     W = np.ones(N, "d")
-    # WW = np.diag(W)
-    # if W2 is None:
-    #     W2 = np.ones(N, "d")
-    # WW2 = np.diag(W2)
-    # Z = WW + tau * (D @ (D.T @ WW2))
-    # Wy = WW @ y
-    # z = scipy.linalg.solve(Z, Wy - tau_z)
-    
+    z = scipy.sparse.linalg.spsolve(Z, W.dot(y) - tau_z)    
     return z
-
-def whittaker_smooth(X, W=None, W1=None, W2=None, tau1=0, tau2=1.0, tau_z=0, 
-                     solver='fast', d=2, **kwargs):
-    if solver == 'fast' and 1 <= d <= 2:
-        # if W2 is not None:
-        #     return whittaker_smooth_penta(X, W, W1, W2, tau1, tau2)
-        # elif W1 is not None:
-        #     return whittaker_smooth_tria(X, tau1, W, W1)
-        # else:
-        return whittaker_smooth_penta(X, W, W1, W2, tau1, tau2, tau_z=tau_z)
-    elif solver == 'scipy':
-        return whittaker_smooth_scipy(X, W, W2, tau2, tau_z=tau_z, d=d)
-    else:
-        raise RuntimeError(f"invalid solver '{solver} or d: {d}")
         
 def whittaker_smooth_ex(X, 
               aggfunc = averaging_function("AM"), 
               aggfunc2 = averaging_function("AM"), 
               func = funcs.Id(), 
               func2 = funcs.Square(),
-              solver = "fast", d=2, func2_mode="d", 
+              d=2, func2_mode="d", 
               tau1=0, tau2=4.0, n_iter=100, tol=1.0e-6):
 
     N = len(X)
 
-    Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, solver=solver, d=d)
+    Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
     Z_min = Z.copy()
 
     E = (Z - X)
@@ -84,7 +63,7 @@ def whittaker_smooth_ex(X,
 
     flag = False
     for K in range(n_iter):
-        Z = whittaker_smooth(X, tau2=tau2, W=W, W2=W2, solver=solver, d=d)
+        Z = whittaker_smooth(X, tau2=tau2, W=W, W2=W2, d=d)
 
         E = Z - X
 
@@ -118,10 +97,10 @@ def whittaker_smooth_ex(X,
 
 def whittaker_smooth_weight_func(
             X, func=None, func1=None, func2=None, 
-            tau1=0.0, tau2=1.0, tau_z=0, solver='fast', func2_mode="d",
+            tau1=0.0, tau2=1.0, tau_z=0, func2_mode="d",
             d=2, n_iter=100, tol=1.0e-6):
 
-    Z = whittaker_smooth(X, tau2=tau2, solver=solver, d=d)
+    Z = whittaker_smooth(X, tau2=tau2, d=d)
     # Z = X * 0.9
 
     E = X - Z
@@ -172,7 +151,7 @@ def whittaker_smooth_weight_func(
 
         Z = whittaker_smooth(X, W=W, W1=W1, W2=W2, 
                              tau1=tau1, tau2=tau2, tau_z=tau_z, 
-                             solver=solver, d=d)
+                             d=d)
 
         E = X - Z
         
@@ -212,10 +191,10 @@ def whittaker_smooth_weight_func(
 
 def whittaker_smooth_weight_func2(
             X, func=None, func1=None, func2=None, 
-            tau1=0.0, tau2=1.0, tau_z=0, solver='fast', 
+            tau1=0.0, tau2=1.0, tau_z=0,
             d=2, n_iter=100, tol=1.0e-6, func2_mode="d"):
         
-    # Z = whittaker_smooth(X, tau=tau, solver=solver, d=d)
+    # Z = whittaker_smooth(X, tau=tau, d=d)
     Z = X * 0.999
     
     E = X - Z
@@ -262,7 +241,7 @@ def whittaker_smooth_weight_func2(
         Z_prev = Z.copy()
 
         Z = whittaker_smooth(X, W=W, W1=W1, W2=W2, 
-                             tau1=tau1, tau2=tau2, tau_z=tau_z, solver=solver, d=d)
+                             tau1=tau1, tau2=tau2, tau_z=tau_z, d=d)
 
         dq = abs(Z - Z_prev).sum() / abs(Z).sum()
         if dq < tol:

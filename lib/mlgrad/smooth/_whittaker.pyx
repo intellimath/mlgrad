@@ -90,70 +90,70 @@ def add_D1_W1(double[:,::1] S, double[::1] W1, double tau1):
     for i in range(1,n):
         c[i] -= tau1 * W1[i-1]
         
-cdef _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
-    cdef Py_ssize_t i, j, n = Y.shape[0]
-    cdef double *y = &Y[0]
-    cdef double *x = &X[0]
+# cdef _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
+#     cdef Py_ssize_t i, j, n = Y.shape[0]
+#     cdef double *y = &Y[0]
+#     cdef double *x = &X[0]
     
-    cdef double *e = &S[4,0]
-    cdef double *c = &S[3,0]
-    cdef double *d = &S[2,0]
-    cdef double *a = &S[1,0]
-    cdef double *b = &S[0,0]
+#     cdef double *e = &S[4,0]
+#     cdef double *c = &S[3,0]
+#     cdef double *d = &S[2,0]
+#     cdef double *a = &S[1,0]
+#     cdef double *b = &S[0,0]
     
-    cdef double[:,::1] T = np.zeros((5,n), 'd')
-    cdef double *mu =    &T[0,0]
-    cdef double *alpha = &T[1,0]
-    cdef double *beta =  &T[2,0]
-    cdef double *gamma = &T[3,0]
-    cdef double *zeta  = &T[4,0]
+#     cdef double[:,::1] T = np.zeros((5,n), 'd')
+#     cdef double *mu =    &T[0,0]
+#     cdef double *alpha = &T[1,0]
+#     cdef double *beta =  &T[2,0]
+#     cdef double *gamma = &T[3,0]
+#     cdef double *zeta  = &T[4,0]
 
-    cdef double eps = 1.0e-33
+#     cdef double eps = 1.0e-33
     
-    mu[0] = d[0]
-    # if mu[0] == 0:
-    #     mu[0] = eps
-    alpha[0] = a[0] / mu[0]
-    beta[0] = b[0] / mu[0]
-    zeta[0] = y[0] / mu[0]
+#     mu[0] = d[0]
+#     # if mu[0] == 0:
+#     #     mu[0] = eps
+#     alpha[0] = a[0] / mu[0]
+#     beta[0] = b[0] / mu[0]
+#     zeta[0] = y[0] / mu[0]
 
-    gamma[1] = c[1]
-    mu[1]    = d[1] - alpha[0] * gamma[1]
-    # if mu[1] == 0:
-    #     mu[1] = eps
-    alpha[1] = (a[1] - beta[0] * gamma[1]) / mu[1]
-    beta[1]  = b[1] / mu[1]
-    zeta[1]  = (y[1] - zeta[0] * gamma[1]) / mu[1]
+#     gamma[1] = c[1]
+#     mu[1]    = d[1] - alpha[0] * gamma[1]
+#     # if mu[1] == 0:
+#     #     mu[1] = eps
+#     alpha[1] = (a[1] - beta[0] * gamma[1]) / mu[1]
+#     beta[1]  = b[1] / mu[1]
+#     zeta[1]  = (y[1] - zeta[0] * gamma[1]) / mu[1]
 
-    for i in range(2, n-2):
-        gamma[i] = c[i] - alpha[i-2] * e[i]
-        mu[i]    = d[i] - beta[i-2] * e[i] - alpha[i-1] * gamma[i]
-        # if (mu[i]) == 0:
-        #     mu[i] = eps
-        alpha[i] = (a[i] - beta[i-1] * gamma[i]) / mu[i]
-        beta[i]  = b[i] / mu[i]
-        zeta[i]  = (y[i] - zeta[i-2] * e[i] - zeta[i-1] * gamma[i]) / mu[i]
+#     for i in range(2, n-2):
+#         gamma[i] = c[i] - alpha[i-2] * e[i]
+#         mu[i]    = d[i] - beta[i-2] * e[i] - alpha[i-1] * gamma[i]
+#         # if (mu[i]) == 0:
+#         #     mu[i] = eps
+#         alpha[i] = (a[i] - beta[i-1] * gamma[i]) / mu[i]
+#         beta[i]  = b[i] / mu[i]
+#         zeta[i]  = (y[i] - zeta[i-2] * e[i] - zeta[i-1] * gamma[i]) / mu[i]
 
-    gamma[n-2] = c[n-2] - alpha[n-4] * e[n-2]
-    mu[n-2]    = d[n-2] - beta[n-4] * e[n-2] - alpha[n-3] * gamma[n-2]
-    # if mu[n-2] == 0:
-    #     mu[n-2] = eps
-    alpha[n-2] = (a[n-2] - beta[n-3] * gamma[n-2]) / mu[n-2]
-    gamma[n-1] = c[n-1] - alpha[n-3] * e[n-1]
-    mu[n-1]    = d[n-1] - beta[n-3] * e[n-1] - alpha[n-2] * gamma[n-1]
-    # if mu[n-1] == 0:
-    #     mu[n-1] = eps
-    zeta[n-2]  = (y[n-2] - zeta[n-3] * e[n-2] - zeta[n-3] * gamma[n-2]) / mu[n-2]
-    zeta[n-1]  = (y[n-1] - zeta[n-2] * e[n-1] - zeta[n-2] * gamma[n-1]) / mu[n-1]
+#     gamma[n-2] = c[n-2] - alpha[n-4] * e[n-2]
+#     mu[n-2]    = d[n-2] - beta[n-4] * e[n-2] - alpha[n-3] * gamma[n-2]
+#     # if mu[n-2] == 0:
+#     #     mu[n-2] = eps
+#     alpha[n-2] = (a[n-2] - beta[n-3] * gamma[n-2]) / mu[n-2]
+#     gamma[n-1] = c[n-1] - alpha[n-3] * e[n-1]
+#     mu[n-1]    = d[n-1] - beta[n-3] * e[n-1] - alpha[n-2] * gamma[n-1]
+#     # if mu[n-1] == 0:
+#     #     mu[n-1] = eps
+#     zeta[n-2]  = (y[n-2] - zeta[n-3] * e[n-2] - zeta[n-3] * gamma[n-2]) / mu[n-2]
+#     zeta[n-1]  = (y[n-1] - zeta[n-2] * e[n-1] - zeta[n-2] * gamma[n-1]) / mu[n-1]
 
-    x[n-1] = zeta[n-1]
-    x[n-2] = zeta[n-2] - alpha[n-2] * x[n-1]
-    i = n-3
-    while i >= 0:
-        x[i] = zeta[i] - alpha[i] * x[i+1] - beta[i] * x[i+2]
-        i -= 1
+#     x[n-1] = zeta[n-1]
+#     x[n-2] = zeta[n-2] - alpha[n-2] * x[n-1]
+#     i = n-3
+#     while i >= 0:
+#         x[i] = zeta[i] - alpha[i] * x[i+1] - beta[i] * x[i+2]
+#         i -= 1
 
-def penta_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, _zeros=np.zeros):
+def whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, _zeros=np.zeros):
     N = len(Y)
     S = _zeros((5,N), "d")
     set_diagonal(S, W)
@@ -175,8 +175,8 @@ def penta_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, _zeros=np.zeros):
     # _penta_solver(S, Yw, X)
     return X
     
-def whittaker_smooth_penta(Y, W=None, W1=None, W2=None, 
-                           tau1=0, tau2=1.0, tau_z=0, _ones=np.ones):
+def whittaker_smooth_banded(Y, W=None, W1=None, W2=None, 
+                        tau1=0, tau2=1.0, tau_z=0, _ones=np.ones):
     N = Y.shape[0]
     if W is None:
         W = _ones(N, "d")
@@ -184,7 +184,7 @@ def whittaker_smooth_penta(Y, W=None, W1=None, W2=None,
         W2 = _ones(N, "d")
     if W1 is None:
         W1 = _ones(N, "d")
-    X = penta_solver(Y, W, W1, W2, tau1, tau2, tau_z=tau_z)
+    X = whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=tau_z)
     return X
 
 cdef _get_D1T_D1(double tau, double[::1] W, double[::1] W2, double[:,::1] S):
@@ -208,50 +208,50 @@ cdef _get_D1T_D1(double tau, double[::1] W, double[::1] W2, double[:,::1] S):
         b[i] = tau * (W2[i-1] + W2[i]) + W[i]
 
         
-cdef _tria_solver(double[:,::1] S, double[::1] Y, double[::1] X):
-    cdef Py_ssize_t i, n = Y.shape[0]
+# cdef _tria_solver(double[:,::1] S, double[::1] Y, double[::1] X):
+#     cdef Py_ssize_t i, n = Y.shape[0]
     
-    cdef double *a = &S[0,0]
-    cdef double *b = &S[1,0]
-    cdef double *c = &S[2,0]
+#     cdef double *a = &S[0,0]
+#     cdef double *b = &S[1,0]
+#     cdef double *c = &S[2,0]
     
-    cdef double[:,::1] T = np.zeros((2,n), "d")
-    cdef double *c1 = &T[0,0]
-    cdef double *y1 = &T[1,0]
+#     cdef double[:,::1] T = np.zeros((2,n), "d")
+#     cdef double *c1 = &T[0,0]
+#     cdef double *y1 = &T[1,0]
 
-    cdef double *x = &X[0]
-    cdef double *y = &Y[0]
+#     cdef double *x = &X[0]
+#     cdef double *y = &Y[0]
 
-    c1[0] = c[0] / b[0]
-    for i in range(1,n):
-        c1[i] = c[i] / (b[i] - a[i] * c1[i-1])
+#     c1[0] = c[0] / b[0]
+#     for i in range(1,n):
+#         c1[i] = c[i] / (b[i] - a[i] * c1[i-1])
 
-    y1[0] = y[0] / b[0]
-    for i in range(1,n):
-        y1[i] = (y[i] - a[i] * y1[i-1]) / (b[i] - a[i] * c1[i-1])
+#     y1[0] = y[0] / b[0]
+#     for i in range(1,n):
+#         y1[i] = (y[i] - a[i] * y1[i-1]) / (b[i] - a[i] * c1[i-1])
 
-    x[n-1] = y1[n-1]
-    i = n-2
-    while i >= 0:
-        x[i] = y1[i] - c1[i] * x[i+1]
-        i -= 1
+#     x[n-1] = y1[n-1]
+#     i = n-2
+#     while i >= 0:
+#         x[i] = y1[i] - c1[i] * x[i+1]
+#         i -= 1
 
-def tria_solver(Y, tau, W, W2, _zeros=np.zeros):
-    N = len(Y)
-    S = _zeros((3,N), "d")
-    _get_D1T_D1(tau, W, W2, S)
-    X = _zeros(N, "d")
-    _tria_solver(S, Y*W, X)
-    return X
+# def tria_solver(Y, tau, W, W2, _zeros=np.zeros):
+#     N = len(Y)
+#     S = _zeros((3,N), "d")
+#     _get_D1T_D1(tau, W, W2, S)
+#     X = _zeros(N, "d")
+#     _tria_solver(S, Y*W, X)
+#     return X
 
-def whittaker_smooth_tria(Y, tau=1.0, W=None, W2=None, _ones=np.ones):
-    N = Y.shape[0]
-    if W is None:
-        W = _ones(N, "d")
-    if W2 is None:
-        W2 = _ones(N, "d")
-    X = tria_solver(Y, tau, W, W2)
-    return X
+# def whittaker_smooth_tria(Y, tau=1.0, W=None, W2=None, _ones=np.ones):
+#     N = Y.shape[0]
+#     if W is None:
+#         W = _ones(N, "d")
+#     if W2 is None:
+#         W2 = _ones(N, "d")
+#     X = tria_solver(Y, tau, W, W2)
+#     return X
 
 # cdef class WhittakerSmoother:
 #     #
