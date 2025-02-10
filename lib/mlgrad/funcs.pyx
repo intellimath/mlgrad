@@ -79,9 +79,16 @@ cdef class Func(object):
             return v / x
     #
     def evaluate_array(self, double[::1] x):
-        cdef double[::1] y = np.empty_like(x)
-        self._evaluate_array(&x[0], &y[0], x.shape[0])
-        return y.base
+        cdef Py_ssize_t n = x.shape[0]
+        cdef double[::1] y = inventory.empty_array(n)
+        self._evaluate_array(&x[0], &y[0], n)
+        return y
+    #
+    def __call__(self, double[::1] x):
+        cdef Py_ssize_t n = x.shape[0]
+        cdef double[::1] y = inventory.empty_array(n)
+        self._evaluate_array(&x[0], &y[0], n)
+        return y
     #
     def evaluate_weighted_sum(self, double[::1] x, double[::1] w):
         return self._evaluate_weighted_sum(&x[0], &w[0], x.shape[0])
@@ -90,19 +97,20 @@ cdef class Func(object):
         return self._evaluate_sum(&x[0], x.shape[0])
     #
     def derivative_array(self, double[::1] x):
-        cdef double[::1] y = np.empty_like(x)
-        self._derivative_array(&x[0], &y[0], x.shape[0])
-        return y.base
+        cdef Py_ssize_t n = x.shape[0]
+        cdef double[::1] y = inventory.empty_array(n)
+        self._derivative_array(&x[0], &y[0], n)
+        return y
     #
-    def derivative_weighted_array(self, double[::1] x, double[::1] w):
+    def derivative_weighted_sum(self, double[::1] x, double[::1] w):
         cdef double[::1] y = np.empty_like(x)
-        self._derivative_weighted_array(&x[0], &y[0], &w[0], x.shape[0])
-        return y.base
+        self._derivative_weighted_sum(&x[0], &y[0], &w[0], x.shape[0])
+        return y
     #
     def derivative_div_array(self, double[::1] x):
         cdef double[::1] y = np.empty_like(x)
         self._derivative_div_array(&x[0], &y[0], x.shape[0])
-        return y.base
+        return y
     #
     cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
@@ -132,7 +140,7 @@ cdef class Func(object):
         # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
             y[i] = self._derivative(x[i])
     #
-    cdef void _derivative_weighted_array(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil:
+    cdef void _derivative_weighted_sum(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
         for i in range(n):
         # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
@@ -159,9 +167,10 @@ cdef class Func(object):
             y[i] = self._value(x[i])
     #
     def value_array(self, double[::1] x):
-        cdef double[::1] y = np.empty(len(x), 'd')
-        self._value_array(&x[0], &y[0], x.shape[0])
-        return y.base
+        cdef Py_ssize_t n = x.shape[0]
+        cdef double[::1] y = inventory.empty_array(n)
+        self._value_array(&x[0], &y[0], n)
+        return y
     #
     cdef double _inverse(self, const double x) noexcept nogil:
         return 0
@@ -175,9 +184,10 @@ cdef class Func(object):
         return self._inverse(x)
     #
     def inverse_array(self, double[::1] x):
-        cdef double[::1] y = np.empty(len(x), 'd')
-        self._inverse_array(&x[0], &y[0], x.shape[0])
-        return y.base
+        cdef Py_ssize_t n = x.shape[0]
+        cdef double[::1] y = inventory.empty_array(n)
+        self._inverse_array(&x[0], &y[0], n)
+        return y
     #
 
 cdef class Comp(Func):
@@ -237,31 +247,62 @@ cdef class CompSqrt(Func):
 @cython.final
 cdef class Gauss(Func):
     #
-    def __init__(self, a=1.0):
-        self.a = a
-        self.a2 = a * a
+    def __init__(self, scale=1.0):
+        self.scale = scale
+        self.scale2 = scale * scale
     #
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
-        cdef double v = x / self.a
+        cdef double v = x / self.scale
         return exp(-0.5*v*v)
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double v = x / self.a
-        return -x * exp(-0.5*v*v) / self.a
+        cdef double v = x / self.scale
+        return -x * exp(-0.5*v*v) / self.scale
     #
     @cython.final
     cdef double _derivative_div(self, const double x) noexcept nogil:
-        cdef double v = x / self.a
-        return -exp(-0.5*v*v) /self.a
+        cdef double v = x / self.scale
+        return -exp(-0.5*v*v) /self.scale
     #
     @cython.final
     cdef double _derivative2(self, const double x) noexcept nogil:
-        cdef double v = x / self.a
+        cdef double v = x / self.scale
         cdef double v2 = v * v
-        return -exp(-0.5*v2) * (1 - v2) / self.a2
+        return -exp(-0.5*v2) * (1 - v2) / self.scale2
     #
+
+@cython.final
+cdef class GaussSuppl(Func):
+    #
+    def __init__(self, scale=1.0):
+        self.scale = scale
+    #
+    @cython.final
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        cdef double a = self.scale
+        cdef double v = x / a
+        return a*a*(1 - exp(-0.5*v*v))
+    #
+    @cython.final
+    cdef double _derivative(self, const double x) noexcept nogil:
+        cdef double v = x / self.scale
+        return x * exp(-0.5*v*v)
+    #
+    @cython.final
+    cdef double _derivative_div(self, const double x) noexcept nogil:
+        cdef double v = x / self.scale
+        return exp(-0.5*v*v)
+    #
+    @cython.final
+    cdef double _derivative2(self, const double x) noexcept nogil:
+        cdef double a = self.scale
+        cdef double v = x / a
+        cdef double v2 = v * v
+        return exp(-0.5*v2) * (1 - v2)
+
+
 @cython.final
 cdef class DArctg(Func):
     #
@@ -297,19 +338,19 @@ cdef class Linear(Func):
 @cython.final
 cdef class LogGauss2(Func):
     #
-    def __init__(self, w, c=0, s=1):
+    def __init__(self, w, c=0, scale=1):
         self.w = w
         self.c = c
-        self.s = s
+        self.scale = scale
     #
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
-        cdef double v = (x - self.c) / self.s
+        cdef double v = (x - self.c) / self.scale
         return log(1 + self.w * exp(-v*v/2))
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double v = (x - self.c) / self.s
+        cdef double v = (x - self.c) / self.scale
         return self.w * exp(-v*v/2) / (1 + self.w * exp(-v*v/2))
     #
     
@@ -994,7 +1035,7 @@ cdef class Square(Func):
             y[i] = x[i]
     #
     @cython.final
-    cdef void _derivative_weighted_array(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil:
+    cdef void _derivative_weighted_sum(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
         for i in range(n):
         # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):

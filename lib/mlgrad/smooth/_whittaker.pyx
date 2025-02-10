@@ -32,36 +32,36 @@ def add_D2_W2(double[:,::1] S, double[::1] W2, double tau2):
     
     # d
     # SS = &S[2,0]
-    d[0] +=   tau2 * W2[1]
-    d[1] +=   tau2 * (4*W2[1] + W2[2])
-    d[n-1] += tau2 * W2[n-2]
-    d[n-2] += tau2 * (4*W2[n-2] + W2[n-3])
+    d[0] +=   tau2 * W2[0]
+    d[1] +=   tau2 * (4*W2[0] + W2[1])
+    d[n-1] += tau2 * W2[n-3]
+    d[n-2] += tau2 * (4*W2[n-3] + W2[n-2])
     for i in range(2, n-2):
-        d[i] += tau2 * (W2[i-1] + 4*W2[i] + W2[i+1])
+        d[i] += tau2 * (W2[i-2] + 4*W2[i-1] + W2[i])
 
     # a
     # SS = &S[1,0]
-    a[1] += tau2 * -2*W2[1]
-    a[n-1] += tau2 * -2*W2[n-2]
-    for i in range(1,n-1):
-        a[i+1] += tau2 * (-2*W2[i] - 2*W2[i+1])
+    a[1] += tau2 * -2*W2[0]
+    a[n-1] += tau2 * -2*W2[n-3]
+    for i in range(2,n-1):
+        a[i] += tau2 * (-2*W2[i-2] - 2*W2[i-1])
 
     # b
     # SS = &S[0,0]
-    for i in range(1,n-2):
-        b[i+1] += tau2 * W2[i]
+    for i in range(2,n):
+        b[i] += tau2 * W2[i-2]
 
     # c
     # SS = &S[3,0]
-    c[0] += tau2 * -2*W2[1]
-    c[n-2] += tau2 * -2*W2[n-2]
+    c[0] += tau2 * -2*W2[0]
+    c[n-2] += tau2 * -2*W2[n-3]
     for i in range(1, n-2):
         c[i] += tau2 * (-2*W2[i-1] - 2*W2[i])
 
     # e
     # SS = &S[4,0]
     for i in range(n-2):
-        e[i] += tau2 * W2[i+1]
+        e[i] += tau2 * W2[i]
 
 def add_D1_W1(double[:,::1] S, double[::1] W1, double tau1):
     cdef Py_ssize_t i, j, n = S.shape[1]

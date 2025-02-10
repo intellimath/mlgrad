@@ -793,7 +793,10 @@ cdef double _robust_mean_1d(double[::1] x, double tau): #noexcept nogil:
             s += v
             q += 1
     return s / q
-    
+
+def robust_mean_1d(x, double tau):
+    return _robust_mean_1d(x, tau)
+
 cdef void _robust_mean_2d_t(double[:,::1] x, double tau, double[::1] y):
     cdef Py_ssize_t i, j, q, n = x.shape[0], m = x.shape[1]
     cdef double[::1] mu = empty_array(m)

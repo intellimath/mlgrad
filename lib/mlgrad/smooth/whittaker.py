@@ -31,7 +31,20 @@ def whittaker_smooth_scipy(y, W=None, W2=None, tau=1.0, tau_z=0, d=2):
     Z = W + tau * D.dot(D.T.dot(W2))
     z = scipy.sparse.linalg.spsolve(Z, W.dot(y) - tau_z)    
     return z
-        
+
+def whittaker_smooth_scipy2(z0, W=None, W2=None, tau=1.0, d=2):
+    N = len(y)
+    D = scipy.sparse.csc_matrix(np.diff(np.eye(N), d))
+    if W is None:
+        W = np.ones(N, "d")
+    W = scipy.sparse.spdiags(W, 0, N, N)
+    if W2 is None:
+        W2 = np.ones(N, "d")
+    W2 = scipy.sparse.spdiags(W2, 0, N, N)
+    Z = W + tau * D.dot(D.T.dot(W2))
+    mu = scipy.sparse.linalg.spsolve(Z, z0)
+    return z
+
 def whittaker_smooth_ex(X, 
               aggfunc = averaging_function("AM"), 
               aggfunc2 = averaging_function("AM"), 
@@ -199,13 +212,13 @@ def whittaker_smooth_weight_func2(
     
     E = X - Z
 
-    D2 = np.zeros_like(X)
-    D1 = np.zeros_like(X)
+    # D2 = np.zeros_like(X)
+    # D1 = np.zeros_like(X)
 
     if func2 is not None or tau2 > 0:
-        array_transform.array_diff2(Z, D2)
+        D2 = array_transform.array_diff2(Z)
     if func1 is not None or tau1 > 0:
-        array_transform.array_diff1(Z, D1)
+        D1 = array_transform.array_diff1(Z)
         
     N = len(X)
 
@@ -215,7 +228,7 @@ def whittaker_smooth_weight_func2(
     
     if func is not None:
         W = func(E)
-        # W /= W.sum()
+        # W /= W.mean()
     if func1 is not None and tau1 > 0:
         W1 = func1(D1)
         # W1 /= W1.sum()
@@ -224,7 +237,7 @@ def whittaker_smooth_weight_func2(
             W2 = func2(D2)
         else:
             W2 = func2(E)
-        # W2 /= W2.sum()
+        # W2 /= W2.mean()
 
     # qval = (E*E*W).sum()
     # if tau2 > 0:
@@ -250,9 +263,9 @@ def whittaker_smooth_weight_func2(
         E = X - Z
 
         if func2 is not None or tau2 > 0:
-            array_transform.array_diff2(Z, D2)
+            D2 = array_transform.array_diff2(Z)
         if func1 is not None or tau1 > 0:
-            array_transform.array_diff1(Z, D1)
+            D1 = array_transform.array_diff1(Z)
         
         if func is not None:
             W = func(E)

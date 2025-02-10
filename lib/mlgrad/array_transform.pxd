@@ -2,6 +2,8 @@
 cdef void _array_zscore(double *a, double *b, Py_ssize_t n)
 cdef void _array_modified_zscore(double *a, double *b, Py_ssize_t n)
 cdef void _array_modified_zscore_mu(double *a, double *b, Py_ssize_t n, double mu)
+cdef void _array_diff4(double *x, double *y, const Py_ssize_t n)
+cdef void _array_diff3(double *x, double *y, const Py_ssize_t n)
 cdef void _array_diff2(double *x, double *y, const Py_ssize_t n)
 cdef void _array_diff1(double *x, double *y, const Py_ssize_t n)
 

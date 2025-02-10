@@ -67,33 +67,56 @@ def array_modified_zscore(double[::1] a, double[::1] b=None, mu=None):
         _array_modified_zscore_mu(&a[0], &b[0], n, d_mu)
     return np.asarray(b)
 
-cdef void _array_diff2(double *x, double *y, const Py_ssize_t n):
+cdef void _array_diff4(double *x, double *y, const Py_ssize_t n4):
     cdef Py_ssize_t i
 
-    y[0] = 0 # x[1] - x[0]
-    y[n-1] = 0 # x[n-1] - x[n-2]
-    for i in range(1, n-1):
-        y[i] = x[i-1] - 2*x[i] + x[i+1]
+    for i in range(n4):
+        y[i] = x[i] - 4*x[i+1] + 6*x[i+2] - 4*x[i+3] + x[i+4]
+
+def array_diff4(double[::1] a, double[::1] b=None):
+    cdef Py_ssize_t n = a.shape[0]
+    if b is None:
+        b = inventory.empty_array(n-4)
+    _array_diff4(&a[0], &b[0], n-4)
+    return np.asarray(b)
+
+cdef void _array_diff3(double *x, double *y, const Py_ssize_t n3):
+    cdef Py_ssize_t i
+
+    for i in range(n3):
+        y[i] = x[i] - 3*x[i+1] + 3*x[i+2] - x[i+3]
+
+def array_diff3(double[::1] a, double[::1] b=None):
+    cdef Py_ssize_t n = a.shape[0]
+    if b is None:
+        b = inventory.empty_array(n-3)
+    _array_diff3(&a[0], &b[0], n-3)
+    return np.asarray(b)
+
+cdef void _array_diff2(double *x, double *y, const Py_ssize_t n2):
+    cdef Py_ssize_t i
+
+    for i in range(n2):
+        y[i] = x[i] - 2*x[i+1] + x[i+2]
 
 def array_diff2(double[::1] a, double[::1] b=None):
     cdef Py_ssize_t n = a.shape[0]
     if b is None:
-        b = inventory.empty_array(n)
-    _array_diff2(&a[0], &b[0], n)
+        b = inventory.empty_array(n-2)
+    _array_diff2(&a[0], &b[0], n-2)
     return np.asarray(b)
 
-cdef void _array_diff1(double *x, double *y, const Py_ssize_t n):
+cdef void _array_diff1(double *x, double *y, const Py_ssize_t n1):
     cdef Py_ssize_t i
 
-    for i in range(n-1):
+    for i in range(n1):
         y[i] = x[i+1] - x[i]
-    y[n-1] = 0.5 * (x[n-1] - x[n-3])
 
 def array_diff1(double[::1] a, double[::1] b=None):
     cdef Py_ssize_t n = a.shape[0] 
     if b is None:
-        b = inventory.empty_array(n)
-    _array_diff1(&a[0], &b[0], n)
+        b = inventory.empty_array(n-1)
+    _array_diff1(&a[0], &b[0], n-1)
     return np.asarray(b)
 
 def array_rel_max(E):

@@ -21,7 +21,7 @@ cdef class Func(object):
     cdef double _evaluate_sum(self, const double *x, const Py_ssize_t n) noexcept nogil    
     cdef double _evaluate_weighted_sum(self, const double *x, const double *w, const Py_ssize_t n) noexcept nogil    
     cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
-    cdef void _derivative_weighted_array(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil
+    cdef void _derivative_weighted_sum(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil
     cdef void _derivative2_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
     cdef void _derivative_div_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
     cdef void _value_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
@@ -42,7 +42,11 @@ cdef class CompSqrt(Func):
 
 @cython.final
 cdef class Gauss(Func):
-    cdef public double a, a2
+    cdef public double scale, scale2
+
+@cython.final
+cdef class GaussSuppl(Func):
+    cdef public double scale
 
 @cython.final
 cdef class DArctg(Func):
@@ -54,7 +58,7 @@ cdef class Linear(Func):
 
 @cython.final
 cdef class LogGauss2(Func):
-    cdef public double w, c, s
+    cdef public double w, c, scale
 
 @cython.final
 cdef class ZeroOnPositive(Func):
