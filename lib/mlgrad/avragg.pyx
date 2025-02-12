@@ -610,12 +610,12 @@ cdef class WMZAverage(Average):
     
             ss = 0
             for j in range(N):
-                ss += GU[j] * grad[j]
+                ss += GU[j]
             # print(ss, end=' ')
     
             v = rho_func._derivative(self.sval)
             for j in range(N):
-                grad[j] = m * (grad[j] + alpha * (GU[j] - ss) / v)
+                grad[j] = m * (grad[j] + alpha * (GU[j] - ss * grad[j]) / v)
 
             for j in range(N):
                 if Y[j] < tval:

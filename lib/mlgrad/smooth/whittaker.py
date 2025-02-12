@@ -6,7 +6,7 @@ import mlgrad.array_transform as array_transform
 # import mlgrad.averager as averager
 from sys import float_info
 
-from ._whittaker import whittaker_smooth_banded
+from mlgrad.smooth._whittaker import whittaker_smooth_banded
 
 import math
 import numpy as np
@@ -32,23 +32,23 @@ def whittaker_smooth_scipy(y, W=None, W2=None, tau=1.0, tau_z=0, d=2):
     z = scipy.sparse.linalg.spsolve(Z, W.dot(y) - tau_z)    
     return z
 
-def whittaker_smooth_scipy2(z0, W=None, W2=None, tau=1.0, d=2):
-    N = len(y)
-    D = scipy.sparse.csc_matrix(np.diff(np.eye(N), d))
-    if W is None:
-        W = np.ones(N, "d")
-    W = scipy.sparse.spdiags(W, 0, N, N)
-    if W2 is None:
-        W2 = np.ones(N, "d")
-    W2 = scipy.sparse.spdiags(W2, 0, N, N)
-    Z = W + tau * D.dot(D.T.dot(W2))
-    mu = scipy.sparse.linalg.spsolve(Z, z0)
-    return z
+# def whittaker_smooth_scipy2(z0, W=None, W2=None, tau=1.0, d=2):
+#     N = len(y)
+#     D = scipy.sparse.csc_matrix(np.diff(np.eye(N), d))
+#     if W is None:
+#         W = np.ones(N, "d")
+#     W = scipy.sparse.spdiags(W, 0, N, N)
+#     if W2 is None:
+#         W2 = np.ones(N, "d")
+#     W2 = scipy.sparse.spdiags(W2, 0, N, N)
+#     Z = W + tau * D.dot(D.T.dot(W2))
+#     mu = scipy.sparse.linalg.spsolve(Z, z0)
+#     return z
 
 def whittaker_smooth_ex(X, 
               aggfunc = averaging_function("AM"), 
               aggfunc2 = averaging_function("AM"), 
-              func = funcs.Id(), 
+              func = funcs.Square(), 
               func2 = funcs.Square(),
               d=2, func2_mode="d", 
               tau1=0, tau2=4.0, n_iter=100, tol=1.0e-6):
@@ -70,6 +70,7 @@ def whittaker_smooth_ex(X,
     W2 = aggfunc2.weights(U2)
     
     s = s_min = aggfunc.u + tau2 * aggfunc2.u
+    qvals = [s]
 
     # ring_array = inventory.RingArray(16)
     # ring_array.add(s)
@@ -91,6 +92,7 @@ def whittaker_smooth_ex(X,
 
         s = aggfunc.u + tau2 * aggfunc2.u
         # ring_array.add(s)
+        qvals.append(s)
 
         if abs(s - s_min) / (1+abs(s_min)) < tol:
             flag = True
@@ -106,7 +108,7 @@ def whittaker_smooth_ex(X,
         if flag:
             break
 
-    return Z_min
+    return Z_min, {'qvals':qvals, 'K':K+1}
 
 def whittaker_smooth_weight_func(
             X, func=None, func1=None, func2=None, 
@@ -256,7 +258,7 @@ def whittaker_smooth_weight_func2(
         Z = whittaker_smooth(X, W=W, W1=W1, W2=W2, 
                              tau1=tau1, tau2=tau2, tau_z=tau_z, d=d)
 
-        dq = abs(Z - Z_prev).sum() / abs(Z).sum()
+        dq = abs(Z - Z_prev).max() / abs(Z).mean()
         if dq < tol:
             flag = True
         
