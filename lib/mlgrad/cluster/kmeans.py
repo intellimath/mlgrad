@@ -7,6 +7,8 @@ import sys
 # import mltools.aggfuncs as aggfuncs
 
 from sklearn.cluster import kmeans_plusplus
+import mlgrad.inventory as inventory
+from mlgrad.af import averaging_function
 
 det = linalg.det
 einsum = np.einsum
@@ -14,6 +16,7 @@ einsum_path = np.einsum_path
 nonzero = np.nonzero
 arange = np.arange
 empty = np.empty
+average = np.average
 
 def norm2(x):
     return (x @ x)
@@ -93,6 +96,9 @@ class KMeansMahalanobisBase(KMeansBase):
             Xj = X - c[j]
             einsum("ni,ij,nj->n", Xj, S1[j], Xj, optimize=path, out=DD[j])
         return DD
+    #
+    def set_weights(self, weights):
+        self.weights = np.asarray(weights)
     #
 
 class KMeans(KMeansBase):
@@ -194,7 +200,6 @@ class RKMeans(KMeansBase):
         N = X.shape[0]
         self.c_min = self.c.copy()
 
-        # self.ds = np.fromiter((self.norm2(x) for x in X), 'd', N)
         self.ds = self.eval_dists(X)
         dd = self.avrfunc.evaluate(self.ds)
         qval = self.qval_min = np.sqrt(dd)
@@ -218,8 +223,8 @@ class RKMeans(KMeansBase):
                 
             if self.stop_condition(qval, qval_prev):
                 break
-            if self.stop_condition(self.qval_min_prev, self.qval_min):
-                break
+            # if self.stop_condition(self.qval_min_prev, self.qval_min):
+            #     break
 
         self.K = K + 1
         self.c = self.c_min        
@@ -253,6 +258,7 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
         self.n_iter_s = n_iter_s
         self.tol = tol
         self.qvals = []
+        self.weights = None
         self.verbose = verbose
     #
     def find_locations(self, X, Is):
@@ -261,23 +267,40 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
         for j in range(self.q):
             Ij = Is[j]
             Xj = X[Ij]
-            # c[j,:] = Xj.mean(axis=0)
-            Xj.mean(axis=0, out=c[j])
+            # Xj.mean(axis=0, out=c[j])
+            if self.weights is not None:
+                weights = self.weights[Ij]
+                # weights /= weights.sum()
+                c[j,:] = average(Xj, axis=0, weights=weights)
+            else:
+                c[j,:] = Xj.mean(axis=0)
         return c
     #
     def find_scatters(self, X, Is):
         outer = np.outer
         zeros = np.zeros
-        inv = linalg.pinv
+        inv = linalg.inv
         det = linalg.det
+        # diag = np.diag
         c = self.c
         n = X.shape[1]
 
         S1 = []
         for j in range(self.q):
             Ij = Is[j]
-            Xj_c = X[Ij] - c[j]
-            Sj = (Xj_c.T @ Xj_c)
+            cj = c[j]
+            Xj = X[Ij]
+            if self.weights is not None:
+                weights = self.weights[Ij]
+                # weights /= weights.sum()
+                Sj = inventory.covariance_matrix_weighted(Xj, self.weights[Ij], cj)
+            else:
+                Sj = inventory.covariance_matrix(Xj, cj)
+            # Xj_c = X[Ij] - c[j]
+            # if self.weights is not None:
+            #     Sj = (Xj_c.T @ diag(self.weights[Ij]) @ Xj_c)
+            # else:
+            #     Sj = (Xj_c.T @ Xj_c)
             Sj /= det(Sj) ** (1.0/n)
             Sj1 = inv(Sj)
             S1.append(Sj1)
@@ -356,7 +379,7 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
 
         self.K = K + 1
 
-class RKMeansMahalanobis(KMeansMahalanobisBase):
+class RKMeansMahalanobis(KMeansMahalanobis):
     #
     def __init__(self, q, avrfunc=None, tol=1.0e-8, n_iter_c=100, n_iter_s=22, n_iter=500, verbose=False):
         self.q = q
@@ -369,51 +392,55 @@ class RKMeansMahalanobis(KMeansMahalanobisBase):
         else:
             self.avrfunc = avrfunc
         self.verbose = verbose
+        self.weights = None
     #
-    def find_locations(self, X, Is, G):
-        n = X.shape[1]
-        zeros = np.zeros
-        c = zeros((self.q, n), 'd')
-        for j in range(self.q):
-            Ij = Is[j]
-            Gj = G[Ij]
-            # GG = Gj.sum()
-            # cj = X[Ij].T @ Gj
-            # cj = sum((G[k] * X[k] for k in Ij), start=zeros(n, 'd'))
-            # GG = sum(G[k] for k in Ij)
-            c[j,:] = (X[Ij].T @ Gj) / Gj.sum()
-        return c
-    #
-    def find_scatters(self, X, I, G):
-        inv = linalg.pinv
-        det = linalg.det
-        # diag = np.diag
-        n = X.shape[1]
-        c = self.c
-        S1 = []
-        n1 = 1.0/n
-        for j in range(self.q):
-            # Sj = np.zeros((n,n), 'd')
-            Ij = I[j]
-            Gj = G[Ij]
-            # GGj = np.diag(Gj)
-            Xcj = X[Ij] - c[j]
-            Sj = einsum("ni,n,nj->ij", Xcj, Gj, Xcj, optimize=True)
-            Sj /= Gj.sum()
+    # def find_locations(self, X, Is, G):
+    #     n = X.shape[1]
+    #     zeros = np.zeros
+    #     c = zeros((self.q, n), 'd')
+    #     for j in range(self.q):
+    #         Ij = Is[j]
+    #         if len(Ij) == 0:
+    #             raise RuntimeError(f"Empty cluster {j}")
+    #         Gj = G[Ij]
+    #         Xj = X[Ij]
+    #         # GG = Gj.sum()
+    #         # cj = X[Ij].T @ Gj
+    #         # cj = sum((G[k] * X[k] for k in Ij), start=zeros(n, 'd'))
+    #         # GG = sum(G[k] for k in Ij)
+    #         c[j,:] = (Xj.T @ Gj) / Gj.sum()
+    #     return c
+    # #
+    # def find_scatters(self, X, I, G):
+    #     inv = linalg.pinv
+    #     det = linalg.det
+    #     # diag = np.diag
+    #     n = X.shape[1]
+    #     c = self.c
+    #     S1 = []
+    #     n1 = 1.0/n
+    #     for j in range(self.q):
+    #         # Sj = np.zeros((n,n), 'd')
+    #         Ij = I[j]
+    #         Gj = G[Ij]
+    #         # GGj = np.diag(Gj)
+    #         Xcj = X[Ij] - c[j]
+    #         Sj = einsum("ni,n,nj->ij", Xcj, Gj, Xcj, optimize=True)
+    #         Sj /= Gj.sum()
             
-            # Sj = ((Xcj.T @ GGj) @ Xcj) / Gj.sum()            
+    #         # Sj = ((Xcj.T @ GGj) @ Xcj) / Gj.sum()            
             
-            # cj = self.c[j]
-            # g = 0
-            # for k in Ij:
-            #     v = X[k] - cj
-            #     Sj += G[k] * np.outer(v, v)
-            #     g += G[k]
-            # Sj /= g
-            Sj /= det(Sj) ** n1
-            Sj1 = inv(Sj)
-            S1.append(Sj1)
-        return S1
+    #         # cj = self.c[j]
+    #         # g = 0
+    #         # for k in Ij:
+    #         #     v = X[k] - cj
+    #         #     Sj += G[k] * np.outer(v, v)
+    #         #     g += G[k]
+    #         # Sj /= g
+    #         Sj /= det(Sj) ** n1
+    #         Sj1 = inv(Sj)
+    #         S1.append(Sj1)
+    #     return S1
     #
     def stop_condition(self, qval, qval_prev):
         if abs(qval - qval_prev) / (1 + self.qval_min) < self.tol:
@@ -436,9 +463,10 @@ class RKMeansMahalanobis(KMeansMahalanobisBase):
         self.qval_min_prev = self.qval_min 
         for K in range(self.n_iter_c):
             qval_prev = qval
-            G = self.avrfunc.gradient(self.ds)
+            self.weights = self.avrfunc.gradient(self.ds)
+            self.weights /= self.weights.sum()
             self.Is = self.find_clusters(X)
-            self.c = self.find_locations(X, self.Is, G)
+            self.c = self.find_locations(X, self.Is)
             
             self.ds = self.eval_dists(X)
             dd = self.avrfunc.evaluate(self.ds)
@@ -468,9 +496,10 @@ class RKMeansMahalanobis(KMeansMahalanobisBase):
         self.qval_min_prev = self.qval_min 
         for K in range(self.n_iter_s):
             qval_prev = qval
-            G = self.avrfunc.gradient(self.ds)
+            self.weights = self.avrfunc.gradient(self.ds)
+            self.weights /= self.weights.sum()
             self.Is = self.find_clusters(X)
-            self.S1 = self.find_scatters(X, self.Is, G)
+            self.S1 = self.find_scatters(X, self.Is)
             
             self.ds = self.eval_dists(X)
             dd = self.avrfunc.evaluate(self.ds)
@@ -484,8 +513,8 @@ class RKMeansMahalanobis(KMeansMahalanobisBase):
             
             if self.stop_condition(qval, qval_prev):
                 break
-            if self.stop_condition(self.qval_min_prev, self.qval_min):
-                break
+            # if self.stop_condition(self.qval_min_prev, self.qval_min):
+            #     break
 
         self.K = K + 1
         self.S1 = [S1.copy() for S1 in self.S1_min]
@@ -508,3 +537,4 @@ class RKMeansMahalanobis(KMeansMahalanobisBase):
             if self.stop_condition(qval2, qval_prev2):
                 break
         self.K = K + 1
+

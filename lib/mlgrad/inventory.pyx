@@ -960,7 +960,7 @@ cdef void _covariance_matrix_weighted(
         S_i += n
             
 def covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
-                               double[::1] loc, double[:,::1] S):
+                               double[::1] loc, double[:,::1] S=None):
     cdef Py_ssize_t n = X.shape[1]
     if S is None:
         S = empty_array2(n, n)
