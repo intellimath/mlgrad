@@ -25,6 +25,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install package
+      uses: RalfG/python-wheels-manylinux-build@v0.7.1    
       run: |
         python -m pip install --upgrade pip
         # python -m pip install build
