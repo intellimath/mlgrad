@@ -54,7 +54,7 @@ def as_array2d(ob):
 def as_array1d(ob):
     arr = np.asarray(ob, 'd')
     if len(arr.shape) > 1:
-        arr = arr.ravel()
+        raise TypeError("There should be 1-d array")
     return arr
 
 cdef dict _model_from_dict_table = {}
@@ -83,8 +83,8 @@ cdef class BaseModel:
         self._evaluate_all(as_array2d(X), Y)
         return Y
     #
-    def evaluate(self, X):
-        return self._evaluate(X)
+    def evaluate(self, Xk):
+        return self._evaluate(Xk)
     #
     cdef void _evaluate_all(self, double[:,::1] X, double[::1] Y):
         cdef Py_ssize_t k, N = X.shape[0]
@@ -149,8 +149,10 @@ cdef class Model(BaseModel):
 
         if self.param is None:
             self.ob_param = self.param = r
+            self.param_base = self.param
         else:
             self.ob_param[:] = r
+
     #
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         pass
@@ -200,6 +202,7 @@ cdef class LinearModel(Model):
             # self.is_allocated = 0
         else:
             self.param = self.ob_param = np.asarray(o, 'd')
+            self.param_base = self.param
             self.n_param = len(self.param)
             self.n_input = self.n_param - 1
             self.grad = np.zeros(self.n_param, 'd')
@@ -228,7 +231,7 @@ cdef class LinearModel(Model):
         # for i in range(self.n_input):
         #     v += param[i+1] * X[i]
         # return v
-        return inventory._dot1(&self.param[0], &Xk[0], self.n_input)
+        return self.param[0] + inventory._dot(&self.param[1], &Xk[0], self.n_input)
     #
     # cdef void _evaluate_all(self, double[:, ::1] X, double[::1] Y):
     #     cdef double *param = &self.param[0]

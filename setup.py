@@ -18,10 +18,14 @@ is_windows = (platform.system() == 'Windows')
 is_linux = (platform.system() == 'Linux')
 print(f"platform: {platform_system}")
 
-if is_windows:
-    Oflag = ["/O2", "/arch:AVX2"]
-elif is_linux:
-    Oflag = ["-O3", "-march=native"]
+optimize=False
+if optimize:
+    if is_windows:
+        Oflag = ["/O2", "/arch:AVX2"]
+    elif is_linux:
+        Oflag = ["-O3", "-march=native"]
+    else:
+        Oflag = []
 else:
     Oflag = []
 
@@ -270,7 +274,7 @@ setup(
     author_email = "szport@gmail.com",
     license = "MIT License",
     ext_modules = cythonize(ext_modules, # nthreads=2,
-                            compiler_directives=cython_compiler_directives2),
+                            compiler_directives=cython_compiler_directives1),
     # ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
