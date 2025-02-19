@@ -721,12 +721,13 @@ cdef double _median_1d(double[::1] x): # noexcept nogil:
     cdef double m1, m2
     
     m1 = quick_select(&x[0], n)
-    if n % 2:
-        return m1
-    else:
-        n2 = n // 2
-        m2 = _min(&x[n2], n2)
-        return (m1 + m2) / 2
+    return m1
+    #if n % 2:
+    #    return m1
+    #else:
+    #    n2 = n // 2
+    #    m2 = _min(&x[n2], n2)
+    #    return (m1 + m2) / 2
 
 cdef double _median_absdev_1d(double[::1] x, double mu):
     cdef Py_ssize_t i, n = x.shape[0]

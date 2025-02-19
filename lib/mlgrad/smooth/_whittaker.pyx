@@ -5,58 +5,120 @@
 import numpy as np
 import scipy
 
-cdef set_diagonal(double[:,::1] S, double[::1] W):
+#
+#       Banded array (2*d+1,n)
+#
+#       c0 c1 c2 c3 ... c_n-5 2*d
+#       c0 c1 c2 c3 ... c_n-4 
+#       b0 b1 b2 b3 ... b_n-3 
+#       a0 a1 a2 a3 ... a_n-2 d+1
+#    d: D0 D1 D2 D3 ... D_n-1 d 
+#       a1 a2 a3 a4 ... a_n-1 d-1
+#       b2 b3 b4 b5 ... b_n-1 
+#       c3 c4 c5 c6 ... c_n-1
+#       d4 d5 d6 d7 ... d_n-1 0
+#
+
+cdef set_diagonal(double[:,::1] S, double[::1] W, Py_ssize_t d):
     cdef Py_ssize_t i, j, n = S.shape[1]
     # cdef double *SS
 
     # cdef double *e = &S[4,0]
     # cdef double *c = &S[3,0]
-    cdef double *d = &S[2,0]
+    cdef double *d = &S[d,0]
     # cdef double *a = &S[1,0]
     # cdef double *b = &S[0,0]
 
-    # d
-    # SS = &S[2,0]
+    d = &S[d,0]
     for i in range(n):
         d[i] = W[i]
 
-def add_D2_W2(double[:,::1] S, double[::1] W2, double tau2):
+def add_D2_W2(double[:,::1] S, double[::1] W, double tau):
     cdef Py_ssize_t i, j, n = S.shape[1]
-    # cdef double *SS
-
-    cdef double *e = &S[4,0]
-    cdef double *c = &S[3,0]
-    cdef double *d = &S[2,0]
-    cdef double *a = &S[1,0]
-    cdef double *b = &S[0,0]
+    cdef double *d
     
-    # d
-    # SS = &S[2,0]
-    d[0] +=   tau2 * W2[0]
-    d[1] +=   tau2 * (4*W2[0] + W2[1])
-    d[n-1] += tau2 * W2[n-3]
-    d[n-2] += tau2 * (4*W2[n-3] + W2[n-2])
+    d = &S[2,0]
+    d[0] +=   tau * W[0]
+    d[1] +=   tau * (4*W[0] + W[1])
+    d[n-2] += tau * (4*W[n-3] + W[n-4])
+    d[n-1] += tau * W[n-3]
     for i in range(2, n-2):
-        d[i] += tau2 * (W2[i-2] + 4*W2[i-1] + W2[i])
+        d[i] += tau * (W[i-2] + 4*W[i-1] + W[i])
 
-    # a
-    # SS = &S[1,0]
-    a[1] += tau2 * -2*W2[0]
-    a[n-1] += tau2 * -2*W2[n-3]
+    d = &S[1,0]
+    d[1] += tau * -2*W[0]
+    d[n-1] += tau * -2*W[n-3]
     for i in range(2,n-1):
-        a[i] += tau2 * (-2*W2[i-2] - 2*W2[i-1])
+        d[i] += tau * -2*(W[i-2] + W[i-1])
 
-    # b
-    # SS = &S[0,0]
+    d = &S[0,0]
     for i in range(2,n):
-        b[i] += tau2 * W2[i-2]
+        d[i] += tau * W[i-2]
 
-    # c
-    # SS = &S[3,0]
-    c[0] += tau2 * -2*W2[0]
-    c[n-2] += tau2 * -2*W2[n-3]
+    d = &S[3,0]
+    d[0] += tau * -2*W[0]
+    d[n-2] += tau * -2*W[n-3]
     for i in range(1, n-2):
-        c[i] += tau2 * (-2*W2[i-1] - 2*W2[i])
+        d[i] += tau * -2*(W[i-1] + W[i])
+
+    d = &S[4,0]
+    for i in range(n-2):
+        d[i] += tau * W[i]
+
+def add_D4_W4(double[:,::1] S, double[::1] W, double tau):
+    cdef Py_ssize_t i, j, n = S.shape[1]
+    cdef double *d
+
+    d = &S[4,0]
+    d[0] +=   tau * W[0]
+    d[1] +=  tau * (16*W[0] + W[1])
+    d[2] +=  tau * (36*W[0] + 16*W[1] + W[2])
+    d[3] +=  tau * (16*W[0] + 36*W[1] + 16*W[2] + W[3])
+    d[n-4] +=  tau * (16*W[n-5] + 36*W[n-6] + 16*W[n-7] + W[n-8])
+    d[n-3] +=  tau * (36*W[n-5] + 16*W[n-6] + W[n-7])
+    d[n-2] +=  tau * (16*W[n-5] + W[n-6])
+    d[n-1] += tau * W[n-5]
+    for i in range(4, n-4):
+        d[i] += tau * (W[i-4] + 16*W[i-3] + 36*W[i-2] + 16*W[i-1] + W[i])
+
+    d = &S[3,0]
+    d[1] +=   tau * -4*W[0]
+    d[2] +=   tau * (-24*W[0] + -4*W[1])
+    d[3] +=   tau * (-24*W[0] + -24*W[1] + -4*W[2])
+    d[n-3] +=   tau * (-24*W[n-5] + -24*W[n-6] + -4*W[n-7])
+    d[n-2] +=   tau * (-24*W[n-5] + -4*W[n-6])
+    d[n-1] += tau * -4*W[n-5]
+    for i in range(4, n-3):
+        d[i] += tau * (W[i-4] + 16*W[i-3] + 36*W[i-2] + 16*W[i-1] + W[i])
+
+    d = &S[2,0]
+    d[2] +=   tau * 6*W[0]
+    d[3] +=   tau * (16*W[0] + 6*W[1])
+    d[n-2] += tau * (16*W[n-5] + 6*W[n-6])
+    d[n-1] += tau * 6*W[n-5]
+    for i in range(4, n-2):
+        d[i] += tau * (6*W[i-4] + 16*W[i-3] + 6*W[i-2])
+
+    d = &S[1,0]
+    d[3] += tau2 * (-4*W2[0])
+    d[n-1] += tau2 * (-4*W2[n-5])
+    for i in range(4,n-1):
+        d[i] += tau2 * -4 * (W2[i-4] + W2[i-3])
+
+    d = &S[0,0]
+    for i in range(4, n):
+        d[i] += tau * W[i-4]
+    
+
+    d = &S[5,0]
+    d[0] +=   tau * -4*W[0]
+    d[1] +=   tau * (-24*W[0] + -4*W[1])
+    d[2] +=   tau * (-24*W[0] + -24*W[1] + -4*W[2])
+    d[n-4] +=   tau * (-24*W[n-5] + -24*W[n-6] + -4*W[n-7])
+    d[n-3] +=   tau * (-24*W[n-5] + -4*W[n-6])
+    d[n-2] += tau * -4*W[n-5]
+    for i in range(3, n-3):
+        d[i] += tau * (W[i] + 16*W[i-1] + 36*W[i-2] + 16*W[i-3] + W[i-4])
 
     # e
     # SS = &S[4,0]
@@ -153,12 +215,18 @@ def add_D1_W1(double[:,::1] S, double[::1] W1, double tau1):
 #         x[i] = zeta[i] - alpha[i] * x[i+1] - beta[i] * x[i+2]
 #         i -= 1
 
-def whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, _zeros=np.zeros):
+def whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, d=2, _zeros=np.zeros):
     N = len(Y)
-    S = _zeros((5,N), "d")
-    set_diagonal(S, W)
+    S = _zeros((2*d+1, N), "d")
+    set_diagonal(S, W,)
     if W2 is not None and tau2 > 0:
-        add_D2_W2(S, W2, tau2)
+        if d == 2 and 
+            add_D2_W2(S, W2, tau2)
+        elif d == 3:
+            add_D3_W3(S, W2, tau2)
+        elif d == 4:
+            add_D4_W4(S, W2, tau2)
+
     if W1 is not None and tau1 > 0:
         add_D1_W1(S, W1, tau1)
 

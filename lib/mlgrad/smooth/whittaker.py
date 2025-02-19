@@ -15,7 +15,7 @@ import scipy
 
 def whittaker_smooth(X, W=None, W1=None, W2=None, tau1=0, tau2=1.0, tau_z=0, d=2):
     if 1 <= d <= 2:
-        return whittaker_smooth_banded(X, W, W1, W2, tau1, tau2, tau_z=tau_z)
+        return whittaker_smooth_banded(X, W, W1, W2, tau1, tau2, tau_z=tau_z, d=2)
     else:
         return whittaker_smooth_scipy(X, W, W2, tau2, tau_z=tau_z, d=d)
 
