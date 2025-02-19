@@ -19,17 +19,17 @@ import scipy
 #       d4 d5 d6 d7 ... d_n-1 0
 #
 
-cdef set_diagonal(double[:,::1] S, double[::1] W, Py_ssize_t d):
+cdef set_diagonal(double[:,::1] S, double[::1] W, Py_ssize_t m):
     cdef Py_ssize_t i, j, n = S.shape[1]
     # cdef double *SS
 
     # cdef double *e = &S[4,0]
     # cdef double *c = &S[3,0]
-    cdef double *d = &S[d,0]
+    cdef double *d = &S[m,0]
     # cdef double *a = &S[1,0]
     # cdef double *b = &S[0,0]
 
-    d = &S[d,0]
+    d = &S[m,0]
     for i in range(n):
         d[i] = W[i]
 
@@ -100,10 +100,10 @@ def add_D4_W4(double[:,::1] S, double[::1] W, double tau):
         d[i] += tau * (6*W[i-4] + 16*W[i-3] + 6*W[i-2])
 
     d = &S[1,0]
-    d[3] += tau2 * (-4*W2[0])
-    d[n-1] += tau2 * (-4*W2[n-5])
+    d[3] += tau * (-4*W[0])
+    d[n-1] += tau * (-4*W[n-5])
     for i in range(4,n-1):
-        d[i] += tau2 * -4 * (W2[i-4] + W2[i-3])
+        d[i] += tau * -4 * (W[i-4] + W[i-3])
 
     d = &S[0,0]
     for i in range(4, n):
@@ -121,9 +121,9 @@ def add_D4_W4(double[:,::1] S, double[::1] W, double tau):
         d[i] += tau * (W[i] + 16*W[i-1] + 36*W[i-2] + 16*W[i-3] + W[i-4])
 
     # e
-    # SS = &S[4,0]
+    d = &S[4,0]
     for i in range(n-2):
-        e[i] += tau2 * W2[i]
+        d[i] += tau * W[i]
 
 def add_D1_W1(double[:,::1] S, double[::1] W1, double tau1):
     cdef Py_ssize_t i, j, n = S.shape[1]
@@ -218,14 +218,17 @@ def add_D1_W1(double[:,::1] S, double[::1] W1, double tau1):
 def whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, d=2, _zeros=np.zeros):
     N = len(Y)
     S = _zeros((2*d+1, N), "d")
-    set_diagonal(S, W,)
+    set_diagonal(S, W, d)
     if W2 is not None and tau2 > 0:
-        if d == 2 and 
+        if d == 2:
             add_D2_W2(S, W2, tau2)
         elif d == 3:
-            add_D3_W3(S, W2, tau2)
+            #add_D3_W3(S, W2, tau2)
+            pass
         elif d == 4:
             add_D4_W4(S, W2, tau2)
+        else:
+            raise ValueError("2 <= d <= 4")
 
     if W1 is not None and tau1 > 0:
         add_D1_W1(S, W1, tau1)
