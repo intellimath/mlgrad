@@ -40,6 +40,7 @@ jobs:
             dist/mlgrad-*.whl
           compression-level: 0
           overwrite: true
+          retention-days: 30
     # - name: Test package
     #   run: |
     #     pip install .
