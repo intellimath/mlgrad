@@ -247,7 +247,7 @@ def whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, d=2, _zero
     return X
     
 def whittaker_smooth_banded(Y, W=None, W1=None, W2=None, 
-                        tau1=0, tau2=1.0, tau_z=0, _ones=np.ones):
+                        tau1=0, tau2=1.0, tau_z=0, d=2, _ones=np.ones):
     N = Y.shape[0]
     if W is None:
         W = _ones(N, "d")
@@ -255,7 +255,7 @@ def whittaker_smooth_banded(Y, W=None, W1=None, W2=None,
         W2 = _ones(N, "d")
     if W1 is None:
         W1 = _ones(N, "d")
-    X = whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=tau_z)
+    X = whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=tau_z, d=d)
     return X
 
 cdef _get_D1T_D1(double tau, double[::1] W, double[::1] W2, double[:,::1] S):

@@ -29,6 +29,8 @@ from cpython.object cimport PyObject
 cimport numpy
 numpy.import_array()
 
+import numpy as np
+
 from cython.parallel cimport parallel, prange
 
 cdef public double _double_max = PyFloat_GetMax()
@@ -841,6 +843,157 @@ cdef void _robust_mean_2d(double[:,::1] x, double tau, double[::1] y):
                 s += v
                 q += 1
         y[i] = s / q
+
+cdef void _zscore(double *a, double *b, Py_ssize_t n):
+    cdef Py_ssize_t i
+    cdef double mu = _mean(a, n)
+    cdef double sigma = _std(a, mu, n)
+
+    for i in range(n):
+        b[i] = (a[i] - mu) / sigma
+    
+cdef void _modified_zscore(double *a, double *b, Py_ssize_t n):
+    cdef Py_ssize_t i
+    cdef double mu, sigma
+    cdef double[::1] aa = empty_array(n)
+    # cdef double[::1] ss = empty_array(n)
+
+    _move(&aa[0], &a[0], n)
+    mu = _median_1d(aa)
+    for i in range(n):
+        aa[i] = fabs(aa[i] - mu)
+    sigma = _median_1d(aa)
+    
+    for i in range(n):
+        b[i] = 0.6745 * (a[i] - mu) / sigma
+
+cdef void _modified_zscore_mu(double *a, double *b, Py_ssize_t n, double mu):
+    cdef Py_ssize_t i
+    cdef double sigma
+    cdef double[::1] aa = empty_array(n)
+
+    # inventory._move(&aa[0], &a[0], n)
+    for i in range(n):
+        aa[i] = fabs(a[i] - mu)
+    sigma = _median_1d(aa)
+    
+    for i in range(n):
+        b[i] = 0.6745 * (a[i] - mu) / sigma
+
+cdef void _diff4(double *x, double *y, const Py_ssize_t n4) noexcept nogil:
+    cdef Py_ssize_t i
+
+    for i in range(n4):
+        y[i] = x[i] - 4*x[i+1] + 6*x[i+2] - 4*x[i+3] + x[i+4]
+
+cdef void _diff3(double *x, double *y, const Py_ssize_t n3) noexcept nogil:
+    cdef Py_ssize_t i
+
+    for i in range(n3):
+        y[i] = x[i] - 3*x[i+1] + 3*x[i+2] - x[i+3]
+
+cdef void _diff2(double *x, double *y, const Py_ssize_t n2) noexcept nogil:
+    cdef Py_ssize_t i
+
+    for i in range(n2):
+        y[i] = x[i] - 2*x[i+1] + x[i+2]
+
+cdef void _diff1(double *x, double *y, const Py_ssize_t n1) noexcept nogil:
+    cdef Py_ssize_t i
+
+    for i in range(n1):
+        y[i] = x[i+1] - x[i]
+        
+def zscore(double[::1] a, double[::1] b=None):
+    cdef Py_ssize_t n = a.shape[0] 
+    cdef bint flag = 0
+    if b is None:
+        b = empty_array(n)
+        flag = 1
+    _zscore(&a[0], &b[0], a.shape[0])
+    if flag:
+        return b.base
+    else:
+        return np.asarray(b)
+        
+def modified_zscore2(double[:,::1] a, double[:,::1] b=None):
+    cdef Py_ssize_t i, n = a.shape[0], m = a.shape[1]
+    cdef bint flag = 0
+    if b is None:
+        b = empty_array2(n,m)
+        flag = 1
+    for i in range(n):
+        _modified_zscore(&a[i,0], &b[i,0], m)
+    if flag:
+        return b.base
+    else:
+        return np.asarray(b)
+
+def modified_zscore(double[::1] a, double[::1] b=None, mu=None):
+    cdef Py_ssize_t n = a.shape[0]
+    cdef double d_mu
+    cdef bint flag = 0
+    if b is None:
+        b = empty_array(n)
+        flag = 1
+    if mu is None:
+        _modified_zscore(&a[0], &b[0], n)
+    else:
+        d_mu = mu
+        _modified_zscore_mu(&a[0], &b[0], n, d_mu)
+    if flag:
+        return b.base
+    else:
+        return np.asarray(b)
+        
+def diff4(double[::1] a, double[::1] b=None):
+    cdef Py_ssize_t n = a.shape[0]
+    cdef bint flag = 0
+    if b is None:
+        b = empty_array(n-4)
+        flag = 1
+    _diff4(&a[0], &b[0], n-4)
+    if flag:
+        return b.base
+    else:
+        return np.asarray(b)
+
+def array_diff3(double[::1] a, double[::1] b=None):
+    cdef Py_ssize_t n = a.shape[0]
+    cdef bint flag = 0
+    if b is None:
+        b = empty_array(n-3)
+        flag = 1
+    _diff3(&a[0], &b[0], n-3)
+    if flag:
+        return b.base
+    else:
+        return np.asarray(b)
+
+def diff2(double[::1] a, double[::1] b=None):
+    cdef Py_ssize_t n = a.shape[0]
+    cdef bint flag = 0
+    if b is None:
+        b = empty_array(n-2)
+        flag = 1
+    _diff2(&a[0], &b[0], n-2)
+    if flag:
+        return b.base
+    else:
+        return np.asarray(b)
+
+def diff1(double[::1] a, double[::1] b=None):
+    cdef Py_ssize_t n = a.shape[0] 
+    cdef bint flag = 0
+    if b is None:
+        b = empty_array(n-1)
+        flag = 1
+    _diff1(&a[0], &b[0], n-1)
+    if flag:
+        return b.base
+    else:
+        return np.asarray(b)
+        
         
 cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k): # noexcept nogil:
     cdef Py_ssize_t i, j, l, m

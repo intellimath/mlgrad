@@ -124,6 +124,15 @@ cdef double _mean(double *a, Py_ssize_t n) noexcept nogil
 cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil
 cdef double _mad(double *a, double mu, Py_ssize_t n) noexcept nogil
 
+cdef void _zscore(double *a, double *b, Py_ssize_t n)
+cdef void _modified_zscore(double *a, double *b, Py_ssize_t n)
+cdef void _modified_zscore_mu(double *a, double *b, Py_ssize_t n, double mu)
+cdef void _diff4(double *x, double *y, const Py_ssize_t n) noexcept nogil
+cdef void _diff3(double *x, double *y, const Py_ssize_t n) noexcept nogil
+cdef void _diff2(double *x, double *y, const Py_ssize_t n) noexcept nogil
+cdef void _diff1(double *x, double *y, const Py_ssize_t n) noexcept nogil
+
+
 # /*
 #  *  This Quickselect routine is based on the algorithm described in
 #  *  "Numerical recipes in C", Second Edition,
