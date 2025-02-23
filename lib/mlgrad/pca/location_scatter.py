@@ -124,12 +124,12 @@ def location_l1(X, *, n_iter=1000, tol=1.0e-9, verbose=0):
 def scatter_matrix(X):
     return X.T @ X / len(X)
 
-def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=True, return_qvals=False):
+def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=False, return_qvals=False):
     N = len(X)
-    S = X.T @ X / N
+    S = X.T @ X
     n1 = 1.0 / S.shape[0]
-    S = pinv(S)
     S /= det(S) ** n1
+    S = pinv(S)
     S_min = S
     path, _ = einsum_path('nj,jk,nk->n', X, S, X, optimize='optimal')
     D = einsum('nj,jk,nk->n', X, S, X, optimize=path)
@@ -138,12 +138,14 @@ def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=True, return_q
     qval_min = maf.evaluate(D)
     qval_min_prev = float_info.max
     W = maf.weights(D)
+    path2, _ = einsum_path('nj,n,nk->jk', X, W, X, optimize='optimal')
 
     qvals = [qval_min]
     for K in range(n_iter):
-        S = ((X.T @ diag(W)) @ X) / N
-        S = pinv(S)
+        # S = (X.T @ diag(W)) @ X
+        S = einsum('nj,n,nk->jk', X, W, X, optimize=path2)
         S /= det(S) ** n1
+        S = pinv(S)
         D = einsum('nj,jk,nk->n', X, S, X, optimize=path)
         # D = np.fromiter(
         #         (((x @ S) @ x) for x in X), 'd', N)
@@ -166,8 +168,6 @@ def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=True, return_q
         
         if stop:
             break
-
-        # W = maf.gradient(D)
 
     if verbose:
         print(f"K: {K}")
