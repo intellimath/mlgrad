@@ -37,7 +37,7 @@ cdef double S_cov(double[:,::1] S, double[::1] a) noexcept nogil:
             s += ai * Si[j] * aa[j]
     return s
 
-cdef normalize(double *aa, Py_ssize_t n):
+cdef void normalize(double *aa, Py_ssize_t n):
     cdef Py_ssize_t i
     cdef double na = 0
     cdef double v
@@ -70,13 +70,6 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
     aa = &a[0]
 
     normalize(aa, n)
-    # na = 0
-    # for i in range(n):
-    #     v = aa[i]
-    #     na += v * v
-    # na = sqrt(na)
-    # for i in range(n):
-    #     aa[i] /= na
 
     L = PyFloat_GetMax() / 10
 
@@ -103,13 +96,6 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
             aa[i] = SS_a[i] / L
 
         normalize(aa, n)
-        # na = 0
-        # for i in range(n):
-        #     v = aa[i]
-        #     na += v * v
-        # na = sqrt(na)
-        # for i in range(n):
-        #     aa[i] /= na
 
         K += 1
                 

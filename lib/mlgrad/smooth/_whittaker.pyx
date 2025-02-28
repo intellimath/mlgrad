@@ -20,7 +20,7 @@ import scipy
 #
 
 cdef set_diagonal(double[:,::1] S, double[::1] W):
-    cdef Py_ssize_t i, j, n = S.shape[1], m = S.shape[1] // 2
+    cdef Py_ssize_t i, j, n = S.shape[1], m = S.shape[0] // 2
     cdef double *d
 
     d = &S[m,0]
@@ -71,7 +71,7 @@ def add_D3_W3(double[:,::1] S, double[::1] W, double tau):
     d[0] += tau * 3*W[0]
     d[n-1] += tau * 3*W[n-3]
     for i in range(1,n-1):
-        d[i] += tau * -2*(W[i-2] + W[i-1])
+        d[i] += tau * 3*(W[i] + W[i-1])
 
     d = &S[2,0]
     d[0] +=   tau * W[0]

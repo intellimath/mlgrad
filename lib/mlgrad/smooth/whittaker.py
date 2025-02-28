@@ -14,8 +14,8 @@ import scipy
 # import matplotlib.pyplot as plt
 
 def whittaker_smooth(X, W=None, W1=None, W2=None, tau1=0, tau2=1.0, tau_z=0, d=2):
-    if 1 <= d <= 2:
-        return whittaker_smooth_banded(X, W, W1, W2, tau1, tau2, tau_z=tau_z, d=2)
+    if 2 <= d <= 4:
+        return whittaker_smooth_banded(X, W, W1, W2, tau1, tau2, tau_z=tau_z, d=d)
     else:
         return whittaker_smooth_scipy(X, W, W2, tau2, tau_z=tau_z, d=d)
 
@@ -208,7 +208,7 @@ def whittaker_smooth_weight_func2(
             X, func=None, func1=None, func2=None, 
             tau1=0.0, tau2=1.0, tau_z=0,
             d=2, n_iter=100, tol=1.0e-6, func2_mode="d"):
-        
+
     # Z = whittaker_smooth(X, tau=tau, d=d)
     Z = X * 0.999
     
@@ -302,7 +302,7 @@ def whittaker_smooth_weight_func2(
         #     Z_min = Z.copy()
         #     qval_min = qval
 
-    print("K:", K+1)
+    # print("K:", K+1)
 
     return Z, {'qvals':qvals, 'K':K+1}
 

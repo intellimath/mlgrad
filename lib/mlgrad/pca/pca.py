@@ -55,28 +55,29 @@ def total_regression(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verb
 def find_pc(X, *, a0 = None, weights=None, n_iter=100, tol=1.0e-4, verbose=0):
     if weights is None:
         N = len(X)
-        S = X.T @ X / N
+        S = X.T @ X
     else:
         # S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
         S = (X.T * weights) @ X
-    a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose) 
+    a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=0)
+    if verbose:
+        print("*", L)
     return a, L
 
 def find_pc_smoothed(X, *, a0=None, tau=1.0, weights=None, n_iter=100, tol=1.0e-4, verbose=0):
     N, m = X.shape
     if weights is None:
-        S = X.T @ X / N
+        S = X.T @ X
     else:
         # S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
         S = (X.T * weights) @ X
 
     D = np.diff(np.eye(m, dtype="d"), 2)
     D2 = D @ D.T
-    # print(D2.shape)
-    S -= tau * D2 
+    # print(S.shape, D2.shape)
+    S -= tau * D2
 
     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose)
-    # a = whittaker_smooth(a, tau=tau, d=2)
     return a, L
 
 # def _find_pc(S, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
@@ -195,7 +196,7 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
         S = (X.T @ np.diag(G)) @ X
         # S = einsum("in,n,nj->ij", X.T, G, X, optimize=True)
 
-        a1, L = _find_pc(S, a0=a, tol=tol, verbose=verbose)
+        a1, L = _find_pc(S, a0=a, tol=tol, verbose=0)
 
         Z = X @ a1
         ZZ = XX - Z * Z
@@ -205,8 +206,8 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
 
         if abs(sz - sz_min) / (1 + abs(sz_min)) < tol:
             complete = True
-        if abs(sz_min_prev - sz_min) / (1 + abs(sz_min)) < tol:
-            complete = True
+        # if abs(sz_min_prev - sz_min) / (1 + abs(sz_min)) < tol:
+        #     complete = True
 
         # if abs(a1 - a_min).max()  / (1 + abs(a1).min()) < tol:
         #     complete = True
@@ -217,7 +218,7 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
             a_min = a1
             L_min = L
             if verbose:
-                print('*', sz, L, a)
+                print('*', sz, L) #, a1)
 
         if complete:
             break

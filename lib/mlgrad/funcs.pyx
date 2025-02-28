@@ -1174,7 +1174,7 @@ cdef class Quantile_AlphaLog(Func):
 @cython.final
 cdef class Expit(Func):
 
-    def __init__(self, p=1.0, x0=1.0):
+    def __init__(self, p=1.0, x0=0.0):
         self.p = p
         self.x0 = x0
     #
@@ -1240,14 +1240,14 @@ cdef class Step(Func):
         elif x <= -C:
             return 1
         else:
-            return (1 - x/C) / 2
+            return (1 - x/C)/2
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
-        if x >= self.C or x <= 0:
-            return 1
+        if x >= self.C or x <= -self.C:
+            return 0
         else:
-            return -1/self.C
+            return -0.5/self.C
     #
 
 @cython.final
