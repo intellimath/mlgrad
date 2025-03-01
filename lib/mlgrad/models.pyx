@@ -95,6 +95,8 @@ cdef object _as_array1d(object ob):
     ndim = <int>numpy.PyArray_NDIM(ob)
     if ndim == 1:
         return ob
+    elif ndim == 0:
+        return ob.reshape(1)
     else:
         raise TypeError('number of axes != 1!')
 
@@ -250,7 +252,7 @@ cdef class LinearModel(Model):
             self.param = self.ob_param = None
             # self.is_allocated = 0
         else:
-            self.param = self.ob_param = np.asarray(o, 'd')
+            self.param = self.ob_param = _as_array1d(o)
             self.param_base = self.param
             self.n_param = len(self.param)
             self.n_input = self.n_param - 1
@@ -391,7 +393,7 @@ cdef class SigmaNeuronModel(Model):
             self.grad = None
             self.grad_input = None
         else:
-            self.param = self.ob_param = np.asarray(o, 'd', )
+            self.param = self.ob_param = _as_array1d(o)
             self.n_param = len(self.param)
             self.n_input = self.n_param - 1
             self.grad = np.zeros(self.n_param, 'd')
@@ -1323,11 +1325,11 @@ cdef class MLModel:
         for layer in self.layers:
             layer.init_param()
     #
-    def evaluate(self, x):
-        cdef double[::1] x1d = as_array1d(x)
+    def evaluate_one(self, x):
+        cdef double[::1] x1d = _as_array1d(x)
         
         self._forward(x1d)
-        return np.asarray(self.output)
+        return _as_array(self.output)
     #
 
 cdef class FFNetworkModel(MLModel):
