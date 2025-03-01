@@ -5,6 +5,7 @@
 cimport cython
 
 from numpy cimport npy_uint8 as uint8
+cimport numpy
 
 from libc.string cimport memcpy, memset
 from libc.math cimport isnan, fma, sqrt, fabs
@@ -115,6 +116,8 @@ cdef object empty_array(Py_ssize_t size)
 cdef object empty_array2(Py_ssize_t size1, Py_ssize_t size2)
 cdef object zeros_array(Py_ssize_t size)
 cdef object zeros_array2(Py_ssize_t size1, Py_ssize_t size2)
+
+cdef object filled_array(Py_ssize_t size, double val)
 
 cdef object diag_matrix(double[::1] V)
 

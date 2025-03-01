@@ -104,7 +104,7 @@ cdef class Risk(Functional):
 
 #         for j in range(self.batch.size):
 #             k = indices[j]
-#             Yp[j] = _model._evaluate(X[k])
+#             Yp[j] = _model._evaluate_one(X[k])
     #
     cdef void add_regular_gradient(self):
         cdef Py_ssize_t i
@@ -119,7 +119,7 @@ cdef class Risk(Functional):
     #     cdef Py_ssize_t k
 
     #     for k in range(self.n_sample):
-    #         vals[k] = _model._evaluate(X[k])
+    #         vals[k] = _model._evaluate_one(X[k])
     #
     cdef void _evaluate_losses_batch(self):
         cdef Loss _loss = self.loss
@@ -136,7 +136,7 @@ cdef class Risk(Functional):
 
         for j in range(self.batch.size):
             k = indices[j]
-            yk = Yp[j] = _model._evaluate(X[k])
+            yk = Yp[j] = _model._evaluate_one(X[k])
             L[j] = _loss._evaluate(yk, Y[k])
     #
     cdef void _evaluate_losses_all(self, double[::1] lvals):
@@ -149,7 +149,7 @@ cdef class Risk(Functional):
         cdef double yk
 
         for k in range(self.n_sample):
-            yk = _model._evaluate(X[k])
+            yk = _model._evaluate_one(X[k])
             lvals[k] = _loss._evaluate(yk, Y[k])
     #
 #     cdef void _evaluate_losses_derivative_div_batch(self):
@@ -166,7 +166,7 @@ cdef class Risk(Functional):
 
 #         for j in range(self.batch.size):
 #             k = indices[j]
-#             yk = Yp[j] = _model._evaluate(X[k])
+#             yk = Yp[j] = _model._evaluate_one(X[k])
 #             LD[j] = _loss._derivative_div(yk, Y[k])
     #
     cdef void _evaluate_losses_derivative_div_all(self, double[::1] vals):
@@ -179,7 +179,7 @@ cdef class Risk(Functional):
         cdef double yk
 
         for k in range(self.n_sample):
-            yk = _model._evaluate(X[k])
+            yk = _model._evaluate_one(X[k])
             vals[k] = _loss._derivative_div(yk, Y[k])
     #
     cdef void _evaluate_weights(self):
@@ -192,29 +192,29 @@ cdef class Risk(Functional):
             inventory.isub_mask(self.model.param, param, self.model.mask)
     #
     def evaluate_weights(self):
-        # W = np_zeros(self.batch.size, np_double)
+        # W = inventory.empty_array(self.n_sample)
         # self._evaluate_weights()
         # return W
         pass
     #
     def evaluate_losses(self):
-        L = np_zeros(self.n_sample, np_double)
+        L = inventory.empty_array(self.n_sample)
         self._evaluate_losses_all(L)
         return L
     #
     # def evaluate_models(self):
-    #     Y = np_zeros(self.n_sample, np_double)
+    #     Y = inventory.empty_array(self.n_sample)
     #     self._evaluate_models_all(Y)
     #     return Y
     #
     def evaluate_losses_derivative_div(self):
-        DL = np_zeros(self.n_sample, np_double)
+        DL = inventory.empty_array(self.n_sample)
         self._evaluate_losses_derivative_div_all(DL)
         return DL
     #
     def use_weights(self, weights):
         if weights is None:
-            self.weights = np.full(self.n_sample, 1./self.n_sample, np.double)
+            self.weights = inventory.filled_array(self.n_sample, 1./self.n_sample)
         else:
             self.weights = weights
     #
@@ -317,7 +317,7 @@ cdef class MRisk(Risk):
             k = indices[j]
             # Xk = X[k]
             
-            # yk = _model._evaluate(Xk)
+            # yk = _model._evaluate_one(Xk)
             vv = _loss._derivative(Yp[j], Y[k]) * weights[j]
 
             _model._gradient(X[k], grad)
@@ -501,7 +501,7 @@ cdef class ERiskGB(Risk):
     #     cdef double[::1] H = self.H
         
     #     for k in range(self.n_sample):
-    #         vals[k] = H[k] + alpha * _model._evaluate(X[k])
+    #         vals[k] = H[k] + alpha * _model._evaluate_one(X[k])
     #
 #     cdef void _evaluate_models_batch(self):
 #         cdef Py_ssize_t j, k
@@ -518,7 +518,7 @@ cdef class ERiskGB(Risk):
         
 #         for j in range(self.batch.size):
 #             k = indices[j]
-#             Yp[j] = H[k] + alpha * _model._evaluate(X[k])
+#             Yp[j] = H[k] + alpha * _model._evaluate_one(X[k])
     #
     cdef void _evaluate_losses_batch(self):
         cdef Py_ssize_t j, k
@@ -536,7 +536,7 @@ cdef class ERiskGB(Risk):
         
         for j in range(self.batch.size):
             k = indices[j]
-            y = Yp[j] = H[k] + alpha * _model._evaluate(X[k])
+            y = Yp[j] = H[k] + alpha * _model._evaluate_one(X[k])
             L[j] = _loss._evaluate(y, Y[k])
     #
     cdef void _evaluate_losses_all(self, double[::1] lvals):
@@ -553,7 +553,7 @@ cdef class ERiskGB(Risk):
         # cdef Py_ssize_t N = X.shape[0]
         
         for k in range(self.n_sample):
-            y = H[k] + alpha * _model._evaluate(X[k])
+            y = H[k] + alpha * _model._evaluate_one(X[k])
             lvals[k] = _loss._evaluate(y, Y[k])
     #
 #     cdef void _evaluate_losses_derivative_div_batch(self):
@@ -573,7 +573,7 @@ cdef class ERiskGB(Risk):
         
 #         for j in range(self.batch.size):
 #             k = indices[j]
-#             y = H[k] + alpha * _model._evaluate(X[k])
+#             y = H[k] + alpha * _model._evaluate_one(X[k])
 #             LD[j] = _loss._derivative_div(y, Y[k])
     #
     cdef void _evaluate_losses_derivative_div_all(self, double[::1] lvals):
@@ -591,7 +591,7 @@ cdef class ERiskGB(Risk):
         cdef double[::1] H = self.H
         
         for k in range(self.n_sample):
-            y = H[k] + alpha * _model._evaluate(X[k])
+            y = H[k] + alpha * _model._evaluate_one(X[k])
             lvals[k] = _loss._derivative_div(y, Y[k])
     #
     cdef double _evaluate(self):
@@ -646,7 +646,7 @@ cdef class ERiskGB(Risk):
         for j in range(self.batch.size):
             k = indices[j]
 
-            # y = H[j] + alpha * _model._evaluate(X[k])
+            # y = H[j] + alpha * _model._evaluate_one(X[k])
             _model._gradient(X[k], grad)
 
             vv = alpha * _loss._derivative(Yp[j], Y[k]) * weights[k]
@@ -682,7 +682,7 @@ cdef class ERiskGB(Risk):
         for j in range(size):
             k = indices[j]
 
-            v = _model._evaluate(X[k])
+            v = _model._evaluate_one(X[k])
             y = H[k] + alpha * v
             ret += _loss._derivative(y, Y[k]) * weights[k] * v
             

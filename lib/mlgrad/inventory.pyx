@@ -504,6 +504,17 @@ cdef object empty_array(Py_ssize_t size):
     cdef numpy.npy_intp n = size
     return numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
 
+cdef object filled_array(Py_ssize_t size, double val):
+    cdef numpy.npy_intp n = size
+    cdef object ob = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+    cdef double *data = <double*>numpy.PyArray_DATA(ob)
+    cdef Py_ssize_t i
+
+    for i in range(size):
+        data[i] = val
+
+    return ob
+
 cdef object empty_array2(Py_ssize_t size1, Py_ssize_t size2):
     cdef numpy.npy_intp[2] n
 

@@ -56,7 +56,7 @@ cdef class Loss(object):
         
     #     L = np.empty(N, 'd')
     #     for k in range(N):
-    #         y = model._evaluate(X[k])
+    #         y = model._evaluate_one(X[k])
     #         L[k] = self._evaluate(y, Yp[k])
     #     return L
     #

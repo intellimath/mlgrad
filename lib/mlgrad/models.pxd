@@ -39,12 +39,16 @@ from mlgrad.array_allocator cimport Allocator, ArrayAllocator
 
 cimport mlgrad.inventory as inventory
 
+cdef object _as_array(object ob)
+cdef object _as_array1d(object ob)
+cdef object _as_array2d(object ob)
+
 cdef inline Model as_model(object o):
     return <Model>(<PyObject*>o)
 
 cdef class BaseModel(object):
-    cdef double _evaluate(self, double[::1] X)
-    cdef void _evaluate_all(self, double[:,::1] X, double[::1] Y)
+    cdef double _evaluate_one(self, double[::1] X)
+    cdef void _evaluate(self, double[:,::1] X, double[::1] Y)
     cdef void _gradient_all(self, double[:,::1] X, double[:,::1] G)
     cdef void _gradient_input_all(self, double[:,::1] X, double[:,::1] G)
 
