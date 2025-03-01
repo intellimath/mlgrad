@@ -44,7 +44,7 @@ def plot_hist_and_rank_distribution(Y, bins=40):
 
 
 def plot_losses_and_errors(alg, Xs, Y, fname=None, logscale=False, lang='en'):
-    err = np.abs(Y - alg.risk.model.evaluate_all(Xs))
+    err = np.abs(Y - alg.risk.model.evaluate(Xs))
     plt.figure(figsize=(10,5))
     plt.subplot(1,2,1)
     if lang == 'en':
@@ -98,7 +98,7 @@ def plot_errors(mod, Xs, Y, fname=None, lang='en', ax=None):
     import numpy as np
     import matplotlib.pyplot as plt
 
-    err = np.abs(Y - mod.evaluate_all(Xs))
+    err = np.abs(Y - mod.evaluate(Xs))
     if ax is None:
         ax = plt.gca()
     if lang == 'en':
@@ -119,7 +119,7 @@ def plot_errors_hist(mod, Xs, Y, fname=None, lang='en', hist=False, bins=20,
     import numpy as np
     import matplotlib.pyplot as plt
 
-    err = np.abs(Y - mod.evaluate_all(Xs))
+    err = np.abs(Y - mod.evaluate(Xs))
     if ax is None:
         ax = plt.gca()
     if lang == 'en':
@@ -140,7 +140,7 @@ def plot_yy(mod, Xs, Y, title="", b=0.1, ax=None):
     if ax is None:
         ax = plt.gca()
 
-    Yp = mod.evaluate_all(Xs)
+    Yp = mod.evaluate(Xs)
     E = np.abs(Y - Yp) / np.abs(Y)
     c = sum(E < b) / len(E) * 100
     ymax, ymin = np.max(Y), np.min(Y)
@@ -166,7 +166,7 @@ def plot_sample_weights(alg, label=None, ax=None):
 
 def plot_cls_function(mod, X, Y, sorted=False, ax=None):
     N = len(Y)
-    Y_p = mod.evaluate_all(X)
+    Y_p = mod.evaluate(X)
 
     if ax is None:
         ax = plt.gca()

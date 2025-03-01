@@ -131,6 +131,9 @@ cdef class BaseModel:
         self._evaluate(X, Y)
         return Y
     #
+    def evaluate_all(self, X):
+        return self.evaluate(X)
+    #
     def evaluate_one(self, x):
         return self._evaluate_one(_as_array1d(x))
     #
