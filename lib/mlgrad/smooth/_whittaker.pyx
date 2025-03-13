@@ -18,6 +18,12 @@ import scipy
 #       c3 c4 c5 c6 ... c_n-1
 #       d4 d5 d6 d7 ... d_n-1 0
 #
+#   Example of `ab` (shape of a is (6,6), `u` =1, `l` =2)::
+#
+#        *    a01  a12  a23  a34  a45
+#        a00  a11  a22  a33  a44  a55
+#        a10  a21  a32  a43  a54   *
+#        a20  a31  a42  a53   *    *
 
 cdef set_diagonal(double[:,::1] S, double[::1] W):
     cdef Py_ssize_t i, j, n = S.shape[1], m = S.shape[0] // 2
@@ -166,30 +172,24 @@ def add_D4_W4(double[:,::1] S, double[::1] W, double tau):
 
 def add_D1_W1(double[:,::1] S, double[::1] W1, double tau1):
     cdef Py_ssize_t i, j, n = S.shape[1]
-    # cdef double *SS
-
-    cdef double *e = &S[4,0]
-    cdef double *c = &S[3,0]
-    cdef double *d = &S[2,0]
-    cdef double *a = &S[1,0]
-    cdef double *b = &S[0,0]
+    cdef double *d
 
     # d
-    # SS = &S[2,0]
+    d = &S[1,0]
     d[0] +=   tau1 * W1[0]
     d[n-1] += tau1 * W1[n-1]
     for i in range(1, n-1):
         d[i] += tau1 * (W1[i-1] + W1[i])
 
     # a
-    # SS = &S[1,0]
+    d = &S[2,0]
     for i in range(n-1):
-        a[i] -= tau1 * W1[i]
+        d[i] -= tau1 * W1[i]
 
     # c
-    # SS = &S[3,0]
+    d= &S[0,0]
     for i in range(1,n):
-        c[i] -= tau1 * W1[i-1]
+        d[i] -= tau1 * W1[i-1]
         
 # cdef _penta_solver(double[:,::1] S, double[::1] Y, double[::1] X):
 #     cdef Py_ssize_t i, j, n = Y.shape[0]
@@ -259,7 +259,9 @@ def whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, d=2, _zero
     S = _zeros((2*d+1, N), "d")
     set_diagonal(S, W)
     if W2 is not None and tau2 > 0:
-        if d == 2:
+        if d == 1:
+            add_D1_W1(S, W2, tau2)
+        elif d == 2:
             add_D2_W2(S, W2, tau2)
         elif d == 3:
             #add_D3_W3(S, W2, tau2)
@@ -280,7 +282,7 @@ def whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, d=2, _zero
         Yw = Y * W
     
     # X = _zeros(N, "d")
-    X = scipy.linalg.solve_banded((2,2), S, Yw, 
+    X = scipy.linalg.solve_banded((d,d), S, Yw, 
                                   overwrite_ab=True, overwrite_b=True, check_finite=False)
     # _penta_solver(S, Yw, X)
     return X

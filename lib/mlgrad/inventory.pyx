@@ -914,6 +914,37 @@ cdef void _diff1(double *x, double *y, const Py_ssize_t n1) noexcept nogil:
 
     for i in range(n1):
         y[i] = x[i+1] - x[i]
+
+cdef void _relative_max(double *x, double *y, const Py_ssize_t n) noexcept nogil: 
+    cdef Py_ssize_t i
+    cdef double v, max_val = 0
+
+    for i in range(n):
+        y[i] = x[i]
+    
+    for i in range(n):
+        v = fabs(y[i])
+        if v > max_val:
+            max_val = v
+
+    for i in range(n):
+        y[i] /= max_val
+
+cdef void _relative_abs_max(double *x, double *y, const Py_ssize_t n) noexcept nogil: 
+    cdef Py_ssize_t i
+    cdef double v, max_val = 0
+
+    for i in range(n):
+        y[i] = fabs(x[i])
+    
+    for i in range(n):
+        v = y[i]
+        if v > max_val:
+            max_val = v
+
+    for i in range(n):
+        y[i] /= max_val
+        
         
 def zscore(double[::1] a, double[::1] b=None):
     cdef Py_ssize_t n = a.shape[0] 
@@ -969,7 +1000,7 @@ def diff4(double[::1] a, double[::1] b=None):
     else:
         return np.asarray(b)
 
-def array_diff3(double[::1] a, double[::1] b=None):
+def diff3(double[::1] a, double[::1] b=None):
     cdef Py_ssize_t n = a.shape[0]
     cdef bint flag = 0
     if b is None:
@@ -1004,8 +1035,34 @@ def diff1(double[::1] a, double[::1] b=None):
         return b.base
     else:
         return np.asarray(b)
-        
-        
+
+def relative_max(double[::1] a, double[::1] b=None):
+    cdef Py_ssize_t n = a.shape[0]
+    cdef bint flag = 0
+    if b is None:
+        b = empty_array(n)
+        flag = 1
+    if b is None:
+        b = empty_array(n)
+        flag = 1
+    _relative_max(&a[0], &b[0], n)
+    if flag:
+        return b.base
+    else:
+        return np.asarray(b)    
+
+def relative_abs_max(double[::1] a, double[::1] b=None):
+    cdef Py_ssize_t n = a.shape[0]
+    cdef bint flag = 0
+    if b is None:
+        b = empty_array(n)
+        flag = 1
+    _relative_abs_max(&a[0], &b[0], n)
+    if flag:
+        return b.base
+    else:
+        return np.asarray(b)    
+    
 cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k): # noexcept nogil:
     cdef Py_ssize_t i, j, l, m
     cdef double x, t
@@ -1094,43 +1151,59 @@ def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S=None):
         S = empty_array2(n, n)
     _covariance_matrix(X, loc, S)
     return S
-            
-cdef void _covariance_matrix_weighted(
-            double *X, const double *W, const double *loc, double *S, 
-            const Py_ssize_t n, const Py_ssize_t N) noexcept nogil:
 
-    cdef Py_ssize_t i, j, k
+cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
+                                      double[::1] loc, double[:,::1] S) noexcept nogil:
+    cdef Py_ssize_t i, j
+    cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
     cdef double s, loc_i, loc_j
-    cdef double *X_ki
-    cdef double *X_kj
-    cdef double *S_i
-    cdef double *S_j
-
-    S_i = S_j = S
+    #
     for i in range(n):
         loc_i = loc[i]
-        for j in range(i, n):
+        for j in range(n):
             loc_j = loc[j]
-            X_kj = X + j
-            X_ki = X + i
-
             s = 0
             for k in range(N):
-                s += W[k] * (X_ki[0] - loc_i) * (X_kj[0] - loc_j)
-                X_ki += n
-                X_kj += n
+                s += W[k] * (X[k,i] - loc_i) * (X[k,j] - loc_j)
+            S[i,j] = s
 
-            S_i[j] = S_j[i] = s
-            S_j += n
-        S_i += n
+# cdef void _covariance_matrix_weighted(
+#             double *X, const double *W, const double *loc, double *S, 
+#             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil:
+
+#     cdef Py_ssize_t i, j, k
+#     cdef double s, loc_i, loc_j
+#     cdef double *X_ki
+#     cdef double *X_kj
+#     cdef double *S_i
+#     cdef double *S_j
+
+#     S_i = S_j = S
+#     for i in range(n):
+#         loc_i = loc[i]
+#         for j in range(i, n):
+#             loc_j = loc[j]
+#             X_kj = X + j
+#             X_ki = X + i
+
+#             s = 0
+#             for k in range(N):
+#                 s += W[k] * (X_ki[0] - loc_i) * (X_kj[0] - loc_j)
+#                 X_ki += n
+#                 X_kj += n
+
+#             S_i[j] = S_j[i] = s
+#             S_j += n
+#         S_i += n
             
 def covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
                                double[::1] loc, double[:,::1] S=None):
     cdef Py_ssize_t n = X.shape[1]
     if S is None:
         S = empty_array2(n, n)
-    _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], 
-                                &S[0,0], X.shape[1], X.shape[0])
+    # _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], 
+    #                             &S[0,0], X.shape[1], X.shape[0])
+    _covariance_matrix_weighted(X, W, loc, S)
     return S
 
 cdef class RingArray:
@@ -1215,3 +1288,16 @@ def inverse_matrix(A, copy=1):
     IM = empty_array2(n, n)
     _inverse_matrix(AM, IM)
     return IM
+
+cdef double _norm2(double[::1] a):
+    cdef Py_ssize_t i, n = a.shape[0]
+    cdef double s, v
+
+    s = 0
+    for i in range(n):
+        v = a[i]
+        s += v*v
+    return sqrt(s)
+
+def norm2(a):
+    return _norm2(a)

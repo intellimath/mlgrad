@@ -215,7 +215,7 @@ cdef class Average:
     #
     cdef _weights(self, double[::1] Y, double[::1] weights):
         self._gradient(Y, weights)
-        inventory.normalize(weights)
+        # inventory.normalize(weights)
     #
 
 cdef class AverageIterative(Average):
@@ -532,12 +532,13 @@ cdef class TMAverage(Average):
 cdef class WMZAverage(Average):
     #
     def __init__(self, MAverage mavr=None, MAverage savr=None, c=1.0/0.6745, alpha=3.5):
+        cdef Func func = SoftAbs_Sqrt(0.001)
         if mavr is None:
-            self.mavr = MAverage(SoftAbs_Sqrt(0.001))
+            self.mavr = MAverage(func)
         else:
             self.mavr = mavr
         if savr is None:
-            self.savr = MAverage(self.mavr.func)
+            self.savr = MAverage(func)
         else:
             self.savr = savr
         self.c = c
@@ -614,8 +615,12 @@ cdef class WMZAverage(Average):
             # print(ss, end=' ')
     
             v = rho_func._derivative(self.sval)
-            for j in range(N):
-                grad[j] = m * (grad[j] + alpha * (GU[j] - ss * grad[j]) / v)
+            if v == 0:
+                for j in range(N):
+                    grad[j] = 0
+            else:
+                for j in range(N):
+                    grad[j] = m * (grad[j] + alpha * (GU[j] - ss * grad[j]) / v)
 
             for j in range(N):
                 if Y[j] < tval:
@@ -628,10 +633,6 @@ cdef class WMZAverage(Average):
 
         self.evaluated = 0
 
-    @cython.cdivision(True)
-    @cython.final
-    cdef _weights(self, double[::1] Y, double[::1] weights):
-        self._gradient(Y, weights)
 
 
 cdef class WZAverage(Average):
@@ -827,9 +828,9 @@ cdef class RArithMean(Average):
         cdef Func func = self.func
 
         S = 0
-        for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
-        # for k in range(N):
-                S += func._evaluate(Y[k])
+        # for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
+        for k in range(N):
+            S += func._evaluate(Y[k])
         self.u = S / N
         self.evaluated = 1
         return self.u
@@ -837,25 +838,23 @@ cdef class RArithMean(Average):
     @cython.cdivision(True)
     cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
-        # cdef double *GG = &grad[0]
         cdef double v = 1./N
         cdef Func func = self.func
 
-        v = 1./N
         # for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
         for k in range(N):
-                grad[k] = v * func._derivative(Y[k])
+            grad[k] = v * func._derivative(Y[k])
         self.evaluated = 0
     #
     @cython.cdivision(True)
     cdef _weights(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double v = 1.0/N
+        # cdef double v = 1.0/N
         cdef Func func = self.func
 
         # for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
         for k in range(N):
-                grad[k] = func._derivative_div(Y[k]) * v
+            grad[k] = func._derivative_div(Y[k])
 
         # inventory.normalize(grad)
         self.evaluated = 0

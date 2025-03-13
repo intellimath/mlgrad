@@ -134,6 +134,8 @@ cdef void _diff4(double *x, double *y, const Py_ssize_t n) noexcept nogil
 cdef void _diff3(double *x, double *y, const Py_ssize_t n) noexcept nogil
 cdef void _diff2(double *x, double *y, const Py_ssize_t n) noexcept nogil
 cdef void _diff1(double *x, double *y, const Py_ssize_t n) noexcept nogil
+cdef void _relative_max(double *x, double *y, const Py_ssize_t n) noexcept nogil
+cdef void _relative_abs_max(double *x, double *y, const Py_ssize_t n) noexcept nogil
 
 
 # /*
@@ -213,9 +215,11 @@ cdef void _robust_mean_2d_t(double[:,::1] x, double tau, double[::1] y) #noexcep
 cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) #noexcept nogil
 
 cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil
-cdef void _covariance_matrix_weighted(
-            double *X, const double *W, const double *loc, double *S, 
-            const Py_ssize_t n, const Py_ssize_t N) noexcept nogil
+cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
+                                      double[::1] loc, double[:,::1] S) noexcept nogil
+# cdef void _covariance_matrix_weighted(
+#             double *X, const double *W, const double *loc, double *S, 
+#             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil
 
 cdef _inverse_matrix(double[:,::1] AM, double[:,::1] IM)
 
@@ -226,3 +230,5 @@ cdef class RingArray:
 
     cpdef add(self, double val)
     cpdef mad(self)
+
+cdef double _norm2(double[::1] a)

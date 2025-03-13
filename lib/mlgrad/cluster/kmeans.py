@@ -291,9 +291,8 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
             cj = c[j]
             Xj = X[Ij]
             if self.weights is not None:
-                weights = self.weights[Ij]
-                # weights /= weights.sum()
-                Sj = inventory.covariance_matrix_weighted(Xj, self.weights[Ij], cj)
+                weights = np.ascontiguousarray(self.weights[Ij], dtype="d")
+                Sj = inventory.covariance_matrix_weighted(Xj, weights, cj)
             else:
                 Sj = inventory.covariance_matrix(Xj, cj)
             # Xj_c = X[Ij] - c[j]
@@ -381,7 +380,8 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
 
 class RKMeansMahalanobis(KMeansMahalanobis):
     #
-    def __init__(self, q, avrfunc=None, tol=1.0e-8, n_iter_c=100, n_iter_s=22, n_iter=500, verbose=False):
+    def __init__(self, q, avrfunc=None, tol=1.0e-8, 
+                 n_iter_c=100, n_iter_s=22, n_iter=500, verbose=False):
         self.q = q
         self.n_iter = n_iter
         self.n_iter_c = n_iter_c

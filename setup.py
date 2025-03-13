@@ -18,12 +18,16 @@ is_windows = (platform.system() == 'Windows')
 is_linux = (platform.system() == 'Linux')
 print(f"platform: {platform_system}")
 
-optimize=False
+optimize = False
+native   = False
 if optimize:
     if is_windows:
         Oflag = ["/O2", "/arch:AVX2"]
     elif is_linux:
-        Oflag = ["-O3", "-march=native"]
+        if native:
+            Oflag = ["-O3", "-march=native"]
+        else:
+            Oflag = ["-O3"]
     else:
         Oflag = []
 else:

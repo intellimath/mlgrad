@@ -33,8 +33,7 @@ def project_line(X, a, /):
     return X @ a
 
 def project(X, a, /):
-    Xa = X @ a
-    Xa = Xa[:,None] * X
+    Xa = np.array([(x @ a) * a for x in X])
     # Xa = einsum("ni,i,j->nj", X, a, a, optimize=True)
     return X - Xa
 
@@ -57,8 +56,8 @@ def find_pc(X, *, a0 = None, weights=None, n_iter=100, tol=1.0e-4, verbose=0):
         N = len(X)
         S = X.T @ X
     else:
-        # S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
-        S = (X.T * weights) @ X
+        S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
+        # S = (X.T * weights) @ X
     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=0)
     if verbose:
         print("*", L)
@@ -112,7 +111,7 @@ def find_pc_smoothed(X, *, a0=None, tau=1.0, weights=None, n_iter=100, tol=1.0e-
 #     L = (S_a @ a) / (a @ a)
 #     return a, L
 
-def find_rho_pc(X, rho_func, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
+def find_rho_pc(X, rho_func, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
     N, n = X.shape
 
     np_abs = np.abs
@@ -167,7 +166,7 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
 
     return a_min, L_min
 
-def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
+def find_robust_pc(X, qf, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
     N, n = X.shape
 
     if a0 is None:
@@ -198,8 +197,8 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
 
         a1, L = _find_pc(S, a0=a, tol=tol, verbose=0)
 
-        Z = X @ a1
-        ZZ = XX - Z * Z
+        _Z = X @ a1
+        ZZ = XX - _Z * _Z
         
         sz = qf.evaluate(ZZ)
         G = qf.gradient(ZZ)
@@ -217,7 +216,7 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=1000, tol=1.0e-6, verbose=0):
             sz_min = sz
             a_min = a1
             L_min = L
-            if verbose:
+            if verbose == 2:
                 print('*', sz, L) #, a1)
 
         if complete:
@@ -304,27 +303,25 @@ def transform(X, G):
     return U
 
 def find_pc_all(X0, n=None, weights=None, verbose=False):
-    Ls = []
-    As = []
-    Us = []
-
-    _n = X0.shape[1]
+    m = X0.shape[1]
     if n is None:
-        n = _n
-    elif n > _n:
-        raise RuntimeError(f"n={n} greater X.shape[1]={_n}")
+        n = m
+    elif n > m:
+        raise RuntimeError(f"n={n} greater X.shape[1]={m}")
 
+    As = np.empty((n,m), "d")
+    Us = np.empty((n,m), "d")
+    Ls = np.empty(n, "d")
+    
     X = X0
     for i in range(n):
         a, L = find_pc(X, weights=weights, verbose=verbose)
         U = project_line(X0, a)
         X = project(X, a)
-        Ls.append(L)
-        As.append(a)
-        Us.append(U)
-    Ls = np.array(Ls)
-    As = np.array(As)
-    Us = np.array(Us)
+        Ls[i] = L
+        As[i,:] = a
+        Us[:,i] = U
+    
     return As, Ls, Us
 
 def find_pc_smoothed_all(X0, n=None, tau=1.0, weights=None, verbose=False):
@@ -349,6 +346,7 @@ def find_pc_smoothed_all(X0, n=None, tau=1.0, weights=None, verbose=False):
     Ls = np.array(Ls)
     As = np.array(As)
     Us = np.array(Us)
+
     return As, Ls, Us
     
 def find_pc_l1_all(X0, n=None, verbose=False):
@@ -375,69 +373,68 @@ def find_pc_l1_all(X0, n=None, verbose=False):
     Ls = np.array(Ls)
     As = np.array(As)
     Us = np.array(Us)
+
     return As, Ls, Us
 
-def find_robust_pc_all2(X, wma, n=None, *, n_iter=200, tol=1.0e-6, verbose=0): 
-    c = location(X)
-    X0 = X - c
-    As, Ls, Us = rfind_pc_all(X0, n=n)
-    As = np.array(As)
+# def find_robust_pc_all2(X, wma, n=None, *, n_iter=200, tol=1.0e-6, verbose=0): 
+#     c = location(X)
+#     X0 = X - c
+#     As, Ls, Us = rfind_pc_all(X0, n=n)
+#     As = np.array(As)
     
-    XX0 = (X0 * X0).sum(axis=1)
+#     XX0 = (X0 * X0).sum(axis=1)
     
-    U = X0 @ As
-    Z = XX0 - (U * U).sum(axis=1)
+#     U = X0 @ As
+#     Z = XX0 - (U * U).sum(axis=1)
     
-    sz_min = sz = wma.evaluate(Z)
-    for K in range(n_iter):
-        sz_prev = sz
-        G = wma.gradient(Z)
-        c = np.average(Z, weights=G)
-        X0 - c
-        As, Ls, Us = find_pc_all(X0, n=n, weights=G)
-        As = np.array(As)
+#     sz_min = sz = wma.evaluate(Z)
+#     for K in range(n_iter):
+#         sz_prev = sz
+#         G = wma.gradient(Z)
+#         c = np.average(Z, weights=G)
+#         X0 - c
+#         As, Ls, Us = find_pc_all(X0, n=n, weights=G)
+#         As = np.array(As)
     
-        U = X0 @ As
-        Z = XX0 - (U * U).sum(axis=1)
+#         U = X0 @ As
+#         Z = XX0 - (U * U).sum(axis=1)
         
-        sz = wma.evaluate(Z)
+#         sz = wma.evaluate(Z)
 
-        if sz < sz_min:
-            # Z1_min = Z1
-            sz_min = sz
-            As_min = As
-            Ls_min = Ls
-            Us_min = Us
-            if verbose:
-                print('*', sz, Ls, As)
+#         if sz < sz_min:
+#             # Z1_min = Z1
+#             sz_min = sz
+#             As_min = As
+#             Ls_min = Ls
+#             Us_min = Us
+#             if verbose:
+#                 print('*', sz, Ls, As)
 
-        if abs(sz_prev - sz) / (1 + sz_min) < tol:
-            break
+#         if abs(sz_prev - sz) / (1 + sz_min) < tol:
+#             break
 
-    return As_min, Ls_min, Us_min
+#     return As_min, Ls_min, Us_min
         
-
 def find_robust_pc_all(X0, wma, n=None, verbose=False):
-    Ls = []
-    As = []
-    Us = []
-    _n = X0.shape[1]
+    m = X0.shape[1]
     if n is None:
-        n = _n
-    elif n > _n:
-        raise RuntimeError(f"n={n} greater X.shape[1]={_n}")
+        n = m
+    elif n > m:
+        raise RuntimeError(f"n={n} greater X.shape[1]={m}")
+
+    As = np.empty((n,m), "d")
+    Us = np.empty((n,m), "d")
+    Ls = np.empty(n, "d")
+    
     X = X0
     for i in range(n):
         a, L = find_robust_pc(X, wma, verbose=verbose)
         U = project_line(X0, a)
         X = project(X, a)
-        Ls.append(L)
-        As.append(a)
-        Us.append(U)
-    Ls = np.array(Ls)
-    As = np.array(As)
-    Us = np.array(Us)
-    Ls = np.array(Ls)
+        Ls[i] = L
+        As[i,:] = a
+        Us[:,i] = U
+
     return As, Ls, Us
 
 def find_rho_pc_all(X0, rho_func, n=None, verbose=False):
@@ -452,7 +449,7 @@ def find_rho_pc_all(X0, rho_func, n=None, verbose=False):
     X = X0
     for i in range(n):
         a, L = find_rho_pc(X, rho_func, verbose=verbose)
-        U = project_line(X0, a)
+        U = project_line(X, a)
         X = project(X, a)
         Ls.append(L)
         As.append(a)

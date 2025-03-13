@@ -1954,7 +1954,10 @@ cdef class SoftAbs_Sqrt(Func):
     @cython.final
     cdef double _inverse(self, const double y) noexcept nogil:
         cdef double v = y + self.eps
-        return sqrt(v*v - self.eps2)
+        cdef double s = v*v - self.eps2
+        if s < 0:
+            s = 0
+        return sqrt(s)
     #    
     def _repr_latex_(self):
         return r"$\rho(x)=\sqrt{\varepsilon^2+x^2}$ - \varepsilon"

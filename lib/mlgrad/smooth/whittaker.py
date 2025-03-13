@@ -14,7 +14,7 @@ import scipy
 # import matplotlib.pyplot as plt
 
 def whittaker_smooth(X, W=None, W1=None, W2=None, tau1=0, tau2=1.0, tau_z=0, d=2):
-    if 2 <= d <= 4:
+    if 1 <= d <= 4:
         return whittaker_smooth_banded(X, W, W1, W2, tau1, tau2, tau_z=tau_z, d=d)
     else:
         return whittaker_smooth_scipy(X, W, W2, tau2, tau_z=tau_z, d=d)
@@ -70,10 +70,13 @@ def whittaker_smooth_ex(X,
     W2 = aggfunc2.weights(U2)
     
     s = s_min = aggfunc.u + tau2 * aggfunc2.u
+    s_min_prev = inventory.double_max / 10
     qvals = [s]
 
     # ring_array = inventory.RingArray(16)
     # ring_array.add(s)
+
+    # dWs = []
 
     flag = False
     for K in range(n_iter):
@@ -81,14 +84,17 @@ def whittaker_smooth_ex(X,
 
         E = Z - X
 
+        # W_prev = W.copy()
         U = func.evaluate_array(E)
         aggfunc.evaluate(U)
         W = aggfunc.weights(U)
-    
+
         D2 = array_transform.array_diff2(Z)
         U2 = func2.evaluate_array(D2)
         aggfunc2.evaluate(U2)
         W2 = aggfunc2.weights(U2)
+
+        # dWs.append(inventory.norm2(W-W_prev))
 
         s = aggfunc.u + tau2 * aggfunc2.u
         # ring_array.add(s)
@@ -96,15 +102,19 @@ def whittaker_smooth_ex(X,
 
         if abs(s - s_min) / (1+abs(s_min)) < tol:
             flag = True
-
+        
         # mad_val = ring_array.mad()
         # if mad_val < tol:
         #     flag = True
 
         if s < s_min:
+            s_min_prev = s_min
             s_min = s
             Z_min = Z.copy()
 
+        if abs(s_min_prev - s_min) / (1+abs(s_min)) < tol:
+            flag = True
+        
         if flag:
             break
 
@@ -207,10 +217,10 @@ def whittaker_smooth_weight_func(
 def whittaker_smooth_weight_func2(
             X, func=None, func1=None, func2=None, 
             tau1=0.0, tau2=1.0, tau_z=0,
-            d=2, n_iter=100, tol=1.0e-6, func2_mode="d"):
+            d=2, n_iter=200, tol=1.0e-9, func2_mode="d"):
 
-    # Z = whittaker_smooth(X, tau=tau, d=d)
-    Z = X * 0.999
+    Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
+    # Z = X * 0.999
     
     E = X - Z
 
@@ -218,9 +228,9 @@ def whittaker_smooth_weight_func2(
     # D1 = np.zeros_like(X)
 
     if func2 is not None or tau2 > 0:
-        D2 = array_transform.array_diff2(Z)
+        D2 = inventory.diff2(Z)
     if func1 is not None or tau1 > 0:
-        D1 = array_transform.array_diff1(Z)
+        D1 = inventory.diff1(Z)
         
     N = len(X)
 
@@ -265,9 +275,9 @@ def whittaker_smooth_weight_func2(
         E = X - Z
 
         if func2 is not None or tau2 > 0:
-            D2 = array_transform.array_diff2(Z)
+            D2 = inventory.diff2(Z)
         if func1 is not None or tau1 > 0:
-            D1 = array_transform.array_diff1(Z)
+            D1 = inventory.diff1(Z)
         
         if func is not None:
             W = func(E)

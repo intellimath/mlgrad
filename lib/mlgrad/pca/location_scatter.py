@@ -129,7 +129,7 @@ def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=False, return_
     S = X.T @ X
     n1 = 1.0 / S.shape[0]
     S /= det(S) ** n1
-    S = pinv(S)
+    S = inv(S)
     S_min = S
     path, _ = einsum_path('nj,jk,nk->n', X, S, X, optimize='optimal')
     D = einsum('nj,jk,nk->n', X, S, X, optimize=path)
@@ -145,7 +145,7 @@ def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=False, return_
         # S = (X.T @ diag(W)) @ X
         S = einsum('nj,n,nk->jk', X, W, X, optimize=path2)
         S /= det(S) ** n1
-        S = pinv(S)
+        S = inv(S)
         D = einsum('nj,jk,nk->n', X, S, X, optimize=path)
         # D = np.fromiter(
         #         (((x @ S) @ x) for x in X), 'd', N)

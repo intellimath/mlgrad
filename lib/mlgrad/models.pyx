@@ -893,7 +893,7 @@ cdef class ScaleLayer(ModelLayer):
 
         # for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
         for j in range(self.n_output):
-            output[j] = func._evaluate_one(X[j])
+            output[j] = func._evaluate(X[j])
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef double *grad_in = &self.grad_input[0]

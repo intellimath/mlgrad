@@ -37,7 +37,7 @@ from mlgrad.af import averaging_function, scaling_function
 
 __all__ = 'regression', 'm_regression', 'm_regression_irls', 'r_regression_irls', 'mr_regression_irls'
 
-def regression(Xs, Y, mod, loss_func=None, regnorm=None, *,
+def regression(Xs, Y, mod, loss_func=None, regnorm=None, *, weights=None,
                normalizer=None,
                h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
     """\
@@ -54,6 +54,8 @@ def regression(Xs, Y, mod, loss_func=None, regnorm=None, *,
         mod.init_param()
 
     er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
+    if weights is not None:
+        er.use_weights(weights)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, 
                  verbose=verbose, n_restart=n_restart, normalizer=normalizer)
     return alg

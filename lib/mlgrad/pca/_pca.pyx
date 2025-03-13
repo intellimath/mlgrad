@@ -37,17 +37,17 @@ cdef double S_cov(double[:,::1] S, double[::1] a) noexcept nogil:
             s += ai * Si[j] * aa[j]
     return s
 
-cdef void normalize(double *aa, Py_ssize_t n):
-    cdef Py_ssize_t i
-    cdef double na = 0
-    cdef double v
+# cdef void normalize(double *aa, Py_ssize_t n) noexcept nogil:
+#     cdef Py_ssize_t i
+#     cdef double na = 0
+#     cdef double v
 
-    for i in range(n):
-        v = aa[i]
-        na += v * v
-    na = sqrt(na)
-    for i in range(n):
-        aa[i] /= na
+#     for i in range(n):
+#         v = aa[i]
+#         na += v * v
+#     na = sqrt(na)
+#     for i in range(n):
+#         aa[i] /= na
 
 cpdef _find_pc(double[:,::1] S, double[::1] a0 = None, 
                Py_ssize_t n_iter=1000, double tol=1.0e-6, bint verbose=0):
@@ -69,7 +69,7 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
 
     aa = &a[0]
 
-    normalize(aa, n)
+    inventory._normalize2(aa, n)
 
     L = PyFloat_GetMax() / 10
 
@@ -95,7 +95,7 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
         for i in range(n):
             aa[i] = SS_a[i] / L
 
-        normalize(aa, n)
+        inventory._normalize2(aa, n)
 
         K += 1
                 
