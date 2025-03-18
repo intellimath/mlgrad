@@ -7,6 +7,7 @@ import numpy as np
 
 from mlgrad.pca._pca import _find_pc
 from mlgrad.smooth import whittaker_smooth
+from mlgrad.pca.location_scatter import location, robust_location
 
 einsum = np.einsum
 sqrt = np.sqrt
@@ -302,29 +303,41 @@ def transform(X, G):
     U = np.array(Us)
     return U
 
-def find_pc_all(X0, n=None, weights=None, verbose=False):
-    m = X0.shape[1]
+def find_pc_all(X0, n=None, *, weights=None, verbose=False, return_us=True):
+    N, m = X0.shape
     if n is None:
         n = m
     elif n > m:
         raise RuntimeError(f"n={n} greater X.shape[1]={m}")
 
     As = np.empty((n,m), "d")
-    Us = np.empty((n,m), "d")
+    if return_us:
+        Us = np.empty((N,n), "d")
     Ls = np.empty(n, "d")
     
     X = X0
     for i in range(n):
         a, L = find_pc(X, weights=weights, verbose=verbose)
-        U = project_line(X0, a)
+        if return_us:
+            U = project_line(X0, a)
         X = project(X, a)
         Ls[i] = L
         As[i,:] = a
-        Us[:,i] = U
+        if return_us:
+            Us[:,i] = U
     
-    return As, Ls, Us
+    if return_us:
+        return As, Ls, Us
+    else:
+        return As, Ls
 
-def find_pc_smoothed_all(X0, n=None, tau=1.0, weights=None, verbose=False):
+def find_loc_and_pc(X, n=None, *, weights=None, verbose=False):
+    c = location(X)
+    Xc = X - c
+    As, Ls = find_pc_all(Xc, n=n, weights=weights, verbose=verbose, return_us=False)
+    return c, As, Ls
+    
+def find_pc_smoothed_all(X0, n=None, tau=1.0, *, weights=None, verbose=False):
     Ls = []
     As = []
     Us = []
@@ -415,29 +428,35 @@ def find_pc_l1_all(X0, n=None, verbose=False):
 
 #     return As_min, Ls_min, Us_min
         
-def find_robust_pc_all(X0, wma, n=None, verbose=False):
-    m = X0.shape[1]
+def find_robust_pc_all(X0, wma, n=None, *, verbose=False, return_us=True):
+    N, m = X0.shape
     if n is None:
         n = m
     elif n > m:
         raise RuntimeError(f"n={n} greater X.shape[1]={m}")
 
     As = np.empty((n,m), "d")
-    Us = np.empty((n,m), "d")
+    if return_us:
+        Us = np.empty((N,n), "d")
     Ls = np.empty(n, "d")
-    
+
     X = X0
     for i in range(n):
         a, L = find_robust_pc(X, wma, verbose=verbose)
-        U = project_line(X0, a)
+        if return_us:
+            U = project_line(X0, a)
         X = project(X, a)
         Ls[i] = L
         As[i,:] = a
-        Us[:,i] = U
+        if return_us:
+            Us[:,i] = U
 
-    return As, Ls, Us
+    if return_us:
+        return As, Ls, Us
+    else:
+        return As, Ls        
 
-def find_rho_pc_all(X0, rho_func, n=None, verbose=False):
+def find_rho_pc_all(X0, rho_func, n=None, *, verbose=False, return_us=True):
     Ls = []
     As = []
     Us = []
@@ -449,16 +468,28 @@ def find_rho_pc_all(X0, rho_func, n=None, verbose=False):
     X = X0
     for i in range(n):
         a, L = find_rho_pc(X, rho_func, verbose=verbose)
-        U = project_line(X, a)
+        if return_us:
+            U = project_line(X, a)
         X = project(X, a)
         Ls.append(L)
         As.append(a)
-        Us.append(U)
+        if return_us:
+            Us.append(U)
     Ls = np.array(Ls)
     As = np.array(As)
-    Us = np.array(Us)
+    if return_us:
+        Us = np.array(Us)
     Ls = np.array(Ls)
-    return As, Ls, Us
+    if return_us:
+        return As, Ls, Us
+    else:
+        return As, Ls
+
+def find_robust_loc_and_pc(X, wma, n=None, *, weights=None, verbose=False):
+    c = robust_location(X)
+    Xc = X - c
+    As, Ls = find_robust_pc_all(Xc, wma, n=n, weights=weights, verbose=verbose, return_us=False)
+    return c, As, Ls
 
 # def pca(data, numComponents=None):
 #     """Principal Components Analysis

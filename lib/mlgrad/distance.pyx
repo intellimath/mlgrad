@@ -169,7 +169,7 @@ cdef class MahalanobisDistance(DistanceWithScale):
 
         return s
         
-    cdef double evaluate(self, double[::1] x, double[::1] y) noexcept nogil:
+    def evaluate(self, double[::1] x, double[::1] y):
         return self._evaluate(&x[0], &y[0], x.shape[0])
 
     cdef void gradient(self, double[::1] x, double[::1] y, double[::1] grad) noexcept nogil:

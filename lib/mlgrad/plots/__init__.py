@@ -43,8 +43,8 @@ def plot_hist_and_rank_distribution(Y, bins=40):
     plt.show()
 
 
-def plot_losses_and_errors(alg, Xs, Y, fname=None, logscale=False, lang='en'):
-    err = np.abs(Y - alg.risk.model.evaluate(Xs))
+def plot_losses_and_errors(alg, X, Y, fname=None, logscale=False, lang='en'):
+    err = np.abs(Y - alg.risk.model.evaluate(X))
     plt.figure(figsize=(10,5))
     plt.subplot(1,2,1)
     if lang == 'en':
@@ -80,11 +80,11 @@ def plot_losses(alg, fname=None, logscale=False, lang='en', ax=None):
         ax = plt.gca()
     
     if lang == 'en':
-        ax.set_title('Fit curve')
+        ax.set_title('Losses curve')
         ax.set_xlabel('step')
         ax.set_ylabel('Mean of losses')
     else:
-        ax.set_title('Кривая обучения')
+        ax.set_title('Кривая потерь')
         ax.set_xlabel('шаг')
         ax.set_ylabel('Средние потери')
     ax.plot(alg.lvals, color='k')
@@ -114,12 +114,12 @@ def plot_errors(mod, Xs, Y, fname=None, lang='en', ax=None):
     if fname:
         plt.savefig(fname)
     
-def plot_errors_hist(mod, Xs, Y, fname=None, lang='en', hist=False, bins=20, 
+def plot_errors_hist(mod, X, Y, fname=None, lang='en', hist=False, bins=20, 
                      density=False, ax=None):
     import numpy as np
     import matplotlib.pyplot as plt
 
-    err = np.abs(Y - mod.evaluate(Xs))
+    err = np.abs(Y - mod.evaluate(X))
     if ax is None:
         ax = plt.gca()
     if lang == 'en':
@@ -184,3 +184,16 @@ def plot_cls_function(mod, X, Y, sorted=False, ax=None):
     ax.set_xlabel(r'$k$ (номер точки)')
     ax.set_ylabel(r'$f(\mathbf{x}_k)$')
     plt.title(r"Распределение значений функции $f(x)$")
+
+def plot_contour(callable, xrange, yrange, levels=None, colors='k', linewidths=1.0, linestyles="solid"):
+    linspace = np.linspace
+    
+    xmin, xmax = xrange
+    ymin, ymax = yrange
+    xx, yy = np.meshgrid(linspace(xmin, xmax, 100), linspace(ymin, ymax, 100))
+    xy = np.c_[xx.ravel(), yy.ravel()]
+    zz = callable(xy)
+    zz = zz.reshape(xx.shape)
+    cs = plt.contour(xx, yy, zz, levels=levels, colors=colors, linewidths=linewidths, linestyles=linestyles)
+    plt.clabel(cs, colors=colors)
+    

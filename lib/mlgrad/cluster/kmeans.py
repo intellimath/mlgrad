@@ -270,6 +270,7 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
             # Xj.mean(axis=0, out=c[j])
             if self.weights is not None:
                 weights = self.weights[Ij]
+                # print(weights)
                 # weights /= weights.sum()
                 c[j,:] = average(Xj, axis=0, weights=weights)
             else:

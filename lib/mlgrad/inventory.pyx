@@ -65,6 +65,25 @@ cdef int get_num_procs_ex(int m) noexcept nogil:
 # cdef void set_num_threads(int num) noexcept nogil:
 #     num_threads = num
 
+cdef object _as_array(object ob):
+    cdef int tp
+
+    if not numpy.PyArray_CheckExact(ob):
+        ob = np.array(ob, "d")
+
+    tp = numpy.PyArray_TYPE(ob)
+    if tp != numpy.NPY_DOUBLE:
+        ob = numpy.PyArray_Cast(<numpy.ndarray>ob, numpy.NPY_DOUBLE)
+
+    if not numpy.PyArray_IS_C_CONTIGUOUS(ob):
+        ob = np.ascontiguousarray(ob)
+    
+    return ob
+
+def as_array(ob):
+    return _as_array(ob)
+
+
 cdef void init_rand() noexcept nogil:
     srand(time(NULL))    
 
@@ -399,8 +418,56 @@ cdef void _normalize2(double *a, const Py_ssize_t n) noexcept nogil:
         
 cdef void normalize2(double[::1] a) noexcept nogil:
     _normalize2(&a[0], a.shape[0])
+
+cdef double _mahalanobis_norm_one(double *S, const double *x, 
+                                  const Py_ssize_t n) noexcept nogil:
+    cdef double x1, x2
+    cdef Py_ssize_t i, j
+    cdef double s, vi, si
+    cdef double *S_i
+    
+    if n == 2:
+        x1 = x[0]
+        x2 = x[1]
+        return S[0] * x1 * x1 + \
+               S[3] * x2 * x2 + \
+               2 * (S[1] * x1 * x2)
+    
+    s = 0
+    S_i = S
+    for i in range(n):
+        vi = x[i]           
+        s += S_i[i] * vi * vi
+
+        si = 0
+        for j in range(i+1, n):
+            si += S_i[j] * x[j]
+
+        s += 2 * vi * si
+
+        S += n
+
+    return s
+
+cdef _mahalanobis_norm(double[:,::1] S, double[:,::1] X, double[::1] Y):
+    cdef Py_ssize_t n = S.shape[0]
+    cdef Py_ssize_t k, N = X.shape[0]
+
+    if X.shape[1] != n:
+        raise TypeError("X.shape[1] != S.shape[0]")
+    if Y.shape[0] != N:
+        raise TypeError("Y.shape[1] != X.shape[0]")
+
+    for k in range(N):
+        Y[k] = _mahalanobis_norm_one(&S[0,0], &X[k,0], n)
+
+
+def mahalanobis_norm(S, X, double[::1] Y):
+    Y = empty_array(X.shape[0])
+    _mahalanobis_norm(S, X, Y)
+    return Y
         
-cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil:
+cdef void _scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil:
     """
     Вычисление взвешенной ковариационной матрицы
     Вход:
@@ -408,7 +475,7 @@ cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] 
        W: массив весов (N)
     Результат:
        S: матрица (n,n):
-          S = (1/N) (W[0] * outer(X[0,:],X[0,:]) + ... + W[N-1] * outer(X[N-1,:],X[N-1,:]))
+          S = (W[0] * outer(X[0,:],X[0,:]) + ... + W[N-1] * outer(X[N-1,:],X[N-1,:]))
     """
     cdef:
         Py_ssize_t N = X.shape[0]
@@ -428,18 +495,8 @@ cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] 
                 Xk += n
             ss[j] = s
         ss += n
-    
-    # for k in range(N):
-    #     wk = W[k]
-    #     Xk = &X[k,0]
-    #     ss = &S[0,0]
-    #     for i in range(n):
-    #         v = wk * Xk[i]
-    #         for j in range(n):
-    #             ss[j] += v * Xk[j]
-    #         ss += n
 
-cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil:
+cdef void _scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil:
     """
     Вычисление ковариационной матрицы
     Вход:
@@ -472,6 +529,18 @@ cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil:
         for j in range(n):
             ss[j] /= N
         ss += n
+
+def scatter_matrix(double[:,::1] X):
+    cdef Py_ssize_t n = X.shape[0], m = X.shape[1]
+    cdef object S = empty_array2(n, m)
+    _scatter_matrix(X, S)
+    return S
+
+def scatter_matrix_weighted(double[:,::1] X, double[::1] W):
+    cdef Py_ssize_t n = X.shape[0], m = X.shape[1]
+    cdef object S = empty_array2(n, m)
+    _scatter_matrix_weighted(X, W, S)
+    return S
 
 cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexcept nogil:
     """
@@ -946,47 +1015,58 @@ cdef void _relative_abs_max(double *x, double *y, const Py_ssize_t n) noexcept n
         y[i] /= max_val
         
         
-def zscore(double[::1] a, double[::1] b=None):
+def zscore(a, b=None):
+    cdef double[::1] aa = _as_array(a)
+    cdef double[::1] bb
     cdef Py_ssize_t n = a.shape[0] 
     cdef bint flag = 0
+
     if b is None:
-        b = empty_array(n)
+        bb = b = empty_array(n)
         flag = 1
-    _zscore(&a[0], &b[0], a.shape[0])
-    if flag:
-        return b.base
     else:
-        return np.asarray(b)
+        bb = b
+    _zscore(&aa[0], &bb[0], aa.shape[0])
+    if flag:
+        return b
+    else:
+        return _as_array(bb)
         
-def modified_zscore2(double[:,::1] a, double[:,::1] b=None):
-    cdef Py_ssize_t i, n = a.shape[0], m = a.shape[1]
+def modified_zscore2(a, b=None):
+    cdef double[:,::1] aa = _as_array(a)
+    cdef double[:,::1] bb
+    cdef Py_ssize_t i, n = aa.shape[0], m = aa.shape[1]
     cdef bint flag = 0
     if b is None:
-        b = empty_array2(n,m)
+        bb = b = empty_array2(n,m)
         flag = 1
-    for i in range(n):
-        _modified_zscore(&a[i,0], &b[i,0], m)
-    if flag:
-        return b.base
     else:
-        return np.asarray(b)
+        bb = b
+    for i in range(n):
+        _modified_zscore(&aa[i,0], &bb[i,0], m)
+    if flag:
+        return b
+    else:
+        return _as_array(bb)
 
-def modified_zscore(double[::1] a, double[::1] b=None, mu=None):
+def modified_zscore(a, b=None, mu=None):
+    cdef double[::1] aa = _as_array(a)
+    cdef double[::1] bb
     cdef Py_ssize_t n = a.shape[0]
     cdef double d_mu
     cdef bint flag = 0
     if b is None:
-        b = empty_array(n)
+        bb = b = empty_array(n)
         flag = 1
     if mu is None:
-        _modified_zscore(&a[0], &b[0], n)
+        _modified_zscore(&aa[0], &bb[0], n)
     else:
         d_mu = mu
-        _modified_zscore_mu(&a[0], &b[0], n, d_mu)
+        _modified_zscore_mu(&aa[0], &bb[0], n, d_mu)
     if flag:
-        return b.base
+        return b
     else:
-        return np.asarray(b)
+        return _as_array(bb)
         
 def diff4(double[::1] a, double[::1] b=None):
     cdef Py_ssize_t n = a.shape[0]

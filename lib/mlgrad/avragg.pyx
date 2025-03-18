@@ -194,17 +194,20 @@ cdef class Average:
     cdef double _evaluate(self, double[::1] Y):
         return 0
     #
-    def evaluate(self, double[::1] Y):
-        return self._evaluate(Y)
+    def evaluate(self, Y):
+        cdef double[::1] YY = inventory._as_array(Y)
+        return self._evaluate(YY)
     #
-    def gradient(self, double[::1] Y):
+    def gradient(self, Y):
+        cdef double[::1] YY = inventory._as_array(Y)
         grad = inventory.empty_array(Y.shape[0])
-        self._gradient(Y, grad)
+        self._gradient(YY, grad)
         return grad
     #
-    def weights(self, double[::1] Y):
-        W = inventory.empty_array(Y.shape[0])
-        self._weights(Y, W)
+    def weights(self, Y):
+        cdef double[::1] YY = inventory._as_array(Y)
+        W = inventory.empty_array(YY.shape[0])
+        self._weights(YY, W)
         return W
     #
     cdef double init_u(self, double[::1] Y):
@@ -633,6 +636,109 @@ cdef class WMZAverage(Average):
 
         self.evaluated = 0
 
+@cython.final
+cdef class WMZSum(Average):
+    #
+    def __init__(self, MAverage mavr=None, MAverage savr=None, c=1.0/0.6745, alpha=3.5):
+        cdef Func func = SoftAbs_Sqrt(0.001)
+        if mavr is None:
+            self.mavr = MAverage(func)
+        else:
+            self.mavr = mavr
+        if savr is None:
+            self.savr = MAverage(func)
+        else:
+            self.savr = savr
+        self.c = c
+        self.alpha = alpha * c
+        self.U = None
+        self.GU = None
+        self.evaluated = 0
+    #
+    @cython.cdivision(True)
+    @cython.final
+    cdef double _evaluate(self, double[::1] Y):
+        cdef Py_ssize_t j, N = Y.shape[0]
+        cdef double[::1] U = self.U
+        cdef Func rho_func = self.mavr.func
+        cdef double mval, tval, v, s
+
+        self.mval = self.mavr._evaluate(Y)
+
+        if U is None or U.shape[0] != N:
+            U = self.U = inventory.empty_array(N)
+
+        mval = self.mval
+        for j in range(N):
+            U[j] = rho_func._evaluate(Y[j] - mval)
+
+        self.sval = rho_func._inverse(self.savr._evaluate(U))
+        tval = self.mval + self.alpha * self.sval
+
+        s = 0
+        for j in range(N):
+            v = Y[j]
+            if v >= tval:
+                v = tval
+            s += v
+        self.u = s
+        self.evaluated = 1
+        
+        return s
+    #
+    @cython.cdivision(True)
+    @cython.final
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
+        cdef Py_ssize_t j, N = Y.shape[0]
+        cdef double[::1] GU = self.GU
+        cdef Func rho_func = self.mavr.func
+        cdef double mval, tval, alpha, v, ss, m
+
+        if not self.evaluated:
+            self._evaluate(Y)
+
+        if GU is None or GU.shape[0] != N:
+            GU = self.GU = inventory.empty_array(N)
+
+        mval = self.mval
+        alpha = self.alpha
+        tval = mval + alpha * self.sval
+
+        m = 0
+        for j in range(N):
+            if Y[j] >= tval:
+                m += 1
+
+        if m > 0:
+            self.mavr._gradient(Y, grad)
+            self.savr._gradient(self.U, GU)
+    
+            for j in range(N):
+                GU[j] *= rho_func._derivative(Y[j] - mval)
+    
+            ss = 0
+            for j in range(N):
+                ss += GU[j]
+            # print(ss, end=' ')
+    
+            v = rho_func._derivative(self.sval)
+            if v == 0:
+                for j in range(N):
+                    grad[j] = 0
+            else:
+                for j in range(N):
+                    grad[j] = m * (grad[j] + alpha * (GU[j] - ss * grad[j]) / v)
+
+            for j in range(N):
+                if Y[j] < tval:
+                    grad[j] += 1
+
+            # for j in range(N):
+            #     grad[j] /= N
+        else:
+            inventory.fill(grad, 1.0)
+
+        self.evaluated = 0
 
 
 cdef class WZAverage(Average):

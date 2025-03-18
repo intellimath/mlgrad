@@ -35,6 +35,8 @@ cdef int get_num_threads_ex(int n) noexcept nogil
 cdef int get_num_procs_ex(int n) noexcept nogil
 # cdef void set_num_threads(int num) noexcept nogil
 
+cdef object _as_array(object ob)
+
 cdef int _hasnan(double *a, const Py_ssize_t n) noexcept nogil
 
 cdef double _min(double *a, Py_ssize_t n) noexcept nogil
@@ -108,8 +110,10 @@ cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) noexcept n
 cdef void normalize(double[::1] a) noexcept nogil
 cdef void normalize2(double[::1] a) noexcept nogil
 
-cdef void scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil
-cdef void scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil
+cdef _mahalanobis_norm(double[:,::1] S, double[:,::1] X, double[::1] Y)
+
+cdef void _scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil
+cdef void _scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil
 cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexcept nogil
 
 cdef object empty_array(Py_ssize_t size)

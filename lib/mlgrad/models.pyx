@@ -53,6 +53,9 @@ cdef object _as_array(object ob):
     tp = numpy.PyArray_TYPE(ob)
     if tp != numpy.NPY_DOUBLE:
         ob = numpy.PyArray_Cast(<numpy.ndarray>ob, numpy.NPY_DOUBLE)
+
+    if not numpy.PyArray_IS_C_CONTIGUOUS(ob):
+        ob = np.ascontiguousarray(ob)
     
     return ob
 
