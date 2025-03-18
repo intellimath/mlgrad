@@ -65,7 +65,13 @@ cdef int get_num_procs_ex(int m) noexcept nogil:
 # cdef void set_num_threads(int num) noexcept nogil:
 #     num_threads = num
 
-cdef object _as_array(object ob):
+cdef bint _iscontiguousarray(object ob):
+    return numpy.PyArray_IS_C_CONTIGUOUS(ob)
+
+cdef bint _isnumpyarray(object ob):
+    return numpy.PyArray_CheckExact(ob)
+    
+cdef object _asarray(object ob):
     cdef int tp
 
     if not numpy.PyArray_CheckExact(ob):
@@ -80,8 +86,8 @@ cdef object _as_array(object ob):
     
     return ob
 
-def as_array(ob):
-    return _as_array(ob)
+def asarray(ob):
+    return _asarray(ob)
 
 
 cdef void init_rand() noexcept nogil:
@@ -1016,7 +1022,7 @@ cdef void _relative_abs_max(double *x, double *y, const Py_ssize_t n) noexcept n
         
         
 def zscore(a, b=None):
-    cdef double[::1] aa = _as_array(a)
+    cdef double[::1] aa = _asarray(a)
     cdef double[::1] bb
     cdef Py_ssize_t n = a.shape[0] 
     cdef bint flag = 0
@@ -1027,13 +1033,10 @@ def zscore(a, b=None):
     else:
         bb = b
     _zscore(&aa[0], &bb[0], aa.shape[0])
-    if flag:
-        return b
-    else:
-        return _as_array(bb)
+    return b
         
 def modified_zscore2(a, b=None):
-    cdef double[:,::1] aa = _as_array(a)
+    cdef double[:,::1] aa = _asarray(a)
     cdef double[:,::1] bb
     cdef Py_ssize_t i, n = aa.shape[0], m = aa.shape[1]
     cdef bint flag = 0
@@ -1047,10 +1050,10 @@ def modified_zscore2(a, b=None):
     if flag:
         return b
     else:
-        return _as_array(bb)
+        return _asarray(bb)
 
 def modified_zscore(a, b=None, mu=None):
-    cdef double[::1] aa = _as_array(a)
+    cdef double[::1] aa = _asarray(a)
     cdef double[::1] bb
     cdef Py_ssize_t n = a.shape[0]
     cdef double d_mu
@@ -1066,7 +1069,7 @@ def modified_zscore(a, b=None, mu=None):
     if flag:
         return b
     else:
-        return _as_array(bb)
+        return _asarray(bb)
         
 def diff4(double[::1] a, double[::1] b=None):
     cdef Py_ssize_t n = a.shape[0]
@@ -1116,32 +1119,31 @@ def diff1(double[::1] a, double[::1] b=None):
     else:
         return np.asarray(b)
 
-def relative_max(double[::1] a, double[::1] b=None):
+def relative_max(a, b=None):
+    cdef double[::1] aa = _asarray(a)
+    cdef double[::1] bb
     cdef Py_ssize_t n = a.shape[0]
-    cdef bint flag = 0
+    # cdef bint flag = 0
     if b is None:
-        b = empty_array(n)
+        bb = b = empty_array(n)
         flag = 1
-    if b is None:
-        b = empty_array(n)
-        flag = 1
-    _relative_max(&a[0], &b[0], n)
-    if flag:
-        return b.base
     else:
-        return np.asarray(b)    
+        bb = b
+    _relative_max(&aa[0], &bb[0], n)
+    return b
 
-def relative_abs_max(double[::1] a, double[::1] b=None):
+def relative_abs_max(a, b=None):
+    cdef double[::1] aa = _asarray(a)
+    cdef double[::1] bb
     cdef Py_ssize_t n = a.shape[0]
     cdef bint flag = 0
     if b is None:
-        b = empty_array(n)
+        bb = b = empty_array(n)
         flag = 1
-    _relative_abs_max(&a[0], &b[0], n)
-    if flag:
-        return b.base
     else:
-        return np.asarray(b)    
+        bb = b
+    _relative_abs_max(&aa[0], &bb[0], n)
+    return b
     
 cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k): # noexcept nogil:
     cdef Py_ssize_t i, j, l, m
@@ -1176,39 +1178,39 @@ def median_1d(x, copy=True):
         xx = x.copy()
     else:
         xx = x
-    return _median_1d(xx)
+    return _median_1d(_asarray(xx))
 
 def median_absdev_1d(x, mu):
-    return _median_absdev_1d(x, mu)
+    return _median_absdev_1d(_asarray(x), mu)
     
 def median_2d_t(x):
     y = empty_array(x.shape[1])
-    _median_2d_t(x, y)
+    _median_2d_t(_asarray(x), y)
     return y
 
 def median_2d(x):
     y = empty_array(x.shape[0])
-    _median_2d(x, y)
+    _median_2d(_asarray(x), y)
     return y
 
 def median_absdev_2d(x, mu):
     y = empty_array(x.shape[0])
-    _median_absdev_2d(x, mu, y)
+    _median_absdev_2d(_asarray(x), mu, y)
     return y
 
 def median_absdev_2d_t(x, mu):
     y = empty_array(x.shape[1])
-    _median_absdev_2d_t(x, mu, y)
+    _median_absdev_2d_t(_asarray(x), mu, y)
     return y
 
 def robust_mean_2d(x, tau):
     y = empty_array(x.shape[0])
-    _robust_mean_2d(x, tau, y)
+    _robust_mean_2d(_asarray(x), tau, y)
     return y
 
 def robust_mean_2d_t(x, tau):
     y = empty_array(x.shape[1])
-    _robust_mean_2d_t(x, tau, y)
+    _robust_mean_2d_t(_asarray(x), tau, y)
     return y
 
 cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil:

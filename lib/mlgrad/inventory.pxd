@@ -35,7 +35,10 @@ cdef int get_num_threads_ex(int n) noexcept nogil
 cdef int get_num_procs_ex(int n) noexcept nogil
 # cdef void set_num_threads(int num) noexcept nogil
 
-cdef object _as_array(object ob)
+cdef bint _iscontiguousarray(object ob)
+cdef bint _isnumpyarray(object ob)
+
+cdef object _asarray(object ob)
 
 cdef int _hasnan(double *a, const Py_ssize_t n) noexcept nogil
 

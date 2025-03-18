@@ -39,9 +39,10 @@ from mlgrad.array_allocator cimport Allocator, ArrayAllocator
 
 cimport mlgrad.inventory as inventory
 
-cdef object _as_array(object ob)
-cdef object _as_array1d(object ob)
-cdef object _as_array2d(object ob)
+from mlgrad.inventory cimport _asarray
+
+cdef object _asarray1d(object ob)
+cdef object _asarray2d(object ob)
 
 cdef inline Model as_model(object o):
     return <Model>(<PyObject*>o)

@@ -195,17 +195,17 @@ cdef class Average:
         return 0
     #
     def evaluate(self, Y):
-        cdef double[::1] YY = inventory._as_array(Y)
+        cdef double[::1] YY = inventory._asarray(Y)
         return self._evaluate(YY)
     #
     def gradient(self, Y):
-        cdef double[::1] YY = inventory._as_array(Y)
+        cdef double[::1] YY = inventory._asarray(Y)
         grad = inventory.empty_array(Y.shape[0])
         self._gradient(YY, grad)
         return grad
     #
     def weights(self, Y):
-        cdef double[::1] YY = inventory._as_array(Y)
+        cdef double[::1] YY = inventory._asarray(Y)
         W = inventory.empty_array(YY.shape[0])
         self._weights(YY, W)
         return W

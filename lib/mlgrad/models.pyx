@@ -44,25 +44,25 @@ np.set_printoptions(precision=3, floatmode='maxprec_equal')
 cdef inline double ident(x):
     return x
 
-cdef object _as_array(object ob):
-    cdef int tp
+# cdef object _asarray(object ob):
+#     cdef int tp
 
-    if not numpy.PyArray_CheckExact(ob):
-        ob = np.array(ob, "d")
+#     if not numpy.PyArray_CheckExact(ob):
+#         ob = np.array(ob, "d")
 
-    tp = numpy.PyArray_TYPE(ob)
-    if tp != numpy.NPY_DOUBLE:
-        ob = numpy.PyArray_Cast(<numpy.ndarray>ob, numpy.NPY_DOUBLE)
+#     tp = numpy.PyArray_TYPE(ob)
+#     if tp != numpy.NPY_DOUBLE:
+#         ob = numpy.PyArray_Cast(<numpy.ndarray>ob, numpy.NPY_DOUBLE)
 
-    if not numpy.PyArray_IS_C_CONTIGUOUS(ob):
-        ob = np.ascontiguousarray(ob)
+#     if not numpy.PyArray_IS_C_CONTIGUOUS(ob):
+#         ob = np.ascontiguousarray(ob)
     
-    return ob
+#     return ob
 
-def as_array(ob):
-    return _as_array(ob)
+# def asarray(ob):
+#     return _asarray(ob)
 
-cdef object _as_array2d(object ob):
+cdef object _asarray2d(object ob):
     cdef int ndim
     cdef int tp
 
@@ -81,10 +81,10 @@ cdef object _as_array2d(object ob):
     else:
         raise TypeError('number of axes > 2!')
 
-def as_array2d(ob):
-    return _as_array2d(ob)
+def asarray2d(ob):
+    return _asarray2d(ob)
 
-cdef object _as_array1d(object ob):
+cdef object _asarray1d(object ob):
     cdef int ndim
     cdef int tp
 
@@ -103,8 +103,8 @@ cdef object _as_array1d(object ob):
     else:
         raise TypeError('number of axes != 1!')
 
-def as_array1d(ob):
-    return _as_array1d(ob)
+def asarray1d(ob):
+    return _asarray1d(ob)
 
 cdef dict _model_from_dict_table = {}
 def register_model(tag):
@@ -129,7 +129,7 @@ cdef class BaseModel:
     #
     #
     def evaluate(self, X):
-        X = _as_array2d(X)
+        X = _asarray2d(X)
         Y = inventory.empty_array(X.shape[0])
         self._evaluate(X, Y)
         return Y
@@ -138,7 +138,7 @@ cdef class BaseModel:
         return self.evaluate(X)
     #
     def evaluate_one(self, x):
-        return self._evaluate_one(_as_array1d(x))
+        return self._evaluate_one(_asarray1d(x))
     #
     cdef void _evaluate(self, double[:,::1] X, double[::1] Y):
         cdef Py_ssize_t k, N = X.shape[0]
@@ -258,7 +258,7 @@ cdef class LinearModel(Model):
             self.param = self.ob_param = None
             # self.is_allocated = 0
         else:
-            self.param = self.ob_param = _as_array1d(o)
+            self.param = self.ob_param = _asarray1d(o)
             self.param_base = self.param
             self.n_param = len(self.param)
             self.n_input = self.n_param - 1
@@ -399,7 +399,7 @@ cdef class SigmaNeuronModel(Model):
             self.grad = None
             self.grad_input = None
         else:
-            self.param = self.ob_param = _as_array1d(o)
+            self.param = self.ob_param = _asarray1d(o)
             self.n_param = len(self.param)
             self.n_input = self.n_param - 1
             self.grad = np.zeros(self.n_param, 'd')
@@ -1332,10 +1332,10 @@ cdef class MLModel:
             layer.init_param()
     #
     def evaluate_one(self, x):
-        cdef double[::1] x1d = _as_array1d(x)
+        cdef double[::1] x1d = _asarray1d(x)
         
         self._forward(x1d)
-        return _as_array(self.output)
+        return _asarray(self.output)
     #
 
 cdef class FFNetworkModel(MLModel):
