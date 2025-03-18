@@ -33,7 +33,7 @@ jobs:
         pip wheel --wheel-dir dist .
         rm dist/numpy-*.whl
         rm dist/Cython-*.whl
-        # auditwheel repair dist/*.whl
+        auditwheel repair dist/*.whl
     - name: Archive production artifacts
       uses: actions/upload-artifact@v4
       with:
