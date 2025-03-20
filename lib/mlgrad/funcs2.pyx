@@ -25,7 +25,7 @@
 cimport cython
 
 import numpy as np
-from mlgrad.models import as_array1d
+# from mlgrad.models import asarray1d
 
 cdef double double_max = PyFloat_GetMax()
 cdef double double_min = PyFloat_GetMin()

@@ -337,7 +337,7 @@ def find_loc_and_pc(X, n=None, *, weights=None, verbose=False):
     As, Ls = find_pc_all(Xc, n=n, weights=weights, verbose=verbose, return_us=False)
     return c, As, Ls
     
-def find_pc_smoothed_all(X0, n=None, tau=1.0, *, weights=None, verbose=False):
+def find_pc_smoothed_all(X0, n=None, tau=1.0, *, weights=None, verbose=False, return_us=True):
     Ls = []
     As = []
     Us = []
@@ -355,12 +355,17 @@ def find_pc_smoothed_all(X0, n=None, tau=1.0, *, weights=None, verbose=False):
         X = project(X, a)
         Ls.append(L)
         As.append(a)
-        Us.append(U)
+        if return_us:
+            Us.append(U)
     Ls = np.array(Ls)
     As = np.array(As)
-    Us = np.array(Us)
+    if return_us:
+        Us = np.array(Us)
 
-    return As, Ls, Us
+    if return_us:
+        return As, Ls, Us
+    else:
+        return As, Ls
     
 def find_pc_l1_all(X0, n=None, verbose=False):
     Ls = []
@@ -485,10 +490,10 @@ def find_rho_pc_all(X0, rho_func, n=None, *, verbose=False, return_us=True):
     else:
         return As, Ls
 
-def find_robust_loc_and_pc(X, wma, n=None, *, weights=None, verbose=False):
-    c = robust_location(X)
+def find_robust_loc_and_pc(X, wma, n=None, *, verbose=False):
+    c = robust_location(X, wma)
     Xc = X - c
-    As, Ls = find_robust_pc_all(Xc, wma, n=n, weights=weights, verbose=verbose, return_us=False)
+    As, Ls = find_robust_pc_all(Xc, wma, n=n, verbose=verbose, return_us=False)
     return c, As, Ls
 
 # def pca(data, numComponents=None):

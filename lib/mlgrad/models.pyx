@@ -423,7 +423,7 @@ cdef class SigmaNeuronModel(Model):
         cdef double s
 
         s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)        
-        return self.outfunc._evaluate_one(s)
+        return self.outfunc._evaluate(s)
     #
     cdef void _gradient(self, double[::1] Xk, double[::1] grad):
         cdef Py_ssize_t i
@@ -481,7 +481,7 @@ cdef class SimpleComposition(Model):
         self.mask = None
     #
     cdef double _evaluate_one(self, double[::1] X):
-        return self.func._evaluate_one(self.model._evaluate_one(X))
+        return self.func._evaluate(self.model._evaluate_one(X))
     #
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         # cdef Py_ssize_t j
@@ -579,7 +579,7 @@ cdef class ModelComposition(Model):
             # mod = <Model>models[j]
             ss[j] = (<Model>models[j])._evaluate_one(X)
         
-        return self.func._evaluate_one(ss)
+        return self.func._evaluate(ss)
     #
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         
@@ -955,7 +955,7 @@ cdef class Scale2Layer(ModelLayer):
 
         # for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
         for j in range(self.n_output):
-            output[j] = func._evaluate_one(X[j], param[j])
+            output[j] = func._evaluate(X[j], param[j])
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef double *grad_in = &self.grad_input[0]
@@ -1768,7 +1768,7 @@ cdef class SquaredModel(Model):
 #             x = X[i]
 #             if x > x_max:
 #                 i_max = i
-#         return self.outfunc._evaluate_one(X[i_max])
+#         return self.outfunc._evaluate(X[i_max])
 #     #
 #     cdef void _gradient(self, double[::1] X, double[::1] grad):
 #         pass
@@ -1799,7 +1799,7 @@ cdef class SquaredModel(Model):
 #         cdef double yk
 #
 #         yk = self.model._evaluate_one(X)
-#         lval = self.loss_func._evaluate_one(y, yk)
+#         lval = self.loss_func._evaluate(y, yk)
 #         lval_deriv =
 #
 

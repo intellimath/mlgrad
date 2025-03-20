@@ -37,6 +37,8 @@ def averaging_function(
     elif kind == 'WMZ':
         avgfunc2 = avragg.MAverage(rhofunc, tol=tol, n_iter=n_iter)
         avg = avragg.WMZAverage(avgfunc, avgfunc2, **kwds)
+    elif kind == 'WZ':
+        avg = avragg.WZAverage(**kwds)
     elif kind == 'SWM':
         avg = avragg.ParameterizedAverage(funcs.WinsorizedSmoothFunc(rhofunc), avgfunc)
     elif kind == 'HM':

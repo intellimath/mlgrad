@@ -383,6 +383,7 @@ cdef class WMAverage(Average):
         avr_u = self.avr._evaluate(Y)
 
         S = 0
+        
         # for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
         for k in range(N):
             yk = Y[k]
@@ -743,8 +744,8 @@ cdef class WMZSum(Average):
 
 cdef class WZAverage(Average):
     #
-    def __init__(self, tau=3.0):
-        self.tau = tau
+    def __init__(self, alpha=3.0):
+        self.alpha = alpha
         self.evaluated = 0
     #
     @cython.cdivision(True)
@@ -755,7 +756,7 @@ cdef class WZAverage(Average):
 
         self.mval = array_mean(Y)
         self.sval = array_std(Y, self.mval)
-        tval = self.mval + self.tau * self.sval
+        tval = self.mval + self.alpha * self.sval
 
         s = 0
         for j in range(N):
@@ -774,19 +775,19 @@ cdef class WZAverage(Average):
     cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t j, N = Y.shape[0]
         cdef double mval=self.mval, sval=self.sval, tval
-        cdef double tau=self.tau, v, cc, m
+        cdef double alpha=self.alpha, v, cc, m
 
         if not self.evaluated:
             self._evaluate(Y)
 
-        tval = mval + tau * sval
+        tval = mval + alpha * sval
 
         m = 0
         for j in range(N):
             if Y[j] >= tval:
                 m += 1
 
-        cc = m * tau / sval
+        cc = m * alpha / sval
         for j in range(N):
             grad[j] = cc * (Y[j] - mval)
 
@@ -796,6 +797,7 @@ cdef class WZAverage(Average):
             grad[j] /= N
 
         self.evaluated = 0
+    #
         
 # cdef class HMAverage(Average):
 #     #

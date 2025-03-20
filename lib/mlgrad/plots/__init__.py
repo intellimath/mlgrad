@@ -185,15 +185,16 @@ def plot_cls_function(mod, X, Y, sorted=False, ax=None):
     ax.set_ylabel(r'$f(\mathbf{x}_k)$')
     plt.title(r"Распределение значений функции $f(x)$")
 
-def plot_contour(callable, xrange, yrange, levels=None, colors='k', linewidths=1.0, linestyles="solid"):
+def plot_contour(callable, xrange, yrange, offset=[0,0], levels=None, colors='k', linewidths=1.0, linestyles="solid"):
     linspace = np.linspace
-    
+
+    offset = np.array(offset, "d")
     xmin, xmax = xrange
     ymin, ymax = yrange
     xx, yy = np.meshgrid(linspace(xmin, xmax, 100), linspace(ymin, ymax, 100))
     xy = np.c_[xx.ravel(), yy.ravel()]
     zz = callable(xy)
     zz = zz.reshape(xx.shape)
-    cs = plt.contour(xx, yy, zz, levels=levels, colors=colors, linewidths=linewidths, linestyles=linestyles)
+    cs = plt.contour(xx+offset[0], yy+offset[1], zz, levels=levels, colors=colors, linewidths=linewidths, linestyles=linestyles)
     plt.clabel(cs, colors=colors)
     

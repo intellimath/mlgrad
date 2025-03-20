@@ -181,10 +181,10 @@ cdef class WMZSum(Average):
     cdef double mval, sval
     cdef double[::1] U, GU
     
-\
+
 @cython.final
 cdef class WZAverage(Average):
-    cdef public double tau
+    cdef public double alpha
     cdef double mval, sval
     
 
