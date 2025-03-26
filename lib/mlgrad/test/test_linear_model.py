@@ -41,8 +41,8 @@ class LinearModelCase(unittest.TestCase):
     #
     def test_4(self):
         mod = LinearModel(np.array([1,2,3], 'd'))
-        self.assertEqual(mod.evaluate(np.array([1,1], 'd')), 6.)
-        self.assertEqual(mod.evaluate(np.array([2,3], 'd')), 14.)
+        self.assertEqual(mod.evaluate_one(np.array([1,1], 'd')), 6.)
+        self.assertEqual(mod.evaluate_one(np.array([2,3], 'd')), 14.)
     #
     def test_5(self):
         mod = LinearModel(np.array([1,2,3], 'd'))

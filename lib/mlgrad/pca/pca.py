@@ -7,7 +7,7 @@ import numpy as np
 
 from mlgrad.pca._pca import _find_pc
 from mlgrad.smooth import whittaker_smooth
-from mlgrad.pca.location_scatter import location, robust_location
+from mlgrad.pca.location_scatter import location, location_l1, robust_location
 
 einsum = np.einsum
 sqrt = np.sqrt
@@ -59,6 +59,17 @@ def find_pc(X, *, a0 = None, weights=None, n_iter=100, tol=1.0e-4, verbose=0):
     else:
         S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
         # S = (X.T * weights) @ X
+    a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=0)
+    if verbose:
+        print("*", L)
+    return a, L
+
+def find_pc_ss(X, *, a0 = None, n_iter=100, tol=1.0e-4, verbose=0):
+    N = len(X)
+    Xs = X.copy()
+    for x in Xs:
+        x[:] = x / abs(x).sum()
+    S = Xs.T @ Xs
     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=0)
     if verbose:
         print("*", L)
@@ -336,7 +347,42 @@ def find_loc_and_pc(X, n=None, *, weights=None, verbose=False):
     Xc = X - c
     As, Ls = find_pc_all(Xc, n=n, weights=weights, verbose=verbose, return_us=False)
     return c, As, Ls
+
+def find_pc_ss_all(X0, n=None, *, weights=None, verbose=False, return_us=True):
+    N, m = X0.shape
+    if n is None:
+        n = m
+    elif n > m:
+        raise RuntimeError(f"n={n} greater X.shape[1]={m}")
+
+    As = np.empty((n,m), "d")
+    if return_us:
+        Us = np.empty((N,n), "d")
+    Ls = np.empty(n, "d")
     
+    X = X0
+    for i in range(n):
+        a, L = find_pc_ss(X, verbose=verbose)
+        if return_us:
+            U = project_line(X0, a)
+        X = project(X, a)
+        Ls[i] = L
+        As[i,:] = a
+        if return_us:
+            Us[:,i] = U
+    
+    if return_us:
+        return As, Ls, Us
+    else:
+        return As, Ls
+
+def find_loc_and_pc_ss(X, n=None, *, weights=None, verbose=False):
+    c = location_l1(X)
+    Xc = X - c
+    As, Ls = find_pc_ss_all(Xc, n=n, verbose=verbose, return_us=False)
+    return c, As, Ls
+        
+
 def find_pc_smoothed_all(X0, n=None, tau=1.0, *, weights=None, verbose=False, return_us=True):
     Ls = []
     As = []

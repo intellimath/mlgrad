@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 import mlgrad.inventory as inv
 
-class MedianCase(unittest.TestCase):
+class CovmatrCase(unittest.TestCase):
 
     def test_covmatr_1(self):
         for i in range(1):
@@ -23,5 +23,5 @@ class MedianCase(unittest.TestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(MedianCase))
+    suite.addTest(unittest.makeSuite(CovmatrCase))
     return suite

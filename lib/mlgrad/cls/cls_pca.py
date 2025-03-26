@@ -1,9 +1,18 @@
 import numpy as np
+from mlgrad.cls import classification_as_regr
+from mlgrad.models import LinearModel
 
 def normalize(a):
     return a / np.sqrt(a @ a)
 
-class CLS_PCA:
+def cls_pc(X, Y, m=2):
+    n = X.shape[1]
+    for j in range(m):
+        mod_j = LinearModel(n)
+        cls_j = classification_as_regr(X, Y, mod_j)
+        
+
+class CLS_PC:
     #
     def __init__(self, func, n_iter=1000, tol=1.0e-8, h=0.1):
         self.func = func
