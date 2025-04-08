@@ -314,6 +314,36 @@ def transform(X, G):
     U = np.array(Us)
     return U
 
+def _find_pc_all(S, m):
+    n = S.shape[0]
+    S1 = S.copy()
+    A = np.empty((m, n), dtype="d")
+    Ls = np.empty(m, "d")
+    for j in range(m):
+        a, L = _find_pc(S1)
+        A[j,:] = a
+        L[j] = L
+        S1 -= L*np.outer(a, a)
+    return A, L
+
+def _find_pc_all(S, m=None):
+    n = S.shape[0]
+    if m is None:
+        n = m
+    
+    As = np.empty((m, n), dtype="d")
+    Ls = np.empty(m, "d")
+    # AA = np.empty((n, n), dtype="d")
+    
+    outer = np.outer
+    for j in range(m):
+        a, L = _find_pc(S)
+        As[j,:] = a
+        Ls[j] = L
+        AA = outer(a, a)
+        S = S - L * AA
+    return As, Ls
+
 def find_pc_all(X0, n=None, *, weights=None, verbose=False, return_us=True):
     N, m = X0.shape
     if n is None:

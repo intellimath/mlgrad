@@ -51,11 +51,11 @@ def whittaker_smooth_ex(X,
               func = funcs.Square(), 
               func2 = funcs.Square(),
               d=2, func2_mode="d", 
-              tau1=0, tau2=4.0, n_iter=100, tol=1.0e-6):
+              tau1=0, tau2=4.0, tau_z=0, n_iter=100, tol=1.0e-6):
 
     N = len(X)
 
-    Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
+    Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, tau_z=tau_z, d=d)
     Z_min = Z.copy()
 
     E = (Z - X)
@@ -80,7 +80,7 @@ def whittaker_smooth_ex(X,
 
     flag = False
     for K in range(n_iter):
-        Z = whittaker_smooth(X, tau2=tau2, W=W, W2=W2, d=d)
+        Z = whittaker_smooth(X, tau2=tau2, tau_z=tau_z, W=W, W2=W2, d=d)
 
         E = Z - X
 
@@ -215,17 +215,14 @@ def whittaker_smooth_weight_func(
     return Z, {'qvals':qvals, 'K':K+1}
 
 def whittaker_smooth_weight_func2(
-            X, func=None, func1=None, func2=None, 
-            tau1=0.0, tau2=1.0, tau_z=0,
-            d=2, n_iter=200, tol=1.0e-9, func2_mode="d"):
+            X, func=None, func1=None, func2=None, windows=None, 
+            tau1=0.0, tau2=1.0, tau_z=0, w_tau2 = 1.0, 
+            d=2, n_iter=100, tol=1.0e-9, func2_mode="d"):
 
     Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
     # Z = X * 0.999
     
     E = X - Z
-
-    # D2 = np.zeros_like(X)
-    # D1 = np.zeros_like(X)
 
     if func2 is not None or tau2 > 0:
         D2 = inventory.diff2(Z)
@@ -251,6 +248,11 @@ def whittaker_smooth_weight_func2(
             W2 = func2(E)
         # W2 /= W2.mean()
 
+    # if windows:
+    #     for ww in windows:
+    #         i0, i1 = ww
+    #         W2[i0:i1+1] = w_tau2 / tau2
+
     # qval = (E*E*W).sum()
     # if tau2 > 0:
     #     qval += tau2 * (D2*D2*W2).sum()
@@ -268,7 +270,7 @@ def whittaker_smooth_weight_func2(
         Z = whittaker_smooth(X, W=W, W1=W1, W2=W2, 
                              tau1=tau1, tau2=tau2, tau_z=tau_z, d=d)
 
-        dq = abs(Z - Z_prev).max() / abs(Z).mean()
+        dq = abs(Z - Z_prev).mean() / abs(Z).mean()
         if dq < tol:
             flag = True
         
@@ -291,6 +293,11 @@ def whittaker_smooth_weight_func2(
             else:
                 W2 = func2(E)
             # W2 /= W2.sum()
+
+        # if windows:
+        #     for ww in self.windows:
+        #         i0, i1 = ww
+        #         W2[i0:i1+1] = w_tau2 / tau2
 
         # qval = (E*E*W).sum()
         # if tau2 > 0:

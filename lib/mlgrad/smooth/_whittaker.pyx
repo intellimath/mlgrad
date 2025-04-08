@@ -33,6 +33,14 @@ cdef set_diagonal(double[:,::1] S, double[::1] W):
     for i in range(n):
         d[i] = W[i]
 
+cdef add_diagonal(double[:,::1] S, double[::1] W):
+    cdef Py_ssize_t i, j, n = S.shape[1], m = S.shape[0] // 2
+    cdef double *d
+
+    d = &S[m,0]
+    for i in range(n):
+        d[i] += W[i]
+        
 def add_D2_W2(double[:,::1] S, double[::1] W, double tau):
     cdef Py_ssize_t i, j, n = S.shape[1]
     cdef double *d
@@ -254,7 +262,8 @@ def add_D1_W1(double[:,::1] S, double[::1] W1, double tau1):
 #         x[i] = zeta[i] - alpha[i] * x[i+1] - beta[i] * x[i+2]
 #         i -= 1
 
-def whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, d=2, _zeros=np.zeros):
+def whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, d=2, 
+                                   _zeros=np.zeros, _full=np.full):
     N = len(Y)
     S = _zeros((2*d+1, N), "d")
     set_diagonal(S, W)
@@ -274,17 +283,17 @@ def whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, d=2, _zero
     if W1 is not None and tau1 > 0:
         add_D1_W1(S, W1, tau1)
 
+    if tau_z > 0:
+        add_diagonal(S, _full(N, -tau_z, "d"))
+        
+
     # print(S)
 
-    if tau_z != 0:
-        Yw = Y * W - tau_z
-    else:
-        Yw = Y * W
+    Yw = Y * W
     
     # X = _zeros(N, "d")
     X = scipy.linalg.solve_banded((d,d), S, Yw, 
                                   overwrite_ab=True, overwrite_b=True, check_finite=False)
-    # _penta_solver(S, Yw, X)
     return X
     
 def whittaker_smooth_banded(Y, W=None, W1=None, W2=None, 

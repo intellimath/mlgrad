@@ -568,10 +568,10 @@ cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexc
     
     for i in range(n):
         y = 0
-        Xk = &X[0,0]
+        Xk = &X[0,i]
         for k in range(N):
             wk = W[k]
-            y = fma(wk, Xk[i], y)
+            y += wk * Xk[0]
             Xk += n
         yy[i] = y
 
@@ -737,7 +737,7 @@ cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:
         if hh >= median:
             high = hh - 1
 
-cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k):
+cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil:
     cdef Py_ssize_t i, j, l, m
     cdef double x, temp
     cdef double *ai
@@ -775,17 +775,17 @@ cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k):
 
 cdef double _median_1d(double[::1] x): # noexcept nogil:
     cdef Py_ssize_t n2, n = x.shape[0]
-    cdef double m1, m2
+    cdef double mv1, mv2
     
     if n % 2:
         n2 = (n-1) // 2
-        m1 = _kth_smallest(&x[0], n, n2)
-        return m1
+        mv1 = _kth_smallest(&x[0], n, n2)
+        return mv1
     else:
         n2 = n // 2
-        m1 = _kth_smallest(&x[0], n, n2)
-        m2 = _kth_smallest(&x[0], n2+1, n2-1)
-        return (m1 + m2) / 2
+        mv1 = _kth_smallest(&x[0], n, n2)
+        mv2 = _kth_smallest(&x[0], n2+1, n2-1)
+        return (mv1 + mv2) / 2
 
 cdef double _median_absdev_1d(double[::1] x, double mu):
     cdef Py_ssize_t i, n = x.shape[0]
