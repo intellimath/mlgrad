@@ -114,6 +114,7 @@ cdef void normalize(double[::1] a) noexcept nogil
 cdef void normalize2(double[::1] a) noexcept nogil
 
 cdef _mahalanobis_norm(double[:,::1] S, double[:,::1] X, double[::1] Y)
+cdef _mahalanobis_distance(double[:,::1] S, double[:,::1] X, double[::1] c, double[::1] Y)
 
 cdef void _scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil
 cdef void _scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil

@@ -429,7 +429,7 @@ cdef double _mahalanobis_norm_one(double *S, const double *x,
                                   const Py_ssize_t n) noexcept nogil:
     cdef double x1, x2
     cdef Py_ssize_t i, j
-    cdef double s, vi, si
+    cdef double s, x_i, s_i
     cdef double *S_i
     
     if n == 2:
@@ -442,16 +442,16 @@ cdef double _mahalanobis_norm_one(double *S, const double *x,
     s = 0
     S_i = S
     for i in range(n):
-        vi = x[i]           
-        s += S_i[i] * vi * vi
+        x_i = x[i]           
+        s += S_i[i] * x_i * x_i
 
-        si = 0
+        s_i = 0
         for j in range(i+1, n):
-            si += S_i[j] * x[j]
+            s_i += S_i[j] * x[j]
 
-        s += 2 * vi * si
+        s += 2 * x_i * s_i
 
-        S += n
+        S_i += n
 
     return s
 
@@ -467,11 +467,32 @@ cdef _mahalanobis_norm(double[:,::1] S, double[:,::1] X, double[::1] Y):
     for k in range(N):
         Y[k] = _mahalanobis_norm_one(&S[0,0], &X[k,0], n)
 
-
-def mahalanobis_norm(S, X, double[::1] Y):
+def mahalanobis_norm(S, X):
     Y = empty_array(X.shape[0])
     _mahalanobis_norm(S, X, Y)
     return Y
+
+cdef _mahalanobis_distance(double[:,::1] S, double[:,::1] X, double[::1] c, double[::1] Y):
+    cdef Py_ssize_t n = S.shape[0]
+    cdef Py_ssize_t k, N = X.shape[0]
+    cdef double[::1] v = empty_array(n)
+
+    if X.shape[1] != n:
+        raise TypeError("X.shape[1] != S.shape[0]")
+    if Y.shape[0] != N:
+        raise TypeError("Y.shape[1] != X.shape[0]")
+    if c.shape[0] != n:
+        raise TypeError("c.shape[0] != S.shape[0]")
+
+    for k in range(N):
+        _sub(&v[0], &X[k,0], &c[0], n)
+        Y[k] = _mahalanobis_norm_one(&S[0,0], &v[0], n)
+
+def mahalanobis_distance(S, X, c):
+    Y = empty_array(X.shape[0])
+    _mahalanobis_distance(S, X, c, Y)
+    return Y
+        
         
 cdef void _scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil:
     """
@@ -547,6 +568,28 @@ def scatter_matrix_weighted(double[:,::1] X, double[::1] W):
     cdef object S = empty_array2(n, m)
     _scatter_matrix_weighted(X, W, S)
     return S
+
+# cdef object _outer_1d(double[::1] a, double[::1] b, double c):
+#     cdef Py_ssize_t i, j, n = a.shape[0]
+    
+#     cdef object ret = emmty_array2(n, n)
+#     cdef double[:,::1] R = ret
+#     cdef double *Ri
+
+#     cdef double *aa = &a[0]
+#     cdef double *bb = &b[0]
+#     cdef double v
+
+#     for i in range(n):
+#         Ri = &R[i,0]
+#         v = aa[i]
+#         for j in range(n):
+#             Ri[j] = c * v * bb[j]
+
+#     return ret
+
+# def outer_1d(a, b, c):
+#     return _outer_1d(a, b, c)
 
 cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexcept nogil:
     """

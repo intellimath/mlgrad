@@ -24,30 +24,19 @@
 
 import numpy as np
 
-cdef double S_cov(double[:,::1] S, double[::1] a) noexcept nogil:
+cdef double _S_norm(double[:,::1] S, double[::1] a) noexcept nogil:
     cdef Py_ssize_t i, j, k, n = S.shape[0]
-    cdef double ai, s = 0
+    cdef double ai, s
     cdef double *Si
     cdef double *aa = &a[0]
 
+    s = 0
     for i in range(n):
         ai = aa[i]
         Si = &S[i,0]
         for j in range(n):
             s += ai * Si[j] * aa[j]
     return s
-
-# cdef void normalize(double *aa, Py_ssize_t n) noexcept nogil:
-#     cdef Py_ssize_t i
-#     cdef double na = 0
-#     cdef double v
-
-#     for i in range(n):
-#         v = aa[i]
-#         na += v * v
-#     na = sqrt(na)
-#     for i in range(n):
-#         aa[i] /= na
 
 cpdef _find_pc(double[:,::1] S, double[::1] a0 = None, 
                Py_ssize_t n_iter=1000, double tol=1.0e-6, bint verbose=0):
@@ -58,7 +47,7 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
     cdef double *aa
     cdef double[::1] S_a = inventory.empty_array(n)
     cdef double *SS_a = &S_a[0]
-    cdef double *SS
+    cdef double *SS_i
     cdef double na, s, v
     cdef double L, L_prev
     
@@ -71,35 +60,74 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
 
     inventory._normalize2(aa, n)
 
-    L = PyFloat_GetMax() / 10
+    L = _S_norm(S, a)
 
     K = 1
     while K < n_iter:
         L_prev = L
 
-        SS = &S[0,0]
         for i in range(n):
+            SS_i = &S[i, 0]
             s = 0
             for j in range(n):
-                s += SS[j] * aa[j]
+                s += SS_i[j] * aa[j]
             SS_a[i] = s
-            SS += n
-
-        L = 0
-        for i in range(n):
-            L += SS_a[i] * aa[i]
-
-        if fabs(L - L_prev) < tol:
-            break
 
         for i in range(n):
             aa[i] = SS_a[i] / L
 
         inventory._normalize2(aa, n)
 
+        L = 0
+        for i in range(n):
+            L += SS_a[i] * aa[i]
+        
+        if fabs(L - L_prev) / fabs(L) < tol:
+            break        
+
         K += 1
+
+    ra = inventory._asarray(a)      
                 
     if verbose:
-        print("K:", K, "L:", L, "PC:", np.asarray(a))
+        print("K:", K, "L:", L, "PC:", ra)
             
-    return np.asarray(a), L
+    return ra, L
+
+cdef void _sub_outer(double[:,::1] S, double[::1] a, double L) noexcept nogil:
+    cdef Py_ssize_t i, j, n = a.shape[0]
+    cdef double *S_i
+    cdef double *aa = &a[0]
+    cdef double v
+
+    for i in range(n):
+        S_i = &S[i,0]
+        v = L * aa[i]
+        for j in range(n):
+            S_i[j] -= v * aa[j]
+
+cpdef _find_pc_all(double[:,::1] S, Py_ssize_t m=-1,
+                  Py_ssize_t n_iter=1000, double tol=1.0e-6, bint verbose=0):
+    cdef Py_ssize_t j, n = S.shape[0]
+    cdef double[:,::1] S1 = S.copy()
+
+    cdef object As = inventory.empty_array2(m, n)
+    cdef object Ls = inventory.empty_array(m)
+    cdef double[:,::1] AA
+    cdef double[::1] LL
+    cdef double[::1] a
+    cdef double Lj
+
+    if m <= 0:
+        m = n
+
+    AA = As
+    LL = Ls
+
+    for j in range(m):
+        a, Lj = _find_pc(S1, None, n_iter, tol, verbose)
+        _sub_outer(S1, a, Lj)
+        LL[j] = Lj
+        inventory._move(&AA[j,0], &a[0], n)
+
+    return As, Ls

@@ -31,9 +31,11 @@ cdef extern from "Python.h":
     double PyFloat_GetMin()   
 
 
-cdef double S_cov(double[:,::1] S, double[::1] a)  noexcept nogil
+cdef double _S_norm(double[:,::1] S, double[::1] a) noexcept nogil
 
 
 cpdef _find_pc(double[:,::1] S, double[::1] a0 = *, 
                Py_ssize_t n_iter = *, double tol = *, bint verbose = *)
 
+cpdef _find_pc_all(double[:,::1] S, Py_ssize_t m = *,
+                  Py_ssize_t n_iter = *, double tol = *, bint verbose = *)

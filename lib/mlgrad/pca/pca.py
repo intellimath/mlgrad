@@ -5,7 +5,7 @@
 from sys import float_info
 import numpy as np
 
-from mlgrad.pca._pca import _find_pc
+from mlgrad.pca._pca import _find_pc, _find_pc_all
 from mlgrad.smooth import whittaker_smooth
 from mlgrad.pca.location_scatter import location, location_l1, robust_location
 
@@ -38,39 +38,34 @@ def project(X, a, /):
     # Xa = einsum("ni,i,j->nj", X, a, a, optimize=True)
     return X - Xa
 
-# def project0(X, a, /):
-#     Xa1 = einsum("ni,i,j->nj", X, a, a)
-#     Xa2 = np.fromiter(((x @ a) * a for x in X), len(X), 'd')
-#     return Xa1, Xa2
-
 def total_regression(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verbose=0):
     N = len(X)
     if weights is None:
-        S = X.T @ X / N
+        S = X.T @ X
     else:
         S = (X.T * weights) @ X
     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose) 
     return a, L
 
-def find_pc(X, *, a0 = None, weights=None, n_iter=100, tol=1.0e-4, verbose=0):
+def find_pc(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verbose=0):
     if weights is None:
-        N = len(X)
+        # N = len(X)
         S = X.T @ X
     else:
-        S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
-        # S = (X.T * weights) @ X
-    a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=0)
+        # S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
+        S = (X.T * np.diag(weights)) @ X
+    a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose)
     if verbose:
         print("*", L)
     return a, L
 
-def find_pc_ss(X, *, a0 = None, n_iter=100, tol=1.0e-4, verbose=0):
+def find_pc_ss(X, *, a0 = None, n_iter=200, tol=1.0e-6, verbose=0):
     N = len(X)
     Xs = X.copy()
     for x in Xs:
         x[:] = x / abs(x).sum()
     S = Xs.T @ Xs
-    a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=0)
+    a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose)
     if verbose:
         print("*", L)
     return a, L
@@ -178,17 +173,19 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
 
     return a_min, L_min
 
-def find_robust_pc(X, qf, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
+def find_robust_pc(X, qf, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
     N, n = X.shape
 
     if a0 is None:
-        a0 = np.random.random(n)
+        S = X.T @ X
+        a0, L0 = _find_pc(S, tol=tol, verbose=0)
     else:
-        a0 = a0
+        a0 = a0 / np.sqrt(a0 @ a0)
 
-    a = a_min = a0 / np.sqrt(a0 @ a0)
+    a = a_min = a0
+    L_min = L0
+
     XX = (X * X).sum(axis=1)
-
     _Z = X @ a
     Z = XX - _Z * _Z
     
@@ -196,7 +193,6 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
     sz_min_prev = float_info.max / 10
     sz_prev = float_info.max / 10
     G = qf.gradient(Z)
-    L_min = 0
 
     np_abs = np.abs
     np_sqrt = np.sqrt
@@ -229,7 +225,7 @@ def find_robust_pc(X, qf, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
             a_min = a1
             L_min = L
             if verbose == 2:
-                print('*', sz, L) #, a1)
+                print('*', K, sz, L) #, a1)
 
         if complete:
             break
@@ -314,68 +310,56 @@ def transform(X, G):
     U = np.array(Us)
     return U
 
-def _find_pc_all(S, m):
-    n = S.shape[0]
-    S1 = S.copy()
-    A = np.empty((m, n), dtype="d")
-    Ls = np.empty(m, "d")
-    for j in range(m):
-        a, L = _find_pc(S1)
-        A[j,:] = a
-        L[j] = L
-        S1 -= L*np.outer(a, a)
-    return A, L
+# def _find_pc_all(S, m=None):
+#     n = S.shape[0]
+#     if m is None:
+#         n = m
+#     S1 = S.copy()
 
-def _find_pc_all(S, m=None):
-    n = S.shape[0]
-    if m is None:
-        n = m
-    
-    As = np.empty((m, n), dtype="d")
-    Ls = np.empty(m, "d")
-    # AA = np.empty((n, n), dtype="d")
-    
-    outer = np.outer
-    for j in range(m):
-        a, L = _find_pc(S)
-        As[j,:] = a
-        Ls[j] = L
-        AA = outer(a, a)
-        S = S - L * AA
-    return As, Ls
+#     A = np.empty((m, n), dtype="d")
+#     Ls = np.empty(m, "d")
 
-def find_pc_all(X0, n=None, *, weights=None, verbose=False, return_us=True):
+#     for j in range(m):
+#         a, L = _find_pc(S1)
+#         A[j,:] = a
+#         Ls[j] = L
+#         S1 -= L*np.outer(a, a)
+#     return A, L
+
+def find_pc_all(X0, n=None, *, weights=None, n_iter=1000, tol=1.0e-6, return_us=True, verbose=False):
     N, m = X0.shape
     if n is None:
         n = m
     elif n > m:
         raise RuntimeError(f"n={n} greater X.shape[1]={m}")
 
+    # if weights is None:
+    #     S = X0.T @ X0
+    # else:
+    #     S = einsum("in,n,nj->ij", X0.T, weights, X0, optimize=True)
+
+    # if not return_us:
+    #     return _find_pc_all(S, n, n_iter, tol, verbose)
+
     As = np.empty((n,m), "d")
-    if return_us:
-        Us = np.empty((N,n), "d")
+    Us = np.empty((N,n), "d")
     Ls = np.empty(n, "d")
     
     X = X0
     for i in range(n):
         a, L = find_pc(X, weights=weights, verbose=verbose)
-        if return_us:
-            U = project_line(X0, a)
+        U = project_line(X0, a)
         X = project(X, a)
         Ls[i] = L
         As[i,:] = a
-        if return_us:
-            Us[:,i] = U
+        Us[:,i] = U
     
-    if return_us:
-        return As, Ls, Us
-    else:
-        return As, Ls
+    return As, Ls, Us
 
 def find_loc_and_pc(X, n=None, *, weights=None, verbose=False):
     c = location(X)
     Xc = X - c
-    As, Ls = find_pc_all(Xc, n=n, weights=weights, verbose=verbose, return_us=False)
+    As, Ls, _ = find_pc_all(Xc, n=n, weights=weights, verbose=verbose, return_us=False)
     return c, As, Ls
 
 def find_pc_ss_all(X0, n=None, *, weights=None, verbose=False, return_us=True):
