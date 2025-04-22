@@ -237,6 +237,12 @@ cdef class Step(Func):
     #
     cdef public double C
     #
+    
+@cython.final
+cdef class Step_Sqrt(Func):
+    #
+    cdef public double eps
+    #
 
 @cython.final
 cdef class StepExp(Func):

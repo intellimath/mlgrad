@@ -1251,6 +1251,24 @@ cdef class Step(Func):
     #
 
 @cython.final
+cdef class Step_Sqrt(Func):
+    #
+    def __init__(self, eps=1.0e-3):
+        self.eps = eps
+    #
+    @cython.final
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        cdef double eps = self.eps
+        return 0.5 * (1 - x / sqrt(eps*eps + x*x))
+    #
+    @cython.final
+    cdef double _derivative(self, const double x) noexcept nogil:
+        cdef double eps = self.eps
+        cdef double v = eps*eps + x*x
+        return -0.5 * eps*eps / (v * sqrt(v))
+    #
+    
+@cython.final
 cdef class StepExp(Func):
     #
     def __init__(self, p=1.0):

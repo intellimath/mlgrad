@@ -164,17 +164,6 @@ cdef void move2(double[:, ::1] to, double[:,::1] src) noexcept nogil:
 cdef void move3(double[:,:,::1] to, double[:,:,::1] src) noexcept nogil:
     _move(&to[0,0,0], &src[0,0,0], to.shape[0] * to.shape[1] * to.shape[2])
     
-# cdef double _conv(const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
-#     cdef Py_ssize_t i
-#     cdef double s = 0
-
-#     for i in range(n):
-#         s = fma(a[i], b[i], s)
-#     return s
-
-# cdef double conv(double[::1] a, double[::1] b) noexcept nogil:
-#     return _conv(&a[0], &b[0], a.shape[0])
-
 cdef void _add(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
@@ -896,9 +885,6 @@ cdef double _robust_mean_1d(double[::1] x, double tau): #noexcept nogil:
             q += 1
     return s / q
 
-def robust_mean_1d(x, double tau):
-    return _robust_mean_1d(x, tau)
-
 cdef void _robust_mean_2d_t(double[:,::1] x, double tau, double[::1] y):
     cdef Py_ssize_t i, j, q, n = x.shape[0], m = x.shape[1]
     cdef double[::1] mu = empty_array(m)
@@ -962,9 +948,10 @@ cdef void _modified_zscore(double *a, double *b, Py_ssize_t n):
     for i in range(n):
         aa[i] = fabs(aa[i] - mu)
     sigma = _median_1d(aa)
+    sigma /= 0.6748
     
     for i in range(n):
-        b[i] = 0.6745 * (a[i] - mu) / sigma
+        b[i] = (a[i] - mu) / sigma
 
 cdef void _modified_zscore_mu(double *a, double *b, Py_ssize_t n, double mu):
     cdef Py_ssize_t i
@@ -975,9 +962,10 @@ cdef void _modified_zscore_mu(double *a, double *b, Py_ssize_t n, double mu):
     for i in range(n):
         aa[i] = fabs(a[i] - mu)
     sigma = _median_1d(aa)
+    sigma /= 0.6748
     
     for i in range(n):
-        b[i] = 0.6745 * (a[i] - mu) / sigma
+        b[i] = (a[i] - mu) / sigma
 
 cdef void _diff4(double *x, double *y, const Py_ssize_t n4) noexcept nogil:
     cdef Py_ssize_t i
@@ -1216,6 +1204,9 @@ def median_absdev_2d_t(x, mu):
     _median_absdev_2d_t(_asarray(x), mu, y)
     return y
 
+def robust_mean_1d(x, tau):
+    return _robust_mean_1d(_asarray(x), tau)
+
 def robust_mean_2d(x, tau):
     y = empty_array(x.shape[0])
     _robust_mean_2d(_asarray(x), tau, y)
@@ -1240,10 +1231,19 @@ cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S)
                 s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
             S[i,j] = s / N
 
-def covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S=None):
-    cdef Py_ssize_t n = X.shape[1]
+def covariance_matrix(X, loc=None, S=None):
+    X = _asarray(X)
+    n = X.shape[1]
     if S is None:
         S = empty_array2(n, n)
+    else:
+        S = _asarray(S)
+        if S.shape[0] != n and S.shape[1] != n:
+            raise TypeError(f"ivalid shape of S: {S.shape}")
+    if loc is None:
+        loc = zeros_array(n)
+    else:
+        loc = _asarray(loc)
     _covariance_matrix(X, loc, S)
     return S
 
@@ -1291,13 +1291,20 @@ cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W,
 #             S_j += n
 #         S_i += n
             
-def covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
-                               double[::1] loc, double[:,::1] S=None):
-    cdef Py_ssize_t n = X.shape[1]
+def covariance_matrix_weighted(X, W, loc=None, S=None):
+    X = _asarray(X)
+    n = X.shape[1]
+    W = _asarray(W)
     if S is None:
         S = empty_array2(n, n)
-    # _covariance_matrix_weighted(&X[0,0], &W[0], &loc[0], 
-    #                             &S[0,0], X.shape[1], X.shape[0])
+    else:
+        S = _asarray(S)
+        if S.shape[0] != n and S.shape[1] != n:
+            raise TypeError(f"ivalid shape of S: {S.shape}")
+    if loc is None:
+        loc = zeros_array(n)
+    else:
+        loc = _asarray(loc)
     _covariance_matrix_weighted(X, W, loc, S)
     return S
 

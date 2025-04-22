@@ -18,7 +18,7 @@ def distance_line(X, a, /):
     # e = ones_like(a)
     # XX = (X * X) @ e #.sum(axis=1)
     XX = einsum("ni,ni->n", X, X, optimize=True)
-    Z = X @ a
+    # Z = X @ a
     Z = XX - Z * Z
     Z[Z<0] = 0
     return sqrt(Z)
@@ -257,13 +257,13 @@ def find_pc_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
     sz = sz_min = Z1.mean()
     
     G = 1. / Z1
-    G /= G.sum()
+    # G /= G.sum()
     L_min = 0
 
     for K in range(n_iter):
         sz_prev = sz
 
-        S = (X.T * G) @ X
+        S = (X.T @ np.diag(G)) @ X
 
         a1, L = _find_pc(S, a0=a, n_iter=200, tol=tol, verbose=verbose)
 
@@ -271,7 +271,7 @@ def find_pc_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
         Z1 = np_sqrt(np_abs(XX - Z * Z))
 
         G = 1. / Z1
-        G /= G.sum()
+        # G /= G.sum()
         sz = Z1.mean()
 
         if sz < sz_min:

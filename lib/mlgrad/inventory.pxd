@@ -47,7 +47,6 @@ cdef double _min(double *a, Py_ssize_t n) noexcept nogil
 cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil
 cdef void _clear2(double *to, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil
 cdef void _fill(double *to, const double c, const Py_ssize_t n) noexcept nogil
-# cdef double _conv(const double*, const double*, const Py_ssize_t) noexcept nogil
 cdef void _move(double*, const double*, const Py_ssize_t) noexcept nogil
 cdef void _move_t(double *to, const double *src, const Py_ssize_t n, const Py_ssize_t step) noexcept nogil
 cdef double _sum(const double*, const Py_ssize_t) noexcept nogil
