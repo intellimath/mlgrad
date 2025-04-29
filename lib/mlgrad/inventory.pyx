@@ -2,7 +2,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2024> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2025> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -317,12 +317,15 @@ cdef double _dot(const double *a, const double *x, const Py_ssize_t n) noexcept 
         s += a[i] * x[i]
     return s
 
+cdef double dot_t(double[::1] a, double[:,::1] b) noexcept nogil:
+    return _dot_t(&a[0], &x[0], a.shape[0], b.shape[0])
+
 cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil:
     cdef Py_ssize_t i
     cdef double s = 0
 
     for i in range(n):
-        s = fma(a[i], b[0], s)
+        s += a[i] * b[0]
         b += m
     return s
 
@@ -378,7 +381,7 @@ cdef void _mul_grad(double *grad, const double *X, const double *ss,
         G += 1
         for i in range(n_input):
             G[i] = sx * X[i]
-        G += n_input
+        G += n_input+1
 
 cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) noexcept nogil:
     _mul_grad(&grad[0,0], &X[0], &ss[0], <const Py_ssize_t>X.shape[0], <const Py_ssize_t>grad.shape[0])
@@ -448,10 +451,10 @@ cdef _mahalanobis_norm(double[:,::1] S, double[:,::1] X, double[::1] Y):
     cdef Py_ssize_t n = S.shape[0]
     cdef Py_ssize_t k, N = X.shape[0]
 
-    if X.shape[1] != n:
-        raise TypeError("X.shape[1] != S.shape[0]")
-    if Y.shape[0] != N:
-        raise TypeError("Y.shape[1] != X.shape[0]")
+    # if X.shape[1] != n:
+    #     raise TypeError("X.shape[1] != S.shape[0]")
+    # if Y.shape[0] != N:
+    #     raise TypeError("Y.shape[1] != X.shape[0]")
 
     for k in range(N):
         Y[k] = _mahalanobis_norm_one(&S[0,0], &X[k,0], n)
@@ -466,12 +469,12 @@ cdef _mahalanobis_distance(double[:,::1] S, double[:,::1] X, double[::1] c, doub
     cdef Py_ssize_t k, N = X.shape[0]
     cdef double[::1] v = empty_array(n)
 
-    if X.shape[1] != n:
-        raise TypeError("X.shape[1] != S.shape[0]")
-    if Y.shape[0] != N:
-        raise TypeError("Y.shape[1] != X.shape[0]")
-    if c.shape[0] != n:
-        raise TypeError("c.shape[0] != S.shape[0]")
+    # if X.shape[1] != n:
+    #     raise TypeError("X.shape[1] != S.shape[0]")
+    # if Y.shape[0] != N:
+    #     raise TypeError("Y.shape[1] != X.shape[0]")
+    # if c.shape[0] != n:
+    #     raise TypeError("c.shape[0] != S.shape[0]")
 
     for k in range(N):
         _sub(&v[0], &X[k,0], &c[0], n)
@@ -985,6 +988,24 @@ cdef void _diff2(double *x, double *y, const Py_ssize_t n2) noexcept nogil:
     for i in range(n2):
         y[i] = x[i] - 2*x[i+1] + x[i+2]
 
+cdef void _diff2w2(double *x, double *w, double *y, const Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+
+    y[0] = w[0] * x[0] - 2*w[0] * x[1] + w[0] * x[2]
+    y[1] = -2*w[0] * x[0] + (4*w[0]+w[1]) * x[1] + \
+           (-2*w[0]-2*w[1]) * x[2] + w[1] * x[3]
+    
+    for i in range(2,n-2):
+        y[i] = w[i-2] * x[i-2] + \
+               (-2*w[i-2] - 2*w[i-1]) * x[i-1] + \
+               (w[i-2] + 4*w[i-1] + w[i]) * x[i] + \
+               (-2*w[i-1]-2*w[i])*x[i+1] + \
+               w[i] * x[i+2]
+
+    y[n-2] = w[n-4] * x[n-4] + (-2*w[n-4] -2*w[n-3]) * x[n-3] + \
+             (w[n-4] + 4*w[n-3]) * x[n-2] - 2*w[n-4] * x[n-1] 
+    y[n-1] = w[n-3]*x[n-3] - 2*w[n-3]*x[n-2] + w[n-3]*x[n-1]
+        
 cdef void _diff1(double *x, double *y, const Py_ssize_t n1) noexcept nogil:
     cdef Py_ssize_t i
 
@@ -1103,6 +1124,18 @@ def diff2(double[::1] a, double[::1] b=None):
         b = empty_array(n-2)
         flag = 1
     _diff2(&a[0], &b[0], n-2)
+    if flag:
+        return b.base
+    else:
+        return np.asarray(b)
+
+def diff2w2(double[::1] a, double[::1] w, double[::1] b=None):
+    cdef Py_ssize_t n = a.shape[0]
+    cdef bint flag = 0
+    if b is None:
+        b = empty_array(n)
+        flag = 1
+    _diff2w2(&a[0], &w[0], &b[0], n)
     if flag:
         return b.base
     else:

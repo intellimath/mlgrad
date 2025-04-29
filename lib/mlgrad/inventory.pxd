@@ -105,6 +105,7 @@ cdef void mul_set(double[::1] a, double[::1] b, const double c) noexcept nogil
 cdef void mul_set1(double[::1] a, double[::1] b, const double c) noexcept nogil
 cdef double dot1(double[::1] a, double[::1] b) noexcept nogil
 cdef double dot(double[::1] a, double[::1] b) noexcept nogil
+cdef double dot_t(double[::1] a, double[:,::1] b) noexcept nogil
 cdef void matdot(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil
 cdef void matdot2(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil
 cdef void mul_add_arrays(double[::1] a, double[:,::1] M, double[::1] ss) noexcept nogil
@@ -140,6 +141,7 @@ cdef void _modified_zscore_mu(double *a, double *b, Py_ssize_t n, double mu)
 cdef void _diff4(double *x, double *y, const Py_ssize_t n) noexcept nogil
 cdef void _diff3(double *x, double *y, const Py_ssize_t n) noexcept nogil
 cdef void _diff2(double *x, double *y, const Py_ssize_t n) noexcept nogil
+cdef void _diff2w2(double *x, double *w, double *y, const Py_ssize_t n) noexcept nogil
 cdef void _diff1(double *x, double *y, const Py_ssize_t n) noexcept nogil
 cdef void _relative_max(double *x, double *y, const Py_ssize_t n) noexcept nogil
 cdef void _relative_abs_max(double *x, double *y, const Py_ssize_t n) noexcept nogil

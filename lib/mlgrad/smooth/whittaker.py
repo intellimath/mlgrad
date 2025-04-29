@@ -32,6 +32,58 @@ def whittaker_smooth_scipy(y, W=None, W2=None, tau=1.0, tau_z=0, d=2):
     z = scipy.sparse.linalg.spsolve(Z, W.dot(y) - tau_z)    
     return z
 
+def whittaker_smooth_optimize_tau2(X, W=None, W2=None, d=2, tol=1.0e-6):
+    N = len(X)
+    if W is None:
+        W = np.ones(N, "d")
+    if W2 is None:
+        W2 = np.ones(N-2, "d")
+
+    D2 = inventory.diff2(X)
+    S_left = W2 @ (D2 * D2)
+    tau2_left = 0
+    
+    tau2 = 1.0
+    while 1:
+        Z = whittaker_smooth(X, W=W, W2=W2, tau2=tau2, d=d)
+        E = Z - X
+        D2 = inventory.diff2(Z)
+        S = W @ (E * E) + tau2 * (W2 @ (D2 * D2))
+        if S < S_left:
+            tau2 *= 2
+        else:
+            tau2_right = tau2
+            S_right = S
+            break
+
+    print(tau2_left, tau2_right)
+
+    while abs(S_left - S_right) / (S_left + S_right) > tol:
+        tau2 = (tau2_left + tau2_right) / 2
+        Z = whittaker_smooth(X, W=W, W2=W2, tau2=tau2, d=d)
+        E = Z - X
+        D2 = inventory.diff2(Z)
+        S = W @ (E * E) + tau2 * (W2 @ (D2 * D2))
+        if S < S_left and S < S_right:            
+            if S_left < S_right:
+                tau2_right = tau2
+                S_right = S
+            elif S_left > S_right:
+                tau2_left = tau2
+                S_left = S
+        elif S >= S_left:
+            S_right = S
+            tau2_right = tau2
+        elif S >= S_right:
+            S_left = S
+            tau2_left = tau2
+            
+        print(tau2_left, tau2_right)
+
+    tau2 = (tau2_left + tau2_right) / 2
+    Z = whittaker_smooth(X, W=W, W2=W2, tau2=tau2, d=d)
+    return Z, tau2
+
 # def whittaker_smooth_scipy2(z0, W=None, W2=None, tau=1.0, d=2):
 #     N = len(y)
 #     D = scipy.sparse.csc_matrix(np.diff(np.eye(N), d))
@@ -152,8 +204,8 @@ def whittaker_smooth_weight_func(
         # W1 /= W1.sum()
     if tau2 > 0:
         if func2_mode == "e":
-            W2 = func2.derivative_div_array(E)
-            qval += tau2 * func2.evaluate_sum(E)
+            W2 = func2.derivative_div_array(E[1:-1])
+            qval += tau2 * func2.evaluate_sum(E[1:-1])
         else:
             D2 = array_transform.array_diff2(Z)
             W2 = func2.derivative_div_array(D2)
@@ -190,8 +242,8 @@ def whittaker_smooth_weight_func(
             qval += tau1 * func1.evaluate_sum(D1)
         if tau2 > 0:
             if func2_mode == "e":
-                W2 = func2.derivative_div_array(E)
-                qval += tau2 * func2.evaluate_sum(E)
+                W2 = func2.derivative_div_array(E[1:-1])
+                qval += tau2 * func2.evaluate_sum(E[1:-1])
             else:
                 D2 = array_transform.array_diff2(Z)
                 W2 = func2.derivative_div_array(D2)
@@ -245,7 +297,7 @@ def whittaker_smooth_weight_func2(
         if func2_mode == "d":
             W2 = func2(D2)
         else:
-            W2 = func2(E)
+            W2 = func2(E[1:-1])
         # W2 /= W2.mean()
 
     # if windows:
@@ -291,9 +343,122 @@ def whittaker_smooth_weight_func2(
             if func2_mode == "d":
                 W2 = func2(D2)
             else:
-                W2 = func2(E)
+                W2 = func2(E[1:-1])
             # W2 /= W2.sum()
 
+        # if windows:
+        #     for ww in self.windows:
+        #         i0, i1 = ww
+        #         W2[i0:i1+1] = w_tau2 / tau2
+
+        # qval = (E*E*W).sum()
+        # if tau2 > 0:
+        #     qval += tau2 * (D2*D2*W2).sum()
+        # if tau1 > 0:
+        #     qval += tau1 * (D1*D1*W1).sum()
+
+        # qvals.append(qval)
+
+        qvals.append(dq)
+        
+        if dq < tol:
+            flag = True
+
+        if flag:
+            break
+
+        # if qval > qval_min:
+        #     Z_min = Z.copy()
+        #     qval_min = qval
+
+    # print("K:", K+1)
+
+    return Z, {'qvals':qvals, 'K':K+1}
+
+def whittaker_smooth_weight_func3(
+            X, func=None, func2=None, windows=None, 
+            tau2=1.0, tau_z=0, w_tau2 = 1.0, 
+            d=2, n_iter=100, tol=1.0e-9, func2_mode="d"):
+
+    Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
+    # Z = X * 0.999
+    
+    E = X - Z
+
+    if func2 is not None or tau2 > 0:
+        D2 = inventory.diff2(Z)
+    # if func1 is not None or tau1 > 0:
+    #     D1 = inventory.diff1(Z)
+        
+    N = len(X)
+
+    W  = np.ones(N, "d")
+    # W1 = np.ones(N, "d")
+    W2 = np.ones(N, "d")
+    
+    if func is not None:
+        W = func(E)
+        # W /= W.mean()
+    # if func1 is not None and tau1 > 0:
+    #     W1 = func1(D1)
+    #     # W1 /= W1.sum()
+    if func2 is not None:
+        if func2_mode == "d":
+            W2 = func2(D2)
+        else:
+            W2 = func2(E)
+        # W2 /= W2.mean()
+
+    tau2 = ((E * Z) @ W) / ((D2 * D2) @ W2)
+
+    # if windows:
+    #     for ww in windows:
+    #         i0, i1 = ww
+    #         W2[i0:i1+1] = w_tau2 / tau2
+
+    # qval = (E*E*W).sum()
+    # if tau2 > 0:
+    #     qval += tau2 * (D2*D2*W2).sum()
+    # if tau1 > 0:
+    #     qval += tau1 * (D1*D1*W1).sum()
+
+    qvals = []
+    # qval = abs(Z).sum()
+
+    flag = False
+    for K in range(n_iter):
+        # qval_prev = qval
+        Z_prev = Z.copy()
+
+        Z = whittaker_smooth(X, W=W, W2=W2, 
+                             tau2=tau2, tau_z=tau_z, d=d)
+
+        dq = abs(Z - Z_prev).mean() / abs(Z).mean()
+        if dq < tol:
+            flag = True
+        
+        E = X - Z
+
+        # if func2 is not None or tau2 > 0:
+        D2 = inventory.diff2(Z)
+        # if func1 is not None or tau1 > 0:
+        #     D1 = inventory.diff1(Z)
+        
+        if func is not None:
+            W = func(E)
+            # W /= W.sum()
+        # if func1 is not None and tau1 > 0:
+        #     W1 = func1(D1)
+        #     # W1 /= W1.sum()
+        if func2 is not None and tau2 > 0:
+            if func2_mode == "d":
+                W2 = func2(D2)
+            else:
+                W2 = func2(E[1:-1])
+            # W2 /= W2.sum()
+
+        tau2 = ((E * W) @ Z) / ((D2 * D2 * W2) @ Z)
+        
         # if windows:
         #     for ww in self.windows:
         #         i0, i1 = ww
