@@ -395,7 +395,7 @@ cdef class SigmaNeuronModel(Model):
     #
     def __init__(self, Func outfunc, o):
         self.outfunc = outfunc
-        if isinstance(o, (int, long)):
+        if isinstance(o, int):
             self.n_param = o + 1
             self.n_input = o
             self.param = self.ob_param = None
