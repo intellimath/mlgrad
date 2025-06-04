@@ -16,7 +16,7 @@ from mlgrad.af import averaging_function
 
 from .margin_max import MarginMaximization, MarginMaximization2
 
-def classification_as_regr(Xs, Y, mod, lossfunc=loss.MarginLoss(funcs.Hinge(1.0)), regnorm=None,
+def classification_erm(Xs, Y, mod, lossfunc=loss.MarginLoss(funcs.Hinge(1.0)), regnorm=None,
                normalizer=None, h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
     if mod.param is None:
         mod.init_param()
@@ -28,7 +28,9 @@ def classification_as_regr(Xs, Y, mod, lossfunc=loss.MarginLoss(funcs.Hinge(1.0)
                  verbose=verbose, n_restart=n_restart)
     return alg
 
-def classification_as_regr22(Xs, Ys, mod, lossfunc=loss.MarginMultLoss2(funcs.Square()), regnorm=None,
+classification_as_regr = classification_erm
+
+def classification_erm22(Xs, Ys, mod, lossfunc=loss.MarginMultLoss2(funcs.Square()), regnorm=None,
                normalizer=None, h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
     if mod.param is None:
         mod.init_param()
@@ -40,7 +42,9 @@ def classification_as_regr22(Xs, Ys, mod, lossfunc=loss.MarginMultLoss2(funcs.Sq
                  verbose=verbose, n_restart=n_restart)
     return alg
 
-def classification_as_m_regr_ir(Xs, Y, mod, 
+classification_as_regr22 = classification_erm22
+
+def classification_merm_ir(Xs, Y, mod, 
                       lossfunc=loss.MarginLoss(funcs.Hinge(0)),
                       avrfunc=averaging_function('WM'), regnorm=None, normalizer=None, 
                       h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-6, n_iter2=22, verbose=0):
@@ -65,8 +69,10 @@ def classification_as_m_regr_ir(Xs, Y, mod,
     irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
 
     return irgd
+    
+classification_m_regr_ir = classification_merm_ir
 
-def classification_as_m_regr(Xs, Y, mod, 
+def classification_merm(Xs, Y, mod, 
                       lossfunc=loss.NegMargin(),
                       avrfunc=averaging_function('SoftMax', args=(4,)), regnorm=None, normalizer=None, 
                       h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0):
@@ -88,3 +94,4 @@ def classification_as_m_regr(Xs, Y, mod,
    
     return alg
 
+classification_as_m_regr = classification_merm

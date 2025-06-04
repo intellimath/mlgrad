@@ -57,38 +57,26 @@ cdef extern from "Python.h":
 # cdef public object sizeof_int
 # cdef public object sizeof_pint
 
-# @cython.no_gc
-# cdef class list_values:
-#     cdef Py_ssize_t size
-#     cdef Py_ssize_t allocated
-#     cdef void *data
-    
-#     cdef inline double* as_double_array(self)
-#     cdef inline double** as_pdouble_array(self)
-
-#     cdef inline double  _get_double(self, Py_ssize_t i)
-#     cdef inline double* _get_pdouble(self, Py_ssize_t i)
-#     cdef inline void _set_double(self, Py_ssize_t i, double p)
-#     cdef inline void _set_pdouble(self, Py_ssize_t i, double *p)
-    
-#     cdef inline void _append_double(self, double op)
-#     cdef inline void _append_pdouble(self, double *op)
-    
-#     cdef void _extend_double(self, double *op, Py_ssize_t n)
-#     cdef void _extend_pdouble(self, double **op, Py_ssize_t n)
-    
-# cdef class list_values_iter:
-#     cdef list_values op
-#     cdef Py_ssize_t i
-
 @cython.no_gc
-cdef class list_doubles:
+cdef class list_double:
     cdef Py_ssize_t size
     cdef Py_ssize_t allocated
     cdef double *data
-    
+
     cdef inline double  _get(self, Py_ssize_t i)
     cdef inline void _set(self, Py_ssize_t i, double p)
     
     cdef void _append(self, double op)
     cdef void _extend(self, double *op, Py_ssize_t n)
+
+@cython.no_gc
+cdef class list_int:
+    cdef Py_ssize_t size
+    cdef Py_ssize_t allocated
+    cdef int *data
+    
+    cdef inline int  _get(self, Py_ssize_t i)
+    cdef inline void _set(self, Py_ssize_t i, int p)
+    
+    cdef void _append(self, int op)
+    cdef void _extend(self, int *op, Py_ssize_t n)

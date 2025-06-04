@@ -26,20 +26,20 @@ import numpy as np
 
 cdef double _S_norm(double[:,::1] S, double[::1] a) noexcept nogil:
     cdef Py_ssize_t i, j, k, n = S.shape[0]
-    cdef double ai, s
-    cdef double *Si
+    cdef double a_i, s
+    cdef double *S_i
     cdef double *aa = &a[0]
 
     s = 0
     for i in range(n):
-        ai = aa[i]
-        Si = &S[i,0]
+        a_i = aa[i]
+        S_i = &S[i,0]
         for j in range(n):
-            s += ai * Si[j] * aa[j]
+            s += a_i * S_i[j] * aa[j]
     return s
 
 cpdef _find_pc(double[:,::1] S, double[::1] a0 = None, 
-               Py_ssize_t n_iter=1000, double tol=1.0e-6, bint verbose=0):
+               Py_ssize_t n_iter=1000, double tol=1.0e-5, bint verbose=0):
 
     cdef Py_ssize_t i, j, n = S.shape[0]
     cdef Py_ssize_t K = 0
@@ -94,40 +94,251 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
             
     return ra, L
 
-cdef void _sub_outer(double[:,::1] S, double[::1] a, double L) noexcept nogil:
-    cdef Py_ssize_t i, j, n = a.shape[0]
-    cdef double *S_i
-    cdef double *aa = &a[0]
-    cdef double v
+cpdef _find_robust_pc_min(double[:,::1] X, Average wma,  
+                          Py_ssize_t n_iter=1000, double tol=1.0e-6, 
+                          bint verbose=0, list qvals=None):
 
-    for i in range(n):
-        S_i = &S[i,0]
-        v = L * aa[i]
-        for j in range(n):
-            S_i[j] -= v * aa[j]
+    cdef Py_ssize_t i, j, k, N = X.shape[0], n = X.shape[1]
+    cdef Py_ssize_t K = 0
+    cdef double[::1] a, a_min
+    cdef double s, v
+    cdef double L, L_min
+
+    cdef double[::1] X2 = inventory.empty_array(N)
+    cdef double[::1] U  = inventory.empty_array(N)
+    cdef double[::1] Z  = inventory.empty_array(N)
+    cdef double[::1] W  = inventory.empty_array(N)
+
+    cdef double pval, pval_min, pval_min_prev, pval_prev
+    cdef bint to_finish = 0
+    cdef double Q
+    cdef int count = 0
+
+    for k in range(N):
+        X2[k] = inventory.dot(X[k], X[k])
+    
+    a = np.random.random(n)
+    inventory.normalize2(a)
+    a_min = a.copy()
+
+    inventory.matdot(U, X, a)    
+    L = 0
+    for k in range(N):
+        v = U[k]
+        L += v * v
+    L_min = L
+
+    for k in range(N):
+        v = U[k]
+        Z[k] = X2[k] - v * v
+
+    pval = pval_min = wma._evaluate(Z)
+    wma._gradient(Z, W)
+
+    pval_min_prev = pval_min * 10
+    Q = 1 + fabs(pval_min)
+
+    if qvals is not None:
+        qvals.append(pval)
+
+    to_finish = False
+    for K in range(n_iter):
+        pval_prev = pval
+
+        for i in range(n):
+            s = 0
+            for k in range(N):
+                s += W[k] * U[k] * X[k,i]
+            a[i] = s    
+        inventory.normalize2(a)
+
+        inventory.matdot(U, X, a)
+        
+        L = 0
+        for k in range(N):
+            v = U[k]
+            L += W[k] * v * v                    
+        
+        for k in range(N):
+            v = U[k]
+            Z[k] = X2[k] - v * v
+    
+        pval = wma._evaluate(Z)
+        wma._gradient(Z, W)
+
+        if qvals is not None:
+            qvals.append(pval)
+                
+        if fabs(pval - pval_prev) / Q < tol:
+            to_finish = True
+        if fabs(pval - pval_min) / Q < tol:
+            to_finish = True
+        elif fabs(pval - pval_min_prev) / Q < tol:
+            if count >= 5:
+                to_finish = True
+            else:
+                count += 1
+
+        if pval < pval_min:
+            pval_min_prev = pval_min
+            pval_min = pval
+            a_min = a.copy()
+            L_min = L
+            Q = 1 + fabs(pval_min)
+            count = 0
+        elif pval < pval_min_prev:
+            pval_min_prev = pval
+
+        if to_finish:
+            break
+        
+    ra_min = np.asarray(a_min)      
+                
+    if verbose:
+        print("K:", K, "L:", L, "PC:", ra_min)
+            
+    return ra_min, L_min
+
+cpdef _find_robust_pc_max(double[:,::1] X, Average wma,  
+                          Py_ssize_t n_iter=1000, double tol=1.0e-6, 
+                          bint verbose=0, list qvals=None):
+
+    cdef Py_ssize_t i, j, k, N = X.shape[0], n = X.shape[1]
+    cdef Py_ssize_t K = 0
+    cdef double[::1] a, a_max
+    cdef double s, v
+    cdef double L, L_max
+
+    cdef double[::1] U  = inventory.empty_array(N)
+    cdef double[::1] Z  = inventory.empty_array(N)
+    cdef double[::1] W  = inventory.empty_array(N)
+
+    cdef double pval, pval_max, pval_max_prev, pval_prev
+    cdef bint to_finish = 0
+    cdef double Q
+    cdef int count = 0
+    a = np.random.random(n)
+    inventory.normalize2(a)
+    a_max = a.copy()
+
+    inventory.matdot(U, X, a)    
+    L = 0
+    for k in range(N):
+        v = U[k]
+        L += v * v
+    L_max = L
+
+    for k in range(N):
+        v = U[k]
+        Z[k] = v * v
+
+    pval = pval_max = wma._evaluate(Z)
+    wma._gradient(Z, W)
+
+    pval_max_prev = pval_max * 10
+    Q = 1 + fabs(pval_max)
+
+    if qvals is not None:
+        qvals.append(pval)
+
+    to_finish = False
+    for K in range(n_iter):
+        pval_prev = pval
+
+        for i in range(n):
+            s = 0
+            for k in range(N):
+                s += W[k] * U[k] * X[k,i]
+            a[i] = s    
+        inventory.normalize2(a)
+
+        inventory.matdot(U, X, a)
+        
+        L = 0
+        for k in range(N):
+            v = U[k]
+            L += W[k] * v * v                    
+        
+        for k in range(N):
+            v = U[k]
+            Z[k] = v * v
+    
+        pval = wma._evaluate(Z)
+        wma._gradient(Z, W)
+
+        if qvals is not None:
+            qvals.append(pval)
+                
+        if fabs(pval - pval_prev) / Q < tol:
+            to_finish = True
+        if fabs(pval - pval_max) / Q < tol:
+            to_finish = True
+        elif fabs(pval - pval_max_prev) / Q < tol:
+            if count >= 5:
+                to_finish = True
+            else:
+                count += 1
+
+        if pval > pval_max:
+            pval_max_prev = pval_max
+            pval_max = pval
+            a_max = a.copy()
+            L_max = L
+            Q = 1 + fabs(pval_max)
+            count = 0
+        elif pval > pval_max_prev:
+            pval_max_prev = pval
+
+        if to_finish:
+            break
+        
+    ra_max = np.asarray(a_max)      
+                
+    if verbose:
+        print("K:", K, "L:", L, "PC:", ra_max)
+            
+    return ra_max, L_max
+
+cpdef _find_robust_pc(double[:,::1] X, Average wma, 
+                      Py_ssize_t n_iter=1000, double tol=1.0e-6, 
+                      bint verbose=0, list qvals=None, str mode="min"):
+    if mode == "min":
+        return _find_robust_pc_min(X, wma, n_iter=n_iter, tol=tol, 
+                                   verbose=verbose, qvals=qvals)
+    elif mode == "max":
+        return _find_robust_pc_max(X, wma, n_iter=n_iter, tol=tol, 
+                                   verbose=verbose, qvals=qvals)
+    else:
+        raise TypeError(f"invalid mode value: {mode}")
 
 cpdef _find_pc_all(double[:,::1] S, Py_ssize_t m=-1,
                   Py_ssize_t n_iter=1000, double tol=1.0e-6, bint verbose=0):
-    cdef Py_ssize_t j, n = S.shape[0]
-    cdef double[:,::1] S1 = S.copy()
+    cdef Py_ssize_t i, j, n = S.shape[0]
 
     cdef object As = inventory.empty_array2(m, n)
     cdef object Ls = inventory.empty_array(m)
-    cdef double[:,::1] AA
-    cdef double[::1] LL
+    cdef double[:,::1] AA = As
+    cdef double[::1] LL = Ls
     cdef double[::1] a
-    cdef double Lj
+    cdef double v, L_j
 
     if m <= 0:
         m = n
 
-    AA = As
-    LL = Ls
-
     for j in range(m):
-        a, Lj = _find_pc(S1, None, n_iter, tol, verbose)
-        _sub_outer(S1, a, Lj)
-        LL[j] = Lj
+        a, L_j = _find_pc(S, a0=None, n_iter=n_iter, tol=tol, verbose=verbose)
+        
+        LL[j] = L_j
         inventory._move(&AA[j,0], &a[0], n)
+        
+        for i in range(n):
+            v = a[i]
+            S[i,i] -= L_j * v * v
+        for i in range(n-1):
+            for j in range(i+1,n):
+                v = L_j * a[i] * a[j]
+                S[i,j] -= v
+                S[j,i] -= v
 
     return As, Ls
+

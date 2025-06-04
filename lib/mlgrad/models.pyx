@@ -135,7 +135,10 @@ cdef class BaseModel:
         return Y
     #
     def evaluate_all(self, X):
-        return self.evaluate(X)
+        X = _asarray2d(X)
+        Y = inventory.empty_array(X.shape[0])
+        self._evaluate(X, Y)
+        return Y
     #
     def evaluate_one(self, x):
         return self._evaluate_one(_asarray1d(x))
@@ -1240,7 +1243,7 @@ cdef class LinearFuncModel(BaseModel):
     #
     def __init__(self):
         self.models = []
-        self.weights = list_doubles(0)
+        self.weights = list_double(0)
         self.mask = None
     #
     def add(self, Model mod, weight=1.0):

@@ -1,7 +1,9 @@
 import numpy as np
-from numpy import diag, einsum, einsum_path, mean
+from numpy import diag, einsum, einsum_path, mean, average
 from numpy.linalg import det, inv, pinv
 from sys import float_info
+
+import mlgrad.inventory as inventory
 
 def distance_center(X, c, /):
     Z = X - c
@@ -10,25 +12,26 @@ def distance_center(X, c, /):
     Z2 = einsum("ni,ni->n", Z, Z)
     return np.sqrt(Z2)
 
-def location(X, /):
-    return X.mean(axis=0)
+def location(X, weights=None, /):
+    if weights is None:
+        return X.mean(axis=0)
+    else:
+        return average(X, axis=0, weights=weights)
 
-def robust_location(X, af, *, n_iter=1000, tol=1.0e-8, verbose=0):
+def robust_location(X, af, *, n_iter=1000, tol=1.0e-6, verbose=0):
     c = X.mean(axis=0)
     c_min = c
     N = len(X)
 
-    # Z = X - c
-    # U = (Z * Z).sum(axis=1)
-    Z = X - c
+    Xc = X - c
+    path, _ = einsum_path("ni,ni->n", Xc, Xc, optimize='optimal')
+    Z = einsum("ni,ni->n", Xc, Xc, optimize=path)
 
-    path, _ = einsum_path("ni,ni->n", Z, Z, optimize='optimal')
-    U = einsum("ni,ni->n", Z, Z, optimize=path)
+    s = s_min = af.evaluate(Z)
+    s_min_prev = s_min * 10
+    Q = 1 + abs(s_min)
 
-    s = s_min = af.evaluate(U)
-    s_min_prev = 0
-    G = af.gradient(U)
-    # print('*', s, G)
+    W = af.gradient(Z)
 
     if verbose:
         print(s, c)
@@ -36,30 +39,26 @@ def robust_location(X, af, *, n_iter=1000, tol=1.0e-8, verbose=0):
     for K in range(n_iter):
         s_prev = s
 
-        c = X.T @ G
+        c = (W @ X) / W.sum()
 
-        # Z = X - c
-        # U = (Z * Z).sum(axis=1)
-        Z = X - c
-        U = einsum("ni,ni->n", Z, Z, optimize=path)
-        # U = distance_center(XY, c)
-        # print(U)
-        s = af.evaluate(U)
-        G = af.gradient(U)
-        # print('**', s, G)
+        Xc = X - c
+        Z = einsum("ni,ni->n", Xc, Xc, optimize=path) # Z = (Xc * Xc).sum(axis=1)
+        s = af.evaluate(Z)
+        W = af.gradient(Z)
 
-        # print(S, c)
-
-        if s <= s_min:
+        if s < s_min:
             s_min_prev = s_min
             s_min = s
             c_min = c
             if verbose:
                 print('*', s, c)
+            Q = 1 + abs(s_min)
+        elif s < s_min_prev:
+            s_min_prev = s
         
-        if abs(s_prev - s) / (1 + abs(s_min)) < tol:
+        if abs(s_prev - s) / Q < tol:
             break
-        if abs(s_min - s_min_prev) / (1 + abs(s_min)) < tol:
+        if abs(s - s_min_prev) / Q < tol:
             break
 
     if verbose:
@@ -102,10 +101,6 @@ def location_l1(X, *, n_iter=1000, tol=1.0e-9, verbose=0):
         s = U.mean()
         G = 1.0 / U
         G /= G.sum()
-        
-        # print('**', s, G)
-
-        # print(S, c)
 
         if s < s_min:
             s_min = s
@@ -124,47 +119,71 @@ def location_l1(X, *, n_iter=1000, tol=1.0e-9, verbose=0):
 def scatter_matrix(X):
     return X.T @ X / len(X)
 
-def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=False, return_qvals=False):
-    N = len(X)
-    S = X.T @ X
-    n1 = 1.0 / S.shape[0]
-    S /= det(S) ** n1
+def robust_location_scatter(X, maf, tol=1.0e-6, n_iter=1000, verbose=False, qvals=None):
+    N, n = X.shape
+    c = location(X)
+    Xc = X - c
+    S = Xc.T @ Xc / N
     S = inv(S)
     S_min = S
-    path, _ = einsum_path('nj,jk,nk->n', X, S, X, optimize='optimal')
-    D = einsum('nj,jk,nk->n', X, S, X, optimize=path)
+    c_min = c
+    # path, _ = einsum_path('nj,jk,nk->n', Xc, S, Xc, optimize='optimal')
+    # D = einsum('nj,jk,nk->n', Xc, S, Xc, optimize=path)
+    D = inventory.mahalanobis_norm(S, Xc)
     # D = np.fromiter(
     #         (((x @ S) @ x) for x in X), 'd', N)
-    qval_min = maf.evaluate(D)
-    qval_min_prev = float_info.max
-    W = maf.weights(D)
-    path2, _ = einsum_path('nj,n,nk->jk', X, W, X, optimize='optimal')
+    qval_min = qval = maf.evaluate(D) - np.log(det(S))
+    qval_min_prev = float_info.max / 100
+    Q = 1 + abs(qval_min)
+    W = maf.gradient(D)
+    # path2, _ = einsum_path('nj,n,nk->jk', X, W, X, optimize='optimal')
 
-    qvals = [qval_min]
-    for K in range(n_iter):
-        # S = (X.T @ diag(W)) @ X
-        S = einsum('nj,n,nk->jk', X, W, X, optimize=path2)
-        S /= det(S) ** n1
-        S = inv(S)
-        D = einsum('nj,jk,nk->n', X, S, X, optimize=path)
-        # D = np.fromiter(
-        #         (((x @ S) @ x) for x in X), 'd', N)
-        qval = maf.evaluate(D)
-        W = maf.weights(D)
+    if qvals is not None:
         qvals.append(qval)
 
-        stop = False
-        if abs(qval - qval_min) / (1 + abs(qval_min)) < tol:
-            stop = True
-        if abs(qval_min_prev - qval_min) / (1 + abs(qval_min)) < tol:
-            stop = True
+    m = 0
+    for K in range(n_iter):
+        qval_prev = qval
+        c = np.average(X, axis=0, weights=W)
+        Xc = X - c
+        S = (Xc.T @ diag(W)) @ Xc
+        # ### S = einsum('nj,n,nk->jk', Xc, W, Xc, optimize=path2)
+        # S = inventory.scatter_matrix_weighted(Xc, W)
+        # S /= det(S) ** n1
+        S = inv(S)
+        # ### D = einsum('nj,jk,nk->n', Xc, S, Xc, optimize=path)
+        # # D = np.fromiter(
+        # #         (((x @ S) @ x) for x in X), 'd', N)
+        D = inventory.mahalanobis_norm(S, Xc)
+        qval = maf.evaluate(D) - np.log(det(S))
+        W = maf.gradient(D)
 
-        if qval <= qval_min:
+        if qvals is not None:
+            qvals.append(qval)
+
+        stop = False
+        if abs(qval - qval_prev) / Q < tol:
+            stop = True
+        elif abs(qval - qval_min) / Q < tol:
+            stop = True
+        elif abs(qval - qval_min_prev) / Q < tol:
+            if m >= 3:
+                stop = True
+            else:
+                m += 1
+
+        if qval < qval_min:
             qval_min_prev = qval_min
             qval_min = qval
             S_min = S
+            c_min = c
             if verbose:
-                print(S, qval)
+                print(qval, c, "\n", S)
+            Q = 1 + abs(qval_min)
+            m = 0
+        elif qval < qval_min_prev:
+            qval_min_prev = qval
+
         
         if stop:
             break
@@ -172,7 +191,11 @@ def robust_scatter_matrix(X, maf, tol=1.0e-8, n_iter=100, verbose=False, return_
     if verbose:
         print(f"K: {K}")
 
-    if return_qvals:
-        return S_min, qvals
-    else:
-        return S_min
+    # D = np.fromiter(
+    #         (((x @ S_min) @ x) for x in X), 'd', N)
+    # D = einsum('nj,jk,nk->n', X, S_min, X, optimize=path)
+    # maf.evaluate(D)
+    # W = maf.gradient(D)
+    # d = np.sqrt(n / (W @ D))
+
+    return c_min, S_min

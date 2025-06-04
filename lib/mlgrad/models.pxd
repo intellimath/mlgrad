@@ -34,7 +34,7 @@ ctypedef double (*ptrfunc)(double) nogil
 # ctypedef double (*FuncDerivative2)(Func, double) nogil
 # ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
 
-from mlgrad.list_values cimport list_doubles
+from mlgrad.list_values cimport list_double
 from mlgrad.array_allocator cimport Allocator, ArrayAllocator
 
 cimport mlgrad.inventory as inventory
@@ -48,6 +48,7 @@ cdef inline Model as_model(object o):
     return <Model>(<PyObject*>o)
 
 cdef class BaseModel(object):
+    cdef public uint8[::1] mask
     cdef double _evaluate_one(self, double[::1] X)
     cdef void _evaluate(self, double[:,::1] X, double[::1] Y)
     cdef void _gradient_all(self, double[:,::1] X, double[:,::1] G)
@@ -60,7 +61,6 @@ cdef class Model(BaseModel):
     cdef public double[::1] param
     cdef public double[::1] grad
     cdef public double[::1] grad_input
-    cdef public uint8[::1] mask
     # cdef bint is_allocated
 
     # cpdef init_param(self, param=*, bint random=*)
@@ -186,7 +186,7 @@ cdef class GeneralModelLayer(ModelLayer):
     
 cdef class LinearFuncModel(BaseModel):
     cdef public list models
-    cdef public list_doubles weights
+    cdef public list_double weights
     #
     # cdef LinearFuncModel _copy(self, bint share)
     

@@ -87,6 +87,47 @@ cdef class Func2:
         self._gradient_ex(X, grad, W)
         return grad
 
+cdef class Func2Layer:
+
+    cdef void _evaluate(self, double[::1] X, double[::1] Y):
+        pass
+    cdef void _gradient(self, double[::1] X, double[::1] Y):
+        pass
+    
+cdef class SquareNormLayer(Func2Layer):
+    #
+    def __init__(self, n):
+        self.funcs = []
+        self.starts = list_int()
+        self.counts = list_int()
+    #
+    def add(self, Func2 func, int start, int count):
+        self.funcs.append(func)
+        self.starts.append(start)
+        self.counts.append(count)
+    #
+    cdef void _evaluate(self, double[::1] X, double[::1] Y):
+        cdef Py_ssize_t j, m = len(self.funcs)
+        cdef Func2 func
+        cdef Py_ssize_t start, count
+
+        for j in range(m):
+            func = <Func2>self.funcs[j]
+            start = self.starts._get(j)
+            count = self.counts._get(j)
+            Y[j] = func._evaluate(X[start:start+count])
+    #
+    cdef void _gradient(self, double[::1] X, double[::1] Y):
+        cdef Py_ssize_t j, m = len(self.funcs)
+        cdef Func2 func
+        cdef Py_ssize_t start, count
+
+        for j in range(m):
+            func = <Func2>self.funcs[j]
+            start = self.starts._get(j)
+            count = self.counts._get(j)
+            func._gradient(X[start:start+count], Y[start:start+count])
+    
 @cython.final
 cdef class MixedNorm(Func2):
     #

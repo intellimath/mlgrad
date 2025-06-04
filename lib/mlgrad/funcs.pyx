@@ -189,6 +189,26 @@ cdef class Func(object):
         self._inverse_array(&x[0], &y[0], n)
         return y
     #
+    cpdef set_param(self, name, val):
+        pass
+    #
+    cpdef get_param(self, name):
+        pass
+
+cdef class ParameterizedFunc:
+    #
+    def __call__(self, x, u):
+        return self._evaluate(x, u)
+    #
+    cdef double _evaluate(self, const double x, const double u) noexcept nogil:
+        return 0
+    #
+    cdef double _derivative(self, const double x, const double u) noexcept nogil:
+        return 0
+    #
+    cdef double derivative_u(self, const double x, const double u) noexcept nogil:
+        return 0
+    
 
 cdef class Comp(Func):
     #
@@ -214,7 +234,7 @@ cdef class Comp(Func):
 
     def to_dict(self):
         return { 'name':'comp',
-                'args': (self.f.to_dict(), self.g.to_dict() )
+                 'args': (self.f.to_dict(), self.g.to_dict() )
                }
 
 cdef class CompSqrt(Func):
@@ -1209,7 +1229,7 @@ cdef class Logistic(Func):
     @cython.final
     @cython.cdivision(True)
     cdef double _evaluate(self, const double x) noexcept nogil:
-        cdef double v = self.p * x
+        cdef double v =  x / self.p
         if v >= 0:
             return 1 / (1 + exp(-v))
         else:
@@ -1218,14 +1238,26 @@ cdef class Logistic(Func):
     @cython.final
     @cython.cdivision(True)
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double v = self.p * x, v1, v2
+        cdef double v =  x / self.p, v1, v2
         if v >= 0:
             v1 = exp(-v)
         else:
             v1 = exp(v)
         v2 = v1 + 1
-        return self.p * v1 / (v2 * v2)
-    
+        return v1 / (v2 * v2) / self.p
+    #
+    cpdef set_param(self, name, val):
+        if name == "sigma":
+            self.p = val
+        else:
+            raise NameError(name)
+
+    cpdef get_param(self, name):
+        if name == "sigma":
+            return self.p
+        else:
+            raise NameError(name)
+
 @cython.final
 cdef class Step(Func):
     #
@@ -1249,7 +1281,18 @@ cdef class Step(Func):
         else:
             return -0.5/self.C
     #
+    cpdef set_param(self, name, val):
+        if name == "sigma":
+            self.C = val
+        else:
+            raise NameError(name)
 
+    cpdef get_param(self, name):
+        if name == "sigma":
+            return self.C
+        else:
+            raise NameError(name)
+            
 @cython.final
 cdef class Step_Sqrt(Func):
     #
@@ -1267,9 +1310,20 @@ cdef class Step_Sqrt(Func):
         cdef double v = eps*eps + x*x
         return -0.5 * eps*eps / (v * sqrt(v))
     #
+    cpdef set_param(self, name, val):
+        if name == "sigma":
+            self.p = val
+        else:
+            raise NameError(name)
+
+    cpdef get_param(self, name):
+        if name == "sigma":
+            return self.p
+        else:
+            raise NameError(name)
     
 @cython.final
-cdef class StepExp(Func):
+cdef class Step_Exp(Func):
     #
     def __init__(self, p=1.0):
         self.p = p
@@ -1277,14 +1331,14 @@ cdef class StepExp(Func):
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
         if x >= 0:
-            return exp(-self.p * x)
+            return exp(-x / self.p)
         else:
             return 1
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
         if x >= 0:
-            return -self.p * exp(-self.p * x)
+            return -exp(-x / self.p) / self.p
         else:
             return 0
     #
@@ -2297,19 +2351,6 @@ cdef class Log(Func):
         return { 'name':'log',
                  'args': (self.alpha,) }
 
-cdef class ParameterizedFunc:
-    #
-    def __call__(self, x, u):
-        return self._evaluate(x, u)
-    #
-    cdef double _evaluate(self, const double x, const double u) noexcept nogil:
-        return 0
-    #
-    cdef double _derivative(self, const double x, const double u) noexcept nogil:
-        return 0
-    #
-    cdef double derivative_u(self, const double x, const double u) noexcept nogil:
-        return 0
 
 cdef class WinsorizedFunc(ParameterizedFunc):
     #

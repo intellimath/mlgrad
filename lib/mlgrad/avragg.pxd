@@ -6,7 +6,7 @@ cimport numpy
 from mlgrad.funcs cimport SoftAbs_Sqrt, Square, Func, ParameterizedFunc
 from mlgrad.funcs2 cimport SoftMin, SoftMax, PowerMax
 from mlgrad.averager cimport ScalarAverager
-from libc.math cimport fabs, pow, sqrt, fmax, log, exp
+from libc.math cimport pow, sqrt, log, exp
 
 # from mlgrad.miscfuncs cimport init_rand, rand, fill
 
@@ -15,11 +15,22 @@ ctypedef double (*FuncDerivative)(Func, double) nogil
 ctypedef double (*FuncDerivative2)(Func, double) nogil
 ctypedef double (*FuncDerivativeDivX)(Func, double) nogil
 
+cdef inline double fabs(double x) noexcept nogil:
+    if x >= 0:
+        return x
+    else:
+        return -x
+
+cdef inline double fmax(double x, double y) noexcept nogil:
+    if x > y:
+        return x
+    else:
+        return y
+
+
 ctypedef fused number:
     float
     double
-#     double complex
-#     double complex
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()
@@ -33,10 +44,11 @@ cdef extern from "pymath.h" nogil:
 
 cdef inline double array_min(double[::1] arr):
     cdef Py_ssize_t i, N = arr.shape[0]
-    cdef double v, min_val = arr[0]
+    cdef double *aa = &arr[0]
+    cdef double v, min_val = aa[0]
 
     for i in range(N):
-        v = arr[i]
+        v = aa[i]
         if v < min_val:
             min_val = v
 
@@ -44,14 +56,14 @@ cdef inline double array_min(double[::1] arr):
 
 cdef inline double array_mean(double[::1] arr):
     cdef Py_ssize_t i, N = arr.shape[0]
-    cdef double *a = &arr[0]
-    cdef double v
+    cdef double *aa = &arr[0]
+    cdef double s
 
-    v = 0
+    s = 0
     for i in range(N):
-        v += a[i]
+        s += aa[i]
 
-    return v / N
+    return s / N
 
 cdef inline double array_std(double[::1] arr, double mu):
     cdef Py_ssize_t i, N = arr.shape[0]
@@ -65,11 +77,11 @@ cdef inline double array_std(double[::1] arr, double mu):
 
     return sqrt(s/N)
 
-cdef inline void array_add_scalar(double[::1] arr, const double v):
-    cdef Py_ssize_t i, N = arr.shape[0]
+# cdef inline void array_add_scalar(double[::1] arr, const double v):
+#     cdef Py_ssize_t i, N = arr.shape[0]
 
-    for i in range(N):
-        arr[i] += v
+#     for i in range(N):
+#         arr[i] += v
 
 cdef class Penalty:
     cdef readonly Func func

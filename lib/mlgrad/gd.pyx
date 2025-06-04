@@ -80,6 +80,7 @@ cdef class GD:
         cdef Py_ssize_t i, k = 0, m=0, M=self.M
         cdef double lval, lval_prev, lval_min, lval_min_prev
         cdef double tol = self.tol
+        cdef double Q
 
         self.risk.batch.init()
         self.init()
@@ -88,6 +89,7 @@ cdef class GD:
         self.lvals = [lval]
         self.K = 0
         # print(lval)
+        Q = 1 + fabs(lval_min)
 
         self.h_rate.init()
 
@@ -104,7 +106,6 @@ cdef class GD:
             if inventory.hasnan(risk.param):
                 print(k, np.asarray(risk.param))
             
-
             lval = risk._evaluate()            
             self.lvals.append(lval)
             # print(k, self.lval, self.lval_min)
@@ -114,23 +115,26 @@ cdef class GD:
 
             # if self.stop_condition():
             #     self.completed = 1
-            if fabs(lval - lval_prev) / (1.0 + fabs(lval_min)) < tol:
+            if fabs(lval - lval_prev) / Q < tol:
                 self.completed = 1
             
-            if fabs(lval_min - lval_min_prev) / (1.0 + fabs(lval_min)) < tol:
+            elif fabs(lval - lval_min) / Q < tol:
                 self.completed = 1
-                
 
+            elif fabs(lval - lval_min_prev) / Q < tol:
+                if m > 7:
+                    self.completed = 1
+                else:
+                    m += 1
+                
             if lval < lval_min:
                 lval_min_prev = lval_min
                 lval_min = lval
                 inventory.move(self.param_min, risk.param)
+                Q = 1 + fabs(lval_min)
                 m = 0
-            else:
-                m += 1
-
-            if m > M:
-                self.completed = 1
+            elif lval < lval_min_prev:
+                lval_min_prev = lval
                 
             if self.completed:
                 break

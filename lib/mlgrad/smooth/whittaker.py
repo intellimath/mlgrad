@@ -2,8 +2,6 @@ from mlgrad.af import averaging_function
 import mlgrad.funcs as funcs
 import mlgrad.funcs2 as funcs2
 import mlgrad.inventory as inventory
-import mlgrad.array_transform as array_transform
-# import mlgrad.averager as averager
 from sys import float_info
 
 from mlgrad.smooth._whittaker import whittaker_smooth_banded

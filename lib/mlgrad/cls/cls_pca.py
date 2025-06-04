@@ -65,7 +65,7 @@ class CLS_PC:
             qval_prev = qval
             YFD = self.func.derivative_array(U) * Y
             XAA = np.einsum("kj,jn", XA, A, optimize=True)
-            XA2 = X - XAA[:,1:]
+            XA2 = X - XAA
             A[:,1:] -= h * np.einsum("k,kn,j", YFD, XA2, b[1:], optimize=True)
             b[0] -= h * YFD.sum()
             A[:,0] -= h * YFD.sum() * b[1:]

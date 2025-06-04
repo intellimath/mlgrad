@@ -131,11 +131,12 @@ cdef object diag_matrix(double[::1] V)
 
 cdef double _abs_min(double *a, Py_ssize_t n) noexcept nogil
 cdef double _abs_diff_max(double *a, double *b, Py_ssize_t n) noexcept nogil
-cdef double _mean(double *a, Py_ssize_t n) noexcept nogil
-cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil
-cdef double _mad(double *a, double mu, Py_ssize_t n) noexcept nogil
+cdef double _mean(double[::1] a)
+cdef double _average(double[::1] a, double[::1] w)
+cdef double _std(double[::1] a, double mu)
+cdef double _mad(double[::1] a, double mu)
 
-cdef void _zscore(double *a, double *b, Py_ssize_t n)
+cdef void _zscore(double[::1] a, double[::1] b)
 cdef void _modified_zscore(double *a, double *b, Py_ssize_t n)
 cdef void _modified_zscore_mu(double *a, double *b, Py_ssize_t n, double mu)
 cdef void _diff4(double *x, double *y, const Py_ssize_t n) noexcept nogil
@@ -223,9 +224,9 @@ cdef void _robust_mean_2d_t(double[:,::1] x, double tau, double[::1] y) #noexcep
 
 cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil
 
-cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil
-cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
-                                      double[::1] loc, double[:,::1] S) noexcept nogil
+# cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil
+# cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
+#                                       double[::1] loc, double[:,::1] S) noexcept nogil
 # cdef void _covariance_matrix_weighted(
 #             double *X, const double *W, const double *loc, double *S, 
 #             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil

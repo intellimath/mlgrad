@@ -233,10 +233,13 @@ cdef class AverageIterative(Average):
         cdef double tol = self.tol
         cdef double u, u_min, pval, pval_prev, pval_min, pval_min_prev
         cdef bint to_finish
+        cdef double Q
+        cdef int count = 0
 
         u = u_min = self.init_u(Y)
         pval_min = pval = penalty.evaluate(Y, u)
         pval_min_prev = pval_min * 10.0
+        Q = 1 + fabs(pval_min)
         #
         to_finish = 0
         for k in range(n_iter):
@@ -244,17 +247,25 @@ cdef class AverageIterative(Average):
             u = penalty.iterative_next(Y, u)
             pval = penalty.evaluate(Y, u)
 
-            if pval <= pval_min:
-                if fabs(pval - pval_min) / (1 + fabs(pval)) < tol:
+            if fabs(pval - pval_prev) / Q < tol:
+                to_finish = True
+            elif fabs(pval - pval_min) / Q < tol:
+                to_finish = True
+            elif fabs(pval - pval_min_prev) / Q < tol:
+                if count >= 3:
                     to_finish = True
+                else:
+                    count += 1
 
+            if pval < pval_min:
                 pval_min_prev = pval_min
                 pval_min = pval
+                Q = 1 + fabs(pval_min)
                 u_min = u
-
-            if fabs(pval - pval_prev) / (1 + fabs(pval_min)) < tol:
-                to_finish = True
-
+                count = 0
+            elif pval < pval_min_prev:
+                pval_min_prev = pval
+                
             if to_finish:
                 break
             #
@@ -556,8 +567,8 @@ cdef class WMZAverage(Average):
     cdef double _evaluate(self, double[::1] Y):
         cdef Py_ssize_t j, N = Y.shape[0]
         cdef double[::1] U = self.U
-        cdef Func rho_func = self.mavr.func
-        cdef double mval, tval, v, s
+        cdef Func rho_func = self.savr.func
+        cdef double mval, tval1, tval2, v, s
 
         self.mval = self.mavr._evaluate(Y)
 
@@ -569,13 +580,16 @@ cdef class WMZAverage(Average):
             U[j] = rho_func._evaluate(Y[j] - mval)
 
         self.sval = rho_func._inverse(self.savr._evaluate(U))
-        tval = self.mval + self.alpha * self.sval
+        tval2 = self.mval + self.alpha * self.sval
+        # tval1 = self.mval - self.alpha * self.sval
 
         s = 0
         for j in range(N):
             v = Y[j]
-            if v >= tval:
-                v = tval
+            if v >= tval2:
+                v = tval2
+            # elif v <= tval1: 
+            #     v = tval1
             s += v
         s /= N
         self.u = s
@@ -588,8 +602,9 @@ cdef class WMZAverage(Average):
     cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t j, N = Y.shape[0]
         cdef double[::1] GU = self.GU
-        cdef Func rho_func = self.mavr.func
-        cdef double mval, tval, alpha, v, ss, m
+        cdef Func rho_func = self.savr.func
+
+        cdef double mval, sval, tval1, tval2, alpha, v, ss, m1, m2
 
         if not self.evaluated:
             self._evaluate(Y)
@@ -599,35 +614,42 @@ cdef class WMZAverage(Average):
 
         mval = self.mval
         alpha = self.alpha
-        tval = mval + alpha * self.sval
+        sval = self.sval
+        tval2 = mval + alpha * sval
+        # tval1 = mval - alpha * sval
 
-        m = 0
+        m2 = 0
+        # m1 = 0
         for j in range(N):
-            if Y[j] >= tval:
-                m += 1
+            v = Y[j] 
+            if v >= tval2:
+                m2 += 1
+            # elif v <= tval1:
+            #     m1 += 1
 
-        if m > 0:
+        # if m1 > 0 or m2 > 0:
+        if m2 > 0:
             self.mavr._gradient(Y, grad)
             self.savr._gradient(self.U, GU)
-    
+
             for j in range(N):
                 GU[j] *= rho_func._derivative(Y[j] - mval)
-    
+
             ss = 0
             for j in range(N):
                 ss += GU[j]
-            # print(ss, end=' ')
-    
+
             v = rho_func._derivative(self.sval)
             if v == 0:
                 for j in range(N):
                     grad[j] = 0
             else:
                 for j in range(N):
-                    grad[j] = m * (grad[j] + alpha * (GU[j] - ss * grad[j]) / v)
+                    grad[j] = (m1 + m2) * grad[j] + (m2 - m1) * alpha * (GU[j] - ss * grad[j]) / v
 
             for j in range(N):
-                if Y[j] < tval:
+                v = Y[j]
+                if v < tval1 or v > tval2:
                     grad[j] += 1
 
             for j in range(N):
@@ -661,7 +683,7 @@ cdef class WMZSum(Average):
     cdef double _evaluate(self, double[::1] Y):
         cdef Py_ssize_t j, N = Y.shape[0]
         cdef double[::1] U = self.U
-        cdef Func rho_func = self.mavr.func
+        cdef Func rho_func = self.savr.func
         cdef double mval, tval, v, s
 
         self.mval = self.mavr._evaluate(Y)
@@ -1034,8 +1056,8 @@ cdef class KolmogorovMean(Average):
         cdef Py_ssize_t k, N = Y.shape[0]
 
         u = 0
-        for k in prange(N, nogil=True, schedule='static'):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static'):
+        for k in range(N):
             yk = Y[k]
             u += self.func._evaluate(yk)
         u /= N
@@ -1050,8 +1072,8 @@ cdef class KolmogorovMean(Average):
         cdef double V
 
         V = self.invfunc._derivative(self.uu)
-        for k in prange(N, nogil=True, schedule='static'):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static'):
+        for k in range(N):
             grad[k] = self.func._derivative(Y[k]) * V
         self.evaluated = 0
 

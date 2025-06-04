@@ -25,6 +25,7 @@
 from libc.math cimport isnan, fma, sqrt, fabs
 
 cimport mlgrad.inventory as inventory
+from mlgrad.avragg cimport Average
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()
@@ -34,8 +35,16 @@ cdef extern from "Python.h":
 cdef double _S_norm(double[:,::1] S, double[::1] a) noexcept nogil
 
 
-cpdef _find_pc(double[:,::1] S, double[::1] a0 = *, 
-               Py_ssize_t n_iter = *, double tol = *, bint verbose = *)
+cpdef _find_pc(double[:,::1] S, double[::1] a0=*, 
+               Py_ssize_t n_iter=*, double tol=*, bint verbose=*)
 
-cpdef _find_pc_all(double[:,::1] S, Py_ssize_t m = *,
-                  Py_ssize_t n_iter = *, double tol = *, bint verbose = *)
+cpdef _find_robust_pc(double[:,::1] X, Average wma,  
+                      Py_ssize_t n_iter=*, double tol=*, bint verbose=*, list qvals=*, str mode=*)
+cpdef _find_robust_pc_min(double[:,::1] X, Average wma,  
+                      Py_ssize_t n_iter=*, double tol=*, bint verbose=*, list qvals=*)
+cpdef _find_robust_pc_max(double[:,::1] X, Average wma,  
+                      Py_ssize_t n_iter=*, double tol=*, bint verbose=*, list qvals=*)
+
+
+cpdef _find_pc_all(double[:,::1] S, Py_ssize_t m=*,
+                  Py_ssize_t n_iter=*, double tol=*, bint verbose=*)

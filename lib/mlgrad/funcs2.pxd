@@ -8,7 +8,7 @@ from libc.string cimport memcpy, memset
 from cython.parallel cimport parallel, prange
 cimport mlgrad.inventory as inventory
 from mlgrad.funcs cimport Func
-
+from mlgrad.list_values cimport list_int
 cimport numpy
 
 cdef extern from "Python.h":
@@ -49,6 +49,16 @@ cdef class Func2:
     cdef double _evaluate_ex(self, double[::1] param, double[::1] weights)
     cdef void _gradient_ex(self, double[::1] param, double[::1] grad, double[::1] weights)
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j)
+
+cdef class Func2Layer:
+
+    cdef void _evaluate(self, double[::1] X, double[::1] Y)
+    cdef void _gradient(self, double[::1] X, double[::1] Y)
+    
+cdef class SquareNormLayer(Func2Layer):
+    cdef list funcs
+    cdef list_int starts
+    cdef list_int counts
 
 @cython.final
 cdef class FuncNorm(Func2):

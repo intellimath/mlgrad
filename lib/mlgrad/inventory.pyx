@@ -318,7 +318,7 @@ cdef double _dot(const double *a, const double *x, const Py_ssize_t n) noexcept 
     return s
 
 cdef double dot_t(double[::1] a, double[:,::1] b) noexcept nogil:
-    return _dot_t(&a[0], &x[0], a.shape[0], b.shape[0])
+    return _dot_t(&a[0], &b[0,0], a.shape[0], b.shape[0])
 
 cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil:
     cdef Py_ssize_t i
@@ -331,24 +331,35 @@ cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssiz
 
 cdef void _matdot(double *output, double *M, const double *X, 
                     const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
-    cdef Py_ssize_t j
+    cdef Py_ssize_t i, j
+    cdef double *M_j = M
+    cdef double s
 
     # for j in prange(n_output, schedule='static', nogil=True, num_threads=num_procs):
     for j in range(n_output):
-        output[j] = _dot(M + j * n_input, X, n_input)
+        s = 0
+        for i in range(n_input):
+            s += M_j[i] * X[i]
+        output[j] = s
+        M_j += n_input
 
 cdef void matdot(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil:
     _matdot(&output[0], &M[0,0], &X[0], X.shape[0], output.shape[0])
         
 cdef void _matdot2(double *output, double *M, const double *X, 
                    const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
-    cdef Py_ssize_t j
-    cdef double *Mj
+    cdef Py_ssize_t i, j
+    cdef double s
+    cdef double *M_j = M
 
     # for j in prange(n_output, schedule='static', nogil=True, num_threads=num_procs):
     for j in range(n_output):
-        Mj = M + j * (n_input+1)
-        output[j] = Mj[0] + _dot(&Mj[1], X, n_input)
+        s = M_j[0]
+        M_j += 1
+        for i in range(n_input):
+            s += M_j[i] * X[i]
+        output[j] = s
+        M_j += n_input
 
 cdef void matdot2(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil:
     _matdot2(&output[0], &M[0,0], &X[0], <const Py_ssize_t>X.shape[0], <const Py_ssize_t>M.shape[0])
@@ -504,8 +515,8 @@ cdef void _scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1]
         double *Xk
         double *ss
 
+    ss = &S[0,0]
     for i in range(n):
-        ss = &S[0,0]
         for j in range(n):
             Xk = &X[0,0]
             s = 0
@@ -532,8 +543,8 @@ cdef void _scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil:
         double *Xk
         double *ss
 
+    ss = &S[0,0]
     for i in range(n):
-        ss = &S[0,0]
         for j in range(n):
             Xk = &X[0,0]
             s = 0
@@ -550,14 +561,14 @@ cdef void _scatter_matrix(double[:,::1] X, double[:,::1] S) noexcept nogil:
         ss += n
 
 def scatter_matrix(double[:,::1] X):
-    cdef Py_ssize_t n = X.shape[0], m = X.shape[1]
-    cdef object S = empty_array2(n, m)
+    cdef Py_ssize_t n = X.shape[1]
+    cdef object S = zeros_array2(n, n)
     _scatter_matrix(X, S)
     return S
 
 def scatter_matrix_weighted(double[:,::1] X, double[::1] W):
-    cdef Py_ssize_t n = X.shape[0], m = X.shape[1]
-    cdef object S = empty_array2(n, m)
+    cdef Py_ssize_t n = X.shape[1]
+    cdef object S = zeros_array2(n, n)
     _scatter_matrix_weighted(X, W, S)
     return S
 
@@ -686,29 +697,42 @@ cdef double _abs_diff_max(double *a, double *b, Py_ssize_t n) noexcept nogil:
         i += 1
     return v_max
 
-cdef double _mean(double *a, Py_ssize_t n) noexcept nogil:
-    cdef Py_ssize_t i
-    cdef double s = 0
+cdef double _mean(double[::1] a):
+    cdef Py_ssize_t i, n = a.shape[0]
+    cdef double *aa = &a[0], s = 0
 
     for i in range(n):
-        s += a[i]
+        s += aa[i]
     return s/n
 
-cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil:
-    cdef Py_ssize_t i
-    cdef double v, s = 0
+cdef double _average(double[::1] a, double[::1] w):
+    cdef Py_ssize_t i, n = a.shape[0]
+    cdef double *aa = &a[0], *ww = &w[0]
+    cdef double w_i, W=0, s = 0
 
     for i in range(n):
-        v = a[i] - mu
+        w_i = ww[i]
+        s += w_i * aa[i]
+        W += w_i
+    return s / W
+
+cdef double _std(double[::1] a, double mu):
+    cdef Py_ssize_t i, n = a.shape[0]
+    cdef double v, s = 0
+    cdef double *aa = &a[0]
+
+    for i in range(n):
+        v = aa[i] - mu
         s += v*v
     return sqrt(s/n)
 
-cdef double _mad(double *a, double mu, Py_ssize_t n) noexcept nogil:
-    cdef Py_ssize_t i
+cdef double _mad(double[::1] a, double mu):
+    cdef Py_ssize_t i, n = a.shape[0]
     cdef double s = 0
+    cdef double *aa = &a[0]
 
     for i in range(n):
-        s += fabs(a[i] - mu)
+        s += fabs(aa[i] - mu)
     return s/n
 
 cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:
@@ -932,13 +956,15 @@ cdef void _robust_mean_2d(double[:,::1] x, double tau, double[::1] y):
                 q += 1
         y[i] = s / q
 
-cdef void _zscore(double *a, double *b, Py_ssize_t n):
-    cdef Py_ssize_t i
-    cdef double mu = _mean(a, n)
-    cdef double sigma = _std(a, mu, n)
+cdef void _zscore(double[::1] a, double[::1] b):
+    cdef Py_ssize_t i, n = a.shape[0]
+    cdef double mu = _mean(a)
+    cdef double sigma = _std(a, mu)
+    cdef double *aa = &a[0]
+    cdef double *bb = &b[0]
 
     for i in range(n):
-        b[i] = (a[i] - mu) / sigma
+        bb[i] = (aa[i] - mu) / sigma
     
 cdef void _modified_zscore(double *a, double *b, Py_ssize_t n):
     cdef Py_ssize_t i
@@ -1039,8 +1065,9 @@ cdef void _relative_abs_max(double *x, double *y, const Py_ssize_t n) noexcept n
         if v > max_val:
             max_val = v
 
-    for i in range(n):
-        y[i] /= max_val
+    if max_val > 0:
+        for i in range(n):
+            y[i] /= max_val
         
         
 def zscore(a, b=None):
@@ -1054,7 +1081,7 @@ def zscore(a, b=None):
         flag = 1
     else:
         bb = b
-    _zscore(&aa[0], &bb[0], aa.shape[0])
+    _zscore(aa, bb)
     return b
         
 def modified_zscore2(a, b=None):
@@ -1207,6 +1234,12 @@ def relative_abs_max(a, b=None):
 #             m=j
 #     return a[k]
 
+def mean(x):
+    return _mean(_asarray(x))
+
+def average(x, w):
+    return _average(_asarray(x), _asarray(w))
+
 def median_1d(x, copy=True):
     if copy:
         xx = x.copy()
@@ -1250,50 +1283,50 @@ def robust_mean_2d_t(x, tau):
     _robust_mean_2d_t(_asarray(x), tau, y)
     return y
 
-cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil:
-    cdef Py_ssize_t i, j
-    cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
-    cdef double s, loc_i, loc_j
-    #
-    for i in range(n):
-        loc_i = loc[i]
-        for j in range(n):
-            loc_j = loc[j]
-            s = 0
-            for k in range(N):
-                s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
-            S[i,j] = s / N
+# cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil:
+#     cdef Py_ssize_t i, j
+#     cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
+#     cdef double s, loc_i, loc_j
+#     #
+#     for i in range(n):
+#         loc_i = loc[i]
+#         for j in range(n):
+#             loc_j = loc[j]
+#             s = 0
+#             for k in range(N):
+#                 s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
+#             S[i,j] = s / N
 
-def covariance_matrix(X, loc=None, S=None):
-    X = _asarray(X)
-    n = X.shape[1]
-    if S is None:
-        S = empty_array2(n, n)
-    else:
-        S = _asarray(S)
-        if S.shape[0] != n and S.shape[1] != n:
-            raise TypeError(f"ivalid shape of S: {S.shape}")
-    if loc is None:
-        loc = zeros_array(n)
-    else:
-        loc = _asarray(loc)
-    _covariance_matrix(X, loc, S)
-    return S
+# def covariance_matrix(X, loc=None, S=None):
+#     X = _asarray(X)
+#     n = X.shape[1]
+#     if S is None:
+#         S = empty_array2(n, n)
+#     else:
+#         S = _asarray(S)
+#         if S.shape[0] != n and S.shape[1] != n:
+#             raise TypeError(f"ivalid shape of S: {S.shape}")
+#     if loc is None:
+#         loc = zeros_array(n)
+#     else:
+#         loc = _asarray(loc)
+#     _covariance_matrix(X, loc, S)
+#     return S
 
-cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
-                                      double[::1] loc, double[:,::1] S) noexcept nogil:
-    cdef Py_ssize_t i, j
-    cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
-    cdef double s, loc_i, loc_j
-    #
-    for i in range(n):
-        loc_i = loc[i]
-        for j in range(n):
-            loc_j = loc[j]
-            s = 0
-            for k in range(N):
-                s += W[k] * (X[k,i] - loc_i) * (X[k,j] - loc_j)
-            S[i,j] = s
+# cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
+#                                       double[::1] loc, double[:,::1] S) noexcept nogil:
+#     cdef Py_ssize_t i, j
+#     cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
+#     cdef double s, loc_i, loc_j
+#     #
+#     for i in range(n):
+#         loc_i = loc[i]
+#         for j in range(n):
+#             loc_j = loc[j]
+#             s = 0
+#             for k in range(N):
+#                 s += W[k] * (X[k,i] - loc_i) * (X[k,j] - loc_j)
+#             S[i,j] = s
 
 # cdef void _covariance_matrix_weighted(
 #             double *X, const double *W, const double *loc, double *S, 
@@ -1324,22 +1357,22 @@ cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W,
 #             S_j += n
 #         S_i += n
             
-def covariance_matrix_weighted(X, W, loc=None, S=None):
-    X = _asarray(X)
-    n = X.shape[1]
-    W = _asarray(W)
-    if S is None:
-        S = empty_array2(n, n)
-    else:
-        S = _asarray(S)
-        if S.shape[0] != n and S.shape[1] != n:
-            raise TypeError(f"ivalid shape of S: {S.shape}")
-    if loc is None:
-        loc = zeros_array(n)
-    else:
-        loc = _asarray(loc)
-    _covariance_matrix_weighted(X, W, loc, S)
-    return S
+# def covariance_matrix_weighted(X, W, loc=None, S=None):
+#     X = _asarray(X)
+#     n = X.shape[1]
+#     W = _asarray(W)
+#     if S is None:
+#         S = empty_array2(n, n)
+#     else:
+#         S = _asarray(S)
+#         if S.shape[0] != n and S.shape[1] != n:
+#             raise TypeError(f"ivalid shape of S: {S.shape}")
+#     if loc is None:
+#         loc = zeros_array(n)
+#     else:
+#         loc = _asarray(loc)
+#     _covariance_matrix_weighted(X, W, loc, S)
+#     return S
 
 cdef class RingArray:
     #
@@ -1357,8 +1390,8 @@ cdef class RingArray:
     cpdef mad(self):
         cdef double mu_val, mad_val
 
-        mu_val = _mean(&self.data[0], self.size)
-        mad_val = _mad(&self.data[0], mu_val, self.size)
+        mu_val = _mean(self.data)
+        mad_val = _mad(self.data, mu_val)
         return mad_val
     #
     # cpdef median(self):
@@ -1436,3 +1469,18 @@ cdef double _norm2(double[::1] a):
 
 def norm2(a):
     return _norm2(a)
+
+def scale_min(x, alpha=0.01):
+    if x < 0:
+        return (1+alpha)*x
+    else:
+        return (1-alpha)*x
+
+def scale_max(x, alpha=0.01):
+    if x < 0:
+        return (1.0-alpha)*x
+    else:
+        return (1.0+alpha)*x
+
+def array_bounds(a, pad=0.1):
+    return scale_min(a.min(), pad), scale_max(a.max(), pad)

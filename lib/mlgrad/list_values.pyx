@@ -62,131 +62,9 @@ cdef inline Py_ssize_t resize(Py_ssize_t size):
 # sizeof_int = sizeof(int)
 # sizeof_pint = sizeof(int*)
 
-# @cython.no_gc
-# cdef class list_values:
-    
-#     def __cinit__(self, Py_ssize_t itemsize, Py_ssize_t size=0):
-
-#         self.data = data = <double*>PyMem_Malloc(size*sizeof(itemsize))
-#         self.size = self.allocated = size
-
-#     def __dealloc__(self):
-#         PyMem_Free(self.data)
-
-#     def __len__(self):
-#         return self.size
-        
-#     cdef inline double* as_double_array(self):
-#         return <double*>self.data
-
-#     cdef inline double** as_pdouble_array(self):
-#         return <double**>self.data
-    
-#     cdef inline double _get_double(self, Py_ssize_t i):
-#         return (<double*>self.data)[i]
-
-#     cdef inline double* _get_pdouble(self, Py_ssize_t i):
-#         return (<double**>self.data)[i]
-    
-#     cdef inline void _set_double(self, Py_ssize_t i, double p):
-#         (<double*>self.data)[i] = p
-
-#     cdef inline void _set_pdouble(self, Py_ssize_t i, double *p):
-#         (<double**>self.data)[i] = p
-        
-#     def get_double(self, i):
-#         if i < self.size:
-#             return self._get_double(i)
-#         else:
-#             raise IndexError("invalid index " + str(i))
-
-#     def set_double(self, i, v):
-#         return self._set_double(i, v)
-
-#     cdef void _append_double(self, double op):
-#         cdef Py_ssize_t size, newsize
-        
-#         size = self.size
-#         if size >= self.allocated:
-#             newsize = resize(size + 1)
-#             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))
-#             self.allocated = newsize        
-#         (<double*>self.data)[size] = op;
-#         self.size += 1
-
-#     cdef void _append_pdouble(self, double *op):
-#         cdef Py_ssize_t size, newsize
-        
-#         size = self.size
-#         if size >= self.allocated:
-#             newsize = resize(size + 1)
-#             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))
-#             self.allocated = newsize        
-#         (<double**>self.data)[size] = op;
-#         self.size += 1
-        
-#     def append_double(self, v):
-#         cdef double dv = v
-#         self._append_double(dv)
-        
-#     cdef void _extend_double(self, double *op, Py_ssize_t n):
-#         cdef Py_ssize_t i, newsize, size
-        
-#         size = self.size
-#         if size + n >= self.allocated:
-#             newsize = resize(size + n)
-#             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double))
-#             self.allocated = newsize
-#         for i in range(n):
-#             (<double*>self.data)[size + i] = op[i]
-#         self.size += n
-
-#     cdef void _extend_pdouble(self, double **op, Py_ssize_t n):
-#         cdef Py_ssize_t i, newsize, size
-        
-#         size = self.size
-#         if size + n >= self.allocated:
-#             newsize = resize(size + n)
-#             self.data = <void*>PyMem_Realloc(self.data, newsize*sizeof(double*))
-#             self.allocated = newsize
-#         for i in range(n):
-#             (<double**>self.data)[size + i] = op[i]
-#         self.size += n
-        
-#     def extend_double(self, ops):
-#         for v in ops:
-#             self._append_double(v)
-            
-#     def as_list_double(self):
-#         cdef Py_ssize_t i, size = self.size
-#         cdef list res = []
-        
-#         for i in range(size):
-#             res.append(self.get_double(i))
-#         return res
-    
-#     def as_nparray_double(self):
-#         cdef Py_ssize_t i, size = self.size
-#         cdef double[::1] data
-        
-#         res = np.empty(size, 'd')
-#         data = res
-#         for i in range(size):
-#             data[i] = self._get_double(i)
-#         return res
-    
-#     def as_memview_double(self):
-#         cdef Py_ssize_t i, size = self.size
-#         cdef double[::1] data
-        
-#         res = np.empty(size, 'd')
-#         data = res
-#         for i in range(size):
-#             data[i] = self._get_double(i)
-#         return data
             
 @cython.no_gc
-cdef class list_doubles:
+cdef class list_double:
     
     def __cinit__(self, size=0):
         cdef Py_ssize_t _size = size
@@ -262,7 +140,7 @@ cdef class list_doubles:
             
     def copy(self):
         cdef Py_ssize_t i, size = self.size
-        cdef list_doubles cp = list_doubles(size)
+        cdef list_double cp = list_double(size)
         
         for i in range(size):
             cp._set(i, self._get(i))
@@ -287,7 +165,7 @@ cdef class list_doubles:
             data[i] = self._get(i)
         return res
     
-    def as_memview_double(self):
+    def as_memview(self):
         cdef Py_ssize_t i, size = self.size
         cdef double[::1] data
         
@@ -296,3 +174,116 @@ cdef class list_doubles:
         for i in range(size):
             data[i] = self._get(i)
         return data
+
+@cython.no_gc
+cdef class list_int:
+    
+    def __cinit__(self, size=0):
+        cdef Py_ssize_t _size = size
+
+        self.data = data = <int*>PyMem_Malloc(_size*sizeof(int))
+        self.size = self.allocated = _size
+
+    def __dealloc__(self):
+        PyMem_Free(self.data)
+
+    def __len__(self):
+        return self.size
+    
+    cdef inline int _get(self, Py_ssize_t i):
+        return self.data[i]
+
+    cdef inline void _set(self, Py_ssize_t i, int v):
+        self.data[i] = v
+        
+    def __getitem__(self, i):
+        cdef Py_ssize_t ii = i
+
+        if ii < 0:
+            ii = self.size + ii
+        if 0 <= ii < self.size:
+            return self._get(ii)
+        else:
+            raise IndexError('invalid index %s' % i)
+
+    def __setitem__(self, i, v):
+        cdef Py_ssize_t ii = i
+        cdef int vv = v
+
+        if ii < 0:
+            ii = self.size + ii
+        if 0 <= ii < self.size:
+            self._set(i, vv)
+        else:
+            raise IndexError('invalid index %s' % i)
+
+    cdef void _append(self, int op):
+        cdef Py_ssize_t size, newsize
+        
+        size = self.size
+        if size >= self.allocated:
+            newsize = resize(size + 1)
+            self.data = <int*>PyMem_Realloc(self.data, newsize*sizeof(int))
+            self.allocated = newsize        
+        self.data[size] = op;
+        self.size += 1
+        
+    def append(self, v):
+        cdef int vv = v
+        self._append(vv)
+        
+    cdef void _extend(self, int *op, Py_ssize_t n):
+        cdef Py_ssize_t i, newsize, size
+        
+        size = self.size
+        if size + n >= self.allocated:
+            newsize = resize(size + n)
+            self.data = <int*>PyMem_Realloc(self.data, newsize*sizeof(int))
+            self.allocated = newsize
+        for i in range(n):
+            self.data[size + i] = op[i]
+        self.size += n
+        
+    def extend(self, ops):
+        cdef int vv
+        for v in ops:
+            vv = v
+            self._append(v)
+            
+    def copy(self):
+        cdef Py_ssize_t i, size = self.size
+        cdef list_int cp = list_int(size)
+        
+        for i in range(size):
+            cp._set(i, self._get(i))
+        
+        return cp
+    
+    def as_list(self):
+        cdef Py_ssize_t i, size = self.size
+        cdef list res = []
+        
+        for i in range(size):
+            res.append(self._get(i))
+        return res
+    
+    def as_nparray(self):
+        cdef Py_ssize_t i, size = self.size
+        cdef int[::1] data
+        
+        res = np.empty(size, 'i')
+        data = res
+        for i in range(size):
+            data[i] = self._get(i)
+        return res
+    
+    def as_memview(self):
+        cdef Py_ssize_t i, size = self.size
+        cdef int[::1] data
+        
+        res = np.empty(size, 'd')
+        data = res
+        for i in range(size):
+            data[i] = self._get(i)
+        return data
+    

@@ -76,8 +76,9 @@ class IRGD:
         self.weights.eval_weights()
         risk.use_weights(self.weights.weights)
 
-        self.lval_best = self.lval = self.weights.get_qvalue()
-        self.lval_best_prev = float_info.max / 10
+        self.lval_min = self.lval = self.weights.get_qvalue()
+        self.lval_min_prev = self.lval_min * 2
+        Q = 1 + abs(self.lval_min)
         # print(self.lval)
         self.param_best = risk.model.param.copy()
         
@@ -86,6 +87,7 @@ class IRGD:
 
         m = 0
         M = self.M
+        tol = self.tol
         for K in range(self.n_iter):     
             self.lval_prev = self.lval
             # print(K)
@@ -102,20 +104,30 @@ class IRGD:
             self.lval = self.weights.get_qvalue()
             # print(self.lval)
                 
-            if self.stop_condition():
+            if abs(self.lval - self.lval_prev) / Q < tol:
+                self.completed = 1
+            
+            elif abs(self.lval - self.lval_min) / Q < tol:
                 self.completed = 1
 
-            if self.lval <= self.lval_best:
-                self.param_best = risk.param.copy()
-                self.lval_best_prev = self.lval_best
-                self.lval_best = self.lval
-                m = 0
-            else:
-                m += 1
+            elif abs(self.lval - self.lval_min_prev) / Q < tol:
+                if m > 7:
+                    self.completed = 1
+                else:
+                    m += 1
 
-            if self.lval > self.lval_prev:
-                self.gd.h_rate.h *= self.h_anneal
-                self.gd.h_rate.init()
+            if self.lval < self.lval_min:
+                self.param_best = risk.param.copy()
+                self.lval_min_prev = self.lval_min
+                self.lval_min = self.lval
+                Q = 1 + abs(self.lval_min)
+                m = 0
+            elif self.lval < self.lval_min_prev:
+                self.lval_min_prev = self.lval
+
+            # if self.lval > self.lval_prev:
+            #     self.gd.h_rate.h *= self.h_anneal
+            #     self.gd.h_rate.init()
 
             if m > M:
                 self.completed = 1

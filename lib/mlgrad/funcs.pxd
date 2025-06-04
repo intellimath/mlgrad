@@ -3,9 +3,22 @@
 
 cimport cython
 
-from libc.math cimport fabs, pow, sqrt, fmax, exp, log, atan, fma, sinh, asinh, cosh, tanh, pi
+from libc.math cimport pow, sqrt, exp, log, atan, fma, sinh, asinh, cosh, tanh, pi
 from libc.math cimport isnan, isinf
 from libc.stdlib cimport strtod
+
+cdef inline double fabs(double x) noexcept nogil:
+    if x >= 0:
+        return x
+    else:
+        return -x
+
+cdef inline double fmax(double x, double y) noexcept nogil:
+    if x > y:
+        return x
+    else:
+        return y
+    
 
 cdef class Func(object):
     cdef public unicode label
@@ -27,6 +40,22 @@ cdef class Func(object):
     cdef void _value_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
     cdef void _inverse_array(self, double *x, double *y, Py_ssize_t n) noexcept nogil
     #
+    cpdef set_param(self, name, val)
+    cpdef get_param(self, name)
+    #
+
+cdef class Func_sigma(Func):
+    cdef public sigma
+    #
+    
+cdef class ParameterizedFunc:
+    #
+    cdef double _evaluate(self, double x, double u) noexcept nogil
+    #
+    cdef double _derivative(self, double x, double u) noexcept nogil
+    #
+    cdef double derivative_u(self, double x, double u) noexcept nogil
+    
 
 @cython.final
 cdef class Comp(Func):
@@ -245,7 +274,7 @@ cdef class Step_Sqrt(Func):
     #
 
 @cython.final
-cdef class StepExp(Func):
+cdef class Step_Exp(Func):
     cdef public double p
 
 @cython.final
@@ -328,14 +357,6 @@ cdef class KMinSquare(Func):
     cdef double[::1] c
     cdef int n_dim, j_min
     
-cdef class ParameterizedFunc:
-    #
-    cdef double _evaluate(self, double x, double u) noexcept nogil
-    #
-    cdef double _derivative(self, double x, double u) noexcept nogil
-    #
-    cdef double derivative_u(self, double x, double u) noexcept nogil
-
 @cython.final
 cdef class WinsorizedFunc(ParameterizedFunc):
     pass
