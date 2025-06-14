@@ -101,6 +101,13 @@ ext_modules = [
         define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
     Extension(
+        "mlgrad.array_transform",
+        ["lib/mlgrad/array_transform.pyx"],
+        extra_compile_args = extra_compile_args,
+        extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
+    ),
+    Extension(
         "mlgrad.list_values",
         ["lib/mlgrad/list_values.pyx"],
         extra_compile_args = extra_compile_args,
@@ -287,7 +294,7 @@ setup(
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Intended Audience :: Information Technology',
-        # 'License :: OSI Approved :: BSD 4-Clause "Original" or "Old" License',
+        'License :: OSI Approved :: BSD License',
         'Programming Language :: Cython',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.8',

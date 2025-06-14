@@ -20,8 +20,8 @@ def distance_line(X, a, /):
     # e = ones_like(a)
     # XX = (X * X) @ e #.sum(axis=1)
     XX = einsum("ni,ni->n", X, X, optimize=True)
-    U = X @ a
-    Z = XX - U * U
+    # Z = X @ a
+    Z = XX - Z * Z
     Z[Z<0] = 0
     return sqrt(Z)
 
@@ -53,12 +53,16 @@ def total_regression(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verb
     return a, L
 
 def find_pc(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verbose=0):
+    # if weights is None:
+    #     # N = len(X)
+    #     S = X.T @ X
+    # else:
+    #     # S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
+    #     S = (X.T * np.diag(weights)) @ X
     if weights is None:
-        # N = len(X)
-        S = X.T @ X
+        S = inventory.scatter_matrix(X)
     else:
-        # S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
-        S = (X.T * np.diag(weights)) @ X
+        S = inventory.scatter_matrix_weighted(X, weights)
     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose)
     if verbose:
         print("*", L)
@@ -90,7 +94,22 @@ def find_loc_and_pc(X, m=None, *, weights=None, verbose=False):
     As, Ls = find_pc_all(Xc, m, weights=weights, verbose=verbose)
     return c, As, Ls
 
-# 
+def find_loc_and_pc_ss(X, m=None, *, weights=None, verbose=False):
+    n = X.shape[1]
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+    
+    c = location(X, weights)
+    Xc = X - c
+
+    for x in Xc:
+        x[:] = x / abs(x).sum()
+    
+    As, Ls = find_pc_all(Xc, m, weights=weights, verbose=verbose)
+    return c, As, Ls
+
 def find_pc_ss(X, *, a0 = None, n_iter=200, tol=1.0e-6, verbose=0):
     N = len(X)
     Xs = X.copy()
@@ -220,7 +239,7 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
 #     for K in range(n_iter):
 #         sz_prev = sz
         
-#         S = inventory.covariance_matrix_weighted(X, W)
+#         S = inventory.scatter_matrix_weighted(X, W)
 #         ### S = (X.T @ np.diag(G)) @ X
 #         # S = einsum("in,n,nj->ij", X.T, G, X, optimize=True)
 
@@ -265,8 +284,8 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
 
 #     return a_min, L_min
     
-def find_robust_pc_all(X0, wma, m=None, *, n_iter=1000, tol=1.0e-6, verbose=False, mode="min"):
-    import matplotlib.pyplot as plt
+def find_robust_pc_all(X0, wma, m=None, *, verbose=False):
+    # import matplotlib.pyplot as plt
     N, n = X0.shape
     if m is None:
         m = n
@@ -280,21 +299,20 @@ def find_robust_pc_all(X0, wma, m=None, *, n_iter=1000, tol=1.0e-6, verbose=Fals
     # plt.figure(figsize=(6,4))
     for i in range(m):
         qvals = []
-        a, L = _find_robust_pc(X, wma, n_iter=n_iter, tol=tol, verbose=verbose, qvals=qvals, mode=mode)
+        a, L = _find_robust_pc(X, wma, verbose=verbose, qvals=qvals)
         X = project(X, a)
         Ls[i] = L
         As[i,:] = a
         # plt.plot(qvals, label=str(i))
-    # plt.minorticks_on()
     # plt.legend()
     # plt.show()
 
     return As, Ls  
 
-def find_robust_loc_and_pc(X, wma, m=None, *, verbose=False, n_iter=1000, tol=1.0e-6, mode="min"):
+def find_robust_loc_and_pc(X, wma, m=None, *, verbose=False):
     c = robust_location(X, wma)
     Xc = X - c
-    As, Ls = find_robust_pc_all(Xc, wma, m=m, n_iter=n_iter, tol=tol, verbose=verbose, mode=mode)
+    As, Ls = find_robust_pc_all(Xc, wma, m=m, verbose=verbose)
     return c, As, Ls    
 
 def find_pc_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
@@ -381,67 +399,24 @@ def find_pc_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
 #         Ls[j] = L
 #         S1 -= L*np.outer(a, a)
 #     return A, L
-
-
-def find_pc_ss_all(X0, m=None, *, weights=None, verbose=False, return_us=True):
-    N, n = X0.shape
-    if m is None:
-        m = n
-    elif m > n:
-        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
-
-    As = np.empty((m,n), "d")
-    if return_us:
-        Us = np.empty((N,m), "d")
-    Ls = np.empty(m, "d")
-    
-    X = X0
-    for i in range(m):
-        a, L = find_pc_ss(X, verbose=verbose)
-        if return_us:
-            U = project_line(X0, a)
-        X = project(X, a)
-        Ls[i] = L
-        As[i,:] = a
-        if return_us:
-            Us[:,i] = U
-    
-    if return_us:
-        return As, Ls, Us
-    else:
-        return As, Ls
-
-def find_loc_and_pc_ss(X, m=None, *, weights=None, verbose=False):
-    c = location_l1(X)
-    Xc = X - c
-    As, Ls = find_pc_ss_all(Xc, m=m, verbose=verbose, return_us=False)
-    return c, As, Ls
         
-def find_pc_smoothed(X, *, a0=None, weights=None, d=2, n_iter=100, tol=1.0e-4, verbose=0, H2=None):
-    """
-    Поиск главной компоненты с единичной евклидовой нормой конечной разности 2-го порядка.
-    """
-    N, n = X.shape
+def find_smoothed_pc(X, *, a0=None, tau=1.0, weights=None, n_iter=100, tol=1.0e-4, verbose=0):
+    N, m = X.shape
     if weights is None:
         S = X.T @ X
     else:
         # S = einsum("in,n,nj->ij", X.T, weights, X, optimize=True)
         S = (X.T * np.diag(weights)) @ X
 
-    if H2 is None:
-        D = np.diff(np.eye(n, dtype="d"), d)
-        D2 = D @ D.T
-        H2 = np.linalg.pinv(D2, hermitian=True)
-    # print(S.shape, H2.shape)
-    S = H2 @ S
+    D = np.diff(np.eye(m, dtype="d"), 2)
+    D2 = D @ D.T
+    # print(S.shape, D2.shape)
+    S -= tau * D2
 
     a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose)
     return a, L
 
-def find_pc_smoothed_all(X0, m=None, *, weights=None, d=2, verbose=False):
-    Ls = []
-    As = []
-    # Us = []
+def find_smoothed_pc_all(X0, m=None, tau=1.0, *, weights=None, verbose=False):
 
     n = X0.shape[1]
     if m is None:
@@ -451,28 +426,31 @@ def find_pc_smoothed_all(X0, m=None, *, weights=None, d=2, verbose=False):
 
     As = np.empty((m,n), "d")
     Ls = np.empty(m, "d")
-
-    D = np.diff(np.eye(n, dtype="d"), 2)
-    D2 = D @ D.T
-    H2 = np.linalg.pinv(D2, hermitian=True)
     
     X = X0
     for i in range(m):
-        a, L = find_pc_smoothed(X, weights=weights, d=d, verbose=verbose, H2=H2)
+        a, L = find_smoothed_pc(X, tau=tau, weights=weights, verbose=verbose)
+        # U = project_line(X, a)
         X = project(X, a)
         Ls[i] = L
         As[i,:] = a
-
     return As, Ls
 
-# def find_smoothed_loc_and_pc(X, m=None, tau2=1.0, *, verbose=False, n_iter=1000, tol=1.0e-6):
-#     from mlgrad.smooth import whittaker_smooth
-#     c = location(X)
-#     c = whittaker_smooth(c, tau2)
-#     Xc = X - c
-#     As, Ls = find_smoothed_pc_all(Xc, m=m, n_iter=n_iter, tol=tol, verbose=verbose, mode=mode)
-#     return c, As, Ls    
-    
+def find_smoothed_loc_and_pc(X, m=None, *, weights=None, tau=1.0, verbose=False):
+    from mlgrad.smooth import whittaker_smooth
+
+    n = X.shape[1]
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    c = location(X, weights)
+    c = whittaker_smooth(c, tau2=tau)
+    Xc = X - c
+    As, Ls = find_smoothed_pc_all(Xc, m, weights=weights, tau=tau, verbose=verbose)
+    return c, As, Ls
+
 def find_pc_l1_all(X0, n=None, verbose=False):
     Ls = []
     As = []
@@ -565,47 +543,3 @@ def find_rho_pc_all(X0, rho_func, n=None, *, verbose=False, return_us=True):
 #     # and return the re-scaled data, eigenvalues, and eigenvectors
 #     return np.dot(evecs.T, data.T).T, evals, evecs
 
-# def find_robust_loc_and_pc(X, avrfunc, m=None, *, n_iter=100, tol=1.0e-6, verbose=False, qvals=None):
-#     n = X.shape[1]
-#     c, As, Ls = find_loc_and_pc(X, m)
-#     Xc = X - c
-#     Us = Xc @ As.T
-#     if m == n:
-#         Us = Us[:,:-1]
-#     Z = (Xc * Xc).sum(axis=1) - (Us * Us).sum(axis=1)
-    
-#     sz = avrfunc.evaluate(Z)
-#     W = avrfunc.gradient(Z)
-    
-#     sz_min = sz
-#     c_min = c
-#     As_min = As
-#     Ls_min = Ls
-    
-#     for K in range(n_iter):
-#         sz_prev = sz
-    
-#         c, As, Ls = find_loc_and_pc(X, m, weights=W, verbose=verbose)
-#         Xc = X - c
-#         Us = Xc @ As.T
-#         if m == n:
-#             Us = Us[:,:-1]
-#         Z = (Xc * Xc).sum(axis=1) - (Us * Us).sum(axis=1)
-#         # print(c, Ls, "\n", As)
-#         # print(Z)
-
-#         sz = avrfunc.evaluate(Z)
-#         if sz < sz_min:
-#             sz_min = sz
-#             As_min = As
-#             Ls_min = Ls
-
-#         if qvals is not None:
-#             qvals.append(sz)
-        
-#         if abs(sz - sz_prev) / (1 + abs(sz_min)) < tol:
-#             break
-        
-#         W = avrfunc.gradient(Z)
-
-#     return c_min, As_min, Ls_min

@@ -34,7 +34,7 @@ cdef double max_double = PyFloat_GetMax()
 cdef double min_double = PyFloat_GetMin()
 
 import numpy as np
-
+ 
 cdef class Penalty(object):
     #
     cdef double evaluate(self, double[::1] Y, const double u):
@@ -568,7 +568,7 @@ cdef class WMZAverage(Average):
         cdef Py_ssize_t j, N = Y.shape[0]
         cdef double[::1] U = self.U
         cdef Func rho_func = self.savr.func
-        cdef double mval, tval1, tval2, v, s
+        cdef double mval, tval, v, s
 
         self.mval = self.mavr._evaluate(Y)
 
@@ -580,16 +580,13 @@ cdef class WMZAverage(Average):
             U[j] = rho_func._evaluate(Y[j] - mval)
 
         self.sval = rho_func._inverse(self.savr._evaluate(U))
-        tval2 = self.mval + self.alpha * self.sval
-        # tval1 = self.mval - self.alpha * self.sval
+        tval = self.mval + self.alpha * self.sval
 
         s = 0
         for j in range(N):
             v = Y[j]
-            if v >= tval2:
-                v = tval2
-            # elif v <= tval1: 
-            #     v = tval1
+            if v >= tval:
+                v = tval
             s += v
         s /= N
         self.u = s
@@ -604,7 +601,7 @@ cdef class WMZAverage(Average):
         cdef double[::1] GU = self.GU
         cdef Func rho_func = self.savr.func
 
-        cdef double mval, sval, tval1, tval2, alpha, v, ss, m1, m2
+        cdef double mval, tval, alpha, v, ss, m
 
         if not self.evaluated:
             self._evaluate(Y)
@@ -614,21 +611,14 @@ cdef class WMZAverage(Average):
 
         mval = self.mval
         alpha = self.alpha
-        sval = self.sval
-        tval2 = mval + alpha * sval
-        # tval1 = mval - alpha * sval
+        tval = mval + alpha * self.sval
 
-        m2 = 0
-        # m1 = 0
+        m = 0
         for j in range(N):
-            v = Y[j] 
-            if v >= tval2:
-                m2 += 1
-            # elif v <= tval1:
-            #     m1 += 1
+            if Y[j] >= tval:
+                m += 1
 
-        # if m1 > 0 or m2 > 0:
-        if m2 > 0:
+        if m > 0:
             self.mavr._gradient(Y, grad)
             self.savr._gradient(self.U, GU)
 
@@ -645,11 +635,10 @@ cdef class WMZAverage(Average):
                     grad[j] = 0
             else:
                 for j in range(N):
-                    grad[j] = (m1 + m2) * grad[j] + (m2 - m1) * alpha * (GU[j] - ss * grad[j]) / v
+                    grad[j] = m * (grad[j] + alpha * (GU[j] - ss * grad[j]) / v)
 
             for j in range(N):
-                v = Y[j]
-                if v < tval1 or v > tval2:
+                if Y[j] < tval:
                     grad[j] += 1
 
             for j in range(N):

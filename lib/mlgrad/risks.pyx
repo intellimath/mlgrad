@@ -860,7 +860,7 @@ cdef class ERisk22(Risk):
 
 cdef class ERisk2(Risk):
     #
-    def __init__(self, double[:,::1] X, double[::1] Y, Model2 model, MultLoss2 loss,
+    def __init__(self, double[:,::1] X, double[::1] Y, Model2 model, MultLoss loss,
                        Func2 regnorm=None, Batch batch=None, tau=1.0e-3, is_natgrad=0):
         self.model = model
         self.param = model.param

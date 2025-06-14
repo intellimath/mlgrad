@@ -42,7 +42,7 @@ def sfunc(func):
 
 def erisk(X, Y, mod, loss_func, regnorm=None, weights=None, tau=0.001, batch=None):
     if isinstance(loss_func, MultLoss):
-        er = ERisk21(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
+        er = ERisk2(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
     elif isinstance(loss_func, MultLoss2):
         er = ERisk22(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
     else:

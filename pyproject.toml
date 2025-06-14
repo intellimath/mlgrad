@@ -6,12 +6,12 @@ authors = [
 ]
 description = "Machine Learning tools."
 readme = "README.md"
-license = "BSD-4-CLause"
+license = {file = "licence.txt"}
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Developers",
-    # 'License :: OSI Approved :: BSD 4-Clause "Original" or "Old" License',
+    "License :: OSI Approved :: BSD License",
     "Operating System :: OS Independent",
     "Programming Language :: Cython",
     "Programming Language :: Python :: 3",

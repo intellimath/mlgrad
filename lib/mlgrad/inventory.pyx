@@ -697,42 +697,29 @@ cdef double _abs_diff_max(double *a, double *b, Py_ssize_t n) noexcept nogil:
         i += 1
     return v_max
 
-cdef double _mean(double[::1] a):
-    cdef Py_ssize_t i, n = a.shape[0]
-    cdef double *aa = &a[0], s = 0
+cdef double _mean(double *a, Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+    cdef double s = 0
 
     for i in range(n):
-        s += aa[i]
+        s += a[i]
     return s/n
 
-cdef double _average(double[::1] a, double[::1] w):
-    cdef Py_ssize_t i, n = a.shape[0]
-    cdef double *aa = &a[0], *ww = &w[0]
-    cdef double w_i, W=0, s = 0
-
-    for i in range(n):
-        w_i = ww[i]
-        s += w_i * aa[i]
-        W += w_i
-    return s / W
-
-cdef double _std(double[::1] a, double mu):
-    cdef Py_ssize_t i, n = a.shape[0]
+cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
     cdef double v, s = 0
-    cdef double *aa = &a[0]
 
     for i in range(n):
-        v = aa[i] - mu
+        v = a[i] - mu
         s += v*v
     return sqrt(s/n)
 
-cdef double _mad(double[::1] a, double mu):
-    cdef Py_ssize_t i, n = a.shape[0]
+cdef double _mad(double *a, double mu, Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
     cdef double s = 0
-    cdef double *aa = &a[0]
 
     for i in range(n):
-        s += fabs(aa[i] - mu)
+        s += fabs(a[i] - mu)
     return s/n
 
 cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:
@@ -956,15 +943,13 @@ cdef void _robust_mean_2d(double[:,::1] x, double tau, double[::1] y):
                 q += 1
         y[i] = s / q
 
-cdef void _zscore(double[::1] a, double[::1] b):
-    cdef Py_ssize_t i, n = a.shape[0]
-    cdef double mu = _mean(a)
-    cdef double sigma = _std(a, mu)
-    cdef double *aa = &a[0]
-    cdef double *bb = &b[0]
+cdef void _zscore(double *a, double *b, Py_ssize_t n):
+    cdef Py_ssize_t i
+    cdef double mu = _mean(a, n)
+    cdef double sigma = _std(a, mu, n)
 
     for i in range(n):
-        bb[i] = (aa[i] - mu) / sigma
+        b[i] = (a[i] - mu) / sigma
     
 cdef void _modified_zscore(double *a, double *b, Py_ssize_t n):
     cdef Py_ssize_t i
@@ -1065,9 +1050,8 @@ cdef void _relative_abs_max(double *x, double *y, const Py_ssize_t n) noexcept n
         if v > max_val:
             max_val = v
 
-    if max_val > 0:
-        for i in range(n):
-            y[i] /= max_val
+    for i in range(n):
+        y[i] /= max_val
         
         
 def zscore(a, b=None):
@@ -1081,7 +1065,7 @@ def zscore(a, b=None):
         flag = 1
     else:
         bb = b
-    _zscore(aa, bb)
+    _zscore(&aa[0], &bb[0], aa.shape[0])
     return b
         
 def modified_zscore2(a, b=None):
@@ -1234,12 +1218,6 @@ def relative_abs_max(a, b=None):
 #             m=j
 #     return a[k]
 
-def mean(x):
-    return _mean(_asarray(x))
-
-def average(x, w):
-    return _average(_asarray(x), _asarray(w))
-
 def median_1d(x, copy=True):
     if copy:
         xx = x.copy()
@@ -1390,8 +1368,8 @@ cdef class RingArray:
     cpdef mad(self):
         cdef double mu_val, mad_val
 
-        mu_val = _mean(self.data)
-        mad_val = _mad(self.data, mu_val)
+        mu_val = _mean(&self.data[0], self.size)
+        mad_val = _mad(&self.data[0], mu_val, self.size)
         return mad_val
     #
     # cpdef median(self):

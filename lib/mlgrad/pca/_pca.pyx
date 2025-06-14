@@ -2,7 +2,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2023> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2025> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,10 @@
 # THE SOFTWARE.
 
 import numpy as np
+
+from libc.math cimport isnan, fma, sqrt, fabs
+cimport mlgrad.inventory as inventory
+from mlgrad.avragg cimport Average
 
 cdef double _S_norm(double[:,::1] S, double[::1] a) noexcept nogil:
     cdef Py_ssize_t i, j, k, n = S.shape[0]
@@ -94,15 +98,19 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
             
     return ra, L
 
-cpdef _find_robust_pc_min(double[:,::1] X, Average wma,  
-                          Py_ssize_t n_iter=1000, double tol=1.0e-6, 
-                          bint verbose=0, list qvals=None):
+cpdef _find_robust_pc(double[:,::1] X, Average wma,  
+                      Py_ssize_t n_iter=1000, double tol=1.0e-5, 
+                      bint verbose=0, list qvals=None):
 
     cdef Py_ssize_t i, j, k, N = X.shape[0], n = X.shape[1]
     cdef Py_ssize_t K = 0
     cdef double[::1] a, a_min
+    # cdef double *aa
+    # cdef double[::1] S_a = inventory.empty_array(n)
+    # cdef double *SS_a = &S_a[0]
+    # cdef double *SS_i
     cdef double s, v
-    cdef double L, L_min
+    cdef double L, L_prev
 
     cdef double[::1] X2 = inventory.empty_array(N)
     cdef double[::1] U  = inventory.empty_array(N)
@@ -113,21 +121,15 @@ cpdef _find_robust_pc_min(double[:,::1] X, Average wma,
     cdef bint to_finish = 0
     cdef double Q
     cdef int count = 0
-
-    for k in range(N):
-        X2[k] = inventory.dot(X[k], X[k])
-    
+        
     a = np.random.random(n)
     inventory.normalize2(a)
     a_min = a.copy()
 
-    inventory.matdot(U, X, a)    
-    L = 0
     for k in range(N):
-        v = U[k]
-        L += v * v
-    L_min = L
+        X2[k] = inventory._dot(&X[k,0], &X[k,0], n)
 
+    inventory.matdot(U, X, a)    
     for k in range(N):
         v = U[k]
         Z[k] = X2[k] - v * v
@@ -141,6 +143,12 @@ cpdef _find_robust_pc_min(double[:,::1] X, Average wma,
     if qvals is not None:
         qvals.append(pval)
 
+    L = 0
+    for k in range(N):
+        v = U[k]
+        L += W[k] * v * v
+    L_min = L
+
     to_finish = False
     for K in range(n_iter):
         pval_prev = pval
@@ -149,15 +157,10 @@ cpdef _find_robust_pc_min(double[:,::1] X, Average wma,
             s = 0
             for k in range(N):
                 s += W[k] * U[k] * X[k,i]
-            a[i] = s    
+            a[i] = s
         inventory.normalize2(a)
-
-        inventory.matdot(U, X, a)
         
-        L = 0
-        for k in range(N):
-            v = U[k]
-            L += W[k] * v * v                    
+        inventory.matdot(U, X, a)
         
         for k in range(N):
             v = U[k]
@@ -168,13 +171,18 @@ cpdef _find_robust_pc_min(double[:,::1] X, Average wma,
 
         if qvals is not None:
             qvals.append(pval)
-                
+        
+        L = 0
+        for k in range(N):
+            v = U[k]
+            L += W[k] * v * v
+        
         if fabs(pval - pval_prev) / Q < tol:
             to_finish = True
         if fabs(pval - pval_min) / Q < tol:
             to_finish = True
         elif fabs(pval - pval_min_prev) / Q < tol:
-            if count >= 5:
+            if count >= 3:
                 to_finish = True
             else:
                 count += 1
@@ -198,118 +206,6 @@ cpdef _find_robust_pc_min(double[:,::1] X, Average wma,
         print("K:", K, "L:", L, "PC:", ra_min)
             
     return ra_min, L_min
-
-cpdef _find_robust_pc_max(double[:,::1] X, Average wma,  
-                          Py_ssize_t n_iter=1000, double tol=1.0e-6, 
-                          bint verbose=0, list qvals=None):
-
-    cdef Py_ssize_t i, j, k, N = X.shape[0], n = X.shape[1]
-    cdef Py_ssize_t K = 0
-    cdef double[::1] a, a_max
-    cdef double s, v
-    cdef double L, L_max
-
-    cdef double[::1] U  = inventory.empty_array(N)
-    cdef double[::1] Z  = inventory.empty_array(N)
-    cdef double[::1] W  = inventory.empty_array(N)
-
-    cdef double pval, pval_max, pval_max_prev, pval_prev
-    cdef bint to_finish = 0
-    cdef double Q
-    cdef int count = 0
-    a = np.random.random(n)
-    inventory.normalize2(a)
-    a_max = a.copy()
-
-    inventory.matdot(U, X, a)    
-    L = 0
-    for k in range(N):
-        v = U[k]
-        L += v * v
-    L_max = L
-
-    for k in range(N):
-        v = U[k]
-        Z[k] = v * v
-
-    pval = pval_max = wma._evaluate(Z)
-    wma._gradient(Z, W)
-
-    pval_max_prev = pval_max * 10
-    Q = 1 + fabs(pval_max)
-
-    if qvals is not None:
-        qvals.append(pval)
-
-    to_finish = False
-    for K in range(n_iter):
-        pval_prev = pval
-
-        for i in range(n):
-            s = 0
-            for k in range(N):
-                s += W[k] * U[k] * X[k,i]
-            a[i] = s    
-        inventory.normalize2(a)
-
-        inventory.matdot(U, X, a)
-        
-        L = 0
-        for k in range(N):
-            v = U[k]
-            L += W[k] * v * v                    
-        
-        for k in range(N):
-            v = U[k]
-            Z[k] = v * v
-    
-        pval = wma._evaluate(Z)
-        wma._gradient(Z, W)
-
-        if qvals is not None:
-            qvals.append(pval)
-                
-        if fabs(pval - pval_prev) / Q < tol:
-            to_finish = True
-        if fabs(pval - pval_max) / Q < tol:
-            to_finish = True
-        elif fabs(pval - pval_max_prev) / Q < tol:
-            if count >= 5:
-                to_finish = True
-            else:
-                count += 1
-
-        if pval > pval_max:
-            pval_max_prev = pval_max
-            pval_max = pval
-            a_max = a.copy()
-            L_max = L
-            Q = 1 + fabs(pval_max)
-            count = 0
-        elif pval > pval_max_prev:
-            pval_max_prev = pval
-
-        if to_finish:
-            break
-        
-    ra_max = np.asarray(a_max)      
-                
-    if verbose:
-        print("K:", K, "L:", L, "PC:", ra_max)
-            
-    return ra_max, L_max
-
-cpdef _find_robust_pc(double[:,::1] X, Average wma, 
-                      Py_ssize_t n_iter=1000, double tol=1.0e-6, 
-                      bint verbose=0, list qvals=None, str mode="min"):
-    if mode == "min":
-        return _find_robust_pc_min(X, wma, n_iter=n_iter, tol=tol, 
-                                   verbose=verbose, qvals=qvals)
-    elif mode == "max":
-        return _find_robust_pc_max(X, wma, n_iter=n_iter, tol=tol, 
-                                   verbose=verbose, qvals=qvals)
-    else:
-        raise TypeError(f"invalid mode value: {mode}")
 
 cpdef _find_pc_all(double[:,::1] S, Py_ssize_t m=-1,
                   Py_ssize_t n_iter=1000, double tol=1.0e-6, bint verbose=0):
