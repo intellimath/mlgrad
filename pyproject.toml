@@ -38,7 +38,8 @@ dependencies = [
 requires = [
     "setuptools",
     "wheel",
-    "Cython",
+    "cython",
     "numpy",
+    "pytest"
 ]
 build-backend = "setuptools.build_meta"
