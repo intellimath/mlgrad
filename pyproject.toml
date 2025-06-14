@@ -30,8 +30,9 @@ keywords = [
 ]
 requires-python = ">=3.8"
 dependencies = [
-    "Cython", 
-    "numpy",  
+    "cython",
+    "numpy",
+    "pytest"
 ]
 
 [build-system]
