@@ -18,6 +18,7 @@ is_windows = (platform.system() == 'Windows')
 is_linux = (platform.system() == 'Linux')
 print(f"platform: {platform_system}")
 
+
 optimize = False
 native   = False
 if optimize:
@@ -32,6 +33,7 @@ if optimize:
         Oflag = []
 else:
     Oflag = []
+
 
 extra_compile_args = Oflag #  ["-fno-wrapv"] 
 # extra_link_args = Oflag + ["-lm"]
