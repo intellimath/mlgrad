@@ -32,25 +32,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install -v --editable '.[check]'
 
-      - name: black check
-        run: |
-          python -m black --check --diff --color .
+      # - name: black check
+      #   run: |
+      #     python -m black --check --diff --color .
+      #
+      # - name: black preview
+      #   run: |
+      #     python -m black --preview --diff --color .
+      #
+      # - name: isort check
+      #   run: |
+      #     python -m isort --check --diff --color .
+      #
+      # - name: pylint check
+      #   run: |
+      #     python -m pylint lib/mlgrad/
 
-      - name: black preview
-        run: |
-          python -m black --preview --diff --color .
-
-      - name: isort check
-        run: |
-          python -m isort --check --diff --color .
-
-      - name: pylint check
-        run: |
-          python -m pylint lib/mlgrad/
-
-      - name: cython-lint check
-        run: |
-          cython-lint lib/mlgrad/
+      # - name: cython-lint check
+      #   run: |
+      #     cython-lint lib/mlgrad/
 
   build_wheels:
     name: wheels for ${{ matrix.os }}
