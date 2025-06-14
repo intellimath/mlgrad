@@ -20,14 +20,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from mlgrad.test.test_linear_model import *
-from mlgrad.test.test_sigmaneuron_model import *
-from mlgrad.test.test_linear_layer import *
-from mlgrad.test.test_scale_layer import *
-from mlgrad.test.test_median import *
-from mlgrad.test.test_covariance_matrix import *
-
-__version__ = '0.6'
+from mlgrad.tests.test_linear_model import *
+from mlgrad.tests.test_sigmaneuron_model import *
+from mlgrad.tests.test_linear_layer import *
+from mlgrad.tests.test_scale_layer import *
+from mlgrad.tests.test_median import *
+from mlgrad.tests.test_covariance_matrix import *
 
 def test_all():
     import unittest
