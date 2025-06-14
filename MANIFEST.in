@@ -1,4 +1,3 @@
 exclude *.c
 exclude examples/*.*
-exclude appveyor/*.*
 exclude articles/*.*

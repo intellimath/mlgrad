@@ -112,7 +112,7 @@ jobs:
       - name: Run tests
         run: |
           pip install "numpy${{ matrix.ver.np }}"
-          python -m pytest -v tests/
+          python -m pytest
 
       - name: Build sdist
         run: |
