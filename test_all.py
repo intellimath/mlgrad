@@ -23,6 +23,6 @@
 # THE SOFTWARE.
 #
 
-from mlgrad.test import *
+from mlgrad.tests import *
 
 test_all()

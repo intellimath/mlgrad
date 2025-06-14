@@ -286,7 +286,7 @@ setup(
     cmdclass = {'build_ext': build_ext},
     packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost', 'mlgrad.plots',
                 'mlgrad.cls', 'mlgrad.pca', 'mlgrad.cluster', 'mlgrad.outl', 'mlgrad.smooth',
-                'mlgrad.test'],
+                'mlgrad.tests'],
     package_data = {'': ['*.pxd']},
     include_dirs=[numpy.get_include()],
     url = 'https://github.org/intellimath/mlgrad',
