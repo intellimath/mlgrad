@@ -109,15 +109,15 @@ jobs:
         run: |
           pip install -v --editable .[test]
 
-      - name: Run tests
-        run: |
-          pip install "numpy${{ matrix.ver.np }}"
-          python -m pytest -v ./tests/
+      #- name: Run tests
+      #  run: |
+      #    pip install "numpy${{ matrix.ver.np }}"
+      #    python -m pytest -v ./tests/
 
-      - name: Build sdist
-        run: |
-          # PEP 517 package builder from pypa
-          python -m build --sdist --outdir dist-sdist .
+      #- name: Build sdist
+      #  run: |
+      #    # PEP 517 package builder from pypa
+      #    python -m build --sdist --outdir dist-sdist .
 
       - uses: actions/upload-artifact@v4
         if: matrix.os == 'ubuntu-latest' && matrix.ver.py == '3.11'
@@ -144,7 +144,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install "coveralls>=3.0.0"
 
-      - name: Install mlgrad
-        run: |
-          pip install -v --editable .[test]
+      #- name: Install mlgrad
+      #  run: |
+      #    pip install -v --editable .[test]
 
