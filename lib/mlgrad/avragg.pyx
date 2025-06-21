@@ -252,7 +252,7 @@ cdef class AverageIterative(Average):
             elif fabs(pval - pval_min) / Q < tol:
                 to_finish = True
             elif fabs(pval - pval_min_prev) / Q < tol:
-                if count >= 3:
+                if count >= 5:
                     to_finish = True
                 else:
                     count += 1
@@ -763,17 +763,20 @@ cdef class WZAverage(Average):
     @cython.final
     cdef double _evaluate(self, double[::1] Y):
         cdef Py_ssize_t j, N = Y.shape[0]
-        cdef double tval, v, s
+        cdef double tval1, tval2, v, s
 
-        self.mval = array_mean(Y)
-        self.sval = array_std(Y, self.mval)
-        tval = self.mval + self.alpha * self.sval
+        self.mval = inventory._mean(&Y[0], N)
+        self.sval = inventory._std(&Y[0], self.mval, N)
+        tval1 = self.mval + self.alpha * self.sval
+        tval2 = self.mval - self.alpha * self.sval
 
         s = 0
         for j in range(N):
             v = Y[j]
-            if v >= tval:
-                v = tval
+            if v >= tval1:
+                v = tval1
+            elif v <= tval2:
+                v = tval2
             s += v
         s /= N
         self.u = s
@@ -785,27 +788,31 @@ cdef class WZAverage(Average):
     @cython.final
     cdef _gradient(self, double[::1] Y, double[::1] grad):
         cdef Py_ssize_t j, N = Y.shape[0]
-        cdef double mval=self.mval, sval=self.sval, tval
-        cdef double alpha=self.alpha, v, cc, m
+        cdef double mval=self.mval, sval=self.sval, tval1, tval2
+        cdef double alpha=self.alpha, v, m1, m2, g
 
         if not self.evaluated:
             self._evaluate(Y)
 
-        tval = mval + alpha * sval
+        tval1 = mval + alpha * sval
+        tval2 = mval - alpha * sval
 
-        m = 0
+        m1 = m2 = 0
         for j in range(N):
-            if Y[j] >= tval:
-                m += 1
+            v = Y[j]
+            if v >= tval1:
+                m1 += 1
+            elif v <= tval2:
+                m2 += 1
 
-        cc = m * alpha / sval
         for j in range(N):
-            grad[j] = cc * (Y[j] - mval)
-
-        for j in range(N):
-            if Y[j] < tval:
-                grad[j] += 1
-            grad[j] /= N
+            v = Y[j]
+            g = 1
+            if v >= tval1:
+                g += m1*(1 + alpha)
+            elif v <= tval2:
+                g += m2*(1 - alpha)
+            grad[j] = g / N
 
         self.evaluated = 0
     #

@@ -74,6 +74,9 @@ jobs:
         with:
           name: dist-wheel-${{ matrix.os }}
           path: ./dist-wheel-${{ matrix.os }}/*.whl
+          compression-level: 0
+          overwrite: true
+          retention-days: 30
 
   build_sdist:
     name: sdist on ${{ matrix.os }} with py ${{ matrix.ver.py }} numpy${{ matrix.ver.np }}
