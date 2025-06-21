@@ -66,7 +66,7 @@ jobs:
           fetch-depth: "0"
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.22.0
+        uses: pypa/cibuildwheel@v2.23.3
         with:
           output-dir: dist-wheel-${{ matrix.os }}
 
@@ -107,7 +107,7 @@ jobs:
 
       - name: Install mlgrad
         run: |
-          pip install -v --editable .[test]
+          pip install -v --editable .
 
       #- name: Run tests
       #  run: |
