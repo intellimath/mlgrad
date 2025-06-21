@@ -18,10 +18,10 @@ cdef extern from "pymath.h" nogil:
     bint Py_IS_NAN(double x)
     bint copysign(double x, double x)
 
-cdef extern from "Python.h":
-    double PyFloat_GetMax()
-    double PyFloat_GetMin()
-    object PyFloat_FromDouble(double)
+#cdef extern from "Python.h":
+#    double PyFloat_GetMax()
+#    double PyFloat_GetMin()
+#    object PyFloat_FromDouble(double)
 
 cdef public double _double_max
 cdef public double _double_min

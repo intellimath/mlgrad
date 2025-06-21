@@ -26,6 +26,8 @@ from cython cimport view
 from openmp cimport omp_get_num_procs, omp_get_num_threads
 from cpython.object cimport PyObject
 
+from sys import float_info as _float_info
+
 cimport numpy
 numpy.import_array()
 
@@ -33,12 +35,12 @@ import numpy as np
 
 from cython.parallel cimport parallel, prange
 
-cdef public double _double_max = PyFloat_GetMax()
-cdef public double _double_min = PyFloat_GetMin()
+double_max = _float_info.max
+double_min = _float_info.min
 
-double_max = PyFloat_FromDouble(_double_max)
-double_min = PyFloat_FromDouble(_double_min)
-    
+cdef public double _double_max = double_max
+cdef public double _double_min = _double_min
+
 cdef int num_procs = omp_get_num_procs()
 cdef int num_threads = omp_get_num_threads()
 
