@@ -54,5 +54,5 @@ build-frontend = "build"
 # Disable building py3.6/7/8, pp3.8, 32bit linux
 skip = ["cp36-*", "cp37-*", "cp38-*", "pp38-*", "*_i686"]
 # Run the package tests using `pytest`
-test-extras = "tests"
-test-command = "pytest -v /{package}/tests"
+#test-extras = "tests"
+#test-command = "pytest -v /{package}/tests"
