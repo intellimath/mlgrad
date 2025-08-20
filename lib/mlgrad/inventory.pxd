@@ -77,6 +77,8 @@ cdef void _mul_grad(double *grad, const double *X, const double *ss,
 cdef void _normalize(double *a, const Py_ssize_t n) noexcept nogil
 cdef void _normalize2(double *a, const Py_ssize_t n) noexcept nogil
 
+cdef void _add_to_zeroes(double *a, const Py_ssize_t n, double eps)
+
 cdef int hasnan(double[::1] a) noexcept nogil
 
 cdef void clear(double[::1] to) noexcept nogil

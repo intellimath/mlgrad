@@ -952,7 +952,7 @@ cdef void _zscore(double *a, double *b, Py_ssize_t n):
 
     for i in range(n):
         b[i] = (a[i] - mu) / sigma
-    
+
 cdef void _modified_zscore(double *a, double *b, Py_ssize_t n):
     cdef Py_ssize_t i
     cdef double mu, sigma
@@ -995,11 +995,13 @@ cdef void _diff3(double *x, double *y, const Py_ssize_t n3) noexcept nogil:
     for i in range(n3):
         y[i] = x[i] - 3*x[i+1] + 3*x[i+2] - x[i+3]
 
-cdef void _diff2(double *x, double *y, const Py_ssize_t n2) noexcept nogil:
+cdef void _diff2(double *x, double *y, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
-    for i in range(n2):
-        y[i] = x[i] - 2*x[i+1] + x[i+2]
+    y[0] = 0
+    y[n-1] = 0
+    for i in range(n-2):
+        y[i+1] = x[i] - 2*x[i+1] + x[i+2]
 
 cdef void _diff2w2(double *x, double *w, double *y, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
@@ -1007,7 +1009,7 @@ cdef void _diff2w2(double *x, double *w, double *y, const Py_ssize_t n) noexcept
     y[0] = w[0] * x[0] - 2*w[0] * x[1] + w[0] * x[2]
     y[1] = -2*w[0] * x[0] + (4*w[0]+w[1]) * x[1] + \
            (-2*w[0]-2*w[1]) * x[2] + w[1] * x[3]
-    
+
     for i in range(2,n-2):
         y[i] = w[i-2] * x[i-2] + \
                (-2*w[i-2] - 2*w[i-1]) * x[i-1] + \
@@ -1018,7 +1020,7 @@ cdef void _diff2w2(double *x, double *w, double *y, const Py_ssize_t n) noexcept
     y[n-2] = w[n-4] * x[n-4] + (-2*w[n-4] -2*w[n-3]) * x[n-3] + \
              (w[n-4] + 4*w[n-3]) * x[n-2] - 2*w[n-4] * x[n-1] 
     y[n-1] = w[n-3]*x[n-3] - 2*w[n-3]*x[n-2] + w[n-3]*x[n-1]
-        
+
 cdef void _diff1(double *x, double *y, const Py_ssize_t n1) noexcept nogil:
     cdef Py_ssize_t i
 
@@ -1031,7 +1033,7 @@ cdef void _relative_max(double *x, double *y, const Py_ssize_t n) noexcept nogil
 
     for i in range(n):
         y[i] = x[i]
-    
+
     for i in range(n):
         v = fabs(y[i])
         if v > max_val:
@@ -1046,7 +1048,7 @@ cdef void _relative_abs_max(double *x, double *y, const Py_ssize_t n) noexcept n
 
     for i in range(n):
         y[i] = fabs(x[i])
-    
+
     for i in range(n):
         v = y[i]
         if v > max_val:
@@ -1054,8 +1056,22 @@ cdef void _relative_abs_max(double *x, double *y, const Py_ssize_t n) noexcept n
 
     for i in range(n):
         y[i] /= max_val
-        
-        
+
+cdef void _add_to_zeroes(double *a, const Py_ssize_t n, double eps):
+    cdef double v 
+
+    for i in range(n):
+        v = a[i]
+        if abs(v) < eps:
+            if v >= 0:
+                a[i] = eps
+            else:
+                a[i] = -eps
+
+def add_to_zeroes(a, eps=1.0e-9):
+    cdef double[::1] aa = _asarray(a)
+    _add_to_zeroes(&aa[0], aa.shape[0], eps)
+
 def zscore(a, b=None):
     cdef double[::1] aa = _asarray(a)
     cdef double[::1] bb
@@ -1069,7 +1085,7 @@ def zscore(a, b=None):
         bb = b
     _zscore(&aa[0], &bb[0], aa.shape[0])
     return b
-        
+
 def modified_zscore2(a, b=None):
     cdef double[:,::1] aa = _asarray(a)
     cdef double[:,::1] bb
@@ -1105,7 +1121,7 @@ def modified_zscore(a, b=None, mu=None):
         return b
     else:
         return _asarray(bb)
-        
+
 def diff4(double[::1] a, double[::1] b=None):
     cdef Py_ssize_t n = a.shape[0]
     cdef bint flag = 0
@@ -1134,9 +1150,9 @@ def diff2(double[::1] a, double[::1] b=None):
     cdef Py_ssize_t n = a.shape[0]
     cdef bint flag = 0
     if b is None:
-        b = empty_array(n-2)
+        b = empty_array(n)
         flag = 1
-    _diff2(&a[0], &b[0], n-2)
+    _diff2(&a[0], &b[0], n)
     if flag:
         return b.base
     else:

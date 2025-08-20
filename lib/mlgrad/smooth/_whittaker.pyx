@@ -4,6 +4,7 @@
 
 import numpy as np
 import scipy
+import mlgrad.inventory as inventory
 
 #
 #       Banded array (2*d+1,n)
@@ -40,11 +41,11 @@ cdef add_diagonal(double[:,::1] S, double[::1] W):
     d = &S[m,0]
     for i in range(n):
         d[i] += W[i]
-        
+
 def add_D2_W2(double[:,::1] S, double[::1] W, double tau):
     cdef Py_ssize_t i, j, n = S.shape[1]
     cdef double *d
-    
+
     d = &S[2,0]
     d[0] +=   tau * W[0]
     d[1] +=   tau * (4*W[0] + W[1])
@@ -285,17 +286,16 @@ def whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=0, d=2,
 
     if tau_z > 0:
         add_diagonal(S, _full(N, -tau_z, "d"))
-        
 
     # print(S)
 
     Yw = Y * W
-    
+
     # X = _zeros(N, "d")
-    X = scipy.linalg.solve_banded((d,d), S, Yw, 
-                                  overwrite_ab=True, overwrite_b=True, check_finite=False)
+    X = scipy.linalg.solve_banded((d,d), S, Yw,
+                                  overwrite_ab=False, overwrite_b=False, check_finite=True)
     return X
-    
+
 def whittaker_smooth_banded(Y, W=None, W1=None, W2=None, 
                         tau1=0, tau2=1.0, tau_z=0, d=2, _ones=np.ones):
     N = Y.shape[0]
@@ -305,6 +305,10 @@ def whittaker_smooth_banded(Y, W=None, W1=None, W2=None,
         W2 = _ones(N, "d")
     if W1 is None:
         W1 = _ones(N, "d")
+
+    inventory.add_to_zeroes(W, 1.0e-9)
+    inventory.add_to_zeroes(W1, 1.0e-9)
+    inventory.add_to_zeroes(W2, 1.0e-9)
     X = whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=tau_z, d=d)
     return X
 

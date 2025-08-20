@@ -18,7 +18,7 @@ cdef inline double fmax(double x, double y) noexcept nogil:
         return x
     else:
         return y
-    
+
 
 cdef class Func(object):
     cdef public unicode label
@@ -47,7 +47,11 @@ cdef class Func(object):
 cdef class Func_sigma(Func):
     cdef public sigma
     #
-    
+
+cdef class PyFunc(Func):
+    cdef public object pyfunc
+    #
+
 cdef class ParameterizedFunc:
     #
     cdef double _evaluate(self, double x, double u) noexcept nogil

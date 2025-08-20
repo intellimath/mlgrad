@@ -195,6 +195,28 @@ cdef class Func(object):
     cpdef get_param(self, name):
         pass
 
+cdef class PyFunc(Func):
+    #
+    def __init__(self, pyfunc):
+        self.pyfunc = pyfunc
+    #
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        with gil:
+            return self.pyfunc.evaluate(x)
+    #
+    cdef double _derivative(self, const double x) noexcept nogil:
+        with gil:
+            return self.pyfunc.derivative(x)
+    #
+    cdef double _derivative_div(self, const double x) noexcept nogil:
+        with gil:
+            return self.pyfunc.derivative_div(x)
+    #
+    cdef double _inverse(self, const double x) noexcept nogil:
+        with gil:
+            return self.pyfunc.inverse(x)
+    #
+
 cdef class ParameterizedFunc:
     #
     def __call__(self, x, u):

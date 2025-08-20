@@ -61,16 +61,16 @@ jobs:
         os: [ubuntu-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: "0"
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v3.0.0
         with:
           output-dir: dist-wheel-${{ matrix.os }}
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: dist-wheel-${{ matrix.os }}
           path: ./dist-wheel-${{ matrix.os }}/*.whl

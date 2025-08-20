@@ -17,8 +17,8 @@ np_zeros = np.zeros
 np_double = np.double
 
 class GradientBoostingClassification:
-    
-    def __init__(self, complex_model, new_model, loss_func=None, 
+    #
+    def __init__(self, complex_model, new_model, loss_func=None,
                  agg=None, h=0.001, n_iter=100, n_iter2=22, tol=1.0e-9):
         self.complex_model = complex_model
         self.new_model = new_model
@@ -40,7 +40,7 @@ class GradientBoostingClassification:
         s = np.sum(W)
         if s != 0:
             W /= s
-        
+
         WYY = W * YY
         risk.alpha = (WYY @ self.loss_func.func.value_array(HY)) / (WYY @ YY)
     #
@@ -75,19 +75,19 @@ class GradientBoostingClassification:
 
             if j > 0 and abs(lval - lval_min) / (1 + abs(lval_min)) < self.tol:
                 finish = 1
-            
+
             if lval < lval_min:
                 param_min = risk.model.param.copy()
                 alpha_min = risk.alpha
                 lval_min = lval
-                
+
             if finish:
                 break
 
         risk.model.param[:] = param_min
         risk.alpha = alpha_min
     #
-    def fit(self, X, Y):        
+    def fit(self, X, Y):
         n = X.shape[1]
 
         self.lvals = []
@@ -98,19 +98,19 @@ class GradientBoostingClassification:
             # risk = ERiskGB(X, Y, mod, self.loss_func)
             risk = ERiskGB(X, Y, mod, MarginLoss(HSquare()))
             risk.H[:] = self.complex_model.evaluate_all(X)
-            
+
             self.find_param_alpha(risk)
 
             lval = np.mean(self.loss_func.evaluate_all(self.complex_model.evaluate_all(X), Y))
             # lval = trisk.evaluate()
             self.lvals.append(lval)
 
-            self.complex_model.add(mod, risk.alpha)            
+            self.complex_model.add(mod, risk.alpha)
 
 
 class MGradientBoostingClassification:
-    
-    def __init__(self, complex_model, new_model, loss_func=None, agg=None, 
+
+    def __init__(self, complex_model, new_model, loss_func=None, agg=None,
                  h=0.001, n_iter=100, n_iter2=11, tol=1.0e-9):
         self.complex_model = complex_model
         self.new_model = new_model
@@ -153,13 +153,13 @@ class MGradientBoostingClassification:
         W *= -D
         W /= np.sum(W)
         lval = lval_min = self.agg.u
-        
+
         param_min = risk.model.param.copy()
         alpha_min = 1
 
         for j in range(self.n_iter2):
             lval_prev = lval
-            
+
             self.find_param(risk, W)
 
             self.find_alpha(risk, W)
@@ -176,7 +176,7 @@ class MGradientBoostingClassification:
 
             if j > 0 and abs(lval - lval_min) / (1 + abs(lval_min)) < self.tol:
                 finish = 1
-            
+
             if lval < lval_min:
                 param_min = risk.model.param.copy()
                 alpha_min = risk.alpha
@@ -196,7 +196,7 @@ class MGradientBoostingClassification:
             mod = self.new_model(n)
             risk = ERiskGB(X, Y, mod, MarginLoss(HSquare()))
             risk.H[:] = self.complex_model.evaluate_all(X)
-    
+
             self.find_param_alpha(risk)
 
             L = risk.evaluate_losses()
@@ -221,4 +221,3 @@ def gb_fit_agg(X, Y, new_model, loss_func=None, aggname='WM',
                            h=h, n_iter=n_iter, n_iter2=n_iter2, tol=tol)
     gb.fit(X, Y)
     return gb
-        

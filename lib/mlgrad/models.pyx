@@ -145,26 +145,32 @@ cdef class BaseModel:
     #
     cdef void _evaluate(self, double[:,::1] X, double[::1] Y):
         cdef Py_ssize_t k, N = X.shape[0]
-        
+
         for k in range(N):
             Y[k] = self._evaluate_one(X[k])
     #
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        pass
+    #
+    cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
+        pass
+    #
     cdef void _gradient_all(self, double[:,::1] X, double[:,::1] G):
         cdef Py_ssize_t k, N = X.shape[0]
-        
+
         for k in range(N):
             self._gradient(X[k], G[k])
     #
     cdef void _gradient_input_all(self, double[:,::1] X, double[:,::1] G):
         cdef Py_ssize_t k, N = X.shape[0]
-        
+
         for k in range(N):
             self._gradient_input(X[k], G[k])
     #
     def copy(self, bint share=0):
         return self._copy(share)
 
-    
+
 cdef class Model(BaseModel):
     #
     def allocate(self):
@@ -218,16 +224,10 @@ cdef class Model(BaseModel):
             self.ob_param[:] = r
 
     #
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
-        pass
-    #
     def gradient(self, X):
         grad = np.empty(self.n_param, 'd')
         self._gradient(X, grad)
         return grad
-    #
-    cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
-        pass
     #
     def gradient_input(self, X):
         grad_input = np.empty(self.n_input, 'd')
@@ -1274,7 +1274,7 @@ cdef class LinearFuncModel(BaseModel):
     #
     def evaluate_all(self, double[:,::1] X):
         cdef Py_ssize_t k, N = len(X)
-        
+
         Y = np.empty(N, 'd')
         for k in range(N):
             Y[k] = self._evaluate_one(X[k])
