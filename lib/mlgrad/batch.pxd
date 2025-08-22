@@ -4,7 +4,7 @@ from mlgrad.inventory cimport init_rand, rand, fill
 
 cdef class Batch:
     #
-    cdef public Py_ssize_t n_samples, size
+    cdef public Py_ssize_t n_sample, size
     cdef public Py_ssize_t[::1] indices
     #
     cdef void generate(self)

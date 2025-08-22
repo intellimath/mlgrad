@@ -59,10 +59,10 @@ cdef class Batch:
 
 cdef class RandomBatch(Batch):
     #
-    def __init__(self, n_samples, size=None):
-        self.n_samples = n_samples
+    def __init__(self, n_sample, size=None):
+        self.n_sample = n_sample
         if size is None:
-            self.size = self.n_samples
+            self.size = self.n_sample
         else:
             self.size = size
         self.indices = np.zeros(self.size, dtype=np.intp)
@@ -72,28 +72,28 @@ cdef class RandomBatch(Batch):
     #
     cdef void generate(self):
         cdef Py_ssize_t i, k, size = self.size
-        cdef Py_ssize_t n_samples = self.n_samples
+        cdef Py_ssize_t n_sample = self.n_sample
         cdef Py_ssize_t[::1] indices = self.indices
-        
+
         for i in range(size):
-            k = rand(self.n_samples)
+            k = rand(self.n_sample)
             indices[i] = k
 
-            
+
 # cdef class FixedBatch(Batch):
 #     #
 #     def __init__(self, indices):
 #         self.size = len(indices)
-#         self.n_samples = 0
+#         self.n_sample = 0
 #         self.indices = np.array(indices, dtype=np.intp)
 #     #
 
 cdef class WholeBatch(Batch):
     #
-    def __init__(self, n_samples):
-        self.size = int(n_samples)
-        self.n_samples = self.size
-        self.indices = np.arange(self.n_samples)
+    def __init__(self, n_sample):
+        self.size = int(n_sample)
+        self.n_sample = self.size
+        self.indices = np.arange(self.n_sample)
     #
     def get_samples(self, X):
         return X
@@ -106,8 +106,8 @@ cdef class WholeBatch(Batch):
     #     if &YY[0] != &Y[0]:
     #         Batch.generate_samples1d(self, Y, YY)
 
-def make_batch(n_samples, size=None):
+def make_batch(n_sample, size=None):
     if size is None:
-        return WholeBatch(n_samples)
+        return WholeBatch(n_sample)
     else:
-        return RandomBatch(n_samples, size)
+        return RandomBatch(n_sample, size)

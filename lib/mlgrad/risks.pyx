@@ -223,7 +223,7 @@ cdef class Risk(Functional):
         size = self.batch.size 
         self.Yp = np.zeros(size, np_double)
         self.L = np.zeros(size, np_double)
-        self.LD = np.zeros(size, np_double)
+        # self.LD = np.zeros(size, np_double)
     #
     cpdef init(self):
         self.batch.init()
@@ -587,7 +587,7 @@ cdef class ERiskGB(Risk):
         cdef double alpha = self.alpha
 
         # cdef double[::1] Yp = self.Yp
-        cdef double[::1] LD = self.LD
+        # cdef double[::1] LD = self.LD
         cdef double[::1] H = self.H
 
         for k in range(self.n_sample):
@@ -880,23 +880,23 @@ cdef class ERisk2(Risk):
             self.batch = batch
 
         self.is_natgrad = is_natgrad
-            
+
         self.init()
     #
     def use_weights(self, weights):
         self.weights = weights
     #
     cpdef init(self):
-        N = self.n_sample    
+        N = self.n_sample
         self.n_param = self.model.n_param
         self.n_input = self.model.n_input
-        self.n_output = self.model.n_output 
+        self.n_output = self.model.n_output
 
         size = self.batch.size
-        
+
         # if self.model.grad is None:
         #     self.model.grad = np.zeros((n_param,), np_double)
-            
+
         if self.grad is None:
             self.grad = np.zeros(self.n_param, dtype=np_double)
         # print("risk: grad", self.grad.shape[0])
@@ -912,13 +912,13 @@ cdef class ERisk2(Risk):
         if self.regnorm:
             if self.grad_r is None:
                 self.grad_r = np.zeros(self.n_param, dtype=np_double)
-                
+
         if self.weights is None:
             self.weights = np.full((size,), 1./size, np_double)
 
-        # self.Yp = np.zeros(size, np_double)
+        self.Yp = np.zeros(size, np_double)
         self.L = np.zeros(size, np_double)
-        self.LD = np.zeros(size, np_double)
+        # self.LD = np.zeros(size, np_double)
             
         self.lval = 0
     #

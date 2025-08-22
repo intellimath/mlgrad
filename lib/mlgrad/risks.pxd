@@ -34,7 +34,7 @@ cdef extern from *:
 
 # cdef inline void clear_memoryview(double[::1] X):
 #     # cdef int m = X.shape[0]
-#     memset(&X[0], 0, X.shape[0]*cython.sizeof(double))    
+#     memset(&X[0], 0, X.shape[0]*cython.sizeof(double))
 
 # cdef inline void fill_memoryview(double[::1] X, double c):
 #     cdef Py_ssize_t i, m = X.shape[0]
@@ -81,7 +81,7 @@ cdef class Risk(Functional):
     cdef readonly double[::1] weights
     cdef readonly double[::1] Yp
     cdef readonly double[::1] L
-    cdef readonly double[::1] LD
+    # cdef readonly double[::1] LD
     #
     cdef double[::1] grad
     cdef double[::1] grad_r
