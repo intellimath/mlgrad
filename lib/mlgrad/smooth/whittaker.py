@@ -64,7 +64,7 @@ def whittaker_smooth_optimize_tau2(X, W=None, W2=None, d=2, tol=1.0e-6):
         E = Z - X
         D2 = inventory.diff2(Z)
         S = W @ (E * E) + tau2 * (W2 @ (D2 * D2))
-        if S < S_left and S < S_right:            
+        if S < S_left and S < S_right:
             if S_left < S_right:
                 tau2_right = tau2
                 S_right = S
@@ -77,7 +77,7 @@ def whittaker_smooth_optimize_tau2(X, W=None, W2=None, d=2, tol=1.0e-6):
         elif S >= S_right:
             S_left = S
             tau2_left = tau2
-            
+
         print(tau2_left, tau2_right)
 
     tau2 = (tau2_left + tau2_right) / 2
@@ -263,7 +263,7 @@ def whittaker_smooth_weight_func(
 def whittaker_smooth_weight_func2(
             X, func=None, func1=None, func2=None, func2_e=None, windows=None, 
             tau1=0.0, tau2=1.0, tau_z=0, w_tau2 = 1.0, 
-            d=2, n_iter=100, tol=1.0e-9):
+            d=2, n_iter=100, tol=1.0e-9, ):
 
     Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
     # Z = X * 0.999
@@ -315,7 +315,7 @@ def whittaker_smooth_weight_func2(
         Z = whittaker_smooth(X, W=W, W1=W1, W2=W2,
                              tau1=tau1, tau2=tau2, tau_z=tau_z, d=d)
 
-        dq = abs(Z - Z_prev).mean() / abs(Z).mean()
+        dq = abs(Z - Z_prev).mean() / abs(Z_prev).mean()
         if dq < tol:
             flag = True
 

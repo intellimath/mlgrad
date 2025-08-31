@@ -1195,7 +1195,7 @@ def relative_max(a, b=None):
     _relative_max(&aa[0], &bb[0], n)
     return b
 
-def relative_abs_max(a, b=None):
+def relative_abs_max(a, b=None, fix_ends=True):
     cdef double[::1] aa = _asarray(a)
     cdef double[::1] bb
     cdef Py_ssize_t n = a.shape[0]
@@ -1206,8 +1206,11 @@ def relative_abs_max(a, b=None):
     else:
         bb = b
     _relative_abs_max(&aa[0], &bb[0], n)
+    if fix_ends:
+        min_b = np.min(b)
+        b[0] = b[-1] = min_b
     return b
-    
+
 # cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k): # noexcept nogil:
 #     cdef Py_ssize_t i, j, l, m
 #     cdef double x, t
