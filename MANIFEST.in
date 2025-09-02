@@ -1,3 +1,4 @@
-exclude *.c
+exclude lib/mlgrad/*.c
+exclude lib/mlgrad/pca/*.c
 exclude examples/*.*
 exclude articles/*.*
