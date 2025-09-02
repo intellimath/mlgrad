@@ -108,8 +108,8 @@ def m_regression_irls(Xs, Y, mod,
     er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
     alg = fg(er, h=h, tol=tol, n_iter=n_iter)
 
-    wt = weights.MWeights(_agg_func, er)
-    irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
+    # wt = weights.MWeights(_agg_func, er)
+    irgd = erm_irgd(alg, _agg_func, n_iter=n_iter2, tol=tol2, verbose=verbose)
 
     return irgd
 
@@ -144,9 +144,9 @@ def mr_regression_irls(Xs, Y, mod,
     # wt1 = weights.MWeights(_agg_func, er, normalize=0)
     # wt2 = weights.RWeights(er, normalize=0)
     
-    wt = weights.WRWeights(_agg_func, er, normalize=1)
+    # wt = weights.WRWeights(_agg_func, er, normalize=1)
 
-    irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
+    irgd = erm_irgd(alg, _agg_func, n_iter=n_iter2, tol=tol2, verbose=verbose)
         
     return irgd
 
@@ -163,6 +163,8 @@ def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None,
         _rho_func = rho_func
     loss_func = ErrorLoss(_rho_func)
 
+    _agg_func = averaging_function("R", _rho_func)
+
     if mod.param is None:
         mod.init_param()
 
@@ -170,8 +172,8 @@ def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None,
     alg = fg(er, h=h, n_iter=n_iter, tol=tol)
 
     er2 = erisk(Xs, Y, mod, loss_func, regnorm=regnorm, tau=tau)
-    wt = weights.RWeights(er2)
+    # wt = weights.RWeights(er2)
 
-    irgd = erm_irgd(alg, wt, n_iter=n_iter2, tol=tol2, verbose=verbose)
+    irgd = erm_irgd(alg, _agg_func, n_iter=n_iter2, tol=tol2, verbose=verbose)
     return irgd
 

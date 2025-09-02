@@ -20,7 +20,7 @@ def distance_line(X, a, /):
     # e = ones_like(a)
     # XX = (X * X) @ e #.sum(axis=1)
     XX = einsum("ni,ni->n", X, X, optimize=True)
-    # Z = X @ a
+    Z = X @ a
     Z = XX - Z * Z
     Z[Z<0] = 0
     return sqrt(Z)

@@ -28,11 +28,12 @@ import numpy as np
 
 class IRGD:
     #
-    def __init__(self, gd, weights, tol=1.0e-5, n_iter=100, h_anneal=0.99, M=12, callback=None):
+    def __init__(self, gd, avgfunc, tol=1.0e-5, n_iter=100, h_anneal=0.99, M=12, callback=None):
         """
         """
         self.gd = gd
-        
+        self.avgfunc = avgfunc
+
         self.tol = tol
         self.n_iter = n_iter
         self.M = M
@@ -40,26 +41,26 @@ class IRGD:
 
         self.param_best = np.zeros(len(self.gd.risk.param), dtype='d')
 #         self.param_prev = np.zeros((m,), dtype='d')
-        
+
         self.h_anneal = h_anneal
-        
+
         self.callback = callback
-        
-        self.weights = weights
-        
+
+        # self.weights = weights
+
         self.lval = self.lval1 = self.lval2 = 0
-        
+
         self.completed = False
-        
+
         # self.K = 0
         # self.m = 0
-        
+
         self.lvals = []
         #self.qvals = []
         self.n_iters = []
-        
+
         self.K = 0
-        
+
     #
     @property
     def risk(self):
@@ -67,46 +68,47 @@ class IRGD:
 
     @property
     def sample_weights(self):
-        return np.asarray(self.weights.weights)    
+        return np.asarray(self.weights)
     #
     def fit(self):
         risk = self.gd.risk
-                           
-        self.weights.init()
-        self.weights.eval_weights()
-        risk.use_weights(self.weights.weights)
+        avgfunc = self.avgfunc
 
-        self.lval_min = self.lval = self.weights.get_qvalue()
+        lvals = risk.evaluate_losses()
+        self.lval_min = self.lval = avgfunc.evaluate(lvals)
+        self.weights = avgfunc.weights(lvals)
+        risk.use_weights(self.weights)
+
         self.lval_min_prev = self.lval_min * 2
         Q = 1 + abs(self.lval_min)
         # print(self.lval)
         self.param_best = risk.model.param.copy()
-        
+
         if self.callback is not None:
             self.callback(self)
 
         m = 0
         M = self.M
         tol = self.tol
-        for K in range(self.n_iter):     
+        for K in range(self.n_iter):
             self.lval_prev = self.lval
             # print(K)
             self.gd.fit()
-            
+
             self.n_iters.append(self.gd.K)
 
             if self.callback is not None:
                 self.callback(self)
 
-            self.weights.eval_weights()
-            risk.use_weights(self.weights.weights)
-            
-            self.lval = self.weights.get_qvalue()
+            lvals = risk.evaluate_losses()
+            self.lval = avgfunc.evaluate(lvals)
+            self.weights = avgfunc.weights(lvals)
+            risk.use_weights(self.weights)
             # print(self.lval)
-                
+
             if abs(self.lval - self.lval_prev) / Q < tol:
                 self.completed = 1
-            
+
             elif abs(self.lval - self.lval_min) / Q < tol:
                 self.completed = 1
 
@@ -148,12 +150,12 @@ class IRGD:
         risk.model.param[:] = self.param_best
     #
     def stop_condition(self):
-        
+
         if abs(self.lval - self.lval_best) / (1 + abs(self.lval_best)) < self.tol:
             return True
 
         if abs(self.lval_best_prev - self.lval_best) / (1 + abs(self.lval_best)) < self.tol:
             return True
-        
+
         return False
 

@@ -49,6 +49,8 @@ def averaging_function(
         avg = avragg.HMAverage(avgfunc)
     elif kind == 'AM':
         avg = avragg.ArithMean()
+    elif kind == "R":
+        avg = avragg.RArithMean(rhofunc)
     elif kind == 'SoftMin':
         avg = avragg.SoftMinimal(*args)
     elif kind == 'SoftMax':
