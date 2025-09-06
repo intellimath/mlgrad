@@ -98,17 +98,26 @@ cdef class Func(object):
     #
     def derivative_array(self, double[::1] x):
         cdef Py_ssize_t n = x.shape[0]
-        cdef double[::1] y = inventory.empty_array(n)
+        cdef double[::1] y
+
+        o = inventory.empty_array(n)
+        y = o
         self._derivative_array(&x[0], &y[0], n)
-        return y
+        return o
     #
     def derivative_weighted_sum(self, double[::1] x, double[::1] w):
-        cdef double[::1] y = np.empty_like(x)
+        cdef Py_ssize_t n = x.shape[0]
+        cdef double[::1] y = np.empty_array(n)
+
         self._derivative_weighted_sum(&x[0], &y[0], &w[0], x.shape[0])
         return y
     #
     def derivative_div_array(self, double[::1] x):
-        cdef double[::1] y = np.empty_like(x)
+        cdef Py_ssize_t n = x.shape[0]
+        cdef double[::1] y
+
+        o = inventory.empty_array(n)
+        y = o
         self._derivative_div_array(&x[0], &y[0], x.shape[0])
         return y
     #
@@ -1691,7 +1700,7 @@ cdef class IntSoftHinge_Sqrt(Func):
     def to_dict(self):
         return { 'name':'softhinge_sqrt',
                  'args': (self.alpha,) }
-        
+
 @cython.final
 cdef class SoftHinge_Sqrt(Func):
     #
@@ -1724,7 +1733,43 @@ cdef class SoftHinge_Sqrt(Func):
         return { 'name':'softhinge_sqrt',
                  'args': (self.alpha,) }
 
-        
+@cython.final
+cdef class SoftHinge_Exp(Func):
+    #
+    def __init__(self, alpha = 1.0, x0=0):
+        self.alpha = alpha
+        self.x0 = x0
+    #
+    @cython.final
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        cdef double x1 = x - self.x0
+        return log(1 + exp(-self.alpha*x1))
+    #
+    @cython.final
+    @cython.cdivision(True)
+    cdef double _derivative(self, const double x) noexcept nogil:
+        cdef double x1 = x - self.x0
+        cdef double alpha = self.alpha
+        cdef double v = exp(-alpha*x1)
+        return -alpha * v / (1 + v)
+    #
+    @cython.final
+    @cython.cdivision(True)
+    cdef double _derivative2(self, const double x) noexcept nogil:
+        cdef double x1 = x - self.x0
+        cdef double alpha = self.alpha
+        cdef double v = exp(-alpha*x1)
+        cdef double v1 = 1 / (1 + v)
+        return alpha*alpha * v1 * (1 - v1)
+    #
+    def _repr_latex_(self):
+        return r"$ρ(x)=\frac{1}{2}(-x + \sqrt{c^2+x^2})$"
+
+    def to_dict(self):
+        return { 'name':'softhinge_sqrt',
+                 'args': (self.alpha,) }
+
+
 @cython.final
 cdef class Softplus_Sqrt(Func):
     #

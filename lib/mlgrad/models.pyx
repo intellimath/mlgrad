@@ -185,13 +185,13 @@ cdef class Model(BaseModel):
         """
         Распределение памяти под `self.param` (если `self.param` уже создан, то его содержимое 
         переносится во вновь распределенное пространство)
-        """        
+        """
         self.ob_param = allocator.allocate(self.n_param)
         if not self.ob_param.flags['C_CONTIGUOUS']:
             raise TypeError("Array is not contiguous")
         if self.param is not None:
             if self.param.size != self.ob_param.size:
-                raise TypeError("ob_param.size != param.size")            
+                raise TypeError("ob_param.size != param.size")
             with cython.boundscheck(True):
                 self.ob_param[:] = self.param
         self.param = self.ob_param
@@ -202,9 +202,10 @@ cdef class Model(BaseModel):
     def _allocate_grad(self, allocator):
         """
         Распределение памяти под `self.grad`
-        
-        """        
+        """
         self.grad = allocator.allocate(self.n_param)
+        self.grad_base = self.grad
+        # np.asarray(self.grad, copy=False)
     #
     def init_param(self, param=None, random=1):
         if param is None:
@@ -236,7 +237,7 @@ cdef class Model(BaseModel):
     #
     # cdef update_param(self, double[::1] param):
     #     inventory.sub(self.param, param)
-    
+
 # cdef class ModelView(Model):
 #     #
 #     def __init__(self, Model model):
@@ -247,7 +248,7 @@ cdef class Model(BaseModel):
 #     #
 #     cdef void _gradient(self, double[::1] X, double[::1] grad):
 #         self.model._gradient(X, grad)
-        
+
 cdef class LinearModel(Model):
     __doc__ = """LinearModel(param)"""
     #

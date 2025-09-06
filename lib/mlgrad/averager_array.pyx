@@ -114,6 +114,37 @@ cdef class ArrayMOM(ArrayAverager):
             for i in range(m):
                 array_average[i] = h * mgrad[i]
 
+cdef class ArrayRUD(ArrayAverager):
+
+    def __init__(self, mu=0.8):
+        self.mu = mu
+        self.vgrad = None
+        self.array_average = None
+    #
+    cdef _init(self, ndim):
+        if self.vgrad is None:
+            self.vgrad = np.zeros(ndim, dtype='d')
+        else:
+            fill_memoryview(self.vgrad, 0)
+
+        if self.array_average is None:
+            self.array_average = np.zeros(ndim, dtype='d')
+        else:
+            fill_memoryview(self.array_average, 0)
+    #
+    cdef void set_param1(self, double val):
+        self.mu = val
+    #
+    cdef _update(self, const double[::1] x, const double h):
+        cdef Py_ssize_t i, m = self.vgrad.shape[0]
+        cdef double mu = self.mu
+        cdef double[::1] vgrad = self.vgrad
+        cdef double[::1] array_average = self.array_average
+
+        for i in range(m):
+            vgrad[i] = mu * vgrad[i] + x[i]
+            array_average[i] = h * vgrad[i]
+
 cdef class ArrayRMSProp(ArrayAverager):
 
     def __init__(self, beta=Beta, epsilon=Epsilon):
@@ -127,12 +158,12 @@ cdef class ArrayRMSProp(ArrayAverager):
     #
     cdef _init(self, ndim):
         self.M = 0
-                    
+
         if self.vgrad is None:
             self.vgrad = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.vgrad, 0)
-            
+
         if self.array_average is None:
             self.array_average = np.zeros(ndim, dtype='d')
         else:
@@ -140,18 +171,18 @@ cdef class ArrayRMSProp(ArrayAverager):
     #
     cdef _update(self, const double[::1] x, const double h):
         cdef Py_ssize_t i, m = self.vgrad.shape[0]
-        cdef double v, mv, vv
+        cdef double v, g, vv, epsilon = self.epsilon
         cdef double beta = self.beta
-        cdef double[::1] vgrad = self.vgrad
+        cdef double[::1] vvgrad = self.vvgrad
         cdef double[::1] array_average = self.array_average
-    
+
         self.M *= beta
         self.M += 1-beta
         for i in range(m):
             v = x[i]
-            vgrad[i] = beta * vgrad[i] + (1-beta) * v*v
-            vv = vgrad[i] / self.M
-            array_average[i] = h * v / (sqrt(vv) + self.epsilon)
+            vvgrad[i] = beta * vvgrad[i] + (1-beta) * v*v
+            vv = vvgrad[i] / self.M
+            array_average[i] = h * v / (sqrt(vv) + epsilon)
 
 cdef class ArrayAdaM2(ArrayAverager):
 

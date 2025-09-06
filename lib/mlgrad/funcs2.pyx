@@ -333,6 +333,9 @@ cdef class PowerNorm(Func2):
 @cython.final
 cdef class SquareNorm(Func2):
     #
+    def __init__(self, offset=1):
+        self.offset = 1
+    #
     @cython.final
     cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
         cdef Py_ssize_t i
@@ -340,7 +343,7 @@ cdef class SquareNorm(Func2):
         cdef double* X_ptr = &X[0]
         cdef double* Y_ptr = &Y[0]
 
-        for i in range(X.shape[0]):
+        for i in range(self.offset, X.shape[0]):
             v = X_ptr[i]
             Y_ptr[i] = 0.5 * v * v
     #
@@ -351,7 +354,7 @@ cdef class SquareNorm(Func2):
         cdef double* X_ptr = &X[0]
 
         s = 0
-        for i in range(m):
+        for i in range(self.offset, m):
             v = X_ptr[i]
             s += v * v
 
@@ -366,7 +369,7 @@ cdef class SquareNorm(Func2):
         cdef double* W_ptr = &W[0]
 
         s = 0
-        for i in range(m):
+        for i in range(self.offset, m):
             v = X_ptr[i]
             s += W_ptr[i] * v * v
 
@@ -379,8 +382,10 @@ cdef class SquareNorm(Func2):
         cdef double* X_ptr = &X[0]
         cdef double* grad_ptr = &grad[0]
 
-        for i in range(m):
-            grad_ptr[i] = X_ptr[i]    
+        for i in range(self.offset):
+            grad_ptr[i] = 0
+        for i in range(self.offset, m):
+            grad_ptr[i] = X_ptr[i]
     #
     @cython.final
     cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W):
@@ -389,8 +394,10 @@ cdef class SquareNorm(Func2):
         cdef double* W_ptr = &W[0]
         cdef double* grad_ptr = &grad[0]
 
+        for i in range(self.offset):
+            grad_ptr[i] = 0
         for i in range(m):
-            grad_ptr[i] = W_ptr[i] * X_ptr[i]    
+            grad_ptr[i] = W_ptr[i] * X_ptr[i]
     #
     @cython.final
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):

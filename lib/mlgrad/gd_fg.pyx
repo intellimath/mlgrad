@@ -2,7 +2,7 @@
 
 cdef class FG(GD):
     #
-    def __init__(self, Functional risk, tol=1.0e-9, h=0.001, n_iter=1000, M = 44,
+    def __init__(self, Functional risk, tol=1.0e-9, h=0.001, n_iter=1000, M = 7,
                  callback=None, h_rate=None):
         """
         """
@@ -16,21 +16,21 @@ cdef class FG(GD):
 #         self.param_prev = None
 #         self.gamma = gamma
         self.normalizer = None
-        
+
         if h_rate is None:
 #             self.h_rate = ExponentParamRate(h)
             self.h_rate = ConstantParamRate(h)
         else:
             self.h_rate = h_rate
-            
+
         self.M = M
-        
+
         self.param_min = None
         self.param_copy = None
-        
+
         self.callback = callback
     #
-#     cpdef gradient(self):
+#     def gradient(self):
 #         self.risk.gradient()
 #     #
 

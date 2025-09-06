@@ -17,12 +17,14 @@ from mlgrad.af import averaging_function
 from .margin_max import MarginMaximization, MarginMaximization2
 
 def classification_erm(Xs, Y, mod, lossfunc=loss.MarginLoss(funcs.Hinge(1.0)), regnorm=None,
-               normalizer=None, h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
+               weights=None, normalizer=None, h=0.1, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
     if mod.param is None:
         mod.init_param()
     # print(mod.param.base)
 
     er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
+    if weights is not None:
+        er.use_weights(weights)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, 
                  normalizer=normalizer,
                  verbose=verbose, n_restart=n_restart)

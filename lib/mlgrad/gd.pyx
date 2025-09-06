@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# The MIT License (MIT) 
+# The MIT License (MIT)
 #
 # Copyright (c) <2015-2024> <Shibzukhov Zaur, szport at gmail dot com>
 #
@@ -23,9 +23,9 @@
 # THE SOFTWARE.
 
 #from cython.parallel cimport parallel, prange
- 
+
 cimport mlgrad.inventory as inventory
-    
+
 # from mlgrad.models cimport Model
 from mlgrad.funcs cimport Func
 from mlgrad.funcs2 cimport Func2
@@ -41,39 +41,49 @@ cdef double double_min = PyFloat_GetMin()
 
 from math import isnan
 
-cdef class GD: 
+cdef class GD:
 
     @property
     def sample_weights(self):
-        return np.asarray(self.risk.weights)    
-    #    
-    cpdef init(self):
+        return np.asarray(self.risk.weights)
+    #
+    def use_gradient_averager(self, averager):
+        self.grad_averager = averager
+    #
+    def use_normalizer(self, normalizer):
+        self.normalizer = normalizer
+    #
+    def init(self):
         self.risk.init()
 
         if self.normalizer is not None:
             self.normalizer.normalize(self.risk.param)
-        
+
         n_param = len(self.risk.param)
-        
+
 #         if self.param_prev is None:
 #             self.param_prev = np.zeros((n_param,), dtype='d')
         if self.param_min is None:
             self.param_min = self.risk.param.copy()
+        else:
+            self.param_min[:] = self.risk.param
 
         if self.param_copy is None:
             self.param_copy = self.risk.param.copy()
-        
+        else:
+            self.param_copy[:] = self.risk.param
+
         # if self.stop_condition is None:
         #     self.stop_condition = DiffL1StopCondition(self)
-        # self.stop_condition.init()    
+        # self.stop_condition.init()
 
         if self.grad_averager is None:
             self.grad_averager = ArraySave()
         self.grad_averager._init(n_param)
-        
+
         # if self.param_transformer is not None:
         #     self.param_transformer.init(n_param)
-            
+
     #
     def fit(self):
         cdef Risk risk = self.risk
@@ -95,38 +105,38 @@ cdef class GD:
 
         if self.normalizer is not None:
             self.normalizer.normalize(risk.param)
-        
+
         self.completed = 0
         for k in range(self.n_iter):
             lval_prev = lval
             # print(k, lval)
-                
+
             self.fit_epoch()
-            
+
             if inventory.hasnan(risk.param):
                 print(k, np.asarray(risk.param))
-            
-            lval = risk._evaluate()            
+
+            lval = risk._evaluate()
             self.lvals.append(lval)
             # print(k, self.lval, self.lval_min)
 
             if self.normalizer is not None:
-                self.normalizer.normalize(risk.param)       
+                self.normalizer.normalize(risk.param)
 
             # if self.stop_condition():
             #     self.completed = 1
             if fabs(lval - lval_prev) / Q < tol:
                 self.completed = 1
-            
+
             elif fabs(lval - lval_min) / Q < tol:
                 self.completed = 1
 
             elif fabs(lval - lval_min_prev) / Q < tol:
-                if m > 7:
+                if m > M:
                     self.completed = 1
                 else:
                     m += 1
-                
+
             if lval < lval_min:
                 lval_min_prev = lval_min
                 lval_min = lval
@@ -135,7 +145,7 @@ cdef class GD:
                 m = 0
             elif lval < lval_min_prev:
                 lval_min_prev = lval
-                
+
             if self.completed:
                 break
 
@@ -145,14 +155,14 @@ cdef class GD:
         self.K = k
         self.finalize()
     #
-    cpdef gradient(self):
+    def gradient(self):
         cdef Risk risk = self.risk
         risk._gradient()
     #
-    cpdef fit_epoch(self):
+    def fit_epoch(self):
         cdef Risk risk = self.risk
         cdef Py_ssize_t i, n_repeat = 1, m
-        
+
         if risk.n_sample > 0 and risk.batch is not None and risk.batch.size > 0:
             n_repeat, m = divmod(risk.n_sample, risk.batch.size)
             if m > 0:
@@ -179,29 +189,23 @@ cdef class GD:
             #     self.param_transformer.transform(risk.model.param)
     #
     # cdef int stop_condition(self):
-        
+
     #     if fabs(self.lval - self.lval_prev) / (1.0 + fabs(self.lval_min)) < self.tol:
     #         return 1
-        
+
     #     if fabs(self.lval_min - self.lval_min_prev) / (1.0 + fabs(self.lval_min)) < self.tol:
     #         return 1
-        
+
     #     return 0
-    #
-    def use_gradient_averager(self, averager):
-        self.grad_averager = averager
-    #
-    def use_normalizer(self, Normalizer normalizer):
-        self.normalizer = normalizer
 #
     # def use_transformer(self, transformer):
     #     self.param_transformer = transformer
 #
-    cpdef finalize(self):
+    def finalize(self):
         cdef Risk risk = self.risk
-        
+
         inventory.move(risk.param, self.param_min)
-            
+
 include "gd_fg.pyx"
 include "gd_fg_rud.pyx"
 #include "gd_rk4.pyx"

@@ -1,4 +1,4 @@
-# coding: utf-8 
+# coding: utf-8
 
 # The MIT License (MIT)
 #
@@ -20,7 +20,7 @@
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE. 
+# THE SOFTWARE.
 
 from cython cimport view
 from openmp cimport omp_get_num_procs, omp_get_num_threads
@@ -72,7 +72,7 @@ cdef bint _iscontiguousarray(object ob):
 
 cdef bint _isnumpyarray(object ob):
     return numpy.PyArray_CheckExact(ob)
-    
+
 cdef object _asarray(object ob):
     cdef int tp
 
@@ -85,7 +85,7 @@ cdef object _asarray(object ob):
 
     if not numpy.PyArray_IS_C_CONTIGUOUS(ob):
         ob = np.ascontiguousarray(ob)
-    
+
     return ob
 
 def asarray(ob):
@@ -1211,33 +1211,60 @@ def relative_abs_max(a, b=None, fix_ends=True):
         b[0] = b[-1] = min_b
     return b
 
-# cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k): # noexcept nogil:
-#     cdef Py_ssize_t i, j, l, m
-#     cdef double x, t
+def median(a, axis=None, out=None, overwrite_input=False):
+    # can't be reasonably be implemented in terms of percentile as we have to
+    # call mean to not break astropy
+    # a = np.asanyarray(a)
+    a = _asarray(a)
 
-#     l = 0; m = n-1
-#     while l < m:
-#         x = a[k]
-#         i = l
-#         j = m
-#         while 1:
-#             while a[i] < x:
-#                 i += 1
-#             while x < a[j]:
-#                 j -= 1
-#             if i <= j:
-#                 # swap(&a[i],&a[j]) ;
-#                 t = a[i]; a[i] = a[j]; a[j] = t
-#                 i += 1
-#                 j -= 1
-#             if i <= j:
-#                 break
-#         #
-#         if j < k:
-#             l=i
-#         if k < i:
-#             m=j
-#     return a[k]
+    # Set the partition indexes
+    if axis is None:
+        sz = a.size
+    else:
+        sz = a.shape[axis]
+    if sz % 2 == 0:
+        szh = sz // 2
+        kth = [szh - 1, szh]
+    else:
+        kth = [(sz - 1) // 2]
+
+    # We have to check for NaNs (as of writing 'M' doesn't actually work).
+    # supports_nans = np.issubdtype(a.dtype, np.inexact) or a.dtype.kind in 'Mm'
+    # if supports_nans:
+    #     kth.append(-1)
+
+    if not overwrite_input:
+        a = a.copy()
+    if axis is None:
+        part = a.ravel()
+        part.partition(kth)
+    else:
+        a.partition(kth, axis=axis)
+        part = a
+
+    if part.shape == ():
+        # make 0-D arrays work
+        return part.item()
+    if axis is None:
+        axis = 0
+
+    indexer = [slice(None)] * part.ndim
+    index = part.shape[axis] // 2
+    if part.shape[axis] % 2 == 1:
+        # index with slice to allow mean (below) to work
+        indexer[axis] = slice(index, index + 1)
+    else:
+        indexer[axis] = slice(index - 1, index + 1)
+    indexer = tuple(indexer)
+
+    # Use mean in both odd and even case to coerce data type,
+    # using out array if needed.
+    rout = part[indexer].mean(axis=axis, out=out)
+    # if supports_nans and sz > 0:
+    #     # If nans are possible, warn and replace by nans like mean would.
+    #     rout = np.lib._utils_impl._median_nancheck(part, rout, axis)
+
+    return rout
 
 def median_1d(x, copy=True):
     if copy:
@@ -1248,7 +1275,7 @@ def median_1d(x, copy=True):
 
 def median_absdev_1d(x, mu):
     return _median_absdev_1d(_asarray(x), mu)
-    
+
 def median_2d_t(x):
     y = empty_array(x.shape[1])
     _median_2d_t(_asarray(x), y)
@@ -1271,6 +1298,16 @@ def median_absdev_2d_t(x, mu):
 
 def robust_mean_1d(x, tau):
     return _robust_mean_1d(_asarray(x), tau)
+
+# def robust_mean_1d(x, tau):
+#     x = _asarray(x)
+
+#     mu = median(x)
+#     std = median(abs(x - mu))
+
+#     tau /= 0.6745
+#     tau_std = tau * std
+#     return  x[(v <= mu + tau_std) & (v >= mu - tau_std)].mean()
 
 def robust_mean_2d(x, tau):
     y = empty_array(x.shape[0])

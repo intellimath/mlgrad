@@ -27,7 +27,7 @@ cdef class ScalarAverager:
     cdef init(self)
     #
     cdef double update(self, const double x)
-    
+
 @cython.final
 cdef class ScalarAdaM2(ScalarAverager):
     #
@@ -39,14 +39,14 @@ cdef class ScalarAdaM1(ScalarAverager):
     #
     cdef double m, v, beta1, beta2, beta1_k, beta2_k, epsilon
     #
-    
+
 @cython.final
 cdef class ScalarExponentialAverager(ScalarAverager):
     #
     cdef double m, beta, beta_k
     #
 
-@cython.final    
+@cython.final
 cdef class ScalarWindowAverager(ScalarAverager):
     cdef Py_ssize_t size
     cdef Py_ssize_t idx
@@ -70,13 +70,20 @@ cdef class ArrayAverager:
 
 cdef class ArraySave(ArrayAverager):
     pass
-    
+
 @cython.final
 cdef class ArrayMOM(ArrayAverager):
     #
     cdef double[::1] mgrad
     cdef double beta, M
     cdef bint normalize
+    #
+
+@cython.final
+cdef class ArrayRUD(ArrayAverager):
+    #
+    cdef double[::1] vgrad
+    cdef double mu
     #
 
 # @cython.final
@@ -86,7 +93,7 @@ cdef class ArrayMOM(ArrayAverager):
 #     cdef double beta, M
 #     cdef bint normalize
 #     #
-    
+
 @cython.final
 cdef class ArrayAMOM(ArrayAverager):
     #
@@ -94,7 +101,7 @@ cdef class ArrayAMOM(ArrayAverager):
     cdef double beta, M
     cdef bint normalize
     #
-    
+
 # @cython.final
 # cdef class ArrayUnbiasedMOM(ArrayAverager):
 #     #
@@ -102,14 +109,14 @@ cdef class ArrayAMOM(ArrayAverager):
 #     cdef double beta, beta_k
 #     cdef bint normalize
 #     #
-    
+
 @cython.final
 cdef class ArrayRMSProp(ArrayAverager):
     #
-    cdef double[::1] vgrad
+    cdef double[::1] vvgrad
     cdef double beta, M, epsilon
     #
-    
+
 @cython.final
 cdef class ArrayAdaM2(ArrayAverager):
     #

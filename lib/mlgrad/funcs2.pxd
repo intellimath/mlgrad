@@ -79,11 +79,15 @@ cdef class PowerNorm(Func2):
 
 @cython.final
 cdef class SquareNorm(Func2):
-    pass
+    #
+    cdef Py_ssize_t offset
+    #
 
 @cython.final
 cdef class AbsoluteNorm(Func2):
-    pass
+    #
+    cdef Py_ssize_t offset
+    #
 
 @cython.final
 cdef class SoftAbsoluteNorm(Func2):

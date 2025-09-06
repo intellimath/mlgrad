@@ -42,7 +42,7 @@ cdef extern from "Python.h":
     cdef int PyIndex_Check(PyObject*)
     cdef PyTypeObject* Py_TYPE(PyObject*)
     cdef PyObject* PyTuple_GET_ITEM(PyObject*, Py_ssize_t)
-    
+
     cdef PyTypeObject PyFloat_Type
     ctypedef struct PyTupleObject:
         PyObject *ob_item[1]
@@ -65,7 +65,7 @@ cdef class list_double:
 
     cdef inline double  _get(self, Py_ssize_t i)
     cdef inline void _set(self, Py_ssize_t i, double p)
-    
+
     cdef void _append(self, double op)
     cdef void _extend(self, double *op, Py_ssize_t n)
 
@@ -74,9 +74,9 @@ cdef class list_int:
     cdef Py_ssize_t size
     cdef Py_ssize_t allocated
     cdef int *data
-    
+
     cdef inline int  _get(self, Py_ssize_t i)
     cdef inline void _set(self, Py_ssize_t i, int p)
-    
+
     cdef void _append(self, int op)
     cdef void _extend(self, int *op, Py_ssize_t n)

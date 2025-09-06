@@ -25,17 +25,17 @@ cdef extern from "Python.h":
     double PyFloat_GetMin()
 
 cdef inline void fill_memoryview(double[::1] X, double c):
-    memset(&X[0], 0, X.shape[0]*cython.sizeof(double))    
+    memset(&X[0], 0, X.shape[0]*cython.sizeof(double))
 
 cdef inline void fill_memoryview2(double[:,::1] X, double c):
-    memset(&X[0,0], 0, X.shape[0]*X.shape[1]*cython.sizeof(double))    
+    memset(&X[0,0], 0, X.shape[0]*X.shape[1]*cython.sizeof(double))
 
 cdef inline void copy_memoryview(double[::1] Y, double[::1] X):
-    memcpy(&Y[0], &X[0], Y.shape[0]*cython.sizeof(double))    
+    memcpy(&Y[0], &X[0], Y.shape[0]*cython.sizeof(double))
 
 cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
-    memcpy(&Y[0,0], &X[0,0], X.shape[0]*X.shape[1]*cython.sizeof(double))    
-    
+    memcpy(&Y[0,0], &X[0,0], X.shape[0]*X.shape[1]*cython.sizeof(double))
+
 # cdef class Fittable(object):
 #     #
 #     cpdef fit(self)
@@ -51,26 +51,26 @@ cdef class GD:
     cdef public bint completed
 
     cdef public double h
-    
+
     cdef public list lvals
-        
+
     cdef double[::1] param_min, param_copy
     cdef double lval, lval_prev, lval_min, lval_min_prev
-        
+
     cdef ArrayAverager grad_averager
     # cdef ArrayTransformer param_transformer
 
     cdef public object callback
     #
-    cpdef init(self)
+    #def init(self)
     #
-    cpdef gradient(self)
+    #def gradient(self)
     #
-    cpdef fit_epoch(self)
+    #def fit_epoch(self)
     #
     # cdef int stop_condition(self)
     #
-    cpdef finalize(self)
+    #def finalize(self)
 
 @cython.final
 cdef class FG(GD):
@@ -80,7 +80,7 @@ cdef class FG(GD):
 
 @cython.final
 cdef class FG_RUD(GD):
-    cdef double[::1] param_prev
+    cdef double[::1] param_rud
     cdef double gamma
     #
     pass

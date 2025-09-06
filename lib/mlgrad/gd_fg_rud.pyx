@@ -14,35 +14,35 @@ cdef class FG_RUD(GD):
         self.h = h
         self.param_prev = None
         self.gamma = gamma
-        
+
         if h_rate is None:
             self.h_rate = ConstantParamRate(h)
         else:
             self.h_rate = h_rate
-            
+
         self.m = 0
-        
+
         self.callback = callback
     #
-    cpdef init(self):
+    def init(self):
         GD.init(self)
         n_param = len(self.risk.param)
-        self.param_prev = np.zeros(n_param, 'd')
+        self.param_rud = np.zeros(n_param, 'd')
     #
-    cpdef gradient(self):
+    def gradient(self):
         cdef Risk risk = self.risk
         cdef Py_ssize_t i, n_param = risk.param.shape[0]
         cdef double[::1] param = risk.param
-        cdef double[::1] param_prev = self.param_prev
-        cdef double[::1] array_average
+        cdef double[::1] param_rud = self.param_rud
+        cdef double[::1] grad_average
 
-        copy_memoryview(param_prev, param)
+        copy_memoryview(param_rud, param)
 
-        array_average = self.grad_averager.array_average
+        grad_average = self.grad_averager.array_average
         for i in range(n_param):
-            param[i] -= array_average[i]
+            param[i] -= grad_average[i]
         self.risk.gradient()
 
-        copy_memoryview(param, param_prev)
+        copy_memoryview(param, param_rud)
     #
 

@@ -330,6 +330,12 @@ cdef class SoftHinge_Sqrt(Func):
     #
 
 @cython.final
+cdef class SoftHinge_Exp(Func):
+    cdef public double alpha
+    cdef public double x0
+
+
+@cython.final
 cdef class IntSoftHinge_Sqrt(Func):
     #
     cdef public double alpha

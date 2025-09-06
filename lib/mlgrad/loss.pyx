@@ -44,7 +44,7 @@ cdef class Loss(object):
     #
     def evaluate_all(self, double[::1] Y, double[::1] Yp):
         cdef Py_ssize_t k, N = Y.shape[0]
-        
+
         L = np.empty(N, 'd')
         for k in range(N):
             L[k] = self._evaluate(Y[k], Yp[k])
@@ -53,7 +53,7 @@ cdef class Loss(object):
     # def evaluate_all2(self, Model model, double[:, ::1] X, double[::1] Yp):
     #     cdef Py_ssize_t k, N = Yp.shape[0]
     #     cdef double y
-        
+
     #     L = np.empty(N, 'd')
     #     for k in range(N):
     #         y = model._evaluate_one(X[k])
@@ -62,7 +62,7 @@ cdef class Loss(object):
     #
     def derivative_div_all(self, double[::1] Y, double[::1] Yp):
         cdef Py_ssize_t k, N = Y.shape[0]
-        
+
         L = np.empty(N, 'd')
         for k in range(N):
             L[k] = self._derivative_div(Y[k], Yp[k])
@@ -70,7 +70,7 @@ cdef class Loss(object):
     #
     def derivative_all(self, double[::1] Y, double[::1] Yp):
         cdef Py_ssize_t k, N = Y.shape[0]
-        
+
         L = np.empty(N, 'd')
         for k in range(N):
             L[k] = self._derivative(Y[k], Yp[k])
@@ -87,7 +87,7 @@ cdef class Loss(object):
     #
     def get_attr(self, name):
         return getattr(self, name)
-    
+
 cdef class LossFunc(Loss):
     #
     pass
@@ -146,7 +146,7 @@ cdef class IdErrorLoss(Loss):
     #
     def _repr_latex_(self):
         return r"$(y - \tilde y)$" 
-    
+
 cdef class RelativeErrorLoss(LossFunc):
     #
     def __init__(self, Func func):
@@ -178,7 +178,7 @@ cdef class RelativeErrorLoss(LossFunc):
     #
     def _repr_latex_(self):
         return r"$\ell(y - \tilde y)$" 
-    
+
 cdef class MarginLoss(LossFunc):
     #
     def __init__(self, Func func):
@@ -201,20 +201,17 @@ cdef class MarginLoss(LossFunc):
 
 cdef class NegMargin(LossFunc):
     #
-    def __init__(self, func=Id()):
-        self.func = func
-    #
     cdef double _evaluate(self, const double u, const double yk) noexcept nogil:
-        return self.func._evaluate(-u*yk)
+        return -u*yk
     #
     cdef double _derivative(self, const double u, const double yk) noexcept nogil:
-        return -yk*self.func._derivative(-u*yk)
+        return -yk
     #
     cdef double _derivative_div(self, const double u, const double yk) noexcept nogil:
-        return -yk*self.func._derivative_div(-u*yk)
+        return -yk / u
     #
     cdef double _residual(self, const double u, const double yk) noexcept nogil:
-        return self.func._value(-u*yk)
+        return -u*yk
     #
     def _repr_latex_(self):
         return r"$\rho(-u\tilde y)$" 

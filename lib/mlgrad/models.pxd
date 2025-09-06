@@ -58,17 +58,21 @@ cdef class BaseModel(object):
 
 cdef class Model(BaseModel):
     cdef public Py_ssize_t n_param, n_input
+    #
     cdef public object ob_param
     cdef public double[::1] param_base
     cdef public double[::1] param
+    #
     cdef public double[::1] grad
+    cdef public double[::1] grad_base
+    #
     cdef public double[::1] grad_input
     # cdef bint is_allocated
 
     # cpdef init_param(self, param=*, bint random=*)
     #
     # cdef update_param(self, double[::1] param)
-    
+
 cdef class ModelComposition(Model):
     #
     # cdef Py_ssize_t n_input
