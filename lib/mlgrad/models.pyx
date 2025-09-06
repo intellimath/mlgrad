@@ -424,28 +424,45 @@ cdef class SigmaNeuronModel(Model):
         return mod
     #
     cdef double _evaluate_one(self, double[::1] Xk):
+        cdef Py_ssize_t i
         cdef double s
+        cdef double *pp = &self.param[0]
+        cdef double *xx = &Xk[0]
 
-        s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)        
+        s = pp[0]
+        pp += 1
+        for i in range(self.n_input):
+            s += pp[i] * xx[i]
+
+        # s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)
         return self.outfunc._evaluate(s)
     #
     cdef void _gradient(self, double[::1] Xk, double[::1] grad):
         cdef Py_ssize_t i
+        cdef double *pp = &self.param[0]
+        cdef double *gg = &grad[1]
+        cdef double *xx = &Xk[0]
         cdef double s, sx
-        
-        s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)        
+
+        # s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)
+        s = pp[0]
+        pp += 1
+        for i in range(self.n_input):
+            s += pp[i] * xx[i]
+
         sx = self.outfunc._derivative(s)
 
-        grad[0] = sx
-        inventory._mul_set(&grad[1], &Xk[0], sx, self.n_input)
+        gg[0] = sx
+        for i in range(self.n_input):
+            gg[i] = xx[i] * sx
+        # inventory._mul_set(&grad[1], &Xk[0], sx, self.n_input)
     #
     cdef void _gradient_input(self, double[::1] Xk, double[::1] grad_input):
         cdef Py_ssize_t i
-        cdef Py_ssize_t n_input = self.n_input
         cdef double s, sx
         cdef double[::1] param = self.param
-                                
-        s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)        
+
+        s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)
         # s = param[0]
         # for i in range(n_input):
         #     s += param[i+1] * X[i]

@@ -9,7 +9,7 @@ import numpy as np
 from scipy.optimize import minimize_scalar
 
 def sigmoidal_factory(n):
-    return models.SigmaNeuronModel(funcs.Sigmoidal(7.0), n)
+    return models.SigmaNeuronModel(funcs.Sigmoidal(5.0), n)
 
 class AnyBoostClassification:
     #
@@ -50,11 +50,6 @@ class AnyBoostClassification:
             # print(f"Warning: K={self.K} alpha={alpha:.6f}")
         else:
             self.H.add(h, self.shrink * alpha)
-            #
-            # A = self.H.weights.asarray()
-            # A /= abs(A).sum()
-            # del A
-            #
             self.evaluate_weights()
             return True
     #
