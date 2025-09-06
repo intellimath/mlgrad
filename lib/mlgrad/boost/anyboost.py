@@ -46,7 +46,8 @@ class AnyBoostClassification:
         h = self.weak_learn(X, Y, **kw)
         alpha = self.evaluate_alpha(h, X, Y)
         if alpha <= 0:
-            print(f"Warning: K={self.K} alpha={alpha:.6f}")
+            return False
+            # print(f"Warning: K={self.K} alpha={alpha:.6f}")
         else:
             self.H.add(h, self.shrink * alpha)
             #
@@ -55,6 +56,7 @@ class AnyBoostClassification:
             # del A
             #
             self.evaluate_weights()
+            return True
     #
     def fit(self, X, Y, **kw):
         self.H = models.LinearFuncModel()
