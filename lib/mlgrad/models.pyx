@@ -1,4 +1,4 @@
-coding: utf-8 
+coding: utf-8
 
 # The MIT License (MIT)
 #
@@ -20,7 +20,7 @@ coding: utf-8
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE. 
+# THE SOFTWARE.
 
 cimport cython
 import numpy as np
@@ -30,6 +30,7 @@ numpy.import_array()
 
 
 from mlgrad.funcs import func_from_dict
+import mlgrad.funcs as funcs
 
 from cython.parallel cimport parallel, prange
 
@@ -40,7 +41,7 @@ cdef int num_threads = inventory.get_num_threads()
 format_double = r"%.2f"
 display_precision = 0.005
 np.set_printoptions(precision=3, floatmode='maxprec_equal')
-    
+
 cdef inline double ident(x):
     return x
 
@@ -56,7 +57,7 @@ cdef inline double ident(x):
 
 #     if not numpy.PyArray_IS_C_CONTIGUOUS(ob):
 #         ob = np.ascontiguousarray(ob)
-    
+
 #     return ob
 
 # def asarray(ob):
@@ -386,9 +387,6 @@ cdef class LinearModel_Normalized2(Model):
     cpdef normalize(self):
         cdef double normval2 = inventory._dot(&self.param[1], &self.param[1], self.n_input)
         inventory._mul_const(&self.param[0], 1/sqrt(normval2), self.n_param)
-            
-        
-        
 
 cdef class SigmaNeuronModel(Model):
     #
@@ -486,7 +484,7 @@ cdef class SigmaNeuronModel(Model):
 @register_model('sigma_neuron')
 def sigma_neuron_from_dict(ob):
     mod = SigmaNeuronModel(func_from_dict(ob['func']), ob['n_input'])
-    return mod        
+    return mod
 
 cdef class SimpleComposition(Model):
     #
@@ -785,6 +783,51 @@ cdef class LinearNNModel(Model):
     #
     # cdef void regularizer_gradient_l2(self, double[:,::1] X, double[::1] R):
 
+cdef class SigmoidalNN1Model(Model):
+    def __init__(self, n_input, n_hidden, outfunc=funcs.Sigmoidal(5.0)):
+        self.linear_layer = LinearLayer(n_input, n_hidden)
+        self.scale_layer = ScaleLayer(outfunc, n_hidden)
+        self.linear_model = LinearModel(n_hidden)
+        self.n_input = n_input
+        self.n_hidden = n_hidden
+        self.n_param = (n_input+1)*n_hidden + n_hidden + 1
+        self.param = self.ob_param = None
+        self.grad_input = None
+        self.grad = None
+        # self.first_time = 1
+        self.mask = None
+    #
+    def _allocate_param(self, allocator):
+        _allocator = allocator.suballocator()
+        self.linear_layer._allocate_param(_allocator)
+        self.linear_model._allocate_param(_allocator)
+        self.ob_param = _allocator.get_allocated()
+        self.param = self.ob_param
+        self.param_base = _allocator.buf_array
+        _allocator.close()
+
+        self.grad_input = np.zeros(self.n_input, 'd')
+        self.grad = np.zeros(self.n_param, 'd')
+    #
+    def init_param(self):
+        self.linear_layer.init_param()
+        self.linear_model.init_param()
+    #
+    cdef double _evaluate_one(self, double[::1] Xk):
+        self.linear_layer._forward(Xk)
+        self.scale_layer._forward(self.linear_layer.output)
+        return self.linear_model._evaluate_one(self.scale_layer.output)
+    #
+    cdef void _gradient(self, double[::1] Xk, double[::1] grad):
+        cdef Py_ssize_t offset = self.linear_layer.n_param
+        cdef double[::1] grad_out = grad[offset:]
+
+        self.linear_layer._forward(Xk)
+        self.scale_layer._forward(self.linear_layer.output)
+
+        self.linear_model._gradient(self.scale_layer.output, grad_out)
+        self.scale_layer._backward(self.linear_layer.output, grad_out, None)
+        self.linear_layer._backward(self.scale_layer.output, grad_out, grad[:offset])
 
 cdef class LinearLayer(ModelLayer):
 
