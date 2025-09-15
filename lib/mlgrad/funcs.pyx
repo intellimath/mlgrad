@@ -80,15 +80,21 @@ cdef class Func(object):
     #
     def evaluate_array(self, double[::1] x):
         cdef Py_ssize_t n = x.shape[0]
-        cdef double[::1] y = inventory.empty_array(n)
+        cdef double[::1] y
+
+        o = inventory.empty_array(n)
+        y = o
         self._evaluate_array(&x[0], &y[0], n)
-        return y
+        return o
     #
     def __call__(self, double[::1] x):
         cdef Py_ssize_t n = x.shape[0]
-        cdef double[::1] y = inventory.empty_array(n)
+        cdef double[::1] y
+
+        o = inventory.empty_array(n)
+        y = o
         self._evaluate_array(&x[0], &y[0], n)
-        return y
+        return o
     #
     def evaluate_weighted_sum(self, double[::1] x, double[::1] w):
         return self._evaluate_weighted_sum(&x[0], &w[0], x.shape[0])
@@ -1742,16 +1748,23 @@ cdef class SoftHinge_Exp(Func):
     #
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
-        cdef double x1 = x - self.x0
-        return log(1 + exp(-self.alpha*x1))
+        cdef double x1 = self.alpha * (x - self.x0)
+        if x1 >= 0:
+            return log(1 + exp(-x1))
+        else:
+            return -x1 + log(1 + exp(x1))
     #
     @cython.final
     @cython.cdivision(True)
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double x1 = x - self.x0
         cdef double alpha = self.alpha
-        cdef double v = exp(-alpha*x1)
-        return -alpha * v / (1 + v)
+        cdef double x1 = alpha * (x - self.x0)
+        cdef double v
+        if x1 >= 0:
+            v = exp(-x1)
+            return -alpha * v / (1 + v)
+        else:
+            return -alpha / (1 + exp(x1))
     #
     @cython.final
     @cython.cdivision(True)
@@ -2097,7 +2110,7 @@ cdef class SoftAbs_Sqrt(Func):
         if s < 0:
             s = 0
         return sqrt(s)
-    #    
+    #
     def _repr_latex_(self):
         return r"$\rho(x)=\sqrt{\varepsilon^2+x^2}$ - \varepsilon"
 

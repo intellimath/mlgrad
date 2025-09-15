@@ -364,6 +364,10 @@ cdef class LinearModel(Model):
             self.param[:] = param
         self.n_param = <Py_ssize_t>param.shape[0]
         self.n_input = self.n_param - 1
+    #
+    def copy(self):
+        mod = LinearModel(self.param)
+        return mod
 
 @register_model('linear')
 def linear_model_from_dict(ob):
@@ -1318,7 +1322,10 @@ cdef class LinearFuncModel(BaseModel):
     #     mod.models = self.models[:]
     #     mod.weights = self.weights.copy()
     #     return mod
-    # #
+    #
+    def __len__(self):
+        return len(self.models)
+    #
     cdef double _evaluate_one(self, double[::1] X):
         cdef double w, s
         cdef Model mod
@@ -1344,6 +1351,12 @@ cdef class LinearFuncModel(BaseModel):
     def __call__(self, X):
         cdef double[::1] XX = X
         return self._evaluate_one(XX)
+    #
+    def copy(self):
+        mod = LinearFuncModel()
+        for i in range(len(self)):
+            mod.add(self.models[i], self.weights[i])
+        return mod
     #
     # def as_dict(self):
     #     d = {}

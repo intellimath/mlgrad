@@ -8,7 +8,7 @@ import numpy as np
 
 from scipy.optimize import minimize_scalar
 
-def sigmoidal_factory(n, scale=5.0):
+def sigmoidal_factory(n, scale=10.0):
     return models.SigmaNeuronModel(funcs.Sigmoidal(scale), n)
 
 class AnyBoostClassification:
@@ -17,7 +17,7 @@ class AnyBoostClassification:
                  func=funcs.Exp(-1.0),
                  model_factory=sigmoidal_factory,
                  lossfunc=loss.NegMargin(),
-                 min_wl_score=0,
+                 # min_weak_learn_score=0,
                  shrink=1.0, n_classifier=100, n_failures=30):
         #
         self.func = func
@@ -26,60 +26,56 @@ class AnyBoostClassification:
         self.shrink = shrink
         self.n_classifier = n_classifier
         self.n_failures = n_failures
-        self.min_wl_score = min_wl_score
-        # self.min_wc_accuracy = min_wc_accuracy
+        # self.min_weak_learn_score = min_weak_learn_score
     #
     def weak_learn(self, X, Y, **kw):
         weak_model = self.model_factory(X.shape[1])
         weak_learner = cls.classification_as_regr(X, Y, weak_model, self.lossfunc, weights=self.weights, **kw)
-        # print(np.asarray(weak_model.param))
         return weak_learner
     #
-    def evaluate_alpha(self, h, X, Y):
+    def evaluate_alpha(self):
         #
-        m_vals = Y * h.evaluate(X)
+        m_vals = self.m_vals
+        M_vals = self.M_vals
         #
         def _func_(alpha):
-            return self.func.evaluate_sum(self.M_vals + alpha * m_vals)
+            return self.func.evaluate_sum(M_vals + alpha * m_vals)
         #
-        res = minimize_scalar(_func_, (-1., 1.))
+        res = minimize_scalar(_func_, (0, 1.))
         if not res.success:
-            raise RuntimeError(f"K={self.K}: {res.message}")
+            raise RuntimeError(res.message)
         #
         return res.x
     #
     def evaluate_weights(self):
-        self.weights = -self.func.derivative_array(self.M_vals)
-        self.weights /= self.weights.sum()
+        weights = self.func.derivative_array(self.M_vals)
+        weights /= weights.sum()
+        return weights
     #
     def fit_step(self, X, Y, **kw):
         weak_learner = self.weak_learn(X, Y, **kw)
-        wl_model = weak_learner.risk.model
+        weak_model = weak_learner.risk.model
+        self.m_vals = Y * weak_model.evaluate(X)
+
+        if self.weights @ self.m_vals <= 0:
+            return False
+
+        alpha = self.evaluate_alpha()
+        self.H.add(weak_model, self.shrink * alpha)
 
         self.M_vals = Y * self.H.evaluate(X)
+        lval = self.func.evaluate_sum(self.M_vals)
+        self.lvals.append(lval)
 
-        alpha = self.evaluate_alpha(wl_model, X, Y)
-        if alpha <= 0:
-            return False
-        else:
-            wl_lval = weak_learner.risk.evaluate()
-            wl_lval = abs(wl_lval)
-            if wl_lval <= self.min_wl_score:
-                return None
+        self.weights = self.evaluate_weights()
 
-            self.wl_lvals.append(wl_lval)
-
-            self.H.add(wl_model, self.shrink * alpha)
-            self.evaluate_weights()
-
-            self.lvals.append(self.func.evaluate_sum(self.M_vals))
-
-            return True
+        return True
     #
     def fit(self, X, Y, **kw):
+        N = len(X)
         self.H = models.LinearFuncModel()
-        self.M = np.zeros(len(X), "d")
-        self.weights = np.ones(len(X), "d")
+        self.M_vals = np.zeros(len(X), "d")
+        self.weights = np.ones(len(X), "d") / N
 
         self.lvals = []
         self.wl_lvals = []

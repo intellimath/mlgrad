@@ -6,17 +6,18 @@ cimport cython
 
 from mlgrad.funcs cimport Func, ParameterizedFunc, Square, Id
 # from mlgrad.model cimport Model, MLModel
+import mlgrad.inventory as inventory
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()
     double PyFloat_GetMin()
-    
+
 cdef double double_max
 cdef double double_min
 
 cdef class Loss(object):
     #
-    cdef double _evaluate(self, const double x, const double y) noexcept nogil        
+    cdef double _evaluate(self, const double x, const double y) noexcept nogil
     #
     cdef double _derivative(self, const double x, const double y) noexcept nogil
     #
@@ -44,7 +45,7 @@ cdef class ErrorLoss(LossFunc):
 cdef class IdErrorLoss(Loss):
     pass
     #
-    
+
 @cython.final
 cdef class RelativeErrorLoss(LossFunc):
     pass
@@ -59,11 +60,10 @@ cdef class NegMargin(LossFunc):
     pass
     #
 
-@cython.final
-cdef class MLoss(Loss):
-   cdef public Func rho
-   cdef public Loss loss
-
+# @cython.final
+# cdef class MLoss(Loss):
+#    cdef public Func rho
+#    cdef public Loss loss
 
 cdef class MultLoss2(object):
     cdef double _evaluate(self, double[::1] y, double[::1] yk) noexcept nogil
@@ -76,7 +76,7 @@ cdef class ErrorMultLoss2(MultLoss2):
 @cython.final
 cdef class MarginMultLoss2(MultLoss2):
     cdef public Func func
-    
+
 cdef class MultLoss:
     #
     cdef double _evaluate(self, double[::1] y, double yk) noexcept nogil

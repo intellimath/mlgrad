@@ -63,7 +63,7 @@ cdef class Loss(object):
     def derivative_div_all(self, double[::1] Y, double[::1] Yp):
         cdef Py_ssize_t k, N = Y.shape[0]
 
-        L = np.empty(N, 'd')
+        L = inventory.empty_array(N)
         for k in range(N):
             L[k] = self._derivative_div(Y[k], Yp[k])
         return L
@@ -71,9 +71,17 @@ cdef class Loss(object):
     def derivative_all(self, double[::1] Y, double[::1] Yp):
         cdef Py_ssize_t k, N = Y.shape[0]
 
-        L = np.empty(N, 'd')
+        L = inventory.empty_array(N)
         for k in range(N):
             L[k] = self._derivative(Y[k], Yp[k])
+        return L
+    #
+    def residual_all(self, double[::1] Y, double[::1] Yp):
+        cdef Py_ssize_t k, N = Y.shape[0]
+
+        L = inventory.empty_array(N)
+        for k in range(N):
+            L[k] = self._residual(Y[k], Yp[k])
         return L
     #
     def evaluate(self, y, yk):
@@ -84,6 +92,9 @@ cdef class Loss(object):
     #
     def deriv(self, y, yk):
         return self._derivative(y, yk)
+    #
+    def residual(self, y, yk):
+        return self._residual(y, yk)
     #
     def get_attr(self, name):
         return getattr(self, name)
@@ -108,7 +119,7 @@ cdef class SquareErrorLoss(LossFunc):
         return 1
     #
     cdef double _residual(self, const double y, const double yk) noexcept nogil:
-        return fabs(y-yk)
+        return (y-yk)
     #
     def _repr_latex_(self):
         return r"$(y - \tilde y)^2$" 
@@ -128,7 +139,7 @@ cdef class ErrorLoss(LossFunc):
         return self.func._derivative_div(y-yk)
     #
     cdef double _residual(self, const double y, const double yk) noexcept nogil:
-        return fabs(y-yk)
+        return (y-yk)
     #
     def _repr_latex_(self):
         return r"$\ell(y - \tilde y)$" 
@@ -140,9 +151,6 @@ cdef class IdErrorLoss(Loss):
     #
     cdef double _derivative(self, const double y, const double yk) noexcept nogil:
         return 1
-    #
-    cdef double _residual(self, const double y, const double yk) noexcept nogil:
-        return fabs(y-yk)
     #
     def _repr_latex_(self):
         return r"$(y - \tilde y)$" 
@@ -174,7 +182,7 @@ cdef class RelativeErrorLoss(LossFunc):
         cdef double v = fabs(yk) + 1
         cdef double b = v / (v + yk*yk)
 
-        return b * fabs(y - yk)
+        return b * (y - yk)
     #
     def _repr_latex_(self):
         return r"$\ell(y - \tilde y)$" 
@@ -194,7 +202,7 @@ cdef class MarginLoss(LossFunc):
         return yk*self.func._derivative_div(u*yk)
     #
     cdef double _residual(self, const double u, const double yk) noexcept nogil:
-        return self.func._value(u*yk)
+        return u*yk
     #
     def _repr_latex_(self):
         return r"$\ell(u\tilde y)$" 
@@ -210,32 +218,29 @@ cdef class NegMargin(LossFunc):
     cdef double _derivative_div(self, const double u, const double yk) noexcept nogil:
         return -yk / u
     #
-    cdef double _residual(self, const double u, const double yk) noexcept nogil:
-        return -u*yk
-    #
     def _repr_latex_(self):
         return r"$\rho(-u\tilde y)$" 
 
-cdef class MLoss(Loss):
+# cdef class MLoss(Loss):
 
-    def __init__(self, Func rho, Loss loss):
-        self.rho = rho
-        self.loss = loss
+#     def __init__(self, Func rho, Loss loss):
+#         self.rho = rho
+#         self.loss = loss
 
-    cdef double _evaluate(self, const double y, const double yk) noexcept nogil:
-        return self.rho._evaluate(self.loss._evaluate(y, yk))
-        
-    cdef double _derivative(self, const double y, const double yk) noexcept nogil:
-        return self.rho._derivative(self.loss._evaluate(y, yk)) * self.loss._derivative(y, yk)
+#     cdef double _evaluate(self, const double y, const double yk) noexcept nogil:
+#         return self.rho._evaluate(self.loss._evaluate(y, yk))
+
+#     cdef double _derivative(self, const double y, const double yk) noexcept nogil:
+#         return self.rho._derivative(self.loss._evaluate(y, yk)) * self.loss._derivative(y, yk)
 
 cdef class MultLoss:
 
     cdef double _evaluate(self, double[::1] y, double yk) noexcept nogil:
         return 0
-        
+
     cdef void _gradient(self, double[::1] y, double yk, double[::1] grad) noexcept nogil:
         pass
-    
+
 cdef class SoftMinLoss(MultLoss):
 
     def __init__(self, Loss lossfunc, q, a=1):
