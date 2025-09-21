@@ -46,6 +46,9 @@ cdef class Penalty(object):
     cdef void gradient(self, double[::1] Y, const double u, double[::1] grad):
         pass
     #
+    cdef void derivative_div(self, double[::1] Y, const double u, double[::1] G):
+        pass
+    #
     cdef double iterative_next(self, double[::1] Y, const double u):
         return 0
 
@@ -117,6 +120,23 @@ cdef class PenaltyAverage(Penalty):
         # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
         for k in range(N):
             grad[k] /= S
+    #
+    @cython.cdivision(True)
+    @cython.final
+    cdef void derivative_div(self, double[::1] Y, const double u, double[::1] G):
+        cdef Py_ssize_t k, N = Y.shape[0]
+        cdef double v, S
+        cdef Func func = self.func
+
+        S = 0
+        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        for k in range(N):
+            G[k] = v = func._derivative_div(Y[k] - u)
+            S += v
+
+        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        for k in range(N):
+            G[k] /= S
 
 @cython.final
 cdef class PenaltyScale(Penalty):
@@ -188,6 +208,21 @@ cdef class PenaltyScale(Penalty):
         # for k in range(N):
             v = Y[k] / s
             grad[k] = func._derivative(v) / S
+    #
+    cdef void derivative_div(self, double[::1] Y, const double s, double[::1] G):
+        cdef Py_ssize_t k, N = Y.shape[0]
+        cdef double S, v
+        cdef Func func = self.func
+        #
+        S = 0
+        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        for k in range(N):
+            G[k] = v = func._derivative_div(Y[k] / s)
+            S += v
+        #
+        for k in range(N):
+            G[k] /= S
+
 
 cdef class Average:
     #
@@ -220,6 +255,15 @@ cdef class Average:
         self._gradient(Y, weights)
         # inventory.normalize(weights)
     #
+    cdef _derivative_div(self, double[::1] Y, double[::1] grad):
+        pass
+    #
+    def derivative_div(self, Y):
+        cdef double[::1] YY = inventory._asarray(Y)
+        G = inventory.empty_array(Y.shape[0])
+        self._derivative_div(YY, G)
+        return G
+
 
 cdef class AverageIterative(Average):
     #
@@ -265,7 +309,7 @@ cdef class AverageIterative(Average):
                 count = 0
             elif pval < pval_min_prev:
                 pval_min_prev = pval
-                
+
             if to_finish:
                 break
             #
@@ -286,6 +330,18 @@ cdef class AverageIterative(Average):
         self.penalty.gradient(Y, u, grad)
         self.evaluated = 0
     #
+    cdef _derivative_div(self, double[::1] Y, double[::1] G):
+        cdef Py_ssize_t i, n=Y.shape[0]
+        cdef double u, S, v
+
+        if not self.evaluated:
+            u = self._evaluate(Y)
+        else:
+            u = self.u
+        self.penalty.derivative_div(Y, u, G)
+        # self.evaluated = 0
+    #
+
 
 include "avragg_fg.pyx"
 
@@ -316,7 +372,7 @@ cdef class SAverage(AverageIterative):
     cdef double init_u(self, double[::1] Y):
         return 1
     #
-        
+
 @cython.final
 cdef class ParameterizedAverage(Average):
     #
@@ -394,7 +450,6 @@ cdef class WMAverage(Average):
         avr_u = self.avr._evaluate(Y)
 
         S = 0
-        
         # for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
         for k in range(N):
             yk = Y[k]
@@ -431,6 +486,31 @@ cdef class WMAverage(Average):
             if Y[k] <= u:
                 v = v + 1
             grad[k] = v / fN
+    #
+    @cython.cdivision(True)
+    @cython.final
+    cdef _derivative_div(self, double[::1] Y, double[::1] G):
+        cdef Py_ssize_t k, N = Y.shape[0]
+        cdef double u, v, m, fN = N
+
+        if self.evaluated == 0:
+            u = self.avr._evaluate(Y)
+        else:
+            u = self.avr.u
+        self.avr._derivative_div(Y, G)
+        # self.evaluated = 0
+
+        m = 0
+        for k in range(N):
+            if Y[k] > u:
+                m += 1
+
+        # for k in prange(N, schedule='static', nogil=True, num_threads=num_threads):
+        for k in range(N):
+            v = m * G[k]
+            if Y[k] <= u:
+                v = v + 1
+            G[k] = v / fN
     #
 
 # cdef class WMAverageMixed(Average):

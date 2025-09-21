@@ -88,6 +88,7 @@ cdef class Penalty:
 
     cdef double evaluate(self, double[::1] Y, double u)
     cdef double derivative(self, double[::1] Y, double u)
+    cdef void derivative_div(self, double[::1] Y, const double u, double[::1] G)
     cdef void gradient(self, double[::1] Y, double u, double[::1] grad)
     cdef double iterative_next(self, double[::1] Y, double u)
 
@@ -119,6 +120,7 @@ cdef class Average:
     cdef double _evaluate(self, double[::1] Y)
     cdef _gradient(self, double[::1] Y, double[::1] grad)
     cdef _weights(self, double[::1] Y, double[::1] weights)
+    cdef _derivative_div(self, double[::1] Y, double[::1] G)
     #    
     # cpdef fit(self, double[::1] Y)
     #

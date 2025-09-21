@@ -64,7 +64,7 @@ class AnyBoostClassification:
         self.H.add(weak_model, self.shrink * alpha)
 
         self.M_vals = Y * self.H.evaluate(X)
-        lval = self.func.evaluate_sum(self.M_vals)
+        lval = self.func.evaluate_array(self.M_vals).mean()
         self.lvals.append(lval)
 
         self.weights = self.evaluate_weights()
