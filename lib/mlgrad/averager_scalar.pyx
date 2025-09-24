@@ -23,6 +23,14 @@
 # THE SOFTWARE.
 #
 
+__averager_scalar_dict = {
+    'AdaM1':ScalarAdaM1,
+    'AdaM2':ScalarAdaM2,
+}
+
+def _get_scalar_averager(str name):
+    return  __averager_scalar_dict[name]
+
 cdef class ScalarAverager:
     #
     cdef init(self):
@@ -30,7 +38,7 @@ cdef class ScalarAverager:
     #
     cdef double update(self, const double x):
         return x
-        
+
 cdef class ScalarAdaM2(ScalarAverager):
 
     def __init__(self, beta1=Beta1, beta2=Beta2, epsilon=Epsilon):

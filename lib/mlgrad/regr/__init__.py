@@ -31,19 +31,24 @@ from mlgrad.utils import exclude_outliers
 from mlgrad.funcs2 import SquareNorm
 from mlgrad.loss import SquareErrorLoss, ErrorLoss
 
-from mlgrad import fg, erm_fg, erm_irgd, erisk, mrisk
+from mlgrad import fg, erm_fg, erm_irgd, erisk
 
 from mlgrad.af import averaging_function, scaling_function
 
 __all__ = 'regression', 'm_regression', 'm_regression_irls', 'r_regression_irls', 'mr_regression_irls'
 
-def regression(Xs, Y, mod, loss_func=None, regnorm=None, *, weights=None,
-               normalizer=None,
+def regression(Xs, Y, mod, loss_func=None, regnorm=None, *, weights=None, normalizer=None,
                h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
     """\
-    Поиск параметров модели `mod` при помощи принципа минимизации эмпирического риска. 
-    Параметр `loss_func` задает функцию потерь.
-    `Xs` и `Y` -- входной двумерный массив и массив ожидаемых значений на выходе.
+    Поиск параметров модели для решения задачи регрессии на основе принципа минимизации эмпирического риска.
+    Параметры:
+        Xs: входной 2-мерный массив
+        Y: массив ожидаем
+        mod: модель зависимости, параметры которой ищутся
+        regnorm: регуляризатор
+        weights: объект для вычисления весов
+        normalizer: нормализатор параметров модели
+        loss_func: функция потерь.ых на выходе значений
     """
     if loss_func is None:
         _loss_func = SquareErrorLoss()
@@ -56,14 +61,14 @@ def regression(Xs, Y, mod, loss_func=None, regnorm=None, *, weights=None,
     er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
     if weights is not None:
         er.use_weights(weights)
-    alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, 
+    alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter,
                  verbose=verbose, n_restart=n_restart, normalizer=normalizer)
     return alg
 
-def m_regression(Xs, Y, mod, 
-                 loss_func=None, agg_func=None, regnorm=None, 
+def m_regression(Xs, Y, mod,
+                 loss_func=None, agg_func=None, regnorm=None,
                  h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
-        
+
     if loss_func is None:
         _loss_func = SquareErrorLoss()
     else:
@@ -77,11 +82,11 @@ def m_regression(Xs, Y, mod,
     if mod.param is None:
         mod.init_param()
 
-    er = mrisk(Xs, Y, mod, loss_func, _agg_func, regnorm=regnorm, tau=tau)
+    er = risk(Xs, Y, mod, loss_func, avg=_agg_func, regnorm=regnorm, tau=tau)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, n_restart=n_restart)
     return alg
 
-def m_regression_irls(Xs, Y, mod, 
+def m_regression_irls(Xs, Y, mod,
                       loss_func=None,
                       agg_func=None, regnorm=None, 
                       h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, verbose=0):
@@ -161,19 +166,42 @@ def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None,
         _rho_func = funcs.Square()
     else:
         _rho_func = rho_func
-    loss_func = ErrorLoss(_rho_func)
 
-    _agg_func = averaging_function("R", _rho_func)
+    # _agg_func = averaging_function("R", _rho_func)
 
     if mod.param is None:
         mod.init_param()
 
     er = erisk(Xs, Y, mod, SquareErrorLoss(), regnorm=regnorm, tau=tau)
     alg = fg(er, h=h, n_iter=n_iter, tol=tol)
+    alg.use_gradient_averager("AdaM2")
 
-    er2 = erisk(Xs, Y, mod, loss_func, regnorm=regnorm, tau=tau)
-    # wt = weights.RWeights(er2)
+    # er2 = erisk(Xs, Y, mod, ErrorLoss(_rho_func), regnorm=regnorm, tau=tau)
 
-    irgd = erm_irgd(alg, _agg_func, n_iter=n_iter2, tol=tol2, verbose=verbose)
-    return irgd
+    alg.fit()
+
+    E = mod.evaluate(Xs) - Y
+    lval = lval_min = _rho_func.evaluate_sum(E)
+    lvals = [lval]
+
+    param_min = mod.param.copy()
+    weights_min = er.weights.copy()
+
+    for k in range(n_iter2):
+        weights = _rho_func.derivative_div_array(E)
+        er.use_weights(weights)
+        alg.fit()
+
+        E = mod.evaluate(Xs) - Y
+        lval = _rho_func.evaluate_sum(E)
+        lvals.append(lval)
+
+        if lval < lval_min:
+            lval_min = lval
+            param_min = mod.param.copy()
+            weights_min = er.weights.copy()
+
+    mod.param[:] = param_min
+    er.use_weights(weights_min)
+    return alg
 

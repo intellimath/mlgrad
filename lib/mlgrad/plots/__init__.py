@@ -26,26 +26,43 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_hist_and_rank_distribution(Y, bins=40):
-    plt.figure(figsize=(12,5))
+def plot_hist_and_rank_distribution(Y, bins=40, levels=None, ylabel=None):
+    plt.figure(figsize=(12,4))
     plt.subplot(1,2,1)
     plt.title(r"Histogram")
     plt.hist(Y, bins=bins, rwidth=0.9)
+    _, c_max = plt.ylim()
+    if levels:
+        for level in levels:
+            plt.vlines(level, 0, c_max, label=str(level), linestyles='--', colors='grey')
+        plt.legend(loc="upper left")
     plt.ylabel(r"$p$")
-    plt.xlabel(r"$y$")
+    if ylabel:
+        plt.xlabel(ylabel)
+    else:
+        plt.xlabel(r"$y$")
     plt.minorticks_on()
     plt.subplot(1,2,2)
     plt.title("Rank distribution")
-    plt.plot(sorted(Y), marker='o', markersize=3)
-    plt.ylabel(r"$y_k$")
+    plt.plot(sorted(Y), marker='o', markersize=4)
+    if levels:
+        for level in levels:
+            plt.hlines(level, 0, len(Y), label=str(level), linestyles='--', colors='grey')
+            plt.text(0, level, str(level), fontsize=8)
+        # plt.legend(loc="upper left")
+    if ylabel:
+        plt.ylabel(ylabel)
+    else:
+        plt.ylabel(r"$y_k$")
     plt.xlabel(r"$k$ (rank)")
+    plt.minorticks_on()
     plt.tight_layout()
     plt.show()
 
 
 def plot_losses_and_errors(alg, X, Y, fname=None, logscale=False, lang='en'):
     err = np.abs(Y - alg.risk.model.evaluate(X))
-    plt.figure(figsize=(10,5))
+    plt.figure(figsize=(12,4))
     plt.subplot(1,2,1)
     if lang == 'en':
         plt.title('Fit curve')
@@ -68,32 +85,30 @@ def plot_losses_and_errors(alg, X, Y, fname=None, logscale=False, lang='en'):
         plt.title('Ошибки')
         plt.xlabel('Ранг ошибки')
         plt.ylabel('Значение ошибки')
-    plt.plot(sorted(err), marker='o', markersize='5', color='k')
+    plt.plot(sorted(err), marker='o', markersize=4, color='k')
     plt.minorticks_on()
     plt.tight_layout()
     if fname:
         plt.savefig(fname)
     plt.show()
 
-def plot_losses(alg, fname=None, logscale=False, lang='en', ax=None):
-    if ax is None:
-        ax = plt.gca()
-    
+def plot_losses(alg, fname=None, logscale=False, lang='en'):
+    plt.figure(figsize=(6,4))
     if lang == 'en':
-        ax.set_title('Losses curve')
-        ax.set_xlabel('step')
-        ax.set_ylabel('Mean of losses')
+        plt.title('Losses curve')
+        plt.xlabel('step')
+        plt.ylabel('Mean of losses')
     else:
-        ax.set_title('Кривая потерь')
-        ax.set_xlabel('шаг')
-        ax.set_ylabel('Средние потери')
-    ax.plot(alg.lvals, color='k')
+        plt.title('Кривая потерь')
+        plt.xlabel('шаг')
+        plt.ylabel('Средние потери')
+    plt.plot(alg.lvals, color='k')
     if logscale:
-        ax.set_yscale('log')
-    ax.minorticks_on()
+        plt.yscale('log')
+    plt.minorticks_on()
     if fname:
         plt.savefig(fname)
-    
+
 def plot_errors(mod, Xs, Y, fname=None, lang='en', ax=None):
     import numpy as np
     import matplotlib.pyplot as plt

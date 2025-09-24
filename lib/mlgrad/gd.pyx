@@ -30,9 +30,10 @@ cimport mlgrad.inventory as inventory
 from mlgrad.funcs cimport Func
 from mlgrad.funcs2 cimport Func2
 from mlgrad.avragg cimport Average, ArithMean
-from mlgrad.averager cimport ArrayAverager, ArrayAdaM1
 from mlgrad.weights cimport Weights, ConstantWeights, ArrayWeights
 from mlgrad.risks cimport Risk, Functional
+
+from mlgrad.averager import ArrayAverager, ArraySave, _get_averager
 
 import numpy as np
 
@@ -48,7 +49,12 @@ cdef class GD:
         return np.asarray(self.risk.weights)
     #
     def use_gradient_averager(self, averager):
-        self.grad_averager = averager
+        if type(averager) is str:
+            averager = _get_averager(averager)
+        if issubclass(averager, ArrayAverager):
+            self.grad_averager = averager()
+        else:
+            raise TypeError(f"invalid averager: {averager}")
     #
     def use_normalizer(self, normalizer):
         self.normalizer = normalizer
@@ -59,7 +65,7 @@ cdef class GD:
         if self.normalizer is not None:
             self.normalizer.normalize(self.risk.param)
 
-        n_param = len(self.risk.param)
+        n_param = self.risk.model.n_param
 
 #         if self.param_prev is None:
 #             self.param_prev = np.zeros((n_param,), dtype='d')
@@ -108,13 +114,14 @@ cdef class GD:
 
         self.completed = 0
         for k in range(self.n_iter):
+            self.K = k
             lval_prev = lval
             # print(k, lval)
 
             self.fit_epoch()
 
             if inventory.hasnan(risk.param):
-                print(k, np.asarray(risk.param))
+                raise ValueError(f"param has NaN value at step {k+1}")
 
             lval = risk._evaluate()
             self.lvals.append(lval)
@@ -175,9 +182,8 @@ cdef class GD:
 
             self.gradient()
 
-            for v in risk.grad_average:
-                if isnan(v):
-                    raise RuntimeError(f"{self.K} {list(risk.grad_average)}")
+            if inventory.hasnan(risk.grad_average):
+                raise ValueError(f"grad_average has NaN value at step {self.K+1} (j={j})")
 
             self.grad_averager._update(risk.grad_average, self.h)
             risk.update_param(self.grad_averager.array_average)

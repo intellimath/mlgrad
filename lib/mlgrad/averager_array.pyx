@@ -33,6 +33,18 @@
 
 # cimport mlgrad.inventory as inventory
 
+__averager_dict = {
+    '' : ArraySave,
+    'AMom':ArrayAMOM,
+    'Mom':ArrayMOM,
+    'RMS':ArrayRMSProp,
+    'AdaM1':ArrayAdaM1,
+    'AdaM2':ArrayAdaM2,
+}
+
+def _get_averager(str name, default=ArraySave):
+    return  __averager_dict.get(name, default)
+
 cdef class ArrayAverager:
     #
     cdef _init(self, ndim):
@@ -67,11 +79,11 @@ cdef class ArraySave(ArrayAverager):
     cdef _update(self, const double[::1] x, const double h):
         cdef Py_ssize_t i
         cdef double[::1] array_average = self.array_average
-        
+
 #         for i in prange(m, nogil=True, schedule='static', num_threads=inventory.get_num_threads()):
         for i in range(x.shape[0]):
             array_average[i] = h * x[i]
-    
+
 cdef class ArrayMOM(ArrayAverager):
 
     def __init__(self, beta=Beta, normalize=0):
@@ -82,12 +94,12 @@ cdef class ArrayMOM(ArrayAverager):
     #
     cdef _init(self, ndim):
         self.M = 0
-        
+
         if self.mgrad is None:
             self.mgrad = np.zeros(ndim, dtype='d')
         else:
             fill_memoryview(self.mgrad, 0)
-            
+
         if self.array_average is None:
             self.array_average = np.zeros(ndim, dtype='d')
         else:

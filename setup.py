@@ -19,8 +19,8 @@ is_linux = (platform.system() == 'Linux')
 print(f"platform: {platform_system}")
 
 
-optimize = False
-native   = False
+optimize = True
+native   = True
 if optimize:
     if is_windows:
         Oflag = ["/O2", "/arch:AVX2"]
@@ -35,7 +35,7 @@ else:
     Oflag = []
 
 
-extra_compile_args = Oflag #  ["-fno-wrapv"] 
+extra_compile_args = Oflag #  ["-fno-wrapv"]
 # extra_link_args = Oflag + ["-lm"]
 # extra_compile_args_openmp = extra_compile_args + [("-fopenmp" if not WIN32 else "/openmp")]
 # extra_link_args_openmp = [Oflag, "-lm", ("-fopenmp" if not WIN32 else "/openmp")]

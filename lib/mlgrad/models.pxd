@@ -51,7 +51,7 @@ cdef class BaseModel(object):
     cdef public uint8[::1] mask
     cdef double _evaluate_one(self, double[::1] X)
     cdef void _evaluate(self, double[:,::1] X, double[::1] Y)
-    cdef void _gradient(self, double[::1] X, double[::1] G)
+    cdef void _gradient_one(self, double[::1] X, double[::1] G)
     cdef void _gradient_input(self, double[::1] X, double[::1] G)
     cdef void _gradient_all(self, double[:,::1] X, double[:,::1] G)
     cdef void _gradient_input_all(self, double[:,::1] X, double[:,::1] G)

@@ -125,11 +125,20 @@ def model_from_dict(ob, init=False):
 
 cdef class BaseModel:
     #
+    def allocate(self):
+        """Распределить память под параметры модели.
+        """
+        pass
+    #
     cdef double _evaluate_one(self, double[::1] x):
         return 0
     #
     #
     def evaluate(self, X):
+        """Вычисляет значения модели для всех заданных входов.
+        Параметры:
+            X: 2-мерный массив входов
+        """
         X = _asarray2d(X)
         Y = inventory.empty_array(X.shape[0])
         self._evaluate(X, Y)
@@ -142,6 +151,10 @@ cdef class BaseModel:
         return Y
     #
     def evaluate_one(self, x):
+        """Вычисляет значения модели для одного заданного входа.
+        Параметры:
+            X: 1-мерный вход
+        """
         return self._evaluate_one(_asarray1d(x))
     #
     cdef void _evaluate(self, double[:,::1] X, double[::1] Y):
@@ -150,7 +163,7 @@ cdef class BaseModel:
         for k in range(N):
             Y[k] = self._evaluate_one(X[k])
     #
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
+    cdef void _gradient_one(self, double[::1] X, double[::1] grad):
         pass
     #
     cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
@@ -160,7 +173,7 @@ cdef class BaseModel:
         cdef Py_ssize_t k, N = X.shape[0]
 
         for k in range(N):
-            self._gradient(X[k], G[k])
+            self._gradient_one(X[k], G[k])
     #
     cdef void _gradient_input_all(self, double[:,::1] X, double[:,::1] G):
         cdef Py_ssize_t k, N = X.shape[0]
@@ -226,9 +239,9 @@ cdef class Model(BaseModel):
             self.ob_param[:] = r
 
     #
-    def gradient(self, X):
+    def gradient_one(self, Xk):
         grad = np.empty(self.n_param, 'd')
-        self._gradient(X, grad)
+        self._gradient_one(Xk, grad)
         return grad
     #
     def gradient_input(self, X):
@@ -247,8 +260,8 @@ cdef class Model(BaseModel):
 #     cdef double _evaluate_one(self, double[::1] X):
 #         return self.model._evaluate_one(X)
 #     #
-#     cdef void _gradient(self, double[::1] X, double[::1] grad):
-#         self.model._gradient(X, grad)
+#     cdef void _gradient_one(self, double[::1] X, double[::1] grad):
+#         self.model._gradient_one(X, grad)
 
 cdef class LinearModel(Model):
     __doc__ = """LinearModel(param)"""
@@ -304,7 +317,7 @@ cdef class LinearModel(Model):
     #         # Y[k] = self._evaluate_one(X[k])
     #         Y[k] = inventory._dot1(param, &X[k,0], n_input)
     # #
-    cdef void _gradient(self, double[::1] Xk, double[::1] grad):
+    cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
         # cdef Py_ssize_t i
         
         grad[0] = 1.
@@ -381,10 +394,10 @@ cdef class LinearModel_Normalized2(Model):
         Model.init_param(self, param=param, random=random)
         self.normalize()
     #
-    cdef void _gradient(self, double[::1] Xk, double[::1] grad):
+    cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
         cdef double val
         
-        LinearModel._gradient(self, Xk, grad)
+        LinearModel._gradient_one(self, Xk, grad)
         val = inventory._dot(&Xk[0], &self.param[1], self.n_input)
         inventory._mul_add(&grad[1], &self.param[1], -val, self.n_input)
     #
@@ -439,7 +452,7 @@ cdef class SigmaNeuronModel(Model):
         # s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)
         return self.outfunc._evaluate(s)
     #
-    cdef void _gradient(self, double[::1] Xk, double[::1] grad):
+    cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
         cdef Py_ssize_t i
         cdef double *pp = &self.param[0]
         cdef double *gg = &grad[1]
@@ -506,13 +519,13 @@ cdef class SimpleComposition(Model):
     cdef double _evaluate_one(self, double[::1] X):
         return self.func._evaluate(self.model._evaluate_one(X))
     #
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
+    cdef void _gradient_one(self, double[::1] X, double[::1] grad):
         # cdef Py_ssize_t j
         cdef double val
         cdef Model mod = self.model
 
         val = self.func._derivative(mod._evaluate_one(X))
-        mod._gradient(X, grad)
+        mod._gradient_one(X, grad)
         inventory._mul_const(&grad[0], val, <Py_ssize_t>grad.shape[0])
         # for j in range(self.grad.shape[0]):
         #     grad[j] *= val
@@ -604,7 +617,7 @@ cdef class ModelComposition(Model):
         
         return self.func._evaluate(ss)
     #
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
+    cdef void _gradient_one(self, double[::1] X, double[::1] grad):
         
         cdef list models = self.models
         cdef Py_ssize_t i, j, n_models = len(self.models)
@@ -632,7 +645,7 @@ cdef class ModelComposition(Model):
             mod = <Model>self.models[j]
             k2 = k + mod.n_param
             mod_grad = grad[k:k2]
-            mod._gradient(X, mod_grad)
+            mod._gradient_one(X, mod_grad)
             sx_j = sx[j]
             for i in range(mod.n_param):
                 mod_grad[i] *= sx_j
@@ -674,7 +687,7 @@ cdef class ModelComposition(Model):
         cdef double gval
         
         gval = self.func._gradient_j(X, j)
-        (<Model>self.models[j])._gradient(X, grad)
+        (<Model>self.models[j])._gradient_one(X, grad)
         inventory._mul_const(&grad[0], gval, <Py_ssize_t>grad.shape[0])
         # for i in range(m):
         #     grad[i] *= gval
@@ -695,7 +708,7 @@ cdef class ModelComposition_j(Model):
     cdef double _evaluate_one(self, double[::1] X):
         return self.model_j._evaluate_one(X)
     #
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
+    cdef void _gradient_one(self, double[::1] X, double[::1] grad):
         self.model_comp._gradient_j(X, self.j, grad)
     #
     cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
@@ -777,12 +790,12 @@ cdef class LinearNNModel(Model):
         self.linear_layer._forward(Xk)
         return self.linear_model._evaluate_one(self.linear_layer.output)
     #
-    cdef void _gradient(self, double[::1] Xk, double[::1] grad):
+    cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
         cdef Py_ssize_t offset = self.n_hidden*(self.n_input+1)
         cdef double[::1] grad_out = grad[offset:]
         
         self.linear_layer._forward(Xk)
-        self.linear_model._gradient(self.linear_layer.output, grad_out)
+        self.linear_model._gradient_one(self.linear_layer.output, grad_out)
         self.linear_layer._backward(Xk, grad_out, grad[:offset])
     #
     # cdef void regularizer_gradient_l2(self, double[:,::1] X, double[::1] R):
@@ -822,14 +835,14 @@ cdef class SigmoidalNN1Model(Model):
         self.scale_layer._forward(self.linear_layer.output)
         return self.linear_model._evaluate_one(self.scale_layer.output)
     #
-    cdef void _gradient(self, double[::1] Xk, double[::1] grad):
+    cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
         cdef Py_ssize_t offset = self.linear_layer.n_param
         cdef double[::1] grad_out = grad[offset:]
 
         self.linear_layer._forward(Xk)
         self.scale_layer._forward(self.linear_layer.output)
 
-        self.linear_model._gradient(self.scale_layer.output, grad_out)
+        self.linear_model._gradient_one(self.scale_layer.output, grad_out)
         self.scale_layer._backward(self.linear_layer.output, grad_out, None)
         self.linear_layer._backward(self.scale_layer.output, grad_out, grad[:offset])
 
@@ -1144,7 +1157,7 @@ cdef class GeneralModelLayer(ModelLayer):
             mod_j = <Model>self.models[j]
             n_param_j = mod_j.n_param
             if n_param_j > 0:
-                mod_j._gradient(X, mod_j.grad)
+                mod_j._gradient_one(X, mod_j.grad)
                 inventory._mul_set(&grad[k], &mod_j.grad[0], val_j, n_param_j)
                 k += n_param_j
                 # for i in range(n_param_j):
@@ -1158,7 +1171,7 @@ cdef class GeneralModelLayer(ModelLayer):
         #
     #
     cdef void gradient_j(self, Py_ssize_t j, double[::1] X, double[::1] grad):        
-        (<Model>self.models[j])._gradient(X, grad)
+        (<Model>self.models[j])._gradient_one(X, grad)
     #
     def as_dict(self):
         models = []
@@ -1571,14 +1584,14 @@ cdef class FFNetworkFuncModel(Model):
         self.body._forward(X)
         return self.head._evaluate_one(self.body.output)
     #
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
+    cdef void _gradient_one(self, double[::1] X, double[::1] grad):
         cdef int i, j, n
         cdef Model head = self.head
         cdef MLModel body = self.body
         
         # body.forward(X) 
         if head.n_param > 0:
-            head._gradient(body.output, grad[:head.n_param])
+            head._gradient_one(body.output, grad[:head.n_param])
         head._gradient_input(body.output, head.grad_input)
         body._backward(X, head.grad_input, grad[head.n_param:])
     #
@@ -1618,7 +1631,7 @@ def ff_ml_network_func_from_dict(ob):
 #             i -= 1
 #         return val
         
-#     cdef _gradient(self, double[::1] X, double[::1] grad):
+#     cdef _gradient_one(self, double[::1] X, double[::1] grad):
 #         cdef double x = X[0]
 #         cdef double val = 1.0
 #         cdef int i, m = self.param.shape[0]
@@ -1745,7 +1758,7 @@ cdef class EllipticModel(Model):
                     grad_S[k] = 2 * xi * (X[j] - c[j])
                 k += 1
                 
-    cdef void _gradient(self, double[::1] X, double[::1] grad):
+    cdef void _gradient_one(self, double[::1] X, double[::1] grad):
         # print(grad.shape[0], self.c_size)
         self._gradient_c(X, grad[:self.c_size])
         self._gradient_S(X, grad[self.c_size:])
@@ -1807,7 +1820,7 @@ cdef class SquaredModel(Model):
             s *= 2
             #s *= mat[j,]
     #
-    cdef void _gradient(self, double[::1] X, double[::1] y):
+    cdef void _gradient_one(self, double[::1] X, double[::1] y):
         cdef double val, s
         #cdef double[:,::1] mat = self.matrix
         cdef int i, j, n, m, k
@@ -1847,7 +1860,7 @@ cdef class SquaredModel(Model):
 #                 i_max = i
 #         return self.outfunc._evaluate(X[i_max])
 #     #
-#     cdef void _gradient(self, double[::1] X, double[::1] grad):
+#     cdef void _gradient_one(self, double[::1] X, double[::1] grad):
 #         pass
 #     #
 #     cdef void _gradient_input(self, double[::1] X, double[::1] grad):
@@ -1872,7 +1885,7 @@ cdef class SquaredModel(Model):
 #         self.model = mod
 #         self.loss_func = loss_func
 #     #
-#     def _gradient(self, double[::1] X, double y):
+#     def _gradient_one(self, double[::1] X, double y):
 #         cdef double yk
 #
 #         yk = self.model._evaluate_one(X)
@@ -1882,7 +1895,7 @@ cdef class SquaredModel(Model):
 
 # cdef class ScalarModel:
 #     cdef double _evaluate_one(self, double x)
-#     cdef void _gradient(self, double x, double[::1] grad)
+#     cdef void _gradient_one(self, double x, double[::1] grad)
 
 
 cdef class LogSpecModel(Model):
@@ -1919,7 +1932,7 @@ cdef class LogSpecModel(Model):
             s += log(1 + param[k] * exp(-v*v/2))
         return s
     #
-    cdef void _gradient(self, double[::1] x, double[::1] grad):
+    cdef void _gradient_one(self, double[::1] x, double[::1] grad):
         cdef double v, ee
         cdef double *param = &self.param[0]
         cdef double *center = &self.center[0]

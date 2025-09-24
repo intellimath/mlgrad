@@ -29,7 +29,7 @@ def averaging_function(
         args = ()
 
     avgfunc = avragg.MAverage(rhofunc, tol=tol, n_iter=n_iter)
-    
+
     if kind == 'M':
         avg = avgfunc
     elif kind == 'WM':

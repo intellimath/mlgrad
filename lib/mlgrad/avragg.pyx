@@ -1065,6 +1065,11 @@ cdef class RArithMean(Average):
         # inventory.normalize(grad)
         self.evaluated = 0
 
+    # def weights(self, Y):
+    #     W = inventory.empty_array(len(Y))
+    #     self._weights(Y, W)
+    #     return W
+
 cdef class Minimal(Average):
     #
     cdef double _evaluate(self, double[::1] Y):

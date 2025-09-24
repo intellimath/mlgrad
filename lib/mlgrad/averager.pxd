@@ -3,6 +3,9 @@
 cimport cython
 from libc.string cimport memcpy
 
+# def _get_scalar_averager(str name)
+# def _get_averager(str name)
+
 cdef inline void fill_memoryview(double[::1] X, double c):
     cdef Py_ssize_t i
     cdef double *XX = &X[0]

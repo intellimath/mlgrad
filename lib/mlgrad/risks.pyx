@@ -77,7 +77,7 @@ cdef class SimpleFunctional(Functional):
     #
     cdef void _gradient(self):
         self.regnorm._gradient(self.param, self.grad_average)
-        
+
 cdef class Risk(Functional):
 
     @property
@@ -260,7 +260,7 @@ cdef class MRisk(Risk):
 
         self.grad = np.zeros(self.n_param, np_double)
         self.grad_average = np.zeros(self.n_param, np_double)
-        
+
         if X.shape[1] != self.n_input:
             raise ValueError('X.shape[1] != model.n_input')
 
@@ -320,7 +320,7 @@ cdef class MRisk(Risk):
             # yk = _model._evaluate_one(Xk)
             vv = _loss._derivative(Yp[j], Y[k]) * weights[j]
 
-            _model._gradient(X[k], grad)
+            _model._gradient_one(X[k], grad)
 
             for i in range(self.n_param):
                 grad_average[i] += vv * grad[i]
@@ -387,9 +387,9 @@ cdef class ERisk(Risk):
             S += wk * L[j]
             W += wk
         S /= W
-                    
+
         if self.regnorm is not None:
-            S += self.tau * self.regnorm._evaluate(self.model.param)                
+            S += self.tau * self.regnorm._evaluate(self.model.param)
 
         self.lval = S
         return S
@@ -416,7 +416,7 @@ cdef class ERisk(Risk):
         for j in range(self.batch.size):
             k = indices[j]
 
-            _model._gradient(X[k], grad)
+            _model._gradient_one(X[k], grad)
             wk = weights[k]
             W += wk
             v = wk * _loss._derivative(Yp[j], Y[k])
@@ -647,7 +647,7 @@ cdef class ERiskGB(Risk):
             k = indices[j]
 
             # y = H[j] + alpha * _model._evaluate_one(X[k])
-            _model._gradient(X[k], grad)
+            _model._gradient_one(X[k], grad)
 
             vv = alpha * _loss._derivative(Yp[j], Y[k]) * weights[k]
             for i in range(self.n_param):

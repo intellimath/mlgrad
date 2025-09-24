@@ -37,9 +37,10 @@ class AnyBoostClassification:
         #
         m_vals = self.m_vals
         M_vals = self.M_vals
+        shrink = self.shrink / len(m_vals)
         #
         def _func_(alpha):
-            return self.func.evaluate_sum(M_vals + alpha * m_vals)
+            return self.func.evaluate_array(M_vals + alpha * m_vals).mean() + shrink * alpha*alpha
         #
         res = minimize_scalar(_func_, (0, 1.))
         if not res.success:
@@ -61,7 +62,7 @@ class AnyBoostClassification:
             return False
 
         alpha = self.evaluate_alpha()
-        self.H.add(weak_model, self.shrink * alpha)
+        self.H.add(weak_model, alpha)
 
         self.M_vals = Y * self.H.evaluate(X)
         lval = self.func.evaluate_array(self.M_vals).mean()
@@ -73,7 +74,7 @@ class AnyBoostClassification:
     #
     def fit(self, X, Y, **kw):
         N = len(X)
-        self.H = models.LinearFuncModel()
+        self.H = kw.get('H', models.LinearFuncModel())
         self.M_vals = np.zeros(len(X), "d")
         self.weights = np.ones(len(X), "d") / N
 
@@ -83,7 +84,7 @@ class AnyBoostClassification:
         n_classifier = self.n_classifier
         n_failures   = self.n_failures
 
-        K = 1
+        K = len(self.H.models) + 1
         m = 0
         while K <= n_classifier:
             if m > n_failures:
