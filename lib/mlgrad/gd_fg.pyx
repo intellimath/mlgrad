@@ -2,7 +2,7 @@
 
 cdef class FG(GD):
     #
-    def __init__(self, Functional risk, tol=1.0e-9, h=0.001, n_iter=1000, M = 7,
+    def __init__(self, Functional risk, tol=1.0e-6, h=0.001, n_iter=1000, M = 7,
                  callback=None, h_rate=None):
         """
         """

@@ -186,7 +186,7 @@ cdef class GD:
                 raise ValueError(f"grad_average has NaN value at step {self.K+1} (j={j})")
 
             self.grad_averager._update(risk.grad_average, self.h)
-            risk.update_param(self.grad_averager.array_average)
+            risk._update_param(self.grad_averager.array_average)
 
             # for i in range(n_param):
             #     param[i] -= grad_average[i]

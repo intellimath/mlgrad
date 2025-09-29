@@ -92,7 +92,7 @@ def average_fg(Y, penalty_func, h=0.01, tol=1.0e-5, n_iter=1000, verbose=0, aver
         print("K={} u={}".format(alg.K, alg.u))
     return alg
 
-def fg(er, h=0.001, tol=1.0e-8, n_iter=1000, averager='AdaM2',
+def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2',
        callback=None, normalizer=None):
     alg = FG(er, h=h, tol=tol, n_iter=n_iter, callback=callback)
     _averager = _get_averager(averager)
@@ -102,7 +102,7 @@ def fg(er, h=0.001, tol=1.0e-8, n_iter=1000, averager='AdaM2',
         alg.use_normalizer(normalizer)
     return alg
 
-def fg_rud(er, h=0.001, tol=1.0e-8, n_iter=1000, gamma=1, averager='AdaM2',
+def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2',
            callback=None, normalizer=None):
     alg = FG_RUD(er, h=h, tol=tol, n_iter=n_iter, callback=callback, gamma=gamma)
     _averager = _get_averager(averager, ArrayMOM)
@@ -112,7 +112,7 @@ def fg_rud(er, h=0.001, tol=1.0e-8, n_iter=1000, gamma=1, averager='AdaM2',
         alg.use_normalizer(normalizer)
     return alg
 
-def erm_fg(er, h=0.001, tol=1.0e-8, n_iter=1000, averager='AdaM2', callback=None,
+def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None,
            n_restart=1, verbose=0, normalizer=None):
     K = 0
     alg = fg(er, h=h, tol=tol, n_iter=n_iter,

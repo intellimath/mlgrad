@@ -3,8 +3,9 @@
 #
 
 class IR_ERM:
-    
+
     def fit(self):
-        
-        self.risk.evaluate_losses(self.lval_all)
+
+        lval_all = self.risk.evaluate_losses()
+        lval = self.aggfunc.evaluate(lval_all)
         self.gd.fit()

@@ -71,7 +71,7 @@ cdef class Functional:
     cpdef init(self)
     cdef public double _evaluate(self)
     cdef public void _gradient(self)
-    cdef update_param(self, double[::1] param)
+    cdef void _update_param(self, double[::1] param)
 
 cdef class SimpleFunctional(Functional):
     pass

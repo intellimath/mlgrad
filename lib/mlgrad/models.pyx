@@ -249,8 +249,11 @@ cdef class Model(BaseModel):
         self._gradient_input(X, grad_input)
         return grad_input
     #
-    # cdef update_param(self, double[::1] param):
-    #     inventory.sub(self.param, param)
+    cdef _update_param(self, double[::1] param):
+        inventory._move(&self.param[0], &param[0], self.n_param)
+    #
+    def update_param(self, param):
+        self.param[:] = param
 
 # cdef class ModelView(Model):
 #     #
@@ -474,19 +477,23 @@ cdef class SigmaNeuronModel(Model):
     #
     cdef void _gradient_input(self, double[::1] Xk, double[::1] grad_input):
         cdef Py_ssize_t i
+        cdef double *pp = &self.param[0]
+        cdef double *gg = &grad_input[0]
+        cdef double *xx = &Xk[0]
         cdef double s, sx
-        cdef double[::1] param = self.param
 
-        s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)
-        # s = param[0]
-        # for i in range(n_input):
-        #     s += param[i+1] * X[i]
+        # s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)
+        s = pp[0]
+        pp += 1
+        for i in range(self.n_input):
+            s += pp[i] * xx[i]
 
         sx = self.outfunc._derivative(s)
 
-        inventory._mul_set(&grad_input[0], &param[1], sx, self.n_input)
-        # for i in range(n_input):
-        #     grad_input[i] = sx * param[i+1]
+        # inventory._mul_set(&grad_input[0], &param[1], sx, self.n_input)
+        pp = &self.param[1]
+        for i in range(self.n_input):
+            gg[i] = pp[i] * sx
     #
     def as_dict(self):
         return { 'name': 'sigma_neuron', 
@@ -1060,7 +1067,7 @@ cdef class Scale2Layer(ModelLayer):
     #     layer.output = np.zeros(self.n_output, 'd')
     #     layer.grad_input = np.zeros(self.n_input, 'd')
     #     return layer
-    
+
 cdef class GeneralModelLayer(ModelLayer):
     #
     def __init__(self, n_input):

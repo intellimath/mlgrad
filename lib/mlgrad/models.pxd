@@ -71,7 +71,7 @@ cdef class Model(BaseModel):
 
     # cpdef init_param(self, param=*, bint random=*)
     #
-    # cdef update_param(self, double[::1] param)
+    cdef _update_param(self, double[::1] param)
 
 cdef class ModelComposition(Model):
     #

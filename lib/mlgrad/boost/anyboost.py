@@ -17,6 +17,7 @@ class AnyBoostClassification:
                  func=funcs.Exp(-1.0),
                  model_factory=sigmoidal_factory,
                  lossfunc=loss.NegMargin(),
+                 H=None,
                  # min_weak_learn_score=0,
                  shrink=1.0, n_classifier=100, n_failures=30):
         #
@@ -27,11 +28,17 @@ class AnyBoostClassification:
         self.n_classifier = n_classifier
         self.n_failures = n_failures
         # self.min_weak_learn_score = min_weak_learn_score
+        self.H = None
+        if H is not None:
+            self.H = H
     #
     def weak_learn(self, X, Y, **kw):
         weak_model = self.model_factory(X.shape[1])
         weak_learner = cls.classification_as_regr(X, Y, weak_model, self.lossfunc, weights=self.weights, **kw)
         return weak_learner
+    #
+    def weak_margins(self, X, Y):
+        return np.fromiter(((Y * mod.evaluate(X)).mean() for mod in self.H.models), "d", len(self.H.models))
     #
     def evaluate_alpha(self):
         #
@@ -74,17 +81,18 @@ class AnyBoostClassification:
     #
     def fit(self, X, Y, **kw):
         N = len(X)
-        self.H = kw.get('H', models.LinearFuncModel())
+        if self.H is None:
+            self.H = models.LinearFuncModel()
         self.M_vals = np.zeros(len(X), "d")
         self.weights = np.ones(len(X), "d") / N
 
         self.lvals = []
-        self.wl_lvals = []
+        # self.wl_lvals = []
 
         n_classifier = self.n_classifier
         n_failures   = self.n_failures
 
-        K = len(self.H.models) + 1
+        K = len(self.H.models)
         m = 0
         while K <= n_classifier:
             if m > n_failures:

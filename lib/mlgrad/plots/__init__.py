@@ -30,12 +30,13 @@ def plot_hist_and_rank_distribution(Y, bins=40, levels=None, ylabel=None):
     plt.figure(figsize=(12,4))
     plt.subplot(1,2,1)
     plt.title(r"Histogram")
-    plt.hist(Y, bins=bins, rwidth=0.9)
+    plt.hist(Y, bins=bins, rwidth=0.8, color='k', linewidth=0.5)
     _, c_max = plt.ylim()
     if levels:
         for level in levels:
             plt.vlines(level, 0, c_max, label=str(level), linestyles='--', colors='grey')
-        plt.legend(loc="upper left")
+            plt.text(level, c_max, f"${level}$", fontsize=8)
+        # plt.legend(loc="upper left")
     plt.ylabel(r"$p$")
     if ylabel:
         plt.xlabel(ylabel)
@@ -44,11 +45,11 @@ def plot_hist_and_rank_distribution(Y, bins=40, levels=None, ylabel=None):
     plt.minorticks_on()
     plt.subplot(1,2,2)
     plt.title("Rank distribution")
-    plt.plot(sorted(Y), marker='o', markersize=4)
+    plt.scatter(range(len(Y)), sorted(Y), s=16, c='w', edgecolors='k', linewidths=0.5)
     if levels:
         for level in levels:
             plt.hlines(level, 0, len(Y), label=str(level), linestyles='--', colors='grey')
-            plt.text(0, level, str(level), fontsize=8)
+            plt.text(len(Y), level, f"${level}$", fontsize=8, ha="right")
         # plt.legend(loc="upper left")
     if ylabel:
         plt.ylabel(ylabel)

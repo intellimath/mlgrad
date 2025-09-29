@@ -56,7 +56,7 @@ cdef class Functional:
     def gradient(self):
         self._gradient()
     #
-    cdef update_param(self, double[::1] param):
+    cdef void _update_param(self, double[::1] param):
         inventory.isub(self.param, param)
 
 cdef class SimpleFunctional(Functional):
@@ -185,11 +185,14 @@ cdef class Risk(Functional):
     cdef void _evaluate_weights(self):
             pass
     #
-    cdef update_param(self, double[::1] param):
+    cdef void _update_param(self, double[::1] param):
         if self.model.mask is None:
             inventory.isub(self.model.param, param)
         else:
             inventory.isub_mask(self.model.param, param, self.model.mask)
+    #
+    def update_param(self, param):
+        self.update_param(param)
     #
     def evaluate_weights(self):
         # W = inventory.empty_array(self.n_sample)
