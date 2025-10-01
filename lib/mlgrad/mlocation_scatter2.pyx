@@ -243,7 +243,7 @@ cdef class MLSE2:
 
 #         for k in prange(N, nogil=True, num_threads=num_procs):
         for j in range(n_locs):
-            inventory.mul_const(GG[j], 1./W[j])
+            inventory.imul_const(GG[j], 1./W[j])
             # wj = W[j]
             # GG_j = GG[j]
             # for k in range(N):

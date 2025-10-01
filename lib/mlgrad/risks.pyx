@@ -403,7 +403,7 @@ cdef class ERisk(Risk):
 
         cdef Py_ssize_t i, j, k
         cdef double v, s, W, wk
-        
+        #
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
         cdef double[::1] weights = self.weights
@@ -412,7 +412,7 @@ cdef class ERisk(Risk):
 
         cdef Py_ssize_t[::1] indices = self.batch.indices
         cdef double[::1] Yp = self.Yp
-        
+        #
         inventory.clear(grad_average)
 
         W = 0
@@ -423,11 +423,13 @@ cdef class ERisk(Risk):
             wk = weights[k]
             W += wk
             v = wk * _loss._derivative(Yp[j], Y[k])
-            for i in range(self.n_param):
-                grad_average[i] += v * grad[i]
+            inventory._imul_add(&grad_average[0], &grad[0], v, self.n_param)
+            # for i in range(self.n_param):
+            #     grad_average[i] += v * grad[i]
 
-        for i in range(self.n_param):
-            grad_average[i] /= W
+        inventory._imul_const(&grad_average[0], 1/W, self.n_param)
+        # for i in range(self.n_param):
+        #     grad_average[i] /= W
 
         if self.regnorm is not None:
             self.add_regular_gradient()
@@ -1043,7 +1045,7 @@ cdef class ERisk2(Risk):
             
             # wk = weights[k]
             
-            inventory._mul_add(&self.grad_average[0], &self.grad[0], weights[k], self.n_param)
+            inventory._imul_add(&self.grad_average[0], &self.grad[0], weights[k], self.n_param)
             # for i in range(n_param):
             #     grad_average[i] += wk * grad[i]
         #

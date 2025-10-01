@@ -311,18 +311,18 @@ cdef class LinearModel(Model):
         # return v
         return self.param[0] + inventory._dot(&self.param[1], &Xk[0], self.n_input)
     #
-    # cdef void _evaluate_one(self, double[:, ::1] X, double[::1] Y):
-    #     cdef double *param = &self.param[0]
-    #     cdef Py_ssize_t n_input = self.n_input
-    #     cdef Py_ssize_t N = <Py_ssize_t>X.shape[0]
+    cdef void _evaluate(self, double[:, ::1] X, double[::1] Y):
+        cdef double p0 = self.param[0]
+        cdef double *param1 = &self.param[1]
+        cdef Py_ssize_t n_input = self.n_input
 
-    #     for k in range(N):
-    #         # Y[k] = self._evaluate_one(X[k])
-    #         Y[k] = inventory._dot1(param, &X[k,0], n_input)
-    # #
+        for k in range(X.shape[0]):
+            # Y[k] = self._evaluate_one(X[k])
+            Y[k] = p0 + inventory._dot(param1, &X[k,0], n_input)
+    #
     cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
         # cdef Py_ssize_t i
-        
+
         grad[0] = 1.
         inventory._move(&grad[1], &Xk[0], self.n_input)
         # for i in range(self.n_input):
@@ -402,11 +402,11 @@ cdef class LinearModel_Normalized2(Model):
         
         LinearModel._gradient_one(self, Xk, grad)
         val = inventory._dot(&Xk[0], &self.param[1], self.n_input)
-        inventory._mul_add(&grad[1], &self.param[1], -val, self.n_input)
+        inventory._imul_add(&grad[1], &self.param[1], -val, self.n_input)
     #
     cpdef normalize(self):
         cdef double normval2 = inventory._dot(&self.param[1], &self.param[1], self.n_input)
-        inventory._mul_const(&self.param[0], 1/sqrt(normval2), self.n_param)
+        inventory._imul_const(&self.param[0], 1/sqrt(normval2), self.n_param)
 
 cdef class SigmaNeuronModel(Model):
     #
@@ -533,7 +533,7 @@ cdef class SimpleComposition(Model):
 
         val = self.func._derivative(mod._evaluate_one(X))
         mod._gradient_one(X, grad)
-        inventory._mul_const(&grad[0], val, <Py_ssize_t>grad.shape[0])
+        inventory._imul_const(&grad[0], val, <Py_ssize_t>grad.shape[0])
         # for j in range(self.grad.shape[0]):
         #     grad[j] *= val
     #
@@ -545,7 +545,7 @@ cdef class SimpleComposition(Model):
         inventory._clear(&grad_input[0], <Py_ssize_t>grad_input.shape[0])
         val = self.func._derivative(mod._evaluate_one(X))
         mod._gradient_input(X, grad_input)
-        inventory._mul_const(&grad_input[0], val, <Py_ssize_t>grad_input.shape[0])
+        inventory._imul_const(&grad_input[0], val, <Py_ssize_t>grad_input.shape[0])
         # for j in range(grad_input.shape[0]):
         #     grad_input[j] *= val * mod.grad_input[j]
     #        
@@ -695,7 +695,7 @@ cdef class ModelComposition(Model):
         
         gval = self.func._gradient_j(X, j)
         (<Model>self.models[j])._gradient_one(X, grad)
-        inventory._mul_const(&grad[0], gval, <Py_ssize_t>grad.shape[0])
+        inventory._imul_const(&grad[0], gval, <Py_ssize_t>grad.shape[0])
         # for i in range(m):
         #     grad[i] *= gval
     #
@@ -1172,7 +1172,7 @@ cdef class GeneralModelLayer(ModelLayer):
                 #     k += 1
 
             mod_j._gradient_input(X, mod_j.grad_input)
-            inventory._mul_add(&self.grad_input[0], &mod_j.grad_input[0], val_j, self.n_input)
+            inventory._imul_add(&self.grad_input[0], &mod_j.grad_input[0], val_j, self.n_input)
             # for i in range(self.n_input):
             #     grad_in[i] += mod_j.grad_input[i] * val_j
         #

@@ -168,7 +168,7 @@ cdef class GD:
     #
     def fit_epoch(self):
         cdef Risk risk = self.risk
-        cdef Py_ssize_t i, n_repeat = 1, m
+        cdef Py_ssize_t i, j, n_repeat = 1, m
 
         if risk.n_sample > 0 and risk.batch is not None and risk.batch.size > 0:
             n_repeat, m = divmod(risk.n_sample, risk.batch.size)

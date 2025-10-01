@@ -61,10 +61,10 @@ cdef void _sub(double *c, const double *a, const double *b, const Py_ssize_t n) 
 cdef void _imul(double *a, const double *b, const Py_ssize_t n) noexcept nogil
 cdef void _mul(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil
 
-cdef void _mul_add(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
+cdef void _imul_add(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
 cdef void _mul_set(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
 cdef void _mul_set1(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil
-cdef void _mul_const(double *a, const double c, const Py_ssize_t n) noexcept nogil
+cdef void _imul_const(double *a, const double c, const Py_ssize_t n) noexcept nogil
 cdef double _dot1(const double *a, const double *b, const Py_ssize_t n) noexcept nogil
 cdef double _dot(const double *a, const double *b, const Py_ssize_t n) noexcept nogil
 cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil
@@ -95,14 +95,14 @@ cdef void add(double[::1] c, double[::1] a, double[::1] b) noexcept nogil
 cdef void isub(double[::1] a, double[::1] b) noexcept nogil
 cdef void isub_mask(double[::1] a, double[::1] b, uint8[::1] m) noexcept nogil
 cdef void sub(double[::1] c, double[::1] a, double[::1] b) noexcept nogil
-cdef void mul_const(double[::1] a, const double c) noexcept nogil
-cdef void mul_const2(double[:, ::1] a, const double c) noexcept nogil
-cdef void mul_const3(double[:,:,::1] a, const double c) noexcept nogil
+cdef void imul_const(double[::1] a, const double c) noexcept nogil
+cdef void imul_const2(double[:, ::1] a, const double c) noexcept nogil
+cdef void imul_const3(double[:,:,::1] a, const double c) noexcept nogil
 cdef void imul(double[::1] a, double[::1] b) noexcept nogil
 cdef void imul2(double[:,::1] a, double[:,::1] b) noexcept nogil
 cdef void mul(double[::1] c, double[::1] a, double[::1] b) noexcept nogil
-cdef void mul_add(double[::1] a, double[::1] b, const double c) noexcept nogil
-cdef void mul_add2(double[:,::1] a, double[:,::1] b, const double c) noexcept nogil
+cdef void imul_add(double[::1] a, double[::1] b, const double c) noexcept nogil
+cdef void imul_add2(double[:,::1] a, double[:,::1] b, const double c) noexcept nogil
 cdef void mul_set(double[::1] a, double[::1] b, const double c) noexcept nogil
 cdef void mul_set1(double[::1] a, double[::1] b, const double c) noexcept nogil
 cdef double dot1(double[::1] a, double[::1] b) noexcept nogil
