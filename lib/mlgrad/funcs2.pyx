@@ -30,7 +30,6 @@ import numpy as np
 cdef double double_max = PyFloat_GetMax()
 cdef double double_min = PyFloat_GetMin()
 
-
 enpty = np.empty
 
 numpy.import_array()

@@ -62,7 +62,7 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
 
     aa = &a[0]
 
-    inventory._normalize2(aa, n)
+    inventory._normalize2(a)
 
     L = _S_norm(S, a)
 
@@ -80,7 +80,7 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
         for i in range(n):
             aa[i] = SS_a[i] / L
 
-        inventory._normalize2(aa, n)
+        inventory._normalize2(a)
 
         L = 0
         for i in range(n):
@@ -121,15 +121,15 @@ cpdef _find_robust_pc(double[:,::1] X, Average wma,
     cdef bint to_finish = 0
     cdef double Q
     cdef int count = 0
-        
+
     a = np.random.random(n)
-    inventory.normalize2(a)
+    inventory._normalize2(a)
     a_min = a.copy()
 
     for k in range(N):
         X2[k] = inventory._dot(&X[k,0], &X[k,0], n)
 
-    inventory.matdot(U, X, a)    
+    inventory.matdot(U, X, a)
     for k in range(N):
         v = U[k]
         Z[k] = X2[k] - v * v
@@ -158,7 +158,7 @@ cpdef _find_robust_pc(double[:,::1] X, Average wma,
             for k in range(N):
                 s += W[k] * U[k] * X[k,i]
             a[i] = s
-        inventory.normalize2(a)
+        inventory._normalize2(a)
         
         inventory.matdot(U, X, a)
         

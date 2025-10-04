@@ -59,7 +59,6 @@ cdef extern from *:
 #     memcpy(&Y[0], &X[0], m*cython.sizeof(double))    
 
 cdef class Functional:
-    cdef readonly Func2 regnorm
     cdef readonly double[::1] param
     cdef readonly double[::1] grad_average
     cdef readonly double lval
@@ -74,7 +73,7 @@ cdef class Functional:
     cdef void _update_param(self, double[::1] param)
 
 cdef class SimpleFunctional(Functional):
-    pass
+    cdef readonly Func2 regnorm
 
 cdef class Risk(Functional):
     #
@@ -85,7 +84,7 @@ cdef class Risk(Functional):
     #
     cdef double[::1] grad
     cdef double[::1] grad_r
-    cdef readonly double tau
+    # cdef readonly double tau
     cdef readonly Py_ssize_t n_sample
     cdef uint8[::1] mask
     #
@@ -96,14 +95,14 @@ cdef class Risk(Functional):
     # cdef void _evaluate_losses_derivative_div_batch(self)
     cdef void _evaluate_losses_derivative_div_all(self, double[::1] vals)
     cdef void _evaluate_weights(self)
-    cdef void add_regular_gradient(self)
+    cdef void add_regularized_gradient(self)
     #
     #
     # cdef void generate_samples(self, X, Y)z
     #
 
 cdef class ERisk(Risk):
-    cdef public Model model
+    cdef readonly Model model
     cdef readonly Loss loss
     cdef readonly double[:, ::1] X
     cdef readonly double[::1] Y

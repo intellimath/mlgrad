@@ -27,13 +27,14 @@ def classification_erm(X, Y, mod, lossfunc=loss.MarginLoss(funcs.Hinge(1.0)), re
         lossfunc: Функция потерь от ошибок классов (как правило, от величины отступа)
         regnorm: Регуляризатор
         weights: Веса примеров
-        
     """
     if mod.param is None:
         mod.init_param()
     # print(mod.param.base)
+    if regnorm is not None:
+        mod.use_regularizer(regnorm, tau)
 
-    er = erisk(X, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
+    er = erisk(X, Y, mod, lossfunc)
     if weights is not None:
         er.use_weights(weights)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter,
@@ -48,8 +49,10 @@ def classification_erm22(Xs, Ys, mod, lossfunc=loss.MarginMultLoss2(funcs.Square
     if mod.param is None:
         mod.init_param()
     # print(mod.param.base)
+    if regnorm is not None:
+        mod.use_regularizer(regnorm, tau)
 
-    er = erisk22(Xs, Ys, mod, lossfunc, regnorm=regnorm, tau=tau)
+    er = erisk22(Xs, Ys, mod)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter,
                  normalizer=normalizer,
                  verbose=verbose, n_restart=n_restart)
@@ -71,8 +74,10 @@ def classification_merm_ir(Xs, Y, mod,
     """
     if mod.param is None:
         mod.init_param()
+    if regnorm is not None:
+        mod.use_regularizer(regnorm, tau)
 
-    er = erisk(Xs, Y, mod, lossfunc, regnorm=regnorm, tau=tau)
+    er = erisk(Xs, Y, mod, lossfunc)
     alg = fg(er, h=h, tol=tol, n_iter=n_iter)
 
     if normalizer is not None:
@@ -99,7 +104,10 @@ def classification_merm(Xs, Y, mod,
     """
     if mod.param is None:
         mod.init_param()
-    er = erisk(Xs, Y, mod, lossfunc, avg=avrfunc, regnorm=regnorm, tau=tau)
+    if regnorm is not None:
+        mod.use_regularizer(regnorm, tau)
+
+    er = erisk(Xs, Y, mod, lossfunc, avg=avrfunc)
     alg = erm_fg(er, n_iter=n_iter, tol=tol, verbose=verbose)
 
     if normalizer is not None:

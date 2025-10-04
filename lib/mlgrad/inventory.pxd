@@ -39,6 +39,8 @@ cdef bint _iscontiguousarray(object ob)
 cdef bint _isnumpyarray(object ob)
 
 cdef object _asarray(object ob)
+cdef object _asarray2d(object ob)
+cdef object _asarray1d(object ob)
 
 cdef int _hasnan(double *a, const Py_ssize_t n) noexcept nogil
 
@@ -74,8 +76,6 @@ cdef void _mul_add_arrays(double *a, double *M, const double *ss,
                           const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
 cdef void _mul_grad(double *grad, const double *X, const double *ss, 
                     const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
-cdef void _normalize(double *a, const Py_ssize_t n) noexcept nogil
-cdef void _normalize2(double *a, const Py_ssize_t n) noexcept nogil
 
 cdef void _add_to_zeroes(double *a, const Py_ssize_t n, double eps)
 
@@ -112,8 +112,8 @@ cdef void matdot(double[::1] output, double[:,::1] M, double[::1] X) noexcept no
 cdef void matdot2(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil
 cdef void mul_add_arrays(double[::1] a, double[:,::1] M, double[::1] ss) noexcept nogil
 cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) noexcept nogil
-cdef void normalize(double[::1] a) noexcept nogil
-cdef void normalize2(double[::1] a) noexcept nogil
+cdef void _normalize(double[::1] a) noexcept nogil
+cdef void _normalize2(double[::1] a) noexcept nogil
 
 cdef _mahalanobis_norm(double[:,::1] S, double[:,::1] X, double[::1] Y)
 cdef _mahalanobis_distance(double[:,::1] S, double[:,::1] X, double[::1] c, double[::1] Y)

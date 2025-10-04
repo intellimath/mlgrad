@@ -39,16 +39,22 @@ from mlgrad.array_allocator cimport Allocator, ArrayAllocator
 
 cimport mlgrad.inventory as inventory
 
-from mlgrad.inventory cimport _asarray
-
-cdef object _asarray1d(object ob)
-cdef object _asarray2d(object ob)
+from mlgrad.inventory cimport _asarray, _asarray1d, _asarray2d
 
 cdef inline Model as_model(object o):
     return <Model>(<PyObject*>o)
 
-cdef class BaseModel(object):
+cdef class Regularized:
+    cdef readonly Func2 regfunc
+    cdef readonly double tau
+
+    cdef double _evaluate_reg(self)
+    cdef void _gradient_reg(self, double[::1] reg_grad)
+    cdef bint _is_regularized(self) noexcept nogil
+
+cdef class BaseModel(Regularized):
     cdef public uint8[::1] mask
+
     cdef double _evaluate_one(self, double[::1] X)
     cdef void _evaluate(self, double[:,::1] X, double[::1] Y)
     cdef void _gradient_one(self, double[::1] X, double[::1] G)
@@ -106,7 +112,6 @@ cdef class LinearModel_Normalized2(Model):
     #
     cpdef normalize(self)
 
-
 @cython.final
 cdef class SigmaNeuronModel(Model):
     cdef Func outfunc
@@ -133,7 +138,7 @@ cdef class LinearNNModel(Model):
     cdef public LinearModel linear_model
     cdef public LinearLayer linear_layer
 
-cdef class Model2:
+cdef class Model2(Regularized):
     cdef public Py_ssize_t n_param, n_input, n_output
     cdef public object ob_param
     cdef public double[::1] param_base

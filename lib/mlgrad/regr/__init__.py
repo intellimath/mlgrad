@@ -57,8 +57,10 @@ def regression(Xs, Y, mod, loss_func=None, regnorm=None, *, weights=None, normal
 
     if mod.param is None:
         mod.init_param()
+    if regnorm is not None:
+        mod.use_regularizer(regnorm, tau)
 
-    er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
+    er = erisk(Xs, Y, mod, _loss_func)
     if weights is not None:
         er.use_weights(weights)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter,
@@ -81,8 +83,10 @@ def m_regression(Xs, Y, mod,
 
     if mod.param is None:
         mod.init_param()
+    if regnorm is not None:
+        mod.use_regularizer(regnorm, tau)
 
-    er = risk(Xs, Y, mod, loss_func, avg=_agg_func, regnorm=regnorm, tau=tau)
+    er = risk(Xs, Y, mod, loss_func, avg=_agg_func)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, n_restart=n_restart)
     return alg
 
@@ -109,8 +113,10 @@ def m_regression_irls(Xs, Y, mod,
 
     if mod.param is None:
         mod.init_param()
+    if regnorm is not None:
+        mod.use_regularizer(regnorm, tau)
 
-    er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
+    er = erisk(Xs, Y, mod, _loss_func)
     alg = fg(er, h=h, tol=tol, n_iter=n_iter)
 
     # wt = weights.MWeights(_agg_func, er)
@@ -141,8 +147,10 @@ def mr_regression_irls(Xs, Y, mod,
     
     if mod.param is None:
         mod.init_param()
+    if regnorm is not None:
+        mod.use_regularizer(regnorm, tau)
 
-    er2 = erisk(Xs, Y, mod, SquareErrorLoss(), regnorm=regnorm, tau=tau)
+    er2 = erisk(Xs, Y, mod, SquareErrorLoss())
     alg = fg(er2, h=h, tol=tol, n_iter=n_iter)
 
     er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
@@ -171,8 +179,10 @@ def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None,
 
     if mod.param is None:
         mod.init_param()
+    if regnorm is not None:
+        mod.use_regularizer(regnorm, tau)
 
-    er = erisk(Xs, Y, mod, SquareErrorLoss(), regnorm=regnorm, tau=tau)
+    er = erisk(Xs, Y, mod, SquareErrorLoss())
     alg = fg(er, h=h, n_iter=n_iter, tol=tol)
     alg.use_gradient_averager("AdaM2")
 

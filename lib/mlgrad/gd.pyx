@@ -104,7 +104,6 @@ cdef class GD:
         lval_min_prev = double_max / 100
         self.lvals = [lval]
         self.K = 0
-        # print(lval)
         Q = 1 + fabs(lval_min)
 
         self.h_rate.init()
@@ -116,7 +115,6 @@ cdef class GD:
         for k in range(self.n_iter):
             self.K = k
             lval_prev = lval
-            # print(k, lval)
 
             self.fit_epoch()
 
@@ -125,13 +123,10 @@ cdef class GD:
 
             lval = risk._evaluate()
             self.lvals.append(lval)
-            # print(k, self.lval, self.lval_min)
 
             if self.normalizer is not None:
                 self.normalizer.normalize(risk.param)
 
-            # if self.stop_condition():
-            #     self.completed = 1
             if fabs(lval - lval_prev) / Q < tol:
                 self.completed = 1
 
@@ -188,22 +183,9 @@ cdef class GD:
             self.grad_averager._update(risk.grad_average, self.h)
             risk._update_param(self.grad_averager.array_average)
 
-            # for i in range(n_param):
-            #     param[i] -= grad_average[i]
-
             # if self.param_transformer is not None:
             #     self.param_transformer.transform(risk.model.param)
     #
-    # cdef int stop_condition(self):
-
-    #     if fabs(self.lval - self.lval_prev) / (1.0 + fabs(self.lval_min)) < self.tol:
-    #         return 1
-
-    #     if fabs(self.lval_min - self.lval_min_prev) / (1.0 + fabs(self.lval_min)) < self.tol:
-    #         return 1
-
-    #     return 0
-#
     # def use_transformer(self, transformer):
     #     self.param_transformer = transformer
 #

@@ -2,7 +2,7 @@ coding: utf-8
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2023> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2025> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated do cumentation files (the "Software"), to deal
@@ -45,68 +45,6 @@ np.set_printoptions(precision=3, floatmode='maxprec_equal')
 cdef inline double ident(x):
     return x
 
-# cdef object _asarray(object ob):
-#     cdef int tp
-
-#     if not numpy.PyArray_CheckExact(ob):
-#         ob = np.array(ob, "d")
-
-#     tp = numpy.PyArray_TYPE(ob)
-#     if tp != numpy.NPY_DOUBLE:
-#         ob = numpy.PyArray_Cast(<numpy.ndarray>ob, numpy.NPY_DOUBLE)
-
-#     if not numpy.PyArray_IS_C_CONTIGUOUS(ob):
-#         ob = np.ascontiguousarray(ob)
-
-#     return ob
-
-# def asarray(ob):
-#     return _asarray(ob)
-
-cdef object _asarray2d(object ob):
-    cdef int ndim
-    cdef int tp
-
-    if not numpy.PyArray_CheckExact(ob):
-        ob = np.array(ob, "d")
-
-    tp = numpy.PyArray_TYPE(ob)
-    if tp != numpy.NPY_DOUBLE:
-        ob = numpy.PyArray_Cast(<numpy.ndarray>ob, numpy.NPY_DOUBLE)
-
-    ndim = <int>numpy.PyArray_NDIM(ob)
-    if ndim == 2:
-        return ob
-    elif ndim == 1:
-        return ob.reshape(-1,1)
-    else:
-        raise TypeError('number of axes > 2!')
-
-def asarray2d(ob):
-    return _asarray2d(ob)
-
-cdef object _asarray1d(object ob):
-    cdef int ndim
-    cdef int tp
-
-    if not numpy.PyArray_CheckExact(ob):
-        ob = np.array(ob, "d")
-
-    tp = numpy.PyArray_TYPE(ob)
-    if tp != numpy.NPY_DOUBLE:
-        ob = numpy.PyArray_Cast(<numpy.ndarray>ob, numpy.NPY_DOUBLE)
-
-    ndim = <int>numpy.PyArray_NDIM(ob)
-    if ndim == 1:
-        return ob
-    elif ndim == 0:
-        return ob.reshape(1)
-    else:
-        raise TypeError('number of axes != 1!')
-
-def asarray1d(ob):
-    return _asarray1d(ob)
-
 cdef dict _model_from_dict_table = {}
 def register_model(tag):
     def func(cls, tag=tag):
@@ -123,7 +61,31 @@ def model_from_dict(ob, init=False):
         mod.init_from(ob)
     return mod
 
-cdef class BaseModel:
+cdef class Regularized:
+    #
+    def use_regularizer(self, Func2 regfunc, double tau):
+        self.regfunc = regfunc
+        self.tau = tau
+    #
+    cdef bint _is_regularized(self) noexcept nogil:
+        return (self.regfunc is not None)
+    #
+    cdef double _evaluate_reg(self):
+        return self.tau * self.regfunc._evaluate(self.param)
+    #
+    cdef void _gradient_reg(self, double[::1] reg_grad):
+        self.regfunc._gradient(self.param, reg_grad)
+        inventory.imul_const(reg_grad, self.tau)
+    #
+    def evaluate_reg(self):
+        return self._evaluate_reg()
+    #
+    def gradient_reg(self):
+        reg_grad = inventory.empty_array(self.n_param)
+        self._gradient_reg(reg_grad)
+        return reg_grad
+
+cdef class BaseModel(Regularized):
     #
     def allocate(self):
         """Распределить память под параметры модели.
@@ -132,7 +94,6 @@ cdef class BaseModel:
     #
     cdef double _evaluate_one(self, double[::1] x):
         return 0
-    #
     #
     def evaluate(self, X):
         """Вычисляет значения модели для всех заданных входов.
@@ -183,6 +144,7 @@ cdef class BaseModel:
     #
     def copy(self, bint share=0):
         return self._copy(share)
+    #
 
 
 cdef class Model(BaseModel):
@@ -237,7 +199,6 @@ cdef class Model(BaseModel):
             self.param_base = self.param
         else:
             self.ob_param[:] = r
-
     #
     def gradient_one(self, Xk):
         grad = np.empty(self.n_param, 'd')
@@ -336,18 +297,18 @@ cdef class LinearModel(Model):
         # for i in range(self.n_input):
         #     grad_input[i] = param[i+1]
     #
-    # cdef LinearModel _copy(self, bint share):
-    #     cdef LinearModel mod = LinearModel(self.n_input)
+    def copy(self, bint share):
+        cdef LinearModel mod = LinearModel(self.n_input)
 
-    #     if share:
-    #         mod.ob_param = self.ob_param
-    #         mod.param = self.param
-    #     else:
-    #         mod.param = self.param.copy()
+        if share:
+            mod.ob_param = self.ob_param
+            mod.param = self.param
+        else:
+            mod.param = self.param.copy()
 
-    #     mod.grad = np.zeros(self.n_param, 'd')
-    #     mod.grad_input = np.zeros(self.n_input, 'd')
-    #     return mod
+        mod.grad = np.zeros(self.n_param, 'd')
+        mod.grad_input = np.zeros(self.n_input, 'd')
+        return mod
     #
     def _repr_latex_(self):
         if self.param[0]:
@@ -366,7 +327,7 @@ cdef class LinearModel(Model):
                 text += "%sx_{%s}" % (spar, i)
         text = "$y(\mathbf{x})=" + text + "$"
         return text
-    # 
+    #
     def as_dict(self):
         return { 'name': 'linear', 
                  'param': (list(self.param) if self.param is not None else None), 
@@ -399,7 +360,7 @@ cdef class LinearModel_Normalized2(Model):
     #
     cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
         cdef double val
-        
+
         LinearModel._gradient_one(self, Xk, grad)
         val = inventory._dot(&Xk[0], &self.param[1], self.n_input)
         inventory._imul_add(&grad[1], &self.param[1], -val, self.n_input)
@@ -722,7 +683,7 @@ cdef class ModelComposition_j(Model):
         raise RuntimeError('not implemented')
 
         
-cdef class Model2:
+cdef class Model2(Regularized):
 
     cdef void _forward(self, double[::1] X):
         pass
@@ -935,7 +896,7 @@ cdef class LinearLayer(ModelLayer):
         # num_threads = inventory.get_num_threads_ex(self.n_input)
         # for i in prange(self.n_input, nogil=True, schedule='static', 
         #                 num_threads=num_threads):
-        for i in range(self.n_input):
+        for i in range(n_input):
             grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input+1)
             # s = 0
             # W = &matrix[0,i+1]
@@ -943,11 +904,44 @@ cdef class LinearLayer(ModelLayer):
             #     s += grad_out[j] * W[0]
             #     W += n_input
             # grad_in[i] = s
-            
+    #
+    cdef double _evaluate_reg(self):
+        cdef Py_ssize_t i, j
+        cdef double[:,::1] matrix
+        cdef double s = 0
+
+        if self.regfunc is None:
+            return 0
+
+        matrix = self.matrix
+
+        for i in range(self.n_output):
+            s += self.tau * self.regfunc._evaluate(self.matrix[i])
+        return s
+    #
+    cdef void _gradient_reg(self, double[::1] grad_reg):
+        cdef Py_ssize_t i, k
+        cdef Py_ssize_t n_p = self.n_input + 1
+        cdef double[:,::1] matrix
+        cdef double[::1] _grad_reg
+
+        if self.regfunc is None:
+            return
+
+        matrix = self.matrix
+        _grad_reg = inventory.empty_array(n_p)
+
+        inventory.clear(grad_reg)
+        k = 0
+        for i in range(self.n_output):
+            self.regfunc._gradient(self.matrix[i], _grad_reg)
+            inventory.imul_const(_grad_reg, self.tau)
+            inventory.move(grad_reg[k:k+n_p], _grad_reg)
+            k += n_p
     #
     def as_dict(self):
         return { 'name': 'linear_neuron_layer',
-                 'n_input': self.n_input, 
+                 'n_input': self.n_input,
                  'n_output': self.n_output,
                  'matrix': [list(row) for row in self.matrix]
                }
@@ -955,8 +949,7 @@ cdef class LinearLayer(ModelLayer):
     def init_from(self, ob):
         cdef double[:,::1] matrix = np.array(ob['matrix'], 'd')
         inventory.move2(self.matrix, matrix)
-    
-    
+
 @cython.final
 cdef class ScaleLayer(ModelLayer):
     #
@@ -996,19 +989,26 @@ cdef class ScaleLayer(ModelLayer):
         for j in range(self.n_input):
             grad_in[j] = grad_out[j] * func._derivative(X[j])
     #
-    # cdef ScaleLayer _copy(self, bint share):
-    #     cdef ScaleLayer layer = ScaleLayer(self.func, self.n_input)
+    def copy(self, bint share):
+        cdef ScaleLayer layer = ScaleLayer(self.func, self.n_input)
 
-    #     layer.param = self.param
+        layer.param = self.param
 
-    #     layer.output = np.zeros(self.n_output, 'd')
-    #     layer.grad_input = np.zeros(self.n_input, 'd')
-    #     return layer
+        layer.output = np.zeros(self.n_output, 'd')
+        layer.grad_input = np.zeros(self.n_input, 'd')
+        return layer
+    #
+    cdef double _evaluate_reg(self):
+        return 0
+    #
+    cdef void _gradient_reg(self, double[::1] grad_reg):
+        pass
+    #
 
 @cython.final
 cdef class Scale2Layer(ModelLayer):
     #
-    def _allocate_param(self, allocator):        
+    def _allocate_param(self, allocator):
         layer_allocator = allocator.suballocator()
         self.ob_param = layer_allocator.get_allocated()
         self.param = self.ob_param
@@ -1110,21 +1110,21 @@ cdef class GeneralModelLayer(ModelLayer):
             mod.init_param()
         # self.grad = np.zeros(self.n_param, 'd')
     #
-    # cdef GeneralModelLayer _copy(self, bint share):
-    #     cdef GeneralModelLayer layer = GeneralModelLayer(self.n_input)
-    #     cdef list models = layer.models
-    #     cdef Model mod
+    def copy(self, bint share=0):
+        cdef GeneralModelLayer layer = GeneralModelLayer(self.n_input)
+        cdef list models = layer.models
+        cdef Model mod
 
-    #     for mod in self.models:
-    #         models.append(mod.copy(share))
+        for mod in self.models:
+            models.append(mod.copy(share))
 
-    #     layer.n_output = self.n_output
-    #     layer.param = self.param
-    #     layer.ob_param = self.ob_param
-    #     layer.n_param = self.n_param
-    #     layer.output = np.zeros((self.n_output,), 'd')
-    #     layer.grad_input = np.zeros((self.n_input,), 'd')
-    #     return layer
+        layer.n_output = self.n_output
+        layer.param = self.param
+        layer.ob_param = self.ob_param
+        layer.n_param = self.n_param
+        layer.output = np.zeros((self.n_output,), 'd')
+        layer.grad_input = np.zeros((self.n_input,), 'd')
+        return layer
     #
     def append(self, Model mod):
         if self.n_input != mod.n_input:
@@ -1189,7 +1189,7 @@ cdef class GeneralModelLayer(ModelLayer):
     #
     def init_from(self, ob):
         for mod, mod_ob in zip(self.mod, ob['models']):
-            mod.init_from( mod_ob['param'] )    
+            mod.init_from( mod_ob['param'] )
 
 @register_model('general_layer')
 def general_layer_from_dict(ob):
@@ -1360,12 +1360,14 @@ cdef class LinearFuncModel(BaseModel):
             s += weights[j] * mod._evaluate_one(X)
         return s
     #
-    def evaluate_all(self, double[:,::1] X):
+    def evaluate(self, double[:,::1] X):
         cdef Py_ssize_t k, N = len(X)
+        cdef double[::1] YY
 
-        Y = np.empty(N, 'd')
+        Y = inventory.empty_array(N)
+        YY = Y
         for k in range(N):
-            Y[k] = self._evaluate_one(X[k])
+            YY[k] = self._evaluate_one(X[k])
         return Y
     #
     def __call__(self, X):
@@ -1401,13 +1403,13 @@ cdef class MLModel:
         self._forward(X)
         self._backward(X, grad_u, grad)
     #
-    
+
     # def copy(self, bint share=0):
     #     return self._copy(share)
     # #
     def _allocate_param(self, allocator):
         """Allocate mod.param and mod.grad for all models"""
-        
+
         layers_allocator = allocator.suballocator()
         for layer in self.layers:
             if layer.n_param > 0:
@@ -1430,10 +1432,42 @@ cdef class MLModel:
     #
     def evaluate_one(self, x):
         cdef double[::1] x1d = _asarray1d(x)
-        
+
         self._forward(x1d)
         return _asarray(self.output)
     #
+    cdef bint _is_regularized(self) noexcept nogil:
+        return 1
+    #
+    cdef double _evaluate_reg(self):
+        cdef double s = 0
+        cdef Py_ssize_t j, n = len(self.layers)
+        cdef ModelLayer layer
+
+        for i in range(n):
+            layer = <ModelLayer>self.layers[i]
+            n_param = layer.n_param
+            if n_param > 0:
+                if layer._is_regularized():
+                    s += layer._evaluate_reg()
+        return s
+    #
+    cdef void _gradient_reg(self, double[::1] grad_reg):
+        cdef double s = 0
+        cdef Py_ssize_t j, n = len(self.layers)
+        cdef Py_ssize_t k
+        cdef ModelLayer layer
+        cdef Py_ssize_t n_param
+
+        k = 0
+        for i in range(n):
+            layer = <ModelLayer>self.layers[i]
+            n_param = layer.n_param
+            if n_param > 0:
+                if layer._is_regularized():
+                    layer._gradient_reg(grad_reg[k:k+n_param])
+                k += n_param
+
 
 cdef class FFNetworkModel(MLModel):
 
@@ -1612,6 +1646,25 @@ cdef class FFNetworkFuncModel(Model):
         self.head.init_from(ob['head'])
         self.body.init_from(ob['body'])
     #
+    cdef bint _is_regularized(self) noexcept nogil:
+        return 1
+    #
+    cdef double _evaluate_reg(self):
+        cdef double s = 0
+
+        if self.head._is_regularized():
+            s += self.head._evaluate_reg()
+        if self.body._is_regularized():
+            s += self.body._evaluate_reg()
+        return s
+    #
+    cdef void _gradient_reg(self, double[::1] grad_reg):
+        cdef Py_ssize_t k = 0
+        if self.head._is_regularized():
+            self.head._gradient_reg(grad_reg[:self.head.n_param])
+        if self.body._is_regularized():
+            self.body._gradient_reg(grad_reg[self.head.n_param:])
+
 
 @register_model('ff_nn_func')
 def ff_ml_network_func_from_dict(ob):

@@ -69,16 +69,16 @@ cdef class ConstantWeights(Weights):
     
 cdef class RWeights(Weights):
     #
-    def __init__(self, Risk risk, normalize=1):
+    def __init__(self, Risk risk, _normalize=1):
         # self.func = func
         self.risk = risk
-        self.normalize = normalize
+        self._normalize = _normalize
         self.weights = np.zeros(len(risk.X), 'd')
     #
     cpdef eval_weights(self):
         self.risk._evaluate_losses_derivative_div_all(self.weights)
-        if self.normalize:
-            inventory.normalize(self.weights)
+        if self._normalize:
+            inventory._normalize(self.weights)
     #
     cpdef double get_qvalue(self):
         return self.risk._evaluate()
@@ -88,11 +88,11 @@ cdef class RWeights(Weights):
 
 cdef class MWeights(Weights):
     #
-    def __init__(self, Average average, Risk risk, normalize=0):
+    def __init__(self, Average average, Risk risk, _normalize=0):
         self.average = average
         self.risk = risk
         self.first_time = 1
-        self.normalize = normalize
+        self._normalize = _normalize
         self.weights = np.empty(len(risk.X), 'd')
         self.lvals = np.empty(len(risk.X), 'd')
     #
@@ -104,8 +104,8 @@ cdef class MWeights(Weights):
         self.risk._evaluate_losses_all(self.lvals)
         u = self.average._evaluate(self.lvals)
         self.average._gradient(self.lvals, self.weights)
-        if self.normalize:
-            inventory.normalize(self.weights)
+        if self._normalize:
+            inventory._normalize(self.weights)
     #
     cpdef double get_qvalue(self):
         return self.average.u
@@ -115,11 +115,11 @@ cdef class MWeights(Weights):
 
 cdef class MWeights2(Weights):
     #
-    def __init__(self, Average average, ERisk2 risk, normalize=0):
+    def __init__(self, Average average, ERisk2 risk, _normalize=0):
         self.average = average
         self.risk = risk
         self.first_time = 1
-        self.normalize = normalize
+        self._normalize = _normalize
         self.weights = np.empty(len(risk.X), 'd')
         self.lvals = np.empty(len(risk.X), 'd')
     #
@@ -131,8 +131,8 @@ cdef class MWeights2(Weights):
         self.risk._evaluate_losses_all(self.lvals)
         u = self.average._evaluate(self.lvals)
         self.average._gradient(self.lvals, self.weights)
-        if self.normalize:
-            inventory.normalize(self.weights)
+        if self._normalize:
+            inventory._normalize(self.weights)
     #
     cpdef double get_qvalue(self):
         return self.average.u
@@ -142,11 +142,11 @@ cdef class MWeights2(Weights):
 
 cdef class MWeights22(Weights):
     #
-    def __init__(self, Average average, ERisk22 risk, normalize=0):
+    def __init__(self, Average average, ERisk22 risk, _normalize=0):
         self.average = average
         self.risk = risk
         self.first_time = 1
-        self.normalize = normalize
+        self._normalize = _normalize
         self.weights = np.empty(len(risk.X), 'd')
         self.lvals = np.empty(len(risk.X), 'd')
     #
@@ -158,8 +158,8 @@ cdef class MWeights22(Weights):
         self.risk._evaluate_losses_all(self.lvals)
         u = self.average._evaluate(self.lvals)
         self.average._gradient(self.lvals, self.weights)
-        if self.normalize:
-            inventory.normalize(self.weights)
+        if self._normalize:
+            inventory._normalize(self.weights)
     #
     cpdef double get_qvalue(self):
         return self.average.u
@@ -169,11 +169,11 @@ cdef class MWeights22(Weights):
     
 cdef class WeightsCompose(Weights):
     
-    def __init__(self, Weights weights1, Weights weights2, normalize=1):
+    def __init__(self, Weights weights1, Weights weights2, _normalize=1):
         self._weights1 = weights1
         self._weights2 = weights2
         self.weights = np.ones(len(weights1.risk.X), 'd')
-        self.normalize = normalize
+        self._normalize = _normalize
         self.risk = self._weights1.risk
     #
     cpdef init(self):
@@ -186,8 +186,8 @@ cdef class WeightsCompose(Weights):
         
         inventory.mul(self.weights, self._weights1.weights, self._weights2.weights)
         
-        if self.normalize:
-            inventory.normalize(self.weights)        
+        if self._normalize:
+            inventory._normalize(self.weights)        
     #
     cpdef double[::1] get_weights(self):
         return self.weights
@@ -198,12 +198,12 @@ cdef class WeightsCompose(Weights):
 
 cdef class WRWeights(Weights):
     
-    def __init__(self, Average average, Risk risk, normalize=1):
+    def __init__(self, Average average, Risk risk, _normalize=1):
         self.risk = risk
-        self._weights1 = MWeights(average, risk, normalize=0)
-        self._weights2 = RWeights(risk, normalize=0)
+        self._weights1 = MWeights(average, risk, _normalize=0)
+        self._weights2 = RWeights(risk, _normalize=0)
         self.weights = np.ones(len(risk.X), 'd')
-        self.normalize = normalize
+        self._normalize = _normalize
     #
     cpdef init(self):
         self._weights1.init()
@@ -215,8 +215,8 @@ cdef class WRWeights(Weights):
         
         inventory.mul(self.weights, self._weights1.weights, self._weights2.weights)
         
-        if self.normalize:
-            inventory.normalize(self.weights)        
+        if self._normalize:
+            inventory._normalize(self.weights)        
     #
     cpdef double[::1] get_weights(self):
         return self.weights

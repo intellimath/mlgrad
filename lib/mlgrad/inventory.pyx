@@ -91,6 +91,50 @@ cdef object _asarray(object ob):
 def asarray(ob):
     return _asarray(ob)
 
+cdef object _asarray1d(object ob):
+    cdef int ndim
+    cdef int tp
+
+    if not numpy.PyArray_CheckExact(ob):
+        ob = np.array(ob, "d")
+
+    tp = numpy.PyArray_TYPE(ob)
+    if tp != numpy.NPY_DOUBLE:
+        ob = numpy.PyArray_Cast(<numpy.ndarray>ob, numpy.NPY_DOUBLE)
+
+    ndim = <int>numpy.PyArray_NDIM(ob)
+    if ndim == 1:
+        return ob
+    elif ndim == 0:
+        return ob.reshape(1)
+    else:
+        raise TypeError('number of axes != 1!')
+
+def asarray1d(ob):
+    return _asarray1d(ob)
+
+
+cdef object _asarray2d(object ob):
+    cdef int ndim
+    cdef int tp
+
+    if not numpy.PyArray_CheckExact(ob):
+        ob = np.array(ob, "d")
+
+    tp = numpy.PyArray_TYPE(ob)
+    if tp != numpy.NPY_DOUBLE:
+        ob = numpy.PyArray_Cast(<numpy.ndarray>ob, numpy.NPY_DOUBLE)
+
+    ndim = <int>numpy.PyArray_NDIM(ob)
+    if ndim == 2:
+        return ob
+    elif ndim == 1:
+        return ob.reshape(-1,1)
+    else:
+        raise TypeError('number of axes > 2!')
+
+def asarray2d(ob):
+    return _asarray2d(ob)
 
 cdef void init_rand() noexcept nogil:
     srand(time(NULL))    
@@ -399,8 +443,8 @@ cdef void _mul_grad(double *grad, const double *X, const double *ss,
 cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) noexcept nogil:
     _mul_grad(&grad[0,0], &X[0], &ss[0], <const Py_ssize_t>X.shape[0], <const Py_ssize_t>grad.shape[0])
 
-cdef void _normalize(double *a, const Py_ssize_t n) noexcept nogil:
-    cdef Py_ssize_t i
+cdef void _normalize(double[::1] a) noexcept nogil:
+    cdef Py_ssize_t i, n = a.shape[0]
     cdef double S
 
     S = 0
@@ -410,11 +454,11 @@ cdef void _normalize(double *a, const Py_ssize_t n) noexcept nogil:
     for i in range(n):
         a[i] /= S
 
-cdef void normalize(double[::1] a) noexcept nogil:
-    _normalize(&a[0], a.shape[0])
-        
-cdef void _normalize2(double *a, const Py_ssize_t n) noexcept nogil:
-    cdef Py_ssize_t i
+def normalize(a):
+    _normalize(a)
+
+cdef void _normalize2(double[::1] a) noexcept nogil:
+    cdef Py_ssize_t i, n = a.shape[0]
     cdef double v, S
 
     S = 0
@@ -426,9 +470,9 @@ cdef void _normalize2(double *a, const Py_ssize_t n) noexcept nogil:
 
     for i in range(n):
         a[i] /= S
-        
-cdef void normalize2(double[::1] a) noexcept nogil:
-    _normalize2(&a[0], a.shape[0])
+
+def normalize2(a):
+    _normalize2(a)
 
 cdef double _mahalanobis_norm_one(double *S, const double *x, 
                                   const Py_ssize_t n) noexcept nogil:
@@ -813,18 +857,18 @@ cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil:
                 j -= 1
             if i > j:
                 break
-    
+
         if j < k:
             l = i
         if k < i: 
             m = j
-    
+
     return a[k]
 
 cdef double _median_1d(double[::1] x): # noexcept nogil:
     cdef Py_ssize_t n2, n = x.shape[0]
     cdef double mv1, mv2
-    
+
     if n % 2:
         n2 = (n-1) // 2
         mv1 = _kth_smallest(&x[0], n, n2)
@@ -832,7 +876,7 @@ cdef double _median_1d(double[::1] x): # noexcept nogil:
     else:
         n2 = n // 2
         mv1 = _kth_smallest(&x[0], n, n2)
-        mv2 = _kth_smallest(&x[0], n2+1, n2-1)
+        mv2 = _kth_smallest(&x[0], n, n2-1)
         return (mv1 + mv2) / 2
 
 cdef double _median_absdev_1d(double[::1] x, double mu):
@@ -965,7 +1009,7 @@ cdef void _modified_zscore(double *a, double *b, Py_ssize_t n):
         aa[i] = fabs(aa[i] - mu)
     sigma = _median_1d(aa)
     sigma /= 0.6748
-    
+
     for i in range(n):
         b[i] = (a[i] - mu) / sigma
 
@@ -979,7 +1023,7 @@ cdef void _modified_zscore_mu(double *a, double *b, Py_ssize_t n, double mu):
         aa[i] = fabs(a[i] - mu)
     sigma = _median_1d(aa)
     sigma /= 0.6748
-    
+
     for i in range(n):
         b[i] = (a[i] - mu) / sigma
 
