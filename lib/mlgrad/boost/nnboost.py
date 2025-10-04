@@ -37,7 +37,7 @@ class BoostModel:
 
 class AnyBoostRepeated:
     #
-    def __init__(self, boost_model, loss_func, regularizer_creator=None, tau=0, h=0.1, n_iter=10):
+    def __init__(self, boost_model, loss_func, regularizer_creator=None, tau=0, shrink=0.1, h=0.1, n_iter=10):
         self.boost_model = boost_model
         self.n_classifier = boost_model.n_classifier
         self.neg_loss_func = loss.NegMarginLoss()
@@ -56,6 +56,7 @@ class AnyBoostRepeated:
         N = len(X)
         U = self.U
         weak_models = self.boost_model.weak_models
+        shrink = self.shrink
         for j in range(self.n_classifier):
             V = -self.loss_func.derivative_all(SU_j, Y)
             weak_model = weak_models[j]
@@ -77,7 +78,7 @@ class AnyBoostRepeated:
 
             res = minimize_scalar(func_alpha, (0, 1.))
             alpha = res.x
-            self.alpha[j] = alpha
+            self.alpha[j] = shrink * alpha
 
         alpha[:] = alpha / abs(alpha).sum()
     #
