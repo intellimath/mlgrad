@@ -1,5 +1,7 @@
 from mlgrad.cls import classification_erm
-from mlgrad.models import models
+from mlgrad.models import LinearModel
+from mlgrad.loss import NegMarginLoss
+from mlgrad.inventory import normalize
 
 from scipy.optimize import minimize_scalar
 
@@ -10,7 +12,7 @@ class BoostModel:
     #
     def __init__(self, n_classifier, weak_model_creator):
         self.n_classifier = n_classifier
-        self.linear_model = models.LinearModel(n_classifier)
+        self.linear_model = LinearModel(n_classifier)
         self.linear_model.param = np.ones(n_classifier, "d") / n_classifier
         self.weak_models = []
         for i in range(n_classifier):
@@ -37,12 +39,12 @@ class BoostModel:
 
 class AnyBoostRepeated:
     #
-    def __init__(self, boost_model, loss_func, regularizer_creator=None, tau=0, shrink=0.1, h=0.1, n_iter=10):
+    def __init__(self, boost_model, loss_func, regularizer_creator=None, tau=0, shrink=1.0, h=0.1, n_iter=10):
         self.boost_model = boost_model
         self.n_classifier = boost_model.n_classifier
-        self.neg_loss_func = loss.NegMarginLoss()
+        self.neg_loss_func = NegMarginLoss()
         self.loss_func = loss_func
-        self.alpha = boost_model.param
+        self.weights = boost_model.param
         self.h = h
         #
         if regularizer_creator:
@@ -55,10 +57,12 @@ class AnyBoostRepeated:
     def fit_step(self, X, Y):
         N = len(X)
         U = self.U
+        weights = self.weights
+        loss_func = self.loss_func
         weak_models = self.boost_model.weak_models
         shrink = self.shrink
         for j in range(self.n_classifier):
-            V = -self.loss_func.derivative_all(SU_j, Y)
+            V = -loss_func.derivative_all(SU_j, Y)
             weak_model = weak_models[j]
             classification_erm(X, Y,
                                weak_model,
@@ -68,26 +72,27 @@ class AnyBoostRepeated:
 
             U_j = U[:,j] = model_j.evaluate(X)
 
-            alpha_j = self.alpha[j]
-            self.alpha[j] = 0
-            SU_j = U @ self.alpha
-            self.alpha[j] = alpha_j
+            w = weights[j]
+            weights[j] = 0
+            SU_j = U @ weights
+            weights[j] = w
 
             def func_alpha(alpha):
-                return self.loss_func.evaluate_all(SU_j + alpha * U_j, Y).sum()
+                return loss_func.evaluate_sum(SU_j + alpha * U_j, Y)
 
             res = minimize_scalar(func_alpha, (0, 1.))
             alpha = res.x
-            self.alpha[j] = shrink * alpha
+            weights[j] = shrink * alpha
 
-        alpha[:] = alpha / abs(alpha).sum()
+        weights[:] = weight / abs(weights).sum()
     #
     def fit(X, Y):
-        self.U = np.zeros(N, "d")
+        N = len(X)
+        self.U = np.zeros((N,self.n_classifier) "d")
 
         K = 0
         self.fit_step(X, Y)
-        lval = lval_min = self.loss_func.evaluate_all(self.boost_model.evaluate(X), Y).mean()
+        lval = lval_min = self.loss_func.evaluate_sum(self.boost_model.evaluate(X), Y) / N
         linear_model_param = self.boost_model.linear_model.param.copy()
         weak_models_params = [mod.param.copy() for mod in self.boost_model.weak_models]
 
@@ -96,7 +101,7 @@ class AnyBoostRepeated:
         K += 1
         while K < self.n_iter:
             self.fit_step(X, Y)
-            lval = self.loss_func.evaluate_all(self.boost_model.evaluate(X), Y).mean()
+            lval = self.loss_func.evaluate_sum(self.boost_model.evaluate(X), Y) / N
             lvals.append(lval)
 
             if lval < lval_min:

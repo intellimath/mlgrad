@@ -137,7 +137,7 @@ def asarray2d(ob):
     return _asarray2d(ob)
 
 cdef void init_rand() noexcept nogil:
-    srand(time(NULL))    
+    srand(time(NULL))
 
 cdef long rand(long N) noexcept nogil:
     return stdlib_rand() % N
@@ -156,7 +156,7 @@ cdef double _min(double *a, Py_ssize_t n) noexcept nogil:
 
 cdef int hasnan(double[::1] a) noexcept nogil:
     return _hasnan(&a[0], a.shape[0])
-        
+
 cdef int _hasnan(double *a, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     for i in range(n):
@@ -168,7 +168,7 @@ cdef void _clear(double *to, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     for i in range(n):
         to[i] = 0
-        
+
 cdef void clear(double[::1] to) noexcept nogil:
     _clear(&to[0], <const Py_ssize_t>to.shape[0])
 
@@ -176,10 +176,10 @@ cdef void _clear2(double *to, const Py_ssize_t n, const Py_ssize_t m) noexcept n
     cdef Py_ssize_t i
     for i in range(n*m):
         to[i] = 0
-        
+
 cdef void clear2(double[:,::1] to) noexcept nogil:
     _clear2(&to[0,0], <const Py_ssize_t>to.shape[0], <const Py_ssize_t>to.shape[1])
-    
+
 cdef void _fill(double *to, const double c, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     for i in range(n):

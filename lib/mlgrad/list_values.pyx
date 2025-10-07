@@ -65,6 +65,32 @@ cdef inline Py_ssize_t resize(Py_ssize_t size):
 # sizeof_int = sizeof(int)
 # sizeof_pint = sizeof(int*)
 
+cdef list_double _list_double_from_data(double *data, Py_ssize_t size):
+    cdef list_double ld = list_double(size)
+    cdef Py_ssize_t i
+    cdef double *ld_data = ld.data
+    #
+    for i in range(size):
+        ld_data[i] = data[i]
+    #
+    return <list_double>ld
+
+cdef list_double _list_double_from_array(double[::1] a):
+    return _list_double_from_data(&a[0], a.shape[0])
+
+cdef list_double _list_double_from_list(list lst):
+    cdef Py_ssize_t size = len(lst)
+    cdef list_double ld = list_double(size)
+    cdef Py_ssize_t i
+    cdef double *ld_data = ld.data
+    cdef double v
+    #
+    for i in range(size):
+        v = lst[i]
+        ld_data[i] = v
+    #
+    return <list_double>ld
+
 @cython.no_gc
 cdef class list_double:
     #
@@ -282,7 +308,7 @@ cdef class list_int:
         cdef Py_ssize_t i, size = self.size
         cdef int[::1] data
 
-        res = np.empty(size, 'd')
+        res = np.empty(size, 'i')
         data = res
         for i in range(size):
             data[i] = self._get(i)

@@ -25,7 +25,7 @@ class AnyBoostClassification:
         self.model_factory = model_factory
         self.lossfunc = lossfunc
         self.shrink = shrink
-        self.n_retry = retry
+        self.n_retry = n_retry
         self.n_classifier = n_classifier
         self.n_failures = n_failures
         # self.min_weak_learn_score = min_weak_learn_score
@@ -45,10 +45,11 @@ class AnyBoostClassification:
         #
         m_vals = self.m_vals
         M_vals = self.M_vals
-        shrink = self.shrink / len(m_vals)
+        # N = len(M_vals)
+        shrink = self.shrink
         #
         def _func_(alpha):
-            return self.func.evaluate_array(M_vals + alpha * m_vals).mean() + shrink * alpha*alpha
+            return self.func.evaluate_sum(M_vals + alpha * m_vals) + shrink * alpha*alpha
         #
         res = minimize_scalar(_func_, (0, 1.))
         if not res.success:
@@ -57,11 +58,12 @@ class AnyBoostClassification:
         return res.x
     #
     def evaluate_weights(self):
-        weights = self.func.derivative_array(self.M_vals)
-        weights /= weights.sum()
+        weights = -self.func.derivative_array(self.M_vals)
+        inventory.normalize(weights)
         return weights
     #
     def fit_step(self, X, Y, **kw):
+        N = len(Y)
         weak_learner = self.weak_learn(X, Y, **kw)
         weak_model = weak_learner.risk.model
         self.m_vals = Y * weak_model.evaluate(X)
@@ -73,7 +75,7 @@ class AnyBoostClassification:
         self.H.add(weak_model, alpha)
 
         self.M_vals = Y * self.H.evaluate(X)
-        lval = self.func.evaluate_array(self.M_vals).mean()
+        lval = self.func.evaluate_sum(self.M_vals) / N
         self.lvals.append(lval)
 
         self.weights = self.evaluate_weights()
@@ -84,8 +86,8 @@ class AnyBoostClassification:
         N = len(X)
         if self.H is None:
             self.H = models.LinearFuncModel()
-        self.M_vals = np.zeros(len(X), "d")
-        self.weights = np.ones(len(X), "d") / N
+        self.M_vals = np.zeros(N, "d")
+        self.weights = np.ones(N, "d") / N
 
         self.lvals = []
         # self.wl_lvals = []
@@ -106,6 +108,6 @@ class AnyBoostClassification:
             m = 0
 
         A = self.H.weights.asarray()
-        A /= abs(A).sum()
+        inventory.normalize(A)
         del A
         self.K = K

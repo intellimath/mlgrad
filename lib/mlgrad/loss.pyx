@@ -50,6 +50,14 @@ cdef class Loss(object):
             L[k] = self._evaluate(Y[k], Yp[k])
         return L
     #
+    def evaluate_sum(self, double[::1] Y, double[::1] Yp):
+        cdef Py_ssize_t k, N = Y.shape[0]
+        cdef double S=0
+
+        for k in range(N):
+            S += self._evaluate(Y[k], Yp[k])
+        return S
+    #
     # def evaluate_all2(self, Model model, double[:, ::1] X, double[::1] Yp):
     #     cdef Py_ssize_t k, N = Yp.shape[0]
     #     cdef double y
