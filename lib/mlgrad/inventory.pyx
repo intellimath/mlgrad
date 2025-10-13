@@ -541,8 +541,7 @@ def mahalanobis_distance(S, X, c):
     Y = empty_array(X.shape[0])
     _mahalanobis_distance(S, X, c, Y)
     return Y
-        
-        
+
 cdef void _scatter_matrix_weighted(double[:,::1] X, double[::1] W, double[:,::1] S) noexcept nogil:
     """
     Вычисление взвешенной ковариационной матрицы
@@ -648,7 +647,6 @@ cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexc
        W: массив весов (N)
        Y: массив (N) - результат:
           Y[i] = W[0] * X[0,:] + ... + W[N-1] * X[N-1,:]
-    
     """
     cdef:
         Py_ssize_t N = X.shape[0]
@@ -670,6 +668,13 @@ cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexc
 cdef object empty_array(Py_ssize_t size):
     cdef numpy.npy_intp n = size
     return numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
+
+cdef object empty_array_i(Py_ssize_t size):
+    cdef numpy.npy_intp n = size
+    return numpy.PyArray_EMPTY(1, &n, numpy.NPY_INT, 0)
+
+def empty_int_array_i2(size):
+    return empty_array_i(size)
 
 cdef object filled_array(Py_ssize_t size, double val):
     cdef numpy.npy_intp n = size

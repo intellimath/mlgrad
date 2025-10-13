@@ -224,7 +224,7 @@ cdef class Risk(Functional):
     #
     def use_batch(self, Batch batch not None):
         self.batch = batch
-        size = self.batch.size 
+        size = self.batch.size
         self.Yp = np.zeros(size, np_double)
         self.L = np.zeros(size, np_double)
         # self.LD = np.zeros(size, np_double)
@@ -301,7 +301,6 @@ cdef class MRisk(Risk):
         cdef Py_ssize_t i, j, k
         cdef double yk, lval_dy, lval, vv
         #
-        # cdef#Z double[::1] Xk
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
         cdef double[::1] weights = self.weights
@@ -434,7 +433,7 @@ cdef class ERisk(Risk):
                 v = grad_average[i]
                 s += v * v
             s = sqrt(s)
-            
+
             for i in range(self.n_param):
                 grad_average[i] /= s
 

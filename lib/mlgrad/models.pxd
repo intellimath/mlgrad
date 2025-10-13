@@ -18,7 +18,7 @@ cdef extern from *:
     double D_PTR(double* p) noexcept nogil
     PyObject* PyList_GET_ITEM(list ob, Py_ssize_t i) noexcept nogil
     int PyList_GET_SIZE(list ob) noexcept nogil
- 
+
 cdef extern from "Python.h":
     double PyDouble_GetMax()
     double PyDouble_GetMin()
@@ -151,7 +151,7 @@ cdef class Model2(Regularized):
     #
     cdef void _forward(self, double[::1] X)
     #
-    cdef void gradient_j(self, Py_ssize_t j, double[::1] X, double[::1] grad)
+    # cdef void gradient_j(self, Py_ssize_t j, double[::1] X, double[::1] grad)
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad)
     #
@@ -188,6 +188,7 @@ cdef class LinearLayer(ModelLayer):
 #     cdef SigmaNeuronModelLayer _copy(self, bint share)
 
 cdef class GeneralModelLayer(ModelLayer):
+    cdef Py_ssize_t mod_n_param
     cdef public list models
     #
     # cdef GeneralModelLayer _copy(self, bint share)

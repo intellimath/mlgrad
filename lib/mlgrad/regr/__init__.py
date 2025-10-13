@@ -38,7 +38,8 @@ from mlgrad.af import averaging_function, scaling_function
 __all__ = 'regression', 'm_regression', 'm_regression_irls', 'r_regression_irls', 'mr_regression_irls'
 
 def regression(Xs, Y, mod, loss_func=None, regnorm=None, *, weights=None, normalizer=None,
-               h=0.001, tol=1.0e-6, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
+               h=0.001, tol=1.0e-6, n_iter=1000, tau=0.001, verbose=0, 
+               n_restart=1, init_param=1):
     """\
     Поиск параметров модели для решения задачи регрессии на основе принципа минимизации эмпирического риска.
     Параметры:
@@ -55,7 +56,7 @@ def regression(Xs, Y, mod, loss_func=None, regnorm=None, *, weights=None, normal
     else:
         _loss_func = loss_func
 
-    if mod.param is None:
+    if mod.param is None or init_param:
         mod.init_param()
     if regnorm is not None:
         mod.use_regularizer(regnorm, tau)
@@ -69,7 +70,8 @@ def regression(Xs, Y, mod, loss_func=None, regnorm=None, *, weights=None, normal
 
 def m_regression(Xs, Y, mod,
                  loss_func=None, agg_func=None, regnorm=None,
-                 h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, n_restart=1):
+                 h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, 
+                 n_restart=1, init_param=1):
 
     if loss_func is None:
         _loss_func = SquareErrorLoss()
@@ -86,14 +88,16 @@ def m_regression(Xs, Y, mod,
     if regnorm is not None:
         mod.use_regularizer(regnorm, tau)
 
-    er = risk(Xs, Y, mod, loss_func, avg=_agg_func)
-    alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, n_restart=n_restart)
+    er = erisk(Xs, Y, mod, loss_func, avg=_agg_func)
+    alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, 
+                 n_restart=n_restart)
     return alg
 
 def m_regression_irls(Xs, Y, mod,
                       loss_func=None,
                       agg_func=None, regnorm=None, 
-                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, verbose=0):
+                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, 
+                      verbose=0, init_param=1):
     """\
     Поиск параметров модели `mod` на основе принципа минимизации усредняющей 
     агрегирующей функции потерь от ошибок. 
@@ -111,7 +115,7 @@ def m_regression_irls(Xs, Y, mod,
     else:
         _agg_func = agg_func
 
-    if mod.param is None:
+    if mod.param is None or init_param:
         mod.init_param()
     if regnorm is not None:
         mod.use_regularizer(regnorm, tau)
@@ -119,7 +123,6 @@ def m_regression_irls(Xs, Y, mod,
     er = erisk(Xs, Y, mod, _loss_func)
     alg = fg(er, h=h, tol=tol, n_iter=n_iter)
 
-    # wt = weights.MWeights(_agg_func, er)
     irgd = erm_irgd(alg, _agg_func, n_iter=n_iter2, tol=tol2, verbose=verbose)
 
     return irgd
@@ -128,7 +131,8 @@ def mr_regression_irls(Xs, Y, mod,
                        loss_func=None,
                        agg_func=None, regnorm=None, 
                        h=0.001, tol=1.0e-9, n_iter=1000,
-                       tol2=1.0e-5, n_iter2=22, tau=0.001, verbose=0):
+                       tol2=1.0e-5, n_iter2=22, tau=0.001, 
+                       verbose=0, init_param=1):
     """\
     Поиск параметров модели `mod` при помощи принципа минимизации агрегирующей функции потерь от ошибок. 
     Параметр `avrfunc` задает усредняющую агрегирующую функцию.
@@ -145,7 +149,7 @@ def mr_regression_irls(Xs, Y, mod,
     else:
         _agg_func = agg_func
     
-    if mod.param is None:
+    if mod.param is None or init_param:
         mod.init_param()
     if regnorm is not None:
         mod.use_regularizer(regnorm, tau)
@@ -164,7 +168,8 @@ def mr_regression_irls(Xs, Y, mod,
     return irgd
 
 def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None, 
-                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, verbose=0):
+                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, 
+                      verbose=0, init_param=1):
     """\
     Поиск параметров модели `mod` при помощи классического методо R-регрессии. 
     Параметр `rhofunc` задает функцию от ошибки.
@@ -177,7 +182,7 @@ def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None,
 
     # _agg_func = averaging_function("R", _rho_func)
 
-    if mod.param is None:
+    if mod.param is None or init_param:
         mod.init_param()
     if regnorm is not None:
         mod.use_regularizer(regnorm, tau)

@@ -39,14 +39,12 @@ class IRGD:
         self.M = M
         self.m = 0
 
-        self.param_best = np.zeros(len(self.gd.risk.param), dtype='d')
+        self.param_min = np.zeros(len(self.gd.risk.param), dtype='d')
 #         self.param_prev = np.zeros((m,), dtype='d')
 
         self.h_anneal = h_anneal
 
         self.callback = callback
-
-        # self.weights = weights
 
         self.lval = self.lval1 = self.lval2 = 0
 
@@ -56,7 +54,6 @@ class IRGD:
         # self.m = 0
 
         self.lvals = []
-        #self.qvals = []
         self.n_iters = []
 
         self.K = 0
@@ -82,7 +79,7 @@ class IRGD:
         self.lval_min_prev = self.lval_min * 2
         Q = 1 + abs(self.lval_min)
         # print(self.lval)
-        self.param_best = risk.model.param.copy()
+        self.param_min = risk.model.param.copy()
 
         if self.callback is not None:
             self.callback(self)
@@ -106,6 +103,7 @@ class IRGD:
             risk.use_weights(self.weights)
             # print(self.lval)
 
+            # exit conditions
             if abs(self.lval - self.lval_prev) / Q < tol:
                 self.completed = 1
 
@@ -118,8 +116,9 @@ class IRGD:
                 else:
                     m += 1
 
+            # update optimal values and parameters for the next minimum
             if self.lval < self.lval_min:
-                self.param_best = risk.param.copy()
+                self.param_min = risk.param.copy()
                 self.lval_min_prev = self.lval_min
                 self.lval_min = self.lval
                 Q = 1 + abs(self.lval_min)
@@ -146,16 +145,16 @@ class IRGD:
     def finalize(self):
         risk = self.gd.risk
 
-        # print(self.lval_best)
-        risk.model.param[:] = self.param_best
+        # print(self.lval_min)
+        risk.model.param[:] = self.param_min
     #
-    def stop_condition(self):
+    # def stop_condition(self):
 
-        if abs(self.lval - self.lval_best) / (1 + abs(self.lval_best)) < self.tol:
-            return True
+    #     if abs(self.lval - self.lval_best) / (1 + abs(self.lval_best)) < self.tol:
+    #         return True
 
-        if abs(self.lval_best_prev - self.lval_best) / (1 + abs(self.lval_best)) < self.tol:
-            return True
+    #     if abs(self.lval_best_prev - self.lval_best) / (1 + abs(self.lval_best)) < self.tol:
+    #         return True
 
-        return False
+    #     return False
 

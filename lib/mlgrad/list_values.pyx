@@ -2,13 +2,13 @@
 
 # The MIT License (MIT)
 
-# Copyright (c) «2015-2021» «Shibzukhov Zaur, szport at gmail dot com»
+# Copyright (c) «2015-2025» «Shibzukhov Zaur, szport at gmail dot com»
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software - recordclass library - and associated documentation files 
-# (the "Software"), to deal in the Software without restriction, including 
-# without limitation the rights to use, copy, modify, merge, publish, distribute, 
-# sublicense, and/or sell copies of the Software, and to permit persons to whom 
+# of this software - recordclass library - and associated documentation files
+# (the "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish, distribute,
+# sublicense, and/or sell copies of the Software, and to permit persons to whom
 # the Software is furnished to do so, subject to the following conditions:
 
 # The above copyright notice and this permission notice shall be included in
@@ -34,37 +34,6 @@ cdef inline Py_ssize_t resize(Py_ssize_t size):
     else:
         return size + (size // 8) + 6
 
-# cdef list_values empty_list(Py_ssize_t size, Py_ssize_t itemsize):
-#     cdef list_values op
-
-#     op = <list_values>list_values.__new__(list_values, None)
-#     op.data = <void*>PyMem_Malloc(size*itemsize)
-#     op.size = op.allocated = size        
-#     return op
-
-# def new_list_values(*args, ):
-#     cdef Py_ssize_t i, size = Py_SIZE(args)
-#     cdef list_values op = <list_values>list_values.__new__(list_values, None)
-#     cdef double *data;
-#     cdef PyObject *v;
-    
-#     op = empty_list(size, )
-#     op.size = op.allocated = size
-#     data = op.data = <double*>PyMem_Malloc(size*sizeof(double))
-#     for i in range(size):
-#         v = PyTuple_GET_ITEM(<PyObject*>args, i)
-#         if Py_TYPE(v) is &PyFloat_Type:
-#             data[i] = PyFloat_AS_double(<object>v);
-#         else:
-#             raise TypeError("This object is not a double")
-
-#     return <list_values>op
-
-# sizeof_double = sizeof(double)
-# sizeof_pdouble = sizeof(double*)
-# sizeof_int = sizeof(int)
-# sizeof_pint = sizeof(int*)
-
 cdef list_double _list_double_from_data(double *data, Py_ssize_t size):
     cdef list_double ld = list_double(size)
     cdef Py_ssize_t i
@@ -79,7 +48,7 @@ cdef list_double _list_double_from_array(double[::1] a):
     return _list_double_from_data(&a[0], a.shape[0])
 
 cdef list_double _list_double_from_list(list lst):
-    cdef Py_ssize_t size = len(lst)
+    cdef Py_ssize_t size = PyList_GET_SIZE(<PyObject*>lst)
     cdef list_double ld = list_double(size)
     cdef Py_ssize_t i
     cdef double *ld_data = ld.data
@@ -108,7 +77,7 @@ cdef class list_double:
     #
     cdef inline double _get(self, Py_ssize_t i):
         return self.data[i]
-
+    #
     cdef inline void _set(self, Py_ssize_t i, double v):
         self.data[i] = v
     #
@@ -195,7 +164,7 @@ cdef class list_double:
         cdef Py_ssize_t i, size = self.size
         cdef double[::1] data
 
-        res = np.empty(size, 'd')
+        res = inventory.empty_array(size)
         data = res
         for i in range(size):
             data[i] = self._get(i)
@@ -297,18 +266,16 @@ cdef class list_int:
     def asarray(self):
         cdef Py_ssize_t i, size = self.size
         cdef int[::1] data
+        cdef numpy.npy_intp[1] dims = (size,)
 
-        res = np.empty(size, 'i')
-        data = res
-        for i in range(size):
-            data[i] = self._get(i)
+        res = numpy.PyArray_SimpleNewFromData(1, dims, numpy.NPY_INT, <void*>self.data)
         return res
     #
     def asmemview(self):
         cdef Py_ssize_t i, size = self.size
         cdef int[::1] data
 
-        res = np.empty(size, 'i')
+        res = inventory.empty_array(size)
         data = res
         for i in range(size):
             data[i] = self._get(i)

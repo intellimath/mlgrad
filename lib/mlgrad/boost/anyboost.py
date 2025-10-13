@@ -19,7 +19,7 @@ class AnyBoostClassification:
                  lossfunc=loss.NegMargin(),
                  H=None,
                  n_retry=3,
-                 shrink=1.0, n_classifier=100, n_failures=30):
+                 shrink=0.1, n_classifier=100, n_failures=30):
         #
         self.func = func
         self.model_factory = model_factory
@@ -28,14 +28,14 @@ class AnyBoostClassification:
         self.n_retry = n_retry
         self.n_classifier = n_classifier
         self.n_failures = n_failures
-        # self.min_weak_learn_score = min_weak_learn_score
         self.H = None
         if H is not None:
             self.H = H
     #
     def weak_learn(self, X, Y, **kw):
         weak_model = self.model_factory(X.shape[1])
-        weak_learner = cls.classification_erm(X, Y, weak_model, self.lossfunc, weights=self.weights, **kw)
+        weak_learner = cls.classification_erm(X, Y, weak_model, self.lossfunc,
+                                              weights=self.weights, **kw)
         return weak_learner
     #
     def weak_margins(self, X, Y):
@@ -45,11 +45,11 @@ class AnyBoostClassification:
         #
         m_vals = self.m_vals
         M_vals = self.M_vals
-        # N = len(M_vals)
+        N = len(M_vals)
         shrink = self.shrink
         #
         def _func_(alpha):
-            return self.func.evaluate_sum(M_vals + alpha * m_vals) + shrink * alpha*alpha
+            return self.func.evaluate_sum(M_vals + alpha * m_vals) / N + shrink * alpha*alpha
         #
         res = minimize_scalar(_func_, (0, 1.))
         if not res.success:
@@ -68,7 +68,7 @@ class AnyBoostClassification:
         weak_model = weak_learner.risk.model
         self.m_vals = Y * weak_model.evaluate(X)
 
-        if self.weights @ self.m_vals <= 0:
+        if (self.weights @ self.m_vals) < 0:
             return False
 
         alpha = self.evaluate_alpha()
@@ -90,7 +90,6 @@ class AnyBoostClassification:
         self.weights = np.ones(N, "d") / N
 
         self.lvals = []
-        # self.wl_lvals = []
 
         n_classifier = self.n_classifier
         n_failures   = self.n_failures

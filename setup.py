@@ -102,13 +102,13 @@ ext_modules = [
         extra_link_args = extra_link_args,
         define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
-    Extension(
-        "mlgrad.array_transform",
-        ["lib/mlgrad/array_transform.pyx"],
-        extra_compile_args = extra_compile_args,
-        extra_link_args = extra_link_args,
-        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
-    ),
+    # Extension(
+    #     "mlgrad.array_transform",
+    #     ["lib/mlgrad/array_transform.pyx"],
+    #     extra_compile_args = extra_compile_args,
+    #     extra_link_args = extra_link_args,
+    #     define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
+    # ),
     Extension(
         "mlgrad.list_values",
         ["lib/mlgrad/list_values.pyx"],
@@ -274,7 +274,7 @@ ext_modules = [
 
 setup(
     name = 'mlgrad',
-    version = '0.7.3',
+    version = '0.7.4',
     description = 'Robust Gradient Methods for Machine Learning & Data Analysis',
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",

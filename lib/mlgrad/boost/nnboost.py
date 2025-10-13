@@ -88,7 +88,7 @@ class AnyBoostRepeated:
     #
     def fit(X, Y):
         N = len(X)
-        self.U = np.zeros((N,self.n_classifier) "d")
+        self.U = np.zeros((N,self.n_classifier), "d")
 
         K = 0
         self.fit_step(X, Y)

@@ -10,15 +10,15 @@ def averaging_function(
              tol=1.0e-8, n_iter=1000, args=None, kwds=None):
     """
     Создание экземпляра класса, реалиазуюего агрегирующую функцию.
-    
+
     Примеры:
-    
+
     # создание сглаженного варианта квантиля с alpha=0.8
     avgfunc = averaging_function('M', funcs.quantile_func(0.8, funcs.Sqrt(0.001)))    
 
     # создание варианта цензурированного среднего  alpha=0.8
     avgfunc = averaging_function('WM', funcs.quantile_func(0.8, funcs.Sqrt(0.001)))
-    
+
     # создание сглаженного варианта цензурированного среднего  alpha=0.8
     avgfunc = averaging_function('SWM', funcs.quantile_func(0.8, funcs.Sqrt(0.001)))
     """

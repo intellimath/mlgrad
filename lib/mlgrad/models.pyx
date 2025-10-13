@@ -276,10 +276,11 @@ cdef class LinearModel(Model):
         cdef double p0 = self.param[0]
         cdef double *param1 = &self.param[1]
         cdef Py_ssize_t n_input = self.n_input
+        cdef double *YY = &Y[0]
 
         for k in range(X.shape[0]):
             # Y[k] = self._evaluate_one(X[k])
-            Y[k] = p0 + inventory._dot(param1, &X[k,0], n_input)
+            YY[k] = p0 + inventory._dot(param1, &X[k,0], n_input)
     #
     cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
         # cdef Py_ssize_t i
@@ -509,7 +510,7 @@ cdef class SimpleComposition(Model):
         inventory._imul_const(&grad_input[0], val, <Py_ssize_t>grad_input.shape[0])
         # for j in range(grad_input.shape[0]):
         #     grad_input[j] *= val * mod.grad_input[j]
-    #        
+    #
     # cdef SimpleComposition _copy(self, bint share):
     #     return SimpleComposition(self.func, self.model)
 
@@ -578,15 +579,14 @@ cdef class ModelComposition(Model):
 
         if ss is None or <Py_ssize_t>ss.shape[0] != n_models:
             ss = self.ss = np.empty(n_models, 'd')
-            
+
         for j in range(n_models):
             # mod = <Model>models[j]
             ss[j] = (<Model>models[j])._evaluate_one(X)
-        
+
         return self.func._evaluate(ss)
     #
     cdef void _gradient_one(self, double[::1] X, double[::1] grad):
-        
         cdef list models = self.models
         cdef Py_ssize_t i, j, n_models = len(self.models)
         cdef Py_ssize_t k, k2
@@ -597,7 +597,7 @@ cdef class ModelComposition(Model):
 
         if ss is None or <Py_ssize_t>ss.shape[0] != n_models:
             ss = self.ss = np.empty(n_models, 'd')
-        
+
         if sx is None or <Py_ssize_t>sx.shape[0] != n_models:
             sx = self.sx = np.empty(n_models, 'd')
         else:
@@ -605,7 +605,7 @@ cdef class ModelComposition(Model):
 
         for j in range(n_models):
             ss[j] = (<Model>models[j])._evaluate_one(X)
-            
+
         self.func.gradient(ss, sx)
 
         k = 0
@@ -620,7 +620,6 @@ cdef class ModelComposition(Model):
             k = k2
 
     cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
-        
         cdef list models = self.models
         cdef Py_ssize_t i, j, n_models = len(self.models)
         cdef Py_ssize_t k, k2
@@ -631,7 +630,7 @@ cdef class ModelComposition(Model):
 
         if ss is None or <Py_ssize_t>ss.shape[0] != n_models:
             ss = self.ss = np.empty(n_models, 'd')
-        
+
         if sx is None or <Py_ssize_t>sx.shape[0] != n_models:
             sx = self.sx = np.empty(n_models, 'd')
         else:
@@ -639,7 +638,7 @@ cdef class ModelComposition(Model):
 
         for j in range(n_models):
             ss[j] = (<Model>models[j])._evaluate_one(X)
-            
+
         self.func.gradient(ss, sx)
 
         inventory._clear(&grad_input[0], grad_input.ahape[0])
@@ -649,11 +648,11 @@ cdef class ModelComposition(Model):
             sx_j = sx[j]
             for i in range(self.n_input):
                 grad_input[i] += sx_j * self.grad_input[i]
-            
+
     cdef void _gradient_j(self, double[::1] X, Py_ssize_t j, double[::1] grad):
         # cdef Py_ssize_t i, m = grad.shape[0]
         cdef double gval
-        
+
         gval = self.func._gradient_j(X, j)
         (<Model>self.models[j])._gradient_one(X, grad)
         inventory._imul_const(&grad[0], gval, <Py_ssize_t>grad.shape[0])
@@ -682,24 +681,22 @@ cdef class ModelComposition_j(Model):
     cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
         raise RuntimeError('not implemented')
 
-        
 cdef class Model2(Regularized):
 
     cdef void _forward(self, double[::1] X):
         pass
     #
-    cdef void gradient_j(self, Py_ssize_t j, double[::1] X, double[::1] grad):
-        pass
-    #
+    # cdef void gradient_j(self, Py_ssize_t j, double[::1] X, double[::1] grad):
+    #     pass
+    # #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         pass
     #
     def copy(self, bint share=0):
         return self._copy(share)
     #
-    
+
 cdef class ModelLayer(Model2):
-    
     # cdef void _forward(self, double[::1] X):
     #     pass
     # #
@@ -1074,11 +1071,51 @@ cdef class GeneralModelLayer(ModelLayer):
         self.n_input = n_input
         self.n_output = 0
         self.n_param = 0
+        self.mod_n_param = 0
         self.param = self.ob_param = None
         self.models = []
         self.grad_input = None
         self.output = None
         self.mask = None
+    #
+    cdef double _evaluate_reg(self):
+        cdef Py_ssize_t i, j
+        cdef Model mod
+        cdef double s = 0
+        cdef Func2 regfunc = self.regfunc
+        cdef double tau = self.tau
+        cdef list models = self.models
+
+        if self.regfunc is None or tau == 0:
+            return 0
+
+        for i in range(self.n_output):
+            mod = <Model>models[i]
+            s += tau * regfunc._evaluate(mod.param)
+        return s
+    #
+    cdef void _gradient_reg(self, double[::1] grad_reg):
+        cdef Py_ssize_t i, k
+        cdef Py_ssize_t n_p = self.mod_n_param
+        cdef Model mod
+        cdef double[::1] _grad_reg
+        cdef Func2 regfunc = self.regfunc
+        cdef double tau = self.tau
+        cdef list models = self.models
+
+        if self.regfunc is None or tau == 0:
+            return
+
+        _grad_reg = inventory.empty_array(n_p)
+
+        inventory.clear(grad_reg)
+        k = 0
+        for i in range(self.n_output):
+            mod = <Model>models[i]
+            regfunc._gradient(mod.param, _grad_reg)
+            inventory.imul_const(_grad_reg, tau)
+            inventory.move(grad_reg[k:k+n_p], _grad_reg)
+            k += n_p
     #
     def _allocate_param(self, allocator):
         """Allocate mod.param and mod.grad for all models"""
@@ -1130,7 +1167,12 @@ cdef class GeneralModelLayer(ModelLayer):
         if self.n_input != mod.n_input:
             raise ValueError("layer.n_input: %s != model.n_input: %s" % (self.n_input, mod.n_input))
         self.models.append(mod)
-        self.n_param += mod.n_param
+        if self.n_input == 0:
+            self.mod_n_param = mod.n_param
+        else:
+            if mod.n_param != self.mod_n_param:
+                raise ValueError("models have different n_param")
+        self.n_param += self.mod_n_param
         self.n_output += 1
     #
     def __getitem__(self, i):
@@ -1177,9 +1219,9 @@ cdef class GeneralModelLayer(ModelLayer):
             #     grad_in[i] += mod_j.grad_input[i] * val_j
         #
     #
-    cdef void gradient_j(self, Py_ssize_t j, double[::1] X, double[::1] grad):        
-        (<Model>self.models[j])._gradient_one(X, grad)
-    #
+    # cdef void gradient_j(self, Py_ssize_t j, double[::1] X, double[::1] grad):
+    #     (<Model>self.models[j])._gradient_one(X, grad)
+    # #
     def as_dict(self):
         models = []
         for mod in self.models:

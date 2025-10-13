@@ -42,6 +42,7 @@ cdef extern from "Python.h":
     cdef int PyIndex_Check(PyObject*)
     cdef PyTypeObject* Py_TYPE(PyObject*)
     cdef PyObject* PyTuple_GET_ITEM(PyObject*, Py_ssize_t)
+    cdef Py_ssize_t PyList_GET_SIZE(PyObject*)
 
     cdef PyTypeObject PyFloat_Type
     ctypedef struct PyTupleObject:
@@ -49,13 +50,7 @@ cdef extern from "Python.h":
     ctypedef struct PyListObject:
         PyObject **ob_item
 
-# cdef list_values empty_list_values(Py_ssize_t size)
-# cdef list_values zeros_list_values(Py_ssize_t size)
-
-# cdef public object sizeof_double
-# cdef public object sizeof_pdouble
-# cdef public object sizeof_int
-# cdef public object sizeof_pint
+cimport mlgrad.inventory as inventory
 
 @cython.no_gc
 cdef class list_double:

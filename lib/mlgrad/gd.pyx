@@ -86,6 +86,7 @@ cdef class GD:
         if self.grad_averager is None:
             self.grad_averager = ArraySave()
         self.grad_averager._init(n_param)
+        # print(self.grad_averager)
 
         # if self.param_transformer is not None:
         #     self.param_transformer.init(n_param)
