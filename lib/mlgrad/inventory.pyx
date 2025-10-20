@@ -1257,7 +1257,7 @@ def relative_abs_max(a, b=None, fix_ends=True):
     _relative_abs_max(&aa[0], &bb[0], n)
     if fix_ends:
         min_b = np.min(b)
-        b[0] = b[-1] = min_b
+        b[0] = b[n-1] = min_b
     return b
 
 def median(a, axis=None, out=None, overwrite_input=False):

@@ -68,7 +68,7 @@ class AnyBoostClassification:
         weak_model = weak_learner.risk.model
         self.m_vals = Y * weak_model.evaluate(X)
 
-        if (self.weights @ self.m_vals) < 0:
+        if (self.weights @ self.m_vals) <= 0:
             return False
 
         alpha = self.evaluate_alpha()

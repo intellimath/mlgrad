@@ -14,17 +14,17 @@ cimport numpy
 cdef extern from "Python.h":
     double PyFloat_GetMax()
     double PyFloat_GetMin()
-    
+
 cdef double double_max
 
 cdef inline void fill_memoryview(double[::1] X, double c):
     cdef int m = X.shape[0]
-    memset(&X[0], 0, m*cython.sizeof(double))    
+    memset(&X[0], 0, m*cython.sizeof(double))
 
 cdef inline void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):
     cdef int i, n=A.shape[0], m=A.shape[1]
     cdef double v
-    
+
     for j in range(n):
         v = 0
         for i in range(m):
@@ -34,7 +34,7 @@ cdef inline void matrix_dot(double[:,::1] A, double[::1] x, double[::1] y):
 cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
     cdef int i, n=A.shape[0], m=A.shape[1]
     cdef double v
-    
+
     for i in range(m):
         v = 0
         for j in range(n):
@@ -50,15 +50,14 @@ cdef class Func2:
     cdef void _gradient_ex(self, double[::1] param, double[::1] grad, double[::1] weights)
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j)
 
-cdef class Func2Layer:
+# cdef class Func2Layer:
+#     cdef void _evaluate(self, double[::1] X, double[::1] Y)
+#     cdef void _gradient(self, double[::1] X, double[::1] Y)
 
-    cdef void _evaluate(self, double[::1] X, double[::1] Y)
-    cdef void _gradient(self, double[::1] X, double[::1] Y)
-    
-cdef class SquareNormLayer(Func2Layer):
-    cdef list funcs
-    cdef list_int starts
-    cdef list_int counts
+# cdef class SquareNormLayer(Func2Layer):
+#     cdef list funcs
+#     cdef list_int starts
+#     cdef list_int counts
 
 @cython.final
 cdef class FuncNorm(Func2):
@@ -70,7 +69,7 @@ cdef class MixedNorm(Func2):
     #
     cdef Func2 func1
     cdef Func2 func2
-    
+
 @cython.final
 cdef class PowerNorm(Func2):
     #

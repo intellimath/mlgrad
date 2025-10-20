@@ -286,11 +286,11 @@ cdef class MRisk(Risk):
         self._evaluate_losses_batch()
         u = self.avg._evaluate(self.L)
         #
+        self.lval = self.avg.u
+        #
         if self.model._is_regularized():
             v = self.model._evaluate_reg()
             self.lval += v
-
-        self.lval = self.avg.u
 
         return self.lval
     #
@@ -360,7 +360,7 @@ cdef class ERisk(Risk):
         else:
             self.use_batch(batch)
 
-        self.weights = np.full(self.n_sample, 1./self.n_sample, np_double)
+        self.weights = np.full(self.n_sample, 1./self.n_sample, "d")
         self.lval = 0
         self.is_natgrad = is_natgrad
     #
@@ -420,7 +420,7 @@ cdef class ERisk(Risk):
             # for i in range(self.n_param):
             #     grad_average[i] += v * grad[i]
 
-        inventory._imul_const(&grad_average[0], 1/W, self.n_param)
+        inventory._imul_const(&grad_average[0], 1./W, self.n_param)
         # for i in range(self.n_param):
         #     grad_average[i] /= W
 

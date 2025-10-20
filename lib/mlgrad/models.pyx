@@ -105,6 +105,9 @@ cdef class BaseModel(Regularized):
         self._evaluate(X, Y)
         return Y
     #
+    def predict(self, X):
+        return self.evaluate(X)
+    #
     def evaluate_all(self, X):
         X = _asarray2d(X)
         Y = inventory.empty_array(X.shape[0])
@@ -350,6 +353,109 @@ cdef class LinearModel(Model):
 @register_model('linear')
 def linear_model_from_dict(ob):
     mod = LinearModel(ob['n_input'])
+    mod.init_from(ob)
+    return mod
+
+cdef class DotModel(Model):
+    __doc__ = """DotModel(param)"""
+    #
+    def __init__(self, o):
+        if type(o) == type(1):
+            self.n_input = o
+            self.n_param = o
+            self.param = self.ob_param = None
+            self.grad = None
+            self.grad_input = None
+            self.param = self.ob_param = None
+            # self.is_allocated = 0
+        else:
+            self.param = self.ob_param = _asarray1d(o)
+            self.param_base = self.param
+            self.n_param = len(self.param)
+            self.n_input = self.n_param
+            self.grad = np.zeros(self.n_param, 'd')
+            self.grad_input = np.zeros(self.n_input, 'd')
+            # self.is_allocated = 1
+        self.mask = None
+    #
+    def __reduce__(self):
+        return DotModel, (self.n_input,)
+    #
+    def __getstate__(self):
+        return self.param
+    #
+    def __setstate__(self, param):
+        self.param = param
+    #
+    def __getnewargs__(self):
+        return (self.n_input,)
+    #
+    cdef double _evaluate_one(self, double[::1] Xk):
+        return inventory._dot(&self.param[0], &Xk[0], self.n_input)
+    #
+    cdef void _evaluate(self, double[:, ::1] X, double[::1] Y):
+        cdef double *param = &self.param[0]
+        cdef Py_ssize_t n_input = self.n_input
+        cdef double *YY = &Y[0]
+
+        for k in range(X.shape[0]):
+            YY[k] = inventory._dot(param, &X[k,0], n_input)
+    #
+    cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
+        inventory._move(&grad[0], &Xk[0], self.n_param)
+    #
+    cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
+        inventory._move(&grad_input[0], &self.param[0], self.n_param)
+    #
+    def copy(self, bint share):
+        cdef DotModel mod = DotModel(self.n_input)
+
+        if share:
+            mod.ob_param = self.ob_param
+            mod.param = self.param
+        else:
+            mod.param = self.param.copy()
+
+        mod.grad = np.zeros(self.n_param, 'd')
+        mod.grad_input = np.zeros(self.n_input, 'd')
+        return mod
+    #
+    def _repr_latex_(self):
+        text = ''
+        m = self.n_param
+        for i in range(m):
+            par = self.param[i]
+            if fabs(par) < display_precision:
+                continue
+            spar = format_double % par
+            if self.param[i] >= 0:
+                text += "+%sx_{%s}" % (spar, i)
+            else:
+                text += "%sx_{%s}" % (spar, i)
+        text = "$y(\mathbf{x})=" + text + "$"
+        return text
+    #
+    def as_dict(self):
+        return { 'name': 'dot',
+                 'param': (list(self.param) if self.param is not None else None), 
+                 'n_input': self.n_input }
+    #
+    def init_from(self, ob):
+        cdef double[::1] param = np.array(ob['param'], 'd')
+        if self.param is None:
+            self.param = param
+        else:
+            self.param[:] = param
+        self.n_param = <Py_ssize_t>param.shape[0]
+        self.n_input = self.n_param
+    #
+    def copy(self):
+        mod = DotModel(self.param)
+        return mod
+
+@register_model('dot')
+def dot_model_from_dict(ob):
+    mod = DotModel(ob['n_input'])
     mod.init_from(ob)
     return mod
 
@@ -758,7 +864,7 @@ cdef class LinearNNModel(Model):
     cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
         cdef Py_ssize_t offset = self.n_hidden*(self.n_input+1)
         cdef double[::1] grad_out = grad[offset:]
-        
+
         self.linear_layer._forward(Xk)
         self.linear_model._gradient_one(self.linear_layer.output, grad_out)
         self.linear_layer._backward(Xk, grad_out, grad[:offset])
@@ -1186,11 +1292,12 @@ cdef class GeneralModelLayer(ModelLayer):
     #
     cdef void _forward(self, double[::1] X):
         cdef Model mod
-        cdef Py_ssize_t j, n_output = self.n_output
+        cdef Py_ssize_t j
+        cdef double[::1] output = self.output
 
         for j in range(self.n_output):
             # mod = <Model>self.models[j]
-            self.output[j] = (<Model>self.models[j])._evaluate_one(X)
+            output[j] = (<Model>self.models[j])._evaluate_one(X)
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Model mod_j
@@ -1432,7 +1539,7 @@ cdef class LinearFuncModel(BaseModel):
     #     self.head.init_from(ob['head'])
     #     self.body.init_from(ob['body'])
     #
-    
+
 cdef class MLModel:
 
     cdef void _forward(self, double[::1] X):
@@ -1529,6 +1636,7 @@ cdef class FFNetworkModel(MLModel):
             if n_output != layer.n_input:
                 raise RuntimeError(f"Previous layer n_output={n_output}, layer n_input={layer.n_input}")
         self.layers.append(layer)
+
         self.n_param += layer.n_param
         self.n_output = layer.n_output
         self.output = layer.output
@@ -1574,7 +1682,6 @@ cdef class FFNetworkModel(MLModel):
             layer._forward(input)
             input = layer.output
             # print(i, np.asarray(layer.output))
-        # self.output = layer.output
         self.is_forward = 1
 
     cdef void _backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):

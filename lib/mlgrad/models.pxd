@@ -104,8 +104,10 @@ cdef class ModelView(Model):
 
 @cython.final
 cdef class LinearModel(Model):
-    #
-    # cdef LinearModel _copy(self, bint share)
+    pass
+
+@cython.final
+cdef class DotModel(Model):
     pass
 
 cdef class LinearModel_Normalized2(Model):
