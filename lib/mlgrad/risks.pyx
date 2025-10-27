@@ -366,7 +366,7 @@ cdef class ERisk(Risk):
     #
     cdef double _evaluate(self):
         cdef Py_ssize_t j, k
-        cdef double S, W, wk
+        cdef double S
 
         cdef double[::1] L = self.L
         cdef double[::1] weights = self.weights
@@ -376,13 +376,10 @@ cdef class ERisk(Risk):
         self._evaluate_losses_batch()
 
         S = 0
-        W = 0
         for j in range(self.batch.size):
             k = indices[j]
             wk = weights[k]
-            S += wk * L[j]
-            W += wk
-        S /= W
+            S += weights[k] * L[j]
 
         if self.model._is_regularized():
             S += self.model._evaluate_reg()
@@ -394,8 +391,8 @@ cdef class ERisk(Risk):
         cdef Model _model = self.model
         cdef Loss _loss = self.loss
 
-        cdef Py_ssize_t i, j, k
-        cdef double v, s, W, wk
+        cdef Py_ssize_t j, k
+        cdef double v
         #
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
@@ -408,21 +405,12 @@ cdef class ERisk(Risk):
         #
         inventory.clear(grad_average)
 
-        W = 0
         for j in range(self.batch.size):
             k = indices[j]
 
             _model._gradient_one(X[k], grad)
-            wk = weights[k]
-            W += wk
-            v = wk * _loss._derivative(Yp[j], Y[k])
+            v = weights[k] * _loss._derivative(Yp[j], Y[k])
             inventory._imul_add(&grad_average[0], &grad[0], v, self.n_param)
-            # for i in range(self.n_param):
-            #     grad_average[i] += v * grad[i]
-
-        inventory._imul_const(&grad_average[0], 1./W, self.n_param)
-        # for i in range(self.n_param):
-        #     grad_average[i] /= W
 
         if self.model._is_regularized():
             self.add_regularized_gradient()
@@ -439,8 +427,8 @@ cdef class ERisk(Risk):
 
 cdef class ERiskGB(Risk):
     #
-    def __init__(self, double[:,::1] X not None, double[::1] Y not None, Model model not None, 
-                 Loss loss=None, Batch batch=None, 
+    def __init__(self, double[:,::1] X not None, double[::1] Y not None, Model model not None,
+                 Loss loss=None, Batch batch=None,
                  alpha=1.0, is_natgrad=0):
 
         self.model = model
@@ -535,7 +523,7 @@ cdef class ERiskGB(Risk):
     #
     cdef void _evaluate_losses_all(self, double[::1] lvals):
         cdef Py_ssize_t j, k
-        cdef double y
+        cdef double yk
         cdef Loss _loss = self.loss
         cdef Model _model = self.model
         cdef double alpha = self.alpha
@@ -545,10 +533,10 @@ cdef class ERiskGB(Risk):
         # cdef double[::1] L = self.L
         cdef double[::1] H = self.H
         # cdef Py_ssize_t N = X.shape[0]
-        
+
         for k in range(self.n_sample):
-            y = H[k] + alpha * _model._evaluate_one(X[k])
-            lvals[k] = _loss._evaluate(y, Y[k])
+            yk = H[k] + alpha * _model._evaluate_one(X[k])
+            lvals[k] = _loss._evaluate(yk, Y[k])
     #
 #     cdef void _evaluate_losses_derivative_div_batch(self):
 #         cdef Py_ssize_t j, k
@@ -564,7 +552,7 @@ cdef class ERiskGB(Risk):
 #         # cdef double[::1] Yp = self.Yp
 #         cdef double[::1] LD = self.LD
 #         cdef double[::1] H = self.H
-        
+
 #         for j in range(self.batch.size):
 #             k = indices[j]
 #             y = H[k] + alpha * _model._evaluate_one(X[k])
@@ -669,21 +657,21 @@ cdef class ERiskGB(Risk):
 
         cdef double[::1] Yp = self.Yp
         cdef double[::1] L = self.L
-        
+
         for j in range(size):
             k = indices[j]
 
             v = _model._evaluate_one(X[k])
             y = H[k] + alpha * v
             ret += _loss._derivative(y, Y[k]) * weights[k] * v
-            
+
         return ret
-                
-    
+
 cdef class ERisk22(Risk):
     #
-    def __init__(self, double[:,::1] X, double[:,::1] Y, MLModel model, MultLoss2 loss,
-                       Batch batch=None, is_natgrad=0):
+    def __init__(self, double[:,::1] X, double[:,::1] Y,
+                MLModel model, MultLoss2 loss,
+                Batch batch=None, is_natgrad=0):
         self.model = model
         self.param = model.param
         self.loss = loss
@@ -700,7 +688,7 @@ cdef class ERisk22(Risk):
             self.batch = WholeBatch(self.n_sample)
         else:
             self.batch = batch
-            
+
         self.L = np.zeros(self.batch.size, 'd')
         self.is_natgrad = is_natgrad
     #
@@ -711,7 +699,7 @@ cdef class ERisk22(Risk):
     #    return self.loss
     #
     cpdef init(self):
-        N = self.n_sample    
+        N = self.n_sample
         self.n_param = self.model.n_param
         self.n_input = self.model.n_input
         self.n_output = self.model.n_output
@@ -733,7 +721,7 @@ cdef class ERisk22(Risk):
 
         if self.weights is None:
             self.weights = np.full((N,), 1./N, np_double)
-        
+
         self.lval = 0
     #
     # cdef void generate_samples(self, X, Y):
@@ -751,7 +739,7 @@ cdef class ERisk22(Risk):
         cdef double[:, ::1] Y = self.Y
         cdef double[::1] output = _model.output
 
-        cdef Py_ssize_t size = self.batch.size 
+        cdef Py_ssize_t size = self.batch.size
         cdef Py_ssize_t[::1] indices = self.batch.indices
         cdef double[::1] L = self.L
 
@@ -843,15 +831,15 @@ cdef class ERisk22(Risk):
 cdef class ERisk2(Risk):
     #
     def __init__(self, double[:,::1] X, double[::1] Y, Model2 model, MultLoss loss,
-                       Func2 regnorm=None, Batch batch=None, is_natgrad=0):
+                       Batch batch=None, is_natgrad=0):
         self.model = model
         self.param = model.param
         self.loss = loss
-        self.regnorm = regnorm
+        # self.regnorm = regnorm
         self.weights = None
         self.grad = None
         self.grad_u = None
-        self.grad_r = None
+        # self.grad_r = None
         self.grad_average = None
         self.X = X
         self.Y = Y
@@ -891,9 +879,9 @@ cdef class ERisk2(Risk):
             self.grad_average = np.zeros(self.n_param, dtype=np_double)
         # print("risk: grad_average", self.grad_average.shape[0])
 
-        if self.regnorm:
-            if self.grad_r is None:
-                self.grad_r = np.zeros(self.n_param, dtype=np_double)
+        # if self.regnorm:
+        #     if self.grad_r is None:
+        #         self.grad_r = np.zeros(self.n_param, dtype=np_double)
 
         if self.weights is None:
             self.weights = np.full((size,), 1./size, np_double)
@@ -913,9 +901,9 @@ cdef class ERisk2(Risk):
         cdef double[::1] Y = self.Y
         cdef double[::1] output = _model.output
 
-        cdef Py_ssize_t size = self.batch.size 
+        cdef Py_ssize_t size = self.batch.size
         cdef Py_ssize_t[::1] indices = self.batch.indices
-        
+
         cdef double[::1] L = self.L
 
         for j in range(size):

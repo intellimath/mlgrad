@@ -189,7 +189,7 @@ cdef class Model(BaseModel):
     def init_param(self, param=None, random=1):
         if param is None:
             if random:
-                r = 1*np.random.random(self.n_param)-0.5
+                r = 0.1*np.random.random(self.n_param)-0.05
             else:
                 r = np.zeros(self.n_param, 'd')
         else:
@@ -233,10 +233,14 @@ cdef class Model(BaseModel):
 cdef class LinearModel(Model):
     __doc__ = """LinearModel(param)"""
     #
-    def __init__(self, o):
+    def __init__(self, o, intercept=1):
+        self.intercept = intercept
         if type(o) == type(1):
             self.n_input = o
-            self.n_param = o + 1
+            if intercept:
+                self.n_param = o + 1
+            else:
+                self.n_param = o
             self.param = self.ob_param = None
             self.grad = None
             self.grad_input = None
@@ -246,7 +250,10 @@ cdef class LinearModel(Model):
             self.param = self.ob_param = _asarray1d(o)
             self.param_base = self.param
             self.n_param = len(self.param)
-            self.n_input = self.n_param - 1
+            if intercept:
+                self.n_input = self.n_param - 1
+            else:
+                self.n_input = self.n_param
             self.grad = np.zeros(self.n_param, 'd')
             self.grad_input = np.zeros(self.n_input, 'd')
             # self.is_allocated = 1
@@ -273,36 +280,49 @@ cdef class LinearModel(Model):
         # for i in range(self.n_input):
         #     v += param[i+1] * X[i]
         # return v
-        return self.param[0] + inventory._dot(&self.param[1], &Xk[0], self.n_input)
+        if self.intercept:
+            return self.param[0] + inventory._dot(&self.param[1], &Xk[0], self.n_input)
+        else:
+            return inventory._dot(&self.param[0], &Xk[0], self.n_input)
     #
     cdef void _evaluate(self, double[:, ::1] X, double[::1] Y):
         cdef double p0 = self.param[0]
-        cdef double *param1 = &self.param[1]
+        cdef double *param
         cdef Py_ssize_t n_input = self.n_input
         cdef double *YY = &Y[0]
 
-        for k in range(X.shape[0]):
-            # Y[k] = self._evaluate_one(X[k])
-            YY[k] = p0 + inventory._dot(param1, &X[k,0], n_input)
+        if self.intercept:
+            param = &self.param[1]
+            for k in range(X.shape[0]):
+                # Y[k] = self._evaluate_one(X[k])
+                YY[k] = p0 + inventory._dot(param, &X[k,0], n_input)
+        else:
+            param = &self.param[0]
+            for k in range(X.shape[0]):
+                # Y[k] = self._evaluate_one(X[k])
+                YY[k] = inventory._dot(param, &X[k,0], n_input)
     #
     cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
         # cdef Py_ssize_t i
 
-        grad[0] = 1.
-        inventory._move(&grad[1], &Xk[0], self.n_input)
-        # for i in range(self.n_input):
-        #     grad[i+1] = X[i]
+        if self.intercept:
+            grad[0] = 1.
+            inventory._move(&grad[1], &Xk[0], self.n_input)
+        else:
+            inventory._move(&grad[0], &Xk[0], self.n_input)
     #
     cdef void _gradient_input(self, double[::1] X, double[::1] grad_input):
         # cdef Py_ssize_t i
-        # cdef double[::1] param = self.param
+        cdef double *param
 
-        inventory._move(&grad_input[0], &self.param[1], self.n_input)
-        # for i in range(self.n_input):
-        #     grad_input[i] = param[i+1]
+        if self.intercept:
+            param = &self.param[1]
+        else:
+            param = &self.param[0]
+        inventory._move(&grad_input[0], param, self.n_input)
     #
     def copy(self, bint share):
-        cdef LinearModel mod = LinearModel(self.n_input)
+        cdef LinearModel mod = LinearModel(self.n_input, self.intercept)
 
         if share:
             mod.ob_param = self.ob_param
@@ -333,18 +353,22 @@ cdef class LinearModel(Model):
         return text
     #
     def as_dict(self):
-        return { 'name': 'linear', 
-                 'param': (list(self.param) if self.param is not None else None), 
+        return { 'name': 'linear',
+                 'param': (list(self.param) if self.param is not None else None),
+                 'intercept': self.intercept,
                  'n_input': self.n_input }
     #
-    def init_from(self, ob):
+    def init_from(self, ob, intercept=1):
         cdef double[::1] param = np.array(ob['param'], 'd')
         if self.param is None:
             self.param = param
         else:
             self.param[:] = param
         self.n_param = <Py_ssize_t>param.shape[0]
-        self.n_input = self.n_param - 1
+        if self.intercept:
+            self.n_input = self.n_param - 1
+        else:
+            self.n_input = self.n_param
     #
     def copy(self):
         mod = LinearModel(self.param)
@@ -352,7 +376,7 @@ cdef class LinearModel(Model):
 
 @register_model('linear')
 def linear_model_from_dict(ob):
-    mod = LinearModel(ob['n_input'])
+    mod = LinearModel(ob['n_input'], ob['intercept'])
     mod.init_from(ob)
     return mod
 
@@ -510,38 +534,33 @@ cdef class SigmaNeuronModel(Model):
         return mod
     #
     cdef double _evaluate_one(self, double[::1] Xk):
-        cdef Py_ssize_t i
+        # cdef Py_ssize_t i
         cdef double s
         cdef double *pp = &self.param[0]
-        cdef double *xx = &Xk[0]
+        # cdef double *xx = &Xk[0]
 
-        s = pp[0]
-        pp += 1
-        for i in range(self.n_input):
-            s += pp[i] * xx[i]
-
-        # s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)
+        s =  pp[0] + inventory._dot(&pp[1], &Xk[0], self.n_input)
         return self.outfunc._evaluate(s)
     #
     cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
-        cdef Py_ssize_t i
+        # cdef Py_ssize_t i
         cdef double *pp = &self.param[0]
-        cdef double *gg = &grad[1]
-        cdef double *xx = &Xk[0]
+        # cdef double *gg = &grad[1]
+        # cdef double *xx = &Xk[0]
         cdef double s, sx
 
-        # s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)
-        s = pp[0]
-        pp += 1
-        for i in range(self.n_input):
-            s += pp[i] * xx[i]
+        s =  pp[0] + inventory._dot(&pp[1], &Xk[0], self.n_input)
+        # s = pp[0]
+        # pp += 1
+        # for i in range(self.n_input):
+        #     s += pp[i] * xx[i]
 
         sx = self.outfunc._derivative(s)
 
-        gg[0] = sx
-        for i in range(self.n_input):
-            gg[i] = xx[i] * sx
-        # inventory._mul_set(&grad[1], &Xk[0], sx, self.n_input)
+        grad[0] = sx
+        # for i in range(self.n_input):
+        #     gg[i] = xx[i] * sx
+        inventory._mul_set(&grad[1], &Xk[0], sx, self.n_input)
     #
     cdef void _gradient_input(self, double[::1] Xk, double[::1] grad_input):
         cdef Py_ssize_t i
@@ -550,18 +569,18 @@ cdef class SigmaNeuronModel(Model):
         cdef double *xx = &Xk[0]
         cdef double s, sx
 
-        # s =  inventory._dot1(&self.param[0], &Xk[0], self.n_input)
-        s = pp[0]
-        pp += 1
-        for i in range(self.n_input):
-            s += pp[i] * xx[i]
+        s =  pp[0] + inventory._dot(pp, &Xk[0], self.n_input)
+        # s = pp[0]
+        # pp += 1
+        # for i in range(self.n_input):
+        #     s += pp[i] * xx[i]
 
         sx = self.outfunc._derivative(s)
 
-        # inventory._mul_set(&grad_input[0], &param[1], sx, self.n_input)
-        pp = &self.param[1]
-        for i in range(self.n_input):
-            gg[i] = pp[i] * sx
+        inventory._mul_set(&grad_input[0], &pp[1], sx, self.n_input)
+        # pp = &self.param[1]
+        # for i in range(self.n_input):
+        #     gg[i] = pp[i] * sx
     #
     def as_dict(self):
         return { 'name': 'sigma_neuron', 
@@ -1269,11 +1288,11 @@ cdef class GeneralModelLayer(ModelLayer):
         layer.grad_input = np.zeros((self.n_input,), 'd')
         return layer
     #
-    def append(self, Model mod):
+    def add(self, Model mod):
         if self.n_input != mod.n_input:
             raise ValueError("layer.n_input: %s != model.n_input: %s" % (self.n_input, mod.n_input))
         self.models.append(mod)
-        if self.n_input == 0:
+        if self.mod_n_param == 0:
             self.mod_n_param = mod.n_param
         else:
             if mod.n_param != self.mod_n_param:

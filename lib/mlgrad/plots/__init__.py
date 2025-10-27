@@ -180,25 +180,26 @@ def plot_sample_weights(alg, label=None, ax=None):
         ax = plt.gca()
     ax.plot(sorted(alg.sample_weights), label=label, marker='o')
 
-def plot_cls_function(mod, X, Y, sorted=False, ax=None):
+def plot_cls_function(mod, X, Y, sorted=False):
     N = len(Y)
     Y_p = mod.evaluate(X)
 
-    if ax is None:
-        ax = plt.gca()
-    
     if sorted:
         I_p = np.argsort(Y_p)
-        ax.scatter(range(len(Y)), Y_p[I_p], c=Y[I_p], s=25)
-    else:        
-        ax.scatter(range(len(Y)), Y_p, c=Y, s=25)
+        cs = plt.scatter(range(len(Y)), Y_p[I_p], c=Y[I_p], s=25)
+    else:
+        cs = plt.scatter(range(len(Y)), Y_p, c=Y, s=25)
 
-    ax.hlines(0, -5, N+5, colors='k', linewidths=0.75)
-    ax.minorticks_on()
-    ax.grid(1)
-    ax.set_xlim(-5, N+5)
-    ax.set_xlabel(r'$k$ (номер точки)')
-    ax.set_ylabel(r'$f(\mathbf{x}_k)$')
+    Y_uniq = np.unique(Y)
+    cb = plt.colorbar(cs)
+    cb.set_ticks(Y_uniq)
+
+    plt.hlines(0, -5, N+5, colors='k', linewidths=0.75)
+    plt.minorticks_on()
+    plt.grid(1)
+    plt.xlim(-5, N+5)
+    plt.xlabel(r'$k$ (номер точки)')
+    plt.ylabel(r'$f(\mathbf{x}_k)$')
     plt.title(r"Распределение значений функции $f(x)$")
 
 def plot_contour(callable, xrange, yrange, offset=[0,0], levels=None, colors='k', linewidths=1.0, linestyles="solid"):
@@ -213,4 +214,14 @@ def plot_contour(callable, xrange, yrange, offset=[0,0], levels=None, colors='k'
     zz = zz.reshape(xx.shape)
     cs = plt.contour(xx+offset[0], yy+offset[1], zz, levels=levels, colors=colors, linewidths=linewidths, linestyles=linestyles)
     plt.clabel(cs, colors=colors)
-    
+
+def draw_line_by_equation(mod, extent):
+    xmin,xmax,ymin,ymax = extent
+    xrange = np.linspace(xmin,xmax,100)
+    yrange = np.linspace(ymin,ymax,100)
+    XX, YY = np.meshgrid(xrange, yrange)
+    XY = np.c_[XX.ravel(), YY.ravel()]
+    Z = mod.evaluate(XY)
+    ZZ = Z.reshape(XX.shape)
+    plt.contour(XX, YY, ZZ, levels=[0], extent=(-1,4,-1.5,1.5),
+                colors='k', linestyles='--')

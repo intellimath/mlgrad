@@ -148,7 +148,7 @@ cdef class ERisk22(Risk):
 
 cdef class ERisk2(Risk):
     cdef readonly Model2 model
-    cdef readonly MultLoss2 loss
+    cdef readonly MultLoss loss
     cdef readonly double[:, ::1] X
     cdef readonly double[::1] Y
     cdef double[::1] grad_u

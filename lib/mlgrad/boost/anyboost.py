@@ -34,8 +34,8 @@ class AnyBoostClassification:
     #
     def weak_learn(self, X, Y, **kw):
         weak_model = self.model_factory(X.shape[1])
-        weak_learner = cls.classification_erm(X, Y, weak_model, self.lossfunc,
-                                              weights=self.weights, **kw)
+        weak_learner = cls.classification(X, Y, weak_model, self.lossfunc,
+                                          weights=self.weights, **kw)
         return weak_learner
     #
     def weak_margins(self, X, Y):

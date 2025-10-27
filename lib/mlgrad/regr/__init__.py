@@ -23,7 +23,7 @@
 # THE SOFTWARE.
 
 import mlgrad.loss as loss
-import mlgrad.funcs as func
+import mlgrad.funcs as funcs
 import mlgrad.gd as gd
 import mlgrad.weights as weights
 from mlgrad.utils import exclude_outliers
@@ -37,7 +37,12 @@ from mlgrad.af import averaging_function, scaling_function
 
 __all__ = 'regression', 'm_regression', 'm_regression_irls', 'r_regression_irls', 'mr_regression_irls'
 
-def regression(Xs, Y, mod, loss_func=None, regnorm=None, *, weights=None, normalizer=None,
+def regression(Xs, Y, mod,
+               loss_func=SquareErrorLoss(), 
+               regnorm=None,
+               *,
+               weights=None,
+               normalizer=None,
                h=0.001, tol=1.0e-6, n_iter=1000, tau=0.001, verbose=0, 
                n_restart=1, init_param=1):
     """\
@@ -51,17 +56,12 @@ def regression(Xs, Y, mod, loss_func=None, regnorm=None, *, weights=None, normal
         normalizer: нормализатор параметров модели
         loss_func: функция потерь.ых на выходе значений
     """
-    if loss_func is None:
-        _loss_func = SquareErrorLoss()
-    else:
-        _loss_func = loss_func
-
     if mod.param is None or init_param:
         mod.init_param()
     if regnorm is not None:
         mod.use_regularizer(regnorm, tau)
 
-    er = erisk(Xs, Y, mod, _loss_func)
+    er = erisk(Xs, Y, mod, loss_func)
     if weights is not None:
         er.use_weights(weights)
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter,
@@ -69,33 +69,27 @@ def regression(Xs, Y, mod, loss_func=None, regnorm=None, *, weights=None, normal
     return alg
 
 def m_regression(Xs, Y, mod,
-                 loss_func=None, agg_func=None, regnorm=None,
-                 h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0, 
+                 loss_func=SquareErrorLoss(),
+                 agg_func=averaging_function('WM'),
+                 regnorm=None,
+                 h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0,
                  n_restart=1, init_param=1):
-
-    if loss_func is None:
-        _loss_func = SquareErrorLoss()
-    else:
-        _loss_func = loss_func
-
-    if agg_func is None:
-        _agg_func = averaging_function('WM')
-    else:
-        _agg_func = agg_func
 
     if mod.param is None:
         mod.init_param()
     if regnorm is not None:
         mod.use_regularizer(regnorm, tau)
 
-    er = erisk(Xs, Y, mod, loss_func, avg=_agg_func)
-    alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose, 
+    er = erisk(Xs, Y, mod, loss_func, avg=agg_func)
+    alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter, verbose=verbose,
                  n_restart=n_restart)
     return alg
 
 def m_regression_irls(Xs, Y, mod,
-                      loss_func=None,
-                      agg_func=None, regnorm=None, 
+                      loss_func=SquareErrorLoss(),
+                      agg_func=averaging_function('WM'),
+                      regnorm=None,
+                      normalizer=None,
                       h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, 
                       verbose=0, init_param=1):
     """\
@@ -105,31 +99,25 @@ def m_regression_irls(Xs, Y, mod,
     Параметр `lossfunc` задает функцию потерь.
     `Xs` и `Y` -- входной двумерный массив и массив ожидаемых значений на выходе.
     """
-    if loss_func is None:
-        _loss_func = SquareErrorLoss()
-    else:
-        _loss_func = loss_func
-
-    if agg_func is None:
-        _agg_func = averaging_function('WM')
-    else:
-        _agg_func = agg_func
-
     if mod.param is None or init_param:
         mod.init_param()
     if regnorm is not None:
         mod.use_regularizer(regnorm, tau)
 
-    er = erisk(Xs, Y, mod, _loss_func)
+    er = erisk(Xs, Y, mod, loss_func)
     alg = fg(er, h=h, tol=tol, n_iter=n_iter)
+    if normalizer is not None:
+        alg.use_normalizer(normalizer)
 
-    irgd = erm_irgd(alg, _agg_func, n_iter=n_iter2, tol=tol2, verbose=verbose)
+    irgd = erm_irgd(alg, agg_func, n_iter=n_iter2, tol=tol2, verbose=verbose)
 
     return irgd
 
-def mr_regression_irls(Xs, Y, mod, 
-                       loss_func=None,
-                       agg_func=None, regnorm=None, 
+def mr_regression_irls(Xs, Y, mod,
+                       loss_func=ErrorLoss(funcs.SoftAbs_Sqrt(0.001)),
+                       agg_func=averaging_function('WM'),
+                       regnorm=None,
+                       normalizer=None,
                        h=0.001, tol=1.0e-9, n_iter=1000,
                        tol2=1.0e-5, n_iter2=22, tau=0.001, 
                        verbose=0, init_param=1):
@@ -139,16 +127,6 @@ def mr_regression_irls(Xs, Y, mod,
     Параметр `lossfunc` задает функцию потерь.
     `Xs` и `Y` -- входной двумерный массив и массив ожидаемых значений на выходе.
     """
-    if loss_func is None:
-        _loss_func = ErrorLoss(funcs.SoftAbs_Sqrt(0.001))
-    else:
-        _loss_func = loss_func
-
-    if agg_func is None:
-        _agg_func = averaging_function('WM')
-    else:
-        _agg_func = agg_func
-    
     if mod.param is None or init_param:
         mod.init_param()
     if regnorm is not None:
@@ -156,18 +134,15 @@ def mr_regression_irls(Xs, Y, mod,
 
     er2 = erisk(Xs, Y, mod, SquareErrorLoss())
     alg = fg(er2, h=h, tol=tol, n_iter=n_iter)
+    if normalizer is not None:
+        alg.use_normalizer(normalizer)
 
-    er = erisk(Xs, Y, mod, _loss_func, regnorm=regnorm, tau=tau)
-    # wt1 = weights.MWeights(_agg_func, er, normalize=0)
-    # wt2 = weights.RWeights(er, normalize=0)
-    
-    # wt = weights.WRWeights(_agg_func, er, normalize=1)
+    # er = erisk(Xs, Y, mod, loss_func, regnorm=regnorm, tau=tau)
+    irgd = erm_irgd(alg, agg_func, n_iter=n_iter2, tol=tol2, verbose=verbose)
 
-    irgd = erm_irgd(alg, _agg_func, n_iter=n_iter2, tol=tol2, verbose=verbose)
-        
     return irgd
 
-def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None, 
+def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None,
                       h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, 
                       verbose=0, init_param=1):
     """\
@@ -179,8 +154,6 @@ def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None,
         _rho_func = funcs.Square()
     else:
         _rho_func = rho_func
-
-    # _agg_func = averaging_function("R", _rho_func)
 
     if mod.param is None or init_param:
         mod.init_param()
