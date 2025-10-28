@@ -38,12 +38,12 @@ from mlgrad.af import averaging_function, scaling_function
 __all__ = 'regression', 'm_regression', 'm_regression_irls', 'r_regression_irls', 'mr_regression_irls'
 
 def regression(Xs, Y, mod,
-               loss_func=SquareErrorLoss(), 
+               loss_func=SquareErrorLoss(),
                regnorm=None,
                *,
                weights=None,
                normalizer=None,
-               h=0.001, tol=1.0e-6, n_iter=1000, tau=0.001, verbose=0, 
+               h=0.001, tol=1.0e-8, n_iter=1000, tau=0.001, verbose=0,
                n_restart=1, init_param=1):
     """\
     Поиск параметров модели для решения задачи регрессии на основе принципа минимизации эмпирического риска.
@@ -58,12 +58,13 @@ def regression(Xs, Y, mod,
     """
     if mod.param is None or init_param:
         mod.init_param()
-    if regnorm is not None:
+    if regnorm is not None or tau != 0:
         mod.use_regularizer(regnorm, tau)
 
     er = erisk(Xs, Y, mod, loss_func)
     if weights is not None:
         er.use_weights(weights)
+
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter,
                  verbose=verbose, n_restart=n_restart, normalizer=normalizer)
     return alg

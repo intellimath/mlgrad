@@ -38,28 +38,6 @@ def erisk(X, Y, mod, loss_func, weights=None, batch=None, avg=None):
         er.use_weights(weights)
     return er
 
-# def mrisk(X, Y, mod, loss_func, avg, regnorm=None, weights=None, tau=0.001, batch=None):
-#     mr = MRisk(X, Y, mod, loss_func, avg, regnorm=regnorm, tau=tau, batch=batch)
-#     if weights is not None:
-#         mr.use_weights(weights)
-#     return mr
-
-# def aerisk(X, Y, mod, loss_func, avr=None, regnorm=None, tau=0.001, batch=None):
-#     er = AER(X, Y, mod, loss_func, avr, regnorm=regnorm, tau=tau, batch=batch)
-#     return er
-
-# def erisk2(X, Y, mod, loss_func, regnorm=None, weights=None, tau=0.001, batch=None):
-#     er = ERisk2(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
-#     if weights is not None:
-#         er.use_weights(weights)
-#     return er
-
-# def erisk22(X, Y, mod, loss_func, regnorm=None, weights=None, tau=0.001, batch=None):
-#     er = ERisk22(X, Y, mod, loss_func, regnorm=regnorm, tau=tau, batch=batch)
-#     if weights is not None:
-#         er.use_weights(weights)
-#     return er
-
 def averager_it(func, tol=1.0e-6, n_iter=1000):
     penalty = PenaltyAverage(func)
     alg = Average_Iterative(penalty, tol=tol, n_iter=n_iter)
@@ -120,12 +98,12 @@ def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None
              normalizer=normalizer)
     for i in range(n_restart):
         alg.fit()
+        if verbose:
+            print("K={} param={}".format(alg.K, np.asarray(er.param)))
         K += alg.K
         if alg.completed:
             break
     alg.K = K
-    if verbose:
-        print("K={} param={}".format(alg.K, er.param.base))
     return alg
 
 def erm_fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None,

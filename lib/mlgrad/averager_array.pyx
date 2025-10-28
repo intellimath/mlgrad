@@ -215,10 +215,19 @@ cdef class ArrayAdaM2(ArrayAverager):
     cdef _init(self, ndim):
         self.beta1_k = 1.
         self.beta2_k = 1.
-        
-        self.mgrad = np.zeros(ndim, dtype='d')    
-        self.vgrad = np.zeros(ndim, dtype='d')    
-        self.array_average = np.zeros(ndim, dtype='d')
+
+        if self.mgrad is None:
+            self.mgrad = np.zeros(ndim, dtype='d')
+        else:
+            inventory.clear(self.mgrad)
+        if self.vgrad is None:
+            self.vgrad = np.zeros(ndim, dtype='d')
+        else:
+            inventory.clear(self.vgrad)
+        if self.array_average is None:
+            self.array_average = np.zeros(ndim, dtype='d')
+        else:
+            inventory.clear(self.array_average)
     #
     cdef _update(self, const double[::1] x, const double h):
         cdef Py_ssize_t i, m = self.mgrad.shape[0]
@@ -229,7 +238,7 @@ cdef class ArrayAdaM2(ArrayAverager):
         cdef double[::1] array_average = self.array_average
         cdef double beta1_k, beta2_k
         cdef double epsilon = self.epsilon
-    
+
         self.beta1_k *= beta1
         self.beta2_k *= beta2
         # self.beta1_k += 1

@@ -217,8 +217,8 @@ def plot_contour(callable, xrange, yrange, offset=[0,0], levels=None, colors='k'
 
 def draw_line_by_equation(mod, extent):
     xmin,xmax,ymin,ymax = extent
-    xrange = np.linspace(xmin,xmax,100)
-    yrange = np.linspace(ymin,ymax,100)
+    xrange = np.linspace(xmin,xmax,101)
+    yrange = np.linspace(ymin,ymax,101)
     XX, YY = np.meshgrid(xrange, yrange)
     XY = np.c_[XX.ravel(), YY.ravel()]
     Z = mod.evaluate(XY)

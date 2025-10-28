@@ -839,7 +839,7 @@ cdef class ERisk2(Risk):
         self.weights = None
         self.grad = None
         self.grad_u = None
-        # self.grad_r = None
+        self.grad_r = None
         self.grad_average = None
         self.X = X
         self.Y = Y
@@ -879,9 +879,8 @@ cdef class ERisk2(Risk):
             self.grad_average = np.zeros(self.n_param, dtype=np_double)
         # print("risk: grad_average", self.grad_average.shape[0])
 
-        # if self.regnorm:
-        #     if self.grad_r is None:
-        #         self.grad_r = np.zeros(self.n_param, dtype=np_double)
+        if self.model._is_regularized():
+            self.grad_r = np.zeros(self.n_param, np_double)
 
         if self.weights is None:
             self.weights = np.full((size,), 1./size, np_double)

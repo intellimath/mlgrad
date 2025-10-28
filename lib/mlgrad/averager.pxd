@@ -2,6 +2,7 @@
 
 cimport cython
 from libc.string cimport memcpy
+cimport mlgrad.inventory as inventory
 
 # def _get_scalar_averager(str name)
 # def _get_averager(str name)

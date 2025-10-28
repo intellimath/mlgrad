@@ -982,7 +982,8 @@ cdef class LinearLayer(ModelLayer):
     #     return layer
     #
     cdef void _forward(self, double[::1] X):
-        cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t n
+        _input = self.n_input
         cdef Py_ssize_t j
         cdef double[::1] output = self.output
         cdef double[:,::1] matrix = self.matrix
@@ -991,7 +992,7 @@ cdef class LinearLayer(ModelLayer):
         # for j in prange(self.n_output, nogil=True, schedule='static', 
         #                 num_threads=inventory.get_num_threads_ex(self.n_output)):
         for j in range(self.n_output):
-            output[j] = inventory._dot1(&matrix[j,0], &X[0], n_input)
+            output[j] = inventory._dot1(&matrix[j,0], &X[0], self.n_input)
     #
     cdef void _backward(self, double[::1] Xk, double[::1] grad_out, double[::1] grad):
         cdef Py_ssize_t i, j
@@ -1202,6 +1203,8 @@ cdef class GeneralModelLayer(ModelLayer):
         self.grad_input = None
         self.output = None
         self.mask = None
+        self.regfunc = None
+        self.tau = 0
     #
     cdef double _evaluate_reg(self):
         cdef Py_ssize_t i, j
@@ -1291,12 +1294,12 @@ cdef class GeneralModelLayer(ModelLayer):
     def add(self, Model mod):
         if self.n_input != mod.n_input:
             raise ValueError("layer.n_input: %s != model.n_input: %s" % (self.n_input, mod.n_input))
-        self.models.append(mod)
         if self.mod_n_param == 0:
             self.mod_n_param = mod.n_param
         else:
             if mod.n_param != self.mod_n_param:
                 raise ValueError("models have different n_param")
+        self.models.append(mod)
         self.n_param += self.mod_n_param
         self.n_output += 1
     #
@@ -1315,13 +1318,14 @@ cdef class GeneralModelLayer(ModelLayer):
         cdef double[::1] output = self.output
 
         for j in range(self.n_output):
-            # mod = <Model>self.models[j]
-            output[j] = (<Model>self.models[j])._evaluate_one(X)
+            mod = <Model>self.models[j]
+            output[j] = mod._evaluate_one(X)
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         cdef Model mod_j
         cdef Py_ssize_t i, j, k, n_param_j
         cdef double val_j
+        cdef double[::1] grad_j
         # cdef Py_ssize_t n_output = self.n_output
         # cdef double[::1] grad_in = self.grad_input
 
@@ -1332,8 +1336,9 @@ cdef class GeneralModelLayer(ModelLayer):
             mod_j = <Model>self.models[j]
             n_param_j = mod_j.n_param
             if n_param_j > 0:
-                mod_j._gradient_one(X, mod_j.grad)
-                inventory._mul_set(&grad[k], &mod_j.grad[0], val_j, n_param_j)
+                grad_j = grad[k:k+n_param_j]
+                mod_j._gradient_one(X, grad_j)
+                inventory._imul_const(&grad_j[0], val_j, n_param_j)
                 k += n_param_j
                 # for i in range(n_param_j):
                 #     grad[k] = mod_j.grad[i] * val_j
@@ -1673,18 +1678,18 @@ cdef class FFNetworkModel(MLModel):
     #     cdef FFNetworkModel ml = FFNetworkModel()
     #     cdef ModelLayer layer
     #     cdef Py_ssize_t n_layer
-        
+    #
     #     ml.param = self.param
     #     ml.n_param = self.n_param
     #     ml.n_input = self.n_input
     #     ml.n_output = self.n_output
     #     for layer in self.layers:
     #         ml.layers.append(layer.copy(share))
-        
+    #
     #     n_layer = len(ml.layers)
     #     layer = ml.layers[n_layer-1]
     #     ml.output = layer.output
-            
+    #
     #     return ml
     #
     cdef void _forward(self, double[::1] X):
