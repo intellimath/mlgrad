@@ -73,6 +73,7 @@ cdef class MixedNorm(Func2):
 @cython.final
 cdef class PowerNorm(Func2):
     #
+    cdef Py_ssize_t offset
     cdef double p
     #
 

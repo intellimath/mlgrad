@@ -230,11 +230,12 @@ cdef class FuncNorm(Func2):
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_{%s}^{%s}=\sum_{i=0}^n w_i^{%s}$" % (self.p, self.p, self.p)
 
-@cython.final    
+@cython.final
 cdef class PowerNorm(Func2):
-    
-    def __init__(self, p=2.0):
+    #
+    def __init__(self, p=2.0, offset=0):
         self.p = p
+        self.offset = offset
 #         self.all = all
     #
     @cython.final
@@ -244,7 +245,7 @@ cdef class PowerNorm(Func2):
         cdef double* X_ptr = &X[0]
         cdef double* Y_ptr = &Y[0]
 
-        for i in range(X.shape[0]):
+        for i in range(self.offset, X.shape[0]):
             v = X_ptr[i]
             if v >= 0:
                 Y_ptr[i] = pow(v, p) / p
@@ -258,13 +259,13 @@ cdef class PowerNorm(Func2):
         cdef double* X_ptr = &X[0]
 
         s = 0
-        for i in range(X.shape[0]):
+        for i in range(self.offset, X.shape[0]):
             v = X_ptr[i]
             if v >= 0:
                 s += pow(v, p)
             else:
                 s += pow(-v, p)
-        
+
         s /= p
         return s
     #
@@ -276,13 +277,13 @@ cdef class PowerNorm(Func2):
         cdef double* W_ptr = &W[0]
 
         s = 0
-        for i in range(X.shape[0]):
+        for i in range(self.offset, X.shape[0]):
             v = X_ptr[i]
             if v >= 0:
                 s = fma(W_ptr[i], pow(v, p), s)
             else:
                 s = fma(W_ptr[i], pow(-v, p), s)
-        
+
         s /= self.p
         return s
     #
@@ -292,8 +293,8 @@ cdef class PowerNorm(Func2):
         cdef double v, p1 = self.p-1
         cdef double* X_ptr = &X[0]
         cdef double* grad_ptr = &grad[0]
-    
-        for i in range(X.shape[0]):
+
+        for i in range(self.offset, X.shape[0]):
             v = X_ptr[i]
             if v < 0:
                 grad_ptr[i] = -pow(-v, p1)
@@ -307,8 +308,8 @@ cdef class PowerNorm(Func2):
         cdef double* X_ptr = &X[0]
         cdef double* W_ptr = &W[0]
         cdef double* grad_ptr = &grad[0]
-    
-        for i in range(X.shape[0]):
+
+        for i in range(self.offset, X.shape[0]):
             v = X_ptr[i]
             if v < 0:
                 grad_ptr[i] = -W_ptr[i] * pow(-v, p1)
@@ -319,7 +320,7 @@ cdef class PowerNorm(Func2):
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         cdef double v, p1 = self.p-1
         cdef double* X_ptr = &X[0]
-    
+
         v = X_ptr[j]
         if v < 0:
             return -pow(-v, p1)

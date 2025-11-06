@@ -68,7 +68,7 @@ cdef class Regularized:
         self.tau = tau
     #
     cdef bint _is_regularized(self) noexcept nogil:
-        return (self.regfunc is not None)
+        return self.regfunc is not None and self.tau != 0
     #
     cdef double _evaluate_reg(self):
         return self.tau * self.regfunc._evaluate(self.param)
@@ -149,7 +149,6 @@ cdef class BaseModel(Regularized):
         return self._copy(share)
     #
 
-
 cdef class Model(BaseModel):
     #
     def allocate(self):
@@ -218,33 +217,51 @@ cdef class Model(BaseModel):
     #
     def update_param(self, param):
         self.param[:] = param
+    #
+    cdef void _gradient_input2(self, double[::1] X, double[::1] grad):
+        pass
 
-# cdef class ModelView(Model):
+# cdef class Smoothed(Model):
 #     #
-#     def __init__(self, Model model):
-#         self.model = model
+#     def use_smoother(self, Func2 smoothfunc, double tau):
+#         self.smoothfunc = smoothfunc
+#         self.tau2 = tau
 #     #
-#     cdef double _evaluate_one(self, double[::1] X):
-#         return self.model._evaluate_one(X)
+#     cdef bint _is_smoothed(self) noexcept nogil:
+#         return (self.smoothfunc is not None and self.tau2 != 0)
 #     #
-#     cdef void _gradient_one(self, double[::1] X, double[::1] grad):
-#         self.model._gradient_one(X, grad)
+#     cdef double _evaluate_smooth(self, double[::1] Xk):
+#         self.gradient_input(Xk, self.grad_input)
+#         return self.tau2 * self.smoothfunc._evaluate(self.grad_input)
+#     #
+#     cdef void _gradient_smooth(self, double[::1] Xk, double[::1] smooth_grad):
+#         self.gradient_input(Xk, self.grad_input)
+#         self.smoothfunc._gradient(self.grad_input, smooth_grad)
+#         inventory.imul_const(smooth_grad, self.tau2)
+#     #
+#     def evaluate_smooth(self):
+#         return self._evaluate_smooth()
+#     #
+#     def gradient_smooth(self):
+#         smooth_grad = inventory.empty_array(self.n_input)
+#         self._gradient_smooth(smooth_grad)
+#         return smooth_grad
 
 cdef class LinearModel(Model):
     __doc__ = """LinearModel(param)"""
     #
     def __init__(self, o, intercept=1):
-        self.intercept = intercept
+        self.has_intercept = intercept
         if type(o) == type(1):
             self.n_input = o
             if intercept:
                 self.n_param = o + 1
             else:
                 self.n_param = o
-            self.param = self.ob_param = None
+            self.param = None
+            self.ob_param = None
             self.grad = None
             self.grad_input = None
-            self.param = self.ob_param = None
             # self.is_allocated = 0
         else:
             self.param = self.ob_param = _asarray1d(o)
@@ -258,6 +275,9 @@ cdef class LinearModel(Model):
             self.grad_input = np.zeros(self.n_input, 'd')
             # self.is_allocated = 1
         self.mask = None
+        #
+        self.regfunc = None
+        self.tau = 0
     #
     def __reduce__(self):
         return LinearModel, (self.n_input,)
@@ -272,15 +292,7 @@ cdef class LinearModel(Model):
         return (self.n_input,)
     #
     cdef double _evaluate_one(self, double[::1] Xk):
-        # cdef Py_ssize_t i, n = self.n_input
-        # cdef double v
-        # cdef double[::1] param = self.param
-
-        # v = param[0]
-        # for i in range(self.n_input):
-        #     v += param[i+1] * X[i]
-        # return v
-        if self.intercept:
+        if self.has_intercept:
             return self.param[0] + inventory._dot(&self.param[1], &Xk[0], self.n_input)
         else:
             return inventory._dot(&self.param[0], &Xk[0], self.n_input)
@@ -291,7 +303,7 @@ cdef class LinearModel(Model):
         cdef Py_ssize_t n_input = self.n_input
         cdef double *YY = &Y[0]
 
-        if self.intercept:
+        if self.has_intercept:
             param = &self.param[1]
             for k in range(X.shape[0]):
                 # Y[k] = self._evaluate_one(X[k])
@@ -305,7 +317,7 @@ cdef class LinearModel(Model):
     cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
         # cdef Py_ssize_t i
 
-        if self.intercept:
+        if self.has_intercept:
             grad[0] = 1.
             inventory._move(&grad[1], &Xk[0], self.n_input)
         else:
@@ -315,14 +327,24 @@ cdef class LinearModel(Model):
         # cdef Py_ssize_t i
         cdef double *param
 
-        if self.intercept:
+        if self.has_intercept:
             param = &self.param[1]
         else:
             param = &self.param[0]
         inventory._move(&grad_input[0], param, self.n_input)
     #
+    cdef void _gradient_input2(self, double[::1] X, double[::1] grad):
+        cdef double *G
+
+        if self.has_intercept:
+            grad[0] = 0
+            G = &grad[1]
+        else:
+            G = &grad[0]
+        inventory._fill(G, 1, self.n_input)
+    #
     def copy(self, bint share):
-        cdef LinearModel mod = LinearModel(self.n_input, self.intercept)
+        cdef LinearModel mod = LinearModel(self.n_input, self.has_intercept)
 
         if share:
             mod.ob_param = self.ob_param
@@ -355,7 +377,7 @@ cdef class LinearModel(Model):
     def as_dict(self):
         return { 'name': 'linear',
                  'param': (list(self.param) if self.param is not None else None),
-                 'intercept': self.intercept,
+                 'has_intercept': self.has_intercept,
                  'n_input': self.n_input }
     #
     def init_from(self, ob, intercept=1):
@@ -365,7 +387,7 @@ cdef class LinearModel(Model):
         else:
             self.param[:] = param
         self.n_param = <Py_ssize_t>param.shape[0]
-        if self.intercept:
+        if self.has_intercept:
             self.n_input = self.n_param - 1
         else:
             self.n_input = self.n_param
@@ -376,7 +398,7 @@ cdef class LinearModel(Model):
 
 @register_model('linear')
 def linear_model_from_dict(ob):
-    mod = LinearModel(ob['n_input'], ob['intercept'])
+    mod = LinearModel(ob['n_input'], ob['has_intercept'])
     mod.init_from(ob)
     return mod
 
@@ -545,47 +567,47 @@ cdef class SigmaNeuronModel(Model):
     cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
         # cdef Py_ssize_t i
         cdef double *pp = &self.param[0]
-        # cdef double *gg = &grad[1]
-        # cdef double *xx = &Xk[0]
         cdef double s, sx
 
         s =  pp[0] + inventory._dot(&pp[1], &Xk[0], self.n_input)
-        # s = pp[0]
-        # pp += 1
-        # for i in range(self.n_input):
-        #     s += pp[i] * xx[i]
-
         sx = self.outfunc._derivative(s)
 
         grad[0] = sx
-        # for i in range(self.n_input):
-        #     gg[i] = xx[i] * sx
         inventory._mul_set(&grad[1], &Xk[0], sx, self.n_input)
     #
     cdef void _gradient_input(self, double[::1] Xk, double[::1] grad_input):
-        cdef Py_ssize_t i
+        # cdef Py_ssize_t i
         cdef double *pp = &self.param[0]
         cdef double *gg = &grad_input[0]
         cdef double *xx = &Xk[0]
         cdef double s, sx
 
         s =  pp[0] + inventory._dot(pp, &Xk[0], self.n_input)
-        # s = pp[0]
-        # pp += 1
-        # for i in range(self.n_input):
-        #     s += pp[i] * xx[i]
-
         sx = self.outfunc._derivative(s)
 
         inventory._mul_set(&grad_input[0], &pp[1], sx, self.n_input)
-        # pp = &self.param[1]
-        # for i in range(self.n_input):
-        #     gg[i] = pp[i] * sx
+    #
+    cdef void _gradient_input2(self, double[::1] Xk, double[::1] grad):
+        cdef double *pp = &self.param[0]
+        cdef double *gg = &grad[0]
+        cdef double *xx = &Xk[0]
+        cdef double s, sx
+
+        s =  pp[0] + inventory._dot(pp, &Xk[0], self.n_input)
+        sx = self.outfunc._derivative(s)
+
+        if self._has_intercept:
+            grad[0] = 0
+            G = &grad[1]
+        else:
+            G = &grad[0]
+
+        inventory._fill(G, sx, self.n_input)
     #
     def as_dict(self):
-        return { 'name': 'sigma_neuron', 
+        return { 'name': 'sigma_neuron',
                  'func': self.outfunc.to_dict(),
-                 'param': (list(self.param) if self.param is not None else None), 
+                 'param': (list(self.param) if self.param is not None else None),
                  'n_input': self.n_input }
     #
     def init_from(self, ob):
@@ -1017,7 +1039,7 @@ cdef class LinearLayer(ModelLayer):
             inventory._mul_set1(&grad[j * (n_input+1)], &Xk[0], grad_out[j], n_input)
 
         # num_threads = inventory.get_num_threads_ex(self.n_input)
-        # for i in prange(self.n_input, nogil=True, schedule='static', 
+        # for i in prange(self.n_input, nogil=True, schedule='static',
         #                 num_threads=num_threads):
         for i in range(n_input):
             grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input+1)
@@ -1028,13 +1050,16 @@ cdef class LinearLayer(ModelLayer):
             #     W += n_input
             # grad_in[i] = s
     #
+    cdef bint _is_regularized(self) noexcept nogil:
+        if self.regfunc is None:
+            return 0
+        else:
+            return 1
+    #
     cdef double _evaluate_reg(self):
         cdef Py_ssize_t i, j
         cdef double[:,::1] matrix
         cdef double s = 0
-
-        if self.regfunc is None:
-            return 0
 
         matrix = self.matrix
 
@@ -1048,18 +1073,16 @@ cdef class LinearLayer(ModelLayer):
         cdef double[:,::1] matrix
         cdef double[::1] _grad_reg
 
-        if self.regfunc is None:
-            return
-
         matrix = self.matrix
         _grad_reg = inventory.empty_array(n_p)
 
-        inventory.clear(grad_reg)
+        # inventory.clear(grad_reg)
         k = 0
         for i in range(self.n_output):
             self.regfunc._gradient(self.matrix[i], _grad_reg)
-            inventory.imul_const(_grad_reg, self.tau)
-            inventory.move(grad_reg[k:k+n_p], _grad_reg)
+            inventory._imul_const(&_grad_reg[0], self.tau, n_p)
+            # inventory.move(grad_reg[k:k+n_p], _grad_reg)
+            inventory._move(&grad_reg[k], &_grad_reg[0], n_p)
             k += n_p
     #
     def as_dict(self):
@@ -1127,6 +1150,8 @@ cdef class ScaleLayer(ModelLayer):
     cdef void _gradient_reg(self, double[::1] grad_reg):
         pass
     #
+    cdef bint _is_regularized(self) noexcept nogil:
+        return 0
 
 @cython.final
 cdef class Scale2Layer(ModelLayer):
@@ -1774,12 +1799,12 @@ cdef class FFNetworkFuncModel(Model):
         ffnm_allocator = allocator.suballocator()
         if self.head.n_param > 0:
             self.head._allocate_param(ffnm_allocator)
-        
+
         self.body._allocate_param(ffnm_allocator)
-        
+
         self.param = self.ob_param = ffnm_allocator.get_allocated()
         ffnm_allocator.close()
-        
+
         self.n_param = len(self.param)
         #print("NN", allocator)
     #

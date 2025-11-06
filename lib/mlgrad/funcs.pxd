@@ -140,6 +140,10 @@ cdef class Sigmoidal(Func):
     cdef public double p
 
 @cython.final
+cdef class DOOM(Func):
+    cdef public double p
+
+@cython.final
 cdef class ModSigmoidal(Func):
     cdef public double a
 
@@ -188,7 +192,7 @@ cdef class SquareSigned(Func):
     pass
 
 @cython.final
-cdef class Absolute(Func):
+cdef class Abs(Func):
     pass
 
 @cython.final

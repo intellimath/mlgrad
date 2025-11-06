@@ -43,7 +43,7 @@ def regression(Xs, Y, mod,
                *,
                weights=None,
                normalizer=None,
-               h=0.001, tol=1.0e-8, n_iter=1000, tau=0.001, verbose=0,
+               h=0.001, tol=1.0e-6, n_iter=1000, tau=0.001, verbose=0,
                n_restart=1, init_param=1):
     """\
     Поиск параметров модели для решения задачи регрессии на основе принципа минимизации эмпирического риска.
@@ -54,7 +54,7 @@ def regression(Xs, Y, mod,
         regnorm: регуляризатор
         weights: объект для вычисления весов
         normalizer: нормализатор параметров модели
-        loss_func: функция потерь.ых на выходе значений
+        loss_func: функция потерь
     """
     if mod.param is None or init_param:
         mod.init_param()

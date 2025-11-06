@@ -45,6 +45,7 @@ cdef inline Model as_model(object o):
     return <Model>(<PyObject*>o)
 
 cdef class Regularized:
+    cdef double[::1] grad_reg
     cdef readonly Func2 regfunc
     cdef readonly double tau
 
@@ -74,14 +75,12 @@ cdef class Model(BaseModel):
     #
     cdef public double[::1] grad_input
     # cdef bint is_allocated
-
-    # cpdef init_param(self, param=*, bint random=*)
     #
     cdef _update_param(self, double[::1] param)
+    cdef void _gradient_input2(self, double[::1] X, double[::1] grad)
 
 cdef class ModelComposition(Model):
     #
-    # cdef Py_ssize_t n_input
     cdef Func2 func
     cdef public list models
     cdef double[::1] ss, sx
@@ -104,7 +103,7 @@ cdef class ModelView(Model):
 
 @cython.final
 cdef class LinearModel(Model):
-    cdef bint intercept
+    cdef public bint has_intercept
 
 @cython.final
 cdef class DotModel(Model):

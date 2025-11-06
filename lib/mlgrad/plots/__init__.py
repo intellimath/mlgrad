@@ -94,7 +94,7 @@ def plot_losses_and_errors(alg, X, Y, fname=None, logscale=False, lang='en'):
     plt.show()
 
 def plot_losses(alg, fname=None, logscale=False, lang='en'):
-    plt.figure(figsize=(6,4))
+    # plt.figure(figsize=(6,4))
     if lang == 'en':
         plt.title('Losses curve')
         plt.xlabel('step')
@@ -129,7 +129,7 @@ def plot_errors(mod, Xs, Y, fname=None, lang='en', ax=None):
     ax.minorticks_on()
     if fname:
         plt.savefig(fname)
-    
+
 def plot_errors_hist(mod, X, Y, fname=None, lang='en', hist=False, bins=20, 
                      density=False, ax=None):
     import numpy as np
@@ -225,3 +225,14 @@ def draw_line_by_equation(mod, extent):
     ZZ = Z.reshape(XX.shape)
     plt.contour(XX, YY, ZZ, levels=[0], extent=(-1,4,-1.5,1.5),
                 colors='k', linestyles='--')
+
+def plot_array_vlines(P, y0=0, colors=None):
+    # P += y0
+    N = len(P)
+    I_m = P>0; P_m = P.copy(); P_m[I_m] = 0
+    I_p = P<0; P_p = P.copy(); P_p[I_p] = 0
+    plt.hlines(y0, 0, N, colors="gray", linewidths=0.75, linestyles='--')
+    plt.vlines(range(N), P_m+y0, P_p+y0, colors=colors)
+    ax = plt.gca()
+    ax.minorticks_on()
+

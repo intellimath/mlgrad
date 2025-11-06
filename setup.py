@@ -19,8 +19,8 @@ is_linux = (platform.system() == 'Linux')
 print(f"platform: {platform_system}")
 
 
-optimize = True
-native   = True
+optimize = False
+native   = False
 if optimize:
     if is_windows:
         Oflag = ["/O2", "/arch:AVX2"]
@@ -59,7 +59,7 @@ cython_compiler_directives1 = dict(
     nonecheck=True,
     embedsignature=True,
     initializedcheck=True,
-    unraisable_tracebacks=True,  
+    unraisable_tracebacks=True,
 )
 cython_compiler_directives2 = dict(
     language_level='3',
@@ -68,7 +68,7 @@ cython_compiler_directives2 = dict(
     nonecheck=False,
     embedsignature=True,
     initializedcheck=False,
-    unraisable_tracebacks=True,  
+    unraisable_tracebacks=True,
 )
 
 Options._directive_defaults.update(cython_compiler_directives2)
