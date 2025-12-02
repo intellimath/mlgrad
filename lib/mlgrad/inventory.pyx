@@ -195,7 +195,7 @@ cdef void _move_t(double *to, const double *src, const Py_ssize_t n, const Py_ss
     for i in range(n):
         to[i] = src[j]
         j += step
-    
+
 cdef void _move(double *to, const double *src, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     for i in range(n):
@@ -203,13 +203,13 @@ cdef void _move(double *to, const double *src, const Py_ssize_t n) noexcept nogi
 
 cdef void move(double[::1] to, double[::1] src) noexcept nogil:
     _move(&to[0], &src[0], to.shape[0])
-    
+
 cdef void move2(double[:, ::1] to, double[:,::1] src) noexcept nogil:
     _move(&to[0,0], &src[0,0], to.shape[0] * to.shape[1])
 
 cdef void move3(double[:,:,::1] to, double[:,:,::1] src) noexcept nogil:
     _move(&to[0,0,0], &src[0,0,0], to.shape[0] * to.shape[1] * to.shape[2])
-    
+
 cdef void _add(double *c, const double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
@@ -218,7 +218,6 @@ cdef void _add(double *c, const double *a, const double *b, const Py_ssize_t n) 
 
 cdef void add(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
     _add(&c[0], &a[0], &b[0], a.shape[0])
-        
 
 cdef void _iadd(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
@@ -1368,50 +1367,50 @@ def robust_mean_2d_t(x, tau):
     _robust_mean_2d_t(_asarray(x), tau, y)
     return y
 
-# cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil:
-#     cdef Py_ssize_t i, j
-#     cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
-#     cdef double s, loc_i, loc_j
-#     #
-#     for i in range(n):
-#         loc_i = loc[i]
-#         for j in range(n):
-#             loc_j = loc[j]
-#             s = 0
-#             for k in range(N):
-#                 s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
-#             S[i,j] = s / N
+cdef void _covariance_matrix(double[:, ::1] X, double[::1] loc, double[:,::1] S) noexcept nogil:
+    cdef Py_ssize_t i, j
+    cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
+    cdef double s, loc_i, loc_j
+    #
+    for i in range(n):
+        loc_i = loc[i]
+        for j in range(n):
+            loc_j = loc[j]
+            s = 0
+            for k in range(N):
+                s += (X[k,i] - loc_i) * (X[k,j] - loc_j)
+            S[i,j] = s / N
 
-# def covariance_matrix(X, loc=None, S=None):
-#     X = _asarray(X)
-#     n = X.shape[1]
-#     if S is None:
-#         S = empty_array2(n, n)
-#     else:
-#         S = _asarray(S)
-#         if S.shape[0] != n and S.shape[1] != n:
-#             raise TypeError(f"ivalid shape of S: {S.shape}")
-#     if loc is None:
-#         loc = zeros_array(n)
-#     else:
-#         loc = _asarray(loc)
-#     _covariance_matrix(X, loc, S)
-#     return S
+def covariance_matrix(X, loc=None, S=None):
+    X = _asarray(X)
+    n = X.shape[1]
+    if S is None:
+        S = empty_array2(n, n)
+    else:
+        S = _asarray(S)
+        if S.shape[0] != n and S.shape[1] != n:
+            raise TypeError(f"ivalid shape of S: {S.shape}")
+    if loc is None:
+        loc = zeros_array(n)
+    else:
+        loc = _asarray(loc)
+    _covariance_matrix(X, loc, S)
+    return S
 
-# cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
-#                                       double[::1] loc, double[:,::1] S) noexcept nogil:
-#     cdef Py_ssize_t i, j
-#     cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
-#     cdef double s, loc_i, loc_j
-#     #
-#     for i in range(n):
-#         loc_i = loc[i]
-#         for j in range(n):
-#             loc_j = loc[j]
-#             s = 0
-#             for k in range(N):
-#                 s += W[k] * (X[k,i] - loc_i) * (X[k,j] - loc_j)
-#             S[i,j] = s
+cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
+                                      double[::1] loc, double[:,::1] S) noexcept nogil:
+    cdef Py_ssize_t i, j
+    cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
+    cdef double s, loc_i, loc_j
+    #
+    for i in range(n):
+        loc_i = loc[i]
+        for j in range(n):
+            loc_j = loc[j]
+            s = 0
+            for k in range(N):
+                s += W[k] * (X[k,i] - loc_i) * (X[k,j] - loc_j)
+            S[i,j] = s
 
 # cdef void _covariance_matrix_weighted(
 #             double *X, const double *W, const double *loc, double *S, 
@@ -1442,22 +1441,22 @@ def robust_mean_2d_t(x, tau):
 #             S_j += n
 #         S_i += n
             
-# def covariance_matrix_weighted(X, W, loc=None, S=None):
-#     X = _asarray(X)
-#     n = X.shape[1]
-#     W = _asarray(W)
-#     if S is None:
-#         S = empty_array2(n, n)
-#     else:
-#         S = _asarray(S)
-#         if S.shape[0] != n and S.shape[1] != n:
-#             raise TypeError(f"ivalid shape of S: {S.shape}")
-#     if loc is None:
-#         loc = zeros_array(n)
-#     else:
-#         loc = _asarray(loc)
-#     _covariance_matrix_weighted(X, W, loc, S)
-#     return S
+def covariance_matrix_weighted(X, W, loc=None, S=None):
+    X = _asarray(X)
+    n = X.shape[1]
+    W = _asarray(W)
+    if S is None:
+        S = empty_array2(n, n)
+    else:
+        S = _asarray(S)
+        if S.shape[0] != n and S.shape[1] != n:
+            raise TypeError(f"ivalid shape of S: {S.shape}")
+    if loc is None:
+        loc = zeros_array(n)
+    else:
+        loc = _asarray(loc)
+    _covariance_matrix_weighted(X, W, loc, S)
+    return S
 
 cdef class RingArray:
     #
@@ -1574,3 +1573,19 @@ def array_bounds(a, pad=0.1):
         pad: доля от минимиального и максимального значения, которые будут добавляться слева к `min(a)` и справа к `max(a)`, соответственно.
     """
     return scale_min(a.min(), pad), scale_max(a.max(), pad)
+
+cdef _sqrt_array(double *xx, double *yy, Py_ssize_t n):
+    cdef Py_ssize_t i
+
+    for i in range(n):
+        yy[i] = sqrt(xx[i])
+
+def sqrt_array(X):
+    cdef double[::1] xx = X
+    cdef Py_ssize_t i, n = xx.shape[0]
+    cdef double[::1] yy
+
+    Y = empty_array(n)
+    yy = Y
+    _sqrt_array(&xx[0], &yy[0], n)
+    return Y

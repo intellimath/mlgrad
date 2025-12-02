@@ -111,6 +111,15 @@ cdef class Func(object):
         self._derivative_array(&x[0], &y[0], n)
         return o
     #
+    def derivative2_array(self, double[::1] x):
+        cdef Py_ssize_t n = x.shape[0]
+        cdef double[::1] y
+
+        o = inventory.empty_array(n)
+        y = o
+        self._derivative2_array(&x[0], &y[0], n)
+        return o
+    #
     def derivative_weighted_sum(self, double[::1] x, double[::1] w):
         cdef Py_ssize_t n = x.shape[0]
         cdef double[::1] y = np.empty_array(n)

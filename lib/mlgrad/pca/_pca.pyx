@@ -1,4 +1,4 @@
-# coding: utf-8 
+# coding: utf-8
 
 # The MIT License (MIT)
 #
@@ -42,7 +42,7 @@ cdef double _S_norm(double[:,::1] S, double[::1] a) noexcept nogil:
             s += a_i * S_i[j] * aa[j]
     return s
 
-cpdef _find_pc(double[:,::1] S, double[::1] a0 = None, 
+cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
                Py_ssize_t n_iter=1000, double tol=1.0e-5, bint verbose=0):
 
     cdef Py_ssize_t i, j, n = S.shape[0]
@@ -54,7 +54,7 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
     cdef double *SS_i
     cdef double na, s, v
     cdef double L, L_prev
-    
+
     if a0 is None:
         a = np.random.random(S.shape[0])
     else:
@@ -85,21 +85,21 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
         L = 0
         for i in range(n):
             L += SS_a[i] * aa[i]
-        
+
         if fabs(L - L_prev) / fabs(L) < tol:
-            break        
+            break
 
         K += 1
 
-    ra = inventory._asarray(a)      
-                
+    ra = inventory._asarray(a)
+
     if verbose:
         print("K:", K, "L:", L, "PC:", ra)
-            
+
     return ra, L
 
-cpdef _find_robust_pc(double[:,::1] X, Average wma,  
-                      Py_ssize_t n_iter=1000, double tol=1.0e-5, 
+cpdef _find_robust_pc(double[:,::1] X, Average wma,
+                      Py_ssize_t n_iter=1000, double tol=1.0e-5,
                       bint verbose=0, list qvals=None):
 
     cdef Py_ssize_t i, j, k, N = X.shape[0], n = X.shape[1]
@@ -159,24 +159,24 @@ cpdef _find_robust_pc(double[:,::1] X, Average wma,
                 s += W[k] * U[k] * X[k,i]
             a[i] = s
         inventory._normalize2(a)
-        
+
         inventory.matdot(U, X, a)
-        
+
         for k in range(N):
             v = U[k]
             Z[k] = X2[k] - v * v
-    
+
         pval = wma._evaluate(Z)
         wma._gradient(Z, W)
 
         if qvals is not None:
             qvals.append(pval)
-        
+
         L = 0
         for k in range(N):
             v = U[k]
             L += W[k] * v * v
-        
+
         if fabs(pval - pval_prev) / Q < tol:
             to_finish = True
         if fabs(pval - pval_min) / Q < tol:
@@ -199,12 +199,12 @@ cpdef _find_robust_pc(double[:,::1] X, Average wma,
 
         if to_finish:
             break
-        
-    ra_min = np.asarray(a_min)      
-                
+
+    ra_min = np.asarray(a_min)
+
     if verbose:
         print("K:", K, "L:", L, "PC:", ra_min)
-            
+
     return ra_min, L_min
 
 cpdef _find_pc_all(double[:,::1] S, Py_ssize_t m=-1,
@@ -223,10 +223,10 @@ cpdef _find_pc_all(double[:,::1] S, Py_ssize_t m=-1,
 
     for j in range(m):
         a, L_j = _find_pc(S, a0=None, n_iter=n_iter, tol=tol, verbose=verbose)
-        
+
         LL[j] = L_j
         inventory._move(&AA[j,0], &a[0], n)
-        
+
         for i in range(n):
             v = a[i]
             S[i,i] -= L_j * v * v

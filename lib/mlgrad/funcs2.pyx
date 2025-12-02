@@ -25,6 +25,8 @@
 cimport cython
 
 import numpy as np
+from scipy.linalg import solve as scipy_solve
+
 # from mlgrad.models import asarray1d
 
 cdef double double_max = PyFloat_GetMax()
@@ -62,6 +64,9 @@ cdef class Func2:
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         return 0
     #
+    cdef void _normalize(self, double[::1] X):
+        pass
+    #
     def evaluate_items(self, double[::1] X):
         cdef numpy.npy_intp n = X.shape[0]
         Y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
@@ -85,6 +90,44 @@ cdef class Func2:
         grad = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
         self._gradient_ex(X, grad, W)
         return grad
+    #
+    def normalize(self, X):
+        return self._normalize(X)
+    #
+
+cdef class Dot(Func2):
+    #
+    def __init__(self, double[::1] a, offset=0):
+        self.a = a
+        self.offset = offset
+    #
+    cdef void _evaluate_items(self, double[::1] X, double[::1] Y):
+        cdef double[::1] a = self.a
+        cdef Py_ssize_t i, n = a.shape[0]
+
+        for i in range(self.offset, n):
+            Y[i] = a[i] * X[i]
+    #
+    cdef double _evaluate(self, double[::1] X):
+        cdef double[::1] a = self.a
+        cdef Py_ssize_t i, n = a.shape[0]
+        cdef double s = 0
+
+        for i in range(self.offset, n):
+            s += a[i] * X[i]
+        return s
+    #
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        cdef double[::1] a = self.a
+        cdef Py_ssize_t i, n = a.shape[0]
+        cdef Py_ssize_t offset = self.offset
+
+        if offset > 0:
+            for i in range(self.offset):
+                grad[i] = 0
+        for i in range(self.offset, n):
+            grad[i] = a[i]
+    #
 
 # cdef class Func2Layer:
 
@@ -405,6 +448,20 @@ cdef class SquareNorm(Func2):
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
         return X[j]
     #
+    @cython.final
+    cdef void _normalize(self, double[::1] X):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s, v
+        cdef double* X_ptr = &X[0]
+
+        s = 0
+        for i in range(self.offset, m):
+            v = X_ptr[i]
+            s += v * v
+        s = sqrt(s)
+        for i in range(m):
+            X_ptr[i] /= s
+    #
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_2^2=\sum_{i=0}^n w_i^2$"
 
@@ -496,6 +553,18 @@ cdef class AbsoluteNorm(Func2):
             return -1.0
         else:
             return 0
+    #
+    @cython.final
+    cdef void _normalize(self, double[::1] X):
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s
+        cdef double* X_ptr = &X[0]
+
+        s = 0
+        for i in range(self.offset, m):
+            s += fabs(X_ptr[i])
+        for i in range(m):
+            X_ptr[i] /= s
     #
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_2^2=\sum_{i=0}^n w_i^2$"
@@ -608,7 +677,7 @@ cdef class SoftAbsoluteNorm(Func2):
             grad_ptr[i] = v = X_ptr[i]
             s += v * v
         s = sqrt(self.eps2 + s)
-        
+
         for i in range(X.shape[0]):
             grad_ptr[i] /= s
     #
@@ -623,9 +692,68 @@ cdef class SoftAbsoluteNorm(Func2):
             v = X_ptr[i]
             s += v * v
         s = sqrt(self.eps2 + s)
-        
+
         return X_ptr[j] / s
-    #    
+    #
+    def _repr_latex_(self):
+        return r"$||\mathbf{w}||_1=\sum_{i=0}^n |w_i|$"
+
+@cython.final
+cdef class SoftPowerAbsoluteNorm(Func2):
+    #
+    def __init__(self, p=1.5):
+        self.p = p
+    #
+    @cython.final
+    cdef double _evaluate(self, double[::1] X):
+        cdef double p = self.p
+        cdef Py_ssize_t i
+        cdef double s
+        cdef double* X_ptr = &X[0]
+
+        s = 0
+        for i in range(X.shape[0]):
+            s += pow(fabs(X_ptr[i]), p)
+        return pow(s, 1/p)
+    #
+    @cython.final
+    cdef void _gradient(self, double[::1] X, double[::1] grad):
+        cdef double p = self.p
+        cdef Py_ssize_t i
+        cdef double s, v
+        cdef double* X_ptr = &X[0]
+        cdef double* grad_ptr = &grad[0]
+
+        s = 0
+        for i in range(X.shape[0]):
+            s += pow(fabs(X_ptr[i]), p)
+        s = pow(s, 1/p)
+
+        for i in range(X.shape[0]):
+            v = X_ptr[i]
+            if v >= 0:
+                grad_ptr[i] = p * pow(v/s, p-1)
+            else:
+                grad_ptr[i] = -p * pow(-v/s, p-1)
+    #
+    @cython.final
+    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j):
+        cdef double p = self.p
+        cdef Py_ssize_t i
+        cdef double s, v
+        cdef double* X_ptr = &X[0]
+
+        s = 0
+        for i in range(X.shape[0]):
+            s += pow(fabs(X_ptr[i]), p)
+        s = pow(s, 1/p)
+
+        v = X_ptr[j]
+        if v >= 0:
+            return p * pow(v/s, p-1)
+        else:
+            return -p * pow(-v/s, p-1)
+    #
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_1=\sum_{i=0}^n |w_i|$"
 
@@ -1177,8 +1305,7 @@ cdef class Rosenbrok(Func2):
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         grad[0] = -40. * (X[1] - X[0]**2) * X[0] - 0.2 * (1. - X[0])
         grad[1] = 20. * (X[1] - X[0]**2)
-        
-        
+
 @cython.final
 cdef class Himmelblau(Func2):
     #
@@ -1190,3 +1317,61 @@ cdef class Himmelblau(Func2):
     cdef void _gradient(self, double[::1] X, double[::1] grad):
         grad[0] = 4*(X[0]**2 + X[1] - 11) * X[0] + 2*(X[0] + X[1]**2 - 7)
         grad[1] = 2*(X[0]**2 + X[1] - 11) + 4*(X[0] + X[1]**2 - 7) * X[1]
+
+
+cdef class ProjectToSubspace:
+    #
+    def __init__(self, w0, eqns, n_iter=1000, tol=1.0e-6):
+        self.w0 = w0
+        self.w = self.w0.copy()
+        self.n = w0.shape[0]
+        self.eqns = eqns
+        self.m = len(eqns)
+        self.dw = 0.2*np.random.random(self.n)-0.1
+        for i in range(self.n):
+            self.w[i] += self.dw[i]
+        self.A = inventory.empty_array2(self.m, self.m)
+        self.G = inventory.empty_array2(self.m, self.n)
+        self.b = inventory.empty_array(self.m)
+        self.n_iter = n_iter
+        self.tol = tol
+    #
+    def _fit_step(self):
+        cdef Py_ssize_t i, j, n = self.n, m = self.m
+
+        for i in range(self.n):
+            self.dw[i] = self.w[i] - self.w0[i]
+        for i in range(m):
+            eqn_i = <Func2>self.eqns[i]
+            eqn_i._gradient(self.w, self.G[i])
+            for j in range(i, m):
+                eqn_j = <Func2>self.eqns[j]
+                eqn_j._gradient(self.w, self.G[j])
+                self.A[i,j] = inventory.dot(self.G[i], self.G[j])
+                if i != j:
+                    self.A[j,i] = self.A[i,j]
+            self.b[i] = -inventory.dot(self.dw, self.G[i])
+
+        inventory.move(self.w, self.w0)
+        inventory.clear(self.dw)
+        if m == 1:
+            lam = self.b[0] / self.A[0,0]
+            inventory.imul_add(self.dw, self.G[0], -lam)
+        else:
+            AA = np.asarray(self.A)
+            bb = np.asarray(self.b)
+            lams = scipy_solve(AA, bb, overwrite_a=False, overwrite_b=False, assume_a="sym")
+            for i in range(m):
+                inventory.imul_add(self.dw, self.G[i], -lams[i])
+        for i in range(n):
+            self.w[i] = self.w0[i] + self.dw[i]
+
+    def fit(self):
+        cdef double tol = self.tol
+
+        for i in range(self.n_iter):
+            self._fit_step()
+            tol = inventory._norm2(self.dw)
+            if tol < 1.0e-6:
+                break
+    #

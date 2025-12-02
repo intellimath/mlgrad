@@ -7,8 +7,8 @@ import numpy as np
 
 from mlgrad.pca._pca import _find_pc, _find_robust_pc, _find_pc_all
 from mlgrad.smooth import whittaker_smooth
-from mlgrad.pca.location_scatter import location, location_l1, robust_location
-
+from mlgrad.pca.location_scatter import location, location_rho, location_l1, robust_location
+3333
 import mlgrad.inventory as inventory
 
 einsum = np.einsum
@@ -100,13 +100,13 @@ def find_loc_and_pc_ss(X, m=None, *, weights=None, verbose=False):
         m = n
     elif m > n:
         raise RuntimeError(f"m={m} greater X.shape[1]={n}")
-    
+
     c = location(X, weights)
     Xc = X - c
 
     for x in Xc:
         x[:] = x / abs(x).sum()
-    
+
     As, Ls = find_pc_all(Xc, m, weights=weights, verbose=verbose)
     return c, As, Ls
 
@@ -148,7 +148,7 @@ def find_pc_ss(X, *, a0 = None, n_iter=200, tol=1.0e-6, verbose=0):
 #     K += 1
 #     if verbose:
 #         print("K:", K, L, a)
-            
+
 #     S_a = S @ a
 #     L = (S_a @ a) / (a @ a)
 #     return a, L
@@ -158,18 +158,21 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
 
     np_abs = np.abs
     np_sqrt = np.sqrt
-    
+
     if a0 is None:
         a0 = np.random.random(n)
     else:
         a0 = a0
 
     a = a_min = a0 / np.sqrt(a0 @ a0)
-    XX = (X * X).sum(axis=1)
+
+    # XX = (X * X).sum(axis=1)
+    path, _ = einsum_path("ni,ni->n", X, X, optimize='optimal')
+    XX = einsum("ni,ni->n", X, X, optimize=path)
 
     Z = X @ a
     Z = rho_func.evaluate_array(XX - Z*Z)
-    
+
     sz = sz_min = Z.mean()
     G = rho_func.derivative_array(Z)
     G /= G.sum()
@@ -185,11 +188,11 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
 
         Z = X @ a1
         Z = rho_func.evaluate_array(XX - Z*Z)
-        
+
         sz = Z.mean()
         G = rho_func.derivative_array(Z)
         G /= G.sum()
-        
+
         if sz < sz_min:
             sz_min = sz
             a_min = a1
@@ -283,7 +286,7 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
 #         print(f"K: {K}", sz_min)
 
 #     return a_min, L_min
-    
+
 def find_robust_pc_all(X0, wma, m=None, *, verbose=False):
     # import matplotlib.pyplot as plt
     N, n = X0.shape
@@ -307,13 +310,13 @@ def find_robust_pc_all(X0, wma, m=None, *, verbose=False):
     # plt.legend()
     # plt.show()
 
-    return As, Ls  
+    return As, Ls
 
 def find_robust_loc_and_pc(X, wma, m=None, *, verbose=False):
     c = robust_location(X, wma)
     Xc = X - c
     As, Ls = find_robust_pc_all(Xc, wma, m=m, verbose=verbose)
-    return c, As, Ls    
+    return c, As, Ls
 
 def find_pc_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
     np_abs = np.abs

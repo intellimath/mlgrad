@@ -9,7 +9,7 @@ from mlgrad.loss cimport Loss
 from mlgrad.averager cimport ArrayAverager, ArraySave
 from mlgrad.avragg cimport Average, ArithMean
 from mlgrad.weights cimport Weights
-from mlgrad.risks cimport Functional, Risk, ERisk
+from mlgrad.risks cimport Functional, Risk
 # from mlgrad.normalizer cimport Normalizer
 
 # from mlgrad.inventory cimport init_rand, rand, fill
@@ -42,7 +42,7 @@ cdef inline void copy_memoryview2(double[:,::1] Y, double[:,::1] X):
 
 cdef class GD:
 
-    cdef public Functional risk
+    cdef public Risk risk
     cdef public ParamRate h_rate
     cdef Normalizer normalizer
 

@@ -9,7 +9,8 @@ import numpy as np
 from scipy.optimize import minimize_scalar
 
 def sigmoidal_factory(n, scale=10.0):
-    return models.SigmaNeuronModel(funcs.Sigmoidal(scale), n)
+    mod = models.SigmaNeuronModel(funcs.Sigmoidal(scale), n)
+    mod.init_param(random=1)
 
 class AnyBoostClassification:
     #
@@ -20,7 +21,7 @@ class AnyBoostClassification:
                  normalizer=None,
                  H=None,
                  alpha_method="newton",
-                 callback=None,
+                 callback=None, shrink_model=False,
                  n_retry=3, shrink=0.1, n_classifier=100, n_failures=10):
         #
         self.func = func
@@ -32,6 +33,7 @@ class AnyBoostClassification:
         self.callback=callback
         self.normalizer=normalizer
         self.shrink = shrink
+        self.shrink_model = shrink_model
         self.n_retry = n_retry
         self.n_classifier = n_classifier
         self.n_failures = n_failures
@@ -66,15 +68,21 @@ class AnyBoostClassification:
         return res.x
     #
     def _evaluate_alpha_newton(self):
-        #
         m_vals = self.m_vals
-        mval1 = self.func.derivative_array(m_vals).sum()
-        mval2 = self.func.derivative2_array(m_vals).sum()
+        M_vals = self.M_vals
+        v1 = self.func.derivative_array(M_vals) @ m_vals
+        v2 = self.func.derivative2_array(M_vals) @ (m_vals * m_vals)
 
-        return self.shrink * mval1 / mval2
+        return self.shrink * v1 / v2
     #
     def evaluate_weights(self):
         weights = -self.func.derivative_array(self.M_vals)
+        inventory.normalize(weights)
+        return weights
+    #
+    def evaluate_weights_ext(self, alpha):
+        weights = -self.func.derivative_array(self.M_vals)
+        weights -= 0.5 * alpha * self.func.derivative2_array(self.M_vals * self.m_vals)
         inventory.normalize(weights)
         return weights
     #
@@ -82,13 +90,14 @@ class AnyBoostClassification:
         N = len(Y)
         weak_learner = self.weak_learn(X, Y, **kw)
         weak_model = weak_learner.risk.model
-        self.m_vals = Y * weak_model.evaluate(X)
+        U = weak_model.evaluate(X)
+        self.m_vals = Y * U
 
-        wlval = self.weights @ self.m_vals
-        if wlval <= 0:
-            return False
+        # wlval = self.weights @ self.m_vals
+        # if wlval <= 0:
+        #     return False
 
-        self.wlvals.append(wlval)
+        # self.wlvals.append(wlval)
 
         alpha = self.evaluate_alpha()
         self.H.add(weak_model, alpha)
@@ -97,11 +106,17 @@ class AnyBoostClassification:
         lval = self.func.evaluate_sum(self.M_vals) / N
         self.lvals.append(lval)
 
-        # A = self.H.weights.asarray()
-        # inventory.normalize(A)
-        # del A
+        werrval = self.weights @ (np.sign(U) != Y)
+        self.werrvals.append(werrval)
 
         self.weights = self.evaluate_weights()
+
+        errval = np.mean(np.sign(self.H.evaluate(X)) != Y)
+        self.errvals.append(errval)
+
+        if errval < self.errmin:
+            self.errmin = errval
+            self.m_min = self.K
 
         if self.callback:
             self.callback(self)
@@ -119,24 +134,38 @@ class AnyBoostClassification:
         self.weights = np.ones(N, "d") / N
 
         self.lvals = []
-        self.wlvals = []
+        # self.wlvals = []
+        self.werrvals = []
+        self.errvals = []
+
+        self.errmin = 1.0
+        self.m_min = 0
 
         n_classifier = self.n_classifier
         n_failures   = self.n_failures
 
-        K = len(self.H.models)
+        self.K = len(self.H.models)
         m = 0
-        while K <= n_classifier:
+        while self.K <= n_classifier:
             if m > n_failures:
-                print(f"WARNING: Failed to complete fit step {m} times (K={K})")
+                print(f"WARNING: Failed to complete fit step {m} times (K={self.K})")
                 break
+
             if not self.fit_step(X, Y, **kw):
                 m += 1
                 continue
-            K += 1
+
+            self.K += 1
             m = 0
+
+        if self.shrink_model:
+            H = models.LinearFuncModel()
+            for i in range(self.m_min):
+                H.add(self.H.models[i], self.H.weights[i])
+            self.H = H
 
         A = self.H.weights.asarray()
         inventory.normalize(A)
         del A
-        self.K = K
+
+

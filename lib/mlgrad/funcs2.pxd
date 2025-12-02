@@ -2,13 +2,13 @@
 
 cimport cython
 
-from libc.math cimport fabs, pow, sqrt, fmax, exp, log, fma
+from libc.math cimport fabs, pow, sqrt, fmax, exp, log, fma, copysign
 from libc.string cimport memcpy, memset
 
 from cython.parallel cimport parallel, prange
 cimport mlgrad.inventory as inventory
 from mlgrad.funcs cimport Func
-from mlgrad.list_values cimport list_int
+from mlgrad.list_values cimport list_int, list_double
 cimport numpy
 
 cdef extern from "Python.h":
@@ -41,6 +41,19 @@ cdef inline void matrix_dot_t(double[:,::1] A, double[::1] x, double[::1] y):
             v += A[j,i] * x[j]
         y[i] = v
 
+cdef class ProjectToSubspace:
+    cdef Py_ssize_t n, m
+    cdef public double[::1] w0
+    cdef public double[::1] w
+    cdef double[::1] dw
+    cdef public list eqns
+    # cdef list_double lams
+    cdef double[:,::1] A
+    cdef double[:,::1] G
+    cdef double[::1] b
+    cdef double tol
+    cdef Py_ssize_t n_iter
+
 cdef class Func2:
     #cdef bint all
     cdef void _evaluate_items(self, double[::1] param, double[::1] vals)
@@ -49,6 +62,11 @@ cdef class Func2:
     cdef double _evaluate_ex(self, double[::1] param, double[::1] weights)
     cdef void _gradient_ex(self, double[::1] param, double[::1] grad, double[::1] weights)
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j)
+    cdef void _normalize(self, double[::1] X)
+
+cdef class Dot(Func2):
+    cdef double[::1] a
+    cdef Py_ssize_t offset
 
 # cdef class Func2Layer:
 #     cdef void _evaluate(self, double[::1] X, double[::1] Y)
@@ -92,6 +110,10 @@ cdef class AbsoluteNorm(Func2):
 @cython.final
 cdef class SoftAbsoluteNorm(Func2):
     cdef double eps, eps2
+
+@cython.final
+cdef class SoftPowerAbsoluteNorm(Func2):
+    cdef double p
 
 @cython.final
 cdef class SquareForm(Func2):

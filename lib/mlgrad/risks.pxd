@@ -4,7 +4,7 @@ cimport cython
 
 from mlgrad.models cimport Model, Model2, BaseModel, MLModel
 from mlgrad.funcs cimport Func
-from mlgrad.funcs2 cimport Func2
+from mlgrad.funcs2 cimport Func2, ProjectToSubspace
 from mlgrad.distance cimport Distance
 from mlgrad.loss cimport Loss, MultLoss, MultLoss2
 from mlgrad.batch cimport Batch, WholeBatch, RandomBatch
@@ -19,6 +19,7 @@ from libc.string cimport memcpy, memset
 
 from cpython.object cimport PyObject
 from numpy cimport npy_uint8 as uint8
+cimport numpy
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()
@@ -95,7 +96,11 @@ cdef class Risk(Functional):
     # cdef void _evaluate_losses_derivative_div_batch(self)
     cdef void _evaluate_losses_derivative_div_all(self, double[::1] vals)
     cdef void _evaluate_weights(self)
+    cdef void _eval_regularized_gradient(self)
+    cdef void _add_regularized_gradient(self)
     cdef void add_regularized_gradient(self)
+    cdef void add_equations_gradient(self)
+    cdef void project_equations(self)
     #
     #
     # cdef void generate_samples(self, X, Y)z

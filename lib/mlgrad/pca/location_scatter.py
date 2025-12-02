@@ -8,7 +8,7 @@ import mlgrad.inventory as inventory
 def distance_center(X, c, /):
     Z = X - c
     # e = ones_like(c)
-    # Z2 = (Z * Z) @ e #.sum(axis=1)    
+    # Z2 = (Z * Z) @ e #.sum(axis=1)
     Z2 = einsum("ni,ni->n", Z, Z)
     return np.sqrt(Z2)
 
@@ -48,13 +48,9 @@ def robust_location(X, af, *, n_iter=1000, tol=1.0e-6, verbose=0):
         # U = (Z * Z).sum(axis=1)
         Z = X - c
         U = einsum("ni,ni->n", Z, Z, optimize=path)
-        # U = distance_center(XY, c)
         # print(U)
         s = af.evaluate(U)
         G = af.gradient(U)
-        # print('**', s, G)
-
-        # print(S, c)
 
         if s < s_min:
             s_min_prev = s_min
@@ -65,7 +61,7 @@ def robust_location(X, af, *, n_iter=1000, tol=1.0e-6, verbose=0):
             Q = 1 + abs(s_min)
         elif s < s_min_prev:
             s_min_prev = s
-        
+
         if abs(s_prev - s) / Q < tol:
             break
         if abs(s - s_min_prev) / Q < tol:
@@ -117,7 +113,55 @@ def location_l1(X, *, n_iter=1000, tol=1.0e-9, verbose=0):
             c_min = c
             if verbose:
                 print('*', s, c)
-        
+
+        if abs(s_prev - s) / (1 + abs(s_min)) < tol:
+            break
+
+    if verbose:
+        print(f"K: {K}", s_min, c_min)
+
+    return c_min
+
+def location_rho(X, rho_func, *, n_iter=1000, tol=1.0e-9, verbose=0):
+    c = X.mean(axis=0)
+    c_min = c
+    N = len(X)
+
+    Z = X - c
+
+    path, _ = einsum_path("ni,ni->n", Z, Z, optimize='optimal')
+    U = einsum("ni,ni->n", Z, Z, optimize=path)
+    U_sqrt = inventory.sqrt_array(U)
+    U = rho_func.evaluate_array(U_sqrt)
+
+    s = s_min = U.mean()
+    G = rho_func.derivative_div(U_sqrt)
+    G /= G.sum()
+    # print('*', s, G)
+
+    if verbose:
+        print(s, c)
+
+    for K in range(n_iter):
+        s_prev = s
+        c = X.T @ G
+
+        Z = X - c
+        U = einsum("ni,ni->n", Z, Z, optimize=path)
+        U_sqrt = inventory.sqrt_array(U)
+        U = rho_func.evaluate_array(U_sqrt)
+
+        s = U.mean()
+
+        G = rho_func.derivative_div(U_sqrt)
+        G /= G.sum()
+
+        if s < s_min:
+            s_min = s
+            c_min = c
+            if verbose:
+                print('*', s, c)
+
         if abs(s_prev - s) / (1 + abs(s_min)) < tol:
             break
 
@@ -185,7 +229,7 @@ def robust_location_scatter(X, maf, tol=1.0e-6, n_iter=100, verbose=False, qvals
                 print(qval, c, "\n", S)
         elif qval <= qval_min_prev:
             qval_min_prev = qval
-        
+
         if stop:
             break
 

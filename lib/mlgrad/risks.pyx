@@ -31,6 +31,7 @@ from mlgrad.avragg cimport Average, ArithMean
 from mlgrad.batch import make_batch, WholeBatch
 
 import numpy as np
+from scipy.linalg import solve as scipy_solve
 
 cdef object np_double = np_double
 cdef object np_empty = np.empty
@@ -106,6 +107,17 @@ cdef class Risk(Functional):
 #             k = indices[j]
 #             Yp[j] = _model._evaluate_one(X[k])
     #
+    cdef void _eval_regularized_gradient(self):
+        cdef Py_ssize_t i
+        cdef BaseModel model = <BaseModel>self.model
+
+        model._gradient_reg(self.grad_r)
+    #
+    cdef void _add_regularized_gradient(self):
+        cdef Py_ssize_t i
+        for i in range(self.n_param):
+            self.grad_average[i] += self.grad_r[i]
+    #
     cdef void add_regularized_gradient(self):
         cdef Py_ssize_t i
         cdef BaseModel model = <BaseModel>self.model
@@ -113,6 +125,53 @@ cdef class Risk(Functional):
         model._gradient_reg(self.grad_r)
         for i in range(self.n_param):
             self.grad_average[i] += self.grad_r[i]
+    #
+    cdef void add_equations_gradient(self):
+        cdef Py_ssize_t j, m
+        cdef BaseModel _model = <BaseModel>self.model
+        cdef double[::1] grad_average = self.grad_average
+        cdef double[:,::1] A, G
+        cdef double[::1] b
+        cdef double[::1] taus
+        cdef Func2 eqn_i, eqn_j
+        cdef double v, vl
+
+        m = len(_model.eqns)
+        G = inventory.empty_array2(m, _model.n_param)
+        A = inventory.empty_array2(m, m)
+        b = inventory.empty_array(m)
+        for i in range(m):
+            eqn_i = <Func2>_model.eqns[i]
+            eqn_i._gradient(_model.param, G[i])
+            for j in range(i, m):
+                eqn_j = <Func2>_model.eqns[j]
+                eqn_j._gradient(_model.param, G[j])
+                A[i,j] = inventory.dot(G[i], G[j])
+                if i != j:
+                    A[j,i] = A[i,j]
+            b[i] = -inventory.dot(grad_average, G[i])
+
+        if m == 1:
+            vl = b[0] / A[0,0]
+            _model.taus[0] = vl
+            inventory.imul_add(grad_average, G[0], vl)
+        else:
+            AA = np.asarray(A)
+            bb = np.asarray(b)
+            taus = scipy_solve(AA, bb, overwrite_a=True, overwrite_b=True, assume_a="pos")
+            for i in range(m):
+                _model.taus[i] = taus[i]
+            for i in range(m):
+                inventory.imul_add(grad_average, G[i], _model.taus[i])
+    #
+    cdef void project_equations(self):
+        cdef Py_ssize_t j, m
+        cdef BaseModel _model = <BaseModel>self.model
+        #
+        cdef ProjectToSubspace alg = ProjectToSubspace(_model.param.copy(), _model.eqns)
+
+        alg.fit()
+        inventory.move(_model.param, alg.w)
     #
     # cdef void _evaluate_models_all(self, double[::1] vals):
     #     cdef Model _model = self.model
@@ -187,13 +246,18 @@ cdef class Risk(Functional):
             pass
     #
     cdef void _update_param(self, double[::1] param):
-        if self.model.mask is None:
-            inventory.isub(self.model.param, param)
+        cdef Model _model = <Model>self.model
+
+        if _model.mask is None:
+            inventory.isub(_model.param, param)
         else:
-            inventory.isub_mask(self.model.param, param, self.model.mask)
+            inventory.isub_mask(_model.param, param, _model.mask)
+
+        if _model._with_eqns():
+            self.project_equations()
     #
     def update_param(self, param):
-        self.update_param(param)
+        self._update_param(param)
     #
     def evaluate_weights(self):
         # W = inventory.empty_array(self.n_sample)
@@ -365,8 +429,12 @@ cdef class ERisk(Risk):
         self.is_natgrad = is_natgrad
     #
     cdef double _evaluate(self):
-        cdef Py_ssize_t j, k
+        cdef Model _model = self.model
+        cdef Py_ssize_t j, k, m
         cdef double S
+
+        cdef Func2 eqn
+        cdef double vl
 
         cdef double[::1] L = self.L
         cdef double[::1] weights = self.weights
@@ -381,8 +449,14 @@ cdef class ERisk(Risk):
             wk = weights[k]
             S += weights[k] * L[j]
 
-        if self.model._is_regularized():
-            S += self.model._evaluate_reg()
+        if _model._with_eqns():
+            m = len(_model.eqns)
+            for j in range(m):
+                eqn = <Func2>_model.eqns[j]
+                S += _model.taus[j] * eqn._evaluate(_model.param)
+
+        if _model._is_regularized():
+            S += _model._evaluate_reg()
 
         self.lval = S
         return S
@@ -391,7 +465,7 @@ cdef class ERisk(Risk):
         cdef Model _model = self.model
         cdef Loss _loss = self.loss
 
-        cdef Py_ssize_t j, k
+        cdef Py_ssize_t j, k, m
         cdef double v
         #
         cdef double[:, ::1] X = self.X
@@ -403,6 +477,7 @@ cdef class ERisk(Risk):
         cdef Py_ssize_t[::1] indices = self.batch.indices
         cdef double[::1] Yp = self.Yp
         #
+
         inventory.clear(grad_average)
 
         for j in range(self.batch.size):
@@ -411,9 +486,6 @@ cdef class ERisk(Risk):
             _model._gradient_one(X[k], grad)
             v = weights[k] * _loss._derivative(Yp[j], Y[k])
             inventory._imul_add(&grad_average[0], &grad[0], v, self.n_param)
-
-        if self.model._is_regularized():
-            self.add_regularized_gradient()
 
         if self.is_natgrad:
             s = 0
@@ -424,6 +496,12 @@ cdef class ERisk(Risk):
 
             for i in range(self.n_param):
                 grad_average[i] /= s
+
+        if _model._is_regularized():
+            self.add_regularized_gradient()
+
+        if _model._with_eqns():
+            self.add_equations_gradient()
 
 cdef class ERiskGB(Risk):
     #
