@@ -261,9 +261,9 @@ def whittaker_smooth_weight_func(
     return Z, {'qvals':qvals, 'K':K+1}
 
 def whittaker_smooth_weight_func2(
-            X, func=None, func1=None, func2=None, func2_e=None, windows=None, 
-            tau1=0.0, tau2=1.0, tau_z=0, w_tau2 = 1.0, 
-            d=2, n_iter=100, tol=1.0e-9, ):
+            X, func=None, func1=None, func2=None, func2_e=None, windows=None,
+            tau1=0.0, tau2=1.0, tau_z=0, w_tau2 = 1.0,
+            d=2, n_iter=100, tol=1.0e-6, ):
 
     Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
     # Z = X * 0.999
@@ -332,31 +332,14 @@ def whittaker_smooth_weight_func2(
 
         if func is not None:
             W = func(E)
-            # W /= W.sum()
         if func1 is not None and tau1 > 0:
             W1 = func1(D1)
-            # W1 /= W1.sum()
         if func2 is not None and tau2 > 0:
             W2 = func2(D2)
-            # W2 /= W2.mean()
         if func2_e is not None and tau2 > 0:
             W2 *= func2_e(E)
 
-        # if windows:
-        #     for ww in self.windows:
-        #         i0, i1 = ww
-        #         W2[i0:i1+1] = w_tau2 / tau2
-
-        # qval = (E*E*W).sum()
-        # if tau2 > 0:
-        #     qval += tau2 * (D2*D2*W2).sum()
-        # if tau1 > 0:
-        #     qval += tau1 * (D1*D1*W1).sum()
-
-        # qvals.append(qval)
-
         qvals.append(dq)
-
         if dq < tol:
             flag = True
 
@@ -378,20 +361,20 @@ def whittaker_smooth_weight_func3(
 
     Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
     # Z = X * 0.999
-    
+
     E = X - Z
 
     if func2 is not None or tau2 > 0:
         D2 = inventory.diff2(Z)
     # if func1 is not None or tau1 > 0:
     #     D1 = inventory.diff1(Z)
-        
+
     N = len(X)
 
     W  = np.ones(N, "d")
     # W1 = np.ones(N, "d")
     W2 = np.ones(N, "d")
-    
+
     if func is not None:
         W = func(E)
         # W /= W.mean()

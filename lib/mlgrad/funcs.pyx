@@ -776,16 +776,17 @@ cdef class TruncAbs(Func):
 @cython.final
 cdef class Threshold(Func):
     #
-    def __init__(self, theta=0):
+    def __init__(self, theta=0, eps=0):
         self.label = u'H'
         self.theta = theta
+        self.eps = eps
     #
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
         if x >= self.theta:
-            return 1
+            return 1+self.eps
         else:
-            return 0
+            return self.eps
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:

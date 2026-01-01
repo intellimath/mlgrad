@@ -19,8 +19,8 @@ is_linux = (platform.system() == 'Linux')
 print(f"platform: {platform_system}")
 
 
-optimize = True
-native   = True
+optimize = False
+native   = False
 if optimize:
     if is_windows:
         Oflag = ["/O2", "/arch:AVX2"]
@@ -177,6 +177,14 @@ ext_modules = [
         extra_link_args = extra_link_args,
         define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
+    Extension(
+        "mlgrad.optimize",
+        ["lib/mlgrad/optimize.pyx"],
+        # library=["-lm"],
+        extra_compile_args = extra_compile_args,
+        extra_link_args = extra_link_args,
+        define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
+    ),
    Extension(
         "mlgrad.distance",
         ["lib/mlgrad/distance.pyx"],
@@ -274,7 +282,7 @@ ext_modules = [
 
 setup(
     name = 'mlgrad',
-    version = '0.7.4',
+    version = '0.7.5',
     description = 'Robust Gradient Methods for Machine Learning & Data Analysis',
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",

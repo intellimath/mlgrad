@@ -1,108 +1,81 @@
 import numpy as np
-from mlgrad.cls import classification_as_regr
-from mlgrad.models import LinearModel
+import mlgrad.regr as regr
+import mlgrad.models as models
+import mlgrad.inventory as inventory
+
+import matplotlib.pyplot as plt
 
 def normalize(a):
     return a / np.sqrt(a @ a)
 
-def cls_pc(X, Y, m=2):
-    n = X.shape[1]
-    for j in range(m):
-        mod_j = LinearModel(n)
-        cls_j = classification_as_regr(X, Y, mod_j)
-        
+def make_model(n):
+    mod = models.LinearModel(n)
+    return mod
 
-class CLS_PC:
-    #
-    def __init__(self, func, n_iter=1000, tol=1.0e-8, h=0.1):
-        self.func = func
-        self.n_iter = n_iter
-        self.tol = tol
-        self.h = h
-        self.A = None
-        self.A0 = None
-        self.b = None
-    #
-    def fit(self, X, Y, n_pc=-1):
-        N, n = X.shape
-        if n_pc < 0:
-            n_pc = n
+def accuracy_score(Y1, Y2):
+    return (Y1 == Y2).astype("d").mean()
 
-        if self.A is None:
-            A = 2*np.random.random(size=(n_pc, n))-1
-            for i in range(n_pc):
-                A[i,:] = normalize(A[i])
-            self.A = A
-            self.A0 = A0 = 2*np.random.random(n_pc)-1
-        else:
-            A = self.A
-            A0 = self.A0
+def cls_pca(X, Y, lossfunc, m=2, model_maker=make_model,
+             regnorm=None, tau=0.0,
+             normalizer=None, support_negate=True,
+             verbose=True, callback=None, h=0.001, n_iter=1000, tol=1.0e-9):
+    As = []
+    Us = []
+    mods = []
+    XX, YY = X, Y
+    N, n = XX.shape
+    cc = 0
 
-        if self.b is None:
-            b = self.b = 2*np.random.random(n_pc)-1
-            b0 = self.b0 = 2*np.random.random(1)-1
-        else:
-            b = self.b
-            b = self.b0
+    for k in range(m):
+        mod = model_maker(n)
+        if regnorm is not None and tau != 0:
+            mod.use_regularizer(regnorm, tau)
+        alg = regr.regression(XX, YY, mod, lossfunc,
+                  normalizer=normalizer,
+                  # regnorm=regnorm, tau=tau,
+                  h=h, n_iter=n_iter, tol=tol)
 
-        h = self.h
-        tol = self.tol
+        inventory.normalize2(mod.param)
 
-        Ones = np.ones((N,1), "d")
-        X1 = np.concatenate((Ones, X), axis=1)
+        if support_negate:
+            U = mod.evaluate(XX)
+            score = accuracy_score(np.sign(U), YY)
+            if score < 0.5:
+                for i,v in enumerate(mod.param):
+                    mod.param[i] = -v
 
-        XA = X @ A.T # (N,n) @ (n,n_pc) -> (N,n_pc)
-        YY =  XA @ b # (N,n_pc) @ (n_pc) -> (N)
-        U = YY * Y
-        qval = qval_min = (self.func.evaluate_array(U) * Y).sum()
-        qvals = [qval]
+        a = np.array(mod.param, copy=True)
+        a1 = a[1:]
+        for aa in As:
+            aa1 = aa[1:]
+            a1 -= (aa1 @ a1) * aa1
+        norm_a = np.sqrt(a1 @ a1)
+        if norm_a == 0:
+            break
+        a /= norm_a
+        for i in range(len(mod.param)):
+            mod.param[i] = a[i]
+        As.append(a)
 
-        A_min, b_min = A.copy(), b.copy()
 
-        print(A, b)
+        U = mod.evaluate(XX)
+        if verbose:
+            print(k, ":", alg.K, accuracy_score(np.sign(U), YY))
+        Us.append(U)
+        mods.append(mod)
 
-        for K in range(self.n_iter):
-            qval_prev = qval
-            YFD = self.func.derivative_array(U) * Y
-            XAA = np.einsum("kj,jn", XA, A, optimize=True)
-            XA2 = X - XAA
-            A[:,1:] -= h * np.einsum("k,kn,j", YFD, XA2, b[1:], optimize=True)
-            b[0] -= h * YFD.sum()
-            A[:,0] -= h * YFD.sum() * b[1:]
 
-            for i in range(n_pc):
-                A[i,1:] = normalize(A[i,1:])
+        if callback is not None:
+            callback(XX, YY, mod)
 
-            print(i, A, b)
-            
-            XA = X1 @ A.T # (N,n+1) @ (n+1,n_pc) -> (N,n_pc)
-            YY =  XA @ b[1:] + b[0] # (N,n_pc) @ (n_pc) -> (N)
-            U = YY * Y
-            
-            qval = (self.func.evaluate_array(U) * Y).sum()
-            qvals.append(qval)
+        a1 = a[1:]
+        c = a[0]
+        ca = c * a1
+        cc += ca
+        XX = XX - ca
+        XX = XX - np.outer(XX @ a1, a1)
+        # XX = np.array([(xx - (xx @ a1) * a1) for xx in XX])
 
-            if qval < qval_min:
-                qval_min = qval
-                A_min, b_min = A.copy(), b.copy()
-
-            if abs(qval - qval_prev) / (1 + abs(qval_min)) < tol:
-                break
-
-        self.A = A_min
-        self.b = b_min
-        self.qvals = qvals
-        self.K = K + 1
-
-    def evaluate(self, X):
-        N = len(X)
-        Ones = np.ones((N,1), "d")
-        X1 = np.concatenate((Ones, X), axis=1)
-
-        XA = X1 @ self.A.T # (N,n+1) @ (n+1,n_pc) -> (N,n_pc)
-        YY =  XA @ self.b[1:] + self.b[0] # (N,n_pc) @ (n_pc) -> (N)
-
-        return YY
-                
-            
-        
+    As = np.array(As)
+    Us = np.array(Us)
+    return cc, As, Us, mods

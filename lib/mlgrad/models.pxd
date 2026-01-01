@@ -63,9 +63,9 @@ cdef class BaseModel(Regularized):
     cdef double _evaluate_one(self, double[::1] X)
     cdef void _evaluate(self, double[:,::1] X, double[::1] Y)
     cdef void _gradient_one(self, double[::1] X, double[::1] G)
-    cdef void _gradient_input(self, double[::1] X, double[::1] G)
+    cdef void _gradient_x(self, double[::1] X, double[::1] G)
     cdef void _gradient_all(self, double[:,::1] X, double[:,::1] G)
-    cdef void _gradient_input_all(self, double[:,::1] X, double[:,::1] G)
+    cdef void _gradient_x_all(self, double[:,::1] X, double[:,::1] G)
 
 cdef class Model(BaseModel):
     cdef public Py_ssize_t n_param, n_input
@@ -77,11 +77,11 @@ cdef class Model(BaseModel):
     cdef public double[::1] grad
     cdef public double[::1] grad_base
     #
-    cdef public double[::1] grad_input
+    cdef public double[::1] grad_x
     # cdef bint is_allocated
     #
     cdef _update_param(self, double[::1] param)
-    cdef void _gradient_input2(self, double[::1] X, double[::1] grad)
+    cdef void _gradient_xw(self, double[::1] X, double[:, ::1] Gxw)
 
 cdef class ModelComposition(Model):
     #
@@ -150,7 +150,7 @@ cdef class Model2(Regularized):
     cdef public double[::1] param
     cdef public double[::1] output
     # cdef public double[::1] grad
-    # cdef public double[::1] grad_input
+    # cdef public double[::1] grad_x
 
     cdef public uint8[::1] mask
     #
@@ -163,7 +163,7 @@ cdef class Model2(Regularized):
 
 cdef class ModelLayer(Model2):
     cdef public double[::1] input
-    cdef public double[::1] grad_input
+    cdef public double[::1] grad_x
 
 @cython.final
 cdef class ScaleLayer(ModelLayer):

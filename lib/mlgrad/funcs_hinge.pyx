@@ -162,9 +162,9 @@ cdef class SoftHinge_Exp(Func):
     cdef double _evaluate(self, const double x) noexcept nogil:
         cdef double x1 = self.alpha * (x - self.x0)
         if x1 >= 0:
-            return log(1 + exp(-x1))
+            return log(1 + exp(-x1)) / self.alpha
         else:
-            return -x1 + log(1 + exp(x1))
+            return (-x1 + log(1 + exp(x1))) / self.alpha
     #
     @cython.final
     @cython.cdivision(True)
@@ -174,9 +174,9 @@ cdef class SoftHinge_Exp(Func):
         cdef double v
         if x1 >= 0:
             v = exp(-x1)
-            return -alpha * v / (1 + v)
+            return -v / (1 + v)
         else:
-            return -alpha / (1 + exp(x1))
+            return -1 / (1 + exp(x1))
     #
     @cython.final
     @cython.cdivision(True)
@@ -185,7 +185,7 @@ cdef class SoftHinge_Exp(Func):
         cdef double alpha = self.alpha
         cdef double v = exp(-alpha*x1)
         cdef double v1 = 1 / (1 + v)
-        return alpha*alpha * v1 * (1 - v1)
+        return alpha * v1 * (1 - v1)
     #
     def _repr_latex_(self):
         return r"$ρ(x)=\frac{1}{2}(-x + \sqrt{c^2+x^2})$"

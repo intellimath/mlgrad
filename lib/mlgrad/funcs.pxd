@@ -155,7 +155,8 @@ cdef class SoftPlus(Func):
 @cython.final
 cdef class Threshold(Func):
     cdef public double theta
-    
+    cdef public double eps
+
 @cython.final
 cdef class Sign(Func):
     cdef public double theta
@@ -273,6 +274,7 @@ cdef class Tukey(Func):
 cdef class Step(Func):
     #
     cdef public double C
+    cdef public double eps
     #
     
 @cython.final

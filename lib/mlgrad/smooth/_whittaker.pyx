@@ -149,7 +149,7 @@ def add_D4_W4(double[:,::1] S, double[::1] W, double tau):
     d = &S[0,0]
     for i in range(4, n):
         d[i] += tau * W[i-4]
-    
+
     d = &S[5,0]
     d[0] +=   tau * -4*W[0]
     d[1] +=   tau * (-24*W[0] + -4*W[1])
@@ -306,9 +306,9 @@ def whittaker_smooth_banded(Y, W=None, W1=None, W2=None,
     if W1 is None:
         W1 = _ones(N, "d")
 
-    inventory.add_to_zeroes(W, 1.0e-9)
-    inventory.add_to_zeroes(W1, 1.0e-9)
-    inventory.add_to_zeroes(W2, 1.0e-9)
+    inventory.add_to_zeros(W, 1.0e-9)
+    inventory.add_to_zeros(W1, 1.0e-9)
+    inventory.add_to_zeros(W2, 1.0e-9)
     X = whittaker_smooth_banded_solver(Y, W, W1, W2, tau1, tau2, tau_z=tau_z, d=d)
     return X
 

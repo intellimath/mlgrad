@@ -2,18 +2,19 @@
 @cython.final
 cdef class Step(Func):
     #
-    def __init__(self, C=1.0):
+    def __init__(self, C=1.0, eps=0):
         self.C = C
+        self.eps = eps
     #
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
         cdef double C = self.C
         if x >= C:
-            return 0
+            return self.eps
         elif x <= -C:
-            return 1
+            return 1+self.eps
         else:
-            return (1 - x/C)/2
+            return (1 - x/C)/2 + self.eps
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:

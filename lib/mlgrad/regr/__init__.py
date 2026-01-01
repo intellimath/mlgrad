@@ -43,7 +43,7 @@ def regression(Xs, Y, mod,
                *,
                weights=None,
                normalizer=None,
-               h=0.001, tol=1.0e-6, n_iter=1000, tau=0.001, verbose=0,
+               h=0.001, tol=1.0e-6, n_iter=1000, tau=0.0, verbose=0,
                n_restart=1, init_param=1):
     """\
     Поиск параметров модели для решения задачи регрессии на основе принципа минимизации эмпирического риска.
@@ -73,7 +73,7 @@ def m_regression(Xs, Y, mod,
                  loss_func=SquareErrorLoss(),
                  agg_func=averaging_function('WM'),
                  regnorm=None,
-                 h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, verbose=0,
+                 h=0.001, tol=1.0e-9, n_iter=1000, tau=0.0, verbose=0,
                  n_restart=1, init_param=1):
 
     if mod.param is None:
@@ -91,7 +91,7 @@ def m_regression_irls(Xs, Y, mod,
                       agg_func=averaging_function('WM'),
                       regnorm=None,
                       normalizer=None,
-                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, 
+                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.0, tol2=1.0e-5, n_iter2=22, 
                       verbose=0, init_param=1):
     """\
     Поиск параметров модели `mod` на основе принципа минимизации усредняющей 
@@ -120,7 +120,7 @@ def mr_regression_irls(Xs, Y, mod,
                        regnorm=None,
                        normalizer=None,
                        h=0.001, tol=1.0e-9, n_iter=1000,
-                       tol2=1.0e-5, n_iter2=22, tau=0.001, 
+                       tol2=1.0e-5, n_iter2=22, tau=0.0, 
                        verbose=0, init_param=1):
     """\
     Поиск параметров модели `mod` при помощи принципа минимизации агрегирующей функции потерь от ошибок. 
@@ -144,7 +144,7 @@ def mr_regression_irls(Xs, Y, mod,
     return irgd
 
 def r_regression_irls(Xs, Y, mod, rho_func=None, regnorm=None,
-                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.001, tol2=1.0e-5, n_iter2=22, 
+                      h=0.001, tol=1.0e-9, n_iter=1000, tau=0.0, tol2=1.0e-5, n_iter2=22, 
                       verbose=0, init_param=1):
     """\
     Поиск параметров модели `mod` при помощи классического методо R-регрессии. 

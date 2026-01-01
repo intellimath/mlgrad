@@ -253,7 +253,7 @@ cdef class Average:
     #
     cdef _weights(self, double[::1] Y, double[::1] weights):
         self._gradient(Y, weights)
-        # inventory.normalize(weights)
+        inventory._normalize(weights)
     #
     cdef _derivative_div(self, double[::1] Y, double[::1] grad):
         pass
@@ -498,7 +498,7 @@ cdef class WMAverage(Average):
         else:
             u = self.avr.u
         self.avr._derivative_div(Y, G)
-        # self.evaluated = 0
+        self.evaluated = 0
 
         m = 0
         for k in range(N):

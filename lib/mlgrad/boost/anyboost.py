@@ -5,12 +5,14 @@ import mlgrad.regr as regr
 import mlgrad.inventory as inventory
 
 import numpy as np
+import sys
 
-from scipy.optimize import minimize_scalar
+from scipy.optimize import minimize_scalar, line_search
 
-def sigmoidal_factory(n, scale=10.0):
+def sigmoidal_factory(n, scale=1.0):
     mod = models.SigmaNeuronModel(funcs.Sigmoidal(scale), n)
     mod.init_param(random=1)
+    return mod
 
 class AnyBoostClassification:
     #
@@ -19,10 +21,10 @@ class AnyBoostClassification:
                  model_factory=sigmoidal_factory,
                  lossfunc=loss.NegMargin(),
                  normalizer=None,
-                 H=None,
-                 alpha_method="newton",
+                 # H=None,
+                 alpha_method="linesearch",
                  callback=None, shrink_model=False,
-                 n_retry=3, shrink=0.1, n_classifier=100, n_failures=10):
+                 n_retry=3, shrink=1.0, n_classifier=100, n_failures=10):
         #
         self.func = func
         self.model_factory = model_factory
@@ -38,8 +40,8 @@ class AnyBoostClassification:
         self.n_classifier = n_classifier
         self.n_failures = n_failures
         self.H = None
-        if H is not None:
-            self.H = H
+        # if H is not None:
+        #     self.H = H
     #
     def weak_learn(self, X, Y, **kw):
         weak_model = self.model_factory(X.shape[1])
@@ -48,20 +50,19 @@ class AnyBoostClassification:
                 weights=self.weights, normalizer=self.normalizer, **kw)
         return weak_learner
     #
-    def weak_margins(self, X, Y):
-        return np.fromiter(((Y * mod.evaluate(X)).mean() for mod in self.H.models), "d", len(self.H.models))
-    #
+    # def weak_margins(self, X, Y):
+    #     return np.fromiter(((Y * mod.evaluate(X)).mean() for mod in self.H.models), "d", len(self.H.models))
+    # #
     def _evaluate_alpha_linesearch(self):
         #
         m_vals = self.m_vals
         M_vals = self.M_vals
-        N = len(M_vals)
         shrink = self.shrink
         #
         def _func_(alpha):
-            return self.func.evaluate_sum(M_vals + alpha * m_vals) / N + shrink * alpha*alpha
+            return self.func.evaluate_array(M_vals + alpha * m_vals).mean() + 0.5*shrink * alpha*alpha
         #
-        res = minimize_scalar(_func_, (0, 1.))
+        res = minimize_scalar(_func_, (0, 1.), method="Brent")
         if not res.success:
             raise RuntimeError(res.message)
         #
@@ -76,6 +77,9 @@ class AnyBoostClassification:
         return self.shrink * v1 / v2
     #
     def evaluate_weights(self):
+        self.lval = self.func.evaluate_array(self.M_vals).mean()
+        self.lvals.append(self.lval)
+
         weights = -self.func.derivative_array(self.M_vals)
         inventory.normalize(weights)
         return weights
@@ -87,36 +91,30 @@ class AnyBoostClassification:
         return weights
     #
     def fit_step(self, X, Y, **kw):
-        N = len(Y)
         weak_learner = self.weak_learn(X, Y, **kw)
         weak_model = weak_learner.risk.model
-        U = weak_model.evaluate(X)
-        self.m_vals = Y * U
+        self.m_vals = Y * weak_model.evaluate(X)
 
-        # wlval = self.weights @ self.m_vals
-        # if wlval <= 0:
-        #     return False
-
-        # self.wlvals.append(wlval)
+        if self.weights @ self.m_vals <= 0:
+            return False
 
         alpha = self.evaluate_alpha()
+
         self.H.add(weak_model, alpha)
 
         self.M_vals = Y * self.H.evaluate(X)
-        lval = self.func.evaluate_sum(self.M_vals) / N
-        self.lvals.append(lval)
-
-        werrval = self.weights @ (np.sign(U) != Y)
-        self.werrvals.append(werrval)
-
         self.weights = self.evaluate_weights()
 
-        errval = np.mean(np.sign(self.H.evaluate(X)) != Y)
+        errval = (np.sign(self.H.evaluate(X)) != Y).astype("d").mean()
         self.errvals.append(errval)
 
-        if errval < self.errmin:
-            self.errmin = errval
-            self.m_min = self.K
+        # if self.lval < self.lval_min:
+        #     self.lval_min = self.lval
+        #     self.H_min = self.H.copy()
+
+        if errval < self.errval_min:
+            self.errval_min = errval
+            self.H_min = self.H.copy()
 
         if self.callback:
             self.callback(self)
@@ -126,20 +124,22 @@ class AnyBoostClassification:
     def classifier(self):
         return models.SimpleComposition(funcs.Sign(), self.H)
     #
-    def fit(self, X, Y, **kw):
+    def fit_init(self, X, Y):
         N = len(X)
         if self.H is None:
             self.H = models.LinearFuncModel()
         self.M_vals = np.zeros(N, "d")
         self.weights = np.ones(N, "d") / N
+    #
+    def fit(self, X, Y, **kw):
+        self.fit_init(X, Y)
 
         self.lvals = []
-        # self.wlvals = []
-        self.werrvals = []
         self.errvals = []
 
-        self.errmin = 1.0
-        self.m_min = 0
+        self.errval_min = sys.float_info.max
+        self.lval_min = sys.float_info.max
+        # self.m_min = 0
 
         n_classifier = self.n_classifier
         n_failures   = self.n_failures
@@ -158,11 +158,14 @@ class AnyBoostClassification:
             self.K += 1
             m = 0
 
-        if self.shrink_model:
-            H = models.LinearFuncModel()
-            for i in range(self.m_min):
-                H.add(self.H.models[i], self.H.weights[i])
-            self.H = H
+        self.H = self.H_min
+        self.H_min = None
+
+        # if self.shrink_model:
+        #     H = models.LinearFuncModel()
+        #     for i in range(self.m_min):
+        #         H.add(self.H.models[i], self.H.weights[i])
+        #     self.H = H
 
         A = self.H.weights.asarray()
         inventory.normalize(A)

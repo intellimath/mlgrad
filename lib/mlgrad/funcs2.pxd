@@ -56,13 +56,13 @@ cdef class ProjectToSubspace:
 
 cdef class Func2:
     #cdef bint all
-    cdef void _evaluate_items(self, double[::1] param, double[::1] vals)
-    cdef double _evaluate(self, double[::1] param)
-    cdef void _gradient(self, double[::1] param, double[::1] grad)
-    cdef double _evaluate_ex(self, double[::1] param, double[::1] weights)
-    cdef void _gradient_ex(self, double[::1] param, double[::1] grad, double[::1] weights)
-    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j)
-    cdef void _normalize(self, double[::1] X)
+    cdef void _evaluate_items(self, double[::1] param, double[::1] vals) noexcept nogil
+    cdef double _evaluate(self, double[::1] param) noexcept nogil
+    cdef void _gradient(self, double[::1] param, double[::1] grad) noexcept nogil
+    cdef double _evaluate_ex(self, double[::1] param, double[::1] weights) noexcept nogil
+    cdef void _gradient_ex(self, double[::1] param, double[::1] grad, double[::1] weights) noexcept nogil
+    cdef double _gradient_j(self, double[::1] X, Py_ssize_t j) noexcept nogil
+    cdef void _normalize(self, double[::1] X) noexcept nogil
 
 cdef class Dot(Func2):
     cdef double[::1] a
@@ -87,6 +87,7 @@ cdef class MixedNorm(Func2):
     #
     cdef Func2 func1
     cdef Func2 func2
+    cdef double tau1, tau2
 
 @cython.final
 cdef class PowerNorm(Func2):

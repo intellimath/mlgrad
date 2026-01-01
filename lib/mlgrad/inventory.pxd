@@ -8,7 +8,7 @@ from numpy cimport npy_uint8 as uint8
 cimport numpy
 
 from libc.string cimport memcpy, memset
-from libc.math cimport isnan, fma, sqrt, fabs
+from libc.math cimport isnan, fma, sqrt, fabs, floor
 from libc.stdlib cimport rand as stdlib_rand, srand
 from libc.time cimport time
 
@@ -77,7 +77,7 @@ cdef void _mul_add_arrays(double *a, double *M, const double *ss,
 cdef void _mul_grad(double *grad, const double *X, const double *ss, 
                     const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
 
-cdef void _add_to_zeroes(double *a, const Py_ssize_t n, double eps)
+cdef void _add_to_zeros(double *a, const Py_ssize_t n, double eps)
 
 cdef int hasnan(double[::1] a) noexcept nogil
 
@@ -103,6 +103,8 @@ cdef void imul2(double[:,::1] a, double[:,::1] b) noexcept nogil
 cdef void mul(double[::1] c, double[::1] a, double[::1] b) noexcept nogil
 cdef void imul_add(double[::1] a, double[::1] b, const double c) noexcept nogil
 cdef void imul_add2(double[:,::1] a, double[:,::1] b, const double c) noexcept nogil
+cdef void _mul_const(double *a, double *b, const double c, const Py_ssize_t n) noexcept nogil
+cdef void mul_const(double[::1] a, double[::1] b, const double c) noexcept nogil
 cdef void mul_set(double[::1] a, double[::1] b, const double c) noexcept nogil
 cdef void mul_set1(double[::1] a, double[::1] b, const double c) noexcept nogil
 cdef double dot1(double[::1] a, double[::1] b) noexcept nogil
@@ -214,6 +216,7 @@ cdef double quick_select(double *a, Py_ssize_t n) #noexcept nogil
 
 # cdef double quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) #noexcept nogil
 cdef double _median_1d(double[::1] x) #noexcept nogil
+cdef double _quantile_1d(double[::1] x, double alpha) # noexcept nogil
 cdef double _median_absdev_1d(double[::1] x, double mu) #noexcept nogil
 cdef void _median_2d(double[:,::1] x, double[::1] y) #noexcept nogil
 cdef void _median_2d_t(double[:,::1] x, double[::1] y) #noexcept nogil

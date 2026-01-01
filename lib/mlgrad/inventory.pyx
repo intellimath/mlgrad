@@ -270,6 +270,15 @@ cdef double _sum(const double *a, const Py_ssize_t n) noexcept nogil:
 cdef double sum(double[::1] a) noexcept nogil:
     return _sum(&a[0], a.shape[0])
 
+cdef void _mul_const(double *a, double *b, const double c, const Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+
+    for i in range(n):
+        a[i] = b[i] * c
+
+cdef void mul_const(double[::1] a, double[::1] b, const double c) noexcept nogil:
+    _mul_const(&a[0], &b[0], c, a.shape[0])
+
 cdef void _imul_const(double *a, const double c, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
@@ -883,13 +892,42 @@ cdef double _median_1d(double[::1] x): # noexcept nogil:
         mv2 = _kth_smallest(&x[0], n, n2-1)
         return (mv1 + mv2) / 2
 
+cdef double _quantile_1d(double[::1] x, double alpha): # noexcept nogil:
+    cdef Py_ssize_t nq, n = x.shape[0]
+    cdef double mv1, mv2, an
+
+    an = alpha * n
+    nq = <Py_ssize_t>floor(an)
+
+    mv2 = _kth_smallest(&x[0], n, nq+1)
+    mv1 = _kth_smallest(&x[0], n, nq)
+    return mv1 + (an - nq) * (mv2 - mv1)
+
+cdef double _iqr_1d(double[::1] x): # noexcept nogil:
+    cdef Py_ssize_t nq25, nd75, n = x.shape[0]
+    cdef double mv1, mv2, an, v1, v2
+
+    an = 0.75 * n
+    nq75 = <Py_ssize_t>floor(an)
+    mv2 = _kth_smallest(&x[0], n, nq75+1)
+    mv1 = _kth_smallest(&x[0], n, nq75)
+    v1 =  mv1 + (an - nq75) * (mv2 - mv1)
+
+    an = 0.25 * n
+    nq25 = <Py_ssize_t>floor(an)
+    mv2 = _kth_smallest(&x[0], nq75, nq25+1)
+    mv1 = _kth_smallest(&x[0], nq75, nq25)
+    v2 =  mv1 + (an - nq25) * (mv2 - mv1)
+
+    return (v2 - v1) / 1.349
+
 cdef double _median_absdev_1d(double[::1] x, double mu):
     cdef Py_ssize_t i, n = x.shape[0]
     cdef double[::1] temp = empty_array(n)
 
     for i in range(n):
         temp[i] = fabs(x[i] - mu)
-    return _median_1d(temp)
+    return _median_1d(temp) / 0.6748
 
 cdef void _median_2d(double[:,::1] x, double[::1] y): # noexcept nogil:
     cdef Py_ssize_t i, N = x.shape[0], n = x.shape[1]
@@ -917,7 +955,7 @@ cdef void _median_absdev_2d(double[:,::1] x, double[::1] mu, double[::1] y):
         mu_i = mu[i]
         for j in range(m):
             temp[j] = fabs(x[i,j] - mu_i)
-        y[i] = _median_1d(temp)
+        y[i] = _median_1d(temp) / 0.6748
 
 cdef void _median_absdev_2d_t(double[:,::1] x, double[::1] mu, double[::1] y):
     cdef Py_ssize_t i, j, n = x.shape[0], m = x.shape[1]
@@ -928,7 +966,7 @@ cdef void _median_absdev_2d_t(double[:,::1] x, double[::1] mu, double[::1] y):
         mu_j = mu[j]
         for i in range(n):
             temp[i] = fabs(x[i,j] - mu_j)
-        y[j] = _median_1d(temp)
+        y[j] = _median_1d(temp) / 0.6748
 
 cdef double _robust_mean_1d(double[::1] x, double tau): #noexcept nogil:
     cdef Py_ssize_t i, j, q, n = x.shape[0]
@@ -941,7 +979,7 @@ cdef double _robust_mean_1d(double[::1] x, double tau): #noexcept nogil:
 
     s = 0
     q = 0
-    tau /= 0.6745
+    # tau /= 0.6745
     for i in range(n):
         v = x[i]
         if (v <= mu + tau*std) and (v >= mu - tau*std):
@@ -958,7 +996,7 @@ cdef void _robust_mean_2d_t(double[:,::1] x, double tau, double[::1] y):
     _median_2d_t(x, mu)
     _median_absdev_2d_t(x, mu, std)
 
-    tau /= 0.6745
+    # tau /= 0.6745
     for j in range(m):
         mu_j = mu[j]
         std_j = std[j]
@@ -980,7 +1018,7 @@ cdef void _robust_mean_2d(double[:,::1] x, double tau, double[::1] y):
     _median_2d(x, mu)
     _median_absdev_2d(x, mu, std)
 
-    tau /= 0.6745
+    # tau /= 0.6745
     for i in range(n):
         mu_i = mu[i]
         std_i = std[i]
@@ -1102,10 +1140,13 @@ cdef void _relative_abs_max(double *x, double *y, const Py_ssize_t n) noexcept n
         if v > max_val:
             max_val = v
 
+    if max_val == 0:
+        max_val = 1
+
     for i in range(n):
         y[i] /= max_val
 
-cdef void _add_to_zeroes(double *a, const Py_ssize_t n, double eps):
+cdef void _add_to_zeros(double *a, const Py_ssize_t n, double eps):
     cdef double v 
 
     for i in range(n):
@@ -1116,9 +1157,9 @@ cdef void _add_to_zeroes(double *a, const Py_ssize_t n, double eps):
             else:
                 a[i] = -eps
 
-def add_to_zeroes(a, eps=1.0e-9):
+def add_to_zeros(a, eps=1.0e-9):
     cdef double[::1] aa = _asarray(a)
-    _add_to_zeroes(&aa[0], aa.shape[0], eps)
+    _add_to_zeros(&aa[0], aa.shape[0], eps)
 
 def zscore(a, b=None):
     cdef double[::1] aa = _asarray(a)
@@ -1321,6 +1362,20 @@ def median_1d(x, copy=True):
         xx = x
     return _median_1d(_asarray(xx))
 
+def quantile_1d(x, alpha, copy=True):
+    if copy:
+        xx = x.copy()
+    else:
+        xx = x
+    return _quantile_1d(_asarray(xx), alpha)
+
+def iqr_1d(x, copy=True):
+    if copy:
+        xx = x.copy()
+    else:
+        xx = x
+    return _iqr_1d(_asarray(xx))
+
 def median_absdev_1d(x, mu):
     return _median_absdev_1d(_asarray(x), mu)
 
@@ -1440,7 +1495,7 @@ cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W,
 #             S_i[j] = S_j[i] = s
 #             S_j += n
 #         S_i += n
-            
+
 def covariance_matrix_weighted(X, W, loc=None, S=None):
     X = _asarray(X)
     n = X.shape[1]

@@ -236,3 +236,4 @@ def plot_array_vlines(P, y0=0, colors=None):
     ax = plt.gca()
     ax.minorticks_on()
 
+
