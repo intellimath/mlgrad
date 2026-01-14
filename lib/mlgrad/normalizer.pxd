@@ -9,11 +9,11 @@ cdef class Normalizer:
 
 @cython.final
 cdef class LinearModelNormalizer(Normalizer):
-    pass
+    cdef Py_ssize_t offset
 
 @cython.final
 cdef class LinearModelPositive(Normalizer):
-    pass
+    cdef Py_ssize_t offset
 
 @cython.final
 cdef class Masked(Normalizer):

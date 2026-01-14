@@ -86,6 +86,7 @@ cdef class Risk(Functional):
     #
     cdef double[::1] grad
     cdef double[::1] grad_r
+    cdef double[::1] grad_eqns
     # cdef readonly double tau
     cdef readonly Py_ssize_t n_sample
     cdef uint8[::1] mask

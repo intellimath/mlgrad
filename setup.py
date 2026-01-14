@@ -19,8 +19,8 @@ is_linux = (platform.system() == 'Linux')
 print(f"platform: {platform_system}")
 
 
-optimize = False
-native   = False
+optimize = True
+native   = True
 if optimize:
     if is_windows:
         Oflag = ["/O2", "/arch:AVX2"]
@@ -157,7 +157,7 @@ ext_modules = [
         "mlgrad.avragg",
         ["lib/mlgrad/avragg.pyx"],
         # library=["-lm"],
-        extra_compile_args = extra_compile_args_openmp, 
+        extra_compile_args = extra_compile_args_openmp,
         extra_link_args = extra_link_args_openmp,
         define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
@@ -165,7 +165,7 @@ ext_modules = [
         "mlgrad.kaverage",
         ["lib/mlgrad/kaverage.pyx"],
         # library=["-lm"],
-        extra_compile_args = extra_compile_args, 
+        extra_compile_args = extra_compile_args,
         extra_link_args = extra_link_args,
         define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),

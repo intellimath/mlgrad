@@ -1,12 +1,15 @@
 import numpy as np
 import mlgrad.regr as regr
 import mlgrad.models as models
+import mlgrad.funcs2 as funcs2
 import mlgrad.inventory as inventory
 
 import matplotlib.pyplot as plt
 
 def normalize(a):
-    return a / np.sqrt(a @ a)
+    aa = np.asarray(a)
+    aa1 = aa[1:]
+    a[:] = aa / np.sqrt(aa1 @ aa1)
 
 def make_model(n):
     mod = models.LinearModel(n)
@@ -16,8 +19,8 @@ def accuracy_score(Y1, Y2):
     return (Y1 == Y2).astype("d").mean()
 
 def cls_pca(X, Y, lossfunc, m=2, model_maker=make_model,
-             regnorm=None, tau=0.0,
-             normalizer=None, support_negate=True,
+             regnorm=None, tau=0,
+             normalizer=None, support_negate=False,
              verbose=True, callback=None, h=0.001, n_iter=1000, tol=1.0e-9):
     As = []
     Us = []
@@ -26,16 +29,22 @@ def cls_pca(X, Y, lossfunc, m=2, model_maker=make_model,
     N, n = XX.shape
     cc = 0
 
+    zz = np.zeros(n, "d")
+
     for k in range(m):
         mod = model_maker(n)
+        mod.init_param()
         if regnorm is not None and tau != 0:
             mod.use_regularizer(regnorm, tau)
+        # if len(As) > 0:
+        #     for aa in As:
+        #         eqn = funcs2.Dot(aa, 1)
+        #         mod.use_eqn(eqn, 0)
         alg = regr.regression(XX, YY, mod, lossfunc,
                   normalizer=normalizer,
-                  # regnorm=regnorm, tau=tau,
                   h=h, n_iter=n_iter, tol=tol)
 
-        inventory.normalize2(mod.param)
+        # normalize(mod.param)
 
         if support_negate:
             U = mod.evaluate(XX)
@@ -44,38 +53,49 @@ def cls_pca(X, Y, lossfunc, m=2, model_maker=make_model,
                 for i,v in enumerate(mod.param):
                     mod.param[i] = -v
 
+        # U = mod.evaluate(XX)
+        # if verbose:
+        #     print(k, ":", alg.K, accuracy_score(np.sign(U), YY))
+
         a = np.array(mod.param, copy=True)
+        # normalize parameters
         a1 = a[1:]
+        a /= np.sqrt(a1 @ a1)
+
+        # find center in the hyperplane
+        c = a[0]
+        ca = c * a1
+
+        # orthogonalize a1 against vectors in As
         for aa in As:
             aa1 = aa[1:]
             a1 -= (aa1 @ a1) * aa1
-        norm_a = np.sqrt(a1 @ a1)
-        if norm_a == 0:
-            break
-        a /= norm_a
-        for i in range(len(mod.param)):
-            mod.param[i] = a[i]
-        As.append(a)
 
+        # renormalize a1
+        a1 /= np.sqrt(a1 @ a1)
+        mod.param[:] = a
 
         U = mod.evaluate(XX)
         if verbose:
             print(k, ":", alg.K, accuracy_score(np.sign(U), YY))
+
+        if (abs(a1) >= 1.0e-10).astype("i").sum() == 0:
+            print("Zeros array")
+            break
+
+        As.append(a)
         Us.append(U)
         mods.append(mod)
-
 
         if callback is not None:
             callback(XX, YY, mod)
 
-        a1 = a[1:]
-        c = a[0]
-        ca = c * a1
+        ca = -c * a1
         cc += ca
         XX = XX - ca
         XX = XX - np.outer(XX @ a1, a1)
-        # XX = np.array([(xx - (xx @ a1) * a1) for xx in XX])
 
-    As = np.array(As)
-    Us = np.array(Us)
+    As = np.asarray(As)
+    As = As[:,1:]
+    Us = np.asarray(Us)
     return cc, As, Us, mods

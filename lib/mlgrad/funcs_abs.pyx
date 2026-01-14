@@ -232,8 +232,8 @@ cdef class SoftAbs_FSqrt(Func):
     #     return { 'name':'sqrt',
     #              'args': (self.eps) }
 
-cdef double ln2 = log(2) 
-    
+cdef double ln2 = log(2)
+
 @cython.final
 cdef class SoftAbs_Exp(Func):
     #
@@ -250,21 +250,6 @@ cdef class SoftAbs_Exp(Func):
         else:
             return 0
     #
-    # @cython.cdivision(True)
-    # @cython.final
-    # cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
-    #     cdef Py_ssize_t i
-    #     cdef double v, lam = self.lam
-
-    #     for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
-    #         v = x[i]
-    #         if v > 0:
-    #             y[i] =  v + (ln(1 + exp(-2*lam*v) - ln2) / lam
-    #         elif v < 0:
-    #             y[i] = -v + (ln(1 + exp( 2*lam*v)) - ln2) / lam
-    #         else:
-    #             y[i] = 0
-    #
     @cython.cdivision(True)
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
@@ -276,16 +261,6 @@ cdef class SoftAbs_Exp(Func):
             return (exp(2*eps1*x) - 1) / (1 + exp(2*eps1*x))
         else:
             return 0
-    #
-    # @cython.cdivision(True)
-    # @cython.final
-    # cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
-    #     cdef Py_ssize_t i
-    #     cdef double v, eps = self.eps, eps2 = self.eps2
-
-    #     for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
-    #         v = x[i]
-    #         y[i] = v / sqrt(eps2 + v*v)
     #
     @cython.cdivision(True)
     @cython.final

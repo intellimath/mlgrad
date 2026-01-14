@@ -122,12 +122,12 @@ cdef class BaseModel(Regularized):
     def predict(self, X):
         return self.evaluate(X)
     #
-    def evaluate_all(self, X):
-        X = _asarray2d(X)
-        Y = inventory.empty_array(X.shape[0])
-        self._evaluate(X, Y)
-        return Y
-    #
+    # def evaluate_all(self, X):
+    #     X = _asarray2d(X)
+    #     Y = inventory.empty_array(X.shape[0])
+    #     self._evaluate(X, Y)
+    #     return Y
+    # #
     def evaluate_one(self, x):
         """Вычисляет значения модели для одного заданного входа.
         Параметры:
@@ -235,32 +235,6 @@ cdef class Model(BaseModel):
     #
     cdef void _gradient_xw(self, double[::1] X, double[:,::1] Gxw):
         pass
-
-# cdef class Smoothed(Model):
-#     #
-#     def use_smoother(self, Func2 smoothfunc, double tau):
-#         self.smoothfunc = smoothfunc
-#         self.tau2 = tau
-#     #
-#     cdef bint _is_smoothed(self) noexcept nogil:
-#         return (self.smoothfunc is not None and self.tau2 != 0)
-#     #
-#     cdef double _evaluate_smooth(self, double[::1] Xk):
-#         self.gradient_x(Xk, self.grad_x)
-#         return self.tau2 * self.smoothfunc._evaluate(self.grad_x)
-#     #
-#     cdef void _gradient_smooth(self, double[::1] Xk, double[::1] smooth_grad):
-#         self.gradient_x(Xk, self.grad_x)
-#         self.smoothfunc._gradient(self.grad_x, smooth_grad)
-#         inventory.imul_const(smooth_grad, self.tau2)
-#     #
-#     def evaluate_smooth(self):
-#         return self._evaluate_smooth()
-#     #
-#     def gradient_smooth(self):
-#         smooth_grad = inventory.empty_array(self.n_input)
-#         self._gradient_smooth(smooth_grad)
-#         return smooth_grad
 
 cdef class LinearModel(Model):
     __doc__ = """LinearModel(param)"""
@@ -581,16 +555,14 @@ cdef class SigmaNeuronModel(Model):
     #
     cdef double _evaluate_one(self, double[::1] Xk):
         cdef double s
-        cdef double *pp = &self.param[0]
 
-        s =  pp[0] + inventory._dot(&pp[1], &Xk[0], self.n_input)
+        s =  self.param[0] + inventory._dot(&self.param[1], &Xk[0], self.n_input)
         return self.outfunc._evaluate(s)
     #
     cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
-        cdef double *pp = &self.param[0]
         cdef double s, sx
 
-        s =  pp[0] + inventory._dot(&pp[1], &Xk[0], self.n_input)
+        s =  self.param[0] + inventory._dot(&self.param[1], &Xk[0], self.n_input)
         sx = self.outfunc._derivative(s)
 
         grad[0] = sx
@@ -598,23 +570,20 @@ cdef class SigmaNeuronModel(Model):
     #
     cdef void _gradient_x(self, double[::1] Xk, double[::1] grad_x):
         # cdef Py_ssize_t i
-        cdef double *pp = &self.param[0]
         cdef double *gg = &grad_x[0]
         cdef double *xx = &Xk[0]
         cdef double s, sx
 
-        s =  pp[0] + inventory._dot(pp, &Xk[0], self.n_input)
+        s =  self.param[0] + inventory._dot(&self.param[1], &Xk[0], self.n_input)
         sx = self.outfunc._derivative(s)
 
-        inventory._mul_set(&grad_x[0], &pp[1], sx, self.n_input)
+        inventory._mul_set(&grad_x[0], &self.param[1], sx, self.n_input)
     #
     cdef void _gradient_xw(self, double[::1] Xk, double[:,::1] Gxw):
-        cdef double *pp = &self.param[0]
-        # cdef double *gg = &grad[0]
         cdef double *xx = &Xk[0]
         cdef double s, sx
 
-        s =  pp[0] + inventory._dot(pp, &Xk[0], self.n_input)
+        s =  self.param[0] + inventory._dot(&self.param[0], &Xk[0], self.n_input)
         ds = self.outfunc._derivative(s)
         ds2 = self.outfunc._derivative2(s)
         #
@@ -657,22 +626,19 @@ cdef class SimpleComposition(Model):
         return self.func._evaluate(self.model._evaluate_one(X))
     #
     cdef void _gradient_one(self, double[::1] X, double[::1] grad):
-        # cdef Py_ssize_t j
         cdef double val
         cdef Model mod = self.model
 
         val = self.func._derivative(mod._evaluate_one(X))
         mod._gradient_one(X, grad)
         inventory._imul_const(&grad[0], val, <Py_ssize_t>grad.shape[0])
-        # for j in range(self.grad.shape[0]):
-        #     grad[j] *= val
     #
     cdef void _gradient_x(self, double[::1] X, double[::1] grad_x):
         # cdef Py_ssize_t j
         cdef double val
         cdef Model mod = self.model
 
-        inventory._clear(&grad_x[0], <Py_ssize_t>grad_x.shape[0])
+        # inventory._clear(&grad_x[0], <Py_ssize_t>grad_x.shape[0])
         val = self.func._derivative(mod._evaluate_one(X))
         mod._gradient_x(X, grad_x)
         inventory._imul_const(&grad_x[0], val, <Py_ssize_t>grad_x.shape[0])
@@ -855,7 +821,7 @@ cdef class ModelComposition_j(Model):
 
 cdef class Model2(Regularized):
 
-    cdef void _forward(self, double[::1] X):
+    cdef void _forward(self, double[::1] Xk):
         pass
     #
     # cdef void gradient_j(self, Py_ssize_t j, double[::1] X, double[::1] grad):
@@ -864,8 +830,27 @@ cdef class Model2(Regularized):
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
         pass
     #
+    def forward(self, Xk):
+        self._forward(Xk)
+    #
+    def backward(self, X, grad_out, grad):
+        self._backward(X, grad_out, grad)
+    #
     def copy(self, bint share=0):
         return self._copy(share)
+    #
+    def evaluate_one(self, double[::1] Xk):
+        self._forward(Xk)
+        return np.array(self.output, copy=True)
+    #
+    def evaluate(self, X):
+        n_output = self.n_output
+        N = len(X)
+        Y = np.empty((N, n_output), "d")
+        for k, Xk in enumerate(X):
+            self._forward(Xk)
+            Y[k,:] = self.output
+        return Y
     #
 
 cdef class ModelLayer(Model2):
@@ -875,12 +860,12 @@ cdef class ModelLayer(Model2):
     # cdef void _backward(self, double[::1] grad_out, double[::1] grad):
     #     pass
     #
-    def forward(self, X):
-        self._forward(X)
-    #
-    def backward(self, X, grad_out, grad):
-        self._backward(X, grad_out, grad)
-    #
+    # def forward(self, X):
+    #     self._forward(X)
+    # #
+    # def backward(self, X, grad_out, grad):
+    #     self._backward(X, grad_out, grad)
+    # #
     def allocate(self):
         allocator = ArrayAllocator(self.n_param)
         self._allocate_param(allocator)
@@ -888,10 +873,6 @@ cdef class ModelLayer(Model2):
     def init_param(self):
         for mod in self.models:
             mod.init_param()
-    #
-    # cdef double[::1] _evaluate_one(self, double[::1] X):
-    #     self.forward(X)
-    #     return self.output
     #
 
 cdef class LinearNNModel(Model):
@@ -941,55 +922,70 @@ cdef class LinearNNModel(Model):
     #
     # cdef void regularizer_gradient_l2(self, double[:,::1] X, double[::1] R):
 
-cdef class SigmoidalNN1Model(Model):
-    def __init__(self, n_input, n_hidden, outfunc=funcs.Sigmoidal(1.0)):
-        self.linear_layer = LinearLayer(n_input, n_hidden)
-        self.scale_layer = ScaleLayer(outfunc, n_hidden)
-        self.linear_model = LinearModel(n_hidden)
-        self.n_input = n_input
-        self.n_hidden = n_hidden
-        self.n_param = (n_input+1)*n_hidden + n_hidden + 1
-        self.param = self.ob_param = None
-        self.grad_x = None
-        self.grad = None
-        # self.first_time = 1
-        self.mask = None
-        #
-        self.regfunc = None
-        self.tau = 0
-        self.eqns = None
-    #
-    def _allocate_param(self, allocator):
-        _allocator = allocator.suballocator()
-        self.linear_layer._allocate_param(_allocator)
-        self.linear_model._allocate_param(_allocator)
-        self.ob_param = _allocator.get_allocated()
-        self.param = self.ob_param
-        self.param_base = _allocator.buf_array
-        _allocator.close()
+# cdef class SimpleNNModel(Model):
+#     def __init__(self, n_input, n_hidden, outfunc=funcs.Sigmoidal(1.0)):
+#         self.linear_layer = LinearLayer(n_input, n_hidden)
+#         self.scale_layer = ScaleLayer(outfunc, n_hidden)
+#         self.linear_model = LinearModel(n_hidden)
+#         self.n_input = n_input
+#         self.n_hidden = n_hidden
+#         self.n_param = (n_input+1)*n_hidden + n_hidden + 1
+#         self.param = self.ob_param = None
+#         self.grad_x = None
+#         self.grad = None
+#         # self.first_time = 1
+#         self.mask = None
+#         #
+#         self.regfunc = None
+#         self.tau = 0
+#         self.eqns = None
+#         self.evaluated = 0
+#     #
+#     def _allocate_param(self, allocator):
+#         _allocator = allocator.suballocator()
+#         self.linear_layer._allocate_param(_allocator)
+#         self.linear_model._allocate_param(_allocator)
+#         self.ob_param = _allocator.get_allocated()
+#         self.param = self.ob_param
+#         self.param_base = _allocator.buf_array
+#         _allocator.close()
 
-        self.grad_x = np.zeros(self.n_input, 'd')
-        self.grad = np.zeros(self.n_param, 'd')
-    #
-    def init_param(self):
-        self.linear_layer.init_param()
-        self.linear_model.init_param()
-    #
-    cdef double _evaluate_one(self, double[::1] Xk):
-        self.linear_layer._forward(Xk)
-        self.scale_layer._forward(self.linear_layer.output)
-        return self.linear_model._evaluate_one(self.scale_layer.output)
-    #
-    cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
-        cdef Py_ssize_t offset = self.linear_layer.n_param
-        cdef double[::1] grad_out = grad[offset:]
+#         self.grad_x = np.zeros(self.n_input, 'd')
+#         self.grad = np.zeros(self.n_param, 'd')
+#     #
+#     def init_param(self):
+#         self.linear_layer.init_param()
+#         self.linear_model.init_param()
+#     #
+#     cdef double _evaluate_one(self, double[::1] Xk):
+#         self.linear_layer._forward(Xk)
+#         self.scale_layer._forward(self.linear_layer.output)
+#         self.evaluated = 1
+#         return self.linear_model._evaluate_one(self.scale_layer.output)
+#     #
+#     cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
+#         cdef Py_ssize_t offset = self.linear_layer.n_param
+#         cdef double[::1] grad_out = grad[offset:]
 
-        self.linear_layer._forward(Xk)
-        self.scale_layer._forward(self.linear_layer.output)
+#         if not self.evaluated:
+#             self.linear_layer._forward(Xk)
+#             self.scale_layer._forward(self.linear_layer.output)
 
-        self.linear_model._gradient_one(self.scale_layer.output, grad_out)
-        self.scale_layer._backward(self.linear_layer.output, grad_out, None)
-        self.linear_layer._backward(self.scale_layer.output, grad_out, grad[:offset])
+#         self.linear_model._gradient_x(self.scale_layer.output, grad_out)
+#         self.scale_layer._backward(self.linear_layer.output, grad_out, None)
+#         self.linear_layer._backward(self.scale_layer.output, grad_out, grad[:offset])
+#         self.evaluated = 0
+#     #
+#     cdef void _gradient_x_one(self, double[::1] Xk, double[::1] grad):
+#         cdef Py_ssize_t offset = self.linear_layer.n_input
+#         cdef double[::1] grad_out = grad[offset:]
+
+#         if not self.evaluated:
+#             self.linear_layer._forward(Xk)
+#             self.scale_layer._forward(self.linear_layer.output)
+
+#         self.linear_model._gradient(self.scale_layer.output, grad_out)
+#         self.scale_layer._backward(self.linear_layer.output, grad_out, None)
 
 cdef class LinearLayer(ModelLayer):
 
@@ -1022,7 +1018,7 @@ cdef class LinearLayer(ModelLayer):
     #
     def init_param(self, random=True):
         if random:
-            ob_param = np.ascontiguousarray(1*np.random.random(self.n_param)-0.5)
+            ob_param = np.ascontiguousarray(np.random.random(self.n_param)-0.5)
         else:
             ob_param = np.zeros(self.n_param, "d")
         if self.param is None:
@@ -1045,51 +1041,25 @@ cdef class LinearLayer(ModelLayer):
     #     return layer
     #
     cdef void _forward(self, double[::1] X):
-        cdef Py_ssize_t n
-        _input = self.n_input
-        cdef Py_ssize_t j
+        cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t j, offset
         cdef double[::1] output = self.output
-        cdef double[:,::1] matrix = self.matrix
-        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
 
-        # for j in prange(self.n_output, nogil=True, schedule='static', 
-        #                 num_threads=inventory.get_num_threads_ex(self.n_output)):
         for j in range(self.n_output):
-            output[j] = inventory._dot1(&matrix[j,0], &X[0], self.n_input)
+            offset = j * (n_input+1)
+            output[j] = inventory._linear_func(&self.param[offset], &X[0], n_input)
     #
     cdef void _backward(self, double[::1] Xk, double[::1] grad_out, double[::1] grad):
-        cdef Py_ssize_t i, j
+        cdef Py_ssize_t i, j, offset
         cdef Py_ssize_t n_input = self.n_input
         cdef Py_ssize_t n_output = self.n_output
-        cdef double[::1] grad_in = self.grad_x
-        # cdef double *grad_p = &grad[0]
-        # cdef double *param_p = &self.param[0]
-        # cdef double *G
-        # cdef double sx, s
-        cdef double[:,::1] matrix = self.matrix
-        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
 
-        inventory._clear(&grad_in[0], n_input)
-
-        # num_threads = inventory.get_num_threads_ex(self.n_output)
-        # for j in prange(self.n_output, nogil=True, schedule='static', 
-        #                 num_threads=num_threads):
         for j in range(n_output):
-            # G = &grad[j * (n_input + 1)] #grad_p + j * (n_input + 1)
-            # G[0] = sx = grad_out[j]
-            inventory._mul_set1(&grad[j * (n_input+1)], &Xk[0], grad_out[j], n_input)
+            offset = j * (n_input + 1)
+            inventory._mul_set1(&grad[offset], &Xk[0], grad_out[j], n_input)
 
-        # num_threads = inventory.get_num_threads_ex(self.n_input)
-        # for i in prange(self.n_input, nogil=True, schedule='static',
-        #                 num_threads=num_threads):
         for i in range(n_input):
-            grad_in[i] = inventory._dot_t(&grad_out[0], &matrix[0,i+1], n_output, n_input+1)
-            # s = 0
-            # W = &matrix[0,i+1]
-            # for j in range(self.n_output):
-            #     s += grad_out[j] * W[0]
-            #     W += n_input
-            # grad_in[i] = s
+            self.grad_x[i] = inventory._dot_t(&grad_out[0], &self.param[i+1], n_output, n_input+1)
     #
     cdef bint _is_regularized(self) noexcept nogil:
         if self.regfunc is None or self.tau == 0:
@@ -1099,35 +1069,26 @@ cdef class LinearLayer(ModelLayer):
     #
     cdef double _evaluate_reg(self):
         cdef Py_ssize_t i, j
-        cdef double[:,::1] matrix
         cdef double s = 0
-
-        matrix = self.matrix
 
         for i in range(self.n_output):
             s += self.tau * self.regfunc._evaluate(self.matrix[i])
         return s
     #
     cdef void _gradient_reg(self, double[::1] grad_reg):
-        cdef Py_ssize_t i, k
-        cdef Py_ssize_t n_p = self.n_input + 1
-        cdef double[:,::1] matrix
-        cdef double[::1] _grad_reg
+        cdef Py_ssize_t i, offset
+        cdef Py_ssize_t n_input1 = self.n_input+1
+        cdef double[::1] _grad_reg = inventory.empty_array(n_input1)
 
-        matrix = self.matrix
-        _grad_reg = inventory.empty_array(n_p)
-
-        # inventory.clear(grad_reg)
-        k = 0
+        offset = 0
         for i in range(self.n_output):
             self.regfunc._gradient(self.matrix[i], _grad_reg)
-            inventory._imul_const(&_grad_reg[0], self.tau, n_p)
-            # inventory.move(grad_reg[k:k+n_p], _grad_reg)
-            inventory._move(&grad_reg[k], &_grad_reg[0], n_p)
-            k += n_p
+            inventory._imul_const(&_grad_reg[0], self.tau, n_input1)
+            inventory._move(&grad_reg[offset], &_grad_reg[0], n_input1)
+            offset += n_input1
     #
     def as_dict(self):
-        return { 'name': 'linear_neuron_layer',
+        return { 'name': 'linear_layer',
                  'n_input': self.n_input,
                  'n_output': self.n_output,
                  'matrix': [list(row) for row in self.matrix]
@@ -1161,24 +1122,16 @@ cdef class ScaleLayer(ModelLayer):
         self.eqns = None
     #
     cdef void _forward(self, double[::1] X):
-        cdef double[::1] output = self.output
-        cdef Func func = self.func
         cdef Py_ssize_t j
-        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
 
-        # for j in prange(self.n_output, nogil=True, schedule='static', num_threads=num_threads):
         for j in range(self.n_output):
-            output[j] = func._evaluate(X[j])
+            self.output[j] = self.func._evaluate(X[j])
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
-        cdef double *grad_in = &self.grad_x[0]
-        cdef Func func = self.func
         cdef Py_ssize_t j
-        # cdef int num_threads = inventory.get_num_threads_ex(self.n_output)
 
-        # for j in prange(self.n_input, nogil=True, schedule='static', num_threads=num_threads):
         for j in range(self.n_input):
-            grad_in[j] = grad_out[j] * func._derivative(X[j])
+            self.grad_x[j] = grad_out[j] * self.func._derivative(X[j])
     #
     def copy(self, bint share):
         cdef ScaleLayer layer = ScaleLayer(self.func, self.n_input)
@@ -1629,7 +1582,6 @@ cdef class LinearFuncModel(BaseModel):
     #     return self._evaluate(XX)
     #
     # cdef _update_param(self, double[::1] param):
-        
     #     inventory._move(&self.param[0], &param[0], self.n_param)
     #
     cdef void _gradient_one(self, double[::1] Xk, double[::1] grad):
@@ -1656,6 +1608,15 @@ cdef class MLModel:
 
     cdef void _forward(self, double[::1] X):
         pass
+    #
+    def forward(self, double[::1] Xk):
+        self._forward(Xk)
+    #
+    def backward(self, double[::1] Xk, grad_u, double[::1] grad=None):
+        if grad is None:
+            self._backward(Xk, grad_u, self.grad)
+        else:
+            self._backward(Xk, grad_u, grad)
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
         pass
@@ -1691,11 +1652,45 @@ cdef class MLModel:
         for layer in self.layers:
             layer.init_param()
     #
-    def evaluate_one(self, x):
-        cdef double[::1] x1d = _asarray1d(x)
+    def add(self, layer):
+        n_layer = len(self.layers)
+        if n_layer == 0:
+            self.n_input = layer.n_input
+        else:
+            n_output = self.layers[n_layer-1].n_output
+            if n_output != layer.n_input:
+                raise RuntimeError(f"Previous layer n_output={n_output}, layer n_input={layer.n_input}")
+        self.layers.append(layer)
 
-        self._forward(x1d)
-        return _asarray(self.output)
+        self.n_param += layer.n_param
+        self.n_output = layer.n_output
+        self.output = layer.output
+    #
+    def __iadd__(self, layer):
+        self.add(layer)
+        return self
+    #
+    def __getitem__(self, i):
+        return self.layers[i]
+    #
+    def __len__(self):
+        return len(self.layers)
+    #
+    def __iter__(self):
+        return iter(self.layers)
+    #
+    # def evaluate_one(self, double[::1] Xk):
+    #     self._forward(Xk)
+    #     return np.array(self.output, copy=True)
+    # #
+    # def evaluate(self, X):
+    #     n_output = self.n_output
+    #     N = len(X)
+    #     Y = np.empty((N, n_output), "d")
+    #     for k, Xk in enumerate(X):
+    #         self._forward(Xk)
+    #         Y[k,:] = self.output
+    #     return Y
     #
     cdef bint _is_regularized(self) noexcept nogil:
         return 1
@@ -1743,28 +1738,6 @@ cdef class FFNetworkModel(MLModel):
         self.tau = 0
         self.eqns = None
     #
-    def add(self, layer):
-        n_layer = len(self.layers)
-        if n_layer == 0:
-            self.n_input = layer.n_input
-        else:
-            n_output = self.layers[n_layer-1].n_output
-            if n_output != layer.n_input:
-                raise RuntimeError(f"Previous layer n_output={n_output}, layer n_input={layer.n_input}")
-        self.layers.append(layer)
-
-        self.n_param += layer.n_param
-        self.n_output = layer.n_output
-        self.output = layer.output
-    #
-    def __getitem__(self, i):
-        return self.layers[i]
-    #
-    def __len__(self):
-        return len(self.layers)
-    #
-    def __iter__(self):
-        return iter(self.layers)
     #
     # cdef FFNetworkModel _copy(self, bint share):
     #     cdef FFNetworkModel ml = FFNetworkModel()

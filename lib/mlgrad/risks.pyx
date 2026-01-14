@@ -129,6 +129,7 @@ cdef class Risk(Functional):
     cdef void add_equations_gradient(self):
         cdef Py_ssize_t j, m
         cdef BaseModel _model = <BaseModel>self.model
+        cdef double[::1] grad = self.grad
         cdef double[::1] grad_average = self.grad_average
         cdef double[:,::1] A, G
         cdef double[::1] b
@@ -143,13 +144,12 @@ cdef class Risk(Functional):
         for i in range(m):
             eqn_i = <Func2>_model.eqns[i]
             eqn_i._gradient(_model.param, G[i])
+        for i in range(m):
             for j in range(i, m):
-                eqn_j = <Func2>_model.eqns[j]
-                eqn_j._gradient(_model.param, G[j])
                 A[i,j] = inventory.dot(G[i], G[j])
                 if i != j:
                     A[j,i] = A[i,j]
-            b[i] = -inventory.dot(grad_average, G[i])
+            b[i] = -inventory.dot(grad, G[i])
 
         if m == 1:
             vl = b[0] / A[0,0]
@@ -158,7 +158,7 @@ cdef class Risk(Functional):
         else:
             AA = np.asarray(A)
             bb = np.asarray(b)
-            taus = scipy_solve(AA, bb, overwrite_a=True, overwrite_b=True, assume_a="pos")
+            taus = scipy_solve(AA, bb, overwrite_a=True, overwrite_b=True)
             for i in range(m):
                 _model.taus[i] = taus[i]
             for i in range(m):
@@ -415,6 +415,12 @@ cdef class ERisk(Risk):
 
         if self.model._is_regularized():
             self.grad_r = np.zeros(self.n_param, np_double)
+        else:
+            self.grad_r = None
+        if self.model._with_eqns():
+            self.grad_eqns = np.zeros(self.n_param, np_double)
+        else:
+            self.grad_eqns = None
 
         self.grad = np.zeros(self.n_param, np_double)
         self.grad_average = np.zeros(self.n_param, np_double)
@@ -499,11 +505,13 @@ cdef class ERisk(Risk):
             for i in range(self.n_param):
                 grad_average[i] /= s
 
-        if _model._is_regularized():
-            self.add_regularized_gradient()
+        inventory.move(self.grad, self.grad_average)
 
         if _model._with_eqns():
             self.add_equations_gradient()
+
+        if _model._is_regularized():
+            self.add_regularized_gradient()
 
 cdef class ERiskGB(Risk):
     #

@@ -129,6 +129,47 @@ cdef class Dot(Func2):
             grad[i] = a[i]
     #
 
+cdef class FuncDot(Func2):
+    #
+    def __init__(self, Func func, double[::1] a, offset=0):
+        self.func = func
+        self.a = a
+        self.offset = offset
+    #
+    cdef void _evaluate_items(self, double[::1] X, double[::1] Y) noexcept nogil:
+        cdef double[::1] a = self.a
+        cdef Py_ssize_t i, n = a.shape[0]
+
+        for i in range(self.offset, n):
+            Y[i] = a[i] * X[i]
+    #
+    cdef double _evaluate(self, double[::1] X) noexcept nogil:
+        cdef double[::1] a = self.a
+        cdef Py_ssize_t i, n = a.shape[0]
+        cdef double s = 0
+
+        for i in range(self.offset, n):
+            s += a[i] * X[i]
+        return self.func._evaluate(s)
+    #
+    cdef void _gradient(self, double[::1] X, double[::1] grad) noexcept nogil:
+        cdef double[::1] a = self.a
+        cdef Py_ssize_t i, n = a.shape[0]
+        cdef Py_ssize_t offset = self.offset
+        cdef double s = 0
+
+        for i in range(self.offset, n):
+            s += self.func._evaluate(a[i] * X[i])
+        s = self.func._derivative(s)
+
+        if offset > 0:
+            for i in range(self.offset):
+                grad[i] = 0
+
+        for i in range(self.offset, n):
+            grad[i] = s * a[i]
+    #
+
 # cdef class Func2Layer:
 
 #     cdef void _evaluate(self, double[::1] X, double[::1] Y):

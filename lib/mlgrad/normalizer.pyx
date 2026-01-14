@@ -5,13 +5,15 @@ cdef class Normalizer:
         pass
 
 cdef class LinearModelNormalizer(Normalizer):
+    def __init__(self, offset=0):
+        self.offset = offset
 
     cdef normalize(self, double[::1] param):
         cdef Py_ssize_t i, n = param.shape[0]
         cdef double v, s
 
         s = 0
-        for i in range(1, n):
+        for i in range(self.offset, n):
             v = param[i]
             s += v*v
         s = sqrt(s)
@@ -20,12 +22,15 @@ cdef class LinearModelNormalizer(Normalizer):
             param[i] /= s
 
 cdef class LinearModelPositive(Normalizer):
+    #
+    def __init__(self, offset=0):
+        self.offset = offset
 
     cdef normalize(self, double[::1] param):
         cdef Py_ssize_t i, n = param.shape[0]
         cdef double v
 
-        for i in range(1, param.shape[0]):
+        for i in range(self.offset, param.shape[0]):
             v = param[i]
             if v < 0:
                 param[i] = 0

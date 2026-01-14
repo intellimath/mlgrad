@@ -121,37 +121,84 @@ def find_pc_ss(X, *, a0 = None, n_iter=200, tol=1.0e-6, verbose=0):
         print("*", L)
     return a, L
 
-# def _find_pc(S, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
-#     if a0 is None:
-#         a = np.random.random(S.shape[0])
-#     else:
-#         a = a0
+def _find_pc_lasso(S, lam, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
+    if a0 is None:
+        a = np.random.random(S.shape[0])
+    else:
+        a = a0
 
-#     np_abs = np.abs
-#     np_sqrt = np.sqrt
-#     np_sign = np.sign
+    np_abs = np.abs
+    np_sqrt = np.sqrt
+    np_sign = np.sign
 
-#     a /= np.sqrt(a @ a)
-    
-#     for K in range(n_iter):
-#         S_a = S @ a
-#         L = S_a @ a
-#         a1 = S_a / L
-#         a1 /= np_sqrt(a1 @ a1)
+    a /= np.sqrt(a @ a)
 
-#         if abs(a1 - a).max() / (1 + abs(a1).min()) < tol:
-#             a = a1
-#             break
+    for K in range(n_iter):
+        S_a = S @ a
+        L = S_a @ a + 0.5*lam * abs(a).sum()
+        a1 = (S_a + 0.5*lam * np_sign(a)) / L
+        a1 /= np_sqrt(a1 @ a1)
 
-#         a = a1
+        if abs(a1 - a).max() / (1 + abs(a1).min()) < tol:
+            a = a1
+            break
 
-#     K += 1
-#     if verbose:
-#         print("K:", K, L, a)
+        a = a1
 
-#     S_a = S @ a
-#     L = (S_a @ a) / (a @ a)
-#     return a, L
+    K += 1
+    if verbose:
+        print("K:", K, L, a)
+
+    S_a = S @ a
+    L = S_a @ a + 0.5*lam * abs(a).sum()
+    return a, L
+
+def find_pc_lasso(X, lam, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verbose=0):
+    if weights is None:
+        S = inventory.scatter_matrix(X)
+    else:
+        S = inventory.scatter_matrix_weighted(X, weights)
+    a, L =  _find_pc_lasso(S, lam, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose)
+    if verbose:
+        print("*", L)
+    return a, L
+
+def find_pc_lasso_all(X0, lam, m=None, *, weights=None, n_iter=1000, tol=1.0e-6, verbose=False):
+    # import matplotlib.pyplot as plt
+    N, n = X0.shape
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    As = np.empty((m,n), "d")
+    Ls = np.empty(m, "d")
+
+    X = X0
+    # plt.figure(figsize=(6,4))
+    for i in range(m):
+        # qvals = []
+        a, L = find_pc_lasso(X, lam, verbose=verbose) #, qvals=qvals)
+        X = project(X, a)
+        Ls[i] = L
+        As[i,:] = a
+        # plt.plot(qvals, label=str(i))
+    # plt.legend()
+    # plt.show()
+
+    return As, Ls
+
+def find_loc_and_pc_lasso(X, lam, m=None, *, weights=None, verbose=False):
+    n = X.shape[1]
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    c = location(X, weights)
+    Xc = X - c
+    As, Ls = find_pc_lasso_all(Xc, lam, m, weights=weights, verbose=verbose)
+    return c, As, Ls
 
 def find_rho_pc(X, rho_func, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
     N, n = X.shape

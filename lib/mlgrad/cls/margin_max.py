@@ -47,19 +47,19 @@ class MarginMaximization:
         else:
             w = self.w
 
-        
+
         if self.c is None:
             c = self.c = (X[Y>0].mean(axis=0) + X[Y<0].mean(axis=0)) / 2
         else:
             c = self.c
-        
+
         w_min = w.copy()
         c_min = c.copy()
 
         Xc = X - c
         Xw = Xc @ w
         U = Xw * Y
-        
+
         lval = lval_min = (W * func.evaluate_array(U)).sum()
         self.lvals = [lval]
 
@@ -71,16 +71,16 @@ class MarginMaximization:
 
             g = VY @ Xc - (V @ U) * w
             w -= h * g / N
-            c += h * VY.mean() * w 
+            c += h * VY.mean() * w
             w /= sqrt(w @ w)
 
             Xc = X - c
             Xw = Xc @ w
             U = Xw * Y
-            
-            lval = (W * func.evaluate_array(U)).sum()
+
+            lval = W @ func.evaluate_array(U)
             self.lvals.append(lval)
-            
+
             if lval < lval_min:
                 # lval_min_prev = lval_min
                 lval_min = lval
@@ -88,15 +88,15 @@ class MarginMaximization:
                 c_min = c.copy()
                 if verbose:
                     print("K:", K, "w:", w, "c:", c)
-            
+
             if abs(lval - lval_prev) / (1 + abs(lval_min)) < tol:
                 break
 
             # if abs(lval_min - lval_min_prev) / (1 + abs(lval_min)) < tol:
             #     break
-        
+
         self.K = K
-        self.w = w_min        
+        self.w = w_min
         self.c = c_min
 
     def evaluate(self, X):

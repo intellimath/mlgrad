@@ -225,6 +225,13 @@ cdef class FFNetworkFuncModel(Model):
     #
     # cdef FFNetworkFuncModel _copy(self, bint share)
 
+cdef class SimpleNNModel(Model):
+    cdef LinearLayer linear_layer
+    cdef ScaleLayer scale_layer
+    cdef LinearModel linear_model
+    cdef public Py_ssize_t n_hidden
+    cdef bint evaluated
+
 cdef class EllipticModel(Model):
     cdef readonly double[::1] c
     cdef readonly double[::1] S

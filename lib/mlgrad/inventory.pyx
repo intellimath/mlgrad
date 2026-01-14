@@ -347,11 +347,10 @@ cdef void _mul(double *c, const double *a, const double *b, const Py_ssize_t n) 
 cdef void mul(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
     _mul(&c[0], &a[0], &b[0], a.shape[0])
 
+cdef double linear_func(double[::1] a, double[::1] x) noexcept nogil:
+    return _linear_func(&a[0], &x[0], a.shape[0])
 
-cdef double dot1(double[::1] a, double[::1] x) noexcept nogil:
-    return _dot1(&a[0], &x[0], a.shape[0])
-
-cdef double _dot1(const double *a, const double *x, const Py_ssize_t n) noexcept nogil:
+cdef double _linear_func(const double *a, const double *x, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     cdef double s = a[0]
 
