@@ -20,7 +20,7 @@ def accuracy_score(Y1, Y2):
 
 def cls_pca(X, Y, lossfunc, m=2, model_maker=make_model,
              regnorm=None, tau=0,
-             normalizer=None, support_negate=False,
+             normalizer=None, support_negate=False, othogonalize=True,
              verbose=True, callback=None, h=0.001, n_iter=1000, tol=1.0e-9):
     As = []
     Us = []
@@ -66,13 +66,15 @@ def cls_pca(X, Y, lossfunc, m=2, model_maker=make_model,
         c = a[0]
         ca = c * a1
 
-        # orthogonalize a1 against vectors in As
-        for aa in As:
-            aa1 = aa[1:]
-            a1 -= (aa1 @ a1) * aa1
+        if othogonalize:
+            # orthogonalize a1 against vectors in As
+            for aa in As:
+                aa1 = aa[1:]
+                a1 -= (aa1 @ a1) * aa1
 
-        # renormalize a1
-        a1 /= np.sqrt(a1 @ a1)
+            # renormalize a1
+            a1 /= np.sqrt(a1 @ a1)
+
         mod.param[:] = a
 
         U = mod.evaluate(XX)
@@ -88,7 +90,7 @@ def cls_pca(X, Y, lossfunc, m=2, model_maker=make_model,
         mods.append(mod)
 
         if callback is not None:
-            callback(XX, YY, mod)
+            callback(XX, YY, mod, alg)
 
         ca = -c * a1
         cc += ca
@@ -96,6 +98,6 @@ def cls_pca(X, Y, lossfunc, m=2, model_maker=make_model,
         XX = XX - np.outer(XX @ a1, a1)
 
     As = np.asarray(As)
-    As = As[:,1:]
+    # As = As[:,1:]
     Us = np.asarray(Us)
     return cc, As, Us, mods

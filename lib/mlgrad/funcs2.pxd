@@ -73,6 +73,11 @@ cdef class FuncDot(Func2):
     cdef double[::1] a
     cdef Py_ssize_t offset
 
+cdef class FuncDot2(Func2):
+    cdef Func func
+    cdef double[:,::1] a
+    cdef Py_ssize_t offset
+
 # cdef class Func2Layer:
 #     cdef void _evaluate(self, double[::1] X, double[::1] Y)
 #     cdef void _gradient(self, double[::1] X, double[::1] Y)

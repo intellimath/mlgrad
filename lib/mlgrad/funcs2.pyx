@@ -27,22 +27,12 @@ cimport cython
 import numpy as np
 from scipy.linalg import solve as scipy_solve
 
-# from mlgrad.models import asarray1d
-
 cdef double double_max = PyFloat_GetMax()
 cdef double double_min = PyFloat_GetMin()
 
 enpty = np.empty
 
 numpy.import_array()
-
-# cdef _asarray(o):
-#     if type(o) is ndarray:
-#         return o
-#     else:
-#         return asarray(o)
-
-# asarray = np.asarray
 
 cdef class Func2:
 
@@ -159,7 +149,7 @@ cdef class FuncDot(Func2):
         cdef double s = 0
 
         for i in range(self.offset, n):
-            s += self.func._evaluate(a[i] * X[i])
+            s += a[i] * X[i]
         s = self.func._derivative(s)
 
         if offset > 0:
@@ -168,6 +158,51 @@ cdef class FuncDot(Func2):
 
         for i in range(self.offset, n):
             grad[i] = s * a[i]
+    #
+
+cdef class FuncDot2(Func2):
+    #
+    def __init__(self, Func func, double[:,::1] a, offset=0):
+        self.func = func
+        self.a = a
+        self.offset = offset
+    #
+    # cdef void _evaluate_items(self, double[::1] X, double[:,::1] Y) noexcept nogil:
+    #     cdef double[:, ::1] a = self.a
+    #     cdef Py_ssize_t i, j, m = a.shape[0], n = a.shape[1]
+
+    #     for j in range(m):
+    #         for i in range(self.offset, n):
+    #             Y[j,i] = a[j,i] * X[i]
+    #
+    cdef double _evaluate(self, double[::1] X) noexcept nogil:
+        cdef double[:, ::1] a = self.a
+        cdef Py_ssize_t i, j, m = a.shape[0], n = a.shape[1]
+        cdef double s, S = 0
+
+        for j in range(m):
+            s = 0
+            for i in range(self.offset, n):
+                s += a[j,i] * X[i]
+            S += self.func._evaluate(s)
+        return S
+    #
+    cdef void _gradient(self, double[::1] X, double[::1] grad) noexcept nogil:
+        cdef double[:, ::1] a = self.a
+        cdef Py_ssize_t i, j, m = a.shape[0], n = a.shape[1]
+        cdef Py_ssize_t offset = self.offset
+        cdef double s
+
+        for i in range(n):
+            grad[i] = 0
+
+        for j in range(m):
+            s = 0
+            for i in range(self.offset, n):
+                s += a[j,i] * X[i]
+            s = self.func._derivative(s)
+            for i in range(self.offset, n):
+                grad[i] += s * X[i]
     #
 
 # cdef class Func2Layer:

@@ -50,6 +50,7 @@ cdef class Regularized:
     cdef readonly double tau
     cdef readonly list eqns
     cdef readonly list_double taus
+    cdef readonly bint projection
 
     cdef double _evaluate_reg(self)
     cdef void _gradient_reg(self, double[::1] reg_grad)

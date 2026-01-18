@@ -11,6 +11,9 @@ from mlgrad.smooth._whittaker import whittaker_smooth_banded
 import math
 import numpy as np
 import scipy
+from scipy.special import expit
+from scipy.optimize import curve_fit
+
 # import matplotlib.pyplot as plt
 
 def whittaker_smooth(X, W=None, W1=None, W2=None, tau1=0, tau2=1.0, tau_z=0, d=2):
@@ -97,12 +100,12 @@ def whittaker_smooth_optimize_tau2(X, W=None, W2=None, d=2, tol=1.0e-6):
 #     mu = scipy.sparse.linalg.spsolve(Z, z0)
 #     return z
 
-def whittaker_smooth_ex(X, 
-              aggfunc = averaging_function("AM"), 
-              aggfunc2 = averaging_function("AM"), 
-              func = funcs.Square(), 
+def whittaker_smooth_ex(X,
+              aggfunc = averaging_function("AM"),
+              aggfunc2 = averaging_function("AM"),
+              func = funcs.Square(),
               func2 = funcs.Square(),
-              d=2, func2_mode="d", 
+              d=2, func2_mode="d",
               tau1=0, tau2=4.0, tau_z=0, n_iter=100, tol=1.0e-6):
 
     N = len(X)
@@ -120,7 +123,7 @@ def whittaker_smooth_ex(X,
     U2 = func2.evaluate_array(D2)
     aggfunc2.evaluate(U2)
     W2 = aggfunc2.weights(U2)
-    
+
     s = s_min = aggfunc.u + tau2 * aggfunc2.u
     s_min_prev = inventory.double_max / 10
     qvals = [s]
@@ -154,7 +157,7 @@ def whittaker_smooth_ex(X,
 
         if abs(s - s_min) / (1+abs(s_min)) < tol:
             flag = True
-        
+
         # mad_val = ring_array.mad()
         # if mad_val < tol:
         #     flag = True
@@ -166,11 +169,44 @@ def whittaker_smooth_ex(X,
 
         if abs(s_min_prev - s_min) / (1+abs(s_min)) < tol:
             flag = True
-        
+
         if flag:
             break
 
     return Z_min, {'qvals':qvals, 'K':K+1}
+
+def func_aspls(residual, asymmetric_coef=2.0):
+    neg_residual = residual[residual < 0]
+    if neg_residual.size < 2:
+        return np.zeros_like(residual)
+    # mu = np.median(neg_residual)
+    # std = np.median(abs(neg_residual - mu))
+    mu = neg_residual.mean()
+    std = neg_residual.std()
+    if std == 0:
+        std = float_info.min
+
+    shifted_residual = residual + neg_residual.mean()
+    # add a negative sign since expit performs 1/(1+exp(-input))
+    weights = expit(-(asymmetric_coef / std) * (shifted_residual - std))
+    return weights
+
+def func_logistic(residual):
+    X = residual
+    Y = (X < 0).astype("d")
+    def logistic(x, mu, sigma):
+        return expit(-(x - mu) / sigma)
+    neg_residual = residual[residual < 0]
+    if neg_residual.size < 2:
+        return np.zeros_like(y)
+    mu = np.median(neg_residual)
+    std = np.median(abs(neg_residual - mu))
+    p0 = (mu, std)
+    opt, _ = curve_fit(logistic, X, Y, p0=p0, maxfev=5000, xtol=1.0e-6, gtol=1.0e-6)
+    mu, sigma = opt
+    weights = logistic(X, mu, sigma)
+    # print(weights)
+    return weights
 
 def whittaker_smooth_weight_func(
             X, func=None, func1=None, func2=None, func2_e=None,
@@ -191,7 +227,7 @@ def whittaker_smooth_weight_func(
         func1 = funcs.Square()
     if func2 is None:
         func2 = funcs.Square()
-    
+
     N = len(X)
 
     W = func.derivative_div_array(E)
@@ -263,7 +299,7 @@ def whittaker_smooth_weight_func(
 def whittaker_smooth_weight_func2(
             X, func=None, func1=None, func2=None, func2_e=None, windows=None,
             tau1=0.0, tau2=1.0, tau_z=0, w_tau2 = 1.0,
-            d=2, n_iter=100, tol=1.0e-6, ):
+            d=2, n_iter=200, tol=1.0e-5, ):
 
     Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
     # Z = X * 0.999
@@ -315,7 +351,7 @@ def whittaker_smooth_weight_func2(
         Z = whittaker_smooth(X, W=W, W1=W1, W2=W2,
                              tau1=tau1, tau2=tau2, tau_z=tau_z, d=d)
 
-        dq = abs(Z - Z_prev).mean() / abs(Z_prev).mean()
+        dq = abs(Z - Z_prev).sum() / (1+abs(Z_prev).sum())
         if dq < tol:
             flag = True
 
@@ -354,116 +390,116 @@ def whittaker_smooth_weight_func2(
 
     return Z, {'qvals':qvals, 'K':K+1}
 
-def whittaker_smooth_weight_func3(
-            X, func=None, func2=None, func2_e=None, windows=None, 
-            tau2=1.0, tau_z=0, w_tau2 = 1.0, 
-            d=2, n_iter=100, tol=1.0e-9):
+# def whittaker_smooth_weight_func3(
+#             X, func=None, func2=None, func2_e=None, windows=None, 
+#             tau2=1.0, tau_z=0, w_tau2 = 1.0, 
+#             d=2, n_iter=100, tol=1.0e-9):
 
-    Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
-    # Z = X * 0.999
+#     Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
+#     # Z = X * 0.999
 
-    E = X - Z
+#     E = X - Z
 
-    if func2 is not None or tau2 > 0:
-        D2 = inventory.diff2(Z)
-    # if func1 is not None or tau1 > 0:
-    #     D1 = inventory.diff1(Z)
+#     if func2 is not None or tau2 > 0:
+#         D2 = inventory.diff2(Z)
+#     # if func1 is not None or tau1 > 0:
+#     #     D1 = inventory.diff1(Z)
 
-    N = len(X)
+#     N = len(X)
 
-    W  = np.ones(N, "d")
-    # W1 = np.ones(N, "d")
-    W2 = np.ones(N, "d")
+#     W  = np.ones(N, "d")
+#     # W1 = np.ones(N, "d")
+#     W2 = np.ones(N, "d")
 
-    if func is not None:
-        W = func(E)
-        # W /= W.mean()
-    # if func1 is not None and tau1 > 0:
-    #     W1 = func1(D1)
-    #     # W1 /= W1.sum()
-    if func2 is not None and tau2 > 0:
-        W2 = func2(D2)
-        # W2 /= W2.mean()
-    if func2_e is not None and tau2 > 0:
-        W2 *= func2_e(E)
+#     if func is not None:
+#         W = func(E)
+#         # W /= W.mean()
+#     # if func1 is not None and tau1 > 0:
+#     #     W1 = func1(D1)
+#     #     # W1 /= W1.sum()
+#     if func2 is not None and tau2 > 0:
+#         W2 = func2(D2)
+#         # W2 /= W2.mean()
+#     if func2_e is not None and tau2 > 0:
+#         W2 *= func2_e(E)
 
-    tau2 = ((E * Z) @ W) / ((D2 * D2) @ W2)
+#     tau2 = ((E * Z) @ W) / ((D2 * D2) @ W2)
 
-    # if windows:
-    #     for ww in windows:
-    #         i0, i1 = ww
-    #         W2[i0:i1+1] = w_tau2 / tau2
+#     # if windows:
+#     #     for ww in windows:
+#     #         i0, i1 = ww
+#     #         W2[i0:i1+1] = w_tau2 / tau2
 
-    # qval = (E*E*W).sum()
-    # if tau2 > 0:
-    #     qval += tau2 * (D2*D2*W2).sum()
-    # if tau1 > 0:
-    #     qval += tau1 * (D1*D1*W1).sum()
+#     # qval = (E*E*W).sum()
+#     # if tau2 > 0:
+#     #     qval += tau2 * (D2*D2*W2).sum()
+#     # if tau1 > 0:
+#     #     qval += tau1 * (D1*D1*W1).sum()
 
-    qvals = []
-    # qval = abs(Z).sum()
+#     qvals = []
+#     # qval = abs(Z).sum()
 
-    flag = False
-    for K in range(n_iter):
-        # qval_prev = qval
-        Z_prev = Z.copy()
+#     flag = False
+#     for K in range(n_iter):
+#         # qval_prev = qval
+#         Z_prev = Z.copy()
 
-        Z = whittaker_smooth(X, W=W, W2=W2, 
-                             tau2=tau2, tau_z=tau_z, d=d)
+#         Z = whittaker_smooth(X, W=W, W2=W2, 
+#                              tau2=tau2, tau_z=tau_z, d=d)
 
-        dq = abs(Z - Z_prev).mean() / abs(Z).mean()
-        if dq < tol:
-            flag = True
+#         dq = abs(Z - Z_prev).mean() / abs(Z).mean()
+#         if dq < tol:
+#             flag = True
         
-        E = X - Z
+#         E = X - Z
 
-        # if func2 is not None or tau2 > 0:
-        D2 = inventory.diff2(Z)
-        # if func1 is not None or tau1 > 0:
-        #     D1 = inventory.diff1(Z)
+#         # if func2 is not None or tau2 > 0:
+#         D2 = inventory.diff2(Z)
+#         # if func1 is not None or tau1 > 0:
+#         #     D1 = inventory.diff1(Z)
         
-        if func is not None:
-            W = func(E)
-            # W /= W.sum()
-        # if func1 is not None and tau1 > 0:
-        #     W1 = func1(D1)
-        #     # W1 /= W1.sum()
-        if func2 is not None and tau2 > 0:
-            W2 = func2(D2)
-            # W2 /= W2.mean()
-        if func2_e is not None and tau2 > 0:
-            W2 *= func2_e(E)
+#         if func is not None:
+#             W = func(E)
+#             # W /= W.sum()
+#         # if func1 is not None and tau1 > 0:
+#         #     W1 = func1(D1)
+#         #     # W1 /= W1.sum()
+#         if func2 is not None and tau2 > 0:
+#             W2 = func2(D2)
+#             # W2 /= W2.mean()
+#         if func2_e is not None and tau2 > 0:
+#             W2 *= func2_e(E)
 
-        tau2 = ((E * W) @ Z) / ((D2 * D2 * W2) @ Z)
+#         tau2 = ((E * W) @ Z) / ((D2 * D2 * W2) @ Z)
         
-        # if windows:
-        #     for ww in self.windows:
-        #         i0, i1 = ww
-        #         W2[i0:i1+1] = w_tau2 / tau2
+#         # if windows:
+#         #     for ww in self.windows:
+#         #         i0, i1 = ww
+#         #         W2[i0:i1+1] = w_tau2 / tau2
 
-        # qval = (E*E*W).sum()
-        # if tau2 > 0:
-        #     qval += tau2 * (D2*D2*W2).sum()
-        # if tau1 > 0:
-        #     qval += tau1 * (D1*D1*W1).sum()
+#         # qval = (E*E*W).sum()
+#         # if tau2 > 0:
+#         #     qval += tau2 * (D2*D2*W2).sum()
+#         # if tau1 > 0:
+#         #     qval += tau1 * (D1*D1*W1).sum()
 
-        # qvals.append(qval)
+#         # qvals.append(qval)
 
-        qvals.append(dq)
+#         qvals.append(dq)
         
-        if dq < tol:
-            flag = True
+#         if dq < tol:
+#             flag = True
 
-        if flag:
-            break
+#         if flag:
+#             break
 
-        # if qval > qval_min:
-        #     Z_min = Z.copy()
-        #     qval_min = qval
+#         # if qval > qval_min:
+#         #     Z_min = Z.copy()
+#         #     qval_min = qval
 
-    # print("K:", K+1)
+#     # print("K:", K+1)
 
-    return Z, {'qvals':qvals, 'K':K+1}
+#     return Z, {'qvals':qvals, 'K':K+1}
 
 # class WhittakerSmoothPartition:
 #     #

@@ -95,6 +95,9 @@ cdef class Regularized:
         self.eqns.append(eqn)
         self.taus.append(tau)
     #
+    def use_projection(self, flag=0):
+        self.projection = flag
+    #
     cdef bint _with_eqns(self) noexcept nogil:
         return self.eqns is not None
     #

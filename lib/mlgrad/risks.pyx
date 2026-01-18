@@ -510,6 +510,9 @@ cdef class ERisk(Risk):
         if _model._with_eqns():
             self.add_equations_gradient()
 
+        if _model.projection:
+            self.project_equations()
+
         if _model._is_regularized():
             self.add_regularized_gradient()
 
