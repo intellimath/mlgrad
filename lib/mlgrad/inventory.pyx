@@ -245,10 +245,10 @@ cdef void _sub(double *c, const double *a, const double *b, const Py_ssize_t n) 
 
     for i in range(n):
         c[i] = a[i] - b[i]
-    
+
 cdef void sub(double[::1] c, double[::1] a, double[::1] b) noexcept nogil:
     _sub(&c[0], &a[0], &b[0], a.shape[0])
-    
+
 cdef void _isub_mask(double *a, const double *b, uint8 *m, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
@@ -258,7 +258,7 @@ cdef void _isub_mask(double *a, const double *b, uint8 *m, const Py_ssize_t n) n
 
 cdef void isub_mask(double[::1] a, double[::1] b, uint8[::1] m) noexcept nogil:
     _isub_mask(&a[0], &b[0], &m[0], a.shape[0])
-    
+
 cdef double _sum(const double *a, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     cdef double s = 0
@@ -293,10 +293,10 @@ cdef void imul_const2(double[:,::1] a, const double c) noexcept nogil:
 
 cdef void imul_const3(double[:,:,::1] a, const double c) noexcept nogil:
     _imul_const(&a[0,0,0], c, a.shape[0] * a.shape[1] * a.shape[2])
-    
+
 cdef void _imul_add(double *a, const double *b, const double c, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
-    
+
     for i in range(n):
         a[i] += c * b[i]
 
@@ -370,6 +370,21 @@ cdef double _dot(const double *a, const double *x, const Py_ssize_t n) noexcept 
         s += a[i] * x[i]
     return s
 
+cdef double moving_dot(double[::1] b, double[::1] a, double[::1] x) noexcept nogil:
+    return _moving_dot(&b[0], &a[0], &x[0], a.shape[0], x.shape[0])
+
+cdef double _moving_dot(double *b, const double *a, const double *x, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil:
+    cdef Py_ssize_t i,j
+    cdef double s
+
+    for j in range(n-m):
+        s = 0
+        for i in range(m):
+            s += a[i] * x[i]
+        b[j] = s
+        a += 1
+    return s
+
 cdef double dot_t(double[::1] a, double[:,::1] b) noexcept nogil:
     return _dot_t(&a[0], &b[0,0], a.shape[0], b.shape[0])
 
@@ -381,6 +396,26 @@ cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssiz
         s += a[i] * b[0]
         b += m
     return s
+
+cdef void _matdot_sparse(double *output, double *M, const double *X, 
+                    const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
+    cdef Py_ssize_t i, j
+    cdef double *M_j = M
+    cdef double s, v
+
+    # for j in prange(n_output, schedule='static', nogil=True, num_threads=num_procs):
+    for j in range(n_output):
+        s = 0
+        for i in range(n_input):
+            v = M_j[i]
+            if v == 0:
+                continue
+            s += v * X[i]
+        output[j] = s
+        M_j += n_input
+
+cdef void matdot_sparse(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil:
+    _matdot_sparse(&output[0], &M[0,0], &X[0], X.shape[0], output.shape[0])
 
 cdef void _matdot(double *output, double *M, const double *X, 
                     const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
@@ -398,7 +433,7 @@ cdef void _matdot(double *output, double *M, const double *X,
 
 cdef void matdot(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil:
     _matdot(&output[0], &M[0,0], &X[0], X.shape[0], output.shape[0])
-        
+
 cdef void _matdot2(double *output, double *M, const double *X, 
                    const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
     cdef Py_ssize_t i, j
@@ -416,8 +451,19 @@ cdef void _matdot2(double *output, double *M, const double *X,
 
 cdef void matdot2(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil:
     _matdot2(&output[0], &M[0,0], &X[0], <const Py_ssize_t>X.shape[0], <const Py_ssize_t>M.shape[0])
-        
-cdef void _mul_add_arrays(double *a, double *M, const double *ss, 
+
+cdef _mat_diagonal(double *diag, double* mat, Py_ssize_t d, Py_ssize_t n):
+    cdef Py_ssize_t i = 0, j = d
+    if d >= 0:
+        j = d
+    else:
+        d = -d
+        j = d * n
+    for i in range(n - d):
+        diag[i] = mat[j]
+        j += n+1
+
+cdef void _mul_add_arrays(double *a, double *M, const double *ss,
                           const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
     cdef Py_ssize_t i, j
     cdef double *Mj = M;
@@ -432,13 +478,13 @@ cdef void _mul_add_arrays(double *a, double *M, const double *ss,
 
 cdef void mul_add_arrays(double[::1] a, double[:,::1] M, double[::1] ss) noexcept nogil:
     _mul_add_arrays(&a[0], &M[0,0], &ss[0], <const Py_ssize_t>(a.shape[0]), <const Py_ssize_t>(M.shape[0]))
-        
+
 cdef void _mul_grad(double *grad, const double *X, const double *ss, 
                     const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
     cdef Py_ssize_t i, j
     cdef double *G = grad
     cdef double sx
-    
+
     for j in range(n_output):
         sx = ss[j]
         G[0] = sx
@@ -1068,25 +1114,32 @@ cdef void _modified_zscore_mu(double *a, double *b, Py_ssize_t n, double mu):
     for i in range(n):
         b[i] = (a[i] - mu) / sigma
 
-cdef void _diff4(double *x, double *y, const Py_ssize_t n4) noexcept nogil:
+cdef void _diff4(double *x, double *y, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
-    for i in range(n4):
-        y[i] = x[i] - 4*x[i+1] + 6*x[i+2] - 4*x[i+3] + x[i+4]
+    # y[0] = 0
+    # y[1] = 0
+    # y[n-2] = 0
+    # y[n-1] = 0
+    for i in range(2,n-2):
+        y[i-2] = x[i-2] - 4*x[i-1] + 6*x[i] - 4*x[i+1] + x[i+2]
 
-cdef void _diff3(double *x, double *y, const Py_ssize_t n3) noexcept nogil:
+cdef void _diff3(double *x, double *y, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
-    for i in range(n3):
-        y[i] = x[i] - 3*x[i+1] + 3*x[i+2] - x[i+3]
+    # y[0] = 0
+    # y[n-1] = 0
+    # y[n-2] = 0
+    for i in range(1,n-2):
+        y[i-1] = x[i-1] - 3*x[i] + 3*x[i+1] - x[i+2]
 
 cdef void _diff2(double *x, double *y, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
-    y[0] = 0
-    y[n-1] = 0
-    for i in range(n-2):
-        y[i+1] = x[i] - 2*x[i+1] + x[i+2]
+    # y[0] = 0
+    # y[n-1] = 0
+    for i in range(1, n-1):
+        y[i-1] = x[i-1] - 2*x[i] + x[i+1]
 
 cdef void _diff2w2(double *x, double *w, double *y, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
@@ -1106,11 +1159,12 @@ cdef void _diff2w2(double *x, double *w, double *y, const Py_ssize_t n) noexcept
              (w[n-4] + 4*w[n-3]) * x[n-2] - 2*w[n-4] * x[n-1] 
     y[n-1] = w[n-3]*x[n-3] - 2*w[n-3]*x[n-2] + w[n-3]*x[n-1]
 
-cdef void _diff1(double *x, double *y, const Py_ssize_t n1) noexcept nogil:
+cdef void _diff1(double *x, double *y, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
-    for i in range(n1):
-        y[i] = x[i+1] - x[i]
+    # y[n-1] = 0
+    for i in range(n-1):
+        y[i] = x[i] - x[i+1]
 
 cdef void _relative_max(double *x, double *y, const Py_ssize_t n) noexcept nogil: 
     cdef Py_ssize_t i
@@ -1216,7 +1270,7 @@ def diff4(double[::1] a, double[::1] b=None):
     if b is None:
         b = empty_array(n-4)
         flag = 1
-    _diff4(&a[0], &b[0], n-4)
+    _diff4(&a[0], &b[0], n)
     if flag:
         return b.base
     else:
@@ -1228,7 +1282,7 @@ def diff3(double[::1] a, double[::1] b=None):
     if b is None:
         b = empty_array(n-3)
         flag = 1
-    _diff3(&a[0], &b[0], n-3)
+    _diff3(&a[0], &b[0], n)
     if flag:
         return b.base
     else:
@@ -1238,7 +1292,7 @@ def diff2(double[::1] a, double[::1] b=None):
     cdef Py_ssize_t n = a.shape[0]
     cdef bint flag = 0
     if b is None:
-        b = empty_array(n)
+        b = empty_array(n-2)
         flag = 1
     _diff2(&a[0], &b[0], n)
     if flag:
@@ -1264,7 +1318,7 @@ def diff1(double[::1] a, double[::1] b=None):
     if b is None:
         b = empty_array(n-1)
         flag = 1
-    _diff1(&a[0], &b[0], n-1)
+    _diff1(&a[0], &b[0], n)
     if flag:
         return b.base
     else:

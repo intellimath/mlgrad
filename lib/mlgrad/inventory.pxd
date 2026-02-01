@@ -70,11 +70,13 @@ cdef void _imul_const(double *a, const double c, const Py_ssize_t n) noexcept no
 cdef double _linear_func(const double *a, const double *b, const Py_ssize_t n) noexcept nogil
 cdef double _dot(const double *a, const double *b, const Py_ssize_t n) noexcept nogil
 cdef double _dot_t(const double *a, double *b, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil
+cdef double _moving_dot(double *b, const double *a, const double *x, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil
 cdef void _matdot(double*, double*, const double*, const Py_ssize_t, const Py_ssize_t) noexcept nogil
+cdef void _matdot_sparse(double*, double*, const double*, const Py_ssize_t, const Py_ssize_t) noexcept nogil
 cdef void _matdot2(double*, double*, const double*, const Py_ssize_t, const Py_ssize_t) noexcept nogil
-cdef void _mul_add_arrays(double *a, double *M, const double *ss, 
+cdef void _mul_add_arrays(double *a, double *M, const double *ss,
                           const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
-cdef void _mul_grad(double *grad, const double *X, const double *ss, 
+cdef void _mul_grad(double *grad, const double *X, const double *ss,
                     const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil
 
 cdef void _add_to_zeros(double *a, const Py_ssize_t n, double eps)
@@ -109,8 +111,10 @@ cdef void mul_set(double[::1] a, double[::1] b, const double c) noexcept nogil
 cdef void mul_set1(double[::1] a, double[::1] b, const double c) noexcept nogil
 cdef double linear_func(double[::1] a, double[::1] b) noexcept nogil
 cdef double dot(double[::1] a, double[::1] b) noexcept nogil
+cdef double moving_dot(double[::1] b, double[::1] a, double[::1] x) noexcept nogil
 cdef double dot_t(double[::1] a, double[:,::1] b) noexcept nogil
 cdef void matdot(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil
+cdef void matdot_sparse(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil
 cdef void matdot2(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil
 cdef void mul_add_arrays(double[::1] a, double[:,::1] M, double[::1] ss) noexcept nogil
 cdef void mul_grad(double[:,::1] grad, double[::1] X, double[::1] ss) noexcept nogil

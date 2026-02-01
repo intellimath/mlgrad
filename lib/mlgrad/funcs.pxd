@@ -207,7 +207,7 @@ cdef class Quantile_AlphaLog(Func):
 cdef class SoftAbs(Func):
     #
     cdef public double eps
-    
+
 @cython.final
 cdef class SoftAbs_Sqrt(Func):
     #
@@ -221,15 +221,15 @@ cdef class SoftAbs_Exp(Func):
     cdef public double eps
     cdef double eps1
     #
-    
+
 @cython.final
-cdef class SoftAbs_FSqrt(Func):
+cdef class SoftAbs_Power(Func):
     #
     cdef public double eps
-    cdef double eps2, eps3
-    cdef double q
+    cdef double eps2
+    cdef double q, q1
     #
-    
+
 @cython.final
 cdef class Quantile_Sqrt(Func):
     #
@@ -241,7 +241,7 @@ cdef class Quantile_Sqrt(Func):
 cdef class Expit(Func):
     #
     cdef public double p, x0
-    
+
 @cython.final
 cdef class Logistic(Func):
     #
@@ -262,7 +262,7 @@ cdef class LogSquare(Func):
     #
     cdef public double a
     cdef public double a2
-    
+
 @cython.final
 cdef class Tukey(Func):
     #
@@ -276,7 +276,14 @@ cdef class Step(Func):
     cdef public double C
     cdef public double eps
     #
-    
+
+@cython.final
+cdef class StepRight(Func):
+    #
+    cdef public double C
+    cdef public double eps
+    #
+
 @cython.final
 cdef class Step_Sqrt(Func):
     #

@@ -309,9 +309,9 @@ cdef class MixedNorm(Func2):
 @cython.final
 cdef class FuncNorm(Func2):
     #
-    def __init__(self, Func func):
+    def __init__(self, Func func, offset=0):
         self.func = func
-#         self.all = all
+        self.offset = offset
     #
     @cython.final
     cdef void _evaluate_items(self, double[::1] X, double[::1] Y) noexcept nogil:
@@ -319,38 +319,27 @@ cdef class FuncNorm(Func2):
     #
     @cython.final
     cdef double _evaluate(self, double[::1] X) noexcept nogil:
-        cdef Py_ssize_t i
-        cdef double s
-        cdef double* X_ptr = &X[0]
-        # cdef Func func
-
-        # with cython.gil:
-        #     func = self.func
-
-        s = 0
-        for i in range(X.shape[0]):
-            s += self.func._evaluate(X_ptr[i])
-        return s
+        return self.func._evaluate_sum(&X[self.offset], X.shape[0])
     #
     @cython.final
     cdef double _evaluate_ex(self, double[::1] X, double[::1] W) noexcept nogil:
         cdef Py_ssize_t i
         cdef double s
-        cdef double* X_ptr = &X[0]
-        cdef double* W_ptr = &W[0]
-        # cdef Func func
-
-        # with cython.gil:
-        #     func = self.func
+        cdef double* xx = &X[0]
+        cdef double* ww = &W[0]
 
         s = 0
         for i in range(X.shape[0]):
-            s += W_ptr[i] * self.func._evaluate(X_ptr[i])
+            s += ww[i] * self.func._evaluate(xx[i])
         return s
     #
     @cython.final
     cdef void _gradient(self, double[::1] X, double[::1] grad) noexcept nogil:
-        self.func._derivative_array(&X[0], &grad[0], X.shape[0])
+        cdef Py_ssize_t offset = self.offset
+        #
+        if offset > 0:
+            inventory._clear(&X[0], offset)
+        self.func._derivative_array(&X[offset], &grad[offset], X.shape[0])
     #
     @cython.final
     cdef void _gradient_ex(self, double[::1] X, double[::1] grad, double[::1] W) noexcept nogil:

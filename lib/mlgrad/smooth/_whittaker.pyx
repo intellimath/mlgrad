@@ -26,6 +26,139 @@ import mlgrad.inventory as inventory
 #        a10  a21  a32  a43  a54   *
 #        a20  a31  a42  a53   *    *
 
+def diff1_matrix(Py_ssize_t N):
+    cdef double[:,::1] D
+    cdef double *dd
+    cdef Py_ssize_t i,j
+
+    D = mat = inventory.zeros_array2(N-1, N)
+
+    dd = &D[0,0]
+    for i in range(N-1):
+        dd[0] = 1
+        dd[1] = -1
+        dd += N+1
+
+    return mat
+
+def diff2_matrix(Py_ssize_t N):
+    cdef double[:,::1] D
+    cdef double *dd
+    cdef Py_ssize_t i,j
+
+    D = mat = inventory.zeros_array2(N-2, N)
+
+    dd = &D[0,0]
+    for i in range(N-2):
+        dd[0] = 1
+        dd[1] = -2
+        dd[2] = 1
+        dd += N+1
+
+    return mat
+
+def diff3_matrix(Py_ssize_t N):
+    cdef double[:,::1] D
+    cdef double *dd
+    cdef Py_ssize_t i,j
+
+    D = mat = inventory.zeros_array2(N-3, N)
+
+    dd = &D[0,0]
+    for i in range(N-3):
+        dd[0] = 1
+        dd[1] = -3
+        dd[2] = 3
+        dd[3] = 1
+        dd += N+1
+
+    return mat
+
+def diff4_matrix(Py_ssize_t N):
+    cdef double[:,::1] D
+    cdef double *dd
+    cdef Py_ssize_t i,j
+
+    D = mat = inventory.zeros_array2(N-4, N)
+
+    dd = &D[0,0]
+    for i in range(N-4):
+        dd[0] = 1
+        dd[1] = -4
+        dd[2] = 6
+        dd[3] = -4
+        dd[4] = 1
+        dd += N+1
+
+    return mat
+
+def whittaker_matrices(double[::1] y, double tau, double[::1] W, double[::1] W2, int d):
+    cdef Py_ssize_t i, j, N = y.shape[0]
+    # cdef Py_ssize_t l
+    cdef double[:,::1] ZZ, DD, DD2
+    cdef double[::1] yy, YY
+    cdef double w
+
+    if d == 1:
+        D = diff1_matrix(N)
+    elif d == 2:
+        D = diff2_matrix(N)
+    elif d == 3:
+        D = diff3_matrix(N)
+    elif d == 4:
+        D = diff4_matrix(N)
+    else:
+        D = np.diff(np.eye(N), d, axis=0)
+
+    DD = D
+
+    if W is None:
+        W = inventory.empty_array(N)
+        for i in range(N):
+            W[i] = 1
+
+    if W2 is None:
+        W2 = inventory.empty_array(N-d)
+        for i in range(N-d):
+            W2[i] = 1
+
+    D2 = inventory.zeros_array2(N-d, N)
+    DD2 = D2
+    for i in range(N-d):
+        w = W2[i]
+        for j in range(d+1):
+            DD2[i,i+j] = w * DD[i,i+j]
+
+    for i in range(N-d):
+        for j in range(d+1):
+            DD[i,i+j] *= tau
+
+    Z = inventory.zeros_array2(N, N)
+    ZZ = Z
+    for i in range(N):
+        for j in range(i, N):
+            if i+d < j: # or j+d < i:
+                continue
+            s = 0
+            for l in range(N-d):
+                s += DD[l,i] * DD2[l,j]
+            ZZ[i,j] = s
+            ZZ[j,i] = s
+
+    # Z = D.T @ D2
+    # ZZ = Z
+
+    for i in range(N):
+        ZZ[i,i] += W[i]
+
+    Y = inventory.empty_array(N)
+    YY = Y
+    yy = y
+    for i in range(N):
+        YY[i] = W[i] * yy[i]
+
+    return Z, Y
+
 cdef set_diagonal(double[:,::1] S, double[::1] W):
     cdef Py_ssize_t i, j, n = S.shape[1], m = S.shape[0] // 2
     cdef double *d

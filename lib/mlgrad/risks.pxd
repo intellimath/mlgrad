@@ -82,7 +82,6 @@ cdef class Risk(Functional):
     cdef readonly double[::1] model_vals
     cdef readonly double[::1] Y0
     cdef readonly double[::1] L
-    # cdef readonly double[::1] LD
     #
     cdef double[::1] grad
     cdef double[::1] grad_r

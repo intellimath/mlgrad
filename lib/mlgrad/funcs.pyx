@@ -145,23 +145,23 @@ cdef class Func(object):
     cdef double _evaluate_sum(self, const double *x, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
         cdef double s = 0
-        for i in range(n):
         # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(n):
             s += self._evaluate(x[i])
         return s
     #
     cdef double _evaluate_weighted_sum(self, const double *x, const double *w, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
         cdef double s = 0
-        for i in range(n):
         # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
-            s = fma(w[i], self._evaluate(x[i]), s)
+        for i in range(n):
+            s += w[i] * self._evaluate(x[i])
         return s
     #
     cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
         cdef Py_ssize_t i
-        for i in range(n):
         # for i in prange(n, nogil=True, schedule='static', num_threads=num_threads):
+        for i in range(n):
             y[i] = self._derivative(x[i])
     #
     cdef void _derivative_weighted_sum(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil:

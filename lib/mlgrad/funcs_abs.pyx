@@ -155,82 +155,43 @@ cdef class SoftAbs_Sqrt(Func):
                  'args': (self.eps) }
 
 @cython.final
-cdef class SoftAbs_FSqrt(Func):
+cdef class SoftAbs_Power(Func):
     #
-    def __init__(self, eps=1.0, q=0.5):
-        self.eps = eps
-        self.eps2 = eps*eps
-        self.eps3 = pow(eps, 2*q)
+    def __init__(self, q, eps=1.0):
         self.q = q
+        self.q1 = 1/q
+        self.eps = eps
+        self.eps2 = pow(eps, q)
     #
     @cython.final
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
-        return pow(self.eps2 + x*x, self.q) - self.eps3
-    #
-    # @cython.final
-    # cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
-    #     cdef Py_ssize_t i
-    #     cdef double v, eps = self.eps, eps2 = self.eps2, eps3 = self.eps3, q=self.q
-
-    #     for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
-    #         v = x[i]
-    #         y[i] = pow(eps2 + v*v, q) - eps3
+        return pow(self.eps2 + pow(fabs(x), self.q), self.q1) - self.eps
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double q=self.q
-        return 2 * q * x * pow(self.eps2 + x*x, q-1)
-    #
-    # @cython.final
-    # cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
-    #     cdef Py_ssize_t i
-    #     cdef double v, eps = self.eps, eps2 = self.eps2
-
-    #     for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
-    #         v = x[i]
-    #         y[i] = v / sqrt(eps2 + v*v)
+        cdef double abs_x = fabs(x)
+        cdef double ret
+        #
+        ret = pow(abs_x, self.q-1) * pow(self.eps2 + pow(abs_x, self.q), self.q1-1)
+        if x < 0:
+            ret = -ret
+        return ret
     #
     @cython.final
     cdef double _derivative2(self, const double x) noexcept nogil:
-        cdef double q=self.q
-        cdef double x2 = x * x
-        cdef double v = self.eps2 + x2
-        # return 2 * q * pow(v, q-1) + 4 * q * q * x2 * pow(v, q-2)
-        return 2 * q * pow(v, q-1) * (1 + 2 * q * x2 / v)
+        cdef double abs_x = fabs(x)
+        cdef double v = pow(abs_x, self.q-1)
+        cdef double v2 = self.eps2 + abs_x * v         # pow(abs_x, self.q)
+        #
+        return (self.q-1)*v * pow(v2, self.q1-1) * (1 - v/v2)
     #
-    # @cython.cdivision(True)
-    # @cython.final
-    # cdef void _derivative2_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
-    #     cdef Py_ssize_t i
-    #     cdef double v, v2, eps = self.eps, eps2 = self.eps2
-
-    #     for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
-    #         v = x[i]
-    #         v2 = eps2 + v*v
-    #         y[i] = eps2 / (v2 * sqrt(v2))
+    def _repr_latex_(self):
+        return r"$p(x)=(\varepsilon^q+x^q)^{1/q} - \varepsilon$"
     #
-    @cython.final
-    cdef double _derivative_div(self, const double x) noexcept nogil:
-        cdef double q=self.q
-        return 2 * q * pow(self.eps2 + x*x, q-1)
-    #
-    # @cython.cdivision(True)
-    # @cython.final
-    # cdef void _derivative_div_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil:
-    #     cdef Py_ssize_t i
-    #     cdef double v, v2, eps = self.eps, eps2 = self.eps2
-
-    #     for i in prange(n, nogil=True, schedule='static', num_threads=num_procs):
-    #         v = x[i]
-    #         y[i] = 1. / sqrt(eps2 + v*v)
-    #
-    # def _repr_latex_(self):
-    #     return r"$p(x)=\sqrt{\varepsilon^2+x^2}$"
-
-    # def to_dict(self):
-    #     return { 'name':'sqrt',
-    #              'args': (self.eps) }
+    def to_dict(self):
+        return { 'name':'SoftAbs_Power',
+                 'args': (self.q, self.eps) }
 
 cdef double ln2 = log(2)
 

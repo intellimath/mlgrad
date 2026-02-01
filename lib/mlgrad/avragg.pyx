@@ -671,7 +671,7 @@ cdef class WMZAverage(Average):
         s /= N
         self.u = s
         self.evaluated = 1
-        
+
         return s
     #
     @cython.cdivision(True)

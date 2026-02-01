@@ -91,6 +91,7 @@ cdef class FuncDot2(Func2):
 cdef class FuncNorm(Func2):
     #
     cdef Func func
+    cdef Py_ssize_t offset
     #
 
 cdef class MixedNorm(Func2):
