@@ -94,7 +94,7 @@ def diff4_matrix(Py_ssize_t N):
 
 def whittaker_matrices(double[::1] y, double tau, double[::1] W, double[::1] W2, int d):
     cdef Py_ssize_t i, j, N = y.shape[0]
-    # cdef Py_ssize_t l
+    cdef Py_ssize_t l, mm, nn
     cdef double[:,::1] ZZ, DD, DD2
     cdef double[::1] yy, YY
     cdef double w
@@ -136,9 +136,16 @@ def whittaker_matrices(double[::1] y, double tau, double[::1] W, double[::1] W2,
     Z = inventory.zeros_array2(N, N)
     ZZ = Z
     for i in range(N):
-        for j in range(i, N):
-            if i+d < j: # or j+d < i:
-                continue
+        mm = i + d + 1
+        if mm > N:
+            mm = N
+        for j in range(i, mm):
+            # if i+d < j: # or j+d < i:
+            #     continue
+            # if j - d < 0:
+            #     nn = 0
+            # else:
+            #     nn = j - d
             s = 0
             for l in range(N-d):
                 s += DD[l,i] * DD2[l,j]
