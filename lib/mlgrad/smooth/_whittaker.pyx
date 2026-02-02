@@ -93,11 +93,11 @@ def diff4_matrix(Py_ssize_t N):
     return mat
 
 def whittaker_matrices(double[::1] y, double tau, double[::1] W, double[::1] W2, int d):
-    cdef Py_ssize_t i, j, N = y.shape[0]
-    cdef Py_ssize_t l, mm, nn
+    cdef Py_ssize_t i, j, N = y.shape[0], Nd = N-d
+    cdef Py_ssize_t l, mm, nn1, nn2
     cdef double[:,::1] ZZ, DD, DD2
     cdef double[::1] yy, YY
-    cdef double w
+    cdef double s, w
 
     if d == 1:
         D = diff1_matrix(N)
@@ -140,14 +140,14 @@ def whittaker_matrices(double[::1] y, double tau, double[::1] W, double[::1] W2,
         if mm > N:
             mm = N
         for j in range(i, mm):
-            # if i+d < j: # or j+d < i:
-            #     continue
-            # if j - d < 0:
-            #     nn = 0
-            # else:
-            #     nn = j - d
+            nn1 = i - d
+            if nn1 < 0:
+                nn1 = 0
+            nn2 = j + 1
+            if nn2 > Nd:
+                nn2 = Nd
             s = 0
-            for l in range(N-d):
+            for l in range(nn1, nn2):
                 s += DD[l,i] * DD2[l,j]
             ZZ[i,j] = s
             ZZ[j,i] = s
