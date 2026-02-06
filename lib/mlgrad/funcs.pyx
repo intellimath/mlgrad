@@ -282,6 +282,31 @@ cdef class Comp(Func):
                  'args': (self.f.to_dict(), self.g.to_dict() )
                }
 
+cdef class LinearComp(Func):
+    #
+    def __init__(self, Func f, Func g, double a, double b):
+        self.f = f
+        self.g = g
+        self.a = a
+        self.b = b
+    #
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        return self.a * self.f._evaluate(x) + self.b*self.g._evaluate(x)
+    #
+    cdef double _derivative(self, const double x) noexcept nogil:
+        return self.a * self.f._derivative(x) + self.b*self.g._derivative(x)
+    #
+    cdef double _derivative2(self, const double x) noexcept nogil:
+        return self.a * self.f._derivative2(x) + self.b*self.g._derivative2(x)
+    #
+    cdef double _derivative_div(self, const double x) noexcept nogil:
+        return self.a * self.f._derivative_div(x) + self.b*self.g._derivative_div(x)
+    #
+    def to_dict(self):
+        return { 'name':'comp',
+                 'args': (self.f.to_dict(), self.g.to_dict(), self.a, self.b )
+               }
+
 cdef class CompSqrt(Func):
     #
     def __init__(self, Func f):
@@ -596,6 +621,28 @@ cdef class Exp(Func):
         return p*p * exp(p*x)
 
 @cython.final
+cdef class Weibul(Func):
+    #
+    def __init__ (self, p=1.0):
+        self.p = p
+    #
+    @cython.final
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        cdef double v = exp(self.p*x)
+        return exp(-v)
+    #
+    @cython.final
+    cdef double _derivative(self, const double x) noexcept nogil:
+        cdef double v = exp(self.p*x)
+        return -self.p * v * exp(-v)
+    #
+    # @cython.final
+    # cdef double _derivative2(self, const double x) noexcept nogil:
+    #     cdef double p = self.p
+    #     return p*p * exp(p*x)
+
+
+@cython.final
 cdef class Id(Func):
     #
     @cython.final
@@ -862,7 +909,7 @@ cdef class Quantile(Func):
         elif x > 0:
             return self.alpha
         else:
-            return 0
+            return self.alpha - 0.5
     #
     @cython.final
     cdef double _derivative2(self, const double x) noexcept nogil:

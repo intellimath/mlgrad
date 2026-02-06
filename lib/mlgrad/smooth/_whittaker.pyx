@@ -26,7 +26,7 @@ import mlgrad.inventory as inventory
 #        a10  a21  a32  a43  a54   *
 #        a20  a31  a42  a53   *    *
 
-def diff1_matrix(Py_ssize_t N):
+cdef diff1_matrix(Py_ssize_t N):
     cdef double[:,::1] D
     cdef double *dd
     cdef Py_ssize_t i,j
@@ -41,7 +41,7 @@ def diff1_matrix(Py_ssize_t N):
 
     return mat
 
-def diff2_matrix(Py_ssize_t N):
+cdef diff2_matrix(Py_ssize_t N):
     cdef double[:,::1] D
     cdef double *dd
     cdef Py_ssize_t i,j
@@ -57,7 +57,7 @@ def diff2_matrix(Py_ssize_t N):
 
     return mat
 
-def diff3_matrix(Py_ssize_t N):
+cdef diff3_matrix(Py_ssize_t N):
     cdef double[:,::1] D
     cdef double *dd
     cdef Py_ssize_t i,j
@@ -69,12 +69,12 @@ def diff3_matrix(Py_ssize_t N):
         dd[0] = 1
         dd[1] = -3
         dd[2] = 3
-        dd[3] = 1
+        dd[3] = -1
         dd += N+1
 
     return mat
 
-def diff4_matrix(Py_ssize_t N):
+cdef diff4_matrix(Py_ssize_t N):
     cdef double[:,::1] D
     cdef double *dd
     cdef Py_ssize_t i,j
@@ -92,13 +92,7 @@ def diff4_matrix(Py_ssize_t N):
 
     return mat
 
-def whittaker_matrices(double[::1] y, double tau, double[::1] W, double[::1] W2, int d):
-    cdef Py_ssize_t i, j, N = y.shape[0], Nd = N-d
-    cdef Py_ssize_t l, mm, nn1, nn2
-    cdef double[:,::1] ZZ, DD, DD2
-    cdef double[::1] yy, YY
-    cdef double s, w
-
+cdef whittaker_diff(Py_ssize_t N, int d):
     if d == 1:
         D = diff1_matrix(N)
     elif d == 2:
@@ -109,32 +103,39 @@ def whittaker_matrices(double[::1] y, double tau, double[::1] W, double[::1] W2,
         D = diff4_matrix(N)
     else:
         D = np.diff(np.eye(N), d, axis=0)
+    return D
 
+cdef whittaker_matrix(Py_ssize_t N):
+    Z = inventory.zeros_array2(N, N)
+    return Z
+
+cdef whittaker_matrix_add_diagonal(double[:,::1] Z, double[::1] W):
+    cdef Py_ssize_t i, N = Z.shape[0]
+
+    for i in range(N):
+        Z[i,i] += W[i]
+
+cdef whittaker_matrix_add_DD(double[:,::1] ZZ, double tau, double[::1] W, int d):
+    cdef Py_ssize_t i, j, N = ZZ.shape[0], Nd = N - d
+    cdef Py_ssize_t l, mm, nn1, nn2
+    cdef double[:,::1] DD, DD2
+    cdef double s, w
+
+    D = whittaker_diff(N, d)
     DD = D
 
-    if W is None:
-        W = inventory.empty_array(N)
-        for i in range(N):
-            W[i] = 1
-
-    if W2 is None:
-        W2 = inventory.empty_array(N-d)
-        for i in range(N-d):
-            W2[i] = 1
-
-    D2 = inventory.zeros_array2(N-d, N)
+    D2 = inventory.zeros_array2(Nd, N)
     DD2 = D2
-    for i in range(N-d):
-        w = W2[i]
+    for i in range(Nd):
+        w = W[i]
         for j in range(d+1):
             DD2[i,i+j] = w * DD[i,i+j]
 
-    for i in range(N-d):
+    for i in range(Nd):
         for j in range(d+1):
             DD[i,i+j] *= tau
 
-    Z = inventory.zeros_array2(N, N)
-    ZZ = Z
+    # ZZ = Z
     for i in range(N):
         mm = i + d + 1
         if mm > N:
@@ -149,20 +150,44 @@ def whittaker_matrices(double[::1] y, double tau, double[::1] W, double[::1] W2,
             s = 0
             for l in range(nn1, nn2):
                 s += DD[l,i] * DD2[l,j]
-            ZZ[i,j] = s
-            ZZ[j,i] = s
+            if i == j:
+                ZZ[i,i] += s
+            else:
+                ZZ[i,j] += s
+                ZZ[j,i] += s
+# end def
 
-    # Z = D.T @ D2
-    # ZZ = Z
-
-    for i in range(N):
-        ZZ[i,i] += W[i]
+cdef whittaker_Y(double[::1] y, double[::1] W):
+    cdef Py_ssize_t i, N = y.shape[0]
+    cdef double[::1] YY
 
     Y = inventory.empty_array(N)
+
     YY = Y
-    yy = y
     for i in range(N):
-        YY[i] = W[i] * yy[i]
+        YY[i] = W[i] * y[i]
+
+    return Y
+
+def whittaker_matrices(y, W=None, W2=None, d2=2, tau2=1.0, W1=None, d1=1, tau1=0.0):
+    cdef Py_ssize_t N = len(y)
+
+    if W is None:
+        W = inventory.empty_array(N)
+        W[:] = 1.0
+
+    Y = whittaker_Y(y, W)
+
+    Z = whittaker_matrix(N)
+    whittaker_matrix_add_diagonal(Z, W)
+
+    if tau2 > 0:
+        if W2 is None:
+            W2 = inventory.empty_array(N)
+            W2[:] = 1.0
+        whittaker_matrix_add_DD(Z, tau2, W2, d2)
+    if tau1 > 0:
+        whittaker_matrix_add_DD(Z, tau1, W1, d1)
 
     return Z, Y
 

@@ -59,12 +59,18 @@ cdef class ParameterizedFunc:
     cdef double _derivative(self, double x, double u) noexcept nogil
     #
     cdef double derivative_u(self, double x, double u) noexcept nogil
-    
 
 @cython.final
 cdef class Comp(Func):
     #
     cdef public Func f, g
+    #
+
+@cython.final
+cdef class LinearComp(Func):
+    #
+    cdef public Func f, g
+    cdef public double a, b
     #
 
 @cython.final
@@ -363,10 +369,13 @@ cdef class Softplus_Sqrt(Func):
     cdef double alpha2
     cdef double x0
     #
-    
+
 @cython.final
 cdef class  Exp(Func):
-    #
+    cdef public double p
+
+@cython.final
+cdef class Weibul(Func):
     cdef public double p
 
 @cython.final

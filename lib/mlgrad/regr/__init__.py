@@ -41,6 +41,7 @@ def regression(Xs, Y, mod,
                loss_func=SquareErrorLoss(),
                regnorm=None,
                *,
+               sample_weights=None,
                weights=None,
                normalizer=None,
                h=0.001, tol=1.0e-6, n_iter=1000, tau=0.0, verbose=0,
@@ -61,7 +62,7 @@ def regression(Xs, Y, mod,
     if regnorm is not None or tau != 0:
         mod.use_regularizer(regnorm, tau)
 
-    er = erisk(Xs, Y, mod, loss_func)
+    er = erisk(Xs, Y, mod, loss_func, sample_weights=sample_weights)
     if weights is not None:
         er.use_weights(weights)
 

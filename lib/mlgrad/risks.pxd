@@ -78,6 +78,7 @@ cdef class SimpleFunctional(Functional):
 
 cdef class Risk(Functional):
     #
+    cdef readonly double[::1] sample_weights
     cdef readonly double[::1] weights
     cdef readonly double[::1] model_vals
     cdef readonly double[::1] Y0

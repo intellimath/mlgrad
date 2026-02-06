@@ -109,14 +109,14 @@ cdef class Step_Exp(Func):
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
         if x >= 0:
-            return exp(-x / self.p)
+            return exp(-x / self.p) / self.p
         else:
             return 1
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
         if x >= 0:
-            return -exp(-x / self.p) / self.p
+            return -exp(-x / self.p)
         else:
             return 0
     #

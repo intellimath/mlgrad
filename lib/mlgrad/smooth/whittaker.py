@@ -108,26 +108,26 @@ def create_banded(mat, d):
 
 
 def whittaker_smooth(y, W=None, W1=None, W2=None, tau1=0, tau2=1.0, d=2):
-    if d <= 4:
-        Z, Y = whittaker_matrices(y, tau2, W, W2, d)
-        # print(Z.shape, Y.shape)
-        ZZ = create_banded(Z, d)
-        z = scipy.linalg.solve_banded((d,d), ZZ, Y, overwrite_ab=False, overwrite_b=False, check_finite=True)
-        return z
-    else:
-        return whittaker_smooth_scipy(X, W, W2, tau2, d=d)
+    d2 = d
+    Z, Y = whittaker_matrices(y, W=W, W2=W2, d2=d2, tau2=tau2)
+    # print(Z.shape, Y.shape)
+    Zb = create_banded(Z, d)
+    z = scipy.linalg.solve_banded((d,d), Zb, Y, overwrite_ab=False, overwrite_b=False, check_finite=True)
+    return z
+    # return whittaker_smooth_scipy(y, W, W2, tau2, d=d)
 
 def whittaker_smooth_scipy(y, W=None, W2=None, tau=1.0, d=2):
-    # N = len(y)
-    # D = scipy.sparse.csc_matrix(np.diff(np.eye(N), d))
-    # if W is None:
-    #     W = np.ones(N, "d")
-    # W = scipy.sparse.spdiags(W, 0, N, N)
-    # if W2 is None:
-    #     W2 = np.ones(N, "d")
-    # W2 = scipy.sparse.spdiags(W2, 0, N, N)
-    # Z = W + tau * D.dot(D.T.dot(W2))
-    Z, Y = whittaker_matrices(y, tau, W, W2, d)
+    N = len(y)
+    D = scipy.sparse.csc_matrix(np.diff(np.eye(N), d))
+    if W is None:
+        W = np.ones(N, "d")
+    W = scipy.sparse.spdiags(W, 0, N, N)
+    if W2 is None:
+        W2 = np.ones(N, "d")
+    W2 = scipy.sparse.spdiags(W2, 0, N, N)
+    Z = W + tau * D.dot(D.T.dot(W2))
+    Y = y * W
+    # Z, Y = whittaker_matrices(y, tau, W, W2, d)
     z = scipy.sparse.linalg.spsolve(Z, Y)
     return z
 
@@ -345,6 +345,8 @@ def whittaker_smooth_weight_func2(
             tau1=0.0, tau2=1.0, w_tau2 = 1.0,
             d=2, n_iter=100, tol=1.0e-4, ):
 
+    N = len(X)
+
     if d == 1:
         diff = inventory.diff1
     elif d == 2:
@@ -354,7 +356,8 @@ def whittaker_smooth_weight_func2(
     elif d == 4:
         diff = inventory.diff4
     else:
-        raise TypeError("invalid d > 4")
+        diff_matrix = np.diff(np.eye(N), d, axis=0)
+        diff = lambda X: diff_matrix @ X
 
     dd = d // 2
     if d % 2 == 0:
@@ -373,8 +376,6 @@ def whittaker_smooth_weight_func2(
         D2 = diff(Z)
     if func1 is not None or tau1 > 0:
         D1 = inventory.diff1(Z)
-
-    N = len(X)
 
     W  = np.ones(N, "d")
     W1 = np.ones(N, "d")

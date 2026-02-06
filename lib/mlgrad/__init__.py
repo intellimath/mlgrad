@@ -25,11 +25,11 @@ def sfunc(func):
     f = SimpleFunctional(func)
     return f
 
-def erisk(X, Y, mod, loss_func, weights=None, batch=None, avg=None):
+def erisk(X, Y, mod, loss_func, sample_weights=None, weights=None, batch=None, avg=None):
     if avg is not None:
         er = MRisk(X, Y, mod, loss_func, avg=avg, batch=batch)
     elif isinstance(loss_func, MultLoss):
-        er = ERisk2(X, Y, mod, loss_func, batch=batch)
+        er = ERisk2(X, Y, mod, loss_func, batch=batch, sample_weights=sample_weights)
     elif isinstance(loss_func, MultLoss2):
         er = ERisk22(X, Y, mod, loss_func, batch=batch)
     else:

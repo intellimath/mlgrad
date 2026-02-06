@@ -81,9 +81,6 @@ cdef class SimpleFunctional(Functional):
 
 cdef class Risk(Functional):
 
-    @property
-    def sample_weights(self):
-        return np.asarray(self.weights)
     #
     # cdef void generate_samples(self, X, Y):
     #     cdef double[:,::1] X1 = X
@@ -400,7 +397,7 @@ cdef class MRisk(Risk):
 cdef class ERisk(Risk):
     #
     def __init__(self, double[:,::1] X not None, double[::1] Y not None, Model model not None,
-                 Loss loss=None, Batch batch=None, is_natgrad=0):
+                 Loss loss=None, Batch batch=None, sample_weights=None, is_natgrad=0):
 
         self.model = model
         self.param = model.param
@@ -435,6 +432,10 @@ cdef class ERisk(Risk):
             self.use_batch(batch)
 
         self.weights = np.full(self.n_sample, 1./self.n_sample, "d")
+        if sample_weights is None:
+            self.sample_weights = np.ones(self.n_sample, "d")
+        else:
+            self.sample_weights = np.asarray(sample_weights)
         self.lval = 0
         self.is_natgrad = is_natgrad
     #
@@ -448,6 +449,7 @@ cdef class ERisk(Risk):
 
         cdef double[::1] L = self.L
         cdef double[::1] weights = self.weights
+        cdef double[::1] sample_weights = self.sample_weights
         cdef Py_ssize_t[::1] indices = self.batch.indices
 
         # self._evaluate_models_batch()
@@ -456,7 +458,7 @@ cdef class ERisk(Risk):
         S = 0
         for j in range(self.batch.size):
             k = indices[j]
-            S += weights[k] * L[j]
+            S += sample_weights[k] * weights[k] * L[j]
 
         if _model._with_eqns():
             m = len(_model.eqns)
@@ -480,6 +482,7 @@ cdef class ERisk(Risk):
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
         cdef double[::1] weights = self.weights
+        cdef double[::1] sample_weights = self.sample_weights
         cdef double[::1] grad = self.grad
         cdef double[::1] grad_average = self.grad_average
 
@@ -492,7 +495,7 @@ cdef class ERisk(Risk):
             k = indices[j]
 
             _model._gradient_one(X[k], grad)
-            v = weights[k] * _loss._derivative(model_vals[j], Y[k])
+            v = sample_weights[k] * weights[k] * _loss._derivative(model_vals[j], Y[k])
             inventory._imul_add(&grad_average[0], &grad[0], v, self.n_param)
 
         if self.is_natgrad:
