@@ -9,10 +9,12 @@ cdef class Step(Func):
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
         cdef double C = self.C
-        if x >= C:
+        if x > C:
             return self.eps
         elif x < -C:
             return 1 + self.eps
+        elif C == 0:
+            return 0.5 + self.eps
         else:
             return (1 - x/C)/2 + self.eps
     #
@@ -49,8 +51,10 @@ cdef class StepRight(Func):
             return 1 + self.eps
         elif x < -C:
             return self.eps
+        elif C == 0:
+            return 0.5 + self.eps
         else:
-            return (x/C - 1)/2 + self.eps
+            return (1 + x/C)/2 + self.eps
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:

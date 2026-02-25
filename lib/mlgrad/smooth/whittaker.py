@@ -13,6 +13,7 @@ import numpy as np
 import scipy
 from scipy.special import expit
 from scipy.optimize import curve_fit
+from scipy.stats import logistic as stats_logistic
 
 # import matplotlib.pyplot as plt
 
@@ -106,8 +107,7 @@ def create_banded(mat, d):
             mat_flat[-i - 1, (low - i) :] = mat.diagonal(-(low - i))
     return mat_flat
 
-
-def whittaker_smooth(y, W=None, W1=None, W2=None, tau1=0, tau2=1.0, d=2):
+def whittaker_smooth(y, W=None, W2=None, tau1=0, tau2=1.0, d=2):
     d2 = d
     Z, Y = whittaker_matrices(y, W=W, W2=W2, d2=d2, tau2=tau2)
     # print(Z.shape, Y.shape)
@@ -149,8 +149,9 @@ def whittaker_smooth_ex(X,
               aggfunc2 = averaging_function("AM"),
               func = funcs.Square(),
               func2 = funcs.Square(),
+              func2_e = None,
               d=2, func2_mode="d",
-              tau1=0, tau2=4.0, n_iter=100, tol=1.0e-6):
+              tau1=0, tau2=1.0, n_iter=100, tol=1.0e-6):
 
     N = len(X)
 
@@ -160,22 +161,26 @@ def whittaker_smooth_ex(X,
     E = (Z - X)
 
     U = func.evaluate_array(E)
-    aggfunc.evaluate(U)
-    W = aggfunc.weights(U)
+    aggfunc_u = aggfunc.evaluate(U)
+    W = aggfunc.weights(U) * func.derivative_div_array(E)
 
-    D2 = array_transform.array_diff2(Z)
+
+    D2 = inventory.diff2(Z)
     U2 = func2.evaluate_array(D2)
-    aggfunc2.evaluate(U2)
+    aggfunc2_u = aggfunc2.evaluate(U2)
     W2 = aggfunc2.weights(U2)
 
-    s = s_min = aggfunc.u + tau2 * aggfunc2.u
+    if func2 is not None and tau2 > 0:
+        W2 *= func2.derivative_div_array(D2)
+    # if func2_e is not None and tau2 > 0:
+    #     W2 *= func2_e(E)
+
+    s = s_min = aggfunc_u + tau2 * aggfunc2_u
     s_min_prev = inventory.double_max / 10
     qvals = [s]
 
     # ring_array = inventory.RingArray(16)
     # ring_array.add(s)
-
-    # dWs = []
 
     flag = False
     for K in range(n_iter):
@@ -183,23 +188,24 @@ def whittaker_smooth_ex(X,
 
         E = Z - X
 
-        # W_prev = W.copy()
         U = func.evaluate_array(E)
-        aggfunc.evaluate(U)
-        W = aggfunc.weights(U)
+        aggfunc_u = aggfunc.evaluate(U)
+        W = aggfunc.weights(U) * func.derivative_div_array(E)
 
-        D2 = array_transform.array_diff2(Z)
+        D2 = inventory.diff2(Z)
         U2 = func2.evaluate_array(D2)
-        aggfunc2.evaluate(U2)
+        aggfunc2.u = aggfunc2.evaluate(U2)
         W2 = aggfunc2.weights(U2)
+        W2 *= func2.derivative_div_array(D2)
+        # if func2_e is not None and tau2 > 0:
+        #     W2 *= func2_e(E)
 
-        # dWs.append(inventory.norm2(W-W_prev))
-
-        s = aggfunc.u + tau2 * aggfunc2.u
+        s = aggfunc_u + tau2 * aggfunc2_u
         # ring_array.add(s)
         qvals.append(s)
 
-        if abs(s - s_min) / (1+abs(s_min)) < tol:
+        # if abs(s - s_min) / (1+abs(s_min)) < tol:
+        if abs(s - s_min) < tol * abs(s_min):
             flag = True
 
         # mad_val = ring_array.mad()
@@ -230,31 +236,22 @@ def func_aspls(residual, asymmetric_coef=2.0):
     if std == 0:
         std = float_info.min
 
-    shifted_residual = residual + neg_residual.mean()
+    # shifted_residual = residual - std
     # add a negative sign since expit performs 1/(1+exp(-input))
-    weights = expit(-(asymmetric_coef / std) * (shifted_residual - std))
+    weights = expit(-(asymmetric_coef / std) * (residual - std))
     return weights
 
 def func_logistic(residual):
     X = residual
-    Y = (X < 0).astype("d")
-    def logistic(x, mu, sigma):
-        return expit(-(x - mu) / sigma)
-    neg_residual = residual[residual < 0]
-    if neg_residual.size < 2:
-        return np.zeros_like(y)
-    mu = np.median(neg_residual)
-    std = np.median(abs(neg_residual - mu))
-    p0 = (mu, std)
-    opt, _ = curve_fit(logistic, X, Y, p0=p0, maxfev=5000, xtol=1.0e-6, gtol=1.0e-6)
-    mu, sigma = opt
-    weights = logistic(X, mu, sigma)
-    # print(weights)
-    return weights
+    mu, sigma = stats_logistic.fit(residual)
+    weights = stats_logistic.cdf(X, mu, sigma)
+    return 1-weights
 
-def func_step_and_noise(residual, e=0.01):
-    Y = (residual < 0).astype("d")
-    return Y + e
+def func_rstep_and_noise(e=0.001):
+    def _func_rstep_and_noise_(residual, e=e):
+        Y = (residual < 0).astype("d")
+        return Y + e
+    return _func_rstep_and_noise_
 
 def whittaker_smooth_weight_func(
             X, func=None, func1=None, func2=None, func2_e=None,
@@ -341,9 +338,9 @@ def whittaker_smooth_weight_func(
     return Z, {'qvals':qvals, 'K':K+1}
 
 def whittaker_smooth_weight_func2(
-            X, func=None, func1=None, func2=None, func2_e=None, windows=None,
-            tau1=0.0, tau2=1.0, w_tau2 = 1.0,
-            d=2, n_iter=100, tol=1.0e-4, ):
+            X, func=None, func2=None, func2_e=None, windows=None,
+            tau2=1.0, w_tau2 = 1.0,
+            d=2, n_iter=100, tol=1.0e-4):
 
     N = len(X)
 
@@ -367,29 +364,24 @@ def whittaker_smooth_weight_func2(
         dd1 = dd
         dd2 = -dd-1
 
-    Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
+    Z = whittaker_smooth(X, tau2=tau2, d=d)
     # Z = X * 0.999
 
     E = X - Z
 
-    if func2 is not None or tau2 > 0:
-        D2 = diff(Z)
-    if func1 is not None or tau1 > 0:
-        D1 = inventory.diff1(Z)
-
-    W  = np.ones(N, "d")
-    W1 = np.ones(N, "d")
-    W2 = np.ones(N-d, "d")
-
     if func is not None:
         W = func(E)
         # W /= W.mean()
-    if func1 is not None and tau1 > 0:
-        W1 = func1(D1)
-        # W1 /= W1.sum()
+    else:
+        W  = np.ones(N, "d")
+
     if func2 is not None and tau2 > 0:
+        D2 = diff(Z)
         W2 = func2(D2)
         # W2 /= W2.mean()
+    else:
+        W2 = np.ones(N-d, "d")
+
     if func2_e is not None and tau2 > 0:
         W2 *= func2_e(E[dd1:dd2])
 
@@ -412,41 +404,40 @@ def whittaker_smooth_weight_func2(
         # qval_prev = qval
         Z_prev = Z.copy()
 
-        Z = whittaker_smooth(X, W=W, W1=W1, W2=W2,
-                             tau1=tau1, tau2=tau2, d=d)
+        Z = whittaker_smooth(X, W=W, W2=W2, tau2=tau2, d=d)
 
         dZ = Z - Z_prev
-        dq = np.sqrt(dZ @ dZ) / (1 + np.sqrt(Z_prev @ Z_prev))
-        # dq = abs(Z - Z_prev).sum() / (1+abs(Z_prev).sum())
-        if dq < tol:
-            flag = True
-
-        E = X - Z
-
-        if func2 is not None or tau2 > 0:
-            D2 = diff(Z)
-        if func1 is not None or tau1 > 0:
-            D1 = inventory.diff1(Z)
-
-        W  = np.ones(N, "d")
-        W1 = np.ones(N, "d")
-        W2 = np.ones(N-d, "d")
-
-        if func is not None:
-            W = func(E)
-        if func1 is not None and tau1 > 0:
-            W1 = func1(D1)
-        if func2 is not None and tau2 > 0:
-            W2 = func2(D2)
-        if func2_e is not None and tau2 > 0:
-            W2 *= func2_e(E[dd1:dd2])
-
+        # dq = np.sqrt(dZ @ dZ) / (1 + np.sqrt(Z_prev @ Z_prev))
+        dz = abs(Z - Z_prev).sum()
+        zz = abs(Z_prev).sum()
+        dq = dz / (1+zz)
         qvals.append(dq)
-        if dq < tol:
+
+        if abs(Z).sum() == 0:
+            Z = Z_prev
+            break
+
+        if dz < tol*zz:
             flag = True
 
         if flag:
             break
+
+        E = X - Z
+
+        if func is not None:
+            W = func(E)
+        else:
+            W  = np.ones(N, "d")
+
+        if func2 is not None and tau2 > 0:
+            D2 = diff(Z)
+            W2 = func2(D2)
+        else:
+            W2 = np.ones(N-d, "d")
+
+        if func2_e is not None and tau2 > 0:
+            W2 *= func2_e(E[dd1:dd2])
 
         # if qval > qval_min:
         #     Z_min = Z.copy()

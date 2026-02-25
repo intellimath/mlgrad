@@ -40,7 +40,7 @@ def averaging_function(
         avg = avragg.WMAverage(avgfunc)
     elif kind == 'WMZ':
         avgfunc2 = avragg.MAverage(rhofunc, tol=tol, n_iter=n_iter)
-        avg = avragg.WMZAverage(avgfunc, avgfunc2, **kwds)
+        avg = avragg.WMZAverage(avgfunc, avgfunc2, func=rhofunc, **kwds)
     elif kind == 'WZ':
         avg = avragg.WZAverage(**kwds)
     elif kind == 'SWM':

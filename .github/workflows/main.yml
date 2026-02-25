@@ -22,10 +22,10 @@ jobs:
         with:
           fetch-depth: "0"
 
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6.1.0
         with:
-          python-version: 3.11
+          python-version: 3.13
 
       - name: Install dependencies
         run: |
@@ -70,15 +70,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v3.1.4
+        uses: pypa/cibuildwheel@v3.3.0
         with:
           output-dir: dist-wheel-${{ matrix.os }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: dist-wheel-${{ matrix.os }}
           path: ./dist-wheel-${{ matrix.os }}/*.whl
@@ -102,12 +102,12 @@ jobs:
           #- { py: "3.13", np: "==2.1.0" }
           - { py: "3.13", np: ">=2.1.0" }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: "0"
 
       - name: Set up Python ${{ matrix.ver.py }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6.1.0
         with:
           python-version: ${{ matrix.ver.py }}
 
@@ -130,8 +130,8 @@ jobs:
       #    # PEP 517 package builder from pypa
       #    python -m build --sdist --outdir dist-sdist .
 
-      - uses: actions/upload-artifact@v4
-        if: matrix.os == 'ubuntu-latest' && matrix.ver.py == '3.11'
+      - uses: actions/upload-artifact@v6.0.0
+        if: matrix.os == 'ubuntu-latest' && matrix.ver.py == '3.13'
         with:
           name: dist-sdist
           path: dist-sdist/*.tar.gz
@@ -141,14 +141,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: '0'
 
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v6.1.0
         with:
-          python-version: 3.11
+          python-version: 3.13
 
       - name: Install dependencies
         run: |

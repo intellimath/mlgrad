@@ -183,6 +183,7 @@ cdef class TMAverage(Average):
 
 @cython.final
 cdef class WMZAverage(Average):
+    cdef Func func
     cdef public double c, alpha
     cdef public MAverage mavr, savr
     cdef double mval, sval
