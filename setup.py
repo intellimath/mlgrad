@@ -71,7 +71,7 @@ cython_compiler_directives2 = dict(
     unraisable_tracebacks=True,
 )
 
-Options._directive_defaults.update(cython_compiler_directives1)
+# Options._directive_defaults.update(cython_compiler_directives2)
 
 ext_modules = [
     Extension(

@@ -34,7 +34,7 @@ cdef double max_double = PyFloat_GetMax()
 cdef double min_double = PyFloat_GetMin()
 
 import numpy as np
- 
+
 cdef class Penalty(object):
     #
     cdef double evaluate(self, double[::1] Y, const double u):
@@ -51,7 +51,7 @@ cdef class Penalty(object):
     #
     cdef double iterative_next(self, double[::1] Y, const double u):
         return 0
-
+ 
 @cython.final
 cdef class PenaltyAverage(Penalty):
     #
@@ -66,11 +66,12 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in prange(N, nogil=True, schedule='static'):
         for k in range(N):
             S += func._evaluate(Y[k] - u)
+        S /= N
 
-        return S / <double>N
+        return S
     #
     @cython.cdivision(True)
     @cython.final
@@ -80,29 +81,31 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in prange(N, nogil=True, schedule='static'):
         for k in range(N):
             S += func._derivative(Y[k] - u)
+        S /= N
 
-        return -S / <double>N
+        return -S
     #
     @cython.cdivision(True)
     @cython.final
     cdef double iterative_next(self, double[::1] Y, const double u):
         cdef Py_ssize_t k, N = Y.shape[0]
-        cdef double S, V, v, yk
+        cdef double S, V, v, s0, yk
         cdef Func func = self.func
 
+        s0 = self.func._derivative(0)
         S = 0
         V = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in prange(N, nogil=True, schedule='static'):
         for k in range(N):
             yk = Y[k]
             v = func._derivative_div(yk - u)
             V += v
             S += v * yk
 
-        return S / V
+        return (S + s0) / V
     #
     @cython.cdivision(True)
     @cython.final
@@ -112,12 +115,12 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in prange(N, nogil=True, schedule='static'):
         for k in range(N):
             grad[k] = v = func._derivative2(Y[k] - u)
             S += v
- 
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+
+        # for k in prange(N, nogil=True, schedule='static'):
         for k in range(N):
             grad[k] /= S
     #
@@ -129,12 +132,12 @@ cdef class PenaltyAverage(Penalty):
         cdef Func func = self.func
 
         S = 0
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in prange(N, nogil=True, schedule='static'):
         for k in range(N):
             G[k] = v = func._derivative_div(Y[k] - u)
             S += v
 
-        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        # for k in prange(N, nogil=True, schedule='static'):
         for k in range(N):
             G[k] /= S
 
@@ -204,8 +207,8 @@ cdef class PenaltyScale(Penalty):
             S += func._derivative2(v) * v * v
         S += N
         #
-        for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
-        # for k in range(N):
+        # for k in prange(N, nogil=True, schedule='static', num_threads=num_threads):
+        for k in range(N):
             v = Y[k] / s
             grad[k] = func._derivative(v) / S
     #

@@ -31,7 +31,7 @@ cdef class Func(object):
     cdef double _value(self, const double x) noexcept nogil
 
     cdef void _evaluate_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
-    cdef double _evaluate_sum(self, const double *x, const Py_ssize_t n) noexcept nogil    
+    cdef double _evaluate_sum(self, const double *x, const Py_ssize_t n) noexcept nogil
     cdef double _evaluate_weighted_sum(self, const double *x, const double *w, const Py_ssize_t n) noexcept nogil    
     cdef void _derivative_array(self, const double *x, double *y, const Py_ssize_t n) noexcept nogil
     cdef void _derivative_weighted_sum(self, const double *x, double *y, const double *w, const Py_ssize_t n) noexcept nogil
@@ -361,7 +361,7 @@ cdef class IntSoftHinge_Sqrt(Func):
     cdef double alpha2
     cdef public double x0
     #
-    
+
 @cython.final
 cdef class Softplus_Sqrt(Func):
     #
@@ -375,20 +375,27 @@ cdef class  Exp(Func):
     cdef public double p
 
 @cython.final
-cdef class Weibul(Func):
+cdef class Gumbel(Func):
     cdef public double p
 
 @cython.final
 cdef class  Log(Func):
     #
     cdef public double alpha
-    
+
+@cython.final
+cdef class SoftLog(Func):
+    #
+    cdef public double eps
+    cdef double log_eps
+
+
 @cython.final
 cdef class KMinSquare(Func):
     #
     cdef double[::1] c
     cdef int n_dim, j_min
-    
+
 @cython.final
 cdef class WinsorizedFunc(ParameterizedFunc):
     pass

@@ -621,20 +621,20 @@ cdef class Exp(Func):
         return p*p * exp(p*x)
 
 @cython.final
-cdef class Weibul(Func):
+cdef class Gumbel(Func):
     #
     def __init__ (self, p=1.0):
         self.p = p
     #
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
-        cdef double v = exp(self.p*x)
+        cdef double v = exp(x/self.p)
         return exp(-v)
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double v = exp(self.p*x)
-        return -self.p * v * exp(-v)
+        cdef double v = exp(x/self.p)
+        return -(1.0/self.p) * v * exp(-v)
     #
     # @cython.final
     # cdef double _derivative2(self, const double x) noexcept nogil:
@@ -1860,6 +1860,7 @@ include "funcs_abs.pyx"
 include "funcs_hinge.pyx"
 include "funcs_step.pyx"
 include "funcs_sigmoid.pyx"
+include "funcs_log.pyx"
 
 register_func(Comp, 'comp')
 register_func(QuantileFunc, 'quantile_func')

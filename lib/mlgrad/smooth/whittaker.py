@@ -150,8 +150,8 @@ def whittaker_smooth_ex(X,
               func = funcs.Square(),
               func2 = funcs.Square(),
               func2_e = None,
-              d=2, func2_mode="d",
-              tau1=0, tau2=1.0, n_iter=100, tol=1.0e-6):
+              d=2,
+              tau1=0, tau2=1.0, n_iter=100, tol=1.0e-8):
 
     N = len(X)
 
@@ -194,19 +194,14 @@ def whittaker_smooth_ex(X,
 
         D2 = inventory.diff2(Z)
         U2 = func2.evaluate_array(D2)
-        aggfunc2.u = aggfunc2.evaluate(U2)
-        W2 = aggfunc2.weights(U2)
-        W2 *= func2.derivative_div_array(D2)
+        aggfunc2_u = aggfunc2.evaluate(U2)
+        W2 = aggfunc2.weights(U2) * func2.derivative_div_array(D2)
         # if func2_e is not None and tau2 > 0:
         #     W2 *= func2_e(E)
 
         s = aggfunc_u + tau2 * aggfunc2_u
         # ring_array.add(s)
         qvals.append(s)
-
-        # if abs(s - s_min) / (1+abs(s_min)) < tol:
-        if abs(s - s_min) < tol * abs(s_min):
-            flag = True
 
         # mad_val = ring_array.mad()
         # if mad_val < tol:
@@ -217,13 +212,15 @@ def whittaker_smooth_ex(X,
             s_min = s
             Z_min = Z.copy()
 
-        if abs(s_min_prev - s_min) / (1+abs(s_min)) < tol:
+        if abs(s_min_prev - s_min) < tol * abs(s_min):
             flag = True
+        # if abs(s_min_prev - s_min) / (1+abs(s_min)) < tol:
+        #     flag = True
 
         if flag:
             break
 
-    return Z_min, {'qvals':qvals, 'K':K+1}
+    return Z_min, {'qvals':qvals, 'K':K+1, 's':s_min}
 
 def func_aspls(residual, asymmetric_coef=2.0):
     neg_residual = residual[residual < 0]

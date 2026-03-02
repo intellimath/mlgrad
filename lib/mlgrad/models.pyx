@@ -1069,7 +1069,7 @@ cdef class LinearLayer(ModelLayer):
             return 0
         else:
             return 1
-    #
+    # 
     cdef double _evaluate_reg(self):
         cdef Py_ssize_t i, j
         cdef double s = 0
@@ -1125,16 +1125,20 @@ cdef class ScaleLayer(ModelLayer):
         self.eqns = None
     #
     cdef void _forward(self, double[::1] X):
+        cdef double[::1] output = self.output
+        cdef Func func = self.func
         cdef Py_ssize_t j
 
         for j in range(self.n_output):
-            self.output[j] = self.func._evaluate(X[j])
+            output[j] = func._evaluate(X[j])
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+        cdef double[::1] grad_x = self.grad_x
+        cdef Func func = self.func
         cdef Py_ssize_t j
 
         for j in range(self.n_input):
-            self.grad_x[j] = grad_out[j] * self.func._derivative(X[j])
+            grad_x[j] = grad_out[j] * func._derivative(X[j])
     #
     def copy(self, bint share):
         cdef ScaleLayer layer = ScaleLayer(self.func, self.n_input)

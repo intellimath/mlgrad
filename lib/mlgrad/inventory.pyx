@@ -370,10 +370,10 @@ cdef double _dot(const double *a, const double *x, const Py_ssize_t n) noexcept 
         s += a[i] * x[i]
     return s
 
-cdef double moving_dot(double[::1] b, double[::1] a, double[::1] x) noexcept nogil:
-    return _moving_dot(&b[0], &a[0], &x[0], a.shape[0], x.shape[0])
+cdef void moving_dot(double[::1] b, double[::1] a, double[::1] x) noexcept nogil:
+    _moving_dot(&b[0], &a[0], &x[0], a.shape[0], x.shape[0])
 
-cdef double _moving_dot(double *b, const double *a, const double *x, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil:
+cdef void _moving_dot(double *b, const double *a, const double *x, const Py_ssize_t n, const Py_ssize_t m) noexcept nogil:
     cdef Py_ssize_t i,j
     cdef double s
 
@@ -383,7 +383,6 @@ cdef double _moving_dot(double *b, const double *a, const double *x, const Py_ss
             s += a[i] * x[i]
         b[j] = s
         a += 1
-    return s
 
 cdef double dot_t(double[::1] a, double[:,::1] b) noexcept nogil:
     return _dot_t(&a[0], &b[0,0], a.shape[0], b.shape[0])
@@ -1254,6 +1253,8 @@ def modified_zscore(a, b=None, mu=None):
     if b is None:
         bb = b = empty_array(n)
         flag = 1
+    else:
+        bb = b
     if mu is None:
         _modified_zscore(&aa[0], &bb[0], n)
     else:
@@ -1429,8 +1430,12 @@ def iqr_1d(x, copy=True):
         xx = x
     return _iqr_1d(_asarray(xx))
 
-def median_absdev_1d(x, mu):
-    return _median_absdev_1d(_asarray(x), mu)
+def median_absdev_1d(x, mu=None):
+    xx = _asarray(x)
+    if mu is None:
+        xx = xx.copy()
+        mu = _median_1d(xx)
+    return _median_absdev_1d(xx, mu)
 
 def median_2d_t(x):
     y = empty_array(x.shape[1])
