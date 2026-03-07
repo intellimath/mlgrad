@@ -277,27 +277,27 @@ cdef class Tukey(Func):
     #
 
 @cython.final
+cdef class RStep(Func):
+    #
+    cdef public double delta
+    cdef public double eps
+    #
+
+@cython.final
 cdef class Step(Func):
     #
-    cdef public double C
+    cdef public double delta
     cdef public double eps
     #
 
 @cython.final
-cdef class StepRight(Func):
-    #
-    cdef public double C
-    cdef public double eps
-    #
-
-@cython.final
-cdef class Step_Sqrt(Func):
+cdef class RStep_Sqrt(Func):
     #
     cdef public double eps
     #
 
 @cython.final
-cdef class Step_Exp(Func):
+cdef class RStep_Exp(Func):
     cdef public double p
 
 @cython.final

@@ -1,82 +1,90 @@
 
 @cython.final
-cdef class Step(Func):
+cdef class RStep(Func):
     #
-    def __init__(self, C=0, eps=0):
-        self.C = C
+    def __init__(self, delta=0, eps=0):
+        self.delta = delta
         self.eps = eps
     #
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
-        cdef double C = self.C
-        if x > C:
+        cdef double delta = self.delta
+        if x > delta:
             return self.eps
-        elif x < -C:
+        elif x < -delta:
             return 1 + self.eps
-        elif C == 0:
+        elif delta == 0:
             return 0.5 + self.eps
         else:
-            return (1 - x/C)/2 + self.eps
+            return (1 - x/delta)/2 + self.eps
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
-        if x >= self.C or x <= -self.C:
+        if x >= self.delta or x <= -self.delta:
             return 0
         else:
-            return -0.5/self.C
+            return -0.5/self.delta
     #
     cpdef set_param(self, name, val):
         if name == "sigma":
-            self.C = val
+            self.delta = val
+        elif name == "eps":
+            self.eps = val
         else:
             raise NameError(name)
 
     cpdef get_param(self, name):
-        if name == "sigma":
-            return self.C
+        if name == "delta":
+            return self.delta
+        elif name == "eps":
+            return self.eps
         else:
             raise NameError(name)
 
 @cython.final
-cdef class StepRight(Func):
+cdef class Step(Func):
     #
-    def __init__(self, C=0, eps=0):
-        self.C = C
+    def __init__(self, delta=0, eps=0):
+        self.delta = delta
         self.eps =  eps
     #
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
-        cdef double C = self.C
-        if x >= C:
+        cdef double delta = self.delta
+        if x >= delta:
             return 1 + self.eps
-        elif x < -C:
+        elif x < -delta:
             return self.eps
-        elif C == 0:
+        elif delta == 0:
             return 0.5 + self.eps
         else:
-            return (1 + x/C)/2 + self.eps
+            return (1 + x/delta)/2 + self.eps
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
-        if x >= self.C or x <= -self.C:
+        if x >= self.delta or x <= -self.delta:
             return 0
         else:
-            return 0.5/self.C
+            return 0.5/self.delta
     #
     cpdef set_param(self, name, val):
-        if name == "sigma":
-            self.C = val
+        if name == "delta":
+            self.delta = val
+        elif name == "eps":
+            self.eps = val
         else:
             raise NameError(name)
 
     cpdef get_param(self, name):
-        if name == "sigma":
-            return self.C
+        if name == "delta":
+            return self.delta
+        elif name == "eps":
+            return self.eps
         else:
             raise NameError(name)
 
 @cython.final
-cdef class Step_Sqrt(Func):
+cdef class RStep_Sqrt(Func):
     #
     def __init__(self, eps=1.0e-3):
         self.eps = eps
@@ -105,7 +113,7 @@ cdef class Step_Sqrt(Func):
             raise NameError(name)
 
 @cython.final
-cdef class Step_Exp(Func):
+cdef class RStep_Exp(Func):
     #
     def __init__(self, p=1.0):
         self.p = p

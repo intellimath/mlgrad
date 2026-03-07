@@ -108,7 +108,7 @@ cdef class ModelView(Model):
 
 @cython.final
 cdef class LinearModel(Model):
-    cdef public bint has_intercept
+    pass
 
 @cython.final
 cdef class DotModel(Model):
