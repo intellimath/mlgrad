@@ -242,7 +242,6 @@ cdef class Model(BaseModel):
 include "models_linear.pyx"
 include "models_neuron.pyx"
 
-
 cdef class SimpleComposition(Model):
     #
     def __init__(self, Func func, Model model):
@@ -499,8 +498,8 @@ cdef class ModelLayer(Model2):
             mod.init_param()
     #
 
-include models_simplenn.pyx
-include models_layers.pyx
+include "models_simplenn.pyx"
+include "models_layers.pyx"
 
 cdef class MLModel:
 
