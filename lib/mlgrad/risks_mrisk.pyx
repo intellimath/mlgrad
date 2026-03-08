@@ -51,7 +51,7 @@ cdef class MRisk(Risk):
     cdef double _evaluate(self):
         cdef double u
         self._evaluate_losses_batch()
-        u = self.avg._evaluate(self.L)
+        u = self.avg._evaluate(self.loss_vals)
         #
         self.lval = self.avg.u
         #
@@ -77,7 +77,7 @@ cdef class MRisk(Risk):
         cdef Py_ssize_t[::1] indices = self.batch.indices
         cdef double[::1] model_vals = self.model_vals
 
-        self.avg._gradient(self.L, weights)
+        self.avg._gradient(self.loss_vals, weights)
 
         inventory.clear(grad_average)
 

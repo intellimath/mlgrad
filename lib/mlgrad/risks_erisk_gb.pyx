@@ -87,7 +87,7 @@ cdef class ERiskGB(Risk):
         cdef double[::1] Y = self.Y
         cdef Py_ssize_t[::1] indices = self.batch.indices
         cdef double[::1] model_vals = self.model_vals
-        cdef double[::1] L = self.L
+        cdef double[::1] L = self.loss_vals
         cdef double[::1] H = self.H
 
         for j in range(self.batch.size):
@@ -104,7 +104,7 @@ cdef class ERiskGB(Risk):
 
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
-        # cdef double[::1] L = self.L
+        # cdef double[::1] L = self.loss_vals
         cdef double[::1] H = self.H
         # cdef Py_ssize_t N = X.shape[0]
 
@@ -124,7 +124,7 @@ cdef class ERiskGB(Risk):
 #         cdef double alpha = self.alpha
 
 #         # cdef double[::1] model_vals = self.model_vals
-#         cdef double[::1] LD = self.LD
+#         cdef double[::1] LD = self.loss_valsD
 #         cdef double[::1] H = self.H
 
 #         for j in range(self.batch.size):
@@ -143,7 +143,7 @@ cdef class ERiskGB(Risk):
         cdef double alpha = self.alpha
 
         # cdef double[::1] model_vals = self.model_vals
-        # cdef double[::1] LD = self.LD
+        # cdef double[::1] LD = self.loss_valsD
         cdef double[::1] H = self.H
 
         for k in range(self.n_sample):
@@ -159,7 +159,7 @@ cdef class ERiskGB(Risk):
 
         cdef double[::1] weights = self.weights
 
-        cdef double[::1] L = self.L
+        cdef double[::1] L = self.loss_vals
 
         # self._evaluate_models_batch()
         self._evaluate_losses_batch()
@@ -192,7 +192,7 @@ cdef class ERiskGB(Risk):
 
         cdef double alpha = self.alpha
         cdef double[::1] model_vals = self.model_vals
-        # cdef double[::1] L = self.L
+        # cdef double[::1] L = self.loss_vals
         cdef double[::1] H = self.H
 
         inventory.clear(self.grad_average)
@@ -230,7 +230,7 @@ cdef class ERiskGB(Risk):
         cdef double ret = 0
 
         cdef double[::1] model_vals = self.model_vals
-        cdef double[::1] L = self.L
+        cdef double[::1] L = self.loss_vals
 
         for j in range(size):
             k = indices[j]

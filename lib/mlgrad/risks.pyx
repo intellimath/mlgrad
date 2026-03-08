@@ -2,7 +2,7 @@
 
 # The MIT License (MIT)
 #
-# Copyright (c) <2015-2022> <Shibzukhov Zaur, szport at gmail dot com>
+# Copyright (c) <2015-2025> <Shibzukhov Zaur, szport at gmail dot com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -80,16 +80,6 @@ cdef class SimpleFunctional(Functional):
         self.regnorm._gradient(self.param, self.grad_average)
 
 cdef class Risk(Functional):
-
-    #
-    # cdef void generate_samples(self, X, Y):
-    #     cdef double[:,::1] X1 = X
-    #     cdef double[::1] Y1 = Y
-    #     self.batch.generate_sample1d(Y1, self.Y)
-    #     self.batch.generate_sample2d(X1, self.X)
-    #
-    # cdef update_param(self, double[::1] param):
-    #     self.model.update_param(param)
     #
 #     cdef void _evaluate_models_batch(self):
 #         cdef Model _model = self.model
@@ -105,9 +95,7 @@ cdef class Risk(Functional):
 #             model_vals[j] = _model._evaluate_one(X[k])
     #
     cdef void _eval_regularized_gradient(self):
-        cdef Py_ssize_t i
-        cdef BaseModel model = <BaseModel>self.model
-
+        cdef Model model = self.model
         model._gradient_reg(self.grad_r)
     #
     cdef void _add_regularized_gradient(self):
@@ -117,7 +105,7 @@ cdef class Risk(Functional):
     #
     cdef void add_regularized_gradient(self):
         cdef Py_ssize_t i
-        cdef BaseModel model = <BaseModel>self.model
+        cdef Model model = self.model
 
         model._gradient_reg(self.grad_r)
         for i in range(self.n_param):
@@ -184,7 +172,7 @@ cdef class Risk(Functional):
 
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
-        cdef double[::1] L = self.L
+        cdef double[::1] L = self.loss_vals
         cdef double[::1] model_vals = self.model_vals
         cdef double *Y0 = &self.Y0[0]
         cdef Py_ssize_t[::1] indices = self.batch.indices
@@ -291,7 +279,7 @@ cdef class Risk(Functional):
         size = self.batch.size
         self.model_vals = np.zeros(size, np_double)
         self.Y0 = np.zeros(size, np_double)
-        self.L = np.zeros(size, np_double)
+        self.loss_vals = np.zeros(size, np_double)
         # self.LD = np.zeros(size, np_double)
     #
     cpdef init(self):
@@ -323,7 +311,7 @@ cdef class ERisk22(Risk):
         else:
             self.batch = batch
 
-        self.L = np.zeros(self.batch.size, 'd')
+        self.loss_vals = np.zeros(self.batch.size, 'd')
         self.is_natgrad = is_natgrad
     #
     def use_weights(self, weights):

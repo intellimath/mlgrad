@@ -51,7 +51,7 @@ cdef class ERisk(Risk):
         cdef Func2 eqn
         cdef double vl
 
-        cdef double[::1] L = self.L
+        cdef double[::1] L = self.loss_vals
         cdef double[::1] weights = self.weights
         cdef double[::1] sample_weights = self.sample_weights
         cdef Py_ssize_t[::1] indices = self.batch.indices
