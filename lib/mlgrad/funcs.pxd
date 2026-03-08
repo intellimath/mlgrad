@@ -7,6 +7,9 @@ from libc.math cimport pow, sqrt, exp, log, atan, fma, sinh, asinh, cosh, tanh, 
 from libc.math cimport isnan, isinf
 from libc.stdlib cimport strtod
 
+cimport mlgrad.inventory as inventory
+
+
 cdef inline double fabs(double x) noexcept nogil:
     if x >= 0:
         return x
@@ -112,11 +115,11 @@ cdef class ZeroOnNegative(Func):
 cdef class TruncAbs(Func):
     #
     cdef public double c
-    
+
 @cython.final
 cdef class FuncExp(Func):
     cdef public Func f
-    
+
 @cython.final
 cdef class Id(Func):
     #

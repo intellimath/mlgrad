@@ -25,7 +25,6 @@
 from cython.parallel cimport parallel, prange
 
 from openmp cimport omp_get_num_threads
-cimport mlgrad.inventory as inventory
 
 cdef int num_threads = inventory.get_num_threads()
 
@@ -1379,19 +1378,21 @@ cdef class KMinSquare(Func):
     #
     cdef double _evaluate(self, const double x) noexcept nogil:
         cdef int j, j_min, n_dim = self.n_dim
-        cdef double d, d_min
+        cdef double d_min, d
+        cdef *cc = &self.c[0]
 
-        d_min = self.c[0]
+        d_min = inventory.double_max
         j_min = 0
         j = 1
         while j < n_dim:
-            d = self.c[j]
-            if fabs(x - d) < d_min:
+            d = fabs(x - cc[j])
+            if d < d_min:
                 j_min = j
                 d_min = d
             j += 1
         self.j_min = j_min
-        return 0.5 * (x - d_min) * (x - d_min)
+        v = x - d_min
+        return 0.5 * v*v
     #
     cdef double _derivative(self, const double x) noexcept nogil:
         return x - self.c[self.j_min]
@@ -1406,27 +1407,27 @@ cdef class KMinSquare(Func):
         return { 'name':'kmin_square',
                  'args': (self.c.tolist(),) }
 
-cdef class RelativeAbsMax(Func):
+# cdef class RelativeAbsMax(Func):
 
-    def evaluate_array(self, double[::1] X):
-        cdef Py_ssize_t i, m=len(X)
-        cdef double v, vmax = 0
-        cdef double[::1] Y
+#     def evaluate_array(self, double[::1] X):
+#         cdef Py_ssize_t i, m=len(X)
+#         cdef double v, vmax = 0
+#         cdef double[::1] Y
 
-        YY = inventory.empty_array(m)
-        Y = YY
-        for i in range(m):
-            Y[i] = fabs(X[i])
+#         Y = inventory.empty_array(m)
+#         YY = Y
+#         for i in range(m):
+#             YY[i] = fabs(X[i])
 
-        for i in range(m):
-            v = Y[i]
-            if v > vmax:
-                vmax = v
+#         for i in range(m):
+#             v = YY[i]
+#             if v > vmax:
+#                 vmax = v
 
-        for i in range(m):
-            Y[i] /= vmax
+#         for i in range(m):
+#             Y[i] /= vmax
 
-        return YY
+#         return YY
 
 include "funcs_abs.pyx"
 include "funcs_hinge.pyx"
