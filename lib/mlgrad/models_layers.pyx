@@ -155,6 +155,13 @@ cdef class ScaleLayer(ModelLayer):
 
         layer.output = np.zeros(self.n_output, 'd')
         layer.grad_x = np.zeros(self.n_input, 'd')
+
+        self.mask = None
+        #
+        self.regfunc = None
+        self.tau = 0
+        self.eqns = None
+
         return layer
     #
     cdef double _evaluate_reg(self):
@@ -536,3 +543,85 @@ def general_layer_from_dict(ob):
 # def sigma_neuron_layer_from_dict(ob):
 #     layer = SigmaNeuronModelLayer(ob['n_input'], ob['n_output'])
 #     return layer
+
+@cython.final
+cdef class SoftNormalizerLayer(ModelLayer):
+    #
+    def _allocate_param(self, allocator):
+        pass
+    #
+    def init_param(self):
+        pass
+    #
+    def __init__(self, n_input, scale=1.0):
+        self.scale = scale
+        self.ob_param = param = None
+        self.n_param = 0
+        self.n_input = n_input
+        self.n_output = n_input
+        self.output = np.zeros(n_input, 'd')
+        self.grad_x = np.zeros(n_input, 'd')
+        self.mask = None
+        #
+        self.regfunc = None
+        self.tau = 0
+        self.eqns = None
+    #
+    cdef void _forward(self, double[::1] X):
+        cdef double[::1] output = self.output
+        cdef Func func = self.func
+        cdef Py_ssize_t j
+        cdef double x_max = inventory._max(&X[0], X.shape[0])
+        cdef double v, s = 0
+        cdef double scale = self.scale
+
+        for j in range(self.n_output):
+            output[j] = v = exp(scale*(X[j] - x_max))
+            s += v
+        for j in range(self.n_output):
+            output[j] /= s
+    #
+    cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad):
+        cdef double[::1] grad_x = self.grad_x
+        cdef double[::1] output = self.output
+        cdef Py_ssize_t j, l, n = self.n_input
+        cdef double x_max = inventory._max(&X[0], X.shape[0])
+        cdef double v, v_j, s
+        cdef double scale = self.scale
+
+        inventory.clear(grad_x)
+        for j in range(n):
+            v_j = output[j]
+            grad_x[j] += scale * (v_j - v_j*v_j) * grad_out[j]
+            s = 0
+            for l in range(n):
+                if l == j:
+                    continue
+                v = output[l]
+                s += scale * v * v_j * grad_out[l]
+            grad_x[j] -= s
+    #
+    def copy(self, bint share):
+        cdef SoftNormalizerLayer layer = SoftNormalizerLayer(self.n_input, self.scale)
+
+        layer.param = self.param
+
+        layer.output = np.zeros(self.n_output, 'd')
+        layer.grad_x = np.zeros(self.n_input, 'd')
+
+        self.mask = None
+        #
+        self.regfunc = None
+        self.tau = 0
+        self.eqns = None
+
+        return layer
+    #
+    cdef double _evaluate_reg(self):
+        return 0
+    #
+    cdef void _gradient_reg(self, double[::1] grad_reg):
+        pass
+    #
+    cdef bint _is_regularized(self) noexcept nogil:
+        return 0

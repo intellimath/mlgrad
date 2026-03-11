@@ -691,8 +691,7 @@ cdef class FFNetworkModel(MLModel):
     #
     def init_from(self, ob):
         for layer, layer_ob in zip(self.layers, ob['layers']):
-            layer.init_from( layer_ob['param'] )    
-        
+            layer.init_from( layer_ob['param'] )
 
 @register_model('ff_nn')
 def ff_ml_network_from_dict(ob):

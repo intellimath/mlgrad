@@ -1165,7 +1165,19 @@ cdef void _diff1(double *x, double *y, const Py_ssize_t n) noexcept nogil:
     for i in range(n-1):
         y[i] = x[i] - x[i+1]
 
-cdef void _relative_max(double *x, double *y, const Py_ssize_t n) noexcept nogil: 
+
+cdef double _max(double *x, const Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+    cdef double v, max_val = _double_min
+
+    for i in range(n):
+        v = x[i]
+        if v > max_val:
+            max_val = v
+
+    return max_val
+
+cdef void _relative_max(double *x, double *y, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     cdef double v, max_val = 0
 

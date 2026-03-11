@@ -151,6 +151,7 @@ cdef void _diff3(double *x, double *y, const Py_ssize_t n) noexcept nogil
 cdef void _diff2(double *x, double *y, const Py_ssize_t n) noexcept nogil
 cdef void _diff2w2(double *x, double *w, double *y, const Py_ssize_t n) noexcept nogil
 cdef void _diff1(double *x, double *y, const Py_ssize_t n) noexcept nogil
+cdef double _max(double *x, const Py_ssize_t n) noexcept nogil
 cdef void _relative_max(double *x, double *y, const Py_ssize_t n) noexcept nogil
 cdef void _relative_abs_max(double *x, double *y, const Py_ssize_t n) noexcept nogil
 

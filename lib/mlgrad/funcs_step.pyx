@@ -132,3 +132,20 @@ cdef class RStep_Exp(Func):
         else:
             return 0
     #
+
+@cython.final
+cdef class RStep_Gauss(Func):
+    #
+    def __init__(self, sigma=1.0):
+        self.sigma = sigma
+        self.sigma2 = sigma*sigma
+    #
+    @cython.final
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        cdef double v = x / self.sigma
+        cdef double vv = 0.5*exp(v)
+        if x >= 0:
+            return 0.5*exp(v)
+        else:
+            return 1 - 0.5*exp(-v)
+    #

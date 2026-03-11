@@ -179,6 +179,10 @@ cdef class Scale2Layer(ModelLayer):
     # cdef ScaleLayer _copy(self, bint share)
 
 @cython.final
+cdef class SoftNormalizerLayer(ModelLayer):
+    cdef public double scale
+
+@cython.final
 cdef class LinearLayer(ModelLayer):
     cdef public double[:,::1] matrix
     # cdef bint first_time

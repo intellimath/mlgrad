@@ -1379,9 +1379,9 @@ cdef class KMinSquare(Func):
     cdef double _evaluate(self, const double x) noexcept nogil:
         cdef int j, j_min, n_dim = self.n_dim
         cdef double d_min, d
-        cdef *cc = &self.c[0]
+        cdef double *cc = &self.c[0]
 
-        d_min = inventory.double_max
+        d_min = inventory._double_max
         j_min = 0
         j = 1
         while j < n_dim:

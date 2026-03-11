@@ -304,6 +304,11 @@ cdef class RStep_Exp(Func):
     cdef public double p
 
 @cython.final
+cdef class RStep_Gauss(Func):
+    cdef public double sigma
+    cdef public double sigma2
+
+@cython.final
 cdef class RectExp(Func):
     cdef public double w
     cdef public double p
