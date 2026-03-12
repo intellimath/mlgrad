@@ -57,7 +57,7 @@ class KMeansBase:
         return D
     #
     def eval_qval(self, X):
-        DD = self._eval_dists(X)
+        DD = self.eval_dists(X)
         D = DD.min(axis=0)
         return sqrt(D.sum())
     #
@@ -67,20 +67,10 @@ class KMeansBase:
         D = DD.min(axis=0)
         qval = D.sum()
         self.qvals.append(sqrt(qval))
-        
+
         BB = (DD == D)
         II = arange(len(X))
         Is = [ II[BB[j]] for j in range(self.q)]
-        # for k, xk in enumerate(X):
-        #     U = xk - self.c
-        #     # D = (U * U).sum(axis=1)
-        #     D = einsum("ni,ni->n", U, U, optimize=True)
-        #     dmin = D.min()
-        #     qval += dmin
-        #     for j, dj in enumerate(D):
-        #         if dj == dmin:
-        #             Is[j].append(k)
-        # Is = [array(Ij) for Ij in Is]
         return Is
     #
 
@@ -90,11 +80,12 @@ class KMeansMahalanobisBase(KMeansBase):
     def _eval_dists(self, X):
         S1 = self.S1
         c = self.c
-        DD = np.empty((self.q, len(X)), "d")
-        path, _ = einsum_path("ni,ij,nj->n", X, S1[0], X, optimize='optimal')
+        DD = inventory.empty_array2(self.q, len(X))
+        # path, _ = einsum_path("ni,ij,nj->n", X, S1[0], X, optimize='optimal')
         for j in range(self.q):
-            Xj = X - c[j]
-            einsum("ni,ij,nj->n", Xj, S1[j], Xj, optimize=path, out=DD[j])
+            inventory.mahalanobis_distance(X, S1[j], c[j], Y=DD[j])
+            # Xj = X - c[j]
+            # einsum("ni,ij,nj->n", Xj, S1[j], Xj, optimize=path, out=DD[j])
         return DD
     #
     def set_weights(self, weights):
@@ -129,7 +120,7 @@ class KMeans(KMeansBase):
         if dmax < self.tol:
             # print(c, c_prev)
             return True
-        
+
         return False
     #
     def fit(self, X):
@@ -188,7 +179,7 @@ class RKMeans(KMeansBase):
 
         # if len(self.qval_mins) > 1 and \
         #     abs(qval - qval_prev) / (1 + self.qval_min) < self.tol
-        
+
         return False
     #
     def eval_qval(self, X):
@@ -210,17 +201,17 @@ class RKMeans(KMeansBase):
             G = self.avrfunc.gradient(self.ds)
             self.Is = self.find_clusters(X)
             self.c = self.find_locations(X, self.Is, G)
-            
+
             self.ds = self.eval_dists(X)
             dd = self.avrfunc.evaluate(self.ds)
             qval = np.sqrt(dd)
             self.qvals.append(qval)
-            
+
             if qval <= self.qval_min:
                 self.qval_min_prev = self.qval_min
                 self.qval_min = qval
                 self.c_min = self.c.copy()
-                
+
             if self.stop_condition(qval, qval_prev):
                 break
             # if self.stop_condition(self.qval_min_prev, self.qval_min):
@@ -264,15 +255,14 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
     def find_locations(self, X, Is):
         mean = np.mean
         c = np.zeros((self.q, X.shape[1]), 'd')
+        weights = self.weights
         for j in range(self.q):
             Ij = Is[j]
             Xj = X[Ij]
             # Xj.mean(axis=0, out=c[j])
-            if self.weights is not None:
-                weights = self.weights[Ij]
-                # print(weights)
-                # weights /= weights.sum()
-                c[j,:] = average(Xj, axis=0, weights=weights)
+            if weights is not None:
+                weights_j = weights[Ij]
+                c[j,:] = average(Xj, axis=0, weights=weights_j)
             else:
                 c[j,:] = Xj.mean(axis=0)
         return c
@@ -296,11 +286,6 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
                 Sj = inventory.covariance_matrix_weighted(Xj, weights, cj)
             else:
                 Sj = inventory.covariance_matrix(Xj, cj)
-            # Xj_c = X[Ij] - c[j]
-            # if self.weights is not None:
-            #     Sj = (Xj_c.T @ diag(self.weights[Ij]) @ Xj_c)
-            # else:
-            #     Sj = (Xj_c.T @ Xj_c)
             Sj /= det(Sj) ** (1.0/n)
             Sj1 = inv(Sj)
             S1.append(Sj1)
@@ -308,10 +293,10 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
         return S1
     #
     def stop_condition(self, qval, qval_prev):
-        if abs(qval - qval_prev) / (1 + self.qval_min) < self.tol:
+        if abs(qval - qval_prev)  < self.tol * (1 + self.qval_min):
             # print(qval, qval_prev)
             return True
-        
+
         return False
     #
     def fit_locations(self, X):
@@ -328,7 +313,7 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
                 self.qval_min = qval
                 self.c_min = self.c.copy()
 
-            if self.stop_condition(qval, qval_prev):
+            if self.stop_condition(qval, self.qval_min):
                 break
 
         self.c = self.c_min
@@ -354,7 +339,7 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
                 self.qval_min = qval
                 self.S1_min = [S1.copy() for S1 in self.S1]
 
-            if self.stop_condition(qval, qval_prev):
+            if self.stop_condition(qval, self.qval_min):
                 break
 
         self.S1 = [S1.copy() for S1 in self.S1_min]

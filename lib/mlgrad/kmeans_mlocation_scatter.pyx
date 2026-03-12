@@ -28,7 +28,7 @@ import numpy.linalg as linalg
 import mlgrad.avragg as avragg
 import mlgrad.distance as distance
 
-from cython.parallel cimport parallel, prange
+# from cython.parallel cimport parallel, prange
 
 cdef void arithmetic_mean(double[:, ::1] X, double[::1] loc):
     cdef int i, n = X.shape[1], N = X.shape[0]
@@ -145,7 +145,7 @@ cdef class KMeans_MLSE:
         dval = self.avg.u
 
         return dval
-    
+
     def update_distfunc(self, S):
         for j in range(self.n_cluster):
             S1 = np.linalg.inv(S[j])
@@ -153,7 +153,7 @@ cdef class KMeans_MLSE:
                 self.distfunc[j] = distance.MahalanobisDistance(S1)
             else:
                 self.distfunc[j].S = S1
-    
+
 cdef class KMeans_MLocationEstimator(KMeans_MLSE):
 
     def __init__(self, int n_cluster, Average avg, double[:,:,::1] S, tol=1.0e-6, h=0.01, n_iter=1000):
@@ -168,7 +168,7 @@ cdef class KMeans_MLocationEstimator(KMeans_MLSE):
         self.h = h
         if n_cluster != S.shape[0]:
             raise ValueError("n_cluster != S.shape[0]")
-        
+
     cpdef double Q(self):
         cdef double dval
 

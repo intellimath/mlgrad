@@ -561,7 +561,7 @@ cdef class MLocationsScattersEstimator(MLSE2):
 
     def fit(self, double[:,::1] X, only=None, warm=False):
         cdef Py_ssize_t K = 0
-        
+
         self.init(X, warm)
 
         scatters_only = (only == 'scatters')
@@ -571,7 +571,7 @@ cdef class MLocationsScattersEstimator(MLSE2):
 
         self.dval2 = self.dval2_min = self.Q()
         self.dvals2.append(self.dval2)
-        
+
         for K in range(self.n_iter):
             self.dval2_prev = self.dval2
 
