@@ -29,49 +29,22 @@ def covariance_matrix(X, loc=None, S=None):
     _covariance_matrix(X, loc, S)
     return S
 
-cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W, 
+cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W,
                                       double[::1] loc, double[:,::1] S) noexcept nogil:
     cdef Py_ssize_t i, j
-    cdef Py_ssize_t n = X.shape[1], N = X.shape[0]
+    cdef Py_ssize_t N = X.shape[0], n = X.shape[1]
     cdef double s, loc_i, loc_j
     #
     for i in range(n):
         loc_i = loc[i]
-        for j in range(n):
+        for j in range(i,n):
             loc_j = loc[j]
             s = 0
             for k in range(N):
                 s += W[k] * (X[k,i] - loc_i) * (X[k,j] - loc_j)
             S[i,j] = s
-
-# cdef void _covariance_matrix_weighted(
-#             double *X, const double *W, const double *loc, double *S, 
-#             const Py_ssize_t n, const Py_ssize_t N) noexcept nogil:
-
-#     cdef Py_ssize_t i, j, k
-#     cdef double s, loc_i, loc_j
-#     cdef double *X_ki
-#     cdef double *X_kj
-#     cdef double *S_i
-#     cdef double *S_j
-
-#     S_i = S_j = S
-#     for i in range(n):
-#         loc_i = loc[i]
-#         for j in range(i, n):
-#             loc_j = loc[j]
-#             X_kj = X + j
-#             X_ki = X + i
-
-#             s = 0
-#             for k in range(N):
-#                 s += W[k] * (X_ki[0] - loc_i) * (X_kj[0] - loc_j)
-#                 X_ki += n
-#                 X_kj += n
-
-#             S_i[j] = S_j[i] = s
-#             S_j += n
-#         S_i += n
+            if i != j:
+                S[j,i] = s
 
 def covariance_matrix_weighted(X, W, loc=None, S=None):
     X = _asarray(X)

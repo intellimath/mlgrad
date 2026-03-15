@@ -7,6 +7,56 @@ cdef double _mean(double *a, Py_ssize_t n) noexcept nogil:
         s += a[i]
     return s/n
 
+cdef double _average(double *x, double *w, Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+    cdef double W = 0, wi, s = 0
+
+    for i in range(n):
+        wi = w[i]
+        s += x[i] * wi
+        W += wi
+    return s / W
+
+cdef void _average2(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i, j
+    cdef double W, s = 0
+
+    W = 0
+    for i in range(n):
+        W += w[i]
+
+    for j in range(N):
+        s = 0
+        for i in range(n):
+            s += x[i] * w[i]
+        x += n
+        y[j] = s / W
+
+cdef void _average2_t(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i, j, k
+    cdef double W = 0, wi, s = 0
+
+    W = 0
+    for j in range(N):
+        W += w[j]
+
+    for i in range(n):
+        s = 0
+        k = i
+        for j in range(N):
+            s += x[k] * w[j]
+            k += n
+        y[i] = s / W
+
+def average(double[::1] x, double[::1] w):
+    return _average(&x[0], &w[0], x.shape[0])
+
+def average2(double[:,::1] x, double[::1] w, double[::1] y):
+    _average2(&x[0,0], &w[0], &y[0], x.shape[0], x.shape[1])
+
+def average2_t(double[:,::1] x, double[::1] w, double[::1] y):
+    _average2(&x[0,0], &w[0], &y[0], x.shape[0], x.shape[1])
+
 cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     cdef double v, s = 0

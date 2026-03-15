@@ -595,3 +595,25 @@ include "inventory_array.pyx"
 include "inventory_matrix.pyx"
 include "inventory_statistics.pyx"
 include "inventory_diff.pyx"
+
+cdef class StopCriterion:
+    #
+    def __init__(self, double tol):
+        self.minval = _double_max
+        self.prev_minval = _double_max
+        self.tol = tol
+    #
+    cdef bint is_minval(self, double val) noexcept nogil:
+        if val <= self.minval:
+            self.prev_minval = self.minval
+            self.minval = val
+            return 1
+        else:
+            return 0
+    #
+    cdef bint stop_criterion(self) noexcept nogil:
+        cdef double abs_minval = fabs(self.minval)
+        if fabs(self.minval - self.prev_minval) < self.tol * fabs(self.minval):
+            return 1
+        else:
+            return 0
