@@ -107,14 +107,23 @@ def create_banded(mat, d):
             mat_flat[-i - 1, (low - i) :] = mat.diagonal(-(low - i))
     return mat_flat
 
-def whittaker_smooth(y, W=None, W2=None, tau1=0, tau2=1.0, d=2):
+def whittaker_smooth_base(y, W=None, W2=None, tau2=1.0, d=2):
     d2 = d
     Z, Y = whittaker_matrices(y, W=W, W2=W2, d2=d2, tau2=tau2)
     # print(Z.shape, Y.shape)
     Zb = create_banded(Z, d)
     z = scipy.linalg.solve_banded((d,d), Zb, Y, overwrite_ab=False, overwrite_b=False, check_finite=True)
     return z
-    # return whittaker_smooth_scipy(y, W, W2, tau2, d=d)
+
+def whittaker_smooth(y, W=None, W2=None, func=None, func2=None, func2_e=None, tau2=1.0, d=2):
+    if (func is not None) or (func2 is not None) or (func2_e is not None):
+        return whittaker_smooth_weight_func2(y,
+                                             func=func,
+                                             func2=func2,
+                                             func2_e=func2_e,
+                                             tau2=1.0, d=2)[0]
+    else:
+        return whittaker_smooth_base(y, W, W2, tau2, d)
 
 def whittaker_smooth_scipy(y, W=None, W2=None, tau=1.0, d=2):
     N = len(y)
@@ -151,11 +160,11 @@ def whittaker_smooth_ex(X,
               func2 = funcs.Square(),
               func2_e = None,
               d=2,
-              tau1=0, tau2=1.0, n_iter=100, tol=1.0e-8):
+              tau2=1.0, n_iter=100, tol=1.0e-8):
 
     N = len(X)
 
-    Z = whittaker_smooth(X, tau2=tau2, tau1=tau1, d=d)
+    Z = whittaker_smooth(X, tau2=tau2, d=d)
     Z_min = Z.copy()
 
     E = (Z - X)
@@ -163,7 +172,8 @@ def whittaker_smooth_ex(X,
     U = func.evaluate_array(E)
     aggfunc_u = aggfunc.evaluate(U)
     W = aggfunc.weights(U) * func.derivative_div_array(E)
-
+    # if np.any(np.isnan(W)):
+    #     raise TypeError("has nan")
 
     D2 = inventory.diff2(Z)
     U2 = func2.evaluate_array(D2)
@@ -191,6 +201,8 @@ def whittaker_smooth_ex(X,
         U = func.evaluate_array(E)
         aggfunc_u = aggfunc.evaluate(U)
         W = aggfunc.weights(U) * func.derivative_div_array(E)
+        # if np.any(np.isnan(W)):
+        #     raise TypeError(f"has nan: K={K}")
 
         D2 = inventory.diff2(Z)
         U2 = func2.evaluate_array(D2)

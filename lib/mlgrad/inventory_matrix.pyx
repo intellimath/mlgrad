@@ -46,7 +46,7 @@ cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W,
             if i != j:
                 S[j,i] = s
 
-def covariance_matrix_weighted(X, W, loc=None, S=None):
+def covariance_matrix_weighted(X, W, loc, S=None):
     X = _asarray(X)
     n = X.shape[1]
     W = _asarray(W)
@@ -56,10 +56,6 @@ def covariance_matrix_weighted(X, W, loc=None, S=None):
         S = _asarray(S)
         if S.shape[0] != n and S.shape[1] != n:
             raise TypeError(f"ivalid shape of S: {S.shape}")
-    if loc is None:
-        loc = zeros_array(n)
-    else:
-        loc = _asarray(loc)
     _covariance_matrix_weighted(X, W, loc, S)
     return S
 
@@ -124,31 +120,23 @@ def inverse_matrix(A, copy=1):
 
 cdef double _mahalanobis_norm_one(double *S, const double *x, 
                                   const Py_ssize_t n) noexcept nogil:
-    cdef double x1, x2
+    # cdef double x1, x2
     cdef Py_ssize_t i, j
-    cdef double s, x_i, s_i
-    cdef double *S_i
+    cdef double s, x_i
 
-    if n == 2:
-        x1 = x[0]
-        x2 = x[1]
-        return S[0] * x1 * x1 + \
-               S[3] * x2 * x2 + \
-               2 * (S[1] * x1 * x2)
+    # if n == 2:
+    #     x1 = x[0]
+    #     x2 = x[1]
+    #     return S[0] * x1 * x1 + \
+    #            S[3] * x2 * x2 + \
+    #            2 * (S[1] * x1 * x2)
 
     s = 0
-    S_i = S
     for i in range(n):
         x_i = x[i]
-        s += S_i[i] * x_i * x_i
-
-        s_i = 0
-        for j in range(i+1, n):
-            s_i += S_i[j] * x[j]
-
-        s += 2 * x_i * s_i
-
-        S_i += n
+        for j in range(i, n):
+            s += 2 * S[j] * x_i * x[j]
+        S += n
 
     return s
 

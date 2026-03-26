@@ -311,11 +311,11 @@ cdef class SquareErrorMultiLoss(MultLoss):
 
         return S/2
 
-    cdef void _gradient(self, double[::1] y, double yk, double[::1] grad) noexcept nogil:        
+    cdef void _gradient(self, double[::1] y, double yk, double[::1] grad) noexcept nogil:
         cdef Py_ssize_t i, n = y.shape[0]
 
         for i in range(n):
-            grad[i] = y[i] - yk            
+            grad[i] = y[i] - yk
 
 cdef class ErrorMultiLoss(MultLoss):
     #

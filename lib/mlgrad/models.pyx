@@ -60,7 +60,12 @@ def model_from_dict(ob, init=False):
         mod.init_from(ob)
     return mod
 
-cdef class Regularized:
+cdef class Parameterized:
+    #
+    cdef _update_param(self, double[::1] param):
+        inventory._move(&self.param[0], &param[0], self.n_param)
+
+cdef class Regularized(Parameterized):
     #
     def use_regularizer(self, Func2 regfunc, double tau):
         self.regfunc = regfunc
@@ -166,6 +171,33 @@ cdef class BaseModel(Regularized):
         return self._copy(share)
     #
 
+# class PyModel(BaseModel):
+#     #
+#     def evaluate(self, X):
+#         """Вычисляет значения модели для всех заданных входов.
+#         Параметры:
+#             X: 2-мерный массив входов
+#         """
+#         cdef double val
+
+#         Y = inventory.empty_array(len(X))
+#         for k, x in enumerate(X):
+#             val = self.evaluate_one(x)
+#             Y[k] = val
+#         return Y
+#     #
+#     def evaluate_one(self, double[::1] x):
+#         return None
+#     #
+#     cdef double _evaluate_one(self, double[::1] x):
+#         cdef double val = self.evaluate_one(x)
+#         return val
+#     #
+#     cdef void _evaluate(self, double[:,::1] X, double[::1] Y):
+#         YY = self.evaluate(X)
+#         Y[:] = YY
+#     #
+
 cdef class Model(BaseModel):
     #
     def allocate(self):
@@ -228,9 +260,6 @@ cdef class Model(BaseModel):
         grad_x = np.empty(self.n_input, 'd')
         self._gradient_x(X, grad_x)
         return grad_x
-    #
-    cdef _update_param(self, double[::1] param):
-        inventory._move(&self.param[0], &param[0], self.n_param)
     #
     def update_param(self, param):
         self._update_param(param)
@@ -501,7 +530,7 @@ cdef class ModelLayer(Model2):
 include "models_simplenn.pyx"
 include "models_layers.pyx"
 
-cdef class MLModel:
+cdef class MLModel(Model2):
 
     cdef void _forward(self, double[::1] X):
         pass
@@ -656,13 +685,14 @@ cdef class FFNetworkModel(MLModel):
         cdef Py_ssize_t n_layer = len(self.layers)
         cdef Py_ssize_t j, l, m, m0
         cdef ModelLayer layer, prev_layer
-        cdef double[::1] grad_out, input
+        cdef double[::1] input
+        cdef double[::1] grad_out
         cdef list layers = self.layers
 
         if not self.is_forward:
             self._forward(X)
         m = grad.shape[0]
-        l = n_layer-1
+        l = n_layer - 1
         grad_out = grad_u
         while l >= 0:
             # layer = <ModelLayer>PyList_GET_ITEM(layers, l)

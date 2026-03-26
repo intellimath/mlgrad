@@ -367,3 +367,5 @@ cdef class LinearFuncModel(BaseModel):
     #     self.head.init_from(ob['head'])
     #     self.body.init_from(ob['body'])
     #
+
+    

@@ -51,7 +51,7 @@ cdef class Penalty(object):
     #
     cdef double iterative_next(self, double[::1] Y, const double u):
         return 0
- 
+
 @cython.final
 cdef class PenaltyAverage(Penalty):
     #
@@ -294,11 +294,11 @@ cdef class AverageIterative(Average):
             u = penalty.iterative_next(Y, u)
             pval = penalty.evaluate(Y, u)
 
-            if fabs(pval - pval_prev) / Q < tol:
+            if fabs(pval - pval_prev) < tol * Q:
                 to_finish = True
-            elif fabs(pval - pval_min) / Q < tol:
+            elif fabs(pval - pval_min) < tol * Q:
                 to_finish = True
-            elif fabs(pval - pval_min_prev) / Q < tol:
+            elif fabs(pval - pval_min_prev) < tol * Q:
                 if count >= 5:
                     to_finish = True
                 else:
@@ -328,7 +328,6 @@ cdef class AverageIterative(Average):
 
         if not self.evaluated:
             self._evaluate(Y)
-        # u = self.u
         self.penalty.gradient(Y, self.u, grad)
         self.evaluated = 0
     #
@@ -338,7 +337,6 @@ cdef class AverageIterative(Average):
 
         if not self.evaluated:
             self._evaluate(Y)
-        # u = self.u
         self.penalty.derivative_div(Y, self.u, G)
         # self.evaluated = 0
     #

@@ -44,7 +44,21 @@ from mlgrad.inventory cimport _asarray, _asarray1d, _asarray2d
 cdef inline Model as_model(object o):
     return <Model>(<PyObject*>o)
 
-cdef class Regularized:
+cdef class Parameterized:
+    cdef public Py_ssize_t n_param
+    cdef public object ob_param
+    cdef public double[::1] param_base
+    cdef public double[::1] param
+
+    cdef public double[::1] grad
+    cdef public double[::1] grad_base
+
+    cdef public uint8[::1] mask
+    #
+    cdef _update_param(self, double[::1] param)
+
+cdef class Regularized(Parameterized):
+    #
     cdef double[::1] grad_reg
     cdef readonly Func2 regfunc
     cdef readonly double tau
@@ -59,7 +73,6 @@ cdef class Regularized:
 
 
 cdef class BaseModel(Regularized):
-    cdef public uint8[::1] mask
 
     cdef double _evaluate_one(self, double[::1] X)
     cdef void _evaluate(self, double[:,::1] X, double[::1] Y)
@@ -69,19 +82,12 @@ cdef class BaseModel(Regularized):
     cdef void _gradient_x_all(self, double[:,::1] X, double[:,::1] G)
 
 cdef class Model(BaseModel):
-    cdef public Py_ssize_t n_param, n_input
+    cdef public Py_ssize_t n_input
     #
-    cdef public object ob_param
-    cdef public double[::1] param_base
-    cdef public double[::1] param
-    #
-    cdef public double[::1] grad
-    cdef public double[::1] grad_base
     #
     cdef public double[::1] grad_x
     # cdef bint is_allocated
     #
-    cdef _update_param(self, double[::1] param)
     cdef void _gradient_xw(self, double[::1] X, double[:, ::1] Gxw)
 
 cdef class ModelComposition(Model):
@@ -145,19 +151,10 @@ cdef class LinearNNModel(Model):
     cdef public LinearLayer linear_layer
 
 cdef class Model2(Regularized):
-    cdef public Py_ssize_t n_param, n_input, n_output
-    cdef public object ob_param
-    cdef public double[::1] param_base
-    cdef public double[::1] param
+    cdef public Py_ssize_t n_input, n_output
     cdef public double[::1] output
-    # cdef public double[::1] grad
-    # cdef public double[::1] grad_x
-
-    cdef public uint8[::1] mask
     #
     cdef void _forward(self, double[::1] X)
-    #
-    # cdef void gradient_j(self, Py_ssize_t j, double[::1] X, double[::1] grad)
     #
     cdef void _backward(self, double[::1] X, double[::1] grad_out, double[::1] grad)
     #
@@ -165,6 +162,17 @@ cdef class Model2(Regularized):
 cdef class ModelLayer(Model2):
     cdef public double[::1] input
     cdef public double[::1] grad_x
+
+cdef class MatrixLayer(ModelLayer):
+    cdef public double[:,::1] matrix
+
+@cython.final
+cdef class LinearLayer(MatrixLayer):
+    pass
+
+@cython.final
+cdef class EuclidLayer(MatrixLayer):
+    pass
 
 @cython.final
 cdef class ScaleLayer(ModelLayer):
@@ -179,15 +187,8 @@ cdef class Scale2Layer(ModelLayer):
     # cdef ScaleLayer _copy(self, bint share)
 
 @cython.final
-cdef class SoftNormalizerLayer(ModelLayer):
+cdef class SoftMaxNormalizerLayer(ModelLayer):
     cdef public double scale
-
-@cython.final
-cdef class LinearLayer(ModelLayer):
-    cdef public double[:,::1] matrix
-    # cdef bint first_time
-    #
-    # cdef LinearLayer _copy(self, bint share)
 
 # cdef class SigmaNeuronModelLayer(ModelLayer):
 #     cdef public Func func

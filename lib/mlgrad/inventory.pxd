@@ -254,14 +254,18 @@ cdef double _norm2(double[::1] a)
 
 cdef _sqrt_array(double *xx, double *yy, Py_ssize_t n)
 
-cdef class StopCriterion:
+cdef class StopCondition:
     #
+    cdef double val
+    cdef double prev_val
     cdef double minval
     cdef double prev_minval
     cdef double tol
+    # cdef int count
+    # cdef bint is_true
     #
     cdef bint is_minval(self, double val) noexcept nogil
-    cdef bint stop_criterion(self) noexcept nogil
+    cdef bint stop_condition(self) noexcept nogil
 
 cdef double _average(double *x, double *w, Py_ssize_t n) noexcept nogil
 cdef void _average2(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t n) noexcept nogil

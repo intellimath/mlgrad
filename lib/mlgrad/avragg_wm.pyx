@@ -164,7 +164,7 @@ cdef class WMZAverage(Average):
         cdef Py_ssize_t j, N = Y.shape[0]
         cdef double[::1] U = self.U
         cdef Func rho_func = self.savr.func
-        cdef double mval, tval, v, s
+        cdef double mval, tval1, tval2, v, s
 
         self.mval = self.mavr._evaluate(Y)
 
@@ -176,13 +176,16 @@ cdef class WMZAverage(Average):
             U[j] = rho_func._evaluate(Y[j] - mval)
 
         self.sval = rho_func._inverse(self.savr._evaluate(U))
-        tval = self.mval + self.alpha * self.sval
+        tval1 = self.mval + self.alpha * self.sval
+        tval2 = self.mval - self.alpha * self.sval
 
         s = 0
         for j in range(N):
             v = Y[j]
-            if v > tval:
-                v = tval
+            if v > tval1:
+                v = tval1
+            elif v < tval2:
+                v = tval2
             s += v
         s /= N
         self.u = s
@@ -197,7 +200,8 @@ cdef class WMZAverage(Average):
         cdef double[::1] GU = self.GU
         cdef Func rho_func = self.savr.func
 
-        cdef double mval, tval, alpha, v, ss, m
+        cdef double mval, tval1, tval2, alpha, v, ss
+        cdef int m1, m2, m
 
         if not self.evaluated:
             self._evaluate(Y)
@@ -207,16 +211,27 @@ cdef class WMZAverage(Average):
 
         mval = self.mval
         alpha = self.alpha
-        tval = mval + alpha * self.sval
+        tval1 = mval + alpha * self.sval
+        tval2 = mval - alpha * self.sval
 
-        m = 0
+        m1 = 0
+        m2 = 0
         for j in range(N):
-            if Y[j] >= tval:
-                m += 1
+            if Y[j] >= tval1:
+                m1 += 1
+            elif Y[j] <= tval2:
+                m2 += 1
 
-        if m > 0:
+        m = m1 - m2
+        if m1 == 0 and m2 == 0:
+            inventory.fill(grad, 1.0/N)
+        else:
             self.mavr._gradient(Y, grad)
             self.savr._gradient(self.U, GU)
+            if np.any(np.isnan(grad)) or np.any(np.isinf(grad)):
+                raise TypeError(f"grad0 has nan")
+            if np.any(np.isnan(GU)) or np.any(np.isinf(GU)):
+                raise TypeError(f"GU has nan")
 
             for j in range(N):
                 GU[j] *= rho_func._derivative(Y[j] - mval)
@@ -230,17 +245,20 @@ cdef class WMZAverage(Average):
                 for j in range(N):
                     grad[j] = 0
             else:
-                for j in range(N):
-                    grad[j] = m * (grad[j] + alpha * (GU[j] - ss * grad[j]) / v)
+                if m != 0:
+                    for j in range(N):
+                        grad[j] = m * (grad[j] + alpha * (GU[j] - ss * grad[j]) / v)
 
             for j in range(N):
-                if Y[j] < tval:
+                v = Y[j]
+                if tval2 < v < tval1:
                     grad[j] += 1
 
             for j in range(N):
                 grad[j] /= N
-        else:
-            inventory.fill(grad, 1.0/N)
+
+        if np.any(np.isnan(grad)) or np.any(np.isinf(grad)):
+            raise TypeError(f"grad has nan")
 
         self.evaluated = 0
 

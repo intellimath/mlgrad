@@ -9,24 +9,26 @@ cdef class GaussSuppl(Func):
     cdef double _evaluate(self, const double x) noexcept nogil:
         cdef double a = self.scale
         cdef double v = x / a
-        return a*a*(1 - exp(-0.5*v*v))
+        return 1 - exp(-0.5*v*v)
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
-        cdef double v = x / self.scale
-        return x * exp(-0.5*v*v)
+        cdef double a = self.scale
+        cdef double v = x / a
+        return x * exp(-0.5*v*v) / (a*a)
     #
     @cython.final
     cdef double _derivative_div(self, const double x) noexcept nogil:
-        cdef double v = x / self.scale
-        return exp(-0.5*v*v)
-    #
-    @cython.final
-    cdef double _derivative2(self, const double x) noexcept nogil:
         cdef double a = self.scale
-        cdef double v = x / a
-        cdef double v2 = v * v
-        return exp(-0.5*v2) * (1 - v2)
+        cdef double v = x / self.scale
+        return exp(-0.5*v*v) / (a*a)
+    #
+    # @cython.final
+    # cdef double _derivative2(self, const double x) noexcept nogil:
+    #     cdef double a = self.scale
+    #     cdef double v = x / a
+    #     cdef double v2 = v * v
+    #     return exp(-0.5*v2) * (1 - v2)
 
 @cython.final
 cdef class Gauss(Func):

@@ -6,17 +6,18 @@ import sys
 
 from sklearn.cluster import kmeans_plusplus
 
-import mltools.inventory as inventory
+import mlgrad.inventory as inventory
 
 det = linalg.det
 inv = linalg.inv
+pinv = linalg.pinv
 np_log = np.log
 np_exp = np.exp
 np_array = np.array
 np_empty = np.empty
 
-def gauss_density(x, S1, detS1):
-    return np_exp(-0.5*(S1 @ x) @ x) / detS1
+def gauss_density(x, S, detS):
+    return np_exp(-0.5*(S @ x) @ x) * detS1
 
 class GaussianMixture:
 
@@ -26,113 +27,134 @@ class GaussianMixture:
         self.n_iter_c = n_iter_c
         self.n_iter_s = n_iter_s
         self.tol = tol
-        self.L = np.ones(q) / q
+        self.G = np.ones(q) / q
     #
-    def find_VL(self, X, c, S):
-        V = np_empty((self.q, len(X))) # q x N
-        for j in range(q):
-            S_j = S[j]
-            Y_j = inventory.mahalanobis_distance(X, S_j, c[j])
-            V[j,:] = np_exp(-0.5*Y_j) * sqrt(det(S_j))
-
-        L = L * V.mean(axis=1)
-        L /= L.sum()
-
-        for j in range(q):
-            V[j,:] /= V[j].sum()
-
-        return V, L
+    def initial_locations(self, X):
+        return kmeans_plusplus(X, self.q)[0]
     #
-    def find_c(self, X, V):
-        c = V @ X
+    def calculate_probs(self, X):
+        N = len(X)
+        Pjk = np_empty((self.q, N))
+        for j in range(self.q):
+            det_j = det(self.S[j])
+            Y_j = inventory.mahalanobis_distance(X, self.S[j], self.c[j])
+            Pjk[j,:] = np_exp(-0.5*Y_j) * sqrt(det_j) # p_jk
+        return Pjk
+    #
+    def find_VG(self, X):
+        N = len(X)
+        Pjk = self.calculate_probs(X) # p_jk
+        Pk = self.G @ Pjk # p_k
+
+        v = Pjk / Pk
+        V = v.sum(axis=1)
+        for j in range(self.q):
+            v[j,:] = v[j] / V[j]
+
+        G = V / V.sum()
+        # G /= G.sum()
+
+        return v, G
+    #
+    def find_c(self, X):
+        c = self.V @ X
         return c
     #
-    def find_S(self, X, c, S, V):
+    def find_S(self, X):
         new_S = []
         for j in range(self.q):
-            S1 = inventory.covariance_matrix_weighted(X, V[j], c[j])
-            S1 /= det(S[j])
-            S = inv(S1)
+            S1 = inventory.covariance_matrix_weighted(X, self.V[j], self.c[j])
+            S = pinv(S1)
             new_S.append(S)
         return new_S
     #
-    def eval_qval(self, X, c, S, L):
-        Q = np_empty((q,len(X)))
-        for j in range(self.q):
-            Y_j = inventory.mahalanobis_distance(X, S_j, c[j])
-            Q[j,:] =  np_exp(-0.5*Y_j) * sqrt(det(S[j]))
-        qval = np_log(L @ Q).mean()
+    def eval_qval(self, X):
+        P = self.calculate_probs(X)
+        qval = -np.log(self.G @ P).mean()
         return qval
     #
+    def eval_qvals(self, X):
+        P = self.calculate_probs(X)
+        return P.max(axis=0)
+    #
     def fit_c(self, X):
-        c = self.c
-        S = self.S
-        V, L = self.find_VL(X, c, S)
-        qval = qval_min = qval_prevmin = self.eval_qval(X, c, S, L)
-        c_min = c
+        self.V, self.G = self.find_VG(X)
+        qval = self.qval_min = self.eval_qval(X)
+        self.qval_prevmin = 100*self.qval_min
+        c_min = self.c
         for K in range(self.n_iter_c):
-            c = self.find_c(self, X, V)
+            self.c = self.find_c(X)
 
-            V, L = self.find_VL(X, c, S)
-            qval = self.eval_qval(X, c, S, L)
+            self.V, self.G = self.find_VG(X)
+            qval = self.eval_qval(X)
             self.qvals.append(qval)
 
-            if qval < qval_min:
-                qval_prevmin = qval_min
-                qval_min = qval
-                c_min = c
+            if qval < self.qval_min:
+                self.qval_prevmin = self.qval_min
+                self.qval_min = qval
+                c_min = self.c
 
-            if abs(qval_min - qval_prevmin) < self.tol * abs(qval_min):
+            if abs(qval - self.qval_min) < self.tol * (1 + abs(self.qval_min)):
                 break
 
         self.c = c_min
-        self.L = L
+        # print(K)
     #
     def fit_S(self, X):
-        c = self.c
-        S = self.S
-        V, L = self.find_VL(X, c, S)
-        qval = qval_min = qval_prevmin = self.eval_qval(X, c, S, L)
-        S_min = S
+        self.V, self.G = self.find_VG(X)
+        qval = self.qval_min = self.eval_qval(X)
+        self.qval_prevmin = 100*self.qval_min
+        S_min = self.S
         for K in range(self.n_iter_s):
-            S = self.find_s(self, X, c, S, V)
+            self.S = self.find_S(X)
+            # for j in range(self.q): print(self.S[j])
 
-            V, L = self.find_VL(X, c, S)
-            qval = self.eval_qval(X, c, S, L)
+            self.V, self.G = self.find_VG(X)
+            qval = self.eval_qval(X)
             self.qvals.append(qval)
 
-            if qval <= qval_min:
-                qval_prevmin = qval_min
-                qval_min = qval
-                S_min = S
+            if qval <= self.qval_min:
+                self.qval_prevmin = self.qval_min
+                self.qval_min = qval
+                S_min = self.S
 
-            if abs(qval_min - qval_prevmin) < self.tol * abs(qval_min):
+            if abs(qval - self.qval_min) < self.tol * (1 + abs(self.qval_min)):
                 break
 
         self.S = S_min
-        self.L = L
+        # print(K)
     #
     def fit(self, X):
         n = X.shape[1]
-        self.c = self.c_min = self.initial_locations(X)
-        self.S = self.S_min = [np.identity(n) for j in range(self.q)]
+        self.c = c_min = self.initial_locations(X)
+        print("Initial centers:")
+        for c in self.c:
+            print(c)
+        self.S = S_min = [np.identity(n) for j in range(self.q)]
         self.qvals = []
-        qval = qval_min = self.eval_qval(X)
-        for K in range(self.n_iter):
-            qval_prev2 = qval2
-            self.fit_c(X)
-            self.fit_S(X)
-            qval = self.eval_qval(X, self.S, self.c, self.L)
-            if qval < qval_min:
-                qval_prevmin = qval_min
-                qval_min = qval
-                S_min = [SS.copy() for SS in self.S]
-                c_min = [cc.copy() for cc in self.c]
+        self.V, self.G = self.find_VG(X)
 
-            if abs(qval_min - qval_prevmin) < self.tol * abs(qval_min):
+        qval = self.qval_min = self.qval_prevmin = self.eval_qval(X)
+        for K in range(self.n_iter):
+            # print(K)
+            self.fit_c(X)
+            # print(self.c)
+            self.fit_S(X)
+            # print(self.S)
+            qval = self.eval_qval(X)
+            if qval < self.qval_min:
+                self.qval_prevmin = self.qval_min
+                self.qval_min = qval
+                S_min = self.S
+                c_min = self.c
+
+            if abs(qval - self.qval_min) < self.tol * (1 + abs(self.qval_min)):
                 break
 
+        self.c = c_min
+        self.S = S_min
         self.K = K + 1
+        print(f"{self.K} iterations")
     #
     def predict(self, X):
         pass

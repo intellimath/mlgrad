@@ -1,4 +1,33 @@
-cdef class LinearLayer(ModelLayer):
+cdef class MatrixLayer(ModelLayer):
+    #
+    cdef bint _is_regularized(self) noexcept nogil:
+        if self.regfunc is None or self.tau == 0:
+            return 0
+        else:
+            return 1
+    #
+    cdef double _evaluate_reg(self):
+        cdef Py_ssize_t i, j
+        cdef double s = 0
+
+        for i in range(self.n_output):
+            s += self.tau * self.regfunc._evaluate(self.matrix[i])
+        return s
+    #
+    cdef void _gradient_reg(self, double[::1] grad_reg):
+        cdef Py_ssize_t i, offset
+        cdef Py_ssize_t n_input1 = self.n_input+1
+        cdef double[::1] _grad_reg = inventory.empty_array(n_input1)
+
+        offset = 0
+        for i in range(self.n_output):
+            self.regfunc._gradient(self.matrix[i], _grad_reg)
+            inventory._imul_const(&_grad_reg[0], self.tau, n_input1)
+            inventory._move(&grad_reg[offset], &_grad_reg[0], n_input1)
+            offset += n_input1
+    #
+
+cdef class LinearLayer(MatrixLayer):
 
     def __init__(self, n_input, n_output):
         self.n_input = n_input
@@ -71,32 +100,6 @@ cdef class LinearLayer(ModelLayer):
 
         for i in range(n_input):
             self.grad_x[i] = inventory._dot_t(&grad_out[0], &self.param[i+1], n_output, n_input+1)
-    #
-    cdef bint _is_regularized(self) noexcept nogil:
-        if self.regfunc is None or self.tau == 0:
-            return 0
-        else:
-            return 1
-    # 
-    cdef double _evaluate_reg(self):
-        cdef Py_ssize_t i, j
-        cdef double s = 0
-
-        for i in range(self.n_output):
-            s += self.tau * self.regfunc._evaluate(self.matrix[i])
-        return s
-    #
-    cdef void _gradient_reg(self, double[::1] grad_reg):
-        cdef Py_ssize_t i, offset
-        cdef Py_ssize_t n_input1 = self.n_input+1
-        cdef double[::1] _grad_reg = inventory.empty_array(n_input1)
-
-        offset = 0
-        for i in range(self.n_output):
-            self.regfunc._gradient(self.matrix[i], _grad_reg)
-            inventory._imul_const(&_grad_reg[0], self.tau, n_input1)
-            inventory._move(&grad_reg[offset], &_grad_reg[0], n_input1)
-            offset += n_input1
     #
     def as_dict(self):
         return { 'name': 'linear_layer',
@@ -270,23 +273,24 @@ cdef class GeneralModelLayer(ModelLayer):
         return s
     #
     cdef void _gradient_reg(self, double[::1] grad_reg):
-        cdef Py_ssize_t i, k
-        cdef Py_ssize_t n_p = self.mod_n_param
+        cdef Py_ssize_t i, k, n_p
         cdef Model mod
-        cdef double[::1] _grad_reg
         cdef Func2 regfunc = self.regfunc
         cdef double tau = self.tau
         cdef list models = self.models
+        cdef double[::1] _grad_reg = None
 
         if self.regfunc is None or tau == 0:
             return
 
-        _grad_reg = inventory.empty_array(n_p)
-
-        inventory.clear(grad_reg)
         k = 0
         for i in range(self.n_output):
             mod = <Model>models[i]
+
+            n_p = mod.n_param
+            if _grad_reg is None or _grad_reg.shape[0] != np:
+                _grad_reg = inventory.zeros_array(n_p)
+
             regfunc._gradient(mod.param, _grad_reg)
             inventory.imul_const(_grad_reg, tau)
             inventory.move(grad_reg[k:k+n_p], _grad_reg)
@@ -341,13 +345,8 @@ cdef class GeneralModelLayer(ModelLayer):
     def add(self, Model mod):
         if self.n_input != mod.n_input:
             raise ValueError("layer.n_input: %s != model.n_input: %s" % (self.n_input, mod.n_input))
-        if self.mod_n_param == 0:
-            self.mod_n_param = mod.n_param
-        else:
-            if mod.n_param != self.mod_n_param:
-                raise ValueError("models have different n_param")
         self.models.append(mod)
-        self.n_param += self.mod_n_param
+        self.n_param += mod.n_param
         self.n_output += 1
     #
     def __getitem__(self, i):
@@ -385,14 +384,14 @@ cdef class GeneralModelLayer(ModelLayer):
             if n_param_j > 0:
                 grad_j = grad[k:k+n_param_j]
                 mod_j._gradient_one(X, grad_j)
-                inventory._imul_const(&grad_j[0], val_j, n_param_j)
+                inventory.imul_const(grad_j, val_j)
                 k += n_param_j
                 # for i in range(n_param_j):
                 #     grad[k] = mod_j.grad[i] * val_j
                 #     k += 1
 
             mod_j._gradient_x(X, mod_j.grad_x)
-            inventory._imul_add(&self.grad_x[0], &mod_j.grad_x[0], val_j, self.n_input)
+            inventory.imul_add(self.grad_x, mod_j.grad_x, val_j)
             # for i in range(self.n_input):
             #     grad_in[i] += mod_j.grad_x[i] * val_j
         #
@@ -545,7 +544,7 @@ def general_layer_from_dict(ob):
 #     return layer
 
 @cython.final
-cdef class SoftNormalizerLayer(ModelLayer):
+cdef class SoftMaxNormalizerLayer(ModelLayer):
     #
     def _allocate_param(self, allocator):
         pass
@@ -553,7 +552,7 @@ cdef class SoftNormalizerLayer(ModelLayer):
     def init_param(self):
         pass
     #
-    def __init__(self, n_input, scale=1.0):
+    def __init__(self, n_input, scale=5.0):
         self.scale = scale
         self.ob_param = param = None
         self.n_param = 0
@@ -569,12 +568,13 @@ cdef class SoftNormalizerLayer(ModelLayer):
     #
     cdef void _forward(self, double[::1] X):
         cdef double[::1] output = self.output
-        cdef Func func = self.func
         cdef Py_ssize_t j
-        cdef double x_max = inventory._max(&X[0], X.shape[0])
-        cdef double v, s = 0
+        cdef double x_max
+        cdef double v, s
         cdef double scale = self.scale
 
+        x_max = inventory._max(&X[0], X.shape[0])
+        s = 0
         for j in range(self.n_output):
             output[j] = v = exp(scale*(X[j] - x_max))
             s += v
@@ -585,24 +585,23 @@ cdef class SoftNormalizerLayer(ModelLayer):
         cdef double[::1] grad_x = self.grad_x
         cdef double[::1] output = self.output
         cdef Py_ssize_t j, l, n = self.n_input
-        cdef double x_max = inventory._max(&X[0], X.shape[0])
-        cdef double v, v_j, s
+        # cdef double x_max
+        cdef double v_l, v_j, s
         cdef double scale = self.scale
 
+        # x_max = inventory._max(&X[0], X.shape[0])
         inventory.clear(grad_x)
         for j in range(n):
             v_j = output[j]
-            grad_x[j] += scale * (v_j - v_j*v_j) * grad_out[j]
+            grad_x[j] += scale * v_j * grad_out[j]
             s = 0
             for l in range(n):
-                if l == j:
-                    continue
-                v = output[l]
-                s += scale * v * v_j * grad_out[l]
+                v_l = output[l]
+                s -= scale * v_l * v_j * grad_out[l]
             grad_x[j] -= s
     #
     def copy(self, bint share):
-        cdef SoftNormalizerLayer layer = SoftNormalizerLayer(self.n_input, self.scale)
+        cdef SoftMaxNormalizerLayer layer = SoftMaxNormalizerLayer(self.n_input, self.scale)
 
         layer.param = self.param
 
@@ -625,3 +624,99 @@ cdef class SoftNormalizerLayer(ModelLayer):
     #
     cdef bint _is_regularized(self) noexcept nogil:
         return 0
+
+cdef class EuclidLayer(MatrixLayer):
+
+    def __init__(self, n_input, n_output):
+        self.n_input = n_input
+        self.n_output = n_output
+        self.n_param = n_input*n_output
+        self.matrix = None
+        self.param = self.ob_param = None
+        self.grad_x = None
+        self.output = None
+        # self.first_time = 1
+        self.mask = None
+        #
+        self.regfunc = None
+        self.tau = 0
+        self.eqns = None
+    #
+    def _allocate_param(self, allocator):
+        """Allocate matrix"""
+        layer_allocator = allocator.suballocator()
+        self.matrix = layer_allocator.allocate2(self.n_output, self.n_input)
+        self.ob_param = layer_allocator.get_allocated()
+        self.param = self.ob_param
+        self.param_base = layer_allocator.buf_array
+        layer_allocator.close()
+
+        self.output = np.zeros(self.n_output, 'd')
+        self.grad_x = np.zeros(self.n_input, 'd')
+    #
+    def init_param(self, random=True):
+        if random:
+            ob_param = np.ascontiguousarray(np.random.random(self.n_param)-0.5)
+        else:
+            ob_param = np.zeros(self.n_param, "d")
+        if self.param is None:
+            self.ob_param = ob_param
+            self.param = self.ob_param
+            self.param_base = self.param
+        else:
+            if len(ob_param) != self.n_param:
+                raise TypeError(f"len(param) = {len(ob_param)} n_param = {self.n_param}")
+            inventory.move(self.param, ob_param)
+    #
+    cdef void _forward(self, double[::1] X):
+        cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t j, offset
+        cdef double[::1] output = self.output
+        cdef double v, s
+        cdef double *pp = &self.param[0], *xx=&X[0]
+
+        for j in range(self.n_output):
+            s = 0
+            for i in range(n_input):
+                v = xx[i] - pp[i]
+                s += v*v
+            output[j] = s
+            pp += n_input
+    #
+    cdef void _backward(self, double[::1] Xk, double[::1] grad_out, double[::1] grad):
+        cdef Py_ssize_t i, j, offset
+        cdef Py_ssize_t n_input = self.n_input
+        cdef Py_ssize_t n_output = self.n_output
+        cdef double v, s, gx
+        cdef double *pp, *gg, *xx=&Xk[0]
+        cdef double[::1] grad_x = self.grad_x
+
+        pp = &self.param[0]
+        gg = &grad[0]
+        for j in range(n_output):
+            gx = grad_out[j]
+            for i in range(n_input):
+                gg[i] = -2 * (xx[i] - pp[i]) * gx
+            pp += n_input
+            gg += n_input
+
+        pp = &self.param[0]
+        for i in range(n_input):
+            s = 0
+            v = xx[i]
+            for j in range(n_output):
+                v - pp[i]
+                s += 2 * (v - pp[i]) * grad_out[j]
+            grad_x[i] = s
+            pp += n_input
+    #
+    def as_dict(self):
+        return { 'name': 'euclid_layer',
+                 'n_input': self.n_input,
+                 'n_output': self.n_output,
+                 'matrix': [list(row) for row in self.matrix]
+               }
+    #
+    def init_from(self, ob):
+        cdef double[:,::1] matrix = np.array(ob['matrix'], 'd')
+        inventory.move2(self.matrix, matrix)

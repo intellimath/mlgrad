@@ -98,14 +98,16 @@ cdef class GD:
         cdef double lval, lval_prev, lval_min, lval_min_prev
         cdef double tol = self.tol
         cdef double Q
+        cdef inventory.StopCondition stop_cond
 
         self.risk.batch.init()
         self.init()
-        lval = lval_min = self.risk._evaluate()
-        lval_min_prev = double_max / 100
+
+        lval = self.risk._evaluate()
         self.lvals = [lval]
+
+        stop_cond = inventory.StopCondition(lval, self.tol)
         self.K = 0
-        Q = 1 + fabs(lval_min)
 
         self.h_rate.init()
 
@@ -115,11 +117,10 @@ cdef class GD:
         self.completed = 0
         for k in range(self.n_iter):
             self.K = k
-            lval_prev = lval
 
             self.fit_epoch()
 
-            if inventory.hasnan(risk.param):
+            if inventory._hasnan(&risk.param[0], risk.n_param):
                 raise ValueError(f"param has NaN value at step {k+1}")
 
             lval = risk._evaluate()
@@ -128,34 +129,39 @@ cdef class GD:
             if self.normalizer is not None:
                 self.normalizer.normalize(risk.param)
 
-            if fabs(lval - lval_prev) / Q < tol:
-                self.completed = 1
-
-            elif fabs(lval - lval_min) / Q < tol:
-                self.completed = 1
-
-            elif fabs(lval - lval_min_prev) / Q < tol:
-                if m > M:
-                    self.completed = 1
-                else:
-                    m += 1
-
-            if lval < lval_min:
-                lval_min_prev = lval_min
-                lval_min = lval
-                inventory.move(self.param_min, risk.param)
-                Q = 1 + fabs(lval_min)
-                m = 0
-            elif lval < lval_min_prev:
-                lval_min_prev = lval
-
-            if self.completed:
-                break
-
             if self.callback is not None:
                 self.callback(self)
 
-        self.K = k
+            if stop_cond.is_minval(lval):
+                inventory.move(self.param_min, risk.param)
+
+            # if fabs(lval - lval_prev) < tol * Q:
+            #     self.completed = 1
+
+            # elif fabs(lval - lval_min) < tol * Q:
+            #     self.completed = 1
+
+            # elif fabs(lval - lval_min_prev) < tol * Q:
+            #     if m > M:
+            #         self.completed = 1
+            #     else:
+            #         m += 1
+
+            # if lval < lval_min:
+            #     lval_min_prev = lval_min
+            #     lval_min = lval
+            #     inventory.move(self.param_min, risk.param)
+            #     Q = 1 + fabs(lval_min)
+            #     m = 0
+            # elif lval < lval_min_prev:
+            #     lval_min_prev = lval
+
+            if stop_cond.stop_condition():
+                self.completed = 1
+                break
+
+
+        self.K += 1
         self.finalize()
     #
     def gradient(self):
