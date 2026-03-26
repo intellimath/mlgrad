@@ -42,6 +42,7 @@ cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W,
             s = 0
             for k in range(N):
                 s += W[k] * (X[k,i] - loc_i) * (X[k,j] - loc_j)
+            s /= N
             S[i,j] = s
             if i != j:
                 S[j,i] = s

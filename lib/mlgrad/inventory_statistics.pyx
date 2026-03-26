@@ -18,23 +18,8 @@ cdef double _average(double *x, double *w, Py_ssize_t n) noexcept nogil:
     return s / W
 
 cdef void _average2(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t n) noexcept nogil:
-    cdef Py_ssize_t i, j
-    cdef double W, s = 0
-
-    W = 0
-    for i in range(n):
-        W += w[i]
-
-    for j in range(N):
-        s = 0
-        for i in range(n):
-            s += x[i] * w[i]
-        x += n
-        y[j] = s / W
-
-cdef void _average2_t(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i, j, k
-    cdef double W = 0, wi, s = 0
+    cdef double W, s = 0
 
     W = 0
     for j in range(N):
@@ -45,17 +30,43 @@ cdef void _average2_t(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t 
         k = i
         for j in range(N):
             s += x[k] * w[j]
-            k += n
+        k += n
         y[i] = s / W
+
+# cdef void _average2_t(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t n) noexcept nogil:
+#     cdef Py_ssize_t i, j, k
+#     cdef double W = 0, wi, s = 0
+
+#     W = 0
+#     for j in range(N):
+#         W += w[j]
+
+#     for i in range(n):
+#         s = 0
+#         k = i
+#         for j in range(N):
+#             s += x[k] * w[j]
+#             k += n
+#         y[i] = s / W
 
 def average(double[::1] x, double[::1] w):
     return _average(&x[0], &w[0], x.shape[0])
 
-def average2(double[:,::1] x, double[::1] w, double[::1] y):
-    _average2(&x[0,0], &w[0], &y[0], x.shape[0], x.shape[1])
+def average2(double[:,::1] x, double[::1] w):
+    cdef double[::1] y
 
-def average2_t(double[:,::1] x, double[::1] w, double[::1] y):
+    yy = np.empty(x.shape[1])
+    y = yy
     _average2(&x[0,0], &w[0], &y[0], x.shape[0], x.shape[1])
+    return yy
+
+# def average2_t(double[:,::1] x, double[::1] w):
+#     cdef double[::1] y
+
+#     yy = np.empty(x.shape[0])
+#     y = yy
+#     _average2_t(&x[0,0], &w[0], &y[0], x.shape[0], x.shape[1])
+#     return yy
 
 cdef double _std(double *a, double mu, Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i

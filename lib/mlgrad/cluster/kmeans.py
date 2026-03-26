@@ -4,11 +4,10 @@ import numpy.linalg as linalg
 from math import sqrt
 import sys
 
-# import mltools.aggfuncs as aggfuncs
-
 from sklearn.cluster import kmeans_plusplus
 import mlgrad.inventory as inventory
-from mlgrad.af import averaging_function
+# from mlgrad.af import averaging_function
+from mlgrad.avragg import ArithMean
 
 det = linalg.det
 einsum = np.einsum
@@ -66,14 +65,11 @@ class KMeansBase:
         DD = self._eval_dists(X)
 
         D = DD.min(axis=0)
-        qval = D.sum()
-        self.qvals.append(sqrt(qval))
-
-        BB = (DD == D)
         II = arange(len(X))
         Is = []
         for j in range(self.q):
-            Ij = II[BB[j]]
+            mask = (DD[j] == D)
+            Ij = II[mask]
             if len(Ij) == 0:
                 raise TypeError("empty cluster")
             Is.append(Ij)
@@ -235,7 +231,7 @@ class KMeansMahalanobisBase(KMeansBase):
     def eval_qval(self, X):
         DD = self._eval_dists(X)
         D = DD.min(axis=0)
-        return sqrt(D.sum())
+        return sqrt(D.mean())
     #
 
 class KMeansMahalanobis(KMeansMahalanobisBase):
@@ -257,13 +253,15 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
         for j in range(self.q):
             Ij = I[j]
             if weights is not None:
-                c[j,:] = inventory.average2_t(X[Ij], weights[Ij])
+                c[j,:] = np.average(X[Ij], axis=0, weights=weights[Ij])
+                #inventory.average2(X[Ij], weights[Ij])
             else:
                 c[j,:] = X[j].mean(axis=0)
         return c
     #
     def find_scatters(self, X, I):
         inv = linalg.inv
+        pinv = linalg.pinv
         det = linalg.det
         c = self.c
         n = X.shape[1]
@@ -277,17 +275,17 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
             else:
                 Sj = inventory.covariance_matrix(X[Ij], c[j])
             Sj /= det(Sj) ** (1.0/n)
-            Sj1 = inv(Sj)
+            Sj1 = pinv(Sj)
             S.append(Sj1)
 
-        return S1
+        return S
     #
     def fit_locations(self, X):
         qval_min = qval_prevmin = qval = self.eval_qval(X)
         c_min = self.c
         for K in range(self.n_iter_c):
-            I = self.find_clusters(X)
-            c = self.find_locations(X, I)
+            Is = self.find_clusters(X)
+            c = self.find_locations(X, Is)
 
             qval = self.eval_qval(X)
             self.qvals.append(qval)
@@ -358,7 +356,7 @@ class RKMeansMahalanobis(KMeansMahalanobis):
         self.n_iter_s = n_iter_s
         self.tol = tol
         if avrfunc is None:
-            self.avrfunc = aggfuncs.ArithMean()
+            self.avrfunc = ArithMean()
         else:
             self.avrfunc = avrfunc
         self.verbose = verbose
@@ -376,66 +374,62 @@ class RKMeansMahalanobis(KMeansMahalanobis):
         return np.sqrt(dd)
     #
     def fit_locations(self, X):
-        N = X.shape[0]
-        self.c_min = self.c.copy()
-
-        self.ds = self.eval_dists(X)
-        dd = self.avrfunc.evaluate(self.ds)
-        qval = self.qval_min = np.sqrt(dd)
-        self.qval_min_prev = self.qval_min
+        ds = self.eval_dists(X)
+        dd = self.avrfunc.evaluate(ds)
+        qval = qval_min = np.sqrt(dd)
+        qval_min_prev = qval_min
         for K in range(self.n_iter_c):
-            self.ds = self.eval_dists(X)
-            self.weights = self.avrfunc.gradient(self.ds)
-            self.weights /= self.weights.sum()
-            self.Is = self.find_clusters(X)
-            self.c = self.find_locations(X, self.Is)
+            Is = self.find_clusters(X)
+            self.c = self.find_locations(X, Is)
 
-            qval = self.eval_qval(X)
+            ds = self.eval_dists(X)
+            dd = self.avrfunc.evaluate(ds)
+            qval = np.sqrt(dd)
             self.qvals.append(qval)
 
-            if qval <= self.qval_min:
-                self.qval_min_prev = self.qval_min
-                self.qval_min = qval
+            self.weights = self.avrfunc.gradient(ds)
+
+            if qval <= qval_min:
+                qval_min_prev = qval_min
+                qval_min = qval
                 self.c_min = self.c.copy()
 
             # if self.stop_condition(qval, qval_prev):
             #     break
-            if self.stop_condition(self.qval_min_prev, self.qval_min):
+            if abs(qval - qval_min) < self.tol * (1 + abs(qval_min)):
                 break
 
         self.K = K + 1
         self.c = self.c_min
     #
     def fit_scatters(self, X):
-        N = X.shape[0]
-        self.S_min = self.S
-
-        self.ds = self.eval_dists(X)
-        dd = self.avrfunc.evaluate(self.ds)
-        qval = self.qval_min = np.sqrt(dd)
-        self.qval_min_prev = self.qval_min
+        ds = self.eval_dists(X)
+        dd = self.avrfunc.evaluate(ds)
+        qval = qval_min = np.sqrt(dd)
+        qval_min_prev = qval_min
         for K in range(self.n_iter_s):
-            self.ds = self.eval_dists(X)
-            self.weights = self.avrfunc.gradient(self.ds)
-            self.weights /= self.weights.sum()
-            self.Is = self.find_clusters(X)
-            self.S = self.find_scatters(X, self.Is)
+            Is = self.find_clusters(X)
+            self.S = self.find_scatters(X, Is)
 
-            qval = self.eval_qval(X)
+            ds = self.eval_dists(X)
+            dd = self.avrfunc.evaluate(ds)
+            qval = np.sqrt(dd)
             self.qvals.append(qval)
 
-            if qval <= self.qval_min:
-                self.qval_min_prev = self.qval_min
-                self.qval_min = qval
+            self.weights = self.avrfunc.gradient(ds)
+
+            if qval <= qval_min:
+                qval_min_prev = qval_min
+                qval_min = qval
                 self.S_min = self.S
 
             # if self.stop_condition(qval, qval_prev):
             #     break
-            if self.stop_condition(self.qval_min_prev, self.qval_min):
+            if abs(qval - qval_min)  < self.tol * (1 + abs(qval_min)):
                 break
 
         self.K = K + 1
-        self.S1 = S1_min
+        self.S = self.S_min
     #
     def fit(self, X):
         q = self.q
@@ -446,13 +440,17 @@ class RKMeansMahalanobis(KMeansMahalanobis):
         self.qvals = []
         self.qvals2 = []
         self.weights = np.ones(N)
-        qval2 = self.qval_min = self.eval_qval(X)
+        qval = self.eval_qval(X)
         for K in range(self.n_iter):
-            qval_prev2 = qval2
+            qval_prev = qval
             self.fit_locations(X)
             self.fit_scatters(X)
-            qval2 = self.eval_qval(X)
-            self.qvals2.append(qval2)
-            if self.stop_condition(qval2, qval_prev2):
+
+            qval = self.eval_qval(X)
+            self.qvals2.append(qval)
+
+            if abs(qval - qval_prev)  < self.tol * (1 + abs(qval)):
                 break
+
         self.K = K + 1
+

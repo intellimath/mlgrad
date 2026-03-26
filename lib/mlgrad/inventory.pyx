@@ -150,7 +150,7 @@ cdef void iadd(double[::1] a, double[::1] b) noexcept nogil:
 
 cdef void iadd2(double[:,::1] a, double[:,::1] b) noexcept nogil:
     _iadd(&a[0,0], &b[0,0], a.shape[0] * a.shape[1])
-    
+
 cdef void _isub(double *a, const double *b, const Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
