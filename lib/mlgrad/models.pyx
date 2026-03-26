@@ -64,6 +64,10 @@ cdef class Parameterized:
     #
     cdef _update_param(self, double[::1] param):
         inventory._move(&self.param[0], &param[0], self.n_param)
+    #
+    #
+    def get_params(self):
+        return np.array(self.param)
 
 cdef class Regularized(Parameterized):
     #

@@ -4,7 +4,7 @@ cimport cython
 
 # from libc.math cimport fabs, pow, sqrt, fmax
 
-from mlgrad.funcs cimport Func, ParameterizedFunc, Square, Id
+from mlgrad.funcs cimport Func, ParameterizedFunc, Square, Hinge, Id
 # from mlgrad.model cimport Model, MLModel
 import mlgrad.inventory as inventory
 

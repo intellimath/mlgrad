@@ -397,8 +397,11 @@ cdef class ErrorMultLoss2(MultLoss2):
 
 cdef class MarginMultLoss2(MultLoss2):
     #
-    def __init__(self, Func func):
-        self.func = func
+    def __init__(self, Func func=None):
+        if func is None:
+            self.func = Hinge(1.0)
+        else:
+            self.func = func
     #
     cdef double _evaluate(self, double[::1] u, double[::1] yk) noexcept nogil:
         cdef Py_ssize_t i, n = u.shape[0]

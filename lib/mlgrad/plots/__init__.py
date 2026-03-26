@@ -227,7 +227,7 @@ def draw_line_by_equation(mod, extent):
                 colors='k', linestyles='--')
 
 def plot_array_vlines(P, y0=0, colors=None):
-    # P += y0
+    P += y0
     N = len(P)
     I_m = P>0; P_m = P.copy(); P_m[I_m] = 0
     I_p = P<0; P_p = P.copy(); P_p[I_p] = 0
@@ -235,4 +235,22 @@ def plot_array_vlines(P, y0=0, colors=None):
     plt.vlines(range(N), P_m+y0, P_p+y0, colors=colors)
     ax = plt.gca()
     ax.minorticks_on()
+
+def plot_array2_vlines(PP, y0=0):
+    M, n = PP.shape
+    Ks = [k*n for k in range(M)]
+    p_max, p_min = PP.max(), PP.min()
+    P_max = np.array([p_max for k in range(M)])
+    P_min = np.array([p_min for k in range(M)])
+    plt.vlines(Ks, P_min+y0, P_max+y0, colors='darkblue', ls='--', lw=0.5)
+
+    P = PP.reshape(-1)
+    N = len(P)
+    I_m = P>0; P_m = P.copy(); P_m[I_m] = 0
+    I_p = P<0; P_p = P.copy(); P_p[I_p] = 0
+    plt.hlines(y0, 0, N, colors="gray", linewidths=0.75, linestyles='--')
+    plt.vlines(range(N), P_m+y0, P_p+y0, colors='k')
+    ax = plt.gca()
+    ax.minorticks_on()
+    ax.set_xticks(Ks, [str(i) for i in range(M)])
 

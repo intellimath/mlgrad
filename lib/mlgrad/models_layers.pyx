@@ -26,6 +26,8 @@ cdef class MatrixLayer(ModelLayer):
             inventory._move(&grad_reg[offset], &_grad_reg[0], n_input1)
             offset += n_input1
     #
+    def get_params(self):
+        return np.array(self.matrix)
 
 cdef class LinearLayer(MatrixLayer):
 
@@ -409,6 +411,9 @@ cdef class GeneralModelLayer(ModelLayer):
     def init_from(self, ob):
         for mod, mod_ob in zip(self.mod, ob['models']):
             mod.init_from( mod_ob['param'] )
+    #
+    def get_params(self):
+        return np.array([np.asarray(mod.param) for mod in self.models])
 
 @register_model('general_layer')
 def general_layer_from_dict(ob):
@@ -597,7 +602,7 @@ cdef class SoftMaxNormalizerLayer(ModelLayer):
             s = 0
             for l in range(n):
                 v_l = output[l]
-                s -= scale * v_l * v_j * grad_out[l]
+                s += scale * v_l * v_j * grad_out[l]
             grad_x[j] -= s
     #
     def copy(self, bint share):
