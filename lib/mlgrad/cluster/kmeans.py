@@ -1,6 +1,6 @@
 import numpy as np
 # import matplotlib.pyplot as plt
-import numpy.linalg as linalg
+import scipy.linalg as linalg
 from math import sqrt
 import sys
 
@@ -48,11 +48,6 @@ class KMeansBase:
         return DD
     #
     def eval_dists(self, X):
-        # c = self.c
-        # DD = np.empty((self.q, len(X)), "d")
-        # for j in range(self.q):
-        #     Z = X - c[j]
-        #     einsum("ni,ni->n", Z, Z, optimize=True, out=DD[j])
         DD = self._eval_dists(X)
         D = DD.min(axis=0)
         return D
@@ -68,9 +63,8 @@ class KMeansBase:
         II = arange(len(X))
         Is = []
         for j in range(self.q):
-            mask = (DD[j] == D)
-            Ij = II[mask]
-            if len(Ij) == 0:
+            Ij = II[DD[j] == D]
+            if Ij.size == 0:
                 raise TypeError("empty cluster")
             Is.append(Ij)
         return Is
@@ -247,36 +241,39 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
         self.verbose = verbose
         self.DD = None
     #
-    def find_locations(self, X, I):
+    def find_locations(self, X, Is):
         c = np.zeros((self.q, X.shape[1]), 'd')
         weights = self.weights
         for j in range(self.q):
-            Ij = I[j]
+            Ij = Is[j]
             if weights is not None:
                 c[j,:] = np.average(X[Ij], axis=0, weights=weights[Ij])
-                #inventory.average2(X[Ij], weights[Ij])
+                # inventory.average2(X[Ij], weights[Ij])
             else:
                 c[j,:] = X[j].mean(axis=0)
         return c
     #
-    def find_scatters(self, X, I):
-        inv = linalg.inv
-        pinv = linalg.pinv
+    def find_scatters(self, X, Is):
+        solve = linalg.solve
+        # inv = linalg.inv
+        # pinv = linalg.pinv
         det = linalg.det
-        c = self.c
         n = X.shape[1]
+        E = np.eye(n)
 
         S = []
         weights = self.weights
+        c = self.c
         for j in range(self.q):
-            Ij = I[j]
+            Ij = Is[j]
             if weights is not None:
                 Sj = inventory.covariance_matrix_weighted(X[Ij], weights[Ij], c[j])
             else:
                 Sj = inventory.covariance_matrix(X[Ij], c[j])
-            Sj /= det(Sj) ** (1.0/n)
-            Sj1 = pinv(Sj)
-            S.append(Sj1)
+            Sj1 = solve(Sj, E)
+            Sj1 = (Sj1.T + Sj1) / 2
+            Sj1 /= det(Sj1) ** (1.0/n)
+            S.append(np.ascontiguousarray(Sj1))
 
         return S
     #
@@ -298,7 +295,7 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
                 break
 
         self.c = c_min
-        self.I = I
+        self.Is = Is
         self.K_c = K+1
     #
     def fit_scatters(self, X):
@@ -348,8 +345,8 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
 
 class RKMeansMahalanobis(KMeansMahalanobis):
     #
-    def __init__(self, q, avrfunc=None, tol=1.0e-8,
-                 n_iter_c=100, n_iter_s=22, n_iter=500, verbose=False):
+    def __init__(self, q, avrfunc=None, tol=1.0e-6,
+                 n_iter_c=100, n_iter_s=22, n_iter=100, verbose=False):
         self.q = q
         self.n_iter = n_iter
         self.n_iter_c = n_iter_c
@@ -418,14 +415,14 @@ class RKMeansMahalanobis(KMeansMahalanobis):
 
             self.weights = self.avrfunc.gradient(ds)
 
-            if qval <= qval_min:
+            if qval < qval_min:
                 qval_min_prev = qval_min
                 qval_min = qval
                 self.S_min = self.S
 
             # if self.stop_condition(qval, qval_prev):
             #     break
-            if abs(qval - qval_min)  < self.tol * (1 + abs(qval_min)):
+            if abs(qval - qval_min) < self.tol * (1 + abs(qval_min)):
                 break
 
         self.K = K + 1

@@ -17,8 +17,9 @@ cdef double _average(double *x, double *w, Py_ssize_t n) noexcept nogil:
         W += wi
     return s / W
 
-cdef void _average2(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t n) noexcept nogil:
-    cdef Py_ssize_t i, j, k
+cdef void _average2(double[:,::1] x, double[::1] w, double[::1] y) noexcept nogil:
+    cdef Py_ssize_t i, j
+    cdef Py_ssize_t N=x.shape[0], n=x.shape[1]
     cdef double W, s = 0
 
     W = 0
@@ -27,10 +28,10 @@ cdef void _average2(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t n)
 
     for i in range(n):
         s = 0
-        k = i
+        # k = i
         for j in range(N):
-            s += x[k] * w[j]
-        k += n
+            s += x[j,i] * w[j]
+        # k += n
         y[i] = s / W
 
 # cdef void _average2_t(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t n) noexcept nogil:
@@ -57,7 +58,7 @@ def average2(double[:,::1] x, double[::1] w):
 
     yy = np.empty(x.shape[1])
     y = yy
-    _average2(&x[0,0], &w[0], &y[0], x.shape[0], x.shape[1])
+    _average2(x, w, y)
     return yy
 
 # def average2_t(double[:,::1] x, double[::1] w):

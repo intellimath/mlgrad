@@ -268,5 +268,6 @@ cdef class StopCondition:
     cdef bint stop_condition(self) noexcept nogil
 
 cdef double _average(double *x, double *w, Py_ssize_t n) noexcept nogil
-cdef void _average2(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t n) noexcept nogil
+cdef void _average2(double[:,::1] x, double[::1] w, double[::1] y) noexcept nogil
+# cdef void _average2(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t n) noexcept nogil
 # cdef void _average2_t(double *x, double *w, double *y, Py_ssize_t N, Py_ssize_t n) noexcept nogil
