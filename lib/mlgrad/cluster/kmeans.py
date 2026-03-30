@@ -305,9 +305,9 @@ class KMeansMahalanobis(KMeansMahalanobisBase):
             I = self.find_clusters(X)
             S = self.find_scatters(X, I)
 
-            # s = np.prod([det(S) for S in self.S1])
+            # s = prod([det(S) for S in self.S])
             # s /= s ** (1.0/n)
-            # self.S1 = [S/s for S in self.S1]
+            # self.S = [S/s for S in self.S]
 
             qval = self.eval_qval(X)
             self.qvals.append(qval)
@@ -393,7 +393,7 @@ class RKMeansMahalanobis(KMeansMahalanobis):
 
             # if self.stop_condition(qval, qval_prev):
             #     break
-            if abs(qval - qval_min) < self.tol * (1 + abs(qval_min)):
+            if abs(qval_min_prev - qval_min) < self.tol * (1 + abs(qval_min)):
                 break
 
         self.K = K + 1
@@ -422,7 +422,7 @@ class RKMeansMahalanobis(KMeansMahalanobis):
 
             # if self.stop_condition(qval, qval_prev):
             #     break
-            if abs(qval - qval_min) < self.tol * (1 + abs(qval_min)):
+            if abs(qval_min_prev - qval_min) < self.tol * (1 + abs(qval_min)):
                 break
 
         self.K = K + 1
