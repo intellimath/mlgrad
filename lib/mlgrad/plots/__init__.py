@@ -237,12 +237,13 @@ def plot_array_vlines(P, y0=0, colors=None):
     ax.minorticks_on()
 
 def plot_array2_vlines(PP, y0=0):
+    from matplotlib.ticker import FixedLocator
     M, n = PP.shape
-    Ks = [k*n for k in range(M)]
+    Ks = [k*n for k in range(M+1)]
     p_max, p_min = PP.max(), PP.min()
     P_max = np.array([p_max for k in range(M)])
     P_min = np.array([p_min for k in range(M)])
-    plt.vlines(Ks, P_min+y0, P_max+y0, colors='darkblue', ls='--', lw=0.5)
+    plt.vlines(Ks[:-1], P_min+y0, P_max+y0, colors='darkblue', ls='--', lw=0.5)
 
     P = PP.reshape(-1)
     N = len(P)
@@ -252,5 +253,7 @@ def plot_array2_vlines(PP, y0=0):
     plt.vlines(range(N), P_m+y0, P_p+y0, colors='k')
     ax = plt.gca()
     ax.minorticks_on()
-    ax.set_xticks(Ks, [str(i) for i in range(M)])
+    ax.set_xticks(Ks, [str(i) for i in range(M+1)])
+    ax.xaxis.set_minor_locator(FixedLocator(np.arange(PP.size)))
+
 

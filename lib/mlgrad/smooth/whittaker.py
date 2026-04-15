@@ -121,7 +121,7 @@ def whittaker_smooth(y, W=None, W2=None, func=None, func2=None, func2_e=None, ta
                                              func=func,
                                              func2=func2,
                                              func2_e=func2_e,
-                                             tau2=1.0, d=2)[0]
+                                             tau2=tau2, d=2)[0]
     else:
         return whittaker_smooth_base(y, W, W2, tau2, d)
 
@@ -140,19 +140,6 @@ def whittaker_smooth_scipy(y, W=None, W2=None, tau=1.0, d=2):
     z = scipy.sparse.linalg.spsolve(Z, Y)
     return z
 
-# def whittaker_smooth_scipy2(z0, W=None, W2=None, tau=1.0, d=2):
-#     N = len(y)
-#     D = scipy.sparse.csc_matrix(np.diff(np.eye(N), d))
-#     if W is None:
-#         W = np.ones(N, "d")
-#     W = scipy.sparse.spdiags(W, 0, N, N)
-#     if W2 is None:
-#         W2 = np.ones(N, "d")
-#     W2 = scipy.sparse.spdiags(W2, 0, N, N)
-#     Z = W + tau * D.dot(D.T.dot(W2))
-#     mu = scipy.sparse.linalg.spsolve(Z, z0)
-#     return z
-
 def whittaker_smooth_ex(X,
               aggfunc = averaging_function("AM"),
               aggfunc2 = averaging_function("AM"),
@@ -164,7 +151,7 @@ def whittaker_smooth_ex(X,
 
     N = len(X)
 
-    Z = whittaker_smooth(X, tau2=tau2, d=d)
+    Z = whittaker_smooth_base(X, tau2=tau2, d=d)
     Z_min = Z.copy()
 
     E = (Z - X)
@@ -194,7 +181,7 @@ def whittaker_smooth_ex(X,
 
     flag = False
     for K in range(n_iter):
-        Z = whittaker_smooth(X, tau2=tau2, W=W, W2=W2, d=d)
+        Z = whittaker_smooth_base(X, tau2=tau2, W=W, W2=W2, d=d)
 
         E = Z - X
 
@@ -267,7 +254,7 @@ def whittaker_smooth_weight_func(
             tau1=0.0, tau2=1.0, func2_mode="d",
             d=2, n_iter=100, tol=1.0e-6):
 
-    Z = whittaker_smooth(X, tau2=tau2, d=d)
+    Z = whittaker_smooth_base(X, tau2=tau2, d=d)
     # Z = X * 0.9
 
     E = X - Z
@@ -310,7 +297,7 @@ def whittaker_smooth_weight_func(
         # print("W:", W)
         # print("W2:", W2)
 
-        Z = whittaker_smooth(X, W=W, W1=W1, W2=W2,
+        Z = whittaker_smooth_base(X, W=W, W1=W1, W2=W2,
                              tau1=tau1, tau2=tau2, d=d)
 
         E = X - Z
@@ -373,7 +360,7 @@ def whittaker_smooth_weight_func2(
         dd1 = dd
         dd2 = -dd-1
 
-    Z = whittaker_smooth(X, tau2=tau2, d=d)
+    Z = whittaker_smooth_base(X, tau2=tau2, d=d)
     # Z = X * 0.999
 
     E = X - Z
@@ -413,7 +400,7 @@ def whittaker_smooth_weight_func2(
         # qval_prev = qval
         Z_prev = Z.copy()
 
-        Z = whittaker_smooth(X, W=W, W2=W2, tau2=tau2, d=d)
+        Z = whittaker_smooth_base(X, W=W, W2=W2, tau2=tau2, d=d)
 
         dZ = Z - Z_prev
         # dq = np.sqrt(dZ @ dZ) / (1 + np.sqrt(Z_prev @ Z_prev))

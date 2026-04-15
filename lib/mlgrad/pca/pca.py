@@ -121,6 +121,38 @@ def find_pc_ss(X, *, a0 = None, n_iter=200, tol=1.0e-6, verbose=0):
         print("*", L)
     return a, L
 
+def _find_pc_l1(S, lam, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
+    if a0 is None:
+        a = np.random.random(S.shape[0])
+    else:
+        a = a0
+
+    np_abs = np.abs
+    np_sqrt = np.sqrt
+    np_sign = np.sign
+
+    a /= np.sqrt(a @ a)
+
+    for K in range(n_iter):
+        S_a = S @ a
+        L = S_a @ abs(a)
+        a1 = S_a / L
+        a1 /= np_sqrt(a1 @ a1)
+
+        if abs(a1 - a).max() / (1 + abs(a1).min()) < tol:
+            a = a1
+            break
+
+        a = a1
+
+    K += 1
+    if verbose:
+        print("K:", K, L, a)
+
+    S_a = S @ a
+    L = S_a @ a - 0.5*lam * abs(a).sum()
+    return a, L
+
 def _find_pc_lasso(S, lam, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
     if a0 is None:
         a = np.random.random(S.shape[0])
@@ -135,8 +167,8 @@ def _find_pc_lasso(S, lam, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
 
     for K in range(n_iter):
         S_a = S @ a
-        L = S_a @ a + 0.5*lam * abs(a).sum()
-        a1 = (S_a + 0.5*lam * np_sign(a)) / L
+        L = S_a @ a - 0.5*lam * abs(a).sum()
+        a1 = (S_a - 0.5*lam * np_sign(a)) / L
         a1 /= np_sqrt(a1 @ a1)
 
         if abs(a1 - a).max() / (1 + abs(a1).min()) < tol:
@@ -150,7 +182,7 @@ def _find_pc_lasso(S, lam, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
         print("K:", K, L, a)
 
     S_a = S @ a
-    L = S_a @ a + 0.5*lam * abs(a).sum()
+    L = S_a @ a - 0.5*lam * abs(a).sum()
     return a, L
 
 def find_pc_lasso(X, lam, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verbose=0):

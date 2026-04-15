@@ -7,7 +7,9 @@ import sys
 from sklearn.cluster import kmeans_plusplus
 
 import mlgrad.inventory as inventory
+from scipy.special import logsumexp
 
+solve = linalg.solve
 det = linalg.det
 inv = linalg.inv
 pinv = linalg.pinv
@@ -32,46 +34,58 @@ class GaussianMixture:
     def initial_locations(self, X):
         return kmeans_plusplus(X, self.q)[0]
     #
-    def calculate_probs(self, X):
+    def calculate_ds_dets(self, X):
         N = len(X)
-        Pjk = np_empty((self.q, N))
+        Ds = np_empty((self.q, N))
+        dets = np_empty(self.q)
         for j in range(self.q):
-            det_j = det(self.S[j])
-            Y_j = inventory.mahalanobis_distance(X, self.S[j], self.c[j])
-            Pjk[j,:] = np_exp(-0.5*Y_j) * sqrt(det_j) # p_jk
-        return Pjk
+            dets[j] = det(self.S[j])
+            Ds[j] = inventory.mahalanobis_distance(X, self.S[j], self.c[j])
+        return Ds, dets
     #
     def find_VG(self, X):
         N = len(X)
-        Pjk = self.calculate_probs(X) # p_jk
-        Pk = self.G @ Pjk # p_k
+        ds, dets = self.calculate_ds_dets(X)
+        Pjk = 0.5*ds - np.log(dets[:,None])
+        Pjk_min = np.min(Pjk, axis=0)
+        Pjk2 = Pjk - Pjk_min
+        Pjk2 = np.exp(-Pjk2)
+        Pk2 = self.G @ Pjk2
 
-        v = Pjk / Pk
-        V = v.sum(axis=1)
+        v = np.exp(-Pjk_min) * (Pjk2 / Pk2)
         for j in range(self.q):
-            v[j,:] = v[j] / V[j]
+            vj = v[j]
+            v[j,:] = vj / vj.sum()
 
-        G = V / V.sum()
+        # G = V / V.sum()
         # G /= G.sum()
 
-        return v, G
+        return v, self.G
     #
     def find_c(self, X):
         c = self.V @ X
         return c
     #
     def find_S(self, X):
+        n = X.shape[1]
+        E = np.eye(n)
+
         new_S = []
         for j in range(self.q):
             S1 = inventory.covariance_matrix_weighted(X, self.V[j], self.c[j])
-            S = pinv(S1)
+            print(S1)
+            S = solve(S1, E)
+            S = (S.T + S) / 2
+            # S = pinv(S1)
             new_S.append(S)
         return new_S
     #
     def eval_qval(self, X):
-        P = self.calculate_probs(X)
-        qval = -np.log(self.G @ P).mean()
-        return qval
+        ds, dets = self.calculate_ds_dets(X)
+        dets_g = self.G * dets
+        ds2 =  -0.5 * ds
+        qvals = -logsumexp(ds2, b=dets_g[:,None], axis=0)
+        return qvals.sum()
     #
     def eval_qvals(self, X):
         P = self.calculate_probs(X)
@@ -107,7 +121,6 @@ class GaussianMixture:
         S_min = self.S
         for K in range(self.n_iter_s):
             self.S = self.find_S(X)
-            # for j in range(self.q): print(self.S[j])
 
             self.V, self.G = self.find_VG(X)
             qval = self.eval_qval(X)
@@ -128,8 +141,8 @@ class GaussianMixture:
         n = X.shape[1]
         self.c = c_min = self.initial_locations(X)
         print("Initial centers:")
-        for c in self.c:
-            print(c)
+        # for c in self.c:
+        #     print(c)
         self.S = S_min = [np.identity(n) for j in range(self.q)]
         self.qvals = []
         self.V, self.G = self.find_VG(X)
