@@ -56,14 +56,14 @@ cdef class GD:
         else:
             raise TypeError(f"invalid averager: {averager}")
     #
-    def use_normalizer(self, normalizer):
-        self.normalizer = normalizer
+    def use_projector(self, projector):
+        self.projector = projector
     #
     def init(self):
         self.risk.init()
 
-        if self.normalizer is not None:
-            self.normalizer.normalize(self.risk.param)
+        if self.projector is not None:
+            self.projector._project(self.risk.param)
 
         n_param = self.risk.model.n_param
 
@@ -95,7 +95,7 @@ cdef class GD:
     def fit(self):
         cdef Risk risk = self.risk
         cdef Py_ssize_t i, k = 0, m=0, M=self.M
-        cdef double lval, lval_prev, lval_min, lval_min_prev
+        cdef double lval #, lval_prev, lval_min, lval_min_prev
         cdef double tol = self.tol
         cdef double Q
         cdef inventory.StopCondition stop_cond
@@ -111,8 +111,8 @@ cdef class GD:
 
         self.h_rate.init()
 
-        if self.normalizer is not None:
-            self.normalizer.normalize(risk.param)
+        if self.projector is not None:
+            self.projector._project(risk.param)
 
         self.completed = 0
         for k in range(self.n_iter):
@@ -126,13 +126,13 @@ cdef class GD:
             lval = risk._evaluate()
             self.lvals.append(lval)
 
-            if self.normalizer is not None:
-                self.normalizer.normalize(risk.param)
+            if self.projector is not None:
+                self.projector._project(risk.param)
 
             if self.callback is not None:
                 self.callback(self)
 
-            if stop_cond.is_minval(lval):
+            if stop_cond._is_minval(lval):
                 inventory.move(self.param_min, risk.param)
 
             # if fabs(lval - lval_prev) < tol * Q:
@@ -156,10 +156,9 @@ cdef class GD:
             # elif lval < lval_min_prev:
             #     lval_min_prev = lval
 
-            if stop_cond.stop_condition():
+            if stop_cond._stop_condition():
                 self.completed = 1
                 break
-
 
         self.K += 1
         self.finalize()
@@ -214,6 +213,6 @@ include "gd_fg_rud.pyx"
 
 # include "stopcond.pyx"
 include "paramrate.pyx"
-include "normalizer.pyx"
+include "projector.pyx"
 
 

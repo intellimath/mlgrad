@@ -43,7 +43,7 @@ def regression(Xs, Y, mod,
                *,
                sample_weights=None,
                weights=None,
-               normalizer=None,
+               projector=None,
                h=0.001, tol=1.0e-6, n_iter=1000, tau=0.0, verbose=0,
                n_restart=1, init_param=1):
     """\
@@ -55,7 +55,7 @@ def regression(Xs, Y, mod,
         regnorm: регуляризатор
         sample_weights: изначальные веса примеров
         weights: дополнительные веса примеров
-        normalizer: нормализатор параметров модели
+        projector: проектор параметров модели на соответствующее подпространство
         loss_func: функция потерь
     """
     if mod.param is None or init_param:
@@ -68,7 +68,7 @@ def regression(Xs, Y, mod,
         er.use_weights(weights)
 
     alg = erm_fg(er, h=h, tol=tol, n_iter=n_iter,
-                 verbose=verbose, n_restart=n_restart, normalizer=normalizer)
+                 verbose=verbose, n_restart=n_restart, projector=projector)
     return alg
 
 def m_regression(Xs, Y, mod,
@@ -92,7 +92,7 @@ def m_regression_irls(Xs, Y, mod,
                       loss_func=SquareErrorLoss(),
                       agg_func=averaging_function('WM'),
                       regnorm=None,
-                      normalizer=None,
+                      projector=None,
                       h=0.001, tol=1.0e-9, n_iter=1000, tau=0.0, tol2=1.0e-5, n_iter2=22, 
                       verbose=0, init_param=1):
     """\
@@ -109,8 +109,8 @@ def m_regression_irls(Xs, Y, mod,
 
     er = erisk(Xs, Y, mod, loss_func)
     alg = fg(er, h=h, tol=tol, n_iter=n_iter)
-    if normalizer is not None:
-        alg.use_normalizer(normalizer)
+    if projector is not None:
+        alg.use_projector(projector)
 
     irgd = erm_irgd(alg, agg_func, n_iter=n_iter2, tol=tol2, verbose=verbose)
 
@@ -120,7 +120,7 @@ def mr_regression_irls(Xs, Y, mod,
                        loss_func=ErrorLoss(funcs.SoftAbs_Sqrt(0.001)),
                        agg_func=averaging_function('WM'),
                        regnorm=None,
-                       normalizer=None,
+                       projector=None,
                        h=0.001, tol=1.0e-9, n_iter=1000,
                        tol2=1.0e-5, n_iter2=22, tau=0.0, 
                        verbose=0, init_param=1):
@@ -137,8 +137,8 @@ def mr_regression_irls(Xs, Y, mod,
 
     er2 = erisk(Xs, Y, mod, SquareErrorLoss())
     alg = fg(er2, h=h, tol=tol, n_iter=n_iter)
-    if normalizer is not None:
-        alg.use_normalizer(normalizer)
+    if projector is not None:
+        alg.use_projector(projector)
 
     # er = erisk(Xs, Y, mod, loss_func, regnorm=regnorm, tau=tau)
     irgd = erm_irgd(alg, agg_func, n_iter=n_iter2, tol=tol2, verbose=verbose)

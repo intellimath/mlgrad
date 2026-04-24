@@ -1,14 +1,27 @@
 from libc.math cimport fabs, pow, sqrt, fmax
 
-cdef class Normalizer:
-    cdef normalize(self, double[::1] param):
+cdef class Projector:
+    cdef _project(self, double[::1] param):
         pass
+    #
+    def project(self, param):
+        self._project(param)
 
-cdef class LinearModelNormalizer(Normalizer):
+cdef class Func2Projector(Projector):
+    #
+    def __init__(self, Func2 func, double C):
+        self.func = func
+        self.C = C
+    #
+    cdef _project(self, double[::1] param):
+        self.func.__project(param)
+        self.func._scale(self.C)
+
+cdef class LinearModelProjector(Projector):
     def __init__(self, offset=0):
         self.offset = offset
 
-    cdef normalize(self, double[::1] param):
+    cdef _project(self, double[::1] param):
         cdef Py_ssize_t i, n = param.shape[0]
         cdef double v, s
 
@@ -21,12 +34,12 @@ cdef class LinearModelNormalizer(Normalizer):
         for i in range(n):
             param[i] /= s
 
-cdef class LinearModelPositive(Normalizer):
+cdef class LinearModelPositive(Projector):
     #
     def __init__(self, offset=0):
         self.offset = offset
 
-    cdef normalize(self, double[::1] param):
+    cdef _project(self, double[::1] param):
         cdef Py_ssize_t i, n = param.shape[0]
         cdef double v
 
@@ -35,13 +48,13 @@ cdef class LinearModelPositive(Normalizer):
             if v < 0:
                 param[i] = 0
 
-cdef class Masked(Normalizer):
+cdef class Masked(Projector):
     #
     def __init__(self, n_param, tol=1.0e-8):
         self.tol = tol
         self.mask = np.zeros(n_param, np.uint8)
     #
-    cdef normalize(self, double[::1] param):
+    cdef _project(self, double[::1] param):
         cdef Py_ssize_t i
         cdef uint8[::1] mask = self.mask
         cdef double v, tol = self.tol

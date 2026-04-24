@@ -865,7 +865,7 @@ cdef class Square(Func):
     #
     @cython.final
     cdef double _derivative_div(self, const double x) noexcept nogil:
-        return 1 
+        return 1
     #
     @cython.final
     cdef double _derivative2(self, const double x) noexcept nogil:

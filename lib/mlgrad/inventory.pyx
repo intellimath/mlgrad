@@ -600,45 +600,47 @@ cdef class StopCondition:
     #
     def __init__(self, val=None, tol=1.0e-8):
         self.tol = tol
-        # self.is_true = 0
 
         if val is None:
-            self.val = _double_max / 4
-            self.prev_val = _double_max/ 2
+            self.val = _double_max / 10
+            self.prev_val = _double_max/ 20
         else:
             self.val = val
-            self.prev_val = 2*val
+            self.prev_val = 10*val
 
         self.minval = self.val
         self.prev_minval = self.prev_val
-        # self.count = 0
+        # self.counter = 0
     #
-    cdef bint is_minval(self, double val) noexcept nogil:
+    cdef bint _is_minval(self, double val) noexcept nogil:
         self.prev_val = self.val
         self.val = val
         if val <= self.minval:
             self.prev_minval = self.minval
             self.minval = val
-            # if fabs(self.prev_minval - self.minval) < self.tol * (1 + fabs(self.minval)):
-            #     self.count = self.count + 1
-            # else:
-            #     self.count = 0
-
-            # if self.count >= 5:
-            #     self.is_true = 1
+            # self.counter = 0
             return 1
         elif val <= self.prev_minval:
             self.prev_minval = val
+            # self.counter = 0
             return 0
         else:
+            # self.counter = self.counter + 1
             return 0
     #
-    cdef bint stop_condition(self) noexcept nogil:
+    def is_minval(self, val):
+        return self._is_minval(val)
+    #
+    cdef bint _stop_condition(self) noexcept nogil:
         if fabs(self.val - self.prev_val) < self.tol * (1 + fabs(self.val)):
-            # self.is_true = 1
             return 1
         elif fabs(self.prev_minval - self.minval) < self.tol * (1 + fabs(self.minval)):
             return 1
+        # elif self.counter > 5:
+        #     return 1
 
         return 0
+    #
+    def stop_condition(self):
+        return self._stop_condition()
 

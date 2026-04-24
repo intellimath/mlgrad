@@ -24,7 +24,7 @@ class RobustAnyBoostClassification(AnyBoostClassification):
                  func=funcs.Exp(-1.0),
                  model_factory=sigmoidal_factory,
                  lossfunc=loss.NegMargin(),
-                 normalizer=None,
+                 projector=None,
                  min_weak_learn_score=0,
                  callback=None, shrink_model=False,
                  shrink=1.0, n_classifier=100, n_failures=10):
@@ -33,7 +33,7 @@ class RobustAnyBoostClassification(AnyBoostClassification):
         self.func = func
         self.model_factory = model_factory
         self.lossfunc = lossfunc
-        self.normalizer=normalizer,
+        self.projector=projector,
         self.shrink = shrink
         self.callback=callback
         self.n_classifier = n_classifier

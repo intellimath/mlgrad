@@ -261,11 +261,10 @@ cdef class StopCondition:
     cdef double minval
     cdef double prev_minval
     cdef double tol
-    # cdef int count
-    # cdef bint is_true
+    # cdef Py_ssize_t counter
     #
-    cdef bint is_minval(self, double val) noexcept nogil
-    cdef bint stop_condition(self) noexcept nogil
+    cdef bint _is_minval(self, double val) noexcept nogil
+    cdef bint _stop_condition(self) noexcept nogil
 
 cdef double _average(double *x, double *w, Py_ssize_t n) noexcept nogil
 cdef void _average2(double[:,::1] x, double[::1] w, double[::1] y) noexcept nogil

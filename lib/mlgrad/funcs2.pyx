@@ -57,6 +57,9 @@ cdef class Func2:
     cdef void _normalize(self, double[::1] X) noexcept nogil:
         pass
     #
+    cdef void _scale(self, double[::1] X, double C) noexcept nogil:
+        pass
+    #
     def evaluate_items(self, double[::1] X):
         cdef numpy.npy_intp n = X.shape[0]
         Y = numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
@@ -83,6 +86,9 @@ cdef class Func2:
     #
     def normalize(self, X):
         return self._normalize(X)
+    #
+    def scale(self, X, c):
+        return self._scale(X, c)
     #
 
 cdef class Dot(Func2):
@@ -547,6 +553,16 @@ cdef class SquareNorm(Func2):
         for i in range(m):
             X_ptr[i] /= s
     #
+    @cython.final
+    cdef void _scale(self, double[::1] X, double C) noexcept nogil:
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s
+        cdef double* X_ptr = &X[0]
+
+        C = sqrt(C)
+        for i in range(m):
+            X_ptr[i] *= C
+    #
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_2^2=\sum_{i=0}^n w_i^2$"
 
@@ -650,6 +666,15 @@ cdef class AbsoluteNorm(Func2):
             s += fabs(X_ptr[i])
         for i in range(m):
             X_ptr[i] /= s
+    #
+    @cython.final
+    cdef void _scale(self, double[::1] X, double C) noexcept nogil:
+        cdef Py_ssize_t i, m = X.shape[0]
+        cdef double s
+        cdef double* X_ptr = &X[0]
+
+        for i in range(m):
+            X_ptr[i] *= C
     #
     def _repr_latex_(self):
         return r"$||\mathbf{w}||_2^2=\sum_{i=0}^n w_i^2$"
@@ -1417,6 +1442,7 @@ cdef class ProjectToSubspace:
 
         for i in range(self.n):
             self.dw[i] = self.w[i] - self.w0[i]
+        #
         for i in range(m):
             eqn_i = <Func2>self.eqns[i]
             eqn_i._gradient(self.w, self.G[i])
@@ -1427,9 +1453,10 @@ cdef class ProjectToSubspace:
                 if i != j:
                     self.A[j,i] = self.A[i,j]
             self.b[i] = -inventory.dot(self.dw, self.G[i])
-
+        #
         inventory.move(self.w, self.w0)
         inventory.clear(self.dw)
+        #
         if m == 1:
             lam = self.b[0] / self.A[0,0]
             inventory.imul_add(self.dw, self.G[0], -lam)

@@ -20,7 +20,7 @@ class AnyBoostClassification:
                  func=funcs.SoftHinge_Exp(1.0),
                  model_factory=sigmoidal_factory,
                  lossfunc=loss.NegMargin(),
-                 normalizer=None,
+                 projector=None,
                  # H=None,
                  alpha_method="linesearch",
                  callback=None, shrink_model=False,
@@ -31,9 +31,9 @@ class AnyBoostClassification:
         self.lossfunc = lossfunc
         self.evaluate_alpha = {
             "linesearch": self._evaluate_alpha_linesearch,
-            "newton": self._evaluate_alpha_linesearch}[alpha_method]
+            "newton": self._evaluate_alpha_newton}[alpha_method]
         self.callback=callback
-        self.normalizer=normalizer
+        self.projector=projector
         self.shrink = shrink
         self.shrink_model = shrink_model
         self.n_retry = n_retry
@@ -47,7 +47,7 @@ class AnyBoostClassification:
         weak_model = self.model_factory(X.shape[1])
         weak_learner = regr.regression(
                 X, Y, weak_model, self.lossfunc,
-                weights=self.weights, normalizer=self.normalizer, **kw)
+                weights=self.weights, projector=self.projector, **kw)
         return weak_learner
     #
     # def weak_margins(self, X, Y):

@@ -201,12 +201,6 @@ ext_modules = [
         extra_link_args = extra_link_args,
         define_macros = [("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
     ),
-    # Extension(
-    #     "mlgrad.normalizer",
-    #     ["lib/mlgrad/normalizer.pyx"],
-    #     extra_compile_args = extra_compile_args,
-    #     extra_link_args = extra_link_args,
-    # ),
     Extension(
         "mlgrad.risks",
         ["lib/mlgrad/risks.pyx"],
@@ -282,7 +276,7 @@ ext_modules = [
 
 setup(
     name = 'mlgrad',
-    version = '0.7.5',
+    version = '0.7.6',
     description = 'Robust Gradient Methods for Machine Learning & Data Analysis',
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",

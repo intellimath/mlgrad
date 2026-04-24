@@ -71,31 +71,31 @@ def average_fg(Y, penalty_func, h=0.01, tol=1.0e-5, n_iter=1000, verbose=0, aver
     return alg
 
 def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2',
-       callback=None, normalizer=None):
+       callback=None, projector=None):
     alg = FG(er, h=h, tol=tol, n_iter=n_iter, callback=callback)
     _averager = _get_averager(averager)
     if _averager is not None:
         alg.use_gradient_averager(_averager)
-    if normalizer is not None:
-        alg.use_normalizer(normalizer)
+    if projector is not None:
+        alg.use_projector(projector)
     return alg
 
 def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2',
-           callback=None, normalizer=None):
+           callback=None, projector=None):
     alg = FG_RUD(er, h=h, tol=tol, n_iter=n_iter, callback=callback, gamma=gamma)
     _averager = _get_averager(averager, ArrayMOM)
     if _averager is not None:
         alg.use_gradient_averager(_averager())
-    if normalizer is not None:
-        alg.use_normalizer(normalizer)
+    if projector is not None:
+        alg.use_projector(projector)
     return alg
 
 def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None,
-           n_restart=1, verbose=0, normalizer=None):
+           n_restart=1, verbose=0, projector=None):
     K = 0
     alg = fg(er, h=h, tol=tol, n_iter=n_iter,
              averager=averager, callback=callback,
-             normalizer=normalizer)
+             projector=projector)
     for i in range(n_restart):
         alg.fit()
         if verbose:
@@ -107,12 +107,12 @@ def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None
     return alg
 
 def erm_fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2', callback=None,
-               n_restart=1, verbose=0, normalizer=None):
+               n_restart=1, verbose=0, projector=None):
     K = 0
     for i in range(n_restart):
         alg = fg_rud(er, h=h, tol=tol, n_iter=n_iter,
                      averager=averager, callback=callback,
-                     gamma=gamma, normalizer=normalizer)
+                     gamma=gamma, projector=projector)
         alg.fit()
         K += alg.K
         if alg.completed:

@@ -56,7 +56,7 @@ def average(double[::1] x, double[::1] w):
 def average2(double[:,::1] x, double[::1] w):
     cdef double[::1] y
 
-    yy = np.empty(x.shape[1])
+    yy = empty_array(x.shape[1])
     y = yy
     _average2(x, w, y)
     return yy
@@ -136,11 +136,10 @@ cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:
             # swap(&a[ll], &a[hh])
             t = a[ll]; a[ll] = a[hh]; a[hh] = t
 
-        
         # Swap middle item (in position low) back into correct position
         t = a[low]; a[low] = a[hh]; a[hh] = t
         # swap(&a[low], &a[hh])
-        
+
         # Re-set active partition
         if hh <= median:
             low = ll
@@ -178,7 +177,7 @@ cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil:
 
         if j < k:
             l = i
-        if k < i: 
+        if k < i:
             m = j
 
     return a[k]

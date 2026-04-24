@@ -63,6 +63,7 @@ cdef class Func2:
     cdef void _gradient_ex(self, double[::1] param, double[::1] grad, double[::1] weights) noexcept nogil
     cdef double _gradient_j(self, double[::1] X, Py_ssize_t j) noexcept nogil
     cdef void _normalize(self, double[::1] X) noexcept nogil
+    cdef void _scale(self, double[::1] X, double C) noexcept nogil
 
 cdef class Dot(Func2):
     cdef double[::1] a

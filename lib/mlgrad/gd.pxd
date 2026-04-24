@@ -10,7 +10,7 @@ from mlgrad.averager cimport ArrayAverager, ArraySave
 from mlgrad.avragg cimport Average, ArithMean
 from mlgrad.weights cimport Weights
 from mlgrad.risks cimport Functional, Risk
-# from mlgrad.normalizer cimport Normalizer
+from mlgrad.gd cimport Projector
 
 # from mlgrad.inventory cimport init_rand, rand, fill
 
@@ -44,7 +44,7 @@ cdef class GD:
 
     cdef public Risk risk
     cdef public ParamRate h_rate
-    cdef Normalizer normalizer
+    cdef Projector projector
 
     cdef public double tol
     cdef public Py_ssize_t n_iter, K, M
@@ -127,11 +127,11 @@ cdef class SGD(GD):
 
     #cdef bint stop_condition(self)
     #cdef bint check_condition(self)
-    
-#######################################################    
+
+#######################################################
 
 # include "stopcond.pxd"
 include "paramrate.pxd"
-include "normalizer.pxd"
+include "projector.pxd"
 
 ##########################################################
