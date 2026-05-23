@@ -52,9 +52,9 @@ cdef class QuantileFunc(Func):
     def _repr_latex_(self):
         return '$\mathrm{id}(x)=x$'
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'quantile_func',
-                'args': (self.alpha, self.f.to_dict() )
+                'args': (self.alpha, self.f.as_dict() )
                }
 
 @cython.final
@@ -91,7 +91,7 @@ cdef class Quantile(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=(\alpha - [x < 0])x$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'quantile',
                  'args': (self.alpha,) }
 
@@ -193,7 +193,7 @@ cdef class Quantile_Sqrt(Func):
     def _repr_latex_(self):
         return r"$p(x)=(\sqrt{\varepsilon^2+x^2}-\varepsilon)_\alpha$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'quantile_sqrt',
                  'args': (self.alpha, self.eps) }
 
@@ -263,6 +263,6 @@ cdef class Quantile_AlphaLog(Func):
     def _repr_latex_(self):
         return r"$ρ_q(x)=\mathrm{sign}_q(x)(|x| - \alpha\ln(\alpha+|x|)+\alpha\ln\alpha)$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'quantile_alpha_log',
                  'args': (self.alpha, self.q) }

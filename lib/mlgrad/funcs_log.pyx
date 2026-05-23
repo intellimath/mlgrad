@@ -17,7 +17,7 @@ cdef class Log(Func):
     def _repr_latex_(self):
         return r"$\rho(x)=\ln{\alpha+x}$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'log',
                  'args': (self.alpha,) }
 
@@ -57,7 +57,7 @@ cdef class LogSquare(Func):
     def _repr_latex_(self):
         return r'$a^2\ln(1 + \frac{1}{2}(x/a)^2)$'
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'log_square',
                  'args': (self.a,) }
 
@@ -79,7 +79,7 @@ cdef class SoftLog(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=log(x + \epsilon) - log(\epsilon)$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'softlog',
                  'args': (self.eps,) }
 

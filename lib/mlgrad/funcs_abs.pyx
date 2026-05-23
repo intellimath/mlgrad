@@ -25,7 +25,7 @@ cdef class Abs(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=|x|$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'absolute',
                  'args': () }
 
@@ -62,7 +62,7 @@ cdef class SoftAbs(Func):
     def _repr_latex_(self):
         return r"$p(x)=\frac{x^2}{\varepsilon+|x|}$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'softabs',
                  'args': (self.eps,) }
 
@@ -150,9 +150,9 @@ cdef class SoftAbs_Sqrt(Func):
     def _repr_latex_(self):
         return r"$\rho(x)=\sqrt{\varepsilon^2+x^2}$ - \varepsilon"
 
-    def to_dict(self):
-        return { 'name':'sqrt',
-                 'args': (self.eps) }
+    def as_dict(self):
+        return { 'name':'softabs_sqrt',
+                 'args': (self.eps,) }
 
 @cython.final
 cdef class SoftAbs_Power(Func):
@@ -189,7 +189,7 @@ cdef class SoftAbs_Power(Func):
     def _repr_latex_(self):
         return r"$p(x)=(\varepsilon^q+x^q)^{1/q} - \varepsilon$"
     #
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'SoftAbs_Power',
                  'args': (self.q, self.eps) }
 
@@ -275,6 +275,11 @@ cdef class SoftAbs_Exp(Func):
     def _repr_latex_(self):
         return r"$p(x)=\log(\exp(x/\epsilon) + \exp(-x/\epsilon)) - \log 2$"
 
-    def to_dict(self):
-        return { 'name':'sqrt',
-                 'args': (self.eps) }
+    def as_dict(self):
+        return { 'name':'softabs_exp',
+                 'args': (self.eps,) }
+
+register_func(Abs, 'abs')
+register_func(SoftAbs, 'softabs')
+register_func(SoftAbs_Sqrt, 'softabs_sqrt')
+register_func(SoftAbs_Exp, 'softabs_exp')

@@ -11,6 +11,7 @@ from mlgrad.avragg cimport Average, ArithMean
 from mlgrad.weights cimport Weights
 from mlgrad.risks cimport Functional, Risk
 from mlgrad.gd cimport Projector
+from mlgrad.inventory cimport StopCondition
 
 # from mlgrad.inventory cimport init_rand, rand, fill
 
@@ -44,7 +45,7 @@ cdef class GD:
 
     cdef public Risk risk
     cdef public ParamRate h_rate
-    cdef Projector projector
+    cdef list projector
 
     cdef public double tol
     cdef public Py_ssize_t n_iter, K, M
@@ -58,6 +59,7 @@ cdef class GD:
     cdef double lval, lval_prev, lval_min, lval_min_prev
 
     cdef ArrayAverager grad_averager
+    cdef StopCondition stop_cond
     # cdef ArrayTransformer param_transformer
 
     cdef public object callback

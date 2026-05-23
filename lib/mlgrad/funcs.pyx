@@ -276,9 +276,9 @@ cdef class Comp(Func):
     cdef double _derivative_div(self, const double x) noexcept nogil:
         return self.f._derivative(self.g._evaluate(x)) * self.g._derivative_div(x)
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'comp',
-                 'args': (self.f.to_dict(), self.g.to_dict() )
+                 'args': (self.f.as_dict(), self.g.as_dict() )
                }
 
 cdef class LinearComp(Func):
@@ -301,9 +301,9 @@ cdef class LinearComp(Func):
     cdef double _derivative_div(self, const double x) noexcept nogil:
         return self.a * self.f._derivative_div(x) + self.b*self.g._derivative_div(x)
     #
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'comp',
-                 'args': (self.f.to_dict(), self.g.to_dict(), self.a, self.b )
+                 'args': (self.f.as_dict(), self.g.as_dict(), self.a, self.b )
                }
 
 cdef class CompSqrt(Func):
@@ -328,9 +328,9 @@ cdef class CompSqrt(Func):
         cdef double v = sqrt(x)
         return 0.5 * self.f._derivative_div(v) / x
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'compsqrt',
-                'args': (self.f.to_dict(), self.g.to_dict() )
+                'args': (self.f.as_dict(), self.g.as_dict() )
                }
 
 @cython.final
@@ -658,7 +658,7 @@ cdef class SoftPlus(Func):
     def _repr_latex_(self):
         return '$%s(x, a)=\ln(a+e^x)$' % self.label
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'softplus',
                  'args': (self.a,) }
 
@@ -730,7 +730,7 @@ cdef class Threshold(Func):
     def _repr_latex_(self):
         return '$%s(x, \theta)=\cases{1&x\geq\theta\\0&x<0}$' % self.label
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'threshold',
                  'args': (self.theta,) }
 
@@ -764,7 +764,7 @@ cdef class Sign(Func):
     def _repr_latex_(self):
         return '$%s(x, \theta)=\cases{1&x\geq\theta\\0&x<0}$' % self.label
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'sign',
                  'args': (self.theta,) }
 
@@ -808,7 +808,7 @@ cdef class Expectile(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=(\alpha - [x < 0])x|x|$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'expectile',
                  'args': (self.alpha,) }
 
@@ -848,7 +848,7 @@ cdef class Power(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=\frac{1}{p}(|x|+\alpha)^p$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'power',
                  'args': (self.p, self.alpha,) }
 
@@ -907,7 +907,7 @@ cdef class Square(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=0.5x^2$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'square',
                  'args': () }
 
@@ -1035,7 +1035,7 @@ cdef class Square2Linear(Func):
     # def _repr_latex_(self):
     #     return r"$ρ(x)=(c-x)_{+}$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'square2linear',
                  'args': () }
 
@@ -1079,7 +1079,7 @@ cdef class RELU(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=(x_{+} + x)/2$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'relu' }
 
 cdef class HSquare(Func):
@@ -1119,7 +1119,7 @@ cdef class HSquare(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=(c-x)^2$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'hinge',
                  'args': (self.C,) }
 
@@ -1152,7 +1152,7 @@ cdef class Softplus_Sqrt(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=-x + \sqrt{c^2+x^2}$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'hinge_sqrt',
                  'args': (self.alpha,) }
 
@@ -1202,7 +1202,7 @@ cdef class Huber(Func):
             }
         $"""
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'huber',
                  'args': (self.C,) }
 
@@ -1291,7 +1291,7 @@ cdef class Tukey(Func):
             }
         $"""
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'tukey',
                  'args': (self.C,) }
 
@@ -1318,7 +1318,7 @@ cdef class WinsorizedFunc(ParameterizedFunc):
         else:
             return 0
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'winsorized',
                  'args': () }
 
@@ -1347,7 +1347,7 @@ cdef class SoftMinFunc(ParameterizedFunc):
     cdef double derivative_u(self, const double x, const double u) noexcept nogil:
         return 1. / (1. + exp(-self.a*(x-u)))
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'softmin',
                  'args': (self.a,) }
 
@@ -1365,9 +1365,9 @@ cdef class  WinsorizedSmoothFunc(ParameterizedFunc):
     cdef double derivative_u(self, const double x, const double u) noexcept nogil:
         return 0.5 * (1. + self.f._derivative(x - u))
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'winsorized_soft',
-                 'args': (self.f.to_dict(),) }
+                 'args': (self.f.as_dict(),) }
 
 cdef class KMinSquare(Func):
     #
@@ -1403,7 +1403,7 @@ cdef class KMinSquare(Func):
     def _repr_latex_(self):
         return r"$\rho(x)=\min_{j=1,\dots,q} (x-c_j)^2/2$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'kmin_square',
                  'args': (self.c.tolist(),) }
 
@@ -1448,16 +1448,12 @@ register_func(WinsorizedFunc, 'winsorized')
 register_func(Log, 'log')
 register_func(Exp, 'exp')
 register_func(Quantile_Sqrt, 'quantile_sqrt')
-register_func(SoftAbs_Sqrt, 'softabs_sqrt')
-register_func(SoftAbs, 'softabs')
 register_func(Tukey, 'tukey')
 register_func(LogSquare, 'log_square')
 register_func(Huber, 'huber')
 register_func(SoftHinge_Sqrt, 'softhinge_sqrt')
 register_func(Hinge, 'hinge')
-register_func(Logistic, 'logistic')
 register_func(Quantile_AlphaLog, 'quantile_alpha_log')
-register_func(Abs, 'abs')
 register_func(Square, 'square')
 register_func(Power, 'power')
 register_func(Expectile, 'expectile')

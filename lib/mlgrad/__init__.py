@@ -27,15 +27,19 @@ def sfunc(func):
 
 def erisk(X, Y, mod, loss_func, sample_weights=None, weights=None, batch=None, avg=None):
     if avg is not None:
-        er = MRisk(X, Y, mod, loss_func, avg=avg, batch=batch)
+        er = MRisk(X, Y, mod, loss_func, avg=avg)
     elif isinstance(loss_func, MultLoss):
-        er = ERisk2(X, Y, mod, loss_func, batch=batch, sample_weights=sample_weights)
+        er = ERisk2(X, Y, mod, loss_func)
     elif isinstance(loss_func, MultLoss2):
-        er = ERisk22(X, Y, mod, loss_func, batch=batch)
+        er = ERisk22(X, Y, mod, loss_func)
     else:
-        er = ERisk(X, Y, mod, loss_func, batch=batch)
+        er = ERisk(X, Y, mod, loss_func)
     if weights is not None:
         er.use_weights(weights)
+    if sample_weights is not None:
+        er.use_sample_weights(sample_weights)
+    if batch is not None:
+        er.use_batch(batch)
     return er
 
 def averager_it(func, tol=1.0e-6, n_iter=1000):
@@ -77,7 +81,7 @@ def fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2',
     if _averager is not None:
         alg.use_gradient_averager(_averager)
     if projector is not None:
-        alg.use_projector(projector)
+        alg.add_projector(projector)
     return alg
 
 def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2',
@@ -87,7 +91,7 @@ def fg_rud(er, h=0.001, tol=1.0e-6, n_iter=1000, gamma=1, averager='AdaM2',
     if _averager is not None:
         alg.use_gradient_averager(_averager())
     if projector is not None:
-        alg.use_projector(projector)
+        alg.add_projector(projector)
     return alg
 
 def erm_fg(er, h=0.001, tol=1.0e-6, n_iter=1000, averager='AdaM2', callback=None,

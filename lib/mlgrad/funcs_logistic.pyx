@@ -35,3 +35,9 @@ cdef class Logistic(Func):
             return self.p
         else:
             raise NameError(name)
+
+    def as_dict(self):
+        return { 'name':'logistic',
+                 'args': (self.p,) }
+
+register_func(Logistic, 'logistic')

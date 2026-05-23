@@ -68,7 +68,7 @@ cdef class SimpleFunctional(Functional):
             raise RuntimeError("Param is not specified")
         self.param = param
         self.n_param = len(self.param)
-        self.grad_average = np.zeros(self.n_param, np_double)
+        self.grad_average = np.zeros(self.n_param)
         self.batch = None
         self.n_sample = 0
     #
@@ -174,7 +174,7 @@ cdef class Risk(Functional):
         cdef double[::1] Y = self.Y
         cdef double[::1] L = self.loss_vals
         cdef double[::1] model_vals = self.model_vals
-        cdef double *Y0 = &self.Y0[0]
+        # cdef double *Y0 = &self.Y0[0]
         cdef Py_ssize_t[::1] indices = self.batch.indices
 
         cdef Py_ssize_t j, k
@@ -182,7 +182,7 @@ cdef class Risk(Functional):
 
         for j in range(self.batch.size):
             k = indices[j]
-            yk = model_vals[j] = _model._evaluate_one(X[k]) + Y0[k]
+            yk = model_vals[j] = _model._evaluate_one(X[k]) #+ Y0[k]
             L[j] = _loss._evaluate(yk, Y[k])
     #
     cdef void _evaluate_losses_all(self, double[::1] lvals):
@@ -191,12 +191,12 @@ cdef class Risk(Functional):
 
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
-        cdef double *Y0 = &self.Y0[0]
+        # cdef double *Y0 = &self.Y0[0]
         cdef Py_ssize_t k
         cdef double yk
 
         for k in range(self.n_sample):
-            yk = _model._evaluate_one(X[k]) + Y0[k]
+            yk = _model._evaluate_one(X[k]) #+ Y0[k]
             lvals[k] = _loss._evaluate(yk, Y[k])
     #
 #     cdef void _evaluate_losses_derivative_div_batch(self):
@@ -223,15 +223,15 @@ cdef class Risk(Functional):
 
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
-        cdef double *Y0 = &self.Y0[0]
+        # cdef double *Y0 = &self.Y0[0]
         cdef double yk
 
         for k in range(self.n_sample):
-            yk = _model._evaluate_one(X[k]) + Y0[k]
+            yk = _model._evaluate_one(X[k]) #+ Y0[k]
             vals[k] = _loss._derivative_div(yk, Y[k])
     #
     cdef void _evaluate_weights(self):
-            pass
+        pass
     #
     cdef void _update_param(self, double[::1] param):
         cdef Regularized _model = <Regularized>self.model
@@ -270,18 +270,23 @@ cdef class Risk(Functional):
         return DL
     #
     def use_weights(self, weights):
-        if weights is None:
-            self.weights = inventory.filled_array(self.n_sample, 1./self.n_sample)
-        else:
-            self.weights = weights
+        self.weights = weights
+    #
+    def use_XY(self, X, Y):
+        self.X = X
+        self.Y = Y
+        self.n_sample = len(Y)
+        self.weights = np.ones(self.n_sample) / self.n_sample
+        self.sample_weights = np.ones(self.n_sample)
+    #
+    def use_sample_weights(self, sample_weights):
+        self.sample_weights = sample_weights
     #
     def use_batch(self, Batch batch not None):
         self.batch = batch
         size = self.batch.size
-        self.model_vals = np.zeros(size, np_double)
-        self.Y0 = np.zeros(size, np_double)
-        self.loss_vals = np.zeros(size, np_double)
-        # self.LD = np.zeros(size, np_double)
+        self.model_vals = np.zeros(size)
+        self.loss_vals = np.zeros(size)
     #
     cpdef init(self):
         self.batch.init()
@@ -329,25 +334,25 @@ cdef class ERisk2(Risk):
         size = self.batch.size
 
         # if self.model.grad is None:
-        #     self.model.grad = np.zeros((n_param,), np_double)
+        #     self.model.grad = np.zeros((n_param,))
 
         if self.grad is None:
-            self.grad = np.zeros(self.n_param, dtype=np_double)
+            self.grad = np.zeros(self.n_param)
 
         if self.grad_u is None:
-            self.grad_u = np.zeros(self.n_output, dtype=np_double)
+            self.grad_u = np.zeros(self.n_output)
 
         if self.grad_average is None:
-            self.grad_average = np.zeros(self.n_param, dtype=np_double)
+            self.grad_average = np.zeros(self.n_param)
 
         if self.model._is_regularized():
-            self.grad_r = np.zeros(self.n_param, np_double)
+            self.grad_r = np.zeros(self.n_param)
 
         if self.weights is None:
-            self.weights = np.full((size,), 1./size, np_double)
+            self.weights = np.full((size,), 1.0/size)
 
-        self.model_vals = np.zeros(size, np_double)
-        self.L = np.zeros(size, np_double)
+        self.model_vals = np.zeros(size)
+        self.L = np.zeros(size)
 
         self.lval = 0
     #
@@ -406,7 +411,7 @@ cdef class ERisk2(Risk):
         cdef double[::1] output = _model.output
         cdef double[::1] weights = self.weights
 
-        cdef Py_ssize_t size = self.batch.size 
+        cdef Py_ssize_t size = self.batch.size
         cdef Py_ssize_t[::1] indices = self.batch.indices
 
         S = 0
@@ -431,7 +436,7 @@ cdef class ERisk2(Risk):
         cdef double[:, ::1] X = self.X
         cdef double[::1] Y = self.Y
         cdef double[::1] output = _model.output
-        cdef double[::1] weights = self.weights      
+        cdef double[::1] weights = self.weights
         cdef double[::1] Xk 
         cdef double[::1] grad = self.grad
         cdef double[::1] grad_u = self.grad_u
@@ -481,25 +486,25 @@ cdef class ED(Risk):
         n_param = self.n_param
 
         if self.param is None:
-            self.param = np.zeros(n_param, dtype=np_double)
-        
+            self.param = np.zeros(n_param)
+
         if self.grad is None:
-            self.grad = np.zeros(n_param, dtype=np_double)
+            self.grad = np.zeros(n_param)
 
         if self.grad_average is None:
-            self.grad_average = np.zeros(n_param, dtype=np_double)
+            self.grad_average = np.zeros(n_param)
 
         if self.weights is None:
-            self.weights = np.full(n_sample, 1./n_sample, np_double)
-            
-        self.L = np.zeros(n_sample, 'd')
-        
+            self.weights = np.full(n_sample, 1.0/n_sample)
+
+        self.L = np.zeros(n_sample)
+
         self.lval = 0
-    #    
+    #
     cdef double _evaluate(self):
         cdef int k, n_sample = self.n_sample, n_param = self.n_param
         cdef double S
-        
+
         cdef double[:,::1] X = self.X
         cdef double[::1] param = self.param
         cdef double[::1] weights = self.weights
@@ -529,7 +534,7 @@ cdef class ED(Risk):
 
             self.distfunc._gradient(Xk, param, grad)
             for i in range(self.n_param):
-                grad_average[i] -= wk * grad[i]                    
+                grad_average[i] -= wk * grad[i]
     #
     # cdef void _evaluate_models_batch(self):
     #     pass

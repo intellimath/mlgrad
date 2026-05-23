@@ -1,6 +1,6 @@
 cdef class ERisk(Risk):
     #
-    def __init__(self, double[:,::1] X not None, double[::1] Y not None, Model model not None,
+    def __init__(self, double[:,::1] X, double[::1] Y, Model model,
                  Loss loss=None, Batch batch=None, sample_weights=None, is_natgrad=0):
 
         self.model = model
@@ -15,31 +15,31 @@ cdef class ERisk(Risk):
             self.loss = loss
 
         if self.model._is_regularized():
-            self.grad_r = np.zeros(self.n_param, np_double)
+            self.grad_r = np.zeros(self.n_param)
         else:
             self.grad_r = None
         if self.model._with_eqns():
-            self.grad_eqns = np.zeros(self.n_param, np_double)
+            self.grad_eqns = np.zeros(self.n_param)
         else:
             self.grad_eqns = None
 
-        self.grad = np.zeros(self.n_param, np_double)
-        self.grad_average = np.zeros(self.n_param, np_double)
+        self.grad = np.zeros(self.n_param)
+        self.grad_average = np.zeros(self.n_param)
 
         self.X = X
         self.Y = Y
         self.n_sample = len(Y)
+        self.weights = np.full(self.n_sample, 1./self.n_sample, "d")
+        if sample_weights is None:
+            self.sample_weights = np.ones(self.n_sample, "d")
+        else:
+            self.sample_weights = np.asarray(sample_weights)
 
         if batch is None:
             self.use_batch(WholeBatch(self.n_sample))
         else:
             self.use_batch(batch)
 
-        self.weights = np.full(self.n_sample, 1./self.n_sample, "d")
-        if sample_weights is None:
-            self.sample_weights = np.ones(self.n_sample, "d")
-        else:
-            self.sample_weights = np.asarray(sample_weights)
         self.lval = 0
         self.is_natgrad = is_natgrad
     #
@@ -49,7 +49,6 @@ cdef class ERisk(Risk):
         cdef double S
 
         cdef Func2 eqn
-        cdef double vl
 
         cdef double[::1] L = self.loss_vals
         cdef double[::1] weights = self.weights

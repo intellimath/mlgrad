@@ -45,26 +45,23 @@ cdef inline double ident(x):
     return x
 
 cdef dict _model_from_dict_table = {}
+
 def register_model(tag):
     def func(cls, tag=tag):
         _model_from_dict_table[tag] = cls
         return cls
     return func
 
-def model_from_dict(ob, init=False):
+def model_from_dict(ob):
     tag = ob['name']
     func = _model_from_dict_table[tag]
     mod = func(ob)
-    if init:
-        mod.allocate_param()
-        mod.init_from(ob)
     return mod
 
 cdef class Parameterized:
     #
     cdef _update_param(self, double[::1] param):
         inventory._move(&self.param[0], &param[0], self.n_param)
-    #
     #
     def get_params(self):
         return np.array(self.param)
@@ -74,6 +71,7 @@ cdef class Regularized(Parameterized):
     def use_regularizer(self, Func2 regfunc, double tau):
         self.regfunc = regfunc
         self.tau = tau
+        self.mask = np.zeros(self.n_param, np.uint8)
     #
     cdef bint _is_regularized(self) noexcept nogil:
         return self.regfunc is not None and self.tau != 0
@@ -204,6 +202,9 @@ cdef class BaseModel(Regularized):
 
 cdef class Model(BaseModel):
     #
+    def __reduce__(self):
+        return model_from_dict, (self.as_dict(),)
+    #
     def allocate(self):
         if self.param is not None:
             raise RuntimeError('param is allocated already ')
@@ -227,7 +228,7 @@ cdef class Model(BaseModel):
                 self.ob_param[:] = self.param
         self.param = self.ob_param
         self.param_base = allocator.buf_array
-        self.grad_x = np.zeros(self.n_input, 'd')
+        self.grad_x = np.zeros(self.n_input)
         self.mask = None
     #
     def _allocate_grad(self, allocator):
@@ -236,32 +237,39 @@ cdef class Model(BaseModel):
         """
         self.grad = allocator.allocate(self.n_param)
         self.grad_base = self.grad
-        # np.asarray(self.grad, copy=False)
     #
     def init_param(self, param=None, random=1):
-        if param is None:
-            if random:
-                r = 0.1*np.random.random(self.n_param)-0.05
-            else:
-                r = np.zeros(self.n_param, 'd')
+        if self.param is None:
+            self.allocate()
+
+        if param is not None and len(param) != self.n_param:
+            raise TypeError(f"len(param) = {len(param)} n_param = {self.n_param}")
+
+        # if param is not None and random:
+        #     raise TypeError(f"param is not None and random")
+
+        if random:
+            r = 0.1*np.random.random(self.n_param)-0.05
         else:
-            if len(param) != self.n_param:
-                raise TypeError(f"len(param) = {len(param)} n_param = {self.n_param}")
             r = param
 
-        if self.param is None:
-            self.ob_param = self.param = r
-            self.param_base = self.param
+        self.ob_param[:] = r
+
+        self.grad = np.zeros(self.n_param)
+        self.grad_x = np.zeros(self.n_input)
+
+        if self._is_regularized():
+            self.mask = np.zeros(self.n_param, np.uint8)
         else:
-            self.ob_param[:] = r
+            self.mask = None
     #
     def gradient_one(self, Xk):
-        grad = np.empty(self.n_param, 'd')
+        grad = np.empty(self.n_param)
         self._gradient_one(Xk, grad)
         return grad
     #
     def gradient_x(self, X):
-        grad_x = np.empty(self.n_input, 'd')
+        grad_x = np.empty(self.n_input)
         self._gradient_x(X, grad_x)
         return grad_x
     #
@@ -277,7 +285,7 @@ include "models_neuron.pyx"
 
 cdef class SimpleComposition(Model):
     #
-    def __init__(self, Func func, Model model):
+    def __init__(self, Func func, BaseModel model):
         self.func = func
         self.model = model
         self.n_input = model.n_input
@@ -291,13 +299,31 @@ cdef class SimpleComposition(Model):
         self.regfunc = None
         self.tau = 0
         self.eqns = None
-#
+    #
+    def _allocate_param(self, allocator):
+        """
+        Распределение памяти под `self.param` (если `self.param` уже создан, то его содержимое 
+        переносится во вновь распределенное пространство)
+        """
+        self.model._allocate_param(allocator)
+        self.ob_param = self.model.ob_param
+        self.param = self.model.param
+        self.n_param = self.model.n_param
+    #
+    def _allocate_grad(self, allocator):
+        """
+        Распределение памяти под `self.grad`
+        """
+        self.model._allocate_grad(allocator)
+        self.grad_base = self.model.grad_base
+        self.grad = self.model.grad
+    #
     cdef double _evaluate_one(self, double[::1] X):
         return self.func._evaluate(self.model._evaluate_one(X))
     #
     cdef void _gradient_one(self, double[::1] X, double[::1] grad):
         cdef double val
-        cdef Model mod = self.model
+        cdef BaseModel mod = self.model
 
         val = self.func._derivative(mod._evaluate_one(X))
         mod._gradient_one(X, grad)
@@ -306,7 +332,7 @@ cdef class SimpleComposition(Model):
     cdef void _gradient_x(self, double[::1] X, double[::1] grad_x):
         # cdef Py_ssize_t j
         cdef double val
-        cdef Model mod = self.model
+        cdef BaseModel mod = self.model
 
         # inventory._clear(&grad_x[0], <Py_ssize_t>grad_x.shape[0])
         val = self.func._derivative(mod._evaluate_one(X))
@@ -317,6 +343,21 @@ cdef class SimpleComposition(Model):
     #
     # cdef SimpleComposition _copy(self, bint share):
     #     return SimpleComposition(self.func, self.model)
+    #
+    def as_dict(self):
+        return {
+            "name": "simple_composition",
+            "func": self.func.as_dict(),
+            "model": self.model.as_dict()
+        }
+
+@register_model("simple_composition")
+def simple_composition_from_dict(ob):
+    mod = model_from_dict(ob["model"])
+    func = func_from_dict(ob["func"])
+    sc = SimpleComposition(func, mod)
+    return sc
+
 
 cdef class ModelComposition(Model):
     #
@@ -332,7 +373,7 @@ cdef class ModelComposition(Model):
         self.tau = 0
         self.eqns = None
     #
-    def append(self, Model mod):
+    def add(self, Model mod):
         self.models.append(mod)
         self.n_param += mod.n_param
         if self.n_input < 0:
@@ -361,12 +402,12 @@ cdef class ModelComposition(Model):
                 self.ob_param[:] = self.param
 
         self.param = self.ob_param
-        self.n_param = <Py_ssize_t>self.param.shape[0]
+        self.n_param = self.param.shape[0]
 
-        self.ss = np.zeros(len(self.models), 'd')
-        self.sx = np.zeros(len(self.models), 'd')
-        self.grad = np.zeros(self.n_param, 'd')
-        self.grad_x = np.zeros(self.n_input, 'd')
+        self.ss = np.zeros(len(self.models))
+        self.sx = np.zeros(len(self.models))
+        self.grad = np.zeros(self.n_param)
+        self.grad_x = np.zeros(self.n_input)
     #
     # cdef ModelComposition _copy(self, bint share):
     #     cdef ModelComposition md = ModelComposition(self.func)
@@ -386,15 +427,16 @@ cdef class ModelComposition(Model):
         cdef double[::1] ss = self.ss
 
         if ss is None or <Py_ssize_t>ss.shape[0] != n_models:
-            ss = self.ss = np.empty(n_models, 'd')
+            ss = self.ss = np.empty(n_models)
 
         for j in range(n_models):
-            # mod = <Model>models[j]
-            ss[j] = (<Model>models[j])._evaluate_one(X)
+            mod = <Model>models[j]
+            ss[j] = mod._evaluate_one(X)
 
         return self.func._evaluate(ss)
     #
     cdef void _gradient_one(self, double[::1] X, double[::1] grad):
+        cdef Model mod
         cdef list models = self.models
         cdef Py_ssize_t i, j, n_models = len(self.models)
         cdef Py_ssize_t k, k2
@@ -404,15 +446,16 @@ cdef class ModelComposition(Model):
         cdef double sx_j
 
         if ss is None or <Py_ssize_t>ss.shape[0] != n_models:
-            ss = self.ss = np.empty(n_models, 'd')
+            ss = self.ss = np.empty(n_models)
 
         if sx is None or <Py_ssize_t>sx.shape[0] != n_models:
-            sx = self.sx = np.empty(n_models, 'd')
+            sx = self.sx = np.empty(n_models)
         else:
             sx = self.sx
 
         for j in range(n_models):
-            ss[j] = (<Model>models[j])._evaluate_one(X)
+            mod = <Model>models[j]
+            ss[j] = mod._evaluate_one(X)
 
         self.func.gradient(ss, sx)
 
@@ -437,10 +480,10 @@ cdef class ModelComposition(Model):
         cdef double sx_j
 
         if ss is None or <Py_ssize_t>ss.shape[0] != n_models:
-            ss = self.ss = np.empty(n_models, 'd')
+            ss = self.ss = np.empty(n_models)
 
         if sx is None or <Py_ssize_t>sx.shape[0] != n_models:
-            sx = self.sx = np.empty(n_models, 'd')
+            sx = self.sx = np.empty(n_models)
         else:
             sx = self.sx
 
@@ -489,6 +532,7 @@ cdef class ModelComposition_j(Model):
     cdef void _gradient_x(self, double[::1] X, double[::1] grad_x):
         raise RuntimeError('not implemented')
 
+
 cdef class Model2(Regularized):
 
     cdef void _forward(self, double[::1] Xk):
@@ -513,7 +557,7 @@ cdef class Model2(Regularized):
     def evaluate(self, X):
         n_output = self.n_output
         N = len(X)
-        Y = np.empty((N, n_output), "d")
+        Y = np.empty((N, n_output))
         for k, Xk in enumerate(X):
             self._forward(Xk)
             Y[k,:] = self.output
@@ -616,7 +660,7 @@ cdef class MLModel(Model2):
     # def evaluate(self, X):
     #     n_output = self.n_output
     #     N = len(X)
-    #     Y = np.empty((N, n_output), "d")
+    #     Y = np.empty((N, n_output))
     #     for k, Xk in enumerate(X):
     #         self._forward(Xk)
     #         Y[k,:] = self.output
@@ -945,8 +989,8 @@ cdef class EllipticModel(Model):
         print(np.asarray(self.c))
 
         print(np.asarray(self.S))
-        inventory.move(self.S, np.zeros(self.S_size, 'd'))
-        # self.S[:] = np.zeros(self.S_size, 'd')
+        inventory.move(self.S, np.zeros(self.S_size))
+        # self.S[:] = np.zeros(self.S_size)
         print(np.asarray(self.S))
         k = 0
         j = n_input
@@ -956,8 +1000,8 @@ cdef class EllipticModel(Model):
             j -= 1
         print(np.asarray(self.S))
 
-        self.grad = np.zeros(self.n_param, 'd')
-        self.grad_x = np.zeros(self.n_input, 'd')
+        self.grad = np.zeros(self.n_param)
+        self.grad_x = np.zeros(self.n_input)
     #
     cdef double _evaluate_one(self, double[::1] X):
         cdef Py_ssize_t i, j, k, n_input = self.n_input
@@ -1031,8 +1075,8 @@ cdef class SquaredModel(Model):
         self.n_param = len(_par)
         self.n_input = _mat.shape[1] - 1
         
-        self.grad = np.zeros(self.n_param, 'd')
-        self.grad_x = np.zeros(self.n_input, 'd')
+        self.grad = np.zeros(self.n_param)
+        self.grad_x = np.zeros(self.n_input)
     #
     cdef double _evaluate_one(self, double[::1] X):
         cdef double val, s
@@ -1133,18 +1177,18 @@ cdef class LogSpecModel(Model):
         self.n_param = n_param
         self.n_input = 1
         if param is None:
-            self.param = self.ob_param = np.zeros(n_param, "d")
+            self.param = self.ob_param = np.zeros(n_param)
         else:
             self.param = self.ob_param = param
         if scale is None:
-            self.scale = np.ones(n_param, "d")
+            self.scale = np.ones(n_param)
         else:
             self.scale = scale
         if center is None:
-            self.center = np.zeros(n_param, "d")
+            self.center = np.zeros(n_param)
         else:
             self.center = center
-        self.grad = np.zeros(n_param, "d")
+        self.grad = np.zeros(n_param)
     #
     cdef double _evaluate_one(self, double[::1] x):
         cdef double v, s

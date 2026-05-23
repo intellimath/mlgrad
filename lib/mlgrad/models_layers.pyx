@@ -55,14 +55,14 @@ cdef class LinearLayer(MatrixLayer):
         self.param_base = layer_allocator.buf_array
         layer_allocator.close()
 
-        self.output = np.zeros(self.n_output, 'd')
-        self.grad_x = np.zeros(self.n_input, 'd')
+        self.output = np.zeros(self.n_output)
+        self.grad_x = np.zeros(self.n_input)
     #
     def init_param(self, random=True):
         if random:
             ob_param = np.ascontiguousarray(np.random.random(self.n_param)-0.5)
         else:
-            ob_param = np.zeros(self.n_param, "d")
+            ob_param = np.zeros(self.n_param)
         if self.param is None:
             self.ob_param = ob_param
             self.param = self.ob_param
@@ -78,8 +78,8 @@ cdef class LinearLayer(MatrixLayer):
     #     layer.matrix = self.matrix
     #     layer.param = self.param
 
-    #     layer.output = np.zeros(self.n_output, 'd')
-    #     layer.grad_x = np.zeros(self.n_input, 'd')
+    #     layer.output = np.zeros(self.n_output)
+    #     layer.grad_x = np.zeros(self.n_input)
     #     return layer
     #
     cdef void _forward(self, double[::1] X):
@@ -111,7 +111,7 @@ cdef class LinearLayer(MatrixLayer):
                }
     #
     def init_from(self, ob):
-        cdef double[:,::1] matrix = np.array(ob['matrix'], 'd')
+        cdef double[:,::1] matrix = np.array(ob['matrix'])
         inventory.move2(self.matrix, matrix)
 
 @cython.final
@@ -129,8 +129,8 @@ cdef class ScaleLayer(ModelLayer):
         self.n_param = 0
         self.n_input = n_input
         self.n_output = n_input
-        self.output = np.zeros(n_input, 'd')
-        self.grad_x = np.zeros(n_input, 'd')
+        self.output = np.zeros(n_input)
+        self.grad_x = np.zeros(n_input)
         self.mask = None
         #
         self.regfunc = None
@@ -158,8 +158,8 @@ cdef class ScaleLayer(ModelLayer):
 
         layer.param = self.param
 
-        layer.output = np.zeros(self.n_output, 'd')
-        layer.grad_x = np.zeros(self.n_input, 'd')
+        layer.output = np.zeros(self.n_output)
+        layer.grad_x = np.zeros(self.n_input)
 
         self.mask = None
         #
@@ -203,8 +203,8 @@ cdef class Scale2Layer(ModelLayer):
         self.n_input = n_input
         self.n_param = n_input
         self.n_output = n_input
-        self.output = np.zeros(n_input, 'd')
-        self.grad_x = np.zeros(n_input, 'd')
+        self.output = np.zeros(n_input)
+        self.grad_x = np.zeros(n_input)
         self.mask = None
     #
     cdef void _forward(self, double[::1] X):
@@ -237,8 +237,8 @@ cdef class Scale2Layer(ModelLayer):
 
     #     layer.param = self.param
 
-    #     layer.output = np.zeros(self.n_output, 'd')
-    #     layer.grad_x = np.zeros(self.n_input, 'd')
+    #     layer.output = np.zeros(self.n_output)
+    #     layer.grad_x = np.zeros(self.n_input)
     #     return layer
 
 cdef class GeneralModelLayer(ModelLayer):
@@ -316,17 +316,17 @@ cdef class GeneralModelLayer(ModelLayer):
                 self.ob_param[:] = self.param
 
         self.param = self.ob_param
-        self.n_param = <Py_ssize_t>self.param.shape[0]
+        self.n_param = self.param.shape[0]
 
         self.n_output = len(self.models)
 
-        self.output = np.zeros(self.n_output, 'd')
-        self.grad_x = np.zeros(self.n_input, 'd')
+        self.output = np.zeros(self.n_output)
+        self.grad_x = np.zeros(self.n_input)
     #
     def init_param(self):
         for mod in self.models:
             mod.init_param()
-        # self.grad = np.zeros(self.n_param, 'd')
+        # self.grad = np.zeros(self.n_param)
     #
     def copy(self, bint share=0):
         cdef GeneralModelLayer layer = GeneralModelLayer(self.n_input)
@@ -340,8 +340,8 @@ cdef class GeneralModelLayer(ModelLayer):
         layer.param = self.param
         layer.ob_param = self.ob_param
         layer.n_param = self.n_param
-        layer.output = np.zeros((self.n_output,), 'd')
-        layer.grad_x = np.zeros((self.n_input,), 'd')
+        layer.output = np.zeros((self.n_output,))
+        layer.grad_x = np.zeros((self.n_input,))
         return layer
     #
     def add(self, Model mod):
@@ -418,9 +418,9 @@ cdef class GeneralModelLayer(ModelLayer):
 @register_model('general_layer')
 def general_layer_from_dict(ob):
     layer = GeneralModelLayer(ob['n_input'])
-    models = layer.models
-    for mod in ob['models']:
-        models.append( model_from_dict(mod) )
+    for mod_dict in ob['models']:
+        mod = model_from_dict(mod_dict)
+        layer.add(mod)
     return layer
 
 # cdef class SigmaNeuronModelLayer(ModelLayer):
@@ -442,11 +442,11 @@ def general_layer_from_dict(ob):
 #         layer_allocator = allocator.suballocator()
 #         self.matrix = layer_allocator.allocate2(self.n_output, self.n_input+1)
 #         self.param = self.ob_param = layer_allocator.get_allocated()
-#         layer_allocator.close() 
+#         layer_allocator.close()
 
-#         self.output = np.zeros(self.n_output, 'd')
-#         self.ss = np.zeros(self.n_output, 'd')
-#         self.grad_x = np.zeros(self.n_input, 'd')
+#         self.output = np.zeros(self.n_output)
+#         self.ss = np.zeros(self.n_output)
+#         self.grad_x = np.zeros(self.n_input)
 #     #
 #     def init_param(self):
 #         self.ob_param[:] = self.param = np.random.random(self.n_param)
@@ -459,9 +459,9 @@ def general_layer_from_dict(ob):
 #         layer.matrix = self.matrix
 #         layer.param = self.param
 
-#         layer.output = np.zeros(self.n_output, 'd')
-#         layer.ss = np.zeros(self.n_output, 'd')
-#         layer.grad_x = np.zeros(self.n_input, 'd')
+#         layer.output = np.zeros(self.n_output)
+#         layer.ss = np.zeros(self.n_output)
+#         layer.grad_x = np.zeros(self.n_input)
 #         return <ModelLayer>layer
 #     #
 #     cdef void _forward(self, double[::1] X):
@@ -474,7 +474,7 @@ def general_layer_from_dict(ob):
 #         cdef double[::1] ss = self.ss
 #         cdef Func func = self.func
 #         cdef bint is_func = (func is not None)
-         
+
 #         k = 0
 #         for j in range(n_output):
 #             s = param[k]
@@ -503,7 +503,7 @@ def general_layer_from_dict(ob):
 #         cdef double[::1] ss = self.ss
 #         cdef Func func = self.func
 #         cdef bint is_func = (func is not None)
-        
+
 #         k = 0
 #         for j in range(n_output):
 #             s = param[k]
@@ -563,8 +563,8 @@ cdef class SoftMaxNormalizerLayer(ModelLayer):
         self.n_param = 0
         self.n_input = n_input
         self.n_output = n_input
-        self.output = np.zeros(n_input, 'd')
-        self.grad_x = np.zeros(n_input, 'd')
+        self.output = np.zeros(n_input)
+        self.grad_x = np.zeros(n_input)
         self.mask = None
         #
         self.regfunc = None
@@ -610,8 +610,8 @@ cdef class SoftMaxNormalizerLayer(ModelLayer):
 
         layer.param = self.param
 
-        layer.output = np.zeros(self.n_output, 'd')
-        layer.grad_x = np.zeros(self.n_input, 'd')
+        layer.output = np.zeros(self.n_output)
+        layer.grad_x = np.zeros(self.n_input)
 
         self.mask = None
         #
@@ -656,14 +656,14 @@ cdef class EuclidLayer(MatrixLayer):
         self.param_base = layer_allocator.buf_array
         layer_allocator.close()
 
-        self.output = np.zeros(self.n_output, 'd')
-        self.grad_x = np.zeros(self.n_input, 'd')
+        self.output = np.zeros(self.n_output)
+        self.grad_x = np.zeros(self.n_input)
     #
     def init_param(self, random=True):
         if random:
             ob_param = np.ascontiguousarray(np.random.random(self.n_param)-0.5)
         else:
-            ob_param = np.zeros(self.n_param, "d")
+            ob_param = np.zeros(self.n_param)
         if self.param is None:
             self.ob_param = ob_param
             self.param = self.ob_param
@@ -678,7 +678,8 @@ cdef class EuclidLayer(MatrixLayer):
         cdef Py_ssize_t j, offset
         cdef double[::1] output = self.output
         cdef double v, s
-        cdef double *pp = &self.param[0], *xx=&X[0]
+        cdef double *pp = &self.param[0]
+        cdef double *xx=&X[0]
 
         for j in range(self.n_output):
             s = 0
@@ -693,7 +694,9 @@ cdef class EuclidLayer(MatrixLayer):
         cdef Py_ssize_t n_input = self.n_input
         cdef Py_ssize_t n_output = self.n_output
         cdef double v, s, gx
-        cdef double *pp, *gg, *xx=&Xk[0]
+        cdef double *pp
+        cdef double *gg
+        cdef double *xx=&Xk[0]
         cdef double[::1] grad_x = self.grad_x
 
         pp = &self.param[0]

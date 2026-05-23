@@ -10,10 +10,10 @@ cdef class MRisk(Risk):
         self.n_input = model.n_input
 
         if self.model.grad is None:
-            self.model.grad = np.zeros(self.n_param, np_double)
+            self.model.grad = np.zeros(self.n_param)
 
         if self.model.grad_input is None:
-            self.model.grad_input = np.zeros(model.n_input, np_double)
+            self.model.grad_input = np.zeros(model.n_input)
 
         if loss is None:
             self.loss = ErrorLoss(Square())
@@ -26,10 +26,10 @@ cdef class MRisk(Risk):
             self.avg = avg
 
         if self.model.regfunc:
-            self.grad_r = np.zeros(self.n_param, np_double)
+            self.grad_r = np.zeros(self.n_param)
 
-        self.grad = np.zeros(self.n_param, np_double)
-        self.grad_average = np.zeros(self.n_param, np_double)
+        self.grad = np.zeros(self.n_param)
+        self.grad_average = np.zeros(self.n_param)
 
         if X.shape[1] != self.n_input:
             raise ValueError('X.shape[1] != model.n_input')

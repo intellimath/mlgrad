@@ -59,11 +59,11 @@ cdef class Parameterized:
 
 cdef class Regularized(Parameterized):
     #
-    cdef double[::1] grad_reg
-    cdef readonly Func2 regfunc
-    cdef readonly double tau
-    cdef readonly list eqns
-    cdef readonly list_double taus
+    # cdef public double[::1] grad_reg
+    cdef public Func2 regfunc
+    cdef public double tau
+    cdef public list eqns
+    cdef public list_double taus
     cdef readonly bint projection
 
     cdef double _evaluate_reg(self)
@@ -204,7 +204,7 @@ cdef class GeneralModelLayer(ModelLayer):
     #
     # cdef GeneralModelLayer _copy(self, bint share)
 
-cdef class LinearFuncModel(BaseModel):
+cdef class LinearFuncModel(Model):
     cdef public list models
     cdef public list_double weights
     #

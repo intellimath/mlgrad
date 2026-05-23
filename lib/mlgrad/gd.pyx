@@ -56,14 +56,17 @@ cdef class GD:
         else:
             raise TypeError(f"invalid averager: {averager}")
     #
-    def use_projector(self, projector):
-        self.projector = projector
+    def add_projector(self, projector):
+        if self.projector is None:
+            self.projector = []
+        self.projector.append(projector)
     #
     def init(self):
         self.risk.init()
 
         if self.projector is not None:
-            self.projector._project(self.risk.param)
+            for prj in self.projector:
+                prj.project(self.risk.model)
 
         n_param = self.risk.model.n_param
 
@@ -92,6 +95,25 @@ cdef class GD:
         #     self.param_transformer.init(n_param)
 
     #
+    def fit_step(self):
+        cdef double lval
+        cdef Projector prj
+
+        self.fit_epoch()
+
+        if self.projector is not None:
+            for prj in self.projector:
+                prj._project(self.risk.model)
+
+        lval = self.risk._evaluate()
+        self.lvals.append(lval)
+
+        if self.callback is not None:
+            self.callback(self)
+
+        if self.stop_cond._is_minval(lval):
+            inventory.move(self.param_min, self.risk.param)
+    #
     def fit(self):
         cdef Risk risk = self.risk
         cdef Py_ssize_t i, k = 0, m=0, M=self.M
@@ -99,6 +121,7 @@ cdef class GD:
         cdef double tol = self.tol
         cdef double Q
         cdef inventory.StopCondition stop_cond
+        cdef Projector prj
 
         self.risk.batch.init()
         self.init()
@@ -106,57 +129,24 @@ cdef class GD:
         lval = self.risk._evaluate()
         self.lvals = [lval]
 
-        stop_cond = inventory.StopCondition(lval, self.tol)
+        self.stop_cond = StopCondition(lval, self.tol)
         self.K = 0
 
         self.h_rate.init()
 
         if self.projector is not None:
-            self.projector._project(risk.param)
+            for prj in self.projector:
+                prj._project(self.risk.model)
 
         self.completed = 0
         for k in range(self.n_iter):
             self.K = k
-
-            self.fit_epoch()
-
-            if inventory._hasnan(&risk.param[0], risk.n_param):
+            if inventory._hasnan(&self.risk.param[0], self.risk.n_param):
                 raise ValueError(f"param has NaN value at step {k+1}")
 
-            lval = risk._evaluate()
-            self.lvals.append(lval)
+            self.fit_step()
 
-            if self.projector is not None:
-                self.projector._project(risk.param)
-
-            if self.callback is not None:
-                self.callback(self)
-
-            if stop_cond._is_minval(lval):
-                inventory.move(self.param_min, risk.param)
-
-            # if fabs(lval - lval_prev) < tol * Q:
-            #     self.completed = 1
-
-            # elif fabs(lval - lval_min) < tol * Q:
-            #     self.completed = 1
-
-            # elif fabs(lval - lval_min_prev) < tol * Q:
-            #     if m > M:
-            #         self.completed = 1
-            #     else:
-            #         m += 1
-
-            # if lval < lval_min:
-            #     lval_min_prev = lval_min
-            #     lval_min = lval
-            #     inventory.move(self.param_min, risk.param)
-            #     Q = 1 + fabs(lval_min)
-            #     m = 0
-            # elif lval < lval_min_prev:
-            #     lval_min_prev = lval
-
-            if stop_cond._stop_condition():
+            if self.stop_cond._stop_condition():
                 self.completed = 1
                 break
 

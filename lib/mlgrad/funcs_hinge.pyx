@@ -39,7 +39,7 @@ cdef class Hinge(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=(c-x)_{+}$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'hinge',
                  'args': (self.C,) }
 
@@ -73,7 +73,7 @@ cdef class IntSoftHinge_Atan(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=\frac{1}{4\pi} (x(2a+\pi x) - 2(a^2+x^2)\atan(x/a))$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'softhinge_sqrt',
                  'args': (self.alpha,) }
 
@@ -115,7 +115,7 @@ cdef class IntSoftHinge_Sqrt(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=\int\frac{1}{2}(-x + \sqrt{\alpha^2+x^2})\,dx$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'softhinge_sqrt',
                  'args': (self.alpha,) }
 
@@ -147,7 +147,7 @@ cdef class SoftHinge_Sqrt(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=\frac{1}{2}(-x + \sqrt{c^2+x^2})$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'softhinge_sqrt',
                  'args': (self.alpha, self.x0) }
 
@@ -190,7 +190,7 @@ cdef class SoftHinge_Exp(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=\frac{1}{2}(-x + \sqrt{c^2+x^2})$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'softhinge_exp',
                  'args': (self.alpha, self.x0) }
 
@@ -240,6 +240,6 @@ cdef class Hinge2(Func):
     def _repr_latex_(self):
         return r"$ρ(x)=(c-x)_{+}$"
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'hinge',
                  'args': (self.C,) }

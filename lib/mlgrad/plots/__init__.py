@@ -150,7 +150,7 @@ def plot_errors_hist(mod, X, Y, fname=None, lang='en', hist=False, bins=20,
     ax.minorticks_on()
     if fname:
         plt.savefig(fname)
-    
+
 def plot_yy(mod, Xs, Y, title="", b=0.1, ax=None):
 
     if ax is None:

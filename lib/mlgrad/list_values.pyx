@@ -60,6 +60,9 @@ cdef list_double _list_double_from_list(list lst):
     #
     return <list_double>ld
 
+def list_double_from_list(lst):
+    return _list_double_from_list(lst)
+
 @cython.no_gc
 cdef class list_double:
     #

@@ -21,7 +21,7 @@ cdef class ERisk22(Risk):
         else:
             self.batch = batch
 
-        self.loss_vals = np.zeros(self.batch.size, 'd')
+        self.loss_vals = np.zeros(self.batch.size)
         self.is_natgrad = is_natgrad
         #
     #
@@ -38,22 +38,22 @@ cdef class ERisk22(Risk):
         self.n_output = self.model.n_output
 
         # if self.model.grad is None:
-        #     self.model.grad = np.zeros((n_param,), np_double)
+        #     self.model.grad = np.zeros((n_param,))
 
         if self.grad is None:
-            self.grad = np.zeros(self.n_param, dtype=np_double)
+            self.grad = np.zeros(self.n_param)
 
         if self.grad_u is None:
-            self.grad_u = np.zeros(self.n_output, dtype=np_double)
+            self.grad_u = np.zeros(self.n_output)
 
         if self.grad_average is None:
-            self.grad_average = np.zeros(self.n_param, dtype=np_double)
+            self.grad_average = np.zeros(self.n_param)
 
         if self.model._is_regularized():
-            self.grad_r = np.zeros(self.n_param, dtype=np_double)
+            self.grad_r = np.zeros(self.n_param)
 
         if self.weights is None:
-            self.weights = np.full((N,), 1./N, np_double)
+            self.weights = np.full((N,), 10./N)
 
         self.lval = 0
     #
@@ -92,17 +92,17 @@ cdef class ERisk22(Risk):
         cdef double[:, ::1] Y = self.Y
         cdef double[::1] output = _model.output
         cdef double[::1] weights = self.weights
+        cdef double[::1] sample_weights = self.sample_weights
 
-        cdef Py_ssize_t size = self.batch.size 
+        cdef Py_ssize_t size = self.batch.size
         cdef Py_ssize_t[::1] indices = self.batch.indices
 
         S = 0
         for j in range(size):
             k = indices[j]
             _model._forward(X[k])
-            # print(np.asarray(_model.output))
             lval = _loss._evaluate(_model.output, Y[k])
-            S += weights[k] * lval
+            S += sample_weights[k] * weights[k] * lval
 
         if self.model._is_regularized():
             S += self.model._evaluate_reg()
@@ -134,6 +134,7 @@ cdef class ERisk22(Risk):
         cdef double[:, ::1] Y = self.Y
         cdef double[::1] output = _model.output
         cdef double[::1] weights = self.weights
+        cdef double[::1] sample_weights = self.sample_weights
         cdef double[::1] Xk, Yk
         cdef double[::1] grad = self.grad
         cdef double[::1] grad_u = self.grad_u
@@ -153,7 +154,7 @@ cdef class ERisk22(Risk):
             _loss._gradient(output, Yk, grad_u)
             _model._backward(Xk, grad_u, grad)
 
-            wk = weights[k]
+            wk = sample_weights[k] * weights[k]
 
             for i in range(n_param):
                 grad_average[i] += wk * grad[i]

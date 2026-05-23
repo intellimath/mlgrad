@@ -56,7 +56,7 @@ cdef class Sigmoidal(Func):
     def _repr_latex_(self):
         return '$%s(x, p)=th(px)$' % self.label
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'sigmoidal',
                  'args': (self.p,) }
 
@@ -89,7 +89,7 @@ cdef class DOOM(Func):
     def _repr_latex_(self):
         return '$%s(x, p)=1-th(px)$' % self.label
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'doom',
                  'args': (self.p,) }
 
@@ -122,6 +122,6 @@ cdef class Arctang(Func):
     def _repr_latex_(self):
         return '$%s(x, p)=\dfrac{1}{1+e^{-px}}$' % self.label
 
-    def to_dict(self):
+    def as_dict(self):
         return { 'name':'arctg',
                  'args': (self.a,) }

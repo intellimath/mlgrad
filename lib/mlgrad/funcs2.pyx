@@ -882,7 +882,7 @@ cdef class SquareForm(Func2):
         cdef Py_ssize_t n_col = mat.shape[1]
         cdef double s, val
         cdef Py_ssize_t i, j
-        
+
         val = 0
         for j in range(n_row):
             s = mat[j,0]
@@ -898,7 +898,7 @@ cdef class SquareForm(Func2):
         cdef Py_ssize_t n_col = mat.shape[1]
         cdef double s
         cdef Py_ssize_t i, j
-        
+
         n_row = mat.shape[0]
         n_col = mat.shape[1]
 
@@ -914,7 +914,7 @@ cdef class SquareForm(Func2):
 
 @cython.final
 cdef class SoftMin(Func2):
-    
+    #
     def __init__(self, p=1.0):
         self.p = p
         self.evals = None
@@ -1052,7 +1052,7 @@ cdef class SoftMax(Func2):
 
 @cython.final
 cdef class PowerMax(Func2):
-    
+    #
     def __init__(self, p=1.0):
         self.p = p
         self.evals = None
@@ -1062,13 +1062,13 @@ cdef class PowerMax(Func2):
         cdef Py_ssize_t i, m = X.shape[0]
         cdef double s, v, v_max
         cdef double p = self.p
-        
+
         v_max = double_min
         for i in range(m):
             v = fabs(X[i])
             if v > v_max:
                 v_max = v
-        
+
         s = 0
         for i in range(m):
             v = X[i]
@@ -1079,7 +1079,7 @@ cdef class PowerMax(Func2):
 
         s = pow(s, 1/p)
         s *= v_max
-        
+
         return s
     #
     @cython.final

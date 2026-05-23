@@ -9,14 +9,18 @@ cdef class SigmaNeuronModel(Model):
             self.n_param = o + 1
             self.n_input = o
             self.param = self.ob_param = None
+            self.param_base = None
             self.grad = None
+            self.grad_base = None
             self.grad_x = None
         else:
             self.param = self.ob_param = _asarray1d(o)
+            self.param_base = self.param
             self.n_param = len(self.param)
             self.n_input = self.n_param - 1
-            self.grad = np.zeros(self.n_param, 'd')
-            self.grad_x = np.zeros(self.n_input, 'd')
+            self.grad = np.zeros(self.n_param)
+            self.grad_base = self.grad
+            self.grad_x = np.zeros(self.n_input)
         self.mask = None
         #
         self.regfunc = None
@@ -28,12 +32,13 @@ cdef class SigmaNeuronModel(Model):
         cdef SigmaNeuronModel mod = SigmaNeuronModel(self.outfunc, self.n_input)
 
         if share:
-            mod.param = self.param
+            mod.param = self.param[:]
         else:
             mod.param = self.param.copy()
 
+        mod.ob_param = self.ob_param
         mod.grad = self.grad.copy()
-        mod.grad_x = np.zeros(self.n_input, 'd')
+        mod.grad_x = np.zeros(self.n_input)
         return mod
     #
     cdef double _evaluate_one(self, double[::1] Xk):
@@ -75,8 +80,8 @@ cdef class SigmaNeuronModel(Model):
     #
     def as_dict(self):
         return { 'name': 'sigma_neuron',
-                 'func': self.outfunc.to_dict(),
-                 'param': (list(self.param) if self.param is not None else None),
+                 'func': self.outfunc.as_dict(),
+                 'param': (np.asarray(self.param) if self.param is not None else None),
                  'n_input': self.n_input }
     #
     def init_from(self, ob):
@@ -86,4 +91,7 @@ cdef class SigmaNeuronModel(Model):
 @register_model('sigma_neuron')
 def sigma_neuron_from_dict(ob):
     mod = SigmaNeuronModel(func_from_dict(ob['func']), ob['n_input'])
+    mod.allocate()
+    param = ob.get('param', None)
+    mod.init_param(np.asarray(param), random=0)
     return mod

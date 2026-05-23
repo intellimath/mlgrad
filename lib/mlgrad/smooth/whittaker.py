@@ -402,7 +402,6 @@ def whittaker_smooth_weight_func2(
 
         Z = whittaker_smooth_base(X, W=W, W2=W2, tau2=tau2, d=d)
 
-        dZ = Z - Z_prev
         # dq = np.sqrt(dZ @ dZ) / (1 + np.sqrt(Z_prev @ Z_prev))
         dz = abs(Z - Z_prev).sum()
         zz = abs(Z_prev).sum()

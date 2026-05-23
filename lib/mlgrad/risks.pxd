@@ -60,10 +60,10 @@ cdef extern from *:
 #     memcpy(&Y[0], &X[0], m*cython.sizeof(double))    
 
 cdef class Functional:
-    cdef readonly double[::1] param
-    cdef readonly double[::1] grad_average
+    cdef public double[::1] param
+    cdef public double[::1] grad_average
     cdef readonly double lval
-    cdef readonly Batch batch
+    cdef public Batch batch
     cdef readonly Py_ssize_t n_param
     cdef readonly Py_ssize_t n_input
     cdef readonly bint is_natgrad
@@ -78,18 +78,18 @@ cdef class SimpleFunctional(Functional):
 
 cdef class Risk(Functional):
     #
-    cdef readonly double[::1] sample_weights
-    cdef readonly double[::1] weights
-    cdef readonly double[::1] model_vals
-    cdef readonly double[::1] loss_vals
-    cdef readonly double[::1] Y0
+    cdef public double[::1] sample_weights
+    cdef public double[::1] weights
+    cdef public double[::1] model_vals
+    cdef public double[::1] loss_vals
+    # cdef public double[::1] Y0
     #
-    cdef double[::1] grad
-    cdef double[::1] grad_r
-    cdef double[::1] grad_eqns
+    cdef public double[::1] grad
+    cdef public double[::1] grad_r
+    cdef public double[::1] grad_eqns
     # cdef readonly double tau
-    cdef readonly Py_ssize_t n_sample
-    cdef uint8[::1] mask
+    cdef public Py_ssize_t n_sample
+    # cdef uint8[::1] mask
     #
     # cdef void _evaluate_models_all(self, double[::1] vals)
     # cdef void _evaluate_models_batch(self)
@@ -109,10 +109,10 @@ cdef class Risk(Functional):
     #
 
 cdef class ERisk(Risk):
-    cdef readonly Model model
-    cdef readonly Loss loss
-    cdef readonly double[:, ::1] X
-    cdef readonly double[::1] Y
+    cdef public Model model
+    cdef public Loss loss
+    cdef public double[:, ::1] X
+    cdef public double[::1] Y
 
 cdef class ERiskGB(Risk):
     cdef readonly Model model
