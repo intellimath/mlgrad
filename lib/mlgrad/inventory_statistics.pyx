@@ -550,7 +550,7 @@ def median_absdev_2d_t(x, mu):
     _median_absdev_2d_t(_asarray(x), mu, y)
     return y
 
-def robust_mean_1d(x, tau):
+def robust_mean_1d(x, tau=3.5):
     return _robust_mean_1d(_asarray(x), tau)
 
 # def robust_mean_1d(x, tau):
@@ -563,12 +563,12 @@ def robust_mean_1d(x, tau):
 #     tau_std = tau * std
 #     return  x[(v <= mu + tau_std) & (v >= mu - tau_std)].mean()
 
-def robust_mean_2d(x, tau):
+def robust_mean_2d(x, tau=3.5):
     y = empty_array(x.shape[0])
     _robust_mean_2d(_asarray(x), tau, y)
     return y
 
-def robust_mean_2d_t(x, tau):
+def robust_mean_2d_t(x, tau=3.5):
     y = empty_array(x.shape[1])
     _robust_mean_2d_t(_asarray(x), tau, y)
     return y

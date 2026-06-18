@@ -675,7 +675,7 @@ cdef class MLModel(Model2):
         cdef ModelLayer layer
 
         for i in range(n):
-            layer = <ModelLayer>self.layers[i]
+            layer = <Model2>self.layers[i]
             n_param = layer.n_param
             if n_param > 0:
                 if layer._is_regularized():
@@ -691,7 +691,7 @@ cdef class MLModel(Model2):
 
         k = 0
         for i in range(n):
-            layer = <ModelLayer>self.layers[i]
+            layer = <Model2>self.layers[i]
             n_param = layer.n_param
             if n_param > 0:
                 if layer._is_regularized():
@@ -714,25 +714,23 @@ cdef class FFNetworkModel(MLModel):
     #
     cdef void _forward(self, double[::1] X):
         cdef Py_ssize_t i, n_layer
-        cdef ModelLayer layer
+        cdef Model2 layer
         cdef double[::1] input, output
         cdef list layers = self.layers
 
         n_layer = len(self.layers)
         input = X
         for i in range(n_layer):
-            layer = <ModelLayer>layers[i]
-            # print(i, np.asarray(input))
+            layer = <Model2>layers[i]
             layer._forward(input)
             input = layer.output
-            # print(i, np.asarray(layer.output))
         self.is_forward = 1
 
     cdef void _backward(self, double[::1] X, double[::1] grad_u, double[::1] grad):
         # cdef Py_ssize_t n_layer = PyList_GET_SIZE(self.layers)
         cdef Py_ssize_t n_layer = len(self.layers)
         cdef Py_ssize_t j, l, m, m0
-        cdef ModelLayer layer, prev_layer
+        cdef Model2 layer, prev_layer
         cdef double[::1] input
         cdef double[::1] grad_out
         cdef list layers = self.layers
@@ -743,11 +741,11 @@ cdef class FFNetworkModel(MLModel):
         l = n_layer - 1
         grad_out = grad_u
         while l >= 0:
-            # layer = <ModelLayer>PyList_GET_ITEM(layers, l)
-            layer = <ModelLayer>layers[l]
+            # layer = <Model2>PyList_GET_ITEM(layers, l)
+            layer = <Model2>layers[l]
             if l > 0:
-                # prev_layer = <ModelLayer>PyList_GET_ITEM(layers, l-1)
-                prev_layer = <ModelLayer>layers[l-1]
+                # prev_layer = <Model2>PyList_GET_ITEM(layers, l-1)
+                prev_layer = <Model2>layers[l-1]
                 input = prev_layer.output
             else:
                 input = X

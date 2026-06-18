@@ -29,8 +29,8 @@ def covariance_matrix(X, loc=None, S=None):
     _covariance_matrix(X, loc, S)
     return S
 
-cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W,
-                                      double[::1] loc, double[:,::1] S) noexcept nogil:
+cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] loc,
+                                      double[::1] W, double[:,::1] S) noexcept nogil:
     cdef Py_ssize_t i, j
     cdef Py_ssize_t N = X.shape[0], n = X.shape[1]
     cdef double s, loc_i, loc_j
@@ -46,7 +46,7 @@ cdef void _covariance_matrix_weighted(double[:, ::1] X, double[::1] W,
             if i != j:
                 S[j,i] = s
 
-def covariance_matrix_weighted(X, W, loc, S=None):
+def covariance_matrix_weighted(X, loc, W, S=None):
     X = _asarray(X)
     n = X.shape[1]
     W = _asarray(W)
@@ -135,7 +135,10 @@ cdef double _mahalanobis_norm_one(double *S, const double *x,
     for i in range(n):
         x_i = x[i]
         for j in range(i, n):
-            s += 2 * S[j] * x_i * x[j]
+            v = S[j] * x_i * x[j]
+            if i != j:
+                v *= 2
+            s += v
         S += n
 
     return s

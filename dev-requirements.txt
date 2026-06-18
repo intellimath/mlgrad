@@ -2,5 +2,6 @@ setuptools
 wheel
 cython
 numpy
+scipy
 pytest
 

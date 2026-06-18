@@ -3,7 +3,7 @@ cdef class ERisk22(Risk):
     #
     def __init__(self, double[:,::1] X, double[:,::1] Y,
                 MLModel model, MultLoss2 loss,
-                Batch batch=None, is_natgrad=0):
+                Batch batch=None, sample_weights=None, is_natgrad=0):
         self.model = model
         self.param = model.param
         self.loss = loss
@@ -16,6 +16,12 @@ cdef class ERisk22(Risk):
         self.X = X
         self.Y = Y
         self.n_sample = len(Y)
+        self.weights = np.full(self.n_sample, 1./self.n_sample, "d")
+        if sample_weights is None:
+            self.sample_weights = np.ones(self.n_sample, "d")
+        else:
+            self.sample_weights = np.asarray(sample_weights)
+
         if batch is None:
             self.batch = WholeBatch(self.n_sample)
         else:

@@ -322,11 +322,11 @@ cdef class GeneralModelLayer(ModelLayer):
 
         self.output = np.zeros(self.n_output)
         self.grad_x = np.zeros(self.n_input)
+        self.grad = np.zeros(self.n_param)
     #
     def init_param(self):
         for mod in self.models:
             mod.init_param()
-        # self.grad = np.zeros(self.n_param)
     #
     def copy(self, bint share=0):
         cdef GeneralModelLayer layer = GeneralModelLayer(self.n_input)

@@ -1,6 +1,6 @@
 [project]
 name = "mlgrad"
-version = "0.7.6"
+version = "0.7.7"
 authors = [
     {name = "Zaur Shibzukhov", email = "szport@gmail.com"},
 ]

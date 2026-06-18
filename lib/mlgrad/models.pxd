@@ -225,9 +225,8 @@ cdef class FFNetworkModel(MLModel):
 
 @cython.final
 cdef class FFNetworkFuncModel(Model):
-    #cdef ArrayAllocator allocator_param, allocator_grad
     cdef public Model head
-    cdef public MLModel body
+    cdef public Model2 body
     #
     # cdef FFNetworkFuncModel _copy(self, bint share)
 

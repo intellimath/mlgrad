@@ -6,7 +6,7 @@ import mlgrad.inventory as inventory
 # import mlgrad.averager as averager
 from sys import float_info
 
-from mlgrad.smooth._whittaker import whittaker_smooth_banded, whittaker_matrices
+from mlgrad.smooth._whittaker import whittaker_matrices
 
 import math
 import numpy as np
@@ -107,23 +107,23 @@ def create_banded(mat, d):
             mat_flat[-i - 1, (low - i) :] = mat.diagonal(-(low - i))
     return mat_flat
 
-def whittaker_smooth_base(y, W=None, W2=None, tau2=1.0, d=2):
+def whittaker_smooth_base(y, W=None, W2=None, tau2=1.0, tau1=0, d=2):
     d2 = d
-    Z, Y = whittaker_matrices(y, W=W, W2=W2, d2=d2, tau2=tau2)
+    Z, Y = whittaker_matrices(y, W=W, W2=W2, d2=d2, tau2=tau2, tau1=tau1)
     # print(Z.shape, Y.shape)
     Zb = create_banded(Z, d)
     z = scipy.linalg.solve_banded((d,d), Zb, Y, overwrite_ab=False, overwrite_b=False, check_finite=True)
     return z
 
-def whittaker_smooth(y, W=None, W2=None, func=None, func2=None, func2_e=None, tau2=1.0, d=2):
+def whittaker_smooth(y, W=None, W2=None, func=None, func2=None, func2_e=None, tau2=1.0, tau1=0, d=2):
     if (func is not None) or (func2 is not None) or (func2_e is not None):
         return whittaker_smooth_weight_func2(y,
                                              func=func,
                                              func2=func2,
                                              func2_e=func2_e,
-                                             tau2=tau2, d=2)[0]
+                                             tau2=tau2, tau1=tau1, d=d)[0]
     else:
-        return whittaker_smooth_base(y, W, W2, tau2, d)
+        return whittaker_smooth_base(y, W, W2, tau2, tau1=tau1, d=d)
 
 def whittaker_smooth_scipy(y, W=None, W2=None, tau=1.0, d=2):
     N = len(y)
@@ -335,7 +335,7 @@ def whittaker_smooth_weight_func(
 
 def whittaker_smooth_weight_func2(
             X, func=None, func2=None, func2_e=None, windows=None,
-            tau2=1.0, w_tau2 = 1.0,
+            tau2=1.0, tau1=0, w_tau2 = 1.0,
             d=2, n_iter=100, tol=1.0e-4):
 
     N = len(X)
@@ -360,7 +360,7 @@ def whittaker_smooth_weight_func2(
         dd1 = dd
         dd2 = -dd-1
 
-    Z = whittaker_smooth_base(X, tau2=tau2, d=d)
+    Z = whittaker_smooth_base(X, tau2=tau2, tau1=tau1, d=d)
     # Z = X * 0.999
 
     E = X - Z
@@ -400,7 +400,7 @@ def whittaker_smooth_weight_func2(
         # qval_prev = qval
         Z_prev = Z.copy()
 
-        Z = whittaker_smooth_base(X, W=W, W2=W2, tau2=tau2, d=d)
+        Z = whittaker_smooth_base(X, W=W, W2=W2, tau2=tau2, tau1=tau1, d=d)
 
         # dq = np.sqrt(dZ @ dZ) / (1 + np.sqrt(Z_prev @ Z_prev))
         dz = abs(Z - Z_prev).sum()

@@ -602,11 +602,11 @@ cdef class StopCondition:
         self.tol = tol
 
         if val is None:
-            self.val = _double_max / 10
-            self.prev_val = _double_max/ 20
+            self.val = _double_max / 100
+            self.prev_val = _double_max/ 200
         else:
             self.val = val
-            self.prev_val = 10*val
+            self.prev_val = 100*val
 
         self.minval = self.val
         self.prev_minval = self.prev_val

@@ -276,8 +276,8 @@ ext_modules = [
 
 setup(
     name = 'mlgrad',
-    version = '0.7.6',
-    description = 'Robust Gradient Methods for Machine Learning & Data Analysis',
+    version = '0.7.7',
+    description = 'Gradient Methods for Machine Learning & Data Analysis',
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
     license = "MIT License",
