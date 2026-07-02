@@ -354,7 +354,7 @@ cdef void _modified_zscore(double *a, double *b, Py_ssize_t n):
     for i in range(n):
         aa[i] = fabs(aa[i] - mu)
     sigma = _median_1d(aa)
-    sigma /= 0.6748
+    sigma /= 0.6745
 
     for i in range(n):
         b[i] = (a[i] - mu) / sigma
@@ -368,7 +368,7 @@ cdef void _modified_zscore_mu(double *a, double *b, Py_ssize_t n, double mu):
     for i in range(n):
         aa[i] = fabs(a[i] - mu)
     sigma = _median_1d(aa)
-    sigma /= 0.6748
+    sigma /= 0.6745
 
     for i in range(n):
         b[i] = (a[i] - mu) / sigma

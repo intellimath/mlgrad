@@ -414,9 +414,8 @@ def find_pc_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
     Z = X @ a
     Z1 = np_sqrt(np_abs(XX - Z * Z))
     sz = sz_min = Z1.mean()
-    
+
     G = 1. / Z1
-    # G /= G.sum()
     L_min = 0
 
     for K in range(n_iter):
@@ -424,14 +423,12 @@ def find_pc_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
 
         S = (X.T @ np.diag(G)) @ X
 
-        
         a1, L = _find_pc(S, a0=a, n_iter=200, tol=tol, verbose=verbose)
 
         Z = X @ a1
         Z1 = np_sqrt(np_abs(XX - Z * Z))
 
         G = 1. / Z1
-        # G /= G.sum()
         sz = Z1.mean()
 
         if sz < sz_min:

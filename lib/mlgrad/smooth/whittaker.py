@@ -115,13 +115,22 @@ def whittaker_smooth_base(y, W=None, W2=None, tau2=1.0, tau1=0, d=2):
     z = scipy.linalg.solve_banded((d,d), Zb, Y, overwrite_ab=False, overwrite_b=False, check_finite=True)
     return z
 
-def whittaker_smooth(y, W=None, W2=None, func=None, func2=None, func2_e=None, tau2=1.0, tau1=0, d=2):
+def whittaker_smooth(y, W=None, W2=None, func=None, func2=None, func2_e=None, tau2=1.0, tau1=0, d=2, mode=2):
     if (func is not None) or (func2 is not None) or (func2_e is not None):
-        return whittaker_smooth_weight_func2(y,
+        if mode == 2:
+            return whittaker_smooth_weight_func2(y,
                                              func=func,
                                              func2=func2,
                                              func2_e=func2_e,
                                              tau2=tau2, tau1=tau1, d=d)[0]
+        elif mode == 1:
+            return whittaker_smooth_weight_func(y,
+                                             func=func,
+                                             func2=func2,
+                                             func2_e=func2_e,
+                                             tau2=tau2, tau1=tau1, d=d)[0]
+        else:
+            raise TypeError(f"Invalid mode: {mode}")
     else:
         return whittaker_smooth_base(y, W, W2, tau2, tau1=tau1, d=d)
 
@@ -243,48 +252,47 @@ def func_logistic(residual):
     weights = stats_logistic.cdf(X, mu, sigma)
     return 1-weights
 
-def func_rstep_and_noise(e=0.001):
-    def _func_rstep_and_noise_(residual, e=e):
+def func_rstep(e=0.001):
+    def _func_rstep_(residual, e=e):
         Y = (residual < 0).astype("d")
         return Y + e
-    return _func_rstep_and_noise_
+    return _func_rstep_
 
 def whittaker_smooth_weight_func(
             X, func=None, func1=None, func2=None, func2_e=None,
-            tau1=0.0, tau2=1.0, func2_mode="d",
+            tau2=1.0, tau1=0.0,
             d=2, n_iter=100, tol=1.0e-6):
 
     Z = whittaker_smooth_base(X, tau2=tau2, d=d)
-    # Z = X * 0.9
 
     E = X - Z
 
-    W1 = np.ones(N, "d")
     W2 = np.ones(N, "d")
 
     if func is None:
         func = funcs.Square()
-    if func1 is None:
-        func1 = funcs.Square()
     if func2 is None:
         func2 = funcs.Square()
+
+    dd = d // 2
+    if d % 2 == 0:
+        dd1 = dd
+        dd2 = -dd
+    else:
+        dd1 = dd
+        dd2 = -dd-1
 
     N = len(X)
 
     W = func.derivative_div_array(E)
     # W /= W.sum()
     qval = func.evaluate_sum(E)
-    if tau1 > 0:
-        D1 = array_transform.array_diff1(Z)
-        W1 = func1.derivative_div_array(D1)
-        qval += tau1 * func1.evaluate_sum(D1)
-        # W1 /= W1.sum()
     if func2 is not None and tau2 > 0:
         D2 = array_transform.array_diff2(Z)
         W2 = func2.derivative_div_array(D2)
         qval += tau2 * func2.evaluate_sum(D2)
     if func2_e is not None and tau2 > 0:
-        W2 *= func2_e(E)
+        W2 *= func2_e(E[dd1:dd2])
 
     qval_min = qval
     Z_min = Z.copy()
@@ -305,17 +313,12 @@ def whittaker_smooth_weight_func(
         W = func.derivative_div_array(E)
         # W /= W.sum()
         qval = func.evaluate_sum(E)
-        if tau1 > 0:
-            D1 = array_transform.array_diff1(Z)
-            W1 = func1.derivative_div_array(D1)
-            # W1 /= W1.sum()
-            qval += tau1 * func1.evaluate_sum(D1)
         if func2 is not None and tau2 > 0:
             D2 = array_transform.array_diff2(Z)
             W2 = func2.derivative_div_array(D2)
             qval += tau2 * func2.evaluate_sum(D2)
         if func2_e is not None and tau2 > 0:
-            W2 *= func2_e(E)
+            W2 *= func2_e(E[dd1:dd2])
 
         qvals.append(qval)
 
@@ -326,12 +329,13 @@ def whittaker_smooth_weight_func(
             Z_min = Z.copy()
             qval_min = qval
 
-        # if flag:
-        #     break
+        if flag:
+            break
 
     Z = Z_min
+    dq = abs(qval - qval_prev) / (1 + abs(qval_min))
 
-    return Z, {'qvals':qvals, 'K':K+1}
+    return Z, {'qvals':qvals, 'K':K+1, 'tol':dq}
 
 def whittaker_smooth_weight_func2(
             X, func=None, func2=None, func2_e=None, windows=None,
