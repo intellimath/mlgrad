@@ -72,6 +72,10 @@ cdef object empty_array(Py_ssize_t size):
     cdef numpy.npy_intp n = size
     return numpy.PyArray_EMPTY(1, &n, numpy.NPY_DOUBLE, 0)
 
+cdef object zeros_array(Py_ssize_t size):
+    cdef numpy.npy_intp n = size
+    return numpy.PyArray_ZEROS(1, &n, numpy.NPY_DOUBLE, 0)
+
 cdef object empty_array_i(Py_ssize_t size):
     cdef numpy.npy_intp n = size
     return numpy.PyArray_EMPTY(1, &n, numpy.NPY_INT, 0)
@@ -115,10 +119,6 @@ cdef object diag_matrix(double[::1] V):
         A[i,i] = V[i]
 
     return o
-
-cdef object zeros_array(Py_ssize_t size):
-    cdef numpy.npy_intp n = size
-    return numpy.PyArray_ZEROS(1, &n, numpy.NPY_DOUBLE, 0)
 
 cdef void _normalize(double[::1] a) noexcept nogil:
     cdef Py_ssize_t i, n = a.shape[0]
@@ -205,3 +205,72 @@ cdef double _norm2(double[::1] a):
 
 def norm2(a):
     return _norm2(a)
+
+cdef _power_array(double *xx, double *yy, Py_ssize_t n, double q):
+    cdef Py_ssize_t i
+    cdef double v
+
+    for i in range(n):
+        v = xx[i]
+        if v >= 0:
+            yy[i] = pow(v, q)
+        else:
+            yy[i] = -pow(-v, q)
+
+def power_array(x, double q):
+    cdef double[::1] xx = x
+    cdef double[::1] yy
+    cdef Py_ssize_t n = xx.shape[0]
+
+    Y = empty_array(n)
+    yy = Y
+    _power_array(&xx[0], &yy[0], n, q)
+    return Y
+
+cdef double _power_norm(double *xx, Py_ssize_t n, double q):
+    cdef Py_ssize_t i
+    cdef double v, s
+
+    s = 0
+    for i in range(n):
+        v = xx[i]
+        if v < 0:
+            v = -v
+        s += pow(v, q)
+    return pow(s, 1.0 / q)
+
+def power_norm(x, double q):
+    cdef double[::1] xx = x
+    cdef Py_ssize_t n = xx.shape[0]
+
+    return _power_norm(&xx[0], n, q)
+
+cdef Py_ssize_t _argmax(double *x, Py_ssize_t n):
+    cdef Py_ssize_t i, i_max = 0
+    cdef double v, v_max = x[0]
+
+    for i in range(n):
+        v = x[i]
+        if v > v_max:
+            i_max = i
+            v_max = v
+    return i_max
+
+cdef Py_ssize_t _argmax_abs(double *x, Py_ssize_t n):
+    cdef Py_ssize_t i, i_max = 0
+    cdef double v, v_max = x[0]
+
+    for i in range(n):
+        v = x[i]
+        if v < 0:
+            v = -v
+        if v > v_max:
+            i_max = i
+            v_max = v
+    return i_max
+
+def argmax(double[::1] x):
+    return _argmax(&x[0], x.shape[0])
+
+def argmax_abs(double[::1] x):
+    return _argmax_abs(&x[0], x.shape[0])

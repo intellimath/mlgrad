@@ -8,7 +8,7 @@ from numpy cimport npy_uint8 as uint8
 cimport numpy
 
 from libc.string cimport memcpy, memset
-from libc.math cimport isnan, fma, sqrt, fabs, floor
+from libc.math cimport isnan, fma, sqrt, fabs, floor, pow
 from libc.stdlib cimport rand as stdlib_rand, srand
 from libc.time cimport time
 
@@ -250,6 +250,10 @@ cdef class RingArray:
 cdef double _norm2(double[::1] a)
 
 cdef _sqrt_array(double *xx, double *yy, Py_ssize_t n)
+cdef _power_array(double *xx, double *yy, Py_ssize_t n, double q)
+cdef double _power_norm(double *xx, Py_ssize_t n, double q)
+cdef Py_ssize_t _argmax(double *x, Py_ssize_t n)
+cdef Py_ssize_t _argmax_abs(double *x, Py_ssize_t n)
 
 cdef class StopCondition:
     #

@@ -24,7 +24,7 @@
 
 import numpy as np
 
-from libc.math cimport isnan, fma, sqrt, fabs
+from libc.math cimport isnan, fma, sqrt, fabs, pow
 cimport mlgrad.inventory as inventory
 from mlgrad.avragg cimport Average
 
@@ -97,6 +97,38 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
         print("K:", K, "L:", L, "PC:", ra)
 
     return ra, L
+
+cpdef _find_pc_all(double[:,::1] S, Py_ssize_t m=-1,
+                  Py_ssize_t n_iter=1000, double tol=1.0e-6, bint verbose=0):
+    cdef Py_ssize_t i, j, n = S.shape[0]
+
+    cdef object As = inventory.empty_array2(m, n)
+    cdef object Ls = inventory.empty_array(m)
+    cdef double[:,::1] AA = As
+    cdef double[::1] LL = Ls
+    cdef double[::1] a
+    cdef double v, L_j
+
+    if m <= 0:
+        m = n
+
+    for j in range(m):
+        a, L_j = _find_pc(S, a0=None, n_iter=n_iter, tol=tol, verbose=verbose)
+
+        LL[j] = L_j
+        inventory._move(&AA[j,0], &a[0], n)
+
+        for i in range(n):
+            v = a[i]
+            S[i,i] -= L_j * v * v
+        for i in range(n-1):
+            for j in range(i+1,n):
+                v = L_j * a[i] * a[j]
+                S[i,j] -= v
+                S[j,i] -= v
+
+    return As, Ls
+
 
 cpdef _find_robust_pc(double[:,::1] X, Average wma,
                       Py_ssize_t n_iter=1000, double tol=1.0e-5,
@@ -207,34 +239,104 @@ cpdef _find_robust_pc(double[:,::1] X, Average wma,
 
     return ra_min, L_min
 
-cpdef _find_pc_all(double[:,::1] S, Py_ssize_t m=-1,
-                  Py_ssize_t n_iter=1000, double tol=1.0e-6, bint verbose=0):
+cpdef _find_pc_l2_lq(double[:,::1] S, double q, double[::1] a0=None,
+                    Py_ssize_t n_iter=200, double tol=1.0e-4, double eps=1.0e-5, bint verbose=0):
     cdef Py_ssize_t i, j, n = S.shape[0]
+    cdef double[::1] a = inventory.empty_array(n)
+    cdef double *aa
+    cdef double pn
+    cdef double[::1] S_a = inventory.empty_array(n)
+    cdef double *SS_a = &S_a[0]
+    cdef double *SS_i
+    cdef double v, L, L_prev
+    cdef bint flag
 
-    cdef object As = inventory.empty_array2(m, n)
-    cdef object Ls = inventory.empty_array(m)
-    cdef double[:,::1] AA = As
-    cdef double[::1] LL = Ls
-    cdef double[::1] a
-    cdef double v, L_j
+    if a0 is None:
+        a = np.random.random(n)
+    else:
+        a[:] = a0
+    aa = &a[0]
 
-    if m <= 0:
-        m = n
+    pn = inventory._power_norm(aa, n, q)
+    for i in range(n):
+        aa[i] /= pn
+    # abs_a = abs(a)
 
-    for j in range(m):
-        a, L_j = _find_pc(S, a0=None, n_iter=n_iter, tol=tol, verbose=verbose)
+    for i in range(n):
+        SS_i = &S[i, 0]
+        s = 0
+        for j in range(n):
+            s += SS_i[j] * aa[j]
+        SS_a[i] = s
 
-        LL[j] = L_j
-        inventory._move(&AA[j,0], &a[0], n)
+    L = 0
+    for i in range(n):
+        L += SS_a[i] * aa[i]
+
+    # Sa = S @ a
+    # L = Sa @ a
+
+    for K in range(n_iter):
+        L_prev = L
+
+        # a1 = Sa * abs_a
+        # a1 /= inventory.power_array(abs_a, q-1)
+        for i in range(n):
+            v = aa[i]
+            if v < 0:
+                v = -v
+            if v != 0:
+                aa[i] = SS_a[i] * v / pow(v, q-1)
+            else:
+                aa[i] = 0
+
+        pn = inventory._power_norm(aa, n, q)
+        for i in range(n):
+            aa[i] /= pn
+
+        flag = 0
+        for i in range(n):
+            v = aa[i]
+            if v < 0:
+                v = -v
+            if v < eps:
+                aa[i] = 0
+                flag = 1
+
+        if flag:
+            pn = inventory._power_norm(aa, n, q)
+            if pn != 0:
+                for i in range(n):
+                    aa[i] /= pn
+        # a = a1 / inventory.power_norm(a1, q)
+        # abs_a = abs(a)
+
+        j = inventory._argmax_abs(aa, n)
+        if aa[j] < 0:
+            for i in range(n):
+                aa[i] = -aa[i]
+
+        # Sa = S @ a
+        # L = Sa @ a
 
         for i in range(n):
-            v = a[i]
-            S[i,i] -= L_j * v * v
-        for i in range(n-1):
-            for j in range(i+1,n):
-                v = L_j * a[i] * a[j]
-                S[i,j] -= v
-                S[j,i] -= v
+            SS_i = &S[i, 0]
+            s = 0
+            for j in range(n):
+                s += SS_i[j] * aa[j]
+            SS_a[i] = s
 
-    return As, Ls
+        L = 0
+        for i in range(n):
+            L += SS_a[i] * aa[i]
 
+        if fabs(L_prev - L) / (1 + fabs(L)) < tol:
+            break
+
+    ra = inventory._asarray(a)
+
+    K += 1
+    if verbose:
+        print(f"K: {K} L: {L} a: {str(ra)}")
+
+    return ra, L

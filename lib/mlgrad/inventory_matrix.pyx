@@ -257,3 +257,65 @@ def scatter_matrix_weighted(double[:,::1] X, double[::1] W):
     cdef object S = zeros_array2(n, n)
     _scatter_matrix_weighted(X, W, S)
     return S
+
+def circular_matrix_from_array(double[::1] y, Py_ssize_t m):
+    """
+    Construct Hankel matrix.
+
+    Parameters
+    ----------
+    y : ndarray, shape (n,)
+        Input sequence
+    m : int
+        Number of rows
+
+    Returns
+    -------
+    H : ndarray, shape (m, n-m+1)
+        Hankel matrix
+    """
+    cdef Py_ssize_t n = y.shape[0]
+    cdef Py_ssize_t i
+    cdef double[:, ::1] HH
+
+    H = empty_array2(m, n)
+    HH = H
+    for i in range(n-m):
+        memcpy(&HH[i, i], &y[i], (n-i)*sizeof(double))
+        j == 0
+        while j < i:
+            HH[i,j] = y[n-j-1]
+            j += 1
+    return H
+
+def hankel_matrix_from_array(double[::1] y, Py_ssize_t m):
+    """
+    Construct Hankel matrix.
+
+    Parameters
+    ----------
+    y : ndarray, shape (n,)
+        Input sequence
+    m : int
+        Number of rows
+
+    Returns
+    -------
+    H : ndarray, shape (m, n-m+1)
+        Hankel matrix
+    """
+    cdef Py_ssize_t n = y.shape[0]
+    cdef Py_ssize_t cols = n - m + 1
+    cdef Py_ssize_t cols_sizeof = cols * sizeof(double)
+    cdef Py_ssize_t i
+    cdef double[:, ::1] H
+    cdef double* y_ptr = &y[0]
+    cdef double* h_ptr
+
+    H0 = empty_array2(m, cols)
+    H = H0
+    for i in range(m):
+        h_ptr = &H[i, 0]
+        memcpy(h_ptr, &y_ptr[i], cols_sizeof)
+
+    return H0

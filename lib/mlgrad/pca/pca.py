@@ -5,13 +5,15 @@
 from sys import float_info
 import numpy as np
 
-from mlgrad.pca._pca import _find_pc, _find_robust_pc, _find_pc_all
-from mlgrad.smooth import whittaker_smooth
+from mlgrad.pca._pca import _find_pc, _find_pc_all
+from mlgrad.pca._pca import _find_robust_pc, _find_pc_l2_lq
+# from mlgrad.smooth import whittaker_smooth
 from mlgrad.pca.location_scatter import location, location_rho, location_l1, robust_location
 3333
 import mlgrad.inventory as inventory
 
 einsum = np.einsum
+einsum_path = np.einsum_path
 sqrt = np.sqrt
 isnan = np.isnan
 fromiter = np.fromiter
@@ -43,13 +45,19 @@ def project(X, a, /):
 def transform(X, c, As, /):
     return (X - c) @ As.T
 
+def sort_As_Ls(As, Ls):
+    Ls1 = -Ls
+    Is = Ls1.argsort()
+    As = np.ascontiguousarray(As[Is,:])
+    Ls = np.ascontiguousarray(Ls[Is])
+    return As, Ls
+
 def total_regression(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verbose=0):
-    N = len(X)
     if weights is None:
         S = X.T @ X
     else:
         S = (X.T * weights) @ X
-    a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose) 
+    a, L =  _find_pc(S, a0=a0, n_iter=n_iter, tol=tol, verbose=verbose)
     return a, L
 
 def find_pc(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verbose=0):
@@ -250,7 +258,7 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
     XX = einsum("ni,ni->n", X, X, optimize=path)
 
     Z = X @ a
-    Z = rho_func.evaluate_array(XX - Z*Z)
+    Z = rho_func.derivative_array(Z)
 
     sz = sz_min = Z.mean()
     G = rho_func.derivative_array(Z)
@@ -290,6 +298,251 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
 
     return a_min, L_min
 
+def find_pc_l1_l1(X, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
+    N, n = X.shape
+
+    np_sign = np.sign
+    np_sqrt = np.sqrt
+
+    if a0 is None:
+        a0 = 2*np.random.random(n)-1
+    else:
+        a0 = a0
+
+    a = a0 / abs(a0).sum()
+
+    Z = X @ a
+    path, _ = einsum_path("n,ni->i", np_sign(Z), X, optimize='optimal')
+
+    L = abs(Z).sum()
+
+    for K in range(n_iter):
+        L_prev = L
+
+        a1 = einsum("n,ni->i", np_sign(Z), X, optimize=path)
+        a1 *= abs(a)
+        a = a1 / abs(a1).sum()
+
+        i = inventory.argmax(abs(a))
+        if a[i] < 0:
+            a = -a
+
+        Z = X @ a
+        L = abs(Z).sum()
+
+        if abs(L_prev - L) / (1 + abs(L)) < tol:
+            break
+
+    K += 1
+    if verbose:
+        print(f"K: {K} L: {L} a: {str(a)}")
+
+    return a, L
+
+def find_pc_all_l1_l1(X0, m=None, *, verbose=False):
+    N, n = X0.shape
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    As = np.empty((m,n), "d")
+    Ls = np.empty(m, "d")
+
+    X = X0
+    for i in range(m):
+        a, L = find_pc_l1_l1(X, verbose=verbose)
+        X = project(X, a)
+        Ls[i] = L
+        As[i,:] = a
+
+    return sort_As_Ls(As, Ls)
+
+def find_loc_and_pc_l1_l1(X, m=None, *, verbose=False):
+    n = X.shape[1]
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    c = np.median(X, axis=0)
+    Xc = X - c
+    As, Ls = find_pc_all_l1_l1(Xc, m, verbose=verbose)
+    return c, As, Ls
+
+def find_pc_l1_l2(X, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
+    N, n = X.shape
+
+    np_sign = np.sign
+    np_sqrt = np.sqrt
+
+    if a0 is None:
+        a0 = 2*np.random.random(n)-1
+    else:
+        a0 = a0
+
+    a = a0 / np_sqrt(a0 @ a0)
+
+    Z = X @ a
+    path, _ = einsum_path("n,ni->i", np_sign(Z), X, optimize='optimal')
+
+    L = abs(Z).sum()
+
+    for K in range(n_iter):
+        L_prev = L
+
+        a1 = einsum("n,ni->i", np_sign(Z), X, optimize=path)
+        a = a1 / np_sqrt(a1 @ a1)
+        Z = X @ a
+        L = abs(Z).sum()
+
+        if abs(L_prev - L) / (1 + abs(L)) < tol:
+            break
+
+    K += 1
+    if verbose:
+        print(f"K: {K} L: {L} a: {str(a)}")
+
+    return a, L
+
+def find_pc_all_l1_l2(X0, m=None, *, verbose=False):
+    N, n = X0.shape
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    As = np.empty((m,n), "d")
+    Ls = np.empty(m, "d")
+
+    X = X0
+    for i in range(m):
+        a, L = find_pc_l1_l2(X, verbose=verbose)
+        X = project(X, a)
+        Ls[i] = L
+        As[i,:] = a
+
+    return As, Ls
+
+def find_loc_and_pc_l1_l2(X, m=None, *, verbose=False):
+    n = X.shape[1]
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    c = np.median(X, axis=0)
+    Xc = X - c
+    As, Ls = find_pc_all_l1_l2(Xc, m, verbose=verbose)
+    return c, As, Ls
+
+def find_pc_l2_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
+    N, n = X.shape
+
+    np_sign = np.sign
+    np_sqrt = np.sqrt
+
+    if a0 is None:
+        a0 = np.random.random(n)
+    else:
+        a0 = a0
+
+    S = X.T @ X
+
+    a = a0 / abs(a0).sum()
+
+    Sa = S @ a
+    L = (S @ a) @ a
+
+    for K in range(n_iter):
+        L_prev = L
+
+        a1 = Sa
+        a1 *= abs(a)
+        a = a1 / abs(a1).sum()
+
+        i = inventory.argmax(abs(a))
+        if a[i] < 0:
+            a = -a
+
+        Sa = S @ a
+        L = Sa @ a
+
+        if abs(L_prev - L) / (1 + abs(L)) < tol:
+            break
+
+    K += 1
+    if verbose:
+        print(f"K: {K} L: {L} a: {str(a)}")
+
+    return a, L
+
+def find_pc_all_l2_l1(X0, m=None, *, verbose=False):
+    N, n = X0.shape
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    As = np.empty((m,n), "d")
+    Ls = np.empty(m, "d")
+
+    X = X0
+    for i in range(m):
+        a, L = find_pc_l2_l1(X, verbose=verbose)
+        X = project(X, a)
+        Ls[i] = L
+        As[i,:] = a
+
+    return sort_As_Ls(As, Ls)
+
+def find_loc_and_pc_l2_l1(X, m=None, *, verbose=False):
+    n = X.shape[1]
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    c = np.mean(X, axis=0)
+    Xc = X - c
+    As, Ls = find_pc_all_l2_l1(Xc, m, verbose=verbose)
+    return c, As, Ls
+
+def find_pc_l2_lq(X, q=2, *, a0=None, n_iter=200, tol=1.0e-6, eps=1.0e-5, verbose=0):
+    S = X.T @ X
+    return _find_pc_l2_lq(S, q, a0=a0, n_iter=n_iter, tol=tol, eps=eps, verbose=verbose)
+
+def find_pc_all_l2_lq(X0, m=None, q=2, *, eps=1.0e-5, verbose=False):
+    N, n = X0.shape
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    As = np.empty((m,n), "d")
+    Ls = np.empty(m, "d")
+
+    X = X0
+    for i in range(m):
+        a, L = find_pc_l2_lq(X, q, eps=eps, verbose=verbose)
+        X = project(X, a)
+        Ls[i] = L
+        As[i,:] = a
+
+    return sort_As_Ls(As, Ls)
+
+def find_loc_and_pc_l2_lq(X, m=None, q=2, *, eps=1.0e-5, verbose=False):
+    n = X.shape[1]
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    c = np.mean(X, axis=0)
+    Xc = X - c
+    As, Ls = find_pc_all_l2_lq(Xc, m, q, eps=eps, verbose=verbose)
+    return c, As, Ls
+
 # def find_robust_pc(X, wma, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0, qvals=None):
 #     N, n = X.shape
 
@@ -303,7 +556,7 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
 #     L_min = L0
 
 #     XX = (X * X).sum(axis=1)
-#     _Z = X @ a
+#     _Z = X @ a*
 #     Z = XX - _Z * _Z
     
 #     sz_min = sz = wma.evaluate(Z)

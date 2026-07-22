@@ -30,6 +30,9 @@ from scipy.stats import logistic as stats_logistic
 #     Y = WW @ y
 #     return Z, Y
 
+# cdef void diagonal_up(cdef double *x, Py_ssize_t n, Py_ssize_t d, double *y): 
+#     pass
+
 def create_banded(mat, d):
     """Create a banded matrix from a given quadratic Matrix.
 
@@ -112,7 +115,7 @@ def whittaker_smooth_base(y, W=None, W2=None, tau2=1.0, tau1=0, d=2):
     Z, Y = whittaker_matrices(y, W=W, W2=W2, d2=d2, tau2=tau2, tau1=tau1)
     # print(Z.shape, Y.shape)
     Zb = create_banded(Z, d)
-    z = scipy.linalg.solve_banded((d,d), Zb, Y, overwrite_ab=False, overwrite_b=False, check_finite=True)
+    z = scipy.linalg.solve_banded((d,d), Zb, Y, overwrite_ab=True, overwrite_b=True, check_finite=True)
     return z
 
 def whittaker_smooth(y, W=None, W2=None, func=None, func2=None, func2_e=None, tau2=1.0, tau1=0, d=2, mode=2):
@@ -156,7 +159,7 @@ def whittaker_smooth_ex(X,
               func2 = funcs.Square(),
               func2_e = None,
               d=2,
-              tau2=1.0, n_iter=100, tol=1.0e-8):
+              tau2=1.0, n_iter=100, tol=1.0e-5):
 
     N = len(X)
 
@@ -261,7 +264,7 @@ def func_rstep(e=0.001):
 def whittaker_smooth_weight_func(
             X, func=None, func1=None, func2=None, func2_e=None,
             tau2=1.0, tau1=0.0,
-            d=2, n_iter=100, tol=1.0e-6):
+            d=2, n_iter=100, tol=1.0e-4):
 
     Z = whittaker_smooth_base(X, tau2=tau2, d=d)
 
@@ -339,15 +342,15 @@ def whittaker_smooth_weight_func(
 
 def whittaker_smooth_weight_func2(
             X, func=None, func2=None, func2_e=None, windows=None,
-            tau2=1.0, tau1=0, w_tau2 = 1.0,
-            d=2, n_iter=100, tol=1.0e-4):
+            tau2=1.0, tau1=0, #w_tau2 = 1.0,
+            d=2, n_iter=100, tol=1.0e-3):
 
     N = len(X)
 
-    if d == 1:
-        diff = inventory.diff1
-    elif d == 2:
+    if d == 2:
         diff = inventory.diff2
+    elif d == 1:
+        diff = inventory.diff1
     elif d == 3:
         diff = inventory.diff3
     elif d == 4:
@@ -371,14 +374,12 @@ def whittaker_smooth_weight_func2(
 
     if func is not None:
         W = func(E)
-        # W /= W.mean()
     else:
         W  = np.ones(N, "d")
 
     if func2 is not None and tau2 > 0:
         D2 = diff(Z)
         W2 = func2(D2)
-        # W2 /= W2.mean()
     else:
         W2 = np.ones(N-d, "d")
 
@@ -390,29 +391,20 @@ def whittaker_smooth_weight_func2(
     #         i0, i1 = ww
     #         W2[i0:i1+1] = w_tau2 / tau2
 
-    # qval = (E*E*W).sum()
-    # if tau2 > 0:
-    #     qval += tau2 * (D2*D2*W2).sum()
-    # if tau1 > 0:
-    #     qval += tau1 * (D1*D1*W1).sum()
-
     qvals = []
-    # qval = abs(Z).sum()
 
     flag = False
     for K in range(n_iter):
-        # qval_prev = qval
         Z_prev = Z.copy()
 
         Z = whittaker_smooth_base(X, W=W, W2=W2, tau2=tau2, tau1=tau1, d=d)
 
-        # dq = np.sqrt(dZ @ dZ) / (1 + np.sqrt(Z_prev @ Z_prev))
-        dz = abs(Z - Z_prev).sum()
-        zz = abs(Z_prev).sum()
+        dz = abs(Z - Z_prev).mean()
+        zz = abs(Z_prev).mean()
         dq = dz / (1+zz)
         qvals.append(dq)
 
-        if abs(Z).sum() == 0:
+        if abs(Z).mean() == 0:
             Z = Z_prev
             break
 
@@ -437,10 +429,6 @@ def whittaker_smooth_weight_func2(
 
         if func2_e is not None and tau2 > 0:
             W2 *= func2_e(E[dd1:dd2])
-
-        # if qval > qval_min:
-        #     Z_min = Z.copy()
-        #     qval_min = qval
 
     # print("K:", K+1)
 

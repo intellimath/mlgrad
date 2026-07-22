@@ -20,7 +20,7 @@
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE. 
+# THE SOFTWARE.
 
 from libc.math cimport isnan, fma, sqrt, fabs
 
@@ -29,16 +29,19 @@ from mlgrad.avragg cimport Average
 
 cdef extern from "Python.h":
     double PyFloat_GetMax()
-    double PyFloat_GetMin()   
+    double PyFloat_GetMin()
 
 cdef double _S_norm(double[:,::1] S, double[::1] a) noexcept nogil
 
 
-cpdef _find_pc(double[:,::1] S, double[::1] a0=*, 
+cpdef _find_pc(double[:,::1] S, double[::1] a0=*,
                Py_ssize_t n_iter=*, double tol=*, bint verbose=*)
 
-cpdef _find_robust_pc(double[:,::1] X, Average wma,  
+cpdef _find_robust_pc(double[:,::1] X, Average wma,
                       Py_ssize_t n_iter=*, double tol=*, bint verbose=*, list qvals=*)
 
 cpdef _find_pc_all(double[:,::1] S, Py_ssize_t m=*,
                   Py_ssize_t n_iter=*, double tol=*, bint verbose=*)
+
+cpdef _find_pc_l2_lq(double[:,::1] S, double q, double[::1] a0=*,
+                    Py_ssize_t n_iter=*, double tol=*, double eps=*, bint verbose=*)
