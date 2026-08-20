@@ -30,6 +30,9 @@ cdef object _asarray1d(object ob):
     if not numpy.PyArray_CheckExact(ob):
         ob = np.array(ob, "d")
 
+    if not numpy.PyArray_IS_C_CONTIGUOUS(ob):
+        ob = np.ascontiguousarray(ob)
+
     tp = numpy.PyArray_TYPE(ob)
     if tp != numpy.NPY_DOUBLE:
         ob = numpy.PyArray_Cast(<numpy.ndarray>ob, numpy.NPY_DOUBLE)
@@ -177,7 +180,7 @@ cdef void weighted_sum_rows(double[:,::1] X, double[::1] W, double[::1] Y) noexc
             Xk += n
         yy[i] = y
 
-cdef _sqrt_array(double *xx, double *yy, Py_ssize_t n):
+cdef void _sqrt_array(double *xx, double *yy, Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
 
     for i in range(n):
@@ -193,7 +196,7 @@ def sqrt_array(X):
     _sqrt_array(&xx[0], &yy[0], n)
     return Y
 
-cdef double _norm2(double[::1] a):
+cdef double _euclidean_norm(double[::1] a) noexcept nogil:
     cdef Py_ssize_t i, n = a.shape[0]
     cdef double s, v
 
@@ -203,10 +206,10 @@ cdef double _norm2(double[::1] a):
         s += v*v
     return sqrt(s)
 
-def norm2(a):
-    return _norm2(a)
+def euclidean_norm(a):
+    return _euclidean_norm(a)
 
-cdef _power_array(double *xx, double *yy, Py_ssize_t n, double q):
+cdef void _power_array(double *xx, double *yy, Py_ssize_t n, double q) noexcept nogil:
     cdef Py_ssize_t i
     cdef double v
 
@@ -227,7 +230,7 @@ def power_array(x, double q):
     _power_array(&xx[0], &yy[0], n, q)
     return Y
 
-cdef double _power_norm(double *xx, Py_ssize_t n, double q):
+cdef double _power_norm(double *xx, Py_ssize_t n, double q) noexcept nogil:
     cdef Py_ssize_t i
     cdef double v, s
 
@@ -245,7 +248,7 @@ def power_norm(x, double q):
 
     return _power_norm(&xx[0], n, q)
 
-cdef Py_ssize_t _argmax(double *x, Py_ssize_t n):
+cdef Py_ssize_t _argmax(double *x, Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i, i_max = 0
     cdef double v, v_max = x[0]
 
@@ -256,7 +259,7 @@ cdef Py_ssize_t _argmax(double *x, Py_ssize_t n):
             v_max = v
     return i_max
 
-cdef Py_ssize_t _argmax_abs(double *x, Py_ssize_t n):
+cdef Py_ssize_t _argmax_abs(double *x, Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i, i_max = 0
     cdef double v, v_max = x[0]
 

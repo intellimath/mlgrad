@@ -9,7 +9,7 @@ from mlgrad.pca._pca import _find_pc, _find_pc_all
 from mlgrad.pca._pca import _find_robust_pc, _find_pc_l2_lq
 # from mlgrad.smooth import whittaker_smooth
 from mlgrad.pca.location_scatter import location, location_rho, location_l1, robust_location
-3333
+
 import mlgrad.inventory as inventory
 
 einsum = np.einsum
@@ -161,7 +161,7 @@ def _find_pc_l1(S, lam, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
     L = S_a @ a - 0.5*lam * abs(a).sum()
     return a, L
 
-def _find_pc_lasso(S, lam, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
+def _find_pc_lasso(S, lam, *, a0 = None, n_iter=100, tol=1.0e-6, verbose=0):
     if a0 is None:
         a = np.random.random(S.shape[0])
     else:
@@ -172,18 +172,20 @@ def _find_pc_lasso(S, lam, *, a0 = None, n_iter=1000, tol=1.0e-6, verbose=0):
     np_sign = np.sign
 
     a /= np.sqrt(a @ a)
+    S_a = S @ a - 0.5*lam * np_sign(a)
+    L = S_a @ a
 
     for K in range(n_iter):
-        S_a = S @ a
-        L = S_a @ a - 0.5*lam * abs(a).sum()
-        a1 = (S_a - 0.5*lam * np_sign(a)) / L
-        a1 /= np_sqrt(a1 @ a1)
+        L_prev = L
 
-        if abs(a1 - a).max() / (1 + abs(a1).min()) < tol:
-            a = a1
+        a1 = S_a
+        a = a1 / np_sqrt(a1 @ a1)
+
+        S_a = S @ a - 0.5*lam * np_sign(a)
+        L = S_a @ a
+
+        if abs(L_prev - L) / (1 + abs(L)) < tol:
             break
-
-        a = a1
 
     K += 1
     if verbose:
@@ -251,52 +253,31 @@ def find_rho_pc(X, rho_func, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
     else:
         a0 = a0
 
-    a = a_min = a0 / np.sqrt(a0 @ a0)
+    a0 = a0 / np.sqrt(a0 @ a0)
 
-    # XX = (X * X).sum(axis=1)
-    path, _ = einsum_path("ni,ni->n", X, X, optimize='optimal')
-    XX = einsum("ni,ni->n", X, X, optimize=path)
+    weights = rho_func.derivative_div_array(S @ a)
+    S = inventory.scatter_matrix_weighted(X, weights)
 
-    Z = X @ a
-    Z = rho_func.derivative_array(Z)
+    a, L = _find_pc(S, a0=a0, tol=tol)
 
-    sz = sz_min = Z.mean()
-    G = rho_func.derivative_array(Z)
-    G /= G.sum()
-    L_min = 0
-
-    complete = False
     for K in range(n_iter):
-        sz_prev = sz
+        L_prev = L
 
-        S = (X.T * G) @ X
+        weights = rho_func.derivative_div_array(S @ a)
+        S = inventory.scatter_matrix_weighted(X, weights)
 
-        a1, L = _find_pc(S, a0=a, tol=tol, verbose=verbose)
+        a, L = _find_pc(S, a0=a, tol=tol)
 
-        Z = X @ a1
-        Z = rho_func.evaluate_array(XX - Z*Z)
 
-        sz = Z.mean()
-        G = rho_func.derivative_array(Z)
-        G /= G.sum()
-
-        if sz < sz_min:
-            sz_min = sz
-            a_min = a1
-            L_min = L
-            if verbose:
-                print('*', sz, L, a)
-
-        if abs(sz_prev - sz) / (1 + abs(sz_min)) < tol:
+        if abs(L_prev - L) / (1 + abs(L)) < tol:
             break
 
-        a = a1
-
     K += 1
-    if verbose:
-        print(f"K: {K}", sz_min, a_min, L_min)
 
-    return a_min, L_min
+    if verbose:
+        print(f"K: {K} L: {L} a: {str(a)}")
+
+    return a, L
 
 def find_pc_l1_l1(X, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
     N, n = X.shape
@@ -330,12 +311,13 @@ def find_pc_l1_l1(X, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
         Z = X @ a
         L = abs(Z).sum()
 
-        if abs(L_prev - L) / (1 + abs(L)) < tol:
+        dL = abs(L_prev - L) / (1 + abs(L))
+        if dL < tol:
             break
 
     K += 1
     if verbose:
-        print(f"K: {K} L: {L} a: {str(a)}")
+        print(f"K: {K} dL: {dL} L: {L} a: {str(a)}")
 
     return a, L
 
@@ -383,25 +365,27 @@ def find_pc_l1_l2(X, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
 
     a = a0 / np_sqrt(a0 @ a0)
 
-    Z = X @ a
-    path, _ = einsum_path("n,ni->i", np_sign(Z), X, optimize='optimal')
+    sign_Xa = np_sign(X @ a)
+    path, _ = einsum_path("n,ni->i", sign_Xa, X, optimize='optimal')
+    ZX = einsum("n,ni->i", sign_Xa, X, optimize=path)
 
-    L = abs(Z).sum()
+    L = ZX @ a
 
     for K in range(n_iter):
         L_prev = L
 
-        a1 = einsum("n,ni->i", np_sign(Z), X, optimize=path)
+        a1 = ZX
         a = a1 / np_sqrt(a1 @ a1)
-        Z = X @ a
-        L = abs(Z).sum()
+        ZX = einsum("n,ni->i", np_sign(X @ a), X, optimize=path)
+        L = ZX @ a
 
-        if abs(L_prev - L) / (1 + abs(L)) < tol:
+        dL = abs(L_prev - L) / (1 + abs(L))
+        if dL < tol:
             break
 
     K += 1
     if verbose:
-        print(f"K: {K} L: {L} a: {str(a)}")
+        print(f"K: {K} dL: {dL} L: {L} a: {str(a)}")
 
     return a, L
 
@@ -452,13 +436,12 @@ def find_pc_l2_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
     a = a0 / abs(a0).sum()
 
     Sa = S @ a
-    L = (S @ a) @ a
+    L = Sa @ a
 
     for K in range(n_iter):
         L_prev = L
 
-        a1 = Sa
-        a1 *= abs(a)
+        a1 = Sa * abs(a)
         a = a1 / abs(a1).sum()
 
         i = inventory.argmax(abs(a))
@@ -468,12 +451,13 @@ def find_pc_l2_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
         Sa = S @ a
         L = Sa @ a
 
-        if abs(L_prev - L) / (1 + abs(L)) < tol:
+        dL = abs(L_prev - L) / (1 + abs(L))
+        if dL < tol:
             break
 
     K += 1
     if verbose:
-        print(f"K: {K} L: {L} a: {str(a)}")
+        print(f"K: {K} dL: {dL} L: {L}")
 
     return a, L
 
@@ -508,11 +492,15 @@ def find_loc_and_pc_l2_l1(X, m=None, *, verbose=False):
     As, Ls = find_pc_all_l2_l1(Xc, m, verbose=verbose)
     return c, As, Ls
 
-def find_pc_l2_lq(X, q=2, *, a0=None, n_iter=200, tol=1.0e-6, eps=1.0e-5, verbose=0):
+###
+### PCA_L2_Lq
+###
+
+def find_pc_l2_lq(X, q=2, *, a0=None, n_iter=200, tol=1.0e-6, eps=0, verbose=0):
     S = X.T @ X
     return _find_pc_l2_lq(S, q, a0=a0, n_iter=n_iter, tol=tol, eps=eps, verbose=verbose)
 
-def find_pc_all_l2_lq(X0, m=None, q=2, *, eps=1.0e-5, verbose=False):
+def find_pc_all_l2_lq(X0, m=None, q=2, *, n_iter=200, tol=1.0e-6, eps=0, verbose=False):
     N, n = X0.shape
     if m is None:
         m = n
@@ -524,14 +512,15 @@ def find_pc_all_l2_lq(X0, m=None, q=2, *, eps=1.0e-5, verbose=False):
 
     X = X0
     for i in range(m):
-        a, L = find_pc_l2_lq(X, q, eps=eps, verbose=verbose)
+        a, L = find_pc_l2_lq(X, q, n_iter=n_iter, tol=tol, eps=eps, verbose=verbose)
+        # a /= np.sqrt(a @ a)
         X = project(X, a)
         Ls[i] = L
         As[i,:] = a
 
     return sort_As_Ls(As, Ls)
 
-def find_loc_and_pc_l2_lq(X, m=None, q=2, *, eps=1.0e-5, verbose=False):
+def find_loc_and_pc_l2_lq(X, m=None, q=2, *, n_iter=200, tol=1.0e-6, eps=0, verbose=False):
     n = X.shape[1]
     if m is None:
         m = n
@@ -540,7 +529,7 @@ def find_loc_and_pc_l2_lq(X, m=None, q=2, *, eps=1.0e-5, verbose=False):
 
     c = np.mean(X, axis=0)
     Xc = X - c
-    As, Ls = find_pc_all_l2_lq(Xc, m, q, eps=eps, verbose=verbose)
+    As, Ls = find_pc_all_l2_lq(Xc, m, q, n_iter=n_iter, tol=tol, eps=eps, verbose=verbose)
     return c, As, Ls
 
 # def find_robust_pc(X, wma, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0, qvals=None):

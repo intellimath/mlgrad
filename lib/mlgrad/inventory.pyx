@@ -336,7 +336,7 @@ cdef void _matdot_sparse(double *output, double *M, const double *X,
 cdef void matdot_sparse(double[::1] output, double[:,::1] M, double[::1] X) noexcept nogil:
     _matdot_sparse(&output[0], &M[0,0], &X[0], X.shape[0], output.shape[0])
 
-cdef void _matdot(double *output, double *M, const double *X, 
+cdef void _matdot(double *output, double *M, const double *X,
                     const Py_ssize_t n_input, const Py_ssize_t n_output) noexcept nogil:
     cdef Py_ssize_t i, j
     cdef double *M_j = M
@@ -595,6 +595,8 @@ include "inventory_array.pyx"
 include "inventory_matrix.pyx"
 include "inventory_statistics.pyx"
 include "inventory_diff.pyx"
+
+include "inventory_optimization.pyx"
 
 cdef class StopCondition:
     #

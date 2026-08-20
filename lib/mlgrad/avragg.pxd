@@ -121,14 +121,14 @@ cdef class Average:
     cdef _gradient(self, double[::1] Y, double[::1] grad)
     cdef _weights(self, double[::1] Y, double[::1] weights)
     cdef _derivative_div(self, double[::1] Y, double[::1] G)
-    #    
+    #
     # cpdef fit(self, double[::1] Y)
     #
     # cdef bint stop_condition(self)
 
 cdef class AverageIterative(Average):
     cdef readonly Penalty penalty
-    
+
 # @cython.final
 cdef class MAverage(AverageIterative):
     cdef public Func func
@@ -138,12 +138,11 @@ cdef class MAverage(AverageIterative):
 # cdef class MAverage2(AverageIterative):
 #     cdef Func func
     #
-    
-    
+
 # @cython.final
 cdef class SAverage(AverageIterative):
     cdef public Func func
-    
+
 # @cython.final
 # cdef class Average_Iterative(Average):
 #     pass
@@ -195,13 +194,11 @@ cdef class WMZSum(Average):
     cdef public MAverage mavr, savr
     cdef double mval, sval
     cdef double[::1] U, GU
-    
 
 @cython.final
 cdef class WZAverage(Average):
     cdef public double alpha
     cdef double mval, sval
-    
 
 @cython.final
 cdef class ArithMean(MAverage):
@@ -227,7 +224,7 @@ cdef class SoftMaximal(Average):
 @cython.final
 cdef class PowerMaximal(Average):
     cdef PowerMax powermax
-    
+
 @cython.final
 cdef class Minimal(Average):
     pass

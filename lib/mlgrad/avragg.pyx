@@ -271,8 +271,17 @@ cdef class Average:
 cdef class AverageIterative(Average):
     #
     cdef double init_u(self, double[::1] Y):
-        cdef Py_ssize_t N = Y.shape[0]
-        return (Y[0] + Y[N//2] + Y[N-1]) / 3
+        cdef Py_ssize_t i, N = Y.shape[0]
+        cdef double v, min_y, max_y
+
+        min_y = min_y = Y[0]
+        for i in range(N):
+            v = Y[i]
+            if v < min_y:
+                min_y = v
+            elif v > max_y:
+                max_y = v
+        return (min_y + max_y) / 2
     #
     cdef double _evaluate(self, double[::1] Y):
         cdef Py_ssize_t k=0, n_iter = self.n_iter
@@ -285,7 +294,7 @@ cdef class AverageIterative(Average):
 
         u = u_min = self.init_u(Y)
         pval_min = pval = penalty.evaluate(Y, u)
-        pval_min_prev = pval_min * 10.0
+        pval_min_prev = pval_min * 10
         Q = 1 + fabs(pval_min)
         #
         to_finish = 0
@@ -298,7 +307,7 @@ cdef class AverageIterative(Average):
                 to_finish = True
             elif fabs(pval - pval_min) < tol * Q:
                 to_finish = True
-            elif fabs(pval - pval_min_prev) < tol * Q:
+            elif fabs(pval_min - pval_min_prev) < tol * Q:
                 if count >= 5:
                     to_finish = True
                 else:
@@ -342,7 +351,7 @@ cdef class AverageIterative(Average):
     #
 
 
-include "avragg_fg.pyx"
+# include "avragg_fg.pyx"
 
 # @cython.final
 cdef class MAverage(AverageIterative):
@@ -353,10 +362,6 @@ cdef class MAverage(AverageIterative):
         self.n_iter = n_iter
         self.tol = tol
         self.evaluated = 0
-    #
-    cdef double init_u(self, double[::1] Y):
-        cdef Py_ssize_t N = Y.shape[0]
-        return array_mean(Y)
     #
 
 @cython.final

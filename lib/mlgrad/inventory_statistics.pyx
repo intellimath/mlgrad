@@ -86,6 +86,67 @@ cdef double _mad(double *a, double mu, Py_ssize_t n) noexcept nogil:
         s += fabs(a[i] - mu)
     return s/n
 
+
+# // Function to partition array
+# int partition(int arr[], int low, int high) {
+#     int pivot = arr[high];
+#     int i = low - 1;
+    
+#     for (int j = low; j < high; j++) {
+#         if (arr[j] < pivot) {
+#             i++;
+#             // Swap arr[i] and arr[j]
+#             int temp = arr[i];
+#             arr[i] = arr[j];
+#             arr[j] = temp;
+#         }
+#     }
+    
+#     // Swap arr[i+1] and arr[high] (pivot)
+#     int temp = arr[i + 1];
+#     arr[i + 1] = arr[high];
+#     arr[high] = temp;
+    
+#     return i + 1;
+# }
+
+# // Iterative QuickSelect to find kth smallest element
+# int iterativeQuickSelect(int arr[], int low, int high, int k) {
+#     while (low <= high) {
+#         // Partition the array
+#         int pi = partition(arr, low, high);
+        
+#         // If pivot is at kth position, return it
+#         if (k == pi) {
+#             return arr[k];
+#         }
+#         // If k is smaller, search in left subarray
+#         else if (k < pi) {
+#             high = pi - 1;
+#         }
+#         // If k is larger, search in right subarray
+#         else {
+#             low = pi + 1;
+#         }
+#     }
+    
+#     return -1; // Should not reach here if k is valid
+# }
+
+# // Function to calculate median using iterative partition
+# float calculateMedian(int arr[], int n) {
+#     // For odd number of elements
+#     if (n % 2 != 0) {
+#         return (float)iterativeQuickSelect(arr, 0, n - 1, n / 2);
+#     }
+#     // For even number of elements, find average of two middle elements
+#     else {
+#         int median1 = iterativeQuickSelect(arr, 0, n - 1, n / 2 - 1);
+#         int median2 = iterativeQuickSelect(arr, 0, n - 1, n / 2);
+#         return (median1 + median2) / 2.0;
+#     }
+# }
+
 cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:
     cdef Py_ssize_t low, high
     cdef Py_ssize_t median
@@ -148,7 +209,7 @@ cdef double quick_select(double *a, Py_ssize_t n): # noexcept nogil:
 
 cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil:
     cdef Py_ssize_t i, j, l, m
-    cdef double x, temp
+    cdef double x
     cdef double *ai
     cdef double *aj
 
@@ -164,11 +225,7 @@ cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil:
             while x < a[j]:
                 j -= 1
             if i <= j:
-                ai = &a[i]
-                aj = &a[j]
-                temp = ai[0];
-                ai[0] = aj[0]
-                aj[0] = temp
+                a[i], a[j] = a[j], a[i]
                 # swap(&a[i],&a[j])
                 i += 1
                 j -= 1
@@ -182,7 +239,7 @@ cdef double _kth_smallest(double *a, Py_ssize_t n, Py_ssize_t k) noexcept nogil:
 
     return a[k]
 
-cdef double _median_1d(double[::1] x): # noexcept nogil:
+cdef double _median_1d(double[::1] x) noexcept nogil:
     cdef Py_ssize_t n2, n = x.shape[0]
     cdef double mv1, mv2
 
@@ -192,8 +249,8 @@ cdef double _median_1d(double[::1] x): # noexcept nogil:
         return mv1
     else:
         n2 = n // 2
-        mv1 = _kth_smallest(&x[0], n, n2)
-        mv2 = _kth_smallest(&x[0], n, n2-1)
+        mv1 = _kth_smallest(&x[0], n, n2-1)
+        mv2 = _kth_smallest(&x[0], n, n2)
         return (mv1 + mv2) / 2
 
 cdef double _quantile_1d(double[::1] x, double alpha): # noexcept nogil:

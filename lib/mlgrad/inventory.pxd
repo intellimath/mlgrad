@@ -220,7 +220,7 @@ cdef void _relative_abs_max(double *x, double *y, const Py_ssize_t n) noexcept n
 cdef double quick_select(double *a, Py_ssize_t n) #noexcept nogil
 
 # cdef double quick_select_t(double *a, Py_ssize_t n, Py_ssize_t step) #noexcept nogil
-cdef double _median_1d(double[::1] x) #noexcept nogil
+cdef double _median_1d(double[::1] x) noexcept nogil
 cdef double _quantile_1d(double[::1] x, double alpha) # noexcept nogil
 cdef double _median_absdev_1d(double[::1] x, double mu) #noexcept nogil
 cdef void _median_2d(double[:,::1] x, double[::1] y) #noexcept nogil
@@ -247,13 +247,13 @@ cdef class RingArray:
     cpdef add(self, double val)
     cpdef mad(self)
 
-cdef double _norm2(double[::1] a)
+cdef double _euclidean_norm(double[::1] a) noexcept nogil
 
-cdef _sqrt_array(double *xx, double *yy, Py_ssize_t n)
-cdef _power_array(double *xx, double *yy, Py_ssize_t n, double q)
-cdef double _power_norm(double *xx, Py_ssize_t n, double q)
-cdef Py_ssize_t _argmax(double *x, Py_ssize_t n)
-cdef Py_ssize_t _argmax_abs(double *x, Py_ssize_t n)
+cdef void _sqrt_array(double *xx, double *yy, Py_ssize_t n) noexcept nogil
+cdef void _power_array(double *xx, double *yy, Py_ssize_t n, double q) noexcept nogil
+cdef double _power_norm(double *xx, Py_ssize_t n, double q) noexcept nogil
+cdef Py_ssize_t _argmax(double *x, Py_ssize_t n) noexcept nogil
+cdef Py_ssize_t _argmax_abs(double *x, Py_ssize_t n) noexcept nogil
 
 cdef class StopCondition:
     #

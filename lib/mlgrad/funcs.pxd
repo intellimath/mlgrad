@@ -190,6 +190,12 @@ cdef class Expectile(Func):
 @cython.final
 cdef class Power(Func):
     #
+    cdef public double p, p1
+    #
+
+@cython.final
+cdef class PowerEx(Func):
+    #
     cdef public double p, p1, alpha, alpha_p
     #
 

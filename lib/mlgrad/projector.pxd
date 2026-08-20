@@ -18,6 +18,10 @@ cdef class LinearModelProjector(Projector):
     cdef Py_ssize_t offset
 
 @cython.final
+cdef class L1Projector(Projector):
+    cdef Py_ssize_t offset
+
+@cython.final
 cdef class LinearModelPositive(Projector):
     cdef Py_ssize_t offset
 

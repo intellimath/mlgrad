@@ -35,6 +35,22 @@ cdef class LinearModelProjector(Projector):
         for i in range(n):
             param[i] /= s
 
+cdef class L1Projector(Projector):
+    def __init__(self, offset=0):
+        self.offset = offset
+
+    cdef _project(self, Parameterized mod):
+        cdef double[::1] param = mod.param
+        cdef Py_ssize_t i, n = param.shape[0]
+        cdef double s
+
+        s = 0
+        for i in range(self.offset, n):
+            s += abs(param[i])
+
+        for i in range(n):
+            param[i] /= s
+
 cdef class LinearModelPositive(Projector):
     #
     def __init__(self, offset=0):

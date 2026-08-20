@@ -275,7 +275,7 @@ def circular_matrix_from_array(double[::1] y, Py_ssize_t m):
         Hankel matrix
     """
     cdef Py_ssize_t n = y.shape[0]
-    cdef Py_ssize_t i
+    cdef Py_ssize_t i, j
     cdef double[:, ::1] HH
 
     H = empty_array2(m, n)

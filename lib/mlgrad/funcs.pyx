@@ -815,6 +815,55 @@ cdef class Expectile(Func):
 @cython.final
 cdef class Power(Func):
     #
+    def __init__(self, p=2.0):
+        self.p = p
+        self.p1 = p-1
+    #
+    @cython.final
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        return pow(fabs(x), self.p) / self.p
+    #
+    @cython.final
+    cdef double _inverse(self, const double y) noexcept nogil:
+        return pow(y*self.p, self.p1)
+    #
+    @cython.final
+    cdef double _derivative(self, const double x) noexcept nogil:
+        cdef double val
+        if x == 0:
+            return 0
+        else:
+            val = pow(fabs(x), self.p-1)
+            if x < 0:
+                val = -val
+        return val
+    #
+    @cython.final
+    cdef double _derivative2(self, const double x) noexcept nogil:
+        cdef double val
+        if x == 0:
+            return 0
+        val = (self.p-1) * pow(fabs(x), self.p-2)
+        if x < 0:
+            val = -val
+        return val
+    #
+    @cython.final
+    cdef double _derivative_div(self, const double x) noexcept nogil:
+        if x == 0:
+            return 0
+        return pow(fabs(x), self.p-2)
+    #
+    def _repr_latex_(self):
+        return r"$ρ(x)=\frac{1}{p}|x|^p$"
+
+    def as_dict(self):
+        return { 'name':'power',
+                 'args': (self.p,)  }
+
+@cython.final
+cdef class PowerEx(Func):
+    #
     def __init__(self, p=2.0, alpha=0):
         self.p = p
         self.p1 = 1.0/p
@@ -849,7 +898,7 @@ cdef class Power(Func):
         return r"$ρ(x)=\frac{1}{p}(|x|+\alpha)^p$"
 
     def as_dict(self):
-        return { 'name':'power',
+        return { 'name':'power_ex',
                  'args': (self.p, self.alpha,) }
 
 @cython.final

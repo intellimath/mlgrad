@@ -430,7 +430,9 @@ cdef class PowerNorm(Func2):
 
         for i in range(self.offset, X.shape[0]):
             v = X_ptr[i]
-            if v < 0:
+            if v == 0:
+                grad_ptr[i] = 0
+            elif v < 0:
                 grad_ptr[i] = -pow(-v, p1)
             else:
                 grad_ptr[i] = pow(v, p1)
@@ -445,7 +447,9 @@ cdef class PowerNorm(Func2):
 
         for i in range(self.offset, X.shape[0]):
             v = X_ptr[i]
-            if v < 0:
+            if v == 0:
+                grad_ptr[i] = 0
+            elif v < 0:
                 grad_ptr[i] = -W_ptr[i] * pow(-v, p1)
             else:
                 grad_ptr[i] = W_ptr[i] * pow(v, p1)
@@ -1474,7 +1478,7 @@ cdef class ProjectToSubspace:
 
         for i in range(self.n_iter):
             self._fit_step()
-            tol = inventory._norm2(self.dw)
+            tol = inventory._euclidean_norm(self.dw)
             if tol < 1.0e-6:
                 break
     #

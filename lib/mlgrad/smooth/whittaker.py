@@ -342,7 +342,7 @@ def whittaker_smooth_weight_func(
 
 def whittaker_smooth_weight_func2(
             X, func=None, func2=None, func2_e=None, windows=None,
-            tau2=1.0, tau1=0, #w_tau2 = 1.0,
+            tau2=1.0, tau1=0,
             d=2, n_iter=100, tol=1.0e-3):
 
     N = len(X)
@@ -404,11 +404,11 @@ def whittaker_smooth_weight_func2(
         dq = dz / (1+zz)
         qvals.append(dq)
 
-        if abs(Z).mean() == 0:
-            Z = Z_prev
-            break
+        # if abs(Z).mean() == 0:
+        #     Z = Z_prev
+        #     break
 
-        if dz < tol*zz:
+        if dq < tol:
             flag = True
 
         if flag:
@@ -429,8 +429,6 @@ def whittaker_smooth_weight_func2(
 
         if func2_e is not None and tau2 > 0:
             W2 *= func2_e(E[dd1:dd2])
-
-    # print("K:", K+1)
 
     return Z, {'qvals':qvals, 'K':K+1, 'tol':dq}
 
