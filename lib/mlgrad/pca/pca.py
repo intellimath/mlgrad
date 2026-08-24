@@ -6,7 +6,7 @@ from sys import float_info
 import numpy as np
 
 from mlgrad.pca._pca import _find_pc, _find_pc_all
-from mlgrad.pca._pca import _find_robust_pc, _find_pc_l2_lq
+from mlgrad.pca._pca import _find_robust_pc, _find_pc_l2_lq, find_pc_l1_l2
 # from mlgrad.smooth import whittaker_smooth
 from mlgrad.pca.location_scatter import location, location_rho, location_l1, robust_location
 
@@ -352,42 +352,42 @@ def find_loc_and_pc_l1_l1(X, m=None, *, verbose=False):
     As, Ls = find_pc_all_l1_l1(Xc, m, verbose=verbose)
     return c, As, Ls
 
-def find_pc_l1_l2(X, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
-    N, n = X.shape
+# def find_pc_l1_l2(X, *, a0=None, n_iter=100, tol=1.0e-6, verbose=0):
+#     N, n = X.shape
 
-    np_sign = np.sign
-    np_sqrt = np.sqrt
+#     np_sign = np.sign
+#     np_sqrt = np.sqrt
 
-    if a0 is None:
-        a0 = 2*np.random.random(n)-1
-    else:
-        a0 = a0
+#     if a0 is None:
+#         a0 = 2*np.random.random(n)-1
+#     else:
+#         a0 = a0
 
-    a = a0 / np_sqrt(a0 @ a0)
+#     a = a0 / np_sqrt(a0 @ a0)
 
-    sign_Xa = np_sign(X @ a)
-    path, _ = einsum_path("n,ni->i", sign_Xa, X, optimize='optimal')
-    ZX = einsum("n,ni->i", sign_Xa, X, optimize=path)
+#     sign_Xa = np_sign(X @ a)
+#     path, _ = einsum_path("n,ni->i", sign_Xa, X, optimize='optimal')
+#     ZX = einsum("n,ni->i", sign_Xa, X, optimize=path)
 
-    L = ZX @ a
+#     L = ZX @ a
 
-    for K in range(n_iter):
-        L_prev = L
+#     for K in range(n_iter):
+#         L_prev = L
 
-        a1 = ZX
-        a = a1 / np_sqrt(a1 @ a1)
-        ZX = einsum("n,ni->i", np_sign(X @ a), X, optimize=path)
-        L = ZX @ a
+#         a1 = ZX
+#         a = a1 / np_sqrt(a1 @ a1)
+#         ZX = einsum("n,ni->i", np_sign(X @ a), X, optimize=path)
+#         L = ZX @ a
 
-        dL = abs(L_prev - L) / (1 + abs(L))
-        if dL < tol:
-            break
+#         dL = abs(L_prev - L) / (1 + abs(L))
+#         if dL < tol:
+#             break
 
-    K += 1
-    if verbose:
-        print(f"K: {K} dL: {dL} L: {L} a: {str(a)}")
+#     K += 1
+#     if verbose:
+#         print(f"K: {K} dL: {dL} L: {L} a: {str(a)}")
 
-    return a, L
+#     return a, L
 
 def find_pc_all_l1_l2(X0, m=None, *, verbose=False):
     N, n = X0.shape

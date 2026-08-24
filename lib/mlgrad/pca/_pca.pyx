@@ -44,7 +44,7 @@ cdef double _S_norm(double[:,::1] S, double[::1] a) noexcept nogil:
             s += a_i * S_i[j] * aa[j]
     return s
 
-cdef void _normalize2(double *a, Py_ssize_t n) noexcept nogil:
+cdef double _norm2(double *a, Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
     cdef double v1, v2, v3, v4, s
 
@@ -66,20 +66,28 @@ cdef void _normalize2(double *a, Py_ssize_t n) noexcept nogil:
         i += 1
 
     s = sqrt(s)
+    return s
+
+cdef void _scale(double *a, Py_ssize_t n, double s) noexcept nogil:
+    cdef Py_ssize_t i
 
     i = 0
     while i + 4 < n:
-        a[0] /= s
-        a[1] /= s
-        a[2] /= s
-        a[3] /= s
+        a[0] *= s
+        a[1] *= s
+        a[2] *= s
+        a[3] *= s
         i += 4
         a += 4
 
     while i < n:
-        a[0] /= s
+        a[0] *= s
         a += 1
         i += 1
+
+cdef void _normalize2(double *a, Py_ssize_t n) noexcept nogil:
+    cdef double s = _norm2(a, n)
+    _scale(a, n, 1.0/s)
 
 cdef double _dot(double *a, double *b, Py_ssize_t n) noexcept nogil:
     cdef Py_ssize_t i
@@ -106,8 +114,8 @@ cdef void _matdot(double *C, double *A, double *b, Py_ssize_t N, Py_ssize_t n) n
     cdef double *A_i
     cdef double s, v
 
-    # for i in range(N):
-    for i in prange(n, schedule="static", nogil=True):
+    for i in range(N):
+    # for i in prange(n, schedule="static", nogil=True):
         A_i = A + i*n
         C[i] = _dot(A_i, b, n)
 
@@ -124,6 +132,7 @@ cdef void _flip_vector(double *aa, Py_ssize_t n) noexcept nogil:
         if v > max_val:
             max_val = v
             max_i = i
+
     if aa[max_i] < 0:
         for i in range(n):
             aa[i] = -aa[i]
@@ -149,7 +158,7 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
     a = arr
     aa = &a[0]
 
-    inventory._normalize2(a)
+    _normalize2(aa, n)
 
     _matdot(SS_a, SS, aa, n, n)
 
@@ -163,7 +172,7 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
         for i in range(n):
             aa[i] = SS_a[i]
 
-        inventory._normalize2(a)
+        _normalize2(aa, n)
 
         L = _dot(SS_a, aa, n)
 
@@ -181,8 +190,8 @@ cpdef _find_pc(double[:,::1] S, double[::1] a0 = None,
 
 cpdef _find_pc_all(double[:,::1] S, Py_ssize_t m=-1,
                   Py_ssize_t n_iter=100, double tol=1.0e-4, bint verbose=0):
-    cdef Py_ssize_t i, j, n = S.shape[0]
 
+    cdef Py_ssize_t i, j, n = S.shape[0]
     cdef object As = inventory.empty_array2(m, n)
     cdef object Ls = inventory.empty_array(m)
     cdef double[:,::1] AA = As
@@ -324,24 +333,26 @@ cdef double _power_norm(double *x, Py_ssize_t n, double q) noexcept nogil:
         if v < 0:
             v = -v
         s += pow(v, q)
-    return pow(s, 1.0 / q)
+    s = pow(s, 1.0 / q)
+    return s
 
 cdef void _normalize_q(double *a, Py_ssize_t n, double q) noexcept nogil:
     cdef Py_ssize_t i
     cdef double s
 
     s = _power_norm(a, n, q)
-    for i in range(n):
-        a[i] /= s
+    _scale(a, n, 1.0/s)
+    # for i in range(n):
+    #     a[i] /= s
 
 cpdef _find_pc_l2_lq(double[:,::1] S, double q, double[::1] a0=None,
                     Py_ssize_t n_iter=100, double tol=1.0e-4, double eps=0, bint verbose=0):
     cdef Py_ssize_t i, j, n = S.shape[0]
     cdef double[::1] a
-    cdef double *aa
     cdef double[::1] S_a = inventory.empty_array(n)
     cdef double *SS_a = &S_a[0]
     cdef double *SS = &S[0,0]
+    cdef double *aa
     cdef double v, L, L_prev
     # cdef bint flag
 
@@ -352,11 +363,9 @@ cpdef _find_pc_l2_lq(double[:,::1] S, double q, double[::1] a0=None,
         arr[:] = a0
     a = arr
     aa = &a[0]
-
+ 
     _normalize_q(aa, n, q)
-
     _matdot(SS_a, SS, aa, n, n)
-
     L = _dot(SS_a, aa, n)
 
     for K in range(n_iter):
@@ -370,24 +379,23 @@ cpdef _find_pc_l2_lq(double[:,::1] S, double q, double[::1] a0=None,
 
         _normalize_q(aa, n, q)
 
-        # if eps != 0:
-        #     flag = 0
-        #     for i in range(n):
-        #         v = aa[i]
-        #         if v < 0:
-        #             v = -v
-        #         if 0 < v < eps:
-        #             aa[i] = 0
-        #             flag = 1
+        if eps != 0:
+            flag = 0
+            for i in range(n):
+                v = aa[i]
+                if v < 0:
+                    v = -v
+                if 0 < v < eps:
+                    aa[i] = 0
+                    flag = 1
 
-        #     if flag:
-        #         pn = inventory._power_norm(aa, n, q)
-        #         if pn != 0:
-        #             for i in range(n):
-        #                 aa[i] /= pn
+            if flag:
+                pn = inventory._power_norm(aa, n, q)
+                if pn != 0:
+                    for i in range(n):
+                        aa[i] /= pn
 
         _matdot(SS_a, SS, aa, n, n)
-
         L = _dot(SS_a, aa, n)
 
         if fabs(L_prev - L) / (1 + fabs(L)) < tol:
@@ -405,134 +413,74 @@ cpdef _find_pc_l2_lq(double[:,::1] S, double q, double[::1] a0=None,
 
     return arr, L
 
-# cdef double _softl1_sum(double *x, Py_ssize_t n, double eps):
-#     cdef double v, s
-#     cdef Py_ssize_t i
+cdef void _sign(double *a, double *b, Py_ssize_t n) noexcept nogil:
+    cdef Py_ssize_t i
+    cdef double v
+    
+    for i in range(n):
+        v = b[i]
+        if v > 0:
+            a[i] = 1
+        elif v < 0:
+            a[i] = -1
+        else:
+            a[i] = 0
 
-#     s = 0
-#     for i in range(n):
-#         v = x[i]
-#         s += sqrt(v*v + eps*eps)
-#     s -= n*eps
-#     return s
+def find_pc_l1_l2(double[:,::1] X, double[::1] a0=None, Py_ssize_t n_iter=100, double tol=1.0e-6, verbose=0):
+    cdef Py_ssize_t i, j, K = 0
+    cdef Py_ssize_t N = X.shape[0], n = X.shape[1]
+    cdef double[::1] Xa = inventory.empty_array(N)
+    cdef double[::1] sign_Xa = inventory.empty_array(N)
+    cdef double[::1] Sa = inventory.empty_array(n)
+    cdef double[::1] a
+    cdef double s, v, L, L_prev, dL = 0
 
-# cdef void _softl1_inverse(double *x, double *y, Py_ssize_t n, double eps):
-#     cdef double v
-#     cdef Py_ssize_t i
+    arr = inventory.empty_array(n)
+    if a0 is None:
+        arr[:] = np.random.random(n)
+    else:
+        arr[:] = a0
+    a = arr
 
-#     for i in range(n):
-#         v = x[i] + eps
-#         y[i] = sqrt(v*v - eps*eps)
+    _normalize2(&a[0], n)
 
-# cdef double _softl1_norm(double *x, Py_ssize_t n, double eps):
-#     cdef double s = _softl1_sum(x, n, eps)
-#     cdef double v = s + eps
-#     return sqrt(v*v - eps*eps)
+    _matdot(&Xa[0], &X[0,0], &a[0], N, n)
+    _sign(&sign_Xa[0], &Xa[0], N)
 
-# cpdef _find_pc_softl1_l2(double[:,::1] S, double q, double[::1] a0=None, double eps=0.001,
-#                     Py_ssize_t n_iter=200, double tol=1.0e-4, double threshold=1.0e-5, bint verbose=0):
-#     cdef Py_ssize_t i, j, n = S.shape[0]
-#     cdef double[::1] a = inventory.empty_array(n)
-#     cdef double *aa
-#     cdef double[::1] S_a = inventory.empty_array(n)
-#     cdef double *SS_a = &S_a[0]
-#     cdef double *SS_i
-#     cdef double v, L, L_prev
-#     cdef double an
-#     cdef bint flag
+    for i in range(n):
+        s = 0
+        for j in range(N):
+            s += sign_Xa[j] * X[j,i]
+        Sa[i] = s
 
-#     if a0 is None:
-#         a = np.random.random(n)
-#     else:
-#         a[:] = a0
-#     aa = &a[0]
+    L = _dot(&Sa[0], &a[0], n)
 
-#     an = softl1_norm(aa, n, eps)
-#     for i in range(n):
-#         aa[i] /= an
-#     # abs_a = abs(a)
+    for K in range(n_iter):
+        L_prev = L
 
-#     # Sa = S @ a
-#     # L = Sa @ a
-#     SS_i = &S[0,0]
-#     for i in range(n):
-#         # SS_i = &S[i, 0]
-#         # s = 0
-#         # for j in range(n):
-#         #     s += SS_i[j] * aa[j]
-#         # SS_a[i] = s
-#         SS_a[i] = inventory._dot(SS_i, aa, n)
-#         SS_i += n
+        for i in range(n):
+            a[i] = Sa[i]
+        _normalize2(&a[0], n)
 
-#     L = inventory._dot(SS_a, aa, n)
-#     # for i in range(n):
-#     #     L += SS_a[i] * aa[i]
+        _matdot(&Xa[0], &X[0,0], &a[0], N, n)
+        _sign(&sign_Xa[0], &Xa[0], N)
 
-#     for K in range(n_iter):
-#         L_prev = L
+        for i in range(n):
+            s = 0
+            for j in range(N):
+                s += sign_Xa[j] * X[j,i]
+            Sa[i] = s
+    
+        L = _dot(&Sa[0], &a[0], n)
 
-#         # a1 = Sa * abs_a
-#         # a1 /= inventory.power_array(abs_a, q-1)
-#         _softl1_inverse(SS_a, aa, n, eps)
-#         # for i in range(n):
-#         #     v = aa[i]
-#         #     if v < 0:
-#         #         v = -v
-#         #     if v != 0:
-#         #         aa[i] = SS_a[i] * v / pow(v, q-1)
-#         #     else:
-#         #         aa[i] = 0
+        dL = fabs(L_prev - L) / (1 + fabs(L))
+        if dL < tol:
+            break
 
-#         an = _softl1_norm(aa, n, eps)
-#         for i in range(n):
-#             aa[i] /= pn
+    _flip_vector(&a[0], n)
 
-#         flag = 0
-#         for i in range(n):
-#             v = aa[i]
-#             if v < 0:
-#                 v = -v
-#             if v < threshold:
-#                 aa[i] = 0
-#                 flag = 1
+    K += 1
+    if verbose:
+        print(f"K: {K} L: {L} dL: {dL}")
 
-#         if flag:
-#             pn = inventory._power_norm(aa, n, q)
-#             if pn != 0:
-#                 for i in range(n):
-#                     aa[i] /= pn
-#         # a = a1 / inventory.power_norm(a1, q)
-#         # abs_a = abs(a)
-
-#         j = inventory._argmax_abs(aa, n)
-#         if aa[j] < 0:
-#             for i in range(n):
-#                 aa[i] = -aa[i]
-
-#         # Sa = S @ a
-#         # L = Sa @ a
-#         SS_i = &S[0,0]
-#         for i in range(n):
-#             # SS_i = &S[i, 0]
-#             # s = 0
-#             # for j in range(n):
-#             #     s += SS_i[j] * aa[j]
-#             SS_a[i] = inventory._dot(SS_i, aa, n)
-#             SS_i += n
-
-#         L = inventory._dot(SS_a, aa, n)
-#         # for i in range(n):
-#         #     L += SS_a[i] * aa[i]
-
-#         if fabs(L_prev - L) / (1 + fabs(L)) < tol:
-#             break
-
-#     ra = inventory._asarray(a)
-
-#     K += 1
-#     if verbose:
-#         print(f"K: {K} L: {L} a: {str(ra)}")
-
-#     return ra, L
-
-
+    return arr, L
