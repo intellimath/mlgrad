@@ -87,77 +87,77 @@ jobs:
           overwrite: true
           retention-days: 30
 
-  build_sdist:
-    name: sdist on ${{ matrix.os }} with py ${{ matrix.ver.py }} numpy${{ matrix.ver.np }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        # https://github.com/scipy/oldest-supported-numpy/blob/main/setup.cfg
-        ver:
-          #- { py: "3.9", np: "==1.20.0" }
-          #- { py: "3.10", np: "==1.21.6" }
-          #- { py: "3.11", np: "==1.23.2" }
-          - { py: "3.12", np: "==2.1.0" }
-          - { py: "3.13", np: ">=2.1.0" }
-          - { py: "3.14", np: ">=2.1.0" }
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: "0"
+  # build_sdist:
+  #   name: sdist on ${{ matrix.os }} with py ${{ matrix.ver.py }} numpy${{ matrix.ver.np }}
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [ubuntu-latest, windows-latest]
+  #       # https://github.com/scipy/oldest-supported-numpy/blob/main/setup.cfg
+  #       ver:
+  #         #- { py: "3.9", np: "==1.20.0" }
+  #         #- { py: "3.10", np: "==1.21.6" }
+  #         #- { py: "3.11", np: "==1.23.2" }
+  #         - { py: "3.12", np: "==2.1.0" }
+  #         - { py: "3.13", np: ">=2.1.0" }
+  #         - { py: "3.14", np: ">=2.1.0" }
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #       with:
+  #         fetch-depth: "0"
+  #
+  #     - name: Set up Python ${{ matrix.ver.py }}
+  #       uses: actions/setup-python@v6.1.0
+  #       with:
+  #         python-version: ${{ matrix.ver.py }}
+  #
+  #     - name: Install dependencies
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install build
+  #
+  #     - name: Install mlgrad
+  #       run: |
+  #         # pip install -v --editable .
+  #         pip install -v .
+  #
+  #     #- name: Run tests
+  #     #  run: |
+  #     #    pip install "numpy${{ matrix.ver.np }}"
+  #     #    python -m pytest -v ./tests/
+  #
+  #     #- name: Build sdist
+  #     #  run: |
+  #     #    # PEP 517 package builder from pypa
+  #     #    python -m build --sdist --outdir dist-sdist .
+  #
+  #     - uses: actions/upload-artifact@v6.0.0
+  #       if: matrix.os == 'ubuntu-latest' && matrix.ver.py == '3.13'
+  #       with:
+  #         name: dist-sdist
+  #         path: dist-sdist/*.tar.gz
 
-      - name: Set up Python ${{ matrix.ver.py }}
-        uses: actions/setup-python@v6.1.0
-        with:
-          python-version: ${{ matrix.ver.py }}
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install build
-
-      - name: Install mlgrad
-        run: |
-          # pip install -v --editable .
-          pip install -v .
-
-      #- name: Run tests
-      #  run: |
-      #    pip install "numpy${{ matrix.ver.np }}"
-      #    python -m pytest -v ./tests/
-
-      #- name: Build sdist
-      #  run: |
-      #    # PEP 517 package builder from pypa
-      #    python -m build --sdist --outdir dist-sdist .
-
-      - uses: actions/upload-artifact@v6.0.0
-        if: matrix.os == 'ubuntu-latest' && matrix.ver.py == '3.13'
-        with:
-          name: dist-sdist
-          path: dist-sdist/*.tar.gz
-
-  coverage:
-    name: coverage
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: '0'
-
-      - name: Set up Python 3.13
-        uses: actions/setup-python@v6.1.0
-        with:
-          python-version: 3.13
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install "coveralls>=3.0.0"
-
-      #- name: Install mlgrad
-      #  run: |
-      #    pip install -v --editable .[test]
+  # coverage:
+  #   name: coverage
+  #   runs-on: ubuntu-latest
+  #
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #       with:
+  #         fetch-depth: '0'
+  #
+  #     - name: Set up Python 3.13
+  #       uses: actions/setup-python@v6.1.0
+  #       with:
+  #         python-version: 3.13
+  #
+  #     - name: Install dependencies
+  #       run: |
+  #         python -m pip install --upgrade pip
+  #         pip install "coveralls>=3.0.0"
+  #
+  #     #- name: Install mlgrad
+  #     #  run: |
+  #     #    pip install -v --editable .[test]
 
