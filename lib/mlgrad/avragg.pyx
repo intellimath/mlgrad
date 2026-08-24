@@ -274,7 +274,7 @@ cdef class AverageIterative(Average):
         cdef Py_ssize_t i, N = Y.shape[0]
         cdef double v, min_y, max_y
 
-        min_y = min_y = Y[0]
+        min_y = max_y = Y[0]
         for i in range(N):
             v = Y[i]
             if v < min_y:
