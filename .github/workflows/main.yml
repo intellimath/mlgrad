@@ -118,7 +118,8 @@ jobs:
 
       - name: Install mlgrad
         run: |
-          pip install -v --editable .
+          # pip install -v --editable .
+          pip install -v .
 
       #- name: Run tests
       #  run: |
