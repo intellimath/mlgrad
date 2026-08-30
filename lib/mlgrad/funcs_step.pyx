@@ -149,3 +149,45 @@ cdef class RStep_Gauss(Func):
         else:
             return 1 - 0.5*exp(-v)
     #
+
+@cython.final
+cdef class RQStep(Func):
+    #
+    def __init__(self, delta=0, eps=0):
+        self.delta = delta
+        self.eps = eps
+    #
+    @cython.final
+    cdef double _evaluate(self, const double x) noexcept nogil:
+        cdef double delta = self.delta
+        if x > delta:
+            return self.eps
+        elif x < -delta:
+            return 1 - self.eps
+        elif delta == 0:
+            return 0.5 + self.eps
+        else:
+            return -(0.5 - self.eps) / delta * x + 0.5
+    #
+    @cython.final
+    cdef double _derivative(self, const double x) noexcept nogil:
+        if x >= self.delta or x <= -self.delta:
+            return 0
+        else:
+            return -(0.5 - self.eps) / self.delta
+    #
+    cpdef set_param(self, name, val):
+        if name == "sigma":
+            self.delta = val
+        elif name == "eps":
+            self.eps = val
+        else:
+            raise NameError(name)
+
+    cpdef get_param(self, name):
+        if name == "delta":
+            return self.delta
+        elif name == "eps":
+            return self.eps
+        else:
+            raise NameError(name)

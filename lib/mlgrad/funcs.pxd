@@ -1,6 +1,4 @@
 
-# cython: language_level=3
-
 cimport cython
 
 from libc.math cimport pow, sqrt, exp, log, atan, fma, sinh, asinh, cosh, tanh, pi
@@ -287,6 +285,13 @@ cdef class Tukey(Func):
 
 @cython.final
 cdef class RStep(Func):
+    #
+    cdef public double delta
+    cdef public double eps
+    #
+
+@cython.final
+cdef class RQStep(Func):
     #
     cdef public double delta
     cdef public double eps

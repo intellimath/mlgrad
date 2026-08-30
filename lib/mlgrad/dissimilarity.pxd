@@ -1,5 +1,3 @@
-# cython: language_level=3
-
 from mlgrad.funcs cimport Func
 
 cdef class Dissimilarity(object):

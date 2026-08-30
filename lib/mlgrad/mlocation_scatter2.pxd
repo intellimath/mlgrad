@@ -1,5 +1,3 @@
-# cython: language_level=3
-
 cimport cython
 from cython.view cimport indirect_contiguous
 

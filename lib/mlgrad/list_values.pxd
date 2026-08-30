@@ -1,7 +1,5 @@
 # coding: utf-8
 
-# cython: language_level=3
-
 # The MIT License (MIT)
 
 # Copyright (c) «2015-2021» «Shibzukhov Zaur, szport at gmail dot com»

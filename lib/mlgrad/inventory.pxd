@@ -1,7 +1,5 @@
 # coding: utf-8 
 
-# cython: language_level=3
-
 cimport cython
 
 from numpy cimport npy_uint8 as uint8

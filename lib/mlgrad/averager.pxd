@@ -1,5 +1,3 @@
-# cython: language_level=3
-
 cimport cython
 from libc.string cimport memcpy
 cimport mlgrad.inventory as inventory

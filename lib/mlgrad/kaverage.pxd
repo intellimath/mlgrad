@@ -1,7 +1,5 @@
 # coding: utf-8
 
-# cython: language_level=3
-
 cimport cython
 
 from mlgrad.funcs cimport Func, Square

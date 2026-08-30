@@ -1,5 +1,3 @@
-# cython: language_level=3
-
 cdef void init_rand()
 cdef long rand(long N)
 
