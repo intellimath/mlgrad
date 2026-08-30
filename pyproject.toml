@@ -48,10 +48,7 @@ build-backend = "setuptools.build_meta"
 [tool.cibuildwheel]
 # Switch to using build
 build-frontend = "build"
-# explicitly enable pypy
-# enable = ["pypy"]
-# Disable building py3.6/7/8, pp3.8, 32bit linux
-skip = ["*_i686"]
+skip = [ "*_i686", "*-cp13t-*", "*-cp14t-*" ]
 # Run the package tests using `pytest`
 #test-extras = "tests"
 #test-command = "pytest -v /{package}/tests"

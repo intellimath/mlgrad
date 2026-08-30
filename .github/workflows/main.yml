@@ -45,3 +45,32 @@ jobs:
           overwrite: true
           retention-days: 30
 
+
+  # build_wheels_pyodide:
+  #   name: wheels for ${{ matrix.os }}
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os: [pyodide]
+  #       ver:
+  #         - { py: "3.13", np: ">=2.1.0" }
+  #         - { py: "3.14", np: ">=2.1.0" }
+  #
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v6
+  #
+  #     - name: Build wheels
+  #       uses: pypa/cibuildwheel@v4.2.0
+  #       with:
+  #         output-dir: dist-wheel-${{ matrix.os }}
+  #
+  #     - name: Upload artifacts
+  #       uses: actions/upload-artifact@v6.0.0
+  #       with:
+  #         name: dist-wheel-${{ matrix.os }}
+  #         path: ./dist-wheel-${{ matrix.os }}/*.whl
+  #         compression-level: 0
+  #         overwrite: true
+  #         retention-days: 30

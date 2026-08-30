@@ -407,6 +407,7 @@ cdef class MarginMultLoss2(MultLoss2):
         cdef Py_ssize_t i, n = u.shape[0]
         cdef double s, y_ki = 0
 
+        s = 0
         for i in range(n):
             s += self.func._evaluate(u[i]*yk[i])
         return s
