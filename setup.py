@@ -276,7 +276,7 @@ ext_modules = [
 
 setup(
     name = 'mlgrad',
-    version = '0.7.7',
+    version = '0.7.8',
     description = 'Gradient Methods for Machine Learning & Data Analysis',
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
@@ -286,14 +286,16 @@ setup(
     # ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
-    packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost', 'mlgrad.plots',
-                'mlgrad.cls', 'mlgrad.pca', 'mlgrad.cluster', 'mlgrad.outl', 'mlgrad.smooth',
-                'mlgrad.tests'],
+    packages = find_packages(
+        exclude=["examples*"]),
+    # ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost', 'mlgrad.plots',
+    #             'mlgrad.cls', 'mlgrad.pca', 'mlgrad.cluster', 'mlgrad.outl', 'mlgrad.smooth',
+    #             'mlgrad.tests'],
     package_data = {'': ['*.pxd']},
     include_dirs=[numpy.get_include()],
     url = 'https://github.org/intellimath/mlgrad',
     download_url = 'https://github.org/intellimath/mlgrad',
-    long_description = "", # long_description,
+    long_description = "", # long_description,exclude=["doc*"]),
     classifiers = [
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
@@ -306,6 +308,7 @@ setup(
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
         'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.14',
         'Operating System :: OS Independent',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
