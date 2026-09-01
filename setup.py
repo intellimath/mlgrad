@@ -283,7 +283,6 @@ setup(
     license = "MIT License",
     ext_modules = cythonize(ext_modules, # nthreads=2,
                             compiler_directives=cython_compiler_directives2),
-    # ext_modules = ext_modules,
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
     packages = find_packages(
