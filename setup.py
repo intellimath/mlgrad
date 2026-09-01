@@ -276,7 +276,7 @@ ext_modules = [
 
 setup(
     name = 'mlgrad',
-    version = '0.7.8',
+    version = '0.7.9',
     description = 'Gradient Methods for Machine Learning & Data Analysis',
     author = 'Zaur Shibzukhov',
     author_email = "szport@gmail.com",
@@ -285,12 +285,10 @@ setup(
                             compiler_directives=cython_compiler_directives2),
     package_dir = {'': 'lib'},
     cmdclass = {'build_ext': build_ext},
-    packages = find_packages(
-        exclude=["examples*"]),
-    # ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost', 'mlgrad.plots',
-    #             'mlgrad.cls', 'mlgrad.pca', 'mlgrad.cluster', 'mlgrad.outl', 'mlgrad.smooth',
-    #             'mlgrad.tests'],
-    package_data = {'': ['*.pxd']},
+    packages = ['mlgrad', 'mlgrad.af', 'mlgrad.regr', 'mlgrad.boost', 'mlgrad.plots',
+                'mlgrad.cls', 'mlgrad.pca', 'mlgrad.cluster', 'mlgrad.outl', 'mlgrad.smooth',
+                'mlgrad.tests'],
+    package_data = {'': ['*.pxd','*.pyx']},
     include_dirs=[numpy.get_include()],
     url = 'https://github.org/intellimath/mlgrad',
     download_url = 'https://github.org/intellimath/mlgrad',
