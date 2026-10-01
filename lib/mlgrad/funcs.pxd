@@ -198,6 +198,11 @@ cdef class PowerEx(Func):
     #
 
 @cython.final
+cdef class SoftPower_Sqrt(Func):
+    #
+    cdef public double eps, eps2, eps_p, p
+
+@cython.final
 cdef class Square(Func):
     pass
 

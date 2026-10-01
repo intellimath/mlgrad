@@ -38,7 +38,7 @@ def project_line(X, a, /):
     return X @ a
 
 def project(X, a, /):
-    Xa = np.array([(x @ a) * a for x in X])
+    Xa = np.array([(x @ a)*a for x in X])
     # Xa = einsum("ni,i,j->nj", X, a, a, optimize=True)
     return X - Xa
 
@@ -76,7 +76,7 @@ def find_pc(X, *, a0 = None, weights=None, n_iter=200, tol=1.0e-6, verbose=0):
         print("*", L)
     return a, L
 
-def find_pc_all(X, m=None, *, weights=None, n_iter=1000, tol=1.0e-6, verbose=False):
+def find_pc_all(X, m=None, *, weights=None, n_iter=200, tol=1.0e-6, verbose=False):
     N, n = X.shape
     if m is None:
         m = n
@@ -90,7 +90,7 @@ def find_pc_all(X, m=None, *, weights=None, n_iter=1000, tol=1.0e-6, verbose=Fal
 
     return _find_pc_all(S, m, n_iter, tol, verbose)
 
-def find_loc_and_pc(X, m=None, *, weights=None, verbose=False):
+def find_loc_and_pc(X, m=None, *, weights=None, n_iter=200, tol=1.0e-6, verbose=False):
     n = X.shape[1]
     if m is None:
         m = n
@@ -99,7 +99,7 @@ def find_loc_and_pc(X, m=None, *, weights=None, verbose=False):
 
     c = location(X, weights)
     Xc = X - c
-    As, Ls = find_pc_all(Xc, m, weights=weights, verbose=verbose)
+    As, Ls = find_pc_all(Xc, m, weights=weights, n_iter=n_iter, tol=tol, verbose=verbose)
     return c, As, Ls
 
 def find_loc_and_pc_ss(X, m=None, *, weights=None, verbose=False):
@@ -389,7 +389,7 @@ def find_loc_and_pc_l1_l1(X, m=None, *, verbose=False):
 
 #     return a, L
 
-def find_pc_all_l1_l2(X0, m=None, *, verbose=False):
+def find_pc_all_l1_l2(X0, m=None, *, n_iter=200, tol=1.0e-6, verbose=False):
     N, n = X0.shape
     if m is None:
         m = n
@@ -401,14 +401,15 @@ def find_pc_all_l1_l2(X0, m=None, *, verbose=False):
 
     X = X0
     for i in range(m):
-        a, L = find_pc_l1_l2(X, verbose=verbose)
+        a, L = find_pc_l1_l2(X, n_iter=n_iter, tol=tol, verbose=verbose)
         X = project(X, a)
         Ls[i] = L
         As[i,:] = a
 
-    return As, Ls
+    return sort_As_Ls(As, Ls)
+    # return As, Ls
 
-def find_loc_and_pc_l1_l2(X, m=None, *, verbose=False):
+def find_loc_and_pc_l1_l2(X, m=None, *, n_iter=200, tol=1.0e-6, verbose=False):
     n = X.shape[1]
     if m is None:
         m = n
@@ -417,7 +418,7 @@ def find_loc_and_pc_l1_l2(X, m=None, *, verbose=False):
 
     c = np.median(X, axis=0)
     Xc = X - c
-    As, Ls = find_pc_all_l1_l2(Xc, m, verbose=verbose)
+    As, Ls = find_pc_all_l1_l2(Xc, m, n_iter=n_iter, tol=tol, verbose=verbose)
     return c, As, Ls
 
 def find_pc_l2_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
@@ -468,8 +469,8 @@ def find_pc_all_l2_l1(X0, m=None, *, verbose=False):
     elif m > n:
         raise RuntimeError(f"m={m} greater X.shape[1]={n}")
 
-    As = np.empty((m,n), "d")
-    Ls = np.empty(m, "d")
+    As = np.empty((m,n))
+    Ls = np.empty(m)
 
     X = X0
     for i in range(m):

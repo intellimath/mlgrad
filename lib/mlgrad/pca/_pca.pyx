@@ -432,8 +432,9 @@ def find_pc_l1_l2(double[:,::1] X, double[::1] a0=None, Py_ssize_t n_iter=100, d
     cdef double[::1] Xa = inventory.empty_array(N)
     cdef double[::1] sign_Xa = inventory.empty_array(N)
     cdef double[::1] Sa = inventory.empty_array(n)
-    cdef double[::1] a
+    cdef double[::1] a, a_max
     cdef double s, v, L, L_prev, dL = 0
+    cdef double L_max
 
     arr = inventory.empty_array(n)
     if a0 is None:
@@ -441,6 +442,7 @@ def find_pc_l1_l2(double[:,::1] X, double[::1] a0=None, Py_ssize_t n_iter=100, d
     else:
         arr[:] = a0
     a = arr
+    a_max = arr_max = arr.copy()
 
     _normalize2(&a[0], n)
 
@@ -454,6 +456,7 @@ def find_pc_l1_l2(double[:,::1] X, double[::1] a0=None, Py_ssize_t n_iter=100, d
         Sa[i] = s
 
     L = _dot(&Sa[0], &a[0], n)
+    L_max = L
 
     for K in range(n_iter):
         L_prev = L
@@ -473,14 +476,19 @@ def find_pc_l1_l2(double[:,::1] X, double[::1] a0=None, Py_ssize_t n_iter=100, d
     
         L = _dot(&Sa[0], &a[0], n)
 
+        if L > L_max:
+            L_max = L
+            for i in range(n):
+                a_max[i] = a[i]
+
         dL = fabs(L_prev - L) / (1 + fabs(L))
         if dL < tol:
             break
 
-    _flip_vector(&a[0], n)
+    _flip_vector(&a_max[0], n)
 
     K += 1
     if verbose:
-        print(f"K: {K} L: {L} dL: {dL}")
+        print(f"K: {K} L: {L_max} dL: {dL}")
 
-    return arr, L
+    return arr_max, L_max

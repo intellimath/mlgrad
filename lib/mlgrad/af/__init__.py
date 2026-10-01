@@ -31,6 +31,10 @@ def averaging_function(
     avgfunc = avragg.MAverage(rhofunc, tol=tol, n_iter=n_iter)
 
     if kind == 'M':
+        alpha = kwds.get("alpha", None)
+        if alpha is not None:
+            rhofunc = funcs.QuantileFunc(alpha, rhofunc)
+            avgfunc = avragg.MAverage(rhofunc, tol=tol, n_iter=n_iter)
         avg = avgfunc
     elif kind == 'WM':
         alpha = kwds.get("alpha", None)

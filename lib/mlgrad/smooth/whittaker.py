@@ -7,6 +7,7 @@ import mlgrad.inventory as inventory
 from sys import float_info
 
 from mlgrad.smooth._whittaker import whittaker_matrices
+from mlgrad.smooth.utils import create_banded
 
 import math
 import numpy as np
@@ -17,99 +18,6 @@ from scipy.stats import logistic as stats_logistic
 
 # import matplotlib.pyplot as plt
 
-# def whittaker_matrices(y, tau, W=None, W2=None, d=2):
-#     N = len(y)
-#     D = np.diff(np.eye(N), d, axis=0)
-#     if W is None:
-#         W = np.ones(N, "d")
-#     WW = np.diag(W)
-#     if W2 is None:
-#         W2 = np.ones(N-d, "d")
-#     WW2 = np.diag(W2)
-#     Z = WW + tau * (D.T @ (WW2 @ D))
-#     Y = WW @ y
-#     return Z, Y
-
-# cdef void diagonal_up(cdef double *x, Py_ssize_t n, Py_ssize_t d, double *y): 
-#     pass
-
-def create_banded(mat, d):
-    """Create a banded matrix from a given quadratic Matrix.
-
-    The Matrix will to be returned as a flattend matrix.
-    Either in a column-wise flattend form::
-
-      [[0        0        Dup2[2]  ... Dup2[N-2]  Dup2[N-1]  Dup2[N] ]
-       [0        Dup1[1]  Dup1[2]  ... Dup1[N-2]  Dup1[N-1]  Dup1[N] ]
-       [Diag[0]  Diag[1]  Diag[2]  ... Diag[N-2]  Diag[N-1]  Diag[N] ]
-       [Dlow1[0] Dlow1[1] Dlow1[2] ... Dlow1[N-2] Dlow1[N-1] 0       ]
-       [Dlow2[0] Dlow2[1] Dlow2[2] ... Dlow2[N-2] 0          0       ]]
-
-    Then use::
-
-      col_wise=True
-
-    Or in a row-wise flattend form::
-
-      [[Dup2[0]  Dup2[1]  Dup2[2]  ... Dup2[N-2]  0          0       ]
-       [Dup1[0]  Dup1[1]  Dup1[2]  ... Dup1[N-2]  Dup1[N-1]  0       ]
-       [Diag[0]  Diag[1]  Diag[2]  ... Diag[N-2]  Diag[N-1]  Diag[N] ]
-       [0        Dlow1[1] Dlow1[2] ... Dlow1[N-2] Dlow1[N-1] Dlow1[N]]
-       [0        0        Dlow2[2] ... Dlow2[N-2] Dlow2[N-2] Dlow2[N]]]
-
-    Then use::
-
-      col_wise=False
-
-    Dup1 and Dup2 or the first and second upper minor-diagonals and Dlow1 resp.
-    Dlow2 are the lower ones. The number of upper and lower minor-diagonals can
-    be altered.
-
-    Parameters
-    ----------
-    mat : :class:`numpy.ndarray`
-        The full (n x n) Matrix.
-    up : :class:`int`
-        The number of upper minor-diagonals. Default: 2
-    low : :class:`int`
-        The number of lower minor-diagonals. Default: 2
-    col_wise : :class:`bool`, optional
-        Use column-wise storage. If False, use row-wise storage.
-        Default: ``True``
-
-    Returns
-    -------
-    :class:`numpy.ndarray`
-        Bandend matrix
-    """
-    # mat = np.asanyarray(mat, dtype="d")
-    if mat.ndim != 2:
-        msg = "create_banded: matrix has to be 2D"
-        raise ValueError(msg)
-    if mat.shape[0] != mat.shape[1]:
-        msg = "create_banded: matrix has to be n x n"
-        raise ValueError(msg)
-
-    up  = d
-    low = d
-    col_wise = True
-
-    size = mat.shape[0]
-    mat_flat = np.zeros((2*d+1, size))
-    mat_flat[up, :] = mat.diagonal()
-
-    if col_wise:
-        for i in range(up):
-            mat_flat[i, (up - i) :] = mat.diagonal(up - i)
-        for i in range(low):
-            mat_flat[-i - 1, : -(low - i)] = mat.diagonal(-(low - i))
-    else:
-        for i in range(up):
-            mat_flat[i, : -(up - i)] = mat.diagonal(up - i)
-        for i in range(low):
-            mat_flat[-i - 1, (low - i) :] = mat.diagonal(-(low - i))
-    return mat_flat
-
 def whittaker_smooth_base(y, W=None, W2=None, tau2=1.0, tau1=0, d=2):
     d2 = d
     Z, Y = whittaker_matrices(y, W=W, W2=W2, d2=d2, tau2=tau2, tau1=tau1)
@@ -118,14 +26,17 @@ def whittaker_smooth_base(y, W=None, W2=None, tau2=1.0, tau1=0, d=2):
     z = scipy.linalg.solve_banded((d,d), Zb, Y, overwrite_ab=True, overwrite_b=True, check_finite=True)
     return z
 
-def whittaker_smooth(y, W=None, W2=None, func=None, func2=None, func2_e=None, tau2=1.0, tau1=0, d=2, mode=2):
+def whittaker_smooth(y, W=None, W2=None, func=None, func2=None, func2_e=None, 
+                     tau2=1.0, tau1=0, d=2, use_sigma=False, mode=2):
     if (func is not None) or (func2 is not None) or (func2_e is not None):
         if mode == 2:
             return whittaker_smooth_weight_func2(y,
                                              func=func,
                                              func2=func2,
                                              func2_e=func2_e,
-                                             tau2=tau2, tau1=tau1, d=d)[0]
+                                             tau2=tau2, tau1=tau1, 
+                                             use_sigma=use_sigma,
+                                             d=d)[0]
         elif mode == 1:
             return whittaker_smooth_weight_func(y,
                                              func=func,
@@ -163,6 +74,14 @@ def whittaker_smooth_ex(X,
 
     N = len(X)
 
+    dd = d // 2
+    if d % 2 == 0:
+        dd1 = dd
+        dd2 = -dd
+    else:
+        dd1 = dd
+        dd2 = -dd-1    
+
     Z = whittaker_smooth_base(X, tau2=tau2, d=d)
     Z_min = Z.copy()
 
@@ -177,12 +96,12 @@ def whittaker_smooth_ex(X,
     D2 = inventory.diff2(Z)
     U2 = func2.evaluate_array(D2)
     aggfunc2_u = aggfunc2.evaluate(U2)
-    W2 = aggfunc2.weights(U2)
+    W2 = aggfunc2.weights(U2) 
 
     if func2 is not None and tau2 > 0:
         W2 *= func2.derivative_div_array(D2)
-    # if func2_e is not None and tau2 > 0:
-    #     W2 *= func2_e(E)
+    if func2_e is not None and tau2 > 0:
+        W2 *= func2_e(E[dd1:dd2])
 
     s = s_min = aggfunc_u + tau2 * aggfunc2_u
     s_min_prev = inventory.double_max / 10
@@ -207,8 +126,8 @@ def whittaker_smooth_ex(X,
         U2 = func2.evaluate_array(D2)
         aggfunc2_u = aggfunc2.evaluate(U2)
         W2 = aggfunc2.weights(U2) * func2.derivative_div_array(D2)
-        # if func2_e is not None and tau2 > 0:
-        #     W2 *= func2_e(E)
+        if func2_e is not None and tau2 > 0:
+            W2 *= func2_e(E[dd1:dd2])
 
         s = aggfunc_u + tau2 * aggfunc2_u
         # ring_array.add(s)
@@ -342,10 +261,11 @@ def whittaker_smooth_weight_func(
 
 def whittaker_smooth_weight_func2(
             X, func=None, func2=None, func2_e=None, windows=None,
-            tau2=1.0, tau1=0,
-            d=2, n_iter=100, tol=1.0e-3):
+            tau2=1.0, tau1=0, use_sigma=False,
+            d=2, n_iter=200, tol=1.0e-6):
 
     N = len(X)
+    sigma = sigma2 = 1.0
 
     if d == 2:
         diff = inventory.diff2
@@ -373,9 +293,16 @@ def whittaker_smooth_weight_func2(
     E = X - Z
 
     if func is not None:
-        W = func(E)
+        if use_sigma:
+            W = func(E / sigma)
+        else:
+            W = func(E)
     else:
         W  = np.ones(N, "d")
+
+    if use_sigma:
+        sigma2 = (W @ (E*E)) / N
+        sigma = math.sqrt(sigma2)
 
     if func2 is not None and tau2 > 0:
         D2 = diff(Z)
@@ -417,9 +344,16 @@ def whittaker_smooth_weight_func2(
         E = X - Z
 
         if func is not None:
-            W = func(E)
+            if use_sigma:
+                W = func(E / sigma)
+            else:
+                W = func(E)
         else:
             W  = np.ones(N, "d")
+    
+        if use_sigma:
+            sigma2 = (W @ (E*E)) / N
+            sigma = math.sqrt(sigma2)
 
         if func2 is not None and tau2 > 0:
             D2 = diff(Z)

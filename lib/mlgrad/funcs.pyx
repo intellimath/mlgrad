@@ -1479,6 +1479,7 @@ cdef class KMinSquare(Func):
 #         return YY
 
 include "funcs_abs.pyx"
+include "funcs_power.pyx"
 include "funcs_hinge.pyx"
 include "funcs_step.pyx"
 include "funcs_sigmoid.pyx"

@@ -12,18 +12,19 @@ cdef class RStep(Func):
         if x > delta:
             return self.eps
         elif x < -delta:
-            return 1 + self.eps
+            return 1
         elif delta == 0:
             return 0.5 + self.eps
         else:
-            return (1 - x/delta)/2 + self.eps
+            c = (1 - self.eps) / 2
+            return c * (1 - x / delta) + self.eps
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
         if x >= self.delta or x <= -self.delta:
             return 0
         else:
-            return -0.5/self.delta
+            return -(1 - self.eps)/2 / self.delta
     #
     cpdef set_param(self, name, val):
         if name == "sigma":
