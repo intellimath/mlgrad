@@ -164,6 +164,121 @@ cdef class WMZAverage(Average):
         cdef Py_ssize_t j, N = Y.shape[0]
         cdef double[::1] U = self.U
         cdef Func rho_func = self.savr.func
+        cdef double mval, tval, v, s
+
+        self.mval = self.mavr._evaluate(Y)
+
+        if U is None or U.shape[0] != N:
+            U = self.U = inventory.empty_array(N)
+
+        mval = self.mval
+        for j in range(N):
+            U[j] = rho_func._evaluate(Y[j] - mval)
+
+        self.sval = rho_func._inverse(self.savr._evaluate(U))
+        tval = self.mval + self.alpha * self.sval
+
+        s = 0
+        for j in range(N):
+            v = Y[j]
+            if v > tval:
+                v = tval
+            s += v
+        s /= N
+        self.u = s
+        self.evaluated = 1
+
+        return s
+    #
+    @cython.cdivision(True)
+    @cython.final
+    cdef _gradient(self, double[::1] Y, double[::1] grad):
+        cdef Py_ssize_t j, N = Y.shape[0]
+        cdef double[::1] GU = self.GU
+        cdef Func rho_func = self.savr.func
+
+        cdef double mval, tval, alpha, v, ss
+        cdef int m
+
+        if not self.evaluated:
+            self._evaluate(Y)
+
+        if GU is None or GU.shape[0] != N:
+            GU = self.GU = inventory.empty_array(N)
+
+        mval = self.mval
+        alpha = self.alpha
+        tval = mval + alpha * self.sval
+
+        m = 0
+        for j in range(N):
+            if Y[j] >= tval:
+                m += 1
+
+        if m == 0:
+            inventory.fill(grad, 1.0/N)
+        else:
+            self.mavr._gradient(Y, grad)
+            self.savr._gradient(self.U, GU)
+            if np.any(np.isnan(grad)) or np.any(np.isinf(grad)):
+                raise TypeError(f"grad0 has nan")
+            if np.any(np.isnan(GU)) or np.any(np.isinf(GU)):
+                raise TypeError(f"GU has nan")
+
+            for j in range(N):
+                GU[j] *= rho_func._derivative(Y[j] - mval)
+
+            ss = 0
+            for j in range(N):
+                ss += GU[j]
+
+            v = rho_func._derivative(self.sval)
+            if v == 0:
+                for j in range(N):
+                    grad[j] = 0
+            else:
+                if m != 0:
+                    for j in range(N):
+                        grad[j] = m * (grad[j] + alpha * (GU[j] - ss * grad[j]) / v)
+
+            for j in range(N):
+                v = Y[j]
+                if v < tval:
+                    grad[j] += 1
+
+            for j in range(N):
+                grad[j] /= N
+
+        if np.any(np.isnan(grad)) or np.any(np.isinf(grad)):
+            raise TypeError(f"grad has nan")
+
+        self.evaluated = 0
+
+@cython.final
+cdef class WMZAverage2(Average):
+    #
+    def __init__(self, MAverage mavr=None, MAverage savr=None, func=SoftAbs_Sqrt(0.001), c=1.0/0.6745, alpha=3.5):
+        self.func = func
+        if mavr is None:
+            self.mavr = MAverage(func)
+        else:
+            self.mavr = mavr
+        if savr is None:
+            self.savr = MAverage(func)
+        else:
+            self.savr = savr
+        self.c = c
+        self.alpha = alpha * c
+        self.U = None
+        self.GU = None
+        self.evaluated = 0
+    #
+    @cython.cdivision(True)
+    @cython.final
+    cdef double _evaluate(self, double[::1] Y):
+        cdef Py_ssize_t j, N = Y.shape[0]
+        cdef double[::1] U = self.U
+        cdef Func rho_func = self.savr.func
         cdef double mval, tval_low, tval_high, v, s
 
         self.mval = self.mavr._evaluate(Y)

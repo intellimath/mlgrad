@@ -426,6 +426,14 @@ cdef void _sign(double *a, double *b, Py_ssize_t n) noexcept nogil:
         else:
             a[i] = 0
 
+cdef void _soft_sign(double *a, double *b, Py_ssize_t n, double eps) noexcept nogil:
+    cdef Py_ssize_t i
+    cdef double v, eps2 = eps*eps
+    
+    for i in range(n):
+        v = b[i]
+        a[i] = v / sqrt(eps2 + v*v)
+            
 def find_pc_l1_l2(double[:,::1] X, double[::1] a0=None, Py_ssize_t n_iter=100, double tol=1.0e-6, verbose=0):
     cdef Py_ssize_t i, j, K = 0
     cdef Py_ssize_t N = X.shape[0], n = X.shape[1]
@@ -472,6 +480,73 @@ def find_pc_l1_l2(double[:,::1] X, double[::1] a0=None, Py_ssize_t n_iter=100, d
             s = 0
             for j in range(N):
                 s += sign_Xa[j] * X[j,i]
+            Sa[i] = s
+    
+        L = _dot(&Sa[0], &a[0], n)
+
+        if L > L_max:
+            L_max = L
+            for i in range(n):
+                a_max[i] = a[i]
+
+        dL = fabs(L_prev - L) / (1 + fabs(L))
+        if dL < tol:
+            break
+
+    _flip_vector(&a_max[0], n)
+
+    K += 1
+    if verbose:
+        print(f"K: {K} L: {L_max} dL: {dL}")
+
+    return arr_max, L_max
+
+def find_pc_softl1_l2(double[:,::1] X, double[::1] a0=None, double eps=1.0e-3, Py_ssize_t n_iter=100, double tol=1.0e-6, verbose=0):
+    cdef Py_ssize_t i, j, K = 0
+    cdef Py_ssize_t N = X.shape[0], n = X.shape[1]
+    cdef double[::1] Xa = inventory.empty_array(N)
+    cdef double[::1] softsign_Xa = inventory.empty_array(N)
+    cdef double[::1] Sa = inventory.empty_array(n)
+    cdef double[::1] a, a_max
+    cdef double s, v, L, L_prev, dL = 0
+    cdef double L_max
+
+    arr = inventory.empty_array(n)
+    if a0 is None:
+        arr[:] = np.random.random(n)
+    else:
+        arr[:] = a0
+    a = arr
+    a_max = arr_max = arr.copy()
+
+    _normalize2(&a[0], n)
+
+    _matdot(&Xa[0], &X[0,0], &a[0], N, n)
+    _soft_sign(&softsign_Xa[0], &Xa[0], N, eps)
+
+    for i in range(n):
+        s = 0
+        for j in range(N):
+            s += softsign_Xa[j] * X[j,i]
+        Sa[i] = s
+
+    L = _dot(&Sa[0], &a[0], n)
+    L_max = L
+
+    for K in range(n_iter):
+        L_prev = L
+
+        for i in range(n):
+            a[i] = Sa[i]
+        _normalize2(&a[0], n)
+
+        _matdot(&Xa[0], &X[0,0], &a[0], N, n)
+        _soft_sign(&softsign_Xa[0], &Xa[0], N, eps)
+
+        for i in range(n):
+            s = 0
+            for j in range(N):
+                s += softsign_Xa[j] * X[j,i]
             Sa[i] = s
     
         L = _dot(&Sa[0], &a[0], n)

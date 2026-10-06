@@ -46,7 +46,7 @@ def whittaker_smooth(y, W=None, W2=None, func=None, func2=None, func2_e=None,
         else:
             raise TypeError(f"Invalid mode: {mode}")
     else:
-        return whittaker_smooth_base(y, W, W2, tau2, tau1=tau1, d=d)
+        return whittaker_smooth_base(y, W, W2, tau2=tau2, tau1=tau1, d=d)
 
 def whittaker_smooth_scipy(y, W=None, W2=None, tau=1.0, d=2):
     N = len(y)

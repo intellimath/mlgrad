@@ -45,42 +45,50 @@ cdef class RStep(Func):
 @cython.final
 cdef class Step(Func):
     #
-    def __init__(self, delta=0, eps=0):
+    def __init__(self, alpha_l=1.0, alpha_r=0.0, delta=0.0):
         self.delta = delta
-        self.eps =  eps
+        self.alpha_l = alpha_l
+        self.alpha_r = alpha_r
     #
     @cython.final
     cdef double _evaluate(self, const double x) noexcept nogil:
         cdef double delta = self.delta
         if x >= delta:
-            return 1 + self.eps
+            return self.alpha_r
         elif x < -delta:
-            return self.eps
+            return self.alpha_l
         elif delta == 0:
-            return 0.5 + self.eps
+            return 0.5 * (self.alpha_l + self.alpha_r)
         else:
-            return (1 + x/delta)/2 + self.eps
+            return 0.5 * (self.alpha_l + self.alpha_r) + 0.5 * (self.alpha_r - self.alpha_l) * (x / delta)
     #
     @cython.final
     cdef double _derivative(self, const double x) noexcept nogil:
-        if x >= self.delta or x <= -self.delta:
+        cdef double delta = self.delta
+        if x > delta or x < -delta:
             return 0
+        elif delta == 0:
+            return c_inf
         else:
-            return 0.5/self.delta
+            return 0.5 * (self.alpha_r - self.alpha_l) / delta
     #
     cpdef set_param(self, name, val):
         if name == "delta":
             self.delta = val
-        elif name == "eps":
-            self.eps = val
+        elif name == "alpha_l":
+            self.alpha_l = val
+        elif name == "alpha_r":
+            self.alpha_r = val
         else:
             raise NameError(name)
 
     cpdef get_param(self, name):
         if name == "delta":
             return self.delta
-        elif name == "eps":
-            return self.eps
+        elif name == "alpha_l":
+            return self.alpha_l
+        elif name == "alpha_r":
+            return self.alpha_r
         else:
             raise NameError(name)
 

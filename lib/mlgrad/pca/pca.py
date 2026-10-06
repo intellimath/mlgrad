@@ -6,7 +6,7 @@ from sys import float_info
 import numpy as np
 
 from mlgrad.pca._pca import _find_pc, _find_pc_all
-from mlgrad.pca._pca import _find_robust_pc, _find_pc_l2_lq, find_pc_l1_l2
+from mlgrad.pca._pca import _find_robust_pc, _find_pc_l2_lq, find_pc_l1_l2, find_pc_softl1_l2
 # from mlgrad.smooth import whittaker_smooth
 from mlgrad.pca.location_scatter import location, location_rho, location_l1, robust_location
 
@@ -421,6 +421,38 @@ def find_loc_and_pc_l1_l2(X, m=None, *, n_iter=200, tol=1.0e-6, verbose=False):
     As, Ls = find_pc_all_l1_l2(Xc, m, n_iter=n_iter, tol=tol, verbose=verbose)
     return c, As, Ls
 
+def find_pc_all_softl1_l2(X0, m=None, eps=1.0e-3, *, n_iter=200, tol=1.0e-6, verbose=False):
+    N, n = X0.shape
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    As = np.empty((m,n), "d")
+    Ls = np.empty(m, "d")
+
+    X = X0
+    for i in range(m):
+        a, L = find_pc_softl1_l2(X, eps=eps, n_iter=n_iter, tol=tol, verbose=verbose)
+        X = project(X, a)
+        Ls[i] = L
+        As[i,:] = a
+
+    return sort_As_Ls(As, Ls)
+    # return As, Ls
+
+def find_loc_and_pc_l1_l2(X, m=None, eps=1.0e-3, *, n_iter=200, tol=1.0e-6, verbose=False):
+    n = X.shape[1]
+    if m is None:
+        m = n
+    elif m > n:
+        raise RuntimeError(f"m={m} greater X.shape[1]={n}")
+
+    c = np.median(X, axis=0)
+    Xc = X - c
+    As, Ls = find_pc_all_l1_l2(Xc, m, eps=eps, n_iter=n_iter, tol=tol, verbose=verbose)
+    return c, As, Ls
+    
 def find_pc_l2_l1(X, *, a0=None, n_iter=200, tol=1.0e-6, verbose=0):
     N, n = X.shape
 

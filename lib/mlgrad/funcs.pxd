@@ -305,8 +305,9 @@ cdef class RQStep(Func):
 @cython.final
 cdef class Step(Func):
     #
+    cdef public double alpha_l
+    cdef public double alpha_r
     cdef public double delta
-    cdef public double eps
     #
 
 @cython.final
